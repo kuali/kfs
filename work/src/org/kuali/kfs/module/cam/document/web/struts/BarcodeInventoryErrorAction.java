@@ -24,6 +24,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsKeyConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryLoadService;
 import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
 import org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument;
@@ -44,6 +46,25 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDocumentActionBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BarcodeInventoryErrorAction.class);
 
+    /**
+     * 
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#sendAdHocRequests(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override 
+    public ActionForward sendAdHocRequests(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BarcodeInventoryErrorForm bcieForm = (BarcodeInventoryErrorForm) form;
+        BarcodeInventoryErrorDocument document = bcieForm.getBarcodeInventoryErrorDocument();
+
+        //Saving data
+        getBusinessObjectService().save(document.getBarcodeInventoryErrorDetail());        
+        
+        return super.sendAdHocRequests(mapping, bcieForm, request, response);
+    }
+
+    /**
+     * 
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#blanketApprove(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     @Override
     public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BarcodeInventoryErrorForm bcieForm = (BarcodeInventoryErrorForm) form;
@@ -78,6 +99,7 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
 
         BarcodeInventoryErrorForm bcieForm = (BarcodeInventoryErrorForm) kualiDocumentFormBase;
         BarcodeInventoryErrorDocument document = bcieForm.getBarcodeInventoryErrorDocument();
+
         // Validating records.
         this.invokeRules(document, false);
     }
@@ -115,7 +137,7 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
 
         //Reseting the checkboxes
         barcodeInventoryErrorForm.resetCheckBoxes();
-        
+
         // Displaying JSP
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -164,10 +186,12 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
                 // If the same person that uploaded the bcie is the one processing it, then....
                 return this.blanketApprove(mapping, form, request, response);
             }
-            else {
-                getBusinessObjectService().save(document.getBarcodeInventoryErrorDetail());
-            }
+        } else {
+            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME+"."+CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR,CamsKeyConstants.BarcodeInventory.ERROR_CHECKBOX_MUST_BE_CHECKED);
         }
+
+        //Saving data
+        getBusinessObjectService().save(document.getBarcodeInventoryErrorDetail());
 
         // Loading changes on page
         this.loadDocument((KualiDocumentFormBase) form);
@@ -216,11 +240,16 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
                 // recipients.
                 return this.blanketApprove(mapping, barcodeInventoryErrorForm, request, response);
             }
-            else {
-                getBusinessObjectService().save(document.getBarcodeInventoryErrorDetail());
-            }
+        } else {
+            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME+"."+CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR,CamsKeyConstants.BarcodeInventory.ERROR_CHECKBOX_MUST_BE_CHECKED);            
         }
+
+        //Saving data
+        getBusinessObjectService().save(document.getBarcodeInventoryErrorDetail());
+
+        //Clearing the checkboxes
         barcodeInventoryErrorForm.resetCheckBoxes();
+
         this.loadDocument((KualiDocumentFormBase) form);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -234,7 +263,6 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
     private void invokeRules(BarcodeInventoryErrorDocument document, boolean updateStatus) {
         getKualiRuleService().applyRules(new ValidateBarcodeInventoryEvent("", document, updateStatus));
     }
-
 
     private AssetBarcodeInventoryLoadService getAssetBarcodeInventoryLoadService() {
         return SpringContext.getBean(AssetBarcodeInventoryLoadService.class);

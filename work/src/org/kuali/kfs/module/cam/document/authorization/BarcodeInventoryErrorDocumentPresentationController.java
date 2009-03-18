@@ -24,6 +24,12 @@ import org.kuali.rice.kns.document.Document;
  * Presentation Controller for Barcode Error Documents
  */
 public class BarcodeInventoryErrorDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
+    AssetBarcodeInventoryLoadService assetBarcodeInventoryLoadService;
+    
+    public BarcodeInventoryErrorDocumentPresentationController() {
+        assetBarcodeInventoryLoadService = SpringContext.getBean(AssetBarcodeInventoryLoadService.class); 
+    }    
+    
     @Override
     protected boolean canSave(Document document) {
         return false;
@@ -41,16 +47,17 @@ public class BarcodeInventoryErrorDocumentPresentationController extends Financi
     
     @Override
     protected boolean canBlanketApprove(Document document) {
-        return SpringContext.getBean(AssetBarcodeInventoryLoadService.class).isCurrentUserInitiator(document);
+        return (assetBarcodeInventoryLoadService.isCurrentUserInitiator(document) && assetBarcodeInventoryLoadService.isFullyProcessed(document));        
+        
     }
 
     @Override
     protected boolean canAdHocRoute(Document document) {
-        return SpringContext.getBean(AssetBarcodeInventoryLoadService.class).isCurrentUserInitiator(document);
+        return assetBarcodeInventoryLoadService.isCurrentUserInitiator(document);        
     }
 
     @Override
     protected boolean canCancel(Document document) {
-        return SpringContext.getBean(AssetBarcodeInventoryLoadService.class).isCurrentUserInitiator(document);
+        return assetBarcodeInventoryLoadService.isCurrentUserInitiator(document);
     }
 }

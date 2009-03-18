@@ -58,7 +58,7 @@ public interface AssetBarcodeInventoryLoadService {
      * @param document
      * @return
      */
-    boolean isFullyProcessed(BarcodeInventoryErrorDocument document);
+    boolean isFullyProcessed(Document document);
 
     /**
      * Determines whether the current user is the document initiator. This method...

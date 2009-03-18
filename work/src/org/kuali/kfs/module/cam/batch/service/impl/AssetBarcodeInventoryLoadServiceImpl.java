@@ -87,9 +87,10 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
      * @param document
      * @return boolean
      */
-    public boolean isFullyProcessed(BarcodeInventoryErrorDocument document) {
+    public boolean isFullyProcessed(Document document) {
+        BarcodeInventoryErrorDocument barcodeInventoryErrorDocument = (BarcodeInventoryErrorDocument)document;
         boolean result = true;
-        List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails = document.getBarcodeInventoryErrorDetail();
+        List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails = barcodeInventoryErrorDocument.getBarcodeInventoryErrorDetail();
         BarcodeInventoryErrorDetail barcodeInventoryErrorDetail;
 
         for (BarcodeInventoryErrorDetail detail : barcodeInventoryErrorDetails) {

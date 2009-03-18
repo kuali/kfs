@@ -131,7 +131,8 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     private CustomerInvoiceRecurrenceDetails customerInvoiceRecurrenceDetails;
 
     // added for quick apply check control
-    private boolean quickApply;
+    //TODO Andrew
+    //private boolean quickApply;
 
     /**
      * Default constructor.
@@ -149,17 +150,18 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         return SpringContext.getBean(CustomerInvoiceDocumentService.class).getOpenAmountForCustomerInvoiceDocument(this);
     }
 
-    public void setOpenAmount(KualiDecimal openAmount) {
-        // do nothing
-    }
-
-    public void setBalance(KualiDecimal balance) {
-        // do nothing
-    }
-
-    public void setSourceTotal(KualiDecimal sourceTotal) {
-        // do nothing
-    }
+    //TODO Andrew
+//    public void setOpenAmount(KualiDecimal openAmount) {
+//        // do nothing
+//    }
+//
+//    public void setBalance(KualiDecimal balance) {
+//        // do nothing
+//    }
+//
+//    public void setSourceTotal(KualiDecimal sourceTotal) {
+//        // do nothing
+//    }
 
     /**
      * Gets the documentNumber attribute.
@@ -1506,26 +1508,27 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         return customerInvoiceDetailsWithoutDiscounts;
     }
 
-    /**
-     * This method could be a bit dangerous. It's meant to be used only on the payment application document, where the modified
-     * invoice is never saved.
-     * 
-     * @param customerInvoiceDetails
-     */
-    public void setCustomerInvoiceDetailsWithoutDiscounts(List<CustomerInvoiceDetail> customerInvoiceDetails) {
-        List<CustomerInvoiceDetail> customerInvoiceDetailsWithoutDiscounts = getSourceAccountingLines();
-        int sequenceCounter = 0;
-        for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetailsWithoutDiscounts) {
-            for (CustomerInvoiceDetail revisedCustomerInvoiceDetail : customerInvoiceDetails) {
-                if (!customerInvoiceDetail.isDiscountLine() && customerInvoiceDetail.getSequenceNumber().equals(revisedCustomerInvoiceDetail.getSequenceNumber())) {
-                    customerInvoiceDetailsWithoutDiscounts.remove(sequenceCounter);
-                    customerInvoiceDetailsWithoutDiscounts.add(sequenceCounter, revisedCustomerInvoiceDetail);
-                }
-            }
-            sequenceCounter += 1;
-        }
-        setSourceAccountingLines(customerInvoiceDetailsWithoutDiscounts);
-    }
+    //TODO Andrew
+//    /**
+//     * This method could be a bit dangerous. It's meant to be used only on the payment application document, where the modified
+//     * invoice is never saved.
+//     * 
+//     * @param customerInvoiceDetails
+//     */
+//    public void setCustomerInvoiceDetailsWithoutDiscounts(List<CustomerInvoiceDetail> customerInvoiceDetails) {
+//        List<CustomerInvoiceDetail> customerInvoiceDetailsWithoutDiscounts = getSourceAccountingLines();
+//        int sequenceCounter = 0;
+//        for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetailsWithoutDiscounts) {
+//            for (CustomerInvoiceDetail revisedCustomerInvoiceDetail : customerInvoiceDetails) {
+//                if (!customerInvoiceDetail.isDiscountLine() && customerInvoiceDetail.getSequenceNumber().equals(revisedCustomerInvoiceDetail.getSequenceNumber())) {
+//                    customerInvoiceDetailsWithoutDiscounts.remove(sequenceCounter);
+//                    customerInvoiceDetailsWithoutDiscounts.add(sequenceCounter, revisedCustomerInvoiceDetail);
+//                }
+//            }
+//            sequenceCounter += 1;
+//        }
+//        setSourceAccountingLines(customerInvoiceDetailsWithoutDiscounts);
+//    }
 
     /**
      * This method will return all the customer invoice details that are discounts
@@ -1844,24 +1847,24 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      * @return Returns the quickApply.
      */
     //TODO Andrew - this is payapp specific stuff and needs to go
-    public boolean isQuickApply() {
-        return quickApply;
-    }
-
-    //TODO Andrew - this is payapp specific stuff and needs to go
-    public boolean getQuickApply() {
-        return isQuickApply();
-    }
-    
-    /**
-     * Sets the quickApply attribute value.
-     * 
-     * @param quickApply The quickApply to set.
-     */
-    //TODO Andrew - this is payapp specific stuff and needs to go
-    public void setQuickApply(boolean quickApply) {
-        this.quickApply = quickApply;
-    }
+//    public boolean isQuickApply() {
+//        return quickApply;
+//    }
+//
+//    //TODO Andrew - this is payapp specific stuff and needs to go
+//    public boolean getQuickApply() {
+//        return isQuickApply();
+//    }
+//    
+//    /**
+//     * Sets the quickApply attribute value.
+//     * 
+//     * @param quickApply The quickApply to set.
+//     */
+//    //TODO Andrew - this is payapp specific stuff and needs to go
+//    public void setQuickApply(boolean quickApply) {
+//        this.quickApply = quickApply;
+//    }
 
 
     /**

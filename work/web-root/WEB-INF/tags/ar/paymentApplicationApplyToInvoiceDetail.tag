@@ -27,7 +27,6 @@
 <%@ attribute name="readOnly" required="true"
 	description="If document is in read only mode"%>
 
-<c:set var="disableQuickApplyToDetails" value="${KualiForm.selectedInvoiceDocument.quickApply}" />
 <c:set var="arDocHeaderAttributes" value="${DataDictionary.AccountsReceivableDocumentHeader.attributes}" />
 
 <kul:tab tabTitle="Apply to Invoice Detail" defaultOpen="true"
@@ -89,14 +88,14 @@
 										<label for="selectedInvoiceDocumentNumber">Invoices</label>
 										<c:if test="${readOnly ne true}">
 											<html:select property="selectedInvoiceDocumentNumber">
-												<c:forEach items="${KualiForm.invoices}" var="invoice">
-													<html:option value="${invoice.documentNumber}">
-														<c:out value="${invoice.documentNumber}" />
+												<c:forEach items="${KualiForm.invoiceApplications}" var="invoiceApplication">
+													<html:option value="${invoiceApplication.documentNumber}">
+														<c:out value="${invoiceApplication.documentNumber}" />
 													</html:option>
 												</c:forEach>
 											</html:select>
-											<logic:iterate id="invoices" name="KualiForm"
-												property="invoices" indexId="ctr">
+											<logic:iterate id="invoiceApplication" name="KualiForm"
+												property="invoiceApplications" indexId="ctr">
 											</logic:iterate>
 											<html:image property="methodToCall.goToInvoice"
 												src="${ConfigProperties.externalizable.images.url}tinybutton-load.gif"
@@ -136,7 +135,7 @@
 													literalLabel="Invoice Number/Billing Date"
 													horizontal="true" />
 												<kul:htmlAttributeHeaderCell
-													labelFor="selectedInvoiceDocument.accountsReceivableDocumentHeader.customer.customerName"
+													labelFor="selectedInvoiceApplication.accountsReceivableDocumentHeader.customer.customerName"
 													literalLabel="Invoice Header/Customer Name"
 													horizontal="true" />
 												<kul:htmlAttributeHeaderCell
@@ -155,7 +154,7 @@
 												<td>
 													<kul:htmlControlAttribute
 														attributeEntry="${arDocHeaderAttributes.financialDocumentExplanationText}"
-														property="selectedInvoiceDocument.accountsReceivableDocumentHeader.financialDocumentExplanationText"
+														property="selectedInvoiceApplication.invoice.accountsReceivableDocumentHeader.financialDocumentExplanationText"
 														readOnly="true" />
 												</td>
 												<td style="text-align: right;">
@@ -173,13 +172,13 @@
 												<td>
 													<kul:htmlControlAttribute
 														attributeEntry="${invoiceAttributes.billingDate}"
-														property="selectedInvoiceDocument.billingDate"
+														property="selectedInvoiceApplication.invoice.billingDate"
 														readOnly="true" />
 												</td>
 												<td>
 													<kul:htmlControlAttribute
 														attributeEntry="${customerAttributes.customerNumber}"
-														property="selectedInvoiceDocument.accountsReceivableDocumentHeader.customer.customerName"
+														property="selectedInvoiceApplication.invoice.accountsReceivableDocumentHeader.customer.customerName"
 														readOnly="true" />
 												</td>
 												<td style="text-align: right;">
@@ -225,68 +224,60 @@
 																</th>
 															</c:if>
 														</tr>
-														<logic:iterate id="customerInvoiceDetail" name="KualiForm"
-															property="selectedCustomerInvoiceDetails" indexId="ctr">
-															<c:set var="isDiscount" value="${customerInvoiceDetail.amount < 0}" />
-															<c:choose>
-																<c:when test="${isDiscount}">
-																</c:when>
-																<c:otherwise>
-																	<tr>
-																		<td>
-																			<kul:htmlControlAttribute
-																				attributeEntry="${customerInvoiceDetailAttributes.sequenceNumber}"
-																				property="selectedCustomerInvoiceDetails[${ctr}].sequenceNumber"
-																				readOnly="true" />
-																		</td>
-																		<td>
-																			<kul:htmlControlAttribute
-																				attributeEntry="${customerInvoiceDetailAttributes.chartOfAccountsCode}"
-																				property="selectedCustomerInvoiceDetails[${ctr}].chartOfAccountsCode"
-																				readOnly="true" />
-																		</td>
-																		<td>
-																			<kul:htmlControlAttribute
-																				attributeEntry="${customerInvoiceDetailAttributes.accountNumber}"
-																				property="selectedCustomerInvoiceDetails[${ctr}].accountNumber"
-																				readOnly="true" />
-																		</td>
-																		<td>
-																			<kul:htmlControlAttribute
-																				attributeEntry="${customerInvoiceDetailAttributes.invoiceItemDescription}"
-																				property="selectedCustomerInvoiceDetails[${ctr}].invoiceItemDescription"
-																				readOnly="true" />
-																		</td>
-																		<td style="text-align: right;">
-																			<kul:htmlControlAttribute
-																				attributeEntry="${customerInvoiceDetailAttributes.amount}"
-																				property="selectedCustomerInvoiceDetails[${ctr}].amount"
-																				readOnly="true" />
-																		</td>
-																		<td style="text-align: right;">
-																			<kul:htmlControlAttribute
-																				attributeEntry="${customerInvoiceDetailAttributes.balance}"
-																				property="selectedCustomerInvoiceDetails[${ctr}].amountOpenPerCurrentPaymentApplicationDocument"
-																				readOnly="true" />
-																		</td>
-																		<td style="text-align: right;">
-																			<kul:htmlControlAttribute
-																				disabled="${disableQuickApplyToDetails or customerInvoiceDetail.fullApply}"
-																				readOnly="${readOnly}"
-																				styleClass="amount"
-																				attributeEntry="${customerInvoiceDetailAttributes.amountApplied}"
-																				property="selectedCustomerInvoiceDetails[${ctr}].amountApplied" />
-																		</td>
-																		<c:if test="${readOnly ne true}">
-																			<td>
-																				<center>
-																					<html:checkbox disabled="${true eq disableQuickApplyToDetails}" title="Apply Full Amount" property="selectedCustomerInvoiceDetails[${ctr}].fullApply" value="true" />
-																				</center>
-																			</td>
-																		</c:if>
-																	</tr>
-																</c:otherwise>
-															</c:choose>
+														<logic:iterate id="invoiceDetailApplication" name="KualiForm"
+															property="selectedInvoiceDetailApplications" indexId="ctr">
+															<tr>
+																<td>
+																	<kul:htmlControlAttribute
+																		attributeEntry="${customerInvoiceDetailAttributes.sequenceNumber}"
+																		property="selectedInvoiceDetailApplications[${ctr}].sequenceNumber"
+																		readOnly="true" />
+																</td>
+																<td>
+																	<kul:htmlControlAttribute
+																		attributeEntry="${customerInvoiceDetailAttributes.chartOfAccountsCode}"
+																		property="selectedInvoiceDetailApplications[${ctr}].chartOfAccountsCode"
+																		readOnly="true" />
+																</td>
+																<td>
+																	<kul:htmlControlAttribute
+																		attributeEntry="${customerInvoiceDetailAttributes.accountNumber}"
+																		property="selectedInvoiceDetailApplications[${ctr}].accountNumber"
+																		readOnly="true" />
+																</td>
+																<td>
+																	<kul:htmlControlAttribute
+																		attributeEntry="${customerInvoiceDetailAttributes.invoiceItemDescription}"
+																		property="selectedInvoiceDetailApplications[${ctr}].invoiceItemDescription"
+																		readOnly="true" />
+																</td>
+																<td style="text-align: right;">
+																	<kul:htmlControlAttribute
+																		attributeEntry="${customerInvoiceDetailAttributes.amount}"
+																		property="selectedInvoiceDetailApplications[${ctr}].amount"
+																		readOnly="true" />
+																</td>
+																<td style="text-align: right;">
+																	<kul:htmlControlAttribute
+																		attributeEntry="${customerInvoiceDetailAttributes.balance}"
+																		property="selectedInvoiceDetailApplications[${ctr}].amountOpen"
+																		readOnly="true" />
+																</td>
+																<td style="text-align: right;">
+																	<kul:htmlControlAttribute
+																		readOnly="${readOnly}"
+																		styleClass="amount"
+																		attributeEntry="${customerInvoiceDetailAttributes.amountApplied}"
+																		property="selectedInvoiceDetailApplications[${ctr}].amountApplied" />
+																</td>
+																<c:if test="${readOnly ne true}">
+																	<td>
+																		<center>
+																			<html:checkbox title="Apply Full Amount" property="selectedInvoiceDetailApplications[${ctr}].fullApply" />
+																		</center>
+																	</td>
+																</c:if>
+															</tr>
 														</logic:iterate>
 													</table>
 												</td>

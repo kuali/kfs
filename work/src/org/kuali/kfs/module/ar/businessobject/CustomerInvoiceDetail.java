@@ -3,19 +3,17 @@ package org.kuali.kfs.module.ar.businessobject;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
-import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.UnitOfMeasure;
@@ -64,23 +62,21 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     private String customerInvoiceWriteoffDocumentNumber;
 
     // field for check box control
-    private boolean fullApply;
+    //TODO Andrew
+    //private boolean fullApply;
 
     // This bit with the special applied amount and setAppliedAmount/getSpecialAppliedAmount
     // is a bit of a hack. It let's the form send information back to the action
     // and get handled properly. It can properly take the payment application document into
     // context and figure out amounts properly.
     // {
-    transient private PaymentApplicationDocument currentPaymentApplicationDocument;
-    public void setCurrentPaymentApplicationDocument(PaymentApplicationDocument paymentApplicationDocument) { currentPaymentApplicationDocument = paymentApplicationDocument; }
-    public PaymentApplicationDocument getCurrentPaymentApplicationDocument() { return currentPaymentApplicationDocument; }
-    transient private KualiDecimal specialAppliedAmount;
-    public void setAmountApplied(KualiDecimal a) { specialAppliedAmount = a; }
-    /**
-     * @deprecated
-     * @param amount
-     */
-    public void setAmountToApply(KualiDecimal amount) { }
+    //TODO Andrew
+//    transient private PaymentApplicationDocument currentPaymentApplicationDocument;
+//    public void setCurrentPaymentApplicationDocument(PaymentApplicationDocument paymentApplicationDocument) { currentPaymentApplicationDocument = paymentApplicationDocument; }
+//    public PaymentApplicationDocument getCurrentPaymentApplicationDocument() { return currentPaymentApplicationDocument; }
+//    transient private KualiDecimal specialAppliedAmount;
+//    public void setAmountApplied(KualiDecimal a) { specialAppliedAmount = a; }
+
     /**
      * @see org.kuali.kfs.module.ar.businessobject.AppliedPayment#getAmountToApply()
      */
@@ -89,7 +85,8 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         return this.isDiscountLine() ? this.getAmount().abs() : new KualiDecimal(0);
     }
     
-    public KualiDecimal getSpecialAppliedAmount() { return specialAppliedAmount; }
+    //TODO andrew
+    //public KualiDecimal getSpecialAppliedAmount() { return specialAppliedAmount; }
     
     // }
     
@@ -111,7 +108,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         boolean includeDiscounts = !(isParentSaved() && isParentApproved());
         
         KualiDecimal amount = getAmount();
-        KualiDecimal applied = getAmountAppliedFromDatabase();
+        KualiDecimal applied = getAmountApplied();
         KualiDecimal a = amount.subtract(applied);
         
         if (includeDiscounts) {
@@ -134,29 +131,31 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         return KFSConstants.DocumentStatusCodes.APPROVED.equalsIgnoreCase(getCustomerInvoiceDocument().getDocumentHeader().getFinancialDocumentStatusCode());
     }
     
-    @Deprecated
-    private KualiDecimal getAmountOpenFromDatabaseNoDiscounts() {
-        KualiDecimal amount = getAmount();
-        KualiDecimal applied = getAmountAppliedFromDatabase();
-        KualiDecimal a = amount.subtract(applied);
-        return a;
-    }
+    //TODO Andrew
+//    @Deprecated
+//    private KualiDecimal getAmountOpenFromDatabaseNoDiscounts() {
+//        KualiDecimal amount = getAmount();
+//        KualiDecimal applied = getAmountAppliedFromDatabase();
+//        KualiDecimal a = amount.subtract(applied);
+//        return a;
+//    }
+//
+//    @Deprecated
+//    private KualiDecimal getAmountOpenFromDatabaseDiscounted() {
+//        KualiDecimal amount = getAmount();
+//        KualiDecimal applied = getAmountAppliedFromDatabase();
+//        KualiDecimal a = amount.subtract(applied);
+//        CustomerInvoiceDetail discount = getDiscountCustomerInvoiceDetail();
+//        if (ObjectUtils.isNotNull(discount)) {
+//            a = a.add(discount.getAmount());
+//        }
+//        return a;
+//    }
 
-    @Deprecated
-    private KualiDecimal getAmountOpenFromDatabaseDiscounted() {
-        KualiDecimal amount = getAmount();
-        KualiDecimal applied = getAmountAppliedFromDatabase();
-        KualiDecimal a = amount.subtract(applied);
-        CustomerInvoiceDetail discount = getDiscountCustomerInvoiceDetail();
-        if (ObjectUtils.isNotNull(discount)) {
-            a = a.add(discount.getAmount());
-        }
-        return a;
-    }
-
-    public KualiDecimal getAmountOpenExcludingAnyAmountFromCurrentPaymentApplicationDocument() {
-        return getAmountOpenExcludingAnyAmountFrom(getCurrentPaymentApplicationDocument());
-    }
+    //TODO Andrew
+    //public KualiDecimal getAmountOpenExcludingAnyAmountFromCurrentPaymentApplicationDocument() {
+    //    return getAmountOpenExcludingAnyAmountFrom(getCurrentPaymentApplicationDocument());
+    //}
     
     /**
      * 
@@ -179,13 +178,14 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         return a;
     }
     
-    public KualiDecimal getAmountOpenExcludingAnyAmountFrom(PaymentApplicationDocument paymentApplicationDocument) {
-        return getAmountDiscounted().subtract(getAmountAppliedExcludingAnyAmountAppliedBy(paymentApplicationDocument));
-    }
-    
-    public KualiDecimal getAmountOpenPerCurrentPaymentApplicationDocument() {
-        return getAmountDiscounted().subtract(getAmountAppliedByCurrentPaymentApplicationDocument());
-    }
+    //TODO Andrew
+//    public KualiDecimal getAmountOpenExcludingAnyAmountFrom(PaymentApplicationDocument paymentApplicationDocument) {
+//        return getAmountDiscounted().subtract(getAmountAppliedExcludingAnyAmountAppliedBy(paymentApplicationDocument));
+//    }
+//    
+//    public KualiDecimal getAmountOpenPerCurrentPaymentApplicationDocument() {
+//        return getAmountDiscounted().subtract(getAmountAppliedByCurrentPaymentApplicationDocument());
+//    }
     
     /**
      * This method returns the amount that remained unapplied on a given date.
@@ -194,74 +194,91 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      * @return
      */
     public KualiDecimal getAmountOpenByDateFromDatabase(java.sql.Date date) {
-        return getAmountOpenByDateFromDatabaseExcludingAnyAmountAppliedByPaymentApplicationDocument(date, null);
+        return getAmountOpen();
+        //TODO Andrew - need to fix this to actually respect the dates
+        //return getAmountOpenByDateFromDatabaseExcludingAnyAmountAppliedByPaymentApplicationDocument(date, null);
     }
     
     public KualiDecimal getAmountOpenByDateFromDatabase(java.util.Date date) {
-        return getAmountOpenByDateFromDatabaseExcludingAnyAmountAppliedByPaymentApplicationDocument(new java.sql.Date(date.getTime()),null);
+        return getAmountOpen();
+        //TODO Andrew - need to fix this to actually respect the dates
+        //return getAmountOpenByDateFromDatabaseExcludingAnyAmountAppliedByPaymentApplicationDocument(new java.sql.Date(date.getTime()),null);
     }
     
-    public KualiDecimal getAmountOpenByDateFromDatabaseExcludingAnyAmountAppliedByPaymentApplicationDocument(java.sql.Date date, PaymentApplicationDocument paymentApplicationDocument) {
-        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        
-        // Lookup all applied payments as of the given date
-        Map<String,Object> criteria = new HashMap<String,Object>();
-        criteria.put("invoiceItemNumber", getSequenceNumber());
-        criteria.put("financialDocumentReferenceInvoiceNumber", getDocumentNumber());
-        criteria.put("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
-        Collection<InvoicePaidApplied> invoicePaidAppliedsAsOfDate = businessObjectService.findMatching(InvoicePaidApplied.class, criteria);
-        
-        KualiDecimal totalAppliedAmount = new KualiDecimal(0);
-        KualiDecimal appliedAmount = new KualiDecimal(0);
-        for (InvoicePaidApplied invoicePaidApplied : invoicePaidAppliedsAsOfDate) {
-            appliedAmount = invoicePaidApplied.getInvoiceItemAppliedAmount();
-            Date invoicePaidDate = invoicePaidApplied.getDocumentHeader().getDocumentFinalDate();
-            // get the paid date and use that to limit the adds from below
-            if (ObjectUtils.isNotNull(appliedAmount)&&!invoicePaidDate.after(date)) {
-                if(null != paymentApplicationDocument) {
-                    if(!invoicePaidApplied.getDocumentNumber().equals(paymentApplicationDocument.getDocumentNumber())) {
-                        totalAppliedAmount = totalAppliedAmount.add(appliedAmount);
-                    }
-                } else {
-                    totalAppliedAmount = totalAppliedAmount.add(appliedAmount);
-                }
-            }
-        }
-        
-        return getAmount().subtract(totalAppliedAmount);
-    }
-    
-    public KualiDecimal getAmountOpenByDateFromDatabaseExcludingAnyAmountAppliedByPaymentApplicationDocument(java.util.Date date, PaymentApplicationDocument paymentApplicationDocument) {
-        return getAmountOpenByDateFromDatabaseExcludingAnyAmountAppliedByPaymentApplicationDocument(new java.sql.Date(date.getTime()),paymentApplicationDocument);
-    }
+    //TODO Andrew
+//    public KualiDecimal getAmountOpenByDateFromDatabaseExcludingAnyAmountAppliedByPaymentApplicationDocument(java.sql.Date date, PaymentApplicationDocument paymentApplicationDocument) {
+//        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+//        
+//        // Lookup all applied payments as of the given date
+//        Map<String,Object> criteria = new HashMap<String,Object>();
+//        criteria.put("invoiceItemNumber", getSequenceNumber());
+//        criteria.put("financialDocumentReferenceInvoiceNumber", getDocumentNumber());
+//        criteria.put("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
+//        Collection<InvoicePaidApplied> invoicePaidAppliedsAsOfDate = businessObjectService.findMatching(InvoicePaidApplied.class, criteria);
+//        
+//        KualiDecimal totalAppliedAmount = new KualiDecimal(0);
+//        KualiDecimal appliedAmount = new KualiDecimal(0);
+//        for (InvoicePaidApplied invoicePaidApplied : invoicePaidAppliedsAsOfDate) {
+//            appliedAmount = invoicePaidApplied.getInvoiceItemAppliedAmount();
+//            Date invoicePaidDate = invoicePaidApplied.getDocumentHeader().getDocumentFinalDate();
+//            // get the paid date and use that to limit the adds from below
+//            if (ObjectUtils.isNotNull(appliedAmount)&&!invoicePaidDate.after(date)) {
+//                if(null != paymentApplicationDocument) {
+//                    if(!invoicePaidApplied.getDocumentNumber().equals(paymentApplicationDocument.getDocumentNumber())) {
+//                        totalAppliedAmount = totalAppliedAmount.add(appliedAmount);
+//                    }
+//                } else {
+//                    totalAppliedAmount = totalAppliedAmount.add(appliedAmount);
+//                }
+//            }
+//        }
+//        
+//        return getAmount().subtract(totalAppliedAmount);
+//    }
+//    
+//    public KualiDecimal getAmountOpenByDateFromDatabaseExcludingAnyAmountAppliedByPaymentApplicationDocument(java.util.Date date, PaymentApplicationDocument paymentApplicationDocument) {
+//        return getAmountOpenByDateFromDatabaseExcludingAnyAmountAppliedByPaymentApplicationDocument(new java.sql.Date(date.getTime()),paymentApplicationDocument);
+//    }
     
     // ---- END OPEN AMOUNTS
     
     // ---- BEGIN APPLIED AMOUNTS
-    /**
-     * @deprecated
-     */
     public KualiDecimal getAmountApplied() { 
-        return getAmountAppliedByCurrentPaymentApplicationDocument();
+        List<InvoicePaidApplied> invoicePaidApplieds = null;
+        invoicePaidApplieds = getMatchingInvoicePaidAppliedsMatchingAnyDocumentFromDatabase();
+        KualiDecimal appliedAmount = new KualiDecimal(0);
+        for(InvoicePaidApplied invoicePaidApplied : invoicePaidApplieds) {
+            appliedAmount = appliedAmount.add(invoicePaidApplied.getInvoiceItemAppliedAmount());
+        }
+        return appliedAmount;
     }
     
-    /**
-     * @return the applied amount by getting it from the matching invoice paid applied
-     */
-    public KualiDecimal getAmountAppliedFromDatabase() {
-        return getAmountAppliedBy(null);
-    }
-    
+    //TODO Andrew
+//    /**
+//     * @return the applied amount by getting it from the matching invoice paid applied
+//     */
+//    public KualiDecimal getAmountAppliedFromDatabase() {
+//        return getAmountAppliedBy(null);
+//    }
+//    
+//  /**
+//  * This method is a convenience method used from the Struts form on the payment application document screen.
+//  * @return
+//  */
+// public KualiDecimal getAmountAppliedByCurrentPaymentApplicationDocument() {
+//     return getAmountAppliedBy(getCurrentPaymentApplicationDocument());
+// }
+// 
     /**
      * @param paymentApplicationDocument
      * @return 
      */
-    public KualiDecimal getAmountAppliedBy(PaymentApplicationDocument paymentApplicationDocument) {
+    public KualiDecimal getAmountAppliedBy(String documentNumber) {
         List<InvoicePaidApplied> invoicePaidApplieds = null;
-        if(null == paymentApplicationDocument) {
+        if (StringUtils.isBlank(documentNumber)) {
             invoicePaidApplieds = getMatchingInvoicePaidAppliedsMatchingAnyDocumentFromDatabase();
         } else {
-            invoicePaidApplieds = getMatchingInvoicePaidAppliedsMatchingPaymentApplicationDocumentNoDatabase(paymentApplicationDocument);
+            invoicePaidApplieds = getMatchingInvoicePaidAppliedsMatchingDocument(documentNumber);
         }
         KualiDecimal appliedAmount = new KualiDecimal(0);
         for(InvoicePaidApplied invoicePaidApplied : invoicePaidApplieds) {
@@ -271,23 +288,17 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     }
     
     /**
-     * This method is a convenience method used from the Struts form on the payment application document screen.
-     * @return
-     */
-    public KualiDecimal getAmountAppliedByCurrentPaymentApplicationDocument() {
-        return getAmountAppliedBy(getCurrentPaymentApplicationDocument());
-    }
-    
-    /**
      * @param paymentApplicationDocument
      * @return the sum of applied amounts according to the database, excluding any amounts applied by paymentApplicationDocument
      */
-    public KualiDecimal getAmountAppliedExcludingAnyAmountAppliedBy(PaymentApplicationDocument paymentApplicationDocument) {
+    public KualiDecimal getAmountAppliedExcludingAnyAmountAppliedBy(String documentNumber) {
         List<InvoicePaidApplied> invoicePaidApplieds = getMatchingInvoicePaidAppliedsMatchingAnyDocumentFromDatabase();
         KualiDecimal appliedAmount = new KualiDecimal(0);
-        for(InvoicePaidApplied invoicePaidApplied : invoicePaidApplieds) {
+        for (InvoicePaidApplied invoicePaidApplied : invoicePaidApplieds) {
             // Exclude any amounts applied by paymentApplicationDocument
-            if(null == paymentApplicationDocument || !paymentApplicationDocument.getDocumentNumber().equals(invoicePaidApplied.getDocumentNumber())) {
+            if (StringUtils.isNotBlank(documentNumber)) {
+            }
+            if (StringUtils.isBlank(documentNumber) || !documentNumber.equalsIgnoreCase(invoicePaidApplied.getDocumentNumber())) {
                 appliedAmount = appliedAmount.add(invoicePaidApplied.getInvoiceItemAppliedAmount());
             }
         }
@@ -653,46 +664,17 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      * @return matching InvoicePaidApplieds from the database if they exist
      */
     public List<InvoicePaidApplied> getMatchingInvoicePaidAppliedsMatchingAnyDocumentFromDatabase() {
-        return getMatchingInvoicePaidApplieds(null);
-    }
-    
-    /**
-     * @param paymentApplicationDocumentNumber
-     * @return matching InvoicePaidApplieds from the database matching the specific PaymentApplicationDocument if they exist
-     */
-    public List<InvoicePaidApplied> getMatchingInvoicePaidAppliedsMatchingASpecificPaymentApplicationDocumentFromDatabase(String paymentApplicationDocumentNumber) {
-        return getMatchingInvoicePaidApplieds(paymentApplicationDocumentNumber);
-    }
+        //TODO Andrew
+        //return getMatchingInvoicePaidApplieds(null);
 
-    /**
-     * @param paymentApplicationDocumentNumber
-     * @return
-     */
-    public InvoicePaidApplied getSingleMatchingInvoicePaidAppliedMatchingASpecificPaymentApplicationDocumentFromDatabase(String paymentApplicationDocumentNumber) {
-        List<InvoicePaidApplied> matchingInvoicePaidApplieds = getMatchingInvoicePaidApplieds(paymentApplicationDocumentNumber);
-        return matchingInvoicePaidApplieds.iterator().next();
-    }
-    
-    /**
-     * @param paymentApplicationDocumentNumber
-     * @return the List of matching InvoicePaidApplieds.
-     * If paymentApplicationDocumentNumber is null invoicePaidApplieds matching any PaymentApplicationDocument will be returned.
-     * If paymentApplicationDocumentNumber is not null only the invoicePaidApplieds that match on that PaymentApplicationDocument will be returned.
-     */
-    private List<InvoicePaidApplied> getMatchingInvoicePaidApplieds(String paymentApplicationDocumentNumber) {
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+
+        // assuming here that you never have a PaidApplied against a Discount line
         Map<String,Object> criteria = new HashMap<String,Object>();
-        if(null != paymentApplicationDocumentNumber) {
-            criteria.put("documentNumber", paymentApplicationDocumentNumber);
-            criteria.put("invoiceItemNumber", getSequenceNumber());
-            criteria.put("financialDocumentReferenceInvoiceNumber", getDocumentNumber());
-        }
-        else {
-            // assuming here that you never have a PaidApplied against a Discount line
-            criteria.put("invoiceItemNumber", getInvoiceItemNumber());
-            criteria.put("financialDocumentReferenceInvoiceNumber", getDocumentNumber());
-            criteria.put("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
-        }
+        criteria.put("invoiceItemNumber", getInvoiceItemNumber());
+        criteria.put("financialDocumentReferenceInvoiceNumber", getDocumentNumber());
+        criteria.put("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
+
         List<InvoicePaidApplied> invoicePaidApplieds = (List<InvoicePaidApplied>) businessObjectService.findMatching(InvoicePaidApplied.class, criteria);
         if(ObjectUtils.isNull(invoicePaidApplieds)) {
             invoicePaidApplieds = new ArrayList<InvoicePaidApplied>();
@@ -701,40 +683,83 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     }
     
     /**
-     * Get InvoicePaidApplieds related to this CustomerInvoiceDetail if they 
-     * exist in a PaymentApplicationDocument and do it just by looking at the
-     * PaymentApplicationDocument as it is in memory. Don't get anything from
-     * the database.
-     * 
-     * @param paymentApplicationDocument
-     * @return
+     * @param paymentApplicationDocumentNumber
+     * @return the List of matching InvoicePaidApplieds.
+     * If paymentApplicationDocumentNumber is null invoicePaidApplieds matching any PaymentApplicationDocument will be returned.
+     * If paymentApplicationDocumentNumber is not null only the invoicePaidApplieds that match on that PaymentApplicationDocument will be returned.
      */
-    public List<InvoicePaidApplied> getMatchingInvoicePaidAppliedsMatchingPaymentApplicationDocumentNoDatabase(PaymentApplicationDocument paymentApplicationDocument) {
-        List<InvoicePaidApplied> invoicePaidApplieds = paymentApplicationDocument.getInvoicePaidApplieds();
-        List<InvoicePaidApplied> selectedInvoicePaidApplieds = new ArrayList<InvoicePaidApplied>();
-        // The paymentApplicationDocumentService isn't used to pull anything from the database.
-        // It's just used to try to pair CustomerInvoiceDetails and InvoicePaidApplieds
-        PaymentApplicationDocumentService paymentApplicationDocumentService = SpringContext.getBean(PaymentApplicationDocumentService.class);
-        for(InvoicePaidApplied invoicePaidApplied : invoicePaidApplieds) {
-            if(paymentApplicationDocumentService.customerInvoiceDetailPairsWithInvoicePaidApplied(this, invoicePaidApplied)) {
-                selectedInvoicePaidApplieds.add(invoicePaidApplied);
-            }
+    private List<InvoicePaidApplied> getMatchingInvoicePaidAppliedsMatchingDocument(String documentNumber) {
+        if (StringUtils.isBlank(documentNumber)) {
+            return getMatchingInvoicePaidAppliedsMatchingAnyDocumentFromDatabase();
         }
-        return selectedInvoicePaidApplieds;
+        
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        Map<String,Object> criteria = new HashMap<String,Object>();
+        criteria.put("documentNumber", documentNumber);
+        criteria.put("invoiceItemNumber", getSequenceNumber());
+        criteria.put("financialDocumentReferenceInvoiceNumber", getDocumentNumber());
+
+        List<InvoicePaidApplied> invoicePaidApplieds = (List<InvoicePaidApplied>) businessObjectService.findMatching(InvoicePaidApplied.class, criteria);
+        if(ObjectUtils.isNull(invoicePaidApplieds)) {
+            invoicePaidApplieds = new ArrayList<InvoicePaidApplied>();
+        }
+        return invoicePaidApplieds;
     }
-    
-    /**
-     * This method returns the results of @link getMatchingInvoicePaidAppliedsMatchingPaymentApplicationDocumentNoDatabase(PaymentApplicationDocument)
-     * as a single InvoicePaidApplied. This is OK because there's only one
-     * InvoicePaidApplied for a CustomerInvoiceDetail on a given PaymentApplicationDocument.
-     * 
-     * @param paymentApplicationDocument
-     * @return
-     */
-    public InvoicePaidApplied getSingleMatchingInvoicepaidAppliedMatchingPaymentApplicationDocumentNoDatabase(PaymentApplicationDocument paymentApplicationDocument) {
-        List<InvoicePaidApplied> matchingInvoicePaidApplieds = getMatchingInvoicePaidAppliedsMatchingPaymentApplicationDocumentNoDatabase(paymentApplicationDocument);
-        return matchingInvoicePaidApplieds.iterator().next();
-    }
+
+    //TODO Andrew
+//    /**
+//     * @param paymentApplicationDocumentNumber
+//     * @return matching InvoicePaidApplieds from the database matching the specific PaymentApplicationDocument if they exist
+//     */
+//    public List<InvoicePaidApplied> getMatchingInvoicePaidAppliedsMatchingASpecificPaymentApplicationDocumentFromDatabase(String paymentApplicationDocumentNumber) {
+//        return getMatchingInvoicePaidApplieds(paymentApplicationDocumentNumber);
+//    }
+//
+//    /**
+//     * @param paymentApplicationDocumentNumber
+//     * @return
+//     */
+//    public InvoicePaidApplied getSingleMatchingInvoicePaidAppliedMatchingASpecificPaymentApplicationDocumentFromDatabase(String paymentApplicationDocumentNumber) {
+//        List<InvoicePaidApplied> matchingInvoicePaidApplieds = getMatchingInvoicePaidApplieds(paymentApplicationDocumentNumber);
+//        return matchingInvoicePaidApplieds.iterator().next();
+//    }
+//    
+//    
+//    /**
+//     * Get InvoicePaidApplieds related to this CustomerInvoiceDetail if they 
+//     * exist in a PaymentApplicationDocument and do it just by looking at the
+//     * PaymentApplicationDocument as it is in memory. Don't get anything from
+//     * the database.
+//     * 
+//     * @param paymentApplicationDocument
+//     * @return
+//     */
+//    public List<InvoicePaidApplied> getMatchingInvoicePaidAppliedsMatchingPaymentApplicationDocumentNoDatabase(PaymentApplicationDocument paymentApplicationDocument) {
+//        List<InvoicePaidApplied> invoicePaidApplieds = paymentApplicationDocument.getInvoicePaidApplieds();
+//        List<InvoicePaidApplied> selectedInvoicePaidApplieds = new ArrayList<InvoicePaidApplied>();
+//        // The paymentApplicationDocumentService isn't used to pull anything from the database.
+//        // It's just used to try to pair CustomerInvoiceDetails and InvoicePaidApplieds
+//        PaymentApplicationDocumentService paymentApplicationDocumentService = SpringContext.getBean(PaymentApplicationDocumentService.class);
+//        for(InvoicePaidApplied invoicePaidApplied : invoicePaidApplieds) {
+//            if(paymentApplicationDocumentService.customerInvoiceDetailPairsWithInvoicePaidApplied(this, invoicePaidApplied)) {
+//                selectedInvoicePaidApplieds.add(invoicePaidApplied);
+//            }
+//        }
+//        return selectedInvoicePaidApplieds;
+//    }
+//    
+//    /**
+//     * This method returns the results of @link getMatchingInvoicePaidAppliedsMatchingPaymentApplicationDocumentNoDatabase(PaymentApplicationDocument)
+//     * as a single InvoicePaidApplied. This is OK because there's only one
+//     * InvoicePaidApplied for a CustomerInvoiceDetail on a given PaymentApplicationDocument.
+//     * 
+//     * @param paymentApplicationDocument
+//     * @return
+//     */
+//    public InvoicePaidApplied getSingleMatchingInvoicepaidAppliedMatchingPaymentApplicationDocumentNoDatabase(PaymentApplicationDocument paymentApplicationDocument) {
+//        List<InvoicePaidApplied> matchingInvoicePaidApplieds = getMatchingInvoicePaidAppliedsMatchingPaymentApplicationDocumentNoDatabase(paymentApplicationDocument);
+//        return matchingInvoicePaidApplieds.iterator().next();
+//    }
 
     // ---- Simple getters/setters
     
@@ -770,13 +795,14 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         this.unitOfMeasure = unitOfMeasure;
     }
 
-    public boolean isFullApply() {
-        return fullApply;
-    }
-
-    public void setFullApply(boolean fullApply) {
-        this.fullApply = fullApply;
-    }
+    //TODO Andrew
+//    public boolean isFullApply() {
+//        return fullApply;
+//    }
+//
+//    public void setFullApply(boolean fullApply) {
+//        this.fullApply = fullApply;
+//    }
 
     /**
      * If the detail is a discount customer invoice detail, return the parent customer invoice detail's sequence number instead

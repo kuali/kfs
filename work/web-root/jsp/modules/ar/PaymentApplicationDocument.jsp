@@ -48,7 +48,7 @@ function toggle(id) {
 <c:set var="hasRelatedCashControlDocument" value="${null != KualiForm.cashControlDocument}" />
 <c:set var="isCustomerSelected"
 	value="${!empty KualiForm.document.accountsReceivableDocumentHeader.customerNumber}" />
-<c:set var="invoices" value="${KualiForm.invoices}" />
+<c:set var="invoiceApplications" value="${KualiForm.invoiceApplications}" />
 
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="PaymentApplicationDocument"

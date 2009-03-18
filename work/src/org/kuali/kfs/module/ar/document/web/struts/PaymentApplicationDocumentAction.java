@@ -19,13 +19,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -33,11 +33,9 @@ import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.Customer;
-import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
-import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
@@ -112,7 +110,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
     public ActionForward deleteNonArLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PaymentApplicationDocumentForm paymentApplicationDocumentForm = (PaymentApplicationDocumentForm) form;
         
-        //
+        //TODO Andrew - should this be run or not here?
         //doApplicationOfFunds((PaymentApplicationDocumentForm)form);
         
         PaymentApplicationDocument paymentApplicationDocument = paymentApplicationDocumentForm.getPaymentApplicationDocument();
@@ -150,7 +148,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
             }
         }
         
-        // Set the NonInvoicedItemNumbers properly
+        // re-number the non-invoiceds
         Integer nonInvoicedItemNumber = 1;
         for (NonInvoiced n : paymentApplicationDocument.getNonInvoiceds()) {
             n.setFinancialDocumentLineNumber(nonInvoicedItemNumber++);
@@ -161,8 +159,8 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
     
     /**
      * Create an InvoicePaidApplied for a CustomerInvoiceDetail and validate it.
-     * If the validation succeeds it's added to the PaymentApplicationDocument.
-     * If the validation does succeed it's not added to the PaymentApplicationDocument and null is returned.
+     * If the validation succeeds the paidApplied is returned.
+     * If the validation does succeed a null is returned.
      * 
      * @param customerInvoiceDetail
      * @param paymentApplicationDocument
@@ -171,16 +169,13 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      * @return
      * @throws WorkflowException
      */
-    private InvoicePaidApplied applyToCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, PaymentApplicationDocument paymentApplicationDocument, KualiDecimal amount, String fieldName, boolean addToDocument, Integer paidAppliedItemNumber) throws WorkflowException {
-        InvoicePaidApplied invoicePaidApplied = 
-            paymentApplicationDocumentService.createInvoicePaidAppliedForInvoiceDetail(
-                customerInvoiceDetail, paymentApplicationDocument, amount, paidAppliedItemNumber);
+    private InvoicePaidApplied generateAndValidateNewPaidApplied(PaymentApplicationInvoiceDetailApply detailApplication, String fieldName) {
+        
+        InvoicePaidApplied paidApplied = detailApplication.generatePaidApplied();
+        
         // If the new invoice paid applied is valid, add it to the document
-        if (PaymentApplicationDocumentRuleUtil.validateInvoicePaidApplied(invoicePaidApplied, fieldName)) {
-            if(addToDocument) {
-                paymentApplicationDocument.getInvoicePaidApplieds().add(invoicePaidApplied);
-            }
-            return invoicePaidApplied;
+        if (PaymentApplicationDocumentRuleUtil.validateInvoicePaidApplied(paidApplied, fieldName)) {
+            return paidApplied;
         }
         return null;
     }
@@ -193,17 +188,15 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
     private void doApplicationOfFunds(PaymentApplicationDocumentForm paymentApplicationDocumentForm) throws WorkflowException {
         PaymentApplicationDocument paymentApplicationDocument = paymentApplicationDocumentForm.getPaymentApplicationDocument();
         
-        //TODO Should we do validation here first, to make sure they didnt QuickApply and DetailApply both?
-        
         List<InvoicePaidApplied> invoicePaidApplieds = new ArrayList<InvoicePaidApplied>();
         
         //  apply invoice detail entries
         invoicePaidApplieds.addAll(applyToIndividualCustomerInvoiceDetails(paymentApplicationDocumentForm));
         
         //  quick-apply invoices
-        invoicePaidApplieds.addAll(applyToInvoices(paymentApplicationDocumentForm, invoicePaidApplieds));
+        invoicePaidApplieds.addAll(quickApplyToInvoices(paymentApplicationDocumentForm, invoicePaidApplieds));
         
-        // Set the InvoicePaidAppliedItemNumbers properly
+        //  re-number the paidApplieds internal sequence numbers
         int paidAppliedItemNumber = 0;
         for(InvoicePaidApplied i : invoicePaidApplieds) {
             i.setPaidAppliedItemNumber(paidAppliedItemNumber++);
@@ -219,98 +212,90 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         KualiDecimal sumOfInvoicePaidApplieds = KualiDecimal.ZERO;
         for(InvoicePaidApplied invoicePaidApplied : invoicePaidApplieds) {
             KualiDecimal amount = invoicePaidApplied.getInvoiceItemAppliedAmount();
-            if(null == amount) { amount = KualiDecimal.ZERO; }
+            if (null == amount) { amount = KualiDecimal.ZERO; }
             sumOfInvoicePaidApplieds = sumOfInvoicePaidApplieds.add(amount);
         }
         
-        // Check that we haven't applied more than the cash control total amount
-        CashControlDocument cashControlDocument = paymentApplicationDocument.getCashControlDocument();
-        if(ObjectUtils.isNotNull(cashControlDocument)) {
-            KualiDecimal openAmount = cashControlDocument.getCashControlTotalAmount();
-            openAmount = openAmount.subtract(sumOfInvoicePaidApplieds);
-            if(null != nonInvoiced && null != nonInvoiced.getFinancialDocumentLineAmount()) {
-                openAmount = openAmount.subtract(nonInvoiced.getFinancialDocumentLineAmount());
-            }
-            openAmount = openAmount.subtract(paymentApplicationDocument.getSumOfNonAppliedDistributions());
-            openAmount = openAmount.subtract(paymentApplicationDocument.getSumOfNonInvoicedDistributions());
-            openAmount = openAmount.subtract(paymentApplicationDocument.getSumOfNonInvoiceds());
-            if(null != paymentApplicationDocument.getNonAppliedHoldingAmount()) {
-                openAmount = openAmount.subtract(paymentApplicationDocument.getNonAppliedHoldingAmount());
-            }
-            
-            if(KualiDecimal.ZERO.isGreaterThan(openAmount)) {
-                
-                addGlobalError(ArKeyConstants.PaymentApplicationDocumentErrors.CANNOT_APPLY_MORE_THAN_CASH_CONTROL_TOTAL_AMOUNT);
+        // sum up all applieds
+        KualiDecimal appliedAmount = KualiDecimal.ZERO;
+        appliedAmount = appliedAmount.add(sumOfInvoicePaidApplieds);
+        if (null != nonInvoiced && null != nonInvoiced.getFinancialDocumentLineAmount()) {
+            appliedAmount = appliedAmount.add(nonInvoiced.getFinancialDocumentLineAmount());
+        }
+        appliedAmount = appliedAmount.add(paymentApplicationDocument.getSumOfNonAppliedDistributions());
+        appliedAmount = appliedAmount.add(paymentApplicationDocument.getSumOfNonInvoicedDistributions());
+        appliedAmount = appliedAmount.add(paymentApplicationDocument.getSumOfNonInvoiceds());
+        if (null != paymentApplicationDocument.getNonAppliedHoldingAmount()) {
+            appliedAmount = appliedAmount.add(paymentApplicationDocument.getNonAppliedHoldingAmount());
+        }
+        
+        //  check that we havent applied more than our control total
+        KualiDecimal controlTotalAmount;
+        if (paymentApplicationDocument.hasCashControlDetail()) {
+            controlTotalAmount = paymentApplicationDocument.getCashControlDetail().getFinancialDocumentLineAmount();
+        }
+        else {
+            //TODO Vivek ... this is for you to fill out
+            controlTotalAmount = KualiDecimal.ZERO;
+        }
 
-                // Rollback the two unapplied values if validation fails.
-                paymentApplicationDocument.getNonAppliedHolding().setFinancialDocumentLineAmount(paymentApplicationDocumentForm.getOldNonAppliedHoldingAmount());
-                
-            } else {
-                // If validation is all good, then swap out the old InvoicePaidApplieds and swap in the new InvoicePaidApplieds
-                // We do it like this because we don't want to modify the InvoicePaidApplieds if the user has over-applied.
-                if(ObjectUtils.isNotNull(paymentApplicationDocument)) {
-                    paymentApplicationDocument.getInvoicePaidApplieds().clear();
-                    paymentApplicationDocument.getInvoicePaidApplieds().addAll(invoicePaidApplieds);
-                    
-                    if(null != nonInvoiced) {
-                        // add advanceDeposit
-                        paymentApplicationDocument.getNonInvoiceds().add(nonInvoiced);
-    
-                        // Set the NonInvoicedItemNumbers properly
-                        Integer nonInvoicedItemNumber = 1;
-                        for (NonInvoiced n : paymentApplicationDocument.getNonInvoiceds()) {
-                            n.setFinancialDocumentLineNumber(nonInvoicedItemNumber++);
-                        }
-                            
-                        // clear the used advanceDeposit
-                        paymentApplicationDocumentForm.setNonInvoicedAddLine(new NonInvoiced());
-                    }
-                }
+        //  if the person over-applies, we dont stop them, we just complain
+        if (appliedAmount.isGreaterThan(controlTotalAmount)) {
+            addGlobalError(ArKeyConstants.PaymentApplicationDocumentErrors.CANNOT_APPLY_MORE_THAN_CASH_CONTROL_TOTAL_AMOUNT);
+        } 
+        
+        //  swap out the old paidApplieds with the newly generated
+        paymentApplicationDocument.getInvoicePaidApplieds().clear();
+        paymentApplicationDocument.getInvoicePaidApplieds().addAll(invoicePaidApplieds);
+        
+        //  nonInvoiced/advanceDeposit stuff
+        if (null != nonInvoiced) {
+            // add advanceDeposit
+            paymentApplicationDocument.getNonInvoiceds().add(nonInvoiced);
+
+            // Set the NonInvoicedItemNumbers properly
+            Integer nonInvoicedItemNumber = 1;
+            for (NonInvoiced n : paymentApplicationDocument.getNonInvoiceds()) {
+                n.setFinancialDocumentLineNumber(nonInvoicedItemNumber++);
             }
+                
+            // clear the used advanceDeposit
+            paymentApplicationDocumentForm.setNonInvoicedAddLine(new NonInvoiced());
         }
     }
     
-    private List<InvoicePaidApplied> applyToIndividualCustomerInvoiceDetails(PaymentApplicationDocumentForm paymentApplicationDocumentForm) throws WorkflowException{
+    private List<InvoicePaidApplied> applyToIndividualCustomerInvoiceDetails(PaymentApplicationDocumentForm paymentApplicationDocumentForm) {
         PaymentApplicationDocument paymentApplicationDocument = paymentApplicationDocumentForm.getPaymentApplicationDocument();
         String applicationDocNbr = paymentApplicationDocument.getDocumentNumber();
 
         // Handle amounts applied at the invoice detail level
-        int customerInvoiceDetailCounter = 1;
-        int simpleCustomerInvoiceDetailCounter = 0;
+        int paidAppliedsGenerated = 1;
+        int simpleInvoiceDetailApplicationCounter = 0;
         
         List<InvoicePaidApplied> invoicePaidApplieds = new ArrayList<InvoicePaidApplied>();
-        for (CustomerInvoiceDetail customerInvoiceDetail : paymentApplicationDocumentForm.getSelectedCustomerInvoiceDetails()) {
-            
-            KualiDecimal amountToApply = KualiDecimal.ZERO;
-            
-            String fieldName = "customerInvoiceDetails[" + (simpleCustomerInvoiceDetailCounter) + "]";
-            // Increment now because we don't want the continue below to skip the increment.
-            simpleCustomerInvoiceDetailCounter += 1;
-
-            if(customerInvoiceDetail.isFullApply()) {
-                // Apply the full detail amount
-                fieldName += ".fullApply";
-                amountToApply = customerInvoiceDetail.getAmountOpenExcludingAnyAmountFrom(paymentApplicationDocument);
+        for (PaymentApplicationInvoiceApply invoiceApplication : paymentApplicationDocumentForm.getInvoiceApplications()) {
+            for (PaymentApplicationInvoiceDetailApply detailApplication : invoiceApplication.getDetailApplications()) {
                 
-            //TODO this is part of the temporary form cache used to hold paidapplieds not in the db
-            } else if (KualiDecimal.ZERO.equals(customerInvoiceDetail.getSpecialAppliedAmount())) {
+                String fieldName = "detailApplications[" + Integer.toString(simpleInvoiceDetailApplicationCounter) + "]";
+                simpleInvoiceDetailApplicationCounter++; // needs to be incremented even if we skip this line
+
                 // Don't add lines where the amount to apply is zero. Wouldn't make any sense to do that.
-                continue;
-            } else {
-                // Apply the partial amount
-                fieldName += ".amountApplied";
-                amountToApply = customerInvoiceDetail.getSpecialAppliedAmount();
-            }
-            
-            if(null != amountToApply) {
-                // If the new invoice paid applied is valid, add it to the document
-                // I just pass in a paidAppliedItemNumber of 0 and set the paidAppliedItemNumber to the correct value after adding all
-                // InvoicePaidApplieds to the document.
-                InvoicePaidApplied invoicePaidApplied = applyToCustomerInvoiceDetail(customerInvoiceDetail, paymentApplicationDocument, amountToApply, fieldName, false, 0);
+                if (KualiDecimal.ZERO.equals(detailApplication.getAmountApplied())) {
+                    continue;
+                } 
+                
+                //  determine the field name for validation purposes
+                if (detailApplication.isFullApply()) {
+                    fieldName += ".fullApply";
+                } else {
+                    fieldName += ".amountApplied";
+                }
+                
+                //  generate and validate the paidApplied, and add it to the list if it passes validation
+                InvoicePaidApplied invoicePaidApplied = generateAndValidateNewPaidApplied(detailApplication, fieldName);
                 if (null != invoicePaidApplied) {
-                    //invoicePaidApplied.setInvoiceItemNumber(invoiceItemNumber);
                     invoicePaidApplieds.add(invoicePaidApplied);
-                    customerInvoiceDetailCounter++;
+                    paidAppliedsGenerated++;
                 }
             }
         }
@@ -318,95 +303,78 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         return invoicePaidApplieds;
     }
     
-    private List<InvoicePaidApplied> applyToInvoices(PaymentApplicationDocumentForm paymentApplicationDocumentForm, List<InvoicePaidApplied> appliedToIndividualDetails) throws WorkflowException {
+    private List<InvoicePaidApplied> quickApplyToInvoices(PaymentApplicationDocumentForm paymentApplicationDocumentForm, List<InvoicePaidApplied> appliedToIndividualDetails) {
         PaymentApplicationDocument applicationDocument = (PaymentApplicationDocument) paymentApplicationDocumentForm.getDocument();
-        String applicationDocumentNumber = applicationDocument.getDocumentNumber();
-
-        // get the university fiscal year and fiscal period code
-        Integer universityFiscalYear = applicationDocument.getAccountingPeriod().getUniversityFiscalYear();
-        String universityFiscalPeriodCode = applicationDocument.getAccountingPeriod().getUniversityFiscalPeriodCode();
-
-        List<String> invoiceNumbers = new ArrayList<String>();
-        Collection<CustomerInvoiceDocument> invoices = paymentApplicationDocumentForm.getInvoices();
-
-        for (CustomerInvoiceDocument customerInvoiceDocument : invoices) {
-            if (customerInvoiceDocument.isQuickApply()) {
-                invoiceNumbers.add(customerInvoiceDocument.getDocumentNumber());
-            }
-        }
-
-        PaymentApplicationDocumentService applicationDocumentService = SpringContext.getBean(PaymentApplicationDocumentService.class);
-
         List<InvoicePaidApplied> invoicePaidApplieds = new ArrayList<InvoicePaidApplied>();
 
-        // make sure none of the invoices selected have zero open amounts, complain if so
-        CustomerInvoiceDocument invoice = null;
-        for (String invoiceNumber : invoiceNumbers) {
-            invoice = customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(invoiceNumber);
-            if (invoice.getOpenAmount().isZero()) {
+        //Map<String,Boolean> previouslyQuickAppliedInvoices = paymentApplicationDocumentForm.getPreviouslyQuickAppliedInvoices();
+        
+        // go over the selected invoices and apply full amount to each of their details
+        int index = 0;
+        for (PaymentApplicationInvoiceApply invoiceApplication : paymentApplicationDocumentForm.getQuickAppliableInvoiceApplications()) {
+            String invoiceDocNumber = invoiceApplication.getDocumentNumber();
+            
+            //  skip the line if its not set to quick apply
+            if (!invoiceApplication.isQuickApply()) {
+                continue;
+            }
+            
+            // make sure none of the invoices selected have zero open amounts, complain if so
+            if (invoiceApplication.getOpenAmount().isZero()) {
                 addGlobalError(ArKeyConstants.PaymentApplicationDocumentErrors.CANNOT_QUICK_APPLY_ON_INVOICE_WITH_ZERO_OPEN_AMOUNT);
                 return invoicePaidApplieds;
             }
-        }
-        
-        Map<String,Boolean> previouslyQuickAppliedInvoices = paymentApplicationDocumentForm.getPreviouslyQuickAppliedInvoices();
-        
-        // go over the selected invoices and apply full amount to each of their details
-        for (String customerInvoiceDocumentNumber : invoiceNumbers) {
-            boolean dontApply = false;
-            
-            // get the customer invoice details for the current invoice number
-            Collection<CustomerInvoiceDetail> customerInvoiceDetails = 
-                customerInvoiceDocumentService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(customerInvoiceDocumentNumber);
-            
-            Set previousKeys = previouslyQuickAppliedInvoices.keySet();
-            Collection previousValues = previouslyQuickAppliedInvoices.values();
-            
-            CustomerInvoiceDocument _invoice = 
-                (CustomerInvoiceDocument) paymentApplicationDocumentForm.getInvoicesByDocumentNumber().get(customerInvoiceDocumentNumber);
-            Boolean v = previouslyQuickAppliedInvoices.get(customerInvoiceDocumentNumber);
-            if(null == v || Boolean.FALSE.equals(v)) {
-                // Invoice was not previously quick-applied. Nothing special needs to be done.
-                previouslyQuickAppliedInvoices.put(customerInvoiceDocumentNumber, _invoice.isQuickApply());
-            } else {
-                if(_invoice.isQuickApply()) {
-                    // Invoice was quick-applied before and still is now
-                    previouslyQuickAppliedInvoices.put(customerInvoiceDocumentNumber, Boolean.TRUE);
-                } else {
-                    // Invoice was quick-applied before but is NOT now.
-                    // Reset the amounts on all details to zero b/c the amounts won't come from the form
-                    // due to the fact that the amount fields were disabled in the UI.
-                    for(CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetails) {
-                        customerInvoiceDetail.setAmount(KualiDecimal.ZERO);
-                        dontApply = true;
-                    }
-                }
-            }
-            
-            if(!dontApply) {
-                // Apply the actual funds
-                
-                // Remove any details applied to individual details
-                List<Integer> indicesToRemove = new ArrayList<Integer>();
-                int i = appliedToIndividualDetails.size()-1;
-                // Remove from high number to low so we can keep the indices relevant to the correct element.
-                for(; i >= 0 ; i--) {
-                    InvoicePaidApplied applied = appliedToIndividualDetails.get(i);
-                    if(applied.getDocumentNumber().equals(_invoice.getDocumentNumber())) {
-                        appliedToIndividualDetails.remove(i);
-                    }
-                }
-                
-                // Apply to the invoice as a whole
-                for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetails) {
-                    // I just pass in a paidAppliedItemNumber of 0 and set the paidAppliedItemNumber to the correct value after adding all
-                    // InvoicePaidApplieds to the document.
-                    invoicePaidApplieds.add(applyToCustomerInvoiceDetail(customerInvoiceDetail, applicationDocument, customerInvoiceDetail.getAmountOpen(), "invoice[" + (customerInvoiceDocumentNumber) + "].quickApply", false, 0));
-                }
-            }
 
-            if (customerInvoiceDocumentNumber.equals(paymentApplicationDocumentForm.getEnteredInvoiceDocumentNumber())) {
-                paymentApplicationDocumentForm.setSelectedInvoiceDocumentNumber(customerInvoiceDocumentNumber);
+            //TODO Andrew - temporarily commented out as quick applies dont work this way anymore, but holding on to 
+            //     this code just in case
+//            // get the customer invoice details for the current invoice number
+//            Collection<CustomerInvoiceDetail> customerInvoiceDetails = 
+//                customerInvoiceDocumentService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(customerInvoiceDocumentNumber);
+//            Set previousKeys = previouslyQuickAppliedInvoices.keySet();
+//            Collection previousValues = previouslyQuickAppliedInvoices.values();
+//            
+//            Boolean v = previouslyQuickAppliedInvoices.get(customerInvoiceDocumentNumber);
+//            if(null == v || Boolean.FALSE.equals(v)) {
+//                // Invoice was not previously quick-applied. Nothing special needs to be done.
+//                previouslyQuickAppliedInvoices.put(customerInvoiceDocumentNumber, _invoice.isQuickApply());
+//            } else {
+//                if(_invoiceApplication.isQuickApply()) {
+//                    // Invoice was quick-applied before and still is now
+//                    previouslyQuickAppliedInvoices.put(customerInvoiceDocumentNumber, Boolean.TRUE);
+//                } else {
+//                    // Invoice was quick-applied before but is NOT now.
+//                    // Reset the amounts on all details to zero b/c the amounts won't come from the form
+//                    // due to the fact that the amount fields were disabled in the UI.
+//                    for(CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetails) {
+//                        customerInvoiceDetail.setAmount(KualiDecimal.ZERO);
+//                        dontApply = true;
+//                    }
+//                }
+//            }
+
+            //  remove any existing paidApplieds for this invoice
+            for (int i = appliedToIndividualDetails.size() - 1; i >= 0 ; i--) {
+                InvoicePaidApplied applied = appliedToIndividualDetails.get(i);
+                if (applied.getDocumentNumber().equals(invoiceApplication.getDocumentNumber())) {
+                    appliedToIndividualDetails.remove(i);
+                }
+            }
+            
+            // create and validate the paid applieds for each invoice detail
+            String fieldName = "invoiceApplications[" + invoiceDocNumber + "].quickApply"; 
+            for (PaymentApplicationInvoiceDetailApply detailApplication : invoiceApplication.getDetailApplications()) {
+                InvoicePaidApplied paidApplied = generateAndValidateNewPaidApplied(detailApplication, fieldName);
+                if (paidApplied != null) {
+                    invoicePaidApplieds.add(paidApplied);
+                }
+            }
+            
+            //  disable the quickApply value, so it doesnt show up checked next time 
+            invoiceApplication.setQuickApply(false);
+            
+            //  maintain the selected doc number
+            if (invoiceDocNumber.equals(paymentApplicationDocumentForm.getEnteredInvoiceDocumentNumber())) {
+                paymentApplicationDocumentForm.setSelectedInvoiceDocumentNumber(invoiceDocNumber);
             }
         }
         
@@ -495,11 +463,10 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
     private void loadInvoices(PaymentApplicationDocumentForm applicationDocumentForm, String selectedInvoiceNumber) throws WorkflowException {
         PaymentApplicationDocument applicationDocument = applicationDocumentForm.getPaymentApplicationDocument();
         String customerNumber = applicationDocument.getAccountsReceivableDocumentHeader() == null ? null : applicationDocument.getAccountsReceivableDocumentHeader().getCustomerNumber();
-        //String currentInvoiceNumber = applicationDocumentForm.getEnteredInvoiceDocumentNumber();
         String currentInvoiceNumber = selectedInvoiceNumber;
 
         // if customer number is null but invoice number is not null then get the customer number based on the invoice number
-        if ((customerNumber == null || customerNumber.equals("")) && (currentInvoiceNumber != null && !currentInvoiceNumber.equals(""))) {
+        if (StringUtils.isBlank(customerNumber) && StringUtils.isNotBlank(currentInvoiceNumber)) {
             Customer customer = customerInvoiceDocumentService.getCustomerByInvoiceDocumentNumber(currentInvoiceNumber);
             customerNumber = customer.getCustomerNumber();
             applicationDocument.getAccountsReceivableDocumentHeader().setCustomerNumber(customerNumber);
@@ -509,10 +476,11 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         if(ObjectUtils.isNull(applicationDocumentForm.getInvoices()) || applicationDocumentForm.getInvoices().isEmpty()) {
             Collection<CustomerInvoiceDocument> openInvoicesForCustomer = customerInvoiceDocumentService.getOpenInvoiceDocumentsByCustomerNumber(customerNumber);
             applicationDocumentForm.setInvoices(new ArrayList<CustomerInvoiceDocument>(openInvoicesForCustomer));
+            applicationDocumentForm.setupInvoiceWrappers(applicationDocument.getDocumentNumber());
         }
 
         // if no invoice number entered than get the first invoice
-        if ((customerNumber != null && !customerNumber.equals("")) && (currentInvoiceNumber == null || "".equalsIgnoreCase(currentInvoiceNumber))) {
+        if (StringUtils.isNotBlank(customerNumber) && StringUtils.isBlank(currentInvoiceNumber)) {
             if (applicationDocumentForm.getInvoices() != null && applicationDocumentForm.getInvoices().size() > 0) {
                 currentInvoiceNumber = applicationDocumentForm.getInvoices().iterator().next().getDocumentNumber();
             }
@@ -522,13 +490,13 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         applicationDocumentForm.setSelectedInvoiceDocumentNumber(currentInvoiceNumber);
         applicationDocumentForm.setEnteredInvoiceDocumentNumber(currentInvoiceNumber);
 
-        if (currentInvoiceNumber != null && !currentInvoiceNumber.equals("")) {
-            // load information for the current selected invoice
+        // load information for the current selected invoice
+        if (StringUtils.isNotBlank(currentInvoiceNumber)) {
             applicationDocumentForm.setSelectedInvoiceDocumentNumber(currentInvoiceNumber);
-            //applicationDocumentForm.setSelectedInvoiceDocument(customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(currentInvoiceNumber));
         }
+        
     }
-
+    
     /**
      * This method updates the customer invoice details when a new invoice is selected
      * 

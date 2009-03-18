@@ -36,7 +36,7 @@ public class PaymentApplicationIsFullBalanceAppliedValidation extends GenericVal
         PaymentApplicationDocument paymentApplicationDocument = getDocument();
 
         //  dont let PayApp docs started from CashControl docs through if not all funds are applied
-        if (paymentApplicationDocument.hasCashControlDocument()) {
+        if (paymentApplicationDocument.hasCashControlDetail()) {
             KualiDecimal balanceToBeApplied;
             balanceToBeApplied = paymentApplicationDocument.getUnallocatedBalance();
             if (!KualiDecimal.ZERO.equals(balanceToBeApplied)) {

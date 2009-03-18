@@ -39,6 +39,41 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 	 */
 	public InvoicePaidApplied() {}
 	
+	public InvoicePaidApplied(String documentNumber, String refInvoiceDocNumber, Integer invoiceSequenceNumber, KualiDecimal appliedAmount, 
+	        Integer paidAppliedItemNumber, Integer universityFiscalYear, String universityFiscalPeriodCode) {
+        this.documentNumber = documentNumber;
+        this.financialDocumentReferenceInvoiceNumber = refInvoiceDocNumber;
+        this.invoiceItemNumber = invoiceSequenceNumber;
+        this.paidAppliedItemNumber = paidAppliedItemNumber;
+        this.invoiceItemAppliedAmount = appliedAmount;
+        this.universityFiscalYear = universityFiscalYear;
+        this.universityFiscalPeriodCode = universityFiscalPeriodCode;
+	}
+	
+	/**
+	 * 
+	 * Constructs a InvoicePaidApplied object, and assumes the current Fiscal Year 
+	 * and FiscalPeriodCode.
+	 * 
+	 * @param documentNumber
+	 * @param refInvoiceDocNumber
+	 * @param invoiceSequenceNumber
+	 * @param appliedAmount
+	 * @param paidAppliedItemNumber
+	 */
+	public InvoicePaidApplied(String documentNumber, String refInvoiceDocNumber, Integer invoiceSequenceNumber, KualiDecimal appliedAmount, 
+            Integer paidAppliedItemNumber) {
+	    this.documentNumber = documentNumber;
+	    this.financialDocumentReferenceInvoiceNumber = refInvoiceDocNumber;
+	    this.invoiceItemNumber = invoiceSequenceNumber;
+	    this.paidAppliedItemNumber = paidAppliedItemNumber;
+	    this.invoiceItemAppliedAmount = appliedAmount;
+	    
+	    UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
+        this.universityFiscalYear = universityDateService.getCurrentFiscalYear();
+        this.universityFiscalPeriodCode = universityDateService.getCurrentUniversityDate().getAccountingPeriod().getUniversityFiscalPeriodCode();
+	}
+	
     public DocumentService getDocumentService() {
         if(null == documentService) {
             documentService = SpringContext.getBean(DocumentService.class);

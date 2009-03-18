@@ -28,15 +28,17 @@ public class PaymentApplicationInvoiceApply implements Serializable {
     private CustomerInvoiceDocument invoice;
     private List<PaymentApplicationInvoiceDetailApply> detailApplications;
     
+    private String payAppDocNumber;
     private boolean quickApply;
     
-    public PaymentApplicationInvoiceApply(CustomerInvoiceDocument invoice) {
+    public PaymentApplicationInvoiceApply(String payAppDocNumber, CustomerInvoiceDocument invoice) {
         this.invoice = invoice;
         this.detailApplications = new ArrayList<PaymentApplicationInvoiceDetailApply>();
         for (CustomerInvoiceDetail invoiceDetail : invoice.getCustomerInvoiceDetailsWithoutDiscounts()) {
-            this.detailApplications.add(new PaymentApplicationInvoiceDetailApply(invoiceDetail));
+            this.detailApplications.add(new PaymentApplicationInvoiceDetailApply(payAppDocNumber, invoiceDetail));
         }
         this.quickApply = false;
+        this.payAppDocNumber = payAppDocNumber;
     }
 
     public KualiDecimal getAmountToApply() {
@@ -45,6 +47,15 @@ public class PaymentApplicationInvoiceApply implements Serializable {
             applyAmount = applyAmount.add(detailApplication.getAmountApplied());
         }
         return applyAmount;
+    }
+    
+    public boolean hasAnyAppliedAmounts() {
+        for (PaymentApplicationInvoiceDetailApply detailApplication : detailApplications) {
+            if (detailApplication.getAmountApplied().isGreaterThan(KualiDecimal.ZERO)) {
+                return true;
+            }
+        }
+        return false;
     }
     
     public List<PaymentApplicationInvoiceDetailApply> getDetailApplications() {
@@ -64,7 +75,19 @@ public class PaymentApplicationInvoiceApply implements Serializable {
     }
 
     public void setQuickApply(boolean quickApply) {
+        boolean turnedOn = (!this.quickApply && quickApply);
+        //boolean turnedOff = (this.quickApply && !quickApply);
         this.quickApply = quickApply;
+        if (turnedOn) {
+            for (PaymentApplicationInvoiceDetailApply detailApplication : detailApplications) {
+                detailApplication.setFullApply(true);
+            }
+        }
+        //if (turnedOff) {
+        //    for (PaymentApplicationInvoiceDetailApply detailApplication : detailApplications) {
+        //        detailApplication.setFullApply(false);
+        //    }
+        //}
     }
 
     public CustomerInvoiceDocument getInvoice() {

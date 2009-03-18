@@ -23,20 +23,60 @@ import org.kuali.rice.kns.util.KualiDecimal;
 
 public class PaymentApplicationInvoiceDetailApply implements Serializable {
 
+    private static final int DEFAULT_PAID_APPLIED_ITEM_NUMBER = 0;
+    
     private CustomerInvoiceDetail invoiceDetail;
+    private InvoicePaidApplied paidApplied;
     
     private KualiDecimal amountApplied;
     private boolean fullApply;
+    private String payAppDocNumber;
     
-    public PaymentApplicationInvoiceDetailApply(CustomerInvoiceDetail invoiceDetail) {
+    public PaymentApplicationInvoiceDetailApply(String payAppDocNumber, CustomerInvoiceDetail invoiceDetail) {
         this.invoiceDetail = invoiceDetail;
         this.amountApplied = KualiDecimal.ZERO;
         this.fullApply = false;
+        this.paidApplied = new InvoicePaidApplied();
+        this.payAppDocNumber = payAppDocNumber;
     }
 
     public InvoicePaidApplied generatePaidApplied() {
-        //TODO finish this
-        return null;
+        InvoicePaidApplied paidApplied = new InvoicePaidApplied(payAppDocNumber, invoiceDetail.getDocumentNumber(), 
+                invoiceDetail.getSequenceNumber(), amountApplied, DEFAULT_PAID_APPLIED_ITEM_NUMBER);
+        return paidApplied;
+    }
+
+    public KualiDecimal getAmountOpen() {
+        return invoiceDetail.getAmountOpen().subtract(amountApplied);
+    }
+    
+    public KualiDecimal getAmountApplied() {
+        return amountApplied;
+    }
+
+    public void setAmountApplied(KualiDecimal amountApplied) {
+        if (amountApplied == null) {
+            this.amountApplied = KualiDecimal.ZERO;
+        }
+        else {
+            this.amountApplied = amountApplied;
+        }
+    }
+
+    public boolean isFullApply() {
+        return fullApply;
+    }
+
+    public void setFullApply(boolean fullApply) {
+        boolean turnedOn = (!this.fullApply && fullApply);
+        boolean turnedOff = (this.fullApply && !fullApply);
+        this.fullApply = fullApply;
+        if (turnedOn) {
+            this.amountApplied = this.invoiceDetail.getAmountOpen();
+        }
+        else if (turnedOff) {
+            this.amountApplied = KualiDecimal.ZERO;
+        }
     }
 
     public CustomerInvoiceDetail getInvoiceDetail() {
@@ -67,24 +107,4 @@ public class PaymentApplicationInvoiceDetailApply implements Serializable {
         return invoiceDetail.getAmount();
     }
     
-    public KualiDecimal getAmountOpen() {
-        return invoiceDetail.getAmountOpen().subtract(amountApplied);
-    }
-    
-    public KualiDecimal getAmountApplied() {
-        return amountApplied;
-    }
-
-    public void setAmountApplied(KualiDecimal amountApplied) {
-        this.amountApplied = amountApplied;
-    }
-
-    public boolean isFullApply() {
-        return fullApply;
-    }
-
-    public void setFullApply(boolean applyFullAmount) {
-        this.fullApply = applyFullAmount;
-    }
-
 }

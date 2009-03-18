@@ -43,16 +43,11 @@ public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocument
         // Validate the applied payments
         int appliedAmountIndex = 0;
         for(InvoicePaidApplied invoicePaidApplied : paymentApplicationDocument.getInvoicePaidApplieds()) {
-            try {
-                String fieldName = ArPropertyConstants.PaymentApplicationDocumentFields.AMOUNT_TO_BE_APPLIED_LINE_N;
-                fieldName = StringUtils.replace(fieldName, "{0}", new Integer(appliedAmountIndex).toString());
-                if(!PaymentApplicationDocumentRuleUtil.validateInvoicePaidApplied(invoicePaidApplied, fieldName)) {
-                    isValid = false;
-                    LOG.info("One of the invoice paid applieds for the payment application document is not valid.");
-                }
-            } catch(WorkflowException workflowException) {
+            String fieldName = ArPropertyConstants.PaymentApplicationDocumentFields.AMOUNT_TO_BE_APPLIED_LINE_N;
+            fieldName = StringUtils.replace(fieldName, "{0}", new Integer(appliedAmountIndex).toString());
+            if(!PaymentApplicationDocumentRuleUtil.validateInvoicePaidApplied(invoicePaidApplied, fieldName)) {
                 isValid = false;
-                LOG.error("Workflow exception encountered when trying to validate invoiced paid applied on payment application document.", workflowException);
+                LOG.info("One of the invoice paid applieds for the payment application document is not valid.");
             }
             appliedAmountIndex++;
         }

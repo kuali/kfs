@@ -251,6 +251,8 @@ public class CashControlDetail extends PersistableBusinessObjectBase {
                 }
                 cashControlDocument = (CashControlDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(n);
             }
+            //TODO Andrew - this probably shouldnt throw an exception, because sometimes its okay for there not 
+            //     to be a document ... but how can a detail ever exist without a parent document?
             catch (WorkflowException e) {
                 throw new RuntimeException("WorkflowException caught while trying to load CashControl Document #" + referenceFinancialDocumentNumber + ".", e);
             }

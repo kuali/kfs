@@ -52,7 +52,7 @@ public class PaymentApplicationDocumentRuleUtil {
      * @param invoicePaidApplied
      * @return
      */
-    public static boolean validateInvoicePaidApplied(InvoicePaidApplied invoicePaidApplied, String fieldName) throws WorkflowException {
+    public static boolean validateInvoicePaidApplied(InvoicePaidApplied invoicePaidApplied, String fieldName) {
         boolean isValid = true;
         
         invoicePaidApplied.refreshReferenceObject("invoiceDetail");
@@ -84,9 +84,15 @@ public class PaymentApplicationDocumentRuleUtil {
         // Can't apply more than the amount received via the related CashControlDocument
         String docNumber = invoicePaidApplied.getDocumentNumber();
         DocumentService docService = SpringContext.getBean(DocumentService.class);
-        PaymentApplicationDocument paymentApplicationDocument = (PaymentApplicationDocument) docService.getByDocumentHeaderId(docNumber);
+        PaymentApplicationDocument paymentApplicationDocument;
+        try {
+            paymentApplicationDocument = (PaymentApplicationDocument) docService.getByDocumentHeaderId(docNumber);
+        }
+        catch (WorkflowException e) {
+            throw new RuntimeException("A WorkflowException was thrown while trying to retrieve PayApp doc #" + docNumber + ".", e);
+        }
         if(null != paymentApplicationDocument) {
-            KualiDecimal totalFromCashControl = paymentApplicationDocument.getTotalFromCashControl();
+            KualiDecimal totalFromCashControl = paymentApplicationDocument.getTotalFromControl();
             if(amountPaid.isGreaterThan(totalFromCashControl)) {
                 isValid = false;
                 GlobalVariables.getErrorMap().putError(
@@ -110,7 +116,7 @@ public class PaymentApplicationDocumentRuleUtil {
             invoicePaidApplied.refreshReferenceObject("invoiceDetail");
             appliedTotal = appliedTotal.add(invoicePaidApplied.getInvoiceItemAppliedAmount());
         }
-        return paymentApplicationDocument.getTotalFromCashControl().isGreaterEqual(appliedTotal);
+        return paymentApplicationDocument.getTotalFromControl().isGreaterEqual(appliedTotal);
     }
 
     /**
@@ -137,7 +143,7 @@ public class PaymentApplicationDocumentRuleUtil {
      * @throws WorkflowException
      */
     public static boolean validateNonInvoicedAmountDoesntExceedCashControlTotal(PaymentApplicationDocument paymentApplicationDocument) throws WorkflowException {
-        return paymentApplicationDocument.getTotalFromCashControl().isGreaterEqual(paymentApplicationDocument.getSumOfNonInvoiceds());
+        return paymentApplicationDocument.getTotalFromControl().isGreaterEqual(paymentApplicationDocument.getSumOfNonInvoiceds());
     }
     
     /**
@@ -163,7 +169,7 @@ public class PaymentApplicationDocumentRuleUtil {
         if(null == a) {
             return true;
         }
-        return paymentApplicationDocument.getTotalFromCashControl().isGreaterEqual(a);
+        return paymentApplicationDocument.getTotalFromControl().isGreaterEqual(a);
     }
     
     /**
@@ -208,7 +214,7 @@ public class PaymentApplicationDocumentRuleUtil {
                 ArKeyConstants.PaymentApplicationDocumentErrors.NON_AR_AMOUNT_REQUIRED);
         } else {
             KualiDecimal cashControlBalanceToBeApplied = new KualiDecimal(0);
-            cashControlBalanceToBeApplied = cashControlBalanceToBeApplied.add(paymentApplicationDocument.getTotalFromCashControl());
+            cashControlBalanceToBeApplied = cashControlBalanceToBeApplied.add(paymentApplicationDocument.getTotalFromControl());
             cashControlBalanceToBeApplied.subtract(paymentApplicationDocument.getTotalApplied());
             cashControlBalanceToBeApplied.subtract(paymentApplicationDocument.getNonAppliedHoldingAmount());
             
@@ -265,9 +271,9 @@ public class PaymentApplicationDocumentRuleUtil {
         
         KualiDecimal detailAmount = customerInvoiceDetail.getAmount();
         KualiDecimal amountAppliedByAllOtherDocuments = 
-            customerInvoiceDetail.getAmountAppliedExcludingAnyAmountAppliedBy(paymentApplicationDocument);
+            customerInvoiceDetail.getAmountAppliedExcludingAnyAmountAppliedBy(paymentApplicationDocument.getDocumentNumber());
         KualiDecimal amountAppliedByThisDocument = 
-            customerInvoiceDetail.getAmountAppliedBy(paymentApplicationDocument);
+            customerInvoiceDetail.getAmountAppliedBy(paymentApplicationDocument.getDocumentNumber());
         KualiDecimal totalAppliedAmount = 
             amountAppliedByAllOtherDocuments.add(amountAppliedByThisDocument);
         

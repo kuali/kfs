@@ -18,7 +18,7 @@
 <%@ attribute name="readOnly" required="true" description="If document is in read only mode"%>
 <%@ attribute name="isCustomerSelected" required="true" description="Whether or not the customer is set" %>
 
-<c:set var="invoicesByDocumentNumber" value="${KualiForm.invoicesByDocumentNumber}" scope="request" />
+<c:set var="invoiceApplicationsByDocumentNumber" value="${KualiForm.invoiceApplicationsByDocumentNumber}" scope="request" />
 
     <kul:tab tabTitle="Quick Apply to Invoice"
         defaultOpen="${isCustomerSelected}"
@@ -38,24 +38,37 @@
 	                            <th>Quick Apply</th>
 	                        </c:if>
                         </tr>
-                        <logic:iterate name="KualiForm" property="invoices" id="invoice" indexId="idx">
+                     <c:choose>
+                     <c:when test="${quickAppliableInvoiceApplications.isEmpty}">
+                     	<tr><td colspan="3">No Invoices Are Available for QuickApply</td></tr>
+                     </c:when>
+                     <c:otherwise>
+                        <logic:iterate name="KualiForm" property="quickAppliableInvoiceApplications" id="invoiceApplication" indexId="idx">
                         
                             <tr>
                                 <td>
-                                    <bean:write name="invoice" property="documentNumber" />
+									<kul:htmlControlAttribute
+										attributeEntry="${invoiceAttributes.documentNumber}"
+										property="invoiceApplications[${idx}].documentNumber" readOnly="true" />
+                                    <!--<bean:write name="invoiceApplication" property="documentNumber" />-->
                                 </td>
                                 <td style="text-align: right;">
-                                    $<bean:write name="invoice" property="openAmount" />
+									<kul:htmlControlAttribute
+										attributeEntry="${invoiceAttributes.openAmount}"
+										property="invoiceApplications[${idx}].openAmount" readOnly="true" />
+                                    <!-- $<bean:write name="invoiceApplication" property="openAmount" />-->
                                 </td>
 								<c:if test="${readOnly ne true}">
 	                                <td>
 	                                	<center>
-		                                    <html:checkbox property="invoices[${idx}].quickApply" value="1" />
+		                                    <html:checkbox property="invoiceApplications[${idx}].quickApply" value="1" />
 		                                </center>
 	                                </td>
 	                            </c:if>
                             </tr>
                         </logic:iterate>
+                      </c:otherwise>
+                      </c:choose>
 						<c:if test="${readOnly ne true}">
 	                        <tr>
 	                            <td colspan='3' style='text-align: right;'>

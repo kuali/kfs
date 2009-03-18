@@ -8,7 +8,7 @@
       <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="HasNewUnorderedItems"/>
-          <split name="HasNewUnorderedItems" nextNode="Join">
+          <split name="HasNewUnorderedItems" nextNode="Account">
             <branch name="True">
               <requests name="NewUnorderedItems" nextNode="Join"/>
             </branch>
@@ -17,6 +17,7 @@
             </branch>
             <join name="Join"/>
           </split>
+          <requests name="Account"/>
         </routePath>
       </routePaths>
       <routeNodes>
@@ -29,6 +30,12 @@
         </simple>
         <join name="Join"/>
         <role name="NewUnorderedItems">
+
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="Account">
+
           <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
           <activationType>P</activationType>
         </role>

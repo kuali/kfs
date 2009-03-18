@@ -33,6 +33,7 @@ import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.dataaccess.EncumbranceDao;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.Message;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,14 +65,15 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
      * @param t the transaction to verify
      * @return a List of error messages, as Strings
      */
-    public List verifyTransaction(Transaction t) {
+    public List<Message> verifyTransaction(Transaction t) {
         LOG.debug("verifyTransaction() started");
 
-        List errors = new ArrayList();
+        //TODO:  Shawn - need to check with Jeff because there is no this method in FIS 
+        List<Message> errors = new ArrayList();
 
         // The encumbrance update code can only be space, N, R or D. Nothing else
         if ((StringUtils.isNotBlank(t.getTransactionEncumbranceUpdateCode())) && (!" ".equals(t.getTransactionEncumbranceUpdateCode())) && (!KFSConstants.ENCUMB_UPDT_NO_ENCUMBRANCE_CD.equals(t.getTransactionEncumbranceUpdateCode())) && (!KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdateCode())) && (!KFSConstants.ENCUMB_UPDT_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdateCode()))) {
-            errors.add("Invalid Encumbrance Update Code (" + t.getTransactionEncumbranceUpdateCode() + ")");
+            errors.add(new Message("Invalid Encumbrance Update Code (" + t.getTransactionEncumbranceUpdateCode() + ")", Message.TYPE_FATAL));
         }
 
         return errors;

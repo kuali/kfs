@@ -74,7 +74,7 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Commodity Description" />
     <property name="shortLabel" value="Comm Desc" />
-    <property name="maxLength" value="45" />
+    <property name="maxLength" value="200" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
             p:allowWhitespace="true" />

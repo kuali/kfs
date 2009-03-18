@@ -20,6 +20,7 @@
               
 <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 <c:set var="vendorReadOnly" value="${(not empty KualiForm.editingMode['lockVendorEntry'])}" />
+<c:set var="tabindexOverrideBase" value="10" />
 
 <kul:tab tabTitle="Vendor" defaultOpen="${true}" tabErrorKey="${PurapConstants.BULK_RECEIVING_VENDOR_TAB_ERRORS}">
     <div class="tab-container" align=center>
@@ -133,7 +134,8 @@
 	                <td align=left valign=middle class="datacell" width="25%">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorName}" 
 	                    						  property="document.vendorName" 
-	                    						  readOnly="${not (fullEntryMode) or vendorReadOnly}" />
+	                    						  readOnly="${not (fullEntryMode) or vendorReadOnly}" 
+	                    						  tabindexOverride="${tabindexOverrideBase + 0}"/>
 	                    <c:if test="${fullEntryMode}" >
 	                        <kul:lookup  boClassName="org.kuali.kfs.vnd.businessobject.VendorDetail" 
 	                        			 lookupParameters="'Y':activeIndicator, 'PO':vendorHeader.vendorTypeCode"
@@ -144,7 +146,7 @@
 	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorCityName}" /></div>
 	                </th>
 	                <td align=left valign=middle class="datacell" width="25%">
-	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorCityName}" property="document.vendorCityName" readOnly="${not fullEntryMode}" />
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorCityName}" property="document.vendorCityName" readOnly="${not fullEntryMode}" tabindexOverride="${tabindexOverrideBase + 5}"/>
 	                </td>
 	            </tr>
 	
@@ -159,7 +161,7 @@
 	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorStateCode}" /></div>
 	                </th>
 	                <td align=left valign=middle class="datacell">
-	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorStateCode}" property="document.vendorStateCode" readOnly="${not fullEntryMode}" />
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorStateCode}" property="document.vendorStateCode" readOnly="${not fullEntryMode}" tabindexOverride="${tabindexOverrideBase + 5}"/>
 	                </td>
 	            </tr>
 	
@@ -170,7 +172,8 @@
 	                <td align=left valign=middle class="datacell">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorLine1Address}" 
 	                    						  property="document.vendorLine1Address" 
-	                    						  readOnly="${not fullEntryMode}" />
+	                    						  readOnly="${not fullEntryMode}" 
+	                    						  tabindexOverride="${tabindexOverrideBase + 0}"/>
 	                    <c:if test="${fullEntryMode}">
 	                        <kul:lookup  boClassName="org.kuali.kfs.vnd.businessobject.VendorAddress" 
 	                        			 readOnlyFields="active, vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier" 
@@ -182,7 +185,7 @@
 						<kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorAddressInternationalProvinceName}" />
 	                </th>
 	                <td align=left valign=middle class="datacell">
-	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorAddressInternationalProvinceName}" property="document.vendorAddressInternationalProvinceName" readOnly="${not fullEntryMode}" />
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorAddressInternationalProvinceName}" property="document.vendorAddressInternationalProvinceName" readOnly="${not fullEntryMode}" tabindexOverride="${tabindexOverrideBase + 5}"/>
 	                </td>
 	            </tr>
 	
@@ -191,13 +194,13 @@
 	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorLine2Address}" /></div>
 	                </th>
 	                <td align=left valign=middle class="datacell">
-	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorLine2Address}" property="document.vendorLine2Address" readOnly="${not fullEntryMode}" />
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorLine2Address}" property="document.vendorLine2Address" readOnly="${not fullEntryMode}" tabindexOverride="${tabindexOverrideBase + 0}"/>
 	                </td>
 	                <th align=right valign=middle class="bord-l-b">
 	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorPostalCode}" /></div>
 	                </th>
 					<td align=left valign=middle class="datacell">
-						<kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorPostalCode}" property="document.vendorPostalCode" readOnly="${not fullEntryMode}" />
+						<kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorPostalCode}" property="document.vendorPostalCode" readOnly="${not fullEntryMode}" tabindexOverride="${tabindexOverrideBase + 5}"/>
 					</td>
 	            </tr>
 	            
@@ -224,7 +227,8 @@
 	            	<td align=left valign=middle class="datacell">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorCountryCode}" property="document.vendorCountryCode"
 	                    extraReadOnlyProperty="document.vendorCountry.postalCountryName" 
-	                    readOnly="${not fullEntryMode}" />
+	                    readOnly="${not fullEntryMode}" 
+	                    tabindexOverride="${tabindexOverrideBase + 5}"/>
 	            	</td>
 	            </tr>
             
@@ -241,7 +245,7 @@
                    	 <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.trackingNumber}" /></div>
                  </th>
                  <td align=left valign=middle class="datacell">
-                   	 <kul:htmlControlAttribute attributeEntry="${documentAttributes.trackingNumber}" property="document.trackingNumber" readOnly="${not fullEntryMode}"/>
+                   	 <kul:htmlControlAttribute attributeEntry="${documentAttributes.trackingNumber}" property="document.trackingNumber" readOnly="${not fullEntryMode}" tabindexOverride="${tabindexOverrideBase + 0}"/>
                  </td>
 				 <th align=right valign=middle class="bord-l-b">
 	                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.shipmentReceivedDate}" /></div>
@@ -261,7 +265,7 @@
                   		<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.shipmentReferenceNumber}" /></div>
                 </th>
    	            <td align=left valign=middle class="datacell">
-       	           <kul:htmlControlAttribute attributeEntry="${documentAttributes.shipmentReferenceNumber}" property="document.shipmentReferenceNumber" readOnly="${not fullEntryMode}"/>
+       	           <kul:htmlControlAttribute attributeEntry="${documentAttributes.shipmentReferenceNumber}" property="document.shipmentReferenceNumber" readOnly="${not fullEntryMode}" tabindexOverride="${tabindexOverrideBase + 5}"/>
            	    </td>
             </tr>
             <tr>
@@ -283,13 +287,13 @@
                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.shipmentWeight}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.shipmentWeight}" property="document.shipmentWeight" readOnly="${not fullEntryMode}"/>
+                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.shipmentWeight}" property="document.shipmentWeight" readOnly="${not fullEntryMode}" tabindexOverride="${tabindexOverrideBase + 0}"/>
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                   		<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.noOfCartons}" /></div>
                	</th>
                	<td align=left valign=middle class="datacell">
-                  		<kul:htmlControlAttribute attributeEntry="${documentAttributes.noOfCartons}" property="document.noOfCartons" readOnly="${not fullEntryMode}"/>
+                  		<kul:htmlControlAttribute attributeEntry="${documentAttributes.noOfCartons}" property="document.noOfCartons" readOnly="${not fullEntryMode}" tabindexOverride="${tabindexOverrideBase + 5}"/>
                	</td>
             </tr>    
       </table> <%-- If PO not available --%>

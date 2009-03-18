@@ -19,6 +19,7 @@
 
 <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 <c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
+<c:set var="tabindexOverrideBase" value="10" />
 
 <kul:tab tabTitle="Items" defaultOpen="true" tabErrorKey="${PurapConstants.ITEM_TAB_ERRORS}">
 	<div class="tab-container" align=center>
@@ -143,19 +144,19 @@
 			    <kul:htmlControlAttribute
 				    attributeEntry="${itemAttributes.itemReceivedTotalQuantity}"
 				    property="document.item[${ctr}].itemReceivedTotalQuantity"
-				    readOnly="${not (fullEntryMode)}" />
+				    readOnly="${not (fullEntryMode)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
 			</td>
 			<td class="infoline">
 			    <kul:htmlControlAttribute
 				    attributeEntry="${itemAttributes.itemReturnedTotalQuantity}"
 				    property="document.item[${ctr}].itemReturnedTotalQuantity"
-				    readOnly="${not (fullEntryMode)}" />
+				    readOnly="${not (fullEntryMode)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
 			</td>
 			<td class="infoline">
 			    <kul:htmlControlAttribute
 				    attributeEntry="${itemAttributes.itemDamagedTotalQuantity}"
 				    property="document.item[${ctr}].itemDamagedTotalQuantity"
-				    readOnly="${not (fullEntryMode)}" />
+				    readOnly="${not (fullEntryMode)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
 			</td>
 		</tr>
 

@@ -22,6 +22,7 @@
 
 <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 <c:set var="notOtherDeliveryBuilding" value="${not KualiForm.document.deliveryBuildingOtherIndicator}" />
+<c:set var="tabindexOverrideBase" value="20" />
               
 <kul:tab tabTitle="Delivery" defaultOpen="true" tabErrorKey="${PurapConstants.BULK_RECEIVING_DELIVERY_TAB_ERRORS}">
     <div class="tab-container" align=center>
@@ -137,7 +138,7 @@
 	                </th>
 	                <td align=left valign=middle class="datacell">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryToName}" 
-	                    	property="document.deliveryToName" readOnly="${not (fullEntryMode)}"/>
+	                    	property="document.deliveryToName" readOnly="${not (fullEntryMode)}" tabindexOverride="${tabindexOverrideBase + 5}"/>
 	                    <c:if test="${fullEntryMode}">
 	                        <kul:lookup boClassName="org.kuali.rice.kim.bo.Person" 
 	                        	fieldConversions="name:document.deliveryToName,emailAddress:document.deliveryToEmailAddress,phoneNumber:document.deliveryToPhoneNumber"/>
@@ -165,7 +166,7 @@
 	                </th>
 	                <td align=left valign=middle class="datacell">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryToPhoneNumber}" 
-	                    	property="document.deliveryToPhoneNumber" readOnly="${not (fullEntryMode)}"/>
+	                    	property="document.deliveryToPhoneNumber" readOnly="${not (fullEntryMode)}" tabindexOverride="${tabindexOverrideBase + 5}"/>
 	                </td>
 	            </tr>
 				
@@ -175,14 +176,14 @@
 	                </th>
 	                <td align=left valign=middle class="datacell">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingLine1Address}" 
-	                    	property="document.deliveryBuildingLine1Address"  readOnly="${notOtherDeliveryBuilding or not fullEntryMode}"/>
+	                    	property="document.deliveryBuildingLine1Address"  readOnly="${notOtherDeliveryBuilding or not fullEntryMode}" tabindexOverride="${tabindexOverrideBase + 0}"/>
 	                </td>
 	                <th align=right valign=middle class="bord-l-b">
 	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryToEmailAddress}"/></div>
 	                </th>
 	                <td align=left valign=middle class="datacell">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryToEmailAddress}" 
-	                    	property="document.deliveryToEmailAddress" readOnly="${not (fullEntryMode)}"/>
+	                    	property="document.deliveryToEmailAddress" readOnly="${not (fullEntryMode)}" tabindexOverride="${tabindexOverrideBase + 5}"/>
 	                </td>
 				</tr>
 				
@@ -192,14 +193,14 @@
 	                </th>
 	                <td align=left valign=middle class="datacell">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingLine2Address}" 
-	                    	property="document.deliveryBuildingLine2Address" readOnly="${not (fullEntryMode)}"/>
+	                    	property="document.deliveryBuildingLine2Address" readOnly="${not (fullEntryMode)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
 	                </td>			
 	                <th align=right valign=middle class="bord-l-b" rowspan="3">
 	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryInstructionText}"/></div>
 	                </th>
 	                <td align=left valign=middle class="datacell"  rowspan="3">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryInstructionText}" 
-	                    	property="document.deliveryInstructionText" readOnly="${not (fullEntryMode)}"/>
+	                    	property="document.deliveryInstructionText" readOnly="${not (fullEntryMode)}" tabindexOverride="${tabindexOverrideBase + 5}"/>
 	                </td>
 				</tr>
 				<tr>
@@ -208,7 +209,7 @@
 	                </th>
 	                <td align=left valign=middle class="datacell">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingRoomNumber}" 
-	                    	property="document.deliveryBuildingRoomNumber" readOnly="${not (fullEntryMode)}"/>
+	                    	property="document.deliveryBuildingRoomNumber" readOnly="${not (fullEntryMode)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
 	                </td>	
 				</tr>
 				
@@ -218,7 +219,7 @@
 	                </th>
 	                <td align=left valign=middle class="datacell">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryCityName}" 
-	                    	property="document.deliveryCityName" readOnly="${notOtherDeliveryBuilding or not fullEntryMode}"/>
+	                    	property="document.deliveryCityName" readOnly="${notOtherDeliveryBuilding or not fullEntryMode}" tabindexOverride="${tabindexOverrideBase + 0}"/>
 	                </td>
 	            </tr>
 	            <tr>			
@@ -227,7 +228,7 @@
 	                </th>
 	                <td align=left valign=middle class="datacell">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryStateCode}" 
-	                    	property="document.deliveryStateCode" readOnly="${notOtherDeliveryBuilding or not fullEntryMode}"/>
+	                    	property="document.deliveryStateCode" readOnly="${notOtherDeliveryBuilding or not fullEntryMode}" tabindexOverride="${tabindexOverrideBase + 0}"/>
 	                </td>
 	                <th align=right valign=middle class="bord-l-b">&nbsp;</th>
 					<td align=left valign=middle class="datacell">&nbsp;</td>
@@ -238,7 +239,7 @@
 	                </th>
 	                <td align=left valign=middle class="datacell">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryPostalCode}" 
-	                    	property="document.deliveryPostalCode" readOnly="${notOtherDeliveryBuilding or not fullEntryMode}"/>
+	                    	property="document.deliveryPostalCode" readOnly="${notOtherDeliveryBuilding or not fullEntryMode}" tabindexOverride="${tabindexOverrideBase + 0}"/>
 	                </td>
                     <th align=right valign=middle class="bord-l-b">&nbsp;</th>
                     <td align=left valign=middle class="datacell">&nbsp;</td>
@@ -251,7 +252,7 @@
                         <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryCountryCode}" 
                             property="document.deliveryCountryCode" 
                             extraReadOnlyProperty="document.deliveryCountryName"
-                            readOnly="${notOtherDeliveryBuilding or not fullEntryMode}"/>
+                            readOnly="${notOtherDeliveryBuilding or not fullEntryMode}" tabindexOverride="${tabindexOverrideBase + 0}"/>
                     </td>
                     <th align=right valign=middle class="bord-l-b">&nbsp;</th>
                     <td align=left valign=middle class="datacell">&nbsp;</td>
@@ -266,7 +267,7 @@
                     	<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.institutionContactName}" /></div>
                  	</th>
                 	<td align=left valign=middle class="datacell">
-	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.institutionContactName}" property="document.institutionContactName" readOnly="${not (fullEntryMode)}" />
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.institutionContactName}" property="document.institutionContactName" readOnly="${not (fullEntryMode)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
 	                    <c:if test="${(fullEntryMode)}" >
 	                        <kul:lookup boClassName="org.kuali.rice.kim.bo.Person" fieldConversions="name:document.institutionContactName,phoneNumber:document.institutionContactPhoneNumber,emailAddress:document.institutionContactEmailAddress" />
 	                    </c:if>
@@ -276,7 +277,7 @@
 	                </th>
 	                <td align=left valign=middle class="datacell"  rowspan="4">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryAdditionalInstructionText}" 
-	                    	property="document.deliveryAdditionalInstructionText" readOnly="${not (fullEntryMode)}"/>
+	                    	property="document.deliveryAdditionalInstructionText" readOnly="${not (fullEntryMode)}" tabindexOverride="${tabindexOverrideBase + 5}"/>
 	                </td>	
 				</tr>
 				<tr>
@@ -284,7 +285,7 @@
 	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.institutionContactPhoneNumber}" /></div>
 	                </th>
 	                <td align=left valign=middle class="datacell">
-	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.institutionContactPhoneNumber}" property="document.institutionContactPhoneNumber" readOnly="${not (fullEntryMode)}" />
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.institutionContactPhoneNumber}" property="document.institutionContactPhoneNumber" readOnly="${not (fullEntryMode)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
 	                </td>
 				</tr>
 				<tr>
@@ -292,7 +293,7 @@
 	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.institutionContactEmailAddress}" /></div>
 	                </th>
 	                <td align=left valign=middle class="datacell">
-	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.institutionContactEmailAddress}" property="document.institutionContactEmailAddress" readOnly="${not (fullEntryMode)}" />
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.institutionContactEmailAddress}" property="document.institutionContactEmailAddress" readOnly="${not (fullEntryMode)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
 	                </td>
 				</tr>
 			</c:if>	

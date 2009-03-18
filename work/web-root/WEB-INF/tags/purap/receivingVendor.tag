@@ -20,6 +20,7 @@
 
 <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 <c:set var="vendorReadOnly" value="${(not empty KualiForm.editingMode['lockVendorEntry'])}" />
+<c:set var="tabindexOverrideBase" value="10" />
 
 <kul:tab tabTitle="Vendor" defaultOpen="true" tabErrorKey="${PurapConstants.VENDOR_ERRORS}">
     <div class="tab-container" align=center>
@@ -96,7 +97,7 @@
     	        	<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.shipmentReceivedDate}" /></div>
             	</th>
             	<td align=left valign=middle class="datacell">
-	            	<kul:htmlControlAttribute attributeEntry="${documentAttributes.shipmentReceivedDate}" property="document.shipmentReceivedDate" readOnly="${vendorReadOnly || not(fullEntryMode)}" />
+	            	<kul:htmlControlAttribute attributeEntry="${documentAttributes.shipmentReceivedDate}" property="document.shipmentReceivedDate" readOnly="${vendorReadOnly || not(fullEntryMode)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
             	</td>
             	<th align=right valign=middle class="bord-l-b"> 
             	&nbsp;           		
@@ -111,13 +112,13 @@
 	            	<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.shipmentPackingSlipNumber}" /></div>
             	</th>
             	<td align=left valign=middle class="datacell">
-            		<kul:htmlControlAttribute attributeEntry="${documentAttributes.shipmentPackingSlipNumber}" property="document.shipmentPackingSlipNumber" readOnly="${vendorReadOnly || not(fullEntryMode)}" />
+            		<kul:htmlControlAttribute attributeEntry="${documentAttributes.shipmentPackingSlipNumber}" property="document.shipmentPackingSlipNumber" readOnly="${vendorReadOnly || not(fullEntryMode)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
             	</td>
             	<th align=right valign=middle class="bord-l-b"> 
             		<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.shipmentReferenceNumber}" /></div>           		
             	</th>
             	<td align=left valign=middle class="datacell">
-            		<kul:htmlControlAttribute attributeEntry="${documentAttributes.shipmentReferenceNumber}" property="document.shipmentReferenceNumber" readOnly="${vendorReadOnly || not(fullEntryMode)}" />
+            		<kul:htmlControlAttribute attributeEntry="${documentAttributes.shipmentReferenceNumber}" property="document.shipmentReferenceNumber" readOnly="${vendorReadOnly || not(fullEntryMode)}" tabindexOverride="${tabindexOverrideBase + 5}"/>
             	</td>
             </tr>
 
@@ -126,13 +127,13 @@
 	            	<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.shipmentBillOfLadingNumber}" /></div>
             	</th>
             	<td align=left valign=middle class="datacell">
-            		<kul:htmlControlAttribute attributeEntry="${documentAttributes.shipmentBillOfLadingNumber}" property="document.shipmentBillOfLadingNumber" readOnly="${vendorReadOnly || not(fullEntryMode)}" />
+            		<kul:htmlControlAttribute attributeEntry="${documentAttributes.shipmentBillOfLadingNumber}" property="document.shipmentBillOfLadingNumber" readOnly="${vendorReadOnly || not(fullEntryMode)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
             	</td>
             	<th align=right valign=middle class="bord-l-b"> 
             		<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.carrierCode}" /></div>           		
             	</th>
             	<td align=left valign=middle class="datacell">
-            		<kul:htmlControlAttribute attributeEntry="${documentAttributes.carrierCode}" property="document.carrierCode" readOnly="${vendorReadOnly || not(fullEntryMode)}" />
+            		<kul:htmlControlAttribute attributeEntry="${documentAttributes.carrierCode}" property="document.carrierCode" readOnly="${vendorReadOnly || not(fullEntryMode)}" tabindexOverride="${tabindexOverrideBase + 5}"/>
             	</td>
             </tr>
 

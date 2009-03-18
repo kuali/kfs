@@ -24,6 +24,7 @@
 <c:if test="${KualiForm.stateFinal}">
 	<c:set var="colCount" value="10"/>
 </c:if>
+<c:set var="tabindexOverrideBase" value="20" />
 
 <kul:tab tabTitle="Items" defaultOpen="true" tabErrorKey="${PurapConstants.ITEM_TAB_ERRORS}">
 	<div class="tab-container" align=center>
@@ -72,16 +73,16 @@
                 <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemLineNumber}" property="newLineItemReceivingItemLine.itemLineNumber" readOnly="${true}"/>
             </td>
 			<td class="infoline">
-			    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemCatalogNumber}" property="newLineItemReceivingItemLine.itemCatalogNumber" />
+			    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemCatalogNumber}" property="newLineItemReceivingItemLine.itemCatalogNumber" tabindexOverride="${tabindexOverrideBase + 0}"/>
 		    </td>
 			<td class="infoline">
-			    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="newLineItemReceivingItemLine.itemDescription" />
+			    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="newLineItemReceivingItemLine.itemDescription" tabindexOverride="${tabindexOverrideBase + 0}"/>
 		    </td>
 			<td class="infoline">
 			    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemOrderedQuantity}" property="newLineItemReceivingItemLine.itemOrderedQuantity" readOnly="${true}"/>
 		    </td>
 			<td class="infoline">
-			    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" property="newLineItemReceivingItemLine.itemUnitOfMeasureCode" />
+			    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" property="newLineItemReceivingItemLine.itemUnitOfMeasureCode" tabindexOverride="${tabindexOverrideBase + 0}"/>
 		    </td>
 
 			<c:if test="${KualiForm.stateFinal == false}">
@@ -95,16 +96,16 @@
 			</c:if>
 			
 			<td class="infoline">
-				<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemReceivedTotalQuantity}" property="newLineItemReceivingItemLine.itemReceivedTotalQuantity" />
+				<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemReceivedTotalQuantity}" property="newLineItemReceivingItemLine.itemReceivedTotalQuantity" tabindexOverride="${tabindexOverrideBase + 0}"/>
 			</td>
 			<td class="infoline">
-				<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemReturnedTotalQuantity}" property="newLineItemReceivingItemLine.itemReturnedTotalQuantity" />
+				<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemReturnedTotalQuantity}" property="newLineItemReceivingItemLine.itemReturnedTotalQuantity" tabindexOverride="${tabindexOverrideBase + 0}"/>
 			</td>
 			<td class="infoline">
-				<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDamagedTotalQuantity}" property="newLineItemReceivingItemLine.itemDamagedTotalQuantity" />
+				<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDamagedTotalQuantity}" property="newLineItemReceivingItemLine.itemDamagedTotalQuantity" tabindexOverride="${tabindexOverrideBase + 0}"/>
 			</td>
 			<td class="infoline">
-				<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemReasonAddedCode}" property="newLineItemReceivingItemLine.itemReasonAddedCode" />
+				<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemReasonAddedCode}" property="newLineItemReceivingItemLine.itemReasonAddedCode" tabindexOverride="${tabindexOverrideBase + 0}"/>
 			</td>
 
 			<td class="infoline">
@@ -218,25 +219,25 @@
 			    <kul:htmlControlAttribute
 				    attributeEntry="${itemAttributes.itemReceivedTotalQuantity}"
 				    property="document.item[${ctr}].itemReceivedTotalQuantity"
-				    readOnly="${not (fullEntryMode)}" />
+				    readOnly="${not (fullEntryMode)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
 			</td>
 			<td class="infoline">
 			    <kul:htmlControlAttribute
 				    attributeEntry="${itemAttributes.itemReturnedTotalQuantity}"
 				    property="document.item[${ctr}].itemReturnedTotalQuantity"
-				    readOnly="${not (fullEntryMode)}" />
+				    readOnly="${not (fullEntryMode)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
 			</td>
 			<td class="infoline">
 			    <kul:htmlControlAttribute
 				    attributeEntry="${itemAttributes.itemDamagedTotalQuantity}"
 				    property="document.item[${ctr}].itemDamagedTotalQuantity"
-				    readOnly="${not (fullEntryMode)}" />
+				    readOnly="${not (fullEntryMode)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
 			</td>
 			<td class="infoline">
 			    <kul:htmlControlAttribute
 				    attributeEntry="${itemAttributes.itemReasonAddedCode}"
 				    property="document.item[${ctr}].itemReasonAddedCode"
-				    readOnly="${not (fullEntryMode) or itemLine.itemLineNumber != null}" />
+				    readOnly="${not (fullEntryMode) or itemLine.itemLineNumber != null}" tabindexOverride="${tabindexOverrideBase + 0}"/>
 			</td>
 			<td class="infoline">
 			    &nbsp;

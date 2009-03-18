@@ -72,6 +72,9 @@
     <bean id="PurchaseOrderCloseDocument-workflowAttributes" parent="PurchaseOrderCloseDocument-workflowAttributes-parentBean"/>
   
     <bean id="PurchaseOrderCloseDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
+    	<property name="searchingTypeDefinitions">
+    		<ref bean="SearchingTypeDefinitions-PurchaseOrderDocumentFamily" />
+    	</property>
     </bean>
 
   

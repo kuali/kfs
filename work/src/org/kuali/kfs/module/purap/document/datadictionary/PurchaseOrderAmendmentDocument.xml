@@ -135,6 +135,9 @@
     <bean id="PurchaseOrderAmendmentDocument-workflowAttributes" parent="PurchaseOrderAmendmentDocument-workflowAttributes-parentBean"/>
 
     <bean id="PurchaseOrderAmendmentDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+    	<property name="searchingTypeDefinitions">
+    		<ref bean="SearchingTypeDefinitions-PurchaseOrderDocumentFamily" />
+    	</property>
     	<property name="routingTypeDefinitions">
     		<map>
     		    <!-- no qualifiers for HasNewUnorderedItems -->

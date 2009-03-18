@@ -29,6 +29,9 @@
     <bean id="PurchaseOrderPaymentHoldDocument-workflowAttributes" parent="PurchaseOrderPaymentHoldDocument-workflowAttributes-parentBean"/>
   
     <bean id="PurchaseOrderPaymentHoldDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
+    	<property name="searchingTypeDefinitions">
+    		<ref bean="SearchingTypeDefinitions-PurchaseOrderDocumentFamily" />
+    	</property> 
     </bean>
 
 </beans>

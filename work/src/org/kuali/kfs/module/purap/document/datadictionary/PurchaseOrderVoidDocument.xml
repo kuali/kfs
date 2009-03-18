@@ -71,6 +71,9 @@
     <bean id="PurchaseOrderVoidDocument-workflowAttributes" parent="PurchaseOrderVoidDocument-workflowAttributes-parentBean"/>
   
     <bean id="PurchaseOrderVoidDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
+    	<property name="searchingTypeDefinitions">
+    		<ref bean="SearchingTypeDefinitions-PurchaseOrderDocumentFamily" />
+    	</property>
     </bean>
       
   

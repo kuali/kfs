@@ -29,6 +29,9 @@
     <bean id="PurchaseOrderRetransmitDocument-workflowAttributes" parent="PurchaseOrderRetransmitDocument-workflowAttributes-parentBean"/>
   
     <bean id="PurchaseOrderRetransmitDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
+    	<property name="searchingTypeDefinitions">
+    		<ref bean="SearchingTypeDefinitions-PurchaseOrderDocumentFamily" />
+    	</property>
     </bean>
       
 

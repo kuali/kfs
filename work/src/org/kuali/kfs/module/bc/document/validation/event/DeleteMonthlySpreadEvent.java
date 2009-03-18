@@ -41,7 +41,7 @@ public class DeleteMonthlySpreadEvent extends KualiDocumentEventBase {
      * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
     public Class getRuleInterfaceClass() {
-        // TODO Auto-generated method stub
+
         return DeleteMonthlySpreadRule.class;
     }
 

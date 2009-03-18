@@ -49,7 +49,7 @@ public class SaveMonthlyBudgetEvent extends KualiDocumentEventBase {
      * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
-        // TODO Auto-generated method stub
+
         return ((SaveMonthlyBudgetRule<BudgetConstructionDocument, BudgetConstructionMonthly>) rule).processSaveMonthlyBudgetRules(budgetConstructionDocument, budgetConstructionMonthly);
     }
 

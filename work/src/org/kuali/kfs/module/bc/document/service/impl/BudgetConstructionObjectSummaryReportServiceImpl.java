@@ -43,7 +43,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
     private BudgetConstructionObjectSummaryReportDao budgetConstructionObjectSummaryReportDao;
     private KualiConfigurationService kualiConfigurationService;
     private BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
-    
+
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateRepotsLevelSummaryTable(java.lang.String)
      */
@@ -261,7 +261,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
 
         for (BudgetConstructionOrgObjectSummaryReportTotal gexpAndTypeTotal : objectSummaryTotalGexpAndTypeList) {
             if (BudgetConstructionReportHelper.isSameEntry(objectSummary, gexpAndTypeTotal.getBcos(), fieldsForGexpAndType())) {
-                // TODO BudgetConstructionReportHelper.setDecimalDigit
+
                 orgObjectSummaryReportEntry.setGrossFinancialBeginningBalanceLineAmount(gexpAndTypeTotal.getGrossFinancialBeginningBalanceLineAmount());
                 orgObjectSummaryReportEntry.setGrossAccountLineAnnualBalanceAmount(gexpAndTypeTotal.getGrossAccountLineAnnualBalanceAmount());
                 Integer grossAmountChange = gexpAndTypeTotal.getGrossAccountLineAnnualBalanceAmount() - gexpAndTypeTotal.getGrossFinancialBeginningBalanceLineAmount();
@@ -526,29 +526,29 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
         return fieldList;
     }
 
-    
+
     private List<String> fieldsForGexpAndType() {
         List<String> fieldList = new ArrayList();
         fieldList.addAll(fieldsForTotal());
         fieldList.add(KFSPropertyConstants.INCOME_EXPENSE_CODE);
         return fieldList;
     }
-    
-    
+
+
     private List<String> fieldsForTotal() {
         List<String> fieldList = new ArrayList();
         fieldList.add(KFSPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE);
         fieldList.add(KFSPropertyConstants.ORGANIZATION_CODE);
         fieldList.add(KFSPropertyConstants.SUB_FUND_GROUP_CODE);
         fieldList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        /*fieldList.add(KFSPropertyConstants.INCOME_EXPENSE_CODE);
-        fieldList.add(KFSPropertyConstants.FINANCIAL_CONSOLIDATION_SORT_CODE);
-        fieldList.add(KFSPropertyConstants.FINANCIAL_LEVEL_SORT_CODE);
-        fieldList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
-        */
+        /*
+         * fieldList.add(KFSPropertyConstants.INCOME_EXPENSE_CODE);
+         * fieldList.add(KFSPropertyConstants.FINANCIAL_CONSOLIDATION_SORT_CODE);
+         * fieldList.add(KFSPropertyConstants.FINANCIAL_LEVEL_SORT_CODE); fieldList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+         */
         return fieldList;
     }
-    
+
     /**
      * builds orderByList for sort order.
      * 
@@ -576,4 +576,3 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
         this.budgetConstructionReportsServiceHelper = budgetConstructionReportsServiceHelper;
     }
 }
-

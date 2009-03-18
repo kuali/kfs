@@ -58,7 +58,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.rice.kew.actions.CompleteAction;
@@ -125,12 +124,6 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
         this.saveDocumentNoWorkflow(budgetConstructionDocument);
 
-        // TODO verify that we don't want to call workflow save and remove this commented code
-        // this seems to be the workflow related stuff only needed during a final save from save button or close
-        // and user clicks yes when prompted to save or not.
-//        documentService.prepareWorkflowDocument(budgetConstructionDocument);
-//        workflowDocumentService.save(budgetConstructionDocument.getDocumentHeader().getWorkflowDocument(), null);
-
         GlobalVariables.getUserSession().setWorkflowDocument(budgetConstructionDocument.getDocumentHeader().getWorkflowDocument());
 
         // save any messages up to this point and put them back in after logDocumentAction()
@@ -150,9 +143,6 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#saveDocumentNoWorkflow(org.kuali.rice.kns.document.Document)
-     *      TODO use this for saves before calc benefits service, monthly spread service, salary setting, monthly calls add to
-     *      interface this should leave out any calls to workflow related methods maybe call this from saveDocument(doc, eventclass)
-     *      above instead of duplicating all the calls up to the point of workflow related calls
      */
     @Transactional
     public Document saveDocumentNoWorkflow(BudgetConstructionDocument bcDoc) throws ValidationException {
@@ -316,9 +306,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     }
 
     /**
-     * Runs validation and persists a document to the database. TODO This method is just like the one in DocumentServiceImpl. This
-     * method exists because the DocumentService Interface does not define this method, so we can't call it. Not sure if this is an
-     * oversite or by design. If the interface gets adjusted, fix to call it, otherwise leave this and remove the marker.
+     * Runs validation and persists a document to the database.
      * 
      * @param document
      * @param event
@@ -690,7 +678,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
         // sub account must not be flagged cost share
         A21SubAccount a21SubAccount = subAccount.getA21SubAccount();
-        if ( ObjectUtils.isNotNull(a21SubAccount) && StringUtils.equals(a21SubAccount.getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
+        if (ObjectUtils.isNotNull(a21SubAccount) && StringUtils.equals(a21SubAccount.getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
             return false;
         }
 
@@ -872,7 +860,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#getBudgetConstructionDocument(org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion)
      */
     @NonTransactional
-    public BudgetConstructionDocument getBudgetConstructionDocument(SalarySettingExpansion salarySettingExpansion){
+    public BudgetConstructionDocument getBudgetConstructionDocument(SalarySettingExpansion salarySettingExpansion) {
         try {
             return (BudgetConstructionDocument) documentService.getByDocumentHeaderId(salarySettingExpansion.getDocumentNumber());
         }
@@ -1250,6 +1238,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
     /**
      * Sets the routeHeaderService attribute value.
+     * 
      * @param routeHeaderService The routeHeaderService to set.
      */
     @NonTransactional
@@ -1257,4 +1246,3 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         this.routeHeaderService = routeHeaderService;
     }
 }
-

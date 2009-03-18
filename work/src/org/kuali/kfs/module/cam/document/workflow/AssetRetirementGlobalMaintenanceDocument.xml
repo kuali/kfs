@@ -33,15 +33,19 @@
         <start name="AdHoc"/>
         <role name="Account">
           <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
         </role>
         <role name="OrganizationHierarchy">
           <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
         </role>
         <role name="ExternalTransfer">
           <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
         </role>
         <role name="Purchasing">
           <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
         </role>
         <split name="RetiredAssetTransferredExternally">
           <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>

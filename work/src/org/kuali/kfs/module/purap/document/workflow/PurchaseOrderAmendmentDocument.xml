@@ -17,7 +17,6 @@
             </branch>
             <join name="Join"/>
           </split>
-
         </routePath>
       </routePaths>
       <routeNodes>
@@ -30,10 +29,9 @@
         </simple>
         <join name="Join"/>
         <role name="NewUnorderedItems">
-
           <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
         </role>
-
       </routeNodes>
     </documentType>
   </documentTypes>

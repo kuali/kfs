@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
-<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
-<documentType>
-<name>FinancialProcessingYearEndTransactionalDocument</name>
-<parent>FinancialProcessingTransactionalDocument</parent>
-<routePaths>
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>FinancialProcessingYearEndTransactionalDocument</name>
+      <parent>FinancialProcessingTransactionalDocument</parent>
+      <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="AccountingOrganizationHierarchy"/>
           <requests name="AccountingOrganizationHierarchy" nextNode="SubFund"/>
@@ -12,18 +12,21 @@
           <requests name="Award"/>
         </routePath>
       </routePaths>
-<routeNodes>
-<start name="AdHoc"/>
-<role name="AccountingOrganizationHierarchy">
-<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-</role>
-<role name="SubFund">
-<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-</role>
-<role name="Award">
-<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-</role>
-</routeNodes>
-</documentType>
-</documentTypes>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="SubFund">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="Award">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
 </data>

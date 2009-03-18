@@ -24,9 +24,11 @@
         <start name="AdHoc"/>
         <role name="Lockbox">
           <qualifierResolverClass> org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver </qualifierResolverClass>
+          <activationType>P</activationType>
         </role>
         <role name="ElectronicPayment">
           <qualifierResolverClass> org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver </qualifierResolverClass>
+          <activationType>P</activationType>
         </role>
         <split name="AssociatedWithElectronicPayment">
           <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>

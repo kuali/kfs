@@ -64,7 +64,7 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
     public ActionForward loadExpansionScreen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PositionSalarySettingForm positionSalarySettingForm = (PositionSalarySettingForm) form;
         ErrorMap errorMap;
-        if (positionSalarySettingForm.isBudgetByAccountMode()){
+        if (positionSalarySettingForm.isBudgetByAccountMode()) {
             errorMap = positionSalarySettingForm.getCallBackErrors();
         }
         else {
@@ -85,13 +85,32 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
             errorMap.putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_POSITION_NOT_FOUND, positionNumber, fiscalYear);
 
             this.cleanupAnySessionForm(mapping, request);
-            if (positionSalarySettingForm.isBudgetByAccountMode()){
+            if (positionSalarySettingForm.isBudgetByAccountMode()) {
                 return this.returnToCaller(mapping, form, request, response);
             }
             else {
                 return mapping.findForward(BCConstants.MAPPING_ORGANIZATION_SALARY_SETTING_RETURNING);
             }
         }
+
+        // Lock the position even if there are no current funding lines attached
+        Integer universityFiscalYear = budgetConstructionPosition.getUniversityFiscalYear();
+        String positionNumber = budgetConstructionPosition.getPositionNumber();
+        String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
+
+        // attempt to lock position
+        BudgetConstructionLockStatus bcLockStatus = SpringContext.getBean(LockService.class).lockPosition(positionNumber, universityFiscalYear, principalId);
+        if (!bcLockStatus.getLockStatus().equals(BudgetConstructionConstants.LockStatus.SUCCESS)) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_POSITION_LOCK_NOT_OBTAINED, new String[] { universityFiscalYear.toString(), positionNumber });
+            this.cleanupAnySessionForm(mapping, request);
+            if (positionSalarySettingForm.isBudgetByAccountMode()) {
+                return this.returnToCaller(mapping, form, request, response);
+            }
+            else {
+                return mapping.findForward(BCConstants.MAPPING_ORGANIZATION_SALARY_SETTING_RETURNING);
+            }
+        }
+
 
         positionSalarySettingForm.setBudgetConstructionPosition(budgetConstructionPosition);
         if (positionSalarySettingForm.isSingleAccountMode()) {
@@ -102,11 +121,12 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
         if (!positionSalarySettingForm.isViewOnlyEntry()) {
             positionSalarySettingForm.postProcessBCAFLines();
             positionSalarySettingForm.setNewBCAFLine(positionSalarySettingForm.createNewAppointmentFundingLine());
-            
+
             boolean accessModeUpdated = positionSalarySettingForm.updateAccessMode(errorMap);
             if (!accessModeUpdated) {
+                this.unlockPositionOnly(positionSalarySettingForm);
                 this.cleanupAnySessionForm(mapping, request);
-                if (positionSalarySettingForm.isBudgetByAccountMode()){
+                if (positionSalarySettingForm.isBudgetByAccountMode()) {
                     return this.returnToCaller(mapping, form, request, response);
                 }
                 else {
@@ -116,8 +136,9 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
 
             boolean gotLocks = positionSalarySettingForm.acquirePositionAndFundingLocks(errorMap);
             if (!gotLocks) {
+                this.unlockPositionOnly(positionSalarySettingForm);
                 this.cleanupAnySessionForm(mapping, request);
-                if (positionSalarySettingForm.isBudgetByAccountMode()){
+                if (positionSalarySettingForm.isBudgetByAccountMode()) {
                     return this.returnToCaller(mapping, form, request, response);
                 }
                 else {
@@ -172,15 +193,14 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
             warnings.add(BCKeyConstants.WARNING_WORKING_HOUR_NOT_EQUAL);
         }
 
-        if (positionSalarySettingForm.isPendingPositionSalaryChange()){
+        if (positionSalarySettingForm.isPendingPositionSalaryChange()) {
             warnings.add(BCKeyConstants.WARNING_RECALCULATE_NEEDED);
         }
     }
 
     /**
-     * Recalculates all rows where the position change flags are set and the row is edit-able and active.
-     * Sets funding months, FTE, CSF FTE, and normalizes biweekly request amounts, where appropriate
-     * This action is called from the global calculate button. 
+     * Recalculates all rows where the position change flags are set and the row is edit-able and active. Sets funding months, FTE,
+     * CSF FTE, and normalizes biweekly request amounts, where appropriate This action is called from the global calculate button.
      * 
      * @param mapping
      * @param form
@@ -191,10 +211,10 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
      */
     public ActionForward recalculateAllSalarySettingLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PositionSalarySettingForm positionSalarySettingForm = (PositionSalarySettingForm) form;
-        
+
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = positionSalarySettingForm.getActiveFundingLines();
-        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings){
-            if (!appointmentFunding.isDisplayOnlyMode()){
+        for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
+            if (!appointmentFunding.isDisplayOnlyMode()) {
                 this.recalculateSalarySettingLine(appointmentFunding);
             }
         }
@@ -202,9 +222,9 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
     }
 
     /**
-     * Recalculates a single row where the position change flags are set and the row is edit-able and active.
-     * Sets funding months, FTE, CSF FTE, and normalizes biweekly request amounts, where appropriate
-     * This action is called from the row action calculate button. 
+     * Recalculates a single row where the position change flags are set and the row is edit-able and active. Sets funding months,
+     * FTE, CSF FTE, and normalizes biweekly request amounts, where appropriate This action is called from the row action calculate
+     * button.
      * 
      * @param mapping
      * @param form
@@ -216,15 +236,15 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
     public ActionForward recalculateSalarySettingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PositionSalarySettingForm positionSalarySettingForm = (PositionSalarySettingForm) form;
         PendingBudgetConstructionAppointmentFunding appointmentFunding = this.getSelectedFundingLine(request, positionSalarySettingForm);
-        
+
         this.recalculateSalarySettingLine(appointmentFunding);
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
-     * Recalculates a PendingBudgetConstructionAppointmentFunding.
-     * Sets funding months, FTE, CSF FTE, and normalizes biweekly request amounts, where appropriate
+     * Recalculates a PendingBudgetConstructionAppointmentFunding. Sets funding months, FTE, CSF FTE, and normalizes biweekly
+     * request amounts, where appropriate
      * 
      * @param appointmentFunding
      */
@@ -232,12 +252,12 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
 
         // do the recalc on the passed line and reset the indicator
         // there are no rule checks involved in this operation
-        if (appointmentFunding.isPositionSalaryChangeIndicator()){
+        if (appointmentFunding.isPositionSalaryChangeIndicator()) {
             appointmentFunding.setPositionSalaryChangeIndicator(Boolean.FALSE);
 
             // check if months needs reset
-            if (appointmentFunding.getAppointmentFundingDurationCode().equals(NONE.durationCode)){
-                if (!appointmentFunding.getAppointmentFundingMonth().equals(appointmentFunding.getBudgetConstructionPosition().getIuNormalWorkMonths())){
+            if (appointmentFunding.getAppointmentFundingDurationCode().equals(NONE.durationCode)) {
+                if (!appointmentFunding.getAppointmentFundingMonth().equals(appointmentFunding.getBudgetConstructionPosition().getIuNormalWorkMonths())) {
                     appointmentFunding.setAppointmentFundingMonth(appointmentFunding.getBudgetConstructionPosition().getIuNormalWorkMonths());
                 }
             }
@@ -245,16 +265,13 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
             // recalc request fte and if hourly, normalize request amount and hourly rate
             salarySettingService.recalculateDerivedInformation(appointmentFunding);
 
-            // TODO shouldn't recalculateDerivedInformation() handle recalc of leaves request fte?
-            // recalc leaves request fte if not a leave row
-
         }
-        
+
 
         // doing this just to do cleanup of the default object change flag
         // the rules will force the user to mark the line delete
         // if the default object doesn't match with the line object when saving
-        if (appointmentFunding.isPositionObjectChangeIndicator()){
+        if (appointmentFunding.isPositionObjectChangeIndicator()) {
             appointmentFunding.setPositionObjectChangeIndicator(Boolean.FALSE);
         }
 
@@ -301,8 +318,7 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
                 throw new RuntimeException(String.format("unable to unlock position and active funding records: %s, %s, %s", universityFiscalYear, positionNumber, principalId));
             }
         }
-        
+
         return null;
     }
 }
-

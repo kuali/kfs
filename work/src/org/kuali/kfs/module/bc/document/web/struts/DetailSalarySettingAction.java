@@ -36,6 +36,7 @@ import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
+import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.document.validation.event.AddAppointmentFundingEvent;
 import org.kuali.kfs.module.bc.document.validation.event.BudgetExpansionEvent;
@@ -109,6 +110,10 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         // release all locks before closing the current expansion screen
         if (isClose && !salarySettingForm.isViewOnlyEntry() && salarySettingForm.isSalarySettingClosed()) {
             salarySettingForm.releasePositionAndFundingLocks();
+            if (form instanceof PositionSalarySettingForm){
+                // handle case where there are no funding lines attached to position
+                this.unlockPositionOnly((PositionSalarySettingForm) form);
+            }
         }
 
         return closeActionForward;
@@ -318,5 +323,21 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
             }
         }
         appointmentFundings.removeAll(purgedAppointmentFundings);
+    }
+
+    /**
+     * unlock the position only, called as last action before a close or exit
+     * handling the case where there are no funding lines attached yet.
+     * 
+     */
+    protected void unlockPositionOnly(PositionSalarySettingForm positionSalarySettingForm){
+
+        Integer universityFiscalYear = positionSalarySettingForm.getBudgetConstructionPosition().getUniversityFiscalYear();
+        String positionNumber = positionSalarySettingForm.getBudgetConstructionPosition().getPositionNumber();
+        String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
+
+        // unlock position
+        SpringContext.getBean(LockService.class).unlockPosition(positionNumber, universityFiscalYear, principalId);
+        
     }
 }

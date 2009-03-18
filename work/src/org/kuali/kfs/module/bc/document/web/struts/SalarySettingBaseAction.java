@@ -26,7 +26,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
@@ -34,7 +33,6 @@ import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAuthorizationStatus;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
-import org.kuali.kfs.module.bc.document.service.BudgetConstructionProcessorService;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.document.validation.event.AdjustSalarySettingLinePercentEvent;
@@ -78,21 +76,21 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;
-        
+
         // if org sal setting we need to initialize authorization
         if (!salarySettingForm.isBudgetByAccountMode() && salarySettingForm.getMethodToCall().equals(BCConstants.LOAD_EXPANSION_SCREEN_METHOD)) {
             initAuthorization(salarySettingForm);
         }
-        
+
         populateAuthorizationFields(salarySettingForm);
-        
+
         ActionForward forward = super.execute(mapping, form, request, response);
-        if (!salarySettingForm.isLostSession()){
+        if (!salarySettingForm.isLostSession()) {
             salarySettingForm.postProcessBCAFLines();
 
             // re-init the session form if session scoped
-            if (salarySettingForm.getMethodToCall().equals("refresh")){
-                if (BCConstants.MAPPING_SCOPE_SESSION.equals(mapping.getScope())){
+            if (salarySettingForm.getMethodToCall().equals("refresh")) {
+                if (BCConstants.MAPPING_SCOPE_SESSION.equals(mapping.getScope())) {
                     HttpSession sess = request.getSession(Boolean.FALSE);
                     String formName = mapping.getAttribute();
                     sess.setAttribute(formName, salarySettingForm);
@@ -101,7 +99,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         }
         return forward;
     }
-    
+
     protected void populateAuthorizationFields(SalarySettingBaseForm salarySettingForm) {
         BudgetConstructionAuthorizationStatus authorizationStatus = (BudgetConstructionAuthorizationStatus) GlobalVariables.getUserSession().retrieveObject(BCConstants.BC_DOC_AUTHORIZATION_STATUS_SESSIONKEY);
 
@@ -117,7 +115,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
 
     protected void initAuthorization(SalarySettingBaseForm salarySettingForm) {
         Person user = GlobalVariables.getUserSession().getPerson();
-        
+
         boolean isAuthorized = SpringContext.getBean(IdentityManagementService.class).isAuthorized(user.getPrincipalId(), BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimConstants.USE_ORG_SALARY_SETTING_PERMISSION_NAME, null, null);
         if (isAuthorized) {
             salarySettingForm.getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_EDIT, KNSConstants.KUALI_DEFAULT_TRUE_VALUE);
@@ -153,13 +151,6 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         SalarySettingBaseForm salarySettingForm = (SalarySettingBaseForm) form;
 
-// TODO moving this to detail and quick since view only is specific to each 
-// remove when access refactoring is working
-//        // return to the calller directly if the current user just can have view-only access
-//        if (salarySettingForm.isViewOnlyEntry() || salarySettingForm.isSalarySettingClosed()) {
-//            return this.returnAfterClose(salarySettingForm, mapping, request, response);
-//        }
-
         // ask a question before closing unless it has been answered
         String question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (StringUtils.isBlank(question)) {
@@ -172,14 +163,9 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         if (StringUtils.equals(KFSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, question) && StringUtils.equals(ConfirmationQuestion.YES, buttonClicked)) {
             ActionForward saveAction = this.save(mapping, salarySettingForm, request, response);
 
-            if (GlobalVariables.getMessageList().contains(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED)) {
-                GlobalVariables.getMessageList().remove(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED);
-            }
-            GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED_AND_CLOSED);
-
             return saveAction;
         }
-        
+
         // indicate the salary setting has been closed
         salarySettingForm.setSalarySettingClosed(true);
 
@@ -266,7 +252,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingForm.getAppointmentFundings();
 
         String errorKeyPrefix = this.getErrorKeyPrefixOfAppointmentFundingLine(appointmentFundings, appointmentFunding);
-        
+
         // retrieve corresponding document in advance in order to use the rule framework
         BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(appointmentFunding);
         if (document == null) {
@@ -388,4 +374,3 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
      */
     protected abstract String getFundingAwareObjectName();
 }
-

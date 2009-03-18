@@ -24,15 +24,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.integration.ld.LaborLedgerObject;
 import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundingReason;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundingReasonCode;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionCalculatedSalaryFoundationTracker;
@@ -57,14 +53,12 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.springframework.transaction.annotation.Transactional;
@@ -196,7 +190,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
         BigDecimal fteQuantity = requestedTimePercent.multiply(fundingMonthPercent).divide(KFSConstants.ONE_HUNDRED.bigDecimalValue());
 
-        return fteQuantity.setScale(5,BigDecimal.ROUND_HALF_UP);
+        return fteQuantity.setScale(5, BigDecimal.ROUND_HALF_UP);
     }
 
     /**
@@ -235,7 +229,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
         BigDecimal fteQuantity = requestedCSFTimePercent.multiply(fundingMonthPercent).divide(KFSConstants.ONE_HUNDRED.bigDecimalValue());
 
-        return fteQuantity.setScale(5,BigDecimal.ROUND_HALF_UP);
+        return fteQuantity.setScale(5, BigDecimal.ROUND_HALF_UP);
     }
 
     /**
@@ -533,9 +527,6 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
         // Do the save/delete of BCAF rows from the salary setting detail screen first
         this.saveAppointmentFundings(appointmentFundings);
-
-        // TODO need to handle purging last line in the screen for an expansion to release funding lock
-        // maybe use BCAF.isPurged somehow to create a list of BCAF rows to unlock
 
         // From the DB get the current unique set of SalarySettingExpansions (PBGL)
         // associated with our Incumbent or Position BCAF rows.
@@ -841,7 +832,6 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         BigDecimal requestedFteQuantity = this.calculateFteQuantityFromAppointmentFunding(appointmentFunding);
         appointmentFunding.setAppointmentRequestedFteQuantity(requestedFteQuantity);
 
-        // TODO verify that this test and call should have been added
         if (!appointmentFunding.getAppointmentFundingDurationCode().equals(NONE.durationCode)) {
             BigDecimal requestedCSFFteQuantity = this.calculateCSFFteQuantityFromAppointmentFunding(appointmentFunding);
             appointmentFunding.setAppointmentRequestedCsfFteQuantity(requestedCSFFteQuantity);
@@ -1047,7 +1037,8 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     }
 
     /**
-     * Gets the documentHelperService attribute. 
+     * Gets the documentHelperService attribute.
+     * 
      * @return Returns the documentHelperService.
      */
     public DocumentHelperService getDocumentHelperService() {
@@ -1059,6 +1050,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
     /**
      * Sets the documentHelperService attribute value.
+     * 
      * @param documentHelperService The documentHelperService to set.
      */
     public void setDocumentHelperService(DocumentHelperService documentHelperService) {

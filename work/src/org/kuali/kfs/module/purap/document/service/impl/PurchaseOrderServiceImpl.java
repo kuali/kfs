@@ -646,7 +646,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         PurApObjectUtils.populateFromBaseWithSuper(sourceDocument, newPurchaseOrderChangeDocument, PurapConstants.UNCOPYABLE_FIELDS_FOR_PO, classesToExclude);
         newPurchaseOrderChangeDocument.getDocumentHeader().setDocumentDescription(sourceDocument.getDocumentHeader().getDocumentDescription());
         newPurchaseOrderChangeDocument.getDocumentHeader().setOrganizationDocumentNumber(sourceDocument.getDocumentHeader().getOrganizationDocumentNumber());
-
+        newPurchaseOrderChangeDocument.getDocumentHeader().setExplanation(sourceDocument.getDocumentHeader().getExplanation());
         newPurchaseOrderChangeDocument.setPurchaseOrderCurrentIndicator(false);
         newPurchaseOrderChangeDocument.setPendingActionIndicator(false);
 

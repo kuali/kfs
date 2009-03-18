@@ -89,7 +89,8 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.BudgetOrganizationTreeService#buildPullupSql(java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetOrganizationTreeService#buildPullupSql(java.lang.String,
+     *      java.lang.String, java.lang.String)
      */
     public void buildPullupSql(String principalName, String chartOfAccountsCode, String organizationCode) {
         cleanPullup(principalName);
@@ -105,10 +106,9 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
     private void buildSubTreeSql(String principalName, BudgetConstructionOrganizationReports bcOrgRpts, int curLevel) {
 
         curLevel++;
-        //TODO remove refs to OBJ_ID in these called methods before implementing any calls using this method
         budgetPullupDao.initPointOfView(principalName, bcOrgRpts.getChartOfAccountsCode(), bcOrgRpts.getOrganizationCode(), curLevel);
         budgetPullupDao.insertChildOrgs(principalName, curLevel);
-        
+
     }
 
     /**
@@ -121,8 +121,8 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.BudgetOrganizationTreeService#getPullupChildOrgs(java.lang.String, java.lang.String,
-     *      java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetOrganizationTreeService#getPullupChildOrgs(java.lang.String,
+     *      java.lang.String, java.lang.String)
      */
     public List getPullupChildOrgs(String principalId, String chartOfAccountsCode, String organizationCode) {
 
@@ -223,7 +223,8 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
     }
 
     /**
-     * Gets the budgetPullupDao attribute. 
+     * Gets the budgetPullupDao attribute.
+     * 
      * @return Returns the budgetPullupDao.
      */
     public BudgetPullupDao getBudgetPullupDao() {
@@ -232,6 +233,7 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
 
     /**
      * Sets the budgetPullupDao attribute value.
+     * 
      * @param budgetPullupDao The budgetPullupDao to set.
      */
     public void setBudgetPullupDao(BudgetPullupDao budgetPullupDao) {
@@ -239,4 +241,3 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
     }
 
 }
-

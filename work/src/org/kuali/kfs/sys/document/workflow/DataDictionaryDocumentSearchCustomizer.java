@@ -17,12 +17,11 @@ package org.kuali.kfs.sys.document.workflow;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.MultiselectableDocSearchConversion;
 import org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO;
 import org.kuali.rice.kew.docsearch.DocumentSearchContext;
 import org.kuali.rice.kew.docsearch.SearchAttributeCriteriaComponent;
@@ -32,6 +31,7 @@ import org.kuali.rice.kew.rule.WorkflowAttributeValidationError;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.SearchingAttribute;
 import org.kuali.rice.kns.datadictionary.SearchingTypeDefinition;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.Row;
@@ -136,6 +136,24 @@ public class DataDictionaryDocumentSearchCustomizer extends org.kuali.rice.kns.w
         return ((displayCriteria != null) && ("document".equals(displayCriteria.getValue())));
     }
 
+    @Override
+    public String generateSearchSql(DocSearchCriteriaDTO searchCriteria) {
+        DocumentEntry entry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(searchCriteria.getDocTypeFullName());
+        DocSearchCriteriaDTO convertedSearchCriteria = searchCriteria;
+        if (entry != null) {
+            Class<? extends Document> docClass = entry.getDocumentClass();
+            Document doc = null;
+            try {
+                doc = docClass.newInstance();
+            } catch (Exception e){}
+            if (doc instanceof MultiselectableDocSearchConversion) {
+                MultiselectableDocSearchConversion multiselectable = (MultiselectableDocSearchConversion)doc;
+                convertedSearchCriteria = multiselectable.convertSelections(searchCriteria);
+            }
+        }
+        return super.generateSearchSql(convertedSearchCriteria);
+    }
+    
     // SEARCHABLE ATTRIBUTE IMPLEMENTATION
     private FinancialSystemSearchableAttribute searchableAttribute = new FinancialSystemSearchableAttribute();
 

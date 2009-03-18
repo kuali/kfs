@@ -67,12 +67,11 @@ import org.kuali.kfs.module.purap.document.service.PurchasingDocumentSpecificSer
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.MultiselectableDocSearchConversion;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
@@ -81,6 +80,8 @@ import org.kuali.kfs.vnd.businessobject.ShippingPaymentTerms;
 import org.kuali.kfs.vnd.businessobject.ShippingTitle;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO;
+import org.kuali.rice.kew.docsearch.SearchAttributeCriteriaComponent;
 import org.kuali.rice.kew.dto.ActionTakenEventDTO;
 import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
 import org.kuali.rice.kew.dto.ReportCriteriaDTO;
@@ -99,6 +100,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
@@ -106,7 +108,7 @@ import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 /**
  * Purchase Order Document
  */
-public class PurchaseOrderDocument extends PurchasingDocumentBase {
+public class PurchaseOrderDocument extends PurchasingDocumentBase implements MultiselectableDocSearchConversion {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderDocument.class);
 
     private Timestamp purchaseOrderCreateTimestamp;
@@ -1558,6 +1560,29 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
             }
         }
         return accounts;
+    }
+    
+    public DocSearchCriteriaDTO convertSelections(DocSearchCriteriaDTO searchCriteria) {
+
+        for (SearchAttributeCriteriaComponent comp : searchCriteria.getSearchableAttributes()) {  
+            if (comp.getLookupableFieldType().equals(Field.MULTISELECT)) {
+                List<String> values = comp.getValues();
+                List<String> newVals = new ArrayList<String>();
+                if (values.contains("INCOMPLETE")) {
+                    for (String str : PurchaseOrderStatuses.INCOMPLETE_STATUSES)
+                        newVals.add(str);
+                } else if (values.contains("COMPLETE")) {
+                    for (String str : PurchaseOrderStatuses.COMPLETE_STATUSES)
+                        newVals.add(str);
+                } else {
+                    for (String str : values) {
+                        newVals.add(str);
+                    }
+                }
+                comp.setValues(newVals);
+            }
+        }
+        return searchCriteria;
     }
 
 }

@@ -35,7 +35,10 @@
     	<property name="routingAttributes">
     		<list>
 		        <ref bean="RoutingAttribute-chartOfAccountsCode" />
-		        <ref bean="RoutingAttribute-organizationCode" />
+		        <!-- <ref bean="RoutingAttribute-organizationCode" />  -->
+		        <bean parent="RoutingAttribute-organizationCode">		        
+		        	<property name="qualificationAttributeName" value="organizationCode" />
+		        </bean>
     		</list>
     	</property>
     	<property name="documentValuePathGroups">

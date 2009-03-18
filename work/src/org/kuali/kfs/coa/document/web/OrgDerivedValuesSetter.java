@@ -46,8 +46,9 @@ public class OrgDerivedValuesSetter implements DerivedValuesSetter {
 	    MaintenanceDocumentBase maintenanceDocument = (MaintenanceDocumentBase) maintenanceForm.getDocument();
 	    Organization newOrg = (Organization) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
 	    String organizationZipCode = newOrg.getOrganizationZipCode();
-	    if (StringUtils.isNotBlank(organizationZipCode)) {
-	        PostalCode postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPostalCodeInDefaultCountry(organizationZipCode);
+	    String organizationCountryCode = newOrg.getOrganizationCountryCode();
+	    if (StringUtils.isNotBlank(organizationZipCode) && StringUtils.isNotBlank(organizationCountryCode)) {
+	        PostalCode postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryId(organizationCountryCode, organizationZipCode);
 	        if (ObjectUtils.isNotNull(postalZipCode)) {
 	            newOrg.setOrganizationCityName(postalZipCode.getPostalCityName());
 	            newOrg.setOrganizationStateCode(postalZipCode.getPostalStateCode());

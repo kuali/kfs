@@ -172,6 +172,8 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
     private String validFile;
     private String errorFile;
     private String expiredFile;
+    
+    //TODO: Shawn - need to change time info of the file name
     private String reportFileName;
 
     /**
@@ -213,7 +215,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
         this.errorFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         this.expiredFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         runDate = calculateRunDate(dateTimeService.getCurrentDate());
-        this.reportFileName = reportDirectoryName + File.separator + "scrubberJob_reportOnly_" + runDate.toString() ;
+        this.reportFileName = reportDirectoryName + File.separator + "scrubberJob_reportOnly_" + runDate.toString() + ".txt" ;
         
         scrubEntries(true, documentNumber);
         
@@ -240,7 +242,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
         this.errorFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         this.expiredFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         runDate = calculateRunDate(dateTimeService.getCurrentDate());
-        this.reportFileName = reportDirectoryName + File.separator + "scrubberJob_" + runDate.toString() ;
+        this.reportFileName = reportDirectoryName + File.separator + "scrubberJob_" + runDate.toString() + ".txt";
 
         scrubEntries(false, null);
     }
@@ -269,7 +271,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
         String scrubberSortInputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         String scrubberSortOutputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_SCRUBBER_INPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         BatchSortUtil.sortTextFileWithFields(scrubberSortInputFile, scrubberSortOutputFile, new ScrubberSortComparator());
-        this.reportFileName = reportDirectoryName + File.separator + "scrubberJob_collector_" + runDate.toString() ;
+        this.reportFileName = reportDirectoryName + File.separator + "scrubberJob_collector_" + runDate.toString() + ".txt";
         
         scrubEntries(false, null);
         
@@ -375,7 +377,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
             demergerValidOutputFilename = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
             demergerErrorOutputFilename = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.DEMERGER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
             
-            reportFileName = reportDirectoryName + File.separator + "demerger_report_" + runDate.toString() ;
+            reportFileName = reportDirectoryName + File.separator + "demerger_report_" + runDate.toString() + ".txt";
 
         } else {
 
@@ -385,7 +387,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
             demergerValidOutputFilename = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_DEMERGER_VAILD_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
             demergerErrorOutputFilename = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_DEMERGER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
             
-            reportFileName = reportDirectoryName + File.separator + "collector_demerger_report_" + runDate.toString() ;
+            reportFileName = reportDirectoryName + File.separator + "collector_demerger_report_" + runDate.toString() + ".txt";
         }
         
         // Without this step, the job fails with Optimistic Lock Exceptions

@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService.LocationField;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -46,6 +47,7 @@ public class AssetLocationServiceTest extends KualiTestBase {
         fieldMap.put(LocationField.STATE_CODE, "stateCode");
         fieldMap.put(LocationField.ZIP_CODE, "zipCode");
         fieldMap.put(LocationField.COUNTRY_CODE, "countryCode");
+        fieldMap.put(LocationField.ERROR_SECTION,CamsConstants.LOCATION_INFORMATION_SECTION_ID);        
     }
 
     public class MockBusinessObject extends BusinessObjectBase {

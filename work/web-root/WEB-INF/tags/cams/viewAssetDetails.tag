@@ -23,17 +23,14 @@
 </c:if>
 
 <c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />
-
 <c:set var="accountAttributes" value="${DataDictionary.Account.attributes}" />
-
-	<kul:tab tabTitle="Asset" defaultOpen="${!defaultTabHide}" tabErrorKey="document.asset.capitalAssetNumber"> 
+	<kul:tab tabTitle="Asset" defaultOpen="${!defaultTabHide}" tabErrorKey="document.asset.capitalAssetNumber,document.hiddenFieldForError"> 
 		<div class="tab-container" align="center">
+		<html:hidden property="document.hiddenFieldForError"/>
 		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">								
-
 	      	<tr>
 				<td class="tab-subhead"  width="100%" colspan="4">Asset Information</td>
 			</tr>	
-
 		    <tr>
 		      	<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.capitalAssetNumber}" readOnly="true"/></th>
 		      	<td class="grid" width="75%" colspan="3">
@@ -44,7 +41,6 @@
             		</kul:htmlControlAttribute>
 		      	</td>
 		    </tr>
-
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.capitalAssetDescription}" readOnly="true" /></th>
 				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="${assetValueObj}.capitalAssetDescription" attributeEntry="${assetAttributes.capitalAssetDescription}" readOnly="true"/></td>

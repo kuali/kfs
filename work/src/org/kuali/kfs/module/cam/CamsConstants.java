@@ -35,7 +35,8 @@ public class CamsConstants extends JSTLConstants {
     public static final String DOCUMENT_PATH = "document";
     public static final String DOC_HEADER_PATH = DOCUMENT_PATH + "." + DOCUMENT_NUMBER_PATH;
     public static final String INQUIRY_URL = "inquiry.do";
-    public static final Currency CURRENCY_USD = Currency.getInstance("USD");
+    public static final Currency CURRENCY_USD = Currency.getInstance("USD");    
+    public static final String LOCATION_INFORMATION_SECTION_ID="Location Information";        
 
     public static class DateFormats {
         public static final String MONTH_DAY_YEAR = "MM/dd/yyyy";
@@ -292,7 +293,6 @@ public class CamsConstants extends JSTLConstants {
         public static final String CALCULATE_EQUAL_SOURCE_AMOUNTS_BUTTON = "calculateEqualSourceAmountsButton";
         public static final String CALCULATE_SEPARATE_SOURCE_REMAINING_AMOUNT_BUTTON = "calculateSeparateSourceRemainingAmountButton";
         public static final String SEPARATE_AN_ASSET_DESCRIPTION = "Separate an Asset";
-        public static final String LOCATION_SECTION_ID="Location Information";        
     }
 
     public static class GLPostingObjectCodeType {

@@ -162,7 +162,7 @@ public class CamsKeyConstants {
         public static final String ERROR_INACTIVE_FIELD = "error.document.inactive.field";
         public static final String ERROR_APPROVE_DOCUMENT_WITH_ERROR_EXIST = "error.approve.document.with.error.exist";
         public static final String ERROR_RECORDS_NO_SELECTED = "error.document.records_no_selected";
-        
+        public static final String ERROR_CHECKBOX_MUST_BE_CHECKED = "error.checkbox.must.be.checked";        
     }
 
     public static class EquipmentLoanOrReturn {

@@ -76,8 +76,9 @@
 		</div>
 	 </kul:tab>
 	 
-    <kul:tab tabTitle="Asset Location" defaultOpen="true" tabErrorKey="document.locationTabKey,document.campusCode,document.buildingCode,document.buildingRoomNumber,document.offCampus*"> 
+    <kul:tab tabTitle="Asset Location" defaultOpen="true" tabErrorKey="document.locationTabKey,document.campusCode,document.buildingCode,document.buildingRoomNumber,document.offCampus*,document.hiddenFieldForError"> 
 		<div class="tab-container" align="center">
+		<html:hidden property="document.hiddenFieldForError"/>		
 		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">								
 			<tr>
 				<td class="tab-subhead"  colspan="2" width="50%">On Campus</td><td class="tab-subhead"  colspan="2" width="50%">Off Campus</td>

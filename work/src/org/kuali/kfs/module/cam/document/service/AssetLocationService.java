@@ -24,7 +24,7 @@ import org.kuali.rice.kns.bo.BusinessObject;
 public interface AssetLocationService {
 
     public static enum LocationField {
-        CAMPUS_CODE, BUILDING_CODE, ROOM_NUMBER, SUB_ROOM_NUMBER, CONTACT_NAME, STREET_ADDRESS, CITY_NAME, STATE_CODE, ZIP_CODE, COUNTRY_CODE; 
+        CAMPUS_CODE, BUILDING_CODE, ROOM_NUMBER, SUB_ROOM_NUMBER, CONTACT_NAME, STREET_ADDRESS, CITY_NAME, STATE_CODE, ZIP_CODE, COUNTRY_CODE, ERROR_SECTION; 
     }
 
     /**

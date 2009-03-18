@@ -115,7 +115,7 @@
   <bean id="AssetMaintenanceDocument-AssetLocation" parent="AssetMaintenanceDocument-AssetLocation-parentBean"/>
 
   <bean id="AssetMaintenanceDocument-AssetLocation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Asset Location"/>
+    <property name="id" value="Location Information"/>
     <property name="title" value="Asset Location"/>
     <property name="maintainableItems">
       <list>

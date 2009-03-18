@@ -27,6 +27,7 @@ import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetLocation;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
+import org.kuali.kfs.module.cam.document.service.AssetLocationService.LocationField;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.bo.PostalCode;
@@ -90,12 +91,14 @@ public class AssetLocationServiceImpl implements AssetLocationService {
         String stateCode = readPropertyValue(businessObject, fieldMap, LocationField.STATE_CODE);
         String zipCode = readPropertyValue(businessObject, fieldMap, LocationField.ZIP_CODE);
         String countryCode = readPropertyValue(businessObject, fieldMap, LocationField.COUNTRY_CODE);
+        String errorPath=fieldMap.get(LocationField.ERROR_SECTION);
+        
         boolean onCampus = StringUtils.isNotBlank(buildingCode) || StringUtils.isNotBlank(roomNumber) || StringUtils.isNotBlank(subRoomNumber);
         boolean offCampus = StringUtils.isNotBlank(contactName) || StringUtils.isNotBlank(streetAddress) || StringUtils.isNotBlank(cityName) || StringUtils.isNotBlank(stateCode) || StringUtils.isNotBlank(zipCode) || StringUtils.isNotBlank(countryCode);
 
         boolean valid = true;
         if (onCampus && offCampus) {
-            GlobalVariables.getErrorMap().putErrorForSectionId(CamsConstants.AssetSeparate.LOCATION_SECTION_ID, CamsKeyConstants.AssetLocation.ERROR_CHOOSE_LOCATION_INFO);            
+            GlobalVariables.getErrorMap().putErrorForSectionId(errorPath, CamsKeyConstants.AssetLocation.ERROR_CHOOSE_LOCATION_INFO);            
             valid &= false;
         }
         else {
@@ -111,20 +114,22 @@ public class AssetLocationServiceImpl implements AssetLocationService {
 
 
     private boolean validateCapitalAssetLocation(AssetType assetType, Map<LocationField, String> fieldMap, String campusCode, String buildingCode, String roomNumber, String subRoomNumber, String contactName, String streetAddress, String cityName, String stateCode, String zipCode, String countryCode, boolean onCampus, boolean offCampus) {
+        String errorPath=fieldMap.get(LocationField.ERROR_SECTION);
+        
         boolean valid = true;
         if (ObjectUtils.isNull(assetType)) {
-            GlobalVariables.getErrorMap().putErrorForSectionId(CamsConstants.AssetSeparate.LOCATION_SECTION_ID, CamsKeyConstants.AssetLocation.ERROR_CHOOSE_ASSET_TYPE);                        
+            GlobalVariables.getErrorMap().putErrorForSectionId(CamsConstants.LOCATION_INFORMATION_SECTION_ID, CamsKeyConstants.AssetLocation.ERROR_CHOOSE_ASSET_TYPE);                        
             valid &= false;
         }
         else {
             if (assetType.isRequiredBuildingIndicator() && offCampus) {
                 // off campus information not allowed
-                GlobalVariables.getErrorMap().putErrorForSectionId(CamsConstants.AssetSeparate.LOCATION_SECTION_ID, CamsKeyConstants.AssetLocation.ERROR_LOCATION_OFF_CAMPUS_NOT_PERMITTED, assetType.getCapitalAssetTypeDescription());                            
+                GlobalVariables.getErrorMap().putErrorForSectionId(errorPath, CamsKeyConstants.AssetLocation.ERROR_LOCATION_OFF_CAMPUS_NOT_PERMITTED, assetType.getCapitalAssetTypeDescription());                            
                 valid &= false;
             }
             else if (!assetType.isMovingIndicator() && !assetType.isRequiredBuildingIndicator() && onCampus) {
                 // land information cannot have on-campus
-                GlobalVariables.getErrorMap().putErrorForSectionId(CamsConstants.AssetSeparate.LOCATION_SECTION_ID, CamsKeyConstants.AssetLocation.ERROR_LOCATION_ON_CAMPUS_NOT_PERMITTED, assetType.getCapitalAssetTypeDescription());
+                GlobalVariables.getErrorMap().putErrorForSectionId(errorPath, CamsKeyConstants.AssetLocation.ERROR_LOCATION_ON_CAMPUS_NOT_PERMITTED, assetType.getCapitalAssetTypeDescription());
                 valid &= false;
             }
             else if (onCampus) {
@@ -134,7 +139,7 @@ public class AssetLocationServiceImpl implements AssetLocationService {
                 valid = validateOffCampusLocation(fieldMap, contactName, streetAddress, cityName, stateCode, zipCode, countryCode);
             }
             else if (assetType.isMovingIndicator() || assetType.isRequiredBuildingIndicator()) {
-                GlobalVariables.getErrorMap().putErrorForSectionId(CamsConstants.AssetSeparate.LOCATION_SECTION_ID, CamsKeyConstants.AssetLocation.ERROR_LOCATION_INFO_REQUIRED);
+                GlobalVariables.getErrorMap().putErrorForSectionId(errorPath, CamsKeyConstants.AssetLocation.ERROR_LOCATION_INFO_REQUIRED);
                 valid &= false;
             }
         }

@@ -43,6 +43,11 @@ public class PurchasingAddItemValidation extends PurchasingAccountsPayableAddIte
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid=true;        
         GlobalVariables.getErrorMap().addToErrorPath(PurapPropertyConstants.NEW_PURCHASING_ITEM_LINE);
+        //refresh itemType
+        PurApItem refreshedItem = getItemForValidation();
+        refreshedItem.refreshReferenceObject("itemType");
+        super.setItemForValidation(refreshedItem);
+        
         valid &= super.validate(event);
         valid &= validateItemUnitPrice(getItemForValidation());
         valid &= validateUnitOfMeasure(getItemForValidation());

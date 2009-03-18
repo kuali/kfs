@@ -146,7 +146,7 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
      * @return hopefully, a collection of objects
      */
     protected Collection getCollectionByPath(BusinessObject businessObject, String collectionPath) {
-        return (Collection)getPropertyByPath(businessObject, collectionPath);
+        return (Collection)getPropertyByPath(businessObject, collectionPath.trim());
     }
     
     /**
@@ -161,7 +161,7 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
         if (ObjectUtils.isNotNull(paths)) {
             for (String path : paths) {
                 // get the values for the paths of each element of the collection
-                final Object value = getPropertyByPath(businessObject, path);
+                final Object value = getPropertyByPath(businessObject, path.trim());
                 if (value != null) {
                     qualifier.put(routingAttributes.getCurrentRoutingAttribute().getQualificationAttributeName(), value.toString());
                 }
@@ -223,7 +223,7 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
     protected List<Object> aardvarkSearchValuesForPaths(Document document, List<String> paths) {
         List<Object> searchValues = new ArrayList<Object>();
         for (String path : paths) {
-            flatAdd(searchValues, getPropertyByPath(document, path));
+            flatAdd(searchValues, getPropertyByPath(document, path.trim()));
         }
         return searchValues;
     }
@@ -347,7 +347,7 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
      */
     public Object getPropertyByPath(Object object, String path) {
         if (object instanceof Collection) return getPropertyOfCollectionByPath((Collection)object, path);
-        path = path.trim();
+
         final String[] splitPath = headAndTailPath(path);
         final String head = splitPath[0];
         final String tail = splitPath[1];

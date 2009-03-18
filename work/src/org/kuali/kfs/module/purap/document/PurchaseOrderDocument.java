@@ -1571,14 +1571,15 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
                 if (values.contains("INCOMPLETE")) {
                     for (String str : PurchaseOrderStatuses.INCOMPLETE_STATUSES)
                         newVals.add(str);
-                } else if (values.contains("COMPLETE")) {
+                } if (values.contains("COMPLETE")) {
                     for (String str : PurchaseOrderStatuses.COMPLETE_STATUSES)
                         newVals.add(str);
-                } else {
-                    for (String str : values) {
-                        newVals.add(str);
-                    }
+                } 
+                
+                for (String str : values) {
+                    newVals.add(str);
                 }
+                
                 comp.setValues(newVals);
             }
         }

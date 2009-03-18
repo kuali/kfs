@@ -93,7 +93,7 @@
 --%>
 				</td>
 				<td class="datacell center">
-					<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.BalanceTyp" keyValues="code=${laborLedgerPendingEntry.financialBalanceTypeCode}" render="true">
+					<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.BalanceType" keyValues="code=${laborLedgerPendingEntry.financialBalanceTypeCode}" render="true">
 						<html:hidden property="document.laborLedgerPendingEntry[${ctr}].financialBalanceTypeCode" write="true"/>
 					</kul:inquiry>
 				</td>

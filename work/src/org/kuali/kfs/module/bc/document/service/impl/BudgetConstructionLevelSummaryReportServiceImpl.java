@@ -177,9 +177,9 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
      * @param BudgetConstructionLevelSummary bcas
      */
     public void buildReportsBody(BudgetConstructionOrgLevelSummaryReport orgLevelSummaryReportEntry, BudgetConstructionLevelSummary levelSummary) {
-        if (levelSummary.getFinancialConsolidationObjectCode() == null) {
-            // TODO Should changed the error message.
-            orgLevelSummaryReportEntry.setFinancialObjectLevelName("error to get blah blah");
+
+        if (levelSummary.getFinancialObjectLevel() == null) {
+            orgLevelSummaryReportEntry.setFinancialObjectLevelName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_OBJECT_LEVEL_NAME));
         }
         else {
             orgLevelSummaryReportEntry.setFinancialObjectLevelName(levelSummary.getFinancialObjectLevel().getFinancialObjectLevelName());
@@ -189,7 +189,7 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
         orgLevelSummaryReportEntry.setCsfFullTimeEmploymentQuantity(BudgetConstructionReportHelper.setDecimalDigit(levelSummary.getCsfFullTimeEmploymentQuantity(), 2, true));
         orgLevelSummaryReportEntry.setAppointmentRequestedCsfFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(levelSummary.getAppointmentRequestedCsfFteQuantity(), 2, true));
         orgLevelSummaryReportEntry.setAppointmentRequestedFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(levelSummary.getAppointmentRequestedFteQuantity(), 2, true));
-        
+
         if (levelSummary.getAccountLineAnnualBalanceAmount() != null) {
             orgLevelSummaryReportEntry.setAccountLineAnnualBalanceAmount(new Integer(levelSummary.getAccountLineAnnualBalanceAmount().intValue()));
         }
@@ -217,7 +217,7 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
         for (BudgetConstructionOrgLevelSummaryReportTotal consTotal : levelSummaryTotalConsList) {
             if (BudgetConstructionReportHelper.isSameEntry(levelSummary, consTotal.getBcls(), fieldsForCons())) {
                 orgLevelSummaryReportEntry.setTotalConsolidationDescription(levelSummary.getFinancialConsolidationObject().getFinConsolidationObjectName());
-                
+
                 // The total part shouldn't have null value, so just checking '0'
                 orgLevelSummaryReportEntry.setTotalConsolidationPositionCsfLeaveFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(consTotal.getTotalConsolidationPositionCsfLeaveFteQuantity(), 2, true));
                 orgLevelSummaryReportEntry.setTotalConsolidationPositionCsfFullTimeEmploymentQuantity(BudgetConstructionReportHelper.setDecimalDigit(consTotal.getTotalConsolidationPositionCsfFullTimeEmploymentQuantity(), 2, true));
@@ -366,7 +366,7 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
 
             bcLevelTotal.setGrossFinancialBeginningBalanceLineAmount(grossFinancialBeginningBalanceLineAmount);
             bcLevelTotal.setGrossAccountLineAnnualBalanceAmount(grossAccountLineAnnualBalanceAmount);
-            
+
             bcLevelTotal.setTypePositionCsfLeaveFteQuantity(typePositionCsfLeaveFteQuantity);
             bcLevelTotal.setTypePositionCsfFullTimeEmploymentQuantity(typePositionCsfFullTimeEmploymentQuantity);
             bcLevelTotal.setTypeFinancialBeginningBalanceLineAmount(typeFinancialBeginningBalanceLineAmount);
@@ -374,8 +374,7 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
             bcLevelTotal.setTypeAppointmentRequestedFteQuantity(typeAppointmentRequestedFteQuantity);
             bcLevelTotal.setTypeAccountLineAnnualBalanceAmount(typeAccountLineAnnualBalanceAmount);
 
-            
-            
+
             returnList.add(bcLevelTotal);
             grossFinancialBeginningBalanceLineAmount = new Integer(0);
             grossAccountLineAnnualBalanceAmount = new Integer(0);
@@ -428,7 +427,7 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
 
             bcLevelTotal.setExpenditureFinancialBeginningBalanceLineAmount(expenditureFinancialBeginningBalanceLineAmount);
             bcLevelTotal.setExpenditureAccountLineAnnualBalanceAmount(expenditureAccountLineAnnualBalanceAmount);
-            
+
             differenceFinancialBeginningBalanceLineAmount = revenueFinancialBeginningBalanceLineAmount - expenditureFinancialBeginningBalanceLineAmount;
             differenceAccountLineAnnualBalanceAmount = revenueAccountLineAnnualBalanceAmount - expenditureAccountLineAnnualBalanceAmount;
             bcLevelTotal.setDifferenceFinancialBeginningBalanceLineAmount(differenceFinancialBeginningBalanceLineAmount);
@@ -447,8 +446,6 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
         }
         return returnList;
     }
-
-
 
 
     /**
@@ -474,14 +471,14 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
         fieldList.add(KFSPropertyConstants.FINANCIAL_CONSOLIDATION_SORT_CODE);
         return fieldList;
     }
-    
+
     private List<String> fieldsForGexpAndType() {
         List<String> fieldList = new ArrayList();
         fieldList.addAll(fieldsForTotal());
         fieldList.add(KFSPropertyConstants.INCOME_EXPENSE_CODE);
         return fieldList;
     }
-    
+
     private List<String> fieldsForTotal() {
         List<String> fieldList = new ArrayList();
         fieldList.add(KFSPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE);
@@ -490,7 +487,7 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
         fieldList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         return fieldList;
     }
-    
+
     public void setBudgetConstructionReportsServiceHelper(BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper) {
         this.budgetConstructionReportsServiceHelper = budgetConstructionReportsServiceHelper;
     }
@@ -499,4 +496,3 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
         this.kualiConfigurationService = kualiConfigurationService;
     }
 }
-

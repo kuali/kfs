@@ -118,7 +118,7 @@
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Delivery Building Code"/>
     <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="4"/>
+    <property name="maxLength" value="10"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
     </property>

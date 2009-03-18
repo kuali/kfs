@@ -639,14 +639,9 @@
     <field-descriptor name="finConsolidationObjectName" column="FIN_CONS_OBJ_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="finConsolidationObjShortName" column="FIN_CONOBJ_SHRT_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="active" column="FIN_CONOBJ_ACTV_CD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-    <field-descriptor name="financialEliminationsObjectCode" column="FIN_ELIM_OBJ_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="financialReportingSortCode" column="FIN_REPORT_SORT_CD" jdbc-type="VARCHAR" />
     <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
-    </reference-descriptor>
-    <reference-descriptor name="financialEliminationsObject" class-ref="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="chartOfAccountsCode" />
-        <foreignkey field-ref="financialEliminationsObjectCode" />
     </reference-descriptor>
 </class-descriptor>
 

@@ -628,7 +628,6 @@ public class KFSPropertyConstants {
     public static final String FINANCIAL_DOCUMENT_TOTAL_AMOUNT = "financialDocumentTotalAmount";
     // below field used by KFS specifically
     public static final String FINANCIAL_DOCUMENT_TYPE_CODE = "financialDocumentTypeCode";
-    public static final String FINANCIAL_ELIMINATIONS_OBJECT_CODE = "financialEliminationsObjectCode";
     public static final String FINANCIAL_FEDERAL_FUNDED = "financialFederalFunded";
     public static final String FINANCIAL_FEDERAL_FUNDED_CODE = "financialFederalFundedCode";
     public static final String FINANCIAL_HIGHER_ED_FUNCTION = "financialHigherEdFunction";

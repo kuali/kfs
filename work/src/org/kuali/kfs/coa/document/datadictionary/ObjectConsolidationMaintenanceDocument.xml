@@ -56,8 +56,6 @@
         <bean parent="MaintainableFieldDefinition" p:name="finConsolidationObjShortName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="finConsolidationObjectName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="financialEliminationsObjectCode" p:webUILeaveFieldFunction="updateObjectName"/>
-        <bean parent="MaintainableFieldDefinition" p:name="financialEliminationsObject.financialObjectCodeName" p:unconditionallyReadOnly="true" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="financialReportingSortCode" p:required="true"/>
       </list>
     </property>

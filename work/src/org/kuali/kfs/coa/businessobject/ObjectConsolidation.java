@@ -38,11 +38,9 @@ public class ObjectConsolidation extends PersistableBusinessObjectBase implement
     private String finConsolidationObjShortName;
     private boolean active;
     private String financialReportingSortCode;
-    private String financialEliminationsObjectCode;
-
+    
     private Chart chartOfAccounts;
-    private ObjectCodeCurrent financialEliminationsObject;
-
+    
     /**
      * Gets the chartOfAccountsCode attribute.
      * 
@@ -61,24 +59,7 @@ public class ObjectConsolidation extends PersistableBusinessObjectBase implement
         this.chartOfAccountsCode = chartOfAccountsCode;
     }
 
-    /**
-     * Gets the financialEliminationsObjectCode attribute.
-     * 
-     * @return Returns the financialEliminationsObjectCode.
-     */
-    public String getFinancialEliminationsObjectCode() {
-        return financialEliminationsObjectCode;
-    }
-
-    /**
-     * Sets the financialEliminationsObjectCode attribute value.
-     * 
-     * @param financialEliminationsObjectCode The financialEliminationsObjectCode to set.
-     */
-    public void setFinancialEliminationsObjectCode(String financialEliminationsObjectCode) {
-        this.financialEliminationsObjectCode = financialEliminationsObjectCode;
-    }
-
+   
     /**
      * Gets the finConsolidationObjectCode attribute.
      * 
@@ -188,27 +169,6 @@ public class ObjectConsolidation extends PersistableBusinessObjectBase implement
         this.chartOfAccounts = chartOfAccounts;
     }
 
-    /**
-     * Gets the financialEliminationsObject attribute.
-     * 
-     * @return Returns the financialEliminationsObject.
-     */
-    public ObjectCodeCurrent getFinancialEliminationsObject() {
-        if (financialEliminationsObjectCode != null && (financialEliminationsObject == null || (financialEliminationsObject.getFinancialObjectCode() != null && financialEliminationsObjectCode != null && !financialEliminationsObject.getFinancialObjectCode().equalsIgnoreCase(this.financialEliminationsObjectCode)))) {
-            refreshReferenceObject("financialEliminationsObject");
-        }
-        return financialEliminationsObject;
-    }
-
-    /**
-     * Sets the financialEliminationsObject attribute value.
-     * 
-     * @param financialEliminationsObject The financialEliminationsObject to set.
-     * @deprecated
-     */
-    public void setFinancialEliminationsObject(ObjectCodeCurrent financialEliminationsObject) {
-        this.financialEliminationsObject = financialEliminationsObject;
-    }
 
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()

@@ -23,8 +23,6 @@
         <ref bean="ObjectConsolidation-finConsolidationObjectName" />
         <ref bean="ObjectConsolidation-finConsolidationObjShortName" />
         <ref bean="ObjectConsolidation-active" />
-        <ref bean="ObjectConsolidation-financialEliminationsObject.financialObjectCodeName" />
-        <ref bean="ObjectConsolidation-financialEliminationsObjectCode" />
         <ref bean="ObjectConsolidation-financialReportingSortCode" />
       </list>
     </property>
@@ -85,29 +83,7 @@
   <bean id="ObjectConsolidation-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
-  <bean id="ObjectConsolidation-financialEliminationsObject.financialObjectCodeName" parent="ObjectConsolidation-financialEliminationsObject.financialObjectCodeName-parentBean" />
-
-  <bean id="ObjectConsolidation-financialEliminationsObject.financialObjectCodeName-parentBean" abstract="true" parent="ObjectCode-financialObjectCodeName">
-    <property name="name" value="financialEliminationsObject.financialObjectCodeName" />
-  </bean>
-  <bean id="ObjectConsolidation-financialEliminationsObjectCode" parent="ObjectConsolidation-financialEliminationsObjectCode-parentBean" />
-
-  <bean id="ObjectConsolidation-financialEliminationsObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialEliminationsObjectCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Elimination Object Code" />
-    <property name="shortLabel" value="Elim Obj Code" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
-    </property>
-  </bean>
+  
   <bean id="ObjectConsolidation-financialReportingSortCode" parent="ObjectConsolidation-financialReportingSortCode-parentBean" />
 
   <bean id="ObjectConsolidation-financialReportingSortCode-parentBean" abstract="true" parent="AttributeDefinition">
@@ -151,8 +127,6 @@
               <bean parent="FieldDefinition"
                     p:attributeName="active" />
               <bean parent="FieldDefinition"
-                    p:attributeName="financialEliminationsObjectCode" />
-              <bean parent="FieldDefinition"
                     p:attributeName="financialReportingSortCode" />
             </list>
           </property>
@@ -189,8 +163,6 @@
         <bean parent="FieldDefinition"
               p:attributeName="finConsolidationObjShortName" />
         <bean parent="FieldDefinition"
-              p:attributeName="financialEliminationsObjectCode" />
-        <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>
     </property>
@@ -204,8 +176,6 @@
               p:attributeName="finConsolidationObjectName" />
         <bean parent="FieldDefinition"
               p:attributeName="finConsolidationObjShortName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialEliminationsObjectCode" />
         <bean parent="FieldDefinition"
               p:attributeName="financialReportingSortCode" />
         <bean parent="FieldDefinition"

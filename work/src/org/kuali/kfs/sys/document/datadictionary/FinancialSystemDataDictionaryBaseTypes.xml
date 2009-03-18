@@ -147,44 +147,50 @@
     	<property name="qualificationAttributeName" value="accountNumber" />
     </bean>
     
-    
-    <bean id="WorkflowAttributeMetaData-financialDocumentTotalAmount" abstract="true">
-    	<property name="businessObjectClassName" value="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" />
-    	<property name="attributeName" value="financialDocumentTotalAmount" />
+    <bean id="RoutingAttribute-financialDocumentTotalAmount"  class="org.kuali.rice.kns.datadictionary.RoutingAttribute" >
+  	  <property name="qualificationAttributeName" value="financialDocumentTotalAmount" />
     </bean>
-    <bean id="RoutingAttribute-financialDocumentTotalAmount" parent="WorkflowAttributeMetaData-financialDocumentTotalAmount" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" />
     
-    <bean id="WorkflowAttributeMetaData-organizationCode" abstract="true">
+    <bean id="SearchingAttribute-organizationCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" >
     	<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Organization" />
     	<property name="attributeName" value="organizationCode" />
     </bean>
-    <bean id="SearchingAttribute-organizationCode" parent="WorkflowAttributeMetaData-organizationCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" />
-    <bean id="RoutingAttribute-organizationCode" parent="WorkflowAttributeMetaData-organizationCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" />
-    <bean id="WorkflowAttributeMetaData-overrideCode" abstract="true">
+    <bean id="RoutingAttribute-organizationCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" >
+    	<property name="qualificationAttributeName" value="organizationCode" />
+    </bean>
+  
+    <bean id="SearchingAttribute-overrideCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" >
     	<property name="businessObjectClassName" value="org.kuali.kfs.sys.businessobject.AccountingLine" />
     	<property name="attributeName" value="overrideCode" />
     </bean>
-    <bean id="SearchingAttribute-overrideCode" parent="WorkflowAttributeMetaData-overrideCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" />
-    <bean id="RoutingAttribute-overrideCode" parent="WorkflowAttributeMetaData-overrideCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" />
-    <bean id="WorkflowAttributeMetaData-subFundGroupCode" abstract="true">
-    	<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.SubFundGroup" />
-    	<property name="attributeName" value="subFundGroupCode" />
+    <bean id="RoutingAttribute-overrideCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" >
+    	<property name="qualificationAttributeName" value="overrideCode" />
     </bean>
-    <bean id="SearchingAttribute-subFundGroupCode" parent="WorkflowAttributeMetaData-subFundGroupCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" />
-    <bean id="RoutingAttribute-subFundGroupCode" parent="WorkflowAttributeMetaData-subFundGroupCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" />
-    <bean id="WorkflowAttributeMetaData-contractsAndGrantsAccountResponsibilityId" abstract="true">
-    	<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Account" />
+   
+    <bean id="SearchingAttribute-subFundGroupCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" >
+  		<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.SubFundGroup" />
+   		<property name="attributeName" value="subFundGroupCode" />
+    </bean>
+    <bean id="RoutingAttribute-subFundGroupCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" >
+    	<property name="qualificationAttributeName" value="subFundGroupCode" />
+    </bean>
+    
+    <bean id="SearchingAttribute-contractsAndGrantsAccountResponsibilityId" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" >
+        <property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Account" />
     	<property name="attributeName" value="contractsAndGrantsAccountResponsibilityId" />
     </bean>
-    <bean id="SearchingAttribute-contractsAndGrantsAccountResponsibilityId" parent="WorkflowAttributeMetaData-contractsAndGrantsAccountResponsibilityId" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" />
-    <bean id="RoutingAttribute-contractsAndGrantsAccountResponsibilityId" parent="WorkflowAttributeMetaData-contractsAndGrantsAccountResponsibilityId" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" />
-    <bean id="WorkflowAttributeMetaData-campusCode" abstract="true">
+    <bean id="RoutingAttribute-contractsAndGrantsAccountResponsibilityId" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" >
+    	<property name="qualificationAttributeName" value="contractsAndGrantsAccountResponsibilityId" />
+    </bean>
+   
+    <bean id="SearchingAttribute-campusCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" >
     	<property name="businessObjectClassName" value="org.kuali.rice.kns.bo.Campus" />
     	<property name="attributeName" value="campusCode" />
     </bean>
-    <bean id="SearchingAttribute-campusCode" parent="WorkflowAttributeMetaData-campusCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" />
-    <bean id="RoutingAttribute-campusCode" parent="WorkflowAttributeMetaData-campusCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" />
-    	
+    <bean id="RoutingAttribute-campusCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" >
+    	<property name="qualificationAttributeName" value="campusCode" />
+   	</bean>
+   	
 	<bean id="SearchingType-AccountingDocument-chartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode" />
         <property name="documentValues">

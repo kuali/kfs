@@ -116,13 +116,11 @@
 	</property>
 	</bean>
 	
-    <bean id="RoutingAttribute-CustomerInvoiceWriteoffDocument-invoiceWriteoffAmount" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" parent="WorkflowAttribute-CustomerInvoiceWriteoffDocument-invoiceWriteoffAmount"/>
-
-    <bean id="WorkflowAttribute-CustomerInvoiceWriteoffDocument-invoiceWriteoffAmount" abstract="true">
-    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument"/>
-    	<property name="attributeName" value="invoiceWriteoffAmount"/>
-	</bean>
-
+    <bean id="RoutingAttribute-CustomerInvoiceWriteoffDocument-invoiceWriteoffAmount" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+        	<property name="qualificationAttributeName" value="invoiceWriteoffAmount"/>
+    
+    
+    </bean>
 	
 <!--  Granular Validations -->
 

@@ -116,22 +116,26 @@
     	</property>
 	</bean>
 
+<!--  
 
-
-  <bean id="RoutingAttribute-CashControlDocument-processingChartOfAccountCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" parent="WorkflowAttribute-CashControlDocument-processingChartOfAccountCode"/>
+  <bean id="RoutingAttribute-CashControlDocument-processingChartOfAccountCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" >
+  	<property name ="qualificationAttributeName" value="processingChartOfAccountCode"/>
+  </bean>
 
   <bean id="WorkflowAttribute-CashControlDocument-processingChartOfAccountCode" abstract="true">
 	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader"/>
 	<property name="attributeName" value="processingChartOfAccountCode"/>
   </bean>
 
-  <bean id="RoutingAttribute-CashControlDocument-processingOrganizationCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" parent="WorkflowAttribute-CashControlDocument-processingOrganizationCode"/>
+  <bean id="RoutingAttribute-CashControlDocument-processingOrganizationCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" >
+	<property name ="qualificationAttributeName" value="processingOrganizationCode"/>
+  </bean>
 
   <bean id="WorkflowAttribute-CashControlDocument-processingOrganizationCode" abstract="true">
 	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader"/>
 	<property name="attributeName" value="processingOrganizationCode"/>
   </bean>
-
+-->
 
 <!--  Granular Validations -->
 

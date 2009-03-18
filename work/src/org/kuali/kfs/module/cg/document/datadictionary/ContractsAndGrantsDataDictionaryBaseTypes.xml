@@ -4,11 +4,9 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
 >
-	<bean id="WorkflowAttributeMetaData-researchRiskCode" abstract="true">
-    	<property name="businessObjectClassName" value="org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk" />
-    	<property name="attributeName" value="researchRiskTypeCode" />
+    <bean id="RoutingAttribute-researchRiskCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" >
+        <property name="qualificationAttributeName" value="researchRiskTypeCode" />
     </bean>
-    <bean id="RoutingAttribute-researchRiskCode" parent="WorkflowAttributeMetaData-researchRiskCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" />
 
 	<bean id="DocumentValuePathGroup-ContractsAndGrantsProjectDirector-principalId" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
    		<property name="documentValues">

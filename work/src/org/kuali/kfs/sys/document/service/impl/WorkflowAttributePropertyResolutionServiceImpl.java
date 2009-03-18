@@ -347,7 +347,7 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
      */
     public Object getPropertyByPath(Object object, String path) {
         if (object instanceof Collection) return getPropertyOfCollectionByPath((Collection)object, path);
-        
+        path = path.trim();
         final String[] splitPath = headAndTailPath(path);
         final String head = splitPath[0];
         final String tail = splitPath[1];

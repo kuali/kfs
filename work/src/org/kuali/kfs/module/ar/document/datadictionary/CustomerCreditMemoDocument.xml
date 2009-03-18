@@ -133,12 +133,10 @@
 	</property>
 	</bean>
 
-    <bean id="RoutingAttribute-CustomerCreditMemoDocument-crmTotalAmount" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" parent="WorkflowAttribute-CustomerCreditMemoDocument-crmTotalAmount"/>
-    <bean id="WorkflowAttribute-CustomerCreditMemoDocument-crmTotalAmount" abstract="true">
-    	<property name="businessObjectClassName" value="org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument"/>
-    	<property name="attributeName" value="crmTotalAmount"/>
-    </bean>  
-
+    <bean id="RoutingAttribute-CustomerCreditMemoDocument-crmTotalAmount" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" >
+   		<property name="qualificationAttributeName" value="crmTotalAmount"/>
+    </bean>
+    
 <!-- Granular Validations -->
   <bean id="CustomerCreditMemoDocument-validations" parent="CustomerCreditMemoDocument-validations-parentBean"/>  
   <bean id="CustomerCreditMemoDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">

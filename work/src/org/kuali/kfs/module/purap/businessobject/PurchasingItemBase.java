@@ -79,7 +79,7 @@ public abstract class PurchasingItemBase extends PurApItemBase implements Purcha
     }
 
     public CommodityCode getCommodityCode() {
-        if (ObjectUtils.isNull(commodityCode))  {
+        if (ObjectUtils.isNull(commodityCode) || (!commodityCode.getPurchasingCommodityCode().equalsIgnoreCase(getPurchasingCommodityCode())))  {
             refreshReferenceObject(PurapPropertyConstants.COMMODITY_CODE);
         }
         return commodityCode;

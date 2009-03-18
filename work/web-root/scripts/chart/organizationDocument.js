@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-function updateLocation( postalCodeField, callbackFunction ) {
+function updateLocationByPostalCode( postalCodeField, callbackFunction ) {
 	var postalCode = getElementValue( postalCodeField.name );
-	var postalCountryCode = getElementValue("document.newMaintainableObject.organizationCountryCode");
-	if ( postalCode != "" ) {
+	var postalCountryCode = getElementValue( findElPrefix( postalCodeField.name ) + ".organizationCountryCode" );
+	
+	if ( postalCode != "" && postalCountryCode != "" ) {
 		var dwrReply = {
 			callback:callbackFunction,
 			errorHandler:function( errorMessage ) { 
@@ -28,7 +29,28 @@ function updateLocation( postalCodeField, callbackFunction ) {
 	}	
 }
 
-function updateLocation_Callback( data ) {
+function updateLocationByPostalCode_Callback( data ) {
+	setRecipientValue( "document.newMaintainableObject.organizationCityName", data.postalCityName );
+	setRecipientValue( "document.newMaintainableObject.organizationStateCode", data.postalStateCode );
+}
+
+function updateLocationByCountryCode( countryCodeField, callbackFunction ) {
+	var postalCountryCode = getElementValue( countryCodeField.name );
+	var postalCode = getElementValue( findElPrefix( countryCodeField.name ) + ".organizationZipCode" );
+	
+	if ( postalCode != "" && postalCountryCode != "" ) {
+		var dwrReply = {
+			callback:callbackFunction,
+			errorHandler:function( errorMessage ) { 
+				setRecipientValue( "document.newMaintainableObject.organizationCityName", wrapError( "postal code not found" ), true );
+				clearRecipients( "document.newMaintainableObject.organizationStateCode" );
+			}
+		};
+		PostalCodeService.getByPrimaryId(postalCountryCode, postalCode, dwrReply );
+	}	
+}
+
+function updateLocationByCountryCode_Callback( data ) {
 	setRecipientValue( "document.newMaintainableObject.organizationCityName", data.postalCityName );
 	setRecipientValue( "document.newMaintainableObject.organizationStateCode", data.postalStateCode );
 }

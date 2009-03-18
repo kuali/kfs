@@ -71,12 +71,12 @@
         <bean parent="MaintainableFieldDefinition" p:name="organizationPhysicalCampusCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="organizationTypeCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="organizationDefaultAccountNumber"/>
-        <bean parent="MaintainableFieldDefinition" p:name="organizationZipCode" p:required="true" p:webUILeaveFieldCallbackFunction="updateLocation_Callback" p:webUILeaveFieldFunction="updateLocation"/>
         <bean parent="MaintainableFieldDefinition" p:name="organizationLine1Address" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="organizationLine2Address"/>
         <bean parent="MaintainableFieldDefinition" p:name="organizationCityName" p:unconditionallyReadOnly="true" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="organizationStateCode" p:unconditionallyReadOnly="true" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="organizationCountryCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationZipCode" p:required="true" p:webUILeaveFieldCallbackFunction="updateLocationByPostalCode_Callback" p:webUILeaveFieldFunction="updateLocationByPostalCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationCountryCode" p:required="true" p:webUILeaveFieldCallbackFunction="updateLocationByCountryCode_Callback" p:webUILeaveFieldFunction="updateLocationByCountryCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="organizationBeginDate" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder"/>
         <bean parent="MaintainableFieldDefinition" p:name="organizationEndDate"/>
         <bean parent="MaintainableFieldDefinition" p:name="reportsToChartOfAccountsCode" p:required="true"/>

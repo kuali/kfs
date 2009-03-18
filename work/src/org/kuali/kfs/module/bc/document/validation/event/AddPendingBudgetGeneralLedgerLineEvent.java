@@ -64,7 +64,7 @@ public class AddPendingBudgetGeneralLedgerLineEvent extends KualiDocumentEventBa
      */
     @Override
     public void validate() {
-        // TODO Auto-generated method stub
+
         super.validate();
     }
 

@@ -34,6 +34,7 @@ import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
 import org.kuali.kfs.coa.businessobject.AccountDelegateGlobal;
 import org.kuali.kfs.coa.businessobject.AccountDelegateGlobalDetail;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
@@ -127,7 +128,7 @@ public class GlobalDocumentTest extends KualiTestBase {
         change.setAccountDelegateUniversalId("6137600107");
         change.setApprovalFromThisAmount(KualiDecimal.ZERO);
         change.setApprovalToThisAmount(KualiDecimal.ZERO);
-        change.setFinancialDocumentTypeCode("ALL");
+        change.setFinancialDocumentTypeCode(KFSConstants.ROOT_DOCUMENT_TYPE);
         changes.add(change);
 
         bo.setDelegateGlobals(changes);
@@ -178,7 +179,7 @@ public class GlobalDocumentTest extends KualiTestBase {
         change.setAccountDelegateUniversalId("6137600107");
         change.setApprovalFromThisAmount(KualiDecimal.ZERO);
         change.setApprovalToThisAmount(KualiDecimal.ZERO);
-        change.setFinancialDocumentTypeCode("ALL");
+        change.setFinancialDocumentTypeCode(KFSConstants.ROOT_DOCUMENT_TYPE);
         changes.add(change);
         bo.setDelegateGlobals(changes);
 

@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.AccountDelegateGlobalDetail;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.KFSConstants;
 
 @ConfigureContext
 public class DelegateGlobalRuleTest extends ChartRuleTestBase {
@@ -49,7 +50,7 @@ public class DelegateGlobalRuleTest extends ChartRuleTestBase {
 
         delegateGlobal = new AccountDelegateGlobalDetail();
         delegateGlobal.setAccountDelegatePrimaryRoutingIndicator(false);
-        delegateGlobal.setFinancialDocumentTypeCode("ALL");
+        delegateGlobal.setFinancialDocumentTypeCode(KFSConstants.ROOT_DOCUMENT_TYPE);
         delegateGlobals = new ArrayList<AccountDelegateGlobalDetail>();
         offendingLine = null;
         result = rule.checkPrimaryRouteOnlyAllowOneAllDocType(delegateGlobal, delegateGlobals, null);
@@ -72,7 +73,7 @@ public class DelegateGlobalRuleTest extends ChartRuleTestBase {
 
         delegateGlobal = new AccountDelegateGlobalDetail();
         delegateGlobal.setAccountDelegatePrimaryRoutingIndicator(true);
-        delegateGlobal.setFinancialDocumentTypeCode("ALL");
+        delegateGlobal.setFinancialDocumentTypeCode(KFSConstants.ROOT_DOCUMENT_TYPE);
 
         listItem = new AccountDelegateGlobalDetail();
         listItem.setAccountDelegatePrimaryRoutingIndicator(false);
@@ -90,7 +91,7 @@ public class DelegateGlobalRuleTest extends ChartRuleTestBase {
 
         delegateGlobal = new AccountDelegateGlobalDetail();
         delegateGlobal.setAccountDelegatePrimaryRoutingIndicator(true);
-        delegateGlobal.setFinancialDocumentTypeCode("ALL");
+        delegateGlobal.setFinancialDocumentTypeCode(KFSConstants.ROOT_DOCUMENT_TYPE);
 
         listItem = new AccountDelegateGlobalDetail();
         listItem.setAccountDelegatePrimaryRoutingIndicator(true);
@@ -113,7 +114,7 @@ public class DelegateGlobalRuleTest extends ChartRuleTestBase {
 
         listItem = new AccountDelegateGlobalDetail();
         listItem.setAccountDelegatePrimaryRoutingIndicator(true);
-        listItem.setFinancialDocumentTypeCode("ALL");
+        listItem.setFinancialDocumentTypeCode(KFSConstants.ROOT_DOCUMENT_TYPE);
         delegateGlobals.add(listItem);
 
         Integer result = null;
@@ -151,7 +152,7 @@ public class DelegateGlobalRuleTest extends ChartRuleTestBase {
 
         delegateGlobal = new AccountDelegateGlobalDetail();
         delegateGlobal.setAccountDelegatePrimaryRoutingIndicator(false);
-        delegateGlobal.setFinancialDocumentTypeCode("ALL");
+        delegateGlobal.setFinancialDocumentTypeCode(KFSConstants.ROOT_DOCUMENT_TYPE);
         delegateGlobals = new ArrayList<AccountDelegateGlobalDetail>();
         offendingLine = null;
         result = rule.checkPrimaryRoutePerDocType(delegateGlobal, delegateGlobals, null);

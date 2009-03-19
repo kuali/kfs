@@ -24,6 +24,7 @@ import java.util.Calendar;
 
 import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -40,7 +41,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
     private static final String ERROR_PREFIX = "document.newMaintainableObject.";
     private static final String CHART_GOOD_1 = "UA";
     private static final String ACCOUNT_GOOD_1 = "1912201";
-    private static final String DOCTYPE_GOOD_1 = "ALL";
+    private static final String DOCTYPE_GOOD_1 = KFSConstants.ROOT_DOCUMENT_TYPE;
     private static final int BAD_FROM_AMT = -25;
     private static final int BAD_TO_AMT = -40;
     private static final int GOOD_FROM_AMT = 25;
@@ -75,14 +76,14 @@ public class DelegateRuleTest extends ChartRuleTestBase {
     // choose anything but CREQ or AV for doctype
     private static final String DOCTYPE_OPEN_SPECIFIC_CHART = "BA";
     private static final String DOCTYPE_OPEN_SPECIFIC_ACCT = "9020174";
-    private static final String DOCTYPE_OPEN_SPECFIC_DT_VALUE = "A21";
+    private static final String DOCTYPE_OPEN_SPECFIC_DT_VALUE = "IB";
 
     // this one is an available chart/account combo for doctype "all"
     private static final String DOCTYPE_OPEN_ALL_CHART = "UA";
     private static final String DOCTYPE_OPEN_ALL_ACCT = "1912201";
-    private static final String DOCTYPE_OPEN_ALL_DT_VALUE = "ALL";
+    private static final String DOCTYPE_OPEN_ALL_DT_VALUE = KFSConstants.ROOT_DOCUMENT_TYPE;
 
-    private static final String DOCTYPE_ALL = "ALL";
+    private static final String DOCTYPE_ALL = KFSConstants.ROOT_DOCUMENT_TYPE;
 
     private AccountDelegate newDelegate;
     private AccountDelegate oldDelegate;
@@ -639,6 +640,5 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         rule.checkOnlyOnePrimaryRoute(maintDoc);
         assertGlobalErrorMapEmpty();
     }
-
 }
 

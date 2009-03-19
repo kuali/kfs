@@ -5,3 +5,8 @@ update krew_doc_typ_t set lbl = 'Group' where doc_typ_nm = 'IdentityManagementGr
 update KRNS_PARM_T set TXT='N' where NMSPC_CD='KR-WKFLW' AND PARM_NM='ACTION_LIST_DOCUMENT_POPUP_IND'
 /
 
+update krns_parm_t
+set txt = 'ORDS;TRDI'
+where nmspc_cd = 'KFS-PURAP'
+AND PARM_NM = 'ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT'
+/ 

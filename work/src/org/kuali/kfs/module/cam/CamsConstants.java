@@ -251,6 +251,7 @@ public class CamsConstants extends JSTLConstants {
         public static final String SECTION_ID_EQUIPMENT_LOAN_INFORMATION = "equipmentLoanInformation";
         public static final String SECTION_ID_WARRENTY = "warrenty";
         public static final String SECTION_ID_REPAIR_HISTORY = "repairHistory";
+        public static final String COLLECTION_ID_ASSET_REPAIR_HISTORY = "assetRepairHistory";
         public static final String SECTION_ID_COMPONENTS = "components";
         public static final String SECTION_ID_LOAN_INFORMATION = "equipmentLoanInformation";
         public static final String[] EDIT_DETAIL_INFORMATION_FIELDS = new String[] { CamsPropertyConstants.Asset.ASSET_DATE_OF_SERVICE, CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, CamsPropertyConstants.Asset.GOVERNMENT_TAG_NUMBER, CamsPropertyConstants.Asset.NATIONAL_STOCK_NUMBER, CamsPropertyConstants.Asset.MANUFACTURER_NAME, CamsPropertyConstants.Asset.MANUFACTURER_MODEL_NUMBER, CamsPropertyConstants.Asset.SERIAL_NUMBER, CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, CamsPropertyConstants.Asset.OLD_TAG_NUMBER, CamsPropertyConstants.Asset.TOTAL_COST_AMOUNT, CamsPropertyConstants.Asset.FEDERAL_CONTRIBUTION, CamsPropertyConstants.Asset.ASSET_DEPRECIATION_DATE, CamsPropertyConstants.Asset.FINANCIAL_OBJECT_SUB_TYP_CODE };

@@ -144,20 +144,26 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument documentCopy, String collectionName, PersistableBusinessObject bo) {
         boolean success = true;
         
-        // get all incidentDates from AssetRepairHistory collection
-        Asset asset = (Asset) documentCopy.getNewMaintainableObject().getBusinessObject();
-        Set<Date> incidentDateSet = new HashSet<Date>();
-        for (AssetRepairHistory assetRepairHistory : asset.getAssetRepairHistory()) {
-            if (assetRepairHistory.getIncidentDate() != null) {
-                incidentDateSet.add(assetRepairHistory.getIncidentDate());
+        // get all incidentDates from AssetRepairHistory collection and check for duplicate dates.
+        if (collectionName.equals(CamsConstants.Asset.COLLECTION_ID_ASSET_REPAIR_HISTORY)) {
+            
+            Asset asset = (Asset) documentCopy.getNewMaintainableObject().getBusinessObject();
+            Set<Date> incidentDateSet = new HashSet<Date>();
+            
+            for (AssetRepairHistory assetRepairHistory : asset.getAssetRepairHistory()) {
+                if (assetRepairHistory.getIncidentDate() != null) {
+                    incidentDateSet.add(assetRepairHistory.getIncidentDate());
+                }
             }
+    
+            AssetRepairHistory assetRepairHistoryDetails = (AssetRepairHistory) bo;
+            
+            success &= checkDuplicateIncidentDate(assetRepairHistoryDetails, incidentDateSet);
+    
+            return success & super.processCustomAddCollectionLineBusinessRules(documentCopy, collectionName, bo);
         }
-
-        AssetRepairHistory assetRepairHistoryDetails = (AssetRepairHistory) bo;
         
-        success &= checkDuplicateIncidentDate(assetRepairHistoryDetails, incidentDateSet);
-
-        return success & super.processCustomAddCollectionLineBusinessRules(documentCopy, collectionName, bo);
+        return success ;
     }
     
     /**

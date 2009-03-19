@@ -79,7 +79,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="financialDocumentInitiator.principalName" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.DefaultSystemUserValueFinder"/>
         <bean parent="MaintainableFieldDefinition" p:name="financialDocumentInitiator.name"/>
         <bean parent="MaintainableFieldDefinition" p:name="lockboxNumber" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" p:unconditionallyReadOnly="true" />
       </list>
     </property>
   </bean>

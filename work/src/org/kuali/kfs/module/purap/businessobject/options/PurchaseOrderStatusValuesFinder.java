@@ -71,12 +71,12 @@ public class PurchaseOrderStatusValuesFinder extends PurApStatusKeyValuesBase {
         // generate output
         List labels = new ArrayList();
         
-        labels.add(new KeyLabelPair("INCOMPLETE", "Incomplete Statuses"));
+        labels.add(new KeyLabelPair("INCOMPLETE", "INCOMPLETE STATUSES"));
         for (Status status : incompleteStatus) {
             labels.add(new KeyLabelPair(status.getStatusCode(), "- "+status.getStatusDescription()));
         }
 
-        labels.add(new KeyLabelPair("COMPLETE", "CompleteStatuses"));
+        labels.add(new KeyLabelPair("COMPLETE", "COMPLETE STATUSES"));
         for (Status status : completeStatus) {
             labels.add(new KeyLabelPair(status.getStatusCode(), "- "+status.getStatusDescription()));
         }

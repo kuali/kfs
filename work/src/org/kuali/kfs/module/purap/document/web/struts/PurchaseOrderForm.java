@@ -91,7 +91,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     private String splitNoteText;
 
     // Assign Sensitive Data related fields
-    private boolean assigningSensitiveData = false; // flag to indicate whether the form is currently used for assigning sensitive data to the PO
     private String sensitiveDataAssignmentReason = null; // reason for current assignment of sensitive data to the PO
     private SensitiveDataAssignment lastSensitiveDataAssignment = null; // last sensitive data assignment info for the PO
     private SensitiveData newSensitiveDataLine = null; // new sensitive data entry to be added to the PO
@@ -164,14 +163,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     public void setSplitNoteText(String splitNoteText) {
         this.splitNoteText = splitNoteText;
     }       
-
-    public boolean isAssigningSensitiveData() {
-        return assigningSensitiveData;
-    }
-
-    public void setAssigningSensitiveData(boolean assigningSensitiveData) {
-        this.assigningSensitiveData = assigningSensitiveData;
-    }
     
     public String getSensitiveDataAssignmentReason() {
         return sensitiveDataAssignmentReason;
@@ -263,6 +254,37 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         return aPurchaseOrderVendorStipulationLine;
     }
 
+    public String getStatusChange() {
+        if (StringUtils.isNotEmpty(getPurchaseOrderDocument().getStatusChange())){
+            return getPurchaseOrderDocument().getStatusChange();
+        } else {
+            if (StringUtils.equals(getPurchaseOrderDocument().getStatusCode(),PurchaseOrderStatuses.IN_PROCESS)){
+                return PurchaseOrderStatuses.IN_PROCESS;
+            } else if (StringUtils.equals(getPurchaseOrderDocument().getStatusCode(),PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT)){
+                return PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT;
+            }else if (StringUtils.equals(getPurchaseOrderDocument().getStatusCode(),PurchaseOrderStatuses.WAITING_FOR_VENDOR)){
+                return PurchaseOrderStatuses.WAITING_FOR_VENDOR;   
+            }else{
+                return null;
+            }
+        }
+    }
+
+    public void setStatusChange(String statusChange) {
+        getPurchaseOrderDocument().setStatusChange(statusChange);
+    }
+
+    /**
+     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#shouldMethodToCallParameterBeUsed(java.lang.String, java.lang.String, javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
+        if (KNSConstants.DISPATCH_REQUEST_PARAMETER.equals(methodToCallParameterName) && 
+           ("printPurchaseOrderPDFOnly".equals(methodToCallParameterValue) || "printingRetransmitPoOnly".equals(methodToCallParameterValue))) {
+            return true;
+        }
+        return super.shouldMethodToCallParameterBeUsed(methodToCallParameterName, methodToCallParameterValue, request);
+    }
 
     @Override
     public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
@@ -303,90 +325,53 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     }
     
     /**
-     * Override the superclass method to add appropriate buttons for
-     * PurchaseOrderDocument.
+     * Processes validation rules having to do with any payment requests that the given purchase order may have. Specifically,
+     * validates that at least one payment request exists, and makes further checks about the status of such payment requests.
      * 
-     * @see org.kuali.rice.kns.web.struts.form.KualiForm#getExtraButtons()
+     * @param document A PurchaseOrderDocument
+     * @return True if the document passes all the validations.
      */
-    @Override
-    public List<ExtraButton> getExtraButtons() {
-        super.getExtraButtons();        
-        Map buttonsMap = createButtonsMap();                    
-        
-        if (getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.ASSIGN_SENSITIVE_DATA)) {
-            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.assignSensitiveData"));
+    private boolean processPaymentRequestRulesForCanClose(PurchaseOrderDocument document) {
+        boolean valid = true;
+        // The PO must have at least one PREQ against it.
+        Integer poDocId = document.getPurapDocumentIdentifier();
+        List<PaymentRequestDocument> pReqs = SpringContext.getBean(PaymentRequestService.class).getPaymentRequestsByPurchaseOrderId(poDocId);
+        if (ObjectUtils.isNotNull(pReqs)) {
+            if (pReqs.size() == 0) {
+                valid = false;
+            }
+            else {
+                boolean checkInProcess = true;
+                boolean hasInProcess = false;
 
-            if (isAssigningSensitiveData()) {
-                // no other extra buttons except the following shall appear on "Assign Sensitive Data" page
-                // and these buttons use the same permissions as the "Assign Sensitive Data" button
-                extraButtons.clear();
-                extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.submitSensitiveData"));
-                extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.cancelSensitiveData"));
-                return extraButtons;
+                for (PaymentRequestDocument pReq : pReqs) {
+                    // skip exception docs
+                    if (pReq.getDocumentHeader().getWorkflowDocument().stateIsException()) {
+                        continue;
+                    }
+                    // TODO NOTE for below, this could/should be changed to look at the first route level after full entry instead of
+                    // being tied to AwaitingFiscal (in case full entry is moved)
+                    // look for a doc that is currently routing, that will probably be the one that called this close if called from
+                    // preq (with close po box)
+                    if (StringUtils.equalsIgnoreCase(pReq.getStatusCode(), PaymentRequestStatuses.AWAITING_FISCAL_REVIEW) && !StringUtils.equalsIgnoreCase(pReq.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames(), PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum.ACCOUNT_REVIEW.getName())) {
+                        // terminate the search since this close doc is probably being called by this doc, a doc should never be In
+                        // Process and enroute in any other case
+                        checkInProcess = false;
+                        break;
+                    }
+                    if (StringUtils.equalsIgnoreCase(pReq.getStatusCode(), PaymentRequestStatuses.IN_PROCESS)) {
+                        hasInProcess = true;
+                    }
+                }
+                if (checkInProcess && hasInProcess) {
+                    valid = false;
+                }
             }
         }
 
-        if (getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.PREVIEW_PRINT_PURCHASE_ORDER)) {
-            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.printingPreviewPo"));
-        }
-
-        if (getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.PRINT_PURCHASE_ORDER)) {
-            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.firstTransmitPrintPo"));
-        }
-
-        if (getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.RESEND_PURCHASE_ORDER)) {
-            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.resendPoCxml"));
-        }
-
-        if (canRetransmit()) {
-            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.retransmitPo"));
-        }
-
-        if (canPrintRetransmit()) {
-            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.printingRetransmitPo"));
-        }
-
-        if (canReopen()) {
-            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.reopenPo"));
-        }
-
-        if (canClose()) {
-            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.closePo"));
-        }
-
-        if (canHoldPayment()) {
-            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.paymentHoldPo"));
-        }
-
-        if (canAmend()) {
-            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.amendPo"));
-        }
-
-        if (canVoid()) {
-            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.voidPo"));
-        }
-
-        if (canRemoveHold()) {
-            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.removeHoldPo"));
-        }
-
-        if (canCreateReceiving()) {
-            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.createReceivingLine"));
-        }
-
-        if (canSplitPo()) {
-            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.splitPo"));
-        }
-
-        if (canContinuePoSplit()) {
-            extraButtons.clear();
-            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.continuePurchaseOrderSplit"));
-            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.cancelPurchaseOrderSplit"));
-        }
-        
-        return extraButtons;
+        return valid;
     }
-    
+
     /**
      * Determines whether to display the amend button for the purchase order document. The document status must be open, and the
      * purchase order must be current and not pending, and the user must be in purchasing group. These are same as the conditions
@@ -460,54 +445,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         }
 
         return can;        
-    }
-
-    /**
-     * Processes validation rules having to do with any payment requests that the given purchase order may have. Specifically,
-     * validates that at least one payment request exists, and makes further checks about the status of such payment requests.
-     * 
-     * @param document A PurchaseOrderDocument
-     * @return True if the document passes all the validations.
-     */
-    private boolean processPaymentRequestRulesForCanClose(PurchaseOrderDocument document) {
-        boolean valid = true;
-        // The PO must have at least one PREQ against it.
-        Integer poDocId = document.getPurapDocumentIdentifier();
-        List<PaymentRequestDocument> pReqs = SpringContext.getBean(PaymentRequestService.class).getPaymentRequestsByPurchaseOrderId(poDocId);
-        if (ObjectUtils.isNotNull(pReqs)) {
-            if (pReqs.size() == 0) {
-                valid = false;
-            }
-            else {
-                boolean checkInProcess = true;
-                boolean hasInProcess = false;
-
-                for (PaymentRequestDocument pReq : pReqs) {
-                    // skip exception docs
-                    if (pReq.getDocumentHeader().getWorkflowDocument().stateIsException()) {
-                        continue;
-                    }
-                    // TODO NOTE for below, this could/should be changed to look at the first route level after full entry instead of
-                    // being tied to AwaitingFiscal (in case full entry is moved)
-                    // look for a doc that is currently routing, that will probably be the one that called this close if called from
-                    // preq (with close po box)
-                    if (StringUtils.equalsIgnoreCase(pReq.getStatusCode(), PaymentRequestStatuses.AWAITING_FISCAL_REVIEW) && !StringUtils.equalsIgnoreCase(pReq.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames(), PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum.ACCOUNT_REVIEW.getName())) {
-                        // terminate the search since this close doc is probably being called by this doc, a doc should never be In
-                        // Process and enroute in any other case
-                        checkInProcess = false;
-                        break;
-                    }
-                    if (StringUtils.equalsIgnoreCase(pReq.getStatusCode(), PaymentRequestStatuses.IN_PROCESS)) {
-                        hasInProcess = true;
-                    }
-                }
-                if (checkInProcess && hasInProcess) {
-                    valid = false;
-                }
-            }
-        }
-
-        return valid;
     }
 
     /**
@@ -637,8 +574,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         }
       
         return can;
-    }
-    
+    }    
     
     /**
      * Determines if a Split PO Document can be created from this purchase order. Conditions: 
@@ -723,6 +659,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      */
     private Map<String, ExtraButton> createButtonsMap() {
         HashMap<String, ExtraButton> result = new HashMap<String, ExtraButton>();
+        
         // Retransmit button
         ExtraButton retransmitButton = new ExtraButton();
         retransmitButton.setExtraButtonProperty("methodToCall.retransmitPo");
@@ -853,36 +790,89 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         return result;
     }
 
-    public String getStatusChange() {
-        if (StringUtils.isNotEmpty(getPurchaseOrderDocument().getStatusChange())){
-            return getPurchaseOrderDocument().getStatusChange();
-        } else {
-            if (StringUtils.equals(getPurchaseOrderDocument().getStatusCode(),PurchaseOrderStatuses.IN_PROCESS)){
-                return PurchaseOrderStatuses.IN_PROCESS;
-            } else if (StringUtils.equals(getPurchaseOrderDocument().getStatusCode(),PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT)){
-                return PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT;
-            }else if (StringUtils.equals(getPurchaseOrderDocument().getStatusCode(),PurchaseOrderStatuses.WAITING_FOR_VENDOR)){
-                return PurchaseOrderStatuses.WAITING_FOR_VENDOR;   
-            }else{
-                return null;
-            }
-        }
-    }
-
-    public void setStatusChange(String statusChange) {
-        getPurchaseOrderDocument().setStatusChange(statusChange);
-    }
-
     /**
-     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#shouldMethodToCallParameterBeUsed(java.lang.String, java.lang.String, javax.servlet.http.HttpServletRequest)
+     * Override the superclass method to add appropriate buttons for
+     * PurchaseOrderDocument.
+     * 
+     * @see org.kuali.rice.kns.web.struts.form.KualiForm#getExtraButtons()
      */
     @Override
-    public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
-        if (KNSConstants.DISPATCH_REQUEST_PARAMETER.equals(methodToCallParameterName) && 
-           ("printPurchaseOrderPDFOnly".equals(methodToCallParameterValue) || "printingRetransmitPoOnly".equals(methodToCallParameterValue))) {
-            return true;
+    public List<ExtraButton> getExtraButtons() {
+        super.getExtraButtons();        
+        Map buttonsMap = createButtonsMap();   
+        
+        if (getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.ASSIGN_SENSITIVE_DATA)) {
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.assignSensitiveData"));
+            if (getPurchaseOrderDocument().getAssigningSensitiveData()) {
+                // no other extra buttons except the following shall appear on "Assign Sensitive Data" page
+                // and these buttons use the same permissions as the "Assign Sensitive Data" button
+                extraButtons.clear();
+                extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.submitSensitiveData"));
+                extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.cancelSensitiveData"));
+                return extraButtons;
+            }
         }
-        return super.shouldMethodToCallParameterBeUsed(methodToCallParameterName, methodToCallParameterValue, request);
+
+        if (getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.PREVIEW_PRINT_PURCHASE_ORDER)) {
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.printingPreviewPo"));
+        }
+
+        if (getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.PRINT_PURCHASE_ORDER)) {
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.firstTransmitPrintPo"));
+        }
+
+        if (getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.RESEND_PURCHASE_ORDER)) {
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.resendPoCxml"));
+        }
+
+        if (canRetransmit()) {
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.retransmitPo"));
+        }
+
+        if (canPrintRetransmit()) {
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.printingRetransmitPo"));
+        }
+
+        if (canReopen()) {
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.reopenPo"));
+        }
+
+        if (canClose()) {
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.closePo"));
+        }
+
+        if (canHoldPayment()) {
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.paymentHoldPo"));
+        }
+
+        if (canAmend()) {
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.amendPo"));
+        }
+
+        if (canVoid()) {
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.voidPo"));
+        }
+
+        if (canRemoveHold()) {
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.removeHoldPo"));
+        }
+
+        if (canCreateReceiving()) {
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.createReceivingLine"));
+        }
+
+        if (canSplitPo()) {
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.splitPo"));
+        }
+
+        if (canContinuePoSplit()) {
+            extraButtons.clear();
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.continuePurchaseOrderSplit"));
+            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.cancelPurchaseOrderSplit"));
+        }
+        
+        return extraButtons;
     }
+    
 }
 

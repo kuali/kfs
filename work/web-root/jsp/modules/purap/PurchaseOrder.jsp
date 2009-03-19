@@ -43,7 +43,7 @@
     </c:if>
      
     <c:choose> 
-	<c:when test="${KualiForm.assigningSensitiveData}">
+	<c:when test="${KualiForm.document.assigningSensitiveData}">
 		<purap:assignSensitiveData
 			documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}"
 	        itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}"
@@ -167,7 +167,7 @@
     <kul:panelFooter />
 
 	<c:choose>
-		<c:when test="${KualiForm.assigningSensitiveData}">
+		<c:when test="${KualiForm.document.assigningSensitiveData}">
     		<kfs:documentControls 
         		transactionalDocument="true" 
         		extraButtons="${KualiForm.extraButtons}"

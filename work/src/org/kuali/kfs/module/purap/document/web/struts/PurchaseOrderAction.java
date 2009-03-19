@@ -602,7 +602,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         SensitiveDataService sdService = SpringContext.getBean(SensitiveDataService.class);        
         
         // set the assignment flag and reset input fields
-        poForm.setAssigningSensitiveData(true);     
+        po.setAssigningSensitiveData(true);     
         poForm.setSensitiveDataAssignmentReason("");
         poForm.setNewSensitiveDataLine(new SensitiveData());
         
@@ -659,7 +659,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         SpringContext.getBean(PurapService.class).saveRoutingDataForRelatedDocuments(po.getAccountsPayablePurchasingDocumentLinkIdentifier());
 
         // reset the sensitive data related fields in the po form
-        poForm.setAssigningSensitiveData(false);
+        po.setAssigningSensitiveData(false);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }          
@@ -680,7 +680,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         // reset the sensitive data flag in the po form, reload sensitive data from database to undo the canceled changes
         PurchaseOrderForm poForm = (PurchaseOrderForm)form;
         PurchaseOrderDocument po = (PurchaseOrderDocument)poForm.getDocument();        
-        poForm.setAssigningSensitiveData(false);
+        po.setAssigningSensitiveData(false);
         List<SensitiveData> sds = SpringContext.getBean(SensitiveDataService.class).getSensitiveDatasAssignedByPoId(po.getPurapDocumentIdentifier());
         poForm.setSensitiveDatasAssigned(sds);        
         

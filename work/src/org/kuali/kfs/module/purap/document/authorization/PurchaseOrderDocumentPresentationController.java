@@ -77,7 +77,7 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
     protected boolean canCancel(Document document) {
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
 
-        if (poDocument.isPendingSplit()) {
+        if (poDocument.isPendingSplit() || poDocument.getAssigningSensitiveData()) {
             return false;
         }
 
@@ -88,7 +88,7 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
     protected boolean canClose(Document document) {
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
 
-        if (poDocument.isPendingSplit()) {
+        if (poDocument.isPendingSplit() || poDocument.getAssigningSensitiveData()) {
             return false;
         }
 
@@ -99,7 +99,7 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
     protected boolean canReload(Document document) {
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
 
-        if (poDocument.isPendingSplit()) {
+        if (poDocument.isPendingSplit() || poDocument.getAssigningSensitiveData()) {
             return false;
         }
 
@@ -110,7 +110,7 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
     protected boolean canSave(Document document) {
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
 
-        if (poDocument.isPendingSplit()) {
+        if (poDocument.isPendingSplit() || poDocument.getAssigningSensitiveData()) {
             return false;
         }
 

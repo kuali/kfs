@@ -154,6 +154,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     private KualiDecimal internalPurchasingLimit;
     private boolean pendingSplit = false;           // Needed for authorization
     private boolean copyingNotesWhenSplitting;      // Check box on Split PO tab
+    private boolean assigningSensitiveData = false; // whether the form is currently used for assigning sensitive data to the PO
     private List<PurchaseOrderSensitiveData> purchaseOrderSensitiveData;  
     
     // REFERENCE OBJECTS
@@ -290,7 +291,15 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         }
         return null;
     }
-    
+        
+    public boolean getAssigningSensitiveData() {
+        return assigningSensitiveData;
+    }
+
+    public void setAssigningSensitiveData(boolean assigningSensitiveData) {
+        this.assigningSensitiveData = assigningSensitiveData;
+    }
+
     public List<PurchaseOrderSensitiveData> getPurchaseOrderSensitiveData() {
         Map fieldValues = new HashMap();
         fieldValues.put(PurapPropertyConstants.PURAP_DOC_ID, getPurapDocumentIdentifier());
@@ -1561,7 +1570,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         }
         return accounts;
     }
-    
+
     public DocSearchCriteriaDTO convertSelections(DocSearchCriteriaDTO searchCriteria) {
 
         for (SearchAttributeCriteriaComponent comp : searchCriteria.getSearchableAttributes()) {  

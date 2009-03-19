@@ -49,6 +49,7 @@ import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntryStatistics;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.exception.LoadException;
+import org.kuali.kfs.gl.report.TextReportHelper;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.ScrubberReportData;
 import org.kuali.kfs.gl.service.ScrubberValidator;
@@ -98,9 +99,11 @@ public class LaborScrubberProcess {
     private UniversityDateDao universityDateDao;
     private PersistenceService persistenceService;
     private LaborReportService laborReportService;
+    private TextReportHelper<Transaction> textReportHelper;
     private ScrubberValidator scrubberValidator;
     
     private String batchFileDirectoryName;
+    private String reportDirectoryName;
 
     enum GROUP_TYPE {
         VALID, ERROR, EXPIRED
@@ -149,6 +152,9 @@ public class LaborScrubberProcess {
     private String validFile;
     private String errorFile; 
     private String expiredFile;
+    
+    private String reportFileName;
+    
 
 //    private String inputFileName = "c:/scrubberEntries.txt";
 //    private String validOutputFilename = "c:/SCRBOUT1";
@@ -160,7 +166,7 @@ public class LaborScrubberProcess {
     /**
      * These parameters are all the dependencies.
      */
-    public LaborScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, LaborOriginEntryService laborOriginEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService kualiConfigurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, LaborReportService laborReportService, ScrubberValidator scrubberValidator, String batchFileDirectoryName) {
+    public LaborScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, LaborOriginEntryService laborOriginEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService kualiConfigurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, LaborReportService laborReportService, ScrubberValidator scrubberValidator, String batchFileDirectoryName, String reportDirectoryName) {
         super();
         this.flexibleOffsetAccountService = flexibleOffsetAccountService;
         this.laborOriginEntryService = laborOriginEntryService;
@@ -174,6 +180,7 @@ public class LaborScrubberProcess {
         this.laborReportService = laborReportService;
         this.scrubberValidator = scrubberValidator;
         this.batchFileDirectoryName = batchFileDirectoryName;
+        this.reportDirectoryName = reportDirectoryName;
 
         cutoffHour = null;
         cutoffMinute = null;
@@ -192,8 +199,11 @@ public class LaborScrubberProcess {
         this.inputFile = fileName;
         this.validFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
         this.errorFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
-        this.expiredFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
-
+        this.expiredFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        runDate = calculateRunDate(dateTimeService.getCurrentDate());
+        this.reportFileName = reportDirectoryName + File.separator + "labor_scrubber_report_" + runDate.toString() + ".txt" ;
+        
+        
         scrubEntries(true, documentNumber);
         
         File deleteValidFile = new File(validFile);
@@ -215,6 +225,8 @@ public class LaborScrubberProcess {
         this.validFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
         this.errorFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
         this.expiredFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
+        runDate = calculateRunDate(dateTimeService.getCurrentDate());
+        this.reportFileName = reportDirectoryName + File.separator + "labor_scrubber_report_" + runDate.toString() + ".txt" ;
         
         scrubEntries(false, null);
     }
@@ -342,6 +354,8 @@ public class LaborScrubberProcess {
         PrintStream OUTPUT_ERR_FILE_ps;
         PrintStream OUTPUT_EXP_FILE_ps;
         
+        PrintStream reportPrintStream;
+        
         // BufferedWriter OUTPUT_GLE_FILE_bw;
         try {
             INPUT_GLE_FILE = new FileReader(inputFile);
@@ -359,11 +373,16 @@ public class LaborScrubberProcess {
             OUTPUT_GLE_FILE_ps = new PrintStream(validFile);
             OUTPUT_ERR_FILE_ps = new PrintStream(errorFile);
             OUTPUT_EXP_FILE_ps = new PrintStream(expiredFile);
+            
+            reportPrintStream = new PrintStream(reportFileName);
         }
         catch (IOException e) {
             // FIXME: do whatever is supposed to be done here
             throw new RuntimeException(e);
         }
+        
+        textReportHelper = new TextReportHelper<Transaction>("LABOR SCRUBBER REPORT", reportPrintStream, dateTimeService, new LaborOriginEntry());
+        textReportHelper.writeErrorHeader();
 
         INPUT_GLE_FILE_br = new BufferedReader(INPUT_GLE_FILE);
         // OUTPUT_GLE_FILE_bw = new BufferedWriter(OUTPUT_GLE_FILE);
@@ -494,7 +513,8 @@ public class LaborScrubberProcess {
                         }
 
                         if (transactionErrors.size() > 0) {
-                            scrubberReportErrors.put(unscrubbedEntry, transactionErrors);
+                            //scrubberReportErrors.put(unscrubbedEntry, transactionErrors);
+                            textReportHelper.writeErrors(unscrubbedEntry, transactionErrors);
                         }
 
                         lastEntry = scrubbedEntry;
@@ -502,8 +522,8 @@ public class LaborScrubberProcess {
                     else {
                         // Error transaction
                         saveErrorTransaction = true;
-
-                        scrubberReportErrors.put(unscrubbedEntry, transactionErrors);
+                        //scrubberReportErrors.put(unscrubbedEntry, transactionErrors);
+                        textReportHelper.writeErrors(unscrubbedEntry, transactionErrors);
                     }
                 
 
@@ -538,6 +558,15 @@ public class LaborScrubberProcess {
             OUTPUT_GLE_FILE_ps.close();
             OUTPUT_ERR_FILE_ps.close();
             OUTPUT_EXP_FILE_ps.close();
+
+
+            textReportHelper.writeStatisticsHeader();
+            reportPrintStream.printf("                                        UNSCRUBBED RECORDS READ              %,9d\n", scrubberReport.getNumberOfUnscrubbedRecordsRead());
+            reportPrintStream.printf("                                        SCRUBBED RECORDS WRITTEN             %,9d\n", scrubberReport.getNumberOfScrubbedRecordsWritten());
+            reportPrintStream.printf("                                        ERROR RECORDS WRITTEN                %,9d\n", scrubberReport.getNumberOfErrorRecordsWritten());
+            reportPrintStream.printf("                                        TOTAL OUTPUT RECORDS WRITTEN         %,9d\n", scrubberReport.getTotalNumberOfRecordsWritten());
+            reportPrintStream.printf("                                        EXPIRED ACCOUNTS FOUND               %,9d\n", scrubberReport.getNumberOfExpiredAccountsFound());
+            reportPrintStream.close();
 
 
         }
@@ -864,6 +893,8 @@ public class LaborScrubberProcess {
         LOG.debug("performDemerger() started");
         String validOutputFilename = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
         String errorOutputFilename = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_ERROR_SORTED_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        runDate = calculateRunDate(dateTimeService.getCurrentDate());
+        reportFileName = reportDirectoryName + File.separator + "labor_demerger_report_" + runDate.toString() + ".txt" ;
         
         // Without this step, the job fails with Optimistic Lock Exceptions
         persistenceService.clearCache();
@@ -884,6 +915,7 @@ public class LaborScrubberProcess {
         BufferedReader INPUT_ERR_FILE_br;
         PrintStream OUTPUT_DEMERGER_GLE_FILE_ps;
         PrintStream OUTPUT_DEMERGER_ERR_FILE_ps;
+        PrintStream reportPrintStream;
         
         //TODO: change file name for FIS
         String demergerValidOutputFilename = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
@@ -900,6 +932,7 @@ public class LaborScrubberProcess {
             
             OUTPUT_DEMERGER_GLE_FILE_ps = new PrintStream(demergerValidOutputFilename);
             OUTPUT_DEMERGER_ERR_FILE_ps = new PrintStream(demergerErrorOutputFilename);
+            reportPrintStream = new PrintStream(reportFileName);
         }
         catch (IOException e) {
             throw new RuntimeException(e);
@@ -998,7 +1031,17 @@ public class LaborScrubberProcess {
         runCal = Calendar.getInstance();
         runCal.setTime(runDate);
         
-        laborReportService.generateScrubberDemergerStatisticsReports(demergerReport, reportsDirectory, runDate);
+        //laborReportService.generateScrubberDemergerStatisticsReports(demergerReport, reportsDirectory, runDate);
+
+        textReportHelper = new TextReportHelper<Transaction>("LABOR DEMERGER REPORT", reportPrintStream, dateTimeService, new LaborOriginEntry());
+        textReportHelper.writeTitle();
+        reportPrintStream.printf("                                       SCRUBBER ERROR TRANSACTIONS READ       %,9d\n", demergerReport.getErrorTransactionsRead());
+        reportPrintStream.printf("                                       SCRUBBER VALID TRANSACTIONS READ       %,9d\n", demergerReport.getValidTransactionsRead());
+        reportPrintStream.printf("\n");
+        reportPrintStream.printf("                                       DEMERGER ERRORS SAVED                  %,9d\n", demergerReport.getErrorTransactionsSaved());
+        reportPrintStream.printf("                                       DEMERGER VALID TRANSACTIONS SAVED      %,9d\n", demergerReport.getValidTransactionsSaved());
+        reportPrintStream.close();
+
 
         
 }
@@ -1156,5 +1199,6 @@ public class LaborScrubberProcess {
         Collections.sort((List) returnCollection, new BeanPropertyComparator(sortColumns, true));
         return returnCollection;
     }
+
 }
 

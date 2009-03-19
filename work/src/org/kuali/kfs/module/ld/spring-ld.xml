@@ -262,6 +262,7 @@
 			<ref bean="laborScrubberValidator" />
 		</property>
 		<property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
+		<property name="reportDirectoryName" value="${reports.directory}"/>
 	</bean>
 	
     <bean id="laborScrubberValidator" class="org.kuali.kfs.module.ld.batch.service.impl.ScrubberValidatorImpl">

@@ -52,6 +52,7 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
     private ScrubberValidator scrubberValidator;
     
     private String batchFileDirectoryName;
+    private String reportDirectoryName;
 
     /**
      * @see org.kuali.module.labor.service.ScrubberService#scrubGroupReportOnly(org.kuali.kfs.gl.businessobject.OriginEntryGroup)
@@ -62,7 +63,7 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
         // The logic for this was moved into another object because the process was written using
         // many instance variables which shouldn't be used for Spring services
 
-        LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, laborReportService, scrubberValidator, batchFileDirectoryName);
+        LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, laborReportService, scrubberValidator, batchFileDirectoryName, reportDirectoryName);
         sp.setReferenceLookup(SpringContext.getBean(LaborOriginEntryLookupService.class));
         sp.scrubGroupReportOnly(fileName, documentNumber);
         sp.setReferenceLookup(null);
@@ -77,7 +78,7 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
         // The logic for this was moved into another object because the process was written using
         // many instance variables which shouldn't be used for Spring services
 
-        LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, laborReportService, scrubberValidator, batchFileDirectoryName);
+        LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, laborReportService, scrubberValidator, batchFileDirectoryName, reportDirectoryName);
         sp.setReferenceLookup(SpringContext.getBean(LaborOriginEntryLookupService.class));
         sp.scrubEntries();
         sp.setReferenceLookup(null);
@@ -85,7 +86,7 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
     
     public void performDemerger() {
         LOG.debug("performDemerger() started");
-        LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, laborReportService, scrubberValidator, batchFileDirectoryName);
+        LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, laborReportService, scrubberValidator, batchFileDirectoryName, reportDirectoryName);
         sp.performDemerger();
                 
     }
@@ -190,5 +191,9 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
      */
     public void setFlexibleOffsetAccountService(FlexibleOffsetAccountService flexibleOffsetAccountService) {
         this.flexibleOffsetAccountService = flexibleOffsetAccountService;
+    }
+
+    public void setReportDirectoryName(String reportDirectoryName) {
+        this.reportDirectoryName = reportDirectoryName;
     }
 }

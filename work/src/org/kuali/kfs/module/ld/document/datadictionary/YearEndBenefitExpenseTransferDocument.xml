@@ -8,6 +8,7 @@
     <property name="documentClass" value="org.kuali.kfs.module.ld.document.YearEndBenefitExpenseTransferDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ld.document.authorization.LaborExpenseDocumentAuthorizerBase"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.ld.document.authorization.LaborExpensesDocumentPresentationController"/>    
     <property name="sessionDocument" value="true"/>    
     <property name="allowsCopy" value="true"/>
     <property name="workflowAttributes">

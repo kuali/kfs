@@ -708,7 +708,6 @@
     					</list>
     				</property>
     			</bean>
-				<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode-sourceOnly"/>
 				<ref bean="SearchingType-PurchasingAccountsPayableDocument-organizationCode"/>
       			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
    					<property name="searchingAttribute">

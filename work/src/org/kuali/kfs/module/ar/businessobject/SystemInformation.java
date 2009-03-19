@@ -13,8 +13,11 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.bo.PostalCode;
 import org.kuali.rice.kns.bo.State;
+import org.kuali.rice.kns.service.PostalCodeService;
 import org.kuali.rice.kns.service.StateService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -66,6 +69,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
     private SubObjectCode wireSubObject;
     private Person financialDocumentInitiator;
     private SystemOptions universityFiscal;
+    private PostalCode orgRemitToZipCode;
     
 	public Person getFinancialDocumentInitiator() {
 	    financialDocumentInitiator = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(financialDocumentInitiatorIdentifier, financialDocumentInitiator);
@@ -900,6 +904,24 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
      */
     public void setUniversityFiscal(SystemOptions universityFiscal) {
         this.universityFiscal = universityFiscal;
+    }
+
+    /**
+     * Gets the orgRemitToZipCode attribute. 
+     * @return Returns the orgRemitToZipCode.
+     */
+    public PostalCode getOrgRemitToZipCode() {
+        if(ObjectUtils.isNull(orgRemitToZipCode))
+            orgRemitToZipCode = SpringContext.getBean(PostalCodeService.class).getByPostalCodeInDefaultCountry(organizationRemitToZipCode);
+        return orgRemitToZipCode;
+    }
+
+    /**
+     * Sets the orgRemitToZipCode attribute value.
+     * @param orgRemitToZipCode The orgRemitToZipCode to set.
+     */
+    public void setOrgRemitToZipCode(PostalCode orgRemitToZipCode) {
+        this.orgRemitToZipCode = orgRemitToZipCode;
     }
 
 }

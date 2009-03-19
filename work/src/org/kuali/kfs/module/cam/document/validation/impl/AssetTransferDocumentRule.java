@@ -321,7 +321,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
             }
         }
         if (StringUtils.isNotBlank(assetTransferDocument.getCampusCode())) {
-            assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.CAMPUS);
+            //assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.CAMPUS);
             if (ObjectUtils.isNull(assetTransferDocument.getCampus())) {
                 putError(CamsPropertyConstants.AssetTransferDocument.CAMPUS_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_CAMPUS_CODE, assetTransferDocument.getCampusCode());
                 valid &= false;

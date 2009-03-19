@@ -54,6 +54,7 @@ import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.MaintenanceDocumentService;
 import org.kuali.rice.kns.service.PostalCodeService;
 import org.kuali.rice.kns.service.StateService;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -204,7 +205,9 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * @return Returns the campus
      */
     public Campus getCampus() {
-        return campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, campus, "campus");
+        Map<String, Object> criteria = new HashMap<String, Object>();
+        criteria.put(KNSPropertyConstants.CAMPUS_CODE, campusCode); 
+        return campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).getExternalizableBusinessObject(Campus.class, criteria);
     }
 
     /**

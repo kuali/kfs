@@ -687,6 +687,7 @@
 		<property name="sufficientFundsService">
 			<ref bean="sufficientFundsService" />
 		</property>
+		<property name="reportDirectoryName" value="${reports.directory}"/>
 	</bean>
 
 	<bean id="glPosterService" class="org.kuali.kfs.gl.batch.service.impl.PosterServiceImpl">

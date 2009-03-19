@@ -94,15 +94,16 @@ public class SufficientFundBalancesDaoOjb extends PlatformAwareDaoBaseOjb implem
      * @param accountNumber the account number of sufficient fund balances to delete
      * @see org.kuali.kfs.gl.dataaccess.SufficientFundBalancesDao#deleteByAccountNumber(java.lang.Integer, java.lang.String, java.lang.String)
      */
-    public void deleteByAccountNumber(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber) {
+    public int deleteByAccountNumber(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber) {
         LOG.debug("deleteByAccountNumber() started");
-
+        
         Criteria crit = new Criteria();
         crit.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
         crit.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
         crit.addEqualTo(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
 
         QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundBalances.class, crit);
+        int count = getPersistenceBrokerTemplate().getCount(qbc);
         getPersistenceBrokerTemplate().deleteByQuery(qbc);
 
         // This has to be done because deleteByQuery deletes the rows from the table,
@@ -110,6 +111,8 @@ public class SufficientFundBalancesDaoOjb extends PlatformAwareDaoBaseOjb implem
         // later on, you could get an Optimistic Lock Exception because OJB thinks rows
         // exist when they really don't.
         getPersistenceBrokerTemplate().clearCache();
+        
+        return count;
     }
 
     /**

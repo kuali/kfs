@@ -15,6 +15,9 @@
  */
 package org.kuali.kfs.gl.batch.service.impl;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,6 +36,7 @@ import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
 import org.kuali.kfs.gl.dataaccess.BalanceDao;
 import org.kuali.kfs.gl.dataaccess.SufficientFundBalancesDao;
 import org.kuali.kfs.gl.report.Summary;
+import org.kuali.kfs.gl.report.TextReportHelper;
 import org.kuali.kfs.gl.service.ReportService;
 import org.kuali.kfs.gl.service.SufficientFundRebuildService;
 import org.kuali.kfs.gl.service.SufficientFundsService;
@@ -73,15 +77,19 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
     List transactionErrors;
 
     private Integer universityFiscalYear;
-    private int sfrbRecordsConvertedCount;
-    private int sfrbRecordsReadCount;
-    private int sfrbRecordsDeletedCount;
-    private int sfrbNotDeletedCount;
-    private int sfblInsertedCount;
-    private int sfblUpdatedCount;
-    private int warningCount;
+    private int sfrbRecordsConvertedCount = 0;
+    private int sfrbRecordsReadCount = 0;
+    private int sfrbRecordsDeletedCount = 0;
+    private int sfrbNotDeletedCount = 0;
+    private int sfblDeletedCount = 0;
+    private int sfblInsertedCount = 0;
+    private int sfblUpdatedCount = 0;
+    private int warningCount = 0;
+
 
     private SufficientFundBalances currentSfbl = null;
+    private TextReportHelper<SufficientFundRebuild> textReportHelper;
+    private String reportDirectoryName; 
 
     /**
      * Constructs a SufficientFundsRebuilderServiceImpl instance
@@ -110,7 +118,24 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
 
         universityFiscalYear = getFiscalYear();
         initService();
-
+        
+        //need to add time info - batch util?
+        runDate = new Date(dateTimeService.getCurrentDate().getTime());
+        String reportFileName = reportDirectoryName + File.separator + "labor_scrubber_report_" + runDate.toString() + ".txt" ;
+        PrintStream reportPrintStream;
+        try {
+            reportPrintStream = new PrintStream(reportFileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("SufficientFundsRebuildServiceImpl - rebuildSufficientFunds Stopped: " + e.getMessage(), e);
+        }
+        
+        textReportHelper = new TextReportHelper<SufficientFundRebuild>("SUFFICIENT FUNDS REBUILDER REPORT", reportPrintStream, dateTimeService, new SufficientFundRebuild());
+        textReportHelper.writeErrorHeader();
+        
+        
+        
+        
         // Get all the O types and convert them to A types
         LOG.debug("rebuildSufficientFunds() Converting O types to A types");
         for (Iterator iter = sufficientFundRebuildService.getAllObjectEntries().iterator(); iter.hasNext();) {
@@ -122,7 +147,8 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
             convertOtypeToAtypes(sfrb);
 
             if (transactionErrors.size() > 0) {
-                batchError.put(sfrb, transactionErrors);
+                //batchError.put(sfrb, transactionErrors);
+                textReportHelper.writeErrors(sfrb, transactionErrors);
             }
             else {
                 sufficientFundRebuildService.delete(sfrb);
@@ -140,7 +166,8 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
             calculateSufficientFundsByAccount(sfrb);
 
             if (transactionErrors.size() > 0) {
-                batchError.put(sfrb, transactionErrors);
+                //batchError.put(sfrb, transactionErrors);
+                textReportHelper.writeErrors(sfrb, transactionErrors);
             }
 
             sufficientFundRebuildService.delete(sfrb);
@@ -159,19 +186,31 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
                 addTransactionError(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_INVALID_SF_OBJECT_TYPE_CODE));
                 ++warningCount;
                 ++sfrbNotDeletedCount;
-                batchError.put(sfrb, transactionErrors);
+                //batchError.put(sfrb, transactionErrors);
+                textReportHelper.writeErrors(sfrb, transactionErrors);
             }
         }
 
         // write out report and errors
         LOG.debug("rebuildSufficientFunds() Create report");
-        reportSummary.add(new Summary(1, "SFRB records converted from Object to Account", new Integer(sfrbRecordsConvertedCount)));
-        reportSummary.add(new Summary(2, "Post conversion SFRB records read", new Integer(sfrbRecordsReadCount)));
-        reportSummary.add(new Summary(3, "SFRB records deleted", new Integer(sfrbRecordsDeletedCount)));
-        reportSummary.add(new Summary(4, "SFRB records kept due to errors", new Integer(sfrbNotDeletedCount)));
-        reportSummary.add(new Summary(6, "SFBL records added", new Integer(sfblInsertedCount)));
-        reportSummary.add(new Summary(7, "SFBL records updated", new Integer(sfblUpdatedCount)));
-        reportService.generateSufficientFundsReport(batchError, reportSummary, runDate, 0);
+//        reportSummary.add(new Summary(1, "SFRB records converted from Object to Account", new Integer(sfrbRecordsConvertedCount)));
+//        reportSummary.add(new Summary(2, "Post conversion SFRB records read", new Integer(sfrbRecordsReadCount)));
+//        reportSummary.add(new Summary(3, "SFRB records deleted", new Integer(sfrbRecordsDeletedCount)));
+//        reportSummary.add(new Summary(4, "SFRB records kept due to errors", new Integer(sfrbNotDeletedCount)));
+//        reportSummary.add(new Summary(6, "SFBL records added", new Integer(sfblInsertedCount)));
+//        reportSummary.add(new Summary(7, "SFBL records updated", new Integer(sfblUpdatedCount)));
+//        reportService.generateSufficientFundsReport(batchError, reportSummary, runDate, 0);
+        
+        // write out statistics
+        textReportHelper.writeStatisticsHeader();
+        reportPrintStream.printf("                                   SFRB RECORDS CONVERTED FROM OBJECT TO ACCOUNT  %,9d\n", sfrbRecordsConvertedCount);
+        reportPrintStream.printf("                                   POST CONVERSION SFRB RECORDS READ              %,9d\n", sfrbRecordsReadCount);
+        reportPrintStream.printf("                                   SFRB RECORDS DELETED                           %,9d\n", sfrbRecordsDeletedCount);
+        reportPrintStream.printf("                                   SFRB RECORDS KEPT DUE TO ERRORS                %,9d\n", sfrbNotDeletedCount);
+        reportPrintStream.printf("                                   SFBL RECORDS DELETED                           %,9d\n", sfblDeletedCount);
+        reportPrintStream.printf("                                   SFBL RECORDS ADDED                             %,9d\n", sfblInsertedCount);
+        reportPrintStream.printf("                                   SFBL RECORDS UDPATED                           %,9d\n", sfblUpdatedCount);
+        reportPrintStream.close();
     }
 
     /**
@@ -224,7 +263,8 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
 
         if ((sfrbAccount.getAccountSufficientFundsCode() != null) && (KFSConstants.SF_TYPE_ACCOUNT.equals(sfrbAccount.getAccountSufficientFundsCode()) || KFSConstants.SF_TYPE_CASH_AT_ACCOUNT.equals(sfrbAccount.getAccountSufficientFundsCode()) || KFSConstants.SF_TYPE_CONSOLIDATION.equals(sfrbAccount.getAccountSufficientFundsCode()) || KFSConstants.SF_TYPE_LEVEL.equals(sfrbAccount.getAccountSufficientFundsCode()) || KFSConstants.SF_TYPE_OBJECT.equals(sfrbAccount.getAccountSufficientFundsCode()) || KFSConstants.SF_TYPE_NO_CHECKING.equals(sfrbAccount.getAccountSufficientFundsCode()))) {
             ++sfrbRecordsDeletedCount;
-            sufficientFundBalancesDao.deleteByAccountNumber(universityFiscalYear, sfrb.getChartOfAccountsCode(), sfrbAccount.getAccountNumber());
+            //sufficientFundBalancesDao.deleteByAccountNumber(universityFiscalYear, sfrb.getChartOfAccountsCode(), sfrbAccount.getAccountNumber());
+            sfblDeletedCount += sufficientFundBalancesDao.deleteByAccountNumber(universityFiscalYear, sfrb.getChartOfAccountsCode(), sfrbAccount.getAccountNumber());
 
             if ((!sfrbAccount.isPendingAcctSufficientFundsIndicator()) || (KFSConstants.SF_TYPE_NO_CHECKING.equalsIgnoreCase(sfrbAccount.getAccountSufficientFundsCode()))) {
                 // nothing to do here, no errors either, just return
@@ -444,5 +484,9 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
 
     public void setSufficientFundsService(SufficientFundsService sfs) {
         sufficientFundsService = sfs;
+    }
+
+    public void setReportDirectoryName(String reportDirectoryName) {
+        this.reportDirectoryName = reportDirectoryName;
     }
 }

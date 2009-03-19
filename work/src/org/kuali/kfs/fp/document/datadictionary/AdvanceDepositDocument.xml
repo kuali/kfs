@@ -108,11 +108,6 @@
 	<bean id="AdvanceDepositDocument-workflowAttributes" parent="AdvanceDepositDocument-workflowAttributes-parentBean"/>
 	
 	<bean id="AdvanceDepositDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
-    	<property name="searchingTypeDefinitions">
-    		<list>
-    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode"/>
-    			<ref bean="SearchingType-AccountingDocument-accountNumber"/>
-    		</list>
-    	</property>
+    	
 	</bean>
 </beans>

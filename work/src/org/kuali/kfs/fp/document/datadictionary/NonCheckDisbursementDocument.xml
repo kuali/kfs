@@ -110,12 +110,7 @@
 	<bean id="NonCheckDisbursementDocument-workflowAttributes" parent="NonCheckDisbursementDocument-workflowAttributes-parentBean"/>
 	
 	<bean id="NonCheckDisbursementDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
-    	<property name="searchingTypeDefinitions">
-    		<list>
-    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode-sourceOnly"/>
-    			<ref bean="SearchingType-AccountingDocument-accountNumber-sourceOnly"/>
-    		</list>
-    	</property>
+    	
     	<property name="routingTypeDefinitions">
     		<map>
     			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account-sourceOnly"/>

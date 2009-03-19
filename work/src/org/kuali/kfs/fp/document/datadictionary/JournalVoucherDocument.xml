@@ -176,11 +176,6 @@
   <bean id="JournalVoucherDocument-workflowAttributes" parent="JournalVoucherDocument-workflowAttributes-parentBean"/>
 	
 	<bean id="JournalVoucherDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
-		<property name="searchingTypeDefinitions">
-    		<list>
-    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode"/>
-    			<ref bean="SearchingType-AccountingDocument-accountNumber"/>
-    		</list>
-    	</property>
+		
 	</bean>
 </beans>

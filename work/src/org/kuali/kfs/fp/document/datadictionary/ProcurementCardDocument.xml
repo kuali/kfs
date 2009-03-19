@@ -110,12 +110,7 @@
 	<bean id="ProcurementCardDocument-workflowAttributes" parent="ProcurementCardDocument-workflowAttributes-parentBean"/>
 	
 	<bean id="ProcurementCardDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
-    	<property name="searchingTypeDefinitions">
-    		<list>
-    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode-targetOnly"/>
-    			<ref bean="SearchingType-AccountingDocument-accountNumber-targetOnly"/>
-    		</list>
-    	</property>
+    	
     	<property name="routingTypeDefinitions">
     		<map>
     			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account-targetOnly"/>

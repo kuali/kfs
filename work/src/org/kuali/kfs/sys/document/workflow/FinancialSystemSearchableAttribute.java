@@ -16,18 +16,25 @@
 package org.kuali.kfs.sys.document.workflow;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.sys.businessobject.AccountingLineBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.rice.kew.docsearch.DocumentSearchContext;
 import org.kuali.rice.kew.docsearch.SearchableAttribute;
 import org.kuali.rice.kew.docsearch.SearchableAttributeFloatValue;
+import org.kuali.rice.kew.docsearch.SearchableAttributeStringValue;
 import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.datadictionary.DataDictionaryEntry;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.FieldUtils;
@@ -50,46 +57,80 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
         try {
             doc = docClass.newInstance();
         } catch (Exception e){}
-        if (doc instanceof AmountTotaling) {
-          //   "FinancialSystemDocumentHeader";
-            final DataDictionaryEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDictionaryObjectEntry("FinancialSystemDocumentHeader");
-            String businessObjectClassName = boEntry.getFullClassName();
-            Class boClass = null;
+      
+        
+        if (doc instanceof AccountingDocument) {
+            final DataDictionaryEntry alEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDictionaryObjectEntry("SourceAccountingLine");
+            String accountingLineClassName = alEntry.getFullClassName();
+            Class alClass = null;
+            BusinessObject alBusinessObject  = null;
+            
+            final DataDictionaryEntry orgEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDictionaryObjectEntry("Organization");
+            String orgClassName = orgEntry.getFullClassName();
+            Class orgClass = null;
+            BusinessObject orgBusinessObject  = null;
+            
             try {
-                boClass = Class.forName(businessObjectClassName);
-            } catch (ClassNotFoundException cnfe) {
+                alClass = Class.forName(accountingLineClassName);
+                alBusinessObject = (BusinessObject)alClass.newInstance();
+                orgClass = Class.forName(orgClassName);
+                orgBusinessObject = (BusinessObject)orgClass.newInstance();
+                
+            } catch (Exception cnfe) {
                 throw new RuntimeException(cnfe);
             }
             
-            Field searchField = FieldUtils.getPropertyField(boClass, "financialDocumentTotalAmount", true);
-            searchField.setFieldDataType(SearchableAttribute.DATA_TYPE_FLOAT);
+            Field chartField = FieldUtils.getPropertyField(alClass, "chartOfAccountsCode", true);
+            chartField.setFieldDataType(SearchableAttribute.DATA_TYPE_STRING);
+            List displayedFieldNames = new ArrayList();
+            displayedFieldNames.add("chartOfAccountsCode");
+            LookupUtils.setFieldQuickfinder(alBusinessObject, "chartOfAccountsCode", chartField, displayedFieldNames);
             
+            Field orgField = FieldUtils.getPropertyField(orgClass, "organizationCode", true);
+            orgField.setFieldDataType(SearchableAttribute.DATA_TYPE_STRING);
+            displayedFieldNames = new ArrayList();
+            displayedFieldNames.add("organizationCode");
+            LookupUtils.setFieldQuickfinder(new Account(), "organizationCode", orgField, displayedFieldNames);
+            
+            Field accountField = FieldUtils.getPropertyField(alClass, "accountNumber", true);
+            accountField.setFieldDataType(SearchableAttribute.DATA_TYPE_STRING);
+            displayedFieldNames = new ArrayList();
+            displayedFieldNames.add("accountNumber");
+            LookupUtils.setFieldQuickfinder(alBusinessObject, "accountNumber", accountField, displayedFieldNames);
+
             List<Field> fieldList = new ArrayList<Field>();
-            fieldList.add(searchField);
+            fieldList.add(chartField);
             docSearchRows.add(new Row(fieldList));
             
+            fieldList = new ArrayList<Field>();
+            fieldList.add(accountField);
+            docSearchRows.add(new Row(fieldList));
+            
+            fieldList = new ArrayList<Field>();
+            fieldList.add(orgField);
+            docSearchRows.add(new Row(fieldList));
         }
+        if (doc instanceof AmountTotaling) {
+            //   "FinancialSystemDocumentHeader";
+              final DataDictionaryEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDictionaryObjectEntry("FinancialSystemDocumentHeader");
+              String businessObjectClassName = boEntry.getFullClassName();
+              Class boClass = null;
+              try {
+                  boClass = Class.forName(businessObjectClassName);
+              } catch (ClassNotFoundException cnfe) {
+                  throw new RuntimeException(cnfe);
+              }
+              
+              Field searchField = FieldUtils.getPropertyField(boClass, "financialDocumentTotalAmount", true);
+              searchField.setFieldDataType(SearchableAttribute.DATA_TYPE_FLOAT);
+
+              
+              List<Field> fieldList = new ArrayList<Field>();
+              fieldList.add(searchField);
+              docSearchRows.add(new Row(fieldList));
+              
+          }
         
-//        if (doc instanceof AccountingDocument) {
-//            final DataDictionaryEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDictionaryObjectEntry("AccountingLineBase");
-//            String businessObjectClassName = boEntry.getFullClassName();
-//            Class boClass = null;
-//            try {
-//                boClass = Class.forName(businessObjectClassName);
-//            } catch (ClassNotFoundException cnfe) {
-//                throw new RuntimeException(cnfe);
-//            }
-//            
-//            Field chartField = FieldUtils.getPropertyField(boClass, "chartOfAccountsCode", true);
-//            Field accountField = FieldUtils.getPropertyField(boClass, "accountNumber", true);
-//
-//            
-//            List<Field> fieldList = new ArrayList<Field>();
-//            fieldList.add(chartField);
-//            fieldList.add(accountField);
-//
-//            docSearchRows.add(new Row(fieldList));
-//        }
         Row resultType = createSearchResultReturnRow();
         docSearchRows.add(resultType);
         return docSearchRows;
@@ -113,14 +154,46 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
             searchableAttributeValue.setSearchableAttributeValue(((AmountTotaling)doc).getTotalDollarAmount().bigDecimalValue());
             searchAttrValues.add(searchableAttributeValue);
         }
-//        if (doc instanceof AccountingDocument) {
-//            SearchableAttributeStringValue searchableAttributeValue = new SearchableAttributeStringValue();
-//            searchableAttributeValue.setSearchableAttributeKey("chartOfAccountsCode");
-//            searchableAttributeValue.setSearchableAttributeValue(((AccountingDocument)doc).getChartOfAccountsCode());
-//           
-//            searchAttrValues.add(searchableAttributeValue);
-//        }
-//        
+        if (doc instanceof AccountingDocument) {
+            AccountingDocument accountingDoc = (AccountingDocument)doc; 
+           
+            for (Iterator itr = accountingDoc.getSourceAccountingLines().iterator(); itr.hasNext();) {
+                AccountingLineBase alb = (AccountingLineBase)itr.next();
+                
+                SearchableAttributeStringValue searchableAttributeValue = new SearchableAttributeStringValue();
+                searchableAttributeValue.setSearchableAttributeKey("chartOfAccountsCode");
+                searchableAttributeValue.setSearchableAttributeValue(alb.getChartOfAccountsCode());
+                searchAttrValues.add(searchableAttributeValue);
+                
+                searchableAttributeValue = new SearchableAttributeStringValue();
+                searchableAttributeValue.setSearchableAttributeKey("accountNumber");
+                searchableAttributeValue.setSearchableAttributeValue(alb.getAccountNumber());
+                searchAttrValues.add(searchableAttributeValue);
+                
+                searchableAttributeValue = new SearchableAttributeStringValue();
+                searchableAttributeValue.setSearchableAttributeKey("organizationCode");
+                searchableAttributeValue.setSearchableAttributeValue(alb.getAccount().getOrganizationCode());
+                searchAttrValues.add(searchableAttributeValue);
+            }
+            for (Iterator itr = accountingDoc.getTargetAccountingLines().iterator(); itr.hasNext();) {
+                AccountingLineBase alb = (AccountingLineBase)itr.next();
+              
+                SearchableAttributeStringValue searchableAttributeValue = new SearchableAttributeStringValue();
+                searchableAttributeValue.setSearchableAttributeKey("chartOfAccountsCode");
+                searchableAttributeValue.setSearchableAttributeValue(alb.getChartOfAccountsCode());
+                searchAttrValues.add(searchableAttributeValue);
+                
+                searchableAttributeValue = new SearchableAttributeStringValue();
+                searchableAttributeValue.setSearchableAttributeKey("accountNumber");
+                searchableAttributeValue.setSearchableAttributeValue(alb.getAccountNumber());
+                searchAttrValues.add(searchableAttributeValue);
+                
+                searchableAttributeValue = new SearchableAttributeStringValue();
+                searchableAttributeValue.setSearchableAttributeKey("organizationCode");
+                searchableAttributeValue.setSearchableAttributeValue(alb.getAccount().getOrganizationCode());
+                searchAttrValues.add(searchableAttributeValue);
+            }
+        }
         
         return searchAttrValues;
     }

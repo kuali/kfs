@@ -128,11 +128,6 @@
   <bean id="ServiceBillingDocument-workflowAttributes" parent="ServiceBillingDocument-workflowAttributes-parentBean"/>
   
   <bean id="ServiceBillingDocument-workflowAttributes-parentBean" parent="WorkflowAttributes" abstract="true">
-  		<property name="searchingTypeDefinitions">
-    		<list>
-    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode"/>
-    			<ref bean="SearchingType-AccountingDocument-accountNumber"/>
-    		</list>
-    	</property>
+  		
   </bean>
 </beans>

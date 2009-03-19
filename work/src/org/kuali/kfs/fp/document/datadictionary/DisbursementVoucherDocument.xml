@@ -411,8 +411,6 @@
 	<bean id="DisbursementVoucherDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     	<property name="searchingTypeDefinitions">
     		<list>
-    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode-sourceOnly"/>
-    			<ref bean="SearchingType-AccountingDocument-accountNumber-sourceOnly"/>
     			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">

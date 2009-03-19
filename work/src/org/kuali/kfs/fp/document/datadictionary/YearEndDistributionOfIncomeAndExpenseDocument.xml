@@ -104,12 +104,7 @@
 	<bean id="YearEndDistributionOfIncomeAndExpenseDocument-workflowAttributes" parent="YearEndDistributionOfIncomeAndExpenseDocument-workflowAttributes-parentBean"/>
 	
 	<bean id="YearEndDistributionOfIncomeAndExpenseDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
-		<property name="searchingTypeDefinitions">
-    		<list>
-    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode"/>
-    			<ref bean="SearchingType-AccountingDocument-accountNumber"/>
-    		</list>
-    	</property>
+		
 	    <property name="routingTypeDefinitions">
     		<map>
     			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy"/>

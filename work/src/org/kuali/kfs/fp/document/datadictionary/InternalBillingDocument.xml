@@ -97,12 +97,7 @@
 	<bean id="InternalBillingDocument-workflowAttributes" parent="InternalBillingDocument-workflowAttributes-parentBean"/>
 	
 	<bean id="InternalBillingDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
-    	<property name="searchingTypeDefinitions">
-    		<list>
-    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode"/>
-    			<ref bean="SearchingType-AccountingDocument-accountNumber"/>
-    		</list>
-    	</property>
+    	
     	<property name="routingTypeDefinitions">
     		<map>
     			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account-targetOnly"/>

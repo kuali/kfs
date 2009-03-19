@@ -132,11 +132,6 @@
 	<bean id="CreditCardReceiptDocument-workflowAttributes" parent="CreditCardReceiptDocument-workflowAttributes-parentBean"/>
 	
 	<bean id="CreditCardReceiptDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
-		<property name="searchingTypeDefinitions">
-    		<list>
-    			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode-sourceOnly"/>
-    			<ref bean="SearchingType-AccountingDocument-accountNumber-sourceOnly"/>
-    		</list>
-    	</property>
+		
 	</bean>
 </beans>

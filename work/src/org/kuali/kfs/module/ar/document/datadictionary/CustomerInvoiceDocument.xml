@@ -669,8 +669,6 @@
    			<ref bean="SearchingType-AccountsReceivableDocument-processingOrganizationCode-criteriaOnly"/>
    			<ref bean="SearchingType-CustomerInvoiceDocument-billingChartOfAccountsCode"/>
    			<ref bean="SearchingType-CustomerInvoiceDocument-billingOrganizationCode"/>
-   			<ref bean="SearchingType-AccountingDocument-chartOfAccountsCode-sourceOnly"/>
-   			<ref bean="SearchingType-AccountingDocument-accountNumber-sourceOnly"/>
    			<ref bean="SearchingType-CustomerInvoiceDocument-invoiceItemCode-criteriaOnly"/>
    			<ref bean="SearchingType-CustomerInvoiceDocument-parentInvoiceNumber-criteriaOnly"/>
    		</list>

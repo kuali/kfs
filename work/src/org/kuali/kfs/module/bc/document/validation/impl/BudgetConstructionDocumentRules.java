@@ -858,8 +858,8 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
         }
         else {
-            // TODO need error message for this
             // missing system parameter
+            this.putError(errors, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, BCKeyConstants.ERROR_SALARY_SETTING_OBJECT_ONLY_NO_PARAMETER, isAdd, budgetConstructionDocument.getAccount().getSubFundGroup().getFundGroupCode() + "," + budgetConstructionDocument.getAccount().getSubFundGroup().getSubFundGroupCode());
             isAllowed = false;
         }
 

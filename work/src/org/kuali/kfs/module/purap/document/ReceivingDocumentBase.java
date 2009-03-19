@@ -37,6 +37,7 @@ import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.service.CountryService;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -355,8 +356,8 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
         this.deliveryRequiredDateReasonCode = deliveryRequiredDateReasonCode;
     }
 
-    public Campus getDeliveryCampus() { 
-        return deliveryCampus;
+    public Campus getDeliveryCampus() {
+        return deliveryCampus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, deliveryCampus, "deliveryCampus");
     }
 
     /**

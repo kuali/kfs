@@ -121,6 +121,20 @@
     <property name="workflowAttributes">
     	<ref bean="RoutingFormDocument-workflowAttributes"/>
     </property>
+	<property name="relationships">
+    	<list>
+    		<bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="routingFormPhysicalCampus" />
+              <property name="primitiveAttributes" >
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition"
+                        p:sourceName="routingFormPhysicalCampusCode"
+                        p:targetName="campusCode" />
+                </list>
+              </property>
+    		</bean>
+    	</list>
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->

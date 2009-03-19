@@ -20,9 +20,11 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.sys.businessobject.Building;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -46,8 +48,10 @@ public abstract class PurchasingCapitalAssetLocationBase extends PersistableBusi
 
     public PurchasingCapitalAssetLocationBase() {
         super();
-        Person user = GlobalVariables.getUserSession().getPerson();
-        this.campusCode = user.getCampusCode();
+        if(GlobalVariables.getUserSession()!=null && GlobalVariables.getUserSession().getPerson()!=null){
+            Person user = GlobalVariables.getUserSession().getPerson();
+            this.campusCode = user.getCampusCode();
+        }
     }
 
     public Integer getCapitalAssetSystemIdentifier() {
@@ -147,7 +151,7 @@ public abstract class PurchasingCapitalAssetLocationBase extends PersistableBusi
     }
 
     public Campus getCampus() { 
-    	return campus;
+        return campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, campus, "campus");
     }
 
     public void setCampus(Campus campus) {

@@ -25,9 +25,11 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.KualiInteger;
 
 public class DisbursementNumberRange extends PersistableBusinessObjectBase implements Inactivateable {
@@ -184,7 +186,7 @@ public class DisbursementNumberRange extends PersistableBusinessObjectBase imple
      * @return Returns the campus.
      */
     public Campus getCampus() {
-        return campus;
+        return campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, campus, "campus");
     }
 
     /**

@@ -56,10 +56,10 @@ import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.bo.CampusImpl;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -411,9 +411,9 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @return
      */
     private boolean checkCampusCodeValid(String campusCode) {
-        Map<String, Object> pKeys = new HashMap<String, Object>();
-        pKeys.put(CabPropertyConstants.AssetGlobalDocumentCreate.CAMPUS_CODE, campusCode);
-        Campus campus = (Campus) this.getBusinessObjectService().findByPrimaryKey(CampusImpl.class, pKeys);
+        Map<String, Object> criteria = new HashMap<String, Object>();
+        criteria.put(CabPropertyConstants.AssetGlobalDocumentCreate.CAMPUS_CODE, campusCode);
+        Campus campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).getExternalizableBusinessObject(Campus.class, criteria);
         return ObjectUtils.isNotNull(campus) && campus.isActive();
     }
 

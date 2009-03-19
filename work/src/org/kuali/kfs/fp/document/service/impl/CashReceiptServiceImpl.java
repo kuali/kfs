@@ -48,6 +48,7 @@ import org.kuali.rice.kns.exception.InfrastructureException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -77,7 +78,9 @@ public class CashReceiptServiceImpl implements CashReceiptService {
      * @return True if the campus code provided is valid and exists, false otherwise.
      */
     private boolean verifyCampus(String campusCode) {
-        Iterator campiiIter = businessObjectService.findAll(CampusImpl.class).iterator();
+        List campusList = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(
+                Campus.class).getExternalizableBusinessObjectsList(Campus.class, new HashMap<String, Object>());
+        Iterator campiiIter = campusList.iterator();
         boolean foundCampus = false;
         while (campiiIter.hasNext() && !foundCampus) {
             Campus campus = (Campus)campiiIter.next();

@@ -29,6 +29,7 @@ import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.bo.PostalCode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.CountryService;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.PostalCodeService;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Inactivateable;
@@ -328,7 +329,7 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
      * @return Returns the organizationPhysicalCampus
      */
     public Campus getOrganizationPhysicalCampus() {
-        return organizationPhysicalCampus;
+        return organizationPhysicalCampus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, organizationPhysicalCampus, "organizationPhysicalCampus");
     }
 
     /**

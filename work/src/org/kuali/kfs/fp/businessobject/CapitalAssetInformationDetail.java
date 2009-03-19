@@ -22,8 +22,10 @@ import java.util.Map;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.KualiModuleService;
 
 public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase {
 
@@ -183,7 +185,7 @@ public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase
      * @return Returns the campus.
      */
     public Campus getCampus() {
-        return campus;
+        return campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, campus, "campus");
     }
 
     /**

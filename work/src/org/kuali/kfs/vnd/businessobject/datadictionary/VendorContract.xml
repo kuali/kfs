@@ -53,6 +53,13 @@
               p:shortLabel="Supplier Diversities" />
       </list>
     </property>
+    <property name="relationships" >
+      <list>
+		<dd:relationship objectAttribute="vendorCampus">
+        	<dd:primitiveAttribute source="vendorCampusCode" target="campusCode" />
+		</dd:relationship> 
+ 	  </list>
+	</property>
   </bean>
 
 <!-- Attribute Definitions -->

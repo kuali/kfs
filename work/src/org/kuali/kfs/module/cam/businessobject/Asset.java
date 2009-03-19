@@ -1340,7 +1340,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
      * @return Returns the campus
      */
     public Campus getCampus() {
-        return campus;
+        return campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, campus, "campus");
     }
 
     /**

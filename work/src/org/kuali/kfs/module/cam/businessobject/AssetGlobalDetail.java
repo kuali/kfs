@@ -10,6 +10,7 @@ import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.rice.kns.bo.State;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.CountryService;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.PostalCodeService;
 import org.kuali.rice.kns.service.StateService;
 import org.kuali.rice.kns.bo.Campus;
@@ -459,7 +460,7 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
      * @return Returns the campus
      */
     public Campus getCampus() {
-        return campus;
+        return campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, campus, "campus");
     }
 
     /**

@@ -59,6 +59,7 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.KualiInteger;
@@ -899,7 +900,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
      * @return Returns the routingFormPhysicalCampus
      */
     public Campus getRoutingFormPhysicalCampus() {
-        return routingFormPhysicalCampus;
+        return routingFormPhysicalCampus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, routingFormPhysicalCampus, "routingFormPhysicalCampus");
     }
 
     /**

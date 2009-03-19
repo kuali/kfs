@@ -41,12 +41,12 @@ import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.bo.CampusImpl;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -188,7 +188,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
         Campus campus;
         HashMap<String, Object> fields = new HashMap<String, Object>();
         fields.put(KFSPropertyConstants.CAMPUS_CODE, detail.getCampusCode());
-        campus = (Campus) getBusinessObjectService().findByPrimaryKey(CampusImpl.class, fields);
+        campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).getExternalizableBusinessObject(Campus.class, fields);
 
         if (ObjectUtils.isNull(campus)) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.CAMPUS_CODE, CamsKeyConstants.BarcodeInventory.ERROR_INVALID_FIELD, label);

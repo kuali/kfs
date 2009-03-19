@@ -40,6 +40,7 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -320,7 +321,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     }
 
     public Campus getProcessingCampus() {
-        return processingCampus;
+        return processingCampus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, processingCampus, "processingCampus");
     }
 
     public String getChartOfAccountsCode() {

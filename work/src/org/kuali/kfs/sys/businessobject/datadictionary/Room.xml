@@ -30,6 +30,13 @@
         <ref bean="Room-active" />
       </list>
     </property>
+	<property name="relationships" >
+      <list>
+		<dd:relationship objectAttribute="campus">
+        	<dd:primitiveAttribute source="campusCode" target="campusCode" />
+        </dd:relationship>         
+      </list>
+    </property> 
   </bean>
 
 <!-- Attribute Definitions -->

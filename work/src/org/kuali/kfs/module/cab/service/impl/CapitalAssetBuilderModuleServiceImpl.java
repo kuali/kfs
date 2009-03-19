@@ -1306,9 +1306,9 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 }
             }
 
-            params = new HashMap<String, String>();
-            params.put(KFSPropertyConstants.CAMPUS_CODE, dtl.getCampusCode());
-            Campus campus = (Campus) this.getBusinessObjectService().findByPrimaryKey(CampusImpl.class, params);
+            Map<String, Object> criteria = new HashMap<String, Object>();
+            criteria.put(KFSPropertyConstants.CAMPUS_CODE, dtl.getCampusCode());
+            Campus campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).getExternalizableBusinessObject(Campus.class, criteria);
             if (ObjectUtils.isNull(campus)) {
                 valid = false;
                 String label = this.getDataDictionaryService().getAttributeLabel(Campus.class, KFSPropertyConstants.CAMPUS_CODE);

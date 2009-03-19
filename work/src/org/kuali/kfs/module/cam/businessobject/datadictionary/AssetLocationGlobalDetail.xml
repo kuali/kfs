@@ -27,6 +27,20 @@
         <ref bean="AssetLocationGlobalDetail-newCollectionRecord" />
       </list>
     </property>
+	<property name="relationships">
+    	<list>
+			<bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="campus" />
+              <property name="primitiveAttributes" >
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition"
+                        p:sourceName="campusCode"
+                        p:targetName="campusCode" />
+                </list>
+              </property>
+    		</bean>
+    	</list>
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->

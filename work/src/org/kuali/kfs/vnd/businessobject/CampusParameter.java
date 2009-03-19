@@ -18,13 +18,14 @@ package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.State;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.StateService;
 import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.bo.State;
+import org.kuali.rice.kns.service.CountryService;
+import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.service.StateService;
 
 /**
  * Campus Parameter Business Object. Maintenance document for campus parameters.
@@ -57,7 +58,7 @@ public class CampusParameter extends PersistableBusinessObjectBase {
     }
 
     public Campus getCampus() {
-        return campus;
+        return campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, campus, "campus");
     }
 
     /**

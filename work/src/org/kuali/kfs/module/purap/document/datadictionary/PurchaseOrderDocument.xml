@@ -161,6 +161,20 @@
       </list>
     </property>
     <property name="validationMap" ref="PurchaseOrderDocument-validations"/>
+	<property name="relationships">
+    	<list>
+			<bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="deliveryCampus" />
+              <property name="primitiveAttributes" >
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition"
+                        p:sourceName="deliveryCampusCode"
+                        p:targetName="campusCode" />
+                </list>
+              </property>
+    		</bean>
+    	</list>
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->

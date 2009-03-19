@@ -21,6 +21,13 @@
         <ref bean="VendorDefaultAddress-active" />
       </list>
     </property>
+    <property name="relationships" >
+      <list>
+		<dd:relationship objectAttribute="vendorCampus">
+        	<dd:primitiveAttribute source="vendorCampusCode" target="campusCode" />
+		</dd:relationship> 
+ 	  </list>
+	</property>
   </bean>
 
 <!-- Attribute Definitions -->

@@ -168,10 +168,6 @@
 		<foreignkey field-ref="achTransactionType" />
 	</reference-descriptor>
 	
-	<reference-descriptor name="defaultProcessingCampus" class-ref="org.kuali.rice.kns.bo.CampusImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-		<foreignkey field-ref="defaultPhysicalCampusProcessingCode" />
-	</reference-descriptor>
-	
     <collection-descriptor name="customerBanks" element-class-ref="org.kuali.kfs.pdp.businessobject.CustomerBank" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
        <inverse-foreignkey field-ref="customerId"/>
     </collection-descriptor>
@@ -189,10 +185,6 @@
     <field-descriptor name="lastAssignedDisbNbr" column="LST_ASND_DISB_NBR" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
         
-    <reference-descriptor name="campus" class-ref="org.kuali.rice.kns.bo.CampusImpl" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
-      <foreignkey field-ref="physCampusProcCode"/>
-    </reference-descriptor>
-    
     <reference-descriptor name="bank" class-ref="org.kuali.kfs.sys.businessobject.Bank" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
       <foreignkey field-ref="bankCode"/>
     </reference-descriptor>
@@ -531,10 +523,6 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="formattedIndicator" column="FORMATTED_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    
-    <reference-descriptor name="campus" class-ref="org.kuali.rice.kns.bo.CampusImpl" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true" >
-      <foreignkey field-ref="campusCode"/>
-    </reference-descriptor>
   </class-descriptor>
 
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.ProcessSummary" table="PDP_PROC_SUM_T">

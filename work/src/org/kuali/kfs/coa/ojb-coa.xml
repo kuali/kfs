@@ -80,10 +80,6 @@
         <foreignkey field-ref="accountTypeCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="accountPhysicalCampus" class-ref="org.kuali.rice.kns.bo.CampusImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="accountPhysicalCampusCode" />
-    </reference-descriptor>
-
     <reference-descriptor name="subFundGroup" class-ref="org.kuali.kfs.coa.businessobject.SubFundGroup" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="subFundGroupCode" />
     </reference-descriptor>
@@ -683,9 +679,6 @@
     <reference-descriptor name="responsibilityCenter" class-ref="org.kuali.kfs.coa.businessobject.ResponsibilityCenter" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="responsibilityCenterCode" />
     </reference-descriptor>
-    <reference-descriptor name="organizationPhysicalCampus" class-ref="org.kuali.rice.kns.bo.CampusImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="organizationPhysicalCampusCode" />
-    </reference-descriptor>
     <reference-descriptor name="organizationType" class-ref="org.kuali.kfs.coa.businessobject.OrganizationType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="organizationTypeCode" />
     </reference-descriptor>
@@ -881,10 +874,6 @@
 
     <reference-descriptor name="accountType" class-ref="org.kuali.kfs.coa.businessobject.AccountType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="accountTypeCode" />
-    </reference-descriptor>
-
-    <reference-descriptor name="accountPhysicalCampus" class-ref="org.kuali.rice.kns.bo.CampusImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="accountPhysicalCampusCode" />
     </reference-descriptor>
 
     <reference-descriptor name="subFundGroup" class-ref="org.kuali.kfs.coa.businessobject.SubFundGroup" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -1680,9 +1669,6 @@
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
-    <reference-descriptor name="organizationPhysicalCampus" class-ref="org.kuali.rice.kns.bo.CampusImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="organizationPhysicalCampusCode" />
-    </reference-descriptor>
     <reference-descriptor name="reportsToOrganization" class-ref="org.kuali.kfs.coa.businessobject.Organization" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="reportsToChartOfAccountsCode" />
         <foreignkey field-ref="reportsToOrganizationCode" />
@@ -1757,9 +1743,6 @@
     <reference-descriptor name="organization" class-ref="org.kuali.kfs.coa.businessobject.Organization" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
-    </reference-descriptor>
-    <reference-descriptor name="hrmsIuCampus" class-ref="org.kuali.rice.kns.bo.CampusImpl" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="hrmsIuCampusCode" />
     </reference-descriptor>
 </class-descriptor>
 

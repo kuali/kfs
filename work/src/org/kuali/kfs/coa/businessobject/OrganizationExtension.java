@@ -20,10 +20,10 @@ import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kns.service.KualiModuleService;
 
 /**
  * 
@@ -938,7 +938,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
      * @return Returns the hrmsIuCampus
      */
     public Campus getHrmsIuCampus() {
-        return hrmsIuCampus;
+        return hrmsIuCampus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, hrmsIuCampus, "hrmsIuCampus");
     }
 
     /**

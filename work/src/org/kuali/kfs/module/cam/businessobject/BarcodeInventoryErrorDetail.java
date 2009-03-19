@@ -5,8 +5,10 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.KualiModuleService;
 
 /**
  * Class for the barcode inventory error detail
@@ -314,7 +316,7 @@ public class BarcodeInventoryErrorDetail extends PersistableBusinessObjectBase {
      * @return Campus
      */
     public Campus getCampus() {
-        return campus;
+        return campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, campus, "campus");
     }
 
     /**

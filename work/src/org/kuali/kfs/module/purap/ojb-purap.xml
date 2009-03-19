@@ -335,9 +335,6 @@
     <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.rice.kns.bo.CampusImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="deliveryCampusCode" />
-    </reference-descriptor>
     <reference-descriptor name="nonInstitutionFundOrgChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="nonInstitutionFundOrgChartOfAccountsCode" />
     </reference-descriptor>
@@ -576,9 +573,6 @@
     <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.rice.kns.bo.CampusImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="deliveryCampusCode" />
-    </reference-descriptor>
     <reference-descriptor name="nonInstitutionFundOrgChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="nonInstitutionFundOrgChartOfAccountsCode" />
     </reference-descriptor>
@@ -811,9 +805,6 @@
     </reference-descriptor>
     <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="chartOfAccountsCode" />
-    </reference-descriptor>
-    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.rice.kns.bo.CampusImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="deliveryCampusCode" />
     </reference-descriptor>
     <reference-descriptor name="nonInstitutionFundOrgChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="nonInstitutionFundOrgChartOfAccountsCode" />
@@ -1049,9 +1040,6 @@
     </reference-descriptor>
     <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="chartOfAccountsCode" />
-    </reference-descriptor>
-    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.rice.kns.bo.CampusImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="deliveryCampusCode" />
     </reference-descriptor>
     <reference-descriptor name="nonInstitutionFundOrgChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="nonInstitutionFundOrgChartOfAccountsCode" />
@@ -1289,9 +1277,6 @@
     <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.rice.kns.bo.CampusImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="deliveryCampusCode" />
-    </reference-descriptor>
     <reference-descriptor name="nonInstitutionFundOrgChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="nonInstitutionFundOrgChartOfAccountsCode" />
     </reference-descriptor>
@@ -1526,9 +1511,6 @@
     </reference-descriptor>
     <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="chartOfAccountsCode" />
-    </reference-descriptor>
-    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.rice.kns.bo.CampusImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="deliveryCampusCode" />
     </reference-descriptor>
     <reference-descriptor name="nonInstitutionFundOrgChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="nonInstitutionFundOrgChartOfAccountsCode" />
@@ -1765,9 +1747,6 @@
     <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.rice.kns.bo.CampusImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="deliveryCampusCode" />
-    </reference-descriptor>
     <reference-descriptor name="nonInstitutionFundOrgChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="nonInstitutionFundOrgChartOfAccountsCode" />
     </reference-descriptor>
@@ -2002,9 +1981,6 @@
     </reference-descriptor>
     <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="chartOfAccountsCode" />
-    </reference-descriptor>
-    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.rice.kns.bo.CampusImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="deliveryCampusCode" />
     </reference-descriptor>
     <reference-descriptor name="nonInstitutionFundOrgChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="nonInstitutionFundOrgChartOfAccountsCode" />
@@ -2241,9 +2217,6 @@
     <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.rice.kns.bo.CampusImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="deliveryCampusCode" />
-    </reference-descriptor>
     <reference-descriptor name="nonInstitutionFundOrgChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="nonInstitutionFundOrgChartOfAccountsCode" />
     </reference-descriptor>
@@ -2479,9 +2452,6 @@
     <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.rice.kns.bo.CampusImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="deliveryCampusCode" />
-    </reference-descriptor>
     <reference-descriptor name="nonInstitutionFundOrgChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="nonInstitutionFundOrgChartOfAccountsCode" />
     </reference-descriptor>
@@ -2637,9 +2607,6 @@
     <reference-descriptor name="status" class-ref="org.kuali.kfs.module.purap.businessobject.PaymentRequestStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="statusCode" />
     </reference-descriptor>
-    <reference-descriptor name="processingCampus" class-ref="org.kuali.rice.kns.bo.CampusImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="processingCampusCode" />
-    </reference-descriptor>
     <collection-descriptor name="items" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PaymentRequestItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="purapDocumentIdentifier" />
         <query-customizer class="org.kuali.kfs.module.purap.dataaccess.impl.PurapItemQueryCustomizer">
@@ -2742,9 +2709,6 @@
     <field-descriptor name="billingCountryCode" column="BILL_CNTRY_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="billingPhoneNumber" column="BILL_PHN_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <reference-descriptor name="billingCampus" class-ref="org.kuali.rice.kns.bo.CampusImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="billingCampusCode" />
-    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.ReceivingAddress" table="PUR_RCVNG_ADDR_T">
@@ -3198,9 +3162,6 @@
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
-<!--     <reference-descriptor name="purchaseOrderDeliveryCampus" class-ref="org.kuali.rice.kns.bo.CampusImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="purchaseOrderDeliveryCampusCode" />
-    </reference-descriptor>-->
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
@@ -3533,9 +3494,6 @@
         <foreignkey field-ref="paymentRequestIdentifier" />
     </reference-descriptor>
 -->
-    <reference-descriptor name="processingCampus" class-ref="org.kuali.rice.kns.bo.CampusImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="processingCampusCode" />
-    </reference-descriptor>
     <reference-descriptor name="status" class-ref="org.kuali.kfs.module.purap.businessobject.CreditMemoStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="statusCode" />
     </reference-descriptor>
@@ -3746,10 +3704,6 @@
         	/>
     	</query-customizer> 
     </collection-descriptor>
-    
-	<reference-descriptor name="deliveryCampus" class-ref="org.kuali.rice.kns.bo.CampusImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-		<foreignkey field-ref="deliveryCampusCode" />
-	</reference-descriptor>
     <reference-descriptor name="carrier" class-ref="org.kuali.kfs.module.purap.businessobject.Carrier" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="carrierCode" />
     </reference-descriptor>
@@ -3923,9 +3877,6 @@
 	<field-descriptor name="capitalAssetStateCode" column="CPTL_AST_ST_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="capitalAssetPostalCode" column="CPTL_AST_PSTL_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="capitalAssetCountryCode" column="CPTL_AST_CNTRY_CD" jdbc-type="VARCHAR"/>
-	<reference-descriptor name="campus" class-ref="org.kuali.rice.kns.bo.CampusImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-		<foreignkey field-ref="campusCode" />
-	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetLocation" table="PUR_PO_CPTL_AST_LOC_T">
@@ -3943,9 +3894,6 @@
 	<field-descriptor name="capitalAssetStateCode" column="CPTL_AST_ST_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="capitalAssetPostalCode" column="CPTL_AST_PSTL_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="capitalAssetCountryCode" column="CPTL_AST_CNTRY_CD" jdbc-type="VARCHAR"/>
-	<reference-descriptor name="campus" class-ref="org.kuali.rice.kns.bo.CampusImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-		<foreignkey field-ref="campusCode" />
-	</reference-descriptor>
     <reference-descriptor name="purchaseOrderCapitalAssetSystem" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetSystem" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="capitalAssetSystemIdentifier" />
     </reference-descriptor> 	
@@ -4105,10 +4053,6 @@
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
-    
-    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.rice.kns.bo.CampusImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-		<foreignkey field-ref="deliveryCampusCode" />
-	</reference-descriptor>
     
     <reference-descriptor name="carrier" class-ref="org.kuali.kfs.module.purap.businessobject.Carrier" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="carrierCode" />

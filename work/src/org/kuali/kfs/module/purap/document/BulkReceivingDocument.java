@@ -46,6 +46,7 @@ import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.CountryService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -439,7 +440,7 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
     }
 
     public Campus getDeliveryCampus() {
-        return deliveryCampus;
+        return deliveryCampus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, deliveryCampus, "deliveryCampus");
     }
 
     public void setDeliveryCampus(Campus deliveryCampus) {

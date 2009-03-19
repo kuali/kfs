@@ -17,14 +17,18 @@
 package org.kuali.kfs.coa.businessobject;
 
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
-import org.kuali.rice.kns.bo.Country;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.CountryService;
 import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.CountryService;
+import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
 
 /**
  * 
@@ -591,7 +595,9 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
      * @return Returns the organizationPhysicalCampus
      */
     public Campus getOrganizationPhysicalCampus() {
-        return organizationPhysicalCampus;
+        Map<String, Object> criteria = new HashMap<String, Object>();
+        criteria.put(KNSPropertyConstants.CAMPUS_CODE, organizationPhysicalCampusCode);
+        return organizationPhysicalCampus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).getExternalizableBusinessObject(Campus.class, criteria);
     }
 
     /**

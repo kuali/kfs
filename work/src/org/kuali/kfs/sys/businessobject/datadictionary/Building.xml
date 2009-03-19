@@ -45,6 +45,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <dd:relationship objectAttribute="buildingAddressCountry">
             <dd:primitiveAttribute source="buildingAddressCountryCode" target="postalCountryCode" />
         </dd:relationship>
+		<dd:relationship objectAttribute="campus">
+        	<dd:primitiveAttribute source="campusCode" target="campusCode" />
+        </dd:relationship>         
       </list>
     </property>    
   </bean>

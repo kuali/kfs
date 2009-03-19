@@ -809,7 +809,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @return Returns the accountPhysicalCampus
      */
     public Campus getAccountPhysicalCampus() {
-        return accountPhysicalCampus;
+        return accountPhysicalCampus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, accountPhysicalCampus, "accountPhysicalCampus");
     }
 
     /**

@@ -28,6 +28,7 @@ import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -244,8 +245,7 @@ public class VendorContract extends PersistableBusinessObjectBase implements Ven
 
 
     public Campus getVendorCampus() {
-
-        return vendorCampus;
+        return vendorCampus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, vendorCampus, "vendorCampus");
     }
 
     /**

@@ -22,7 +22,21 @@
 	    		<ref bean="PurchaseOrderDocument-sourceAccountingLineGroup" parent="AccountingLineGroup"/>
 	    	</entry>
     	</map>
-    </property>    
+    </property>   
+	<property name="relationships">
+    	<list>
+			<bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="deliveryCampus" />
+              <property name="primitiveAttributes" >
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition"
+                        p:sourceName="deliveryCampusCode"
+                        p:targetName="campusCode" />
+                </list>
+              </property>
+    		</bean>
+    	</list>
+    </property> 
   </bean>
 
     <!-- workflow attributes -->

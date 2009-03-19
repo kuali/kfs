@@ -217,6 +217,9 @@
         <dd:relationship objectAttribute="agency">
 			<dd:primitiveAttribute source="agencyNumber" target="agencyNumber" />
         </dd:relationship>
+		<dd:relationship objectAttribute="campus">
+            <dd:primitiveAttribute source="campusCode" target="campusCode" />
+        </dd:relationship>
       </list>
     </property>
   </bean>

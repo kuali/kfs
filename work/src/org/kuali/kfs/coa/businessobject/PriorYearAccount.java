@@ -16,26 +16,25 @@
 
 package org.kuali.kfs.coa.businessobject;
 
-import java.sql.Timestamp;
-import java.util.Calendar;
 import java.sql.Date;
+import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.coa.service.SubFundGroupService;
-import org.kuali.rice.kns.bo.PostalCode;
-import org.kuali.rice.kns.bo.State;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.PostalCodeService;
-import org.kuali.rice.kns.service.StateService;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.bo.PostalCode;
+import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.service.PostalCodeService;
+import org.kuali.rice.kns.service.StateService;
 
 /**
  * 
@@ -728,7 +727,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * @return Returns the accountPhysicalCampus
      */
     public Campus getAccountPhysicalCampus() {
-        return accountPhysicalCampus;
+        return accountPhysicalCampus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, accountPhysicalCampus, "accountPhysicalCampus");
     }
 
     /**

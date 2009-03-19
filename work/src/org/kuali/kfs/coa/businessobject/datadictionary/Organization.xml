@@ -139,7 +139,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         </dd:relationship>
         <dd:relationship objectAttribute="organizationCountry">
             <dd:primitiveAttribute source="organizationCountryCode" target="postalCountryCode" />
-        </dd:relationship>         
+        </dd:relationship>       
+        <dd:relationship objectAttribute="organizationPhysicalCampus">
+            <dd:primitiveAttribute source="organizationPhysicalCampusCode" target="campusCode" />
+        </dd:relationship>        
       </list>
     </property>
     <property name="inactivationBlockingDefinitions">

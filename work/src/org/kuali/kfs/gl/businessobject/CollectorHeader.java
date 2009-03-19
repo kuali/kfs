@@ -16,13 +16,18 @@
 package org.kuali.kfs.gl.businessobject;
 
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -304,7 +309,9 @@ public class CollectorHeader extends PersistableBusinessObjectBase {
      * @return Returns the campus.
      */
     public Campus getCampus() {
-        return campus;
+        Map<String, Object> criteria = new HashMap<String, Object>();
+        criteria.put(KNSPropertyConstants.CAMPUS_CODE, campusCode);
+        return campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).getExternalizableBusinessObject(Campus.class, criteria);
     }
 
     /**

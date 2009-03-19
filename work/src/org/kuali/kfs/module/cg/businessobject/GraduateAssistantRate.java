@@ -19,11 +19,12 @@ import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.apache.ojb.broker.PersistenceBroker;
-import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -149,7 +150,7 @@ public class GraduateAssistantRate extends PersistableBusinessObjectBase impleme
      * @return Returns the campus.
      */
     public Campus getCampus() {
-        return campus;
+        return campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, campus, "campus");
     }
 
     /**

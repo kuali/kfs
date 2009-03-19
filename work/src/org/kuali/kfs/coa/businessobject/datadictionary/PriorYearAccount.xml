@@ -154,6 +154,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <dd:relationship objectAttribute="accountState">
             <dd:primitiveAttribute source="accountStateCode" target="postalStateCode" />
         </dd:relationship>
+        <dd:relationship objectAttribute="accountPhysicalCampus">
+            <dd:primitiveAttribute source="accountPhysicalCampusCode" target="campusCode" />
+        </dd:relationship>
       </list>
     </property>
   </bean>

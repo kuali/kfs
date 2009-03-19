@@ -19,9 +19,11 @@ package org.kuali.kfs.vnd.businessobject;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -92,8 +94,7 @@ public class VendorDefaultAddress extends PersistableBusinessObjectBase implemen
 
 
     public Campus getVendorCampus() {
-
-        return vendorCampus;
+        return vendorCampus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, vendorCampus, "vendorCampus");
     }
 
     /**

@@ -54,6 +54,8 @@ import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -572,8 +574,8 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
     }
     
     private Campus retrieveCampus() {
-        Map<String, String> keys = new HashMap<String, String>();
-        keys.put("campusCode", campusCode);
-        return (Campus)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(CampusImpl.class, keys);
+        Map<String, Object> criteria = new HashMap<String, Object>();
+        criteria.put(KNSPropertyConstants.CAMPUS_CODE, campusCode);
+        return campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).getExternalizableBusinessObject(Campus.class, criteria);
     }
 }

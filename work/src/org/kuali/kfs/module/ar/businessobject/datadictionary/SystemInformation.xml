@@ -76,6 +76,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         </bean>
         <dd:relationship objectAttribute="organizationRemitToState">
             <dd:primitiveAttribute source="organizationRemitToStateCode" target="postalStateCode" />
+        </dd:relationship>
+        <dd:relationship objectAttribute="orgRemitToZipCode">
+            <dd:primitiveAttribute source="organizationRemitToZipCode" target="postalCode" />
         </dd:relationship> 
        </list>
     </property>    

@@ -73,7 +73,7 @@
   </bean>
   <bean id="BudgetConstructionReportThresholdSettings-useGreaterThanOperator" parent="BudgetConstructionReportThresholdSettings-useGreaterThanOperator-parentBean" />
 
-  <bean id="BudgetConstructionReportThresholdSettings-useGreaterThanOperator-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="BudgetConstructionReportThresholdSettings-useGreaterThanOperator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="useGreaterThanOperator" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Include records that are" />

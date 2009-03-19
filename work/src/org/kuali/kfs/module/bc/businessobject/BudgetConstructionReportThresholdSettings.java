@@ -17,6 +17,7 @@ package org.kuali.kfs.module.bc.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -27,7 +28,7 @@ public class BudgetConstructionReportThresholdSettings extends TransientBusiness
     private boolean lockThreshold;
     private boolean useThreshold;
     private KualiDecimal thresholdPercent;
-    private boolean useGreaterThanOperator;
+    private boolean useGreaterThanOperator = true;
 
     /**
      * Constructs a BudgetConstructionReportThresholdSettings.java.

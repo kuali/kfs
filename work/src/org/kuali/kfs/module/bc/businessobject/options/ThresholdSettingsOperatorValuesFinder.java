@@ -33,8 +33,8 @@ public class ThresholdSettingsOperatorValuesFinder extends KeyValuesBase impleme
      */
     public List getKeyValues() {
         List<KeyLabelPair> keyLabels = new ArrayList<KeyLabelPair>();
-        keyLabels.add(new KeyLabelPair(KFSConstants.ParameterValues.YES, "greater than or equal to threshold"));
-        keyLabels.add(new KeyLabelPair(KFSConstants.ParameterValues.NO, "less than or equal to threshold"));
+        keyLabels.add(new KeyLabelPair(Boolean.TRUE.toString(), "greater than or equal to threshold"));
+        keyLabels.add(new KeyLabelPair(Boolean.FALSE.toString(), "less than or equal to threshold"));
 
         return keyLabels;
     }
@@ -43,6 +43,6 @@ public class ThresholdSettingsOperatorValuesFinder extends KeyValuesBase impleme
      * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
-        return KFSConstants.ParameterValues.YES;
+        return Boolean.TRUE.toString();
     }
 }

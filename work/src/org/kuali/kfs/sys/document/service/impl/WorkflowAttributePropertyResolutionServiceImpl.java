@@ -286,7 +286,7 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
      * @return true if the Class is a String, false otherwise
      */
     protected boolean isStringy(Class clazz) {
-        return clazz.isAssignableFrom(java.lang.String.class);
+        return java.lang.String.class.isAssignableFrom(clazz);
     }
 
     /**
@@ -295,7 +295,7 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
      * @return true if it is like a date, false otherwise
      */
     protected boolean isDateLike(Class clazz) {
-        return clazz.isAssignableFrom(java.util.Date.class);
+        return java.util.Date.class.isAssignableFrom(clazz);
     }
     
     /**
@@ -304,7 +304,7 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
      * @return true if it is like a "float", false otherwise
      */
     protected boolean isDecimally(Class clazz) {
-        return clazz.isAssignableFrom(java.lang.Double.class) || clazz.isAssignableFrom(java.lang.Float.class) || clazz.equals(Double.TYPE) || clazz.equals(Float.TYPE) || clazz.isAssignableFrom(java.math.BigDecimal.class) || clazz.isAssignableFrom(org.kuali.rice.kns.util.KualiDecimal.class);
+        return java.lang.Double.class.isAssignableFrom(clazz) || java.lang.Float.class.isAssignableFrom(clazz) || clazz.equals(Double.TYPE) || clazz.equals(Float.TYPE) || java.math.BigDecimal.class.isAssignableFrom(clazz) || org.kuali.rice.kns.util.KualiDecimal.class.isAssignableFrom(clazz);
     }
     
     /**
@@ -313,7 +313,7 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
      * @return true if it is like a "long", false otherwise
      */
     protected boolean isIntable(Class clazz) {
-        return clazz.isAssignableFrom(java.lang.Integer.class) || clazz.isAssignableFrom(java.lang.Long.class) || clazz.isAssignableFrom(java.lang.Short.class) || clazz.isAssignableFrom(java.lang.Byte.class) || clazz.isAssignableFrom(java.math.BigInteger.class) || clazz.equals(Integer.TYPE) || clazz.equals(Long.TYPE) || clazz.equals(Short.TYPE) || clazz.equals(Byte.TYPE);
+        return java.lang.Integer.class.isAssignableFrom(clazz) || java.lang.Long.class.isAssignableFrom(clazz) || java.lang.Short.class.isAssignableFrom(clazz) || java.lang.Byte.class.isAssignableFrom(clazz) || java.math.BigInteger.class.isAssignableFrom(clazz) || clazz.equals(Integer.TYPE) || clazz.equals(Long.TYPE) || clazz.equals(Short.TYPE) || clazz.equals(Byte.TYPE);
     }
     
     /**

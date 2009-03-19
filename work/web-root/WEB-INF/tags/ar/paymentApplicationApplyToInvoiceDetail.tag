@@ -266,14 +266,19 @@
 																<td style="text-align: right;">
 																	<kul:htmlControlAttribute
 																		readOnly="${readOnly}"
-																		styleClass="amount"
+																		styleClass="amount" 
+																		disabled="${invoiceDetailApplication.fullApply || invoiceDetailApplication.invoiceQuickApplied}" 
 																		attributeEntry="${customerInvoiceDetailAttributes.amountApplied}"
 																		property="selectedInvoiceDetailApplications[${ctr}].amountApplied" />
 																</td>
 																<c:if test="${readOnly ne true}">
 																	<td>
 																		<center>
-																			<html:checkbox title="Apply Full Amount" property="selectedInvoiceDetailApplications[${ctr}].fullApply" />
+																			<kul:htmlControlAttribute
+																				readOnly="${readOnly}"
+																				disabled="${invoiceDetailApplication.invoiceQuickApplied}" 
+																				attributeEntry="${customerInvoiceDetailAttributes.taxableIndicator}" 
+																				property="selectedInvoiceDetailApplications[${ctr}].fullApply" />
 																		</center>
 																	</td>
 																</c:if>

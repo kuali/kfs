@@ -171,13 +171,14 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      */
     private InvoicePaidApplied generateAndValidateNewPaidApplied(PaymentApplicationInvoiceDetailApply detailApplication, String fieldName) {
         
+        //  generate the paidApplied
         InvoicePaidApplied paidApplied = detailApplication.generatePaidApplied();
         
-        // If the new invoice paid applied is valid, add it to the document
-        if (PaymentApplicationDocumentRuleUtil.validateInvoicePaidApplied(paidApplied, fieldName)) {
-            return paidApplied;
-        }
-        return null;
+        //  validate the paidApplied, but ignore any failures (other than the error message)
+        PaymentApplicationDocumentRuleUtil.validateInvoicePaidApplied(paidApplied, fieldName);
+
+        //  return the generated paidApplied
+        return paidApplied;
     }
     
     public ActionForward applyAllAmounts(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -205,7 +206,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         invoicePaidApplieds.addAll(quickApplyToInvoices(paymentApplicationDocumentForm, invoicePaidApplieds));
         
         //  re-number the paidApplieds internal sequence numbers
-        int paidAppliedItemNumber = 0;
+        int paidAppliedItemNumber = 1;
         for(InvoicePaidApplied i : invoicePaidApplieds) {
             i.setPaidAppliedItemNumber(paidAppliedItemNumber++);
         }
@@ -280,31 +281,39 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         int paidAppliedsGenerated = 1;
         int simpleInvoiceDetailApplicationCounter = 0;
         
+        //  calculate paid applieds for all invoices
         List<InvoicePaidApplied> invoicePaidApplieds = new ArrayList<InvoicePaidApplied>();
         for (PaymentApplicationInvoiceApply invoiceApplication : paymentApplicationDocumentForm.getInvoiceApplications()) {
             for (PaymentApplicationInvoiceDetailApply detailApplication : invoiceApplication.getDetailApplications()) {
                 
-                String fieldName = "detailApplications[" + Integer.toString(simpleInvoiceDetailApplicationCounter) + "]";
+                //selectedInvoiceDetailApplications[${ctr}].amountApplied
+                String fieldName = "selectedInvoiceDetailApplications[" + Integer.toString(simpleInvoiceDetailApplicationCounter) + "].amountApplied";
                 simpleInvoiceDetailApplicationCounter++; // needs to be incremented even if we skip this line
 
+                
+                //  handle the user clicking full apply
+                if (detailApplication.isFullApply()) {
+                    detailApplication.setAmountApplied(detailApplication.getAmountOpen());
+                }
+                //  handle the user manually entering an amount
+                else {
+                    if (detailApplication.isFullApplyChanged()) { // means it went from true to false
+                        detailApplication.setAmountApplied(KualiDecimal.ZERO);
+                    }
+                }
+                
                 // Don't add lines where the amount to apply is zero. Wouldn't make any sense to do that.
                 if (KualiDecimal.ZERO.equals(detailApplication.getAmountApplied())) {
                     continue;
                 } 
                 
-                //  determine the field name for validation purposes
-                if (detailApplication.isFullApply()) {
-                    fieldName += ".fullApply";
-                } else {
-                    fieldName += ".amountApplied";
-                }
-                
-                //  generate and validate the paidApplied, and add it to the list if it passes validation
+                //  generate and validate the paidApplied, and always add it to the list, even if 
+                // it fails validation.  Validation failures will stop routing.
+                GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB);
                 InvoicePaidApplied invoicePaidApplied = generateAndValidateNewPaidApplied(detailApplication, fieldName);
-                if (null != invoicePaidApplied) {
-                    invoicePaidApplieds.add(invoicePaidApplied);
-                    paidAppliedsGenerated++;
-                }
+                GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB);
+                invoicePaidApplieds.add(invoicePaidApplied);
+                paidAppliedsGenerated++;
             }
         }
         
@@ -319,11 +328,29 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         
         // go over the selected invoices and apply full amount to each of their details
         int index = 0;
-        for (PaymentApplicationInvoiceApply invoiceApplication : paymentApplicationDocumentForm.getQuickAppliableInvoiceApplications()) {
+        for (PaymentApplicationInvoiceApply invoiceApplication : paymentApplicationDocumentForm.getInvoiceApplications()) {
             String invoiceDocNumber = invoiceApplication.getDocumentNumber();
             
             //  skip the line if its not set to quick apply
             if (!invoiceApplication.isQuickApply()) {
+                
+                //  if it was just flipped from True to False
+                if (invoiceApplication.isQuickApplyChanged()) {
+                    for (PaymentApplicationInvoiceDetailApply detailApplication : invoiceApplication.getDetailApplications()) {
+                        
+                        //  zero out all the details
+                        detailApplication.setAmountApplied(KualiDecimal.ZERO);
+                        detailApplication.setFullApply(false);
+                        
+                        //  remove any existing paidApplieds for this invoice
+                        for (int i = appliedToIndividualDetails.size() - 1; i >= 0 ; i--) {
+                            InvoicePaidApplied applied = appliedToIndividualDetails.get(i);
+                            if (applied.getFinancialDocumentReferenceInvoiceNumber().equals(invoiceApplication.getDocumentNumber())) {
+                                appliedToIndividualDetails.remove(i);
+                            }
+                        }
+                    }
+                }
                 continue;
             }
             
@@ -363,7 +390,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
             //  remove any existing paidApplieds for this invoice
             for (int i = appliedToIndividualDetails.size() - 1; i >= 0 ; i--) {
                 InvoicePaidApplied applied = appliedToIndividualDetails.get(i);
-                if (applied.getDocumentNumber().equals(invoiceApplication.getDocumentNumber())) {
+                if (applied.getFinancialDocumentReferenceInvoiceNumber().equals(invoiceApplication.getDocumentNumber())) {
                     appliedToIndividualDetails.remove(i);
                 }
             }
@@ -371,6 +398,8 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
             // create and validate the paid applieds for each invoice detail
             String fieldName = "invoiceApplications[" + invoiceDocNumber + "].quickApply"; 
             for (PaymentApplicationInvoiceDetailApply detailApplication : invoiceApplication.getDetailApplications()) {
+                detailApplication.setAmountApplied(detailApplication.getAmountOpen());
+                detailApplication.setFullApply(true);
                 InvoicePaidApplied paidApplied = generateAndValidateNewPaidApplied(detailApplication, fieldName);
                 if (paidApplied != null) {
                     invoicePaidApplieds.add(paidApplied);
@@ -378,7 +407,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
             }
             
             //  disable the quickApply value, so it doesnt show up checked next time 
-            invoiceApplication.setQuickApply(false);
+            //invoiceApplication.setQuickApply(false);
             
             //  maintain the selected doc number
             if (invoiceDocNumber.equals(paymentApplicationDocumentForm.getEnteredInvoiceDocumentNumber())) {
@@ -507,6 +536,29 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
             applicationDocumentForm.setSelectedInvoiceDocumentNumber(currentInvoiceNumber);
         }
         
+        //  make sure all paidApplieds are synched with the PaymentApplicationInvoiceApply and 
+        // PaymentApplicationInvoiceDetailApply objects, so that the form reflects how it was left pre-save.  
+        // This is only necessary when the doc is saved, and then re-opened, as the invoice-detail wrappers 
+        // will no longer hold the state info.  I know this is a monstrosity.  Get over it.
+        for (InvoicePaidApplied paidApplied : applicationDocument.getInvoicePaidApplieds()) {
+            for (PaymentApplicationInvoiceApply invoiceApplication : applicationDocumentForm.getInvoiceApplications()) {
+                if (paidApplied.getFinancialDocumentReferenceInvoiceNumber().equalsIgnoreCase(invoiceApplication.getDocumentNumber())) {
+                    for (PaymentApplicationInvoiceDetailApply detailApplication : invoiceApplication.getDetailApplications()) {
+                        if (paidApplied.getInvoiceItemNumber().equals(detailApplication.getSequenceNumber())) {
+                            
+                            //  if the amount applieds dont match, then have the paidApplied fill in the applied amounts 
+                            // for the invoiceApplication details
+                            if (!paidApplied.getInvoiceItemAppliedAmount().equals(detailApplication.getAmountApplied())) {
+                                detailApplication.setAmountApplied(paidApplied.getInvoiceItemAppliedAmount());
+                                if (paidApplied.getInvoiceItemAppliedAmount().equals(detailApplication.getAmountOpen())) {
+                                    detailApplication.setFullApply(true);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     
     /**

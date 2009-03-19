@@ -91,9 +91,9 @@ public class PaymentApplicationDocumentRuleUtil {
         catch (WorkflowException e) {
             throw new RuntimeException("A WorkflowException was thrown while trying to retrieve PayApp doc #" + docNumber + ".", e);
         }
-        if(null != paymentApplicationDocument) {
-            KualiDecimal totalFromCashControl = paymentApplicationDocument.getTotalFromControl();
-            if(amountPaid.isGreaterThan(totalFromCashControl)) {
+        if (null != paymentApplicationDocument) {
+            KualiDecimal totalFromControl = paymentApplicationDocument.getTotalFromControl();
+            if (amountPaid.isGreaterThan(totalFromControl)) {
                 isValid = false;
                 GlobalVariables.getErrorMap().putError(
                     fieldName,ArKeyConstants.PaymentApplicationDocumentErrors.CANNOT_APPLY_MORE_THAN_CASH_CONTROL_TOTAL_AMOUNT);

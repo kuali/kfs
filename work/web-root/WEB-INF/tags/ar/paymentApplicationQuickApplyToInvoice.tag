@@ -17,6 +17,12 @@
 <%@ attribute name="hasRelatedCashControlDocument" required="true" description="If has related cash control document"%>
 <%@ attribute name="readOnly" required="true" description="If document is in read only mode"%>
 <%@ attribute name="isCustomerSelected" required="true" description="Whether or not the customer is set" %>
+<%@ attribute name="customerInvoiceDetailAttributes" required="true"
+	type="java.util.Map"
+	description="The DataDictionary entry containing attributes for this row's fields."%>
+<%@ attribute name="invoiceAttributes" required="true"
+	type="java.util.Map"
+	description="The DataDictionary entry containing attributes for this row's fields."%>
 
 <c:set var="invoiceApplicationsByDocumentNumber" value="${KualiForm.invoiceApplicationsByDocumentNumber}" scope="request" />
 
@@ -39,11 +45,11 @@
 	                        </c:if>
                         </tr>
                      <c:choose>
-                     <c:when test="${quickAppliableInvoiceApplications.isEmpty}">
+                     <c:when test="${empty KualiForm.invoiceApplications}">
                      	<tr><td colspan="3">No Invoices Are Available for QuickApply</td></tr>
                      </c:when>
                      <c:otherwise>
-                        <logic:iterate name="KualiForm" property="quickAppliableInvoiceApplications" id="invoiceApplication" indexId="idx">
+                        <logic:iterate name="KualiForm" property="invoiceApplications" id="invoiceApplication" indexId="idx">
                         
                             <tr>
                                 <td>
@@ -61,7 +67,11 @@
 								<c:if test="${readOnly ne true}">
 	                                <td>
 	                                	<center>
-		                                    <html:checkbox property="invoiceApplications[${idx}].quickApply" value="1" />
+											<kul:htmlControlAttribute
+												readOnly="${readOnly}"
+												disabled="${!invoiceApplication.quickApply && invoiceApplication.anyAppliedAmounts}" 
+												attributeEntry="${customerInvoiceDetailAttributes.taxableIndicator}" 
+												property="invoiceApplications[${idx}].quickApply" />
 		                                </center>
 	                                </td>
 	                            </c:if>

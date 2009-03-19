@@ -29,6 +29,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
+import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
@@ -171,15 +172,16 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         
     }
 
-    public List<PaymentApplicationInvoiceApply> getQuickAppliableInvoiceApplications() {
-        List<PaymentApplicationInvoiceApply> quickAppliable = new ArrayList<PaymentApplicationInvoiceApply>();
-        for (PaymentApplicationInvoiceApply invoiceApplication : invoiceApplications) {
-            if (!invoiceApplication.hasAnyAppliedAmounts()) {
-                quickAppliable.add(invoiceApplication);
-            }
-        }
-        return quickAppliable;
-    }
+    //TODO Andrew - dont need this anymore
+//    public List<PaymentApplicationInvoiceApply> getQuickAppliableInvoiceApplications() {
+//        List<PaymentApplicationInvoiceApply> quickAppliable = new ArrayList<PaymentApplicationInvoiceApply>();
+//        for (PaymentApplicationInvoiceApply invoiceApplication : invoiceApplications) {
+//            if (!invoiceApplication.hasAnyAppliedAmounts()) {
+//                quickAppliable.add(invoiceApplication);
+//            }
+//        }
+//        return quickAppliable;
+//    }
     
     protected void setupInvoiceWrappers(String payAppDocNumber) {
         if (StringUtils.isBlank(payAppDocNumber)) {
@@ -262,6 +264,29 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
 //        return invoices;
 //    }
 
+    /**
+     * For a given invoiceDocNumber and invoiceItemNumber, this method will return any paidApplieds 
+     * that match those two fields, if any exists.  Otherwise it will return null.
+     */
+    public InvoicePaidApplied getPaidAppliedForInvoiceDetail(String invoiceDocNumber, Integer invoiceItemNumber) {
+        if (StringUtils.isBlank(invoiceDocNumber)) {
+            throw new IllegalArgumentException("The parameter [invoiceDocNumber] passed in was blank or null.");
+        }
+        if (invoiceItemNumber == null || invoiceItemNumber.intValue() < 1) {
+            throw new IllegalArgumentException("The parameter [invoiceItemNumber] passed in was blank, zero or negative.");
+        }
+        PaymentApplicationDocument payAppDoc = getPaymentApplicationDocument();
+        List<InvoicePaidApplied> paidApplieds = payAppDoc.getInvoicePaidApplieds();
+        for (InvoicePaidApplied paidApplied : paidApplieds) {
+            if (invoiceDocNumber.equalsIgnoreCase(paidApplied.getFinancialDocumentReferenceInvoiceNumber())) {
+                if (invoiceItemNumber.equals(paidApplied.getInvoiceItemNumber())) {
+                    return paidApplied;
+                }
+            }
+        }
+        return null;
+    }
+    
     public String getSelectedInvoiceDocumentNumber() {
         return selectedInvoiceDocumentNumber;
     }

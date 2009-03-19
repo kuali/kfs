@@ -30,6 +30,7 @@ public class PaymentApplicationInvoiceApply implements Serializable {
     
     private String payAppDocNumber;
     private boolean quickApply;
+    private boolean quickApplyOldValue;
     
     public PaymentApplicationInvoiceApply(String payAppDocNumber, CustomerInvoiceDocument invoice) {
         this.invoice = invoice;
@@ -38,6 +39,7 @@ public class PaymentApplicationInvoiceApply implements Serializable {
             this.detailApplications.add(new PaymentApplicationInvoiceDetailApply(payAppDocNumber, invoiceDetail));
         }
         this.quickApply = false;
+        this.quickApplyOldValue = false;
         this.payAppDocNumber = payAppDocNumber;
     }
 
@@ -49,7 +51,8 @@ public class PaymentApplicationInvoiceApply implements Serializable {
         return applyAmount;
     }
     
-    public boolean hasAnyAppliedAmounts() {
+    // yes this method name is awkward.  Blame JSP that expects an is* or get*
+    public boolean isAnyAppliedAmounts() {
         for (PaymentApplicationInvoiceDetailApply detailApplication : detailApplications) {
             if (detailApplication.getAmountApplied().isGreaterThan(KualiDecimal.ZERO)) {
                 return true;
@@ -75,21 +78,17 @@ public class PaymentApplicationInvoiceApply implements Serializable {
     }
 
     public void setQuickApply(boolean quickApply) {
-        boolean turnedOn = (!this.quickApply && quickApply);
-        //boolean turnedOff = (this.quickApply && !quickApply);
+        this.quickApplyOldValue = this.quickApply;
         this.quickApply = quickApply;
-        if (turnedOn) {
-            for (PaymentApplicationInvoiceDetailApply detailApplication : detailApplications) {
-                detailApplication.setFullApply(true);
-            }
+        for (PaymentApplicationInvoiceDetailApply detailApplication : detailApplications) {
+            detailApplication.setInvoiceQuickApplied(quickApply);
         }
-        //if (turnedOff) {
-        //    for (PaymentApplicationInvoiceDetailApply detailApplication : detailApplications) {
-        //        detailApplication.setFullApply(false);
-        //    }
-        //}
     }
 
+    public boolean isQuickApplyChanged() {
+        return quickApply != quickApplyOldValue;
+    }
+    
     public CustomerInvoiceDocument getInvoice() {
         return invoice;
     }

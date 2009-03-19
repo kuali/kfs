@@ -70,7 +70,9 @@ function toggle(id) {
 
 	<ar:paymentApplicationQuickApplyToInvoice isCustomerSelected="${isCustomerSelected}"
 	   hasRelatedCashControlDocument="${hasRelatedCashControlDocument}"
-	   readOnly="${readOnly}" />
+	   readOnly="${readOnly}" 
+	   customerInvoiceDetailAttributes="${customerInvoiceDetailAttributes}" 
+	   invoiceAttributes="${invoiceAttributes}" />
 	
 	<ar:paymentApplicationApplyToInvoiceDetail customerAttributes="${customerAttributes}"
 		customerInvoiceDetailAttributes="${customerInvoiceDetailAttributes}"

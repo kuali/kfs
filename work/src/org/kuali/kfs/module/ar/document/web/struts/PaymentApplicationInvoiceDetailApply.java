@@ -29,15 +29,21 @@ public class PaymentApplicationInvoiceDetailApply implements Serializable {
     private InvoicePaidApplied paidApplied;
     
     private KualiDecimal amountApplied;
+    private KualiDecimal amountAppliedOldValue;
     private boolean fullApply;
+    private boolean fullApplyOldValue;
+    private boolean invoiceQuickApplied;
     private String payAppDocNumber;
     
     public PaymentApplicationInvoiceDetailApply(String payAppDocNumber, CustomerInvoiceDetail invoiceDetail) {
         this.invoiceDetail = invoiceDetail;
         this.amountApplied = KualiDecimal.ZERO;
+        this.amountAppliedOldValue = KualiDecimal.ZERO;
         this.fullApply = false;
+        this.fullApplyOldValue = false;
         this.paidApplied = new InvoicePaidApplied();
         this.payAppDocNumber = payAppDocNumber;
+        this.invoiceQuickApplied = false;
     }
 
     public InvoicePaidApplied generatePaidApplied() {
@@ -47,7 +53,7 @@ public class PaymentApplicationInvoiceDetailApply implements Serializable {
     }
 
     public KualiDecimal getAmountOpen() {
-        return invoiceDetail.getAmountOpen().subtract(amountApplied);
+        return invoiceDetail.getAmountOpen();
     }
     
     public KualiDecimal getAmountApplied() {
@@ -55,6 +61,7 @@ public class PaymentApplicationInvoiceDetailApply implements Serializable {
     }
 
     public void setAmountApplied(KualiDecimal amountApplied) {
+        this.amountAppliedOldValue = this.amountApplied;
         if (amountApplied == null) {
             this.amountApplied = KualiDecimal.ZERO;
         }
@@ -63,22 +70,23 @@ public class PaymentApplicationInvoiceDetailApply implements Serializable {
         }
     }
 
+    public boolean isAmountAppliedChanged() {
+        return !amountApplied.equals(amountAppliedOldValue);
+    }
+    
     public boolean isFullApply() {
         return fullApply;
     }
 
     public void setFullApply(boolean fullApply) {
-        boolean turnedOn = (!this.fullApply && fullApply);
-        boolean turnedOff = (this.fullApply && !fullApply);
+        this.fullApplyOldValue = this.fullApply;
         this.fullApply = fullApply;
-        if (turnedOn) {
-            this.amountApplied = this.invoiceDetail.getAmountOpen();
-        }
-        else if (turnedOff) {
-            this.amountApplied = KualiDecimal.ZERO;
-        }
     }
 
+    public boolean isFullApplyChanged() {
+        return fullApply != fullApplyOldValue;
+    }
+    
     public CustomerInvoiceDetail getInvoiceDetail() {
         return invoiceDetail;
     }
@@ -105,6 +113,14 @@ public class PaymentApplicationInvoiceDetailApply implements Serializable {
     
     public KualiDecimal getAmount() {
         return invoiceDetail.getAmount();
+    }
+
+    public boolean isInvoiceQuickApplied() {
+        return invoiceQuickApplied;
+    }
+
+    public void setInvoiceQuickApplied(boolean invoiceQuickApplied) {
+        this.invoiceQuickApplied = invoiceQuickApplied;
     }
     
 }

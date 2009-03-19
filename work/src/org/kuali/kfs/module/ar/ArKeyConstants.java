@@ -183,6 +183,7 @@ public class ArKeyConstants {
         public static final String NON_AR_AMOUNT_REQUIRED = "error.document.paymentApplication.nonArLineRequired";
         public static final String NON_AR_AMOUNT_MUST_BE_POSITIVE = "error.document.paymentApplication.nonArLineAmountMustBePositive";
         public static final String CANNOT_APPLY_MORE_THAN_CASH_CONTROL_TOTAL_AMOUNT = "error.document.paymentApplication.quickAppliedExceedsCashControlTotalAmount";
+        public static final String INVOICE_DETAIL_CANNOT_APPLY_MORE_THAN_CONTROL_TOTAL_AMOUNT = "error.document.paymentApplication.detailAppliedExceedsCashControlTotalAmount";
         public static final String CANNOT_APPLY_MORE_THAN_BALANCE_TO_BE_APPLIED = "error.document.paymentApplication.AppliedAmountExceedsBalanceToBeApplied";
         public static final String UNAPPLIED_AMOUNT_CANNOT_EXCEED_AVAILABLE_AMOUNT = "error.document.paymentApplication.unappliedAmountCannotExceedAvailableAmount";
         public static final String UNAPPLIED_AMOUNT_CANNOT_EXCEED_BALANCE_TO_BE_APPLIED = "error.document.paymentApplication.unappliedAmountCannotExceedBalanceToBeApplied";

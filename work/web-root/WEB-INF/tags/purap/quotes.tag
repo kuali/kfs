@@ -62,7 +62,7 @@
              <th align=right valign=middle class="bord-l-b" rowspan="3">
                  <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderQuoteVendorNoteText}" /></div>
              </th>
-             <td align=left valign=middle class="datacell" rowspan="3" colspan="2">
+             <td align=left valign=middle class="datacell" rowspan="3">
                  <kul:htmlControlAttribute 
                  	attributeEntry="${documentAttributes.purchaseOrderQuoteVendorNoteText}" property="document.purchaseOrderQuoteVendorNoteText" 
                  	readOnly="${!quoteEditable}" tabindexOverride="${tabindexOverrideBase + 3}"/>

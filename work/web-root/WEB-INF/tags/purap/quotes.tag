@@ -30,6 +30,7 @@
 
 <c:set var="quoteOpen" value="${poOutForQuote || poOpen || isPurchaseOrderAwarded}" />
 <c:set var="quoteEditable" value="${poOutForQuote && !isPurchaseOrderAwarded && fullEntryMode}" />
+<c:set var="quoteInitable" value="${poInProcess && fullEntryMode}" />
 
 <kul:tab tabTitle="Quote" defaultOpen="false" tabErrorKey="${PurapConstants.QUOTE_TAB_ERRORS}">
 	<div class="tab-container" align=center>
@@ -247,8 +248,8 @@
 
 		</c:if>
 
-		<!--  only if PO is in process, display the init quote button -->
-		<c:if test="${poInProcess}">
+		<!--  only if PO is in process and editable to the user, display the init quote button -->
+		<c:if test="${quoteInitable}">
 		<tr>
 			<td colspan="5" class="subhead"> 
 				<span class="subhead-right">

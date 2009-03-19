@@ -38,8 +38,9 @@ public interface InvoicePaidAppliedService<T extends AppliedPayment> {
 //    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, PaymentApplicationDocument paymentApplicationDocument);
     
     /**
-     * This method takes a list of invoice paid applied moves and uses them to save invoicePaidAppliedMoves
-     * @param invoicePaidAppliedMoves
+     * This method takes a list of applied payments and uses them to save invoice paid applieds
+     * @param appliedPayments
+     * @param documentNumberForDocumentApplyingPayments
      */
     public void saveInvoicePaidApplieds(List<T> appliedPayments, String documentNumberForDocumentApplyingPayments);
     

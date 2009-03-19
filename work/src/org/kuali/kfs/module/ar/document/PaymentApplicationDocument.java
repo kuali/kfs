@@ -17,7 +17,9 @@ package org.kuali.kfs.module.ar.document;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
@@ -35,6 +37,7 @@ import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
 import org.kuali.kfs.module.ar.businessobject.ReceivableCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
+import org.kuali.kfs.module.ar.document.service.NonAppliedHoldingService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -52,6 +55,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -76,12 +80,18 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     private transient CashControlDetail cashControlDetail;
     private transient FinancialSystemUserService fsUserService;
     
+    // Vivek
+    private ArrayList<NonAppliedHolding> nonApplieds;
+    private KualiDecimal totalAvailableUnappliedAmount = KualiDecimal.ZERO;
+    private KualiDecimal totalAppliedUnappliedAmount = KualiDecimal.ZERO;
+
     public PaymentApplicationDocument() {
         super();
         this.invoicePaidApplieds = new ArrayList<InvoicePaidApplied>();
         this.nonInvoiceds = new ArrayList<NonInvoiced>();
         this.nonInvoicedDistributions = new ArrayList<NonInvoicedDistribution>();
         this.nonAppliedDistributions = new ArrayList<NonAppliedDistribution>();
+        this.nonApplieds = new ArrayList<NonAppliedHolding>();
     }
 
     /**
@@ -135,9 +145,41 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      */
     public KualiDecimal getTotalFromControl() {
         //TODO Vivek - need to handle the 'else' part here
-        return hasCashControlDetail() ? getCashControlDetail().getFinancialDocumentLineAmount() : KualiDecimal.ZERO;
+        return hasCashControlDetail() ? getCashControlDetail().getFinancialDocumentLineAmount() : this.totalAvailableUnappliedAmount;
     }
     
+    /**
+     * Vivek - Gets the totalAvailableUnappliedAmount attribute.
+     * @return Returns the crmTotalAmount.
+     */
+    public KualiDecimal getTotalAvailableUnappliedAmount() {
+        return totalAvailableUnappliedAmount;
+    }
+
+    /**
+     * Vivek - Sets the totalAvailableUnappliedAmount attribute value.
+     * @param crmTotalAmount The crmTotalAmount to set.
+     */
+    public void setTotalAvailableUnappliedAmount(KualiDecimal totalAvailableUnappliedAmount) {
+        this.totalAvailableUnappliedAmount = totalAvailableUnappliedAmount;
+    }
+
+    /**
+     * Vivek - Gets the totalAppliedUnappliedAmount attribute.
+     * @return Returns the crmTotalAmount.
+     */
+    public KualiDecimal getTotalAppliedUnappliedAmount() {
+        return totalAppliedUnappliedAmount;
+    }
+
+    /**
+     * Vivek - Sets the totalAppliedUnappliedAmount attribute value.
+     * @param crmTotalAmount The crmTotalAmount to set.
+     */
+    public void setTotalAppliedUnappliedAmount(KualiDecimal totalAppliedUnappliedAmount) {
+        this.totalAppliedUnappliedAmount = totalAppliedUnappliedAmount;
+    }
+
     /**
      * @return the sum of all invoice paid applieds.
      */
@@ -238,7 +280,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         // will be no cash control details, so no balance to be applied
         //TODO Andrew - this will have to be updated for non-cash-control docs
         if (!hasCashControlDetail()) {
-            return KualiDecimal.ZERO;
+            return this.totalAvailableUnappliedAmount.subtract(this.totalAppliedUnappliedAmount);
         }
         
         // KULAR-504: "Balance" must equal line item amount from Cash Control - not the total Cash Control
@@ -804,5 +846,154 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         this.hiddenFieldForErrors = hiddenFieldForErrors;
     }
 
+    //Vivek
+    public Collection<NonAppliedHolding> getNonApplieds() {
+        return nonApplieds;
+    }
+
+    //Vivek
+    public void setNonApplieds(ArrayList<NonAppliedHolding> nonApplieds) {
+        this.nonApplieds = nonApplieds;
+    }
+
+    //Vivek
+    public void refreshNonApplieds(String customerNumber) {
+
+        /**
+         * Get total applied amount in the current document
+         */
+        //set totalAppliedUnappliedAmount
+        this.setTotalAppliedUnappliedAmount(this.getTotalApplied());
+
+        /**
+         * Calculate Individual and Total Available Unapplied Amount
+         */
+        // get Unapplied Funds for the current customer and set the <ArrayList>NonAppliedHolding to display in Control Section
+        NonAppliedHoldingService nonAppliedHoldingService = SpringContext.getBean(NonAppliedHoldingService.class);
+        Collection<NonAppliedHolding> nonAppliedHoldingsForCustomer = nonAppliedHoldingService.getNonAppliedHoldingsForCustomer(customerNumber);
+        KualiDecimal availableUnappliedAmount = KualiDecimal.ZERO;
+        KualiDecimal totalAvailableUnappliedAmount = KualiDecimal.ZERO;
+        KualiDecimal totalAppliedUnappliedAmount = KualiDecimal.ZERO;
+        for(NonAppliedHolding nonAppliedHoldingForCustomer : nonAppliedHoldingsForCustomer) {
+            availableUnappliedAmount = nonAppliedHoldingForCustomer.getFinancialDocumentLineAmount();
+            
+            BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+            Map<String,Object> criteria = new HashMap<String,Object>();
+
+            //get Unapplied
+            criteria.put("referenceFinancialDocumentNumber", nonAppliedHoldingForCustomer.getReferenceFinancialDocumentNumber());
+            List<NonAppliedDistribution> nonAppliedDistributions = (List<NonAppliedDistribution>) businessObjectService.findMatching(NonAppliedDistribution.class, criteria);
+            KualiDecimal total2 = KualiDecimal.ZERO;
+            for(NonAppliedDistribution nonAppliedDistribution : nonAppliedDistributions) {
+                total2 = total2.add(nonAppliedDistribution.getFinancialDocumentLineAmount());
+            }
+
+            //get NonAR
+            criteria.put("referenceFinancialDocumentNumber", nonAppliedHoldingForCustomer.getReferenceFinancialDocumentNumber());
+            List<NonInvoicedDistribution> nonInvoicedDistributions = (List<NonInvoicedDistribution>) businessObjectService.findMatching(NonInvoicedDistribution.class, criteria);
+            KualiDecimal total3 = KualiDecimal.ZERO;
+            for(NonInvoicedDistribution nonInvoicedDistribution : nonInvoicedDistributions) {
+                total3 = total3.add(nonInvoicedDistribution.getFinancialDocumentLineAmount());
+            }
+            
+            //calculate and set Available Unapplied Amount for a single Application document
+            availableUnappliedAmount = availableUnappliedAmount.subtract(total2.add(total3));
+            nonAppliedHoldingForCustomer.setAvailableUnappliedAmount(availableUnappliedAmount);
+            
+            //calculate and set totalAvailableUnappliedAmount
+            totalAvailableUnappliedAmount = totalAvailableUnappliedAmount.add(availableUnappliedAmount);
+            this.setTotalAvailableUnappliedAmount(totalAvailableUnappliedAmount);
+
+        }
+        this.setNonApplieds(new ArrayList<NonAppliedHolding>(nonAppliedHoldingsForCustomer));
+
+
+        /**
+         * Go thru Unapplieds and allocate the appropriate Applied Amount to each Unapplied row
+         */
+        KualiDecimal totalRemainingAppliedAmount = this.totalAppliedUnappliedAmount;
+        for(NonAppliedHolding nonAppliedHoldingForCustomer : nonAppliedHoldingsForCustomer) {
+            nonAppliedHoldingForCustomer.setAppliedUnappliedAmount(KualiDecimal.ZERO);
+            if (totalRemainingAppliedAmount.isGreaterThan(KualiDecimal.ZERO)) {
+                if (nonAppliedHoldingsForCustomer.iterator().hasNext()) {
+                    if (totalRemainingAppliedAmount.isLessEqual(nonAppliedHoldingForCustomer.getAvailableUnappliedAmount())) {
+                        nonAppliedHoldingForCustomer.setAppliedUnappliedAmount(totalRemainingAppliedAmount);
+                        totalRemainingAppliedAmount = totalRemainingAppliedAmount.subtract(totalRemainingAppliedAmount);
+                    }
+                    else {
+                        nonAppliedHoldingForCustomer.setAppliedUnappliedAmount(nonAppliedHoldingForCustomer.getAvailableUnappliedAmount());
+                        totalRemainingAppliedAmount = totalRemainingAppliedAmount.subtract(nonAppliedHoldingForCustomer.getAvailableUnappliedAmount());
+                    }
+                }
+                else {
+                    nonAppliedHoldingForCustomer.setAppliedUnappliedAmount(totalRemainingAppliedAmount);
+                    totalRemainingAppliedAmount = totalRemainingAppliedAmount.subtract(totalRemainingAppliedAmount);
+                }
+            }
+        }
+    }
+        
+    
+    //TODO Vivek - still working on this piece
+    public void createDistributions() {
+    
+        for(NonAppliedHolding nonAppliedHoldings : this.getNonApplieds()) {
+            
+            //check if payment has been applied to Invoices
+            //create Unapplied Distribution for each PaidApplied
+            KualiDecimal remainingUnappliedForDistribution = nonAppliedHoldings.getAppliedUnappliedAmount();
+            Collection<InvoicePaidApplied> invoicePaidAppliedsForCurrentDoc = this.getInvoicePaidApplieds();
+            for(InvoicePaidApplied invoicePaidAppliedForCurrentDoc : invoicePaidAppliedsForCurrentDoc) {
+                if (remainingUnappliedForDistribution.isPositive()) {
+                    KualiDecimal remainingPaidAppliedAmount = invoicePaidAppliedForCurrentDoc.getRemainingAmountForDistribution();
+                    
+                    //set NonAppliedDistributions for the current document
+                    NonAppliedDistribution nonAppliedDistribution = new NonAppliedDistribution();
+                    nonAppliedDistribution.setDocumentNumber(invoicePaidAppliedForCurrentDoc.getDocumentNumber());
+                    nonAppliedDistribution.setPaidAppliedItemNumber(invoicePaidAppliedForCurrentDoc.getPaidAppliedItemNumber());
+                    nonAppliedDistribution.setReferenceFinancialDocumentNumber(documentNumber);
+                    if (remainingPaidAppliedAmount.isLessEqual(remainingUnappliedForDistribution)) {
+                        nonAppliedDistribution.setFinancialDocumentLineAmount(remainingPaidAppliedAmount);
+                        remainingPaidAppliedAmount = remainingPaidAppliedAmount.subtract(remainingPaidAppliedAmount);
+                        invoicePaidAppliedForCurrentDoc.setRemainingAmountForDistribution(remainingPaidAppliedAmount);
+                        remainingUnappliedForDistribution = remainingUnappliedForDistribution.subtract(remainingPaidAppliedAmount);
+                    }
+                    else {
+                        nonAppliedDistribution.setFinancialDocumentLineAmount(remainingUnappliedForDistribution);
+                        remainingUnappliedForDistribution = remainingUnappliedForDistribution.subtract(remainingUnappliedForDistribution);
+                        invoicePaidAppliedForCurrentDoc.setRemainingAmountForDistribution(remainingUnappliedForDistribution);
+                    }
+                }
+            }
+
+        
+            //check if payment has been applied to NonAR
+            //create NonAR distribution for each NonAR Applied row
+            Collection<NonInvoiced> nonInvoicedsForCurrentDoc = this.getNonInvoiceds();
+            for(NonInvoiced nonInvoicedForCurrentDoc : nonInvoicedsForCurrentDoc) {
+                if (remainingUnappliedForDistribution.isPositive()) {
+                    KualiDecimal remainingNonInvoicedAmount = nonInvoicedForCurrentDoc.getRemainingAmountForDistribution();
+                    
+                    //set NonAppliedDistributions for the current document
+                    NonInvoicedDistribution nonInvoicedDistribution = new NonInvoicedDistribution();
+                    nonInvoicedDistribution.setDocumentNumber(nonInvoicedForCurrentDoc.getDocumentNumber());
+                    nonInvoicedDistribution.setFinancialDocumentLineNumber(nonInvoicedForCurrentDoc.getFinancialDocumentLineNumber());
+                    nonInvoicedDistribution.setReferenceFinancialDocumentNumber(documentNumber);
+                    if (remainingNonInvoicedAmount.isLessEqual(remainingUnappliedForDistribution)) {
+                        nonInvoicedDistribution.setFinancialDocumentLineAmount(remainingNonInvoicedAmount);
+                        remainingNonInvoicedAmount = remainingNonInvoicedAmount.subtract(remainingNonInvoicedAmount);
+                        nonInvoicedForCurrentDoc.setRemainingAmountForDistribution(remainingNonInvoicedAmount);
+                        remainingUnappliedForDistribution = remainingUnappliedForDistribution.subtract(remainingNonInvoicedAmount);
+                    }
+                    else {
+                        nonInvoicedDistribution.setFinancialDocumentLineAmount(remainingUnappliedForDistribution);
+                        remainingUnappliedForDistribution = remainingUnappliedForDistribution.subtract(remainingUnappliedForDistribution);
+                        nonInvoicedForCurrentDoc.setRemainingAmountForDistribution(remainingUnappliedForDistribution);
+                    }
+                }
+            }
+        }
+    }
+    
 }
 

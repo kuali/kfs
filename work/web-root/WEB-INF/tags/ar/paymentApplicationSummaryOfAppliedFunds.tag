@@ -85,12 +85,10 @@
 							</c:choose>
 						</td>
 						<td valign='top'>
-                            <c:set var="showTUFAndBtbA"
-                               value="${!hasRelatedCashControlDocument and (0 lt KualiForm.document.totalUnapplied or 0 lt KualiForm.document.nonInvoicedTotalAmount)}" />
                             <c:set var="showCCAndBtbA" value="${hasRelatedCashControlDocument}"/>
                             <table class='datatable'>
 								<tr>
-									<c:if test="${showTUFAndBtbA}">
+									<c:if test="${!showCCAndBtbA}">
 										<th class='tab-subhead'>
 											Total Unapplied Funds
 										</th>
@@ -111,12 +109,12 @@
                                     </th>
 								</tr>
 								<tr>
-									<c:if test="${showTUFAndBtbA}">
+									<c:if test="${!showCCAndBtbA}">
 										<td>
-											$<c:out value="${KualiForm.document.totalUnapplied}" />
+											$<c:out value="${KualiForm.document.totalAvailableUnappliedAmount}" />
 										</td>
 										<td>
-											$<c:out value="${KualiForm.document.totalBalanceToBeApplied}" />
+											$<c:out value="${KualiForm.document.unallocatedBalance}" />
 										</td>
 									</c:if>
 									<c:if test="${showCCAndBtbA}">

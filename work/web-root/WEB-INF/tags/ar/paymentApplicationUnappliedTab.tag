@@ -23,38 +23,46 @@
 <c:set var="unappliedAttributes" value="${DataDictionary['NonAppliedHolding'].attributes}" />
 <c:set var="customerAttributes" value="${DataDictionary['Customer'].attributes}" />
 
-    <kul:tab tabTitle="Unapplied" defaultOpen="true"
+    <kul:tab tabTitle="Unapplied"
+	    defaultOpen="${hasRelatedCashControlDocument}"
         tabErrorKey="${KFSConstants.PaymentApplicationTabErrorCodes.UNAPPLIED_TAB}">
         <div class="tab-container" align="center">
-            <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
-                <tr>
-                    <kul:htmlAttributeHeaderCell literalLabel="Customer"/>  
-                    <td>
-                        <kul:htmlControlAttribute
-                        	readOnly="${readOnly}"
-                            attributeEntry="${customerAttributes.customerNumber}"
-                            property="document.nonAppliedHolding.customerNumber"/>
-						<c:if test="${readOnly ne true}">
-	                        <kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.Customer" autoSearch="true"
-	                            fieldConversions="customerNumber:document.nonAppliedHolding.customerNumber"
-	                            lookupParameters="document.nonAppliedHolding.customerNumber:customerNumber" />
-                        </c:if>
-                    </td>
-                    <kul:htmlAttributeHeaderCell literalLabel="Amount"/>  
-                    <td>
-                    	<html:hidden property="oldNonAppliedHoldingAmount" value="${oldNonAppliedHoldingAmount}" />
-                        <kul:htmlControlAttribute
-	                        styleClass="amount"
-                            attributeEntry="${unappliedAttributes.financialDocumentLineAmount}"
-                            property="document.nonAppliedHolding.financialDocumentLineAmount"
-                            readOnly="${readOnly}" />
-						<c:if test="${readOnly ne true}">
-	                        <html:image property="methodToCall.applyAllAmounts"
-	                            src="${ConfigProperties.externalizable.images.url}tinybutton-apply.gif"
-	                            alt="Commit Unapplied" title="Commit Unapplied" styleClass="tinybutton" />
-	                    </c:if>
-                    </td>
-                </tr>
-            </table>
+        	<c:choose>
+            	<c:when test="${!hasRelatedCashControlDocument}">
+					No Cash Control Document
+	        	</c:when>
+	        	<c:otherwise>
+            		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
+                		<tr>
+                    		<kul:htmlAttributeHeaderCell literalLabel="Customer"/>  
+                    		<td>
+                        		<kul:htmlControlAttribute
+                        			readOnly="${readOnly}"
+                            		attributeEntry="${customerAttributes.customerNumber}"
+                            		property="document.nonAppliedHolding.customerNumber"/>
+								<c:if test="${readOnly ne true}">
+	                        		<kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.Customer" autoSearch="true"
+	                            		fieldConversions="customerNumber:document.nonAppliedHolding.customerNumber"
+	                            		lookupParameters="document.nonAppliedHolding.customerNumber:customerNumber" />
+                        		</c:if>
+                    		</td>
+                    		<kul:htmlAttributeHeaderCell literalLabel="Amount"/>  
+                    		<td>
+                    			<html:hidden property="oldNonAppliedHoldingAmount" value="${oldNonAppliedHoldingAmount}" />
+                        		<kul:htmlControlAttribute
+	                        		styleClass="amount"
+                            		attributeEntry="${unappliedAttributes.financialDocumentLineAmount}"
+                            		property="document.nonAppliedHolding.financialDocumentLineAmount"
+                            		readOnly="${readOnly}" />
+								<c:if test="${readOnly ne true}">
+	                        		<html:image property="methodToCall.applyAllAmounts"
+	                            		src="${ConfigProperties.externalizable.images.url}tinybutton-apply.gif"
+	                            		alt="Commit Unapplied" title="Commit Unapplied" styleClass="tinybutton" />
+	                    		</c:if>
+                    		</td>
+                		</tr>
+            		</table>
+	        	</c:otherwise>
+        	</c:choose>
         </div>
     </kul:tab>

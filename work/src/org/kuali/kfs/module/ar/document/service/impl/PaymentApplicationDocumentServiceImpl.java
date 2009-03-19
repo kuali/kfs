@@ -192,6 +192,9 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
             throw new IllegalArgumentException("A null or blank paymentApplicationDocumentNumber paraemter was passed in.");
         }
         CashControlDetail cashControlDetail = getCashControlDetailForPayAppDocNumber(paymentApplicationDocumentNumber);
+        if (cashControlDetail == null) {
+            return null;
+        }
         CashControlDocument cashControlDocument = null;
         try {
             cashControlDocument = (CashControlDocument) documentService.getByDocumentHeaderId(cashControlDetail.getDocumentNumber());
@@ -221,7 +224,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
      */
     public CashControlDetail getCashControlDetailForPayAppDocNumber(String payAppDocNumber) {
         if (StringUtils.isBlank(payAppDocNumber)) {
-            throw new IllegalArgumentException("A null or blank payAppDocNumber paraemter was passed in.");
+            throw new IllegalArgumentException("A null or blank payAppDocNumber parameter was passed in.");
         }
         CashControlDetail cashControlDetail = cashControlDetailDao.getCashControlDetailByRefDocNumber(payAppDocNumber);
         return cashControlDetail;

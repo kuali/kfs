@@ -22,6 +22,10 @@ public class NonAppliedHolding extends PersistableBusinessObjectBase {
 
     private List<NonAppliedDistribution> nonAppliedDistributions;
     
+    // Vivek
+    private KualiDecimal availableUnappliedAmount = KualiDecimal.ZERO;
+    private KualiDecimal appliedUnappliedAmount = KualiDecimal.ZERO;
+
 	/**
 	 * Default constructor.
 	 */
@@ -156,6 +160,38 @@ public class NonAppliedHolding extends PersistableBusinessObjectBase {
 	    LinkedHashMap m = new LinkedHashMap();	    
         m.put("referenceFinancialDocumentNumber", this.referenceFinancialDocumentNumber);
 	    return m;
+    }
+
+    /**
+     * Vivek - Gets the availableUnappliedAmount attribute.
+     * @return Returns the crmTotalAmount.
+     */
+    public KualiDecimal getAvailableUnappliedAmount() {
+        return availableUnappliedAmount;
+    }
+
+    /**
+     * Vivek - Sets the availableUnappliedAmount attribute value.
+     * @param crmTotalAmount The crmTotalAmount to set.
+     */
+    public void setAvailableUnappliedAmount(KualiDecimal availableUnappliedAmount) {
+        this.availableUnappliedAmount = availableUnappliedAmount;
+    }
+
+    /**
+     * Vivek - Gets the appliedUnappliedAmount attribute.
+     * @return Returns the crmTotalAmount.
+     */
+    public KualiDecimal getAppliedUnappliedAmount() {
+        return appliedUnappliedAmount;
+    }
+
+    /**
+     * Vivek - Sets the appliedUnappliedAmount attribute value.
+     * @param crmTotalAmount The crmTotalAmount to set.
+     */
+    public void setAppliedUnappliedAmount(KualiDecimal appliedUnappliedAmount) {
+        this.appliedUnappliedAmount = appliedUnappliedAmount;
     }
 
 }

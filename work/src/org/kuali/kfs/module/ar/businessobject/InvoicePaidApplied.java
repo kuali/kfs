@@ -33,6 +33,8 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 	private AccountingPeriod universityFiscalPeriod;
 	private FinancialSystemDocumentHeader documentHeader;
 	transient private DocumentService documentService;
+    //Vivek
+    private KualiDecimal remainingAmountForDistribution = KualiDecimal.ZERO;
 
 	/**
 	 * Default constructor.
@@ -330,6 +332,28 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
             m.put("paidAppliedItemNumber", this.paidAppliedItemNumber.toString());
         }
 	    return m;
+    }
+
+    /**
+     * Vivek
+     * Get the remainingAmountForDistribution attribute.
+     * 
+     * @return Returns the remainingAmountForDistribution
+     * 
+     */
+    public KualiDecimal getRemainingAmountForDistribution() { 
+        return remainingAmountForDistribution;
+    }
+
+    /**
+     * Vivek
+     * Set the remainingAmountForDistribution attribute.
+     * 
+     * @param remainingAmountForDistribution The remainingAmountForDistribution to set.
+     * 
+     */
+    public void setRemainingAmountForDistribution(KualiDecimal remainingAmountForDistribution) {
+        this.remainingAmountForDistribution = remainingAmountForDistribution;
     }
 
 }

@@ -182,6 +182,14 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
     
     public ActionForward applyAllAmounts(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         doApplicationOfFunds((PaymentApplicationDocumentForm)form);
+        // Vivek
+        PaymentApplicationDocumentForm paymentApplicationDocumentForm = (PaymentApplicationDocumentForm) form;
+        PaymentApplicationDocument applicationDocument = paymentApplicationDocumentForm.getPaymentApplicationDocument();
+        String customerNumber = applicationDocument.getAccountsReceivableDocumentHeader() == null ? null : applicationDocument.getAccountsReceivableDocumentHeader().getCustomerNumber();
+        if (!applicationDocument.hasCashControlDocument()) {
+            applicationDocument.refreshNonApplieds(customerNumber);
+        }
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
@@ -236,7 +244,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         }
         else {
             //TODO Vivek ... this is for you to fill out
-            controlTotalAmount = KualiDecimal.ZERO;
+            controlTotalAmount = paymentApplicationDocument.getTotalAvailableUnappliedAmount();
         }
 
         //  if the person over-applies, we dont stop them, we just complain
@@ -465,6 +473,10 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         String customerNumber = applicationDocument.getAccountsReceivableDocumentHeader() == null ? null : applicationDocument.getAccountsReceivableDocumentHeader().getCustomerNumber();
         String currentInvoiceNumber = selectedInvoiceNumber;
 
+        // Vivek
+        if (!applicationDocument.hasCashControlDocument()) {
+            applicationDocument.refreshNonApplieds(customerNumber);
+        }
         // if customer number is null but invoice number is not null then get the customer number based on the invoice number
         if (StringUtils.isBlank(customerNumber) && StringUtils.isNotBlank(currentInvoiceNumber)) {
             Customer customer = customerInvoiceDocumentService.getCustomerByInvoiceDocumentNumber(currentInvoiceNumber);

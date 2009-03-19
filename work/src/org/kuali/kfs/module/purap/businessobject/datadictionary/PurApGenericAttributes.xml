@@ -36,6 +36,7 @@
 			<ref bean="PurApGenericAttributes-paymentPaidTimestamp"/>
 			<ref bean="PurApGenericAttributes-creditMemoPaidTimestamp"/>
 			<ref bean="PurApGenericAttributes-genericItemAmount"/>
+			<ref bean="PurApGenericAttributes-sequenceId"/>
 		</list>
 	</property>
 </bean>
@@ -271,12 +272,12 @@
     <property name="shortLabel" value="Amount" />
   </bean>
 
-  <bean id="PurApGenericAttributes-transactionEntrySequenceId" parent="PurApGenericAttributes-transactionEntrySequenceId-parentBean" />
+  <bean id="PurApGenericAttributes-sequenceId" parent="PurApGenericAttributes-sequenceId-parentBean" />
 
-  <bean id="PurApGenericAttributes-transactionEntrySequenceId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="transactionEntrySequenceId" />
+  <bean id="PurApGenericAttributes-sequenceId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="sequenceId" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Transaction Entry Sequence Id" />
+    <property name="label" value="Purap Account Sequence Id" />
     <property name="shortLabel" value="Seq #" />
     <property name="maxLength" value="10" />
     <property name="validationPattern" >

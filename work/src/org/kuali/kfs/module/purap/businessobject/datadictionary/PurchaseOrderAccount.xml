@@ -115,7 +115,7 @@
   </bean>
   <bean id="PurchaseOrderAccount-sequenceNumber" parent="PurchaseOrderAccount-sequenceNumber-parentBean" />
 
-  <bean id="PurchaseOrderAccount-sequenceNumber-parentBean" abstract="true" parent="PurApGenericAttributes-transactionEntrySequenceId">
+  <bean id="PurchaseOrderAccount-sequenceNumber-parentBean" abstract="true" parent="PurApGenericAttributes-sequenceId">
     <property name="name" value="sequenceNumber" />
     <property name="required" value="false" />
   </bean>

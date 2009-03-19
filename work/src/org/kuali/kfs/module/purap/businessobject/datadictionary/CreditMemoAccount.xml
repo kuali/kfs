@@ -114,7 +114,7 @@
   </bean>
   <bean id="CreditMemoAccount-sequenceNumber" parent="CreditMemoAccount-sequenceNumber-parentBean" />
 
-  <bean id="CreditMemoAccount-sequenceNumber-parentBean" abstract="true" parent="PurApGenericAttributes-transactionEntrySequenceId">
+  <bean id="CreditMemoAccount-sequenceNumber-parentBean" abstract="true" parent="PurApGenericAttributes-sequenceId">
     <property name="name" value="sequenceNumber" />
     <property name="required" value="false" />
   </bean>

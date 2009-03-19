@@ -48,7 +48,8 @@ public class PurApGenericAttributes extends PersistableBusinessObjectBase {
     private String requisitionIdentifier;
     private String receivingDocumentRequiredIndicator;
     private String paymentRequestPositiveApprovalIndicator;
-
+    private String sequenceId;
+    
     /**
      * Default constructor
      */
@@ -240,6 +241,14 @@ public class PurApGenericAttributes extends PersistableBusinessObjectBase {
 
     public void setPaymentRequestPositiveApprovalIndicator(String paymentRequestPositiveApprovalIndicator) {
         this.paymentRequestPositiveApprovalIndicator = paymentRequestPositiveApprovalIndicator;
+    }
+
+    public String getSequenceId() {
+        return sequenceId;
+    }
+
+    public void setSequenceId(String sequenceId) {
+        this.sequenceId = sequenceId;
     }
 
 }

@@ -15,15 +15,12 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-
-<td class="content" valign="top">
-      <admininstrationChannel:system />
-</td>
-<td class="content" valign="top">
-      <admininstrationChannel:configuration />
-      <admininstrationChannel:testing />
-</td>
-<td class="content" valign="top">
-      <admininstrationChannel:batch />
-      <admininstrationChannel:monitoring />
-</td>
+<channel:portalChannelTop channelTitle="Testing" />
+<div class="body">
+	<strong>Electronic Invoice</strong><br/>
+    <ul class="chan">
+		<li><portal:portalLink displayTitle="true" title="Generate/Upload eInvoice Files" url="purapElectronicInvoiceTest.do" /></li>				
+	</ul>
+</div>
+<channel:portalChannelBottom />
+                

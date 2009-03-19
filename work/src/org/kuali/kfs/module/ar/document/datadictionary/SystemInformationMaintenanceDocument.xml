@@ -45,6 +45,7 @@
         <bean parent="ReferenceDefinition" p:attributeName="wireSubAccount" p:attributeToHighlightOnFail="wireSubAccountNumber"/>                  
         <bean parent="ReferenceDefinition" p:attributeName="universityFiscalYearObject" p:attributeToHighlightOnFail="universityFiscalYear"/>
         <bean parent="ReferenceDefinition" p:attributeName="financialDocumentInitiator" p:attributeToHighlightOnFail="financialDocumentInitiator.principalName"/>                
+      	<bean parent="ReferenceDefinition" p:attributeName="orgRemitToZipCode" p:attributeToHighlightOnFail="organizationRemitToZipCode"/>
       </list>
     </property>
     <property name="lockingKeys">

@@ -948,7 +948,8 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT);
         Account organizationOwnerAccount = assetGlobal.getOrganizationOwnerAccount();
-        if (StringUtils.isNotBlank(assetGlobal.getOrganizationOwnerAccountNumber()) && (organizationOwnerAccount == null || !organizationOwnerAccount.isActive() || organizationOwnerAccount.isExpired())) {
+        // when check if organizationOwnerAccount is existing, use ObjectUtils rather than comparing with 'null' since OJB proxy object is used here.
+        if (StringUtils.isNotBlank(assetGlobal.getOrganizationOwnerAccountNumber()) && (ObjectUtils.isNull(organizationOwnerAccount) || !organizationOwnerAccount.isActive() || organizationOwnerAccount.isExpired())) {
             putFieldError(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_OWNER_ACCT_NOT_ACTIVE, new String[] { assetGlobal.getOrganizationOwnerChartOfAccountsCode(), assetGlobal.getOrganizationOwnerAccountNumber() });
             success &= false;
         }

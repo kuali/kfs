@@ -244,12 +244,35 @@
     		<entry key="Account" value-ref="RoutingType-AssetRetirementGlobalMaintenanceDocument-Account"/>
     		<entry key="ExternalTransfer" value-ref="RoutingType-AssetRetirementGlobalMaintenanceDocument-ExternalTransfer"/>
     		<entry key="OrganizationHierarchy" value-ref="RoutingType-AssetRetirementGlobalMaintenanceDocument-OrganizationHierarchy"/>
-    		<!-- no qualifiers for purchasing node -->
+    		<entry key="Purchasing" value-ref="RoutingType-AssetRetirementGlobalMaintenanceDocument-Purchasing" />
     	</map>
     </property>
   </bean>
    
-
+  <bean id="RoutingType-AssetRetirementGlobalMaintenanceDocument-Purchasing" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="RoutingAttribute-campusCode"/>
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+    				<property name="documentCollectionPath">
+    					<bean class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath">
+    				  		<property name="documentValues">
+	   							<list>
+	   								<value>asset.organizationOwnerAccount.accountPhysicalCampusCode</value>
+	   							</list>
+	   						</property>
+	    					<property name="collectionPath" value="newMaintainableObject.businessObject.assetRetirementGlobalDetails"/>
+	    				</bean>
+    				</property>
+    			</bean>
+    		</list>
+    	</property>
+   </bean>
+    
   <bean id="RoutingType-AssetRetirementGlobalMaintenanceDocument-Account" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>

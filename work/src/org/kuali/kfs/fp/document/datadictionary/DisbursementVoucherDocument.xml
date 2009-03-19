@@ -106,6 +106,9 @@
     <property name="shortLabel" value="Phone"/>
     <property name="maxLength" value="10"/>
     <property name="required" value="true"/>
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>    
     <property name="control">
       <bean parent="TextControlDefinition" p:size="10"/>
     </property>

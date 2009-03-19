@@ -76,4 +76,9 @@ public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceB
 
         return newQualification;
     }
+    
+    public boolean isApplicationRoleType() {
+        return true;
+    }
+
 }

@@ -135,6 +135,19 @@ public class AccountBalance extends PersistableBusinessObjectBase {
         accountLineActualsBalanceAmount = KualiDecimal.ZERO;
         accountLineEncumbranceBalanceAmount = KualiDecimal.ZERO;
     }
+    
+    /**
+     * Constructs a AccountBalance.java per the primary keys only of the passed in accountBalanceHistory
+     * @param accountBalanceHistory
+     */
+    public AccountBalance(AccountBalanceHistory accountBalanceHistory) {
+        universityFiscalYear = accountBalanceHistory.getUniversityFiscalYear();
+        chartOfAccountsCode = accountBalanceHistory.getChartOfAccountsCode();
+        accountNumber = accountBalanceHistory.getAccountNumber();
+        subAccountNumber = accountBalanceHistory.getSubAccountNumber();
+        objectCode = accountBalanceHistory.getObjectCode();
+        subObjectCode = accountBalanceHistory.getSubObjectCode();
+    }
 
     public void fixVariance() {
         dummyBusinessObject.setGenericAmount(getVariance());

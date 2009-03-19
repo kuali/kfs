@@ -19,6 +19,8 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.gl.businessobject.AccountBalanceHistory;
+import org.kuali.kfs.gl.businessobject.EncumbranceHistory;
 import org.kuali.kfs.gl.businessobject.ExpenditureTransaction;
 import org.kuali.kfs.gl.businessobject.LedgerBalanceHistory;
 import org.kuali.kfs.gl.businessobject.LedgerEntryHistory;
@@ -35,7 +37,7 @@ import org.kuali.rice.kns.service.DateTimeService;
  * this should be replaced with the final version. It was added to the project early so that KFSMI-2477 (balancing process) can benefit from it.<br>
  * TODO CHANGELOG (from branch)<br>
  * 1) Added method writeErrors(Object o, Message errorMessage). Impact: None<br>
- * 2) Added LedgerBalanceHistory and LedgerEntryHistory cases for error printing. Impact: None<br>
+ * 2) Added LedgerBalanceHistory, LedgerEntryHistory, AccountBalance, and Encumbrance cases for error printing. Impact: None<br>
  * 3) Removed generic typing related to #4 (i.e. class isn't typed but calls to writeErrorHeader are). This also removed the o argument to the constructor, however, it added it to writeErrorHeader. Impact: class initialization, constructor call, writeErrorHeader call<br>
  * 4) Added writeErrorHeader(Object o, boolean newErrorHeader) to be able to force page break if boolean is true. This is because writeErrors already does the page break itself when it calls writeErrorHeader while direct calls to writeErrorHeader when there are multiple error headers has no such ability<br>
  *    Note: Wrapper writeErrorHeader(Object o) still exists
@@ -108,6 +110,14 @@ public class TextReportHelper {
             this.errorHeaderLine    = "YEAR COA OBJ  BT PRD DC    MESSAGE";
             this.errorSeparatorLine = "---- --- ---- -- --- --    ----------------------------------------------------------";
             this.errorFormat = "%-4s %-2s  %-4s %-2s %-2s  %-1s     ";
+        } else if (o instanceof AccountBalanceHistory) {
+            this.errorHeaderLine    = "YEAR COA ACCOUNT SACCT OBJ  SOBJ     MESSAGE";
+            this.errorSeparatorLine = "---- --- ------- ----- ---- ----     ----------------------------------------------------------";
+            this.errorFormat =        "%-4s %-2s  %-7s %-5s %-4s %-3s     ";
+        } else if (o instanceof EncumbranceHistory) {
+            this.errorHeaderLine    = "YEAR COA ACCOUNT SACCT OBJ  SOBJ BT DTYP ORIG DOC #         MESSAGE (VALUE)";
+            this.errorSeparatorLine = "---- --- ------- ----- ---- ---- -- ---- ---- ---------     ----------------------------------------------------------";
+            this.errorFormat = "%-4s %-2s  %-7s %-5s %-4s %-3s  %-2s %-4s %-2s   %-9s     ";
         } else {
             throw new RuntimeException(o.getClass().toString() + " is not handled in TextReporterHelper");
         }
@@ -218,6 +228,26 @@ public class TextReportHelper {
                     keys.add(ledgerEntryHistory.getFinancialBalanceTypeCode());
                     keys.add(ledgerEntryHistory.getUniversityFiscalPeriodCode());
                     keys.add(ledgerEntryHistory.getTransactionDebitCreditCode());
+                } else if (o instanceof AccountBalanceHistory) {
+                    AccountBalanceHistory accountBalanceHistory = (AccountBalanceHistory) o;
+                    keys.add(accountBalanceHistory.getUniversityFiscalYear() == null ? "" : accountBalanceHistory.getUniversityFiscalYear().toString());
+                    keys.add(accountBalanceHistory.getChartOfAccountsCode());
+                    keys.add(accountBalanceHistory.getAccountNumber());
+                    keys.add(accountBalanceHistory.getSubAccountNumber());
+                    keys.add(accountBalanceHistory.getObjectCode());
+                    keys.add(accountBalanceHistory.getSubObjectCode());
+                } else if (o instanceof EncumbranceHistory) {
+                    EncumbranceHistory encumbranceHistory = (EncumbranceHistory) o;
+                    keys.add(encumbranceHistory.getUniversityFiscalYear() == null ? "" : encumbranceHistory.getUniversityFiscalYear().toString());
+                    keys.add(encumbranceHistory.getChartOfAccountsCode());
+                    keys.add(encumbranceHistory.getAccountNumber());
+                    keys.add(encumbranceHistory.getSubAccountNumber());
+                    keys.add(encumbranceHistory.getObjectCode());
+                    keys.add(encumbranceHistory.getSubObjectCode());
+                    keys.add(encumbranceHistory.getBalanceTypeCode());
+                    keys.add(encumbranceHistory.getDocumentTypeCode());
+                    keys.add(encumbranceHistory.getObjectCode());
+                    keys.add(encumbranceHistory.getDocumentNumber());
                 } else {
                     throw new RuntimeException(o.getClass().toString() + " is not handled in TextReporterHelper (writeErrors)");
                 }

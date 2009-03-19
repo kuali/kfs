@@ -73,7 +73,6 @@ public abstract class BalancingServiceBaseImpl<T extends PersistableBusinessObje
     private LedgerBalanceBalancingDao ledgerBalanceBalancingDao;
     private LedgerBalanceHistoryBalancingDao ledgerBalanceHistoryBalancingDao;
     private LedgerEntryHistoryBalancingDao ledgerEntryHistoryBalancingDao;
-    // TODO Shouldn't we do SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.STAGING_DIRECTORY_KEY); instead of injecting constants via spring?
     private String batchFileDirectoryName;
     
     /**
@@ -175,9 +174,9 @@ public abstract class BalancingServiceBaseImpl<T extends PersistableBusinessObje
         textReportHelper.printf("                             FISCAL YEARS INCLUDED IN BALANCING              %s\n", ledgerBalanceHistoryBalancingDao.findDistinctFiscalYears());
         textReportHelper.printf("                             OBSOLETE HISTORY DELETED                         %9s\n", obsoleteUniversityFiscalYearDeleted ? "Yes (" + obsoleteUniversityFiscalYear + ")": "No");
         textReportHelper.printf("                             UPDATES SKIPPED DUE TO OUT OF RANGE FISCAL YEAR  %,9d\n", updateRecordsIgnored);
-        textReportHelper.printf("                             %s AMOUNT FAILURES   %-25s %,9d\n", getEntryLabel(), "(" + entryHistoryPersistentClass.getSimpleName() + ")", countBalanceComparisionFailure);
-        textReportHelper.printf("                             %s AMOUNT FAILURES   %-25s %,9d\n", getBalanceLabel(), "(" + balanceHistoryPersistentClass.getSimpleName() + ")", countEntryComparisionFailure);
-        textReportHelper.printf("                             %s ROW COUNT - CALC. %-25s %,9d\n", getEntryLabel(), "(" + entryHistoryPersistentClass.getSimpleName() + ")", ledgerEntryHistoryBalancingDao.findSumRowCountGreaterOrEqualThan(startUniversityFiscalYear));
+        textReportHelper.printf("                             %s AMOUNT FAILURES   %-25s %,9d\n", getEntryLabel(), "(" + entryHistoryPersistentClass.getSimpleName() + ")", countEntryComparisionFailure);
+        textReportHelper.printf("                             %s AMOUNT FAILURES   %-25s %,9d\n", getBalanceLabel(), "(" + balanceHistoryPersistentClass.getSimpleName() + ")", countBalanceComparisionFailure);
+        textReportHelper.printf("                             %s SUM(ROW COUNT) - CALC. %-25s %,9d\n", getEntryLabel(), "(" + entryHistoryPersistentClass.getSimpleName() + ")", ledgerEntryHistoryBalancingDao.findSumRowCountGreaterOrEqualThan(startUniversityFiscalYear));
         textReportHelper.printf("                             %s ROW COUNT - PROD.                           %,9d\n", getEntryLabel(), ledgerEntryBalancingDao.findCountGreaterOrEqualThan(startUniversityFiscalYear));
         textReportHelper.printf("                             %s ROW COUNT - CALC. %-25s %,9d\n", getBalanceLabel(), "(" + balanceHistoryPersistentClass.getSimpleName() + ")", this.getHistoryCount(null, balanceHistoryPersistentClass));
         textReportHelper.printf("                             %s ROW COUNT - PROD.                           %,9d\n", getBalanceLabel(), ledgerBalanceBalancingDao.findCountGreaterOrEqualThan(startUniversityFiscalYear));

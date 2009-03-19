@@ -98,6 +98,24 @@ public class Encumbrance extends PersistableBusinessObjectBase {
         this.dummyBusinessObject = new TransientBalanceInquiryAttributes();
     }
 
+    /**
+     * Constructs a AccountBalance.java per the primary keys only of the passed in accountBalanceHistory
+     * @param accountBalanceHistory
+     */
+    public Encumbrance(EncumbranceHistory encumbranceHistory) {
+        universityFiscalYear = encumbranceHistory.getUniversityFiscalYear();
+        chartOfAccountsCode = encumbranceHistory.getChartOfAccountsCode();
+        accountNumber = encumbranceHistory.getAccountNumber();
+        subAccountNumber = encumbranceHistory.getSubAccountNumber();
+        objectCode = encumbranceHistory.getObjectCode();
+        subObjectCode = encumbranceHistory.getSubObjectCode();
+        balanceTypeCode = encumbranceHistory.getBalanceTypeCode();
+        documentTypeCode = encumbranceHistory.getDocumentTypeCode();
+        originCode = encumbranceHistory.getOriginCode();
+        documentNumber = encumbranceHistory.getDocumentNumber();
+    }
+
+    
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap map = new LinkedHashMap();
         map.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, getUniversityFiscalYear());

@@ -52,8 +52,6 @@ public class LaborEntryHistory extends LedgerEntry implements LedgerEntryHistory
         this.setFinancialBalanceTypeCode(laborOriginEntry.getFinancialBalanceTypeCode());
         this.setUniversityFiscalPeriodCode(laborOriginEntry.getUniversityFiscalPeriodCode());
         this.setTransactionDebitCreditCode(laborOriginEntry.getTransactionDebitCreditCode());
-        
-        this.setRowCount(1);
     }
     
     /**

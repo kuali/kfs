@@ -40,8 +40,9 @@ public class LaborBalancingServiceImpl extends BalancingServiceBaseImpl<LaborBal
     
     private static final String BALANCING_FILENAME = "laborBalancing_";
     private static final String BALANCING_FILETITLE = "Labor Balancing Report";
-    private static final String BALANCE_LABEL = "GLBL";
-    private static final String ENTRY_LABEL = "GLEN";
+    private static final String BALANCE_LABEL = "LLBL";
+    private static final String ENTRY_LABEL = "LLEN";
+
     
     /**
      * @see org.kuali.kfs.gl.batch.service.BalancingService#getReportFilename()

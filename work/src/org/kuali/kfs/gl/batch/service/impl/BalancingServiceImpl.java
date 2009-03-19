@@ -17,6 +17,7 @@ package org.kuali.kfs.gl.batch.service.impl;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -51,8 +52,8 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<BalanceHistor
     
     private static final String BALANCING_FILENAME = "balancing_";
     private static final String BALANCING_FILETITLE = "General Ledger Balancing Report";
-    private static final String BALANCE_LABEL = "LLBL";
-    private static final String ENTRY_LABEL = "LLEN";
+    private static final String BALANCE_LABEL = "GLBL";
+    private static final String ENTRY_LABEL = "GLEN";
     private static final String ACCOUNT_BALANCE_LABEL = "ACBL";
     private static final String ENCUMBRANCE_LABEL = "GLEC";
     private static final String ACCOUNT_BALANCE_BUSINESS_OBJECT_NAME = "AccountBalance";
@@ -61,7 +62,7 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<BalanceHistor
     private static final String ENCUMBRANCE_HISTORY_BUSINESS_OBJECT_NAME = "EncumbranceHistory";
     private static final String UNKNOWN_LABEL = "<Unknown Lable>";
     
-    private AccountBalanceDao accountBalanceDao;    
+    private AccountBalanceDao accountBalanceDao;
     private EncumbranceDao encumbranceDao;
     
     /**
@@ -252,8 +253,7 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<BalanceHistor
                 accountBalanceHistory = retrievedAccountBalanceHistory;
             }
             
-            // TODO following method is essentially a copy & paste of PostAccountBalance.updateAccountBalanceReturn. If that method where on the BO or public & static I could use it directly.
-            // TODO PostAccountBalance.updateAccountBalanceReturn appears to duplicate (partially) the logic from the above if-statement. Odd?
+            // Following is a copy of PostAccountBalance.updateAccountBalanceReturn since the blancing process is to do this independently
             if (accountBalanceHistory.addAmount(originEntryFull)) {
                 businessObjectService.save(accountBalanceHistory);
             }
@@ -268,31 +268,32 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<BalanceHistor
     private void updateEncumbranceHistory(OriginEntry originEntry) {
         OriginEntryFull originEntryFull = (OriginEntryFull) originEntry;
         
+        // PostEncumbrance.verifyTransaction is not run because entries that fail that verification will be in the error poster file which entries
+        // are already ignored before being passed to this method.
+        
         // As taken from PostEncumbrance#post: If the encumbrance update code is space or N, or the object type code is FB we don't need to post an encumbrance
         originEntryFull.refreshReferenceObject(KFSPropertyConstants.OPTION);
         if ((StringUtils.isBlank(originEntryFull.getTransactionEncumbranceUpdateCode())) || " ".equals(originEntryFull.getTransactionEncumbranceUpdateCode()) || KFSConstants.ENCUMB_UPDT_NO_ENCUMBRANCE_CD.equals(originEntryFull.getTransactionEncumbranceUpdateCode()) || originEntryFull.getOption().getFinObjectTypeFundBalanceCd().equals(originEntryFull.getFinancialObjectTypeCode())) {
-            // TODO Retrieve and update 1 by 1? Is a HashMap or cache better so that storing only occurs once at the end?
-            
-            // TODO test that the following line works instead of encumbranceDao.getEncumbranceByTransaction
-            EncumbranceHistory encumbranceHistory = new EncumbranceHistory(originEntry);
-            if (KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(originEntryFull.getTransactionEncumbranceUpdateCode())) {
-                encumbranceHistory.setDocumentNumber(originEntryFull.getReferenceFinancialDocumentNumber());
-                encumbranceHistory.setOriginCode(originEntryFull.getReferenceFinancialSystemOriginationCode());
-                encumbranceHistory.setDocumentTypeCode(originEntryFull.getReferenceFinancialDocumentTypeCode());
-            }
-            EncumbranceHistory retrievedEncumbranceHistory = (EncumbranceHistory) businessObjectService.retrieve(encumbranceHistory);
-            if(ObjectUtils.isNotNull(retrievedEncumbranceHistory)) {
-                encumbranceHistory = retrievedEncumbranceHistory;
-            } else {
-                // Necessary because in the case of ENCUMB_UPDT_REFERENCE_DOCUMENT_CD we muck with some fields on encumbranceHistory
-                encumbranceHistory = new EncumbranceHistory(originEntry);
-            }
-            
-            // TODO following method is essentially a copy & paste of PostEncumbrance.updateEncumbrance. If that method where on the BO or public & static I could use it directly.
-            encumbranceHistory.addAmount(originEntry);
-            
-            businessObjectService.save(encumbranceHistory);
+            return;
         }
+        
+        EncumbranceHistory encumbranceHistory = new EncumbranceHistory(originEntryFull);
+        if (KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(originEntryFull.getTransactionEncumbranceUpdateCode())) {
+            encumbranceHistory.setDocumentNumber(originEntryFull.getReferenceFinancialDocumentNumber());
+            encumbranceHistory.setOriginCode(originEntryFull.getReferenceFinancialSystemOriginationCode());
+            encumbranceHistory.setDocumentTypeCode(originEntryFull.getReferenceFinancialDocumentTypeCode());
+        }
+        // TODO Retrieve and update 1 by 1? Is a HashMap or cache better so that storing only occurs once at the end?
+        EncumbranceHistory retrievedEncumbranceHistory = (EncumbranceHistory) businessObjectService.retrieve(encumbranceHistory);
+        
+        if(ObjectUtils.isNotNull(retrievedEncumbranceHistory)) {
+            encumbranceHistory = retrievedEncumbranceHistory;
+        }
+        
+        // Following is a copy & paste of PostEncumbrance.updateEncumbrance since the blancing process is to do this independently
+        encumbranceHistory.addAmount(originEntryFull);
+        
+        businessObjectService.save(encumbranceHistory);
     }
     
     /**
@@ -303,7 +304,8 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<BalanceHistor
         Integer countAccountBalanceComparisionFailure = this.accountBalanceCompareHistory(textReportHelper);
         Integer countEncumbranceComparisionFailure = this.encumbranceCompareHistory(textReportHelper);
         
-        Map<String, Integer> countMap = new HashMap<String, Integer>();
+        // Using LinkedHashMap because we want it ordered
+        Map<String, Integer> countMap = new LinkedHashMap<String, Integer>();
         countMap.put((AccountBalanceHistory.class).getSimpleName(), countAccountBalanceComparisionFailure);
         countMap.put((EncumbranceHistory.class).getSimpleName(), countEncumbranceComparisionFailure);
         
@@ -323,7 +325,7 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<BalanceHistor
         for (Iterator<AccountBalanceHistory> iterator = businessObjectService.findAll(AccountBalanceHistory.class).iterator(); iterator.hasNext();) {
             AccountBalanceHistory accountBalanceHistory = iterator.next();
             
-            AccountBalance accountBalance = (AccountBalance) businessObjectService.retrieve((AccountBalance) accountBalanceHistory);
+            AccountBalance accountBalance = (AccountBalance) businessObjectService.retrieve(new AccountBalance(accountBalanceHistory));
             
             if (!accountBalanceHistory.compareAmounts(accountBalance)) {
                 // Compare failed, properly log it if we havn't written more then TOTAL_COMPARISION_FAILURES_TO_PRINT yet
@@ -357,7 +359,7 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<BalanceHistor
         for (Iterator<EncumbranceHistory> iterator = businessObjectService.findAll(EncumbranceHistory.class).iterator(); iterator.hasNext();) {
             EncumbranceHistory encumbranceHistory = iterator.next();
             
-            Encumbrance encumbrance = (Encumbrance) businessObjectService.retrieve((Encumbrance) encumbranceHistory);
+            Encumbrance encumbrance = (Encumbrance) businessObjectService.retrieve(new Encumbrance(encumbranceHistory));
             
             if (!encumbranceHistory.compareAmounts(encumbrance)) {
                 // Compare failed, properly log it if we havn't written more then TOTAL_COMPARISION_FAILURES_TO_PRINT yet
@@ -404,7 +406,7 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<BalanceHistor
         textReportHelper.printf("                             %s ROW COUNT - CALC. %-25s %,9d\n", getCustomLabel((EncumbranceHistory.class).getSimpleName()), "(" + (EncumbranceHistory.class).getSimpleName() + ")", this.getHistoryCount(null, EncumbranceHistory.class));
         textReportHelper.printf("                             %s ROW COUNT - PROD.                           %,9d\n", getCustomLabel((Encumbrance.class).getSimpleName()), encumbranceDao.findCountGreaterOrEqualThan(fiscalYear));
     }
-    
+
     /**
      * Sets the AccountBalanceDao
      * 

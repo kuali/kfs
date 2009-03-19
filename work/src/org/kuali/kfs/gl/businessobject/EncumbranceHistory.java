@@ -27,11 +27,6 @@ import org.kuali.rice.kns.util.ObjectUtils;
 */
 public class EncumbranceHistory extends Encumbrance {
 
-    private String transactionEncumbranceDescription;
-    private Date transactionEncumbranceDate;
-    private String accountLineEncumbrancePurgeCode;
-    private Timestamp timestamp;
-
     public EncumbranceHistory() {
         super();
         this.setAccountLineEncumbranceAmount(KualiDecimal.ZERO);
@@ -45,12 +40,12 @@ public class EncumbranceHistory extends Encumbrance {
      */
     public EncumbranceHistory(OriginEntry originEntry) {
         this();
+        this.setUniversityFiscalYear(originEntry.getUniversityFiscalYear());
         this.setChartOfAccountsCode(originEntry.getChartOfAccountsCode());
         this.setAccountNumber(originEntry.getAccountNumber());
+        this.setSubAccountNumber(originEntry.getSubAccountNumber());
         this.setObjectCode(originEntry.getFinancialObjectCode());
         this.setSubObjectCode(originEntry.getFinancialSubObjectCode());
-        this.setUniversityFiscalYear(originEntry.getUniversityFiscalYear());
-        this.setSubAccountNumber(originEntry.getSubAccountNumber());
         this.setBalanceTypeCode(originEntry.getFinancialBalanceTypeCode());
         this.setDocumentTypeCode(originEntry.getFinancialDocumentTypeCode());
         this.setOriginCode(originEntry.getFinancialSystemOriginationCode());

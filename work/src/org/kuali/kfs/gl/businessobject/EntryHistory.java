@@ -50,8 +50,6 @@ public class EntryHistory extends Entry implements LedgerEntryHistory {
         this.setFinancialBalanceTypeCode(originEntry.getFinancialBalanceTypeCode());
         this.setUniversityFiscalPeriodCode(originEntry.getUniversityFiscalPeriodCode());
         this.setTransactionDebitCreditCode(originEntry.getTransactionDebitCreditCode());
-        
-        this.setRowCount(1);
     }
     
     /**

@@ -29,7 +29,7 @@
 <c:set var="poOutForQuote" value="${KualiForm.document.statusCode eq 'QUOT'}" />
 
 <c:set var="quoteOpen" value="${poOutForQuote || poOpen || isPurchaseOrderAwarded}" />
-<c:set var="quoteEditable" value="${poOutForQuote && !isPurchaseOrderAwarded}" />
+<c:set var="quoteEditable" value="${poOutForQuote && !isPurchaseOrderAwarded && fullEntryMode}" />
 
 <kul:tab tabTitle="Quote" defaultOpen="false" tabErrorKey="${PurapConstants.QUOTE_TAB_ERRORS}">
 	<div class="tab-container" align=center>

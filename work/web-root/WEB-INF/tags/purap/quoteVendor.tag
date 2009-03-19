@@ -27,8 +27,9 @@
 <%@ attribute name="isTrasnmitted" required="false" description="PO transmitted to vendor?" %>
 
 <c:set var="tabindexOverrideBase" value="60" />
+<c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 <c:set var="poOutForQuote" value="${KualiForm.document.statusCode eq 'QUOT'}" />
-<c:set var="quoteEditable" value="${poOutForQuote && !isPurchaseOrderAwarded}" />
+<c:set var="quoteEditable" value="${poOutForQuote && !isPurchaseOrderAwarded && fullEntryMode}" />
 
 <tr>
 	<td colspan="4" class="subhead">

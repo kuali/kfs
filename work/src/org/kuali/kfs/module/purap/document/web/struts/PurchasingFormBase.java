@@ -111,12 +111,10 @@ public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBa
     }
 
     public BigDecimal getTotalPercentageOfAccountDistributionsourceAccountingLines() {
-        if (this.totalPercentageOfAccountDistributionsourceAccountingLines == null) {
-            this.totalPercentageOfAccountDistributionsourceAccountingLines = new BigDecimal(0);
-            for (PurApAccountingLine line : this.getAccountDistributionsourceAccountingLines()) {
-                if (line.getAccountLinePercent() != null) {
-                    setTotalPercentageOfAccountDistributionsourceAccountingLines(this.totalPercentageOfAccountDistributionsourceAccountingLines.add(line.getAccountLinePercent()));
-                }
+        this.totalPercentageOfAccountDistributionsourceAccountingLines = new BigDecimal(0);
+        for (PurApAccountingLine line : this.getAccountDistributionsourceAccountingLines()) {
+            if (line.getAccountLinePercent() != null) {
+                setTotalPercentageOfAccountDistributionsourceAccountingLines(this.totalPercentageOfAccountDistributionsourceAccountingLines.add(line.getAccountLinePercent()));
             }
         }
         return this.totalPercentageOfAccountDistributionsourceAccountingLines;

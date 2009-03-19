@@ -741,7 +741,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     public void getCSFCandidateDocumentKeys(Integer BaseYear) {
         Criteria criteriaId = new Criteria();
         criteriaId.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, BaseYear);
-        criteriaId.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE, BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
+        criteriaId.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE, BCConstants.csfFundingStatusFlag.ACTIVE.getFlagValue());
         String[] queryAttr = { KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSPropertyConstants.ACCOUNT_NUMBER, KFSPropertyConstants.SUB_ACCOUNT_NUMBER };
         ReportQueryByCriteria queryId = new ReportQueryByCriteria(CalculatedSalaryFoundationTracker.class, queryAttr, criteriaId, true);
         Iterator rowsReturned = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryId);
@@ -762,7 +762,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     public void getCSFOverrideCandidateDocumentKeys(Integer BaseYear) {
         Criteria criteriaId = new Criteria();
         criteriaId.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, BaseYear);
-        criteriaId.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE, BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
+        criteriaId.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE, BCConstants.csfFundingStatusFlag.ACTIVE.getFlagValue());
         criteriaId.addEqualTo(KFSPropertyConstants.ACTIVE, true);
         String[] queryAttr = { KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSPropertyConstants.ACCOUNT_NUMBER, KFSPropertyConstants.SUB_ACCOUNT_NUMBER };
         ReportQueryByCriteria queryId = new ReportQueryByCriteria(CalculatedSalaryFoundationTrackerOverride.class, queryAttr, criteriaId, true);
@@ -786,7 +786,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     public void getCSFOverrideDeletedKeys(Integer BaseYear) {
         Criteria criteriaId = new Criteria();
         criteriaId.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, BaseYear);
-        criteriaId.addNotEqualTo(KFSPropertyConstants.CSF_DELETE_CODE, BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
+        criteriaId.addNotEqualTo(KFSPropertyConstants.CSF_DELETE_CODE, BCConstants.csfFundingStatusFlag.ACTIVE.getFlagValue());
         criteriaId.addEqualTo(KFSPropertyConstants.ACTIVE, true);
         String[] queryAttr = { KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSPropertyConstants.ACCOUNT_NUMBER, KFSPropertyConstants.SUB_ACCOUNT_NUMBER };
         ReportQueryByCriteria queryId = new ReportQueryByCriteria(CalculatedSalaryFoundationTrackerOverride.class, queryAttr, criteriaId, true);
@@ -849,7 +849,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         // these are the potential document keys in the CSF tracker
         Criteria criteriaId = new Criteria();
         criteriaId.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, BaseYear);
-        criteriaId.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE, BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
+        criteriaId.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE, BCConstants.csfFundingStatusFlag.ACTIVE.getFlagValue());
         String[] propertyString = { KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSPropertyConstants.ACCOUNT_NUMBER, KFSPropertyConstants.SUB_ACCOUNT_NUMBER };
         CSFTrackerKeys = new HashMap<String, String[]>(hashObjectSize(CalculatedSalaryFoundationTracker.class, criteriaId, propertyString));
     }
@@ -1138,6 +1138,11 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     //  private utility methods
 
     private void buildAcctOrgHierFromAcctRpts(BudgetConstructionAccountReports acctRpts, Integer RequestYear) {
+        // it is possible that a header row could have an account which exists in the chart but not in account reports to, the parallel chart for budget construction.  these two charts must be maintained in parallel.  if that is the case, a verification routine will print a list of problems at the end.  here we just skip building the hierarchy.
+        if (acctRpts == null)
+        {
+            return;
+        }
         // part of the key of the budget construction header is a sub account
         // so, our algorithm could visit the same account more than once if the account has more than one subaccount.
         // if the hierarchy for this account is already built, we skip this routine.
@@ -1407,12 +1412,12 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         if (BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS == null) {
             //  make sure that a NULL test is used in case = NULL is not supported
             //  by the database
-            lockID.addNotNull("budgetLockUserIdentifier");
-            tranLockID.addNotNull("budgetTransactionLockUserIdentifier");
+            lockID.addNotNull(BCPropertyConstants.BUDGET_LOCK_USER_IDENTIFIER);
+            tranLockID.addNotNull(BCPropertyConstants.BUDGET_TRANSACTION_LOCK_USER_IDENTIFIER);
         }
         else {
-            lockID.addNotEqualTo("budgetLockUserIdentifier", BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
-            tranLockID.addNotEqualTo("budgetTransactionLockUserIdentifier", BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
+            lockID.addNotEqualTo(BCPropertyConstants.BUDGET_LOCK_USER_IDENTIFIER, BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
+            tranLockID.addNotEqualTo(BCPropertyConstants.BUDGET_TRANSACTION_LOCK_USER_IDENTIFIER, BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
         }
         ;
         lockID.addOrCriteria(tranLockID);
@@ -2312,7 +2317,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     private void readCSF(Integer BaseYear) {
         Criteria criteriaID = new Criteria();
         criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, BaseYear);
-        criteriaID.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE, BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
+        criteriaID.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE, BCConstants.csfFundingStatusFlag.ACTIVE.getFlagValue());
         QueryByCriteria queryID = new QueryByCriteria(CalculatedSalaryFoundationTracker.class, criteriaID);
         Iterator csfResultSet = getPersistenceBrokerTemplate().getIteratorByQuery(queryID);
         while (csfResultSet.hasNext()) {
@@ -2341,7 +2346,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     private void readCSFOverride(Integer BaseYear) {
         Criteria criteriaID = new Criteria();
         criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, BaseYear);
-        criteriaID.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE, BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
+        criteriaID.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE, BCConstants.csfFundingStatusFlag.ACTIVE.getFlagValue());
         criteriaID.addEqualTo(KFSPropertyConstants.ACTIVE, true);
         QueryByCriteria queryID = new QueryByCriteria(CalculatedSalaryFoundationTrackerOverride.class, criteriaID);
         Iterator csfResultSet = getPersistenceBrokerTemplate().getIteratorByQuery(queryID);
@@ -2398,11 +2403,11 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         Integer bCSFSize = new Integer(0);
         Criteria criteriaID = new Criteria();
         criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, BaseYear);
-        criteriaID.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE, BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
+        criteriaID.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE, BCConstants.csfFundingStatusFlag.ACTIVE.getFlagValue());
         criteriaID.addEqualTo(KFSPropertyConstants.ACTIVE,true);
         Criteria criteriaIDCSF = new Criteria();
         criteriaIDCSF.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, BaseYear);
-        criteriaIDCSF.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE, BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
+        criteriaIDCSF.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE, BCConstants.csfFundingStatusFlag.ACTIVE.getFlagValue());
         bCSFSize = hashObjectSize(CalculatedSalaryFoundationTrackerOverride.class, criteriaID) + hashObjectSize(CalculatedSalaryFoundationTracker.class, criteriaIDCSF);
         bCSF = new HashMap<String, BudgetConstructionCalculatedSalaryFoundationTracker>(bCSFSize);
     }
@@ -2433,7 +2438,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, BaseYear);
         criteriaID.addEqualTo(KFSPropertyConstants.ACTIVE, true);
         Criteria deleteCriteria = new Criteria();
-        deleteCriteria.addNotEqualTo(KFSPropertyConstants.CSF_DELETE_CODE, BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
+        deleteCriteria.addNotEqualTo(KFSPropertyConstants.CSF_DELETE_CODE, BCConstants.csfFundingStatusFlag.ACTIVE.getFlagValue());
         Criteria vacantCriteria = new Criteria();
         vacantCriteria.addEqualTo(KFSPropertyConstants.CSF_FUNDING_STATUS_CODE, BCConstants.csfFundingStatusFlag.VACANT.getFlagValue());
         deleteCriteria.addOrCriteria(vacantCriteria);
@@ -2487,11 +2492,11 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         Integer emplidCSFOvrdCount = new Integer(0);
         Integer emplidCSFCount = new Integer(0);
         Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE, BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
+        criteriaID.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE, BCConstants.csfFundingStatusFlag.ACTIVE.getFlagValue());
         criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, BaseYear);
         criteriaID.addEqualTo(KFSPropertyConstants.ACTIVE, true);
         Criteria criteriaIDCSF = new Criteria();
-        criteriaIDCSF.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE, BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
+        criteriaIDCSF.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE, BCConstants.csfFundingStatusFlag.ACTIVE.getFlagValue());
         criteriaIDCSF.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, BaseYear);
         keysNeedingRounding = new HashMap<String, roundMechanism>(hashObjectSize(CalculatedSalaryFoundationTrackerOverride.class, criteriaID, KFSPropertyConstants.EMPLID) + hashObjectSize(CalculatedSalaryFoundationTracker.class, criteriaIDCSF, KFSPropertyConstants.EMPLID));
         //     now fill the hashmap: there will be one rounding bucket for each EMPLID
@@ -2565,8 +2570,6 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         criteriaID.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, bcaf.getFinancialObjectCode());
         criteriaID.addEqualTo(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, bcaf.getFinancialSubObjectCode());
         criteriaID.addEqualTo(KFSPropertyConstants.POSITION_NUMBER, bcaf.getPositionNumber());
-        criteriaID.addEqualTo(KFSPropertyConstants.CSF_FULL_TIME_EMPLOYMENT_QUANTITY, bcaf.getAppointmentRequestedFteQuantity());
-        criteriaID.addEqualTo(KFSPropertyConstants.CSF_TIME_PERCENT, bcaf.getAppointmentRequestedTimePercent());
         Criteria vacantCriteria = new Criteria();
         Criteria flagCriteria = new Criteria();
         //     funding status is "vacant" or "unfunded"
@@ -2583,7 +2586,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         flagCriteria.addOrCriteria(vacantCriteria);
         //     now add the whole thing to the criteria list
         criteriaID.addAndCriteria(flagCriteria);
-        String[] selectList = { "1" };
+        String[] selectList = { KFSPropertyConstants.CSF_FULL_TIME_EMPLOYMENT_QUANTITY, KFSPropertyConstants.CSF_TIME_PERCENT };
         ReportQueryByCriteria queryID = new ReportQueryByCriteria(CalculatedSalaryFoundationTracker.class, selectList, criteriaID);
         Iterator resultSet = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
         if (!resultSet.hasNext()) {
@@ -2591,14 +2594,35 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
             // therefore, we should *not* mark it deleted  
             return;
         }
-        //     we need to mark this bcaf line deleted
-        bcaf.setAppointmentRequestedFteQuantity(FTE);
-        bcaf.setAppointmentRequestedTimePercent(pctTime);
-        bcaf.setAppointmentFundingDeleteIndicator(true);
-        getPersistenceBrokerTemplate().store(bcaf);
-        CSFBCAFRowsMarkedDeleted = CSFBCAFRowsMarkedDeleted + 1;
+        // we have to check whether the CFTE and the percent time are the same. 
+        // rounding is required because these can be stored as large numbers in the DB.
+        Object[] resultValues = (Object[]) resultSet.next();
+        if (untouchedFTEPercentTimeCheck(bcaf, resultValues))
+        {
+          //     we need to mark this bcaf line deleted
+          bcaf.setAppointmentRequestedFteQuantity(FTE);
+          bcaf.setAppointmentRequestedTimePercent(pctTime);
+          bcaf.setAppointmentFundingDeleteIndicator(true);
+          getPersistenceBrokerTemplate().store(bcaf);
+          CSFBCAFRowsMarkedDeleted = CSFBCAFRowsMarkedDeleted + 1;
+        }
         // we also need to exhaust the iterator, so OJB will close the cursor (Oracle)
         TransactionalServiceUtils.exhaustIterator(resultSet);
+    }
+    
+    private boolean untouchedFTEPercentTimeCheck(PendingBudgetConstructionAppointmentFunding bcaf, Object[] resultValues)
+    {
+        // we need to check whether the current appointment funding row not in BCSF should be marked deleted.
+        // it should be if it has not been "touched" by a user.  
+        // the criteria for "not touched by a user" are (a) it got into appointment funding via CSF, so it matched with a CSF row, (b) the request amount is 0, and (c) the request FTE and percent time match those of the CSF row.
+        // (b) was checked earlier, since it can be checked without a CSF look-up and if the amount is not 0 we can avoid an expensive DB call.
+        // (a) is a given, because the resultValues come from the matching CSF row.  So, all that is left is (c).  we do this in a separate method because it is convoluted and doing so isolates the code.
+        // (c) must be done with rounded values, to avoid letting differences in high-order decimal places in DB storage make equivalent values technically unequal. 
+        //
+        // different DB's return different kinds of numeric fields (Oracle returns BigDecimal).  So, we do not make an assumption about the type of Number returned.
+        KualiDecimal CSFFte = new KualiDecimal(((Number) resultValues[0]).doubleValue());
+        KualiDecimal CSFPctTime = new KualiDecimal(((Number) resultValues[1]).doubleValue());
+        return (CSFFte.compareTo(new KualiDecimal(bcaf.getAppointmentRequestedFteQuantity())) == 0) && (CSFPctTime.compareTo(new KualiDecimal(bcaf.getAppointmentRequestedTimePercent())) == 0);
     }
 
     //     this is an inner class which will store the data we need to perform the rounding, and supply the methods as well    

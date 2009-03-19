@@ -29,6 +29,13 @@
   		</property>
 	</bean>        
 
+	<bean id="BenefitExpenseTransferDocument-reviewAccountingLineValidation" parent="BenefitExpenseTransferDocument-reviewAccountingLineValidation-parentBean" scope="prototype" /> 
+	<bean id="BenefitExpenseTransferDocument-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<bean parent="AccountingDocument-ReviewAccountingLine-DefaultValidation" scope="prototype" />
+  		</property>
+	</bean>	
+
 	<bean id="BenefitExpenseTransferDocument-approveDocumentValidation" parent="BenefitExpenseTransferDocument-approveDocumentValidation-parentBean" scope="prototype" />
 	<bean id="BenefitExpenseTransferDocument-approveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">

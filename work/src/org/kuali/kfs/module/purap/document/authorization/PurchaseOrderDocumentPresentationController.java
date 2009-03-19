@@ -38,32 +38,33 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class PurchaseOrderDocumentPresentationController extends PurchasingAccountsPayableDocumentPresentationController {
 
-//FIXME hjs: do we need this??
+//  FIXME hjs: do we need this??
 //  else if (PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.values().contains(statusCode)) {
 //  if (SpringContext.getBean(PurApWorkflowIntegrationService.class).isActionRequestedOfUserAtNodeName(po.getDocumentNumber(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getPerson())) {
-//      /*
-//       * code below for overriding workflow buttons has to do with hiding the workflow buttons but still allowing the
-//       * actions... this is needed because document service calls this method (getDocumentActionFlags) before it will
-//       * allow a workflow action to be performed
-//       */
-//      if (ObjectUtils.isNotNull(po.getOverrideWorkflowButtons()) && (po.getOverrideWorkflowButtons())) {
-//          /*
-//           * if document is in pending transmission status and current user has document transmission action request then
-//           * assume that the transmit button/action whatever it might be will take associated workflow action for user
-//           * automatically
-//           */
-//          flags.setCanApprove(false);
-//          flags.setCanDisapprove(false);
-//          flags.setCanAcknowledge(false);
-//          flags.setCanFYI(false);
-//      }
+//  /*
+//  * code below for overriding workflow buttons has to do with hiding the workflow buttons but still allowing the
+//  * actions... this is needed because document service calls this method (getDocumentActionFlags) before it will
+//  * allow a workflow action to be performed
+//  */
+//  if (ObjectUtils.isNotNull(po.getOverrideWorkflowButtons()) && (po.getOverrideWorkflowButtons())) {
+//  /*
+//  * if document is in pending transmission status and current user has document transmission action request then
+//  * assume that the transmit button/action whatever it might be will take associated workflow action for user
+//  * automatically
+//  */
+//  flags.setCanApprove(false);
+//  flags.setCanDisapprove(false);
+//  flags.setCanAcknowledge(false);
+//  flags.setCanFYI(false);
 //  }
-//}
+//  }
+//  }
 
     @Override
     protected boolean canEdit(Document document) {
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
         if (!PurchaseOrderStatuses.IN_PROCESS.equals(poDocument.getStatusCode()) &&
+                !PurchaseOrderStatuses.QUOTE.equals(poDocument.getStatusCode()) &&
                 !PurchaseOrderStatuses.AWAIT_PURCHASING_REVIEW.equals(poDocument.getStatusCode()) &&
                 !PurchaseOrderStatuses.AWAIT_NEW_UNORDERED_ITEM_REVIEW.equals(poDocument.getStatusCode()) &&
                 !PurchaseOrderStatuses.CHANGE_IN_PROCESS.equals(poDocument.getStatusCode())) {
@@ -75,7 +76,7 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
     @Override
     protected boolean canCancel(Document document) {
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
-        
+
         if (poDocument.isPendingSplit()) {
             return false;
         }
@@ -86,7 +87,7 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
     @Override
     protected boolean canClose(Document document) {
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
-        
+
         if (poDocument.isPendingSplit()) {
             return false;
         }
@@ -97,7 +98,7 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
     @Override
     protected boolean canReload(Document document) {
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
-        
+
         if (poDocument.isPendingSplit()) {
             return false;
         }
@@ -108,131 +109,12 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
     @Override
     protected boolean canSave(Document document) {
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
-        
+
         if (poDocument.isPendingSplit()) {
             return false;
         }
 
         return super.canSave(document);
-    }
-    
-    
-    @Override
-    protected boolean canRoute(Document document) {
-        PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
-        String statusCode = poDocument.getStatusCode();
-
-        if (StringUtils.equals(statusCode, PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT) || 
-                StringUtils.equals(statusCode, PurchaseOrderStatuses.WAITING_FOR_VENDOR) || 
-                StringUtils.equals(statusCode, PurchaseOrderStatuses.QUOTE)) {
-            return false;
-        }
-        
-        if (poDocument.isPendingSplit()) {
-            return false;
-        }
-
-        return super.canRoute(document);
-    }
-
-    @Override
-    public Set<String> getEditModes(Document document) {
-        Set<String> editModes = super.getEditModes(document);
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
-        String statusCode = poDocument.getStatusCode();
-
-        editModes.add(PurchaseOrderEditMode.ASSIGN_SENSITIVE_DATA);
-
-        //if the ENABLE_COMMODITY_CODE_IND system parameter is Y then add this edit mode so that the commodity code fields would display on the document.
-        boolean enableCommodityCode = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter("KFS-PURAP", "Document", PurapParameterConstants.ENABLE_COMMODITY_CODE_IND);
-        if (enableCommodityCode) {
-            editModes.add(PurchaseOrderEditMode.ENABLE_COMMODITY_CODE);
-        }
-        
-        if (canFirstTransmitPrintPo(poDocument)) {
-            editModes.add(PurchaseOrderEditMode.PRINT_PURCHASE_ORDER);
-        }
-        
-        if (canPreviewPrintPo(poDocument)) {
-            editModes.add(PurchaseOrderEditMode.PREVIEW_PRINT_PURCHASE_ORDER);
-        }
-        
-        if (canResendCxml(poDocument)) {
-            editModes.add(PurchaseOrderEditMode.RESEND_PURCHASE_ORDER);
-        }
-        
-        // if vendor has been selected from DB, certain vendor fields are not allowed to be edited
-        if (ObjectUtils.isNotNull(poDocument.getVendorHeaderGeneratedIdentifier())) {
-            editModes.add(PurchaseOrderEditMode.LOCK_VENDOR_ENTRY);
-        }
-        
-        // if B2B purchase order, certain fields are not allowed to be edited
-        if (RequisitionSources.B2B.equals(poDocument.getRequisitionSourceCode())) {
-            editModes.add(PurchaseOrderEditMode.LOCK_B2B_ENTRY);
-        }
-
-        // if not B2B requisition, users can edit the posting year if within a given amount of time set in a parameter
-        if (!RequisitionSources.B2B.equals(poDocument.getRequisitionSourceCode()) && 
-                SpringContext.getBean(PurapService.class).allowEncumberNextFiscalYear() && 
-                (PurchaseOrderStatuses.IN_PROCESS.equals(statusCode) || 
-                        PurchaseOrderStatuses.WAITING_FOR_VENDOR.equals(statusCode) ||
-                        PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT.equals(statusCode) ||
-                        PurchaseOrderStatuses.QUOTE.equals(statusCode) ||
-                        PurchaseOrderStatuses.AWAIT_PURCHASING_REVIEW.equals(statusCode))) {
-            editModes.add(PurchaseOrderEditMode.ALLOW_POSTING_YEAR_ENTRY);
-        }
-
-        // if use tax, don't allow editing of tax fields
-        if (poDocument.isUseTaxIndicator()) {
-            editModes.add(PurapAuthorizationConstants.CreditMemoEditMode.CLEAR_ALL_TAXES);
-            editModes.add(PurapAuthorizationConstants.PurchaseOrderEditMode.LOCK_TAX_AMOUNT_ENTRY);
-        }
-        
-        // check if purap tax is enabled
-        boolean salesTaxInd = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.ENABLE_SALES_TAX_IND);                
-        if(salesTaxInd){
-            editModes.add(PurapAuthorizationConstants.PURAP_TAX_ENABLED);
-        }
-
-        // set display mode for Receiving Address section according to parameter value
-        boolean displayReceivingAddress = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.ENABLE_RECEIVING_ADDRESS_IND);                
-        if (displayReceivingAddress) {
-            editModes.add(PurchaseOrderEditMode.DISPLAY_RECEIVING_ADDRESS);
-        }
-            
-        // PRE_ROUTE_CHANGEABLE mode is used for fields that are editable only before PO is routed
-        // for ex, contract manager, manual status change, and quote etc
-        //if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
-        if (PurchaseOrderStatuses.IN_PROCESS.equals(statusCode) || 
-                PurchaseOrderStatuses.WAITING_FOR_VENDOR.equals(statusCode) ||
-                PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT.equals(statusCode) ||
-                PurchaseOrderStatuses.QUOTE.equals(statusCode)) {
-            editModes.add(PurchaseOrderEditMode.PRE_ROUTE_CHANGEABLE);
-        }
-        
-        // INTERNAL PURCHASING ROUTE LEVEL - Approvers can edit full detail on Purchase Order except they cannot change the CHART/ORG.
-        if (poDocument.isDocumentStoppedInRouteNode(PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum.INTERNAL_PURCHASING_REVIEW)) {
-            editModes.add(PurchaseOrderEditMode.LOCK_INTERNAL_PURCHASING_ENTRY);
-        }
-
-        //FIXME figure out how to get this to work
-//      /**
-//      * CONTRACTS & GRANTS ROUTE LEVEL, BUDGET OFFICE ROUTE LEVEL, VENDOR TAX ROUTE LEVEL, DOCUMENT TRANSMISSION ROUTE LEVEL,
-//      * and Adhoc - Approvers in these route levels cannot edit any detail on PO.
-//      */
-//     else {
-//         // VIEW_ENTRY that is already being set is sufficient, but need to remove FULL_ENTRY
-//         editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
-//     }
-
-        // Set display mode for Split PO.
-        if (poDocument.isPendingSplit()) {
-            editModes.add(PurchaseOrderEditMode.SPLITTING_ITEM_SELECTION);
-        }
- 
-        
-        return editModes;
     }
 
     /**
@@ -261,7 +143,7 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
      * 
      * @return boolean true if the preview print button can be displayed.
      */
-   private boolean canPreviewPrintPo(PurchaseOrderDocument poDocument) {
+    private boolean canPreviewPrintPo(PurchaseOrderDocument poDocument) {
         // PO is saved or enroute
         boolean can = poDocument.getDocumentHeader().getWorkflowDocument().stateIsSaved() || poDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute();
 
@@ -271,22 +153,139 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
             String method = poDocument.getPurchaseOrderTransmissionMethodCode();
             can = (methods == null || methods.contains(method));
         }
-        
+
         return can;
     }
 
-   /**
-    * Determines whether to display the resend po button for the purchase order document.
-    * Conditions: PO status must be error sending cxml and must be current and not pending.
-    * 
-    * @return boolean true if the resend po button shall be displayed.
-    */
-   private boolean canResendCxml(PurchaseOrderDocument poDocument) {
-       // check PO status etc
-       boolean can = PurchaseOrderStatuses.CXML_ERROR.equals(poDocument.getStatusCode());
-       can = can && poDocument.isPurchaseOrderCurrentIndicator() && !poDocument.isPendingActionIndicator();
+    /**
+     * Determines whether to display the resend po button for the purchase order document.
+     * Conditions: PO status must be error sending cxml and must be current and not pending.
+     * 
+     * @return boolean true if the resend po button shall be displayed.
+     */
+    private boolean canResendCxml(PurchaseOrderDocument poDocument) {
+        // check PO status etc
+        boolean can = PurchaseOrderStatuses.CXML_ERROR.equals(poDocument.getStatusCode());
+        can = can && poDocument.isPurchaseOrderCurrentIndicator() && !poDocument.isPendingActionIndicator();
 
-       return can;
-   }
-       
+        return can;
+    }
+
+    @Override
+    protected boolean canRoute(Document document) {
+        PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
+        String statusCode = poDocument.getStatusCode();
+
+        if (StringUtils.equals(statusCode, PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT) || 
+                StringUtils.equals(statusCode, PurchaseOrderStatuses.WAITING_FOR_VENDOR) || 
+                StringUtils.equals(statusCode, PurchaseOrderStatuses.QUOTE)) {
+            return false;
+        }
+
+        if (poDocument.isPendingSplit()) {
+            return false;
+        }
+
+        return super.canRoute(document);
+    }
+
+    @Override
+    public Set<String> getEditModes(Document document) {
+        Set<String> editModes = super.getEditModes(document);
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
+        String statusCode = poDocument.getStatusCode();
+
+        editModes.add(PurchaseOrderEditMode.ASSIGN_SENSITIVE_DATA);
+
+        //if the ENABLE_COMMODITY_CODE_IND system parameter is Y then add this edit mode so that the commodity code fields would display on the document.
+        boolean enableCommodityCode = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter("KFS-PURAP", "Document", PurapParameterConstants.ENABLE_COMMODITY_CODE_IND);
+        if (enableCommodityCode) {
+            editModes.add(PurchaseOrderEditMode.ENABLE_COMMODITY_CODE);
+        }
+
+        if (canFirstTransmitPrintPo(poDocument)) {
+            editModes.add(PurchaseOrderEditMode.PRINT_PURCHASE_ORDER);
+        }
+
+        if (canPreviewPrintPo(poDocument)) {
+            editModes.add(PurchaseOrderEditMode.PREVIEW_PRINT_PURCHASE_ORDER);
+        }
+
+        if (canResendCxml(poDocument)) {
+            editModes.add(PurchaseOrderEditMode.RESEND_PURCHASE_ORDER);
+        }
+
+        // if vendor has been selected from DB, certain vendor fields are not allowed to be edited
+        if (ObjectUtils.isNotNull(poDocument.getVendorHeaderGeneratedIdentifier())) {
+            editModes.add(PurchaseOrderEditMode.LOCK_VENDOR_ENTRY);
+        }
+
+        // if B2B purchase order, certain fields are not allowed to be edited
+        if (RequisitionSources.B2B.equals(poDocument.getRequisitionSourceCode())) {
+            editModes.add(PurchaseOrderEditMode.LOCK_B2B_ENTRY);
+        }
+
+        // if not B2B requisition, users can edit the posting year if within a given amount of time set in a parameter
+        if (!RequisitionSources.B2B.equals(poDocument.getRequisitionSourceCode()) && 
+                SpringContext.getBean(PurapService.class).allowEncumberNextFiscalYear() && 
+                (PurchaseOrderStatuses.IN_PROCESS.equals(statusCode) || 
+                        PurchaseOrderStatuses.WAITING_FOR_VENDOR.equals(statusCode) ||
+                        PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT.equals(statusCode) ||
+                        PurchaseOrderStatuses.QUOTE.equals(statusCode) ||
+                        PurchaseOrderStatuses.AWAIT_PURCHASING_REVIEW.equals(statusCode))) {
+            editModes.add(PurchaseOrderEditMode.ALLOW_POSTING_YEAR_ENTRY);
+        }
+
+        // if use tax, don't allow editing of tax fields
+        if (poDocument.isUseTaxIndicator()) {
+            editModes.add(PurapAuthorizationConstants.CreditMemoEditMode.CLEAR_ALL_TAXES);
+            editModes.add(PurapAuthorizationConstants.PurchaseOrderEditMode.LOCK_TAX_AMOUNT_ENTRY);
+        }
+
+        // check if purap tax is enabled
+        boolean salesTaxInd = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.ENABLE_SALES_TAX_IND);                
+        if(salesTaxInd){
+            editModes.add(PurapAuthorizationConstants.PURAP_TAX_ENABLED);
+        }
+
+        // set display mode for Receiving Address section according to parameter value
+        boolean displayReceivingAddress = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.ENABLE_RECEIVING_ADDRESS_IND);                
+        if (displayReceivingAddress) {
+            editModes.add(PurchaseOrderEditMode.DISPLAY_RECEIVING_ADDRESS);
+        }
+
+        // PRE_ROUTE_CHANGEABLE mode is used for fields that are editable only before PO is routed
+        // for ex, contract manager, manual status change, and quote etc
+        //if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
+        if (PurchaseOrderStatuses.IN_PROCESS.equals(statusCode) || 
+                PurchaseOrderStatuses.WAITING_FOR_VENDOR.equals(statusCode) ||
+                PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT.equals(statusCode) ||
+                PurchaseOrderStatuses.QUOTE.equals(statusCode)) {
+            editModes.add(PurchaseOrderEditMode.PRE_ROUTE_CHANGEABLE);
+        }
+
+        // INTERNAL PURCHASING ROUTE LEVEL - Approvers can edit full detail on Purchase Order except they cannot change the CHART/ORG.
+        if (poDocument.isDocumentStoppedInRouteNode(PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum.INTERNAL_PURCHASING_REVIEW)) {
+            editModes.add(PurchaseOrderEditMode.LOCK_INTERNAL_PURCHASING_ENTRY);
+        }
+
+        //FIXME figure out how to get this to work
+//      /**
+//      * CONTRACTS & GRANTS ROUTE LEVEL, BUDGET OFFICE ROUTE LEVEL, VENDOR TAX ROUTE LEVEL, DOCUMENT TRANSMISSION ROUTE LEVEL,
+//      * and Adhoc - Approvers in these route levels cannot edit any detail on PO.
+//      */
+//      else {
+//      // VIEW_ENTRY that is already being set is sufficient, but need to remove FULL_ENTRY
+//      editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
+//      }
+
+        // Set display mode for Split PO.
+        if (poDocument.isPendingSplit()) {
+            editModes.add(PurchaseOrderEditMode.SPLITTING_ITEM_SELECTION);
+        }
+
+        return editModes;
+    }
+
 }

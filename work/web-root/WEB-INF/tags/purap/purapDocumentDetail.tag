@@ -46,6 +46,7 @@
 <c:set var="contentReadOnly" value="${(not empty KualiForm.editingMode['lockContentEntry'])}" />
 <c:set var="internalPurchasingReadOnly" value="${(not empty KualiForm.editingMode['lockInternalPurchasingEntry'])}" />
 <c:set var="tabindexOverrideBase" value="10" />
+<c:set var="poOutForQuote" value="${KualiForm.document.statusCode eq 'QUOT'}" />
 
 <h3><c:out value="${detailSectionLabel}"/></h3>
 
@@ -173,7 +174,7 @@
 
 </table>
 	
-<c:if test="${purchaseOrder and preRouteChangeMode}">
+<c:if test="${purchaseOrder and preRouteChangeMode and !poOutForQuote}">
 	<h3>Status Changes</h3>
 		
 	<table cellpadding="0" cellspacing="0" class="datatable" summary="Status Changes Section">

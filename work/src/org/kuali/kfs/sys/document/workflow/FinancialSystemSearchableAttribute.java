@@ -19,11 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.rice.kew.docsearch.DocumentSearchContext;
+import org.kuali.rice.kew.docsearch.SearchableAttribute;
 import org.kuali.rice.kew.docsearch.SearchableAttributeFloatValue;
-import org.kuali.rice.kew.docsearch.SearchableAttributeStringValue;
 import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.datadictionary.DataDictionaryEntry;
@@ -63,7 +62,7 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
             }
             
             Field searchField = FieldUtils.getPropertyField(boClass, "financialDocumentTotalAmount", true);
-
+            searchField.setFieldDataType(SearchableAttribute.DATA_TYPE_FLOAT);
             
             List<Field> fieldList = new ArrayList<Field>();
             fieldList.add(searchField);

@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.datadictionary.RoutingTypeDefinition;
 import org.kuali.rice.kns.datadictionary.WorkflowAttributes;
 import org.kuali.rice.kns.document.Document;
@@ -51,4 +52,12 @@ public interface WorkflowAttributePropertyResolutionService {
      * @return the child object
      */
     public abstract Object getPropertyByPath(Object object, String path);
+    
+    /**
+     * Determines the type of the field which is related to the given attribute name on instances of the given business object class
+     * @param businessObjectClass the class of the business object which has an attribute
+     * @param attributeName the name of the attribute
+     * @return the String constrant representing what Field#fieldDataType this represents
+     */
+    public abstract String determineFieldDataType(Class<? extends BusinessObject> businessObjectClass, String attributeName);
 }

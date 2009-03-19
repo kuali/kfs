@@ -160,6 +160,7 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
         List<Row> searchFields = new ArrayList<Row>();
         
       List<SearchingTypeDefinition> searchingTypeDefinitions = attrs.getSearchingTypeDefinitions();
+      final WorkflowAttributePropertyResolutionService propertyResolutionService = SpringContext.getBean(WorkflowAttributePropertyResolutionService.class);
       for (SearchingTypeDefinition definition: searchingTypeDefinitions) {
           SearchingAttribute attr = definition.getSearchingAttribute();
           if (attr.isShowAttributeInSearchCriteria()) {
@@ -175,6 +176,7 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
               }
               
               Field searchField = FieldUtils.getPropertyField(boClass, attributeName, false);
+              searchField.setFieldDataType(propertyResolutionService.determineFieldDataType(boClass, attributeName));
               List displayedFieldNames = new ArrayList();
               displayedFieldNames.add(attributeName);
               LookupUtils.setFieldQuickfinder(businessObject, attributeName, searchField, displayedFieldNames);
@@ -333,6 +335,7 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
 
         final List primaryKeyNamesAsObjects = SpringContext.getBean(BusinessObjectMetaDataService.class).listPrimaryKeyFieldNames(businessObjectClass);
         final BusinessObjectEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(businessObjectClass.getName());
+        final WorkflowAttributePropertyResolutionService propertyResolutionService = SpringContext.getBean(WorkflowAttributePropertyResolutionService.class);
         for (Object primaryKeyNameAsObject : primaryKeyNamesAsObjects) {
             
             String attributeName =  (String)primaryKeyNameAsObject;
@@ -344,7 +347,7 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
             }
             
             Field searchField = FieldUtils.getPropertyField(businessObjectClass, attributeName, false);
-            
+            searchField.setFieldDataType(propertyResolutionService.determineFieldDataType(businessObjectClass, attributeName));
             List<Field> fieldList = new ArrayList<Field>();
             
             List displayedFieldNames = new ArrayList();

@@ -15,8 +15,11 @@
  */
 package org.kuali.kfs.sys.document.service.impl;
 
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,6 +29,7 @@ import java.util.Set;
 import java.util.Stack;
 
 import org.kuali.kfs.sys.document.service.WorkflowAttributePropertyResolutionService;
+import org.kuali.rice.kew.docsearch.SearchableAttribute;
 import org.kuali.rice.kew.docsearch.SearchableAttributeDateTimeValue;
 import org.kuali.rice.kew.docsearch.SearchableAttributeFloatValue;
 import org.kuali.rice.kew.docsearch.SearchableAttributeLongValue;
@@ -206,9 +210,14 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
         
         final List<Object> searchValues = aardvarkSearchValuesForPaths(document, searchingTypeDefinition.getDocumentValues());
         for (Object value : searchValues) {
-            final SearchableAttributeValue searchableAttributeValue = buildSearchableAttribute(searchingTypeDefinition.getSearchingAttribute().getAttributeName(), value);
-            if (searchableAttributeValue != null) {
-                searchAttributes.add(searchableAttributeValue);
+            try {
+                final SearchableAttributeValue searchableAttributeValue = buildSearchableAttribute(((Class<? extends BusinessObject>)Class.forName(searchingTypeDefinition.getSearchingAttribute().getBusinessObjectClassName())), searchingTypeDefinition.getSearchingAttribute().getAttributeName(), value);
+                if (searchableAttributeValue != null) {
+                    searchAttributes.add(searchableAttributeValue);
+                }
+            }
+            catch (ClassNotFoundException cnfe) {
+                throw new RuntimeException("Could not find instance of class "+searchingTypeDefinition.getSearchingAttribute().getBusinessObjectClassName(), cnfe);
             }
         }
         return searchAttributes;
@@ -244,44 +253,95 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
     }
     
     /**
+     * @see org.kuali.kfs.sys.document.service.WorkflowAttributePropertyResolutionService#determineFieldDataType(java.lang.Class, java.lang.String)
+     */
+    public String determineFieldDataType(Class<? extends BusinessObject> businessObjectClass, String attributeName) {
+        final Class attributeClass = thieveAttributeClassFromBusinessObjectClass(businessObjectClass, attributeName);
+        if (isStringy(attributeClass)) return SearchableAttribute.DATA_TYPE_STRING; // our most common case should go first
+        if (isDecimally(attributeClass)) return SearchableAttribute.DATA_TYPE_FLOAT;
+        if (isDateLike(attributeClass)) return SearchableAttribute.DATA_TYPE_DATE;
+        if (isIntable(attributeClass)) return SearchableAttribute.DATA_TYPE_LONG;
+        return SearchableAttribute.DATA_TYPE_STRING; // default to String
+    }
+
+    /**
      * Using the type of the sent in value, determines what kind of SearchableAttributeValue implementation should be passed back 
      * @param attributeKey
      * @param value
      * @return
      */
-    protected SearchableAttributeValue buildSearchableAttribute(String attributeKey, Object value) {
+    protected SearchableAttributeValue buildSearchableAttribute(Class<? extends BusinessObject> businessObjectClass, String attributeKey, Object value) {
         if (value == null) return null;
-        if (isDateLike(value)) return buildSearchableDateTimeAttribute(attributeKey, value);
-        if (isDecimally(value)) return buildSearchableRealAttribute(attributeKey, value);
-        if (isIntable(value)) return buildSearchableFixnumAttribute(attributeKey, value);
+        final String fieldDataType = determineFieldDataType(businessObjectClass, attributeKey);
+        if (fieldDataType.equals(SearchableAttribute.DATA_TYPE_STRING)) return buildSearchableStringAttribute(attributeKey, value); // our most common case should go first
+        if (fieldDataType.equals(SearchableAttribute.DATA_TYPE_FLOAT) && isDecimally(value.getClass())) return buildSearchableRealAttribute(attributeKey, value);
+        if (fieldDataType.equals(SearchableAttribute.DATA_TYPE_DATE) && isDateLike(value.getClass())) return buildSearchableDateTimeAttribute(attributeKey, value);
+        if (fieldDataType.equals(SearchableAttribute.DATA_TYPE_LONG) && isIntable(value.getClass())) return buildSearchableFixnumAttribute(attributeKey, value);
         return buildSearchableStringAttribute(attributeKey, value);
+    }
+    
+    /**
+     * Determines if the given Class is a String
+     * @param clazz the class to check for Stringiness
+     * @return true if the Class is a String, false otherwise
+     */
+    protected boolean isStringy(Class clazz) {
+        return clazz.isAssignableFrom(java.lang.String.class);
     }
 
     /**
-     * Determines if the given value is enough like a date to store it as a SearchableAttributeDateTimeValue
-     * @param value the value to determine the type of
+     * Determines if the given class is enough like a date to store values of it as a SearchableAttributeDateTimeValue
+     * @param class the class to determine the type of
      * @return true if it is like a date, false otherwise
      */
-    protected boolean isDateLike(Object value) {
-        return value instanceof java.util.Date;
+    protected boolean isDateLike(Class clazz) {
+        return clazz.isAssignableFrom(java.util.Date.class);
     }
     
     /**
-     * Determines if the given value is enough like a Float to store it as a SearchableAttributeFloatValue
-     * @param value the value to determine of the type of
+     * Determines if the given class is enough like a Float to store values of it as a SearchableAttributeFloatValue
+     * @param value the class to determine of the type of
      * @return true if it is like a "float", false otherwise
      */
-    protected boolean isDecimally(Object value) {
-        return value instanceof Double || value instanceof Float || value.getClass().equals(Double.TYPE) || value.getClass().equals(Float.TYPE) || value instanceof BigDecimal || value instanceof KualiDecimal;
+    protected boolean isDecimally(Class clazz) {
+        return clazz.isAssignableFrom(java.lang.Double.class) || clazz.isAssignableFrom(java.lang.Float.class) || clazz.equals(Double.TYPE) || clazz.equals(Float.TYPE) || clazz.isAssignableFrom(java.math.BigDecimal.class) || clazz.isAssignableFrom(org.kuali.rice.kns.util.KualiDecimal.class);
     }
     
     /**
-     * Determines if the given value is enough like a "long" to store it as a SearchableAttributeLongValue
-     * @param value the value to determine the type of
+     * Determines if the given class is enough like a "long" to store values of it as a SearchableAttributeLongValue
+     * @param value the class to determine the type of
      * @return true if it is like a "long", false otherwise
      */
-    protected boolean isIntable(Object value) {
-        return value instanceof Integer || value instanceof Long || value instanceof Short || value instanceof Byte || value instanceof BigInteger || value.getClass().equals(Integer.TYPE) || value.getClass().equals(Long.TYPE) || value.getClass().equals(Short.TYPE) || value.getClass().equals(Byte.TYPE);
+    protected boolean isIntable(Class clazz) {
+        return clazz.isAssignableFrom(java.lang.Integer.class) || clazz.isAssignableFrom(java.lang.Long.class) || clazz.isAssignableFrom(java.lang.Short.class) || clazz.isAssignableFrom(java.lang.Byte.class) || clazz.isAssignableFrom(java.math.BigInteger.class) || clazz.equals(Integer.TYPE) || clazz.equals(Long.TYPE) || clazz.equals(Short.TYPE) || clazz.equals(Byte.TYPE);
+    }
+    
+    /**
+     * Given a BusinessObject class and an attribute name, determines the class of that attribute on the BusinessObject class
+     * @param boClass a class extending BusinessObject
+     * @param attributeKey the name of a field on that class
+     * @return the Class of the given attribute
+     */
+    private Class thieveAttributeClassFromBusinessObjectClass(Class<? extends BusinessObject> boClass, String attributeKey) {
+        Class attributeFieldClass = null;
+        try {
+            final BeanInfo beanInfo = Introspector.getBeanInfo(boClass);
+            int i = 0;
+            while (attributeFieldClass == null && i < beanInfo.getPropertyDescriptors().length) {
+                final PropertyDescriptor prop = beanInfo.getPropertyDescriptors()[i];
+                if (prop.getName().equals(attributeKey)) {
+                    attributeFieldClass = prop.getPropertyType();
+                }
+                i += 1;
+            }
+        }
+        catch (SecurityException se) {
+            throw new RuntimeException("Could not determine type of attribute "+attributeKey+" of BusinessObject class "+boClass.getName(), se);
+        }
+        catch (IntrospectionException ie) {
+            throw new RuntimeException("Could not determine type of attribute "+attributeKey+" of BusinessObject class "+boClass.getName(), ie);
+        }
+        return attributeFieldClass;
     }
     
     /**

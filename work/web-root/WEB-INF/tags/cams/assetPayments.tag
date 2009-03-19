@@ -35,6 +35,7 @@
 					<td class="infoline" valign="top" width="84%">															   
 						<kul:htmlControlAttribute attributeEntry="${assetAttributes.capitalAssetNumber}" property="capitalAssetNumber"/>				
 						<kul:multipleValueLookup boClassName="org.kuali.kfs.module.cam.businessobject.Asset" lookedUpCollectionName="assetPaymentAssetDetail"/>
+						&nbsp;&nbsp;&nbsp;&nbsp;
 					    <html:image property="methodToCall.insertAssetPaymentAssetDetail" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" alt="Add an asset" title="Add an asset"/>
 					</td>
 			    </tr>

@@ -271,4 +271,23 @@
     <property name="shortLabel" value="Amount" />
   </bean>
 
+  <bean id="PurApGenericAttributes-transactionEntrySequenceId" parent="PurApGenericAttributes-transactionEntrySequenceId-parentBean" />
+
+  <bean id="PurApGenericAttributes-transactionEntrySequenceId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionEntrySequenceId" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transaction Entry Sequence Id" />
+    <property name="shortLabel" value="Seq #" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The sequential entry Id for the transaction." />
+  </bean>
+  
 </beans>

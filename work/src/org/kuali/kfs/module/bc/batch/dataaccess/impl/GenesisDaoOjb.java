@@ -1953,6 +1953,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         readExistingAppointmentFunding(BaseYear);
         //  if all of the bCSF rows have been stored (they all already exist in PBGL, so we don't have to worry about PBLG), we can quit here
         if (bCSF.size() == 0) {
+            CSFDiagnostics();
             buildAppointmentFundingCleanUp();
             return;
         }

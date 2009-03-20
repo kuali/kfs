@@ -43,6 +43,8 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
 
 /**
  * This class overrids the base getActionUrls method
@@ -290,5 +292,49 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         }
 
         return isInStringRangeCriteria;
+    }
+
+    /**
+     * Overridden to fix a field conversion
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getRows()
+     */
+    @Override
+    public List<Row> getRows() {
+        convertOrganizationOwnerAccountField();
+        return super.getRows();
+    }
+
+    /**
+     * Overridden to fix a field conversion
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#setRows()
+     */
+    @Override
+    protected void setRows() {
+        super.setRows();
+        convertOrganizationOwnerAccountField();
+    }
+    
+    /**
+     * Goes through all the rows, making sure that problematic field conversions are fixed
+     */
+    protected void convertOrganizationOwnerAccountField() {
+        for (Row r : super.getRows()) {
+            for (Field f : r.getFields()) {
+                if (f.getPropertyName().equals("organizationOwnerAccount.organizationCode")) {
+                    f.setFieldConversions(fixProblematicField(f.getFieldConversions()));
+                    f.setLookupParameters(fixProblematicField(f.getLookupParameters()));
+                }
+            }
+        }
+    }
+    
+    /**
+     * Fixes the field conversions - replaces "organizationOwnerAccount.chartOfAccountsCode" with "organizationOwnerChartOfAccountsCode"
+     * @param fieldConversions the original field conversions
+     * @return the fixed field conversions
+     */
+    protected String fixProblematicField(String problemChildField) {
+        if (StringUtils.isBlank(problemChildField)) return problemChildField;
+        return problemChildField.replace("organizationOwnerAccount.chartOfAccountsCode", "organizationOwnerChartOfAccountsCode");
     }
 }

@@ -50,7 +50,10 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
     private String financialSubObjectCode;
     // page break org_fin_coa_cd, org_cd, sub_fund_grp_cd)%\
     private String pageBreak;
-   
+    
+    private String subAccountNumberAndName;  
+    private String accountNumberAndName;
+    private String divider; 
     
     // Body parts
     private String financialObjectName;
@@ -1240,6 +1243,54 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
 
     public void setTypePositionFullTimeEquivalencyQuantity(BigDecimal typePositionFullTimeEquivalencyQuantity) {
         this.typePositionFullTimeEquivalencyQuantity = typePositionFullTimeEquivalencyQuantity;
+    }
+
+    /**
+     * Gets the subAccountNumberAndName attribute. 
+     * @return Returns the subAccountNumberAndName.
+     */
+    public String getSubAccountNumberAndName() {
+        return subAccountNumberAndName;
+    }
+
+    /**
+     * Sets the subAccountNumberAndName attribute value.
+     * @param subAccountNumberAndName The subAccountNumberAndName to set.
+     */
+    public void setSubAccountNumberAndName(String subAccountNumberAndName) {
+        this.subAccountNumberAndName = subAccountNumberAndName;
+    }
+
+    /**
+     * Gets the accountNumberAndName attribute. 
+     * @return Returns the accountNumberAndName.
+     */
+    public String getAccountNumberAndName() {
+        return accountNumberAndName;
+    }
+
+    /**
+     * Sets the accountNumberAndName attribute value.
+     * @param accountNumberAndName The accountNumberAndName to set.
+     */
+    public void setAccountNumberAndName(String accountNumberAndName) {
+        this.accountNumberAndName = accountNumberAndName;
+    }
+
+    /**
+     * Gets the divider attribute. 
+     * @return Returns the divider.
+     */
+    public String getDivider() {
+        return divider;
+    }
+
+    /**
+     * Sets the divider attribute value.
+     * @param divider The divider to set.
+     */
+    public void setDivider(String divider) {
+        this.divider = divider;
     }
 
 }

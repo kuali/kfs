@@ -130,7 +130,7 @@ public class BudgetConstructionPositionFundingDetailReportServiceImpl implements
      * @param orgPositionFundingDetailReportEntry
      * @param positionFundingDetailEntry
      */
-    public void buildReportsBody(Integer universityFiscalYear, BudgetConstructionOrgPositionFundingDetailReport orgPositionFundingDetailReportEntry, BudgetConstructionPositionFunding positionFundingDetailEntry) {
+    public void buildReportsBody(Integer universityFiscalYear, BudgetConstructionOrgPositionFundingDetailReport detailReportEntry, BudgetConstructionPositionFunding positionFundingDetailEntry) {
         PendingBudgetConstructionAppointmentFunding appointmentFundingEntry = positionFundingDetailEntry.getPendingAppointmentFunding();
         // get budgetConstructionIntendedIncumbent, budgetConstructionAdministrativePost, budgetConstructionPosition objects
         BudgetConstructionIntendedIncumbent budgetConstructionIntendedIncumbent = budgetConstructionReportsServiceHelper.getBudgetConstructionIntendedIncumbent(appointmentFundingEntry);
@@ -138,76 +138,80 @@ public class BudgetConstructionPositionFundingDetailReportServiceImpl implements
         BudgetConstructionPosition budgetConstructionPosition = budgetConstructionReportsServiceHelper.getBudgetConstructionPosition(universityFiscalYear, appointmentFundingEntry);
 
         // set report body
-        orgPositionFundingDetailReportEntry.setAccountNumber(positionFundingDetailEntry.getAccountNumber());
-        orgPositionFundingDetailReportEntry.setSubAccountNumber(positionFundingDetailEntry.getSubAccountNumber());
-        orgPositionFundingDetailReportEntry.setFinancialSubObjectCode(positionFundingDetailEntry.getFinancialSubObjectCode());
+        detailReportEntry.setAccountNumber(positionFundingDetailEntry.getAccountNumber());
+        detailReportEntry.setSubAccountNumber(positionFundingDetailEntry.getSubAccountNumber());
+        detailReportEntry.setFinancialSubObjectCode(positionFundingDetailEntry.getFinancialSubObjectCode());
         if (positionFundingDetailEntry.getName() != null) {
-            orgPositionFundingDetailReportEntry.setName(positionFundingDetailEntry.getName());
+            detailReportEntry.setName(positionFundingDetailEntry.getName());
             if (budgetConstructionIntendedIncumbent != null){
                 if (budgetConstructionIntendedIncumbent.getIuClassificationLevel() == null){
-                    orgPositionFundingDetailReportEntry.setCls(BCConstants.Report.UNDF);
+                    detailReportEntry.setCls(BCConstants.Report.UNDF);
                 } else {
-                    orgPositionFundingDetailReportEntry.setCls(budgetConstructionIntendedIncumbent.getIuClassificationLevel());
+                    detailReportEntry.setCls(budgetConstructionIntendedIncumbent.getIuClassificationLevel());
                 }
             }
         }
         else {
-            orgPositionFundingDetailReportEntry.setName(BCConstants.Report.VACANT);
-            orgPositionFundingDetailReportEntry.setCls(BCConstants.Report.BLANK);
+            detailReportEntry.setName(BCConstants.Report.VACANT);
+            detailReportEntry.setCls(BCConstants.Report.BLANK);
         } 
                 
         if (budgetConstructionAdministrativePost != null) {
-            orgPositionFundingDetailReportEntry.setAdministrativePost(budgetConstructionAdministrativePost.getAdministrativePost());
+            detailReportEntry.setAdministrativePost(budgetConstructionAdministrativePost.getAdministrativePost());
         }
         if (budgetConstructionPosition != null) {
-            orgPositionFundingDetailReportEntry.setPositionNumber(budgetConstructionPosition.getPositionNumber());
-            orgPositionFundingDetailReportEntry.setNormalWorkMonthsAndiuPayMonths(budgetConstructionPosition.getIuNormalWorkMonths() + "/" + budgetConstructionPosition.getIuPayMonths());
-            orgPositionFundingDetailReportEntry.setPositionFte(budgetConstructionPosition.getPositionFullTimeEquivalency().setScale(5, 5).toString());
-            orgPositionFundingDetailReportEntry.setPositionSalaryPlanDefault(budgetConstructionPosition.getPositionSalaryPlanDefault());
-            orgPositionFundingDetailReportEntry.setPositionGradeDefault(budgetConstructionPosition.getPositionGradeDefault());
-            orgPositionFundingDetailReportEntry.setPositionStandardHoursDefault(budgetConstructionPosition.getPositionStandardHoursDefault());
+            detailReportEntry.setPositionNumber(budgetConstructionPosition.getPositionNumber());
+            detailReportEntry.setNormalWorkMonthsAndiuPayMonths(budgetConstructionPosition.getIuNormalWorkMonths() + "/" + budgetConstructionPosition.getIuPayMonths());
+            detailReportEntry.setPositionFte(budgetConstructionPosition.getPositionFullTimeEquivalency().setScale(5, 5).toString());
+            detailReportEntry.setPositionSalaryPlanDefault(budgetConstructionPosition.getPositionSalaryPlanDefault());
+            detailReportEntry.setPositionGradeDefault(budgetConstructionPosition.getPositionGradeDefault());
+            detailReportEntry.setPositionStandardHoursDefault(budgetConstructionPosition.getPositionStandardHoursDefault());
         }
         if (appointmentFundingEntry.getBcnCalculatedSalaryFoundationTracker().size() > 0) {
             BudgetConstructionCalculatedSalaryFoundationTracker budgetConstructionCalculatedSalaryFoundationTracker = appointmentFundingEntry.getBcnCalculatedSalaryFoundationTracker().get(0);
-            orgPositionFundingDetailReportEntry.setCsfFundingStatusCode(budgetConstructionCalculatedSalaryFoundationTracker.getCsfFundingStatusCode());
-            orgPositionFundingDetailReportEntry.setCsfTimePercent(budgetConstructionCalculatedSalaryFoundationTracker.getCsfTimePercent().setScale(2, 2));
-            orgPositionFundingDetailReportEntry.setCsfAmount(new Integer(budgetConstructionCalculatedSalaryFoundationTracker.getCsfAmount().intValue()));
-            orgPositionFundingDetailReportEntry.setCsfFullTimeEmploymentQuantity(budgetConstructionCalculatedSalaryFoundationTracker.getCsfFullTimeEmploymentQuantity().setScale(5, 5).toString());
+            detailReportEntry.setCsfFundingStatusCode(budgetConstructionCalculatedSalaryFoundationTracker.getCsfFundingStatusCode());
+            detailReportEntry.setCsfTimePercent(budgetConstructionCalculatedSalaryFoundationTracker.getCsfTimePercent().setScale(2, 2));
+            detailReportEntry.setCsfAmount(new Integer(budgetConstructionCalculatedSalaryFoundationTracker.getCsfAmount().intValue()));
+            detailReportEntry.setCsfFullTimeEmploymentQuantity(budgetConstructionCalculatedSalaryFoundationTracker.getCsfFullTimeEmploymentQuantity().setScale(5, 5).toString());
             // calculate amountChange and percentChange
             if (appointmentFundingEntry.getAppointmentRequestedFteQuantity().equals(budgetConstructionCalculatedSalaryFoundationTracker.getCsfFullTimeEmploymentQuantity())) {
                 Integer amountChange = appointmentFundingEntry.getAppointmentRequestedAmount().subtract(budgetConstructionCalculatedSalaryFoundationTracker.getCsfAmount()).intValue();
-                orgPositionFundingDetailReportEntry.setAmountChange(amountChange);
-                orgPositionFundingDetailReportEntry.setPercentChange(BudgetConstructionReportHelper.calculatePercent(new BigDecimal(amountChange.intValue()), budgetConstructionCalculatedSalaryFoundationTracker.getCsfAmount().bigDecimalValue()));
+                detailReportEntry.setAmountChange(amountChange);
+                detailReportEntry.setPercentChange(BudgetConstructionReportHelper.calculatePercent(new BigDecimal(amountChange.intValue()), budgetConstructionCalculatedSalaryFoundationTracker.getCsfAmount().bigDecimalValue()));
             } else {
-                orgPositionFundingDetailReportEntry.setAmountChange(new Integer(0));
-                orgPositionFundingDetailReportEntry.setPercentChange(BigDecimal.ZERO);
+                detailReportEntry.setAmountChange(new Integer(0));
+                detailReportEntry.setPercentChange(BigDecimal.ZERO);
             }
         }
         if (appointmentFundingEntry != null) {
             if (appointmentFundingEntry.getFinancialSubObjectCode().equals(BCConstants.Report.BLANK_SUB_OBJECT_CODE)) {
-                orgPositionFundingDetailReportEntry.setFinancialSubObjectCode(BCConstants.Report.BLANK);
+                detailReportEntry.setFinancialSubObjectCode(BCConstants.Report.BLANK);
             }
             else {
-                orgPositionFundingDetailReportEntry.setFinancialSubObjectCode(appointmentFundingEntry.getFinancialSubObjectCode());
+                detailReportEntry.setFinancialSubObjectCode(appointmentFundingEntry.getFinancialSubObjectCode());
             }
-            orgPositionFundingDetailReportEntry.setAppointmentFundingMonth(appointmentFundingEntry.getAppointmentFundingMonth());
-            orgPositionFundingDetailReportEntry.setAppointmentRequestedAmount(new Integer(appointmentFundingEntry.getAppointmentRequestedAmount().intValue()));
-            orgPositionFundingDetailReportEntry.setAppointmentRequestedTimePercent(appointmentFundingEntry.getAppointmentRequestedTimePercent().setScale(2, 2));
-            orgPositionFundingDetailReportEntry.setAppointmentRequestedFteQuantity(appointmentFundingEntry.getAppointmentRequestedFteQuantity().setScale(5, 5).toString());
-            orgPositionFundingDetailReportEntry.setAppointmentFundingDurationCode(appointmentFundingEntry.getAppointmentFundingDurationCode());
-            orgPositionFundingDetailReportEntry.setAppointmentRequestedCsfAmount(new Integer(appointmentFundingEntry.getAppointmentRequestedCsfAmount().intValue()));
-            orgPositionFundingDetailReportEntry.setAppointmentRequestedCsfTimePercent(appointmentFundingEntry.getAppointmentRequestedCsfTimePercent());
-            orgPositionFundingDetailReportEntry.setAppointmentRequestedCsfFteQuantity(appointmentFundingEntry.getAppointmentRequestedCsfFteQuantity().setScale(5, 5).toString());
-            orgPositionFundingDetailReportEntry.setAppointmentTotalIntendedAmount(new Integer(appointmentFundingEntry.getAppointmentTotalIntendedAmount().intValue()));
-            orgPositionFundingDetailReportEntry.setAppointmentTotalIntendedFteQuantity(appointmentFundingEntry.getAppointmentTotalIntendedFteQuantity().setScale(5, 5).toString());
-            // group
-            orgPositionFundingDetailReportEntry.setEmplid(appointmentFundingEntry.getEmplid());
+            
+            detailReportEntry.setAppointmentFundingMonth(appointmentFundingEntry.getAppointmentFundingMonth());
+            detailReportEntry.setAppointmentRequestedAmount(new Integer(appointmentFundingEntry.getAppointmentRequestedAmount().intValue()));
+            detailReportEntry.setAppointmentRequestedTimePercent(appointmentFundingEntry.getAppointmentRequestedTimePercent().setScale(2, 2));
+            detailReportEntry.setAppointmentRequestedFteQuantity(appointmentFundingEntry.getAppointmentRequestedFteQuantity().setScale(5, 5).toString());
+            detailReportEntry.setAppointmentFundingDurationCode(appointmentFundingEntry.getAppointmentFundingDurationCode());
+            
+            detailReportEntry.setAppointmentRequestedCsfAmount(BudgetConstructionReportHelper.convertKualiInteger(appointmentFundingEntry.getAppointmentRequestedCsfAmount()));
+            detailReportEntry.setAppointmentRequestedCsfTimePercent(appointmentFundingEntry.getAppointmentRequestedCsfTimePercent());
+            detailReportEntry.setAppointmentRequestedCsfFteQuantity(appointmentFundingEntry.getAppointmentRequestedCsfFteQuantity().setScale(5, 5).toString());
+                        
+            detailReportEntry.setAppointmentTotalIntendedAmount(BudgetConstructionReportHelper.convertKualiInteger(appointmentFundingEntry.getAppointmentTotalIntendedAmount()));
+            detailReportEntry.setAppointmentTotalIntendedFteQuantity(appointmentFundingEntry.getAppointmentTotalIntendedFteQuantity().setScale(5, 5).toString());
+
+            detailReportEntry.setEmplid(appointmentFundingEntry.getEmplid());
         }
+        
         if (appointmentFundingEntry.isAppointmentFundingDeleteIndicator()) {
-            orgPositionFundingDetailReportEntry.setDeleteBox(BCConstants.Report.DELETE_MARK);
+            detailReportEntry.setDeleteBox(BCConstants.Report.DELETE_MARK);
         }
         else {
-            orgPositionFundingDetailReportEntry.setDeleteBox(BCConstants.Report.BLANK);
+            detailReportEntry.setDeleteBox(BCConstants.Report.BLANK);
         }
     }
 

@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
@@ -187,22 +188,31 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
         }
 
         orgAccountObjectDetailReportEntry.setSubAccountNumber(accountBalance.getSubAccountNumber());
-        // TODO: ask to Gary or Jerry about persistenceBreakerexception
-        String subAccountName = "";
-        try {
-            subAccountName = accountBalance.getSubAccount().getSubAccountName();
-        }
-        catch (Exception e) {
-
-        }
-
-        if (subAccountName == null) {
-            orgAccountObjectDetailReportEntry.setSubAccountName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_SUB_ACCOUNT_DESCRIPTION));
-        }
-        else {
-            orgAccountObjectDetailReportEntry.setSubAccountName(subAccountName);
+        
+        String subAccountName = StringUtils.EMPTY;
+        String subAccountNumberAndName = StringUtils.EMPTY;
+        String divider = StringUtils.EMPTY;
+        // set accountNumber and name, subAccountNumber and name
+        if (accountBalance.getAccount() != null) {
+            orgAccountObjectDetailReportEntry.setAccountNumberAndName(accountBalance.getAccountNumber() + " " + accountBalance.getAccount().getAccountName());
+            orgAccountObjectDetailReportEntry.setAccountName(accountBalance.getAccount().getAccountName());
         }
 
+        if (!accountBalance.getSubAccountNumber().equals(BCConstants.Report.DASHES_SUB_ACCOUNT_CODE)) {
+            divider = BCConstants.Report.DIVIDER;
+            try {
+                subAccountName = accountBalance.getSubAccount().getSubAccountName();
+                subAccountNumberAndName = accountBalance.getSubAccount().getSubAccountNumber() + " " + accountBalance.getSubAccount().getSubAccountName();
+            }
+            catch (PersistenceBrokerException e) {
+                subAccountName = kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_SUB_ACCOUNT_DESCRIPTION);
+                subAccountNumberAndName = subAccountName;
+            }
+        }
+        
+        orgAccountObjectDetailReportEntry.setSubAccountName(subAccountName);
+        orgAccountObjectDetailReportEntry.setSubAccountNumberAndName(subAccountNumberAndName);
+        orgAccountObjectDetailReportEntry.setDivider(divider);   
 
         // For group
         orgAccountObjectDetailReportEntry.setSubAccountNumber(accountBalance.getSubAccountNumber() + accountBalance.getAccountNumber());
@@ -217,8 +227,6 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
 
         // page break org_fin_coa_cd, org_cd, sub_fund_grp_cd)%\
         orgAccountObjectDetailReportEntry.setPageBreak(accountBalance.getOrganizationChartOfAccountsCode() + accountBalance.getOrganizationCode() + accountBalance.getSubFundGroupCode());
-
-
     }
 
 

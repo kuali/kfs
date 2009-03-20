@@ -167,7 +167,6 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
         orgAccountFundingDetailReportEntry.setSubAccountNumber(accountFundingDetail.getSubAccountNumber() + accountFundingDetail.getAccountNumber());
         orgAccountFundingDetailReportEntry.setObjectCodes(objectCodes);
 
-
         String subAccountName = "";
         String subAccountNumberAndName = "";
         String divider = "";
@@ -191,7 +190,6 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
         orgAccountFundingDetailReportEntry.setSubAccountName(subAccountName);
         orgAccountFundingDetailReportEntry.setSubAccountNumberAndName(subAccountNumberAndName);
         orgAccountFundingDetailReportEntry.setDivider(divider);
-
     }
 
 

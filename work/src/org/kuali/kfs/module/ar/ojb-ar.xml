@@ -1060,7 +1060,7 @@
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
 
-    <collection-descriptor name="invoicePaidApplieds" element-class-ref="org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied" collection-class="org.apache.ojb.broker.util.collections.RemovalAwareList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+    <collection-descriptor name="invoicePaidApplieds" element-class-ref="org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 

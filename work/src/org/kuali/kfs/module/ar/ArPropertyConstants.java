@@ -198,6 +198,8 @@ public class ArPropertyConstants {
         public static final String UNAPPLIED_CUSTOMER_NUMBER = "document.nonAppliedHolding.customerNumber";
         public static final String UNAPPLIED_AMOUNT = "document.nonAppliedHolding.financialDocumentLineAmount";
         public static final String DELETE_NON_INVOICED_LINE_PREFIX = "methodToCall.deleteNonArLine.line";
+        public static final String ENTERED_INVOICE_CUSTOMER_NUMBER = "selectedCustomerNumber";
+        public static final String ENTERED_INVOICE_NUMBER = "enteredInvoiceDocumentNumber";
     }
 
 }

@@ -195,5 +195,7 @@ public class ArKeyConstants {
         public static final String NON_INVOICED_ACCOUNT_IS_REQUIRED = "error.document.paymentApplication.nonInvoicedAccountRequired=Account is required on non-ar lines.";
         public static final String NON_INVOICED_FINANCIAL_OBJECT_IS_REQUIRED = "error.document.paymentApplication.nonInvoicedFinancialObjectRequired=Object code is required on non-ar lines.";
         public static final String CANNOT_QUICK_APPLY_ON_INVOICE_WITH_ZERO_OPEN_AMOUNT = "error.document.paymentApplication.cannotQuickApplyOnInvoiceWithZeroOpenAmount";
+        public static final String ENTERED_INVOICE_CUSTOMER_NUMBER_INVALID = "error.document.paymentApplication.enteredInvoiceCustomerNumberInvalid";
+        public static final String ENTERED_INVOICE_NUMBER_INVALID = "error.document.paymentApplication.enteredInvoiceNumberInvalid";
     }
 }

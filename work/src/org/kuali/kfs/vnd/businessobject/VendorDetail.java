@@ -740,6 +740,23 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     /**
+     *  The vendor is B2B if they have a contract that has the B2B 
+     *  indicator set to Yes. This method returns true if this vendor
+     *  is a B2B vendor and false otherwise.
+     * 
+     * @return true if this vendor is a B2B vendor and false otherwise.
+     * 
+     */
+    public boolean isB2BVendor() {
+        for (VendorContract contract : this.getVendorContracts()) {
+            if (contract.getVendorB2bIndicator()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {

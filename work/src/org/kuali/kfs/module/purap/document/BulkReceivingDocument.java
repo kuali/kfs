@@ -145,13 +145,14 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
     private String goodsDeliveredVendorName;
     private String vendorContact;
     private Integer vendorAddressGeneratedIdentifier;
+    private boolean sensitive;
     
     
     public BulkReceivingDocument() {
         super();
     }
 
-    public boolean isPotentiallySensitive() {
+    public boolean isSensitive() {
         List<SensitiveData> sensitiveData = SpringContext.getBean(SensitiveDataService.class).getSensitiveDatasAssignedByRelatedDocId(getAccountsPayablePurchasingDocumentLinkIdentifier());
         if (ObjectUtils.isNotNull(sensitiveData) && !sensitiveData.isEmpty()) {
             return true;

@@ -85,6 +85,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     private String vendorNumber;
     private Integer vendorAddressGeneratedIdentifier;
     private String alternateVendorNumber;
+    private boolean sensitive;
 
     private Campus deliveryCampus;
     private Country vendorCountry;
@@ -102,7 +103,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
         super();           
     }
         
-    public boolean isPotentiallySensitive() {
+    public boolean isSensitive() {
         List<SensitiveData> sensitiveData = SpringContext.getBean(SensitiveDataService.class).getSensitiveDatasAssignedByRelatedDocId(getAccountsPayablePurchasingDocumentLinkIdentifier());
         if (ObjectUtils.isNotNull(sensitiveData) && !sensitiveData.isEmpty()) {
             return true;

@@ -90,7 +90,8 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     private String vendorNumber;
     private Integer vendorAddressGeneratedIdentifier;
     private Boolean overrideWorkflowButtons = null;
-    private transient PurApRelatedViews relatedViews;    
+    private transient PurApRelatedViews relatedViews;   
+    private boolean sensitive;
     
     // COLLECTIONS
     private List<PurApItem> items;
@@ -137,7 +138,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         return null;
     }
     
-    public boolean isPotentiallySensitive() {
+    public boolean isSensitive() {
         List<SensitiveData> sensitiveData = SpringContext.getBean(SensitiveDataService.class).getSensitiveDatasAssignedByRelatedDocId(getAccountsPayablePurchasingDocumentLinkIdentifier());
         if (ObjectUtils.isNotNull(sensitiveData) && !sensitiveData.isEmpty()) {
             return true;

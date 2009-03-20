@@ -619,14 +619,14 @@
                     <property name="searchingAttribute">
                         <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
                             <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument"/>
-                            <property name="attributeName" value="potentiallySensitive"/>
+                            <property name="attributeName" value="sensitive"/>
                             <property name="showAttributeInSearchCriteria" value="false"/>
                             <property name="showAttributeInResultSet" value="false"/>
                         </bean>
                     </property>
                     <property name="documentValues">
                         <list>
-                            <value>potentiallySensitive</value>
+                            <value>sensitive</value>
                         </list>
                     </property>
                 </bean>

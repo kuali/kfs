@@ -17,8 +17,6 @@ public class NonAppliedHolding extends PersistableBusinessObjectBase {
 	private String customerNumber;
 
 	private Customer customer;
-    // MAYBE TAKE THIS OUT
-    private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
 
     private List<NonAppliedDistribution> nonAppliedDistributions;
     
@@ -31,7 +29,6 @@ public class NonAppliedHolding extends PersistableBusinessObjectBase {
 	 */
 	public NonAppliedHolding() {
         nonAppliedDistributions = new ArrayList<NonAppliedDistribution>();
-        
 	}
 
 	/**
@@ -96,26 +93,6 @@ public class NonAppliedHolding extends PersistableBusinessObjectBase {
 		this.customerNumber = customerNumber;
 	}
 
-
-	/**
-	 * Gets the accountsReceivableDocumentHeader attribute.
-	 * 
-	 * @return Returns the accountsReceivableDocumentHeader
-	 * 
-	 */
-	public AccountsReceivableDocumentHeader getAccountsReceivableDocumentHeader() { 
-		return accountsReceivableDocumentHeader;
-	}
-
-	/**
-	 * Sets the accountsReceivableDocumentHeader attribute.
-	 * 
-	 * @param accountsReceivableDocumentHeader The accountsReceivableDocumentHeader to set.
-	 * @deprecated
-	 */
-	public void setAccountsReceivableDocumentHeader(AccountsReceivableDocumentHeader accountsReceivableDocumentHeader) {
-		this.accountsReceivableDocumentHeader = accountsReceivableDocumentHeader;
-	}
 
 	/**
 	 * Gets the customer attribute.

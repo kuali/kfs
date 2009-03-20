@@ -213,7 +213,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         }
         
         //  apply non-Invoiced
-        NonInvoiced nonInvoiced = applyNonInvoiced(paymentApplicationDocumentForm, false);
+        NonInvoiced nonInvoiced = applyNonInvoiced(paymentApplicationDocumentForm);
         
         //  apply non-applied holdings 
         NonAppliedHolding nonAppliedHolding = applyUnapplied(paymentApplicationDocumentForm);
@@ -258,18 +258,17 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         paymentApplicationDocument.getInvoicePaidApplieds().clear();
         paymentApplicationDocument.getInvoicePaidApplieds().addAll(invoicePaidApplieds);
         
-        //  nonInvoiced/advanceDeposit stuff
+        //  NonInvoiced list management 
         if (null != nonInvoiced) {
-            // add advanceDeposit
             paymentApplicationDocument.getNonInvoiceds().add(nonInvoiced);
 
-            // Set the NonInvoicedItemNumbers properly
+            // re-number the non-invoiced
             Integer nonInvoicedItemNumber = 1;
             for (NonInvoiced n : paymentApplicationDocument.getNonInvoiceds()) {
                 n.setFinancialDocumentLineNumber(nonInvoicedItemNumber++);
             }
                 
-            // clear the used advanceDeposit
+            // make an empty new one
             paymentApplicationDocumentForm.setNonInvoicedAddLine(new NonInvoiced());
         }
     }
@@ -416,7 +415,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         return invoicePaidApplieds;
     }
     
-    private NonInvoiced applyNonInvoiced(PaymentApplicationDocumentForm paymentApplicationDocumentForm, boolean addToDocument) throws WorkflowException {
+    private NonInvoiced applyNonInvoiced(PaymentApplicationDocumentForm paymentApplicationDocumentForm) throws WorkflowException {
         PaymentApplicationDocument applicationDocument = (PaymentApplicationDocument) paymentApplicationDocumentForm.getDocument();
         
         NonInvoiced nonInvoiced = paymentApplicationDocumentForm.getNonInvoicedAddLine();
@@ -426,8 +425,11 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
             nonInvoiced.setFinancialDocumentPostingYear(applicationDocument.getPostingYear());
             nonInvoiced.setDocumentNumber(applicationDocument.getDocumentNumber());
             nonInvoiced.setFinancialDocumentLineNumber(paymentApplicationDocumentForm.getNextNonInvoicedLineNumber());
+            if (StringUtils.isNotBlank(nonInvoiced.getChartOfAccountsCode())) {
+                nonInvoiced.setChartOfAccountsCode(nonInvoiced.getChartOfAccountsCode().toUpperCase());
+            }
             
-            if (addToDocument && PaymentApplicationDocumentRuleUtil.validateNonInvoiced(nonInvoiced, applicationDocument)) {
+            if (PaymentApplicationDocumentRuleUtil.validateNonInvoiced(nonInvoiced, applicationDocument)) {
                 // add advanceDeposit
                 applicationDocument.getNonInvoiceds().add(nonInvoiced);
 
@@ -441,19 +443,34 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         return nonInvoiced;
     }
     
-    private NonAppliedHolding applyUnapplied(PaymentApplicationDocumentForm paymentApplicationDocumentForm) throws WorkflowException {
-        PaymentApplicationDocument applicationDocument = paymentApplicationDocumentForm.getPaymentApplicationDocument();
-        NonAppliedHolding nonAppliedHolding = applicationDocument.getNonAppliedHolding();
-        if(ObjectUtils.isNull(nonAppliedHolding)) {
+    private NonAppliedHolding applyUnapplied(PaymentApplicationDocumentForm payAppForm) throws WorkflowException {
+        PaymentApplicationDocument payAppDoc = payAppForm.getPaymentApplicationDocument();
+        
+        //  force customer number to upper
+        if (StringUtils.isNotBlank(payAppForm.getNonAppliedHoldingCustomerNumber())) {
+            payAppForm.setNonAppliedHoldingCustomerNumber(payAppForm.getNonAppliedHoldingCustomerNumber().toUpperCase());
+        }
+
+        String customerNumber = payAppForm.getNonAppliedHoldingCustomerNumber();
+        KualiDecimal amount = payAppForm.getNonAppliedHoldingAmount();
+        
+        //   if we dont have enough information to make an UnApplied, then do nothing
+        if (StringUtils.isBlank(customerNumber) || amount == null || amount.isZero()) {
+            payAppDoc.setNonAppliedHolding(null);
             return null;
         }
-        nonAppliedHolding.setReferenceFinancialDocumentNumber(applicationDocument.getDocumentNumber());
         
-        if(PaymentApplicationDocumentRuleUtil.validateNonAppliedHolding(applicationDocument)) {
-            paymentApplicationDocumentForm.setOldNonAppliedHoldingAmount(nonAppliedHolding.getFinancialDocumentLineAmount());
-        } else {
-            nonAppliedHolding.setFinancialDocumentLineAmount(paymentApplicationDocumentForm.getOldNonAppliedHoldingAmount());
-        }
+        //  build a new NonAppliedHolding
+        NonAppliedHolding nonAppliedHolding = new NonAppliedHolding();
+        nonAppliedHolding.setCustomerNumber(customerNumber);
+        nonAppliedHolding.setReferenceFinancialDocumentNumber(payAppDoc.getDocumentNumber());
+        nonAppliedHolding.setFinancialDocumentLineAmount(amount);
+        
+        //  set it to the document
+        payAppDoc.setNonAppliedHolding(nonAppliedHolding);
+        
+        //  validate it
+        PaymentApplicationDocumentRuleUtil.validateNonAppliedHolding(payAppDoc);
 
         return nonAppliedHolding;
     }
@@ -600,6 +617,12 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
                     }
                 }
             }
+        }
+        
+        //  load any NonAppliedHolding information into the form vars
+        if (payAppDoc.getNonAppliedHolding() != null) {
+            payAppForm.setNonAppliedHoldingCustomerNumber(payAppDoc.getNonAppliedHolding().getCustomerNumber());
+            payAppForm.setNonAppliedHoldingAmount(payAppDoc.getNonAppliedHolding().getFinancialDocumentLineAmount());
         }
     }
     

@@ -19,7 +19,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
-import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.sys.document.validation.impl.GeneralLedgerPostingDocumentRuleBase;
@@ -66,7 +65,6 @@ public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocument
         }
         
         // Validate non applied holdings
-        NonAppliedHolding nonAppliedHolding = paymentApplicationDocument.getNonAppliedHolding();
         try {
             if(!PaymentApplicationDocumentRuleUtil.validateNonAppliedHolding(paymentApplicationDocument)) {
                 isValid = false;

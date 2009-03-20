@@ -611,5 +611,21 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     public void setSelectedCustomerNumber(String selectedCustomerNumber) {
         this.selectedCustomerNumber = StringUtils.isBlank(selectedCustomerNumber) ? null : selectedCustomerNumber.toUpperCase();
     }
+
+    public KualiDecimal getNonAppliedHoldingAmount() {
+        return nonAppliedHoldingAmount;
+    }
+
+    public void setNonAppliedHoldingAmount(KualiDecimal nonAppliedHoldingAmount) {
+        this.nonAppliedHoldingAmount = nonAppliedHoldingAmount;
+    }
+
+    public String getNonAppliedHoldingCustomerNumber() {
+        return nonAppliedHoldingCustomerNumber;
+    }
+
+    public void setNonAppliedHoldingCustomerNumber(String nonAppliedHoldingCustomerNumber) {
+        this.nonAppliedHoldingCustomerNumber = nonAppliedHoldingCustomerNumber;
+    }
     
 }

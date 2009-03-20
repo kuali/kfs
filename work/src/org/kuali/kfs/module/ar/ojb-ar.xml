@@ -146,9 +146,6 @@
 	<field-descriptor name="financialDocumentLineAmount" column="FDOC_LINE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="customerNumber" column="CUST_NBR" jdbc-type="VARCHAR"/>
 
-    <reference-descriptor name="accountsReceivableDocumentHeader" class-ref="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="referenceFinancialDocumentNumber" />
-    </reference-descriptor>
 	<reference-descriptor name="customer" class-ref="org.kuali.kfs.module.ar.businessobject.Customer" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="customerNumber" />
 	</reference-descriptor>

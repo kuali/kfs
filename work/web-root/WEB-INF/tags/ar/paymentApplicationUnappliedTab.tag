@@ -39,11 +39,11 @@
                         		<kul:htmlControlAttribute
                         			readOnly="${readOnly}"
                             		attributeEntry="${customerAttributes.customerNumber}"
-                            		property="document.nonAppliedHolding.customerNumber"/>
+                            		property="nonAppliedHoldingCustomerNumber"/>
 								<c:if test="${readOnly ne true}">
 	                        		<kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.Customer" autoSearch="true"
-	                            		fieldConversions="customerNumber:document.nonAppliedHolding.customerNumber"
-	                            		lookupParameters="document.nonAppliedHolding.customerNumber:customerNumber" />
+	                            		fieldConversions="customerNumber:nonAppliedHoldingCustomerNumber"
+	                            		lookupParameters="nonAppliedHoldingCustomerNumber:customerNumber" />
                         		</c:if>
                     		</td>
                     		<kul:htmlAttributeHeaderCell literalLabel="Amount"/>  
@@ -52,7 +52,7 @@
                         		<kul:htmlControlAttribute
 	                        		styleClass="amount"
                             		attributeEntry="${unappliedAttributes.financialDocumentLineAmount}"
-                            		property="document.nonAppliedHolding.financialDocumentLineAmount"
+                            		property="nonAppliedHoldingAmount"
                             		readOnly="${readOnly}" />
 								<c:if test="${readOnly ne true}">
 	                        		<html:image property="methodToCall.applyAllAmounts"

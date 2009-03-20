@@ -830,6 +830,11 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         fields.put("documentNumber", documentNumber);
         boService.deleteMatching(NonInvoiced.class, fields);
 
+        //  clear existing nonapplied holding
+        fields = new HashMap<String,String>();
+        fields.put("referenceFinancialDocumentNumber", documentNumber);
+        boService.deleteMatching(NonAppliedHolding.class, fields);
+        
         //  generate GLPEs only when routing or blanket approving
         if (event instanceof RouteDocumentEvent || event instanceof BlanketApproveDocumentEvent) {
             GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class); 

@@ -2546,10 +2546,10 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     BigDecimal FTE = new BigDecimal(0);
 
     private void untouchedAppointmentFunding(PendingBudgetConstructionAppointmentFunding bcaf) {
-        //     this checks to see whether the missing row could have come in from CSF.  
-        //     if they did not come in from CSF, then it follows that someone entered them and we should not touch them.  
+        //     this checks to see whether the missing row could have come in from CSF earlier, but the CSF row which created it is not inactive.  
+        //     if they it not come in from CSF, then it follows that someone entered it and we should not touch it.  
         CSFBCAFRowsMissing = CSFBCAFRowsMissing + 1;
-        if ((!bcaf.getAppointmentRequestedAmount().equals(rqstAmount)) || (!bcaf.getAppointmentFundingDurationCode().equals(notOnLeave)) || (bcaf.isAppointmentFundingDeleteIndicator())) {
+        if ((!bcaf.getAppointmentRequestedAmount().equals(rqstAmount)) || (bcaf.getAppointmentFundingDurationCode().compareTo(notOnLeave) != 0) || (bcaf.isAppointmentFundingDeleteIndicator())) {
             return;
         }
         //
@@ -2571,22 +2571,23 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         criteriaID.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, bcaf.getFinancialObjectCode());
         criteriaID.addEqualTo(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, bcaf.getFinancialSubObjectCode());
         criteriaID.addEqualTo(KFSPropertyConstants.POSITION_NUMBER, bcaf.getPositionNumber());
-        Criteria vacantCriteria = new Criteria();
-        Criteria flagCriteria = new Criteria();
-        //     funding status is "vacant" or "unfunded"
-        vacantCriteria.addEqualTo(KFSPropertyConstants.CSF_FUNDING_STATUS_CODE, BCConstants.csfFundingStatusFlag.VACANT.getFlagValue());
-        flagCriteria.addEqualTo(KFSPropertyConstants.CSF_FUNDING_STATUS_CODE, BCConstants.csfFundingStatusFlag.UNFUNDED.getFlagValue());
-        flagCriteria.addOrCriteria(vacantCriteria);
-        //     in addition, EMPLID is vacant
-        vacantCriteria = new Criteria();
-        vacantCriteria.addEqualTo(KFSPropertyConstants.EMPLID, BCConstants.VACANT_EMPLID);
-        vacantCriteria.addAndCriteria(flagCriteria);
-        //     OR, the EMPLID in CSF is the same as in BCAF
-        flagCriteria = new Criteria();
-        flagCriteria.addEqualTo(KFSPropertyConstants.EMPLID, bcaf.getEmplid());
-        flagCriteria.addOrCriteria(vacantCriteria);
-        //     now add the whole thing to the criteria list
-        criteriaID.addAndCriteria(flagCriteria);
+        // if the budget construction appointment funding (BCAF) row has a vacant ID, we look for vacant flags in CSF.
+        if (bcaf.getEmplid().equals(BCConstants.VACANT_EMPLID))
+        {
+            // the EMPLID in CSF will not match with BCAF: we want to see if a row matching on the other criteria is vacant
+            //     funding status is "vacant" or "unfunded"
+            Criteria flagCriteria = new Criteria();
+            flagCriteria.addEqualTo(KFSPropertyConstants.CSF_FUNDING_STATUS_CODE, BCConstants.csfFundingStatusFlag.VACANT.getFlagValue());
+            Criteria vacantCriteria = new Criteria();
+            vacantCriteria.addEqualTo(KFSPropertyConstants.CSF_FUNDING_STATUS_CODE, BCConstants.csfFundingStatusFlag.UNFUNDED.getFlagValue());
+            flagCriteria.addOrCriteria(vacantCriteria);
+            criteriaID.addAndCriteria(flagCriteria);
+        }
+        else
+        {
+            // since the BCAF row is not vacant, we require that it match CSF on EMPLID
+            criteriaID.addEqualTo(KFSPropertyConstants.EMPLID, bcaf.getEmplid());
+        }
         String[] selectList = { KFSPropertyConstants.CSF_FULL_TIME_EMPLOYMENT_QUANTITY, KFSPropertyConstants.CSF_TIME_PERCENT };
         ReportQueryByCriteria queryID = new ReportQueryByCriteria(CalculatedSalaryFoundationTracker.class, selectList, criteriaID);
         Iterator resultSet = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);

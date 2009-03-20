@@ -257,6 +257,7 @@
 	<bean id="DisbursementVoucher-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
+				<bean parent="AccountingDocument-UpdateAccountingLine-DefaultValidation" scope="prototype" />
 				<bean parent="DisbursementVoucher-checkAccountingLine" scope="prototype">
 					<property name="quitOnFail" value="true" />
 				</bean>

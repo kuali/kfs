@@ -86,9 +86,9 @@ public class DisbursementVoucherAccountingLineValidation extends GenericValidati
             valid = false;
         }
 
-        if (valid) {
-            valid = valid & validateObjectCode(accountingDocumentForValidation, accountingLineForValidation);
+        if (valid) {            
             valid = valid & validateAccountNumber(accountingDocumentForValidation, accountingLineForValidation);
+            valid = valid & validateObjectCode(accountingDocumentForValidation, accountingLineForValidation);
         }
 
         return valid;
@@ -110,7 +110,7 @@ public class DisbursementVoucherAccountingLineValidation extends GenericValidati
         boolean objectCodeAllowed = true;
 
         // object code exist done in super, check we have a valid object
-        if (ObjectUtils.isNull(accountingLine.getObjectCode())) {
+        if (ObjectUtils.isNull(accountingLineForValidation.getAccount()) || ObjectUtils.isNull(accountingLine.getObjectCode())) {
             return false;
         }
 

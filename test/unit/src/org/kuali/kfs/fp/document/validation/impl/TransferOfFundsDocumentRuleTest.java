@@ -63,6 +63,7 @@ import org.kuali.kfs.sys.document.validation.Validation;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineValueAllowedValidation;
 import org.kuali.kfs.sys.fixture.GeneralLedgerPendingEntryFixture;
 import org.kuali.kfs.sys.service.IsDebitTestUtils;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.CrossSectionSuite;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -470,14 +471,14 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
 
     private TransferOfFundsDocument createDocumentValidForRouting() throws Exception {
         TransferOfFundsDocument doc = createDocument();
-
+        UniversityDateService dateService = SpringContext.getBean(UniversityDateService.class);
         KualiDecimal balance = new KualiDecimal("21.12");
 
         SourceAccountingLine sourceLine = new SourceAccountingLine();
         sourceLine.setChartOfAccountsCode("BL");
         sourceLine.setAccountNumber("1031400");
         sourceLine.setFinancialObjectCode("1663");
-        sourceLine.setPostingYear(2008);
+        sourceLine.setPostingYear(dateService.getCurrentFiscalYear());
         sourceLine.setAmount(balance);
         sourceLine.refresh();
         List<SourceAccountingLine> sourceLines = new ArrayList<SourceAccountingLine>();
@@ -487,7 +488,7 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
         targetLine.setChartOfAccountsCode("BL");
         targetLine.setAccountNumber("1031400");
         targetLine.setFinancialObjectCode("5163");
-        targetLine.setPostingYear(2008);
+        targetLine.setPostingYear(dateService.getCurrentFiscalYear());
         targetLine.setAmount(balance);
         targetLine.refresh();
         List<TargetAccountingLine> targetLines = new ArrayList<TargetAccountingLine>();

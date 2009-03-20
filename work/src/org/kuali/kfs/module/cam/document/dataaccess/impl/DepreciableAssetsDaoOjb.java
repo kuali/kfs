@@ -196,9 +196,11 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         Object[] fieldValue;
 
         List<String> notPendingDocStatuses = new ArrayList<String>();
-        notPendingDocStatuses.add(CamsConstants.NotPendingDocumentStatuses.APPROVED);
-        notPendingDocStatuses.add(CamsConstants.NotPendingDocumentStatuses.CANCELED);
-
+        notPendingDocStatuses.add(KFSConstants.DocumentStatusCodes.APPROVED);
+        notPendingDocStatuses.add(KFSConstants.DocumentStatusCodes.CANCELLED);
+        notPendingDocStatuses.add(KFSConstants.DocumentStatusCodes.DISAPPROVED);
+        
+        
         List<String> capitalAssetNumbers = new ArrayList<String>();
 
         Criteria criteria = new Criteria();
@@ -216,8 +218,8 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
                 capitalAssetNumbers.add(convertCountValueToString(fieldValue[0]));
             }
         }
+        
         // transferred assets sub query
-
         criteria = new Criteria();
         criteria.addNotIn(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, notPendingDocStatuses);
 
@@ -251,9 +253,10 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         int result = 0;
 
         List<String> notPendingDocStatuses = new ArrayList<String>();
-        notPendingDocStatuses.add(CamsConstants.NotPendingDocumentStatuses.APPROVED);
-        notPendingDocStatuses.add(CamsConstants.NotPendingDocumentStatuses.CANCELED);
-
+        notPendingDocStatuses.add(KFSConstants.DocumentStatusCodes.APPROVED);
+        notPendingDocStatuses.add(KFSConstants.DocumentStatusCodes.CANCELLED);
+        notPendingDocStatuses.add(KFSConstants.DocumentStatusCodes.DISAPPROVED);
+        
         // Criteria arCriteria = new Criteria();
         Criteria criteria = new Criteria();
         criteria.addNotIn(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, notPendingDocStatuses);

@@ -148,11 +148,6 @@ public class CamsConstants extends JSTLConstants {
         public static final String DEPRECIATION_BATCH = "DEPRECIATION BATCH - ";
     }
 
-    public static class NotPendingDocumentStatuses {
-        public static final String APPROVED = "A";
-        public static final String CANCELED = "C";
-    }
-
     public static class BarCodeInventory {
         public static final String FILE_TYPE_INDENTIFIER = "assetBarcodeInventoryInputFileType";
         public static final String DATA_FILE_TYPE = "csv";

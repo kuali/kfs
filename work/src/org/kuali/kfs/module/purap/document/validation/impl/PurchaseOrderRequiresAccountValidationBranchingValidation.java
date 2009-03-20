@@ -28,11 +28,7 @@ public class PurchaseOrderRequiresAccountValidationBranchingValidation extends B
     
     @Override
     protected String determineBranch(AttributedDocumentEvent event) {
-        if (!itemForValidation.getSourceAccountingLines().isEmpty()) {
-            return NEEDS_ACCOUNT_VALIDATION;
-        } else {
-            return KFSConstants.EMPTY_STRING;
-        }
+        return NEEDS_ACCOUNT_VALIDATION;
     }
 
     public PurApItem getItemForValidation() {

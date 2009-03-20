@@ -33,43 +33,6 @@ public interface BalancingService {
     public boolean runBalancing();
     
     /**
-     * Deletes data for the given fiscal year of entries from persistentClass.
-     * @param universityFiscalYear the given university fiscal year
-     * @param persistentClass table for which to delete the history
-     */
-    public void deleteHistory(Integer universityFiscalYear, Class<? extends PersistableBusinessObjectBase> persistentClass);
-    
-    /**
-     * Gets count for given fiscal year of entries from persistentClass.
-     * @param fiscalYear parameter may be null which will get count for all years
-     * @param persistentClass table for which to get the count
-     * @return count
-     */
-    public int getHistoryCount(Integer fiscalYear, Class<? extends PersistableBusinessObjectBase> persistentClass);    
-    
-    /**
-     * Compares entries in the Balance and BalanceHistory tables to ensure the amounts match.
-     * @param textReportHelper handle on TextReportHelper for fancy printing
-     * @return count is compare failures
-     */
-    public Integer compareBalanceHistory(TextReportHelper textReportHelper);
-    
-    /**
-     * Compares entries in the Entry and EntryHistory tables to ensure the amounts match.
-     * @param textReportHelper handle on TextReportHelper for fancy printing
-     * @return count is compare failures
-     */
-    public Integer compareEntryHistory(TextReportHelper textReportHelper);
-    
-    /**
-     * This is a helper method that wraps parsing poster entries for updateEntryHistory and updateBalanceHistory.
-     * @param startUniversityFiscalYear fiscal year for which to accept the earlier parsed lines from the input file
-     * @param textReportHelper handle on TextReportHelper for fancy printing
-     * @return indicated whether records where ignored due to being older then startUniversityFiscalYear
-     */
-    public int updateHistoriesHelper(Integer startUniversityFiscalYear, TextReportHelper textReportHelper);
-    
-    /**
      * @return filename for the report
      */
     public abstract String getReportFilename();
@@ -90,15 +53,11 @@ public interface BalancingService {
     public abstract String getPosterErrorOutputFilename();
     
     /**
-     * @return functional label for balance table
+     * @param businessObjectName name of the BO for which to return the label
+     * @return functional short labels for tables affected in this process
      */
-    public abstract String getBalanceLabel();
-    
-    /**
-     * @return functional label for entry table
-     */
-    public abstract String getEntryLabel();
-    
+    public abstract String getShortTableLabel(String businessObjectName);
+        
     /**
      * @param startUniversityFiscalYear university fiscal year for which the process starts on
      * @return verbal instructions for a user on how to generate data for the process to properly run

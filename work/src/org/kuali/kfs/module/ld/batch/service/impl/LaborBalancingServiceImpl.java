@@ -15,18 +15,26 @@
  */
 package org.kuali.kfs.module.ld.batch.service.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.BalancingService;
 import org.kuali.kfs.gl.batch.service.impl.BalancingServiceBaseImpl;
 import org.kuali.kfs.gl.businessobject.Balance;
+import org.kuali.kfs.gl.businessobject.BalanceHistory;
+import org.kuali.kfs.gl.businessobject.Entry;
+import org.kuali.kfs.gl.businessobject.EntryHistory;
 import org.kuali.kfs.gl.businessobject.LedgerBalanceHistory;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.businessobject.LaborBalanceHistory;
 import org.kuali.kfs.module.ld.businessobject.LaborEntryHistory;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,27 +43,21 @@ import org.springframework.transaction.annotation.Transactional;
  * Service implementation of BalancingService for Labor balancing
  */
 @Transactional
-public class LaborBalancingServiceImpl extends BalancingServiceBaseImpl<LaborBalanceHistory, LaborEntryHistory> implements BalancingService {
+public class LaborBalancingServiceImpl extends BalancingServiceBaseImpl<LaborEntryHistory, LaborBalanceHistory> implements BalancingService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborBalancingServiceImpl.class);
-    
-    private static final String BALANCING_FILENAME = "laborBalancing_";
-    private static final String BALANCING_FILETITLE = "Labor Balancing Report";
-    private static final String BALANCE_LABEL = "LLBL";
-    private static final String ENTRY_LABEL = "LLEN";
-
     
     /**
      * @see org.kuali.kfs.gl.batch.service.BalancingService#getReportFilename()
      */
     public String getReportFilename() {
-        return BALANCING_FILENAME;
+        return kualiConfigurationService.getPropertyString(LaborKeyConstants.Balancing.REPORT_FILENAME_PREFIX);
     }
     
     /**
      * @see org.kuali.kfs.gl.batch.service.BalancingService#getReportTitle()
      */
     public String getReportTitle() {
-        return BALANCING_FILETITLE;
+        return kualiConfigurationService.getPropertyString(LaborKeyConstants.Balancing.REPORT_FILE_TITLE);
     }
     
     /**
@@ -73,20 +75,20 @@ public class LaborBalancingServiceImpl extends BalancingServiceBaseImpl<LaborBal
     }
     
     /**
-     * @see org.kuali.kfs.gl.batch.service.BalancingService#getBalanceLabel()
+     * @see org.kuali.kfs.gl.batch.service.BalancingService#getShortTableLabel(java.lang.String)
      */
-    public String getBalanceLabel() {
-        return BALANCE_LABEL;
+    public String getShortTableLabel(String businessObjectName) {
+        Map<String, String> names = new HashMap<String, String>();
+        names.put((Entry.class).getSimpleName(), kualiConfigurationService.getPropertyString(LaborKeyConstants.Balancing.REPORT_ENTRY_LABEL));
+        names.put((EntryHistory.class).getSimpleName(), kualiConfigurationService.getPropertyString(LaborKeyConstants.Balancing.REPORT_ENTRY_LABEL));
+        names.put((Balance.class).getSimpleName(), kualiConfigurationService.getPropertyString(LaborKeyConstants.Balancing.REPORT_BALANCE_LABEL));
+        names.put((BalanceHistory.class).getSimpleName(), kualiConfigurationService.getPropertyString(LaborKeyConstants.Balancing.REPORT_BALANCE_LABEL));
+        
+        return names.get(businessObjectName) == null ? kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_UNKNOWN_LABEL) : names.get(businessObjectName);
     }
     
     /**
-     * @see org.kuali.kfs.gl.batch.service.BalancingService#getEntryLabel()
-     */
-    public String getEntryLabel() {
-        return ENTRY_LABEL;
-    }
-    
-    /**
+     * TODO should call a DoA executing the queries instead of printing a message
      * @see org.kuali.kfs.gl.batch.service.BalancingService#getTableCreationInstructions(int)
      */
     public String getTableCreationInstructions(int startUniversityFiscalYear) {

@@ -766,7 +766,10 @@
 		</property>
 	</bean>
 
-    <bean id="balancingService" class="org.kuali.kfs.gl.batch.service.impl.BalancingServiceImpl">
+    <bean id="glBalancingService" class="org.kuali.kfs.gl.batch.service.impl.BalancingServiceImpl">
+        <property name="kualiConfigurationService">
+            <ref bean="kualiConfigurationService" />
+        </property>
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
@@ -1238,9 +1241,9 @@
 		</property>
 	</bean>
 	
-	<bean id="posterBalancingStep" class="org.kuali.kfs.gl.batch.PosterBalancingStep" parent="step">
+	<bean id="posterBalancingStep" class="org.kuali.kfs.gl.batch.BalancingStep" parent="step">
 		<property name="balancingService">
-			<ref bean="balancingService" />
+			<ref bean="glBalancingService" />
 		</property>
 	</bean>
 	

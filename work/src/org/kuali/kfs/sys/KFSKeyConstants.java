@@ -807,4 +807,36 @@ public class KFSKeyConstants {
     
     public static final String ERROR_DV_VENDOR_NAME_PERSON_NAME_CONFUSION = "error.dv.vendorNamePersonNameConfusion";
     public static final String ERROR_DV_VENDOR_EMPLOYEE_CONFUSION = "error.dv.vendorEmployeeConfusion";
+    
+    public static final class Balancing {
+        public static final String ERROR_BATCH_BALANCING_FILES = "error.batch.balancing.files";
+        public static final String ERROR_BATCH_BALANCING_UNKNOWN_FAILURE = "error.batch.balancing.unknown.failure";
+        public static final String MESSAGE_BATCH_BALANCING_DATA_INSERTED = "message.batch.balancing.data.inserted";
+        public static final String MESSAGE_BATCH_BALANCING_OBSOLETE_FISCAL_YEAR_DATA_DELETED = "message.batch.balancing.obsolete.fiscal.year.data.deleted";
+        public static final String MESSAGE_BATCH_BALANCING_FAILURE_COUNT = "message.batch.balancing.failure.count";
+        public static final String MESSAGE_BATCH_BALANCING_RECORD_BEFORE_FISCAL_YEAR = "message.batch.balancing.record.before.fiscal.year";
+        public static final String MESSAGE_BATCH_BALANCING_RECORD_FAILED_BALANCING = "message.batch.balancing.record.failed.balancing";
+        
+        public static final String REPORT_UNKNOWN_LABEL = "message.batch.balancing.report.unknown.label";
+        
+        public static final String REPORT_FILENAME_PREFIX = "gl.balancing.report.filename.prefix";
+        public static final String REPORT_FILE_TITLE = "message.gl.balancing.report.file.title";
+        public static final String REPORT_ENTRY_LABEL = "message.gl.balancing.report.entry.label";
+        public static final String REPORT_BALANCE_LABEL = "message.gl.balancing.report.balance.label";
+        public static final String REPORT_ACCOUNT_BALANCE_LABEL = "message.gl.balancing.report.account.balance.label";
+        public static final String REPORT_ENCUMBRANCE_LABEL = "message.gl.balancing.report.encumbrance.label";
+        
+        public static final String REPORT_FISCAL_YEARS_INCLUDED = "message.gl.balancing.report.fiscal.years.included";
+        public static final String REPORT_OBSOLETE_DELETED = "message.gl.balancing.report.obsolete.deleted";
+        public static final String REPORT_UPDATED_SKIPPED = "message.gl.balancing.report.updated.skipped";
+        public static final String REPORT_COMPARISION_FAILURE = "message.gl.balancing.report.comparision.failure";
+        public static final String REPORT_ENTRY_SUM_ROW_COUNT_HISTORY = "message.gl.balancing.report.entry.sum.row.count.history";
+        public static final String REPORT_ENTRY_ROW_COUNT_PRODUCTION = "message.gl.balancing.report.entry.row.count.production";
+        public static final String REPORT_BALANCE_ROW_COUNT_HISTORY = "message.gl.balancing.report.balance.row.count.history";
+        public static final String REPORT_BALANCE_ROW_COUNT_PRODUCTION = "message.gl.balancing.report.balance.row.count.production";
+        public static final String REPORT_ACCOUNT_BALANCE_ROW_COUNT_HISTORY = "message.gl.balancing.report.account.balance.row.count.history";
+        public static final String REPORT_ACCOUNT_BALANCE_ROW_COUNT_PRODUCTION = "message.gl.balancing.report.account.balance.row.count.production";
+        public static final String REPORT_ENCUMBRANCE_ROW_COUNT_HISTORY = "message.gl.balancing.report.encumbrance.row.count.history";
+        public static final String REPORT_ENCUMBRANCE_ROW_COUNT_PRODUCTION = "message.gl.balancing.report.encumbrance.row.count.production";
+    }
 }

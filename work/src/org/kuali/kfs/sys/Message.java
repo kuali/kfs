@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.sys;
 
+
 /**
  * This class represents an error message (severity type and actual message).
  */
@@ -25,6 +26,11 @@ public class Message {
     private String message;
     private int type;
 
+    public Message(String m, int t, Object... args) {
+        message = String.format(m, args);
+        type = t;
+    }
+    
     public Message(String m, int t) {
         message = m;
         type = t;

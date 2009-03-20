@@ -45,7 +45,7 @@
 					<c:if test="${readOnly ne true}">
 						<kul:lookup
 							boClassName="org.kuali.kfs.module.ar.businessobject.Customer"
-							fieldConversions="customerNumber:selectedCustomerNumber;null:enteredInvoiceDocumentNumber" />
+							fieldConversions="customerNumber:selectedCustomerNumber" />
 					</c:if>
 				</td>
 			</tr>

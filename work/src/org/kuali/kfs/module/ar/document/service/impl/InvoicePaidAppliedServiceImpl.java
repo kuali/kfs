@@ -15,19 +15,15 @@
  */
 package org.kuali.kfs.module.ar.document.service.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.ar.businessobject.AppliedPayment;
-import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -38,6 +34,15 @@ public class InvoicePaidAppliedServiceImpl implements InvoicePaidAppliedService<
 
     private BusinessObjectService businessObjectService;
     private UniversityDateService universityDateService;
+
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService#clearDocumentPaidAppliedsFromDatabase(java.lang.String)
+     */
+    public void clearDocumentPaidAppliedsFromDatabase(String documentNumber) {
+        Map<String,String> fields = new HashMap<String,String>();
+        fields.put("documentNumber", documentNumber);
+        businessObjectService.deleteMatching(InvoicePaidApplied.class, fields);
+    }
 
     public void saveInvoicePaidApplied(AppliedPayment appliedPayment, Integer paidAppliedItemNumber, String documentNumber) {
         InvoicePaidApplied invoicePaidApplied = new InvoicePaidApplied();

@@ -17,6 +17,7 @@ package org.kuali.kfs.module.ar.document.web.struts;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -61,7 +62,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
 
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // TODO Should we be doing the re-calcs before saving?
+        doApplicationOfFunds((PaymentApplicationDocumentForm)form);
         return super.save(mapping, form, request, response);
     }
 
@@ -103,7 +104,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      */
     @Override
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        //TODO should we be re-calcing things before routing?
+        doApplicationOfFunds((PaymentApplicationDocumentForm)form);
         return super.route(mapping, form, request, response);
     }
 
@@ -406,9 +407,6 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
                 }
             }
             
-            //  disable the quickApply value, so it doesnt show up checked next time 
-            //invoiceApplication.setQuickApply(false);
-            
             //  maintain the selected doc number
             if (invoiceDocNumber.equals(paymentApplicationDocumentForm.getEnteredInvoiceDocumentNumber())) {
                 paymentApplicationDocumentForm.setSelectedInvoiceDocumentNumber(invoiceDocNumber);
@@ -497,51 +495,95 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      * 
      * @param applicationDocumentForm
      */
-    private void loadInvoices(PaymentApplicationDocumentForm applicationDocumentForm, String selectedInvoiceNumber) throws WorkflowException {
-        PaymentApplicationDocument applicationDocument = applicationDocumentForm.getPaymentApplicationDocument();
-        String customerNumber = applicationDocument.getAccountsReceivableDocumentHeader() == null ? null : applicationDocument.getAccountsReceivableDocumentHeader().getCustomerNumber();
+    private void loadInvoices(PaymentApplicationDocumentForm payAppForm, String selectedInvoiceNumber) throws WorkflowException {
+        PaymentApplicationDocument payAppDoc = payAppForm.getPaymentApplicationDocument();
+        AccountsReceivableDocumentHeader arDocHeader = payAppDoc.getAccountsReceivableDocumentHeader();
         String currentInvoiceNumber = selectedInvoiceNumber;
 
-        // Vivek
-        if (!applicationDocument.hasCashControlDocument()) {
-            applicationDocument.refreshNonApplieds(customerNumber);
+        //  before we do anything, validate the validity of any customerNumber or invoiceNumber 
+        // entered against the db, and complain to the user if either is not right.
+        if (StringUtils.isNotBlank(payAppForm.getSelectedCustomerNumber())) {
+            Map<String,String> pkMap = new HashMap<String,String>();
+            pkMap.put("customerNumber", payAppForm.getSelectedCustomerNumber());
+            int found = businessObjectService.countMatching(Customer.class, pkMap);
+            if (found == 0) {
+                addFieldError(KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB, 
+                        ArPropertyConstants.PaymentApplicationDocumentFields.ENTERED_INVOICE_CUSTOMER_NUMBER, 
+                        ArKeyConstants.PaymentApplicationDocumentErrors.ENTERED_INVOICE_CUSTOMER_NUMBER_INVALID);
+            }
         }
-        // if customer number is null but invoice number is not null then get the customer number based on the invoice number
+        if (StringUtils.isNotBlank(payAppForm.getEnteredInvoiceDocumentNumber())) {
+            Map<String,String> pkMap = new HashMap<String,String>();
+            boolean found = documentService.documentExists(payAppForm.getEnteredInvoiceDocumentNumber());
+            if (!found) {
+                addFieldError(KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB, 
+                        ArPropertyConstants.PaymentApplicationDocumentFields.ENTERED_INVOICE_NUMBER, 
+                        ArKeyConstants.PaymentApplicationDocumentErrors.ENTERED_INVOICE_NUMBER_INVALID);
+            }
+        }
+        
+        //  This handles the priority of the payapp selected customer number and the 
+        // ar doc header customer number.  The ar doc header customer number should always 
+        // reflect what customer number is entered on the form for invoices.  This code chunk 
+        // ensures that whatever the user enters always wins, but also tries to not load the form 
+        // with an empty customer number wherever possible.
+        if (StringUtils.isBlank(payAppForm.getSelectedCustomerNumber())) {
+            if (StringUtils.isBlank(arDocHeader.getCustomerNumber())) {
+                if (payAppDoc.hasCashControlDetail()) {
+                    payAppForm.setSelectedCustomerNumber(payAppDoc.getCashControlDetail().getCustomerNumber());
+                    arDocHeader.setCustomerNumber(payAppDoc.getCashControlDetail().getCustomerNumber());
+                }
+            }
+            else {
+                payAppForm.setSelectedCustomerNumber(arDocHeader.getCustomerNumber());
+            }
+        }
+        else {
+            arDocHeader.setCustomerNumber(payAppForm.getSelectedCustomerNumber());
+        }
+        String customerNumber = payAppForm.getSelectedCustomerNumber();
+        
+        // Invoice number entered, but no customer number entered 
         if (StringUtils.isBlank(customerNumber) && StringUtils.isNotBlank(currentInvoiceNumber)) {
             Customer customer = customerInvoiceDocumentService.getCustomerByInvoiceDocumentNumber(currentInvoiceNumber);
             customerNumber = customer.getCustomerNumber();
-            applicationDocument.getAccountsReceivableDocumentHeader().setCustomerNumber(customerNumber);
+            payAppDoc.getAccountsReceivableDocumentHeader().setCustomerNumber(customerNumber);
         }
 
-        // get open invoices for the current customer
-        if(ObjectUtils.isNull(applicationDocumentForm.getInvoices()) || applicationDocumentForm.getInvoices().isEmpty()) {
+        // Vivek
+        if (!payAppDoc.hasCashControlDocument()) {
+            payAppDoc.refreshNonApplieds(customerNumber);
+        }
+
+        // reload invoices for the selected customer number
+        if (StringUtils.isNotBlank(customerNumber)) {
             Collection<CustomerInvoiceDocument> openInvoicesForCustomer = customerInvoiceDocumentService.getOpenInvoiceDocumentsByCustomerNumber(customerNumber);
-            applicationDocumentForm.setInvoices(new ArrayList<CustomerInvoiceDocument>(openInvoicesForCustomer));
-            applicationDocumentForm.setupInvoiceWrappers(applicationDocument.getDocumentNumber());
+            payAppForm.setInvoices(new ArrayList<CustomerInvoiceDocument>(openInvoicesForCustomer));
+            payAppForm.setupInvoiceWrappers(payAppDoc.getDocumentNumber());
         }
 
         // if no invoice number entered than get the first invoice
         if (StringUtils.isNotBlank(customerNumber) && StringUtils.isBlank(currentInvoiceNumber)) {
-            if (applicationDocumentForm.getInvoices() != null && applicationDocumentForm.getInvoices().size() > 0) {
-                currentInvoiceNumber = applicationDocumentForm.getInvoices().iterator().next().getDocumentNumber();
+            if (payAppForm.getInvoices() == null || payAppForm.getInvoices().isEmpty()) {
+                currentInvoiceNumber = null;
+            }
+            else {
+                currentInvoiceNumber = payAppForm.getInvoices().get(0).getDocumentNumber();
             }
         }
         
-        // set the selected invoice to be the first one in the list
-        applicationDocumentForm.setSelectedInvoiceDocumentNumber(currentInvoiceNumber);
-        applicationDocumentForm.setEnteredInvoiceDocumentNumber(currentInvoiceNumber);
-
         // load information for the current selected invoice
         if (StringUtils.isNotBlank(currentInvoiceNumber)) {
-            applicationDocumentForm.setSelectedInvoiceDocumentNumber(currentInvoiceNumber);
+            payAppForm.setSelectedInvoiceDocumentNumber(currentInvoiceNumber);
+            payAppForm.setEnteredInvoiceDocumentNumber(currentInvoiceNumber);
         }
         
         //  make sure all paidApplieds are synched with the PaymentApplicationInvoiceApply and 
         // PaymentApplicationInvoiceDetailApply objects, so that the form reflects how it was left pre-save.  
         // This is only necessary when the doc is saved, and then re-opened, as the invoice-detail wrappers 
         // will no longer hold the state info.  I know this is a monstrosity.  Get over it.
-        for (InvoicePaidApplied paidApplied : applicationDocument.getInvoicePaidApplieds()) {
-            for (PaymentApplicationInvoiceApply invoiceApplication : applicationDocumentForm.getInvoiceApplications()) {
+        for (InvoicePaidApplied paidApplied : payAppDoc.getInvoicePaidApplieds()) {
+            for (PaymentApplicationInvoiceApply invoiceApplication : payAppForm.getInvoiceApplications()) {
                 if (paidApplied.getFinancialDocumentReferenceInvoiceNumber().equalsIgnoreCase(invoiceApplication.getDocumentNumber())) {
                     for (PaymentApplicationInvoiceDetailApply detailApplication : invoiceApplication.getDetailApplications()) {
                         if (paidApplied.getInvoiceItemNumber().equals(detailApplication.getSequenceNumber())) {
@@ -574,6 +616,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
     public ActionForward goToInvoice(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PaymentApplicationDocumentForm paymentApplicationDocumentForm = (PaymentApplicationDocumentForm) form;
         loadInvoices(paymentApplicationDocumentForm, paymentApplicationDocumentForm.getSelectedInvoiceDocumentNumber());
+        doApplicationOfFunds(paymentApplicationDocumentForm);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -590,6 +633,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
     public ActionForward goToNextInvoice(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PaymentApplicationDocumentForm paymentApplicationDocumentForm = (PaymentApplicationDocumentForm) form;
         loadInvoices(paymentApplicationDocumentForm, paymentApplicationDocumentForm.getNextInvoiceDocumentNumber());
+        doApplicationOfFunds(paymentApplicationDocumentForm);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -606,23 +650,25 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
     public ActionForward goToPreviousInvoice(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PaymentApplicationDocumentForm paymentApplicationDocumentForm = (PaymentApplicationDocumentForm) form;
         loadInvoices(paymentApplicationDocumentForm, paymentApplicationDocumentForm.getPreviousInvoiceDocumentNumber());
+        doApplicationOfFunds(paymentApplicationDocumentForm);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    /**
-     * Set the customer so we can pull up invoices for that customer.
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward setCustomer(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PaymentApplicationDocumentForm pform = (PaymentApplicationDocumentForm) form;
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
+    //TODO Andrew - I dont think this is used anymore
+//    /**
+//     * Set the customer so we can pull up invoices for that customer.
+//     * 
+//     * @param mapping
+//     * @param form
+//     * @param request
+//     * @param response
+//     * @return
+//     * @throws Exception
+//     */
+//    public ActionForward setCustomer(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+//        PaymentApplicationDocumentForm pform = (PaymentApplicationDocumentForm) form;
+//        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+//    }
 
     /**
      * Retrieve all invoices for the selected customer.
@@ -687,8 +733,10 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      * @param propertyName
      * @param errorKey
      */
-    private void addFieldError(String propertyName, String errorKey) {
+    private void addFieldError(String errorPathToAdd, String propertyName, String errorKey) {
+        GlobalVariables.getErrorMap().addToErrorPath(errorPathToAdd);
         GlobalVariables.getErrorMap().putError(propertyName, errorKey);
+        GlobalVariables.getErrorMap().removeFromErrorPath(errorPathToAdd);
     }
 
     /**

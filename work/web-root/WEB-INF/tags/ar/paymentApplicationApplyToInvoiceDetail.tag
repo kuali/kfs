@@ -41,11 +41,11 @@
 					<kul:htmlControlAttribute
 						readOnly="${readOnly}"
 						attributeEntry="${customerAttributes.customerNumber}"
-						property="document.accountsReceivableDocumentHeader.customerNumber" />
+						property="selectedCustomerNumber" />
 					<c:if test="${readOnly ne true}">
 						<kul:lookup
 							boClassName="org.kuali.kfs.module.ar.businessobject.Customer"
-							fieldConversions="customerNumber:document.accountsReceivableDocumentHeader.customerNumber" />
+							fieldConversions="customerNumber:selectedCustomerNumber;null:enteredInvoiceDocumentNumber" />
 					</c:if>
 				</td>
 			</tr>
@@ -74,7 +74,7 @@
 		</table>
 		<c:choose>
 			<c:when
-				test="${null == KualiForm.document.accountsReceivableDocumentHeader.customerNumber}">
+				test="${empty KualiForm.selectedCustomerNumber}">
 			</c:when>
 			<c:otherwise>
 				<table width="100%" cellpadding="0" cellspacing="0"
@@ -94,9 +94,11 @@
 													</html:option>
 												</c:forEach>
 											</html:select>
-											<logic:iterate id="invoiceApplication" name="KualiForm"
-												property="invoiceApplications" indexId="ctr">
-											</logic:iterate>
+											<c:if test="${!empty invoiceApplications}">
+												<logic:iterate id="invoiceApplication" name="KualiForm"
+													property="invoiceApplications" indexId="ctr">
+												</logic:iterate>
+											</c:if>
 											<html:image property="methodToCall.goToInvoice"
 												src="${ConfigProperties.externalizable.images.url}tinybutton-load.gif"
 												alt="Go To Invoice" title="Go To Invoice"
@@ -106,8 +108,7 @@
 								</tr>
 								<tr>
 									<th colspan='2' class='tab-subhead'>
-										<c:out
-											value="Invoice ${KualiForm.selectedInvoiceDocumentNumber}" />
+										<c:out value="Invoice ${KualiForm.selectedInvoiceDocumentNumber}" />
 										&nbsp;
 										<c:if test="${!empty KualiForm.previousInvoiceDocumentNumber}">
 											<html:image property="methodToCall.goToPreviousInvoice"
@@ -224,6 +225,7 @@
 																</th>
 															</c:if>
 														</tr>
+														<c:if test="${!empty KualiForm.selectedInvoiceDetailApplications}">
 														<logic:iterate id="invoiceDetailApplication" name="KualiForm"
 															property="selectedInvoiceDetailApplications" indexId="ctr">
 															<tr>
@@ -284,6 +286,7 @@
 																</c:if>
 															</tr>
 														</logic:iterate>
+														</c:if>
 													</table>
 												</td>
 											</tr>

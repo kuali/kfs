@@ -88,11 +88,11 @@
               		</tr>
               		<tr>
 	                	<th>Customer</th>
-                		<td><c:out value="${KualiForm.document.accountsReceivableDocumentHeader.customerNumber}" /></td>
+                		<td><c:out value="${KualiForm.document.cashControlDetail.customerNumber}" /></td>
               		</tr>
               		<tr>
                 		<th>Control Total</th>
-                		<td><c:out value="${KualiForm.document.documentHeader.financialDocumentTotalAmount}" /></td>
+                		<td><c:out value="${KualiForm.document.cashControlDetail.financialDocumentLineAmount}" /></td>
               		</tr>
               		<tr>
                 		<th>Open Amount</th>

@@ -49,6 +49,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
 
     private String selectedInvoiceDocumentNumber;
     private String enteredInvoiceDocumentNumber;
+    private String selectedCustomerNumber;
     private KualiDecimal unappliedCustomerAmount;
     //private KualiDecimal selectedInvoiceTotalAmount;
     //private KualiDecimal selectedInvoiceBalance;
@@ -187,12 +188,13 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         if (StringUtils.isBlank(payAppDocNumber)) {
             throw new IllegalArgumentException("The payAppDocNumber parameter passed in was null or blank.");
         }
+
+        //  clear any existing
+        invoiceApplications.clear();
+        
         if (invoices == null || invoices.isEmpty()) {
             return;
         }
-        
-        //  clear any existing
-        invoiceApplications.clear();
         
         for (CustomerInvoiceDocument invoice : invoices) {
             PaymentApplicationInvoiceApply invoiceApplication = new PaymentApplicationInvoiceApply(payAppDocNumber, invoice);
@@ -600,6 +602,14 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
             }
         }
         invoiceApplications.add(invoiceApplicationToAdd);
+    }
+
+    public String getSelectedCustomerNumber() {
+        return selectedCustomerNumber;
+    }
+
+    public void setSelectedCustomerNumber(String selectedCustomerNumber) {
+        this.selectedCustomerNumber = StringUtils.isBlank(selectedCustomerNumber) ? null : selectedCustomerNumber.toUpperCase();
     }
     
 }

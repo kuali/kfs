@@ -71,7 +71,7 @@
         <ref bean="VendorCreditMemoDocument-useTaxIndicator"/>
         <ref bean="VendorCreditMemoDocument-bankCode"/>
         <ref bean="VendorCreditMemoDocument-statusCodeForMultiboxSearching"/>
-        <ref bean="VendorCreditMemoDocument-extractedTimestampForSearching"/>
+        <ref bean="VendorCreditMemoDocument-extractedIndicatorForSearching"/>
         <ref bean="VendorCreditMemoDocument-holdIndicatorForSearching"/>
       </list>
     </property>
@@ -225,11 +225,11 @@
     <property name="shortLabel" value="Extract Date"/>
   </bean>
   
-  <bean id="VendorCreditMemoDocument-extractedTimestampForSearching" parent="VendorCreditMemoDocument-extractedTimestamp-parentBean">
-  	<property name="name" value="extractedTimestampForSearching"/>
+  <bean id="VendorCreditMemoDocument-extractedIndicatorForSearching" parent="VendorCreditMemoDocument-extractedTimestamp-parentBean">
+  	<property name="name" value="extractedIndicatorForSearching"/>
   	<property name="label" value="Extracted"/>
   	<property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurapYesNoValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.DocumentSearchBooleanValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
     
@@ -765,12 +765,12 @@
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument"/>
-    						<property name="attributeName" value="extractedTimestampForSearching"/>
+    						<property name="attributeName" value="extractedIndicatorForSearching"/>
     					</bean>
     				</property>
     				<property name="documentValues">
     					<list>
-    						<value>extractedTimestamp</value>
+    						<value>extractedIndicatorForSearching</value>
     					</list>
     				</property>
     			</bean>

@@ -158,6 +158,9 @@
         <ref bean="PurchaseOrderDocument-statusCodeForMultiboxSearching"/>
         <ref bean="PurchaseOrderDocument-deliveryCampusCodeForSearching"/>
         <ref bean="PurchaseOrderDocument-postingYearForSearching"/>
+        <ref bean="PurchaseOrderDocument-purchaseOrderCurrentIndicatorForSearching"/>
+        <ref bean="PurchaseOrderDocument-receivingDocumentRequiredIndicatorForSearching"/>
+        <ref bean="PurchaseOrderDocument-paymentRequestPositiveApprovalIndicatorForSearching"/>
       </list>
     </property>
     <property name="validationMap" ref="PurchaseOrderDocument-validations"/>
@@ -309,12 +312,32 @@
     <property name="label" value="Receiving Required"/>
     <property name="shortLabel" value="Receiving Required"/>
   </bean>
+  <bean id="PurchaseOrderDocument-receivingDocumentRequiredIndicatorForSearching" parent="PurchaseOrderDocument-receivingDocumentRequiredIndicatorForSearching-parentBean"/>
+
+  <bean id="PurchaseOrderDocument-receivingDocumentRequiredIndicatorForSearching-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+    <property name="name" value="receivingDocumentRequiredIndicatorForSearching"/>
+    <property name="label" value="Receiving Required"/>
+    <property name="shortLabel" value="Receiving Required"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.DocumentSearchBooleanValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+  </bean>
   <bean id="PurchaseOrderDocument-paymentRequestPositiveApprovalIndicator" parent="PurchaseOrderDocument-paymentRequestPositiveApprovalIndicator-parentBean"/>
 
   <bean id="PurchaseOrderDocument-paymentRequestPositiveApprovalIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="paymentRequestPositiveApprovalIndicator"/>
     <property name="label" value="Payment Request Positive Approval Required"/>
     <property name="shortLabel" value="Payment Request Positive Approval Required"/>
+  </bean>
+  <bean id="PurchaseOrderDocument-paymentRequestPositiveApprovalIndicatorForSearching" parent="PurchaseOrderDocument-paymentRequestPositiveApprovalIndicatorForSearching-parentBean"/>
+
+  <bean id="PurchaseOrderDocument-paymentRequestPositiveApprovalIndicatorForSearching-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+    <property name="name" value="paymentRequestPositiveApprovalIndicatorForSearching"/>
+    <property name="label" value="Payment Request Positive Approval Required"/>
+    <property name="shortLabel" value="Payment Request Positive Approval Required"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.DocumentSearchBooleanValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
   </bean>
   <bean id="PurchaseOrderDocument-contractManagerCode" parent="PurchaseOrderDocument-contractManagerCode-parentBean"/>
 
@@ -719,6 +742,16 @@
   <bean id="PurchaseOrderDocument-purchaseOrderCurrentIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
   	<property name="name" value="purchaseOrderCurrentIndicator"/>
     <property name="label" value="Return Current Documents Only"/>
+  </bean>
+  
+  <bean id="PurchaseOrderDocument-purchaseOrderCurrentIndicatorForSearching" parent="PurchaseOrderDocument-purchaseOrderCurrentIndicatorForSearching-parentBean"/>
+
+  <bean id="PurchaseOrderDocument-purchaseOrderCurrentIndicatorForSearching-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+  	<property name="name" value="purchaseOrderCurrentIndicatorForSearching"/>
+    <property name="label" value="Return Current Documents Only"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.DocumentSearchBooleanValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
   </bean>  
   
   <bean id="PurchaseOrderDocument-purchaseOrderBeginDate" parent="PurchaseOrderDocument-purchaseOrderBeginDate-parentBean"/>

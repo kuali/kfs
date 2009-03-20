@@ -1595,5 +1595,11 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         }
         return searchCriteria;
     }
-
+    
+    /**
+     * @return the purchase order current indicator
+     */
+    public boolean getPurchaseOrderCurrentIndicatorForSearching() {
+        return purchaseOrderCurrentIndicator;
+    }
 }

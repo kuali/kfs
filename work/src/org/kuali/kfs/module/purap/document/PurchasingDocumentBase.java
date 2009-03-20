@@ -1255,4 +1255,17 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         
     }
 
+    /**
+     * @return the payment request positive approval indicator
+     */
+    public boolean getPaymentRequestPositiveApprovalIndicatorForSearching() {
+        return paymentRequestPositiveApprovalIndicator;
+    }
+    
+    /**
+     * @return the receiving document required indicator
+     */
+    public boolean getReceivingDocumentRequiredIndicatorForSearching() {
+        return receivingDocumentRequiredIndicator;
+    }
 }

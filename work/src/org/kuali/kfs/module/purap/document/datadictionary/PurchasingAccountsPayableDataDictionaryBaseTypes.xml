@@ -481,12 +481,12 @@
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
-    						<property name="attributeName" value="purchaseOrderCurrentIndicator"/>
+    						<property name="attributeName" value="purchaseOrderCurrentIndicatorForSearching"/>
     					</bean>
     				</property>
     				<property name="documentValues">
     					<list>
-    						<value>purchaseOrderCurrentIndicator</value>
+    						<value>purchaseOrderCurrentIndicatorForSearching</value>
     					</list>
     				</property>
     			</bean>   			
@@ -494,12 +494,12 @@
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
-    						<property name="attributeName" value="receivingDocumentRequiredIndicator"/>
+    						<property name="attributeName" value="receivingDocumentRequiredIndicatorForSearching"/>
     					</bean>
     				</property>
     				<property name="documentValues">
     					<list>
-    						<value>receivingDocumentRequiredIndicator</value>
+    						<value>receivingDocumentRequiredIndicatorForSearching</value>
     					</list>
     				</property>
     			</bean>
@@ -507,12 +507,12 @@
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
-    						<property name="attributeName" value="paymentRequestPositiveApprovalIndicator"/>
+    						<property name="attributeName" value="paymentRequestPositiveApprovalIndicatorForSearching"/>
     					</bean>
     				</property>
     				<property name="documentValues">
     					<list>
-    						<value>paymentRequestPositiveApprovalIndicator</value>
+    						<value>paymentRequestPositiveApprovalIndicatorForSearching</value>
     					</list>
     				</property>
     			</bean>   			

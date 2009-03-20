@@ -76,10 +76,15 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
         if (notes == null) {
             notes = new TypedArrayList(Note.class);
             List<Note> tmpNotes = SpringContext.getBean(NoteService.class).getByRemoteObjectId(this.getObjectId());
-            for (Note note : tmpNotes) {
+
+            //FIXME if NoteService returns notes in descending order (newer ones first) then remove the following
+            // reverse the order of notes retrieved so that newest note is in the front
+            for (int i = tmpNotes.size()-1; i>=0; i--) {
+                Note note = tmpNotes.get(i);
                 notes.add(note);
             }
         }
+        
         return notes;
     }
 

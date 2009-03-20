@@ -141,7 +141,7 @@
         <property name="vendorService" ref="vendorService"/>
 	</bean>
 
-    <bean id="purapService" class="org.kuali.kfs.module.purap.document.service.PurapServiceImpl">
+    <bean id="purapService" class="org.kuali.kfs.module.purap.document.service.impl.PurapServiceImpl">
         <property name="businessObjectService" ref="businessObjectService"/>
         <property name="dataDictionaryService" ref="dataDictionaryService"/>
         <property name="dateTimeService" ref="dateTimeService"/>

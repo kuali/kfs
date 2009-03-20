@@ -34,17 +34,16 @@ import org.kuali.kfs.sys.context.SpringContext;
 public class PurApRelatedViews {
     private String documentNumber;
     private Integer accountsPayablePurchasingDocumentLinkIdentifier;
+    
     private transient List<RequisitionView> relatedRequisitionViews;
     private transient List<PurchaseOrderView> relatedPurchaseOrderViews;
     private transient List<PaymentRequestView> relatedPaymentRequestViews;
     private transient List<PaymentRequestView> paymentHistoryPaymentRequestViews;
     private transient List<CreditMemoView> relatedCreditMemoViews;
     private transient List<CreditMemoView> paymentHistoryCreditMemoViews;
-
     private transient List<LineItemReceivingView> relatedLineItemReceivingViews;
     private transient List<CorrectionReceivingView> relatedCorrectionReceivingViews;
-    private transient List<BulkReceivingView> relatedBulkReceivingViews;
-    
+    private transient List<BulkReceivingView> relatedBulkReceivingViews;    
     private transient List<PurchaseOrderViewGroup> groupedRelatedPurchaseOrderViews;
     
     public PurApRelatedViews(String documentNumber, Integer accountsPayablePurchasingDocumentLinkIdentifier) {
@@ -77,51 +76,56 @@ public class PurApRelatedViews {
     }
 
     /**
-     * Obtains from the database a list of PurchaseOrderViews in the standard order
-     * for such views and sorts them.  They are sorted by POID, and then by current
-     * indicator, with the current documents at the top.
+     * Obtains a list of related PurchaseOrderViews, first ordered by POIDs descending, then by document numbers descending;
+     * thus POs with newer POIDs will be in the front, and within the same POID, the current PO will be in the front. 
      * 
-     * @return  A sorted List<PurchaseOrderView>
+     * @return  A list of <PurchaseOrderView> with newer POs in the front.
      */
     public List<PurchaseOrderView> getRelatedPurchaseOrderViews() {
-        // Obtain a list which is sorted by workflow document ID.
+        // Obtain a list which is sorted by workflow document ID descending.
         relatedPurchaseOrderViews = updateRelatedView(PurchaseOrderView.class, relatedPurchaseOrderViews, true);
+        
         // Sort the list.
         Collections.sort(relatedPurchaseOrderViews, 
                 new Comparator<PurchaseOrderView>() {
-                    public int compare(PurchaseOrderView a, PurchaseOrderView b) {
-                        if ((a != null) && (b != null) && 
-                            (a.getPurapDocumentIdentifier() != null) &&
-                            (b.getPurapDocumentIdentifier() != null)) {
-                            // Sort on basis of POID...
-                            int poIdResult = a.getPurapDocumentIdentifier().compareTo(b.getPurapDocumentIdentifier());
-                            // unless POIDs are the same; then current PO should be on top.
-                            return ( (poIdResult != 0) ? poIdResult :
-                                (a.getPurchaseOrderCurrentIndicator() ? -1 :
-                                (b.getPurchaseOrderCurrentIndicator() ? 1 : 0)));
+                    public int compare(PurchaseOrderView v1, PurchaseOrderView v2) {
+                        if ((v1 != null) && (v2 != null) && 
+                            (v1.getPurapDocumentIdentifier() != null) &&
+                            (v2.getPurapDocumentIdentifier() != null)) {
+                            // sort by POID descending
+                            int compare = -v1.getPurapDocumentIdentifier().compareTo(v2.getPurapDocumentIdentifier());                            
+                            // if POIDs are the same, sort by document number descending; usually current PO has biggest documentNumber
+                            if (compare == 0) {
+                                compare = v1.getPurchaseOrderCurrentIndicator() ? -1 :
+                                    v2.getPurchaseOrderCurrentIndicator() ? 1 : 
+                                    -v1.getDocumentNumber().compareTo(v2.getDocumentNumber());
+                            }
+                            return compare;
                         }
                         return 0;
                     }
                 }
         );
-        return relatedPurchaseOrderViews;
+        
+        return relatedPurchaseOrderViews;        
     }
     
     /**
-     * Groups PurchaseOrderViews from relatedPurchaseOrderViews by PurchaseOrderIdentifier.  Assumes
-     * the sorting by POID and by current indicator accomplished by getRelatedPurchaseOrderViews.  
+     * Groups related PurchaseOrderViews by POIDs descending, and within each group order POs by document numbers descending;
+     * thus groups of newer POIDs will be in the front, and within each group, more current POs will be in the front. 
      * 
-     * This extra layer of grouping is necessary in order to display the notes for a group of related 
-     * POChange documents (which should be identical) after that group from within 
-     * relatedPurchaseOrderDocumentsDetail.tag, and before any other related groups which may result 
-     * from PO splitting, and have different PuchaseOrderIdentifiers.  With direct use 
-     * of relatedPurchaseOrderViews, location of the end of the group is problematic.
-     * 
-     * @return  A List<PurchaseOrderViewGroup>
+     * @return  A list of <PurchaseOrderViewGroup> with newer POs in the front.
      * @see org.kuali.kfs.module.purap.util.PurApRelatedViews.getRelatedPurchaseOrderViews
      * @see org.kuali.kfs.module.purap.businessobject.PurchaseOrderView
      */
     public List<PurchaseOrderViewGroup> getGroupedRelatedPurchaseOrderViews() {
+        /*
+         * This extra layer of grouping is necessary in order to display the notes for a group of 
+         * related POChange documents (which should have identical POID) after that group, 
+         * and before any other related groups which may result from PO splitting (with different POIDs).  
+         * With direct use of relatedPurchaseOrderViews, location of the end of the group is problematic.
+         */
+        
         groupedRelatedPurchaseOrderViews = new ArrayList<PurchaseOrderViewGroup>();
         PurchaseOrderViewGroup group = new PurchaseOrderViewGroup();
         int previousPOID = 0;
@@ -144,8 +148,8 @@ public class PurApRelatedViews {
                 groupedRelatedPurchaseOrderViews.add(group);
             }
         }
-        return groupedRelatedPurchaseOrderViews;
-    }
+        return groupedRelatedPurchaseOrderViews;    
+    }    
     
     /**
      * A container for a List<PurchaseOrderView>, to be used by a nested c:forEach tag

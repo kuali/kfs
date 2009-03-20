@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.purap.document.service;
+package org.kuali.kfs.module.purap.document.service.impl;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -56,6 +56,9 @@ import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.ParameterDao;
+import org.kuali.kfs.module.purap.document.service.LogicContainer;
+import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.TaxDetail;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -305,7 +308,9 @@ public class PurapServiceImpl implements PurapService {
 
         Map criteria = new HashMap();
         criteria.put("accountsPayablePurchasingDocumentLinkIdentifier", accountsPayablePurchasingDocumentLinkIdentifier);
-        List boList = (List) businessObjectService.findMatchingOrderBy(clazz, criteria, KFSPropertyConstants.DOCUMENT_NUMBER, true);
+        
+        // retrieve in descending order of document number so that newer documents are in the front
+        List boList = (List) businessObjectService.findMatchingOrderBy(clazz, criteria, KFSPropertyConstants.DOCUMENT_NUMBER, false);
         return boList;
     }
 

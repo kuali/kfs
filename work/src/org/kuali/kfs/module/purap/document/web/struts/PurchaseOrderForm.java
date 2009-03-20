@@ -469,7 +469,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     }
     
     /**
-     * Determines whether to display the amend and payment hold buttons for the purchase order document.
+     * Determines whether to display the payment hold buttons for the purchase order document.
      * Conditions: PO status must be open, must be current and not pending, and the user must be in purchasing group.
      * 
      * @return boolean true if the payment hold button can be displayed.

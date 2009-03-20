@@ -64,6 +64,7 @@ public class PurapPropertyConstants {
     // PURCHASING AND ACCOUNTS PAYABLE DOCUMENT BASE
     public static final String PURAP_DOC = "purapDocument";
     public static final String PURAP_DOC_ID = "purapDocumentIdentifier";
+    public static final String PURAP_LINK_ID = "accountsPayablePurchasingDocumentLinkIdentifier";
     public static final String PURAP_ITEM = "purapItem";
     public static final String OLD_STATUS = "oldStatus";
     public static final String NEW_STATUS = "newStatus";
@@ -110,6 +111,10 @@ public class PurapPropertyConstants {
     public static final String CAPITAL_ASSET_LOCATION_BUILDING = "buildingCode";
     public static final String CAPITAL_ASSET_LOCATION_ROOM = "buildingRoomNumber";
     
+    // Receiving Address
+    public static final String RCVNG_ADDR_DFLT_IND = "defaultIndicator";
+    public static final String RCVNG_ADDR_ACTIVE = "active";
+
     // AP DOCUMENT BASE
     public static final String PURCHASE_ORDER_IDENTIFIER = "purchaseOrderIdentifier";
 
@@ -125,8 +130,10 @@ public class PurapPropertyConstants {
     public static final String TOTAL_ENCUMBRANCE = "totalEncumbrance";
     public static final String VENDOR_CHOICE_CODE = "vendorChoiceCode";
     public static final String CONTRACT_MANAGER = "contractManager";
+
     // Quote Language
     public static final String PURCHASE_ORDER_QUOTE_LANGUAGE_ID = "purchaseOrderQuoteLanguageIdentifier";
+
     // vendor quote
     public static final String PURCHASE_ORDER_VENDOR_QUOTE_IDENTIFIER = "purchaseOrderVendorQuoteIdentifier";
     public static final String PURCHASE_ORDER_QUOTE_STATUS ="purchaseOrderQuoteStatus";
@@ -138,14 +145,14 @@ public class PurapPropertyConstants {
     public static final String PURCHASE_ORDER_QUOTE_VENDOR_NOTE_TEXT = "purchaseOrderQuoteVendorNoteText";
     public static final String NEW_PURCHASE_ORDER_VENDOR_QUOTE_VENDOR_NAME = "newPurchaseOrderVendorQuote.vendorName";
     public static final String NEW_PURCHASE_ORDER_VENDOR_QUOTE_VENDOR_LINE_1_ADDR = "newPurchaseOrderVendorQuote.vendorLine1Address";
-    public static final String NEW_PURCHASE_ORDER_VENDOR_QUOTE_VENDOR_CITY_NAME = "newPurchaseOrderVendorQuote.vendorCityName";
-    
+    public static final String NEW_PURCHASE_ORDER_VENDOR_QUOTE_VENDOR_CITY_NAME = "newPurchaseOrderVendorQuote.vendorCityName";    
+
     // Stipulations
     public static final String VENDOR_STIPULATION_DESCRIPTION = "vendorStipulationDescription";
-    // Receiving Address
-    public static final String RCVNG_ADDR_DFLT_IND = "defaultIndicator";
-    public static final String RCVNG_ADDR_ACTIVE = "active";
 
+    // Sensitive Data
+    public static final String SENSITIVE_DATA_CODE = "sensitiveDataCode";
+    
     // PAYMENT REQUEST DOCUMENT
     public static final String INVOICE_DATE = "invoiceDate";
     public static final String INVOICE_NUMBER = "invoiceNumber";
@@ -154,6 +161,7 @@ public class PurapPropertyConstants {
     public static final String GRAND_TOTAL = "grandTotal";
     public static final String PAYMENT_REQUEST = "paymentRequest";
     public static final String RECURRING_PAYMENT_TYPE = "recurringPaymentType";
+
     // tax tab fields
     public static final String TAX_CLASSIFICATION_CODE = "taxClassificationCode";
     public static final String TAX_COUNTRY_CODE = "taxCountryCode";
@@ -180,14 +188,11 @@ public class PurapPropertyConstants {
     public static final String SHIPMENT_PACKING_SLIP_NUMBER = "shipmentPackingSlipNumber";
     public static final String SHIPMENT_BILL_OF_LADING_NUMBER = "shipmentBillOfLadingNumber";
     
-    // Sensitive Data
-    public static final String SENSITIVE_DATA_CODE = "sensitiveDataCode";
-    
-    //Assign Contract Manager
+    //ASSIGN CONTRACT MANAGER DOCUMENT
     public static final String REQUISITION_IDENTIFIER = "requisitionIdentifier";
     public static final String VENDOR_NAME = "vendorName";
     
-    //Bulk Receiving
+    //BULK RECEIVING DOCUMENT
     public static final String VENDOR_DATE = "vendorName";
     
 }

@@ -320,7 +320,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
     protected void convertOrganizationOwnerAccountField() {
         for (Row r : super.getRows()) {
             for (Field f : r.getFields()) {
-                if (f.getPropertyName().equals("organizationOwnerAccount.organizationCode")) {
+                if (f.getPropertyName().equals(CamsPropertyConstants.Asset.ORGANIZATION_CODE)) {
                     f.setFieldConversions(fixProblematicField(f.getFieldConversions()));
                     f.setLookupParameters(fixProblematicField(f.getLookupParameters()));
                 }
@@ -335,6 +335,6 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
      */
     protected String fixProblematicField(String problemChildField) {
         if (StringUtils.isBlank(problemChildField)) return problemChildField;
-        return problemChildField.replace("organizationOwnerAccount.chartOfAccountsCode", "organizationOwnerChartOfAccountsCode");
+        return problemChildField.replace(CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNTS_COA_CODE, CamsPropertyConstants.Asset.ORGANIZATION_OWNER_CHART_OF_ACCOUNTS_CODE);
     }
 }

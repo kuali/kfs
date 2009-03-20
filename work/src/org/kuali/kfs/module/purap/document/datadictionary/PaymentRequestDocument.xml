@@ -275,7 +275,7 @@
   	<property name="name" value="extractedIndicatorForSearching"/>
   	<property name="label" value="Extracted"/>
   	<property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.DocumentSearchBooleanValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurapYesNoValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
  
@@ -552,7 +552,7 @@
   	<property name="label" value="Request Cancel"/>
   	<property name="maxLength" value="1"/>
   	<property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.DocumentSearchBooleanValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurapYesNoValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   

@@ -60,6 +60,7 @@ import org.kuali.rice.kns.web.ui.Row;
 public class DataDictionarySearchableAttribute implements SearchableAttribute {
 
     private static final Logger LOG = Logger.getLogger(DataDictionarySearchableAttribute.class);
+    public static final String DATA_TYPE_BOOLEAN = "boolean";
     
     /**
      * @see org.kuali.rice.kew.docsearch.SearchableAttribute#getSearchContent(org.kuali.rice.kew.docsearch.DocumentSearchContext)
@@ -176,7 +177,11 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
               }
               
               Field searchField = FieldUtils.getPropertyField(boClass, attributeName, false);
-              searchField.setFieldDataType(propertyResolutionService.determineFieldDataType(boClass, attributeName));
+              String fieldDataType = propertyResolutionService.determineFieldDataType(boClass, attributeName);
+              if (fieldDataType.equals(DataDictionarySearchableAttribute.DATA_TYPE_BOOLEAN)) {
+                  fieldDataType = SearchableAttribute.DATA_TYPE_STRING;
+              }
+              searchField.setFieldDataType(fieldDataType);
               List displayedFieldNames = new ArrayList();
               displayedFieldNames.add(attributeName);
               LookupUtils.setFieldQuickfinder(businessObject, attributeName, searchField, displayedFieldNames);

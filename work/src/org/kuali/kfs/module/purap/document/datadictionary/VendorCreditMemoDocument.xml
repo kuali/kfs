@@ -229,7 +229,7 @@
   	<property name="name" value="extractedIndicatorForSearching"/>
   	<property name="label" value="Extracted"/>
   	<property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.DocumentSearchBooleanValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
     

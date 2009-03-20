@@ -48,6 +48,7 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.attribute.DataDictionarySearchableAttribute;
 
 /**
  * The default implementation of the WorkflowAttributePropertyResolutionServiceImpl
@@ -258,9 +259,10 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
     public String determineFieldDataType(Class<? extends BusinessObject> businessObjectClass, String attributeName) {
         final Class attributeClass = thieveAttributeClassFromBusinessObjectClass(businessObjectClass, attributeName);
         if (isStringy(attributeClass)) return SearchableAttribute.DATA_TYPE_STRING; // our most common case should go first
-        if (isDecimally(attributeClass)) return SearchableAttribute.DATA_TYPE_FLOAT;
+        if (isDecimaltastic(attributeClass)) return SearchableAttribute.DATA_TYPE_FLOAT;
         if (isDateLike(attributeClass)) return SearchableAttribute.DATA_TYPE_DATE;
-        if (isIntable(attributeClass)) return SearchableAttribute.DATA_TYPE_LONG;
+        if (isIntsy(attributeClass)) return SearchableAttribute.DATA_TYPE_LONG;
+        if (isBooleanable(attributeClass)) return DataDictionarySearchableAttribute.DATA_TYPE_BOOLEAN;
         return SearchableAttribute.DATA_TYPE_STRING; // default to String
     }
 
@@ -274,9 +276,10 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
         if (value == null) return null;
         final String fieldDataType = determineFieldDataType(businessObjectClass, attributeKey);
         if (fieldDataType.equals(SearchableAttribute.DATA_TYPE_STRING)) return buildSearchableStringAttribute(attributeKey, value); // our most common case should go first
-        if (fieldDataType.equals(SearchableAttribute.DATA_TYPE_FLOAT) && isDecimally(value.getClass())) return buildSearchableRealAttribute(attributeKey, value);
+        if (fieldDataType.equals(SearchableAttribute.DATA_TYPE_FLOAT) && isDecimaltastic(value.getClass())) return buildSearchableRealAttribute(attributeKey, value);
         if (fieldDataType.equals(SearchableAttribute.DATA_TYPE_DATE) && isDateLike(value.getClass())) return buildSearchableDateTimeAttribute(attributeKey, value);
-        if (fieldDataType.equals(SearchableAttribute.DATA_TYPE_LONG) && isIntable(value.getClass())) return buildSearchableFixnumAttribute(attributeKey, value);
+        if (fieldDataType.equals(SearchableAttribute.DATA_TYPE_LONG) && isIntsy(value.getClass())) return buildSearchableFixnumAttribute(attributeKey, value);
+        if (fieldDataType.equals(DataDictionarySearchableAttribute.DATA_TYPE_BOOLEAN) && isBooleanable(value.getClass())) return buildSearchableYesNoAttribute(attributeKey, value);
         return buildSearchableStringAttribute(attributeKey, value);
     }
     
@@ -303,7 +306,7 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
      * @param value the class to determine of the type of
      * @return true if it is like a "float", false otherwise
      */
-    protected boolean isDecimally(Class clazz) {
+    protected boolean isDecimaltastic(Class clazz) {
         return java.lang.Double.class.isAssignableFrom(clazz) || java.lang.Float.class.isAssignableFrom(clazz) || clazz.equals(Double.TYPE) || clazz.equals(Float.TYPE) || java.math.BigDecimal.class.isAssignableFrom(clazz) || org.kuali.rice.kns.util.KualiDecimal.class.isAssignableFrom(clazz);
     }
     
@@ -312,8 +315,17 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
      * @param value the class to determine the type of
      * @return true if it is like a "long", false otherwise
      */
-    protected boolean isIntable(Class clazz) {
+    protected boolean isIntsy(Class clazz) {
         return java.lang.Integer.class.isAssignableFrom(clazz) || java.lang.Long.class.isAssignableFrom(clazz) || java.lang.Short.class.isAssignableFrom(clazz) || java.lang.Byte.class.isAssignableFrom(clazz) || java.math.BigInteger.class.isAssignableFrom(clazz) || clazz.equals(Integer.TYPE) || clazz.equals(Long.TYPE) || clazz.equals(Short.TYPE) || clazz.equals(Byte.TYPE);
+    }
+
+    /**
+     * Determines if the given class is enough like a boolean, to index it as a String "Y" or "N"
+     * @param value the class to determine the type of
+     * @return true if it is like a boolean, false otherwise
+     */
+    protected boolean isBooleanable(Class clazz) {
+        return java.lang.Boolean.class.isAssignableFrom(clazz) || clazz.equals(Boolean.TYPE);
     }
     
     /**
@@ -400,6 +412,31 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
         attribute.setSearchableAttributeKey(attributeKey);
         attribute.setSearchableAttributeValue(value.toString());
         return attribute;
+    }
+    
+    /**
+     * This builds a String SearchableAttributeValue for the given key and value, correctly correlating booleans
+     * @param attributeKey the key for the searchable attribute
+     * @param value the value that will be coerced to a String
+     * @return the generated SearchableAttributeStringValue
+     */
+    protected SearchableAttributeStringValue buildSearchableYesNoAttribute(String attributeKey, Object value) {
+        SearchableAttributeStringValue attribute = new SearchableAttributeStringValue();
+        attribute.setSearchableAttributeKey(attributeKey);
+        final String boolValueAsString = booleanValueAsString((Boolean)value);
+        attribute.setSearchableAttributeValue(boolValueAsString);
+        return attribute;
+    }
+    
+    /**
+     * Converts the given boolean value to "" for null, "Y" for true, "N" for false
+     * @param booleanValue the boolean value to convert
+     * @return the corresponding String "Y","N", or ""
+     */
+    private String booleanValueAsString(Boolean booleanValue) {
+        if (booleanValue == null) return "";
+        if (booleanValue.booleanValue()) return "Y";
+        return "N";
     }
 
     /**

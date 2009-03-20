@@ -102,7 +102,6 @@
           <activationType>P</activationType>
         </role>
         <requests name="PrintTransmission">
-          <qualifierResolverClass> org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver </qualifierResolverClass>
           <routeModule> org.kuali.kfs.module.purap.document.workflow.PrintRoleRouteModule </routeModule>
         </requests>
         <split name="RequiresContractManagementReview">

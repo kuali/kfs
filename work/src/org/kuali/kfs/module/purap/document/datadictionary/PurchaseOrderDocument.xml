@@ -319,7 +319,7 @@
     <property name="label" value="Receiving Required"/>
     <property name="shortLabel" value="Receiving Required"/>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.DocumentSearchBooleanValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   <bean id="PurchaseOrderDocument-paymentRequestPositiveApprovalIndicator" parent="PurchaseOrderDocument-paymentRequestPositiveApprovalIndicator-parentBean"/>
@@ -336,7 +336,7 @@
     <property name="label" value="Payment Request Positive Approval Required"/>
     <property name="shortLabel" value="Payment Request Positive Approval Required"/>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.DocumentSearchBooleanValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   <bean id="PurchaseOrderDocument-contractManagerCode" parent="PurchaseOrderDocument-contractManagerCode-parentBean"/>
@@ -750,7 +750,7 @@
   	<property name="name" value="purchaseOrderCurrentIndicatorForSearching"/>
     <property name="label" value="Return Current Documents Only"/>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.DocumentSearchBooleanValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>  
   

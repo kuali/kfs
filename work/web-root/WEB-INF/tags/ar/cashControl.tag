@@ -26,6 +26,8 @@
 	description="If document edit medium is in edit mode"%>
 <%@ attribute name="editRefDocNbr" required="true"
 	description="If document reference document number is in edit mode"%>
+<%@ attribute name="editBankCode" required="true"
+	description="If document bank code is in edit mode"%>
 
 <c:set var="arDocHeaderAttributes"
 	value="${DataDictionary.AccountsReceivableDocumentHeader.attributes}" />
@@ -62,7 +64,7 @@
 								forceRequired="true" />
 						</c:when>
 						<c:otherwise>
-							${KualiForm.document.bankCode}
+							<c:out value="${KualiForm.document.bankCode}" />
 						</c:otherwise>
 					</c:choose>
 				</td>
@@ -82,7 +84,7 @@
 								onchange="submitForm()" forceRequired="true" />
 						</c:when>
 						<c:otherwise>
-							${KualiForm.document.customerPaymentMedium.customerPaymentMediumDescription}
+							<c:out value="${KualiForm.document.customerPaymentMedium.customerPaymentMediumDescription}" />
 						</c:otherwise>
 					</c:choose>
 				</td>

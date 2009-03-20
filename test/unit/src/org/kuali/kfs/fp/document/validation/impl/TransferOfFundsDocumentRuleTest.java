@@ -443,7 +443,8 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
     }
 
     public void testProcessRouteDocument_Valid() throws Exception {
-        testRouteDocumentRule_processRouteDocument(createDocumentValidForRouting(), true);
+        TransferOfFundsDocument doc = createDocumentValidForRouting();
+        testRouteDocumentRule_processRouteDocument(doc, true);
     }
 
     public void testProcessRouteDocument_Invalid() throws Exception {
@@ -476,20 +477,22 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
         sourceLine.setChartOfAccountsCode("BL");
         sourceLine.setAccountNumber("1031400");
         sourceLine.setFinancialObjectCode("1663");
+        sourceLine.setPostingYear(2008);
         sourceLine.setAmount(balance);
         sourceLine.refresh();
         List<SourceAccountingLine> sourceLines = new ArrayList<SourceAccountingLine>();
         sourceLines.add(sourceLine);
-
+//
         TargetAccountingLine targetLine = new TargetAccountingLine();
         targetLine.setChartOfAccountsCode("BL");
         targetLine.setAccountNumber("1031400");
         targetLine.setFinancialObjectCode("5163");
+        targetLine.setPostingYear(2008);
         targetLine.setAmount(balance);
         targetLine.refresh();
         List<TargetAccountingLine> targetLines = new ArrayList<TargetAccountingLine>();
         targetLines.add(targetLine);
-
+//
         doc.setSourceAccountingLines(sourceLines);
         doc.setTargetAccountingLines(targetLines);
 

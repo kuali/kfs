@@ -252,7 +252,7 @@
 	                    <kul:htmlControlAttribute 
 	                    	attributeEntry="${documentAttributes.vendorPaymentTermsCode}" property="document.vendorPaymentTermsCode" 
 	                    	extraReadOnlyProperty="${extraPrefix}.vendorPaymentTerms.vendorPaymentTermsDescription"
-	                    	readOnly="${not (fullEntryMode or amendmentEntry) or displayRequisitionFields}" tabindexOverride="${tabindexOverrideBase + 4}"/>
+	                    	readOnly="${not (fullEntryMode or amendmentEntry) or displayRequisitionFields}" tabindexOverride="${tabindexOverrideBase + 6}"/>
 	                </td>
 				</c:if>	
 				<c:if test="${displayCreditMemoFields}">
@@ -273,23 +273,13 @@
                 <c:if test="${not displayCreditMemoFields}">
 	                <th align=right valign=middle class="bord-l-b">
 	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorShippingTitleCode}" /></div>
-	                </th>
-	                <c:if test="${not displayPaymentRequestFields}">
-		                <td align=left valign=middle class="datacell">
-		                    <kul:htmlControlAttribute 
-		                    	attributeEntry="${documentAttributes.vendorShippingTitleCode}" property="document.vendorShippingTitleCode" 
-		                    	extraReadOnlyProperty="${extraPrefixShippingTitle}.vendorShippingTitle.vendorShippingTitleDescription"
-		                    	readOnly="${not (fullEntryMode or amendmentEntry) or not displayPurchaseOrderFields}" tabindexOverride="${tabindexOverrideBase + 4}"/>
-		                </td>
-		            </c:if>
-		            <c:if test="${displayPaymentRequestFields}">
-		                <td align=left valign=middle class="datacell">
-		                    <kul:htmlControlAttribute 
-		                    	attributeEntry="${documentAttributes.vendorShippingTitleCode}" property="document.vendorShippingTitleCode" 
-		                    	extraReadOnlyProperty="${extraPrefixShippingTitle}.vendorShippingTitle.vendorShippingTitleDescription"
-		                    	readOnly="${not (fullEntryMode or amendmentEntry) or not displayPurchaseOrderFields}" tabindexOverride="${tabindexOverrideBase + 6}"/>
-		                </td>		            	
-		            </c:if>
+	                </th>	             
+	                <td align=left valign=middle class="datacell">
+	                    <kul:htmlControlAttribute 
+	                    	attributeEntry="${documentAttributes.vendorShippingTitleCode}" property="document.vendorShippingTitleCode" 
+	                    	extraReadOnlyProperty="${extraPrefixShippingTitle}.vendorShippingTitle.vendorShippingTitleDescription"
+	                    	readOnly="${not (fullEntryMode or amendmentEntry) or not displayPurchaseOrderFields}" tabindexOverride="${tabindexOverrideBase + 6}"/>
+	                </td>		            			            
                 </c:if>
                 <c:if test="${displayCreditMemoFields}">
                     <th align=right valign=middle class="bord-l-b">&nbsp;</th>
@@ -301,29 +291,21 @@
                 <!-- left column populated by note row span for PUR docs-->
                 <c:if test="${displayPaymentRequestFields or displayCreditMemoFields}">
                     <td align=left valign=middle class="datacell">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.noteLine3Text}" property="document.noteLine3Text" readOnly="${not (fullEntryMode or amendmentEntry or editPreExtract)}" />
+                        <kul:htmlControlAttribute 
+                        	attributeEntry="${documentAttributes.noteLine3Text}" property="document.noteLine3Text" 
+                        	readOnly="${not (fullEntryMode or amendmentEntry or editPreExtract)}" tabindexOverride="${tabindexOverrideBase + 4}"/>
                     </td>
                 </c:if> 
                 <c:if test="${not displayCreditMemoFields}">                                                
 	                <th align=right valign=middle class="bord-l-b">
 	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorShippingPaymentTermsCode}" /></div>
 	                </th>
-	                <c:if test="${not displayPaymentRequestFields}">
-		                <td align=left valign=middle class="datacell">
-		                    <kul:htmlControlAttribute 
-		                    	attributeEntry="${documentAttributes.vendorShippingPaymentTermsCode}" property="document.vendorShippingPaymentTermsCode" 
-								extraReadOnlyProperty="${extraPrefix}.vendorShippingPaymentTerms.vendorShippingPaymentTermsDescription"
-		                    	readOnly="${not (fullEntryMode or amendmentEntry) or not displayPurchaseOrderFields}" tabindexOverride="${tabindexOverrideBase + 4}"/>
-		                </td>
-		            </c:if>
-		            <c:if test="${displayPaymentRequestFields}">
-		                <td align=left valign=middle class="datacell">
-		                    <kul:htmlControlAttribute 
-		                    	attributeEntry="${documentAttributes.vendorShippingPaymentTermsCode}" property="document.vendorShippingPaymentTermsCode" 
-								extraReadOnlyProperty="${extraPrefix}.vendorShippingPaymentTerms.vendorShippingPaymentTermsDescription"
-		                    	readOnly="${not (fullEntryMode or amendmentEntry) or not displayPurchaseOrderFields}" tabindexOverride="${tabindexOverrideBase + 6}"/>
-		                </td>		            
-		            </c:if>
+		            <td align=left valign=middle class="datacell">
+		               <kul:htmlControlAttribute 
+		               		attributeEntry="${documentAttributes.vendorShippingPaymentTermsCode}" property="document.vendorShippingPaymentTermsCode" 
+							extraReadOnlyProperty="${extraPrefix}.vendorShippingPaymentTerms.vendorShippingPaymentTermsDescription"
+		                    readOnly="${not (fullEntryMode or amendmentEntry) or not displayPurchaseOrderFields}" tabindexOverride="${tabindexOverrideBase + 6}"/>
+		            </td>
 				</c:if>
 				<c:if test="${displayCreditMemoFields}">
                     <th align=right valign=middle class="bord-l-b">&nbsp;</th>

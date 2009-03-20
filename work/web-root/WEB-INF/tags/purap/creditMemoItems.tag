@@ -40,6 +40,7 @@
 <c:if test="${KualiForm.document.creditMemoType eq 'PREQ'}" >
   <c:set var="usePO" value="false" />
 </c:if>
+<c:set var="tabindexOverrideBase" value="50" />
 
 <c:if test="${KualiForm.countOfAboveTheLine>=1}">
 	<tr>
@@ -185,7 +186,8 @@
 			          <kul:htmlControlAttribute
 				          attributeEntry="${itemAttributes.itemQuantity}"
 				          property="document.item[${ctr}].itemQuantity"
-				          readOnly="${not (fullEntryMode)}" styleClass="amount" />
+				          readOnly="${not (fullEntryMode)}" styleClass="amount" 
+				          tabindexOverride="${tabindexOverrideBase + 0}"/>
 				     </div>     
 				   </c:if>
 		    	   <c:if test="${!itemLine.itemType.quantityBasedGeneralLedgerIndicator}" >
@@ -199,7 +201,8 @@
 	                    <kul:htmlControlAttribute
 	                        attributeEntry="${itemAttributes.itemUnitPrice}"
 	                        property="document.item[${ctr}].itemUnitPrice"
-	                        readOnly="${not (fullEntryMode)}" styleClass="amount" />
+	                        readOnly="${not (fullEntryMode)}" styleClass="amount" 
+	                        tabindexOverride="${tabindexOverrideBase + 0}"/>
                      </div>     
                    </c:if>
                    <c:if test="${!itemLine.itemType.quantityBasedGeneralLedgerIndicator}" >
@@ -211,7 +214,8 @@
 			        <kul:htmlControlAttribute
 				        attributeEntry="${itemAttributes.extendedPrice}"
 				        property="document.item[${ctr}].extendedPrice"
-				        readOnly="${not (fullEntryMode)}" styleClass="amount" />
+				        readOnly="${not (fullEntryMode)}" styleClass="amount" 
+				        tabindexOverride="${tabindexOverrideBase + 0}"/>
 			    </div>
 			</td>
 
@@ -221,7 +225,8 @@
 			        <kul:htmlControlAttribute
 				        attributeEntry="${itemAttributes.itemTaxAmount}"
 				        property="document.item[${ctr}].itemTaxAmount"
-				        readOnly="${lockTaxAmountEntry}" styleClass="amount" />
+				        readOnly="${lockTaxAmountEntry}" styleClass="amount" 
+				        tabindexOverride="${tabindexOverrideBase + 0}"/>
 			    </div>
 			</td>			
 			<td class="infoline">
@@ -229,7 +234,7 @@
 			        <kul:htmlControlAttribute
 				        attributeEntry="${itemAttributes.totalAmount}"
 				        property="document.item[${ctr}].totalAmount"
-				        readOnly="true" styleClass="amount" />
+				        readOnly="true" styleClass="amount"/>
 			    </div>
 			</td>
 			</c:if>

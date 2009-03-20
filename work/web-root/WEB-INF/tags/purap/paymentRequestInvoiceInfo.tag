@@ -24,6 +24,7 @@
 <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] && (empty KualiForm.editingMode['restrictFiscalEntry'])}" />
 <c:set var="purchaseOrderAttributes" value="${DataDictionary.PurchaseOrderDocument.attributes}" />
 <c:set var="editPreExtract"	value="${(not empty KualiForm.editingMode['editPreExtract'])}" />
+<c:set var="tabindexOverrideBase" value="40" />
 
 <kul:tab tabTitle="Invoice Info" defaultOpen="true" tabErrorKey="document.paymentRequestPayDate">
     <div class="tab-container" align=center>
@@ -36,14 +37,17 @@
                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.invoiceNumber}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.invoiceNumber}" property="document.invoiceNumber" readOnly="${not displayInitTab}" />
+                   <kul:htmlControlAttribute 
+                   		attributeEntry="${documentAttributes.invoiceNumber}" property="document.invoiceNumber" 
+                   		readOnly="${not displayInitTab}" tabindexOverride="${tabindexOverrideBase + 0}"/>
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderIdentifier}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderIdentifier}" property="document.purchaseOrderIdentifier"
-                   		readOnly="${not displayInitTab}" />
+                   <kul:htmlControlAttribute 
+                   		attributeEntry="${documentAttributes.purchaseOrderIdentifier}" property="document.purchaseOrderIdentifier"
+                   		readOnly="${not displayInitTab}" tabindexOverride="${tabindexOverrideBase + 3}"/>
                 </td>
             </tr>
             
@@ -52,8 +56,12 @@
                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.paymentRequestPayDate}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentRequestPayDate}" property="document.paymentRequestPayDate" datePicker="true" readOnly="${not (fullEntryMode or editPreExtract)}" />
-                   &nbsp; &nbsp;<kul:htmlControlAttribute attributeEntry="${documentAttributes.immediatePaymentIndicator}" property="document.immediatePaymentIndicator" readOnly="${not (fullEntryMode or editPreExtract)}" />
+                   <kul:htmlControlAttribute 
+                   		attributeEntry="${documentAttributes.paymentRequestPayDate}" property="document.paymentRequestPayDate" datePicker="true" 
+                   		readOnly="${not (fullEntryMode or editPreExtract)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
+                   &nbsp; &nbsp;<kul:htmlControlAttribute 
+                   					attributeEntry="${documentAttributes.immediatePaymentIndicator}" property="document.immediatePaymentIndicator" 
+                   					readOnly="${not (fullEntryMode or editPreExtract)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
                    (Immediate Pay)
                 </td>
                 <th align=right valign=middle class="bord-l-b">
@@ -70,7 +78,9 @@
                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.invoiceDate}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.invoiceDate}" property="document.invoiceDate" datePicker="true" readOnly="${not displayInitTab}" />
+                   <kul:htmlControlAttribute 
+                   		attributeEntry="${documentAttributes.invoiceDate}" property="document.invoiceDate" datePicker="true" 
+                   		readOnly="${not displayInitTab}" tabindexOverride="${tabindexOverrideBase + 0}"/>
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                    <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.paymentRequestCostSourceCode}" readOnly="${not displayInitTab}" /></div>
@@ -106,7 +116,9 @@
                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.paymentAttachmentIndicator}"  readOnly="${not (fullEntryMode or editPreExtract)}"/></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentAttachmentIndicator}" property="document.paymentAttachmentIndicator"  readOnly="${not (fullEntryMode or editPreExtract)}"/>
+                   <kul:htmlControlAttribute 
+                   		attributeEntry="${documentAttributes.paymentAttachmentIndicator}" property="document.paymentAttachmentIndicator"  
+                   		readOnly="${not (fullEntryMode or editPreExtract)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                 	<c:choose>
@@ -146,7 +158,9 @@
                         <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.accountsPayableApprovalTimestamp}" /></div>
                     </th>
                     <td align=left valign=middle class="datacell">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.accountsPayableApprovalTimestamp}" property="document.accountsPayableApprovalTimestamp" readOnly="${not displayInitTab}" />
+                        <kul:htmlControlAttribute 
+                        	attributeEntry="${documentAttributes.accountsPayableApprovalTimestamp}" property="document.accountsPayableApprovalTimestamp" 
+                        	readOnly="${not displayInitTab}" tabindexOverride="${tabindexOverrideBase + 3}"/>
                     </td>
                 
             </tr>

@@ -17,6 +17,7 @@
 
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for this row's fields." %>
+<c:set var="tabindexOverrideBase" value="20" />
               
 <kul:tabTop tabTitle="Credit Memo Initiation" defaultOpen="true" tabErrorKey="*">
 
@@ -29,13 +30,17 @@
                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.creditMemoNumber}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.creditMemoNumber}" property="document.creditMemoNumber" />
+                   <kul:htmlControlAttribute 
+                   		attributeEntry="${documentAttributes.creditMemoNumber}" property="document.creditMemoNumber" 
+                   		tabindexOverride="${tabindexOverrideBase + 0}"/>
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                    <div align="right">**<kul:htmlAttributeLabel attributeEntry="${documentAttributes.paymentRequestIdentifier}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentRequestIdentifier}" property="document.paymentRequestIdentifier" />
+                   <kul:htmlControlAttribute 
+                   		attributeEntry="${documentAttributes.paymentRequestIdentifier}" property="document.paymentRequestIdentifier" 
+                   		tabindexOverride="${tabindexOverrideBase + 5}"/>
                 </td>
             </tr>
             
@@ -44,13 +49,17 @@
                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.creditMemoDate}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.creditMemoDate}" property="document.creditMemoDate" datePicker="true" />
+                   <kul:htmlControlAttribute 
+                   		attributeEntry="${documentAttributes.creditMemoDate}" property="document.creditMemoDate" datePicker="true" 
+                   		tabindexOverride="${tabindexOverrideBase + 0}"/>
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                    <div align="right">**<kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderIdentifier}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderIdentifier}" property="document.purchaseOrderIdentifier"  />
+                   <kul:htmlControlAttribute 
+                   		attributeEntry="${documentAttributes.purchaseOrderIdentifier}" property="document.purchaseOrderIdentifier"  
+                   		tabindexOverride="${tabindexOverrideBase + 5}"/>
                 </td>
             </tr>    
             
@@ -59,13 +68,17 @@
                    <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.creditMemoAmount}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.creditMemoAmount}" property="document.creditMemoAmount"  />
+                   <kul:htmlControlAttribute 
+                   		attributeEntry="${documentAttributes.creditMemoAmount}" property="document.creditMemoAmount" 
+                   		tabindexOverride="${tabindexOverrideBase + 0}"/>
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                    <div align="right">**<kul:htmlAttributeLabel  attributeEntry="${documentAttributes.vendorNumber}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorNumber}" property="document.vendorNumber"  />
+                   <kul:htmlControlAttribute 
+                   		attributeEntry="${documentAttributes.vendorNumber}" property="document.vendorNumber"
+                   		tabindexOverride="${tabindexOverrideBase + 5}"/>
                 </td>
             </tr>
 		</table> 

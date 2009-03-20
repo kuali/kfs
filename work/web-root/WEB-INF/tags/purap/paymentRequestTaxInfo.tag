@@ -16,8 +16,8 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map"
-              description="The DataDictionary entry containing attributes for this row's fields." %>              
-
+              description="The DataDictionary entry containing attributes for this row's fields." %> 
+<c:set var="tabindexOverrideBase" value="45" />
 
 <kul:tab tabTitle="Tax Information" defaultOpen="true" tabErrorKey="${PurapConstants.PAYMENT_REQUEST_TAX_TAB_ERRORS}">
     <div class="tab-container" align=center>
@@ -35,13 +35,17 @@
                 	<div align="right"><kul:htmlAttributeLabel forceRequired = "true" attributeEntry="${documentAttributes.taxClassificationCode}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                	<kul:htmlControlAttribute attributeEntry="${documentAttributes.taxClassificationCode}" property="document.taxClassificationCode" readOnly="${not taxAreaEditable}" />
+                	<kul:htmlControlAttribute 
+                		attributeEntry="${documentAttributes.taxClassificationCode}" property="document.taxClassificationCode" 
+                		readOnly="${not taxAreaEditable}" tabindexOverride="${tabindexOverrideBase + 0}"/>
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                 	<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.taxForeignSourceIndicator}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                	<kul:htmlControlAttribute attributeEntry="${documentAttributes.taxForeignSourceIndicator}" property="document.taxForeignSourceIndicator" readOnly="${not taxAreaEditable}" />
+                	<kul:htmlControlAttribute 
+                		attributeEntry="${documentAttributes.taxForeignSourceIndicator}" property="document.taxForeignSourceIndicator" 
+                		readOnly="${not taxAreaEditable}" tabindexOverride="${tabindexOverrideBase + 3}"/>
                 </td>
             </tr>
             
@@ -50,7 +54,9 @@
                 	<div align="right"><kul:htmlAttributeLabel forceRequired = "true" attributeEntry="${documentAttributes.taxFederalPercent}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                	<kul:htmlControlAttribute attributeEntry="${documentAttributes.taxFederalPercent}" property="document.taxFederalPercent" readOnly="${not taxAreaEditable}" />
+                	<kul:htmlControlAttribute 
+                		attributeEntry="${documentAttributes.taxFederalPercent}" property="document.taxFederalPercent" 
+                		readOnly="${not taxAreaEditable}" tabindexOverride="${tabindexOverrideBase + 0}"/>
 					&nbsp;                
                     <c:if test="${taxAreaEditable}">
                    		<kul:lookup boClassName="org.kuali.kfs.fp.businessobject.NonResidentAlienTaxPercent"
@@ -62,7 +68,9 @@
                 	<div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.taxExemptTreatyIndicator}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                	<kul:htmlControlAttribute attributeEntry="${documentAttributes.taxExemptTreatyIndicator}" property="document.taxExemptTreatyIndicator" readOnly="${not taxAreaEditable}" />
+                	<kul:htmlControlAttribute 
+                		attributeEntry="${documentAttributes.taxExemptTreatyIndicator}" property="document.taxExemptTreatyIndicator" 
+                		readOnly="${not taxAreaEditable}" tabindexOverride="${tabindexOverrideBase + 3}"/>
                 </td>
             </tr>
                         
@@ -71,7 +79,9 @@
                 	<div align="right"><kul:htmlAttributeLabel forceRequired = "true" attributeEntry="${documentAttributes.taxStatePercent}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                	<kul:htmlControlAttribute attributeEntry="${documentAttributes.taxStatePercent}" property="document.taxStatePercent" readOnly="${not taxAreaEditable}" />
+                	<kul:htmlControlAttribute 
+                		attributeEntry="${documentAttributes.taxStatePercent}" property="document.taxStatePercent" 
+                		readOnly="${not taxAreaEditable}" tabindexOverride="${tabindexOverrideBase + 0}"/>
 					&nbsp;                
                     <c:if test="${taxAreaEditable}">
                    		<kul:lookup boClassName="org.kuali.kfs.fp.businessobject.NonResidentAlienTaxPercent"
@@ -83,7 +93,9 @@
                 	<div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.taxOtherExemptIndicator}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                	<kul:htmlControlAttribute attributeEntry="${documentAttributes.taxOtherExemptIndicator}" property="document.taxOtherExemptIndicator" readOnly="${not taxAreaEditable}" />
+                	<kul:htmlControlAttribute 
+                		attributeEntry="${documentAttributes.taxOtherExemptIndicator}" property="document.taxOtherExemptIndicator" 
+                		readOnly="${not taxAreaEditable}" tabindexOverride="${tabindexOverrideBase + 3}"/>
                 </td>
             </tr>
 
@@ -92,13 +104,17 @@
                 	<div align="right"><kul:htmlAttributeLabel forceRequired = "true" attributeEntry="${documentAttributes.taxCountryCode}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                	<kul:htmlControlAttribute attributeEntry="${documentAttributes.taxCountryCode}" property="document.taxCountryCode" readOnly="${not taxAreaEditable}" />
+                	<kul:htmlControlAttribute 
+                		attributeEntry="${documentAttributes.taxCountryCode}" property="document.taxCountryCode" 
+                		readOnly="${not taxAreaEditable}" tabindexOverride="${tabindexOverrideBase + 0}"/>
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                 	<div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.taxGrossUpIndicator}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                	<kul:htmlControlAttribute attributeEntry="${documentAttributes.taxGrossUpIndicator}" property="document.taxGrossUpIndicator" readOnly="${not taxAreaEditable}" />
+                	<kul:htmlControlAttribute 
+                		attributeEntry="${documentAttributes.taxGrossUpIndicator}" property="document.taxGrossUpIndicator" 
+                		readOnly="${not taxAreaEditable}" tabindexOverride="${tabindexOverrideBase + 3}"/>
                 </td>
             </tr>
 
@@ -107,13 +123,17 @@
                 	<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.taxNQIId}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                	<kul:htmlControlAttribute attributeEntry="${documentAttributes.taxNQIId}" property="document.taxNQIId" readOnly="${not taxAreaEditable}" />
+                	<kul:htmlControlAttribute 
+                		attributeEntry="${documentAttributes.taxNQIId}" property="document.taxNQIId" 
+                		readOnly="${not taxAreaEditable}" tabindexOverride="${tabindexOverrideBase + 0}"/>
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                 	<div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.taxUSAIDPerDiemIndicator}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                	<kul:htmlControlAttribute attributeEntry="${documentAttributes.taxUSAIDPerDiemIndicator}" property="document.taxUSAIDPerDiemIndicator" readOnly="${not taxAreaEditable}" />
+                	<kul:htmlControlAttribute 
+                		attributeEntry="${documentAttributes.taxUSAIDPerDiemIndicator}" property="document.taxUSAIDPerDiemIndicator" 
+                		readOnly="${not taxAreaEditable}" tabindexOverride="${tabindexOverrideBase + 3}"/>
                 </td>
             </tr>
 
@@ -128,7 +148,9 @@
                 	<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.taxSpecialW4Amount}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                	<kul:htmlControlAttribute attributeEntry="${documentAttributes.taxSpecialW4Amount}" property="document.taxSpecialW4Amount" readOnly="${not taxAreaEditable}" />
+                	<kul:htmlControlAttribute 
+                		attributeEntry="${documentAttributes.taxSpecialW4Amount}" property="document.taxSpecialW4Amount" 
+                		readOnly="${not taxAreaEditable}" tabindexOverride="${tabindexOverrideBase + 3}"/>
                 </td>
             </tr>
 

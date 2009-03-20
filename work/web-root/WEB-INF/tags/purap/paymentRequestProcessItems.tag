@@ -21,6 +21,7 @@
 <%@ attribute name="isCreditMemo" required="false" description="Indicates whether the tag is being used in the context of a credit memo document." %>
 
 <c:set var="purapTaxEnabled" value="${(not empty KualiForm.editingMode['purapTaxEnabled'])}" />
+<c:set var="tabindexOverrideBase" value="50" />
 
 <kul:tab tabTitle="Process Items" defaultOpen="true" tabErrorKey="${PurapConstants.ITEM_TAB_ERRORS}">
 	<div class="tab-container" align=center>
@@ -205,7 +206,7 @@
 	              	<kul:htmlControlAttribute
 					    attributeEntry="${documentAttributes.closePurchaseOrderIndicator}"
 					    property="document.closePurchaseOrderIndicator"
-					    readOnly="false" />
+					    readOnly="false" tabindexOverride="${tabindexOverrideBase + 0}" />
 					    <kul:htmlAttributeLabel attributeEntry="${documentAttributes.closePurchaseOrderIndicator}" skipHelpUrl="true" noColon="true" />
 	              </c:if>
 	              <c:if test="${not empty KualiForm.document.recurringPaymentTypeCode and KualiForm.fullDocumentEntryCompleted == false}">
@@ -217,7 +218,7 @@
 	                <kul:htmlControlAttribute
 					    attributeEntry="${documentAttributes.reopenPurchaseOrderIndicator}"
 					    property="document.reopenPurchaseOrderIndicator"
-					    readOnly="false" />
+					    readOnly="false" tabindexOverride="${tabindexOverrideBase + 0}"/>
 					    <kul:htmlAttributeLabel attributeEntry="${documentAttributes.reopenPurchaseOrderIndicator}" skipHelpUrl="true" noColon="true" />
 	              </c:if>
 	              <c:if test="${not empty KualiForm.document.paymentRequestDocument.recurringPaymentTypeCode and KualiForm.fullDocumentEntryCompleted == false}">

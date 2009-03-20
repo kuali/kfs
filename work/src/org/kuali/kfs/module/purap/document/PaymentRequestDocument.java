@@ -536,6 +536,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             this.setVendorLine1Address(po.getVendorLine1Address());
             this.setVendorLine2Address(po.getVendorLine2Address());
             this.setVendorCityName(po.getVendorCityName());
+            this.setVendorAddressInternationalProvinceName(po.getVendorAddressInternationalProvinceName());
             this.setVendorStateCode(po.getVendorStateCode());
             this.setVendorPostalCode(po.getVendorPostalCode());
             this.setVendorCountryCode(po.getVendorCountryCode());

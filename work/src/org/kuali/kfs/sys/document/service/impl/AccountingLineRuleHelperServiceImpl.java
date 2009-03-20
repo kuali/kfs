@@ -435,7 +435,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
             valid &= isValidReferenceOriginCode(referenceOrigin, accountingLineEntry);
         }
         if (StringUtils.isNotBlank(accountingLine.getReferenceTypeCode())) {
-            accountingLine.refreshReferenceObject("referenceFinancialSystemDocumentTypeCode");
+//            accountingLine.refreshReferenceObject("referenceFinancialSystemDocumentTypeCode");
             DocumentTypeEBO referenceType = accountingLine.getReferenceFinancialSystemDocumentTypeCode();
             valid &= isValidReferenceTypeCode(referenceType, accountingLineEntry);
         }

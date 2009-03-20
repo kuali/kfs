@@ -29,6 +29,8 @@ import org.kuali.kfs.sys.businessobject.TaxRegion;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.kfs.sys.suite.RelatesTo;
+import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -145,6 +147,7 @@ public class PurapServiceTest extends KualiTestBase {
         
     }
     
+    @RelatesTo(JiraIssue.KULPURAP3649)
     public void testSalesTaxWithCommodityCodeNull()throws Exception{
         
         TaxRegion taxRegionPostalCode = TaxFixture.TaxRegionFixture.TAX_REGION_NO_USE_TAX.createTaxRegion(new TaxFixture.TaxRegionRateFixture[] { TaxFixture.TaxRegionRateFixture.TAX_REGION_RATE_05 }, new TaxFixture.TaxRegionPostalCodeFixture[] { TaxFixture.TaxRegionPostalCodeFixture.PO_46202 }, null);

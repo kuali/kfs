@@ -24,6 +24,8 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
+import org.kuali.kfs.sys.suite.RelatesTo;
+import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Document;
@@ -53,6 +55,7 @@ public class BulkReceivingDocumentTest extends KualiTestBase {
         assertTrue("Document should now be final.", doc.getDocumentHeader().getWorkflowDocument().stateIsFinal());
     }
     
+    @RelatesTo(JiraIssue.KULPURAP3647)
     @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public final void testRouteDocumentWithPO() 
     throws Exception {

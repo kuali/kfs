@@ -149,6 +149,7 @@ public class PurapConstants extends JSTLConstants {
     }
 
     public static final String REQ_B2B_ALLOW_COPY_DAYS = "5";
+    public static final String B2B_VENDOR_CONTRACT_NOT_FOUND_ERROR_MESSAGE = "The vendor whose shopping cart you are attempting to return does not have an active contract for your organization.";
 
     public static class RequisitionSources {
         public static final String STANDARD_ORDER = "STAN";

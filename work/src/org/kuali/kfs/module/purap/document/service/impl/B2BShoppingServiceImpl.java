@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.B2BInformation;
@@ -158,7 +159,7 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
             }
             else {
                 LOG.error("createRequisitionsFromCxml() Contract is missing for vendor " + vendor.getVendorName() + " (" + vendor.getVendorNumber() + ")");
-                throw new B2BShoppingException("Contract is missing for vendor " + vendor.getVendorName() + " (" + vendor.getVendorNumber() + ")");
+                throw new B2BShoppingException(PurapConstants.B2B_VENDOR_CONTRACT_NOT_FOUND_ERROR_MESSAGE);
             }
 
             // get items for this vendor
@@ -247,6 +248,10 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
         Set vendorNumbers = new HashSet();
         for (Iterator iter = items.iterator(); iter.hasNext();) {
             B2BShoppingCartItem item = (B2BShoppingCartItem) iter.next();
+            String externalSupplierId = item.getExtrinsic("ExternalSupplierId");
+            if (StringUtils.isBlank(externalSupplierId)){
+                throw new B2BShoppingException(PurapConstants.B2B_VENDOR_CONTRACT_NOT_FOUND_ERROR_MESSAGE);
+            }
             vendorNumbers.add(item.getExtrinsic("ExternalSupplierId"));
         }
 
@@ -254,6 +259,7 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
         for (Iterator iter = vendorNumbers.iterator(); iter.hasNext();) {
             String vendorNumber = (String) iter.next();
             VendorDetail vd = vendorService.getVendorDetail(vendorNumber);
+            
             if (ObjectUtils.isNotNull(vd)) {
                 vendors.add(vd);
             }

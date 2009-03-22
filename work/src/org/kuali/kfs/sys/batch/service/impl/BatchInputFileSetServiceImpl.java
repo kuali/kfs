@@ -68,7 +68,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
         if (!isFileUserIdentifierProperlyFormatted(fileUserIdentifier)) {
             throw new IllegalArgumentException("The file set identifier is not properly formatted: " + fileUserIdentifier);
         }
-        return inputType.getDirectoryPath(fileType) + File.separator + inputType.getFileName(fileType, user.getPrincipalId(), fileUserIdentifier);
+        return inputType.getDirectoryPath(fileType) + File.separator + inputType.getFileName(fileType, user.getPrincipalName(), fileUserIdentifier);
     }
 
     /**
@@ -84,7 +84,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
         if (!isFileUserIdentifierProperlyFormatted(fileUserIdentifier)) {
             throw new IllegalArgumentException("The file set identifier is not properly formatted: " + fileUserIdentifier);
         }
-        return getTempDirectoryName() + File.separator + inputType.getFileName(fileType, user.getPrincipalId(), fileUserIdentifier);
+        return getTempDirectoryName() + File.separator + inputType.getFileName(fileType, user.getPrincipalName(), fileUserIdentifier);
     }
     /**
      * Generates the file name of the done file, if supported by the underlying input type

@@ -28,6 +28,7 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 
@@ -58,7 +59,7 @@ public class BudgetDocumentRuleTest extends KualiTestBase {
 
         budgetDocumentRule.isPeriodValid(period1, "period 1", new Integer(1), true);
 
-        Map errorMap = GlobalVariables.getErrorMap();
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
         assertTrue(errorMap.isEmpty());
 
         BudgetPeriod period2 = new BudgetPeriod();
@@ -78,7 +79,7 @@ public class BudgetDocumentRuleTest extends KualiTestBase {
 
         budgetDocumentRule.isPeriodValid(period1, "period 1", new Integer(1), true);
 
-        Map errorMap = GlobalVariables.getErrorMap();
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
         assertTrue(errorMap.isEmpty());
 
         BudgetPeriod period2 = new BudgetPeriod();
@@ -107,7 +108,7 @@ public class BudgetDocumentRuleTest extends KualiTestBase {
 
         budgetDocumentRule.isPeriodValid(period1, "period 1", new Integer(1), true);
 
-        Map errorMap = GlobalVariables.getErrorMap();
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
         assertTrue(errorMap.size() == 1);
     }
 
@@ -118,7 +119,7 @@ public class BudgetDocumentRuleTest extends KualiTestBase {
 
         budgetDocumentRule.isPeriodValid(period1, "period 1", new Integer(1), true);
 
-        Map errorMap = GlobalVariables.getErrorMap();
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
         assertTrue(errorMap.size() == 1);
     }
 
@@ -153,7 +154,7 @@ public class BudgetDocumentRuleTest extends KualiTestBase {
 
         budgetDocumentRule.isPeriodListValid(periodList, false, true);
 
-        Map errorMap = GlobalVariables.getErrorMap();
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
         assertTrue(errorMap.isEmpty());
     }
 
@@ -193,21 +194,21 @@ public class BudgetDocumentRuleTest extends KualiTestBase {
 
         budgetDocumentRule.isPeriodListValid(periodList, false, true);
 
-        Map errorMap = GlobalVariables.getErrorMap();
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
         assertTrue("should be 4, was " + errorMap.size(), errorMap.size() == 4);
     }
 
     public void testValidTaskList() throws Exception {
         budgetDocumentRule.isTaskListValid(buildTaskList(new Integer(MINIMUM_NUMBER_OF_TASKS).intValue()));
-        Map errorMap1 = GlobalVariables.getErrorMap();
+        ErrorMap errorMap1 = GlobalVariables.getErrorMap();
         assertTrue(errorMap1.isEmpty());
 
         budgetDocumentRule.isTaskListValid(buildTaskList(new Integer(MINIMUM_NUMBER_OF_TASKS).intValue()));
-        Map errorMap2 = GlobalVariables.getErrorMap();
+        ErrorMap errorMap2 = GlobalVariables.getErrorMap();
         assertTrue(errorMap2.isEmpty());
 
         budgetDocumentRule.isTaskListValid(buildTaskList(new Integer(MINIMUM_NUMBER_OF_TASKS).intValue()));
-        Map errorMap3 = GlobalVariables.getErrorMap();
+        ErrorMap errorMap3 = GlobalVariables.getErrorMap();
         assertTrue(errorMap3.isEmpty());
     }
 
@@ -218,15 +219,15 @@ public class BudgetDocumentRuleTest extends KualiTestBase {
      */
     public void testNotEnoughTasks() throws Exception {
         budgetDocumentRule.isTaskListValid(buildTaskList(new Integer(MINIMUM_NUMBER_OF_TASKS).intValue() - 1));
-        Map errorMap1 = GlobalVariables.getErrorMap();
+        ErrorMap errorMap1 = GlobalVariables.getErrorMap();
         assertTrue(errorMap1.size() == 1);
 
         budgetDocumentRule.isTaskListValid(buildTaskList(new Integer(MINIMUM_NUMBER_OF_TASKS).intValue() - 1));
-        Map errorMap2 = GlobalVariables.getErrorMap();
+        ErrorMap errorMap2 = GlobalVariables.getErrorMap();
         assertTrue(errorMap2.size() == 1);
 
         budgetDocumentRule.isTaskListValid(buildTaskList(new Integer(MINIMUM_NUMBER_OF_TASKS).intValue() - 1));
-        Map errorMap3 = GlobalVariables.getErrorMap();
+        ErrorMap errorMap3 = GlobalVariables.getErrorMap();
         assertTrue(errorMap3.size() == 1);
     }
 
@@ -235,15 +236,15 @@ public class BudgetDocumentRuleTest extends KualiTestBase {
      */
     public void testTooManyTasks() throws Exception {
         budgetDocumentRule.isTaskListValid(buildTaskList(new Integer(MAXIMUM_NUMBER_OF_TASKS) + 1));
-        Map errorMap1 = GlobalVariables.getErrorMap();
+        ErrorMap errorMap1 = GlobalVariables.getErrorMap();
         assertTrue(errorMap1.size() == 1);
 
         budgetDocumentRule.isTaskListValid(buildTaskList(new Integer(MAXIMUM_NUMBER_OF_TASKS) + 1));
-        Map errorMap2 = GlobalVariables.getErrorMap();
+        ErrorMap errorMap2 = GlobalVariables.getErrorMap();
         assertTrue(errorMap2.size() == 1);
 
         budgetDocumentRule.isTaskListValid(buildTaskList(new Integer(MAXIMUM_NUMBER_OF_TASKS) + 1));
-        Map errorMap3 = GlobalVariables.getErrorMap();
+        ErrorMap errorMap3 = GlobalVariables.getErrorMap();
         assertTrue(errorMap3.size() == 1);
     }
 

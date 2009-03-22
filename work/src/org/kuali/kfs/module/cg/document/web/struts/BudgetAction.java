@@ -47,6 +47,7 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
@@ -397,7 +398,7 @@ public class BudgetAction extends ResearchDocumentActionBase {
      * @param map
      * @return boolean
      */
-    protected static boolean allowsNavigate(Map map) {
+    protected static boolean allowsNavigate(ErrorMap map) {
         int counter = 0;
         if (map.containsKey("document.budget.modular.tooLarge")) {
             counter += 1;

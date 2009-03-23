@@ -36,6 +36,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.MemoryMonitor;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
+import org.kuali.rice.core.database.XAPoolDataSource;
 import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.resourceloader.RiceResourceLoaderFactory;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -74,7 +75,7 @@ public class SpringContext {
      * NOT the service implementation. 1. there is only one bean of the specified type in our spring context 2. there is only one
      * bean of the specified type in our spring context, but you want the one whose bean id is the same as type.getSimpleName() with
      * the exception of the first letter being lower case in the former and upper case in the latter, For example, there are two
-     * beans of type DateTimeService in our context – dateTimeService and testDateTimeService. To retrieve the former, you should
+     * beans of type DateTimeService in our context ï¿½ dateTimeService and testDateTimeService. To retrieve the former, you should
      * specific DateTimeService.class as the type. To retrieve the latter, you should specify ConfigurableDateService.class as the
      * type. Unless you are writing a unit test and need to down cast to an implementation, you do not need to cast the result of
      * this method.
@@ -322,6 +323,12 @@ public class SpringContext {
                                     logStatement.append("\t\t" + stackTraceElement).append( '\n' );
                                 }
                                 logStatement.append('\n');
+                            }
+                            Object ds = getBean("dataSource");
+                            if ( ds != null && ds instanceof XAPoolDataSource ) {
+                                logStatement.append( "-----------------------------------------------\n" );
+                                logStatement.append( "Datasource Information:\n" );
+                                logStatement.append( ((XAPoolDataSource)ds).getDataSource().toString() ).append( '\n' );
                             }
                             w.write(logStatement.toString());
                             w.close();

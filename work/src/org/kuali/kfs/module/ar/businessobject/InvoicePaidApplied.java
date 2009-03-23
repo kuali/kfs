@@ -1,6 +1,8 @@
 package org.kuali.kfs.module.ar.businessobject;
 
+import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
@@ -8,6 +10,8 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.kfs.module.ar.businessobject.NonAppliedDistribution;
+import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -34,7 +38,9 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 	private FinancialSystemDocumentHeader documentHeader;
 	transient private DocumentService documentService;
     //Vivek
-    private KualiDecimal remainingAmountForDistribution = KualiDecimal.ZERO;
+    private KualiDecimal paidAppiedDistributionAmount = KualiDecimal.ZERO;
+    private Collection<NonInvoicedDistribution> nonInvoicedDistributions;
+    private Collection<NonAppliedDistribution> nonAppliedDistributions;
 
 	/**
 	 * Default constructor.
@@ -336,24 +342,56 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 
     /**
      * Vivek
-     * Get the remainingAmountForDistribution attribute.
+     * Get the paidAppiedDistributionAmount attribute.
      * 
-     * @return Returns the remainingAmountForDistribution
+     * @return Returns the paidAppiedDistributionAmount
      * 
      */
-    public KualiDecimal getRemainingAmountForDistribution() { 
-        return remainingAmountForDistribution;
+    public KualiDecimal getPaidAppiedDistributionAmount() { 
+        return paidAppiedDistributionAmount;
     }
 
     /**
      * Vivek
-     * Set the remainingAmountForDistribution attribute.
+     * Set the paidAppiedDistributionAmount attribute.
      * 
-     * @param remainingAmountForDistribution The remainingAmountForDistribution to set.
+     * @param paidAppiedDistributionAmount The paidAppiedDistributionAmount to set.
      * 
      */
-    public void setRemainingAmountForDistribution(KualiDecimal remainingAmountForDistribution) {
-        this.remainingAmountForDistribution = remainingAmountForDistribution;
+    public void setPaidAppiedDistributionAmount(KualiDecimal paidAppiedDistributionAmount) {
+        this.paidAppiedDistributionAmount = paidAppiedDistributionAmount;
+    }
+
+    /**
+     * Gets the nonInvoicedDistributions attribute. 
+     * @return Returns the nonInvoicedDistributions.
+     */
+    public Collection<NonInvoicedDistribution> getNonInvoicedDistributions() {
+        return nonInvoicedDistributions;
+    }
+
+    /**
+     * Sets the nonInvoicedDistributions attribute value.
+     * @param nonInvoicedDistributions The nonInvoicedDistributions to set.
+     */
+    public void setNonInvoicedDistributions(Collection<NonInvoicedDistribution> nonInvoicedDistributions) {
+        this.nonInvoicedDistributions = nonInvoicedDistributions;
+    }
+
+    /**
+     * Gets the nonAppliedDistributions attribute. 
+     * @return Returns the nonAppliedDistributions.
+     */
+    public Collection<NonAppliedDistribution> getNonAppliedDistributions() {
+        return nonAppliedDistributions;
+    }
+
+    /**
+     * Sets the nonAppliedDistributions attribute value.
+     * @param nonAppliedDistributions The nonAppliedDistributions to set.
+     */
+    public void setNonAppliedDistributions(List<NonAppliedDistribution> nonAppliedDistributions) {
+        this.nonAppliedDistributions = nonAppliedDistributions;
     }
 
 }

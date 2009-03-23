@@ -38,7 +38,7 @@ public class NonInvoiced extends PersistableBusinessObjectBase {
 	private Account account;
 	private ProjectCode project;
     //Vivek
-    private KualiDecimal remainingAmountForDistribution = KualiDecimal.ZERO;
+    private KualiDecimal nonInvoicedDistributionAmount = KualiDecimal.ZERO;
 
 
     List<NonInvoicedDistribution> nonInvoicedDistributions;
@@ -448,13 +448,13 @@ public class NonInvoiced extends PersistableBusinessObjectBase {
 
     /**
      * Vivek
-     * Gets the remainingAmountForDistribution attribute.
+     * Gets the nonInvoicedDistributionAmount attribute.
      * 
-     * @return Returns the remainingAmountForDistribution
+     * @return Returns the nonInvoicedDistributionAmount
      * 
      */
-    public KualiDecimal getRemainingAmountForDistribution() { 
-        return remainingAmountForDistribution;
+    public KualiDecimal getNonInvoicedDistributionAmount() { 
+        return nonInvoicedDistributionAmount;
     }
 
     /**
@@ -464,8 +464,8 @@ public class NonInvoiced extends PersistableBusinessObjectBase {
      * @param remainingAmountForDistribution The remainingAmountForDistribution to set.
      * 
      */
-    public void setRemainingAmountForDistribution(KualiDecimal remainingAmountForDistribution) {
-        this.remainingAmountForDistribution = remainingAmountForDistribution;
+    public void setNonInvoicedDistributionAmount(KualiDecimal nonInvoicedDistributionAmount) {
+        this.nonInvoicedDistributionAmount = nonInvoicedDistributionAmount;
     }
 
 }

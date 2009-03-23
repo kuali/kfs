@@ -1,6 +1,7 @@
 package org.kuali.kfs.module.ar.businessobject;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -18,11 +19,11 @@ public class NonAppliedHolding extends PersistableBusinessObjectBase {
 
 	private Customer customer;
 
-    private List<NonAppliedDistribution> nonAppliedDistributions;
-    
     // Vivek
     private KualiDecimal availableUnappliedAmount = KualiDecimal.ZERO;
     private KualiDecimal appliedUnappliedAmount = KualiDecimal.ZERO;
+    private Collection<NonInvoicedDistribution> nonInvoicedDistributions;
+    private Collection<NonAppliedDistribution> nonAppliedDistributions;
 
 	/**
 	 * Default constructor.
@@ -114,11 +115,27 @@ public class NonAppliedHolding extends PersistableBusinessObjectBase {
 		this.customer = customer;
 	}
     
+    /**
+     * Gets the nonInvoicedDistributions attribute. 
+     * @return Returns the nonInvoicedDistributions.
+     */
+    public Collection<NonInvoicedDistribution> getNonInvoicedDistributions() {
+        return nonInvoicedDistributions;
+    }
+
+    /**
+     * Sets the nonInvoicedDistributions attribute value.
+     * @param nonInvoicedDistributions The nonInvoicedDistributions to set.
+     */
+    public void setNonInvoicedDistributions(Collection<NonInvoicedDistribution> nonInvoicedDistributions) {
+        this.nonInvoicedDistributions = nonInvoicedDistributions;
+    }
+
 	/**
      * Gets the nonAppliedDistributions attribute. 
      * @return Returns the nonAppliedDistributions.
      */
-    public List<NonAppliedDistribution> getNonAppliedDistributions() {
+    public Collection<NonAppliedDistribution> getNonAppliedDistributions() {
         return nonAppliedDistributions;
     }
 

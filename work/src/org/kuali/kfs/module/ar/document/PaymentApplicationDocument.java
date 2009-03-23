@@ -835,6 +835,9 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         fields.put("referenceFinancialDocumentNumber", documentNumber);
         boService.deleteMatching(NonAppliedHolding.class, fields);
         
+        // Vivek - create nonApplied and nonInvoiced Distributions
+        createDistributions();
+
         //  generate GLPEs only when routing or blanket approving
         if (event instanceof RouteDocumentEvent || event instanceof BlanketApproveDocumentEvent) {
             GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class); 
@@ -928,6 +931,12 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
         }
         this.setNonApplieds(new ArrayList<NonAppliedHolding>(nonAppliedHoldingsForCustomer));
+        for(NonAppliedHolding nonApplied : this.getNonApplieds()) {
+            if (nonApplied.getAvailableUnappliedAmount().isZero()) {
+                nonAppliedHoldingsForCustomer.remove(nonApplied);
+            }
+        }
+        this.setNonApplieds(new ArrayList<NonAppliedHolding>(nonAppliedHoldingsForCustomer));
 
 
         /**
@@ -959,60 +968,73 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     //TODO Vivek - still working on this piece
     public void createDistributions() {
     
+        Collection<InvoicePaidApplied> invoicePaidAppliedsForCurrentDoc = this.getInvoicePaidApplieds();
+
         for(NonAppliedHolding nonAppliedHoldings : this.getNonApplieds()) {
             
             //check if payment has been applied to Invoices
             //create Unapplied Distribution for each PaidApplied
-            KualiDecimal remainingUnappliedForDistribution = nonAppliedHoldings.getAppliedUnappliedAmount();
-            Collection<InvoicePaidApplied> invoicePaidAppliedsForCurrentDoc = this.getInvoicePaidApplieds();
+            KualiDecimal remainingUnappliedForDistribution = nonAppliedHoldings.getAvailableUnappliedAmount();
             for(InvoicePaidApplied invoicePaidAppliedForCurrentDoc : invoicePaidAppliedsForCurrentDoc) {
-                if (remainingUnappliedForDistribution.isPositive()) {
-                    KualiDecimal remainingPaidAppliedAmount = invoicePaidAppliedForCurrentDoc.getRemainingAmountForDistribution();
+                KualiDecimal paidAppliedDistributionAmount = invoicePaidAppliedForCurrentDoc.getPaidAppiedDistributionAmount();
+                KualiDecimal remainingPaidAppliedForDistribution = invoicePaidAppliedForCurrentDoc.getInvoiceItemAppliedAmount().subtract(paidAppliedDistributionAmount);
+                if (remainingPaidAppliedForDistribution.equals(KualiDecimal.ZERO) ||
+                    remainingUnappliedForDistribution.equals(KualiDecimal.ZERO)) {
+                    continue;
+                }
+                
+//                if (remainingUnappliedForDistribution.isGreaterThan(KualiDecimal.ZERO)) {
                     
                     //set NonAppliedDistributions for the current document
                     NonAppliedDistribution nonAppliedDistribution = new NonAppliedDistribution();
                     nonAppliedDistribution.setDocumentNumber(invoicePaidAppliedForCurrentDoc.getDocumentNumber());
                     nonAppliedDistribution.setPaidAppliedItemNumber(invoicePaidAppliedForCurrentDoc.getPaidAppliedItemNumber());
-                    nonAppliedDistribution.setReferenceFinancialDocumentNumber(documentNumber);
-                    if (remainingPaidAppliedAmount.isLessEqual(remainingUnappliedForDistribution)) {
-                        nonAppliedDistribution.setFinancialDocumentLineAmount(remainingPaidAppliedAmount);
-                        remainingPaidAppliedAmount = remainingPaidAppliedAmount.subtract(remainingPaidAppliedAmount);
-                        invoicePaidAppliedForCurrentDoc.setRemainingAmountForDistribution(remainingPaidAppliedAmount);
-                        remainingUnappliedForDistribution = remainingUnappliedForDistribution.subtract(remainingPaidAppliedAmount);
+                    nonAppliedDistribution.setReferenceFinancialDocumentNumber(nonAppliedHoldings.getReferenceFinancialDocumentNumber());
+                    if (remainingPaidAppliedForDistribution.isLessEqual(remainingUnappliedForDistribution)) {
+                        nonAppliedDistribution.setFinancialDocumentLineAmount(remainingPaidAppliedForDistribution);
+                        remainingUnappliedForDistribution = remainingUnappliedForDistribution.subtract(remainingPaidAppliedForDistribution);
+                        invoicePaidAppliedForCurrentDoc.setPaidAppiedDistributionAmount(paidAppliedDistributionAmount.add(remainingPaidAppliedForDistribution));
+//                        this.nonAppliedDistributions.add(nonAppliedDistribution);
                     }
                     else {
                         nonAppliedDistribution.setFinancialDocumentLineAmount(remainingUnappliedForDistribution);
-                        remainingUnappliedForDistribution = remainingUnappliedForDistribution.subtract(remainingUnappliedForDistribution);
-                        invoicePaidAppliedForCurrentDoc.setRemainingAmountForDistribution(remainingUnappliedForDistribution);
+                        invoicePaidAppliedForCurrentDoc.setPaidAppiedDistributionAmount(paidAppliedDistributionAmount.add(remainingUnappliedForDistribution));
+                        remainingUnappliedForDistribution = KualiDecimal.ZERO;
+//                        this.nonAppliedDistributions.add(nonAppliedDistribution);
+//                        continue;
                     }
-                }
+                    this.nonAppliedDistributions.add(nonAppliedDistribution);
+//                }
             }
 
-        
             //check if payment has been applied to NonAR
             //create NonAR distribution for each NonAR Applied row
             Collection<NonInvoiced> nonInvoicedsForCurrentDoc = this.getNonInvoiceds();
             for(NonInvoiced nonInvoicedForCurrentDoc : nonInvoicedsForCurrentDoc) {
-                if (remainingUnappliedForDistribution.isPositive()) {
-                    KualiDecimal remainingNonInvoicedAmount = nonInvoicedForCurrentDoc.getRemainingAmountForDistribution();
-                    
-                    //set NonAppliedDistributions for the current document
-                    NonInvoicedDistribution nonInvoicedDistribution = new NonInvoicedDistribution();
-                    nonInvoicedDistribution.setDocumentNumber(nonInvoicedForCurrentDoc.getDocumentNumber());
-                    nonInvoicedDistribution.setFinancialDocumentLineNumber(nonInvoicedForCurrentDoc.getFinancialDocumentLineNumber());
-                    nonInvoicedDistribution.setReferenceFinancialDocumentNumber(documentNumber);
-                    if (remainingNonInvoicedAmount.isLessEqual(remainingUnappliedForDistribution)) {
-                        nonInvoicedDistribution.setFinancialDocumentLineAmount(remainingNonInvoicedAmount);
-                        remainingNonInvoicedAmount = remainingNonInvoicedAmount.subtract(remainingNonInvoicedAmount);
-                        nonInvoicedForCurrentDoc.setRemainingAmountForDistribution(remainingNonInvoicedAmount);
-                        remainingUnappliedForDistribution = remainingUnappliedForDistribution.subtract(remainingNonInvoicedAmount);
-                    }
-                    else {
-                        nonInvoicedDistribution.setFinancialDocumentLineAmount(remainingUnappliedForDistribution);
-                        remainingUnappliedForDistribution = remainingUnappliedForDistribution.subtract(remainingUnappliedForDistribution);
-                        nonInvoicedForCurrentDoc.setRemainingAmountForDistribution(remainingUnappliedForDistribution);
-                    }
+                KualiDecimal nonInvoicedDistributionAmount = nonInvoicedForCurrentDoc.getNonInvoicedDistributionAmount();
+                KualiDecimal remainingNonInvoicedForDistribution = nonInvoicedForCurrentDoc.getFinancialDocumentLineAmount().subtract(nonInvoicedDistributionAmount);
+                if (remainingNonInvoicedForDistribution.equals(KualiDecimal.ZERO) ||
+                    remainingUnappliedForDistribution.equals(KualiDecimal.ZERO)) {
+                    continue;
                 }
+                
+                //set NonAppliedDistributions for the current document
+                NonInvoicedDistribution nonInvoicedDistribution = new NonInvoicedDistribution();
+                nonInvoicedDistribution.setDocumentNumber(nonInvoicedForCurrentDoc.getDocumentNumber());
+                nonInvoicedDistribution.setFinancialDocumentLineNumber(nonInvoicedForCurrentDoc.getFinancialDocumentLineNumber());
+                nonInvoicedDistribution.setReferenceFinancialDocumentNumber(nonAppliedHoldings.getReferenceFinancialDocumentNumber());
+                if (remainingNonInvoicedForDistribution.isLessEqual(remainingUnappliedForDistribution)) {
+                    nonInvoicedDistribution.setFinancialDocumentLineAmount(remainingNonInvoicedForDistribution);
+                    remainingUnappliedForDistribution = remainingUnappliedForDistribution.subtract(remainingNonInvoicedForDistribution);
+                    remainingNonInvoicedForDistribution = remainingNonInvoicedForDistribution.subtract(remainingNonInvoicedForDistribution);
+                    nonInvoicedForCurrentDoc.setNonInvoicedDistributionAmount(nonInvoicedDistributionAmount.add(remainingNonInvoicedForDistribution));
+                }
+                else {
+                    nonInvoicedDistribution.setFinancialDocumentLineAmount(remainingUnappliedForDistribution);
+                    nonInvoicedForCurrentDoc.setNonInvoicedDistributionAmount(nonInvoicedDistributionAmount.add(remainingUnappliedForDistribution));
+                    remainingUnappliedForDistribution = KualiDecimal.ZERO;
+                }
+                this.nonInvoicedDistributions.add(nonInvoicedDistribution);
             }
         }
     }

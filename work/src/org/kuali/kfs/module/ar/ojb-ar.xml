@@ -154,6 +154,11 @@
         <orderby name="paidAppliedItemNumber" sort="ASC" />
         <inverse-foreignkey field-ref="referenceFinancialDocumentNumber" />
     </collection-descriptor>
+    <collection-descriptor name="nonInvoicedDistributions" element-class-ref="org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+        <orderby name="documentNumber" sort="ASC" />
+        <orderby name="financialDocumentLineNumber" sort="ASC" />
+        <inverse-foreignkey field-ref="referenceFinancialDocumentNumber" />
+    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.ar.document.CashControlDocument" table="AR_CSH_CTRL_T">
@@ -615,6 +620,10 @@
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="universityFiscalPeriodCode" />
 	</reference-descriptor>
+    <collection-descriptor name="nonAppliedDistributions" element-class-ref="org.kuali.kfs.module.ar.businessobject.NonAppliedDistribution" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+        <inverse-foreignkey field-ref="documentNumber" />
+        <inverse-foreignkey field-ref="paidAppliedItemNumber" />
+    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.ar.businessobject.Lockbox" table="AR_LOCKBOX_T">
@@ -725,9 +734,6 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="financialDocumentLineAmount" column="FDOC_LINE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 
-	<reference-descriptor name="nonAppliedHolding" class-ref="org.kuali.kfs.module.ar.businessobject.NonAppliedHolding" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-		<foreignkey field-ref="referenceFinancialDocumentNumber" />
-	</reference-descriptor>
     <reference-descriptor name="accountsReceivableDocumentHeader" class-ref="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false" >
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
@@ -1065,11 +1071,11 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
-    <collection-descriptor name="nonInvoicedDistributions" element-class-ref="org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <collection-descriptor name="nonInvoicedDistributions" element-class-ref="org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
-    <collection-descriptor name="nonAppliedDistributions" element-class-ref="org.kuali.kfs.module.ar.businessobject.NonAppliedDistribution" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <collection-descriptor name="nonAppliedDistributions" element-class-ref="org.kuali.kfs.module.ar.businessobject.NonAppliedDistribution" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 

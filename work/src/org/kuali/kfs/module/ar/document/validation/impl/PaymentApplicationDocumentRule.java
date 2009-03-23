@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
+import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.sys.document.validation.impl.GeneralLedgerPostingDocumentRuleBase;
@@ -156,14 +157,18 @@ public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocument
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         PaymentApplicationDocument paymentApplicationDocument = (PaymentApplicationDocument) document;
 
+        // Vivek - this rules is only applicable to CashControl generated Application document
         //  dont let PayApp docs started from CashControl docs through if not all funds are applied
-        if (!KualiDecimal.ZERO.equals(paymentApplicationDocument.getUnallocatedBalance())) {
-            isValid &= false;
-            errorMap.putError(
-                KNSConstants.GLOBAL_ERRORS,
-                ArKeyConstants.PaymentApplicationDocumentErrors.FULL_AMOUNT_NOT_APPLIED);
-            LOG.info("The payment application document was not fully applied.");
+        if (paymentApplicationDocument.hasCashControlDetail()) {
+            if (!KualiDecimal.ZERO.equals(paymentApplicationDocument.getUnallocatedBalance())) {
+                isValid &= false;
+                errorMap.putError(
+                    KNSConstants.GLOBAL_ERRORS,
+                    ArKeyConstants.PaymentApplicationDocumentErrors.FULL_AMOUNT_NOT_APPLIED);
+                LOG.info("The payment application document was not fully applied.");
+            }
         }
+
     
         return isValid;
     }

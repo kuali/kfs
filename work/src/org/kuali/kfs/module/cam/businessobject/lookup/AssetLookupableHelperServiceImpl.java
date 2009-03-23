@@ -318,13 +318,21 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
      * Goes through all the rows, making sure that problematic field conversions are fixed
      */
     protected void convertOrganizationOwnerAccountField() {
-        for (Row r : super.getRows()) {
-            for (Field f : r.getFields()) {
+        boolean foundField = false;
+        int i = 0;
+        while (!foundField && i < super.getRows().size()) {
+            final Row r = super.getRows().get(i);
+            int j = 0;
+            while (!foundField && j < r.getFields().size()) {
+                Field f = r.getField(j);
                 if (f.getPropertyName().equals(CamsPropertyConstants.Asset.ORGANIZATION_CODE)) {
                     f.setFieldConversions(fixProblematicField(f.getFieldConversions()));
                     f.setLookupParameters(fixProblematicField(f.getLookupParameters()));
+                    foundField = true;
                 }
+                j += 1;
             }
+            i += 1;
         }
     }
     

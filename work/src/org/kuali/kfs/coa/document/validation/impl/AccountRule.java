@@ -339,14 +339,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
             success &= false;
             putFieldError("closed", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ONLY_SUPERVISORS_CAN_EDIT);
         }
-
-        // when a restricted status code of 'T' (temporarily restricted) is selected, a restricted status
-        // date must be supplied.
-        if (hasTemporaryRestrictedStatusCodeButNoRestrictedStatusDate(newAccount)) {
-            success &= false;
-            putFieldError("accountRestrictedStatusDate", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_RESTRICTED_STATUS_DT_REQ, newAccount.getAccountNumber());
-        }
-
+        
         // check FringeBenefit account rules
         success &= checkFringeBenefitAccountRule(newAccount);
 
@@ -738,7 +731,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
                                 putFieldError(KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_RATE_NOT_FOUND, new String[]{fiscalYear, icrSeriesId});
                                 result &= false;
                                 break;
-                            }
+                }
                         }
                     }
                 }

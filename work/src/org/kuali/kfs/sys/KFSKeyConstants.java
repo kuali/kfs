@@ -819,7 +819,6 @@ public class KFSKeyConstants {
         
         public static final String REPORT_UNKNOWN_LABEL = "message.batch.balancing.report.unknown.label";
         
-        public static final String REPORT_FILENAME_PREFIX = "gl.balancing.report.filename.prefix";
         public static final String REPORT_FILE_TITLE = "message.gl.balancing.report.file.title";
         public static final String REPORT_ENTRY_LABEL = "message.gl.balancing.report.entry.label";
         public static final String REPORT_BALANCE_LABEL = "message.gl.balancing.report.balance.label";

@@ -243,6 +243,8 @@ public class GeneralLedgerConstants {
 		static final public String BALANCE_FORWARDS_CLOSED_FILE = "gl_balance_forwards_closed";
 		
 		static final public String LABOR_GL_ENTRY_FILE = "gl_glentry_lab";
+		
+		public static final String BALANCING_REPORT_FILENAME_PREFIX = "balancing_";
     }
 
     public static class PosterOutputSummaryEntry {

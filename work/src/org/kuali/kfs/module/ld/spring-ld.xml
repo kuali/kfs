@@ -600,7 +600,7 @@
 		</property>
 	</bean>
 	
-	<bean id="laborBalancingStep" class="org.kuali.kfs.gl.batch.BalancingStep" parent="step">
+	<bean id="laborBalancingStep" class="org.kuali.kfs.module.ld.batch.LaborBalancingStep" parent="step">
 		<property name="balancingService">
 			<ref bean="laborBalancingService" />
 		</property>

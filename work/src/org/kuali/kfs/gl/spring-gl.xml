@@ -1241,7 +1241,7 @@
 		</property>
 	</bean>
 	
-	<bean id="posterBalancingStep" class="org.kuali.kfs.gl.batch.BalancingStep" parent="step">
+	<bean id="posterBalancingStep" class="org.kuali.kfs.gl.batch.PosterBalancingStep" parent="step">
 		<property name="balancingService">
 			<ref bean="glBalancingService" />
 		</property>

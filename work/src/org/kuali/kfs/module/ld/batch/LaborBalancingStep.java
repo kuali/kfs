@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.gl.batch;
+package org.kuali.kfs.module.ld.batch;
 
 import java.util.Date;
 
@@ -21,19 +21,14 @@ import org.kuali.kfs.gl.batch.service.BalancingService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 
 /**
- * Generates a balancing report if data is present in the history tables. Instructions on how to test this process for GL:<br>
- * 1) Place an acceptable GL_SORTPOST.data / GL_POSTERRS.data into batchFileDirectoryName (see spring-gl.xml)<br>
- * 2) Run BatchStepRunner for posterEntriesStep<br>
- * 3) Run BatchStepRunner for posterBalancingStep<br>
- * 4) Evaluate PosterBalancingServiceImpl.BALANCING_FILENAME in KFSConstants.REPORTS_DIRECTORY_KEY for results<br>
- * and similarly for Labor except with the following differences:<br>
- * 1) LD_SORTPOST.data / LD_POSTERRS.data (see spring-ld.xml)<br>
- * 2) laborPosterStep<br>
- * 3) laborBalancingStep<br>
- * 4) LaborBalancingServiceImpl.BALANCING_FILENAME<br>
+ * Generates a balancing report if data is present in the history tables. Instructions on how to test this process for Labor:<br>
+ * 1) Place an acceptable LD_SORTPOST.data / LD_POSTERRS.data into batchFileDirectoryName (see spring-ld.xml)<br>
+ * 2) Run BatchStepRunner for laborPosterStep<br>
+ * 3) Run BatchStepRunner for laborBalancingStep<br>
+ * 4) Evaluate LaborConstants.BatchFileSystem.BALANCING_REPORT_FILENAME_PREFIX in KFSConstants.REPORTS_DIRECTORY_KEY for results<br>
  */
-public class BalancingStep extends AbstractStep {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalancingStep.class);
+public class LaborBalancingStep extends AbstractStep {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborBalancingStep.class);
     
     private BalancingService balancingService;
 

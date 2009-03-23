@@ -59,7 +59,7 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
      * @see org.kuali.kfs.gl.batch.service.BalancingService#getReportFilename()
      */
     public String getReportFilename() {
-        return kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_FILENAME_PREFIX);
+        return GeneralLedgerConstants.BatchFileSystem.BALANCING_REPORT_FILENAME_PREFIX;
     }
     
     /**

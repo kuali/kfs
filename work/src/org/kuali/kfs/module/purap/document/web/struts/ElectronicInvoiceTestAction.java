@@ -87,10 +87,20 @@ public class ElectronicInvoiceTestAction extends KualiAction {
                 // show error
             }
         } else if ("returnXML".equalsIgnoreCase(action)) {
+            
+            String poDocNumber = request.getParameter("poDocNumber");
+            
+            PurchaseOrderService poService = SpringContext.getBean(PurchaseOrderService.class);
+            PurchaseOrderDocument po = null;
+            try{
+                po = poService.getPurchaseOrderByDocumentNumber(poDocNumber);
+            }catch(Exception e){
+                e.printStackTrace();
+                throw e;
+            }
+            
             response.setHeader("Cache-Control", "max-age=30");
             response.setContentType("application/xml");
-
-            String poDocNumber = request.getParameter("poDocNumber");
 
             StringBuffer sbContentDispValue = new StringBuffer();
             String useJavascript = request.getParameter("useJavascript");
@@ -110,8 +120,7 @@ public class ElectronicInvoiceTestAction extends KualiAction {
             response.setHeader("Content-disposition", sbContentDispValue.toString());
 
             // lookup the PO and fill in the XML will valid data
-            PurchaseOrderService poService = SpringContext.getBean(PurchaseOrderService.class);
-            PurchaseOrderDocument po = poService.getPurchaseOrderByDocumentNumber(poDocNumber);
+            
             if (po != null) {   
                 String eInvoiceFile = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "<cXML payloadID=\"200807260401062080.964@eai002\"\n" +

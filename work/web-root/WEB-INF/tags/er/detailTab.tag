@@ -51,7 +51,7 @@
 			</table>
 		</div>
 	
-		<div class="tab-container" align=center>
+		<div class="tab-container" style="text-align: center;">
 			<er:detailLinesWithGrouping id="editableDetailLineTable" detailLines="${detailLines}" 
 				detailLineFormName="document.effortCertificationDetailLines"
 				attributes="${detailAttributes}"
@@ -63,8 +63,7 @@
 				sortableFieldNames="chartOfAccountsCode,accountNumber,effortCertificationPayrollAmount"
 				editableFieldNames="effortCertificationUpdatedOverallPercent,effortCertificationPayrollAmount"
 				extraEditableFieldNames="chartOfAccountsCode,accountNumber,subAccountNumber,financialObjectCode,positionNumber"
-				onchangeForEditableFieldNames="effortAmountUpdator.recalculatePayrollAmount,effortAmountUpdator.recalculateEffortPercent"
-				onchangeForExtraEditableFieldNames="loadChartInfo,effortAmountUpdator.loadAccountInfo,loadSubAccountInfo,loadObjectCodeInfo, "
+				onchangeForExtraEditableFieldNames="loadChartInfo,effortAmountUpdator.loadAccountInfo,loadSubAccountInfo,loadObjectCodeInfo"
 				onchangeableInfoFieldNames=""	
 				onchangeableExtraInfoFieldNames="chartOfAccounts.finChartOfAccountDescription,account.accountName,subAccount.subAccountName,financialObject.financialObjectCodeName,"			
 				relationshipMetadata="${KualiForm.relationshipMetadata}"
@@ -76,7 +75,7 @@
 	</c:when>
 	
 	<c:otherwise>
-		<div class="tab-container" align=center>
+		<div class="tab-container" style="text-align: center;">
 			<er:detailLinesWithGrouping id="readonlyDetailLineTable" detailLines="${detailLines}" 
 				detailLineFormName="document.effortCertificationDetailLines"
 				attributes="${detailAttributes}"

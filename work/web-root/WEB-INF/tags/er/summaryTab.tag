@@ -60,7 +60,6 @@
 			sortableFieldNames="chartOfAccountsCode,accountNumber,effortCertificationPayrollAmount"
 			editableFieldNames="effortCertificationUpdatedOverallPercent,effortCertificationPayrollAmount"
 			extraEditableFieldNames="chartOfAccountsCode,accountNumber,subAccountNumber"
-			onchangeForEditableFieldNames="effortAmountUpdator.recalculatePayrollAmount,effortAmountUpdator.recalculateEffortPercent"
 			onchangeForExtraEditableFieldNames="loadChartInfo,effortAmountUpdator.loadAccountInfo,loadSubAccountInfo"
 			onchangeableInfoFieldNames=""	
 			onchangeableExtraInfoFieldNames="chartOfAccounts.finChartOfAccountDescription,account.accountName,subAccount.subAccountName"			

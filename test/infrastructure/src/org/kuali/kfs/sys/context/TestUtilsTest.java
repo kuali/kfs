@@ -16,6 +16,9 @@
 package org.kuali.kfs.sys.context;
 
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.gl.batch.service.impl.BalancingServiceBaseImpl;
+import org.kuali.kfs.gl.businessobject.Balance;
+import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.rice.kns.service.ParameterService;
 
@@ -62,4 +65,13 @@ public class TestUtilsTest extends KualiTestBase {
         }
     }
 
+    public void testGetUnproxiedService() {
+        try {
+            BalancingServiceBaseImpl<Entry, Balance> balancingService = (BalancingServiceBaseImpl<Entry, Balance>) TestUtils.getUnproxiedService("laborBalancingService");
+            assertNotNull(balancingService);
+        }
+        catch (Exception e) {
+            assertTrue("testGetUnproxiedService failed due to stacktrace: " + e.getMessage(), false);
+        }
+    }
 }

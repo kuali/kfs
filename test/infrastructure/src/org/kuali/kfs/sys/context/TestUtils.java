@@ -18,7 +18,10 @@ package org.kuali.kfs.sys.context;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -30,11 +33,12 @@ import junit.textui.TestRunner;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.properties.PropertyTree;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.PreCommitSuite;
+import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.properties.PropertyTree;
+import org.springframework.aop.framework.ProxyFactory;
 
 /**
  * This class provides utility methods for use during manual testing.
@@ -353,5 +357,19 @@ public class TestUtils {
         IOUtils.copy(inputStream, copiedOutputStream);
 
         return copiedOutputStream.size();
+    }
+    
+    /**
+     * Returns an invoked instance for the serviceName passed. This uses SpringContext.getService but doesn't return the proxy. Should only
+     * be used for unit testing purposes
+     * @param serviceName service to return
+     * @throws Exception
+     */
+    public static Object getUnproxiedService(String serviceName) throws Exception {
+        InvocationHandler invocationHandler = Proxy.getInvocationHandler(SpringContext.getService(serviceName));
+        Field privateAdvisedField = invocationHandler.getClass().getDeclaredField("advised");
+        privateAdvisedField.setAccessible(true);
+        ProxyFactory proxyFactory = (ProxyFactory) privateAdvisedField.get(invocationHandler);
+        return proxyFactory.getTargetSource().getTarget();
     }
 }

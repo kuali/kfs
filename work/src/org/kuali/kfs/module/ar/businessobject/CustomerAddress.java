@@ -418,7 +418,7 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
             return -1;
         }
 
-        if (this.getCustomerAddressIdentifier() != null && address.getCustomerAddressIdentifier() != null && this.getCustomerAddressIdentifier() != address.getCustomerAddressIdentifier()) {
+        if (this.getCustomerAddressIdentifier() != null && address.getCustomerAddressIdentifier() != null && this.getCustomerAddressIdentifier().compareTo(address.getCustomerAddressIdentifier())!= 0) {
             return -1;
         }
         return 0;

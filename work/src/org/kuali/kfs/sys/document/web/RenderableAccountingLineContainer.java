@@ -351,7 +351,25 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
      */
     public boolean isFieldModifyable(AccountingLineViewField field) {
         Person currentUser = GlobalVariables.getUserSession().getPerson();
-        return (getForm().getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT) && accountingLineAuthorizer.hasEditPermissionOnField(getAccountingDocument(), accountingLine, this.accountingLineProperty, field.getName(), currentUser)) || isLineInError();
+        return (getForm().getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT) && accountingLineAuthorizer.hasEditPermissionOnField(getAccountingDocument(), accountingLine, this.accountingLineProperty, field.getName(), currentUser)) || makeEditableAnywayBecauseOfError(field);
+    }
+    
+    /**
+     * Determines if field should be editable because it is involved in an error
+     * @param field the field which may or may not have an error on it
+     * @return true if the field should be editable to resolve the error, false otherwise
+     */
+    protected boolean makeEditableAnywayBecauseOfError(AccountingLineViewField field) {
+        return this.editableLine ? isLineInError() : isFieldInError(field.getName());
+    }
+    
+    /**
+     * Determines whether the given field is in error
+     * @param fieldName the name of the field which we're checking to see if is in error
+     * @return true if the field in this accounting line has errors associated with it, false otherwise
+     */
+    protected boolean isFieldInError(String fieldName) {
+        return GlobalVariables.getErrorMap().containsKeyMatchingPattern(accountingLineProperty+"."+fieldName);
     }
     
     /**

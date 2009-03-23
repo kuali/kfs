@@ -26,6 +26,7 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiInteger;
 
 /**
  * A validation which checks if a Budget Adjustment document is balanced before heading to routing
@@ -44,7 +45,10 @@ public class BudgetAdjustmentDocumentBalancedValidation extends GenericValidatio
         boolean balanced = true;
 
         // check base amounts are equal
-        if (getAccountingDocumentForValidation().getSourceBaseBudgetTotal().compareTo(getAccountingDocumentForValidation().getTargetBaseBudgetTotal()) != 0) {
+        //KFSMI-3036
+        KualiInteger sourceBaseBudgetTotal = getAccountingDocumentForValidation().getSourceBaseBudgetIncomeTotal().subtract( getAccountingDocumentForValidation().getSourceBaseBudgetExpenseTotal());
+        KualiInteger targetBaseBudgetTotal = getAccountingDocumentForValidation().getTargetBaseBudgetIncomeTotal().subtract( getAccountingDocumentForValidation().getTargetBaseBudgetExpenseTotal());
+        if (sourceBaseBudgetTotal.compareTo(targetBaseBudgetTotal) != 0) {
             GlobalVariables.getErrorMap().putError(KFSConstants.ACCOUNTING_LINE_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_BA_BASE_AMOUNTS_BALANCED);
             balanced = false;
         }

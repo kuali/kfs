@@ -78,6 +78,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
                 success &= validateCampusCode(detail);
                 success &= validateBuildingCode(detail);
                 success &= validateBuildingRoomNumber(detail);
+                success &= validateTagNumber(detail);
                 success &= validateTagDuplicationWithinDocument(detail, tags);
                 success &= validateTagDuplication(detail.getCapitalAssetNumber(), detail.getCampusTagNumber());
                 success &= checkRequiredFieldsAfterAdd(detail);
@@ -198,7 +199,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
 
         if (StringUtils.isNotBlank(assetLocationGlobalDetail.getCampusCode())) {
-            assetLocationGlobalDetail.refreshReferenceObject("campus");
+            //assetLocationGlobalDetail.refreshReferenceObject("campus");
 
             if (ObjectUtils.isNull(assetLocationGlobalDetail.getCampus())) {
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAMPUS_CODE, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_CAMPUS_CODE, new String[] { assetLocationGlobalDetail.getCampusCode(), assetLocationGlobalDetail.getCapitalAssetNumber().toString() });
@@ -250,7 +251,24 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
         return success;
     }
+    
+    /**
+     * Validate tag number.
+     * 
+     * @param assetLocationGlobalDetail
+     * @return boolean
+     */
+    protected boolean validateTagNumber(AssetLocationGlobalDetail assetLocationGlobalDetail) {
+        boolean success = true;
 
+        if (StringUtils.isBlank(assetLocationGlobalDetail.getCampusTagNumber())) {
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_TAG_NUMBER_REQUIRED);
+            success = false;
+        }
+        
+        return success;
+    }
+    
     /**
      * Validate duplicate tag number. This method also calls {@link AssetService}.
      * 

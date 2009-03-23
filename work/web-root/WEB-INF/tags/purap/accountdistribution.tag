@@ -26,6 +26,7 @@
 <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 <c:set var="amendmentEntry"	value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
 <c:set var="clearAllTaxes" value="${(not empty KualiForm.editingMode['clearAllTaxes'])}" />
+<c:set var="tabindexOverrideBase" value="50" />
 
 <br />
 <c:if test="${(fullEntryMode or amendmentEntry)}">
@@ -112,6 +113,7 @@
 	            	attributeEntry="${itemAttributes.purchasingCommodityCode}" 
 	                property="distributePurchasingCommodityCode"
 	                readOnly="${not (fullEntryMode or amendmentEntry)}"
+	                tabindexOverride="${tabindexOverrideBase + 0}"
 	                onblur="loadCommodityCodeInfo( '${commodityCodeField}', '${commodityDescriptionField}' );${onblur}"/>
                 <c:if test="${fullEntryMode}">   
                 	<kul:lookup boClassName="org.kuali.kfs.vnd.businessobject.CommodityCode" 

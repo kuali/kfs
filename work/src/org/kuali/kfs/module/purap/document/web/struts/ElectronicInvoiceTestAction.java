@@ -95,7 +95,6 @@ public class ElectronicInvoiceTestAction extends KualiAction {
             try{
                 po = poService.getPurchaseOrderByDocumentNumber(poDocNumber);
             }catch(Exception e){
-                e.printStackTrace();
                 throw e;
             }
             

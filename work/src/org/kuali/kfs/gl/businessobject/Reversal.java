@@ -17,7 +17,9 @@
 package org.kuali.kfs.gl.businessobject;
 
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
@@ -623,7 +625,12 @@ public class Reversal extends PersistableBusinessObjectBase implements Transacti
     }
     
     public DocumentTypeEBO getFinancialSystemDocumentTypeCode() {
-        return financialSystemDocumentTypeCode = SpringContext.getBean(KEWModuleService.class).retrieveExternalizableBusinessObjectIfNecessary(this, financialSystemDocumentTypeCode, "financialSystemDocumentTypeCode");
+        if (financialSystemDocumentTypeCode == null || !financialSystemDocumentTypeCode.getName().equals(financialDocumentTypeCode)) {
+            Map<String, Object> docTypeKeys = new HashMap<String, Object>();
+            docTypeKeys.put("name", financialSystemDocumentTypeCode);
+            financialSystemDocumentTypeCode = SpringContext.getBean(KEWModuleService.class).getExternalizableBusinessObject(DocumentTypeEBO.class, docTypeKeys);
+        }
+        return financialSystemDocumentTypeCode;
     }
 
     public ObjectCode getFinancialObject() {

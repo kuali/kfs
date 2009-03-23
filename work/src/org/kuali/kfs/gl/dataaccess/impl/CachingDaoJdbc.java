@@ -21,6 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -48,6 +49,7 @@ import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
+import org.kuali.rice.kew.service.impl.KEWModuleService;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -67,7 +69,6 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
     private PreparedStatement subObjCdPreparedSelect;
     private PreparedStatement a21SubAccountPreparedSelect;
     private PreparedStatement projectCodePreparedSelect;
-    private PreparedStatement financialSystemDocumentTypeCodePreparedSelect;
     private PreparedStatement objectTypePreparedSelect;
     private PreparedStatement balanceTypPreparedSelect;
     private PreparedStatement chartPreparedSelect;
@@ -81,6 +82,7 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
     private PreparedStatement entryPreparedSelect;
     private PreparedStatement entryInsert;
     private PreparedStatement indirectCostRecoveryTypePreparedSelect;
+    private KEWModuleService kewModuleService;
     
     private Connection connection;
     private UniversityDateService universityDateService;
@@ -243,30 +245,21 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
     }
     public DocumentTypeEBO getFinancialSystemDocumentTypeCode(String financialSystemDocumentTypeCodeCode) {
         DocumentTypeEBO financialSystemDocumentTypeCode = null;
-        String key = "FS_DOC_TYP_CD_T:" + financialSystemDocumentTypeCodeCode;
+        String key = "KREW_DOC_TYP_T:" + financialSystemDocumentTypeCodeCode;
         Object value = dataCache.get(key);
         if (value != null) {
             if (!value.equals(" ")) {
                 financialSystemDocumentTypeCode = (DocumentTypeEBO) value;
             }
         } else {
-            try {
-                financialSystemDocumentTypeCodePreparedSelect.setString(1, financialSystemDocumentTypeCodeCode);
-                ResultSet rs = financialSystemDocumentTypeCodePreparedSelect.executeQuery();
-                if (rs.next()) {
-                    financialSystemDocumentTypeCode = new DocumentType();
-                    ((DocumentType)financialSystemDocumentTypeCode).setName(financialSystemDocumentTypeCodeCode);
-                    dataCache.put(key, financialSystemDocumentTypeCode);
-                } else { 
-                    LOG.debug("DocumentType not found: " + key); dataCache.put(key, " "); 
-                    }
-                if (rs.next()) { 
-                    throw new RuntimeException("More than one row returned from select by primary key."); 
-                    }
-                rs.close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+            Map<String, Object> docTypeKeys = new HashMap<String, Object>();
+            docTypeKeys.put("name", financialSystemDocumentTypeCode);
+            DocumentTypeEBO docType = kewModuleService.getExternalizableBusinessObject(DocumentTypeEBO.class, docTypeKeys);
+            if (docType != null) {
+                dataCache.put(key, docType);
+            } else { 
+                LOG.debug("DocumentType not found: " + key); dataCache.put(key, " "); 
+                }
         }
         return financialSystemDocumentTypeCode;
     }
@@ -911,7 +904,6 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
                 subObjCdPreparedSelect = connection.prepareStatement("select fin_subobj_actv_cd from ca_sub_object_cd_t where univ_fiscal_yr = ? and fin_coa_cd = ? and account_nbr = ? and fin_object_cd = ? and fin_sub_obj_cd = ?");
                 a21SubAccountPreparedSelect = connection.prepareStatement("select sub_acct_typ_cd, cst_shr_coa_cd, cst_shrsrcacct_nbr, cst_srcsubacct_nbr, icr_typ_cd, fin_series_id, icr_fin_coa_cd, icr_account_nbr from ca_a21_sub_acct_t where fin_coa_cd = ? and account_nbr = ? and sub_acct_nbr = ?");
                 projectCodePreparedSelect = connection.prepareStatement("select proj_active_cd from ca_project_t where project_cd = ?");
-                financialSystemDocumentTypeCodePreparedSelect = connection.prepareStatement("select 1 from FS_DOC_TYP_CD_T where fs_doc_typ_cd = ?");
                 objectTypePreparedSelect = connection.prepareStatement("select fund_balance_cd, fin_objtyp_dbcr_cd, fin_obj_typ_icr_cd, ROW_ACTV_IND from ca_obj_type_t where fin_obj_typ_cd = ?");
                 balanceTypPreparedSelect = connection.prepareStatement("select fin_offst_gnrtn_cd, fin_baltyp_enc_cd, ROW_ACTV_IND from ca_balance_type_t where fin_balance_typ_cd = ?");
                 chartPreparedSelect = connection.prepareStatement("select fin_coa_active_cd, fin_cash_obj_cd, fin_ap_obj_cd, FND_BAL_OBJ_CD from ca_chart_t where fin_coa_cd = ?");
@@ -940,5 +932,13 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }
+
+    /**
+     * Sets the kewModuleService attribute value.
+     * @param kewModuleService The kewModuleService to set.
+     */
+    public void setKewModuleService(KEWModuleService kewModuleService) {
+        this.kewModuleService = kewModuleService;
     }
 }

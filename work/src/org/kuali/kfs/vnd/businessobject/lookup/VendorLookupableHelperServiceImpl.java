@@ -62,20 +62,21 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         VendorDetail vendor = (VendorDetail) businessObject;
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
-        //Adding a "Shopping" link for B2B vendors.
-        if (vendor.isB2BVendor()) {
-            Properties theProperties = new Properties();
-            theProperties.put("channelTitle", "Shop Catalogs");
-            String b2bUrlString = "&channelUrl=b2b.do?methodToCall=shopCatalogs";
-            String href = UrlFactory.parameterizeUrl(getBackLocation(), theProperties);            
-            anchorHtmlDataList.add(new AnchorHtmlData(href + b2bUrlString, null, "Shop"));
-        }
+
         AnchorHtmlData anchorHtmlData = super.getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
         anchorHtmlDataList.add(anchorHtmlData);
         if (vendor.isVendorParentIndicator() && vendor.isActiveIndicator()) {
             // only allow active parent vendors to create new divisions
             anchorHtmlDataList.add(super.getUrlData(
                     businessObject, KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION, VendorConstants.CREATE_DIVISION, pkNames));
+        }
+        //Adding a "Shopping" link for B2B vendors.
+        if (vendor.isB2BVendor()) {
+            Properties theProperties = new Properties();
+            theProperties.put("channelTitle", "Shop Catalogs");
+            String b2bUrlString = "&channelUrl=b2b.do?methodToCall=shopCatalogs";
+            String href = UrlFactory.parameterizeUrl(getBackLocation(), theProperties);            
+            anchorHtmlDataList.add(new AnchorHtmlData(href + b2bUrlString, null, "shop"));
         }
         return anchorHtmlDataList;
     }

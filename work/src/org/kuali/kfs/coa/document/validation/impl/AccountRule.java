@@ -18,6 +18,7 @@ package org.kuali.kfs.coa.document.validation.impl;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +43,7 @@ import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.KfsMaintenanceDocumentRuleBase;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -717,12 +719,27 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
                 result &= checkEmptyBOField("financialIcrSeriesIdentifier", newAccount.getFinancialIcrSeriesIdentifier(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_SERIES_IDENTIFIER_CANNOT_BE_EMPTY));
 
                 // Validation for financialIcrSeriesIdentifier
-                if (checkEmptyBOField("financialIcrSeriesIdentifier", newAccount.getFinancialIcrSeriesIdentifier(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_SERIES_IDENTIFIER_CANNOT_BE_EMPTY))) {
+                if (checkEmptyBOField(KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER, newAccount.getFinancialIcrSeriesIdentifier(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_SERIES_IDENTIFIER_CANNOT_BE_EMPTY))) {
+                    String fiscalYear = StringUtils.EMPTY + SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+                    String icrSeriesId = newAccount.getFinancialIcrSeriesIdentifier();
+                    
                     Map<String, String> pkMap = new HashMap<String, String>();
-                    pkMap.put("financialIcrSeriesIdentifier", newAccount.getFinancialIcrSeriesIdentifier());
-                    if (getBoService().countMatching(IndirectCostRecoveryRateDetail.class, pkMap) == 0) {
-                        putFieldError("financialIcrSeriesIdentifier", KFSKeyConstants.ERROR_EXISTENCE, "financialIcrSeriesIdentifier");
+                    pkMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
+                    pkMap.put(KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER, icrSeriesId);
+                    Collection<IndirectCostRecoveryRateDetail> icrRateDetails = getBoService().findMatching(IndirectCostRecoveryRateDetail.class, pkMap);
+                    
+                    if (ObjectUtils.isNull(icrRateDetails) || icrRateDetails.isEmpty()) {
+                        putFieldError(KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER, KFSKeyConstants.ERROR_EXISTENCE, "financialIcrSeriesIdentifier");
                         result &= false;
+                    }
+                    else {
+                        for(IndirectCostRecoveryRateDetail icrRateDetail : icrRateDetails) {
+                            if(ObjectUtils.isNull(icrRateDetail.getIndirectCostRecoveryRate())){                                
+                                putFieldError(KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_RATE_NOT_FOUND, new String[]{fiscalYear, icrSeriesId});
+                                result &= false;
+                                break;
+                            }
+                        }
                     }
                 }
 

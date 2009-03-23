@@ -706,6 +706,7 @@ public class KFSKeyConstants {
         public static final String ERROR_DOCUMENT_ICR_CANNOT_BE_WILDCARD = "error.document.IndirectCostRecovery.cannotBeWildcard";
         public static final String ERROR_DOCUMENT_ICR_CHART_CODE_NOT_ONLY_WILDCARD = "error.document.IndirectCostRecovery.chartCodeNotOnlyWildcard";
         public static final String ERROR_DOCUMENT_ICR_RATE_PERCENTS_NOT_EQUAL = "error.document.IndirectCostRecovery.ratePercentsNotEqual";
+        public static final String ERROR_DOCUMENT_ICR_RATE_NOT_FOUND = "error.document.IndirectCostRecovery.rateNotFound";
         public static final String ERROR_DOCUMENT_ICR_RATE_PERCENT_INVALID_FORMAT_SCALE = "error.document.IndirectCostRecovery.ratePercentsInvalidFormatScale";
         public static final String ERROR_DOCUMENT_ICR_RATE_PERCENT_INVALID_FORMAT_ZERO = "error.document.IndirectCostRecovery.ratePercentsInvalidFormatZero";
         public static final String ERROR_DOCUMENT_ICR_CHART_NOT_UNIVERSITY_CHART = "error.document.IndirectCostRecovery.chartMustBeUniversityChart";

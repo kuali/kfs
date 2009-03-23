@@ -351,24 +351,21 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         }
 
         // existence check for Financial Series ID
-        if (StringUtils.isNotEmpty(a21.getFinancialIcrSeriesIdentifier())) {
-
+        if (StringUtils.isNotEmpty(a21.getFinancialIcrSeriesIdentifier())) {            
             Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
-
-            Map fieldValues = new HashMap();
-            fieldValues.put("financialIcrSeriesIdentifier", a21.getFinancialIcrSeriesIdentifier());
-            // Collection results = boService.findMatchingOrderBy(IndirectCostRecoveryRateDetail.class, fieldValues, "universityFiscalYear",
-            // true);
-            Collection results = getBoService().findMatching(IndirectCostRecoveryRateDetail.class, fieldValues);
-
-            // if there are any results, we need to see if there is a match on fiscal year
+            String icrSeriesId = a21.getFinancialIcrSeriesIdentifier();
+            
+            Map<String, String> pkMap = new HashMap<String, String>();
+            pkMap.put(KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER, icrSeriesId);
+            Collection<IndirectCostRecoveryRateDetail> icrRateDetails = getBoService().findMatching(IndirectCostRecoveryRateDetail.class, pkMap);
+            
             boolean anyFound = false;
             boolean anyFoundInThisFy = false;
-            if (!results.isEmpty()) {
+            if (ObjectUtils.isNotNull(icrRateDetails) && !icrRateDetails.isEmpty()){
                 anyFound = true;
-                for (Iterator iter = results.iterator(); iter.hasNext();) {
-                    IndirectCostRecoveryRateDetail indirectCostRecoveryRateDetail = (IndirectCostRecoveryRateDetail) iter.next();
-                    if (fiscalYear.equals(indirectCostRecoveryRateDetail.getUniversityFiscalYear())) {
+                
+                for(IndirectCostRecoveryRateDetail icrRateDetail : icrRateDetails) {
+                    if(icrRateDetail.getUniversityFiscalYear().equals(fiscalYear) && ObjectUtils.isNotNull(icrRateDetail.getIndirectCostRecoveryRate())){                                
                         anyFoundInThisFy = true;
                         break;
                     }

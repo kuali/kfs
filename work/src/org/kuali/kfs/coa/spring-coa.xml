@@ -572,4 +572,12 @@
 	<bean id="indirectCostRecoveryRateFiscalYearMaker" parent="FiscalYearMaker">
 		<property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRate" /> 
 	</bean>	
+	
+	<bean id="orgReviewRoleLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" parent="kualiLookupable" scope="prototype">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.kfs.coa.identity.OrgReviewRoleLookupableHelperServiceImpl" parent="lookupableHelperService">
+            </bean>
+        </property>
+    </bean>
+	
 </beans>

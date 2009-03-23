@@ -935,14 +935,14 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="appointmentFundingDurationCode" column="APPT_FND_DUR_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="appointmentRequestedCsfAmount" column="APPT_RQST_CSF_AMT" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion"/>
-	<field-descriptor name="appointmentRequestedCsfFteQuantity" column="APPT_RQCSF_FTE_QTY" jdbc-type="DECIMAL" length="6"/>
-	<field-descriptor name="appointmentRequestedCsfTimePercent" column="APPT_RQCSF_TM_PCT" jdbc-type="DECIMAL" length="6"/>
+	<field-descriptor name="appointmentRequestedCsfFteQuantity" column="APPT_RQCSF_FTE_QTY" jdbc-type="DECIMAL" conversion="org.kuali.kfs.module.bc.util.OjbBudgetConstructionFTEConversion"/>
+	<field-descriptor name="appointmentRequestedCsfTimePercent" column="APPT_RQCSF_TM_PCT" jdbc-type="DECIMAL" conversion="org.kuali.kfs.module.bc.util.OjbBudgetConstructionPercentTimeConversion"/>
 	<field-descriptor name="appointmentTotalIntendedAmount" column="APPT_TOT_INTND_AMT" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion"/>
-	<field-descriptor name="appointmentTotalIntendedFteQuantity" column="APPT_TOTINTFTE_QTY" jdbc-type="DECIMAL"/>
+	<field-descriptor name="appointmentTotalIntendedFteQuantity" column="APPT_TOTINTFTE_QTY" jdbc-type="DECIMAL" conversion="org.kuali.kfs.module.bc.util.OjbBudgetConstructionFTEConversion"/>
 	<field-descriptor name="appointmentRequestedAmount" column="APPT_RQST_AMT" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion"/>
-	<field-descriptor name="appointmentRequestedTimePercent" column="APPT_RQST_TM_PCT" jdbc-type="DECIMAL" length="6"/>
-	<field-descriptor name="appointmentRequestedFteQuantity" column="APPT_RQST_FTE_QTY" jdbc-type="DECIMAL" length="6"/>
-	<field-descriptor name="appointmentRequestedPayRate" column="APPT_RQST_PAY_RT" jdbc-type="DECIMAL" length="6"/>
+	<field-descriptor name="appointmentRequestedTimePercent" column="APPT_RQST_TM_PCT" jdbc-type="DECIMAL" conversion="org.kuali.kfs.module.bc.util.OjbBudgetConstructionPercentTimeConversion"/>
+	<field-descriptor name="appointmentRequestedFteQuantity" column="APPT_RQST_FTE_QTY" jdbc-type="DECIMAL" conversion="org.kuali.kfs.module.bc.util.OjbBudgetConstructionFTEConversion"/>
+	<field-descriptor name="appointmentRequestedPayRate" column="APPT_RQST_PAY_RT" jdbc-type="DECIMAL" length="2"/>
 	<field-descriptor name="active" column="APPT_FND_DLT_CD" jdbc-type="VARCHAR" conversion="org.kuali.kfs.module.bc.util.OjbPendingBCAppointmentFundingActiveIndicatorConversion"/>
 	<field-descriptor name="appointmentFundingMonth" column="APPT_FND_MO" jdbc-type="INTEGER"/>
 	<field-descriptor name="positionObjectChangeIndicator" column="POS_OBJ_CHG_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>

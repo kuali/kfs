@@ -161,9 +161,9 @@
   	  		<map>
   	  			<entry key="ProjectManagement" value-ref="RoutingType-EffortCertificationDocument-Account"/>
   	  			<entry key="Account" value-ref="RoutingType-EffortCertificationDocument-Account"/>
-  	  			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-EffortCertificationDocument-OrganizationHierarchy"/>
-  	  			<entry key="Management" value-ref="RoutingType-EffortCertificationDocument-Award"/>
   	  			<entry key="Award" value-ref="RoutingType-EffortCertificationDocument-Award"/>
+  	  			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-EffortCertificationDocument-OrganizationHierarchy"/>
+  	  			<!-- no qualifiers for Management node -->
   	  		</map>
   	  </property>	
   </bean>

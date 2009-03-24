@@ -220,14 +220,15 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
             }
         } else {
             Map<String, Object> docTypeKeys = new HashMap<String, Object>();
-            docTypeKeys.put("name", financialSystemDocumentTypeCode);
-            DocumentTypeEBO docType = kewModuleService.getExternalizableBusinessObject(DocumentTypeEBO.class, docTypeKeys);
-            if (docType != null) {
-                dataCache.put(key, docType);
-                } else { 
-                    LOG.debug("DocumentType not found: " + key); dataCache.put(key, " "); 
-                    }
-                    }
+            docTypeKeys.put("name", financialSystemDocumentTypeCodeCode);
+            financialSystemDocumentTypeCode = kewModuleService.getExternalizableBusinessObject(DocumentTypeEBO.class, docTypeKeys);
+            
+            if (financialSystemDocumentTypeCode != null) {
+                dataCache.put(key, financialSystemDocumentTypeCode);
+            } else {
+                LOG.debug("DocumentType not found: " + key); dataCache.put(key, " "); 
+            }
+        }
         return financialSystemDocumentTypeCode;
     }
     

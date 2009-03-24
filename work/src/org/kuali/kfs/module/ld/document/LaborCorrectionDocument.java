@@ -18,6 +18,7 @@ package org.kuali.kfs.module.ld.document;
 import java.util.Date;
 import java.util.Iterator;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntrySource;
@@ -50,18 +51,12 @@ public class LaborCorrectionDocument extends GeneralLedgerCorrectionProcessDocum
     }
 
     /**
-     * Constant for the workgroup approval routing level
-     */
-    private static final Integer WORKGROUP_APPROVAL_ROUTE_LEVEL = new Integer(1);
-
-    /**
      * @param change
      * @see org.kuali.rice.kns.document.DocumentBase#handleRouteLevelChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteLevelChangeDTO)
      */
     @Override
     public void handleRouteLevelChange(DocumentRouteLevelChangeDTO change) {
-
-        if (WORKGROUP_APPROVAL_ROUTE_LEVEL.equals(change.getNewRouteLevel())) {
+        if (StringUtils.equals(AUTO_APPROVE_ROUTE_LEVEL_NAME, change.getNewNodeName())) {
             String correctionType = getCorrectionTypeCode();
             if (LaborCorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType) || LaborCorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionType)) {
                 String docId = getDocumentHeader().getDocumentNumber();

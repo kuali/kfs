@@ -16,13 +16,17 @@
 
 package org.kuali.kfs.gl.document;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
@@ -73,6 +77,8 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
 
     private List<CorrectionChangeGroup> correctionChangeGroup;
 
+    public static final String AUTO_APPROVE_ROUTE_LEVEL_NAME = "autoApproveForAsynchronousProcessing";
+    
     public GeneralLedgerCorrectionProcessDocument() {
         super();
         correctionChangeGroupNextLineNumber = new Integer(0);
@@ -192,7 +198,7 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
         String docId = getDocumentHeader().getDocumentNumber();
         GeneralLedgerCorrectionProcessDocument doc = correctionDocumentService.findByCorrectionDocumentHeaderId(docId);
 
-        if (getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             String correctionType = doc.getCorrectionTypeCode();
             if (CorrectionDocumentService.CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING.equals(correctionType)) {
                 
@@ -218,20 +224,12 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
                 ScrubberService scrubberService = SpringContext.getBean(ScrubberService.class);
                 scrubberService.scrubGroupReportOnly(fileNameWithPath, docId);
             }
-            
-            
-            
             else {
                 LOG.error("GLCP doc " + doc.getDocumentNumber() + " has an unknown correction type code: " + correctionType);
             }
         }
     }
 
-
-    /**
-     * Constant for the workgroup approval routing level
-     */
-    private static final Integer WORKGROUP_APPROVAL_ROUTE_LEVEL = new Integer(1);
 
     /**
      * Waits for the event of the route level changing to "Approve" and at that point, saving all the entries as origin entries in a newly created
@@ -246,7 +244,8 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
             LOG.debug( "GLCP Route Level Change: " + change );
         }
         super.handleRouteLevelChange(change);
-        if (WORKGROUP_APPROVAL_ROUTE_LEVEL.equals(change.getNewRouteLevel())) {
+        String routeLevel = change.getNewNodeName();
+        if (StringUtils.equals(routeLevel, AUTO_APPROVE_ROUTE_LEVEL_NAME)) {
             String correctionType = getCorrectionTypeCode();
             if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType) || CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionType)) {
                 String docId = getDocumentHeader().getDocumentNumber();
@@ -420,16 +419,10 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
     }
     
     protected String buildFileExtensionWithDate(Date date){
-
-        String timeString = date.toString();
-        String year = timeString.substring(timeString.length() - 4, timeString.length());
-        String month = timeString.substring(4, 7);
-        String day = timeString.substring(8, 10);
-        String hour = timeString.substring(11, 13);
-        String min = timeString.substring(14, 16);
-        String sec = timeString.substring(17, 19);
+        String dateFormatStr = ".yyyy-MMM-dd.HH-mm-ss";
+        DateFormat dateFormat = new SimpleDateFormat(dateFormatStr);
         
-        return "." + year + "-" + month + "-" + day + "." + hour + "-" + min + "-" + sec + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        return dateFormat.format(date) + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         
         
     }

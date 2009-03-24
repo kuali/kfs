@@ -47,8 +47,8 @@ import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.service.impl.KEWModuleService;
 import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -221,7 +221,7 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
         } else {
             Map<String, Object> docTypeKeys = new HashMap<String, Object>();
             docTypeKeys.put("name", financialSystemDocumentTypeCodeCode);
-            financialSystemDocumentTypeCode = kewModuleService.getExternalizableBusinessObject(DocumentTypeEBO.class, docTypeKeys);
+            financialSystemDocumentTypeCode = getKewModuleService().getExternalizableBusinessObject(DocumentTypeEBO.class, docTypeKeys);
             
             if (financialSystemDocumentTypeCode != null) {
                 dataCache.put(key, financialSystemDocumentTypeCode);
@@ -230,6 +230,12 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
             }
         }
         return financialSystemDocumentTypeCode;
+    }
+    protected KEWModuleService getKewModuleService() {
+        if (kewModuleService == null) {
+            kewModuleService = (KEWModuleService)KEWServiceLocator.getBean("kewModule");
+        }
+        return kewModuleService;
     }
     
     public SystemOptions getSystemOptions(OriginEntry originEntry) {
@@ -906,13 +912,5 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
-    }
-
-    /**
-     * Sets the kewModuleService attribute value.
-     * @param kewModuleService The kewModuleService to set.
-     */
-    public void setKewModuleService(KEWModuleService kewModuleService) {
-        this.kewModuleService = kewModuleService;
     }
 }

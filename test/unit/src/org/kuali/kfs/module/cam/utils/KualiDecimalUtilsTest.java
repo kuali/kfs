@@ -24,17 +24,17 @@ public class KualiDecimalUtilsTest extends KualiTestBase {
 
     public void testAllocate_Success() throws Exception {
         KualiDecimalUtils kualiDecimalUtils = new KualiDecimalUtils(new KualiDecimal(10.00), CamsConstants.CURRENCY_USD);
-        
-        KualiDecimal[] allocationResults = kualiDecimalUtils.allocate(3);
+
+        KualiDecimal[] allocationResults = kualiDecimalUtils.allocateByQuantity(3);
 
         assertEquals(allocationResults.length, 3);
         assertEquals(allocationResults[0], new KualiDecimal(3.33));
         assertEquals(allocationResults[1], new KualiDecimal(3.33));
         assertEquals(allocationResults[2], new KualiDecimal(3.34));
-        
+
         kualiDecimalUtils = new KualiDecimalUtils(new KualiDecimal(10.00), CamsConstants.CURRENCY_USD);
-        
-        allocationResults = kualiDecimalUtils.allocate(15);
+
+        allocationResults = kualiDecimalUtils.allocateByQuantity(15);
 
         assertEquals(allocationResults.length, 15);
         assertEquals(allocationResults[0], new KualiDecimal(0.66));
@@ -52,10 +52,10 @@ public class KualiDecimalUtilsTest extends KualiTestBase {
         assertEquals(allocationResults[12], new KualiDecimal(0.67));
         assertEquals(allocationResults[13], new KualiDecimal(0.67));
         assertEquals(allocationResults[14], new KualiDecimal(0.67));
-        
+
         kualiDecimalUtils = new KualiDecimalUtils(new KualiDecimal(5.00), CamsConstants.CURRENCY_USD);
-        
-        allocationResults = kualiDecimalUtils.allocate(7);
+
+        allocationResults = kualiDecimalUtils.allocateByQuantity(7);
 
         assertEquals(allocationResults.length, 7);
         assertEquals(allocationResults[0], new KualiDecimal(0.71));
@@ -65,5 +65,20 @@ public class KualiDecimalUtilsTest extends KualiTestBase {
         assertEquals(allocationResults[4], new KualiDecimal(0.72));
         assertEquals(allocationResults[5], new KualiDecimal(0.72));
         assertEquals(allocationResults[6], new KualiDecimal(0.72));
+    }
+
+    public void testAllocateByRatio() throws Exception {
+        KualiDecimal[] values = KualiDecimalUtils.allocateByRatio(new KualiDecimal(13), new double[] { 0.533333 });
+        assertNotNull(values);
+        assertEquals(1, values.length);
+        assertEquals(new KualiDecimal(6.93), values[0]);
+        assertEquals(6.93d, values[0].doubleValue());
+        values = KualiDecimalUtils.allocateByRatio(new KualiDecimal(13), new double[] { 0.2820512821, 0.333333333, 0.384615385 });
+        assertNotNull(values);
+        assertEquals(3, values.length);
+        assertEquals(new KualiDecimal(3.67), values[0]);
+        assertEquals(new KualiDecimal(4.33), values[1]);
+        assertEquals(new KualiDecimal(5), values[2]);
+        assertEquals(new KualiDecimal(13), values[2].add(values[1]).add(values[0]));
     }
 }

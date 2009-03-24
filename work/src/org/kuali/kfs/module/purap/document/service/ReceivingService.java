@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.purap.document.service;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.CorrectionReceivingDocument;
@@ -152,4 +153,10 @@ public interface ReceivingService {
      * associated PO is available for amedment.
      */
     public void approveReceivingDocsForPOAmendment();
+    
+    public List<String> getLineItemReceivingDocumentNumbersInProcessForPurchaseOrder(Integer poId,String receivingDocumentNumber);
+    
+    public List<String> getCorrectionReceivingDocumentNumbersInProcessForPurchaseOrder(Integer poId,String receivingDocumentNumber);
+    
+    
 }

@@ -219,9 +219,13 @@ public class ReceivingServiceImpl implements ReceivingService {
     }
 
     private boolean isLineItemReceivingDocumentInProcessForPurchaseOrder(Integer poId, String receivingDocumentNumber) throws RuntimeException{
+        return !getLineItemReceivingDocumentNumbersInProcessForPurchaseOrder(poId, receivingDocumentNumber).isEmpty();
+    }
+
+    public List<String> getLineItemReceivingDocumentNumbersInProcessForPurchaseOrder(Integer poId, 
+                                                                                     String receivingDocumentNumber){
         
-        boolean isInProcess = false;
-        
+        List<String> inProcessDocNumbers = new ArrayList<String>();
         List<String> docNumbers = receivingDao.getDocumentNumbersByPurchaseOrderId(poId);
         KualiWorkflowDocument workflowDocument = null;
                 
@@ -237,19 +241,23 @@ public class ReceivingServiceImpl implements ReceivingService {
                  workflowDocument.stateIsException() ||
                  workflowDocument.stateIsFinal()) &&
                  docNumber.equals(receivingDocumentNumber) == false ){
-                     
-                isInProcess = true;
-                break;
+                inProcessDocNumbers.add(docNumber);
             }
         }
 
-        return isInProcess;
+        return inProcessDocNumbers;
     }
-
+    
     private boolean isCorrectionReceivingDocumentInProcessForPurchaseOrder(Integer poId, String receivingDocumentNumber) throws RuntimeException{
+        return !getCorrectionReceivingDocumentNumbersInProcessForPurchaseOrder(poId, receivingDocumentNumber).isEmpty();
+    }
+    
+    public List<String> getCorrectionReceivingDocumentNumbersInProcessForPurchaseOrder(Integer poId, 
+                                                                                       String receivingDocumentNumber){
         
         boolean isInProcess = false;
         
+        List<String> inProcessDocNumbers = new ArrayList<String>();
         List<String> docNumbers = receivingDao.getCorrectionReceivingDocumentNumbersByPurchaseOrderId(poId);
         KualiWorkflowDocument workflowDocument = null;
                 
@@ -265,14 +273,13 @@ public class ReceivingServiceImpl implements ReceivingService {
                  workflowDocument.stateIsException() ||
                  workflowDocument.stateIsFinal()) &&
                  docNumber.equals(receivingDocumentNumber) == false ){
-                     
-                isInProcess = true;
-                break;
+                inProcessDocNumbers.add(docNumber);
             }
         }
 
-        return isInProcess;
+        return inProcessDocNumbers;
     }
+    
     
     private boolean isCorrectionReceivingDocumentInProcessForReceivingLine(String receivingDocumentNumber, String receivingCorrectionDocNumber) throws RuntimeException{
         

@@ -22,6 +22,7 @@ import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -88,7 +89,8 @@ public class LineItemReceivingAction extends ReceivingBaseAction {
         
         //Must check if able to create receiving document, if not throw an error
         if( SpringContext.getBean(ReceivingService.class).canCreateLineItemReceivingDocument(rlDoc.getPurchaseOrderIdentifier(), rlDoc.getDocumentNumber()) == false){
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_RECEIVING_LINE_DOCUMENT_ACTIVE_FOR_PO, rlDoc.getDocumentNumber(), rlDoc.getPurchaseOrderIdentifier().toString());
+            String docNumbers = getReceivingDocInProcessNumbersAsString(rlDoc.getPurchaseOrderIdentifier(), rlDoc.getDocumentNumber());
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_RECEIVING_LINE_DOCUMENT_ACTIVE_FOR_PO, docNumbers, rlDoc.getPurchaseOrderIdentifier().toString());
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         
@@ -96,6 +98,23 @@ public class LineItemReceivingAction extends ReceivingBaseAction {
         SpringContext.getBean(ReceivingService.class).populateAndSaveLineItemReceivingDocument(rlDoc);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    private String getReceivingDocInProcessNumbersAsString(Integer poNumber, String receivingDocNumber){
+        
+        List<String> receivingDocs = SpringContext.getBean(ReceivingService.class).getLineItemReceivingDocumentNumbersInProcessForPurchaseOrder(poNumber, receivingDocNumber);
+        
+        if (receivingDocs.size() == 0){
+            receivingDocs = SpringContext.getBean(ReceivingService.class).getCorrectionReceivingDocumentNumbersInProcessForPurchaseOrder(poNumber, receivingDocNumber);
+        }
+        
+        StringBuffer returnValue = new StringBuffer();
+        
+        for (int i = 0; i < receivingDocs.size(); i++) {
+            returnValue.append(receivingDocs.get(i));
+        }
+        
+        return returnValue.toString();
     }
     
     public ActionForward createReceivingCorrection(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

@@ -332,7 +332,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @RelatesTo(JiraIssue.KULPURAP3140)
+    
     public void testPrintPurchaseOrderQuoteRequestsListPDF() throws Exception {
         PurchaseOrderDocument po = 
             PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
@@ -366,7 +366,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @RelatesTo(JiraIssue.KULPURAP3140)
+   
     public void testPrintPurchaseOrderQuotePDF() throws Exception {
         PurchaseOrderDocument po = 
             PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
@@ -592,5 +592,11 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         assertFalse(poService.isPurchaseOrderOpenForProcessing(purchaseOrderDocument));
     }
 
+    //testCreateAndSavePurchaseOrderSplitDocument() - this method is being tested in PurchaseOrderChangeDocumentTest.java 
+    
+    //testRetransmitPurchaseOrderPDF() - this method is being tested in the testPurchaseOrderRetransmit.
+ 
+    //testCompletePurchaseOrder() - this method is being tested in the testCompletePurchaseOrder_B2B and testCompletePurchaseOrder_NonB2B.
+    
 }
 

@@ -969,6 +969,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     public void createDistributions() {
     
         Collection<InvoicePaidApplied> invoicePaidAppliedsForCurrentDoc = this.getInvoicePaidApplieds();
+        Collection<NonInvoiced> nonInvoicedsForCurrentDoc = this.getNonInvoiceds();
 
         for(NonAppliedHolding nonAppliedHoldings : this.getNonApplieds()) {
             
@@ -1009,7 +1010,6 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
             //check if payment has been applied to NonAR
             //create NonAR distribution for each NonAR Applied row
-            Collection<NonInvoiced> nonInvoicedsForCurrentDoc = this.getNonInvoiceds();
             for(NonInvoiced nonInvoicedForCurrentDoc : nonInvoicedsForCurrentDoc) {
                 KualiDecimal nonInvoicedDistributionAmount = nonInvoicedForCurrentDoc.getNonInvoicedDistributionAmount();
                 KualiDecimal remainingNonInvoicedForDistribution = nonInvoicedForCurrentDoc.getFinancialDocumentLineAmount().subtract(nonInvoicedDistributionAmount);
@@ -1026,7 +1026,6 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
                 if (remainingNonInvoicedForDistribution.isLessEqual(remainingUnappliedForDistribution)) {
                     nonInvoicedDistribution.setFinancialDocumentLineAmount(remainingNonInvoicedForDistribution);
                     remainingUnappliedForDistribution = remainingUnappliedForDistribution.subtract(remainingNonInvoicedForDistribution);
-                    remainingNonInvoicedForDistribution = remainingNonInvoicedForDistribution.subtract(remainingNonInvoicedForDistribution);
                     nonInvoicedForCurrentDoc.setNonInvoicedDistributionAmount(nonInvoicedDistributionAmount.add(remainingNonInvoicedForDistribution));
                 }
                 else {

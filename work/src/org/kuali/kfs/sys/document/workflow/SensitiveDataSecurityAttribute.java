@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.purap.document.workflow;
+package org.kuali.kfs.sys.document.workflow;
 
 import java.util.List;
 
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
 import org.kuali.rice.kew.doctype.DocumentTypeSecurity;
 import org.kuali.rice.kew.doctype.SecurityAttribute;
 import org.kuali.rice.kew.doctype.SecuritySession;
@@ -25,15 +26,17 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.WorkflowUtility;
 import org.kuali.rice.kew.web.session.Authentication;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.DocumentService;
 
 /**
  * This class...
  */
-public class PurchaseOrderSensitiveDataSecurityAttribute implements SecurityAttribute {
+public class SensitiveDataSecurityAttribute implements SecurityAttribute {
 
     private WorkflowUtility workflowUtils = SpringContext.getBean(WorkflowUtility.class);
     private DocumentHelperService docHelperService = SpringContext.getBean(DocumentHelperService.class);
@@ -44,21 +47,8 @@ public class PurchaseOrderSensitiveDataSecurityAttribute implements SecurityAttr
      */
     public final Boolean docSearchAuthorized(DocumentTypeSecurity security, Person currentUser, List<Authentication> authentications, String docTypeName, Long documentId, String initiatorWorkflowId, SecuritySession session) {
 
-        List<String> sensitiveDataCode = workflowUtils.getSearchableAttributeStringValuesByKey(documentId, "purchaseOrderSensitiveData");
-        if (sensitiveDataCode != null) {
-
-            DocumentAuthorizer docAuthorizer = docHelperService.getDocumentAuthorizer(docTypeName);
-            Document doc = null;
-            try {
-                doc = docService.getByDocumentHeaderIdSessionless(documentId.toString());
-            } catch(WorkflowException we) {
-                throw new RuntimeException(we);
-            }
-            return docAuthorizer.canOpen(doc, currentUser);
-        } else {
-            return true;
-        }
-
+        return isVisable(currentUser, docTypeName, documentId);
+        
     }
 
     /**
@@ -66,20 +56,30 @@ public class PurchaseOrderSensitiveDataSecurityAttribute implements SecurityAttr
      */
     public final Boolean routeLogAuthorized(DocumentTypeSecurity security, Person currentUser, List<Authentication> authentications, String docTypeName, Long documentId, String initiatorWorkflowId, SecuritySession session) {
 
-        List<String> sensitiveDataCode = workflowUtils.getSearchableAttributeStringValuesByKey(documentId, "purchaseOrderSensitiveData");
-        if (sensitiveDataCode != null) {
+        return isVisable(currentUser, docTypeName, documentId);
+    }
+    
+    private final Boolean isVisable(Person currentUser, String docTypeName, Long documentId) {
+        
+        final DocumentEntry docEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(docTypeName);
+        if (docEntry instanceof FinancialSystemTransactionalDocumentEntry) {
+            if (((FinancialSystemTransactionalDocumentEntry)docEntry).isPotentiallySensitive()) {
+                List<String> sensitiveDataCode = workflowUtils.getSearchableAttributeStringValuesByKey(documentId, "sensitive");
+                if (sensitiveDataCode.contains("Y")) {
 
-            DocumentAuthorizer docAuthorizer = docHelperService.getDocumentAuthorizer(docTypeName);
-            Document doc = null;
-            try {
-                doc = docService.getByDocumentHeaderIdSessionless(documentId.toString());
-            } catch(WorkflowException we) {
-                throw new RuntimeException(we);
+                    DocumentAuthorizer docAuthorizer = docHelperService.getDocumentAuthorizer(docTypeName);
+                    Document doc = null;
+                    try {
+                        doc = docService.getByDocumentHeaderIdSessionless(documentId.toString());
+                    } catch(WorkflowException we) {
+                        throw new RuntimeException(we);
+                    }
+                    return docAuthorizer.canOpen(doc, currentUser);
+                } 
             }
-            return docAuthorizer.canOpen(doc, currentUser);
-        } else {
-            return true;
         }
+        return true;
+        
     }
 
 }

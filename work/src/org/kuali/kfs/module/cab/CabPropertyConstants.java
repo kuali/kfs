@@ -42,13 +42,6 @@ public class CabPropertyConstants {
         public static final String PURAP_LINE_ASSET_ACCOUNTS = "purApLineAssetAccounts";
     }
 
-    public static class Parameter {
-        public static final String PARAMETER_NAME = "parameterName";
-        public static final String PARAMETER_DETAIL_TYPE_CODE = "parameterDetailTypeCode";
-        public static final String PARAMETER_NAMESPACE_CODE = "parameterNamespaceCode";
-
-    }
-
     public static class Entry {
         public static final String FINANCIAL_DOCUMENT_TYPE_CODE = "financialDocumentTypeCode";
         public static final String UNIVERSITY_FISCAL_PERIOD_CODE = "universityFiscalPeriodCode";

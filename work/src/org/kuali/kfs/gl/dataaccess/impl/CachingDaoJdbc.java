@@ -50,7 +50,6 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kew.service.impl.KEWModuleService;
-import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
 import org.kuali.rice.kns.service.DateTimeService;
 
@@ -58,14 +57,13 @@ import org.kuali.rice.kns.service.DateTimeService;
 public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CachingDaoJdbc.class);
 
-    HashMap<String,Object> dataCache = new HashMap<String,Object>();
+    private Map<String,Object> dataCache = new HashMap<String,Object>();
     private PreparedStatement accountPreparedSelect;
     private PreparedStatement subFundGroupPreparedSelect;
     private PreparedStatement objectCodePreparedSelect;
     private PreparedStatement offsetDefinitionPreparedSelect;
     private PreparedStatement universityDatePreparedSelect;
     private PreparedStatement subAccountPreparedSelect;
-    private PreparedStatement parameterPreparedSelect;
     private PreparedStatement subObjCdPreparedSelect;
     private PreparedStatement a21SubAccountPreparedSelect;
     private PreparedStatement projectCodePreparedSelect;
@@ -124,37 +122,6 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
         }
         if (offsetDefinition != null) { offsetDefinition.setFinancialObject(getObjectCode(universityFiscalYear, chartOfAccountsCode, offsetDefinition.getFinancialObjectCode())); }
         return offsetDefinition;
-    }
-
-    public Parameter getParameter(String namespaceCode, String detailTypeCode, String parameterName) {
-        LOG.debug("getParameter() started");
-        Parameter parameter = null;
-        String key = "SH_PARM_T:" + namespaceCode + "/" + detailTypeCode + "/" + parameterName;
-        Object value = dataCache.get(key);
-        if (value != null) {
-            if (!value.equals(" ")) {
-                parameter = (Parameter) value;
-            }
-        } else {
-            try {
-                parameterPreparedSelect.setString(1, namespaceCode);
-                parameterPreparedSelect.setString(2, detailTypeCode);
-                parameterPreparedSelect.setString(3, parameterName);
-                ResultSet rs = parameterPreparedSelect.executeQuery();
-                if (rs.next()) {
-                    parameter = new Parameter();
-                    parameter.setParameterValue(rs.getString(1));
-                    parameter.setParameterTypeCode(rs.getString(2));
-                    parameter.setParameterConstraintCode(rs.getString(3));
-                    dataCache.put(key, parameter);
-                } else { LOG.debug("Parameter not found: " + key); dataCache.put(key, " "); }
-                if (rs.next()) { throw new RuntimeException("More than one row returned from select by primary key."); }
-                rs.close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return parameter;
     }
 
     public A21SubAccount getA21SubAccount(OriginEntry originEntry) {
@@ -257,10 +224,10 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
             DocumentTypeEBO docType = kewModuleService.getExternalizableBusinessObject(DocumentTypeEBO.class, docTypeKeys);
             if (docType != null) {
                 dataCache.put(key, docType);
-            } else { 
-                LOG.debug("DocumentType not found: " + key); dataCache.put(key, " "); 
-                }
-        }
+                } else { 
+                    LOG.debug("DocumentType not found: " + key); dataCache.put(key, " "); 
+                    }
+                    }
         return financialSystemDocumentTypeCode;
     }
     
@@ -900,7 +867,6 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
                 offsetDefinitionPreparedSelect = connection.prepareStatement("select fin_object_cd from gl_offset_defn_t where univ_fiscal_yr = ? and fin_coa_cd = ? and fdoc_typ_cd = ? and fin_balance_typ_cd = ?");
                 universityDatePreparedSelect = connection.prepareStatement("select univ_fiscal_yr, univ_fiscal_prd_cd from sh_univ_date_t where univ_dt = ?");
                 subAccountPreparedSelect = connection.prepareStatement("select sub_acct_actv_cd from ca_sub_acct_t where fin_coa_cd = ? and account_nbr = ? and sub_acct_nbr = ?");
-                parameterPreparedSelect = connection.prepareStatement("select SH_PARM_TXT,SH_PARM_TYP_CD,SH_PARM_CONS_CD from sh_parm_t where SH_PARM_NMSPC_CD = ? and SH_PARM_DTL_TYP_CD = ? and SH_PARM_NM = ?");
                 subObjCdPreparedSelect = connection.prepareStatement("select fin_subobj_actv_cd from ca_sub_object_cd_t where univ_fiscal_yr = ? and fin_coa_cd = ? and account_nbr = ? and fin_object_cd = ? and fin_sub_obj_cd = ?");
                 a21SubAccountPreparedSelect = connection.prepareStatement("select sub_acct_typ_cd, cst_shr_coa_cd, cst_shrsrcacct_nbr, cst_srcsubacct_nbr, icr_typ_cd, fin_series_id, icr_fin_coa_cd, icr_account_nbr from ca_a21_sub_acct_t where fin_coa_cd = ? and account_nbr = ? and sub_acct_nbr = ?");
                 projectCodePreparedSelect = connection.prepareStatement("select proj_active_cd from ca_project_t where project_cd = ?");
@@ -924,6 +890,13 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
                 throw new RuntimeException(e);
             }
         }
+    }
+    
+    /**
+     * @see org.kuali.kfs.gl.dataaccess.CachingDao#flushCache()
+     */
+    public void flushCache() {
+        dataCache = new HashMap<String,Object>();       
     }
 
     public void setUniversityDateService(UniversityDateService universityDateService) {

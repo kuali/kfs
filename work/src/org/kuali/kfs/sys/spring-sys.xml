@@ -57,6 +57,7 @@
 				<value>scheduleJob</value>
 				<value>purgeJob</value>
 				<value>fiscalYearMakerJob</value>
+				<value>clearCacheJob</value>
             </list>
         </property>
         <property name="fiscalYearMakers">
@@ -610,5 +611,37 @@
 			<ref bean="electronicPaymentClaimingService" />
 		</property>
 	</bean> 
+	
+    <bean id="clearCacheStep" class="org.kuali.kfs.sys.batch.ClearCacheStep" parent="step">
+		<property name="cacheService">
+			<ref bean="cacheService" />
+		</property>
+	</bean>
+	
+	<bean id="clearCacheJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="clearCacheStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="cacheService" class="org.kuali.kfs.sys.batch.service.impl.CacheServiceImpl">
+	    <property name="cacheAdminstrators">
+          <list>
+            <ref bean="methodResultsCacheAdministrator" />
+            <ref bean="methodResultsCacheNoCopyAdministrator" />
+          </list>	
+        </property>  
+		<property name="roleManagementService">
+			<ref bean="kimRoleManagementService" />
+		</property>
+		<property name="identityManagementService">
+			<ref bean="kimIdentityManagementService" />
+		</property>
+		<property name="cachingDao">
+			<ref bean="cachingDao" />
+		</property>
+	</bean>
  
 </beans>

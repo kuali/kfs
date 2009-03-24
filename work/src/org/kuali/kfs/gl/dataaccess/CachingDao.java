@@ -182,4 +182,9 @@ public interface CachingDao {
         
         public IndirectCostRecoveryType getIndirectCostRecoveryType(String accountIcrTypeCode);
         
+        /**
+         * Clears out cache
+         */
+        public void flushCache();
+        
     }

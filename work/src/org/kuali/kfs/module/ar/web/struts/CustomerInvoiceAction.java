@@ -47,24 +47,53 @@ import com.lowagie.text.pdf.SimpleBookmark;
 public class CustomerInvoiceAction extends KualiAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceAction.class);
 
-    // private static final String TOTALS_TABLE_KEY = "totalsTable";
-
-
+    /**
+     * 
+     * Constructs a CustomerInvoiceAction.java.
+     */
     public CustomerInvoiceAction() {
         super();
     }
 
-
-
+    /**
+     * 
+     * This method...
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * 
+     * This method...
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }   
 
+    /**
+     * 
+     * This method...
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward clear(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CustomerInvoiceForm ciForm = (CustomerInvoiceForm)form;
         ciForm.setChartCode(null);
@@ -173,9 +202,6 @@ public class CustomerInvoiceAction extends KualiAction {
         }
         ciForm.setMessage("No Reports Generated");
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-
-
     }
-
 
 }

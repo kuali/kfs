@@ -17,17 +17,17 @@
   <param name="data.xml.pollIntervalSecs">30</param>
   <param name="initialDelaySecs">10</param>
 
-  <param name="datasource.platform">${rice.workflow.datasource.platform}</param>
+  <param name="datasource.platform">${rice.server.datasource.platform}</param>
   <param name="datasource.ojb.platform">${datasource.ojb.platform}</param>
   <param name="datasource.ojb.sequenceManager">${datasource.ojb.sequence.manager}</param>
-  <param name="datasource.driver.name">${rice.workflow.driver.class}</param>
-  <param name="datasource.url">${rice.workflow.datasource.url}</param>
-  <param name="datasource.username">${rice.workflow.datasource.username}</param>
-  <param name="datasource.password">${rice.workflow.datasource.password}</param>
-  <param name="datasource.pool.minSize">${rice.workflow.datasource.minSize}</param>
-  <param name="datasource.pool.maxSize">${rice.workflow.datasource.maxSize}</param>
-  <param name="datasource.pool.maxWait">${rice.workflow.datasource.maxWait}</param>
-  <param name="datasource.pool.validationQuery">${rice.workflow.datasource.validationQuery}</param>
+  <param name="datasource.driver.name">${rice.server.driver.class}</param>
+  <param name="datasource.url">${rice.server.datasource.url}</param>
+  <param name="datasource.username">${rice.server.datasource.username}</param>
+  <param name="datasource.password">${rice.server.datasource.password}</param>
+  <param name="datasource.pool.minSize">${rice.server.datasource.minSize}</param>
+  <param name="datasource.pool.maxSize">${rice.server.datasource.maxSize}</param>
+  <param name="datasource.pool.maxWait">${rice.server.datasource.maxWait}</param>
+  <param name="datasource.pool.validationQuery">${rice.server.datasource.validationQuery}</param>
 
   <param name="attachment.dir.location">${attachments.directory}</param>
 

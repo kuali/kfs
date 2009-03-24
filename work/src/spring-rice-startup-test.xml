@@ -51,6 +51,7 @@
   <bean id="rice" class="org.kuali.rice.core.config.RiceConfigurer">
     <property name="dataSource" ref="dataSource" />
     <property name="nonTransactionalDataSource" ref="nonTransactionalDataSource" />
+    <property name="serverDataSource" ref="serverDatasource" />
     <property name="transactionManager" ref="jotm" />
     <property name="userTransaction" ref="jotm" />
     <property name="serviceNamespace" value="KFS" />
@@ -61,9 +62,7 @@
           p:serviceServletUrl="${workflow.url}/remote"
               p:runMode="${ksb.mode}"
               p:webModuleConfigurationFiles="${rice.ksb.struts.config.files}"
-              p:messageDataSource-ref="dataSource"
-              p:registryDataSource-ref="registryDataSource"
-              p:nonTransactionalMessageDataSource-ref="nonTransactionalDataSource" />
+			 />
         <!-- 
         <property name="exceptionMessagingScheduler" ref="scheduler" />
          -->
@@ -72,7 +71,7 @@
       <bean class="org.kuali.rice.kew.config.KEWConfigurer"
                 p:runMode="${kew.mode}" 
                 p:webModuleConfigurationFiles="${rice.kew.struts.config.files}" 
-                p:dataSource-ref="kewDataSource" />
+                 />
     </property>
     <property name="knsConfigurer">
           <bean class="org.kuali.rice.kns.config.KNSConfigurer"

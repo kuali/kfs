@@ -26,33 +26,29 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
-	<bean id="dataSource" class="org.kuali.rice.core.database.XAPoolDataSource">
-		<property name="transactionManager" ref="jotm" />
-		<property name="driverClassName" value="${datasource.driver.class}" />
-		<property name="maxSize" value="${datasource.pool.size}" />
-		<property name="minSize" value="5" />
-		<property name="maxWait" value="${datasource.connection.timeout}" />
-		<property name="validationQuery" value="${datasource.validating.query}" />
-		<property name="url" value="${datasource.url}" />
-		<property name="username" value="${datasource.username}" />
-		<property name="password" value="${datasource.password}" />
-		<property name="preparedStmtCacheSize" value="${datasource.maximum.cached.preparedstatements}" />
-	</bean>
-
-    <bean id="nonTransactionalDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="${datasource.driver.class}"/>
-        <property name="url" value="${datasource.url}"/>
-        <property name="maxActive" value="${datasource.pool.size}"/>
-        <property name="minIdle" value="5" />
-        <property name="initialSize" value="5"/>
+	<bean id="abstractDataSourceBase" abstract="true">
         <property name="validationQuery" value="${datasource.validating.query}"/>
         <property name="username" value="${datasource.username}" />
         <property name="password" value="${datasource.password}" />
+        <property name="driverClassName" value="${datasource.driver.class}"/>
+        <property name="url" value="${datasource.url}"/>	
+	</bean>
+
+	<bean id="dataSource" parent="abstractDataSourceBase" class="org.kuali.rice.core.database.XAPoolDataSource">
+		<property name="transactionManager" ref="jotm" />
+		<property name="maxSize" value="${datasource.pool.size}" />
+		<property name="minSize" value="5" />
+		<property name="maxWait" value="${datasource.connection.timeout}" />
+		<property name="preparedStmtCacheSize" value="${datasource.maximum.cached.preparedstatements}" />
+	</bean>
+
+    <bean id="nonTransactionalDataSource" parent="abstractDataSourceBase" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="maxActive" value="${datasource.pool.size}"/>
+        <property name="minIdle" value="5" />
+        <property name="initialSize" value="5"/>
         <property name="accessToUnderlyingConnectionAllowed" value="true"/>
     </bean>
 
-    <alias name="dataSource" alias="kewDataSource"/>
-    <alias name="dataSource" alias="kimDataSource"/>
-    <alias name="dataSource" alias="registryDataSource"/>
+    <alias name="dataSource" alias="serverDatasource"/>
                            
 </beans>

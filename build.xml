@@ -55,20 +55,10 @@
 		<condition property="datasource.ojb.sequence.manager" value="${mysql.ojb.sequence.manager}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
 		<property name="datasource.ojb.sequence.manager" value="${oracle.ojb.sequence.manager}" />
 
-		<condition property="rice.workflow.datasource.platform" value="${mysql.workflow.datasource.platform}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
-		<property name="rice.workflow.datasource.platform" value="${oracle.workflow.datasource.platform}" />
-		<property name="rice.workflow.datasource.url" value="${datasource.url}" />
-		<property name="rice.workflow.datasource.driver.class" value="${datasource.driver.class}" />
-
-	    <condition property="rice.ksb.datasource.platform" value="${mysql.workflow.datasource.platform}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
-		<property name="rice.ksb.datasource.platform" value="${oracle.workflow.datasource.platform}" />
-		<property name="rice.ksb.datasource.url" value="${datasource.url}" />
-		<property name="rice.ksb.datasource.driver.class" value="${datasource.driver.class}" />
-
-	    <condition property="rice.kim.datasource.platform" value="${mysql.workflow.datasource.platform}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
-		<property name="rice.kim.datasource.platform" value="${oracle.workflow.datasource.platform}" />
-		<property name="rice.kim.datasource.url" value="${datasource.url}" />
-		<property name="rice.kim.datasource.driver.class" value="${datasource.driver.class}" />
+		<condition property="rice.server.datasource.platform" value="${mysql.server.datasource.platform}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
+		<property name="rice.server.datasource.platform" value="${oracle.server.datasource.platform}" />
+		<property name="rice.server.datasource.url" value="${datasource.url}" />
+		<property name="rice.server.datasource.driver.class" value="${datasource.driver.class}" />
 		
 		<condition property="appenders" value="INFO, LogFile, StdOut"><equals arg1="${is.local.build}" arg2="true" /></condition>
 		<property name="appenders" value="INFO, LogFile" />

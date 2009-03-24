@@ -48,7 +48,7 @@ import org.kuali.kfs.module.bc.exception.BudgetConstructionDocumentAuthorization
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
+import org.kuali.kfs.module.bc.BCConstants.LockStatus;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.exception.WorkflowException;

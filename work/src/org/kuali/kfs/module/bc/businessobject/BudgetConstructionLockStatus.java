@@ -18,7 +18,7 @@ package org.kuali.kfs.module.bc.businessobject;
 import java.util.LinkedHashMap;
 import java.util.SortedSet;
 
-import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
+import org.kuali.kfs.module.bc.BCConstants.LockStatus;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 
 /**

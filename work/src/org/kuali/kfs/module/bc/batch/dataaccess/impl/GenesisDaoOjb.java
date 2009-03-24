@@ -286,8 +286,8 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
 
     public void setControlFlagsAtTheEndOfGenesis(Integer BaseYear) {
         Integer RequestYear = BaseYear + 1;
-        resetExistingFlags(BaseYear, BudgetConstructionConstants.CURRENT_FSCL_YR_CTRL_FLAGS);
-        resetExistingFlags(RequestYear, BudgetConstructionConstants.NEXT_FSCL_YR_CTRL_FLAGS_AFTER_GENESIS);
+        resetExistingFlags(BaseYear, BCConstants.CURRENT_FSCL_YR_CTRL_FLAGS);
+        resetExistingFlags(RequestYear, BCConstants.NEXT_FSCL_YR_CTRL_FLAGS_AFTER_GENESIS);
     }
 
     //  this method just reads the existing flags and changes their values
@@ -658,7 +658,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
             // set up the Budget Construction Header
             BudgetConstructionDocument newBCHdr;
             try {
-                newBCHdr = (BudgetConstructionDocument) documentService.getNewDocument(BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
+                newBCHdr = (BudgetConstructionDocument) documentService.getNewDocument(BCConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
             }
             catch (WorkflowException wex) {
                 LOG.warn(String.format("\nskipping creation of document for CSF key: %s %s %s \n(%s)\n", Results[0], Results[1], Results[2], wex.getMessage()));
@@ -708,7 +708,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
             // set up the Budget Construction Header
             BudgetConstructionDocument newBCHdr;
             try {
-                newBCHdr = (BudgetConstructionDocument) documentService.getNewDocument(BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
+                newBCHdr = (BudgetConstructionDocument) documentService.getNewDocument(BCConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
             }
             catch (WorkflowException wex) {
                 LOG.warn(String.format("\nskipping creation of document for GL key: %s %s %s \n(%s)\n", (String) Results[0], (String) Results[1], (String) Results[2], wex.getMessage()));
@@ -867,19 +867,19 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     }
 
     public void storeANewBCDocument(BudgetConstructionDocument newBCHdr) throws WorkflowException {
-        newBCHdr.setOrganizationLevelChartOfAccountsCode(BudgetConstructionConstants.INITIAL_ORGANIZATION_LEVEL_CHART_OF_ACCOUNTS_CODE);
-        newBCHdr.setOrganizationLevelOrganizationCode(BudgetConstructionConstants.INITIAL_ORGANIZATION_LEVEL_ORGANIZATION_CODE);
-        newBCHdr.setOrganizationLevelCode(BudgetConstructionConstants.INITIAL_ORGANIZATION_LEVEL_CODE);
-        newBCHdr.setBudgetTransactionLockUserIdentifier(BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
-        newBCHdr.setBudgetLockUserIdentifier(BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
+        newBCHdr.setOrganizationLevelChartOfAccountsCode(BCConstants.INITIAL_ORGANIZATION_LEVEL_CHART_OF_ACCOUNTS_CODE);
+        newBCHdr.setOrganizationLevelOrganizationCode(BCConstants.INITIAL_ORGANIZATION_LEVEL_ORGANIZATION_CODE);
+        newBCHdr.setOrganizationLevelCode(BCConstants.INITIAL_ORGANIZATION_LEVEL_CODE);
+        newBCHdr.setBudgetTransactionLockUserIdentifier(BCConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
+        newBCHdr.setBudgetLockUserIdentifier(BCConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
         newBCHdr.setVersionNumber(DEFAULT_VERSION_NUMBER);
         FinancialSystemDocumentHeader kualiDocumentHeader = newBCHdr.getDocumentHeader();
         newBCHdr.setDocumentNumber(newBCHdr.getDocumentHeader().getDocumentNumber());
         kualiDocumentHeader.setOrganizationDocumentNumber(newBCHdr.getUniversityFiscalYear().toString());
         kualiDocumentHeader.setFinancialDocumentStatusCode(KFSConstants.INITIAL_KUALI_DOCUMENT_STATUS_CD);
         kualiDocumentHeader.setFinancialDocumentTotalAmount(KualiDecimal.ZERO);
-        kualiDocumentHeader.setDocumentDescription(String.format("%s %d %s %s", BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION, newBCHdr.getUniversityFiscalYear(), newBCHdr.getChartOfAccountsCode(), newBCHdr.getAccountNumber()));
-        kualiDocumentHeader.setExplanation(BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION);
+        kualiDocumentHeader.setDocumentDescription(String.format("%s %d %s %s", BCConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION, newBCHdr.getUniversityFiscalYear(), newBCHdr.getChartOfAccountsCode(), newBCHdr.getAccountNumber()));
+        kualiDocumentHeader.setExplanation(BCConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION);
         getPersistenceBrokerTemplate().store(newBCHdr);
         documentService.prepareWorkflowDocument(newBCHdr);
         // this is more efficient than route and does what we want
@@ -1079,7 +1079,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         //  we reset level of any account which no longer exists in the hierarchy
         criteriaID = new Criteria();
         criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, RequestYear);
-        acctOrgHierMap = new HashMap<String, BudgetConstructionAccountOrganizationHierarchy>(hashObjectSize(BudgetConstructionAccountOrganizationHierarchy.class, criteriaID) * BudgetConstructionConstants.AVERAGE_REPORTING_TREE_SIZE);
+        acctOrgHierMap = new HashMap<String, BudgetConstructionAccountOrganizationHierarchy>(hashObjectSize(BudgetConstructionAccountOrganizationHierarchy.class, criteriaID) * BCConstants.AVERAGE_REPORTING_TREE_SIZE);
         QueryByCriteria queryID = new QueryByCriteria(BudgetConstructionHeader.class, criteriaID);
         Iterator Results = getPersistenceBrokerTemplate().getIteratorByQuery(queryID);
         while (Results.hasNext()) {
@@ -1326,7 +1326,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
 
     private void updateBudgetConstructionHeaderAsNeeded(BudgetConstructionHeader bCHdr) {
         // header rows at the lowest (initial) level should be left alone
-        if (bCHdr.getOrganizationLevelCode().equals(BudgetConstructionConstants.INITIAL_ORGANIZATION_LEVEL_CODE)) {
+        if (bCHdr.getOrganizationLevelCode().equals(BCConstants.INITIAL_ORGANIZATION_LEVEL_CODE)) {
             return;
         }
         // we will only update if the level of the organization has changed 
@@ -1338,9 +1338,9 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
             // we have to return to the lowest level and the default the
             // organization reported to
             nHeadersBackToZero = nHeadersBackToZero + 1;
-            bCHdr.setOrganizationLevelChartOfAccountsCode(BudgetConstructionConstants.INITIAL_ORGANIZATION_LEVEL_CHART_OF_ACCOUNTS_CODE);
-            bCHdr.setOrganizationLevelOrganizationCode(BudgetConstructionConstants.INITIAL_ORGANIZATION_LEVEL_ORGANIZATION_CODE);
-            bCHdr.setOrganizationLevelCode(BudgetConstructionConstants.INITIAL_ORGANIZATION_LEVEL_CODE);
+            bCHdr.setOrganizationLevelChartOfAccountsCode(BCConstants.INITIAL_ORGANIZATION_LEVEL_CHART_OF_ACCOUNTS_CODE);
+            bCHdr.setOrganizationLevelOrganizationCode(BCConstants.INITIAL_ORGANIZATION_LEVEL_ORGANIZATION_CODE);
+            bCHdr.setOrganizationLevelCode(BCConstants.INITIAL_ORGANIZATION_LEVEL_CODE);
             getPersistenceBrokerTemplate().store(bCHdr);
             return;
         }
@@ -1409,15 +1409,15 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, RequestYear);
         Criteria lockID = new Criteria();
         Criteria tranLockID = new Criteria();
-        if (BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS == null) {
+        if (BCConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS == null) {
             //  make sure that a NULL test is used in case = NULL is not supported
             //  by the database
             lockID.addNotNull(BCPropertyConstants.BUDGET_LOCK_USER_IDENTIFIER);
             tranLockID.addNotNull(BCPropertyConstants.BUDGET_TRANSACTION_LOCK_USER_IDENTIFIER);
         }
         else {
-            lockID.addNotEqualTo(BCPropertyConstants.BUDGET_LOCK_USER_IDENTIFIER, BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
-            tranLockID.addNotEqualTo(BCPropertyConstants.BUDGET_TRANSACTION_LOCK_USER_IDENTIFIER, BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
+            lockID.addNotEqualTo(BCPropertyConstants.BUDGET_LOCK_USER_IDENTIFIER, BCConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
+            tranLockID.addNotEqualTo(BCPropertyConstants.BUDGET_TRANSACTION_LOCK_USER_IDENTIFIER, BCConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
         }
         ;
         lockID.addOrCriteria(tranLockID);
@@ -1428,8 +1428,8 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         //  now just loop through and change the locks
         while (Results.hasNext()) {
             lockedDocuments = (BudgetConstructionHeader) Results.next();
-            lockedDocuments.setBudgetLockUserIdentifier(BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
-            lockedDocuments.setBudgetTransactionLockUserIdentifier(BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
+            lockedDocuments.setBudgetLockUserIdentifier(BCConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
+            lockedDocuments.setBudgetTransactionLockUserIdentifier(BCConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
             getPersistenceBrokerTemplate().store(lockedDocuments);
         }
     }

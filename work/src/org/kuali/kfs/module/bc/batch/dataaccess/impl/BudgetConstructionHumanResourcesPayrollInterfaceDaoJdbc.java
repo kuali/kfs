@@ -23,6 +23,7 @@ import java.util.GregorianCalendar;
 import org.kuali.kfs.module.bc.batch.dataaccess.BudgetConstructionHumanResourcesPayrollInterfaceDao;
 import org.kuali.kfs.module.bc.document.dataaccess.impl.BudgetConstructionDaoJdbcBase;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.module.bc.BCConstants;
 
 
 
@@ -69,7 +70,7 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
          sqlBuilder.append("                 AND (LD_CSF_TRACKER_T.EMPLID = LD_BCN_INTINCBNT_T.EMPLID)\n");
          sqlBuilder.append("                 AND (LD_CSF_TRACKER_T.POS_CSF_DELETE_CD = ?)))\n");
          String sqlString = sqlBuilder.toString();
-         getSimpleJdbcTemplate().update(sqlString,baseFiscalYear,KFSConstants.BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
+         getSimpleJdbcTemplate().update(sqlString,baseFiscalYear,BCConstants.ACTIVE_CSF_DELETE_CODE);
 
          sqlBuilder.delete(0, sqlBuilder.length());
          /**
@@ -126,7 +127,7 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
          sqlBuilder.append("                      AND (csf.POSITION_NBR < cfx.POSITION_NBR)))) makeUnique)\n");
          
          sqlString = sqlBuilder.toString();
-         Object[] sqlArgumentList = {defaultClassificationId,baseFiscalYear,KFSConstants.BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE,julyFirst,augustFirst,julyFirst,augustFirst,KFSConstants.BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE};
+         Object[] sqlArgumentList = {defaultClassificationId,baseFiscalYear,BCConstants.ACTIVE_CSF_DELETE_CODE,julyFirst,augustFirst,julyFirst,augustFirst,BCConstants.ACTIVE_CSF_DELETE_CODE};
          int[] sqlArgumentTypes = {Types.VARCHAR,Types.INTEGER,Types.VARCHAR,Types.DATE,Types.DATE,Types.DATE,Types.DATE,Types.VARCHAR};
          getSimpleJdbcTemplate().update(sqlString,sqlArgumentList);
 //         getSimpleJdbcTemplate().getJdbcOperations().update(sqlString,sqlArgumentList,sqlArgumentTypes);
@@ -166,7 +167,7 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
         sqlBuilder.append("                 AND (LD_CSF_TRACKER_T.POSITION_NBR = LD_BCN_POS_T.POSITION_NBR)\n");
         sqlBuilder.append("                 AND (LD_CSF_TRACKER_T.POS_CSF_DELETE_CD = ?)))\n");
         String sqlString = sqlBuilder.toString();
-        getSimpleJdbcTemplate().update(sqlString,baseFiscalYear,baseFiscalYear,KFSConstants.BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
+        getSimpleJdbcTemplate().update(sqlString,baseFiscalYear,baseFiscalYear,BCConstants.ACTIVE_CSF_DELETE_CODE);
         sqlBuilder.delete(0, sqlBuilder.length());
         /**
          * re-create the base year position data
@@ -202,7 +203,7 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
         sqlBuilder.append("                  AND (csf.POS_CSF_DELETE_CD = ?)\n");
         sqlBuilder.append("                  AND (csf.POSITION_NBR = px.POSITION_NBR))))\n");
         sqlString = sqlBuilder.toString();
-        getSimpleJdbcTemplate().update(sqlString,baseFiscalYear,defaultRCCd,KFSConstants.BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS,orgSeparator,julyFirst,baseFiscalYear,julyFirst,baseFiscalYear,KFSConstants.BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
+        getSimpleJdbcTemplate().update(sqlString,baseFiscalYear,defaultRCCd,BCConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS,orgSeparator,julyFirst,baseFiscalYear,julyFirst,baseFiscalYear,BCConstants.ACTIVE_CSF_DELETE_CODE);
         // set the things that we'll need for testing but which we don't have enough information to set from the Kuali DB
         // this code is obviously somewhat arbitrary--it should be replaced with institution-specific algorithms
         setAcademicDefaultObjectClass(baseFiscalYear);
@@ -258,7 +259,7 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
         sqlBuilder.append("                  AND (csf.POS_CSF_DELETE_CD = ?)\n");
         sqlBuilder.append("                  AND (csf.POSITION_NBR = px.POSITION_NBR))))\n");
         String sqlString = sqlBuilder.toString();
-        getSimpleJdbcTemplate().update(sqlString,requestFiscalYear,defaultRCCd,KFSConstants.BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS,orgSeparator,julyFirst,augustFirst,academicTenureTrackSalaryPlan,requestFiscalYear,julyFirst,augustFirst,academicTenureTrackSalaryPlan,baseFiscalYear,KFSConstants.BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
+        getSimpleJdbcTemplate().update(sqlString,requestFiscalYear,defaultRCCd,BCConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS,orgSeparator,julyFirst,augustFirst,academicTenureTrackSalaryPlan,requestFiscalYear,julyFirst,augustFirst,academicTenureTrackSalaryPlan,baseFiscalYear,BCConstants.ACTIVE_CSF_DELETE_CODE);
         // set the things that we'll need for testing but which we don't have enough information to set from the Kuali DB
         // this code is obviously somewhat arbitrary--it should be replaced with institution-specific algorithms
         setAcademicDefaultObjectClass(requestFiscalYear);

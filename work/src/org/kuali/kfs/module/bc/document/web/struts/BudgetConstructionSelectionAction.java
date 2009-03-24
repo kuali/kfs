@@ -205,7 +205,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
 
             // get a bare bones BC document to run the rule engine against
             // if rulesPassed, use the document to instantiate to the DB
-            BudgetConstructionDocument budgetConstructionDocument = (BudgetConstructionDocument) SpringContext.getBean(DocumentService.class).getNewDocument(BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
+            BudgetConstructionDocument budgetConstructionDocument = (BudgetConstructionDocument) SpringContext.getBean(DocumentService.class).getNewDocument(BCConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
             budgetConstructionDocument.setUniversityFiscalYear(universityFiscalYear);
             budgetConstructionDocument.setChartOfAccountsCode(chartOfAccountsCode);
             budgetConstructionDocument.setAccountNumber(accountNumber);

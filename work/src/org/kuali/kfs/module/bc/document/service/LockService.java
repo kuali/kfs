@@ -25,7 +25,7 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockSummary;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.exception.BudgetConstructionLockUnavailableException;
-import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
+import org.kuali.kfs.module.bc.BCConstants.LockStatus;
 import org.kuali.rice.kim.bo.Person;
 
 
@@ -251,7 +251,7 @@ public interface LockService {
 
     /**
      * This attempts a transactionlock on a BC Edoc for a pUId. It retries based on the setting of
-     * BudgetConstructionConstants.maxLockRetry.
+     * BCConstants.maxLockRetry.
      * 
      * @param chartOfAccountsCode
      * @param accountNumber

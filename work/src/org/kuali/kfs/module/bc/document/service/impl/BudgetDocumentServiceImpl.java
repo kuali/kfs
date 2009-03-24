@@ -1037,19 +1037,19 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     @Transactional
     public BudgetConstructionDocument instantiateNewBudgetConstructionDocument(BudgetConstructionDocument budgetConstructionDocument) throws WorkflowException {
 
-        budgetConstructionDocument.setOrganizationLevelChartOfAccountsCode(BudgetConstructionConstants.INITIAL_ORGANIZATION_LEVEL_CHART_OF_ACCOUNTS_CODE);
-        budgetConstructionDocument.setOrganizationLevelOrganizationCode(BudgetConstructionConstants.INITIAL_ORGANIZATION_LEVEL_ORGANIZATION_CODE);
-        budgetConstructionDocument.setOrganizationLevelCode(BudgetConstructionConstants.INITIAL_ORGANIZATION_LEVEL_CODE);
-        budgetConstructionDocument.setBudgetTransactionLockUserIdentifier(BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
-        budgetConstructionDocument.setBudgetLockUserIdentifier(BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
+        budgetConstructionDocument.setOrganizationLevelChartOfAccountsCode(BCConstants.INITIAL_ORGANIZATION_LEVEL_CHART_OF_ACCOUNTS_CODE);
+        budgetConstructionDocument.setOrganizationLevelOrganizationCode(BCConstants.INITIAL_ORGANIZATION_LEVEL_ORGANIZATION_CODE);
+        budgetConstructionDocument.setOrganizationLevelCode(BCConstants.INITIAL_ORGANIZATION_LEVEL_CODE);
+        budgetConstructionDocument.setBudgetTransactionLockUserIdentifier(BCConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
+        budgetConstructionDocument.setBudgetLockUserIdentifier(BCConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
 
         FinancialSystemDocumentHeader kualiDocumentHeader = budgetConstructionDocument.getDocumentHeader();
         budgetConstructionDocument.setDocumentNumber(budgetConstructionDocument.getDocumentHeader().getDocumentNumber());
         kualiDocumentHeader.setOrganizationDocumentNumber(budgetConstructionDocument.getUniversityFiscalYear().toString());
         kualiDocumentHeader.setFinancialDocumentStatusCode(KFSConstants.INITIAL_KUALI_DOCUMENT_STATUS_CD);
         kualiDocumentHeader.setFinancialDocumentTotalAmount(KualiDecimal.ZERO);
-        kualiDocumentHeader.setDocumentDescription(String.format("%s %d %s %s", BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION, budgetConstructionDocument.getUniversityFiscalYear(), budgetConstructionDocument.getChartOfAccountsCode(), budgetConstructionDocument.getAccountNumber()));
-        kualiDocumentHeader.setExplanation(BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION);
+        kualiDocumentHeader.setDocumentDescription(String.format("%s %d %s %s", BCConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION, budgetConstructionDocument.getUniversityFiscalYear(), budgetConstructionDocument.getChartOfAccountsCode(), budgetConstructionDocument.getAccountNumber()));
+        kualiDocumentHeader.setExplanation(BCConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION);
 
         budgetConstructionDao.saveBudgetConstructionDocument(budgetConstructionDocument);
         documentService.prepareWorkflowDocument(budgetConstructionDocument);

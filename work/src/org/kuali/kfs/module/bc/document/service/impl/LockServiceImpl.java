@@ -36,9 +36,8 @@ import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionLockDao;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.module.bc.exception.BudgetConstructionLockUnavailableException;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
-import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCConstants.LockStatus;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kim.bo.Person;
 import org.springframework.dao.DataAccessException;
@@ -517,7 +516,7 @@ public class LockServiceImpl implements LockService {
                     done = true;
                 }
                 else {
-                    if (lockRetry > BudgetConstructionConstants.maxLockRetry) {
+                    if (lockRetry > BCConstants.maxLockRetry) {
                         bcLockStatus.setLockStatus(LockStatus.BY_OTHER);
                         bcLockStatus.setTransactionLockOwner(bcHeader.getBudgetTransactionLockUserIdentifier());
                         done = true;
@@ -790,13 +789,13 @@ public class LockServiceImpl implements LockService {
             String lockingKey = fundingRecord.getUniversityFiscalYear() + "-" + fundingRecord.getChartOfAccountsCode() + "-" + fundingRecord.getAccountNumber() + "-" + fundingRecord.getSubAccountNumber();
             if (!lockMap.containsKey(lockingKey)) {
                 BudgetConstructionLockStatus lockStatus = lockAccount(header, user.getPrincipalId());
-                if (lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.BY_OTHER)) {
+                if (lockStatus.getLockStatus().equals(BCConstants.LockStatus.BY_OTHER)) {
                     throw new BudgetConstructionLockUnavailableException(lockStatus);
                 }
-                else if (lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.FLOCK_FOUND)) {
+                else if (lockStatus.getLockStatus().equals(BCConstants.LockStatus.FLOCK_FOUND)) {
                     throw new BudgetConstructionLockUnavailableException(lockStatus);
                 }
-                else if (!lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.SUCCESS)) {
+                else if (!lockStatus.getLockStatus().equals(BCConstants.LockStatus.SUCCESS)) {
                     throw new BudgetConstructionLockUnavailableException(lockStatus);
                 }
                 else {
@@ -826,7 +825,7 @@ public class LockServiceImpl implements LockService {
     public BudgetConstructionLockStatus lockPositionAndActiveFunding(Integer universityFiscalYear, String positionNumber, String principalId) {
         // attempt to lock position first
         BudgetConstructionLockStatus lockStatus = lockPosition(positionNumber, universityFiscalYear, principalId);
-        if (!lockStatus.getLockStatus().equals(BudgetConstructionConstants.LockStatus.SUCCESS)) {
+        if (!lockStatus.getLockStatus().equals(BCConstants.LockStatus.SUCCESS)) {
             return lockStatus;
         }
 
@@ -839,7 +838,7 @@ public class LockServiceImpl implements LockService {
                 BudgetConstructionHeader budgetConstructionHeader = budgetDocumentService.getBudgetConstructionHeader(appointmentFunding);
                 BudgetConstructionLockStatus fundingLockStatus = lockFunding(budgetConstructionHeader, principalId);
 
-                if (!fundingLockStatus.getLockStatus().equals(BudgetConstructionConstants.LockStatus.SUCCESS)) {
+                if (!fundingLockStatus.getLockStatus().equals(BCConstants.LockStatus.SUCCESS)) {
                     return lockStatus;
                 }
             }
@@ -860,7 +859,7 @@ public class LockServiceImpl implements LockService {
     public LockStatus unlockPositionAndActiveFunding(Integer universityFiscalYear, String positionNumber, String principalId) {
         // unlock position
         LockStatus lockStatus = unlockPosition(positionNumber, universityFiscalYear, principalId);
-        if (!lockStatus.equals(BudgetConstructionConstants.LockStatus.SUCCESS)) {
+        if (!lockStatus.equals(BCConstants.LockStatus.SUCCESS)) {
             return lockStatus;
         }
 
@@ -872,7 +871,7 @@ public class LockServiceImpl implements LockService {
             if (!appointmentFunding.isAppointmentFundingDeleteIndicator()) {
                 LockStatus fundingLockStatus = unlockFunding(appointmentFunding.getChartOfAccountsCode(), appointmentFunding.getAccountNumber(), appointmentFunding.getSubAccountNumber(), appointmentFunding.getUniversityFiscalYear(), principalId);
 
-                if (!fundingLockStatus.equals(BudgetConstructionConstants.LockStatus.SUCCESS)) {
+                if (!fundingLockStatus.equals(BCConstants.LockStatus.SUCCESS)) {
                     return lockStatus;
                 }
             }

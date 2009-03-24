@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
@@ -288,15 +289,15 @@ public class PayrateImportServiceImpl implements PayrateImportService {
                 lockedRecords.addAll(this.lockService.lockPendingBudgetConstructionAppointmentFundingRecords(fundingRecords, user));
             } catch(BudgetConstructionLockUnavailableException e) {
                 BudgetConstructionLockStatus lockStatus = e.getLockStatus();
-                if ( lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.BY_OTHER) ) {
+                if ( lockStatus.getLockStatus().equals(BCConstants.LockStatus.BY_OTHER) ) {
                     messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_ACCOUNT_LOCK_EXISTS));
                     
                     return false;
-                } else if ( lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.FLOCK_FOUND) ) {
+                } else if ( lockStatus.getLockStatus().equals(BCConstants.LockStatus.FLOCK_FOUND) ) {
                     messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_FUNDING_LOCK_EXISTS));
                     
                     return false;
-                } else if ( !lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.SUCCESS) ) {
+                } else if ( !lockStatus.getLockStatus().equals(BCConstants.LockStatus.SUCCESS) ) {
                     messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.ERROR_PAYRATE_BATCH_ACCOUNT_LOCK_FAILED));
                     return false;
                 }

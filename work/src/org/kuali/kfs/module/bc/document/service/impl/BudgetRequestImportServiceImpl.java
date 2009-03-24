@@ -345,7 +345,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
 
                 if (recordToLoad.getHasAccess()) {
                     BudgetConstructionLockStatus lockStatus = this.lockService.lockAccountAndCommit(header, user.getPrincipalId());
-                    if (lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.SUCCESS)) {
+                    if (lockStatus.getLockStatus().equals(BCConstants.LockStatus.SUCCESS)) {
                         recordToLoad.setHasLock(true);
                     } else {
                         recordToLoad.setRequestUpdateErrorCode(BCConstants.RequestImportErrorCode.UPDATE_ERROR_CODE_BUDGET_ACCOUNT_LOCKED.getErrorCode());

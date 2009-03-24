@@ -39,7 +39,7 @@ import org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
-import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
+import org.kuali.kfs.module.bc.BCConstants.LockStatus;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
@@ -449,7 +449,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             AttributeSet qualification = new AttributeSet();
             qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, getChartOfAccountsCode());
             qualification.put(KfsKimAttributes.ACCOUNT_NUMBER, getAccountNumber());
-            qualification.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, KFSConstants.BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
+            qualification.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, BCConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
 
             List<String> roleId = new ArrayList<String>();
             roleId.add(roleService.getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.FISCAL_OFFICER_KIM_ROLE_NAME));

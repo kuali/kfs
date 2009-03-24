@@ -27,6 +27,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubAccount;
+import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCConstants.AccountSalarySettingOnlyCause;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountReports;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
@@ -826,7 +827,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
         }
         /* the status below is comparable to "approved" status for other documents */
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-            getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_INITIAL_STATUS);
+            getDocumentHeader().setFinancialDocumentStatusCode(BCConstants.BUDGET_CONSTRUCTION_DOCUMENT_INITIAL_STATUS);
         }
         LOG.info("Status is: " + getDocumentHeader().getFinancialDocumentStatusCode());
     }

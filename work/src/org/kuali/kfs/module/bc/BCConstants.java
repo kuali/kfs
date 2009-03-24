@@ -18,6 +18,7 @@ package org.kuali.kfs.module.bc;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.kuali.kfs.module.bc.document.web.struts.BudgetConstructionRequestImportAction;
@@ -26,6 +27,7 @@ import org.kuali.kfs.module.bc.document.web.struts.OrganizationSelectionTreeActi
 import org.kuali.kfs.module.bc.document.web.struts.QuickSalarySettingAction;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KFSConstants.ParameterValues;
 import org.kuali.rice.core.util.JSTLConstants;
 
 public class BCConstants extends JSTLConstants {
@@ -435,6 +437,84 @@ public class BCConstants extends JSTLConstants {
     public static final String MAPPING_ORGANIZATION_SALARY_SETTING_RETURNING = "organizationSalarySettingReturning";
     public static final String MAPPING_LOST_SESSION_RETURNING = "lostSessionReturning";
 
+    /**
+     *   moved from KFSConstants 03/24/2009
+     */
+
+
+    public enum LockStatus {
+        SUCCESS, BY_OTHER, NO_DOOR, OPTIMISTIC_EX, FLOCK_FOUND
+    }
+
+    public static final int maxLockRetry = 20;
+
+
+    /* KFSConstants for the budget construction flag names */
+    private static int NUMBER_OF_CTRL_FLAGS = 8;
+
+    /* state for current year budget construction flags after genesis */
+    private static HashMap<String, String> buildCurrentYear() {
+        HashMap<String, String> mapSLF;
+        mapSLF = new HashMap<String, String>(NUMBER_OF_CTRL_FLAGS, (float) 1.00);
+        mapSLF.put(KFSConstants.BudgetConstructionConstants.BUDGET_ADMINSTRATION_ACTIVE, ParameterValues.YES);
+        mapSLF.put(KFSConstants.BudgetConstructionConstants.BASE_BUDGET_UPDATES_OK, ParameterValues.YES);
+        mapSLF.put(KFSConstants.BudgetConstructionConstants.BUDGET_BATCH_SYNCHRONIZATION_OK, ParameterValues.NO);
+        mapSLF.put(KFSConstants.BudgetConstructionConstants.CSF_UPDATES_OK, ParameterValues.NO);
+        mapSLF.put(KFSConstants.BudgetConstructionConstants.BUDGET_CONSTRUCTION_ACTIVE, ParameterValues.NO);
+        mapSLF.put(KFSConstants.BudgetConstructionConstants.BUDGET_CONSTRUCTION_GENESIS_RUNNING, ParameterValues.NO);
+        mapSLF.put(KFSConstants.BudgetConstructionConstants.BUDGET_CONSTRUCTION_UPDATES_OK, ParameterValues.NO);
+        mapSLF.put(KFSConstants.BudgetConstructionConstants.BUDGET_ON_LINE_SYNCHRONIZATION_OK, ParameterValues.NO);
+        return mapSLF;
+    }
+
+    public final static HashMap<String, String> CURRENT_FSCL_YR_CTRL_FLAGS = buildCurrentYear();
+
+    /* state for next year budget construction flags after genesis */
+    private static HashMap<String, String> buildNextYear() {
+        HashMap<String, String> mapSLF;
+        mapSLF = new HashMap<String, String>(NUMBER_OF_CTRL_FLAGS, (float) 1.00);
+        mapSLF.put(KFSConstants.BudgetConstructionConstants.BUDGET_ADMINSTRATION_ACTIVE, ParameterValues.NO);
+        mapSLF.put(KFSConstants.BudgetConstructionConstants.BASE_BUDGET_UPDATES_OK, ParameterValues.NO);
+        mapSLF.put(KFSConstants.BudgetConstructionConstants.BUDGET_BATCH_SYNCHRONIZATION_OK, ParameterValues.YES);
+        mapSLF.put(KFSConstants.BudgetConstructionConstants.CSF_UPDATES_OK, ParameterValues.YES);
+        mapSLF.put(KFSConstants.BudgetConstructionConstants.BUDGET_CONSTRUCTION_ACTIVE, ParameterValues.YES);
+        mapSLF.put(KFSConstants.BudgetConstructionConstants.BUDGET_CONSTRUCTION_GENESIS_RUNNING, ParameterValues.NO);
+        mapSLF.put(KFSConstants.BudgetConstructionConstants.BUDGET_CONSTRUCTION_UPDATES_OK, ParameterValues.NO);
+        mapSLF.put(KFSConstants.BudgetConstructionConstants.BUDGET_ON_LINE_SYNCHRONIZATION_OK, ParameterValues.YES);
+        return mapSLF;
+    }
+
+    public final static HashMap<String, String> NEXT_FSCL_YR_CTRL_FLAGS_AFTER_GENESIS = buildNextYear();
+
+    /* constants for the budget construction header */
+    public final static String DEFAULT_BUDGET_HEADER_LOCK_IDS = null;
+    public final static Integer INITIAL_ORGANIZATION_LEVEL_CODE = new Integer(0);
+    public final static String INITIAL_ORGANIZATION_LEVEL_CHART_OF_ACCOUNTS_CODE = null;
+    public final static String INITIAL_ORGANIZATION_LEVEL_ORGANIZATION_CODE = null;
+
+    /* Budget Construction document type */
+    public final static String BUDGET_CONSTRUCTION_DOCUMENT_TYPE = "BC";
+    public final static String BUDGET_CONSTRUCTION_DOCUMENT_NAME = "BC";
+    public final static String BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION = "Budget Construction";
+    public final static String BUDGET_CONSTRUCTION_DOCUMENT_INITIAL_STATUS = "$";
+    public final static String ORG_REVIEW_RULE_TEMPLATE = "KualiOrgReviewTemplate";
+
+    /*
+     * initial sizes for hash maps used in genesis supposedly starting the map out with about the right amount of space makes
+     * look-ups more efficient these numbers shouldn't need to be very precise
+     */
+    public final static Integer AVERAGE_REPORTING_TREE_SIZE = 4;
+    
+    /**
+     *  value indicating that a CSF row is Active
+     */
+    public final static String ACTIVE_CSF_DELETE_CODE = "-";
+        
+    
+    /**
+     *   end of code moved from KFSConstants
+     */
+    
     /**
      * enumerate the leave duration code
      */

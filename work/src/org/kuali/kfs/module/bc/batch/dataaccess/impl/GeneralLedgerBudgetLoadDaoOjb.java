@@ -132,7 +132,7 @@ public class GeneralLedgerBudgetLoadDaoOjb extends BudgetConstructionBatchHelper
         GeneralLedgerPendingEntry newRow = new GeneralLedgerPendingEntry();
         newRow.setUniversityFiscalYear(daoGlobalVariables.getRequestYear());
         newRow.setTransactionLedgerEntryDescription(BCConstants.BC_TRN_LDGR_ENTR_DESC);
-        newRow.setFinancialDocumentTypeCode(KFSConstants.BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_TYPE);
+        newRow.setFinancialDocumentTypeCode(BCConstants.BUDGET_CONSTRUCTION_DOCUMENT_TYPE);
         newRow.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
         newRow.setTransactionDate(daoGlobalVariables.getTransactionDate());
         newRow.setTransactionEntryOffsetIndicator(false);

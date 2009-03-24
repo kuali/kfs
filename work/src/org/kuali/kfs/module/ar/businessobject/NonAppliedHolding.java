@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -24,6 +25,7 @@ public class NonAppliedHolding extends PersistableBusinessObjectBase {
     private KualiDecimal appliedUnappliedAmount = KualiDecimal.ZERO;
     private Collection<NonInvoicedDistribution> nonInvoicedDistributions;
     private Collection<NonAppliedDistribution> nonAppliedDistributions;
+    private FinancialSystemDocumentHeader documentHeader;
 
 	/**
 	 * Default constructor.
@@ -186,6 +188,22 @@ public class NonAppliedHolding extends PersistableBusinessObjectBase {
      */
     public void setAppliedUnappliedAmount(KualiDecimal appliedUnappliedAmount) {
         this.appliedUnappliedAmount = appliedUnappliedAmount;
+    }
+
+    /**
+     * Vivek - Sets the documentHeader attribute value.
+     * @param documentHeader.
+     */
+    public FinancialSystemDocumentHeader getDocumentHeader() {
+        return documentHeader;
+    }
+
+    /**
+     * Vivek - Sets the documentHeader attribute value.
+     * @param documentHeader.
+     */
+    public void setDocumentHeader(FinancialSystemDocumentHeader documentHeader) {
+        this.documentHeader = documentHeader;
     }
 
 }

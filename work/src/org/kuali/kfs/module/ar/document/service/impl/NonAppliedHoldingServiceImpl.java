@@ -22,6 +22,7 @@ import java.util.Map;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.document.service.NonAppliedHoldingService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,6 +45,7 @@ public class NonAppliedHoldingServiceImpl implements NonAppliedHoldingService {
     public Collection<NonAppliedHolding> getNonAppliedHoldingsForCustomer(String customerNumber) {
         Map args = new HashMap();
         args.put("customerNumber", customerNumber);
+        args.put("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
         return businessObjectService.findMatching(NonAppliedHolding.class, args);
     }
 

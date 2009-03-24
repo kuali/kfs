@@ -51,6 +51,10 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
             if (isValid) {
                 isValid &= checkAddresses(newCustomer);
             }
+            
+            if (isValid) {
+                validateAddresses(newCustomer);
+            }
 
             if (isValid) {
                 isValid &= checkTaxNumber(newCustomer);
@@ -142,7 +146,7 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
         return isValid;
 
     }
-
+    
     /**
      * 
      * This method checks if the customer name entered is greater than or equal to three (3) characters long.
@@ -164,6 +168,36 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
      * @param customerAddress
      * @return true if valid, false otherwise
      */
+    public boolean checkAddressIsValid(CustomerAddress customerAddress, int ind) {
+        boolean isValid = true;
+        String propertyName = ArPropertyConstants.CustomerFields.CUSTOMER_TAB_ADDRESSES + "[" + ind + "].";
+
+        if (ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_US.equalsIgnoreCase(customerAddress.getCustomerCountryCode())) {
+
+            if (customerAddress.getCustomerZipCode() == null || "".equalsIgnoreCase(customerAddress.getCustomerZipCode())) {
+                isValid = false;
+                putFieldError(propertyName + ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS_ZIP_CODE, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_ZIP_CODE_REQUIRED_WHEN_COUNTTRY_US);
+            }
+            if (customerAddress.getCustomerStateCode() == null || "".equalsIgnoreCase(customerAddress.getCustomerStateCode())) {
+                isValid = false;
+                putFieldError(propertyName + ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS_STATE_CODE, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_STATE_CODE_REQUIRED_WHEN_COUNTTRY_US);
+            }
+        }
+        else {
+            if (customerAddress.getCustomerInternationalMailCode() == null || "".equalsIgnoreCase(customerAddress.getCustomerInternationalMailCode())) {
+                isValid = false;
+                //GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS_INTERNATIONAL_MAIL_CODE, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_INTERNATIONAL_MAIL_CODE_REQUIRED_WHEN_COUNTTRY_NON_US);
+                putFieldError(propertyName + ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS_INTERNATIONAL_MAIL_CODE, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_INTERNATIONAL_MAIL_CODE_REQUIRED_WHEN_COUNTTRY_NON_US);
+            }
+            if (customerAddress.getCustomerAddressInternationalProvinceName() == null || "".equalsIgnoreCase(customerAddress.getCustomerAddressInternationalProvinceName())) {
+                isValid = false;
+                //GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS_INTERNATIONAL_PROVINCE_NAME, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_INTERNATIONAL_PROVINCE_NAME_REQUIRED_WHEN_COUNTTRY_NON_US);
+                putFieldError(propertyName + ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS_INTERNATIONAL_PROVINCE_NAME, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_INTERNATIONAL_PROVINCE_NAME_REQUIRED_WHEN_COUNTTRY_NON_US);
+            }
+        }
+        return isValid;
+    }
+    
     public boolean checkAddressIsValid(CustomerAddress customerAddress) {
         boolean isValid = true;
 
@@ -217,6 +251,18 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
             isValid = false;
             GlobalVariables.getErrorMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.CustomerFields.CUSTOMER_TAB_ADDRESSES, ArKeyConstants.CustomerConstants.ERROR_ONLY_ONE_PRIMARY_ADDRESS);
         }
+        return isValid;
+    }
+    
+    public boolean validateAddresses(Customer customer) {
+        boolean isValid = true;
+        int i = 0;
+        for (CustomerAddress customerAddress : customer.getCustomerAddresses()) {
+            isValid &= checkAddressIsValid(customerAddress,i);
+            i++;
+            
+        }
+        
         return isValid;
     }
     

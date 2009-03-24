@@ -99,21 +99,21 @@ public class CashDrawer extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the workgroupName attribute.
+     * Gets the campusCode attribute.
      * 
-     * @return Returns the workgroupName
+     * @return Returns the campusCode
      */
     public String getCampusCode() {
         return campusCode;
     }
 
     /**
-     * Sets the workgroupName attribute.
+     * Sets the campusCode attribute.
      * 
-     * @param workgroupName The workgroupName to set.
+     * @param campusCode The campusCode to set.
      */
-    public void setCampusCode(String workgroupName) {
-        this.campusCode = workgroupName;
+    public void setCampusCode(String campusCode) {
+        this.campusCode = campusCode;
     }
 
 
@@ -1092,7 +1092,7 @@ public class CashDrawer extends PersistableBusinessObjectBase {
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("workgroupName", this.campusCode);
+        m.put("campusCode", this.campusCode);
         return m;
     }
 }

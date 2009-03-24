@@ -44,9 +44,9 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
     }
 
     /**
-     * @see org.kuali.kfs.fp.document.dataaccess.CashManagementDao#findOpenItemsInProcessByWorkgroupName(java.lang.String)
+     * @see org.kuali.kfs.fp.document.dataaccess.CashManagementDao#findOpenItemsInProcessByCampusCode(java.lang.String)
      */
-    public List<CashieringItemInProcess> findOpenItemsInProcessByWorkgroupName(String campusCode) throws DataAccessException {
+    public List<CashieringItemInProcess> findOpenItemsInProcessByCampusCode(String campusCode) throws DataAccessException {
         List<CashieringItemInProcess> openItems = new ArrayList<CashieringItemInProcess>();
         Criteria criteria = new Criteria();
         criteria.addEqualTo("campusCode", campusCode);

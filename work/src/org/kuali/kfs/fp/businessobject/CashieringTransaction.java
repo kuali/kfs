@@ -61,9 +61,9 @@ public class CashieringTransaction extends TransientBusinessObjectBase {
     /**
      * Constructs a CashieringTransaction
      */
-    public CashieringTransaction(String workgroupName, String referenceFinancialDocumentNumber) {
+    public CashieringTransaction(String campusCode, String referenceFinancialDocumentNumber) {
         super();
-        this.campusCode = workgroupName;
+        this.campusCode = campusCode;
         this.referenceFinancialDocumentNumber = referenceFinancialDocumentNumber;
         this.transactionStarted = SpringContext.getBean(DateTimeService.class).getCurrentDate();
 
@@ -205,21 +205,21 @@ public class CashieringTransaction extends TransientBusinessObjectBase {
     }
 
     /**
-     * Gets the workgroupName attribute.
+     * Gets the campusCode attribute.
      * 
-     * @return Returns the workgroupName.
+     * @return Returns the campusCode.
      */
     public String getCampusCode() {
         return campusCode;
     }
 
     /**
-     * Sets the workgroupName attribute value.
+     * Sets the campusCode attribute value.
      * 
-     * @param workgroupName The workgroupName to set.
+     * @param campusCode The campusCode to set.
      */
-    public void setCampusCode(String workgroupName) {
-        this.campusCode = workgroupName;
+    public void setCampusCode(String campusCode) {
+        this.campusCode = campusCode;
     }
 
     /**
@@ -363,7 +363,7 @@ public class CashieringTransaction extends TransientBusinessObjectBase {
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap pkMap = new LinkedHashMap();
-        pkMap.put("workgroupName", this.campusCode);
+        pkMap.put("campusCode", this.campusCode);
         pkMap.put("referenceFinancialDocumentNumber", this.referenceFinancialDocumentNumber);
         pkMap.put("transactionStarted", this.transactionStarted);
         return pkMap;

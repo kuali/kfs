@@ -24,7 +24,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  */
 public interface CashDrawerService {
     /**
-     * Closes the CashDrawer instance associated with the given workgroupName, creating one if necessary.
+     * Closes the CashDrawer instance associated with the given campus code, creating one if necessary.
      * 
      * @param campusCode The campus code used to retrieve the cash drawer to be closed.
      */

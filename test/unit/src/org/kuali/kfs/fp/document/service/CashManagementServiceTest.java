@@ -691,8 +691,8 @@ public class CashManagementServiceTest extends KualiTestBase {
 
     private static final String[] BOTH_STATII = { KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM };
 
-    private void denatureCashReceipts(String workgroupName) {
-        List verifiedReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(workgroupName, BOTH_STATII);
+    private void denatureCashReceipts(String campusCode) {
+        List verifiedReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(campusCode, BOTH_STATII);
 
         for (Iterator i = verifiedReceipts.iterator(); i.hasNext();) {
             CashReceiptDocument receipt = (CashReceiptDocument) i.next();

@@ -502,14 +502,12 @@ public class DepositWizardAction extends KualiAction {
                         // if the currency and coin details aren't empty, save them and remove them from the cash drawer
                         if (dform.getCurrencyDetail() != null) {
                             // do we have enough currency to allow the deposit to leave the drawer?
-                            dform.getCurrencyDetail().setDocumentNumber(cmDocId);
                             SpringContext.getBean(BusinessObjectService.class).save(dform.getCurrencyDetail());
                             cashManagementDoc.getCashDrawer().removeCurrency(dform.getCurrencyDetail());
                             finalDeposit.setDepositAmount(finalDeposit.getDepositAmount().add(dform.getCurrencyDetail().getTotalAmount()));
                         }
                         if (dform.getCoinDetail() != null) {
                             // do we have enough coin to allow the deposit to leave the drawer?
-                            dform.getCoinDetail().setDocumentNumber(cmDocId);
                             SpringContext.getBean(BusinessObjectService.class).save(dform.getCoinDetail());
                             cashManagementDoc.getCashDrawer().removeCoin(dform.getCoinDetail());
                             finalDeposit.setDepositAmount(finalDeposit.getDepositAmount().add(dform.getCoinDetail().getTotalAmount()));

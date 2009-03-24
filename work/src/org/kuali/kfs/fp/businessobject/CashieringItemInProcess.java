@@ -44,18 +44,18 @@ public class CashieringItemInProcess extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the workgroupName attribute.
+     * Gets the campusCode attribute.
      * 
-     * @return Returns the workgroupName
+     * @return Returns the campusCode
      */
     public String getCampusCode() {
         return campusCode;
     }
 
     /**
-     * Sets the workgroupName attribute.
+     * Sets the campusCode attribute.
      * 
-     * @param workgroupName The workgroupName to set.
+     * @param campusCode The campusCode to set.
      */
     public void setCampusCode(String campusCode) {
         this.campusCode = campusCode;
@@ -225,7 +225,7 @@ public class CashieringItemInProcess extends PersistableBusinessObjectBase {
     }
 
     /**
-     * This method determines if this cashiering item in process was likely filled in by someone Since workgroupName is likely
+     * This method determines if this cashiering item in process was likely filled in by someone Since campusCode is likely
      * automatically populated, it doesn't count
      * 
      * @return if this item in process is populated

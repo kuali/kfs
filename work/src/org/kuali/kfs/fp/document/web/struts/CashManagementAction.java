@@ -112,14 +112,14 @@ public class CashManagementAction extends KualiTransactionalDocumentActionBase {
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         Person user = GlobalVariables.getUserSession().getPerson();
-        String workgroupName = SpringContext.getBean(CashReceiptService.class).getCashReceiptVerificationUnitForUser(user);
+        String campusCode = SpringContext.getBean(CashReceiptService.class).getCashReceiptVerificationUnitForUser(user);
 
         String defaultDescription = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(CashManagement.DEFAULT_DOCUMENT_DESCRIPTION);
-        defaultDescription = StringUtils.replace(defaultDescription, "{0}", workgroupName);
+        defaultDescription = StringUtils.replace(defaultDescription, "{0}", campusCode);
         defaultDescription = StringUtils.substring(defaultDescription, 0, 39);
 
         // create doc
-        CashManagementDocument cmDoc = SpringContext.getBean(CashManagementService.class).createCashManagementDocument(workgroupName, defaultDescription, null);
+        CashManagementDocument cmDoc = SpringContext.getBean(CashManagementService.class).createCashManagementDocument(campusCode, defaultDescription, null);
 
         // update form
         kualiDocumentFormBase.setDocument(cmDoc);

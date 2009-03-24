@@ -107,19 +107,19 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
 
 
     /**
-     * @return current value of workgroupName.
+     * @return current value of campusCode.
      */
     public String getCampusCode() {
         return campusCode;
     }
 
     /**
-     * Sets the workgroupName attribute value.
+     * Sets the campusCode attribute value.
      * 
-     * @param workgroupName The workgroupName to set.
+     * @param campusCode The campusCode to set.
      */
-    public void setCampusCode(String workgroupName) {
-        this.campusCode = workgroupName;
+    public void setCampusCode(String campusCode) {
+        this.campusCode = campusCode;
     }
 
     /**

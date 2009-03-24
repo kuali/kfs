@@ -61,7 +61,12 @@ function checkCheckAllOrNone() {
 	<html:hidden property="cashDrawerCampusCode" />
 	<html:hidden property="cashManagementDocId" />
 	<html:hidden property="depositTypeCode" />
-
+	<html:hidden property="currencyDetail.documentNumber" />
+	<html:hidden property="currencyDetail.cashieringRecordSource" />
+	<html:hidden property="currencyDetail.financialDocumentTypeCode" />
+	<html:hidden property="coinDetail.documentNumber" />
+	<html:hidden property="coinDetail.cashieringRecordSource" />
+	<html:hidden property="coinDetail.financialDocumentTypeCode" />
 
 	<c:if test="${!empty KualiForm.depositableCashReceipts || !empty KualiForm.depositableCashieringChecks || !empty KualiForm.checkFreeCashReceipts}">
 		<kul:tabTop tabTitle="Deposit Header" defaultOpen="true"

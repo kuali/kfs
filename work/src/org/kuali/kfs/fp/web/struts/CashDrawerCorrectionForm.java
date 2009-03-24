@@ -20,7 +20,7 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public class CashDrawerCorrectionForm extends KualiForm {
     private CashDrawer cashDrawer;
-    private String workgroupName;
+    private String campusCode;
 
     public CashDrawerCorrectionForm() {
         super();
@@ -46,21 +46,21 @@ public class CashDrawerCorrectionForm extends KualiForm {
     }
 
     /**
-     * Gets the workgroupName attribute.
+     * Gets the campusCode attribute.
      * 
-     * @return Returns the workgroupName.
+     * @return Returns the campusCode.
      */
-    public String getWorkgroupName() {
-        return workgroupName;
+    public String getCampusCode() {
+        return campusCode;
     }
 
     /**
-     * Sets the workgroupName attribute value.
+     * Sets the campusCode attribute value.
      * 
-     * @param workgroupName The workgroupName to set.
+     * @param campusCode The campusCode to set.
      */
-    public void setWorkgroupName(String workgroupName) {
-        this.workgroupName = workgroupName;
+    public void setCampusCode(String workgroupName) {
+        this.campusCode = workgroupName;
     }
 
 }

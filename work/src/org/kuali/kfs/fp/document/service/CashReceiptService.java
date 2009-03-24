@@ -32,7 +32,7 @@ public interface CashReceiptService {
      * that's the one place I'm sure that returning a null is interpreted to mean that a user is a member of no verificationUnit)
      * 
      * @param user The user to retrieve the cash receipt verification unit for.
-     * @return Cash receipt verificationUnit workgroupName associated with the given user; null if the user is not a member of any verification unit workgroup.
+     * @return Cash receipt verificationUnit campusCode associated with the given user; null if the user is not a member of any verification campus.
      */
     public String getCashReceiptVerificationUnitForUser(Person user);
 

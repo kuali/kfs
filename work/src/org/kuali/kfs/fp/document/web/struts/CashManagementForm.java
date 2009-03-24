@@ -472,8 +472,8 @@ public class CashManagementForm extends KualiDocumentFormBase {
         public void resummarize(CashManagementDocument cmDoc) {
             //
             // get all interesting CRs
-            String workgroupName = cmDoc.getCampusCode();
-            List<CashReceiptDocument> interestingReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(workgroupName, INTERESTING_STATII);
+            String campusCode = cmDoc.getCampusCode();
+            List<CashReceiptDocument> interestingReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(campusCode, INTERESTING_STATII);
 
 
             //
@@ -1088,7 +1088,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
     @Override
     public void postprocessRequestParameters(Map requestParameters) {
         super.postprocessRequestParameters(requestParameters);
-        // fish the workgroup name out of the parameters
+        // fish the campus code name out of the parameters
         String[] campusCodes = (String[]) requestParameters.get(CashManagementForm.CAMPUS_CODE_PROPERTY);
         String campusCode = null;
         if (campusCodes != null && campusCodes.length > 0) {

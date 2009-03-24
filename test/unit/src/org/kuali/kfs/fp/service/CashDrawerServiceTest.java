@@ -321,7 +321,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
      * This method tests that trying to retrieve a cash drawer by a workgroup name, when the workgroup name provided is 
      * blank, will generate an error.
      */
-    public final void testGetByWorkgroupName_blankWorkgroup() {
+    public final void testGetByCampusCode_blankWorkgroup() {
         boolean failedAsExpected = false;
 
         try {
@@ -339,7 +339,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
      * This method tests that trying to retrieve a cash drawer by a workgroup name, when the workgroup does not exist, 
      * will generate an error.
      */
-    public final void testGetByWorkgroupName_nonexistentWorkgroup() {
+    public final void testGetByCampusCode_nonexistentWorkgroup() {
         CashDrawer d = SpringContext.getBean(CashDrawerService.class).getByCampusCode("foo");
 
         assertNull(d);
@@ -347,9 +347,9 @@ public class CashDrawerServiceTest extends KualiTestBase {
 
     /**
      * 
-     * This method tests the getByWorkgroupName method under valid conditions.
+     * This method tests the getByCampusCode method under valid conditions.
      */
-    public final void testGetByWorkgroupName_existingWorkgroup() {
+    public final void testGetByCampusCode_existingWorkgroup() {
         final String workgroup = VALID_CAMPUS_CODE;
 
         CashDrawer d = SpringContext.getBean(CashDrawerService.class).getByCampusCode(workgroup);

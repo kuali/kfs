@@ -62,6 +62,7 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -118,16 +119,16 @@ public class CashManagementServiceImpl implements CashManagementService {
      * This method creates a new cash management document and sets the provided values as attributes to the document.  
      * The steps followed to create a new cash management document are as follows:
      * <ul>
-     * <li>Find the drawer for the workgroupName given.</li>
+     * <li>Find the drawer for the campus code given.</li>
      * <li>Make sure the drawer is closed, force the drawer closed if it is not already closed.</li>
      * <li>Create the cash management document, set the provided values to the document and link it to the cash drawer</li>
      * </ul> 
      * 
-     * If the workgroupName or docDescription values are null, an IllegalArgumentException will be thrown.
+     * If the campusCode or docDescription values are null, an IllegalArgumentException will be thrown.
      * 
      * TODO - annotation is not used or set at all in this method, remove it if appropriate.
      * 
-     * @param workgroupName The workgroup name of the cash drawer.
+     * @param campusCode The campus code of the cash drawer.
      * @param docDescription The document description to be set on the new cash management document.
      * @param annotation 
      * @return A new instance of a CashManagementDocument (not persisted).
@@ -137,7 +138,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      */
     public CashManagementDocument createCashManagementDocument(String campusCode, String docDescription, String annotation) {
         if (StringUtils.isBlank(campusCode)) {
-            throw new IllegalArgumentException("invalid (blank) workgroupName");
+            throw new IllegalArgumentException("invalid (blank) campus code");
         }
         if (StringUtils.isBlank(docDescription)) {
             throw new IllegalArgumentException("invalid (blank) docDescription");
@@ -488,8 +489,8 @@ public class CashManagementServiceImpl implements CashManagementService {
         // reload it, to forestall OptimisticLockExceptions
         deposit.refresh();
 
-        // save workgroup name, for possible later use
-        String depositWorkgroup = deposit.getCashManagementDocument().getCampusCode();
+        // save campus name, for possible later use
+        String depositCampus = deposit.getCashManagementDocument().getCampusCode();
 
         // update every CashReceipt associated with this Deposit
         List depositCashReceiptControls = deposit.getDepositCashReceiptControl();
@@ -619,23 +620,26 @@ public class CashManagementServiceImpl implements CashManagementService {
      * 
      * @see org.kuali.kfs.fp.document.service.CashManagementService#retrieveCashReceipts(org.kuali.kfs.fp.businessobject.Deposit)
      */
-    public List retrieveCashReceipts(Deposit deposit) {
-        List cashReceiptDocuments = new ArrayList();
+    public List<CashReceiptDocument> retrieveCashReceipts(Deposit deposit) {
+        List<CashReceiptDocument> cashReceiptDocuments = new ArrayList<CashReceiptDocument>();
 
-        List idList = new ArrayList();
         if (ObjectUtils.isNull(deposit.getDepositCashReceiptControl())) {
             deposit.refreshReferenceObject("depositCashReceiptControl");
         }
+        
+        Map pkMap = new HashMap();
         for (Object dcrcAsObject : deposit.getDepositCashReceiptControl()) {
             final DepositCashReceiptControl dcrc = (DepositCashReceiptControl)dcrcAsObject;
-            idList.add(dcrc.getFinancialDocumentCashReceiptNumber());
-        }
-
-        try {
-            cashReceiptDocuments = documentService.getDocumentsByListOfDocumentHeaderIds(CashReceiptDocument.class, idList);
-        }
-        catch (WorkflowException e) {
-            throw new InfrastructureException("unable to retrieve cashReceipts", e);
+            try {
+                CashReceiptDocument crDoc = (CashReceiptDocument)documentService.getByDocumentHeaderId(dcrc.getFinancialDocumentCashReceiptNumber());
+                final KualiWorkflowDocument headerWorkflowDoc = crDoc.getDocumentHeader().getWorkflowDocument();
+                crDoc.refreshReferenceObject("documentHeader");
+                crDoc.getDocumentHeader().setWorkflowDocument(headerWorkflowDoc);
+                cashReceiptDocuments.add(crDoc);
+            }
+            catch (WorkflowException we) {
+                throw new RuntimeException("Could not retrieve related Cash Receipts", we);
+            }
         }
 
         return cashReceiptDocuments;
@@ -913,7 +917,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @see org.kuali.kfs.fp.document.service.CashManagementService#getOpenItemsInProcess(org.kuali.kfs.fp.document.CashManagementDocument)
      */
     public List<CashieringItemInProcess> getOpenItemsInProcess(CashManagementDocument cmDoc) {
-        List<CashieringItemInProcess> itemsInProcess = cashManagementDao.findOpenItemsInProcessByWorkgroupName(cmDoc.getCampusCode());
+        List<CashieringItemInProcess> itemsInProcess = cashManagementDao.findOpenItemsInProcessByCampusCode(cmDoc.getCampusCode());
         return (itemsInProcess == null) ? new ArrayList<CashieringItemInProcess>() : itemsInProcess;
     }
 
@@ -1136,8 +1140,8 @@ public class CashManagementServiceImpl implements CashManagementService {
     /**
      * This method determines if any verified, interim, or final cash receipts currently exist.
      * 
-     * @param cmDoc The cash management document to find cash receipts associated with the workgroup of.
-     * @return True if there's some cash receipts that verified, interim, or final in this workgroup; false if otherwise.
+     * @param cmDoc The cash management document to find cash receipts associated with the campus of.
+     * @return True if there's some cash receipts that verified, interim, or final in this campus; false if otherwise.
      */
     private boolean existCashReceipts(CashManagementDocument cmDoc) {
         List<CashReceiptDocument> cashReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(cmDoc.getCampusCode(), new String[] {KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, KFSConstants.DocumentStatusCodes.CashReceipt.FINAL} );

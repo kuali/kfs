@@ -46,10 +46,10 @@
         			  <table cellspacing=0 cellpadding=0 border=0 class="datatable">
             			<tr>
 			                  <td class="infoline" colspan=3>
-                    				<kul:htmlAttributeLabel labelFor="document.campusCode" attributeEntry="${cmDocAttributes.workgroupName}" readOnly="true" skipHelpUrl="true" noColon="true" />
+                    				<kul:htmlAttributeLabel labelFor="document.campusCode" attributeEntry="${cmDocAttributes.campusCode}" readOnly="true" skipHelpUrl="true" noColon="true" />
                 				</td>
                 				<td colspan=2>
-                    				<kul:htmlControlAttribute property="document.campusCode" attributeEntry="${cmDocAttributes.workgroupName}" readOnly="true" />
+                    				<kul:htmlControlAttribute property="document.campusCode" attributeEntry="${cmDocAttributes.campusCode}" readOnly="true" />
                 				</td>
             			</tr>
 

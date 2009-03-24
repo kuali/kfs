@@ -367,8 +367,8 @@ public class CashReceiptServiceTest extends KualiTestBase {
     }
 
 
-    private void denatureCashReceipts(String workgroupName) {
-        List verifiedReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(workgroupName, BOTH_STATII);
+    private void denatureCashReceipts(String campusCode) {
+        List verifiedReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(campusCode, BOTH_STATII);
 
         for (Iterator i = verifiedReceipts.iterator(); i.hasNext();) {
             CashReceiptDocument receipt = (CashReceiptDocument) i.next();

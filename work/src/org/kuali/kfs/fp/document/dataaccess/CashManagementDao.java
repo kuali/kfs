@@ -30,7 +30,7 @@ public interface CashManagementDao {
      * @param campusCode the campus code to use to search open items in process for
      * @return a list of open items in process
      */
-    public List<CashieringItemInProcess> findOpenItemsInProcessByWorkgroupName(String campusCode);
+    public List<CashieringItemInProcess> findOpenItemsInProcessByCampusCode(String campusCode);
 
     /**
      * This finds items in process associated with the given campus code closed within the past 30 days.

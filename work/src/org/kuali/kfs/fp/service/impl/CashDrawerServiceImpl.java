@@ -37,7 +37,7 @@ public class CashDrawerServiceImpl implements CashDrawerService {
 
 
     /**
-     * Retrieves the CashDrawer associated with the workgroup provided and sets the state of the drawer to closed.
+     * Retrieves the CashDrawer associated with the campus code provided and sets the state of the drawer to closed.
      * 
      * @param campusCode The code of the campus associated with the cash drawer being retrieved.
      * @see org.kuali.kfs.fp.service.CashDrawerService#closeCashDrawer(java.lang.String)
@@ -196,11 +196,11 @@ public class CashDrawerServiceImpl implements CashDrawerService {
      * @param campusCode The campus code used to retrieve the cash drawer.
      * @return An instance of a cash drawer matching the value provided.
      * 
-     * @see org.kuali.kfs.fp.service.CashDrawerService#findByWorkgroupName(java.lang.String)
+     * @see org.kuali.kfs.fp.service.CashDrawerService#findByCampusCode(java.lang.String)
      */
     public CashDrawer getByCampusCode(String campusCode) {
         if (StringUtils.isBlank(campusCode)) {
-            throw new IllegalArgumentException("invalid (blank) workgroupName");
+            throw new IllegalArgumentException("invalid (blank) campusCode");
         }
 
         return (CashDrawer)businessObjectService.findByPrimaryKey(CashDrawer.class, buildPrimaryKeyMap(campusCode));
@@ -221,7 +221,7 @@ public class CashDrawerServiceImpl implements CashDrawerService {
     }
 
     /**
-     * This method creates a primary key map by adding the associated workgroup name to a new map instance and returning 
+     * This method creates a primary key map by adding the associated campus code to a new map instance and returning 
      * this map new instance.
      * 
      * @param campusCode The campus code to be added to the map.

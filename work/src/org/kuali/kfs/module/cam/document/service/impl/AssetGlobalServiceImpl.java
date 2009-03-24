@@ -18,7 +18,6 @@ package org.kuali.kfs.module.cam.document.service.impl;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -44,13 +43,14 @@ import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.module.cam.document.service.AssetObjectCodeService;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
+import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
+import org.kuali.kfs.module.cam.util.AssetSeparatePaymentDistributor;
 import org.kuali.kfs.module.cam.util.KualiDecimalUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants.CAPITAL_ASSETS_BATCH;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -87,6 +87,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
     private AssetObjectCodeService assetObjectCodeService;
     private BusinessObjectService businessObjectService;
     private AssetPaymentService assetPaymentService;
+    private PaymentSummaryService paymentSummaryService;
 
     private static final Logger LOG = Logger.getLogger(AssetGlobalServiceImpl.class);
 
@@ -376,69 +377,36 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
      * @see org.kuali.kfs.module.cam.document.service.AssetGlobalService#getSeparateAssets(org.kuali.kfs.module.cam.businessobject.AssetGlobal)
      */
     public List<PersistableBusinessObject> getSeparateAssets(AssetGlobal assetGlobal) {
-        List<PersistableBusinessObject> persistables = new ArrayList<PersistableBusinessObject>();
-        KualiDecimal assetsAccountChargeAmount = new KualiDecimal(0);
 
         // set the source asset amounts properly
         Asset separateSourceCapitalAsset = assetGlobal.getSeparateSourceCapitalAsset();
+        List<AssetPayment> sourcePayments = new ArrayList<AssetPayment>();
 
-        // Need to make a copy because offsetPayments are changed and saved
-        HashMap<String, AssetPayment> offsetAssetPayments = new HashMap<String, AssetPayment>();
         for (AssetPayment assetPayment : separateSourceCapitalAsset.getAssetPayments()) {
             if (!this.isAssetSeparateByPayment(assetGlobal)) {
-                offsetAssetPayments.put(assetPayment.getObjectId(), new AssetPayment(assetPayment, false));
+                sourcePayments.add(assetPayment);
             }
             else if (assetPayment.getPaymentSequenceNumber().equals(assetGlobal.getSeparateSourcePaymentSequenceNumber())) {
                 // If this is separate by payment, then only add the payment that we are interested in
-                offsetAssetPayments.put(assetPayment.getObjectId(), new AssetPayment(assetPayment, false));
+                sourcePayments.add(assetPayment);
                 break;
             }
         }
 
+        List<Asset> newAssets = new ArrayList<Asset>();
         // create new assets with inner loop handling payments
         for (AssetGlobalDetail assetGlobalDetail : assetGlobal.getAssetGlobalDetails()) {
-            // Create the asset with most fields set as required
-            Asset asset = setupAsset(assetGlobal, assetGlobalDetail, true);
-
-            // track total cost of all payments for this assetGlobalDetail
-            KualiDecimal paymentsAccountChargeAmount = new KualiDecimal(0);
-
-            // take care of all the payments for this asset
-            for (AssetPaymentDetail assetPaymentDetail : assetGlobal.getAssetPaymentDetails()) {
-                AssetPayment assetPayment = setupSeparateAssetPayment(assetGlobalDetail.getCapitalAssetNumber(), assetGlobal.getAcquisitionTypeCode(), assetGlobalDetail.getSeparateSourceAmount(), assetGlobal.getTotalCostAmount(), assetPaymentDetail, separateSourceCapitalAsset.getAssetPayments(), offsetAssetPayments);
-
-                paymentsAccountChargeAmount = paymentsAccountChargeAmount.add(assetPayment.getAccountChargeAmount());
-
-                asset.getAssetPayments().add(assetPayment);
-            }
-
-            // set the amount generically. Note for separate this should equal assetGlobalDetail.getSeparateSourceAmount()
-            asset.setTotalCostAmount(paymentsAccountChargeAmount);
-            assetsAccountChargeAmount = assetsAccountChargeAmount.add(paymentsAccountChargeAmount);
-
-            // TODO following is better done in a junit test case
-            if (!asset.getTotalCostAmount().equals(assetGlobalDetail.getSeparateSourceAmount())) {
-                throw new IllegalStateException("Unexpected amount calculation discreptancy while seperating by asset.");
-            }
-
-            persistables.add(asset);
+            newAssets.add(setupAsset(assetGlobal, assetGlobalDetail, true));
         }
+        Integer maxSequenceNumber = SpringContext.getBean(AssetPaymentService.class).getMaxSequenceNumber(separateSourceCapitalAsset.getCapitalAssetNumber());
+        // Add to the save list
+        AssetSeparatePaymentDistributor distributor = new AssetSeparatePaymentDistributor(sourcePayments, maxSequenceNumber, assetGlobal, newAssets);
+        distributor.distribute();
+        separateSourceCapitalAsset.getAssetPayments().addAll(distributor.getOffsetPayments());
 
-        // reduce the amount of the (new) target assets from the source asset
-        separateSourceCapitalAsset.setTotalCostAmount(assetGlobal.getSeparateSourceCapitalAsset().getTotalCostAmount().subtract(assetsAccountChargeAmount));
+        List<PersistableBusinessObject> persistables = new ArrayList<PersistableBusinessObject>();
         persistables.add(separateSourceCapitalAsset);
-
-        int paymentSequenceNumber = assetPaymentService.getMaxSequenceNumber(separateSourceCapitalAsset.getCapitalAssetNumber()) + 1;
-
-        // add all target payment to the source assets
-        for (AssetPayment offsetAssetPayment : offsetAssetPayments.values()) {
-            offsetAssetPayment.setPaymentSequenceNumber(paymentSequenceNumber++);
-            offsetAssetPayment.setFinancialDocumentTypeCode(CamsConstants.PaymentDocumentTypeCodes.ASSET_GLOBAL_SEPARATE);
-            offsetAssetPayment.setDocumentNumber(assetGlobal.getDocumentNumber());
-            // Don't need to re-add original items because the payments list isn't deletion aware
-            separateSourceCapitalAsset.getAssetPayments().add(offsetAssetPayment);
-        }
-
+        persistables.addAll(newAssets);
         return persistables;
     }
 
@@ -520,7 +488,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         assetPayment.setTransferPaymentCode(CamsConstants.AssetPayment.TRANSFER_PAYMENT_CODE_N);
         // Running this every time of the loop is inefficient, could be put into HashMap
         KualiDecimalUtils kualiDecimalService = new KualiDecimalUtils(assetPaymentDetail.getAmount(), CamsConstants.CURRENCY_USD);
-        KualiDecimal[] amountBuckets = kualiDecimalService.allocate(assetGlobalDetailsSize);
+        KualiDecimal[] amountBuckets = kualiDecimalService.allocateByQuantity(assetGlobalDetailsSize);
 
         assetPayment.setAccountChargeAmount(amountBuckets[assetGlobalDetailsIndex]);
 
@@ -535,88 +503,24 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         return assetPayment;
     }
 
+
     /**
-     * Creates a payment for an asset in separate mode.
+     * Gets the paymentSummaryService attribute.
      * 
-     * @param capitalAssetNumber to use for the payment
-     * @param acquisitionTypeCode for logic in determining how dates are to be set
-     * @param separateSourceAmount amount for this asset
-     * @param totalCostToAllocate amount that may be allocated (in the case of splitting by asset it's the asset total cost, in the
-     *        case of splitting by payment it's the payment to be split cost)
-     * @param assetPaymentDetail containing data for the payment
-     * @param separateSourceCapitalAssetPayments AssetPayments from the source capital asset
-     * @param offsetAssetPayments AssetPayments to be created as offset entries to the capital asset
-     * @return payment for an asset in separate
+     * @return Returns the paymentSummaryService.
      */
-    protected AssetPayment setupSeparateAssetPayment(Long capitalAssetNumber, String acquisitionTypeCode, KualiDecimal separateSourceAmount, KualiDecimal totalCostToAllocate, AssetPaymentDetail assetPaymentDetail, List<AssetPayment> separateSourceCapitalAssetPayments, HashMap<String, AssetPayment> offsetAssetPayments) {
-        KualiDecimalUtils kualiDecimalUtils = new KualiDecimalUtils();
-
-        AssetPayment assetPayment = new AssetPayment(assetPaymentDetail, acquisitionTypeCode);
-        assetPayment.setCapitalAssetNumber(capitalAssetNumber);
-        assetPayment.setPaymentSequenceNumber(assetPaymentDetail.getSequenceNumber());
-
-        assetPayment.setFinancialDocumentTypeCode(CamsConstants.PaymentDocumentTypeCodes.ASSET_GLOBAL_SEPARATE);
-        assetPayment.setDocumentNumber(assetPaymentDetail.getDocumentNumber());
-        AssetPayment sourceAssetPayment = null;
-        // Need the sourceAssetPayment for split of misc. fields that we don't track on the document. Finding the correct source
-        // asset payment isn't very efficient particularly if we are doing this (repeatedly) for several target assets. HashMap?
-        // Note: This is NOT the offsetAssetPayments HashMap because the offsetAssetPayments are modified each iteration.
-        for (AssetPayment currentAssetPayment : separateSourceCapitalAssetPayments) {
-            if (assetPaymentDetail.getSequenceNumber().equals(currentAssetPayment.getPaymentSequenceNumber())) {
-                sourceAssetPayment = currentAssetPayment;
-                break;
-            }
-        }
-
-        // TODO following is better done in a junit test case
-        if (sourceAssetPayment == null) {
-            throw new IllegalStateException("sourceAssetPayment could not be found.");
-        }
-
-        // separate ratio for this asset
-        double separateRatio = separateSourceAmount.doubleValue() / totalCostToAllocate.doubleValue();
-
-        // account amount from current payment source asset * target total cost / source total cost
-        assetPayment.setAccountChargeAmount(kualiDecimalUtils.safeMultiply(assetPaymentDetail.getAmount(), separateRatio));
-
-        assetPayment.setPrimaryDepreciationBaseAmount(kualiDecimalUtils.safeMultiply(sourceAssetPayment.getPrimaryDepreciationBaseAmount(), separateRatio));
-        assetPayment.setAccumulatedPrimaryDepreciationAmount(kualiDecimalUtils.safeMultiply(sourceAssetPayment.getAccumulatedPrimaryDepreciationAmount(), separateRatio));
-        assetPayment.setPreviousYearPrimaryDepreciationAmount(kualiDecimalUtils.safeMultiply(sourceAssetPayment.getPreviousYearPrimaryDepreciationAmount(), separateRatio));
-        assetPayment.setPeriod1Depreciation1Amount(kualiDecimalUtils.safeMultiply(sourceAssetPayment.getPeriod1Depreciation1Amount(), separateRatio));
-        assetPayment.setPeriod2Depreciation1Amount(kualiDecimalUtils.safeMultiply(sourceAssetPayment.getPeriod2Depreciation1Amount(), separateRatio));
-        assetPayment.setPeriod3Depreciation1Amount(kualiDecimalUtils.safeMultiply(sourceAssetPayment.getPeriod3Depreciation1Amount(), separateRatio));
-        assetPayment.setPeriod4Depreciation1Amount(kualiDecimalUtils.safeMultiply(sourceAssetPayment.getPeriod4Depreciation1Amount(), separateRatio));
-        assetPayment.setPeriod5Depreciation1Amount(kualiDecimalUtils.safeMultiply(sourceAssetPayment.getPeriod5Depreciation1Amount(), separateRatio));
-        assetPayment.setPeriod6Depreciation1Amount(kualiDecimalUtils.safeMultiply(sourceAssetPayment.getPeriod6Depreciation1Amount(), separateRatio));
-        assetPayment.setPeriod7Depreciation1Amount(kualiDecimalUtils.safeMultiply(sourceAssetPayment.getPeriod7Depreciation1Amount(), separateRatio));
-        assetPayment.setPeriod8Depreciation1Amount(kualiDecimalUtils.safeMultiply(sourceAssetPayment.getPeriod8Depreciation1Amount(), separateRatio));
-        assetPayment.setPeriod9Depreciation1Amount(kualiDecimalUtils.safeMultiply(sourceAssetPayment.getPeriod9Depreciation1Amount(), separateRatio));
-        assetPayment.setPeriod10Depreciation1Amount(kualiDecimalUtils.safeMultiply(sourceAssetPayment.getPeriod10Depreciation1Amount(), separateRatio));
-        assetPayment.setPeriod11Depreciation1Amount(kualiDecimalUtils.safeMultiply(sourceAssetPayment.getPeriod11Depreciation1Amount(), separateRatio));
-        assetPayment.setPeriod12Depreciation1Amount(kualiDecimalUtils.safeMultiply(sourceAssetPayment.getPeriod12Depreciation1Amount(), separateRatio));
-
-        // Reduce the amounts of the original assets payments by what was added to the newly created asset. Note
-        // separateSourceAmount may vary by asset, and each payment may have a different value. So we need to do
-        // this for each
-        AssetPayment offsetAssetPayment = offsetAssetPayments.get(sourceAssetPayment.getObjectId());
-
-        offsetAssetPayment.setAccountChargeAmount(kualiDecimalUtils.safeSubtract(offsetAssetPayment.getAccountChargeAmount(), assetPayment.getAccountChargeAmount()));
-        offsetAssetPayment.setPrimaryDepreciationBaseAmount(kualiDecimalUtils.safeSubtract(offsetAssetPayment.getPrimaryDepreciationBaseAmount(), assetPayment.getPrimaryDepreciationBaseAmount()));
-        offsetAssetPayment.setAccumulatedPrimaryDepreciationAmount(kualiDecimalUtils.safeSubtract(offsetAssetPayment.getAccumulatedPrimaryDepreciationAmount(), assetPayment.getAccumulatedPrimaryDepreciationAmount()));
-        offsetAssetPayment.setPreviousYearPrimaryDepreciationAmount(kualiDecimalUtils.safeSubtract(offsetAssetPayment.getPreviousYearPrimaryDepreciationAmount(), assetPayment.getPreviousYearPrimaryDepreciationAmount()));
-        offsetAssetPayment.setPeriod1Depreciation1Amount(kualiDecimalUtils.safeSubtract(offsetAssetPayment.getPeriod1Depreciation1Amount(), assetPayment.getPeriod1Depreciation1Amount()));
-        offsetAssetPayment.setPeriod2Depreciation1Amount(kualiDecimalUtils.safeSubtract(offsetAssetPayment.getPeriod2Depreciation1Amount(), assetPayment.getPeriod2Depreciation1Amount()));
-        offsetAssetPayment.setPeriod3Depreciation1Amount(kualiDecimalUtils.safeSubtract(offsetAssetPayment.getPeriod3Depreciation1Amount(), assetPayment.getPeriod3Depreciation1Amount()));
-        offsetAssetPayment.setPeriod4Depreciation1Amount(kualiDecimalUtils.safeSubtract(offsetAssetPayment.getPeriod4Depreciation1Amount(), assetPayment.getPeriod4Depreciation1Amount()));
-        offsetAssetPayment.setPeriod5Depreciation1Amount(kualiDecimalUtils.safeSubtract(offsetAssetPayment.getPeriod5Depreciation1Amount(), assetPayment.getPeriod5Depreciation1Amount()));
-        offsetAssetPayment.setPeriod6Depreciation1Amount(kualiDecimalUtils.safeSubtract(offsetAssetPayment.getPeriod6Depreciation1Amount(), assetPayment.getPeriod6Depreciation1Amount()));
-        offsetAssetPayment.setPeriod7Depreciation1Amount(kualiDecimalUtils.safeSubtract(offsetAssetPayment.getPeriod7Depreciation1Amount(), assetPayment.getPeriod7Depreciation1Amount()));
-        offsetAssetPayment.setPeriod8Depreciation1Amount(kualiDecimalUtils.safeSubtract(offsetAssetPayment.getPeriod8Depreciation1Amount(), assetPayment.getPeriod8Depreciation1Amount()));
-        offsetAssetPayment.setPeriod9Depreciation1Amount(kualiDecimalUtils.safeSubtract(offsetAssetPayment.getPeriod9Depreciation1Amount(), assetPayment.getPeriod9Depreciation1Amount()));
-        offsetAssetPayment.setPeriod10Depreciation1Amount(kualiDecimalUtils.safeSubtract(offsetAssetPayment.getPeriod10Depreciation1Amount(), assetPayment.getPeriod10Depreciation1Amount()));
-        offsetAssetPayment.setPeriod11Depreciation1Amount(kualiDecimalUtils.safeSubtract(offsetAssetPayment.getPeriod11Depreciation1Amount(), assetPayment.getPeriod11Depreciation1Amount()));
-        offsetAssetPayment.setPeriod12Depreciation1Amount(kualiDecimalUtils.safeSubtract(offsetAssetPayment.getPeriod12Depreciation1Amount(), assetPayment.getPeriod12Depreciation1Amount()));
-
-        return assetPayment;
+    public PaymentSummaryService getPaymentSummaryService() {
+        return paymentSummaryService;
     }
+
+    /**
+     * Sets the paymentSummaryService attribute value.
+     * 
+     * @param paymentSummaryService The paymentSummaryService to set.
+     */
+    public void setPaymentSummaryService(PaymentSummaryService paymentSummaryService) {
+        this.paymentSummaryService = paymentSummaryService;
+    }
+
+
 }

@@ -27,7 +27,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class KualiDecimalUtils {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiDecimalUtils.class);
-    private static final int[] cents = new int[] {1, 10, 100, 1000};
+    private static final int[] cents = new int[] { 1, 10, 100, 1000 };
 
     private long totalAmount;
     private Currency currencyCode;
@@ -35,7 +35,8 @@ public class KualiDecimalUtils {
     /**
      * Default constructor.
      */
-    public KualiDecimalUtils() {}
+    public KualiDecimalUtils() {
+    }
 
     /**
      * Constructs a KualiDecimalService.
@@ -70,12 +71,12 @@ public class KualiDecimalUtils {
     }
 
     /**
-     * Allocate a sum of money amongst many targets.
+     * Allocate a sum of money amongst many targets by quantity.
      * 
      * @param divisor
      * @return KualiDecimal[]
      */
-    public KualiDecimal[] allocate(int divisor) {
+    public KualiDecimal[] allocateByQuantity(int divisor) {
         // calculate lowest and highest amount
         KualiDecimalUtils lowAmount = setNewAmount(totalAmount / divisor);
         KualiDecimalUtils highAmount = setNewAmount(lowAmount.totalAmount + 1);
@@ -83,7 +84,7 @@ public class KualiDecimalUtils {
         int remainder = (int) totalAmount % divisor;
 
         // allocate amounts into array
-        KualiDecimal[] amountsArray = new KualiDecimal[divisor];;
+        KualiDecimal[] amountsArray = new KualiDecimal[divisor];
 
         // set the lowest amount into array
         KualiDecimal low = new KualiDecimal(lowAmount.totalAmount);
@@ -98,7 +99,37 @@ public class KualiDecimalUtils {
         }
 
         ArrayUtils.reverse(amountsArray);
-        
+
+        return amountsArray;
+    }
+
+    /**
+     * Allocate a sum of money amongst many targets by quantity.
+     * 
+     * @param divisor
+     * @return KualiDecimal[]
+     */
+    public static KualiDecimal[] allocateByRatio(KualiDecimal amount, double[] ratios) {
+
+        if (ratios == null || ratios.length == 0 || amount == null) {
+            return amount == null ? null : new KualiDecimal[] { amount };
+        }
+        double value = amount.doubleValue();
+
+        // if just one ratio, apply and return
+        if (ratios.length == 1) {
+            return new KualiDecimal[] { new KualiDecimal(value * ratios[0]) };
+        }
+        KualiDecimal allocated = KualiDecimal.ZERO;
+        // allocate amounts into array
+        KualiDecimal[] amountsArray = new KualiDecimal[ratios.length];
+        for (int i = 0; i < ratios.length - 1; i++) {
+            KualiDecimal currAmount = new KualiDecimal(value * ratios[i]);
+            amountsArray[i] = currAmount;
+            allocated = allocated.add(currAmount);
+        }
+        // adjust the last one with remaining value
+        amountsArray[ratios.length - 1] = new KualiDecimal(value).subtract(allocated);
         return amountsArray;
     }
 
@@ -128,12 +159,8 @@ public class KualiDecimalUtils {
      * @return
      */
     public KualiDecimal safeSubtract(KualiDecimal value, KualiDecimal subtrahend) {
-        if (subtrahend == null) {
+        if (subtrahend == null || value == null) {
             return value;
-        }
-
-        if (value == null) {
-            value = KualiDecimal.ZERO;
         }
 
         return value.subtract(subtrahend);

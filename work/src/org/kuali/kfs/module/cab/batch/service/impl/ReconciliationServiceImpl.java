@@ -128,18 +128,11 @@ public class ReconciliationServiceImpl implements ReconciliationService {
                 LOG.debug("GL account line " + glAccountLineGroup.toString() + " did not find a matching purchasing account line group");
                 misMatchedGroups.add(glAccountLineGroup);
             }
-            else if (!KualiDecimal.ZERO.equals(glAmt)) {
+            else {
                 LOG.debug("GL account line " + glAccountLineGroup.toString() + " found a matching Purchasing account line group ");
                 glAccountLineGroup.setMatchedPurApAcctLines(purapAccountLineGroup.getSourceEntries());
                 matchedGroups.add(glAccountLineGroup);
                 misMatchedGroups.remove(glAccountLineGroup);
-            }
-            else if (KualiDecimal.ZERO.equals(glAmt)) {
-                // if combined value is zero then ignore the entries
-                List<Entry> sourceEntries = glAccountLineGroup.getSourceEntries();
-                for (Entry entry : sourceEntries) {
-                    this.ignoredEntries.add(entry);
-                }
             }
         }
     }

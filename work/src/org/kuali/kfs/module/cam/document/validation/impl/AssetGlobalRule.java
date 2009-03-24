@@ -81,7 +81,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         LOCATION_FIELD_MAP.put(LocationField.STATE_CODE, CamsPropertyConstants.AssetGlobalDetail.OFF_CAMPUS_STATE_CODE);
         LOCATION_FIELD_MAP.put(LocationField.ZIP_CODE, CamsPropertyConstants.AssetGlobalDetail.OFF_CAMPUS_ZIP_CODE);
         LOCATION_FIELD_MAP.put(LocationField.COUNTRY_CODE, CamsPropertyConstants.AssetGlobalDetail.OFF_CAMPUS_COUNTRY_CODE);
-        LOCATION_FIELD_MAP.put(LocationField.ERROR_SECTION,CamsConstants.LOCATION_INFORMATION_SECTION_ID);                
+        LOCATION_FIELD_MAP.put(LocationField.ERROR_SECTION, CamsConstants.LOCATION_INFORMATION_SECTION_ID);
     }
 
     /**
@@ -561,10 +561,10 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         }
         // check total amount for Asset Create
         if (!getAssetGlobalService().isAssetSeparate(assetGlobal)) {
-        success &= validateAssetTotalAmount(document);
+            success &= validateAssetTotalAmount(document);
         }
         else {
-        // only for "Asset Separate" document
+            // only for "Asset Separate" document
             if (getAssetPaymentService().getAssetPaymentDetailQuantity(assetGlobal) >= 10) {
                 /*
                  * @TODO KULCAP-828 putFieldError(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS,
@@ -632,7 +632,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         String capitalizationThresholdAmount = this.getCapitalizationThresholdAmount();
         KualiDecimal separateAmount = assetGlobalUniqueDetail.getSeparateSourceAmount();
         // check for the minimal amount only among all separate source amount. if it's above the threshold, safe...
-        if (separateAmount != null && !validateCapitalAssetAmountAboveThreshhold(document, separateAmount, capitalizationThresholdAmount)) {
+        if (separateAmount != null && !getAssetService().isDocumentEnrouting(document) && !validateCapitalAssetAmountAboveThreshhold(document, separateAmount, capitalizationThresholdAmount)) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.SEPARATE_SOURCE_AMOUNT, CamsKeyConstants.AssetSeparate.ERROR_SEPARATE_ASSET_BELOW_THRESHOLD, new String[] { assetGlobalUniqueDetail.getCapitalAssetNumber().toString(), capitalizationThresholdAmount });
             success = false;
         }
@@ -705,14 +705,14 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
      */
     private boolean validateCapitalAssetAmountAboveThreshhold(MaintenanceDocument document, KualiDecimal assetAmount, String capitalizationThresholdAmount) {
         boolean success = true;
-            FinancialSystemMaintenanceDocumentAuthorizerBase documentAuthorizer = (FinancialSystemMaintenanceDocumentAuthorizerBase) KNSServiceLocator.getDocumentHelperService().getDocumentAuthorizer(document);
-            boolean isOverrideAuthorized = documentAuthorizer.isAuthorized(document, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.OVERRIDE_CAPITALIZATION_LIMIT_AMOUNT, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+        FinancialSystemMaintenanceDocumentAuthorizerBase documentAuthorizer = (FinancialSystemMaintenanceDocumentAuthorizerBase) KNSServiceLocator.getDocumentHelperService().getDocumentAuthorizer(document);
+        boolean isOverrideAuthorized = documentAuthorizer.isAuthorized(document, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.OVERRIDE_CAPITALIZATION_LIMIT_AMOUNT, GlobalVariables.getUserSession().getPerson().getPrincipalId());
 
         if (assetAmount.isLessThan(new KualiDecimal(capitalizationThresholdAmount)) && !isOverrideAuthorized) {
             success = false;
         }
         return success;
-            }
+    }
 
     /**
      * Validate non-capital asset amount below the threshold.
@@ -724,9 +724,9 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     private boolean validateNonCapitalAssetAmountBelowThreshold(KualiDecimal assetAmount, String capitalizationThresholdAmount) {
         boolean success = true;
         if (assetAmount.isGreaterEqual(new KualiDecimal(capitalizationThresholdAmount))) {
-                putFieldError(CamsPropertyConstants.AssetGlobal.INVENTORY_STATUS_CODE, CamsKeyConstants.AssetGlobal.ERROR_NON_CAPITAL_ASSET_PAYMENT_AMOUNT_MAX, capitalizationThresholdAmount);
-                success &= false;
-            }
+            putFieldError(CamsPropertyConstants.AssetGlobal.INVENTORY_STATUS_CODE, CamsKeyConstants.AssetGlobal.ERROR_NON_CAPITAL_ASSET_PAYMENT_AMOUNT_MAX, capitalizationThresholdAmount);
+            success &= false;
+        }
         return success;
     }
 
@@ -761,7 +761,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Validates the  asset description.
+     * Validates the asset description.
      * 
      * @param uniqueLocationDetails
      * @return boolean
@@ -773,7 +773,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             success &= false;
         }
         return success;
-    }    
+    }
 
     /**
      * Validates the manufacturer.
@@ -788,8 +788,8 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             success &= false;
         }
         return success;
-    }     
-    
+    }
+
     /**
      * Validates the separate source amount.
      * 

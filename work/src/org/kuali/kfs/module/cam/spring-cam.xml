@@ -322,6 +322,7 @@
     	<property name="businessObjectService" ref="businessObjectService" />
     	<property name="assetPaymentService" ref="assetPaymentService" />
     	<property name="parameterService" ref="parameterService" />
+    	<property name="paymentSummaryService" ref="paymentSummaryService" />    	
     </bean>
     
 	<import resource="document/validation/configuration/CamsValidatorDefinitions.xml" />

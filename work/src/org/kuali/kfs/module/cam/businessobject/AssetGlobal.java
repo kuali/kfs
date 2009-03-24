@@ -76,7 +76,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
 
     // Calculate Equal Source Amounts button
     private String calculateEqualSourceAmountsButton;
-    
+
     // calculate remaining source amount
     private KualiDecimal separateSourceRemainingAmount;
     private KualiDecimal separateSourceTotalAmount;
@@ -89,6 +89,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     //
     private KualiDecimal minAssetTotalAmount;
     private KualiDecimal maxAssetTotalAmount;
+
     /**
      * Default constructor.
      */
@@ -645,16 +646,17 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         List<PersistableBusinessObject> persistables = new ArrayList<PersistableBusinessObject>();
 
         AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
-        
+
         if (assetGlobalService.isAssetSeparate(this)) {
             persistables = assetGlobalService.getSeparateAssets(this);
-        } else {
+        }
+        else {
             persistables = assetGlobalService.getCreateNewAssets(this);
         }
-        
+
         return persistables;
     }
-    
+
     public boolean isPersistable() {
         return true;
     }
@@ -959,6 +961,15 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      * @return separateSourceTotalAmount
      */
     public KualiDecimal getSeparateSourceTotalAmount() {
+        if (separateSourceTotalAmount == null) {
+            this.separateSourceTotalAmount = KualiDecimal.ZERO;
+            for (AssetGlobalDetail detail : this.assetGlobalDetails) {
+                KualiDecimal separateSourceAmount = detail.getSeparateSourceAmount();
+                if (separateSourceAmount != null) {
+                    this.separateSourceTotalAmount = this.separateSourceTotalAmount.add(separateSourceAmount);
+                }
+            }
+        }
         return separateSourceTotalAmount;
     }
 
@@ -972,7 +983,8 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     /**
-     * Gets the minAssetTotalAmount attribute. 
+     * Gets the minAssetTotalAmount attribute.
+     * 
      * @return Returns the minAssetTotalAmount.
      */
     public KualiDecimal getMinAssetTotalAmount() {
@@ -981,6 +993,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
 
     /**
      * Sets the minAssetTotalAmount attribute value.
+     * 
      * @param minAssetTotalAmount The minAssetTotalAmount to set.
      */
     public void setMinAssetTotalAmount(KualiDecimal minAssetTotalAmount) {
@@ -988,7 +1001,8 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     /**
-     * Gets the maxAssetTotalAmount attribute. 
+     * Gets the maxAssetTotalAmount attribute.
+     * 
      * @return Returns the maxAssetTotalAmount.
      */
     public KualiDecimal getMaxAssetTotalAmount() {
@@ -997,9 +1011,10 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
 
     /**
      * Sets the maxAssetTotalAmount attribute value.
+     * 
      * @param maxAssetTotalAmount The maxAssetTotalAmount to set.
      */
     public void setMaxAssetTotalAmount(KualiDecimal maxAssetTotalAmount) {
         this.maxAssetTotalAmount = maxAssetTotalAmount;
-    }    
+    }
 }

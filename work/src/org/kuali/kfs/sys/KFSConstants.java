@@ -859,17 +859,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
 
     public static class BudgetConstructionConstants {
 
-        public enum LockStatus {
-            SUCCESS, BY_OTHER, NO_DOOR, OPTIMISTIC_EX, FLOCK_FOUND
-        }
-
-        public static final int maxLockRetry = 20;
-
-        /* KFSConstants for the CSF Tracker */
-        public static final String ACTIVE_CSF_DELETE_CODE = "-";
-
         /* KFSConstants for the budget construction flag names */
-        private static int NUMBER_OF_CTRL_FLAGS = 8;
         public final static String BUDGET_ADMINSTRATION_ACTIVE = "BAACTV";
         public final static String BASE_BUDGET_UPDATES_OK = "BASEAD";
         public final static String BUDGET_BATCH_SYNCHRONIZATION_OK = "BSSYNC";
@@ -879,72 +869,10 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public final static String BUDGET_CONSTRUCTION_UPDATES_OK = "BCUPDT";
         public final static String BUDGET_ON_LINE_SYNCHRONIZATION_OK = "PSSYNC";
 
-        /* state for current year budget construction flags after genesis */
-        private static HashMap<String, String> buildCurrentYear() {
-            HashMap<String, String> mapSLF;
-            mapSLF = new HashMap<String, String>(NUMBER_OF_CTRL_FLAGS, (float) 1.00);
-            mapSLF.put(BUDGET_ADMINSTRATION_ACTIVE, ParameterValues.YES);
-            mapSLF.put(BASE_BUDGET_UPDATES_OK, ParameterValues.YES);
-            mapSLF.put(BUDGET_BATCH_SYNCHRONIZATION_OK, ParameterValues.NO);
-            mapSLF.put(CSF_UPDATES_OK, ParameterValues.NO);
-            mapSLF.put(BUDGET_CONSTRUCTION_ACTIVE, ParameterValues.NO);
-            mapSLF.put(BUDGET_CONSTRUCTION_GENESIS_RUNNING, ParameterValues.NO);
-            mapSLF.put(BUDGET_CONSTRUCTION_UPDATES_OK, ParameterValues.NO);
-            mapSLF.put(BUDGET_ON_LINE_SYNCHRONIZATION_OK, ParameterValues.NO);
-            return mapSLF;
-        }
-
-        public final static HashMap<String, String> CURRENT_FSCL_YR_CTRL_FLAGS = buildCurrentYear();
-
-        /* state for next year budget construction flags after genesis */
-        private static HashMap<String, String> buildNextYear() {
-            HashMap<String, String> mapSLF;
-            mapSLF = new HashMap<String, String>(NUMBER_OF_CTRL_FLAGS, (float) 1.00);
-            mapSLF.put(BUDGET_ADMINSTRATION_ACTIVE, ParameterValues.NO);
-            mapSLF.put(BASE_BUDGET_UPDATES_OK, ParameterValues.NO);
-            mapSLF.put(BUDGET_BATCH_SYNCHRONIZATION_OK, ParameterValues.YES);
-            mapSLF.put(CSF_UPDATES_OK, ParameterValues.YES);
-            mapSLF.put(BUDGET_CONSTRUCTION_ACTIVE, ParameterValues.YES);
-            mapSLF.put(BUDGET_CONSTRUCTION_GENESIS_RUNNING, ParameterValues.NO);
-            mapSLF.put(BUDGET_CONSTRUCTION_UPDATES_OK, ParameterValues.NO);
-            mapSLF.put(BUDGET_ON_LINE_SYNCHRONIZATION_OK, ParameterValues.YES);
-            return mapSLF;
-        }
-
-        public final static HashMap<String, String> NEXT_FSCL_YR_CTRL_FLAGS_AFTER_GENESIS = buildNextYear();
-
-        /* appointment funding duration code for people NOT on leave */
-        public final static String NO_LEAVE_INDICATED = "NONE";
-
-        /* KFSConstants for the budget construction header */
-        public final static String DEFAULT_BUDGET_HEADER_LOCK_IDS = null;
-        public final static Integer INITIAL_ORGANIZATION_LEVEL_CODE = new Integer(0);
-        public final static String INITIAL_ORGANIZATION_LEVEL_CHART_OF_ACCOUNTS_CODE = null;
-        public final static String INITIAL_ORGANIZATION_LEVEL_ORGANIZATION_CODE = null;
-
-        /* Budget Construction document type */
-        public final static String BUDGET_CONSTRUCTION_DOCUMENT_TYPE = "BC";
-        public final static String BUDGET_CONSTRUCTION_DOCUMENT_NAME = "BC";
-        public final static String BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION = "Budget Construction";
-        public final static String BUDGET_CONSTRUCTION_DOCUMENT_INITIAL_STATUS = "$";
-        public final static String ORG_REVIEW_RULE_TEMPLATE = "KualiOrgReviewTemplate";
-
-        /* codes used in the Calculated Salary Foundation (CSF) */
-        public final static String VACANT_CSF_LINE = "V";
-        public final static String UNFUNDED_CSF_LINE = "U";
-        public final static String ACTIVE_CSF_LINE = "-";
-        public final static String VACANT_EMPLID = "VACANT";
-
         /*
          * object code which stores amounts by which pending general ledger rows in budget construction are out of balance
          */
         public final static String OBJECT_CODE_2PLG = "2PLG";
-        /*
-         * initial sizes for hash maps used in genesis supposedly starting the map out with about the right amount of space makes
-         * look-ups more efficient these numbers shouldn't need to be very precise
-         */
-        public final static Integer ESTIMATED_PENDING_GENERAL_LEDGER_ROWS = 70000;
-        public final static Integer AVERAGE_REPORTING_TREE_SIZE = 4;
         
     }
 

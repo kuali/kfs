@@ -120,8 +120,6 @@ public class DocumentLockingServiceImpl implements DocumentLockingService {
      * @throws WorkflowException
      */
     private boolean lockCanBeIgnored(org.kuali.rice.kns.document.Document lockedDocument) {
-        // TODO: implement real authorization for Maintenance Document Save/Route - KULNRVSYS-948
-
         FinancialSystemDocumentHeader documentHeader = (FinancialSystemDocumentHeader) lockedDocument.getDocumentHeader();
 
         // get the user-id. if no user-id, then we can't do this test, so exit

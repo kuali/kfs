@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -119,16 +120,16 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
         BarcodeInventoryErrorDocument document = barcodeInventoryErrorForm.getBarcodeInventoryErrorDocument();
         List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails = document.getBarcodeInventoryErrorDetail();
 
-        String currentUserID = GlobalVariables.getUserSession().getPerson().getPrincipalId();
+        //Validating search criteria
+        if (validateGlobalReplaceFields(document)) {
+            BarcodeInventoryErrorDetailPredicate predicatedClosure = new BarcodeInventoryErrorDetailPredicate(barcodeInventoryErrorForm.getBarcodeInventoryErrorDocument());
 
-        BarcodeInventoryErrorDetailPredicate predicatedClosure = new BarcodeInventoryErrorDetailPredicate(barcodeInventoryErrorForm.getBarcodeInventoryErrorDocument());
-
-        // searches and replaces
-        CollectionUtils.forAllDo(barcodeInventoryErrorDetails, predicatedClosure);
-
-        document.setBarcodeInventoryErrorDetail(barcodeInventoryErrorDetails);
-        barcodeInventoryErrorForm.setDocument(document);
-
+            // searches and replaces
+            CollectionUtils.forAllDo(barcodeInventoryErrorDetails, predicatedClosure);
+    
+            document.setBarcodeInventoryErrorDetail(barcodeInventoryErrorDetails);
+            barcodeInventoryErrorForm.setDocument(document);
+        }
         // Validating.
         this.invokeRules(document, false);
 
@@ -254,6 +255,22 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    
+    private boolean validateGlobalReplaceFields(BarcodeInventoryErrorDocument document) {
+        if (StringUtils.isBlank(document.getCurrentScanCode()) && 
+            StringUtils.isBlank(document.getCurrentCampusCode()) &&
+            StringUtils.isBlank(document.getCurrentBuildingNumber()) &&       
+            StringUtils.isBlank(document.getCurrentRoom()) &&
+            StringUtils.isBlank(document.getCurrentSubroom()) &&
+            StringUtils.isBlank(document.getCurrentConditionCode()) &&
+            StringUtils.isBlank(document.getCurrentTagNumber()) ) {
+            
+            GlobalVariables.getErrorMap().putErrorForSectionId(CamsPropertyConstants.BCIE_GLOBAL_REPLACE_ERROR_SECTION_ID,CamsKeyConstants.BarcodeInventory.ERROR_GLOBAL_REPLACE_SEARCH_CRITERIA);
+            return false;
+        }
+       return true;
+    }
+    
     /**
      * Invokes the method that validates the bar code inventory error records and that resides in the rule class
      * BarcodeInventoryErrorDocumentRule

@@ -484,7 +484,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
         asset.setBuildingSubRoomNumber(barcodeInventoryErrorDetail.getBuildingSubRoomNumber());
         asset.setCampusCode(barcodeInventoryErrorDetail.getCampusCode());
         asset.setConditionCode(barcodeInventoryErrorDetail.getAssetConditionCode());
-        asset.setLastInventoryDate(this.dateTimeService.getCurrentTimestamp());
+        asset.setLastInventoryDate(barcodeInventoryErrorDetail.getUploadScanTimestamp());
 
         // Updating asset information
         businessObjectService.save(asset);

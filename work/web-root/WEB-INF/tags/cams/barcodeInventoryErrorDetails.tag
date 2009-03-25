@@ -101,7 +101,7 @@
 </kul:tab>
 
 <c:if test="${!readOnly}">				
-	<kul:tab tabTitle="Global Replace" defaultOpen="true">
+	<kul:tab tabTitle="Global Replace" defaultOpen="true" tabErrorKey="globalReplaceErrorSection">
 		<div id="globalReplace" class="tab-container" align=center>
 			<table cellpadding="0" cellspacing="0">
 				<tr>

@@ -378,6 +378,7 @@ public class CamsPropertyConstants {
 
     public static final String ASSET_LOCATION_COMMON_ERROR_SECTION_ID = "assetLocationErrorSection";
     public static final String COMMON_ERROR_SECTION_ID="commonErrorSection";    
+    public static final String BCIE_GLOBAL_REPLACE_ERROR_SECTION_ID="globalReplaceErrorSection";
     public static final String DOCUMENT_NUMBER="documentNumber";
 
 

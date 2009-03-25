@@ -48,7 +48,10 @@ import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
+import org.kuali.rice.kew.dto.DocumentTypeDTO;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kew.service.impl.KEWModuleService;
 import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -80,7 +83,7 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
     private PreparedStatement entryPreparedSelect;
     private PreparedStatement entryInsert;
     private PreparedStatement indirectCostRecoveryTypePreparedSelect;
-    private KEWModuleService kewModuleService;
+    private WorkflowInfo workflowInfo = new WorkflowInfo();
     
     private Connection connection;
     private UniversityDateService universityDateService;
@@ -204,24 +207,28 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
         return originEntryChart;
     }
     
-    public DocumentTypeEBO getReferenceFinancialSystemDocumentTypeCode(OriginEntry originEntry) {
+    public DocumentTypeDTO getReferenceFinancialSystemDocumentTypeCode(OriginEntry originEntry) {
         return getFinancialSystemDocumentTypeCode(originEntry.getReferenceFinancialDocumentTypeCode());
     }
-    public DocumentTypeEBO getFinancialSystemDocumentTypeCode(OriginEntry originEntry) {
+    public DocumentTypeDTO getFinancialSystemDocumentTypeCode(OriginEntry originEntry) {
         return getFinancialSystemDocumentTypeCode(originEntry.getFinancialDocumentTypeCode());
     }
-    public DocumentTypeEBO getFinancialSystemDocumentTypeCode(String financialSystemDocumentTypeCodeCode) {
-        DocumentTypeEBO financialSystemDocumentTypeCode = null;
+    public DocumentTypeDTO getFinancialSystemDocumentTypeCode(String financialSystemDocumentTypeCodeCode) {
+        DocumentTypeDTO financialSystemDocumentTypeCode = null;
         String key = "KREW_DOC_TYP_T:" + financialSystemDocumentTypeCodeCode;
         Object value = dataCache.get(key);
         if (value != null) {
             if (!value.equals(" ")) {
-                financialSystemDocumentTypeCode = (DocumentTypeEBO) value;
+                financialSystemDocumentTypeCode = (DocumentTypeDTO) value;
             }
         } else {
-            Map<String, Object> docTypeKeys = new HashMap<String, Object>();
-            docTypeKeys.put("name", financialSystemDocumentTypeCodeCode);
-            financialSystemDocumentTypeCode = getKewModuleService().getExternalizableBusinessObject(DocumentTypeEBO.class, docTypeKeys);
+            try {
+                financialSystemDocumentTypeCode = workflowInfo.getDocType(financialSystemDocumentTypeCodeCode);
+            }
+            catch (WorkflowException we) {
+                LOG.warn("Could not find document type code named: "+financialSystemDocumentTypeCodeCode, we);
+                financialSystemDocumentTypeCode = null;
+            }
             
             if (financialSystemDocumentTypeCode != null) {
                 dataCache.put(key, financialSystemDocumentTypeCode);
@@ -230,12 +237,6 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
             }
         }
         return financialSystemDocumentTypeCode;
-    }
-    protected KEWModuleService getKewModuleService() {
-        if (kewModuleService == null) {
-            kewModuleService = (KEWModuleService)KEWServiceLocator.getBean("kewModule");
-        }
-        return kewModuleService;
     }
     
     public SystemOptions getSystemOptions(OriginEntry originEntry) {

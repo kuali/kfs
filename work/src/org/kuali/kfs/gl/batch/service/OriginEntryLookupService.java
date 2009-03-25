@@ -35,7 +35,7 @@ import org.kuali.kfs.gl.service.impl.CachingLookup;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
-import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
+import org.kuali.rice.kew.dto.DocumentTypeDTO;
 
 /**
  * An interface of methods that duplicate the relationships that OriginEntryFull has.
@@ -122,7 +122,7 @@ public interface OriginEntryLookupService {
      * @param entry the origin entry to retrieve the GL input type of
      * @return the related FinancialSystemDocumentTypeCode record, or null if not found
      */
-    public DocumentTypeEBO getFinancialSystemDocumentTypeCode(OriginEntry entry);
+    public DocumentTypeDTO getFinancialSystemDocumentTypeCode(OriginEntry entry);
 
     /**
      * Get the reference general ledger input type for the given origin entryable
@@ -130,7 +130,7 @@ public interface OriginEntryLookupService {
      * @param entry origin entryable to lookup the reference GL input type for
      * @return the related reference FinancialSystemDocumentTypeCode record, or null if not found
      */
-    public DocumentTypeEBO getReferenceFinancialSystemDocumentTypeCode(OriginEntry entry);
+    public DocumentTypeDTO getReferenceFinancialSystemDocumentTypeCode(OriginEntry entry);
 
     /**
      * Retrieves the project code for the given origin entryable

@@ -115,7 +115,7 @@
 	      		<kul:inquiry
 				    boClassName="org.kuali.kfs.coa.businessobject.SubAccount"
 				    keyValues="chartOfAccountsCode=${KualiForm.document.chartOfAccountsCode}&amp;accountNumber=${KualiForm.document.accountNumber}&amp;subAccountNumber=${KualiForm.document.subAccountNumber}"
-				    render="${KualiForm.document.subAccountNumber ne '-----'}"><%-- FIXME: need to get current "default" value from constants --%>
+				    render="${KualiForm.document.subAccountNumber ne BCConstants.DASH_SUB_ACCOUNT_NUMBER}">
 				    ${KualiForm.document.subAccountNumber}
 				</kul:inquiry>
 	      	</kul:htmlControlAttribute>

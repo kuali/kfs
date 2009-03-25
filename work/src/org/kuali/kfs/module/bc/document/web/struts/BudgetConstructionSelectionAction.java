@@ -104,7 +104,6 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
         Boolean isBCInProgress = (Boolean) GlobalVariables.getUserSession().retrieveObject(BCConstants.BC_IN_PROGRESS_SESSIONFLAG);
         if (isBCInProgress != null && isBCInProgress) {
 
-            // TODO add question prompt
             Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
             if (question == null) {
                 // ask question if not already asked
@@ -213,9 +212,6 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
             List refreshFields = Collections.unmodifiableList(Arrays.asList(new String[] { KFSPropertyConstants.ACCOUNT, KFSPropertyConstants.SUB_ACCOUNT }));
             SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(budgetConstructionDocument, refreshFields);
 
-
-            // TODO check is system view only
-            // check if not system view only and budgetable account and sub-account
             boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddBudgetConstructionDocumentEvent(BCPropertyConstants.BUDGET_CONSTRUCTION_HEADER, budgetConstructionDocument));
             if (rulePassed) {
                 List<BudgetConstructionAccountOrganizationHierarchy> newAccountOrganizationHierarchy = (List<BudgetConstructionAccountOrganizationHierarchy>) SpringContext.getBean(BudgetDocumentService.class).retrieveOrBuildAccountOrganizationHierarchy(universityFiscalYear, chartOfAccountsCode, accountNumber);
@@ -270,10 +266,8 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;
         String refreshCaller = request.getParameter(KFSConstants.REFRESH_CALLER);
 
-        // TODO need a better way to detect return from lookups
-        // returning from account lookup sets refreshcaller to accountLookupable, due to setting in account.xml
-        // if (refreshCaller != null && refreshCaller.equalsIgnoreCase(KFSConstants.KUALI_LOOKUPABLE_IMPL)){
-        if (refreshCaller != null && (refreshCaller.endsWith("Lookupable") || (refreshCaller.endsWith("LOOKUPABLE")))) {
+        // returning from account lookup sets refreshCaller to accountLookupable, due to setting in account.xml
+        if (refreshCaller != null && (refreshCaller.toUpperCase().endsWith(KFSConstants.LOOKUPABLE_SUFFIX.toUpperCase()))) {
             final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "chartOfAccounts", "account", "subAccount", "budgetConstructionAccountReports" }));
             SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(budgetConstructionSelectionForm.getBudgetConstructionHeader(), REFRESH_FIELDS);
         }

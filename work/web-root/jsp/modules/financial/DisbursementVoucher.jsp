@@ -19,6 +19,7 @@
 	htmlFormAction="financialDisbursementVoucher"
 	documentTypeName="DisbursementVoucherDocument"
 	renderMultipart="true" showTabButtons="true">
+	
 	<dv:dvPrintCoverSheet />
 	<dv:dvMessages />
 	
@@ -63,7 +64,5 @@
 
 	<kul:panelFooter />
 	
-	<kfs:documentControls
-		transactionalDocument="${documentEntry.transactionalDocument}" />
-
+	<kfs:documentControls transactionalDocument="${documentEntry.transactionalDocument}" />
 </kul:documentPage>

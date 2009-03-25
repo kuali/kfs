@@ -400,10 +400,8 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         }
         Integer maxSequenceNumber = SpringContext.getBean(AssetPaymentService.class).getMaxSequenceNumber(separateSourceCapitalAsset.getCapitalAssetNumber());
         // Add to the save list
-        AssetSeparatePaymentDistributor distributor = new AssetSeparatePaymentDistributor(sourcePayments, maxSequenceNumber, assetGlobal, newAssets);
+        AssetSeparatePaymentDistributor distributor = new AssetSeparatePaymentDistributor(separateSourceCapitalAsset, sourcePayments, maxSequenceNumber, assetGlobal, newAssets);
         distributor.distribute();
-        separateSourceCapitalAsset.getAssetPayments().addAll(distributor.getOffsetPayments());
-
         List<PersistableBusinessObject> persistables = new ArrayList<PersistableBusinessObject>();
         persistables.add(separateSourceCapitalAsset);
         persistables.addAll(newAssets);

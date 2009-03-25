@@ -104,7 +104,7 @@ public class KualiDecimalUtils {
     }
 
     /**
-     * Allocate a sum of money amongst many targets by quantity.
+     * Allocate a sum of money amongst many targets by ratio.
      * 
      * @param divisor
      * @return KualiDecimal[]

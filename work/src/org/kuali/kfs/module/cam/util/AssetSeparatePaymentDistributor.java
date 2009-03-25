@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
@@ -33,6 +34,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * This class is a calculator which will distribute the amounts and balance them by ratio
  */
 public class AssetSeparatePaymentDistributor {
+    private Asset sourceAsset;
     private AssetGlobal assetGlobal;
     private List<Asset> newAssets;
     private List<AssetPayment> sourcePayments = new ArrayList<AssetPayment>();
@@ -48,8 +50,9 @@ public class AssetSeparatePaymentDistributor {
     private static PropertyDescriptor[] assetPaymentProperties = PropertyUtils.getPropertyDescriptors(AssetPayment.class);
 
 
-    public AssetSeparatePaymentDistributor(List<AssetPayment> sourcePayments, Integer maxPaymentSeqNo, AssetGlobal assetGlobal, List<Asset> newAssets) {
+    public AssetSeparatePaymentDistributor(Asset sourceAsset, List<AssetPayment> sourcePayments, Integer maxPaymentSeqNo, AssetGlobal assetGlobal, List<Asset> newAssets) {
         super();
+        this.sourceAsset = sourceAsset;
         this.sourcePayments = sourcePayments;
         this.maxPaymentSeqNo = maxPaymentSeqNo;
         this.assetGlobal = assetGlobal;
@@ -82,6 +85,9 @@ public class AssetSeparatePaymentDistributor {
         roundPaymentAmounts();
         // balance by separate source amount
         roundAccountChargeAmount();
+        // create offset payments
+        createOffsetPayments();
+        this.sourceAsset.getAssetPayments().addAll(this.offsetPayments);
     }
 
     private void prepareSourcePaymentsForSplit() {
@@ -100,6 +106,10 @@ public class AssetSeparatePaymentDistributor {
             applyRatioToPaymentAmounts(assetPayment, new AssetPayment[] { separatePayment, remainingPayment }, new double[] { separateRatio, retainRatio });
         }
 
+
+    }
+
+    private void createOffsetPayments() {
         // create offset payment by negating the amount fields
         for (AssetPayment separatePayment : this.separatedPayments) {
             AssetPayment offsetPayment = new AssetPayment();
@@ -111,6 +121,7 @@ public class AssetSeparatePaymentDistributor {
                 throw new RuntimeException();
             }
             offsetPayment.setDocumentNumber(assetGlobal.getDocumentNumber());
+            offsetPayment.setFinancialDocumentTypeCode(CamsConstants.PaymentDocumentTypeCodes.ASSET_GLOBAL_SEPARATE);
             offsetPayment.setVersionNumber(null);
             offsetPayment.setObjectId(null);
             offsetPayment.setPaymentSequenceNumber(++maxPaymentSeqNo);
@@ -131,6 +142,7 @@ public class AssetSeparatePaymentDistributor {
                 Long capitalAssetNumber = currentAsset.getCapitalAssetNumber();
                 newPayment.setCapitalAssetNumber(capitalAssetNumber);
                 newPayment.setDocumentNumber(assetGlobal.getDocumentNumber());
+                newPayment.setFinancialDocumentTypeCode(CamsConstants.PaymentDocumentTypeCodes.ASSET_GLOBAL_SEPARATE);
                 targets[j] = newPayment;
                 newPayment.setVersionNumber(null);
                 newPayment.setObjectId(null);
@@ -171,6 +183,10 @@ public class AssetSeparatePaymentDistributor {
             KualiDecimal diff = detail.getSeparateSourceAmount().subtract(totalForAsset);
             lastPayment.setAccountChargeAmount(lastPayment.getAccountChargeAmount().add(diff));
             currentAsset.setTotalCostAmount(totalForAsset.add(diff));
+            // adjust primary depreciation base amount, same as account charge amount
+            if (lastPayment.getPrimaryDepreciationBaseAmount() != null && lastPayment.getPrimaryDepreciationBaseAmount().isNonZero()) {
+                lastPayment.setPrimaryDepreciationBaseAmount(lastPayment.getAccountChargeAmount());
+            }
         }
     }
 

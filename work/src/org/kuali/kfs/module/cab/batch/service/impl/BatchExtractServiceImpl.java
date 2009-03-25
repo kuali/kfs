@@ -576,13 +576,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#updateLastExtractDate(java.sql.Date)
      */
     public void updateLastExtractDate(java.sql.Date dt) {
-        Map<String, String> primaryKeys = new LinkedHashMap<String, String>();
-        //primaryKeys.put(CabPropertyConstants.Parameter.PARAMETER_NAMESPACE_CODE, CabConstants.Parameters.NAMESPACE);
-        //primaryKeys.put(CabPropertyConstants.Parameter.PARAMETER_DETAIL_TYPE_CODE, CabConstants.Parameters.DETAIL_TYPE_PRE_ASSET_TAGGING_STEP);
-        //primaryKeys.put(CabPropertyConstants.Parameter.PARAMETER_NAME, CabConstants.Parameters.LAST_EXTRACT_DATE);
-        
-        primaryKeys = (Map<String, String>) ((KualiConfigurationService) SpringContext.getBean(ParameterService.class)).getParameterWithoutExceptions(CabConstants.Parameters.NAMESPACE, CabConstants.Parameters.DETAIL_TYPE_PRE_ASSET_TAGGING_STEP, CabConstants.Parameters.LAST_EXTRACT_TIME);
-        Parameter parameter = (Parameter) businessObjectService.findByPrimaryKey(Parameter.class, primaryKeys);
+        Parameter parameter = SpringContext.getBean(KualiConfigurationService.class).getParameterWithoutExceptions(CabConstants.Parameters.NAMESPACE, CabConstants.Parameters.DETAIL_TYPE_PRE_ASSET_TAGGING_STEP, CabConstants.Parameters.LAST_EXTRACT_TIME);
         if (parameter != null) {
             SimpleDateFormat format = new SimpleDateFormat(CabConstants.DateFormats.MONTH_DAY_YEAR);
             parameter.setParameterValue(format.format(dt));

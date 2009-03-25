@@ -160,4 +160,11 @@ public class CabPropertyConstants {
         public static final String BUILDING_CODE = "buildingCode";
         public static final String BUILDING_ROOM_NUMBER = "buildingRoomNumber";
     }
+
+    public static class Parameter {
+        public static final String PARAMETER_NAME = "parameterName";
+        public static final String PARAMETER_DETAIL_TYPE_CODE = "parameterDetailTypeCode";
+        public static final String PARAMETER_NAMESPACE_CODE = "parameterNamespaceCode";
+
+    }
 }

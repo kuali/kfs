@@ -18,9 +18,11 @@ package org.kuali.kfs.module.cab.batch.service;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.kuali.kfs.module.cab.CabConstants;
+import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.fixture.CreditMemoAccountFixture;
 import org.kuali.kfs.module.cab.fixture.CreditMemoAccountRevisionFixture;
 import org.kuali.kfs.module.cab.fixture.CreditMemoDocumentFixture;
@@ -82,10 +84,10 @@ public abstract class BatchTestBase extends KualiTestBase {
     }
 
     protected Parameter findCabExtractTimeParam() {
-        Map<String, String> primaryKeys = new HashMap<String, String>();
-        primaryKeys.put("parameterNamespaceCode", CabConstants.Parameters.NAMESPACE);
-        primaryKeys.put("parameterDetailTypeCode", CabConstants.Parameters.DETAIL_TYPE_BATCH);
-        primaryKeys.put("parameterName", CabConstants.Parameters.LAST_EXTRACT_TIME);
+        Map<String, String> primaryKeys = new LinkedHashMap<String, String>();
+        primaryKeys.put(CabPropertyConstants.Parameter.PARAMETER_NAMESPACE_CODE, CabConstants.Parameters.NAMESPACE);
+        primaryKeys.put(CabPropertyConstants.Parameter.PARAMETER_DETAIL_TYPE_CODE, CabConstants.Parameters.DETAIL_TYPE_BATCH);
+        primaryKeys.put(CabPropertyConstants.Parameter.PARAMETER_NAME, CabConstants.Parameters.LAST_EXTRACT_TIME);
         Parameter lastExtractTime = (Parameter) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Parameter.class, primaryKeys);
         return lastExtractTime;
     }
@@ -103,10 +105,10 @@ public abstract class BatchTestBase extends KualiTestBase {
     }
 
     protected Parameter findPretagExtractDateParam() {
-        Map<String, String> primaryKeys = new HashMap<String, String>();
-        primaryKeys.put("parameterNamespaceCode", CabConstants.Parameters.NAMESPACE);
-        primaryKeys.put("parameterDetailTypeCode", CabConstants.Parameters.DETAIL_TYPE_PRE_ASSET_TAGGING_STEP);
-        primaryKeys.put("parameterName", CabConstants.Parameters.LAST_EXTRACT_DATE);
+        Map<String, String> primaryKeys = new LinkedHashMap<String, String>();
+        primaryKeys.put(CabPropertyConstants.Parameter.PARAMETER_NAMESPACE_CODE, CabConstants.Parameters.NAMESPACE);
+        primaryKeys.put(CabPropertyConstants.Parameter.PARAMETER_DETAIL_TYPE_CODE, CabConstants.Parameters.DETAIL_TYPE_PRE_ASSET_TAGGING_STEP);
+        primaryKeys.put(CabPropertyConstants.Parameter.PARAMETER_NAME, CabConstants.Parameters.LAST_EXTRACT_DATE);
         Parameter lastExtractTime = (Parameter) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Parameter.class, primaryKeys);
         return lastExtractTime;
     }

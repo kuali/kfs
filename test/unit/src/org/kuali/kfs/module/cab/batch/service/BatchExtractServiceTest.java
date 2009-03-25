@@ -73,7 +73,7 @@ public class BatchExtractServiceTest extends BatchTestBase {
         Timestamp ts = new Timestamp(DateUtils.parseDate("01/01/1970 23:59:59", new String[] { CabConstants.DateFormats.MONTH_DAY_YEAR + " " + CabConstants.DateFormats.MILITARY_TIME }).getTime());
         // Test updating the last extract time stamp
         batchExtractService.updateLastExtractTime(ts);
-        Parameter parameter = SpringContext.getBean(KualiConfigurationService.class).getParameterWithoutExceptions(CabConstants.Parameters.NAMESPACE, CabConstants.Parameters.DETAIL_TYPE_BATCH, CabConstants.Parameters.LAST_EXTRACT_TIME);
+        Parameter parameter = findCabExtractTimeParam();
         assertEquals("01/01/1970 23:59:59", parameter.getParameterValue());
 
         // Test saving PO lines

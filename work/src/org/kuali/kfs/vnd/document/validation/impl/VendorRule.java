@@ -1080,14 +1080,16 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
                     String[] parameters = new String[] { addressType };
                     int addressIndex = 0;
                     for (VendorAddress address : vendorAddresses) {
+                        String propertyName = VendorPropertyConstants.VENDOR_ADDRESS + "[" + addressIndex + "]." + VendorPropertyConstants.VENDOR_DEFAULT_ADDRESS_INDICATOR;
                         if (address.getVendorAddressType().getVendorAddressTypeCode().equalsIgnoreCase(addressType)) {
-                            GlobalVariables.getErrorMap().putError(MAINTAINABLE_ERROR_PREFIX + VendorPropertyConstants.VENDOR_ADDRESS + "[" + addressIndex + "]", VendorKeyConstants.ERROR_ADDRESS_DEFAULT_INDICATOR, parameters);
+                            putFieldError(propertyName, VendorKeyConstants.ERROR_ADDRESS_DEFAULT_INDICATOR, parameters);
                             break;
                         }
                         addressIndex++;
                     }
                     valid = false;
                 }
+                
             }
         }
 

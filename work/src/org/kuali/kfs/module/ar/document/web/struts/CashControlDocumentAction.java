@@ -26,6 +26,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
@@ -137,9 +138,12 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
         CashControlDocumentForm cashControlDocForm = (CashControlDocumentForm) form;
         CashControlDocument cashControlDocument = cashControlDocForm.getCashControlDocument();
 
-        cancelLinkedPaymentApplicationDocuments(cashControlDocument);
-        
-        return super.cancel(mapping, form, request, response);
+        // If the cancel works, proceed to canceling the cash control doc
+        if(cancelLinkedPaymentApplicationDocuments(cashControlDocument)) {
+            return super.cancel(mapping, form, request, response);
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
     /**
@@ -179,7 +183,7 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
             } else if (!KFSConstants.DocumentStatusCodes.APPROVED.equals(applicationDocument.getDocumentHeader().getFinancialDocumentStatusCode())) {
                 documentService.cancelDocument(applicationDocument, ArKeyConstants.DOCUMENT_DELETED_FROM_CASH_CTRL_DOC);
             } else {
-                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath("CashControlDocument", ArKeyConstants.ERROR_CANT_CANCEL_CASH_CONTROL_DOC_WITH_ASSOCIATED_APPROVED_PAYMENT_APPLICATION);
+                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDetailFields.CASH_CONTROL_DETAILS_TAB, ArKeyConstants.ERROR_CANT_CANCEL_CASH_CONTROL_DOC_WITH_ASSOCIATED_APPROVED_PAYMENT_APPLICATION);
                 success = false;;
             }
         }

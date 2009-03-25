@@ -135,6 +135,7 @@ public class ArPropertyConstants {
 
     // CashControlDetail
     public static class CashControlDetailFields {
+        public static final String CASH_CONTROL_DETAILS_TAB = "document.cashControlDetails";
         public static final String REFERENCE_FINANCIAL_DOC_NBR = "referenceFinancialDocumentNumber";
     }
     

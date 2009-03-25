@@ -58,7 +58,7 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
         ActionForward forward = super.execute(mapping, form, request, response);
 
         MonthlyBudgetForm monthlyBudgetForm = (MonthlyBudgetForm) form;
-        if (!monthlyBudgetForm.isLostSession()){
+        if (!monthlyBudgetForm.isLostSession()) {
             populateAuthorizationFields(monthlyBudgetForm);
 
             // set the readOnly status on initial load of the form
@@ -71,9 +71,6 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
                 tmpReadOnly |= (!monthlyBudgetForm.isBenefitsCalculationDisabled() && ((pbgl.getLaborObject() != null) && pbgl.getLaborObject().getFinancialObjectFringeOrSalaryCode().equalsIgnoreCase(BCConstants.LABOR_OBJECT_FRINGE_CODE)));
 
                 monthlyBudgetForm.setBudgetableDocument(SpringContext.getBean(BudgetDocumentService.class).isBudgetableDocumentNoWagesCheck(pbgl.getBudgetConstructionHeader()));
-                // tmpReadOnly |= !monthlyBudgetForm.isBudgetableDocument();
-                // TODO handle not budgetable in rules like the BC document so we can display the delete monthly button only when we are
-                // not readonly
                 monthlyBudgetForm.setMonthlyReadOnly(tmpReadOnly);
 
             }
@@ -86,7 +83,8 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
         BudgetConstructionAuthorizationStatus authorizationStatus = (BudgetConstructionAuthorizationStatus) GlobalVariables.getUserSession().retrieveObject(BCConstants.BC_DOC_AUTHORIZATION_STATUS_SESSIONKEY);
 
         if (authorizationStatus == null) {
-            // TODO: handle session timeout
+            // just return, BudgetExpansionAction.execute() will see the session time out
+            // and redirect back to BudgetConstructionSelection
             return;
         }
 
@@ -172,7 +170,6 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
             Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
             KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
 
-            // TODO create generic question text without reference to saving a document
             // logic for close question
             if (question == null) {
                 // ask question if not already asked

@@ -54,10 +54,22 @@
 					Invoice
 				</th>
 				<td>
-					<kul:htmlControlAttribute
-						readOnly="${readOnly}"
-						attributeEntry="${invoiceAttributes.organizationInvoiceNumber}"
-						property="enteredInvoiceDocumentNumber" />
+					<c:choose>
+						<c:when test="${empty KualiForm.enteredInvoiceDocumentNumber}">
+							<kul:htmlControlAttribute
+								readOnly="${readOnly}"
+								attributeEntry="${invoiceAttributes.organizationInvoiceNumber}"
+								property="enteredInvoiceDocumentNumber" />
+						</c:when>
+						<c:otherwise>
+							<a href="${ConfigProperties.workflow.url}/DocHandler.do?docId=${KualiForm.enteredInvoiceDocumentNumber}&command=displayDocSearchView" target="blank">
+								<kul:htmlControlAttribute
+									readOnly="true"
+									attributeEntry="${invoiceAttributes.organizationInvoiceNumber}"
+									property="enteredInvoiceDocumentNumber" />
+							</a>
+						</c:otherwise>	
+					</c:choose>
 				</td>
 			</tr>
 			<c:if test="${readOnly ne true}">
@@ -148,9 +160,11 @@
 											</tr>
 											<tr>
 												<td>
-													<kul:htmlControlAttribute
-														attributeEntry="${invoiceAttributes.organizationInvoiceNumber}"
-														property="selectedInvoiceDocumentNumber" readOnly="true" />
+													<a href="${ConfigProperties.workflow.url}/DocHandler.do?docId=${KualiForm.enteredInvoiceDocumentNumber}&command=displayDocSearchView" target="blank">
+														<kul:htmlControlAttribute
+															attributeEntry="${invoiceAttributes.organizationInvoiceNumber}"
+															property="selectedInvoiceDocumentNumber" readOnly="true" />
+													</a>
 												</td>
 												<td>
 													<kul:htmlControlAttribute

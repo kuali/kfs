@@ -70,9 +70,6 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
     private String correctionInputFileName; // File name if uploaded
     private String correctionOutputFileName; // Not used
     private String correctionScriptText; // Not used
-    //TODO: Shawn - Do I need to change OriginEntryGroupId as String?
-    private String correctionInputGroupId; // Group ID that has input data
-    private String correctionOutputGroupId; // Group ID that has output data
     private Integer correctionChangeGroupNextLineNumber;
 
     private List<CorrectionChangeGroup> correctionChangeGroup;
@@ -218,7 +215,7 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
                 if (!correctionFileDelete){
                     outputFileName = correctionDocumentService.createOutputFileForProcessing(doc.getDocumentNumber(), today);
                 }
-                doc.setCorrectionOutputGroupId(outputFileName);
+                doc.setCorrectionOutputFileName(outputFileName);
                 // should call scrubber here
                 String fileNameWithPath = correctionDocumentService.generateOutputOriginEntryFileName(docId);
                 ScrubberService scrubberService = SpringContext.getBean(ScrubberService.class);
@@ -406,18 +403,6 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
         this.correctionChangeGroup = correctionChangeGroup;
     }
 
-    public String getCorrectionInputGroupId() {
-        return correctionInputGroupId;
-    }
-
-    public String getCorrectionOutputGroupId() {
-        return correctionOutputGroupId;
-    }
-
-    public void setCorrectionOutputGroupId(String correctionOutputGroupId) {
-        this.correctionOutputGroupId = correctionOutputGroupId;
-    }
-    
     protected String buildFileExtensionWithDate(Date date){
         String dateFormatStr = ".yyyy-MMM-dd.HH-mm-ss";
         DateFormat dateFormat = new SimpleDateFormat(dateFormatStr);

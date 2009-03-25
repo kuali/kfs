@@ -39,7 +39,7 @@
           <tr><td>chooseSystem</td><td>${KualiForm.chooseSystem}</td></tr>
           <tr><td>editMethod</td><td>${KualiForm.editMethod}</td></tr>
           <tr><td>inputGroupId</td><td>${KualiForm.document.correctionInputFileName}</td></tr>
-          <tr><td>outputGroupId</td><td>${KualiForm.document.correctionOutputFileName}</td></tr>
+		  <tr><td>outputGroupId</td><td>${KualiForm.document.correctionOutputFileName}</td></tr>
           <tr><td>inputFileName</td><td>${KualiForm.inputFileName}</td></tr>
           <tr><td>dataLoadedFlag</td><td>${KualiForm.dataLoadedFlag}</td></tr>
           <tr><td>matchCriteriaOnly</td><td>${KualiForm.matchCriteriaOnly}</td></tr>
@@ -52,7 +52,7 @@
     </kul:tab>
   </c:if>
   <kul:tab tabTitle="Summary" defaultOpen="true" tabErrorKey="summary">
-    <c:if test="${KualiForm.document.correctionTypeCode ne 'R' and (not (KualiForm.persistedOriginEntriesMissing && KualiForm.inputGroupIdFromLastDocumentLoad eq KualiForm.inputGroupId)) && ((KualiForm.dataLoadedFlag and !KualiForm.restrictedFunctionalityMode) or KualiForm.document.correctionOutputGroupId != null or !KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT])}" >
+    <c:if test="${KualiForm.document.correctionTypeCode ne 'R' and (not (KualiForm.persistedOriginEntriesMissing && KualiForm.inputGroupIdFromLastDocumentLoad eq KualiForm.inputGroupId)) && ((KualiForm.dataLoadedFlag and !KualiForm.restrictedFunctionalityMode) or KualiForm.document.correctionOutputFileName != null or !KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT])}" >
       
       <div class="tab-container" align="center"> 
 	    <table cellpadding="0" class="datatable" summary=""> 
@@ -85,7 +85,7 @@
         </table>
       </div>
     </c:if>
-    <c:if test="${KualiForm.persistedOriginEntriesMissing && KualiForm.inputGroupIdFromLastDocumentLoad eq KualiForm.document.correctionInputGroupId}">
+    <c:if test="${KualiForm.persistedOriginEntriesMissing && KualiForm.inputGroupIdFromLastDocumentLoad eq KualiForm.document.correctionInputFileName}">
       <div class="tab-container" align="center"> 
 	    <table cellpadding="0" class="datatable" summary=""> 
           <tr>
@@ -234,7 +234,7 @@
           </table>
         </div>
       </c:if>
-      <c:if test="${KualiForm.restrictedFunctionalityMode && KualiForm.persistedOriginEntriesMissing && KualiForm.inputGroupIdFromLastDocumentLoad eq KualiForm.document.correctionInputGroupId}">
+      <c:if test="${KualiForm.restrictedFunctionalityMode && KualiForm.persistedOriginEntriesMissing && KualiForm.inputGroupIdFromLastDocumentLoad eq KualiForm.document.correctionInputFileName}">
         <div class="tab-container" align="center">
           <table cellpadding=0 class="datatable" summary=""> 
             <tr>
@@ -246,7 +246,7 @@
           </table>
         </div>
       </c:if>
-      <c:if test="${KualiForm.chooseSystem != null and KualiForm.editMethod != null and KualiForm.dataLoadedFlag == true and !KualiForm.restrictedFunctionalityMode and !(KualiForm.persistedOriginEntriesMissing && KualiForm.inputGroupIdFromLastDocumentLoad eq KualiForm.document.correctionInputGroupId)}" >
+      <c:if test="${KualiForm.chooseSystem != null and KualiForm.editMethod != null and KualiForm.dataLoadedFlag == true and !KualiForm.restrictedFunctionalityMode and !(KualiForm.persistedOriginEntriesMissing && KualiForm.inputGroupIdFromLastDocumentLoad eq KualiForm.document.correctionInputFileName)}" >
         <div class="tab-container" align="left" style="overflow: scroll; width: 100% ;"> 
           <table cellpadding=0 class="datatable" summary=""> 
             <tr>
@@ -691,18 +691,18 @@
         </tr>
       </table>
       <table>
-        <c:if test="${KualiForm.document.correctionInputGroupId != null}">
+        <c:if test="${KualiForm.document.correctionInputFileName != null}">
           <tr>
             <td width="20%" align="left" valign="middle" > Input Group ID: </td> 
-            <td align="left" valign="middle" > <c:out value="${KualiForm.document.correctionInputGroupId}" /></td>
+            <td align="left" valign="middle" > <c:out value="${KualiForm.document.correctionInputFileName}" /></td>
           </tr>
         </c:if>
         <tr>
           <td width="20%" align="left" valign="middle" > Output Group ID: </td> 
-          <c:if test="${KualiForm.document.correctionOutputGroupId != null}">
-            <td align="left" valign="middle" > <c:out value="${KualiForm.document.correctionOutputGroupId}" /></td>
+          <c:if test="${KualiForm.document.correctionOutputFileName != null}">
+            <td align="left" valign="middle" > <c:out value="${KualiForm.document.correctionOutputFileName}" /></td>
           </c:if>
-          <c:if test="${KualiForm.document.correctionOutputGroupId == null}">
+          <c:if test="${KualiForm.document.correctionOutputFileName == null}">
             <c:if test="${KualiForm.document.correctionTypeCode eq 'R'}">
               <td align="left" valign="middle" ><c:out value="${Constants.NOT_AVAILABLE_STRING}"/></td>
             </c:if>

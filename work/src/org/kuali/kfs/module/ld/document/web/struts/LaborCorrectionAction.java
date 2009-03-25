@@ -934,7 +934,7 @@ public class LaborCorrectionAction extends CorrectionAction {
         document.setCorrectionOutputFileName(null); // this field is never used
 
         // we'll populate the output group id when the doc has a route level change
-        document.setCorrectionOutputGroupId(null);
+        document.setCorrectionOutputFileName(null);
 
         SpringContext.getBean(LaborCorrectionDocumentService.class).persistOriginEntryGroupsForDocumentSave(document, laborCorrectionForm);
 
@@ -1077,7 +1077,7 @@ public class LaborCorrectionAction extends CorrectionAction {
         LaborCorrectionForm laborCorrectionForm = (LaborCorrectionForm) correctionForm;
         KualiWorkflowDocument workflowDocument = laborCorrectionForm.getDocument().getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.stateIsInitiated() || (workflowDocument.stateIsSaved() && (laborCorrectionForm.getInputGroupIdFromLastDocumentLoad() == null || !laborCorrectionForm.getInputGroupIdFromLastDocumentLoad().equals(laborCorrectionForm.getInputGroupId())))) {
-            present = originEntryGroupService.getGroupExists(((LaborCorrectionDocument) laborCorrectionForm.getDocument()).getCorrectionInputGroupId());
+            present = originEntryGroupService.getGroupExists(((LaborCorrectionDocument) laborCorrectionForm.getDocument()).getCorrectionInputFileName());
         }
         else {
             present = SpringContext.getBean(CorrectionDocumentService.class).areInputOriginEntriesPersisted((LaborCorrectionDocument) laborCorrectionForm.getDocument());

@@ -137,12 +137,12 @@ public class LaborCorrectionOnlineReport {
             cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             summary.addCell(cell);
 
-            cell = new PdfPCell(new Phrase("Input Group ID:" + cDocument.getCorrectionInputGroupId().toString(), textFont));
+            cell = new PdfPCell(new Phrase("Input Group ID:" + cDocument.getCorrectionInputFileName().toString(), textFont));
             cell.setColspan(2);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             summary.addCell(cell);
 
-            cell = new PdfPCell(new Phrase("Output Group ID: " + cDocument.getCorrectionOutputGroupId().toString(), textFont));
+            cell = new PdfPCell(new Phrase("Output Group ID: " + cDocument.getCorrectionOutputFileName().toString(), textFont));
             cell.setColspan(2);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             summary.addCell(cell);

@@ -45,6 +45,7 @@ import org.kuali.kfs.module.cam.document.service.AssetSegmentedLookupResultsServ
 import org.kuali.kfs.module.cam.document.validation.event.AssetPaymentAddAssetEvent;
 import org.kuali.kfs.module.cam.document.validation.event.AssetPaymentPrepareRouteEvent;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -55,12 +56,14 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
@@ -220,7 +223,7 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
         AssetPaymentAssetDetail newAssetPaymentAssetDetail = new AssetPaymentAssetDetail();
         String sCapitalAssetNumber = assetPaymentForm.getCapitalAssetNumber();
 
-        String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER;
+        String errorPath = CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER;
 
         // Validating the asset code is numeric
         Long capitalAssetNumber = null;
@@ -228,8 +231,14 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
             capitalAssetNumber = Long.parseLong(sCapitalAssetNumber);
         }
         catch (NumberFormatException e) {
-            sCapitalAssetNumber = (sCapitalAssetNumber == null ? " " : sCapitalAssetNumber);
-            GlobalVariables.getErrorMap().putError(errorPath, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_CAPITAL_ASSET_NUMBER, sCapitalAssetNumber);
+            //Validating the asset number field is not empty
+            if (ObjectUtils.isNull(sCapitalAssetNumber) || StringUtils.isBlank(sCapitalAssetNumber)) {
+                String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentAssetDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER).getLabel();
+                GlobalVariables.getErrorMap().putError(errorPath, KFSKeyConstants.ERROR_REQUIRED, label);
+            } else {
+                // it is not empty but has an invalid value.
+                GlobalVariables.getErrorMap().putError(errorPath, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_CAPITAL_ASSET_NUMBER, sCapitalAssetNumber);
+            }
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 

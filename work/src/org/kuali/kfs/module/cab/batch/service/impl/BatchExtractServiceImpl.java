@@ -96,9 +96,9 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
         for (PurchasingAccountsPayableDocument purApDoc : purApDocuments) {
             documentUpdated = false;
-            candidateDocs.add(purApDoc);
             // Refresh to get the referenced GLEntry BO. This is required to call purApLineService.processAllocate().
             purApDoc.refreshReferenceObject(CabPropertyConstants.PurchasingAccountsPayableDocument.PURCHASEING_ACCOUNTS_PAYABLE_ITEM_ASSETS);
+            candidateDocs.add(purApDoc);
             // keep the original list of items for iteration since purApLineService.processAllocate() may remove the line item when
             // it's additional charges line.
             initialItems.addAll(purApDoc.getPurchasingAccountsPayableItemAssets());

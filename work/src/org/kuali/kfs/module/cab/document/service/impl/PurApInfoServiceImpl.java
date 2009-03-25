@@ -27,6 +27,7 @@ import org.kuali.kfs.integration.purap.ItemCapitalAsset;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
+import org.kuali.kfs.module.cab.document.exception.PurApDocumentUnavailableException;
 import org.kuali.kfs.module.cab.document.service.PurApInfoService;
 import org.kuali.kfs.module.cab.document.web.struts.PurApLineForm;
 import org.kuali.kfs.module.purap.PurapConstants;
@@ -175,7 +176,6 @@ public class PurApInfoServiceImpl implements PurApInfoService {
      */
     protected void setItemAssetsCamsTransaction(Integer capitalAssetSystemIdentifier, String capitalAssetTransactionTypeCode, List<ItemCapitalAsset> purApCapitalAssets, List<PurchasingAccountsPayableItemAsset> itemAssets) {
         for (PurchasingAccountsPayableItemAsset item : itemAssets) {
-            // TODO : Purap will add this field to PREQ/CM item.
             item.setCapitalAssetTransactionTypeCode(capitalAssetTransactionTypeCode);
             // set for item capital assets
             if (purApCapitalAssets != null && !purApCapitalAssets.isEmpty()) {
@@ -217,7 +217,6 @@ public class PurApInfoServiceImpl implements PurApInfoService {
 
         // For each capitalAssetItem from PurAp, we set it to all matching CAB items
         for (PurchasingCapitalAssetItem purchasingCapitalAssetItem : capitalAssetItems) {
-            // TODO: PURAP will add this field into PREQ/CM item.
             capitalAssetTransactionTypeCode = purchasingCapitalAssetItem.getCapitalAssetTransactionTypeCode();
             // get matching CAB items origin from the same PO item.
             List<PurchasingAccountsPayableItemAsset> matchingItems = getMatchingItems(purchasingCapitalAssetItem.getItemIdentifier(), purApDocs);
@@ -301,6 +300,10 @@ public class PurApInfoServiceImpl implements PurApInfoService {
         if (CabConstants.PREQ.equalsIgnoreCase(docTypeCode)) {
             // for PREQ document
             PaymentRequestItem item = (PaymentRequestItem) businessObjectService.findByPrimaryKey(PaymentRequestItem.class, pKeys);
+            if (ObjectUtils.isNull(item)) {
+                throw new PurApDocumentUnavailableException("PaymentRequestItem with id = " + purchasingAccountsPayableItemAsset.getAccountsPayableLineItemIdentifier() + " doesn't exist in table.");
+            }
+            
             purchasingAccountsPayableItemAsset.setItemLineNumber(item.getItemLineNumber());
             if (item.getItemType() != null) {
                 purchasingAccountsPayableItemAsset.setAdditionalChargeNonTradeInIndicator(item.getItemType().isAdditionalChargeIndicator() & !CabConstants.TRADE_IN_TYPE_CODE.equalsIgnoreCase(item.getItemTypeCode()));
@@ -317,6 +320,10 @@ public class PurApInfoServiceImpl implements PurApInfoService {
         else {
             // for CM document
             CreditMemoItem item = (CreditMemoItem) businessObjectService.findByPrimaryKey(CreditMemoItem.class, pKeys);
+            if (ObjectUtils.isNull(item)) {
+                throw new PurApDocumentUnavailableException("CreditMemoItem with id = " + purchasingAccountsPayableItemAsset.getAccountsPayableLineItemIdentifier() + " doesn't exist in table.");
+            }
+            
             purchasingAccountsPayableItemAsset.setItemLineNumber(item.getItemLineNumber());
             if (item.getItemType() != null) {
                 purchasingAccountsPayableItemAsset.setAdditionalChargeNonTradeInIndicator(item.getItemType().isAdditionalChargeIndicator() & !CabConstants.TRADE_IN_TYPE_CODE.equalsIgnoreCase(item.getItemTypeCode()));

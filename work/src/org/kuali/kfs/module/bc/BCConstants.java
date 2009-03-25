@@ -422,8 +422,8 @@ public class BCConstants extends JSTLConstants {
     public static final String UNLOCK_BUTTON_NAME = "tinybutton-unlock.gif";
     public static final String UNLOCK_CONFIRMATION_QUESTION = "UnlockConfirmationQuestion";
 
-    public static final String DASH_SUB_ACCOUNT_NUMBER = "-----";
-    public static final String DASH_SUB_OBJECT_CODE = "---";
+    public static final String DASH_SUB_ACCOUNT_NUMBER = KFSConstants.getDashSubAccountNumber();
+    public static final String DASH_SUB_OBJECT_CODE = KFSConstants.getDashFinancialSubObjectCode();
 
     public static final String SHOW_SALARY_BY_POSITION_ACTION = "showSalaryByPositionAction";
     public static final String REFRESH_POSITION_BEFORE_SALARY_SETTING = "refreshPositionBeforeSalarySetting";

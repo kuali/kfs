@@ -32,18 +32,6 @@
       
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.TaxRegionRule"/>
     
-    <property name="authorizations">
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate"/>
-          <property name="authorizedGroups">
-            <set>
-              <value>SY_MAINTENANCE_USERS</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
     <property name="lockingKeys">
       <list>
         <value>taxRegionCode</value>

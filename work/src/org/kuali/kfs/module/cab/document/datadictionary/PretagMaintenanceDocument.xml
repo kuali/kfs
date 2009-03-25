@@ -34,18 +34,6 @@
     <property name="documentTypeName" value="PTAG"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.cab.document.validation.impl.PretagRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cab.document.authorization.PretagAuthorizer"/>
-    <property name="authorizations">
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate"/>
-          <property name="authorizedGroups">
-            <set>
-              <value>CM_ADMINISTRATORS</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
     <property name="workflowAttributes">
       <ref bean="PretagMaintenanceDocument-workflowAttributes"/>
     </property>

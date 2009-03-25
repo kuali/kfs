@@ -32,18 +32,6 @@
     <property name="documentTypeName" value="BANK"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.BankRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
-    <property name="authorizations">
-      <list>
-        <bean parent="AuthorizationDefinition">
-          <property name="action" value="initiate"/>
-          <property name="authorizedGroups">
-            <set>
-              <value>SY_MAINTENANCE_USERS</value>
-            </set>
-          </property>
-        </bean>
-      </list>
-    </property>
     <property name="workflowAttributes">
     	<ref bean="BankMaintenanceDocument-workflowAttributes"/>
     </property>

@@ -97,7 +97,9 @@ public class CashReceiptAction extends KualiAccountingDocumentActionBase {
      * @throws Exception
      */
     public ActionForward printCoverSheet(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+        CashReceiptForm crForm = (CashReceiptForm) form;
+        WebUtils.reRegisterEditablePropertiesFromPreviousRequest(crForm);
+        
         // get directory of tempate
         String directory = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY);
 
@@ -109,7 +111,6 @@ public class CashReceiptAction extends KualiAccountingDocumentActionBase {
         // since this action isn't triggered by a post, we don't have the normal document data
         // so we have to set the document into the form manually so that later authz processing
         // has a document object instance to work with
-        CashReceiptForm crForm = (CashReceiptForm) form;
         crForm.setDocument(document);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

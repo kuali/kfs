@@ -128,6 +128,9 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
      * Calls service to generate the disbursement voucher cover sheet as a pdf.
      */
     public ActionForward printDisbursementVoucherCoverSheet(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
+        WebUtils.reRegisterEditablePropertiesFromPreviousRequest(dvForm);
+        
         // get directory of template
         String directory = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY);
 
@@ -135,7 +138,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
 
         // set workflow document back into form to prevent document authorizer "invalid (null)
         // document.documentHeader.workflowDocument" since we are bypassing form submit and just linking directly to the action
-        DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
+
         dvForm.getDocument().getDocumentHeader().setWorkflowDocument(document.getDocumentHeader().getWorkflowDocument());
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -153,10 +156,11 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
      */
     public ActionForward calculateTravelPerDiem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
-        DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) dvForm.getDocument();
+        WebUtils.reRegisterEditablePropertiesFromPreviousRequest(dvForm);
 
         try {
             // call service to calculate per diem
+            DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) dvForm.getDocument();
             KualiDecimal perDiemAmount = SpringContext.getBean(DisbursementVoucherTravelService.class).calculatePerDiemAmount(dvDocument.getDvNonEmployeeTravel().getDvPerdiemStartDttmStamp(), dvDocument.getDvNonEmployeeTravel().getDvPerdiemEndDttmStamp(), dvDocument.getDvNonEmployeeTravel().getDisbVchrPerdiemRate());
 
             dvDocument.getDvNonEmployeeTravel().setDisbVchrPerdiemCalculatedAmt(perDiemAmount);

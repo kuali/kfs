@@ -16,6 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <c:if test="${KualiForm.canPrintCoverSheet}">
+	${kfunc:registerEditableProperty(KualiForm, "methodToCall")}
    <div align="center">
         <a href='financialDisbursementVoucher.do?methodToCall=printDisbursementVoucherCoverSheet&<c:out value="${PropertyConstants.DOCUMENT_NUMBER}"/>=<c:out value="${KualiForm.document.documentNumber}"/>'>
             <font color="red"><bean:message key="label.document.disbursementVoucher.printCoverSheet"/></font>

@@ -74,7 +74,7 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
             String rlines = "";
 
             String docNumber = document.getDocumentNumber();
-            String initiator = document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
+            String initiator = document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
             String payee = document.getDvPayeeDetail().getDisbVchrPayeePersonName();
 
             String reason = ((PaymentReasonCode) retrieveObjectByKey(PaymentReasonCode.class, document.getDvPayeeDetail().getDisbVchrPaymentReasonCode())).getName();
@@ -112,7 +112,7 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
             }
 
             try {
-                PdfReader reader = new PdfReader(templateDirectory + File.separator + templateName);
+                PdfReader reader = new PdfReader(templateDirectory + templateName);
 
                 // populate form with document values
                 PdfStamper stamper = new PdfStamper(reader, outputStream);

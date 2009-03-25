@@ -15,18 +15,10 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
-import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
 import org.kuali.kfs.module.bc.document.service.BenefitsCalculationService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.exception.AuthorizationException;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 public class MonthlyBudgetForm extends BudgetExpansionForm {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MonthlyBudgetForm.class);
@@ -36,10 +28,6 @@ public class MonthlyBudgetForm extends BudgetExpansionForm {
     private boolean monthlyReadOnly = true;
     private boolean budgetableDocument = false;
 
-    // TODO remove - was here originally for kul:page tag use
-    // private String docTypeName;
-
-    // TODO probably need to push these and some url parms to new superclass BCExpansionForm??
     private boolean hideDetails = false;
 
     // url parameters sent from BCDoc
@@ -74,25 +62,6 @@ public class MonthlyBudgetForm extends BudgetExpansionForm {
     public void setBudgetConstructionMonthly(BudgetConstructionMonthly budgetConstructionMonthly) {
         this.budgetConstructionMonthly = budgetConstructionMonthly;
     }
-
-    /**
-     * Gets the docTypeName attribute.
-     * 
-     * @return Returns the docTypeName.
-     */
-    // TODO remove - was here originally for kul:page tag use
-    // public String getDocTypeName() {
-    // return docTypeName;
-    // }
-    /**
-     * Sets the docTypeName attribute value.
-     * 
-     * @param docTypeName The docTypeName to set.
-     */
-    // TODO remove - was here originally for kul:page tag use
-    // public void setDocTypeName(String docTypeName) {
-    // this.docTypeName = docTypeName;
-    // }
 
     /**
      * Gets the accountNumber attribute.
@@ -239,7 +208,8 @@ public class MonthlyBudgetForm extends BudgetExpansionForm {
     }
 
     /**
-     * Gets the monthlyPersisted attribute. 
+     * Gets the monthlyPersisted attribute.
+     * 
      * @return Returns the monthlyPersisted.
      */
     public boolean isMonthlyPersisted() {
@@ -248,6 +218,7 @@ public class MonthlyBudgetForm extends BudgetExpansionForm {
 
     /**
      * Sets the monthlyPersisted attribute value.
+     * 
      * @param monthlyPersisted The monthlyPersisted to set.
      */
     public void setMonthlyPersisted(boolean monthlyPersisted) {
@@ -255,7 +226,8 @@ public class MonthlyBudgetForm extends BudgetExpansionForm {
     }
 
     /**
-     * Gets the readOnly attribute. 
+     * Gets the readOnly attribute.
+     * 
      * @return Returns the readOnly.
      */
     public boolean isMonthlyReadOnly() {
@@ -264,6 +236,7 @@ public class MonthlyBudgetForm extends BudgetExpansionForm {
 
     /**
      * Sets the readOnly attribute value.
+     * 
      * @param readOnly The readOnly to set.
      */
     public void setMonthlyReadOnly(boolean readOnly) {
@@ -271,7 +244,8 @@ public class MonthlyBudgetForm extends BudgetExpansionForm {
     }
 
     /**
-     * Gets the budgetableDocument attribute. 
+     * Gets the budgetableDocument attribute.
+     * 
      * @return Returns the budgetableDocument.
      */
     public boolean isBudgetableDocument() {
@@ -280,6 +254,7 @@ public class MonthlyBudgetForm extends BudgetExpansionForm {
 
     /**
      * Sets the budgetableDocument attribute value.
+     * 
      * @param budgetableDocument The budgetableDocument to set.
      */
     public void setBudgetableDocument(boolean budgetableDocument) {
@@ -323,4 +298,3 @@ public class MonthlyBudgetForm extends BudgetExpansionForm {
     }
 
 }
-

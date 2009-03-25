@@ -22,6 +22,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.service.UniversityDateService;
 
 
@@ -100,5 +101,10 @@ public class YearEndBudgetAdjustmentDocument extends BudgetAdjustmentDocument im
     @Override
     protected String getTransferDocumentType() {
         return YEAR_END_TRANSFER_OF_FUNDS_DOC_TYPE_CODE;
+    }
+    
+    @Override
+    public Class<? extends AccountingDocument> getDocumentClassForAccountingLineValueAllowedValidation() {
+        return BudgetAdjustmentDocument.class;
     }
 }

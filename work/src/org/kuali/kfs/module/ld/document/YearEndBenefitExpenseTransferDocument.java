@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.ld.document;
 
 import org.kuali.kfs.fp.document.YearEndDocument;
+import org.kuali.kfs.sys.document.AccountingDocument;
 
 /**
  * Labor Document class for the Year End Benefit Expense TransferDocument.
@@ -28,5 +29,10 @@ public class YearEndBenefitExpenseTransferDocument extends BenefitExpenseTransfe
      */
     public YearEndBenefitExpenseTransferDocument() {
         super();
+    }
+    
+    @Override
+    public Class<? extends AccountingDocument> getDocumentClassForAccountingLineValueAllowedValidation() {
+        return BenefitExpenseTransferDocument.class;
     }
 }

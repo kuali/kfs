@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.ld.document;
 
 import org.kuali.kfs.fp.document.YearEndDocument;
+import org.kuali.kfs.sys.document.AccountingDocument;
 
 /**
  * Labor Document Class for the Year End Salary Expense Transfer Document.
@@ -27,5 +28,10 @@ public class YearEndSalaryExpenseTransferDocument extends SalaryExpenseTransferD
      */
     public YearEndSalaryExpenseTransferDocument() {
         super();
+    }
+    
+    @Override
+    public Class<? extends AccountingDocument> getDocumentClassForAccountingLineValueAllowedValidation() {
+        return SalaryExpenseTransferDocument.class;
     }
 }

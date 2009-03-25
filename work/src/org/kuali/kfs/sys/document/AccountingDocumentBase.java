@@ -714,4 +714,8 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
         LOG.debug("getGeneralLedgerPendingEntryAmountForAccountingLine(AccountingLine) - end");
         return returnKualiDecimal;
     }
+    
+    public Class<? extends AccountingDocument> getDocumentClassForAccountingLineValueAllowedValidation() {
+        return this.getClass();
+    }
 }

@@ -53,7 +53,7 @@ public class AccountingLineValueAllowedValidation extends GenericValidation {
             refreshByPath(accountingLineForValidation);
         }
         
-        return isAccountingLineValueAllowed(accountingDocumentForValidation.getClass(), accountingLineForValidation, parameterToCheckAgainst, propertyPath, (responsibleProperty != null ? responsibleProperty : propertyPath));
+        return isAccountingLineValueAllowed(accountingDocumentForValidation.getDocumentClassForAccountingLineValueAllowedValidation(), accountingLineForValidation, parameterToCheckAgainst, propertyPath, (responsibleProperty != null ? responsibleProperty : propertyPath));
     }
     
     /**

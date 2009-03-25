@@ -162,5 +162,11 @@ public interface AccountingDocument extends GeneralLedgerPostingDocument, Genera
      * @param targetLines
      */
     public void setTargetAccountingLines(List targetLines);
+    
+    
+    /**
+     * This method returns the Class to use for AccountingLingValuesAllowedValidation.
+     */
+    public Class<? extends AccountingDocument> getDocumentClassForAccountingLineValueAllowedValidation();
 
 }

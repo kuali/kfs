@@ -19,6 +19,7 @@ package org.kuali.kfs.fp.document;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.AmountTotaling;
 
 
@@ -76,5 +77,10 @@ public class YearEndTransferOfFundsDocument extends TransferOfFundsDocument impl
         AccountingLine accountingLine = (AccountingLine)postable;
         YearEndDocumentUtil.customizeExplicitGeneralLedgerPendingEntry(this, accountingLine, explicitEntry);
         return success;
+    }
+    
+    @Override
+    public Class<? extends AccountingDocument> getDocumentClassForAccountingLineValueAllowedValidation() {
+        return TransferOfFundsDocument.class;
     }
 }

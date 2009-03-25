@@ -157,7 +157,7 @@
 	
 	<bean id="SubObjectCodeGlobalMaintenanceDocument-DocumentValuePathGroup-ChartOrganization" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
     	<property name="documentCollectionPath">
-    		<bean parent="SubObjectCodeGlobalMaintenanceDocument-DocumentCollectionPath-chart">
+    		<bean parent="SubObjectCodeGlobalMaintenanceDocument-DocumentCollectionPath-chartOrganization">
     			<property name="collectionPath" value="newMaintainableObject.businessObject.accountGlobalDetails"/>
     		</bean>
     	</property>

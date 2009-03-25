@@ -18,8 +18,6 @@ package org.kuali.kfs.module.bc.document.web.struts;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -88,6 +86,10 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
     private boolean accountReportsExist;
     private boolean mainWindow = false;
 
+    // holds anchor value to return to when doing doing balance inquiry
+    // it is only set when setting up to do balance inquiry and reset in refresh
+    private String balanceInquiryReturnAnchor;
+
     public BudgetConstructionForm() {
         super();
 
@@ -96,8 +98,6 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
         this.setNewExpenditureLine(new PendingBudgetConstructionGeneralLedger());
         this.setNewRevenueLine(new PendingBudgetConstructionGeneralLedger());
         this.setAccountOrgHierLevels(new TypedArrayList(BudgetConstructionAccountOrganizationHierarchy.class));
-        // this.setPullupLevelKeyLabels(new ArrayList<KeyLabelPair>());
-        // this.setPushdownLevelKeyLabels(new ArrayList<KeyLabelPair>());
         this.setPullupLevelKeyLabels(new TypedArrayList(BCKeyLabelPair.class));
         this.setPushdownLevelKeyLabels(new TypedArrayList(BCKeyLabelPair.class));
 
@@ -263,8 +263,8 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
 
 
     /**
-     * This method iterates over all of the rev and exp lines in the BC document. TODO verify this - and calls
-     * prepareAccountingLineForValidationAndPersistence on each one. This is called to refresh ref objects for use by validation
+     * This method iterates over all of the rev and exp lines in the BC document. This is called to refresh ref objects for use by
+     * validation
      */
     public void populatePBGLLines() {
 
@@ -742,6 +742,24 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
     }
 
     /**
+     * Gets the balanceInquiryReturnAnchor attribute.
+     * 
+     * @return Returns the balanceInquiryReturnAnchor.
+     */
+    public String getBalanceInquiryReturnAnchor() {
+        return balanceInquiryReturnAnchor;
+    }
+
+    /**
+     * Sets the balanceInquiryReturnAnchor attribute value.
+     * 
+     * @param balanceInquiryReturnAnchor The balanceInquiryReturnAnchor to set.
+     */
+    public void setBalanceInquiryReturnAnchor(String balanceInquiryReturnAnchor) {
+        this.balanceInquiryReturnAnchor = balanceInquiryReturnAnchor;
+    }
+
+    /**
      * Gets the pullupKeyCode attribute.
      * 
      * @return Returns the pullupKeyCode.
@@ -900,7 +918,8 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
     }
 
     /**
-     * Gets the mainWindow attribute. 
+     * Gets the mainWindow attribute.
+     * 
      * @return Returns the mainWindow.
      */
     public boolean isMainWindow() {
@@ -909,21 +928,10 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
 
     /**
      * Sets the mainWindow attribute value.
+     * 
      * @param mainWindow The mainWindow to set.
      */
     public void setMainWindow(boolean mainWindow) {
         this.mainWindow = mainWindow;
     }
-
-// TODO used to workaround KIM access problems remove this hack when no longer needed
-//    /**
-//     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#getDocumentActions()
-//     */
-//    @Override
-//    public Map getDocumentActions() {
-//        Map documentActions = super.getDocumentActions();
-//        documentActions.put(KNSConstants.KUALI_ACTION_CAN_EDIT, Boolean.TRUE);
-//        return documentActions;
-//    }
-//    
 }

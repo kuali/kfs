@@ -32,6 +32,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.BCConstants.LockStatus;
 import org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAuthorizationStatus;
@@ -48,7 +49,6 @@ import org.kuali.kfs.module.bc.exception.BudgetConstructionDocumentAuthorization
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.module.bc.BCConstants.LockStatus;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -63,7 +63,6 @@ import org.kuali.rice.kns.exception.UnknownDocumentIdException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.PersistenceService;
@@ -100,7 +99,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         Boolean isBCHeartBeating = (Boolean) GlobalVariables.getUserSession().retrieveObject(BCConstants.BC_HEARTBEAT_SESSIONFLAG);
         if (isBCHeartBeating == null) {
-            if (budgetConstructionForm.isPickListMode()){
+            if (budgetConstructionForm.isPickListMode()) {
                 budgetConstructionForm.setPickListClose(true);
                 GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_PREVIOUS_SESSION_TIMEOUT);
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -130,7 +129,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         try {
             forward = super.execute(mapping, form, request, response);
         }
-        catch (AuthorizationException e){
+        catch (AuthorizationException e) {
             forward = mapping.findForward(KFSConstants.MAPPING_BASIC);
             String docId = budgetConstructionForm.getDocId();
             Document doc = null;
@@ -139,12 +138,13 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                 throw new UnknownDocumentIdException("Document no longer exists.  It may have been cancelled before being saved.");
             }
             KualiWorkflowDocument workflowDocument = doc.getDocumentHeader().getWorkflowDocument();
-//            if (!getDocumentHelperService().getDocumentAuthorizer(doc).canOpen(doc, GlobalVariables.getUserSession().getPerson())) {
-//                throw buildAuthorizationException("open", doc);
-//            }
+            // if (!getDocumentHelperService().getDocumentAuthorizer(doc).canOpen(doc,
+            // GlobalVariables.getUserSession().getPerson())) {
+            // throw buildAuthorizationException("open", doc);
+            // }
             // re-retrieve the document using the current user's session - remove the system user from the WorkflowDcument object
-            if ( workflowDocument != doc.getDocumentHeader().getWorkflowDocument() ) {
-                LOG.warn( "Workflow document changed via canOpen check" );
+            if (workflowDocument != doc.getDocumentHeader().getWorkflowDocument()) {
+                LOG.warn("Workflow document changed via canOpen check");
                 doc.getDocumentHeader().setWorkflowDocument(workflowDocument);
             }
             budgetConstructionForm.setDocument(doc);
@@ -154,7 +154,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             GlobalVariables.getUserSession().setWorkflowDocument(workflowDoc);
 
             budgetConstructionForm.setSecurityNoAccess(true);
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_CUSTOM, "Due to one of the problems listed below: "+e.getMessage());
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_CUSTOM, "Due to one of the problems listed below: " + e.getMessage());
             GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_NOT_ORG_APPROVER);
             GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_BELOW_DOCLEVEL);
             GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_NOT_IN_HIERARCHY);
@@ -164,18 +164,18 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         // TODO: remove this once handling of KIM no access interaction is fixed
         // handle any security no access cases
-//        if (budgetConstructionForm.getEditingMode().containsKey(BCConstants.EditModes.USER_NOT_ORG_APPROVER)) {
-//            budgetConstructionForm.setSecurityNoAccess(true);
-//            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_NOT_ORG_APPROVER);
-//        }
-//        if (budgetConstructionForm.getEditingMode().containsKey(BCConstants.EditModes.USER_BELOW_DOC_LEVEL)) {
-//            budgetConstructionForm.setSecurityNoAccess(true);
-//            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_BELOW_DOCLEVEL);
-//        }
-//        if (budgetConstructionForm.getEditingMode().containsKey(BCConstants.EditModes.USER_NOT_IN_ACCOUNT_HIER)) {
-//            budgetConstructionForm.setSecurityNoAccess(true);
-//            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_NOT_IN_HIERARCHY);
-//        }
+        // if (budgetConstructionForm.getEditingMode().containsKey(BCConstants.EditModes.USER_NOT_ORG_APPROVER)) {
+        // budgetConstructionForm.setSecurityNoAccess(true);
+        // GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_NOT_ORG_APPROVER);
+        // }
+        // if (budgetConstructionForm.getEditingMode().containsKey(BCConstants.EditModes.USER_BELOW_DOC_LEVEL)) {
+        // budgetConstructionForm.setSecurityNoAccess(true);
+        // GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_BELOW_DOCLEVEL);
+        // }
+        // if (budgetConstructionForm.getEditingMode().containsKey(BCConstants.EditModes.USER_NOT_IN_ACCOUNT_HIER)) {
+        // budgetConstructionForm.setSecurityNoAccess(true);
+        // GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_NOT_IN_HIERARCHY);
+        // }
 
         // apprise user of granted access
         if (budgetConstructionForm.getMethodToCall().equals(BCConstants.BC_DOCUMENT_METHOD) || budgetConstructionForm.getMethodToCall().equals(BCConstants.BC_DOCUMENT_PULLUP_METHOD) || budgetConstructionForm.getMethodToCall().equals(BCConstants.BC_DOCUMENT_PUSHDOWN_METHOD)) {
@@ -209,7 +209,6 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                     GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_EDIT_ACCESS);
                 }
 
-                // TODO: maybe move this to BC document service?
                 if (!budgetConstructionForm.isSystemViewOnly()) {
                     LockService lockService = SpringContext.getBean(LockService.class);
                     HashMap primaryKey = new HashMap();
@@ -221,7 +220,6 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                         // GlobalVariables.getUserSession().getPerson().getPrincipalId());
                         BudgetConstructionLockStatus bcLockStatus = lockService.lockAccountAndCommit(budgetConstructionHeader, GlobalVariables.getUserSession().getPerson().getPrincipalId());
 
-                        // TODO: make this a switch
                         if (bcLockStatus.getLockStatus() == LockStatus.SUCCESS) {
 
                             // update the document version number
@@ -306,7 +304,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
-        
+
         loadDocument(budgetConstructionForm);
 
         // set flag to have execute perform 2plug adjusment if the doc goes into edit mode later
@@ -326,7 +324,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
     @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) kualiDocumentFormBase;
-        
+
         BudgetConstructionHeader budgetConstructionHeader;
         if (budgetConstructionForm.getDocId() != null) {
             HashMap primaryKey = new HashMap();
@@ -345,10 +343,10 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
             budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BudgetDocumentService.class).getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
         }
-        
+
         kualiDocumentFormBase.setDocId(budgetConstructionHeader.getDocumentNumber());
         super.loadDocument(kualiDocumentFormBase);
-        
+
         BudgetConstructionDocument budgetConstructionDocument = (BudgetConstructionDocument) kualiDocumentFormBase.getDocument();
 
         // init the benefits calc flags
@@ -375,7 +373,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         budgetConstructionForm.getDocumentActions().remove(KNSConstants.KUALI_ACTION_CAN_SAVE);
         GlobalVariables.getMessageList().remove(BCKeyConstants.MESSAGE_BUDGET_EDIT_ACCESS);
     }
-    
+
     /**
      * Override to set authorization Maps from session
      * 
@@ -386,7 +384,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         BudgetConstructionAuthorizationStatus authorizationStatus = (BudgetConstructionAuthorizationStatus) GlobalVariables.getUserSession().retrieveObject(BCConstants.BC_DOC_AUTHORIZATION_STATUS_SESSIONKEY);
 
         if (authorizationStatus == null) {
-            // TODO: handle session timeout
+            // execute handles any session timeout before this is called
             return;
         }
 
@@ -402,9 +400,9 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
      * @param budgetConstructionForm current bc action form that will be updated
      */
     protected void initAuthorization(BudgetConstructionForm budgetConstructionForm) {
-       // GlobalVariables.setRequestCache(ROLE_QUALIFICATION_CACHE_NAME, budgetConstructionForm)
+        // GlobalVariables.setRequestCache(ROLE_QUALIFICATION_CACHE_NAME, budgetConstructionForm)
         super.populateAuthorizationFields(budgetConstructionForm);
-        
+
         BudgetConstructionAuthorizationStatus editStatus = new BudgetConstructionAuthorizationStatus();
         editStatus.setDocumentActions(budgetConstructionForm.getDocumentActions());
         editStatus.setEditingMode(budgetConstructionForm.getEditingMode());
@@ -465,9 +463,6 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                     // if yes button clicked - save the doc
                     BudgetConstructionDocument bcDoc = (BudgetConstructionDocument) docForm.getDocument();
 
-                    // SpringContext.getBean(DocumentService.class).saveDocument(docForm.getDocument());
-                    // TODO for now just do trivial save eventually need to add validation, routelog stuff, etc
-
                     // force tighter checks when saving in cleanup mode
                     if (!bcDoc.isBudgetableDocument()) {
                         bcDoc.setCleanupModeActionForceCheck(Boolean.TRUE);
@@ -480,11 +475,6 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                     if (bcDoc.isBenefitsCalcNeeded() || bcDoc.isMonthlyBenefitsCalcNeeded()) {
                         budgetDocumentService.calculateBenefitsIfNeeded(bcDoc);
 
-                        // docForm.initializePersistedRequestAmounts();
-                        // TODO confirm save and close functionality with SME group
-                        // if (docForm.isPickListMode()){
-                        // GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
-                        // }
                         GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
                         return mapping.findForward(KFSConstants.MAPPING_BASIC);
                     }
@@ -497,7 +487,6 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             }
         }
 
-        // TODO: maybe move this to BC document service
         // do the unlock if they have full access and not system view mode
         if (docForm.isEditAllowed() && !docForm.isSystemViewOnly()) {
             LockService lockService = SpringContext.getBean(LockService.class);
@@ -507,11 +496,6 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             BudgetConstructionHeader budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
             if (budgetConstructionHeader != null) {
                 LockStatus lockStatus = lockService.unlockAccount(budgetConstructionHeader);
-
-                // TODO: figure out if we need error message and redisplay for not success?
-                if (lockStatus != LockStatus.SUCCESS) {
-
-                }
             }
             else {
                 // unlikely, but benign problem here
@@ -523,12 +507,10 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         docForm.setClosingDocument(Boolean.TRUE);
 
         if (docForm.isPickListMode()) {
-            // TODO for now just redisplay with a message
+            // redisplay with a message
             GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_SUCCESSFUL_CLOSE);
             docForm.setPickListClose(true);
 
-            // TODO remove when finalized
-            // this.setupDocumentExit();
             // this is a hack to do our own session document cleanup since refreshCaller=QuestionRefresh
             // prevents proper cleanup in KualiRequestProcessor.processActionPerform()
             UserSession userSession = (UserSession) request.getSession().getAttribute(KNSConstants.USER_SESSION_KEY);
@@ -554,8 +536,6 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
                 String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.BC_SELECTION_ACTION, parameters);
 
-                // TODO remove when finalized
-                // this.setupDocumentExit();
                 // this is a hack to do our own session document cleanup since refreshCaller=QuestionRefresh
                 // prevents proper cleanup in KualiRequestProcessor.processActionPerform()
                 UserSession userSession = (UserSession) request.getSession().getAttribute(KNSConstants.USER_SESSION_KEY);
@@ -565,9 +545,6 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                 return new ActionForward(lookupUrl, true);
             }
         }
-
-        // TODO this needs to return to bc doc selection
-        // return returnToSender(mapping, docForm);
     }
 
     /**
@@ -576,60 +553,25 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
      */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // TODO Auto-generated method stub
-        // return super.save(mapping, form, request, response);
+
         BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
         BudgetConstructionDocument bcDocument = (BudgetConstructionDocument) budgetConstructionForm.getDocument();
         // DocumentService documentService = SpringContext.getBean(DocumentService.class);
         BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
-
-        // TODO for now just do trivial save eventually need to add validation, routelog stuff, etc
-        // and calc benefits flag checking and calc benefits if needed
-        // documentService.updateDocument(bcDocument);
 
         // force tighter checks when saving in cleanup mode
         if (!bcDocument.isBudgetableDocument()) {
             bcDocument.setCleanupModeActionForceCheck(Boolean.TRUE);
         }
 
-        // TODO use this instead? research the differences - may need to inject DocumentService and roll our own bcdocservice
-        // documentService.saveDocument(document);
-        // rolling own - next line
         budgetDocumentService.saveDocument(bcDocument);
         budgetConstructionForm.initializePersistedRequestAmounts();
         budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
         GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
 
-        // TODO not sure this is needed in BC
         budgetConstructionForm.setAnnotation("");
 
         // redisplay the document along with document saved message
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#cancel(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     *      Cancels a Budget Construction Document. This action is only available when there is no associated account reports to
-     *      mapping
-     */
-    @Override
-    public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        // TODO not sure this is needed since a work around is to add the mapping and then
-        // manually do cleanup operations so the document doesn't load
-        // remove the setCanCancel code in BudgetConstructionDocumentAuthorizer if this is removed
-
-        // TODO if implemented, this needs to delete or purge BCAF lines
-        // this should also cancel in workflow if not already canceled
-        // this implies cancel can be issued multiple times to allow purging BCAF lines if CSF is removed
-        // Canceling should not be a one way trip, once canceled, reactivating should be possible
-        // Once the account reports to mapping is installed, canceling is no longer an option
-
-        // TODO need to lift some code from super and see if doc service cancel will work
-        // or add a cancel method to BudgetDocumentService
-        // super.cancel(mapping, form, request, response);
-
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -664,6 +606,13 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         if (StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
             parameters.put(BCConstants.RETURN_ANCHOR, ((KualiForm) form).getAnchor());
+        }
+
+        // this hack sets the return anchor we want to return too after the inquiry
+        // do this here so it gets into the session stored form version
+        // refresh checks for this after and resets the anchor
+        if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
+            tForm.setBalanceInquiryReturnAnchor(((KualiForm) form).getAnchor());
         }
 
         parameters.put(KNSConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
@@ -722,10 +671,15 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             pbglLine = bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(this.getSelectedLine(request));
         }
 
-        // build out base path for return location, use config service instead
-        // String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() +
-        // request.getContextPath();
+        // build out base path for return location, use config service
         String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+
+        // this hack sets the return anchor we want to return too after the inquiry
+        // do this here so it gets into the session stored form version
+        // refresh checks for this after and resets the anchor
+        if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
+            budgetConstructionForm.setBalanceInquiryReturnAnchor(((KualiForm) form).getAnchor());
+        }
 
         // build out the actual form key that will be used to retrieve the form on refresh
         String callerDocFormKey = GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX);
@@ -739,7 +693,11 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         parameters.put(KFSConstants.DOC_FORM_KEY, callerDocFormKey);
         parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
 
-        // TODO need to set an anchor for which to return?? pass this value in?
+        // anchor, if it exists
+        // this doesn't seem to work with the balance inquiry infrastructure, so added hack above
+        if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
+            parameters.put(BCConstants.RETURN_ANCHOR, ((KualiForm) form).getAnchor());
+        }
 
         if (StringUtils.isNotBlank(pbglLine.getChartOfAccountsCode())) {
             parameters.put("chartOfAccountsCode", pbglLine.getChartOfAccountsCode());
@@ -806,7 +764,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
     public ActionForward performMonthlyBudget(boolean isRevenue, ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         final String docNumber;
 
-        // TODO adjust this to check for 2PLG and turn off SS/monthly RI check if found
+        // this to checks for 2PLG and turns off SS/monthly RI check if found
         // the final save after removing 2PLG will catch any monthly discrepencies
         // also need to save object,subobject key we are operating on so refresh can get the latest row version from DB
 
@@ -833,7 +791,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             // The act of attempting to remove a 2plg (delete) forces a complete RI check.
             // The document is assumed inconsistent as long as a 2plg exists.
             if (!isRevenue && bcDocument.isContainsTwoPlug()) {
-                if (pbglLine.getLaborObject() != null && pbglLine.getLaborObject().isDetailPositionRequiredIndicator()){
+                if (pbglLine.getLaborObject() != null && pbglLine.getLaborObject().isDetailPositionRequiredIndicator()) {
                     budgetDocumentService.saveDocumentNoWorkFlow(bcDocument, MonthSpreadDeleteType.EXPENDITURE, false);
                 }
                 else {
@@ -896,7 +854,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
     public ActionForward performSalarySetting(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         final String docNumber;
 
-        // TODO adjust this to check for 2PLG and turn off monthly RI check if found
+        // this to checks for 2PLG and turns off monthly RI check if found
         // the final save after removing 2PLG will catch any monthly discrepencies
 
         // validate, save, etc first then goto the SalarySetting screen or redisplay if errors
@@ -983,19 +941,12 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddPendingBudgetGeneralLedgerLineEvent(BCConstants.NEW_REVENUE_LINE_PROPERTY_NAME, budgetConstructionForm.getDocument(), line, true));
 
         if (rulePassed) {
-            // TODO this should not be needed since ref objects are retrieved in populate
-            // this is here to be consistent with how KualiAccountingDocumentActionBase insert new lines
-            // but it looks like this would circumvent business rules checks
-            // SpringContext.getBean(PersistenceService.class).retrieveNonKeyFields(line);
-
             // add PBGLLine
             insertPBGLLine(true, budgetConstructionForm, line);
 
             // clear the used newRevenueLine
             budgetConstructionForm.setNewRevenueLine(new PendingBudgetConstructionGeneralLedger());
             budgetConstructionForm.initNewLine(budgetConstructionForm.getNewRevenueLine(), true);
-
-
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -1021,10 +972,6 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddPendingBudgetGeneralLedgerLineEvent(BCConstants.NEW_EXPENDITURE_LINE_PROPERTY_NAME, budgetConstructionForm.getDocument(), line, false));
 
         if (rulePassed) {
-            // TODO this should not be needed since ref objects are retrieved in populate
-            // this is here to be consistent with how KualiAccountingDocumentActionBase insert new lines
-            // but it looks like this would circumvent business rules checks
-            // SpringContext.getBean(PersistenceService.class).retrieveNonKeyFields(line);
 
             // add PBGLLine
             insertPBGLLine(false, budgetConstructionForm, line);
@@ -1046,8 +993,6 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
      */
     protected void insertPBGLLine(boolean isRevenue, BudgetConstructionForm budgetConstructionForm, PendingBudgetConstructionGeneralLedger line) {
 
-        // TODO create and init a decorator if determined to be needed
-        // is this needed??
         BudgetConstructionDocument bcDoc = (BudgetConstructionDocument) budgetConstructionForm.getDocument();
 
         // null subobj must be set to dashes
@@ -1075,10 +1020,6 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                 bcDoc.setExpenditureFinancialBeginningBalanceLineAmountTotal(bcDoc.getExpenditureFinancialBeginningBalanceLineAmountTotal().add(line.getFinancialBeginningBalanceLineAmount()));
             }
         }
-
-
-        // TODO add the decorator, if determined to be needed
-
     }
 
     /**
@@ -1228,7 +1169,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         // retain error messages after a lookup
         WebUtils.reuseErrorMapFromPreviousRequest(budgetConstructionForm);
         budgetConstructionForm.setDerivedValuesOnForm(request);
-        
+
         // Do specific refresh stuff here based on refreshCaller parameter
         // typical refresh callers would be monthlyBudget or salarySetting or lookupable
         String refreshCaller = request.getParameter(KFSConstants.REFRESH_CALLER);
@@ -1254,8 +1195,6 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
                 // get the current set of salary setting related rows from DB and compare against preSalarySettingRows
 
-                // TODO: code addOrUpdatePBGLRow and uncomment calls, remove breaks
-                // to update the req amount and version or add the new row to the current doc as needed here instead of below
                 List<PendingBudgetConstructionGeneralLedger> dbSalarySettingRows = budgetDocumentService.getPBGLSalarySettingRows(currentBCDoc);
                 for (PendingBudgetConstructionGeneralLedger dbSalarySettingRow : dbSalarySettingRows) {
                     if (budgetConstructionForm.getPreSalarySettingRows().containsKey(dbSalarySettingRow.getFinancialObjectCode() + dbSalarySettingRow.getFinancialSubObjectCode())) {
@@ -1277,6 +1216,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                     }
                     else {
 
+                        // update the req amount and version or add the new row to the current doc as needed
                         // insert the new DB row to the set in memory
                         budgetDocumentService.addOrUpdatePBGLRow(currentBCDoc, dbSalarySettingRow);
                         diffFound = true;
@@ -1291,14 +1231,17 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         }
 
-        // TODO this should figure out if user is returning to a rev or exp line and refresh just that
-        // TODO this should also keep original values of obj, sobj to compare and null out dependencies when needed
         if (refreshCaller != null && refreshCaller.equalsIgnoreCase(KFSConstants.KUALI_LOOKUPABLE_IMPL)) {
             final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "financialObject", "financialSubObject" }));
             SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(budgetConstructionForm.getNewRevenueLine(), REFRESH_FIELDS);
             SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(budgetConstructionForm.getNewExpenditureLine(), REFRESH_FIELDS);
         }
 
+        // balance inquiry anchor is set before doing a balance inquiry
+        if (budgetConstructionForm.getBalanceInquiryReturnAnchor() != null) {
+            budgetConstructionForm.setAnchor(budgetConstructionForm.getBalanceInquiryReturnAnchor());
+            budgetConstructionForm.setBalanceInquiryReturnAnchor(null);
+        }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -1425,25 +1368,25 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
      */
     public ActionForward performAccountPullup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetConstructionForm tForm = (BudgetConstructionForm) form;
-        
+
         boolean doAllowPullup = false;
         boolean lockNeeded = false;
         boolean prePullReadOnlyAccess;
-        
+
         BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
 
         // if system view only or view only - reload to get the latest status
         // and check that the document is still below the selected POV
-        if (!tForm.isEditAllowed() || tForm.isSystemViewOnly()) { 
-         
+        if (!tForm.isEditAllowed() || tForm.isSystemViewOnly()) {
+
             prePullReadOnlyAccess = true;
-            
+
             // now reload the document and get latest status info
             loadDocument(tForm);
             this.initAuthorization(tForm);
             if (tForm.getBudgetConstructionDocument().getOrganizationLevelCode() < Integer.parseInt(tForm.getPullupKeyCode())) {
                 doAllowPullup = true;
-        
+
                 // if not system view only mode, we are in document view mode - we'll need a lock before the pullup
                 // since by definition pullup puts the account at a full_entry level
                 // and we need exclusive access to perform the pullup
@@ -1462,11 +1405,11 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                 }
             }
         }
-        else {    
+        else {
             // we are in document full_entry
             // assume we already have a lock, allow the pullup
             // and we need to ensure the user can finish editing work if after pullup system goes to system view only
-            prePullReadOnlyAccess = false;  
+            prePullReadOnlyAccess = false;
             doAllowPullup = true;
         }
 
@@ -1650,7 +1593,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * Checks whether the current user would have access for the given budget document for the given organization level code
      * 
@@ -1661,7 +1604,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
      */
     protected boolean hasEditPermission(BudgetConstructionDocument document, String orgLevelCode, Person user) {
         TransactionalDocumentAuthorizer documentAuthorizer = (TransactionalDocumentAuthorizer) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(document);
-        
+
         AttributeSet roleQualifiers = new AttributeSet();
         roleQualifiers.put(BCPropertyConstants.ORGANIZATION_LEVEL_CODE, orgLevelCode);
 

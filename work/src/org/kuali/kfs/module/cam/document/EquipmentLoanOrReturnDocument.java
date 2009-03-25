@@ -43,6 +43,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalDocumentBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EquipmentLoanOrReturnDocument.class);
 
+    private String hiddenFieldForError;
     private String documentNumber;
     private Date loanDate;
     private Date expectedReturnDate;
@@ -627,4 +628,13 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
     public void setReturnLoan(boolean returnLoan) {
         this.returnLoan = returnLoan;
     }
+
+    public String getHiddenFieldForError() {
+        return hiddenFieldForError;
+    }
+
+    public void setHiddenFieldForError(String hiddenFieldForError) {
+        this.hiddenFieldForError = hiddenFieldForError;
+    }
+
 }

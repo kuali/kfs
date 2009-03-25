@@ -71,8 +71,7 @@ public class BudgetConstructionRequestImportAction extends BudgetConstructionImp
         boolean isValid = validateFormData(budgetConstructionImportForm);
         
         if (!isValid) {
-            //TODO: add path to constants
-            return mapping.findForward("import_export");
+            return mapping.findForward(BCConstants.MAPPING_IMPORT_EXPORT);
         }
         
         Person user = GlobalVariables.getUserSession().getPerson();

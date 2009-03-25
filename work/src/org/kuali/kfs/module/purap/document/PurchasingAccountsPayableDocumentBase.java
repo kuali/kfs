@@ -361,6 +361,13 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         return m;
     }
 
+    @Override
+    public void processAfterRetrieve() {
+        super.processAfterRetrieve();
+        //This is needed here - KULPURAP-3608 (Not all PO information is displaying after PO is submitted)
+        refreshNonUpdateableReferences();
+    }
+    
     /**
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#addItem(PurApItem item)
      */

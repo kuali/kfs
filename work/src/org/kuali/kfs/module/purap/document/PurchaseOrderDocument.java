@@ -391,13 +391,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         this.setSourceAccountingLines(SpringContext.getBean(PurapAccountingService.class).generateSummaryWithNoZeroTotals(this.getItems()));
     }// end customPrepareForSave(KualiDocumentEvent)
 
-    @Override
-    public void processAfterRetrieve() {
-        super.processAfterRetrieve();
-        //This is needed here - KULPURAP-3608 (Not all PO information is displaying after PO is submitted)
-        refreshNonUpdateableReferences();
-    }
-    
     /**
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#prepareForSave()
      */

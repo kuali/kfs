@@ -108,16 +108,17 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
         }
 
         AssetLocationGlobalDetail newLineDetail = (AssetLocationGlobalDetail) bo;
-        success &= authorizeCapitalAsset(newLineDetail);
-        success &= validateActiveCapitalAsset(newLineDetail);
-        success &= validateCampusCode(newLineDetail);
-        success &= validateBuildingCode(newLineDetail);
-        success &= validateBuildingRoomNumber(newLineDetail);
-        success &= validateTagDuplicationWithinDocument(newLineDetail, tags);
+        success = validateActiveCapitalAsset(newLineDetail);
         if (success) {
-            success &= validateTagDuplication(newLineDetail.getCapitalAssetNumber(), newLineDetail.getCampusTagNumber());
+            success &= authorizeCapitalAsset(newLineDetail);
+            success &= validateCampusCode(newLineDetail);
+            success &= validateBuildingCode(newLineDetail);
+            success &= validateBuildingRoomNumber(newLineDetail);
+            success &= validateTagDuplicationWithinDocument(newLineDetail, tags);
+            if (success) {
+                success &= validateTagDuplication(newLineDetail.getCapitalAssetNumber(), newLineDetail.getCampusTagNumber());
+            }
         }
-
         return success & super.processCustomAddCollectionLineBusinessRules(documentCopy, collectionName, bo);
     }
 
@@ -131,7 +132,8 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
 
         if (ObjectUtils.isNotNull(assetLocationGlobalDetail.getCapitalAssetNumber())) {
-            assetLocationGlobalDetail.refreshReferenceObject("asset");
+            assetLocationGlobalDetail.refreshReferenceObject(CamsPropertyConstants.AssetLocationGlobalDetail.ASSET);
+            assetLocationGlobalDetail.getAsset().refreshReferenceObject(CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNT);
 
             AttributeSet qualification = new AttributeSet();
             qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, assetLocationGlobalDetail.getAsset().getOrganizationOwnerChartOfAccountsCode());
@@ -174,7 +176,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
 
         if (ObjectUtils.isNotNull(assetLocationGlobalDetail.getCapitalAssetNumber())) {
-            assetLocationGlobalDetail.refreshReferenceObject("asset");
+            assetLocationGlobalDetail.refreshReferenceObject(CamsPropertyConstants.AssetLocationGlobalDetail.ASSET);
 
             if (ObjectUtils.isNull(assetLocationGlobalDetail.getAsset())) {
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAPITAL_ASSET_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_CAPITAL_ASSET_NUMBER, new String[] { assetLocationGlobalDetail.getCapitalAssetNumber().toString() });

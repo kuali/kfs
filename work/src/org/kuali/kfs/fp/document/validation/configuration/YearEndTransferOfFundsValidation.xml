@@ -22,272 +22,34 @@
 
 	<bean id="YearEndTransferOfFunds-routeDocumentValidation" parent="YearEndTransferOfFunds-routeDocumentValidation-parentBean" scope="prototype" />
 
-	<bean id="YearEndTransferOfFunds-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-		<property name="validations">
-			<list>
-				<bean parent="AccountingDocument-requiredAccountingLinesCountValidation" scope="prototype">
-					<property name="accountingLineGroupName" value="source" />
-					<property name="minimumNumber" value="1" />
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
-						</list>
-					</property>
-				</bean>
-				<bean parent="AccountingDocument-requiredAccountingLinesCountValidation" scope="prototype">
-					<property name="accountingLineGroupName" value="target" />
-					<property name="minimumNumber" value="1" />
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
-						</list>
-					</property>
-				</bean>
-				<bean parent="AccountingDocument-debitsAndCreditsBalanceValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
-						</list>
-					</property>
-				</bean>
-				<bean parent="YearEndTransferOfFunds-transferTotalsBalanceValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
-						</list>
-					</property>
-				</bean>
-				<bean parent="YearEndTransferOfFunds-fundGroupsBalancedValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
-	</bean>
-	
+	<bean id="YearEndTransferOfFunds-routeDocumentValidation-parentBean" parent="TransferOfFunds-routeDocumentValidation" abstract="true"/>
+		
 	<bean id="YearEndTransferOfFunds-approveDocumentValidation" parent="YearEndTransferOfFunds-approveDocumentValidation-parentBean" scope="prototype" />
 	
-	<bean id="YearEndTransferOfFunds-approveDocumentValidation-parentBean" parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype" abstract="true" />
+	<bean id="YearEndTransferOfFunds-approveDocumentValidation-parentBean" parent="TransferOfFunds-approveDocumentValidation" abstract="true"/>
 	
 	<bean id="YearEndTransferOfFunds-blanketApproveDocumentValidation" parent="YearEndTransferOfFunds-blanketApproveDocumentValidation-parentBean" scope="prototype" />
 	
-	<bean id="YearEndTransferOfFunds-blanketApproveDocumentValidation-parentBean" parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" abstract="true" />
+	<bean id="YearEndTransferOfFunds-blanketApproveDocumentValidation-parentBean" parent="TransferOfFunds-blanketApproveDocumentValidation" abstract="true"/>
 	
-	<bean id="YearEndTransferOfFunds-accountingLineValuesAllowedValidation" parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation">
-		<property name="objectCodeAllowedValidation">
-			<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype">
-				<property name="validations">
-					<list>
-						<bean parent="AccountingDocument-IsObjectCodeAllowed-DefaultValidation" scope="prototype" />
-						<bean parent="YearEndTransferOfFunds-objectCodeValueAllowedValidation" scope="prototype" />
-					</list>
-				</property>
-			</bean>
-		</property>
-		<property name="objectSubTypeAllowedValidation">
-			<bean parent="YearEndTransferOfFunds-objectSubTypeValueAllowedValidation" scope="prototype" />
-		</property>
-	</bean>
+	<bean id="YearEndTransferOfFunds-accountingLineValuesAllowedValidation" parent="YearEndTransferOfFunds-accountingLineValuesAllowedValidation-parentBean" scope="prototype" />
 	
+	<bean id="YearEndTransferOfFunds-accountingLineValuesAllowedValidation-parentBean" parent="TransferOfFunds-accountingLineValuesAllowedValidation" abstract="true"/>
+		
 	<bean id="YearEndTransferOfFunds-addAccountingLineValidation" parent="YearEndTransferOfFunds-addAccountingLineValidation-parentBean" scope="prototype" />
 	
-	<bean id="YearEndTransferOfFunds-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-		<property name="validations">
-			<list>
-				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
-					<property name="validations">
-						<list>
-							<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
-								<property name="parameterProperties">
-									<bean parent="validationFieldConversion">
-										<property name="sourceEventProperty" value="accountingLine" />
-										<property name="targetValidationProperty" value="businessObjectForValidation" />
-									</bean>
-								</property>
-							</bean>
-							<bean parent="AccountingDocument-accountingLineAmountPositiveValidation" scope="prototype">
-								<property name="parameterProperties">
-									<list>
-										<bean parent="validationFieldConversion">
-											<property name="sourceEventProperty" value="document" />
-											<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-										</bean>
-										<bean parent="validationFieldConversion">
-											<property name="sourceEventProperty" value="accountingLine" />
-											<property name="targetValidationProperty" value="accountingLineForValidation" />
-										</bean>
-									</list>
-								</property>
-								<property name="quitOnFail" value="true" />
-							</bean>
-							<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
-								<property name="parameterProperties">
-									<list>
-										<bean parent="validationFieldConversion">
-											<property name="sourceEventProperty" value="accountingLine" />
-											<property name="targetValidationProperty" value="accountingLineForValidation" />
-										</bean>
-									</list>
-								</property>
-								<property name="quitOnFail" value="true" />
-							</bean>
-							<bean parent="YearEndTransferOfFunds-accountingLineValuesAllowedValidation" scope="prototype">
-								<property name="accountingDocumentParameterPropertyName" value="document" />
-								<property name="accountingLineParameterPropertyName" value="accountingLine" />
-							</bean>
-						</list>
-					</property>
-				</bean>
-				<bean parent="AccountingDocument-accountingLineAccessibleValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="accountingLine" />
-								<property name="targetValidationProperty" value="accountingLineForValidation" />
-							</bean>
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
-	</bean>
-	
+	<bean id="YearEndTransferOfFunds-addAccountingLineValidation-parentBean" parent="TransferOfFunds-addAccountingLineValidation" abstract="true"/>
+		
 	<bean id="YearEndTransferOfFunds-deleteAccountingLineValidation" parent="YearEndTransferOfFunds-deleteAccountingLineValidation-parentBean" scope="prototype" />
 	
-	<bean id="YearEndTransferOfFunds-deleteAccountingLineValidation-parentBean" parent="AccountingDocument-DeleteAccountingLine-DefaultValidation" scope="prototype" abstract="true" />
+	<bean id="YearEndTransferOfFunds-deleteAccountingLineValidation-parentBean" parent="TransferOfFunds-deleteAccountingLineValidation" abstract="true"/>
 	
 	<bean id="YearEndTransferOfFunds-reviewAccountingLineValidation" parent="YearEndTransferOfFunds-reviewAccountingLineValidation-parentBean" scope="prototype" />
 	
-	<bean id="YearEndTransferOfFunds-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-		<property name="validations">
-			<list>
-				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
-					<property name="parameterProperties">
-						<bean parent="validationFieldConversion">
-							<property name="sourceEventProperty" value="accountingLine" />
-							<property name="targetValidationProperty" value="businessObjectForValidation" />
-						</bean>
-					</property>
-				</bean>
-				<bean parent="AccountingDocument-accountingLineAmountPositiveValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="accountingLine" />
-								<property name="targetValidationProperty" value="accountingLineForValidation" />
-							</bean>
-						</list>
-					</property>
-				</bean>
-				<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="accountingLine" />
-								<property name="targetValidationProperty" value="accountingLineForValidation" />
-							</bean>
-						</list>
-					</property>
-				</bean>
-				<bean parent="TransferOfFunds-accountingLineValuesAllowedValidation" scope="prototype">
-					<property name="accountingDocumentParameterPropertyName" value="document" />
-					<property name="accountingLineParameterPropertyName" value="accountingLine" />
-				</bean>
-			</list>
-		</property>
-	</bean>
-	
+	<bean id="YearEndTransferOfFunds-reviewAccountingLineValidation-parentBean" parent="TransferOfFunds-reviewAccountingLineValidation" abstract="true"/>
+		
 	<bean id="YearEndTransferOfFunds-updateAccountingLineValidation" parent="YearEndTransferOfFunds-updateAccountingLineValidation-parentBean" scope="prototype" />
 	
-	<bean id="YearEndTransferOfFunds-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-		<property name="validations">
-			<list>
-				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
-					<property name="validations">
-						<list>
-							<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
-								<property name="parameterProperties">
-									<bean parent="validationFieldConversion">
-										<property name="sourceEventProperty" value="updatedAccountingLine" />
-										<property name="targetValidationProperty" value="businessObjectForValidation" />
-									</bean>
-								</property>
-							</bean>
-							<bean parent="AccountingDocument-accountingLineAmountPositiveValidation" scope="prototype">
-								<property name="parameterProperties">
-									<list>
-										<bean parent="validationFieldConversion">
-											<property name="sourceEventProperty" value="document" />
-											<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-										</bean>
-										<bean parent="validationFieldConversion">
-											<property name="sourceEventProperty" value="updatedAccountingLine" />
-											<property name="targetValidationProperty" value="accountingLineForValidation" />
-										</bean>
-									</list>
-								</property>
-								<property name="quitOnFail" value="true" />
-							</bean>
-							<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
-								<property name="parameterProperties">
-									<list>
-										<bean parent="validationFieldConversion">
-											<property name="sourceEventProperty" value="updatedAccountingLine" />
-											<property name="targetValidationProperty" value="accountingLineForValidation" />
-										</bean>
-									</list>
-								</property>
-								<property name="quitOnFail" value="true" />
-							</bean>
-							<bean parent="YearEndTransferOfFunds-accountingLineValuesAllowedValidation" scope="prototype">
-								<property name="accountingDocumentParameterPropertyName" value="document" />
-								<property name="accountingLineParameterPropertyName" value="updatedAccountingLine" />
-							</bean>
-						</list>
-					</property>
-				</bean>
-				<bean parent="AccountingDocument-accountingLineAccessibleValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="updatedAccountingLine" />
-								<property name="targetValidationProperty" value="accountingLineForValidation" />
-							</bean>
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
-	</bean>
-
+	<bean id="YearEndTransferOfFunds-updateAccountingLineValidation-parentBean" parent="TransferOfFunds-updateAccountingLineValidation" abstract="true"/>
+		
 </beans>

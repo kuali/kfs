@@ -22,127 +22,30 @@
 
 	<bean id="YearEndGeneralErrorCorrection-routeDocumentValidation" parent="YearEndGeneralErrorCorrection-routeDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="YearEndGeneralErrorCorrection-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-  		<property name="validations">
-  			<list>
-  				<bean parent="AccountingDocument-debitsAndCreditsBalanceValidation" scope="prototype">
-        			<property name="parameterProperties">
-           				<list>
-             				<bean parent="validationFieldConversion">
-               					<property name="sourceEventProperty" value="document" />
-               					<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-             				</bean>
-           				</list> 
-                   </property>
-       			</bean>
+  	<bean id="YearEndGeneralErrorCorrection-routeDocumentValidation-parentBean" parent="GeneralErrorCorrection-routeDocumentValidation" abstract="true" />
 
-  				<bean parent="AccountingDocument-optionalOneSidedDocumentAccountingLinesCountValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
-						</list>
-					</property>
-				</bean>
-				
-			  	<bean parent="CapitialAssetInformation-capitalAssetInformationValidation" scope="prototype" /> 
-  			</list>
-  		</property>
-  	</bean>
-  
   	<bean id="YearEndGeneralErrorCorrection-approveDocumentValidation" parent="YearEndGeneralErrorCorrection-approveDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="YearEndGeneralErrorCorrection-approveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-  		<property name="validations">
-  			<list><bean parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype" /></list>
-  		</property>
-  	</bean>
+  	<bean id="YearEndGeneralErrorCorrection-approveDocumentValidation-parentBean" parent="GeneralErrorCorrection-approveDocumentValidation" abstract="true" />
   
 	<bean id="YearEndGeneralErrorCorrection-blanketApproveDocumentValidation" parent="YearEndGeneralErrorCorrection-blanketApproveDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="YearEndGeneralErrorCorrection-blanketApproveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-  		<property name="validations">
-  			<list>
-  				<bean parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" />
-  				<bean parent="CapitialAssetInformation-capitalAssetInformationValidation" scope="prototype" />  
-  			</list>
-  		</property>
-	</bean>
-  
+  	<bean id="YearEndGeneralErrorCorrection-blanketApproveDocumentValidation-parentBean" parent="GeneralErrorCorrection-blanketApproveDocumentValidation" abstract="true" />
+  		  
 	<bean id="YearEndGeneralErrorCorrection-addAccountingLineValidation" parent="YearEndGeneralErrorCorrection-addAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="YearEndGeneralErrorCorrection-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-  		<property name="validations">
-  			<list>
-  				<bean parent="YearEndGeneralErrorCorrection-objectTypeValidation" scope="prototype" >
-  					<property name="parameterProperties">
-           				<list>
-            				<bean parent="validationFieldConversion">
-               					<property name="sourceEventProperty" value="accountingLine" />
- 	              				<property name="targetValidationProperty" value="accountingLineForValidation" />
-   		          			</bean>
-    	       			</list> 
-      	          </property>
-     	       </bean>
-      	      <bean parent="YearEndGeneralErrorCorrection-requiredReferenceFieldValidation" scope="prototype" >
-  					<property name="parameterProperties">
-       	    			<list>
-       		     			<bean parent="validationFieldConversion">
-           	    				<property name="sourceEventProperty" value="accountingLine" />
-           	    				<property name="targetValidationProperty" value="accountingLineForValidation" />
-           		  			</bean>
-           				</list> 
-           			</property>
-            	</bean>
-            </list>
-  		</property>
-	</bean>
-  
+	<bean id="YearEndGeneralErrorCorrection-addAccountingLineValidation-parentBean" parent="GeneralErrorCorrection-addAccountingLineValidation" abstract="true" />
+  		
 	<bean id="YearEndGeneralErrorCorrection-deleteAccountingLineValidation" parent="YearEndGeneralErrorCorrection-deleteAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="YearEndGeneralErrorCorrection-deleteAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-  		<property name="validations">
-  			<bean parent="AccountingDocument-DeleteAccountingLine-DefaultValidation" scope="prototype" />
-  		</property>
-	</bean>
-  
+	<bean id="YearEndGeneralErrorCorrection-deleteAccountingLineValidation-parentBean" parent="GeneralErrorCorrection-deleteAccountingLineValidation" abstract="true" />
+  		
 	<bean id="YearEndGeneralErrorCorrection-updateAccountingLineValidation" parent="YearEndGeneralErrorCorrection-updateAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="YearEndGeneralErrorCorrection-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-  		<property name="validations">
-  			<bean parent="AccountingDocument-UpdateAccountingLine-DefaultValidation" scope="prototype" />
-  		</property>
-	</bean>
-  
+	<bean id="YearEndGeneralErrorCorrection-updateAccountingLineValidation-parentBean" parent="GeneralErrorCorrection-updateAccountingLineValidation" abstract="true" />
+  	
 	<bean id="YearEndGeneralErrorCorrection-reviewAccountingLineValidation" parent="YearEndGeneralErrorCorrection-reviewAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="YearEndGeneralErrorCorrection-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-  		<property name="validations">
-  			<list>
-  				<bean parent="YearEndGeneralErrorCorrection-objectTypeValidation" scope="prototype" >
-  					<property name="parameterProperties">
-           				<list>
-            				<bean parent="validationFieldConversion">
-               					<property name="sourceEventProperty" value="accountingLine" />
- 	              				<property name="targetValidationProperty" value="accountingLineForValidation" />
-   		          			</bean>
-    	       			</list> 
-      	          </property>
-     	       </bean>
-      	      <bean parent="YearEndGeneralErrorCorrection-requiredReferenceFieldValidation" scope="prototype" >
-  					<property name="parameterProperties">
-       	    			<list>
-       		     			<bean parent="validationFieldConversion">
-           	    				<property name="sourceEventProperty" value="accountingLine" />
-           	    				<property name="targetValidationProperty" value="accountingLineForValidation" />
-           		  			</bean>
-           				</list> 
-           			</property>
-            	</bean>
-            </list>
-  		</property>
-	</bean>
-
+	<bean id="YearEndGeneralErrorCorrection-reviewAccountingLineValidation-parentBean" parent="GeneralErrorCorrection-reviewAccountingLineValidation" abstract="true" />
+  		
 </beans>

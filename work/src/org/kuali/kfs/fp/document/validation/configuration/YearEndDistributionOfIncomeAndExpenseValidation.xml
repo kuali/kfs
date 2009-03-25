@@ -22,87 +22,30 @@
 
 	<bean id="YearEndDistributionOfIncomeAndExpense-routeDocumentValidation" parent="YearEndDistributionOfIncomeAndExpense-routeDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="YearEndDistributionOfIncomeAndExpense-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-  		<property name="validations">
+  	<bean id="YearEndDistributionOfIncomeAndExpense-routeDocumentValidation-parentBean" parent="DistributionOfIncomeAndExpense-routeDocumentValidation" abstract="true"/>
   		
-  			<list>
-  				<bean parent="AccountingDocument-debitsAndCreditsBalanceValidation" scope="prototype">
-        			<property name="parameterProperties">
-           				<list>
-             				<bean parent="validationFieldConversion">
-               					<property name="sourceEventProperty" value="document" />
-               					<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-             				</bean>
-           				</list> 
-                   </property>
-       			</bean>
-
-  				<bean parent="AccountingDocument-optionalOneSidedDocumentAccountingLinesCountValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
-						</list>
-					</property>
-					<property name="quitOnFail" value="true" />
-				</bean>
-				
-				<bean parent="CapitialAssetInformation-capitalAssetInformationValidation" scope="prototype" /> 
-  			</list> 
-  		</property>
-  	</bean>
-  
   	<bean id="YearEndDistributionOfIncomeAndExpense-approveDocumentValidation" parent="YearEndDistributionOfIncomeAndExpense-approveDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="YearEndDistributionOfIncomeAndExpense-approveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-  		<property name="validations">
-  			<list><bean parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype" /></list>
-  		</property>
-  	</bean>
-  
+  	<bean id="YearEndDistributionOfIncomeAndExpense-approveDocumentValidation-parentBean" parent="DistributionOfIncomeAndExpense-approveDocumentValidation" abstract="true"/>
+  		
 	<bean id="YearEndDistributionOfIncomeAndExpense-blanketApproveDocumentValidation" parent="DistributionOfIncomeAndExpense-blanketApproveDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="YearEndDistributionOfIncomeAndExpense-blanketApproveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-  		<property name="validations">
-  			<list>
-  				<bean parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" />
-  				<bean parent="CapitialAssetInformation-capitalAssetInformationValidation" scope="prototype" />  
-  			</list>
-  		</property>
-	</bean>
-  
+  	<bean id="YearEndDistributionOfIncomeAndExpense-blanketApproveDocumentValidation-parentBean" parent="DistributionOfIncomeAndExpense-blanketApproveDocumentValidation" abstract="true"/>
+  		
 	<bean id="YearEndDistributionOfIncomeAndExpense-addAccountingLineValidation" parent="YearEndDistributionOfIncomeAndExpense-addAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="YearEndDistributionOfIncomeAndExpense-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-  		<property name="validations">
-  			<bean parent="AccountingDocument-AddAccountingLine-DefaultValidation" scope="prototype" />
-  		</property>
-	</bean>
-  
+	<bean id="YearEndDistributionOfIncomeAndExpense-addAccountingLineValidation-parentBean" parent="DistributionOfIncomeAndExpense-addAccountingLineValidation-parentBean" abstract="true"/>
+  		
 	<bean id="YearEndDistributionOfIncomeAndExpense-deleteAccountingLineValidation" parent="YearEndDistributionOfIncomeAndExpense-deleteAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="YearEndDistributionOfIncomeAndExpense-deleteAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-  		<property name="validations">
-  			<bean parent="AccountingDocument-DeleteAccountingLine-DefaultValidation" scope="prototype" />
-  		</property>
-	</bean>
-  
+	<bean id="YearEndDistributionOfIncomeAndExpense-deleteAccountingLineValidation-parentBean" parent="DistributionOfIncomeAndExpense-deleteAccountingLineValidation" abstract="true"/>
+  	
 	<bean id="YearEndDistributionOfIncomeAndExpense-updateAccountingLineValidation" parent="YearEndDistributionOfIncomeAndExpense-updateAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="YearEndDistributionOfIncomeAndExpense-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-  		<property name="validations">
-  			<bean parent="AccountingDocument-UpdateAccountingLine-DefaultValidation" scope="prototype" />
-  		</property>
-	</bean>
-  
+	<bean id="YearEndDistributionOfIncomeAndExpense-updateAccountingLineValidation-parentBean" parent="DistributionOfIncomeAndExpense-updateAccountingLineValidation" abstract="true"/>
+  		
 	<bean id="YearEndDistributionOfIncomeAndExpense-reviewAccountingLineValidation" parent="YearEndDistributionOfIncomeAndExpense-reviewAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="YearEndDistributionOfIncomeAndExpense-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-  		<property name="validations">
-  			<bean parent="AccountingDocument-ReviewAccountingLine-DefaultValidation" scope="prototype" />
-  		</property>
-	</bean>
+	<bean id="YearEndDistributionOfIncomeAndExpense-reviewAccountingLineValidation-parentBean" parent="DistributionOfIncomeAndExpense-reviewAccountingLineValidation" abstract="true"/>
 
 </beans>

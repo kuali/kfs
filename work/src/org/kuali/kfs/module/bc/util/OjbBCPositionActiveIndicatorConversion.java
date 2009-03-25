@@ -19,26 +19,26 @@ import org.kuali.kfs.sys.KFSConstants.BudgetConstructionPositionConstants;
 import org.kuali.rice.kns.util.OjbCharBooleanConversion;
 
 /**
- * Handles conversion of active indicator so as to piggy back onto the existing position effective status.
- * Converts database values of A and I to java Y and N and back. 
+ * Handles conversion of active indicator so as to piggy back onto the existing position effective status. Converts database values
+ * of A and I to java Y and N and back.
  */
 public class OjbBCPositionActiveIndicatorConversion extends OjbCharBooleanConversion {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OjbBCPositionActiveIndicatorConversion.class);
 
-    public final static String INDICATOR_NO  = "N";
+    public final static String INDICATOR_NO = "N";
     public final static String INDICATOR_YES = "Y";
-    
+
     /**
      * @see org.kuali.rice.kns.util.OjbCharBooleanConversion#javaToSql(java.lang.Object)
      */
     @Override
     public Object javaToSql(Object source) {
         Object sqlValue = super.javaToSql(source);
-        
-        if (INDICATOR_NO.equals(sqlValue)){
+
+        if (INDICATOR_NO.equals(sqlValue)) {
             return BudgetConstructionPositionConstants.POSITION_EFFECTIVE_STATUS_INACTIVE;
         }
-        else if (INDICATOR_YES.equals(sqlValue)){
+        else if (INDICATOR_YES.equals(sqlValue)) {
             return BudgetConstructionPositionConstants.POSITION_EFFECTIVE_STATUS_ACTIVE;
         }
 
@@ -66,8 +66,6 @@ public class OjbBCPositionActiveIndicatorConversion extends OjbCharBooleanConver
             t.printStackTrace();
             throw new RuntimeException("I have exploded converting types", t);
         }
-//        // TODO Auto-generated method stub
-//        return super.sqlToJava(source);
     }
 
 }

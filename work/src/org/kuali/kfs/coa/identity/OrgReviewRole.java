@@ -25,6 +25,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kew.service.impl.KEWModuleService;
+import org.kuali.rice.kew.util.CodeTranslator;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.group.impl.KimGroupImpl;
 import org.kuali.rice.kim.bo.role.impl.KimDelegationImpl;
@@ -32,6 +33,7 @@ import org.kuali.rice.kim.bo.role.impl.KimRoleImpl;
 import org.kuali.rice.kim.bo.role.impl.RoleMemberImpl;
 import org.kuali.rice.kim.bo.role.impl.RoleResponsibilityActionImpl;
 import org.kuali.rice.kim.bo.types.impl.KimAttributeDataImpl;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 
 /**
@@ -115,6 +117,18 @@ public class OrgReviewRole implements BusinessObject {
 
         return actionTypeCode;
     }
+    
+    /**
+     * 
+     * This method fore readonlyalterdisplay
+     * 
+     * @return
+     */
+    public String getActionTypeCodeDescription() {
+        String actionTypeCodeDesc = (String)CodeTranslator.approvePolicyLabels.get(getActionTypeCode());
+        return actionTypeCodeDesc==null?"":actionTypeCodeDesc;
+    }
+
     /**
      * Sets the actionTypeCode attribute value.
      * @param actionTypeCode The actionTypeCode to set.
@@ -130,7 +144,7 @@ public class OrgReviewRole implements BusinessObject {
         if(roleRspActions==null || roleRspActions.size()<1)
             priorityNumber = "";
         else
-            priorityNumber = roleRspActions.get(0).getPriorityNumber()+"";
+            priorityNumber = roleRspActions.get(0).getPriorityNumber()==null?"":roleRspActions.get(0).getPriorityNumber()+"";
 
         return priorityNumber;
     }
@@ -408,6 +422,13 @@ public class OrgReviewRole implements BusinessObject {
      */
     public String getMemberTypeCode() {
         return memberTypeCode;
+    }
+    /**
+     * Gets the memberTypeCode attribute. 
+     * @return Returns the memberTypeCode.
+     */
+    public String getMemberTypeCodeDescription() {
+        return KimConstants.KimUIConstants.KIM_MEMBER_TYPES_MAP.get(memberTypeCode);
     }
     /**
      * Sets the memberTypeCode attribute value.

@@ -30,16 +30,16 @@ import org.kuali.rice.kew.doctype.service.DocumentTypeService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.service.WorkflowInfo;
+import org.kuali.rice.kim.bo.entity.dto.KimDefaultableInfo;
 import org.kuali.rice.kim.bo.entity.impl.KimPrincipalImpl;
 import org.kuali.rice.kim.bo.group.impl.KimGroupImpl;
 import org.kuali.rice.kim.bo.impl.KimAbstractMemberImpl;
+import org.kuali.rice.kim.bo.role.impl.KimDelegationImpl;
 import org.kuali.rice.kim.bo.role.impl.KimDelegationMemberAttributeDataImpl;
 import org.kuali.rice.kim.bo.role.impl.KimDelegationMemberImpl;
 import org.kuali.rice.kim.bo.role.impl.KimRoleImpl;
 import org.kuali.rice.kim.bo.role.impl.RoleMemberAttributeDataImpl;
 import org.kuali.rice.kim.bo.role.impl.RoleMemberImpl;
-import org.kuali.rice.kim.bo.role.impl.RolePermissionImpl;
-import org.kuali.rice.kim.bo.role.impl.RoleResponsibilityActionImpl;
 import org.kuali.rice.kim.bo.role.impl.RoleResponsibilityImpl;
 import org.kuali.rice.kim.bo.types.impl.KimAttributeDataImpl;
 import org.kuali.rice.kim.service.KIMServiceLocator;
@@ -61,8 +61,8 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
     
     protected static final String WILDCARD = "*";
     protected static final String DOCUMENT_TYPE_NAME = KfsKimAttributes.FINANCIAL_SYSTEM_DOCUMENT_TYPE_CODE;
-    protected static final String MEMBER_ATTRIBUTE_CHART_OF_ACCOUNTS_CODE = "chart.chartOfAccountsCode";
-    protected static final String MEMBER_ATTRIBUTE_ORGANIZATION_CODE = "organization.organizationCode";
+    public static final String MEMBER_ATTRIBUTE_CHART_OF_ACCOUNTS_CODE = "chart.chartOfAccountsCode";
+    public static final String MEMBER_ATTRIBUTE_ORGANIZATION_CODE = "organization.organizationCode";
     protected static final String MEMBER_PRINCIPAL_NAME = "principal.principalName";
     protected static final String MEMBER_GROUP_NAMESPACE_CODE = "group.namespaceCode";
     protected static final String MEMBER_GROUP_NAME = "group.groupName";
@@ -70,7 +70,8 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
     protected static final String MEMBER_ROLE_NAME = "role.roleName";
 
     protected static final String MEMBER_ID = "memberId";
-    protected static final String MEMBER_ATTRIBUTE_KEY = "attributes.kimAttribute.attributeName";
+    protected static final String MEMBER_ATTRIBUTE_NAME_KEY = "attributes.kimAttribute.attributeName";
+    protected static final String MEMBER_ATTRIBUTE_VALUE_KEY = "attributes.attributeValue";
 
     protected static final String DELEGATE = "delegate";
     protected static final String ACTIVE = "active";
@@ -147,10 +148,17 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         } catch(WorkflowException wex){
             throw new RuntimeException("Workflow Exception occurred: "+wex);
         }
-        boolean delegate = RiceUtilities.getBooleanValueForString(fieldValues.get(DELEGATE), false);
-        Class classToSearch = RoleMemberImpl.class;
-        if(delegate){
-            classToSearch = KimDelegationMemberImpl.class;
+        String delegateStr = fieldValues.get(DELEGATE);
+        List<Class> classesToSearch = new ArrayList<Class>();
+        if(StringUtils.isEmpty(delegateStr)){
+            classesToSearch.add(RoleMemberImpl.class);
+            classesToSearch.add(KimDelegationMemberImpl.class);
+        } else{
+            boolean delegate = RiceUtilities.getBooleanValueForString(delegateStr, false);
+            if(delegate)
+                classesToSearch.add(KimDelegationMemberImpl.class);
+            else
+                classesToSearch.add(RoleMemberImpl.class);
         }
         if(searchCriteria==null)
             searchCriteria = new HashMap<String, String>();
@@ -165,46 +173,51 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
                 rolesQueryString.delete(rolesQueryString.length()-KimConstants.KimUIConstants.OR_OPERATOR.length(), rolesQueryString.length());
             searchCriteria.put(KimConstants.PrimaryKeyConstants.ROLE_ID, rolesQueryString.toString());
         }
-        return flattenToOrgReviewRoleMembers(delegate, searchMembers(searchCriteria, classToSearch));
+        return flattenToOrgReviewMembers(fieldValues.get(ACTIVE), documentTypeName, searchMembers(searchCriteria, classesToSearch));
     }
 
-    private List<OrgReviewRole> flattenToOrgReviewRoleMembers(boolean delegate, List<? extends BusinessObject> members){
+    private List<OrgReviewRole> flattenToOrgReviewMembers(String active, String documentTypeName, List<? extends BusinessObject> members){
         List<OrgReviewRole> orgReviewRoleMembers = new ArrayList<OrgReviewRole>();
         OrgReviewRole orgReviewRole;
         String memberType;
         KimAbstractMemberImpl absMember;
         BusinessObject memberImpl;
+        Boolean activeInd = null;
+        if(StringUtils.isNotEmpty(active)){
+            activeInd = new Boolean(RiceUtilities.getBooleanValueForString(active, true));
+        }
         for(BusinessObject member: members){
             absMember = (KimAbstractMemberImpl)member;
-            orgReviewRole = new OrgReviewRole();
-            memberImpl = getUiDocumentService().getMember(absMember.getMemberTypeCode(), absMember.getMemberId());
-            orgReviewRole.setMemberId(absMember.getMemberId());
-            orgReviewRole.setMemberTypeCode(absMember.getMemberTypeCode());
-            orgReviewRole.setActiveFromDate(absMember.getActiveFromDate());
-            orgReviewRole.setActiveToDate(absMember.getActiveToDate());
-            orgReviewRole.setMemberName(getUiDocumentService().getMemberName(absMember.getMemberTypeCode(), memberImpl));
-            orgReviewRole.setMemberNamespaceCode(getUiDocumentService().getMemberNamespaceCode(absMember.getMemberTypeCode(), memberImpl));
-            List<KimAttributeDataImpl> attributes = new ArrayList<KimAttributeDataImpl>();
-            KimAttributeDataImpl attribute;
-            if(member instanceof RoleMemberImpl){
-                for(RoleMemberAttributeDataImpl roleMemberAttribute: ((RoleMemberImpl)member).getAttributes()){
-                    attribute = new KimAttributeDataImpl();
-                    KimCommonUtils.copyProperties(attribute, roleMemberAttribute);
-                    attributes.add(attribute);
+            if(activeInd==null || (activeInd.booleanValue()==true && absMember.isActive()) || (activeInd.booleanValue()==false && !absMember.isActive())){
+                orgReviewRole = new OrgReviewRole();
+                memberImpl = getUiDocumentService().getMember(absMember.getMemberTypeCode(), absMember.getMemberId());
+                orgReviewRole.setMemberId(absMember.getMemberId());
+                orgReviewRole.setMemberTypeCode(absMember.getMemberTypeCode());
+                orgReviewRole.setActiveFromDate(absMember.getActiveFromDate());
+                orgReviewRole.setActiveToDate(absMember.getActiveToDate());
+                orgReviewRole.setFinancialSystemDocumentTypeCode(documentTypeName);
+                orgReviewRole.setMemberName(getUiDocumentService().getMemberName(absMember.getMemberTypeCode(), memberImpl));
+                orgReviewRole.setMemberNamespaceCode(getUiDocumentService().getMemberNamespaceCode(absMember.getMemberTypeCode(), memberImpl));
+                List<KimAttributeDataImpl> attributes = new ArrayList<KimAttributeDataImpl>();
+                KimAttributeDataImpl attribute;
+                if(member instanceof RoleMemberImpl){
+                    for(RoleMemberAttributeDataImpl roleMemberAttribute: ((RoleMemberImpl)member).getAttributes()){
+                        attribute = new KimAttributeDataImpl();
+                        KimCommonUtils.copyProperties(attribute, roleMemberAttribute);
+                        attributes.add(attribute);
+                    }
+                    orgReviewRole.setRoleRspActions(getRoleRspActions((RoleMemberImpl)member));
+                } else if(member instanceof KimDelegationMemberImpl){
+                    for(KimDelegationMemberAttributeDataImpl delegationMemberAttribute: ((KimDelegationMemberImpl)member).getAttributes()){
+                        attribute = new KimAttributeDataImpl();
+                        KimCommonUtils.copyProperties(attribute, delegationMemberAttribute);
+                        attributes.add(attribute);
+                    }
+                    populateDelegationMembersDelegationType((KimDelegationMemberImpl)member);
                 }
-                orgReviewRole.setRoleRspActions(getRoleRspActions((RoleMemberImpl)member));
-            } else if(member instanceof KimDelegationMemberImpl){
-                for(KimDelegationMemberAttributeDataImpl delegationMemberAttribute: ((KimDelegationMemberImpl)member).getAttributes()){
-                    attribute = new KimAttributeDataImpl();
-                    KimCommonUtils.copyProperties(attribute, delegationMemberAttribute);
-                    attributes.add(attribute);
-                }
+                orgReviewRole.setAttributes(attributes);
+                orgReviewRoleMembers.add(orgReviewRole);
             }
-            orgReviewRole.setAttributes(attributes);
-            if(delegate){
-                //Set delegation type id... dicy
-            }
-            orgReviewRoleMembers.add(orgReviewRole);
         }
         return orgReviewRoleMembers;
     }
@@ -220,9 +233,21 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         return null;
     }
 
-    private List<? extends BusinessObject> searchMembers(Map<String, String> searchCriteria, Class classToSearch){
-        return (List<? extends BusinessObject>)KNSServiceLocator.getLookupService().findCollectionBySearchHelper(
-                classToSearch, searchCriteria, false);
+    private List<? extends BusinessObject> searchMembers(Map<String, String> searchCriteria, List<Class> classesToSearch){
+        List<? extends BusinessObject> members = new ArrayList<BusinessObject>();
+        for(Class classToSearch: classesToSearch){
+            members.addAll(KNSServiceLocator.getLookupService().findCollectionBySearchHelper(
+                classToSearch, searchCriteria, false));
+        }
+        return members;
+    }
+
+    private void populateDelegationMembersDelegationType(KimDelegationMemberImpl delegationMember){
+        Map<String, String> criteria = new HashMap<String, String>();
+        KimDelegationImpl delegation;
+        criteria.put(KimConstants.PrimaryKeyConstants.DELEGATION_ID, delegationMember.getDelegationId());
+        delegation = (KimDelegationImpl)KNSServiceLocator.getBusinessObjectService().findByPrimaryKey(KimDelegationImpl.class, criteria);
+        delegationMember.setDelegationTypeCode(delegation.getDelegationTypeCode());
     }
 
     protected String getQueryString(String parameter){
@@ -238,7 +263,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         List<KimPrincipalImpl> principals = null;
         if(StringUtils.isNotEmpty(principalName)){
             searchCriteria = new HashMap<String, String>();
-            searchCriteria.put(KimConstants.PrimaryKeyConstants.PRINCIPAL_ID, WILDCARD+principalName+WILDCARD);
+            searchCriteria.put("principalName", WILDCARD+principalName+WILDCARD);
             principals = 
                 (List<KimPrincipalImpl>)KNSServiceLocator.getLookupService().findCollectionBySearchUnbounded(KimPrincipalImpl.class, searchCriteria);
             if(principals==null || principals.isEmpty())
@@ -282,11 +307,13 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
 
         String chartOfAccountsCode = fieldValues.get(MEMBER_ATTRIBUTE_CHART_OF_ACCOUNTS_CODE);
         if(StringUtils.isNotBlank(chartOfAccountsCode)){
-            searchCriteria.put(MEMBER_ATTRIBUTE_KEY, getQueryString(assignedToRoleNamespaceCode));
+            searchCriteria.put(MEMBER_ATTRIBUTE_NAME_KEY, KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+            searchCriteria.put(MEMBER_ATTRIBUTE_VALUE_KEY, chartOfAccountsCode);
         }
         String organizationCode = fieldValues.get(MEMBER_ATTRIBUTE_ORGANIZATION_CODE);
         if(StringUtils.isNotBlank(organizationCode)){
-            searchCriteria.put(MEMBER_ATTRIBUTE_KEY, getQueryString(assignedToRoleNamespaceCode));
+            searchCriteria.put(MEMBER_ATTRIBUTE_NAME_KEY, KfsKimAttributes.ORGANIZATION_CODE);
+            searchCriteria.put(MEMBER_ATTRIBUTE_VALUE_KEY, organizationCode);
         }
         StringBuffer memberQueryString = null;
         if(principals!=null){
@@ -323,10 +350,6 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
             searchCriteria.put(MEMBER_ID, memberQueryString.toString());
         }
 
-        /*boolean active = RiceUtilities.getBooleanValueForString(fieldValues.get(ACTIVE), true);
-        if(active){
-            searchCriteria.put(ACTIVE_FROM_DATE, "<= getDate()");
-        }*/
         return searchCriteria;
     }
 

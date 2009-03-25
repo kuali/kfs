@@ -17,13 +17,18 @@ package org.kuali.kfs.coa.businessobject.inquiry;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.kuali.kfs.coa.businessobject.Organization;
+import org.kuali.kfs.coa.identity.OrgReviewRole;
+import org.kuali.kfs.coa.identity.OrgReviewRoleLookupableHelperServiceImpl;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
@@ -51,7 +56,14 @@ public class OrgInquirable extends KfsInquirableImpl {
             f.setFieldLabel("Organization Review Hierarchy");
             f.setPropertyValue("run search");
             f.setFieldType(Field.TEXT);
-            HtmlData hRef = new AnchorHtmlData(org.getOrganizationReviewHierarchy(), KNSConstants.EMPTY_STRING);
+            Properties parameters = new Properties();
+            parameters.put(OrgReviewRoleLookupableHelperServiceImpl.MEMBER_ATTRIBUTE_CHART_OF_ACCOUNTS_CODE, org.getChartOfAccountsCode());
+            parameters.put(OrgReviewRoleLookupableHelperServiceImpl.MEMBER_ATTRIBUTE_ORGANIZATION_CODE, org.getOrganizationCode());
+            parameters.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, OrgReviewRole.class.getName());
+            parameters.put(KNSConstants.RETURN_LOCATION_PARAMETER, KNSConstants.PORTAL_ACTION);
+            parameters.put(KNSConstants.DOC_FORM_KEY, KimConstants.KimUIConstants.KIM_ROLE_DOCUMENT_SHORT_KEY);
+            String hrefStr = UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, parameters);
+            HtmlData hRef = new AnchorHtmlData(hrefStr, KNSConstants.EMPTY_STRING);
             f.setInquiryURL(hRef);
             rows.add(new Row(f));
 

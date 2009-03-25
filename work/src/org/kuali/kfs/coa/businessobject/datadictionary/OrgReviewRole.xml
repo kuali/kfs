@@ -27,7 +27,9 @@
         <ref bean="OrgReviewRole-delegate" />
         <ref bean="OrgReviewRole-delegationTypeCode" />
         <ref bean="OrgReviewRole-memberTypeCode" />
-        <ref bean="OrgReviewRole-action" />
+        <ref bean="OrgReviewRole-memberTypeCodeDescription" />
+        <ref bean="OrgReviewRole-actionTypeCode" />
+        <ref bean="OrgReviewRole-actionTypeCodeDescription" />
         <ref bean="OrgReviewRole-priorityNumber" />
         <ref bean="OrgReviewRole-chartOfAccountsCode" />
         <ref bean="OrgReviewRole-organizationCode" />
@@ -125,7 +127,8 @@
 
   <bean id="OrgReviewRole-delegate" parent="OrgReviewRole-delegate-parentBean" />
   <bean id="OrgReviewRole-delegate-parentBean" parent="AttributeReferenceDummy-genericBoolean" abstract="true"
-        p:name="delegate" />
+        p:name="delegate"
+        p:label="Delegate" />
 
   <bean id="OrgReviewRole-delegationTypeCode" parent="OrgReviewRole-delegationTypeCode-parentBean" />
   <bean id="OrgReviewRole-delegationTypeCode-parentBean" parent="KimDelegationImpl-delegationTypeCode" abstract="true"
@@ -141,9 +144,17 @@
   <bean id="OrgReviewRole-memberTypeCode-parentBean" parent="DocRoleMember-memberTypeCode" abstract="true"
         p:name="memberTypeCode" />
 
-  <bean id="OrgReviewRole-action" parent="OrgReviewRole-action-parentBean" />
-  <bean id="OrgReviewRole-action-parentBean" parent="DocRoleResponsibilityAction-actionTypeCode" abstract="true" 
+  <bean id="OrgReviewRole-memberTypeCodeDescription" parent="OrgReviewRole-memberTypeCodeDescription-parentBean" />
+  <bean id="OrgReviewRole-memberTypeCodeDescription-parentBean" parent="OrgReviewRole-memberTypeCode" abstract="true"
+        p:name="memberTypeCodeDescription" />
+
+  <bean id="OrgReviewRole-actionTypeCode" parent="OrgReviewRole-actionTypeCode-parentBean" />
+  <bean id="OrgReviewRole-actionTypeCode-parentBean" parent="DocRoleResponsibilityAction-actionTypeCode" abstract="true" 
 	  	p:name="actionTypeCode" />
+
+  <bean id="OrgReviewRole-actionTypeCodeDescription" parent="OrgReviewRole-actionTypeCodeDescription-parentBean" />
+  <bean id="OrgReviewRole-actionTypeCodeDescription-parentBean" parent="OrgReviewRole-actionTypeCode" abstract="true" 
+	  	p:name="actionTypeCodeDescription" />
 
   <bean id="OrgReviewRole-priorityNumber" parent="OrgReviewRole-priorityNumber-parentBean" />
   <bean id="OrgReviewRole-priorityNumber-parentBean" parent="DocRoleResponsibilityAction-priorityNumber" abstract="true" 
@@ -159,7 +170,8 @@
 
   <bean id="OrgReviewRole-active" parent="OrgReviewRole-active-parentBean"/>
   <bean id="OrgReviewRole-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" 
-  		p:name="active" />
+  		p:name="active"
+	    p:label="Active Indicator" />
 
   <bean id="OrgReviewRole-lookupDefinition" parent="OrgReviewRole-lookupDefinition-parentBean" />
   <bean id="OrgReviewRole-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition"
@@ -187,7 +199,7 @@
           <bean parent="FieldDefinition" p:attributeName="group.namespaceCode" />
        	  <bean parent="FieldDefinition" p:attributeName="group.groupName" p:forceLookup="true" />
           <bean parent="FieldDefinition" p:attributeName="delegate" />
-          <bean parent="FieldDefinition" p:attributeName="active"/>
+          <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
       </list>
     </property>
     <property name="resultFields" >
@@ -195,9 +207,10 @@
           <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
           <bean parent="FieldDefinition" p:attributeName="organizationCode" />
           <bean parent="FieldDefinition" p:attributeName="financialSystemDocumentTypeCode" />
-          <bean parent="FieldDefinition" p:attributeName="memberTypeCode" />
+          <bean parent="FieldDefinition" p:attributeName="memberTypeCodeDescription" />
+       	  <bean parent="FieldDefinition" p:attributeName="memberNamespaceCode" />
        	  <bean parent="FieldDefinition" p:attributeName="memberName" />
-       	  <bean parent="FieldDefinition" p:attributeName="actionTypeCode" />
+       	  <bean parent="FieldDefinition" p:attributeName="actionTypeCodeDescription" />
           <bean parent="FieldDefinition" p:attributeName="priorityNumber" />
        	  <bean parent="FieldDefinition" p:attributeName="fromAmount" />
           <bean parent="FieldDefinition" p:attributeName="toAmount" />

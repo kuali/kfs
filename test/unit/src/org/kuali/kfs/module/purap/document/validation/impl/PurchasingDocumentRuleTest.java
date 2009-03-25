@@ -47,6 +47,8 @@ import org.kuali.kfs.sys.document.validation.Validation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
 import org.kuali.kfs.sys.document.validation.impl.CompositeValidation;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.kfs.sys.suite.RelatesTo;
+import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.MessageList;
 
@@ -516,6 +518,7 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
         assertFalse( validation.validate(null) );                
     }
     
+    @RelatesTo(JiraIssue.KULPURAP3697)
     public void testValidateOneSystemCapitalAssetSystemChartsRequiringParameters() {
         RequisitionDocument requisition = RequisitionDocumentWithCapitalAssetItemsFixture.REQ_VALID_ONE_NEW_CAPITAL_ASSET_ITEM.createRequisitionDocument();
         SpringContext.getBean(PurchasingService.class).setupCapitalAssetItems(requisition);   

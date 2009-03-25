@@ -36,7 +36,6 @@ public class BudgetConstructionDocumentAuthorizationException extends Authorizat
      */
     public BudgetConstructionDocumentAuthorizationException(String userId, String action, String documentId, String reason, boolean isPickListMode) {
 
-        //super(userId, action, documentId.toString(), "user '" + userId + "' is not authorized to " + action + " document '" + documentId + "'");
         super(userId, action, documentId.toString() + ": " + reason, "user '" + userId + "' is not authorized to " + action + " document '" + documentId + ": " + reason + "'");
         this.isPickListMode = isPickListMode;
     }
@@ -46,10 +45,8 @@ public class BudgetConstructionDocumentAuthorizationException extends Authorizat
      */
     @Override
     public String getErrorMessageKey() {
-//        return RiceKeyConstants.AUTHORIZATION_ERROR_DOCUMENT;
+
         if (isPickListMode){
-            // TODO for now, pick list mode calls regular authorization exception
-            // may need to add a window close button?
             return RiceKeyConstants.AUTHORIZATION_ERROR_DOCUMENT;
         } else {
             return BCKeyConstants.ERROR_BUDGET_AUTHORIZATION_DOCUMENT;

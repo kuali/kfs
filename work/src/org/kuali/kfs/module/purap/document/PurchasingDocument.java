@@ -425,8 +425,6 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
 
     public void setVendorShippingTitleCode(String vendorShippingTitleCode);
 
-    public void setVendorContractName(String vendorContractName);
-
     public boolean isDeliveryBuildingOtherIndicator();
     
     public void setDeliveryBuildingOtherIndicator(boolean deliveryBuildingOtherIndicator);
@@ -467,7 +465,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
      * 
      * @param vendorContract the specified Vendor Contract.
      */
-    public void templateVendorContract(VendorContract vendorContract, VendorDetail vendorDetail);
+    public void templateVendorContract(VendorContract vendorContract);
 
     /**
      * Sets billing address fields based on the specified Billing Address.

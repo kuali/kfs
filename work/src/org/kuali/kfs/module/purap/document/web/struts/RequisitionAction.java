@@ -150,7 +150,7 @@ public class RequisitionAction extends PurchasingActionBase {
         document.setVendorPostalCode("");
         document.setVendorCountryCode("");
         document.setVendorContractGeneratedIdentifier(null);
-        document.setVendorContractName("");
+        document.setVendorContract(null);
         document.setVendorFaxNumber("");
         document.setVendorCustomerNumber("");
         document.setVendorAttentionName("");

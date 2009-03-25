@@ -127,7 +127,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private String vendorShippingTitleCode;
     private Date purchaseOrderEndDate;
     private String primaryVendorName;
-    private boolean paymentRequestedCancelIndicatorForSearching;
     
     // BELOW USED BY ROUTING
     private Integer requisitionIdentifier;
@@ -1264,11 +1263,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }
 
     public boolean isPaymentRequestedCancelIndicatorForSearching() {
-        return paymentRequestedCancelIndicatorForSearching;
-    }
-
-    public void setPaymentRequestedCancelIndicatorForSearching(boolean paymentRequestedCancelIndicatorForSearching) {
-        this.paymentRequestedCancelIndicatorForSearching = paymentRequestedCancelIndicatorForSearching;
+        return paymentRequestedCancelIndicator;
     }
     
     @Override

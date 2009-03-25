@@ -114,7 +114,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         // Refreshing the fields after returning from a vendor lookup in the vendor tab
         if (StringUtils.equals(refreshCaller, VendorConstants.VENDOR_LOOKUPABLE_IMPL) && document.getVendorDetailAssignedIdentifier() != null && document.getVendorHeaderGeneratedIdentifier() != null) {
             document.setVendorContractGeneratedIdentifier(null);
-            document.setVendorContractName(null);
+            document.refreshReferenceObject("vendorContract");
 
             // retrieve vendor based on selection from vendor lookup
             document.refreshReferenceObject("vendorDetail");
@@ -148,7 +148,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 document.refreshReferenceObject("vendorDetail");
                 document.templateVendorDetail(document.getVendorDetail());
 
-                document.templateVendorContract(refreshVendorContract, document.getVendorDetail());
+                document.templateVendorContract(refreshVendorContract);
 
                 // populate default address from selected vendor
                 VendorAddress defaultAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(document.getVendorDetail().getVendorAddresses(), document.getVendorDetail().getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
@@ -189,6 +189,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 if (request.getParameter("document.deliveryBuildingName") == null) {
                     //came from campus lookup not building, so clear building
                     document.setDeliveryBuildingCode("");
+                    document.setDeliveryBuildingName("");
                     document.setDeliveryBuildingLine1Address("");
                     document.setDeliveryBuildingLine2Address("");
                     document.setDeliveryBuildingRoomNumber("");

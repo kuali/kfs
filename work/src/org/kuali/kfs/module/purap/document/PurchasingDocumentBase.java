@@ -140,10 +140,8 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private String capitalAssetSystemStateCode;
 
     // NOT PERSISTED IN DB
-    private String vendorContractName;
     private String supplierDiversityLabel;
     private String vendorContactsLabel;
-    private String deliveryCampusCodeForSearching;
 
     // REFERENCE OBJECTS
     private FundingSource fundingSource;
@@ -200,22 +198,23 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     /**
      * @see org.kuali.kfs.module.purap.document.PurchasingDocument#templateVendorContract(org.kuali.kfs.vnd.businessobject.VendorContract)
      */
-    public void templateVendorContract(VendorContract vendorContract, VendorDetail vendorDetail) {
-        if (vendorContract == null) {
-            return;
+    public void templateVendorContract(VendorContract vendorContract) {
+        if (ObjectUtils.isNotNull(vendorContract)) {
+            this.setVendorContract(vendorContract);
+            this.setVendorContractGeneratedIdentifier(vendorContract.getVendorContractGeneratedIdentifier());
         }
-        this.setVendorContract(vendorContract);
-        this.setVendorContractName(vendorContract.getVendorContractName());
-        vendorDetail.setVendorShippingTitleCode(vendorContract.getVendorShippingTitleCode());
-        vendorDetail.refreshReferenceObject("vendorShippingTitle");
-        vendorDetail.setVendorPaymentTermsCode(vendorContract.getVendorPaymentTermsCode());
-        vendorDetail.refreshReferenceObject("vendorPaymentTerms");
-        vendorDetail.setVendorShippingPaymentTermsCode(vendorContract.getVendorShippingPaymentTermsCode());
-        vendorDetail.refreshReferenceObject("vendorShippingPaymentTerms");
-        this.setVendorDetail(vendorDetail);
-        this.setVendorShippingTitleCode(vendorContract.getVendorShippingTitleCode());
-        this.setVendorPaymentTermsCode(vendorContract.getVendorPaymentTermsCode());
-        this.setVendorShippingPaymentTermsCode(vendorContract.getVendorShippingPaymentTermsCode());
+        
+        //FIXME why is this updating the fields on the vendor detail object?? (hjs)
+//        vendorDetail.setVendorShippingTitleCode(vendorContract.getVendorShippingTitleCode());
+//        vendorDetail.refreshReferenceObject("vendorShippingTitle");
+//        vendorDetail.setVendorPaymentTermsCode(vendorContract.getVendorPaymentTermsCode());
+//        vendorDetail.refreshReferenceObject("vendorPaymentTerms");
+//        vendorDetail.setVendorShippingPaymentTermsCode(vendorContract.getVendorShippingPaymentTermsCode());
+//        vendorDetail.refreshReferenceObject("vendorShippingPaymentTerms");
+//        this.setVendorDetail(vendorDetail);
+//        this.setVendorShippingTitleCode(vendorContract.getVendorShippingTitleCode());
+//        this.setVendorPaymentTermsCode(vendorContract.getVendorPaymentTermsCode());
+//        this.setVendorShippingPaymentTermsCode(vendorContract.getVendorShippingPaymentTermsCode());
     }
 
     /**
@@ -842,11 +841,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
 
     public String getVendorContractName() {
-        return vendorContractName;
-    }
-
-    public void setVendorContractName(String vendorContractName) {
-        this.vendorContractName = vendorContractName;
+        return getVendorContract().getVendorContractName();
     }
 
     public String getVendorFaxNumber() {
@@ -1141,11 +1136,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
     
     public String getDeliveryCampusCodeForSearching() {
-        return deliveryCampusCodeForSearching;
-    }
-
-    public void setDeliveryCampusCodeForSearching(String deliveryCampusCodeForSearching) {
-        this.deliveryCampusCodeForSearching = deliveryCampusCodeForSearching;
+        return deliveryCampusCode;
     }
 
     public abstract Class getPurchasingCapitalAssetItemClass();

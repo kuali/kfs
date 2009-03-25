@@ -96,6 +96,9 @@
               description="comma separated list of inquiry key names in the accountingLineValuesMap" %>
 <%@ attribute name="lookupUnkeyedFieldConversions" required="false"
 			  description="lookup field conversions; use this instead of lookupOrInquiryKeys when property names don't match" %>
+<%@ attribute name="lookupParameters" required="false"
+			  description="lookup parameters; use this to manually add lookupParameters" %>
+
 <%@ attribute name="accountingLineValuesMap" required="false" type="java.util.Map"
               description="map of the accounting line primitive fields and values, for inquiry keys" %>
 <%@ attribute name="inquiryExtraKeyValues" required="false"
@@ -153,6 +156,9 @@
         <c:set var="boClassName" value="${boPackageName}.${boClassSimpleName}"/>
     </c:otherwise>
 </c:choose>
+<c:if test="${empty lookupParameters}">
+    <c:set var="lookupParameters" value=""/>
+</c:if>
 <c:set var="rowSpan" value="${empty rowSpan ? 1 : rowSpan}"/>
 <c:set var="colSpan" value="${empty colSpan ? 1 : colSpan}"/>
 <c:set var="useXmlHttp" value="${(!readOnly) && (!empty detailFunction)}" />
@@ -226,8 +232,6 @@
             <c:if test="${empty lookupAnchor}">
                 <c:set var="lookupAnchor" value="${anchor}"/>
             </c:if>
-            <%-- todo: this lookup to field conversion swapping in accountingLineLookup.tag --%>
-            <c:set var="lookupParameters" value=""/>
             <c:set var="fieldConversions" value="${lookupUnkeyedFieldConversions}"/>
             <c:forTokens var="key" items="${lookupOrInquiryKeys}" delims=",">
                 <c:set var="withAccountingLine" value="${accountingLine}.${key}"/>

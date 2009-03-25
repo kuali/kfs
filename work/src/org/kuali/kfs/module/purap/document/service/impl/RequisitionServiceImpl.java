@@ -318,7 +318,7 @@ public class RequisitionServiceImpl implements RequisitionService {
             return "Requisition contains inactive commodity codes.";
         }
         else if (purItem.getCommodityCode().isRestrictedItemsIndicator()) {
-            return "Requisition contains an item that is marked as sensitive data.";
+            return "Requisition contains an item with a restricted commodity code.";
         }
         return "";
     }

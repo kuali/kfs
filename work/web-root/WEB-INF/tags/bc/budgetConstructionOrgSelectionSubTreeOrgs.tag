@@ -92,7 +92,6 @@
 	    </tr>
         </c:forEach>
 
-        <%-- TODO make this choose a tag passing in operating mode --%>
         <tr>
         <c:choose>
             <c:when test="${KualiForm.operatingMode == BCConstants.OrgSelOpMode.SALSET || KualiForm.operatingMode == BCConstants.OrgSelOpMode.REPORTS || KualiForm.operatingMode == BCConstants.OrgSelOpMode.ACCOUNT}">

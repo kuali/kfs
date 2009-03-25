@@ -224,10 +224,6 @@
 					
 					<tr>
 						<td> 
-<!--
-FIXME: These property names don't match the table property names
-financialObjectCode and financialSubObjectCode??
--->
                             <!-- hiddens for search criteria merging -->
                             <html-el:hidden name="KualiForm" property="financialObjectCode" />
                             <html-el:hidden name="KualiForm" property="financialSubObjectCode" />

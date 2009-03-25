@@ -108,62 +108,6 @@ public class CreditMemoItem extends AccountsPayableItemBase {
     }
 
     /**
-     * Constructs a CreditMemoItem object from an existing Payment Request or Purchase Order Item.
-     * 
-     * @param cmDocument the Credit Memo Document this item belongs to.
-     * @param preqItem the Payment Request Item to copy from.
-     * @param poItem the Purchase Order Item to copy from.
-     */
-    public CreditMemoItem(VendorCreditMemoDocument cmDocument, PaymentRequestItem preqItem, PurchaseOrderItem poItem) {
-        this(cmDocument, preqItem, poItem, new HashMap<String, ExpiredOrClosedAccountEntry>());
-        //FIXME: delete this after verifying that we don't need anything from this in the other constructor
-//
-//        setPurapDocumentIdentifier(cmDocument.getPurapDocumentIdentifier());
-//        setItemLineNumber(preqItem.getItemLineNumber());
-//
-//        // take invoiced quantities from the lower of the preq and po if different
-//        if (poItem.getItemInvoicedTotalQuantity() != null && preqItem.getItemQuantity() != null && poItem.getItemInvoicedTotalQuantity().isLessThan(preqItem.getItemQuantity())) {
-//            setPreqInvoicedTotalQuantity(poItem.getItemInvoicedTotalQuantity());
-//            setPreqTotalAmount(poItem.getItemInvoicedTotalAmount());
-//        }
-//        else {
-//            setPreqInvoicedTotalQuantity(preqItem.getItemQuantity());
-//            setPreqTotalAmount(preqItem.getTotalAmount());
-//        }
-//
-//        setPreqUnitPrice(preqItem.getItemUnitPrice());
-//        setItemTypeCode(preqItem.getItemTypeCode());
-//
-//        setCapitalAssetTransactionTypeCode(preqItem.getCapitalAssetTransactionTypeCode());
-//        
-//        if ((ObjectUtils.isNotNull(this.getItemType()) && !this.getItemType().isQuantityBasedGeneralLedgerIndicator())) {
-//            // setting unit price to be null to be more consistent with other below the line
-//            this.setItemUnitPrice(null);
-//        }
-//        else {
-//            setItemUnitPrice(preqItem.getItemUnitPrice());
-//        }
-//
-//        setItemCatalogNumber(preqItem.getItemCatalogNumber());
-//        setItemDescription(preqItem.getItemDescription());
-//
-//        if (getPreqInvoicedTotalQuantity() == null) {
-//            setPreqInvoicedTotalQuantity(KualiDecimal.ZERO);
-//        }
-//        if (getPreqUnitPrice() == null) {
-//            setPreqUnitPrice(BigDecimal.ZERO);
-//        }
-//        if (getPreqTotalAmount() == null) {
-//            setPreqTotalAmount(KualiDecimal.ZERO);
-//        }
-//
-//        for (Iterator iter = preqItem.getSourceAccountingLines().iterator(); iter.hasNext();) {
-//            PaymentRequestAccount account = (PaymentRequestAccount) iter.next();
-//            getSourceAccountingLines().add(new CreditMemoAccount(account));
-//        }
-    }
-
-    /**
      * Constructs a CreditMemoItem object from an existing Payment Request Item, and check and process expired or closed accounts
      * item might contain.
      * 

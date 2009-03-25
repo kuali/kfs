@@ -39,7 +39,8 @@ public class HumanResourcesPayrollServiceImpl implements HumanResourcesPayrollSe
     PersonService personService;
 
     /**
-     * @TODO: This is just a bootstrap implementation. Should be replaced by the real integration with the payroll/hr system.
+     * This is just a bootstrap implementation. Should be replaced by the real integration with the payroll/hr system.
+     * 
      * @see org.kuali.kfs.module.bc.service.HumanResourcesPayrollService#validatePositionUnionCode(java.lang.String)
      */
     @NonTransactional
@@ -48,7 +49,8 @@ public class HumanResourcesPayrollServiceImpl implements HumanResourcesPayrollSe
     }
 
     /**
-     * @TODO: This is just a bootstrap implementation. Should be replaced by the real integration with the payroll/hr system.
+     * This is just a bootstrap implementation. Should be replaced by the real integration with the payroll/hr system.
+     * 
      * @see org.kuali.kfs.module.bc.service.HumanResourcesPayrollService#getPosition(java.lang.Integer, java.lang.String)
      */
     @Transactional
@@ -63,7 +65,8 @@ public class HumanResourcesPayrollServiceImpl implements HumanResourcesPayrollSe
     }
 
     /**
-     * @TODO: This is just a bootstrap implementation. Should be replaced by the real integration with the payroll/hr system.
+     * This is just a bootstrap implementation. Should be replaced by the real integration with the payroll/hr system.
+     * 
      * @see org.kuali.kfs.module.bc.service.HumanResourcesPayrollService#getIncumbent(java.lang.String)
      */
     @Transactional
@@ -80,7 +83,7 @@ public class HumanResourcesPayrollServiceImpl implements HumanResourcesPayrollSe
 
         return incumbent;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.bc.service.HumanResourcesPayrollService#isActiveJob(java.lang.String, java.lang.String,
      *      java.lang.Integer, org.kuali.kfs.module.bc.BCConstants.SynchronizationCheckType)
@@ -110,4 +113,3 @@ public class HumanResourcesPayrollServiceImpl implements HumanResourcesPayrollSe
         this.personService = personService;
     }
 }
-

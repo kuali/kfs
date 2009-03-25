@@ -52,9 +52,6 @@ public class QuickSalarySettingForm extends SalarySettingBaseForm {
 
         this.populateBCAFLines();
 
-// TODO not sure why this is here? since SalarySettingBaseAction.execute() does this call 
-// verify that it is not needed and remove commented code
-//        this.populateAuthorizationFields(new BudgetConstructionDocumentAuthorizer());
     }
 
     /**

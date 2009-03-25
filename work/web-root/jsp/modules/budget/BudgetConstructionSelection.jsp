@@ -59,7 +59,6 @@
     <c:if test="${!empty KualiForm.universityFiscalYear && !KualiForm.sessionInProgressDetected}">
     <table align="center" cellpadding="0" cellspacing="0" class="datatable-100">
 	    <tr>
-<%--TODO probably should assign width in css --%>
             <th class="grid" align="right" width="10%" colspan="1">
 			    <span class="nowrap">BC Fiscal Year:</span>
                 <html:hidden property="universityFiscalYear"/>

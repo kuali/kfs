@@ -49,7 +49,7 @@ import org.kuali.rice.kns.util.WebUtils;
  * Action class to display document reports and dumps menu
  */
 public class ReportRunnerAction extends BudgetExpansionAction {
-    
+
     /**
      * Handles any special onetime setup when called from another screen action
      * 
@@ -86,74 +86,70 @@ public class ReportRunnerAction extends BudgetExpansionAction {
         int selectIndex = this.getSelectedLine(request);
         String reportModeName = reportRunnerForm.getBudgetConstructionDocumentReportModes().get(selectIndex).getReportModeName();
 
-        // TODO add calls to services here. We need the build/clean for the account object detail report mt table and method(s)
-        // to call the account object, funding, monthly reports
-        // and method to call the dump screen for the account,funding and month dump.
-        
         Collection reportSet = new ArrayList();
         String jasperFileName;
         switch (selectIndex) {
-            
+
             case 0: {
                 jasperFileName = "BudgetAccountObjectDetail";
                 SpringContext.getBean(BudgetConstructionDocumentAccountObjectDetailReportService.class).updateDocumentAccountObjectDetailReportTable(principalName, reportRunnerForm.getDocumentNumber(), reportRunnerForm.getUniversityFiscalYear(), reportRunnerForm.getChartOfAccountsCode(), reportRunnerForm.getAccountNumber(), reportRunnerForm.getSubAccountNumber());
                 reportSet = SpringContext.getBean(BudgetConstructionDocumentAccountObjectDetailReportService.class).buildReports(principalName);
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                
+
                 ResourceBundle resourceBundle = ResourceBundle.getBundle(BCConstants.Report.REPORT_MESSAGES_CLASSPATH, Locale.getDefault());
                 Map<String, Object> reportData = new HashMap<String, Object>();
                 reportData.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
-                
+
                 SpringContext.getBean(ReportGenerationService.class).generateReportToOutputStream(reportData, reportSet, BCConstants.Report.REPORT_TEMPLATE_CLASSPATH + jasperFileName, baos);
                 WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, jasperFileName + ReportGeneration.PDF_FILE_EXTENSION);
                 break;
             }
 
-            
+
             case 1: {
                 jasperFileName = "BudgetAccountSalaryDetail";
                 reportSet = SpringContext.getBean(BudgetConstructionAccountSalaryDetailReportService.class).buildReports(reportRunnerForm.getUniversityFiscalYear(), reportRunnerForm.getChartOfAccountsCode(), reportRunnerForm.getAccountNumber(), reportRunnerForm.getSubAccountNumber());
 
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                
+
                 ResourceBundle resourceBundle = ResourceBundle.getBundle(BCConstants.Report.REPORT_MESSAGES_CLASSPATH, Locale.getDefault());
                 Map<String, Object> reportData = new HashMap<String, Object>();
                 reportData.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
-                
+
                 SpringContext.getBean(ReportGenerationService.class).generateReportToOutputStream(reportData, reportSet, BCConstants.Report.REPORT_TEMPLATE_CLASSPATH + jasperFileName, baos);
                 WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, jasperFileName + ReportGeneration.PDF_FILE_EXTENSION);
                 break;
             }
-            
-            
+
+
             case 2: {
                 jasperFileName = "BudgetAccountMonthlyDetail";
                 reportSet = SpringContext.getBean(BudgetConstructionAccountMonthlyDetailReportService.class).buildReports(reportRunnerForm.getDocumentNumber(), reportRunnerForm.getUniversityFiscalYear(), reportRunnerForm.getChartOfAccountsCode(), reportRunnerForm.getAccountNumber(), reportRunnerForm.getSubAccountNumber());
 
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                
+
                 ResourceBundle resourceBundle = ResourceBundle.getBundle(BCConstants.Report.REPORT_MESSAGES_CLASSPATH, Locale.getDefault());
                 Map<String, Object> reportData = new HashMap<String, Object>();
                 reportData.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
-                
+
                 SpringContext.getBean(ReportGenerationService.class).generateReportToOutputStream(reportData, reportSet, BCConstants.Report.REPORT_TEMPLATE_CLASSPATH + jasperFileName, baos);
                 WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, jasperFileName + ReportGeneration.PDF_FILE_EXTENSION);
                 break;
             }
-            case 3:{
+            case 3: {
                 return new ActionForward(buildReportExportForwardURL(reportRunnerForm, mapping, BudgetConstructionReportMode.ACCOUNT_EXPORT.reportModeName), true);
             }
-                
+
             case 4: {
                 return new ActionForward(buildReportExportForwardURL(reportRunnerForm, mapping, BudgetConstructionReportMode.FUNDING_EXPORT.reportModeName), true);
             }
-                
+
             case 5: {
                 return new ActionForward(buildReportExportForwardURL(reportRunnerForm, mapping, BudgetConstructionReportMode.MONTHLY_EXPORT.reportModeName), true);
             }
-                
+
         }
-        
+
         return null;
     }
 
@@ -168,8 +164,7 @@ public class ReportRunnerAction extends BudgetExpansionAction {
         parameters.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, reportRunnerForm.getSubAccountNumber());
         parameters.put(BCConstants.Report.REPORT_MODE, documentReportMode);
         parameters.put(BCConstants.IS_ORG_REPORT_REQUEST_PARAMETER, "false");
-        
+
         return BudgetUrlUtil.buildBudgetUrl(mapping, reportRunnerForm, BCConstants.REPORT_EXPORT_ACTION, parameters);
     }
 }
-

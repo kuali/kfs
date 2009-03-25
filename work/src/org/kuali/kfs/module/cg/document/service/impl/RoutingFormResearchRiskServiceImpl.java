@@ -76,21 +76,6 @@ public class RoutingFormResearchRiskServiceImpl implements RoutingFormResearchRi
         return result;
     }
 
-    public List<String> getNotificationWorkgroups(String documentNumber) {
-        Map fieldValues = new HashMap();
-        fieldValues.put("documentNumber", documentNumber);
-        List<RoutingFormResearchRisk> researchRisks = new ArrayList<RoutingFormResearchRisk>(businessObjectService.findMatching(RoutingFormResearchRisk.class, fieldValues));
-        List<String> workgroups = new ArrayList<String>();
-        for (RoutingFormResearchRisk researchRisk : researchRisks) {
-            if (!StringUtils.isBlank(researchRisk.getResearchRiskDescription()) || !researchRisk.getResearchRiskStudies().isEmpty()) {
-                if (researchRisk.getResearchRiskType().getResearchRiskTypeNotificationGroupText() != null) {
-                    workgroups.add(researchRisk.getResearchRiskType().getResearchRiskTypeNotificationGroupText());
-                }
-            }
-        }
-        return workgroups;
-    }
-
     /**
      * Setter for BusinessObjectService property.
      * 

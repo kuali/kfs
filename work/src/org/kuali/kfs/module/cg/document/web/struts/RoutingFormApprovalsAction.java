@@ -79,30 +79,7 @@ public class RoutingFormApprovalsAction extends RoutingFormAction {
     @Override
     public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         cacheAndLoad(mapping, form, request, response);
-        RoutingForm routingForm = (RoutingForm) form;
-
-        KualiWorkflowDocument workflowDoc = routingForm.getDocument().getDocumentHeader().getWorkflowDocument();
-        if (new Integer(CGConstants.projectDirectorRouteLevel).equals(workflowDoc.getRouteHeader().getDocRouteLevel())) {
-
-            // send FYIs, adhoc requests
-            List<AdHocRouteWorkgroup> routeWorkgroups = new ArrayList<AdHocRouteWorkgroup>();
-            List<String> workgroupNames = SpringContext.getBean(RoutingFormResearchRiskService.class).getNotificationWorkgroups(routingForm.getRoutingFormDocument().getDocumentNumber());
-            List<String> projectDetailsWorkgroupNames = SpringContext.getBean(RoutingFormProjectDetailsService.class).getNotificationWorkgroups(routingForm.getRoutingFormDocument().getDocumentNumber());
-            // make sure there are no overlaps, then merge
-            workgroupNames.removeAll(projectDetailsWorkgroupNames);
-            workgroupNames.addAll(projectDetailsWorkgroupNames);
-            for (String workgroup : workgroupNames) {
-                AdHocRouteWorkgroup routeWorkgroup = new AdHocRouteWorkgroup();
-                routeWorkgroup.setActionRequested(KFSConstants.WORKFLOW_FYI_REQUEST);
-                routeWorkgroup.setdocumentNumber(routingForm.getRoutingFormDocument().getDocumentNumber());
-                routeWorkgroup.setId(workgroup);
-                routeWorkgroups.add(routeWorkgroup);
-            }
-            routingForm.setAdHocRouteWorkgroups(routeWorkgroups);
-        }
-
-        ActionForward forward = super.approve(mapping, form, request, response);
-        return forward;
+        return super.approve(mapping, form, request, response); // when in Rome...
     }
 
     @Override

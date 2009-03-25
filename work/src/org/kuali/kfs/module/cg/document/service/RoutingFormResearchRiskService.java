@@ -39,6 +39,4 @@ public interface RoutingFormResearchRiskService {
      * @return List<ResearchRiskType>
      */
     public List<ResearchRiskType> getResearchRiskTypes(String[] exceptCodes);
-
-    public List<String> getNotificationWorkgroups(String documentNumber);
 }

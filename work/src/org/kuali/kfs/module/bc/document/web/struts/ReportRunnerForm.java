@@ -27,14 +27,14 @@ import org.kuali.kfs.module.bc.BudgetConstructionDocumentReportMode;
  */
 public class ReportRunnerForm extends BudgetExpansionForm {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReportRunnerForm.class);
-    
+
     // url parameters sent from BCDoc
     private String documentNumber;
     private String chartOfAccountsCode;
     private String accountNumber;
     private String subAccountNumber;
 
-    private List<BudgetConstructionDocumentReportMode> budgetConstructionDocumentReportModes; 
+    private List<BudgetConstructionDocumentReportMode> budgetConstructionDocumentReportModes;
 
     /**
      * Constructs a ReportRunnerForm.java.
@@ -49,9 +49,9 @@ public class ReportRunnerForm extends BudgetExpansionForm {
      */
     @Override
     public void populate(HttpServletRequest request) {
-        // TODO Auto-generated method stub
+
         super.populate(request);
-        if (this.getBudgetConstructionDocumentReportModes().isEmpty()){
+        if (this.getBudgetConstructionDocumentReportModes().isEmpty()) {
             this.getBudgetConstructionDocumentReportModes().add(BudgetConstructionDocumentReportMode.DOCUMENT_OBJECT_DETAIL_REPORT);
             this.getBudgetConstructionDocumentReportModes().add(BudgetConstructionDocumentReportMode.DOCUMENT_FUNDING_DETAIL_REPORT);
             this.getBudgetConstructionDocumentReportModes().add(BudgetConstructionDocumentReportMode.DOCUMENT_MONTHLY_DETAIL_REPORT);
@@ -62,7 +62,8 @@ public class ReportRunnerForm extends BudgetExpansionForm {
     }
 
     /**
-     * Gets the accountNumber attribute. 
+     * Gets the accountNumber attribute.
+     * 
      * @return Returns the accountNumber.
      */
     public String getAccountNumber() {
@@ -71,6 +72,7 @@ public class ReportRunnerForm extends BudgetExpansionForm {
 
     /**
      * Sets the accountNumber attribute value.
+     * 
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
@@ -78,7 +80,8 @@ public class ReportRunnerForm extends BudgetExpansionForm {
     }
 
     /**
-     * Gets the chartOfAccountsCode attribute. 
+     * Gets the chartOfAccountsCode attribute.
+     * 
      * @return Returns the chartOfAccountsCode.
      */
     public String getChartOfAccountsCode() {
@@ -87,6 +90,7 @@ public class ReportRunnerForm extends BudgetExpansionForm {
 
     /**
      * Sets the chartOfAccountsCode attribute value.
+     * 
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -94,7 +98,8 @@ public class ReportRunnerForm extends BudgetExpansionForm {
     }
 
     /**
-     * Gets the documentNumber attribute. 
+     * Gets the documentNumber attribute.
+     * 
      * @return Returns the documentNumber.
      */
     public String getDocumentNumber() {
@@ -103,14 +108,16 @@ public class ReportRunnerForm extends BudgetExpansionForm {
 
     /**
      * Sets the documentNumber attribute value.
+     * 
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
     }
-    
+
     /**
-     * Gets the subAccountNumber attribute. 
+     * Gets the subAccountNumber attribute.
+     * 
      * @return Returns the subAccountNumber.
      */
     public String getSubAccountNumber() {
@@ -119,6 +126,7 @@ public class ReportRunnerForm extends BudgetExpansionForm {
 
     /**
      * Sets the subAccountNumber attribute value.
+     * 
      * @param subAccountNumber The subAccountNumber to set.
      */
     public void setSubAccountNumber(String subAccountNumber) {
@@ -126,7 +134,8 @@ public class ReportRunnerForm extends BudgetExpansionForm {
     }
 
     /**
-     * Gets the budgetConstructionDocumentReportModes attribute. 
+     * Gets the budgetConstructionDocumentReportModes attribute.
+     * 
      * @return Returns the budgetConstructionDocumentReportModes.
      */
     public List<BudgetConstructionDocumentReportMode> getBudgetConstructionDocumentReportModes() {
@@ -135,6 +144,7 @@ public class ReportRunnerForm extends BudgetExpansionForm {
 
     /**
      * Sets the budgetConstructionDocumentReportModes attribute value.
+     * 
      * @param budgetConstructionDocumentReportModes The budgetConstructionDocumentReportModes to set.
      */
     public void setBudgetConstructionDocumentReportModes(List<BudgetConstructionDocumentReportMode> budgetConstructionDocumentReportModes) {

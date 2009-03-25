@@ -64,8 +64,8 @@ public class DataDictionaryDocumentSearchCustomizer extends org.kuali.rice.kns.w
         this.addRouteLogColumn(columns);
         return columns;
     }
-    
-    
+
+
     /**
      * Checks the Data Dictionary to verify the visibility of the fields and adds them to the result.
      * @param criteria used to get DocumentEntry
@@ -74,36 +74,34 @@ public class DataDictionaryDocumentSearchCustomizer extends org.kuali.rice.kns.w
 
     protected List<Column> getCustomDisplayColumns(DocSearchCriteriaDTO criteria) {
 
-           SearchAttributeCriteriaComponent displayCriteria = getSearchableAttributeByFieldName("displayType");
-        //List<Row> rows = criteria.getSearchableAttributeRows();
-        //criteria.getSearchableAttributes();
+        SearchAttributeCriteriaComponent displayCriteria = getSearchableAttributeByFieldName("displayType");
         List<Column> columns = new ArrayList<Column>();
 
 
-          boolean documentDisplay =  ((displayCriteria != null) && ("document".equals(displayCriteria.getValue())));
+        boolean documentDisplay =  ((displayCriteria != null) && ("document".equals(displayCriteria.getValue())));
         if (documentDisplay) {
 
-        DocumentType documentType = getDocumentType(criteria.getDocTypeFullName());
-        DocumentEntry entry = getDocumentEntry(documentType);
-        if (entry != null && entry.getWorkflowAttributes() != null) {
-            DataDictionaryService ddService = SpringContext.getBean(DataDictionaryService.class);
+            DocumentType documentType = getDocumentType(criteria.getDocTypeFullName());
+            DocumentEntry entry = getDocumentEntry(documentType);
+            if (entry != null && entry.getWorkflowAttributes() != null) {
+                DataDictionaryService ddService = SpringContext.getBean(DataDictionaryService.class);
 
-            List<SearchingTypeDefinition> searchingTypeDefinitions = entry.getWorkflowAttributes().getSearchingTypeDefinitions();
-            List<String> searchableAttributeFieldNames = new ArrayList<String>();
+                List<SearchingTypeDefinition> searchingTypeDefinitions = entry.getWorkflowAttributes().getSearchingTypeDefinitions();
+                List<String> searchableAttributeFieldNames = new ArrayList<String>();
 
-            for (SearchingTypeDefinition searchingTypeDefinition : searchingTypeDefinitions) {
-                SearchingAttribute searchingAttribute = searchingTypeDefinition.getSearchingAttribute();
-                if (searchingAttribute.isShowAttributeInResultSet()){
-                    String label =  ddService.getAttributeLabel(searchingAttribute.getBusinessObjectClassName(), searchingAttribute.getAttributeName());
-                    searchableAttributeFieldNames.add(label);
-                    addColumnUsingKey(columns, new HashMap<String,String>(), searchingAttribute.getAttributeName(), label);
-                } 
+                for (SearchingTypeDefinition searchingTypeDefinition : searchingTypeDefinitions) {
+                    SearchingAttribute searchingAttribute = searchingTypeDefinition.getSearchingAttribute();
+                    if (searchingAttribute.isShowAttributeInResultSet()){
+                        String label =  ddService.getAttributeLabel(searchingAttribute.getBusinessObjectClassName(), searchingAttribute.getAttributeName());
+                        searchableAttributeFieldNames.add(label);
+                        addColumnUsingKey(columns, new HashMap<String,String>(), searchingAttribute.getAttributeName(), label);
+                    } 
+                }
+                addSearchableAttributeColumnsBasedOnFields(columns, getSearchCriteria(), searchableAttributeFieldNames);
             }
-            addSearchableAttributeColumnsBasedOnFields(columns, getSearchCriteria(), searchableAttributeFieldNames);
-        }
 
         }
-    return columns;
+        return columns;
 
     }
 
@@ -130,6 +128,12 @@ public class DataDictionaryDocumentSearchCustomizer extends org.kuali.rice.kns.w
         }
         return true;
     }
+    
+    @Override
+    public boolean getOverrideSearchableAttributes() {
+        // TODO Auto-generated method stub
+        return true;
+    }
 
     private boolean searchUsingDocumentInformationResults() {
         SearchAttributeCriteriaComponent displayCriteria = getSearchableAttributeByFieldName("displayType");
@@ -153,7 +157,7 @@ public class DataDictionaryDocumentSearchCustomizer extends org.kuali.rice.kns.w
         }
         return super.generateSearchSql(convertedSearchCriteria);
     }
-    
+
     // SEARCHABLE ATTRIBUTE IMPLEMENTATION
     private FinancialSystemSearchableAttribute searchableAttribute = new FinancialSystemSearchableAttribute();
 

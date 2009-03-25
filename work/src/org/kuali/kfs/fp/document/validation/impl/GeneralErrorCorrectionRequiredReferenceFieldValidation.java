@@ -64,10 +64,16 @@ public class GeneralErrorCorrectionRequiredReferenceFieldValidation extends Gene
 
         boe = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(alclass.getName());
        
+        if (StringUtils.isEmpty(accountingLineForValidation.getReferenceOriginCode())) {
+            putRequiredPropertyError(boe, REFERENCE_ORIGIN_CODE);
+            valid = false;
+        }
+        
         if (StringUtils.isEmpty(accountingLineForValidation.getReferenceNumber())) {
             putRequiredPropertyError(boe, REFERENCE_NUMBER);
             valid = false;
         }
+        
         return valid;
     }
 

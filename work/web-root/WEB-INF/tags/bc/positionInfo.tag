@@ -20,22 +20,6 @@
 <c:set var="budgetConstructionPosition"	value="${KualiForm.budgetConstructionPosition}" />
 <c:set var="objectName"	value="budgetConstructionPosition" />
 
-<%-- FIXME: remove when verified
-<html:hidden property="${objectName}.positionEffectiveDate" />
-<html:hidden property="${objectName}.positionEffectiveStatus" />
-<html:hidden property="${objectName}.positionStatus" />
-<html:hidden property="${objectName}.budgetedPosition" />
-<html:hidden property="${objectName}.confidentialPosition" />
-<html:hidden property="${objectName}.positionRegularTemporary" />
-<html:hidden property="${objectName}.setidDepartment" />
-<html:hidden property="${objectName}.responsibilityCenterCode" />
-<html:hidden property="${objectName}.positionUnionCode" />
-<html:hidden property="${objectName}.jobCodeDescription" />
-<html:hidden property="${objectName}.setidSalary" />
-<html:hidden property="${objectName}.iuPositionType" />
-<html:hidden property="${objectName}.positionLockUserIdentifier" />
---%>
-
 <%-- FIXME: hidden for JS FTE calc to work remove when fix is in place --%>
 <html:hidden property="${objectName}.iuPayMonths" />
 

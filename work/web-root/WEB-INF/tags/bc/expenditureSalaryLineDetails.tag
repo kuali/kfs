@@ -31,10 +31,6 @@
 			<span class="subhead-left">Salary Line Detail</span>
     		<span class="subhead-right">   			   			
 		   		<c:if test="${not readOnly}">	    
-<%-- FIXME: remove when verified --%>
-<%--
-			    	<html:hidden property="hideAdjustmentMeasurement"/>
---%>
 			    	
 			    	<c:set var="hideOrShow" value="${KualiForm.hideAdjustmentMeasurement ? 'show' : 'hide'}" />
 			    	<html:image property="methodToCall.toggleAdjustmentMeasurement" 
@@ -90,30 +86,6 @@
 			field="appointmentFundingDeleteIndicator" rowSpan="${rowspan}" readOnly="false"
 			fieldAlign="left" disabled="${true}">
 			
-<%-- FIXME: remove when verified --%>
-<%--
-			<html:hidden property="${fundingLineName}.universityFiscalYear" />
-			<html:hidden property="${fundingLineName}.chartOfAccountsCode" />
-			<html:hidden property="${fundingLineName}.accountNumber" />
-			<html:hidden property="${fundingLineName}.subAccountNumber" />
-			<html:hidden property="${fundingLineName}.financialObjectCode" />
-			<html:hidden property="${fundingLineName}.financialSubObjectCode" />
-			<html:hidden property="${fundingLineName}.emplid" />
-			
-			<html:hidden property="${fundingLineName}.appointmentRequestedTimePercent" />
-			<html:hidden property="${fundingLineName}.appointmentFundingDurationCode" />
-		    <html:hidden property="${fundingLineName}.appointmentRequestedCsfFteQuantity" />
-		    <html:hidden property="${fundingLineName}.appointmentRequestedCsfTimePercent" />
-		    <html:hidden property="${fundingLineName}.appointmentTotalIntendedAmount" />
-		    <html:hidden property="${fundingLineName}.appointmentTotalIntendedFteQuantity" />
-		    <html:hidden property="${fundingLineName}.positionObjectChangeIndicator" />
-		    <html:hidden property="${fundingLineName}.positionSalaryChangeIndicator" />
-		    
-			<html:hidden property="${fundingLineName}.persistedDeleteIndicator" />
-			<html:hidden property="${fundingLineName}.versionNumber" />
-			<html:hidden property="${fundingLineName}.appointmentFundingDeleteIndicator" />
-			<html:hidden property="${fundingLineName}.newLineIndicator" />
---%>
 		</bc:pbglLineDataCell>
 	
 		<%-- Position Number --%>	

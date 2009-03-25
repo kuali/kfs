@@ -20,22 +20,6 @@
 <c:set var="tableWidth" value="100%"/>
 <c:set var="isKeyFieldsLocked" value="${KualiForm.singleAccountMode}"/>
 
-<%-- FIXME: remove when verified --%>
-<%--
-<html:hidden property="returnAnchor" />
-<html:hidden property="returnFormKey" />
-<html:hidden property="backLocation" />
-<html:hidden property="universityFiscalYear" />
-<html:hidden property="chartOfAccountsCode" />
-<html:hidden property="accountNumber" />
-<html:hidden property="subAccountNumber" />
-<html:hidden property="financialObjectCode" />
-<html:hidden property="financialSubObjectCode" />
-<html:hidden property="emplid" />
-<html:hidden property="budgetByAccountMode" />
-<html:hidden property="addLine" />
-<html:hidden property="salarySettingClosed" />
---%>
 <html:hidden property="budgetByAccountMode" />
 
 <kul:tabTop tabTitle="Incumbent" defaultOpen="true">

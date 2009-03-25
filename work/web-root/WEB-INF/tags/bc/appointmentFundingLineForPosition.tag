@@ -48,28 +48,9 @@
 <html:hidden property="${fundingLineName}.universityFiscalYear" />
 <html:hidden property="${fundingLineName}.positionNumber" />
 
-<%-- FIXME: remove when verified
-<html:hidden property="${fundingLineName}.positionObjectChangeIndicator" />
-<html:hidden property="${fundingLineName}.positionSalaryChangeIndicator" />
-<html:hidden property="${fundingLineName}.versionNumber" />  
-<html:hidden property="${fundingLineName}.appointmentFundingDeleteIndicator" />
---%>
-
 <%-- FIXME: was removed due to conflicts in JS newline subobject lookup and using disabled setting --%>
 <%-- remove when a fix is in place --%>
 <html:hidden property="${fundingLineName}.financialObjectCode" />
-
-
-<%-- FIXME: remove when verified
-<html:hidden property="${fundingLineName}.persistedDeleteIndicator" /> 
-<html:hidden property="${fundingLineName}.newLineIndicator" />
-<html:hidden property="${fundingLineName}.purged" />
-
-<html:hidden property="${fundingLineName}.excludedFromTotal" />
-<html:hidden property="${fundingLineName}.displayOnlyMode" /> 
-<html:hidden property="${fundingLineName}.override2PlugMode" />
-<html:hidden property="${fundingLineName}.budgetable" />
---%>
 
 <table border="0" cellpadding="0" cellspacing="0" style="width: ${tableWidth}; text-align: left; margin-left: auto; margin-right: auto;">    
 	<tr>

@@ -20,21 +20,6 @@
 <c:set var="tableWidth" value="100%"/>
 <c:set var="isKeyFieldsLocked" value="${KualiForm.singleAccountMode}"/>
 
-<%-- FIXME: remove when verified
-<html:hidden property="returnAnchor" />
-<html:hidden property="returnFormKey" />
-<html:hidden property="backLocation" />
-<html:hidden property="universityFiscalYear" />
-<html:hidden property="chartOfAccountsCode" />
-<html:hidden property="accountNumber" />
-<html:hidden property="subAccountNumber" />
-<html:hidden property="financialObjectCode" />
-<html:hidden property="financialSubObjectCode" />
-<html:hidden property="positionNumber" />
-<html:hidden property="budgetByAccountMode" />
-<html:hidden property="addLine" />
-<html:hidden property="salarySettingClosed" />
---%>
 <html:hidden property="budgetByAccountMode" />
 
 <kul:tabTop tabTitle="Position" defaultOpen="true">
@@ -53,11 +38,6 @@
 				<html:image property="methodToCall.addAppointmentFundingLine.anchorsalarynewLineLineAnchor" 
 			       	src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" 
 			       	title="Add a Salary Setting Line" alt="Add a Salary Setting Line" styleClass="tinybutton"/>
-			    
-<%-- FIXME: remove when verified
-			    <html:hidden property="newBCAFLine.budgetConstructionPosition.iuPayMonths" />
-				<html:hidden property="newBCAFLine.budgetConstructionPosition.iuNormalWorkMonths" />
---%>   	
 			</bc:appointmentFundingLineForPosition>
 		</kul:subtab>
 	</c:if>
@@ -83,11 +63,6 @@
 		
 		<c:set var="canRecalculate" value="${editable && !hasBeenDeleted && fundingLine.positionChangeIndicator}" />
 			    
-<%-- FIXME: remove when verified
-	    <html:hidden property="${fundingLineName}.budgetConstructionPosition.iuPayMonths" />
-		<html:hidden property="${fundingLineName}.budgetConstructionPosition.iuNormalWorkMonths" />
---%>  
-	          	
 	    <kul:subtab lookedUpCollectionName="fundingLine" width="${tableWidth}" subTabTitle="${fundingLine.appointmentFundingString}" >
 	    	<bc:appointmentFundingLineForPosition fundingLine="${fundingLine}" fundingLineName="${fundingLineName}"	
 	    		countOfMajorColumns="9" lineIndex="${status.index}" hasBeenAdded = "true" readOnly="${readOnly}">    		

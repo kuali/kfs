@@ -83,6 +83,13 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
     public ActionForward addIncumbent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
 
+        if (!salarySettingForm.isViewOnlyEntry()) {
+            boolean isSaved = this.save(form);
+            if (!isSaved) {
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            }
+        }
+
         Map<String, String> parameters = new HashMap<String, String>();
         parameters.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, salarySettingForm.getChartOfAccountsCode());
         parameters.put(KFSPropertyConstants.ACCOUNT_NUMBER, salarySettingForm.getAccountNumber());
@@ -114,6 +121,13 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
      */
     public ActionForward addPosition(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
+
+        if (!salarySettingForm.isViewOnlyEntry()) {
+            boolean isSaved = this.save(form);
+            if (!isSaved) {
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            }
+        }
 
         Map<String, String> parameters = new HashMap<String, String>();
         parameters.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, salarySettingForm.getChartOfAccountsCode());

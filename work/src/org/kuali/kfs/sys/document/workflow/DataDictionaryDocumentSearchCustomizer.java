@@ -110,7 +110,7 @@ public class DataDictionaryDocumentSearchCustomizer extends org.kuali.rice.kns.w
         List<Column> columns = getCustomDisplayColumns(criteria);
         return super.setUpCustomDisplayColumns(criteria, columns);
     }
-
+    
 
     /**
      * Retrieves the data dictionary entry for the document being operated on by the given route context
@@ -132,7 +132,7 @@ public class DataDictionaryDocumentSearchCustomizer extends org.kuali.rice.kns.w
     @Override
     public boolean getOverrideSearchableAttributes() {
         // TODO Auto-generated method stub
-        return true;
+        return false;
     }
 
     private boolean searchUsingDocumentInformationResults() {

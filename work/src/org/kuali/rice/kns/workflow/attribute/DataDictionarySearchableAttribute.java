@@ -177,6 +177,7 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
               }
               
               Field searchField = FieldUtils.getPropertyField(boClass, attributeName, false);
+              searchField.setColumnVisible(attr.isShowAttributeInResultSet());
               String fieldDataType = propertyResolutionService.determineFieldDataType(boClass, attributeName);
               if (fieldDataType.equals(DataDictionarySearchableAttribute.DATA_TYPE_BOOLEAN)) {
                   fieldDataType = SearchableAttribute.DATA_TYPE_STRING;

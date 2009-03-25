@@ -23,6 +23,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.IdentityService;
 import org.kuali.rice.kim.service.RoleManagementService;
 
@@ -72,14 +73,14 @@ public class AccountsReceivableProcessingOrganizationRoleTypeServiceImplTest ext
     
     protected String getArUserPrincipalId() {
         if ( arUserPrincipalId == null ) {
-            arUserPrincipalId = SpringContext.getBean(IdentityService.class).getPrincipalIdByPrincipalName(AR_DOC_USER);
+            arUserPrincipalId = SpringContext.getBean(IdentityManagementService.class).getPrincipalByPrincipalName(AR_DOC_USER).getPrincipalId();
         }
         return arUserPrincipalId;
     }
 
     protected String getArUserPrincipalId_2() {
         if ( arUserPrincipalId2 == null ) {
-            arUserPrincipalId2 = SpringContext.getBean(IdentityService.class).getPrincipalIdByPrincipalName(AR_DOC_USER_2);
+            arUserPrincipalId2 = SpringContext.getBean(IdentityManagementService.class).getPrincipalByPrincipalName(AR_DOC_USER_2).getPrincipalId();
         }
         return arUserPrincipalId2;
     }

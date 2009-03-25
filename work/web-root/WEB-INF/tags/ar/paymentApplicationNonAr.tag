@@ -179,11 +179,13 @@
                                 attributeEntry="${nonInvoicedAttributes.financialDocumentLineAmount}"
                                 property="paymentApplicationDocument.nonInvoiced[${ctr}].financialDocumentLineAmount"/>
                         </td>
-                        <td>
-	                    	<html:image property="methodToCall.deleteNonArLine.line${nonInvoiced.financialDocumentLineNumber}"
-		                        src="${ConfigProperties.externalizable.images.url}tinybutton-delete1.gif"
-		                        alt="Delete" title="Delete" styleClass="tinybutton" />
-                        </td>
+                        <c:if test="${readOnly ne true}">
+                            <td>
+	                    	    <html:image property="methodToCall.deleteNonArLine.line${nonInvoiced.financialDocumentLineNumber}"
+		                            src="${ConfigProperties.externalizable.images.url}tinybutton-delete1.gif"
+		                            alt="Delete" title="Delete" styleClass="tinybutton" />
+                            </td>
+                        </c:if>
                     </tr>
                 </logic:iterate>
                 <tr>

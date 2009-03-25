@@ -35,45 +35,50 @@
 		<html:hidden property="document.hiddenFieldForErrors"/>
 
         <c:choose>
-            <c:when test="${!isCustomerSelected}">
-				No Customer Selected            
-	        </c:when>
             <c:when test="${!hasRelatedCashControlDocument}">
-	          <div style='text-align: right; margin-top: 20px; padding: 2px 6px; width: 90%;'>
-    	        <style type='text/css'>
-        	        #ctrl-info th { text-align: right; }
-            	    #ctrl-info th, #ctrl-info td { width: 50%; }
-	            </style>
-				<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
-                	<tr>
-                    	<th>Application Document #</th>
-                        <th>Unapplied Amount</th>
-                        <th>Applied Amount</th>
-              		</tr>
-        	        <logic:iterate name="KualiForm" property="document.nonApplieds" id="nonApplied" indexId="idx">
-    	               	<tr>
-	                   		<td>
-                       			<bean:write name="nonApplied" property="referenceFinancialDocumentNumber" />
-                    		</td>
-                	   		<td style="text-align: right;">
-            	           		<bean:write name="nonApplied" property="availableUnappliedAmount" />
-        	           		</td>
-                	   		<td style="text-align: right;">
-            	           		<bean:write name="nonApplied" property="appliedUnappliedAmount" />
-        	           		</td>
-                    	</tr>
-                    </logic:iterate>
-       	        	<tr>
-                    	<kul:htmlAttributeHeaderCell align="right" literalLabel="Total:" />
-                    	<td style="text-align: right;">
-                    		${KualiForm.document.totalAvailableUnappliedAmount}
-						</td>
-                    	<td style="text-align: right;">
-                    		${KualiForm.document.totalAppliedUnappliedAmount}
-                    	</td>
-                	</tr>
-                </table>
-              </style>
+         	    <c:choose>
+                  <c:when test="${!isCustomerSelected}">
+				      No Customer Selected            
+	              </c:when>
+                  <c:otherwise>
+    	              <div style='text-align: right; margin-top: 20px; padding: 2px 6px; width: 90%;'>
+        	            <style type='text/css'>
+            	            #ctrl-info th { text-align: right; }
+                	        #ctrl-info th, #ctrl-info td { width: 50%; }
+    	                </style>
+    				    <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
+                    	    <tr>
+                        	    <th>Application Document #</th>
+                                <th>Unapplied Amount</th>
+                                <th>Applied Amount</th>
+                  		    </tr>
+            	            <logic:iterate name="KualiForm" property="document.nonApplieds" id="nonApplied" indexId="idx">
+        	               	    <tr>
+    	                   		    <td>
+                           			    <bean:write name="nonApplied" property="referenceFinancialDocumentNumber" />
+                        		    </td>
+                    	   		    <td style="text-align: right;">
+                	           		    <bean:write name="nonApplied" property="availableUnappliedAmount" />
+            	           		    </td>
+                    	   		    <td style="text-align: right;">
+                	           		    <bean:write name="nonApplied" property="appliedUnappliedAmount" />
+            	           		    </td>
+                        	    </tr>
+                            </logic:iterate>
+           	        	    <tr>
+                        	    <kul:htmlAttributeHeaderCell align="right" literalLabel="Total:" />
+                        	    <td style="text-align: right;">
+                        		    ${KualiForm.document.totalAvailableUnappliedAmount}
+    						    </td>
+                        	    <td style="text-align: right;">
+                        		    ${KualiForm.document.totalAppliedUnappliedAmount}
+                        	    </td>
+                        	</tr>
+                        </table>
+                      </div>
+
+        	      </c:otherwise>
+                </c:choose>
 	        </c:when>
         	<c:otherwise>
           	  <div style='text-align: right; margin-top: 20px; padding: 2px 6px; width: 98%;'>

@@ -73,7 +73,7 @@
 														readOnly="true" />
 												</td>
 												<td>
-													<c:out value="${invoicePaidApplied.invoiceDetail.financialDocumentLineDescription}" />&nbsp;
+													<c:out value="${invoicePaidApplied.invoiceDetail.invoiceItemDescription}" />&nbsp;
 												</td>
 												<td>
 													$<c:out value="${invoicePaidApplied.invoiceItemAppliedAmount}" />

@@ -6,15 +6,11 @@ import java.util.List;
 import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.rice.kns.util.TypedArrayList;
-
-
 public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalDocumentBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BarcodeInventoryErrorDocument.class);
     
 	private String documentNumber;
 	private String uploaderUniversalIdentifier;
-    private String hiddenFieldForError;
-
 	
     //global replace	- search fields
     //*** Old values **************
@@ -213,14 +209,6 @@ public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalD
 
     public void setNewConditionCode(String newConditionCode) {
         this.newConditionCode = newConditionCode;
-    }
-
-    public String getHiddenFieldForError() {
-        return hiddenFieldForError;
-    }
-
-    public void setHiddenFieldForError(String hiddenFieldForError) {
-        this.hiddenFieldForError = hiddenFieldForError;
     }
     
     public void resetSearchFields() {

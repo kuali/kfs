@@ -18,8 +18,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
     private Asset asset;
     private AssetRetirementGlobal assetRetirementGlobal;
 
-    private transient String hiddenFieldForError;
-
     /**
      * Default constructor.
      */
@@ -101,22 +99,6 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
     }
 
     
-    /**
-     * Gets the hiddenFieldForError attribute. 
-     * @return Returns the hiddenFieldForError.
-     */
-    public String getHiddenFieldForError() {
-        return hiddenFieldForError;
-    }
-
-    /**
-     * Sets the hiddenFieldForError attribute value.
-     * @param hiddenFieldForError The hiddenFieldForError to set.
-     */
-    public void setHiddenFieldForError(String hiddenFieldForError) {
-        this.hiddenFieldForError = hiddenFieldForError;
-    }
-
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */

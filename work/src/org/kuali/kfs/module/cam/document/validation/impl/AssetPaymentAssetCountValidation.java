@@ -36,13 +36,11 @@ public class AssetPaymentAssetCountValidation extends GenericValidation {
      */
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
-        String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER;
-
         AssetPaymentDocument assetPaymentDocument = (AssetPaymentDocument) event.getDocument();
 
         //IF no assets found in document, then....
         if (assetPaymentDocument.getAssetPaymentAssetDetail().size() == 0) {
-            GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorPath, CamsKeyConstants.Payment.ERROR_NON_ASSETS_IN_DOCUMENT);                
+            GlobalVariables.getErrorMap().putErrorForSectionId(CamsPropertyConstants.COMMON_ERROR_SECTION_ID,CamsKeyConstants.Payment.ERROR_NON_ASSETS_IN_DOCUMENT);
             valid = false;
         }
         

@@ -18,11 +18,8 @@
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 <c:set var="tabKey" value="${kfunc:generateTabKey(subTabTitle)}"/>
 
-<kul:tab tabTitle="Assets" defaultOpen="true" tabErrorKey="capitalAssetNumber*,document.hiddenFieldForError">
+<kul:tab tabTitle="Assets" defaultOpen="true" tabErrorKey="capitalAssetNumber*,commonErrorSection">
 	<div class="tab-container" id="assets" align="center">		
-
-		<html:hidden property="document.hiddenFieldForError"/>
-		 	
 		<table class="datatable" width="100%" border="0" cellpadding="0" cellspacing="0" border="1">
 			<tr>
 				<td colspan="3" class="subhead">

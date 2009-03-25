@@ -46,7 +46,6 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
     private static Logger LOG = Logger.getLogger(AssetPaymentDocument.class);
 
     private List<AssetPaymentAssetDetail> assetPaymentAssetDetail;
-    private String hiddenFieldForError;
     private Long capitalAssetNumber;
     private boolean capitalAssetBuilderOriginIndicator;
     
@@ -166,15 +165,6 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 
     public void setCapitalAssetNumber(Long capitalAssetNumber) {
         this.capitalAssetNumber = capitalAssetNumber;
-    }
-
-
-    public String getHiddenFieldForError() {
-        return hiddenFieldForError;
-    }
-
-    public void setHiddenFieldForError(String hiddenFieldForError) {
-        this.hiddenFieldForError = hiddenFieldForError;
     }
 
     /**

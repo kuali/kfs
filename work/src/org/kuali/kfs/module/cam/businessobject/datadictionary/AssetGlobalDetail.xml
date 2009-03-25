@@ -43,9 +43,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 		<ref bean="AssetGlobalDetail-organizationText" />
 		<ref bean="AssetGlobalDetail-manufacturerModelNumber" />
 		<ref bean="AssetGlobalDetail-separateSourceAmount" />
-		<!-- Asset Separate - END -->
-        <!-- add transient field for location error display -->
-        <ref bean="AssetGlobalDetail-hiddenFieldForError" />
       </list>
     </property>
     <property name="relationships" >
@@ -288,17 +285,5 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="label" value="Separate Source Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
-  </bean>
-  
-  <!-- Asset Separate - END -->
-
-   <bean id="AssetGlobalDetail-hiddenFieldForError" parent="AssetGlobalDetail-hiddenFieldForError-parentBean" />
-   <bean id="AssetGlobalDetail-hiddenFieldForError-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-     <property name="name" value="hiddenFieldForError" />
-     <property name="label" value="hidden field for error" />
-     <property name="control" >
-       <bean parent="HiddenControlDefinition" />
-     </property>
-   </bean>
-
+  </bean>  
 </beans>

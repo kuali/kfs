@@ -65,7 +65,6 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
     // Non persistent
     private List<AssetGlobalDetail> assetGlobalUniqueDetails;
     private Person assetRepresentative;
-    private transient String hiddenFieldForError;
     
     public Person getAssetRepresentative() {
         assetRepresentative = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(representativeUniversalIdentifier, assetRepresentative);
@@ -74,22 +73,6 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
 
     public void setAssetRepresentative(Person assetRepresentative) {
         this.assetRepresentative = assetRepresentative;
-    }
-
-    /**
-     * Gets the hiddenFieldForError attribute. 
-     * @return Returns the hiddenFieldForError.
-     */
-    public String getHiddenFieldForError() {
-        return hiddenFieldForError;
-    }
-
-    /**
-     * Sets the hiddenFieldForError attribute value.
-     * @param hiddenFieldForError The hiddenFieldForError to set.
-     */
-    public void setHiddenFieldForError(String hiddenFieldForError) {
-        this.hiddenFieldForError = hiddenFieldForError;
     }
 
     /**

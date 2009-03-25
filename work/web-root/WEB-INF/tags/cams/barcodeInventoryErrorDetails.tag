@@ -19,11 +19,11 @@
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
 
-<kul:tab tabTitle="Barcode Inventory Error(s)" defaultOpen="true" tabErrorKey="document.hiddenFieldForError">
+<kul:tab tabTitle="Barcode Inventory Error(s)" defaultOpen="true" tabErrorKey="commonErrorSection">
 	<div id="barcodeInventoryDetails" class="tab-container" align=center>
 		<table cellpadding="0" cellspacing="0" class="datatable" summary="Barcode Inventory Error(s)">
 			<tr>
-				<td colspan="11" class="subhead">Barcode Inventory Error(s)</td><html:hidden property="document.hiddenFieldForError"/>
+				<td colspan="11" class="subhead">Barcode Inventory Error(s)</td>				
 			</tr>
 			<tr>
 			    <!-- Columns Header -->

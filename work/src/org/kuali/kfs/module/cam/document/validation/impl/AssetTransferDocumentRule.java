@@ -68,7 +68,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         LOCATION_FIELD_MAP.put(LocationField.STATE_CODE, CamsPropertyConstants.AssetTransferDocument.OFF_CAMPUS_STATE_CODE);
         LOCATION_FIELD_MAP.put(LocationField.ZIP_CODE, CamsPropertyConstants.AssetTransferDocument.OFF_CAMPUS_ZIP);
         LOCATION_FIELD_MAP.put(LocationField.COUNTRY_CODE, CamsPropertyConstants.AssetGlobalDetail.OFF_CAMPUS_COUNTRY_CODE);
-        LOCATION_FIELD_MAP.put(LocationField.ERROR_SECTION,KFSConstants.DOCUMENT_PROPERTY_NAME + "."+CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR);
+        LOCATION_FIELD_MAP.put(LocationField.ERROR_SECTION,CamsPropertyConstants.ASSET_LOCATION_COMMON_ERROR_SECTION_ID);
     }
 
     private UniversityDateService universityDateService;
@@ -380,7 +380,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
                 CamsConstants.PermissionNames.TRANSFER_NON_MOVABLE_ASSETS, GlobalVariables.getUserSession().getPerson().getPrincipalId());
 
         if(!assetMovable && !isAuthorizedTransferMovable) {
-            putError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.Transfer.ERROR_INVALID_USER_GROUP_FOR_TRANSFER_NONMOVABLE_ASSET, asset.getCapitalAssetNumber().toString());
+            GlobalVariables.getErrorMap().putErrorForSectionId(CamsPropertyConstants.COMMON_ERROR_SECTION_ID, CamsKeyConstants.Transfer.ERROR_INVALID_USER_GROUP_FOR_TRANSFER_NONMOVABLE_ASSET, asset.getCapitalAssetNumber().toString());
             valid &= false;
         }
         

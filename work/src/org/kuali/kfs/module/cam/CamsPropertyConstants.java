@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.cam;
 
+import org.kuali.rice.kns.util.GlobalVariables;
+
 
 /**
  * Constants for cams business object property names.
@@ -369,7 +371,12 @@ public class CamsPropertyConstants {
     public static class AssetRepairHistory {
         public final static String INCIDENT_DATE = "incidentDate";
     }
-    public static final String HIDDEN_FIELD_FOR_ERROR="hiddenFieldForError";    
-    public static final String DOCUMENT_NUMBER="documentNumber"; 
+
+    public static final String ASSET_LOCATION_COMMON_ERROR_SECTION_ID = "assetLocationErrorSection";
+    public static final String COMMON_ERROR_SECTION_ID="commonErrorSection";    
+    public static final String DOCUMENT_NUMBER="documentNumber";
+
+
+
 }
 

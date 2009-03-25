@@ -187,7 +187,7 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
                 return this.blanketApprove(mapping, form, request, response);
             }
         } else {
-            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME+"."+CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR,CamsKeyConstants.BarcodeInventory.ERROR_CHECKBOX_MUST_BE_CHECKED);
+            GlobalVariables.getErrorMap().putErrorForSectionId(CamsPropertyConstants.COMMON_ERROR_SECTION_ID,CamsKeyConstants.BarcodeInventory.ERROR_CHECKBOX_MUST_BE_CHECKED);
         }
 
         //Saving data
@@ -241,7 +241,7 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
                 return this.blanketApprove(mapping, barcodeInventoryErrorForm, request, response);
             }
         } else {
-            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME+"."+CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR,CamsKeyConstants.BarcodeInventory.ERROR_CHECKBOX_MUST_BE_CHECKED);            
+            GlobalVariables.getErrorMap().putErrorForSectionId(CamsPropertyConstants.COMMON_ERROR_SECTION_ID,CamsKeyConstants.BarcodeInventory.ERROR_CHECKBOX_MUST_BE_CHECKED);
         }
 
         //Saving data

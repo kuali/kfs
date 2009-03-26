@@ -156,11 +156,9 @@
         <bean parent="FieldDefinition"
               p:attributeName="depreciableLifeLimit" />
         <bean parent="FieldDefinition"
-              p:attributeName="movingIndicator" 
-              p:defaultValue="Y"/>
+              p:attributeName="movingIndicator" />
         <bean parent="FieldDefinition"
-              p:attributeName="requiredBuildingIndicator" 
-              p:defaultValue="Y"/>              
+              p:attributeName="requiredBuildingIndicator" />
         <bean parent="FieldDefinition"
               p:defaultValue="Y"
               p:attributeName="active" />

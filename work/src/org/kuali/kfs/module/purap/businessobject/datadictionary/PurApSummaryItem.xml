@@ -222,6 +222,6 @@
   <bean id="PurApSummaryItem-estimatedEncumberanceAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="estimatedEncumberanceAmount" />
     <property name="label" value="Estimated Encumberance Amount" />
-    <property name="shortLabel" value="Est Enc. Amount" />
+    <property name="shortLabel" value="Amount" />
   </bean>
 </beans>

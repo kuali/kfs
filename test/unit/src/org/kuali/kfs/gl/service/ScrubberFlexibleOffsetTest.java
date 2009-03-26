@@ -18,11 +18,16 @@ package org.kuali.kfs.gl.service;
 import java.util.Calendar;
 
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.batch.ScrubberStep;
 import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.gl.businessobject.OriginEntryTestBase;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
+import org.kuali.rice.kns.service.ParameterEvaluator;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.Guid;
 
 /**
@@ -178,10 +183,21 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
      * Updates the DI   doc type, so that scrubber offsets are generated
      */
     private void updateDocTypeForScrubberOffsetGeneration() {
-//        unitTestSqlDao.sqlCommand("update fp_doc_type_t set TRN_SCRBBR_OFST_GEN_IND = 'Y' where fdoc_typ_cd = 'DI'");
         String docTypeCode = "DI";
-        unitTestSqlDao.sqlCommand("delete from krns_doc_typ_attr_t where doc_typ_cd = '" + docTypeCode + "' and CD = '" + KFSConstants.DocumentTypeAttributes.TRANSACTION_SCRUBBER_OFFSET_INDICATOR_ATTRIBUTE_KEY + "'");
-        unitTestSqlDao.sqlCommand("insert into krns_doc_typ_attr_t (VAL,CD,DOC_TYP_ATTR_ID,OBJ_ID,VER_NBR,ACTV_IND,DOC_TYP_CD) values ('" + KFSConstants.DocumentTypeAttributes.INDICATOR_ATTRIBUTE_TRUE_VALUE + "','" + KFSConstants.DocumentTypeAttributes.TRANSACTION_SCRUBBER_OFFSET_INDICATOR_ATTRIBUTE_KEY + "',1,'" + new Guid().toString() + "',1,'Y','" + docTypeCode + "')");
+        final ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        final ParameterEvaluator evaluator = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.OFFSET_DOC_TYPE_CODES, docTypeCode);
+        final String parameterValue = evaluator.getValue();
+        if (evaluator.constraintIsAllow()) {
+            if (!parameterValue.matches("^"+docTypeCode+"$|^"+docTypeCode+";|;"+docTypeCode+";|;"+docTypeCode+"$")) {
+                final String newParameterValue = parameterValue + ";" + docTypeCode;
+                TestUtils.setSystemParameter(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.OFFSET_DOC_TYPE_CODES, newParameterValue);
+            }
+        } else {
+            if (parameterValue.matches("^"+docTypeCode+"$|^"+docTypeCode+";|;"+docTypeCode+";|;"+docTypeCode+"$")) {
+                final String newParameterValue = parameterValue.replaceAll("^"+docTypeCode+"$|^"+docTypeCode+";|;"+docTypeCode+";|;"+docTypeCode+"$", ";");
+                TestUtils.setSystemParameter(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.OFFSET_DOC_TYPE_CODES, newParameterValue);
+            }
+        }
     }
 
     /**

@@ -343,7 +343,7 @@ public class VoucherAction extends KualiAccountingDocumentActionBase {
         ActionForward forward = super.copy(mapping, form, request, response);
         VoucherForm voucherForm = (VoucherForm)form;
         voucherForm.populateAccountingPeriodListForRendering();
-        voucherForm.populateDefaultSelectedAccountingPeriod();
+        voucherForm.populateSelectedVoucherAccountingPeriod();
         return forward;
     }
 }

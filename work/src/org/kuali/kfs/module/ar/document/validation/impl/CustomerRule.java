@@ -150,6 +150,8 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
     /**
      * 
      * This method checks if the customer name entered is greater than or equal to three (3) characters long.
+     * This rule was implemented to ensure that there are three characters available from the name to be used as a the customer code.
+     * 
      * @param customerName The name of the customer.
      * @return True if the name is greater than or equal to 3 characters long.
      */
@@ -158,6 +160,11 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
         if (customerName.length() < 3) {
             success = false;
             GlobalVariables.getErrorMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.CustomerFields.CUSTOMER_NAME, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_NAME_LESS_THAN_THREE_CHARACTERS);
+        }
+        
+        if(customerName.indexOf(' ')>-1 && customerName.indexOf(' ')<3) {
+            success = false;
+            GlobalVariables.getErrorMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.CustomerFields.CUSTOMER_NAME, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_NAME_NO_SPACES_IN_FIRST_THREE_CHARACTERS);
         }
         return success;
     }

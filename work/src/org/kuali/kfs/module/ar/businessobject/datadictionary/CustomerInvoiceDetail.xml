@@ -13,6 +13,7 @@
       <list>
         <ref bean="CustomerInvoiceDetail-financialObjectCode" />
         <ref bean="CustomerInvoiceDetail-accountNumber" />
+        <ref bean="CustomerInvoiceDetail-accountExpiredOverride" />
         <ref bean="CustomerInvoiceDetail-organizationReferenceId" />
         <ref bean="CustomerInvoiceDetail-chartOfAccountsCode" />
         <ref bean="CustomerInvoiceDetail-postingYear" />
@@ -52,7 +53,10 @@
   <bean id="CustomerInvoiceDetail-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode" />
   <bean id="CustomerInvoiceDetail-accountNumber" parent="CustomerInvoiceDetail-accountNumber-parentBean" />
 
-  <bean id="CustomerInvoiceDetail-accountNumber-parentBean" abstract="true" parent="Account-accountNumber" />
+  <bean id="CustomerInvoiceDetail-accountNumber-parentBean" abstract="true" parent="Account-accountNumber" />  <bean id="SourceAccountingLine-accountExpiredOverride" parent="SourceAccountingLine-accountExpiredOverride-parentBean" />
+
+  <bean id="CustomerInvoiceDetail-accountExpiredOverride" parent="SourceAccountingLine-accountExpiredOverride-parentBean" />
+  
   <bean id="CustomerInvoiceDetail-organizationReferenceId" parent="CustomerInvoiceDetail-organizationReferenceId-parentBean" />
 
   <bean id="CustomerInvoiceDetail-organizationReferenceId-parentBean" abstract="true" parent="AttributeDefinition">

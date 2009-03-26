@@ -134,10 +134,9 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             valid &= false;
         }
 
-        // check for existance and active when not separating. This can't be done in the DD because we have a condition on it. Note:
-        // Even though
-        // on separate the payment lines can't be edited we still can't force the rules because data may have gone inactive since
-        // then.
+        // check for existence and active when not separating. This can't be done in the DD because we have a condition on it. 
+        // Note: Even though on separate the payment lines can't be edited we still can't force the rules because data may have 
+        // gone inactive since then.
         if (!getAssetGlobalService().isAssetSeparate(assetGlobal)) {
             assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.ACCOUNT);
             if (StringUtils.isBlank(assetPaymentDetail.getAccountNumber()) || isAccountInvalid(assetPaymentDetail.getAccount())) {

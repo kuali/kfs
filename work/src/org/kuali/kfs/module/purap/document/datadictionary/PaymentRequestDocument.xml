@@ -112,7 +112,9 @@
  		<ref bean="PaymentRequestDocument-statusCodeForMultiboxSearching"/>
  		<ref bean="PaymentRequestDocument-extractedIndicatorForSearching"/>
  		<ref bean="PaymentRequestDocument-holdIndicatorForSearching"/>
- 		<ref bean="PaymentRequestDocument-paymentRequestedCancelIndicatorForSearching"/>       
+ 		<ref bean="PaymentRequestDocument-paymentRequestedCancelIndicatorForSearching"/>    
+ 		<ref bean="PaymentRequestDocument-receivingDocumentRequiredIndicatorForSearching"/>
+        <ref bean="PaymentRequestDocument-paymentRequestPositiveApprovalIndicatorForSearching"/>   
       </list>
     </property>
     <property name="validationMap" ref="PaymentRequestDocument-validations"/>    
@@ -366,6 +368,20 @@
     <property name="label" value="Receiving Required"/>
     <property name="shortLabel" value="Receiving Required"/>
   </bean>
+  
+  <bean id="PaymentRequestDocument-receivingDocumentRequiredIndicatorForSearching" parent="PaymentRequestDocument-receivingDocumentRequiredIndicatorForSearching-parentBean"/>
+
+  <bean id="PaymentRequestDocument-receivingDocumentRequiredIndicatorForSearching-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+    <property name="name" value="receivingDocumentRequiredIndicatorForSearching"/>
+    <property name="label" value="Receiving Required"/>
+    <property name="shortLabel" value="Receiving Required"/>
+    <property name="control">
+      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+  </bean>
+  
+  <bean id="PaymentRequestDocument-paymentRequestPositiveApprovalIndicatorForSearching" parent="PaymentRequestDocument-paymentRequestPositiveApprovalIndicatorForSearching-parentBean"/>
+
   <bean id="PaymentRequestDocument-paymentRequestPositiveApprovalIndicator" parent="PaymentRequestDocument-paymentRequestPositiveApprovalIndicator-parentBean"/>
 
   <bean id="PaymentRequestDocument-paymentRequestPositiveApprovalIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
@@ -373,6 +389,16 @@
     <property name="label" value="Payment Request Positive Approval Required"/>
     <property name="shortLabel" value="Payment Request Positive Approval Required"/>
   </bean>
+  
+  <bean id="PaymentRequestDocument-paymentRequestPositiveApprovalIndicatorForSearching-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+    <property name="name" value="paymentRequestPositiveApprovalIndicatorForSearching"/>
+    <property name="label" value="Payment Request Positive Approval Required"/>
+    <property name="shortLabel" value="Payment Request Positive Approval Required"/>
+    <property name="control">
+      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+  </bean>
+  
   <bean id="PaymentRequestDocument-invoiceNumber" parent="PaymentRequestDocument-invoiceNumber-parentBean"/>
 
   <bean id="PaymentRequestDocument-invoiceNumber-parentBean" abstract="true" parent="AttributeDefinition">
@@ -1224,32 +1250,33 @@
     					</list>
     				</property>
     			</bean>
-          		<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    			
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument"/>
-    						<property name="attributeName" value="receivingDocumentRequiredIndicator"/>
+    						<property name="attributeName" value="receivingDocumentRequiredIndicatorForSearching"/>
     					</bean>
     				</property>
     				<property name="documentValues">
     					<list>
-    						<value>receivingDocumentRequiredIndicator</value>
+    						<value>receivingDocumentRequiredIndicatorForSearching</value>
+    					</list>
+    				</property>
+    			</bean>   			
+              	<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument"/>
+    						<property name="attributeName" value="paymentRequestPositiveApprovalIndicatorForSearching"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>paymentRequestPositiveApprovalIndicatorForSearching</value>
     					</list>
     				</property>
     			</bean>
-          		<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-    				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument"/>
-    						<property name="attributeName" value="paymentRequestPositiveApprovalIndicator"/>
-    					</bean>
-    				</property>
-    				<property name="documentValues">
-    					<list>
-    						<value>paymentRequestPositiveApprovalIndicator</value>
-    					</list>
-    				</property>
-    			</bean>	
     		</list>
     	</property>
 	</bean>

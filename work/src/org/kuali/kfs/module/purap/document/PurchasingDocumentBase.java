@@ -1259,4 +1259,12 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     public boolean getReceivingDocumentRequiredIndicatorForSearching() {
         return receivingDocumentRequiredIndicator;
     }
+    
+    public String getDocumentChartOfAccountsCodeForSearching(){
+        return chartOfAccountsCode;
+    }
+    
+    public String getDocumentOrganizationCodeForSearching(){
+        return organizationCode;
+    }
 }

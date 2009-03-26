@@ -139,6 +139,8 @@
         <ref bean="RequisitionDocument-statusCodeForMultiboxSearching"/>
         <ref bean="RequisitionDocument-deliveryCampusCodeForSearching"/>
         <ref bean="RequisitionDocument-postingYearForSearching"/>     
+        <ref bean="RequisitionDocument-documentChartOfAccountsCodeForSearching"/>
+        <ref bean="RequisitionDocument-documentOrganizationCodeForSearching"/> 
       </list>
     </property>
     <property name="validationMap" ref="RequisitionDocument-validations"/>
@@ -269,10 +271,32 @@
     <property name="label" value="Chart"/>
     <property name="shortLabel" value="Code"/>
   </bean>
+  
+  <bean id="RequisitionDocument-documentChartOfAccountsCodeForSearching" parent="RequisitionDocument-documentChartOfAccountsCodeForSearching-parentBean"/>
+
+  <bean id="RequisitionDocument-documentChartOfAccountsCodeForSearching-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="name" value="documentChartOfAccountsCodeForSearching"/>
+    <property name="label" value="Requisition Chart Code"/>
+    <property name="shortLabel" value="Chart Code"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
+    </property> 
+  </bean>
+  
   <bean id="RequisitionDocument-organizationCode" parent="RequisitionDocument-organizationCode-parentBean"/>
 
   <bean id="RequisitionDocument-organizationCode-parentBean" abstract="true" parent="PurApGenericAttributes-organizationCode">
   </bean>
+
+  <bean id="RequisitionDocument-documentOrganizationCodeForSearching" parent="RequisitionDocument-documentOrganizationCodeForSearching-parentBean"/>
+
+  <bean id="RequisitionDocument-documentOrganizationCodeForSearching-parentBean" abstract="true" parent="PurApGenericAttributes-organizationCode">
+    <property name="name" value="documentOrganizationCodeForSearching"/>
+    <property name="label" value="Requisition Organization Code"/>
+    <property name="shortLabel" value="Organization Code"/>
+   
+  </bean>
+  
   <bean id="RequisitionDocument-vendorAddressGeneratedIdentifier" parent="RequisitionDocument-vendorAddressGeneratedIdentifier-parentBean"/>
 
   <bean id="RequisitionDocument-vendorAddressGeneratedIdentifier-parentBean" abstract="true" parent="VendorAddress-vendorAddressGeneratedIdentifier">
@@ -1115,8 +1139,33 @@
     					</list>
     				</property>
     			</bean>
-    			<ref bean="SearchingType-PurchasingAccountsPayableDocument-chartCode"/>
-    			<ref bean="SearchingType-PurchasingAccountsPayableDocument-organizationCode"/>        			
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    	      		<property name="searchingAttribute">
+    	      			<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    	      				<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.RequisitionDocument"/>
+    	      				<property name="attributeName" value="documentChartOfAccountsCodeForSearching" />
+    	      			</bean>
+    	      		</property>
+    	      		<property name="documentValues">
+    	      			<list>
+    	      				<value>documentChartOfAccountsCodeForSearching</value>
+    	      			</list>
+    	      		</property>
+    	      	</bean>
+
+    	      	<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    	      		<property name="searchingAttribute">
+    	      			<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    	      				<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.RequisitionDocument"/>
+    	      				<property name="attributeName" value="documentOrganizationCodeForSearching" />
+    	      			</bean>
+    	      		</property>
+    	      		<property name="documentValues">
+    	      			<list>
+    	      				<value>documentOrganizationCodeForSearching</value>
+    	      			</list>
+    	      		</property>
+    	      	</bean>   			
     		    <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">

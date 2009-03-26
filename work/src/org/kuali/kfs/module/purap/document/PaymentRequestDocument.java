@@ -1266,6 +1266,20 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         return paymentRequestedCancelIndicator;
     }
     
+    /**
+     * @return the payment request positive approval indicator
+     */
+    public boolean getPaymentRequestPositiveApprovalIndicatorForSearching() {
+        return paymentRequestPositiveApprovalIndicator;
+    }
+    
+    /**
+     * @return the receiving document required indicator
+     */
+    public boolean getReceivingDocumentRequiredIndicatorForSearching() {
+        return receivingDocumentRequiredIndicator;
+    }
+    
     @Override
     public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
         super.afterLookup(persistenceBroker);

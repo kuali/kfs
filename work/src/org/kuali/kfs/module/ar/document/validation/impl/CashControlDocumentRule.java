@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.ar.ArAuthorizationConstants;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
@@ -33,8 +34,10 @@ import org.kuali.kfs.module.ar.document.validation.DeleteCashControlDetailRule;
 import org.kuali.kfs.module.ar.document.validation.GenerateReferenceDocumentRule;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.BankService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
@@ -43,6 +46,7 @@ import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -87,6 +91,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         if (isValid) {
             isValid &= checkPaymentMedium(cashControlDocument);
             isValid &= checkRefDocNumber(cashControlDocument);
+            isValid &= validateBankCode(cashControlDocument);
             isValid &= validateCashControlDetails(cashControlDocument);
             isValid &= checkCashControlDocumentHasDetails(cashControlDocument);
         }
@@ -255,8 +260,10 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
     public boolean processAddCashControlDetailBusinessRules(CashControlDocument transactionalDocument, CashControlDetail cashControlDetail) {
 
         boolean success = true;
+        
         success &= checkGLPEsNotGenerated(transactionalDocument);
         if (success) {
+            success &= validateBankCode(transactionalDocument);
             success &= validateCashControlDetail(transactionalDocument, cashControlDetail);
         }
         return success;
@@ -426,6 +433,23 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         }
         return success;
 
+    }
+    
+    // validate bankCode
+    public boolean validateBankCode(CashControlDocument document) {
+        boolean isValid = true;
+        
+        String bankCode = document.getBankCode();
+        if (ObjectUtils.isNotNull(bankCode) && StringUtils.isNotEmpty(bankCode)) {
+            Bank bank = SpringContext.getBean(BankService.class).getByPrimaryId(bankCode);
+            if (ObjectUtils.isNull(bank))
+                isValid = false;
+                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.BANK_CODE,ArKeyConstants.ERROR_INVALID_BANK_CODE);
+        }
+        // this case is taken care of as this field is required
+        else isValid = false;
+            
+        return isValid;
     }
 
 }

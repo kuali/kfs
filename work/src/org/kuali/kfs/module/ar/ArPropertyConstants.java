@@ -131,6 +131,7 @@ public class ArPropertyConstants {
         public static final String ORGANIZATION_DOC_NBR = "organizationDocumentNumber";
         public static final String CUSTOMER_PAYMENT_MEDIUM_CODE = "customerPaymentMediumCode";
         public static final String CUSTOMER_NUMBER = "customerNumber";
+        public static final String BANK_CODE = "document.bankCode";
     }
 
     // CashControlDetail

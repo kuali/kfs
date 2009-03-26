@@ -231,6 +231,7 @@
     
     <bean id="assetLocationService" class="org.kuali.kfs.module.cam.document.service.impl.AssetLocationServiceImpl">
     	<property name="businessObjectService" ref="businessObjectService" />
+    	<property name="dataDictionaryService" ref="dataDictionaryService" />
     </bean>
     
     <bean id="assetPaymentDao" parent="platformAwareDao" class="org.kuali.kfs.module.cam.document.dataaccess.impl.AssetPaymentDaoOjb"/>

@@ -47,7 +47,6 @@ public class AssetLocationServiceTest extends KualiTestBase {
         fieldMap.put(LocationField.STATE_CODE, "stateCode");
         fieldMap.put(LocationField.ZIP_CODE, "zipCode");
         fieldMap.put(LocationField.COUNTRY_CODE, "countryCode");
-        fieldMap.put(LocationField.ERROR_SECTION,CamsConstants.LOCATION_INFORMATION_SECTION_ID);        
     }
 
     public class MockBusinessObject extends BusinessObjectBase {

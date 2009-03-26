@@ -116,6 +116,7 @@ public class CamsKeyConstants {
         public static final String ERROR_ONCAMPUS_BUILDING_ROOM_NUMBER_NOT_PERMITTED = "error.oncampus.room.number.not.permitted";
         public static final String ERROR_ONCAMPUS_SUB_ROOM_NUMBER_NOT_PERMITTED = "error.oncampus.sub.room.number.not.permitted";
         public static final String ERROR_CHOOSE_ASSET_TYPE = "error.choose.asset.type.validate.location";
+        public static final String ERROR_LOCATION_NOT_PERMITTED_ASSET_TYPE="error.location.not.permitted.asset.type";
     }
 
     public static class Retirement {

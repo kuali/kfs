@@ -232,24 +232,6 @@
   <bean id="AssetPaymentDetail-referenceOriginCode-parentBean" abstract="true" parent="SourceAccountingLine-referenceOriginCode">
   </bean>
   
-  <!-- bean id="AssetPaymentDetail-overrideCode" parent="AssetPaymentDetail-overrideCode-parentBean" />
-  <bean id="AssetPaymentDetail-overrideCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="overrideCode" />
-    <property name="forceUppercase" value="false"  />
-    <property name="label" value="Override Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.AccountingLineOverrideOptionFinder"
-            p:includeKeyInLabel="false" />
-    </property>
-  </bean-->
-  
   <bean id="AssetPaymentDetail-subAccountNumber" parent="AssetPaymentDetail-subAccountNumber-parentBean" />
   <bean id="AssetPaymentDetail-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
     <property name="label" value="Sub-Account" />

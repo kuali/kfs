@@ -1662,13 +1662,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
             }
 
             ParameterEvaluator docTypeRule = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.OFFSET_DOC_TYPE_CODES, scrubbedEntry.getFinancialDocumentTypeCode());
-            if (!docTypeRule.evaluationSucceeds()) {
-                return true;
-            }
-
-            // do nothing if flexible offset is enabled and scrubber offset indicator of the document
-            // type code is turned off in the document type table
-            if ((!shouldScrubberGenerateOffsetsForDocType(scrubbedEntry.getFinancialDocumentTypeCode())) && flexibleOffsetAccountService.getEnabled()) {
+            if (!docTypeRule.evaluationSucceeds() && flexibleOffsetAccountService.getEnabled()) {
                 return true;
             }
             

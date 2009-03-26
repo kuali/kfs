@@ -17,6 +17,7 @@ package org.kuali.kfs.module.bc.batch.dataaccess.impl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -2251,6 +2252,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         getPersistenceBrokerTemplate().clearCache();
     }
 
+
     private void CSFDiagnostics() {
         LOG.info(String.format("\n\nResults of building BC CSF"));
         LOG.info(String.format("\nCSF override rows =      %d", CSFOverrideRead));
@@ -2261,8 +2263,11 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         LOG.info(String.format("\nCSF vacants consolidated %d", CSFVacantsConsolidated));
         LOG.info(String.format("\n\nBudgetConstruction CSF rows %d", CSFForBCSF));
         LOG.info(String.format("\n\nCurrent PBGL rows with position object classes %d", CSFCurrentGLRows));
-        LOG.info(String.format("\nCurrent appt funding rows     %d", CSFCurrentBCAFRows));
-        LOG.info(String.format("\n\nAppt funding rows not in BCSF   %d", CSFBCAFRowsMissing));
+        LOG.info(String.format("\nNew PBGL rows created from CSF %d", CSFNewGLRows));
+        LOG.info(String.format("\nCSF rows skipped: bad obj code %d",CSFBadObjectsSkipped));
+        LOG.info(String.format("\n\nCurrent appt funding rows      %d", CSFCurrentBCAFRows));
+        LOG.info(String.format("\nNew appt funding rows from CSF   %d",CSFNewBCAFRows));
+        LOG.info(String.format("\nAppt funding rows not in BCSF    %d", CSFBCAFRowsMissing));
         LOG.info(String.format("\nAppt funding rows marked deleted %d", CSFBCAFRowsMarkedDeleted));
         LOG.info(String.format("\n\nend of BC CSF build statistics"));
     }
@@ -2588,9 +2593,9 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
             // since the BCAF row is not vacant, we require that it match CSF on EMPLID
             criteriaID.addEqualTo(KFSPropertyConstants.EMPLID, bcaf.getEmplid());
         }
-        String[] selectList = { KFSPropertyConstants.CSF_FULL_TIME_EMPLOYMENT_QUANTITY, KFSPropertyConstants.CSF_TIME_PERCENT };
-        ReportQueryByCriteria queryID = new ReportQueryByCriteria(CalculatedSalaryFoundationTracker.class, selectList, criteriaID);
-        Iterator resultSet = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+        // we are going to compare two numbers (an FTE and a Percent Time), which both originated from CSF.  We have to go through the Kuali filters to make sure the values are strictly comparable.  We can't do a report query.
+        QueryByCriteria queryID = new QueryByCriteria(CalculatedSalaryFoundationTracker.class, criteriaID);
+        Iterator<CalculatedSalaryFoundationTracker> resultSet = getPersistenceBrokerTemplate().getIteratorByQuery(queryID);        
         if (!resultSet.hasNext()) {
             // the line did not come from CSF, so it must have been added by a user. 
             // therefore, we should *not* mark it deleted  
@@ -2598,8 +2603,8 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         }
         // we have to check whether the CFTE and the percent time are the same. 
         // rounding is required because these can be stored as large numbers in the DB.
-        Object[] resultValues = (Object[]) resultSet.next();
-        if (untouchedFTEPercentTimeCheck(bcaf, resultValues))
+        CalculatedSalaryFoundationTracker resultCSF = resultSet.next();
+        if (untouchedFTEPercentTimeCheck(bcaf, resultCSF))
         {
           //     we need to mark this bcaf line deleted
           bcaf.setAppointmentRequestedFteQuantity(FTE);
@@ -2612,19 +2617,26 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         TransactionalServiceUtils.exhaustIterator(resultSet);
     }
     
-    private boolean untouchedFTEPercentTimeCheck(PendingBudgetConstructionAppointmentFunding bcaf, Object[] resultValues)
+    private static final MathContext compareContext = new MathContext(2,RoundingMode.HALF_UP);
+
+    private boolean untouchedFTEPercentTimeCheck(PendingBudgetConstructionAppointmentFunding bcaf, CalculatedSalaryFoundationTracker resultCSF)
     {
         // we need to check whether the current appointment funding row not in BCSF should be marked deleted.
         // it should be if it has not been "touched" by a user.  
         // the criteria for "not touched by a user" are (a) it got into appointment funding via CSF, so it matched with a CSF row, (b) the request amount is 0, and (c) the request FTE and percent time match those of the CSF row.
         // (b) was checked earlier, since it can be checked without a CSF look-up and if the amount is not 0 we can avoid an expensive DB call.
-        // (a) is a given, because the resultValues come from the matching CSF row.  So, all that is left is (c).  we do this in a separate method because it is convoluted and doing so isolates the code.
+        // (a) is a given, because the resultCSF comes from the matching CSF row.  So, all that is left is (c).  we do this in a separate method because it is convoluted and doing so isolates the code.
         // (c) must be done with rounded values, to avoid letting differences in high-order decimal places in DB storage make equivalent values technically unequal. 
         //
-        // different DB's return different kinds of numeric fields (Oracle returns BigDecimal).  So, we do not make an assumption about the type of Number returned.
-        KualiDecimal CSFFte = new KualiDecimal(((Number) resultValues[0]).doubleValue());
-        KualiDecimal CSFPctTime = new KualiDecimal(((Number) resultValues[1]).doubleValue());
-        return (CSFFte.compareTo(new KualiDecimal(bcaf.getAppointmentRequestedFteQuantity())) == 0) && (CSFPctTime.compareTo(new KualiDecimal(bcaf.getAppointmentRequestedTimePercent())) == 0);
+        // we are making the assumption here, based on the business object, that these values are BigDecimal
+        BigDecimal CSFFTE  = resultCSF.getCsfFullTimeEmploymentQuantity().round(compareContext);
+        BigDecimal BCAFFTE = bcaf.getAppointmentRequestedFteQuantity().round(compareContext);
+        boolean FTEOK = CSFFTE.equals(BCAFFTE);
+        BigDecimal CSFPctTime  = resultCSF.getCsfTimePercent().round(compareContext);
+        BigDecimal BCAFPctTime = bcaf.getAppointmentRequestedTimePercent().round(compareContext);
+        boolean PctTimeOK = CSFPctTime.equals(BCAFPctTime);
+        String bcafPosition = bcaf.getPositionNumber();
+        return (FTEOK && PctTimeOK);
     }
 
     //     this is an inner class which will store the data we need to perform the rounding, and supply the methods as well    

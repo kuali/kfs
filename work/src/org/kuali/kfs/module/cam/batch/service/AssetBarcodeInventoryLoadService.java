@@ -50,7 +50,7 @@ public interface AssetBarcodeInventoryLoadService {
      * 
      * @param barcodeInventoryErrorDetail
      */
-    public void updateAssetInformation(BarcodeInventoryErrorDetail barcodeInventoryErrorDetail);
+    public void updateAssetInformation(BarcodeInventoryErrorDetail barcodeInventoryErrorDetail, boolean updateWithDateAssetWasScanned);
 
     /**
      * Determines whether or not the BCIE document has all its records corrected or deleted

@@ -79,13 +79,7 @@
     </property>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.cam.businessobject.options.YesNoValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
-    
-    <!-- property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="1" />
-    </property-->
-    
+    </property>    
   </bean>
 
   <bean id="BarcodeInventoryErrorDocument-currentCampusCode" parent="BarcodeInventoryErrorDocument-currentCampusCode-parentBean"/>

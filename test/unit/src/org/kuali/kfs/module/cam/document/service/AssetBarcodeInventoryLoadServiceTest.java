@@ -152,7 +152,7 @@ public class AssetBarcodeInventoryLoadServiceTest extends KualiTestBase {
             barcodeInventoryErrorDetail = barcodeInventoryErrorDetails.get(row);
 
             // Saving record
-            assetBarcodeInventoryLoadService.updateAssetInformation(barcodeInventoryErrorDetail);
+            assetBarcodeInventoryLoadService.updateAssetInformation(barcodeInventoryErrorDetail,false);
 
             // Confirming data was sucessfully stored.
             fieldValues.put(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, barcodeInventoryErrorDetail.getAssetTagNumber());

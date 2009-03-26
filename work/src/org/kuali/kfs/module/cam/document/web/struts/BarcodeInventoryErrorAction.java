@@ -177,7 +177,7 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
                             detail.setInventoryCorrectionTimestamp(getDateTimeService().getCurrentTimestamp());
                             detail.setCorrectorUniversalIdentifier(currentUserID);
 
-                            getAssetBarcodeInventoryLoadService().updateAssetInformation(detail);
+                            getAssetBarcodeInventoryLoadService().updateAssetInformation(detail,false);
                         }
                     }
                 }

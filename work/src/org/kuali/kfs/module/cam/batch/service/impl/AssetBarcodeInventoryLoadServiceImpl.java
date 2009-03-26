@@ -383,7 +383,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
             totalRecCount++;
             // if no error found, then update asset table.
             if (!barcodeInventoryErrorDetail.getErrorCorrectionStatusCode().equals(CamsConstants.BarCodeInventoryError.STATUS_CODE_ERROR)) {
-                this.updateAssetInformation(barcodeInventoryErrorDetail);
+                this.updateAssetInformation(barcodeInventoryErrorDetail,true);
             }
             else {
                 errorRecCount++;
@@ -473,7 +473,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
      * 
      * @param barcodeInventoryErrorDetail
      */
-    public void updateAssetInformation(BarcodeInventoryErrorDetail barcodeInventoryErrorDetail) {
+    public void updateAssetInformation(BarcodeInventoryErrorDetail barcodeInventoryErrorDetail, boolean updateWithDateAssetWasScanned) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, barcodeInventoryErrorDetail.getAssetTagNumber());
         Asset asset = ((List<Asset>) businessObjectService.findMatching(Asset.class, fieldValues)).get(0);
@@ -483,9 +483,14 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
         asset.setBuildingRoomNumber(barcodeInventoryErrorDetail.getBuildingRoomNumber());
         asset.setBuildingSubRoomNumber(barcodeInventoryErrorDetail.getBuildingSubRoomNumber());
         asset.setCampusCode(barcodeInventoryErrorDetail.getCampusCode());
-        asset.setConditionCode(barcodeInventoryErrorDetail.getAssetConditionCode());
-        asset.setLastInventoryDate(barcodeInventoryErrorDetail.getUploadScanTimestamp());
-
+        asset.setConditionCode(barcodeInventoryErrorDetail.getAssetConditionCode());        
+       
+        if (updateWithDateAssetWasScanned) {
+            asset.setLastInventoryDate(barcodeInventoryErrorDetail.getUploadScanTimestamp());
+        } else {
+            asset.setLastInventoryDate(new Timestamp(this.dateTimeService.getCurrentSqlDate().getTime()));
+        }
+        
         // Updating asset information
         businessObjectService.save(asset);
     }

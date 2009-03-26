@@ -29,6 +29,7 @@ import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.PaymentMedium;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
+import org.kuali.kfs.module.ar.document.authorization.CashControlDocumentPresentationController;
 import org.kuali.kfs.module.ar.document.validation.AddCashControlDetailRule;
 import org.kuali.kfs.module.ar.document.validation.DeleteCashControlDetailRule;
 import org.kuali.kfs.module.ar.document.validation.GenerateReferenceDocumentRule;
@@ -43,6 +44,7 @@ import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -263,7 +265,10 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         
         success &= checkGLPEsNotGenerated(transactionalDocument);
         if (success) {
+            GlobalVariables.getErrorMap().removeFromErrorPath(ArConstants.NEW_CASH_CONTROL_DETAIL_ERROR_PATH_PREFIX);
             success &= validateBankCode(transactionalDocument);
+            GlobalVariables.getErrorMap().addToErrorPath(ArConstants.NEW_CASH_CONTROL_DETAIL_ERROR_PATH_PREFIX);
+            
             success &= validateCashControlDetail(transactionalDocument, cashControlDetail);
         }
         return success;
@@ -439,15 +444,23 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
     public boolean validateBankCode(CashControlDocument document) {
         boolean isValid = true;
         
+        CashControlDocumentPresentationController ccPC =(CashControlDocumentPresentationController) SpringContext.getBean( DocumentHelperService.class).getDocumentPresentationController(document);
+        if (!ccPC.getEditModes(document).contains(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_BANK_CODE)) {
+            isValid = false;
+            return isValid;
+        }
+        
         String bankCode = document.getBankCode();
         if (ObjectUtils.isNotNull(bankCode) && StringUtils.isNotEmpty(bankCode)) {
             Bank bank = SpringContext.getBean(BankService.class).getByPrimaryId(bankCode);
-            if (ObjectUtils.isNull(bank))
+            if (ObjectUtils.isNull(bank)) {
                 isValid = false;
                 GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.BANK_CODE,ArKeyConstants.ERROR_INVALID_BANK_CODE);
+            }
+        } else {
+            isValid = false;
+            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.BANK_CODE,ArKeyConstants.ERROR_BANK_CODE_REQUIRED);
         }
-        // this case is taken care of as this field is required
-        else isValid = false;
             
         return isValid;
     }

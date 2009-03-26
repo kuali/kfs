@@ -43,7 +43,7 @@
 	<bean id="SearchingAttribute-customerName-criteriaOnly"
 		class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
 		<property name="businessObjectClassName"
-			value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
+			value="org.kuali.kfs.module.ar.businessobject.Customer" />
 		<property name="attributeName" value="customerName" />
 		<property name="showAttributeInSearchCriteria" value="true" />
 		<property name="showAttributeInResultSet" value="false" />

@@ -841,7 +841,12 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
 
     public String getVendorContractName() {
-        return getVendorContract().getVendorContractName();
+        if (ObjectUtils.isNull(vendorContract)) {
+            return "";
+        }
+        else {
+            return getVendorContract().getVendorContractName();
+        }
     }
 
     public String getVendorFaxNumber() {

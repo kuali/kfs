@@ -238,7 +238,7 @@
 				</td>				
 				<td class="infoline" colspan="2">
 				    <div align="center">
-				        <html:image property="methodToCall.addItem" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Insert an Item" title="Add an Item" styleClass="tinybutton" />
+				        <html:image property="methodToCall.addItem" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Insert an Item" title="Add an Item" styleClass="tinybutton" tabindex="${tabindexOverrideBase + 0}"/>
 				    </div>
 				</td>
 				

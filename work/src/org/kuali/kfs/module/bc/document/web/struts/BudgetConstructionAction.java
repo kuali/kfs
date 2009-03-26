@@ -825,7 +825,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         parameters.put("financialSubObjectCode", pbglLine.getFinancialSubObjectCode());
         parameters.put("financialBalanceTypeCode", pbglLine.getFinancialBalanceTypeCode());
         parameters.put("financialObjectTypeCode", pbglLine.getFinancialObjectTypeCode());
-        parameters.put("mainWindow", (budgetConstructionForm.isMainWindow() ? "true" : "false"));
+        parameters.put(BCPropertyConstants.MAIN_WINDOW, (budgetConstructionForm.isMainWindow() ? "true" : "false"));
 
         // anchor, if it exists
         if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
@@ -1649,7 +1649,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         parameters.put("chartOfAccountsCode", tForm.getChartOfAccountsCode());
         parameters.put("accountNumber", tForm.getAccountNumber());
         parameters.put("subAccountNumber", tForm.getSubAccountNumber());
-        parameters.put("mainWindow", (tForm.isMainWindow() ? "true" : "false"));
+        parameters.put(BCPropertyConstants.MAIN_WINDOW, (tForm.isMainWindow() ? "true" : "false"));
 
         // anchor, if it exists
         if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {

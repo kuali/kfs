@@ -951,7 +951,7 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
      * build the given appointment funding key string
      */
     public String getAppointmentFundingString() {
-        String pattern = "{0};{1};{2};{3};{4};{5};{6}";
+        String pattern = " {0}, {1}, {2}, {3}, {4}, {5}, {6}";
 
         return MessageFormat.format(pattern, chartOfAccountsCode, accountNumber, subAccountNumber, financialObjectCode, financialSubObjectCode, emplid, positionNumber);
     }

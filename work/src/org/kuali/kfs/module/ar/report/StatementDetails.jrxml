@@ -191,7 +191,9 @@
 						width="100"
 						height="20"
 						key="textField-7"
-						stretchType="RelativeToTallestObject"/>
+						stretchType="RelativeToTallestObject"
+						isPrintInFirstWholeBand="true"
+						isPrintWhenDetailOverflows="true"/>
 					<box leftPadding="10"></box>
 					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="1_1_2">
 						<font fontName="Times New Roman"/>
@@ -207,7 +209,9 @@
 						width="70"
 						height="20"
 						key="textField-8"
-						stretchType="RelativeToTallestObject"/>
+						stretchType="RelativeToTallestObject"
+						isPrintInFirstWholeBand="true"
+						isPrintWhenDetailOverflows="true"/>
 					<box leftPadding="10"></box>
 					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="1_1_2">
 						<font fontName="Times New Roman"/>
@@ -223,7 +227,9 @@
 						width="215"
 						height="20"
 						key="textField-9"
-						stretchType="RelativeToTallestObject"/>
+						stretchType="RelativeToTallestObject"
+						isPrintInFirstWholeBand="true"
+						isPrintWhenDetailOverflows="true"/>
 					<box leftPadding="10"></box>
 					<textElement verticalAlignment="Middle" lineSpacing="1_1_2">
 						<font fontName="Times New Roman"/>
@@ -239,7 +245,9 @@
 						width="90"
 						height="20"
 						key="textField-17"
-						stretchType="RelativeToTallestObject"/>
+						stretchType="RelativeToTallestObject"
+						isPrintInFirstWholeBand="true"
+						isPrintWhenDetailOverflows="true"/>
 					<box leftPadding="10"></box>
 					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="1_1_2">
 						<font fontName="Times New Roman"/>
@@ -255,7 +263,9 @@
 						width="90"
 						height="20"
 						key="textField-19"
-						stretchType="RelativeToTallestObject"/>
+						stretchType="RelativeToTallestObject"
+						isPrintInFirstWholeBand="true"
+						isPrintWhenDetailOverflows="true"/>
 					<box leftPadding="10"></box>
 					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="1_1_2">
 						<font fontName="Times New Roman"/>

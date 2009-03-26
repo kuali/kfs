@@ -6,7 +6,7 @@
       <parent>CapitalAssetManagementComplexMaintenanceDocument</parent>
       <routePaths>
         <routePath>
-          <start name="AdHoc" nextNode="Account"/>
+          <start name="AdHoc" nextNode="RequiresReview"/>
           <split name="RequiresReview">
           	<branch name="True">
           		<requests name="Account" nextNode="OrganizationHierarchy"/>

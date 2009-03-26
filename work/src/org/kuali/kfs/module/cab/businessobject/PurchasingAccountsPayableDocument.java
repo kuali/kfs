@@ -14,12 +14,14 @@ import org.kuali.kfs.module.purap.businessobject.CreditMemoStatus;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestStatus;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
+import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kew.service.impl.KEWModuleService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
@@ -37,19 +39,20 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
     private DocumentTypeEBO financialSystemDocumentTypeCode;
     private FinancialSystemDocumentHeader documentHeader;
     private List<PurchasingAccountsPayableItemAsset> purchasingAccountsPayableItemAssets;
-    
+
     // non-persistent
     private String purApContactEmailAddress;
     private String purApContactPhoneNumber;
     private String statusDescription;
-    
+
     public PurchasingAccountsPayableDocument() {
         this.purchasingAccountsPayableItemAssets = new TypedArrayList(PurchasingAccountsPayableItemAsset.class);
     }
 
-    
+
     /**
-     * Gets the documentNumber attribute. 
+     * Gets the documentNumber attribute.
+     * 
      * @return Returns the documentNumber.
      */
     public String getDocumentNumber() {
@@ -59,6 +62,7 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
 
     /**
      * Sets the documentNumber attribute value.
+     * 
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -67,7 +71,8 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
 
 
     /**
-     * Gets the purapDocumentIdentifier attribute. 
+     * Gets the purapDocumentIdentifier attribute.
+     * 
      * @return Returns the purapDocumentIdentifier.
      */
     public Integer getPurapDocumentIdentifier() {
@@ -77,6 +82,7 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
 
     /**
      * Sets the purapDocumentIdentifier attribute value.
+     * 
      * @param purapDocumentIdentifier The purapDocumentIdentifier to set.
      */
     public void setPurapDocumentIdentifier(Integer purapDocumentIdentifier) {
@@ -85,7 +91,8 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
 
 
     /**
-     * Gets the purchaseOrderIdentifier attribute. 
+     * Gets the purchaseOrderIdentifier attribute.
+     * 
      * @return Returns the purchaseOrderIdentifier.
      */
     public Integer getPurchaseOrderIdentifier() {
@@ -95,6 +102,7 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
 
     /**
      * Sets the purchaseOrderIdentifier attribute value.
+     * 
      * @param purchaseOrderIdentifier The purchaseOrderIdentifier to set.
      */
     public void setPurchaseOrderIdentifier(Integer purchaseOrderIdentifier) {
@@ -103,7 +111,8 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
 
 
     /**
-     * Gets the documentTypeCode attribute. 
+     * Gets the documentTypeCode attribute.
+     * 
      * @return Returns the documentTypeCode.
      */
     public String getDocumentTypeCode() {
@@ -113,6 +122,7 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
 
     /**
      * Sets the documentTypeCode attribute value.
+     * 
      * @param documentTypeCode The documentTypeCode to set.
      */
     public void setDocumentTypeCode(String documentTypeCode) {
@@ -121,7 +131,8 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
 
 
     /**
-     * Gets the active attribute. 
+     * Gets the active attribute.
+     * 
      * @return Returns the active.
      */
     public boolean isActive() {
@@ -131,6 +142,7 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
 
     /**
      * Sets the active attribute value.
+     * 
      * @param active The active to set.
      */
     public void setActive(boolean active) {
@@ -139,7 +151,8 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
 
 
     /**
-     * Gets the financialSystemDocumentTypeCode attribute. 
+     * Gets the financialSystemDocumentTypeCode attribute.
+     * 
      * @return Returns the financialSystemDocumentTypeCode.
      */
     public DocumentTypeEBO getFinancialSystemDocumentTypeCode() {
@@ -147,7 +160,8 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
     }
 
     /**
-     * Gets the documentHeader attribute. 
+     * Gets the documentHeader attribute.
+     * 
      * @return Returns the documentHeader.
      */
     public FinancialSystemDocumentHeader getDocumentHeader() {
@@ -157,6 +171,7 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
 
     /**
      * Sets the documentHeader attribute value.
+     * 
      * @param documentHeader The documentHeader to set.
      */
     public void setDocumentHeader(FinancialSystemDocumentHeader documentHeader) {
@@ -165,7 +180,8 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
 
 
     /**
-     * Gets the purchasingAccountsPayableItemAssets attribute. 
+     * Gets the purchasingAccountsPayableItemAssets attribute.
+     * 
      * @return Returns the purchasingAccountsPayableItemAssets.
      */
     public List<PurchasingAccountsPayableItemAsset> getPurchasingAccountsPayableItemAssets() {
@@ -175,6 +191,7 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
 
     /**
      * Sets the purchasingAccountsPayableItemAssets attribute value.
+     * 
      * @param purchasingAccountsPayableItemAssets The purchasingAccountsPayableItemAssets to set.
      */
     public void setPurchasingAccountsPayableItemAssets(List<PurchasingAccountsPayableItemAsset> purchasingAccountsPayableItemAssets) {
@@ -183,7 +200,8 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
 
 
     /**
-     * Gets the purApContactEmailAddress attribute. 
+     * Gets the purApContactEmailAddress attribute.
+     * 
      * @return Returns the purApContactEmailAddress.
      */
     public String getPurApContactEmailAddress() {
@@ -193,6 +211,7 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
 
     /**
      * Sets the purApContactEmailAddress attribute value.
+     * 
      * @param purApContactEmailAddress The purApContactEmailAddress to set.
      */
     public void setPurApContactEmailAddress(String purApContactEmailAddress) {
@@ -201,7 +220,8 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
 
 
     /**
-     * Gets the purApContactPhoneNumber attribute. 
+     * Gets the purApContactPhoneNumber attribute.
+     * 
      * @return Returns the purApContactPhoneNumber.
      */
     public String getPurApContactPhoneNumber() {
@@ -211,54 +231,65 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
 
     /**
      * Sets the purApContactPhoneNumber attribute value.
+     * 
      * @param purApContactPhoneNumber The purApContactPhoneNumber to set.
      */
     public void setPurApContactPhoneNumber(String purApContactPhoneNumber) {
         this.purApContactPhoneNumber = purApContactPhoneNumber;
     }
- 
-    
+
+
     /**
-     * Gets the statusDescription attribute. 
+     * Gets the statusDescription attribute.
+     * 
      * @return Returns the statusDescription.
      */
     public String getStatusDescription() {
         String statusCode;
-        
-        if (StringUtils.isNotBlank(this.statusDescription)){
+
+        if (StringUtils.isNotBlank(this.statusDescription)) {
             return this.statusDescription;
         }
         else {
             Map objectKeys = new HashMap();
             objectKeys.put(CabPropertyConstants.PurchasingAccountsPayableDocument.PURAP_DOCUMENT_IDENTIFIER, this.getPurapDocumentIdentifier());
 
-            if (CabConstants.PREQ.equals(this.documentTypeCode)){
-            
+            if (CabConstants.PREQ.equals(this.documentTypeCode)) {
+
                 PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(PaymentRequestDocument.class, objectKeys);
-                statusCode = paymentRequestDocument.getStatusCode();
-            
-                objectKeys = new HashMap();
-                objectKeys.put(PurapPropertyConstants.STATUS_CODE, statusCode);
-                PaymentRequestStatus paymentRequestStatus = (PaymentRequestStatus) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(PaymentRequestStatus.class, objectKeys);
-                statusDescription = paymentRequestStatus.getStatusDescription();
-            } 
+                if (ObjectUtils.isNotNull(paymentRequestDocument)) {
+                    statusCode = paymentRequestDocument.getStatusCode();
+
+                    objectKeys = new HashMap();
+                    objectKeys.put(PurapPropertyConstants.STATUS_CODE, statusCode);
+                    PaymentRequestStatus paymentRequestStatus = (PaymentRequestStatus) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(PaymentRequestStatus.class, objectKeys);
+                    if (ObjectUtils.isNotNull(paymentRequestStatus)) {
+                        statusDescription = paymentRequestStatus.getStatusDescription();
+                    }
+                }
+            }
             else {
                 VendorCreditMemoDocument vendorCreditMemoDocument = (VendorCreditMemoDocument) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(VendorCreditMemoDocument.class, objectKeys);
-                statusCode = vendorCreditMemoDocument.getStatusCode();
-           
-                objectKeys = new HashMap();
-                objectKeys.put(PurapPropertyConstants.STATUS_CODE, statusCode);
-                CreditMemoStatus creditMemoStatus = (CreditMemoStatus) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(CreditMemoStatus.class, objectKeys);
-                statusDescription = creditMemoStatus.getStatusDescription();
+                if (ObjectUtils.isNotNull(vendorCreditMemoDocument)) {
+                    statusCode = vendorCreditMemoDocument.getStatusCode();
+
+                    objectKeys = new HashMap();
+                    objectKeys.put(PurapPropertyConstants.STATUS_CODE, statusCode);
+                    CreditMemoStatus creditMemoStatus = (CreditMemoStatus) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(CreditMemoStatus.class, objectKeys);
+                    if (ObjectUtils.isNotNull(creditMemoStatus)) {
+                        statusDescription = creditMemoStatus.getStatusDescription();
+                    }
+                }
             }
         }
-            
+
         return statusDescription;
     }
 
 
     /**
      * Sets the statusDescription attribute value.
+     * 
      * @param statusDescription The statusDescription to set.
      */
     public void setStatusDescription(String statusDescription) {

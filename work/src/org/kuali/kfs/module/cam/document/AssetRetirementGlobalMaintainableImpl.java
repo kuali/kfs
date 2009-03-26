@@ -64,10 +64,10 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
     @Override
     protected boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
         String retirementReason = ((AssetRetirementGlobal) getBusinessObject()).getRetirementReasonCode();
-        if (nodeName.equals(this.RETIRED_ASSET_TRANSFERRED_EXTERNALLY)) {
+        if (this.RETIRED_ASSET_TRANSFERRED_EXTERNALLY.equals(nodeName)) {
             return CamsConstants.AssetRetirementReasonCode.EXTERNAL_TRANSFER.equalsIgnoreCase(retirementReason);
         }
-        if (nodeName.equals(this.RETIRED_ASSET_SOLD_OR_GIFTED)) {
+        if (this.RETIRED_ASSET_SOLD_OR_GIFTED.equals(nodeName)) {
             return CamsConstants.AssetRetirementReasonCode.SOLD.equalsIgnoreCase(retirementReason) || CamsConstants.AssetRetirementReasonCode.GIFT.equalsIgnoreCase(retirementReason);
         }
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \"" + nodeName + "\"");

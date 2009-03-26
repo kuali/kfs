@@ -45,11 +45,11 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.FinancialSystemGlobalMaintainable;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
-import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -60,8 +60,20 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global assets
  */
-public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
+public class AssetGlobalMaintainableImpl extends FinancialSystemGlobalMaintainable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalMaintainableImpl.class);
+    private static final String REQUIRES_REVIEW = "RequiresReview";
+
+    @Override
+    /**
+     * If the Add Asset Global document is submit from CAB, bypass all the approvers.
+     */
+    protected boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
+        if (this.REQUIRES_REVIEW.equals(nodeName)) {
+            return !((AssetGlobal) getBusinessObject()).isCapitalAssetBuilderOriginIndicator();
+        }
+        throw new UnsupportedOperationException("Cannot answer split question for this node you call \"" + nodeName + "\"");
+    }
 
     /**
      * Get Asset from AssetGlobal

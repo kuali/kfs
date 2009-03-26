@@ -22,6 +22,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService.LocationField;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -33,144 +35,40 @@ import org.kuali.rice.kns.util.GlobalVariables;
 @ConfigureContext(session = khuntley)
 public class AssetLocationServiceTest extends KualiTestBase {
     private AssetLocationService assetLocationService;
-    private static Map<LocationField, String> fieldMap = new HashMap<LocationField, String>();
-    private MockBusinessObject onCampusObject;
-    private MockBusinessObject offcampusObject;
+    private AssetGlobalDetail onCampusObject;
+    private AssetGlobalDetail offcampusObject;
+    private static final Map<LocationField, String> fieldMap = new HashMap<LocationField, String>();
     static {
-        fieldMap.put(LocationField.CAMPUS_CODE, "campusCode");
-        fieldMap.put(LocationField.BUILDING_CODE, "buildingCode");
-        fieldMap.put(LocationField.ROOM_NUMBER, "roomNumber");
-        fieldMap.put(LocationField.SUB_ROOM_NUMBER, "subRoomNumber");
-        fieldMap.put(LocationField.CONTACT_NAME, "contactName");
-        fieldMap.put(LocationField.STREET_ADDRESS, "streetAddress");
-        fieldMap.put(LocationField.CITY_NAME, "city");
-        fieldMap.put(LocationField.STATE_CODE, "stateCode");
-        fieldMap.put(LocationField.ZIP_CODE, "zipCode");
-        fieldMap.put(LocationField.COUNTRY_CODE, "countryCode");
+        fieldMap.put(LocationField.CAMPUS_CODE, CamsPropertyConstants.AssetGlobalDetail.CAMPUS_CODE);
+        fieldMap.put(LocationField.BUILDING_CODE, CamsPropertyConstants.AssetGlobalDetail.BUILDING_CODE);
+        fieldMap.put(LocationField.ROOM_NUMBER, CamsPropertyConstants.AssetGlobalDetail.BUILDING_ROOM_NUMBER);
+        fieldMap.put(LocationField.SUB_ROOM_NUMBER, CamsPropertyConstants.AssetGlobalDetail.BUILDING_SUB_ROOM_NUMBER);
+        fieldMap.put(LocationField.CONTACT_NAME, CamsPropertyConstants.AssetGlobalDetail.OFF_CAMPUS_NAME);
+        fieldMap.put(LocationField.STREET_ADDRESS, CamsPropertyConstants.AssetGlobalDetail.OFF_CAMPUS_ADDRESS);
+        fieldMap.put(LocationField.CITY_NAME, CamsPropertyConstants.AssetGlobalDetail.OFF_CAMPUS_CITY_NAME);
+        fieldMap.put(LocationField.STATE_CODE, CamsPropertyConstants.AssetGlobalDetail.OFF_CAMPUS_STATE_CODE);
+        fieldMap.put(LocationField.ZIP_CODE, CamsPropertyConstants.AssetGlobalDetail.OFF_CAMPUS_ZIP_CODE);
+        fieldMap.put(LocationField.COUNTRY_CODE, CamsPropertyConstants.AssetGlobalDetail.OFF_CAMPUS_COUNTRY_CODE);
     }
-
-    public class MockBusinessObject extends BusinessObjectBase {
-        private String campusCode;
-        private String buildingCode;
-        private String roomNumber;
-        private String subRoomNumber;
-        private String contactName;
-        private String streetAddress;
-        private String city;
-        private String stateCode;
-        private String zipCode;
-        private String countryCode;
-
-        public String getCampusCode() {
-            return campusCode;
-        }
-
-        public void setCampusCode(String campusCode) {
-            this.campusCode = campusCode;
-        }
-
-        public String getBuildingCode() {
-            return buildingCode;
-        }
-
-        public void setBuildingCode(String buildingCode) {
-            this.buildingCode = buildingCode;
-        }
-
-        public String getRoomNumber() {
-            return roomNumber;
-        }
-
-        public void setRoomNumber(String roomNumber) {
-            this.roomNumber = roomNumber;
-        }
-
-        public String getSubRoomNumber() {
-            return subRoomNumber;
-        }
-
-        public void setSubRoomNumber(String subRoomNumber) {
-            this.subRoomNumber = subRoomNumber;
-        }
-
-        public String getContactName() {
-            return contactName;
-        }
-
-        public void setContactName(String contactName) {
-            this.contactName = contactName;
-        }
-
-        public String getStreetAddress() {
-            return streetAddress;
-        }
-
-        public void setStreetAddress(String streetAddress) {
-            this.streetAddress = streetAddress;
-        }
-
-        public String getCity() {
-            return city;
-        }
-
-        public void setCity(String city) {
-            this.city = city;
-        }
-
-        public String getStateCode() {
-            return stateCode;
-        }
-
-        public void setStateCode(String stateCode) {
-            this.stateCode = stateCode;
-        }
-
-        public String getCountryCode() {
-            return countryCode;
-        }
-
-        public void setCountryCode(String countryCode) {
-            this.countryCode = countryCode;
-        }
-
-
-        public String getZipCode() {
-            return zipCode;
-        }
-
-        public void setZipCode(String zipCode) {
-            this.zipCode = zipCode;
-        }
-
-        @Override
-        protected LinkedHashMap<String, String> toStringMapper() {
-            return null;
-        }
-
-        public void refresh() {
-
-        }
-
-    }
+    
 
     @Override
     protected void setUp() throws Exception {
-        super.setUp();
-        
+        super.setUp();        
         this.assetLocationService = SpringContext.getBean(AssetLocationService.class);
-        onCampusObject = new MockBusinessObject();
+        onCampusObject = new AssetGlobalDetail();
         onCampusObject.setCampusCode("BL");
         onCampusObject.setBuildingCode("BL001");
-        onCampusObject.setRoomNumber("B009");
-        onCampusObject.setSubRoomNumber("23");
+        onCampusObject.setBuildingRoomNumber("B009");
+        onCampusObject.setBuildingSubRoomNumber("23");
 
-        offcampusObject = new MockBusinessObject();
-        offcampusObject.setContactName("eddsdsd");
-        offcampusObject.setStreetAddress("Addreed");
-        offcampusObject.setCity("City");
-        offcampusObject.setStateCode("IN");
-        offcampusObject.setZipCode("47401");
-        offcampusObject.setCountryCode("US");
+        offcampusObject = new AssetGlobalDetail();
+        offcampusObject.setOffCampusName("eddsdsd");
+        offcampusObject.setOffCampusAddress("Addreed");
+        offcampusObject.setOffCampusCityName("City");
+        offcampusObject.setOffCampusStateCode("IN");
+        offcampusObject.setOffCampusZipCode("47401");
+        offcampusObject.setOffCampusCountryCode("US");
 
     }
 
@@ -191,15 +89,15 @@ public class AssetLocationServiceTest extends KualiTestBase {
 
         // when room number is null
         onCampusObject.setBuildingCode("BL001");
-        onCampusObject.setRoomNumber(null);
+        onCampusObject.setBuildingRoomNumber(null);
         this.assetLocationService.validateLocation(fieldMap, onCampusObject, true, assetType);
         assertFalse(GlobalVariables.getErrorMap().isEmpty());
         GlobalVariables.getErrorMap().clear();
 
 
         // when sub room number is optional
-        onCampusObject.setRoomNumber("B034F");
-        onCampusObject.setSubRoomNumber(null);
+        onCampusObject.setBuildingRoomNumber("B034F");
+        onCampusObject.setBuildingSubRoomNumber(null);
         this.assetLocationService.validateLocation(fieldMap, onCampusObject, true, assetType);
         assertTrue(GlobalVariables.getErrorMap().isEmpty());
         GlobalVariables.getErrorMap().clear();
@@ -207,8 +105,8 @@ public class AssetLocationServiceTest extends KualiTestBase {
         // test condition when building required indicator is true
         assetType.setMovingIndicator(false);
         assetType.setRequiredBuildingIndicator(true);
-        onCampusObject.setRoomNumber(null);
-        onCampusObject.setSubRoomNumber(null);
+        onCampusObject.setBuildingRoomNumber(null);
+        onCampusObject.setBuildingSubRoomNumber(null);
         this.assetLocationService.validateLocation(fieldMap, onCampusObject, true, assetType);
         assertTrue(GlobalVariables.getErrorMap().isEmpty());
         GlobalVariables.getErrorMap().clear();
@@ -221,15 +119,15 @@ public class AssetLocationServiceTest extends KualiTestBase {
 
         // when room number is not null
         onCampusObject.setBuildingCode("BL001");
-        onCampusObject.setRoomNumber("YYGBJGJH");
+        onCampusObject.setBuildingRoomNumber("YYGBJGJH");
         this.assetLocationService.validateLocation(fieldMap, onCampusObject, true, assetType);
         assertFalse(GlobalVariables.getErrorMap().isEmpty());
         GlobalVariables.getErrorMap().clear();
 
 
         // when sub room number is not null
-        onCampusObject.setRoomNumber(null);
-        onCampusObject.setSubRoomNumber("HGBJHNGBJH");
+        onCampusObject.setBuildingRoomNumber(null);
+        onCampusObject.setBuildingSubRoomNumber("HGBJHNGBJH");
         this.assetLocationService.validateLocation(fieldMap, onCampusObject, true, assetType);
         assertFalse(GlobalVariables.getErrorMap().isEmpty());
         GlobalVariables.getErrorMap().clear();
@@ -245,42 +143,42 @@ public class AssetLocationServiceTest extends KualiTestBase {
         GlobalVariables.getErrorMap().clear();
 
         // when contact name is null
-        this.offcampusObject.setContactName(null);
+        this.offcampusObject.setOffCampusName(null);
         this.assetLocationService.validateLocation(fieldMap, offcampusObject, true, assetType);
         assertFalse(GlobalVariables.getErrorMap().isEmpty());
         GlobalVariables.getErrorMap().clear();
 
         // when street address is null
-        this.offcampusObject.setContactName("me");
-        this.offcampusObject.setStreetAddress(null);
+        this.offcampusObject.setOffCampusName("me");
+        this.offcampusObject.setOffCampusAddress(null);
         this.assetLocationService.validateLocation(fieldMap, offcampusObject, true, assetType);
         assertFalse(GlobalVariables.getErrorMap().isEmpty());
         GlobalVariables.getErrorMap().clear();
 
         // when city name is null
-        this.offcampusObject.setStreetAddress("Street");
-        this.offcampusObject.setCity(null);
+        this.offcampusObject.setOffCampusAddress("Street");
+        this.offcampusObject.setOffCampusCityName(null);
         this.assetLocationService.validateLocation(fieldMap, offcampusObject, true, assetType);
         assertFalse(GlobalVariables.getErrorMap().isEmpty());
         GlobalVariables.getErrorMap().clear();
 
         // when state code is null
-        this.offcampusObject.setCity("City");
-        this.offcampusObject.setStateCode(null);
+        this.offcampusObject.setOffCampusCityName("City");
+        this.offcampusObject.setOffCampusStateCode(null);
         this.assetLocationService.validateLocation(fieldMap, offcampusObject, true, assetType);
         assertFalse(GlobalVariables.getErrorMap().isEmpty());
         GlobalVariables.getErrorMap().clear();
 
         // when zip code is null
-        this.offcampusObject.setStateCode("MI");
-        this.offcampusObject.setZipCode(null);
+        this.offcampusObject.setOffCampusStateCode("MI");
+        this.offcampusObject.setOffCampusZipCode(null);
         this.assetLocationService.validateLocation(fieldMap, offcampusObject, true, assetType);
         assertFalse(GlobalVariables.getErrorMap().isEmpty());
         GlobalVariables.getErrorMap().clear();
 
         // when country code is null
-        this.offcampusObject.setZipCode("34343");
-        this.offcampusObject.setCountryCode(null);
+        this.offcampusObject.setOffCampusZipCode("34343");
+        this.offcampusObject.setOffCampusCountryCode(null);
         this.assetLocationService.validateLocation(fieldMap, offcampusObject, true, assetType);
         assertFalse(GlobalVariables.getErrorMap().isEmpty());
         GlobalVariables.getErrorMap().clear();
@@ -312,13 +210,13 @@ public class AssetLocationServiceTest extends KualiTestBase {
 
         // when no information is available for capital asset
         assetType.setRequiredBuildingIndicator(true);
-        MockBusinessObject blankObject = new MockBusinessObject();
+        AssetGlobalDetail blankObject = new AssetGlobalDetail();
         this.assetLocationService.validateLocation(fieldMap, blankObject, true, assetType);
         assertFalse(GlobalVariables.getErrorMap().isEmpty());
         GlobalVariables.getErrorMap().clear();
 
         // when both are available
-        this.onCampusObject.setStreetAddress("Street");
+        this.onCampusObject.setOffCampusAddress("Street");
         this.assetLocationService.validateLocation(fieldMap, onCampusObject, true, assetType);
         assertFalse(GlobalVariables.getErrorMap().isEmpty());
         GlobalVariables.getErrorMap().clear();
@@ -326,7 +224,7 @@ public class AssetLocationServiceTest extends KualiTestBase {
 
     public void testValidateLocation_NonCapitalAsset() throws Exception {
         // when no information is available for capital asset
-        MockBusinessObject blankObject = new MockBusinessObject();
+        AssetGlobalDetail blankObject = new AssetGlobalDetail();
         this.assetLocationService.validateLocation(fieldMap, blankObject, false, null);
         assertTrue(GlobalVariables.getErrorMap().isEmpty());
         GlobalVariables.getErrorMap().clear();
@@ -343,7 +241,7 @@ public class AssetLocationServiceTest extends KualiTestBase {
         GlobalVariables.getErrorMap().clear();
 
         // when off-campus, validate location
-        this.offcampusObject.setCountryCode(null);
+        this.offcampusObject.setOffCampusCountryCode(null);
         this.assetLocationService.validateLocation(fieldMap, offcampusObject, false, null);
         assertFalse(GlobalVariables.getErrorMap().isEmpty());
         GlobalVariables.getErrorMap().clear();

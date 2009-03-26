@@ -329,7 +329,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                     }
                     else {
                         // if account line key matches within same GL Entry, combine the amount
-                        assetAccount.getItemAccountTotalAmount().add(purApAccountingLine.getAmount());
+                        assetAccount.setItemAccountTotalAmount(assetAccount.getItemAccountTotalAmount().add(purApAccountingLine.getAmount()));
                     }
                 }
                 businessObjectService.save(cabPurapDoc);
@@ -544,7 +544,6 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     public void savePreTagLines(Collection<PurchaseOrderAccount> preTaggablePOAccounts) {
         HashSet<String> savedLines = new HashSet<String>();
         for (PurchaseOrderAccount purchaseOrderAccount : preTaggablePOAccounts) {
-            // TODO this could be removed if OJB comes with data and avoid this whole refresh
             purchaseOrderAccount.refresh();
             PurchaseOrderItem purapItem = purchaseOrderAccount.getPurapItem();
             PurchaseOrderDocument purchaseOrder = purapItem.getPurchaseOrder();

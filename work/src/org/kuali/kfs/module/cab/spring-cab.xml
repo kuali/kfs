@@ -104,17 +104,20 @@
 				<ref bean="cabExtractStep"/>
 			</list>
 		</property>
+		<!-- Not sure about this dependency, so commenting out -->
+		<!-- 
 		<property name="dependencies">
 			<map>
 				<entry key="posterJob" value="hardDependency" />
 			</map>
 		</property>
+		-->
 	</bean>
 
 	<bean id="cabExtractJobTrigger" parent="cronTrigger">
 		<property name="jobName" value="cabExtractJob" />
-		<!--  it will run every day at 7 AM -->
-		<property name="cronExpression" value="0 0 7 ? * *" />
+		<!--  it will run every day at 23:55 AM -->
+		<property name="cronExpression" value="0 55 23 ? * *" />
 	</bean>
 	<!-- End - CAB Batch Beans -->
 	

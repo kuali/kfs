@@ -26,7 +26,7 @@
 		</li>
 		<li>
 			<portal:portalLink displayTitle="true" title="Labor Benefits Type"
-				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ld.businessobject.BenefitsType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+				url="kr/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kfs.module.ld.businessobject.BenefitsType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		<li>
 			<portal:portalLink displayTitle="true" title="Labor Object Code"

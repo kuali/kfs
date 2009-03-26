@@ -45,7 +45,6 @@
                 <td class="datacell-nowrap">
                		<c:if test="${readOnly}">
                         ${KualiForm.accountingPeriod.universityFiscalPeriodName}
-                        <html:hidden property="selectedAccountingPeriod" />
 					</c:if>
                 	<c:if test="${!readOnly}">
 						<html:select property="selectedAccountingPeriod"  >

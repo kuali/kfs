@@ -1087,6 +1087,7 @@ public class PurapConstants extends JSTLConstants {
             HashSet<String> statuses = new HashSet<String>();
             statuses.add(RequisitionStatuses.IN_PROCESS);
             statuses.add(RequisitionStatuses.AWAIT_CONTENT_REVIEW);
+            statuses.add(RequisitionStatuses.AWAIT_FISCAL_REVIEW);
             return statuses;
         }
         private static HashSet<String> getPurchaseOrderStatusCAMSWarnings() {

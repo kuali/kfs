@@ -420,26 +420,24 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         
         NonInvoiced nonInvoiced = paymentApplicationDocumentForm.getNonInvoicedAddLine();
         
-        // Only apply if the user entered an amount
-        if(ObjectUtils.isNotNull(nonInvoiced.getFinancialDocumentLineAmount())) {
-            nonInvoiced.setFinancialDocumentPostingYear(applicationDocument.getPostingYear());
-            nonInvoiced.setDocumentNumber(applicationDocument.getDocumentNumber());
-            nonInvoiced.setFinancialDocumentLineNumber(paymentApplicationDocumentForm.getNextNonInvoicedLineNumber());
-            if (StringUtils.isNotBlank(nonInvoiced.getChartOfAccountsCode())) {
-                nonInvoiced.setChartOfAccountsCode(nonInvoiced.getChartOfAccountsCode().toUpperCase());
-            }
-            
-            if (PaymentApplicationDocumentRuleUtil.validateNonInvoiced(nonInvoiced, applicationDocument)) {
-                // add advanceDeposit
-                applicationDocument.getNonInvoiceds().add(nonInvoiced);
-
-                // clear the used advanceDeposit
-                paymentApplicationDocumentForm.setNonInvoicedAddLine(new NonInvoiced());
-            }
-        } else {
+        //  dont do anything if the line is null, or the amount is null or zero
+        if (ObjectUtils.isNull(paymentApplicationDocumentForm.getNonInvoicedAddLine()) ||
+                nonInvoiced.getFinancialDocumentLineAmount() == null ||
+                nonInvoiced.getFinancialDocumentLineAmount().isZero()) {
             return null;
         }
         
+        //  wire it up for adding
+        nonInvoiced.setFinancialDocumentPostingYear(applicationDocument.getPostingYear());
+        nonInvoiced.setDocumentNumber(applicationDocument.getDocumentNumber());
+        nonInvoiced.setFinancialDocumentLineNumber(paymentApplicationDocumentForm.getNextNonInvoicedLineNumber());
+        if (StringUtils.isNotBlank(nonInvoiced.getChartOfAccountsCode())) {
+            nonInvoiced.setChartOfAccountsCode(nonInvoiced.getChartOfAccountsCode().toUpperCase());
+        }
+        
+        //  run the validations, but ignore the result (ie, add the line anyway, but show messages)
+        PaymentApplicationDocumentRuleUtil.validateNonInvoiced(nonInvoiced, applicationDocument);
+    
         return nonInvoiced;
     }
     

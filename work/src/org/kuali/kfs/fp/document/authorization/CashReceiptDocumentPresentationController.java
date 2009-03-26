@@ -24,6 +24,7 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class CashReceiptDocumentPresentationController extends LedgerPostingDocumentPresentationControllerBase {
+    private static final String CASH_MANAGEMENT_NODE_NAME = "CashManagement";
 
     /**
      * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canApprove(org.kuali.rice.kns.document.Document)
@@ -62,4 +63,15 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
 
         return true;
     }
+
+    /**
+     * Prevents editing of the document at the CashManagement node
+     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canEdit(org.kuali.rice.kns.document.Document)
+     */
+    @Override
+    protected boolean canEdit(Document document) {
+        if (document.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().contains(CashReceiptDocumentPresentationController.CASH_MANAGEMENT_NODE_NAME)) return false;
+        return super.canEdit(document);
+    }
+    
 }

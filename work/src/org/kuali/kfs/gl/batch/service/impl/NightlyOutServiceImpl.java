@@ -138,19 +138,6 @@ public class NightlyOutServiceImpl implements NightlyOutService {
         //reportService.generatePendingEntryLedgerSummaryReport(today, group);
     }
 
-    /**
-     * Saves pending ledger entry as origin entry
-     * 
-     * @param pendingEntry the pending entry to save as an origin entry
-     * @param group the group to save the new origin entry into
-     */
-    private void saveAsOriginEntry(GeneralLedgerPendingEntry pendingEntry, OriginEntryGroup group) {
-        OriginEntryFull originEntry = new OriginEntryFull(pendingEntry);
-        originEntry.setGroup(group);
-
-        originEntryService.createEntry(originEntry, group);
-    }
-
     public void setGeneralLedgerPendingEntryService(GeneralLedgerPendingEntryService generalLedgerPendingEntryService) {
         this.generalLedgerPendingEntryService = generalLedgerPendingEntryService;
     }

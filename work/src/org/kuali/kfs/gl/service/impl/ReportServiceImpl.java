@@ -110,21 +110,6 @@ public class ReportServiceImpl implements ReportService {
         reportsDirectory = kualiConfigurationService.getPropertyString(KFSConstants.REPORTS_DIRECTORY_KEY);
     }
 
-    /**
-     * Generates a ledger summary of pending entries, created by NightlyOut
-     * 
-     * @param runDate the date this nightly out process was run on
-     * @param group the group of origin entries copied from pending entries
-     * @see org.kuali.kfs.gl.service.ReportService#generatePendingEntryReport(java.util.Date)
-     */
-    public void generatePendingEntryReport(Date runDate, OriginEntryGroup group) {
-        LOG.debug("generatePendingEntryReport() started");
-
-        GeneralLedgerPendingEntryReport glper = new GeneralLedgerPendingEntryReport();
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_STRING);
-        glper.generateReport(runDate, reportsDirectory, sdf, originEntryService.getEntriesByGroupReportOrder(group));
-    }
-    
     // shawn - we need to change this to make it use file system?
     public void generatePendingEntryReport(Date runDate, Collection group) {
         LOG.debug("generatePendingEntryReport() started");
@@ -518,59 +503,6 @@ public class ReportServiceImpl implements ReportService {
     }
 
     /**
-     * Generates the Scrubber Bad Balance listing report
-     * 
-     * @param runDate Run date of the report
-     * @param groups Groups to summarize for the report
-     * @see org.kuali.kfs.gl.service.ReportService#generateScrubberBadBalanceTypeListingReport(java.util.Date,
-     *      java.util.Collection)
-     */
-    public void generateScrubberBadBalanceTypeListingReport(Date runDate, Collection groups) {
-        LOG.debug("generateScrubberBadBalanceTypeListingReport() started");
-
-        Iterator i = null;
-        if (groups.size() > 0) {
-            i = originEntryService.getBadBalanceEntries(groups);
-        }
-
-        TransactionListingReport rept = new TransactionListingReport();
-        rept.generateReport(i, runDate, "Scrubber Input Transactions with Blank Balance Types", "scrubber_badbal", reportsDirectory);
-    }
-
-    /**
-     * Generates Scrubber Transaction Listing report for online viewing
-     * 
-     * @param runDate Run date of the report
-     * @param validGroup Group with transactions
-     * @see org.kuali.kfs.gl.service.ReportService#generateScrubberTransactionsOnline(java.util.Date, org.kuali.kfs.gl.businessobject.OriginEntryGroup, java.lang.String)
-     */
-    public void generateScrubberTransactionsOnline(Date runDate, OriginEntryGroup validGroup, String documentNumber) {
-        LOG.debug("generateScrubberTransactionsOnline() started");
-
-        Iterator ti = originEntryService.getEntriesByGroupAccountOrder(validGroup);
-
-        TransactionListingReport rept = new TransactionListingReport();
-        rept.generateReport(ti, runDate, "Output Transaction Listing From the Scrubber", "scrubber_listing_" + documentNumber, reportsDirectory);
-    }
-
-    /**
-     * Generates the Scrubber Removed Transactions report
-     * 
-     * @param runDate Run date of the report
-     * @param errorGroup Group with error transactions
-     * @see org.kuali.kfs.gl.service.ReportService#generateScrubberRemovedTransactions(java.util.Date,
-     *      org.kuali.kfs.gl.businessobject.OriginEntryGroup)
-     */
-    public void generateScrubberRemovedTransactions(Date runDate, OriginEntryGroup errorGroup) {
-        LOG.debug("generateScrubberRemovedTransactions() started");
-
-        Iterator ti = originEntryService.getEntriesByGroupListingReportOrder(errorGroup);
-
-        TransactionListingReport rept = new TransactionListingReport();
-        rept.generateReport(ti, runDate, "Error Listing - Transactions Removed From the Scrubber", "scrubber_errors", reportsDirectory);
-    }
-
-    /**
      * Generates the GL Summary report
      * 
      * @param runDate the run date of the poster service that should be reported
@@ -840,54 +772,6 @@ public class ReportServiceImpl implements ReportService {
             catch (Exception e) {
                 throw new ExceptionConverter(e);
             }
-        }
-    }
-
-
-    /**
-     * Generates the Poster Reversal Transactions Listing
-     * 
-     * @param executionDate the actual time of poster execution
-     * @param runDate the time assumed by the poster (sometimes the poster can use a transaction date back in time to redo a failed
-     *        poster run)
-     * @param group Group with valid transactions
-     * @see org.kuali.kfs.gl.service.ReportService#generatePosterReversalTransactionsListing(java.util.Date, java.util.Date,
-     *      org.kuali.kfs.gl.businessobject.OriginEntryGroup)
-     */
-    public void generatePosterReversalTransactionsListing(Date executionDate, Date runDate, OriginEntryGroup originGroup) {
-        LOG.debug("generatePosterReversalTransactionsListing() started");
-
-        Iterator ti = originEntryService.getEntriesByGroupAccountOrder(originGroup);
-
-        TransactionListingReport report = new TransactionListingReport();
-        report.generateReport(ti, executionDate, "Reversal Poster Transaction Listing", "poster_reversal_list", reportsDirectory);
-    }
-
-    /**
-     * Generates the Poster Error transaction listing
-     * 
-     * @param executionDate the actual time of poster execution
-     * @param runDate the time assumed by the poster (sometimes the poster can use a transaction date back in time to redo a failed
-     *        poster run)
-     * @param group Group with error transactions
-     * @param posterMode Mode the poster is running
-     * @see org.kuali.kfs.gl.service.ReportService#generatePosterErrorTransactionListing(java.util.Date,
-     *      org.kuali.kfs.gl.businessobject.OriginEntryGroup, int)
-     */
-    public void generatePosterErrorTransactionListing(Date executionDate, Date runDate, OriginEntryGroup group, int posterMode) {
-        LOG.debug("generatePosterErrorTransactionListing() started");
-
-        Iterator ti = originEntryService.getEntriesByGroupAccountOrder(group);
-
-        TransactionListingReport report = new TransactionListingReport();
-        if (posterMode == PosterService.MODE_ENTRIES) {
-            report.generateReport(ti, executionDate, "Main Poster Error Transaction Listing", "poster_main_error_list", reportsDirectory);
-        }
-        else if (posterMode == PosterService.MODE_ICR) {
-            report.generateReport(ti, executionDate, "ICR Poster Error Transaction Listing", "poster_icr_error_list", reportsDirectory);
-        }
-        else if (posterMode == PosterService.MODE_REVERSAL) {
-            report.generateReport(ti, executionDate, "Reversal Poster Error Transaction Listing", "poster_reversal_error_list", reportsDirectory);
         }
     }
 

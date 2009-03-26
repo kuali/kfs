@@ -66,40 +66,42 @@ public class LaborReportServiceImpl implements LaborReportService {
      * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateInputSummaryReport(java.util.Collection,
      *      org.kuali.kfs.module.ld.util.ReportRegistry, java.lang.String, java.util.Date)
      */
-    public void generateInputSummaryReport(Collection<OriginEntryGroup> groups, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
-        LOG.info("generateInputSummaryReport() started");
-
-        LedgerEntryHolder ledgerEntries;
-        ledgerEntries = groups.size() > 0 ? laborOriginEntryService.getSummariedEntriesByGroups(groups) : new LedgerEntryHolder();
-
-        LedgerReport ledgerReport = new LedgerReport();
-        ledgerReport.generateReport(ledgerEntries, runDate, reportInfo.reportTitle(), reportInfo.reportFilename(), reportsDirectory);
-    }
+//    public void generateInputSummaryReport(Collection<OriginEntryGroup> groups, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
+//        LOG.info("generateInputSummaryReport() started");
+//
+//        LedgerEntryHolder ledgerEntries;
+//        ledgerEntries = groups.size() > 0 ? laborOriginEntryService.getSummariedEntriesByGroups(groups) : new LedgerEntryHolder();
+//
+//        LedgerReport ledgerReport = new LedgerReport();
+//        ledgerReport.generateReport(ledgerEntries, runDate, reportInfo.reportTitle(), reportInfo.reportFilename(), reportsDirectory);
+//    }
 
     /**
      * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateInputSummaryReport(org.kuali.kfs.gl.businessobject.OriginEntryGroup,
      *      org.kuali.kfs.module.ld.util.ReportRegistry, java.lang.String, java.util.Date)
      */
-    public void generateInputSummaryReport(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
-        LOG.info("generateInputSummaryReport() started");
-
-        List<OriginEntryGroup> groups = new ArrayList<OriginEntryGroup>();
-        groups.add(group);
-
-        this.generateInputSummaryReport(groups, reportInfo, reportsDirectory, runDate);
-    }
+    //TODO: Shawn - will clean up after all reports are done
+//    public void generateInputSummaryReport(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
+//        LOG.info("generateInputSummaryReport() started");
+//
+//        List<OriginEntryGroup> groups = new ArrayList<OriginEntryGroup>();
+//        groups.add(group);
+//
+//        this.generateInputSummaryReport(groups, reportInfo, reportsDirectory, runDate);
+//    }
 
     /**
      * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateErrorTransactionListing(org.kuali.kfs.gl.businessobject.OriginEntryGroup,
      *      org.kuali.kfs.module.ld.util.ReportRegistry, java.lang.String, java.util.Date)
      */
-    public void generateErrorTransactionListing(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
-        LOG.info("generateErrorTransactionListing() started");
-
-        Iterator entries = laborOriginEntryService.getEntriesByGroup(group);
-        TransactionListingReport transactionListingReport = new TransactionListingReport();
-        transactionListingReport.generateReport(entries, runDate, reportInfo.reportTitle(), reportInfo.reportFilename(), reportsDirectory);
-    }
+    //TODO: Shawn - will clean up after all reports are done
+//    public void generateErrorTransactionListing(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
+//        LOG.info("generateErrorTransactionListing() started");
+//
+//        Iterator entries = laborOriginEntryService.getEntriesByGroup(group);
+//        TransactionListingReport transactionListingReport = new TransactionListingReport();
+//        transactionListingReport.generateReport(entries, runDate, reportInfo.reportTitle(), reportInfo.reportFilename(), reportsDirectory);
+//    }
 
     /**
      * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateStatisticsReport(java.util.List, java.util.Map,
@@ -127,25 +129,25 @@ public class LaborReportServiceImpl implements LaborReportService {
      * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateOutputSummaryReport(java.util.Collection,
      *      org.kuali.kfs.module.ld.util.ReportRegistry, java.lang.String, java.util.Date)
      */
-    public void generateOutputSummaryReport(Collection<OriginEntryGroup> groups, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
-        LOG.info("generateOutputSummaryReport() started");
-
-        PosterOutputSummaryReport posterOutputSummaryReport = new PosterOutputSummaryReport();
-        Map<String, PosterOutputSummaryEntry> posterOutputSummary = laborOriginEntryService.getPosterOutputSummaryByGroups(groups);
-        posterOutputSummaryReport.generateReport(posterOutputSummary, runDate, reportInfo.reportTitle(), reportInfo.reportFilename(), reportsDirectory);
-    }
+//    public void generateOutputSummaryReport(Collection<OriginEntryGroup> groups, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
+//        LOG.info("generateOutputSummaryReport() started");
+//
+//        PosterOutputSummaryReport posterOutputSummaryReport = new PosterOutputSummaryReport();
+//        Map<String, PosterOutputSummaryEntry> posterOutputSummary = laborOriginEntryService.getPosterOutputSummaryByGroups(groups);
+//        posterOutputSummaryReport.generateReport(posterOutputSummary, runDate, reportInfo.reportTitle(), reportInfo.reportFilename(), reportsDirectory);
+//    }
 
     /**
      * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateOutputSummaryReport(org.kuali.kfs.gl.businessobject.OriginEntryGroup,
      *      org.kuali.kfs.module.ld.util.ReportRegistry, java.lang.String, java.util.Date)
      */
-    public void generateOutputSummaryReport(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
-        LOG.info("generateOutputSummaryReport() started");
-
-        List<OriginEntryGroup> groups = new ArrayList<OriginEntryGroup>();
-        groups.add(group);
-        this.generateOutputSummaryReport(groups, reportInfo, reportsDirectory, runDate);
-    }
+//    public void generateOutputSummaryReport(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
+//        LOG.info("generateOutputSummaryReport() started");
+//
+//        List<OriginEntryGroup> groups = new ArrayList<OriginEntryGroup>();
+//        groups.add(group);
+//        this.generateOutputSummaryReport(groups, reportInfo, reportsDirectory, runDate);
+//    }
 
     /**
      * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateMonthlyBalanceSummaryReport(java.lang.Integer, java.util.List,
@@ -200,35 +202,37 @@ public class LaborReportServiceImpl implements LaborReportService {
      * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateScrubberLedgerSummaryReportBatch(java.util.Collection,
      *      java.lang.String, java.util.Date)
      */
-    public void generateScrubberLedgerSummaryReportBatch(Collection groups, String reportsDirectory, Date runDate) {
-        // LOG.debug("generateScrubberLedgerSummaryReport() started");
-
-        LedgerReport ledgerReport = new LedgerReport();
-        LedgerEntryHolder ledgerEntries = new LedgerEntryHolder();
-        if (groups.size() > 0) {
-            ledgerEntries = laborOriginEntryService.getSummaryByGroupId(groups);
-        }
-
-        ledgerReport.generateReport(ledgerEntries, runDate, "Labor Ledger Report", "labor_scrubber_ledger", reportsDirectory);
-    }
+    //TODO: Shawn - will clean up after all reports are done
+//    public void generateScrubberLedgerSummaryReportBatch(Collection groups, String reportsDirectory, Date runDate) {
+//        // LOG.debug("generateScrubberLedgerSummaryReport() started");
+//
+//        LedgerReport ledgerReport = new LedgerReport();
+//        LedgerEntryHolder ledgerEntries = new LedgerEntryHolder();
+//        if (groups.size() > 0) {
+//            ledgerEntries = laborOriginEntryService.getSummaryByGroupId(groups);
+//        }
+//
+//        ledgerReport.generateReport(ledgerEntries, runDate, "Labor Ledger Report", "labor_scrubber_ledger", reportsDirectory);
+//    }
 
     /**
      * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateScrubberLedgerSummaryReportOnline(org.kuali.kfs.gl.businessobject.OriginEntryGroup,
      *      java.lang.String, java.lang.String, java.util.Date)
      */
-    public void generateScrubberLedgerSummaryReportOnline(OriginEntryGroup group, String documentNumber, String reportsDirectory, Date runDate) {
-        // LOG.debug("generateScrubberLedgerSummaryReport() started");
-
-        LedgerReport ledgerReport = new LedgerReport();
-        LedgerEntryHolder ledgerEntries = new LedgerEntryHolder();
-
-        Collection g = new ArrayList();
-        g.add(group);
-
-        ledgerEntries = laborOriginEntryService.getSummaryByGroupId(g);
-
-        ledgerReport.generateReport(ledgerEntries, runDate, "Labor Ledger Report", "labor_scrubber_ledger_" + documentNumber, reportsDirectory);
-    }
+    //TODO: Shawn - will clean up after all reports are done
+//    public void generateScrubberLedgerSummaryReportOnline(OriginEntryGroup group, String documentNumber, String reportsDirectory, Date runDate) {
+//        // LOG.debug("generateScrubberLedgerSummaryReport() started");
+//
+//        LedgerReport ledgerReport = new LedgerReport();
+//        LedgerEntryHolder ledgerEntries = new LedgerEntryHolder();
+//
+//        Collection g = new ArrayList();
+//        g.add(group);
+//
+//        ledgerEntries = laborOriginEntryService.getSummaryByGroupId(g);
+//
+//        ledgerReport.generateReport(ledgerEntries, runDate, "Labor Ledger Report", "labor_scrubber_ledger_" + documentNumber, reportsDirectory);
+//    }
 
     /**
      * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateBatchScrubberStatisticsReport(org.kuali.kfs.gl.service.ScrubberReportData,
@@ -302,43 +306,47 @@ public class LaborReportServiceImpl implements LaborReportService {
      * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateScrubberBadBalanceTypeListingReport(java.util.Collection,
      *      java.lang.String, java.util.Date)
      */
-    public void generateScrubberBadBalanceTypeListingReport(Collection groups, String reportsDirectory, Date runDate) {
-        // log.debug("generateScrubberBadBalanceTypeListingReport() started");
-
-        Iterator i = null;
-        if (groups.size() > 0) {
-            i = laborOriginEntryService.getBadBalanceEntries(groups);
-        }
-
-        TransactionListingReport rept = new TransactionListingReport();
-        rept.generateReport(i, runDate, "Labor Scrubber Input Transactions with Bad Balance Types", "labor_scrubber_badbal", reportsDirectory);
-    }
+    
+    //TODO: Shawn - will clean up after all reports are done
+//    public void generateScrubberBadBalanceTypeListingReport(Collection groups, String reportsDirectory, Date runDate) {
+//        // log.debug("generateScrubberBadBalanceTypeListingReport() started");
+//
+//        Iterator i = null;
+//        if (groups.size() > 0) {
+//            i = laborOriginEntryService.getBadBalanceEntries(groups);
+//        }
+//
+//        TransactionListingReport rept = new TransactionListingReport();
+//        rept.generateReport(i, runDate, "Labor Scrubber Input Transactions with Bad Balance Types", "labor_scrubber_badbal", reportsDirectory);
+//    }
 
     /**
      * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateScrubberTransactionsOnline(org.kuali.kfs.gl.businessobject.OriginEntryGroup,
      *      java.lang.String, java.lang.String, java.util.Date)
      */
-    public void generateScrubberTransactionsOnline(OriginEntryGroup validGroup, String documentNumber, String reportsDirectory, Date runDate) {
-        // log.debug("generateScrubberTransactionsOnline() started");
-
-        Iterator ti = laborOriginEntryService.getEntriesByGroupAccountOrder(validGroup);
-
-        TransactionListingReport rept = new TransactionListingReport();
-        rept.generateReport(ti, runDate, "Labor Output Transaction Listing From the Scrubber", "labor_scrubber_listing_" + documentNumber, reportsDirectory);
-    }
+    //TODO: Shawn - will clean up after all reports are done
+//    public void generateScrubberTransactionsOnline(OriginEntryGroup validGroup, String documentNumber, String reportsDirectory, Date runDate) {
+//        // log.debug("generateScrubberTransactionsOnline() started");
+//
+//        Iterator ti = laborOriginEntryService.getEntriesByGroupAccountOrder(validGroup);
+//
+//        TransactionListingReport rept = new TransactionListingReport();
+//        rept.generateReport(ti, runDate, "Labor Output Transaction Listing From the Scrubber", "labor_scrubber_listing_" + documentNumber, reportsDirectory);
+//    }
 
     /**
      * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateScrubberRemovedTransactions(org.kuali.kfs.gl.businessobject.OriginEntryGroup,
      *      java.lang.String, java.util.Date)
      */
-    public void generateScrubberRemovedTransactions(OriginEntryGroup errorGroup, String reportsDirectory, Date runDate) {
-        // log.debug("generateScrubberRemovedTransactions() started");
-
-        Iterator ti = laborOriginEntryService.getEntriesByGroupListingReportOrder(errorGroup);
-
-        TransactionListingReport rept = new TransactionListingReport();
-        rept.generateReport(ti, runDate, "Labor Error Listing - Transactions Removed From the Scrubber", "labor_scrubber_error_listing", reportsDirectory);
-    }
+    //TODO: Shawn - will clean up after all reports are done
+//    public void generateScrubberRemovedTransactions(OriginEntryGroup errorGroup, String reportsDirectory, Date runDate) {
+//        // log.debug("generateScrubberRemovedTransactions() started");
+//
+//        Iterator ti = laborOriginEntryService.getEntriesByGroupListingReportOrder(errorGroup);
+//
+//        TransactionListingReport rept = new TransactionListingReport();
+//        rept.generateReport(ti, runDate, "Labor Error Listing - Transactions Removed From the Scrubber", "labor_scrubber_error_listing", reportsDirectory);
+//    }
 
 
     /**

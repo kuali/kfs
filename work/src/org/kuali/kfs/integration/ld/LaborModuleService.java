@@ -160,7 +160,7 @@ public interface LaborModuleService {
      * @param the id of an origin entry group
      * @return the count of the entries in that group
      */
-    public Integer getLaborOriginEntryGroupCount(Integer groupId);
+    //public Integer getLaborOriginEntryGroupCount(Integer groupId);
 
     /**
      * Determines where a Labor Ledger postion object group with the given code actually exists.

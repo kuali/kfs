@@ -93,7 +93,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
      * @return boolean - true if load was successful, false if errors were encountered
      * @see org.kuali.kfs.gl.batch.service.CollectorService#loadCollectorFile(java.lang.String)
      */
-    public boolean loadCollectorFile(String fileName, OriginEntryGroup originEntryGroup, CollectorReportData collectorReportData, List<CollectorScrubberStatus> collectorScrubberStatuses) {
+    public boolean loadCollectorFile(String fileName, CollectorReportData collectorReportData, List<CollectorScrubberStatus> collectorScrubberStatuses) {
         boolean isValid = true;
 
         // the batch name is the file name
@@ -146,7 +146,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
             processInterDepartmentalBillingAmounts(batch);
 
             // store origin group, entries, and id billings
-            batch.setDefaultsAndStore(originEntryGroup, collectorReportData);
+            batch.setDefaultsAndStore(collectorReportData);
             collectorReportData.incrementNumPersistedBatches();
 
             // mark batch as valid

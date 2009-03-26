@@ -202,27 +202,14 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
     }
 
     /**
-     * Creates a new origin entry group to which the origin entries in the files will be added
-     * 
-     * @param groupSourceCode the origin entry group for the entries from the enterprise feed
-     * @param valid
-     * @param process
-     * @param scrub
-     * @return
-     */
-    protected OriginEntryGroup createNewGroupForFeed(String groupSourceCode) {
-        return originEntryGroupService.createGroup(dateTimeService.getCurrentSqlDate(), groupSourceCode, true, false, true);
-    }
-
-    /**
      * This method marks that an origin entry group
      * 
      * @param originEntryGroup
      */
-    protected void markGroupReady(OriginEntryGroup originEntryGroup) {
-        originEntryGroup.setProcess(true);
-        originEntryGroupService.save(originEntryGroup);
-    }
+//    protected void markGroupReady(OriginEntryGroup originEntryGroup) {
+//        originEntryGroup.setProcess(true);
+//        originEntryGroupService.save(originEntryGroup);
+//    }
 
     /**
      * Gets the directoryName attribute.

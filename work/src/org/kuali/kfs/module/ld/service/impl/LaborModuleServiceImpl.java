@@ -246,9 +246,9 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     /**
      * @see org.kuali.kfs.integration.ld.LaborModuleService#getLaborOriginEntryGroupCount(java.lang.Integer)
      */
-    public Integer getLaborOriginEntryGroupCount(Integer groupId) {
-        return getLaborOriginEntryService().getGroupCount(groupId);
-    }
+//    public Integer getLaborOriginEntryGroupCount(Integer groupId) {
+//        return getLaborOriginEntryService().getGroupCount(groupId);
+//    }
 
     /**
      * Gets the laborBenefitsCalculationService attribute.

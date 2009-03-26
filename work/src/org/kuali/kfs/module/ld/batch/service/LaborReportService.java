@@ -42,7 +42,7 @@ public interface LaborReportService {
      * @param reportsDirectory the directory in file system that is used to contain reports
      * @param runDate the datetime of the repor generation
      */
-    public void generateInputSummaryReport(Collection<OriginEntryGroup> groups, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
+    //public void generateInputSummaryReport(Collection<OriginEntryGroup> groups, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
 
     /**
      * Generate input summary report with the given information
@@ -52,7 +52,7 @@ public interface LaborReportService {
      * @param reportsDirectory the directory in file system that is used to contain reports
      * @param runDate the datetime of the repor generation
      */
-    public void generateInputSummaryReport(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
+    //public void generateInputSummaryReport(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
 
     /**
      * Generate error transaction listing as a report
@@ -62,7 +62,7 @@ public interface LaborReportService {
      * @param reportsDirectory the directory in file system that is used to contain reports
      * @param runDate the datetime of the repor generation
      */
-    public void generateErrorTransactionListing(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
+    //public void generateErrorTransactionListing(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
 
     /**
      * Generate statistics report with the given information
@@ -93,7 +93,7 @@ public interface LaborReportService {
      * @param reportsDirectory the directory in file system that is used to contain reports
      * @param runDate the datetime of the repor generation
      */
-    public void generateOutputSummaryReport(Collection<OriginEntryGroup> groups, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
+    //public void generateOutputSummaryReport(Collection<OriginEntryGroup> groups, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
 
     /**
      * Generate output summary report with the given information
@@ -103,7 +103,7 @@ public interface LaborReportService {
      * @param reportsDirectory the directory in file system that is used to contain reports
      * @param runDate the datetime of the repor generation
      */
-    public void generateOutputSummaryReport(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
+    //public void generateOutputSummaryReport(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
 
     /**
      * Generate the balance summary report with the given information in the monthly level
@@ -151,7 +151,7 @@ public interface LaborReportService {
      * @param runDate Run date of the report
      * @param groups Groups to summarize for the report
      */
-    public void generateScrubberLedgerSummaryReportBatch(Collection groups, String reportsDirectory, Date runDate);
+    //public void generateScrubberLedgerSummaryReportBatch(Collection groups, String reportsDirectory, Date runDate);
 
     /**
      * Scrubber General Ledger Transaction Summary report
@@ -159,7 +159,7 @@ public interface LaborReportService {
      * @param runDate Run date of the report
      * @param groups Groups to summarize for the report
      */
-    public void generateScrubberLedgerSummaryReportOnline(OriginEntryGroup group, String documentNumber, String reportsDirectory, Date runDate);
+    //public void generateScrubberLedgerSummaryReportOnline(OriginEntryGroup group, String documentNumber, String reportsDirectory, Date runDate);
 
     /**
      * Scrubber Statistics report for batch reports
@@ -193,7 +193,7 @@ public interface LaborReportService {
      * @param runDate Run date of the report
      * @param groups Groups to summarize for the report
      */
-    public void generateScrubberBadBalanceTypeListingReport(Collection groups, String reportsDirectory, Date runDate);
+    //public void generateScrubberBadBalanceTypeListingReport(Collection groups, String reportsDirectory, Date runDate);
 
     /**
      * Scrubber Transaction Listing report
@@ -201,7 +201,7 @@ public interface LaborReportService {
      * @param runDate Run date of the report
      * @param validGroup Group with transactions
      */
-    public void generateScrubberTransactionsOnline(OriginEntryGroup validGroup, String documentNumber, String reportsDirectory, Date runDate);
+    //public void generateScrubberTransactionsOnline(OriginEntryGroup validGroup, String documentNumber, String reportsDirectory, Date runDate);
 
     /**
      * Scrubber Removed Transactions report
@@ -209,5 +209,5 @@ public interface LaborReportService {
      * @param runDate Run date of the report
      * @param errorGroup Group with error transactions
      */
-    public void generateScrubberRemovedTransactions(OriginEntryGroup errorGroup, String reportsDirectory, Date runDate);
+    //public void generateScrubberRemovedTransactions(OriginEntryGroup errorGroup, String reportsDirectory, Date runDate);
 }

@@ -37,7 +37,7 @@ public interface CollectorHelperService {
      *        info of the collector status run is added to the end of this list
      * @return boolean - true if load was successful, false if errors were encountered
      */
-    public boolean loadCollectorFile(String fileName, OriginEntryGroup group, CollectorReportData collectorReportData, List<CollectorScrubberStatus> collectorScrubberStatuses);
+    public boolean loadCollectorFile(String fileName, CollectorReportData collectorReportData, List<CollectorScrubberStatus> collectorScrubberStatuses);
 
     /**
      * Validates the contents of a parsed file.

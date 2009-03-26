@@ -37,7 +37,9 @@ public class MarkPostableScrubberValidGroupsAsUnpostableStep extends AbstractSte
      * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
      */
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-        originEntryGroupService.markPostableScrubberValidGroupsAsUnpostable();
+        
+        //TODO: Shawn - need to check
+        //originEntryGroupService.markPostableScrubberValidGroupsAsUnpostable();
         return true;
     }
 

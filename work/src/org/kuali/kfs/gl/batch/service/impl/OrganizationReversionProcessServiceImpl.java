@@ -225,11 +225,11 @@ public class OrganizationReversionProcessServiceImpl implements OrganizationReve
      * @return OriginEntryGroup a properly initialized origin entry group
      * @see org.kuali.kfs.gl.batch.service.OrganizationReversionProcessService#createOrganizationReversionProcessOriginEntryGroup()
      */
-    public OriginEntryGroup createOrganizationReversionProcessOriginEntryGroup() {
-        java.util.Date runDate = dateTimeService.getCurrentDate();
-        // Create output group
-        return originEntryGroupService.createGroup(new java.sql.Date(runDate.getTime()), OriginEntrySource.YEAR_END_ORG_REVERSION, true, false, true);
-    }
+//    public OriginEntryGroup createOrganizationReversionProcessOriginEntryGroup() {
+//        java.util.Date runDate = dateTimeService.getCurrentDate();
+//        // Create output group
+//        return originEntryGroupService.createGroup(new java.sql.Date(runDate.getTime()), OriginEntrySource.YEAR_END_ORG_REVERSION, true, false, true);
+//    }
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;

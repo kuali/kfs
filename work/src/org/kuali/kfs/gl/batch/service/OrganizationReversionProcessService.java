@@ -67,5 +67,5 @@ public interface OrganizationReversionProcessService {
      * 
      * @return a properly initialized origin entry group
      */
-    public OriginEntryGroup createOrganizationReversionProcessOriginEntryGroup();
+    //public OriginEntryGroup createOrganizationReversionProcessOriginEntryGroup();
 }

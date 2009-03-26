@@ -37,7 +37,9 @@ public class MarkPostableIcrGroupsAsUnpostableStep extends AbstractStep implemen
      * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
      */
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-        originEntryGroupService.markPostableIcrGroupsAsUnpostable();
+
+        //TODO: Shawn - need to check
+        //originEntryGroupService.markPostableIcrGroupsAsUnpostable();
         return true;
     }
 

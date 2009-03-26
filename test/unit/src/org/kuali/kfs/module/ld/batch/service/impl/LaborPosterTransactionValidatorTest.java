@@ -70,7 +70,8 @@ public class LaborPosterTransactionValidatorTest extends KualiTestBase {
         persistenceService = SpringContext.getBean(PersistenceService.class);
 
         Date today = (SpringContext.getBean(DateTimeService.class)).getCurrentSqlDate();
-        group1 = originEntryGroupService.createGroup(today, LABOR_MAIN_POSTER_VALID, true, true, false);
+        //TODO: Shawn - commented out
+        //group1 = originEntryGroupService.createGroup(today, LABOR_MAIN_POSTER_VALID, true, true, false);
     }
 
     public void testVerifyTransactionWithForeignReference() throws Exception {

@@ -89,7 +89,8 @@ public class LaborPosterServiceTest extends KualiTestBase {
         businessObjectService.deleteMatching(OriginEntryGroup.class, groupFieldValues);
 
         Date today = (SpringContext.getBean(DateTimeService.class)).getCurrentSqlDate();
-        groupToPost = originEntryGroupService.createGroup(today, LABOR_SCRUBBER_VALID, true, true, false);
+        //TODO: Shawn - commented out
+        //groupToPost = originEntryGroupService.createGroup(today, LABOR_SCRUBBER_VALID, true, true, false);
 
         LaborOriginEntry cleanup = new LaborOriginEntry();
         ObjectUtil.populateBusinessObject(cleanup, properties, "dataCleanup", fieldNames, deliminator);

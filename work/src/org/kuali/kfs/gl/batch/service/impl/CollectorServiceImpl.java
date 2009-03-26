@@ -75,7 +75,6 @@ public class CollectorServiceImpl implements CollectorService {
         Date executionDate = dateTimeService.getCurrentSqlDate();
 
         Date runDate = new Date(runDateService.calculateRunDate(executionDate).getTime());
-        OriginEntryGroup group = originEntryGroupService.createGroup(runDate, OriginEntrySource.COLLECTOR, true, false, true);
         CollectorReportData collectorReportData = new CollectorReportData();
         List<CollectorScrubberStatus> collectorScrubberStatuses = new ArrayList<CollectorScrubberStatus>();
 
@@ -117,7 +116,7 @@ public class CollectorServiceImpl implements CollectorService {
                 boolean processSuccess = false;
                 try {
                     LOG.info("Collecting file: " + inputFileName);
-                    processSuccess = collectorHelperService.loadCollectorFile(inputFileName, group, collectorReportData, collectorScrubberStatuses);
+                    processSuccess = collectorHelperService.loadCollectorFile(inputFileName, collectorReportData, collectorScrubberStatuses);
                 }
                 catch (RuntimeException e) {
                     LOG.error("Caught exception trying to load collector file: " + inputFileName, e);
@@ -159,8 +158,8 @@ public class CollectorServiceImpl implements CollectorService {
         }
         finally {
             collectorScrubberService.removeTempGroups(collectorScrubberStatuses);
-            group.setProcess(true);
-            originEntryGroupService.save(group);
+//            group.setProcess(true);
+//            originEntryGroupService.save(group);
             removeDoneFiles(processedFiles);
             collectorFinalOutputFilePs.close();
         }

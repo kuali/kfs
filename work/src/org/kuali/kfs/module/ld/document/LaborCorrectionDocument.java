@@ -72,7 +72,7 @@ public class LaborCorrectionDocument extends GeneralLedgerCorrectionProcessDocum
                 java.sql.Date today = dateTimeService.getCurrentSqlDate();
                 // Scrub is set to false when the document is initiated. When the document is final, it will be changed to true
                 String fileNameWithPath = laborCorrectionDocumentService.generateOutputOriginEntryFileName(docId);
-                OriginEntryGroup oeg = laborOriginEntryService.copyEntries(today, OriginEntrySource.LABOR_CORRECTION_PROCESS_EDOC, true, false, true, outputEntries);
+                //OriginEntryGroup oeg = laborOriginEntryService.copyEntries(today, OriginEntrySource.LABOR_CORRECTION_PROCESS_EDOC, true, false, true, outputEntries);
                 
                 // TODO: Shawn - don't need until here
                 // Now, run the reports

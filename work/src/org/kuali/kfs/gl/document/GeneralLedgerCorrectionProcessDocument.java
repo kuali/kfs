@@ -248,22 +248,11 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
                 String docId = getDocumentHeader().getDocumentNumber();
                 // this code is performed asynchronously
 
-                // First, save the origin entries to the origin entry table
-                // TODO: Shawn - don't need this part from here
-                
                 DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-                OriginEntryService originEntryService = SpringContext.getBean(OriginEntryService.class);
                 CorrectionDocumentService correctionDocumentService = SpringContext.getBean(CorrectionDocumentService.class);
 
-                Iterator<OriginEntryFull> outputEntries = correctionDocumentService.retrievePersistedOutputOriginEntriesAsIterator(this);
-
-                // Create output group
                 java.sql.Date today = dateTimeService.getCurrentSqlDate();
                 // Scrub is set to false when the document is initiated. When the document is final, it will be changed to true
-                OriginEntryGroup oeg = originEntryService.copyEntries(today, OriginEntrySource.GL_CORRECTION_PROCESS_EDOC, true, false, true, outputEntries);
-
-                //TODO: Shawn - don't need until here
-                
                 
                 String fileNameWithPath = correctionDocumentService.generateOutputOriginEntryFileName(docId);
                 // Now, run the reports

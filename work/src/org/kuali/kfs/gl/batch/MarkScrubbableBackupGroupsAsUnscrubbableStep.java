@@ -37,7 +37,8 @@ public class MarkScrubbableBackupGroupsAsUnscrubbableStep extends AbstractStep i
      * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String)
      */
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-        originEntryGroupService.markScrubbableBackupGroupsAsUnscrubbable();
+        //TODO: Shawn - This step is not running. 
+        //originEntryGroupService.markScrubbableBackupGroupsAsUnscrubbable();
         return true;
     }
 

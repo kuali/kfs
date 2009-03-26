@@ -78,7 +78,8 @@ public class LaborGLLedgerEntryPosterTest extends KualiTestBase {
         laborGeneralLedgerEntryService = SpringContext.getBean(LaborGeneralLedgerEntryService.class);
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
 
-        group1 = originEntryGroupService.createGroup(dateTimeService.getCurrentSqlDate(), LABOR_MAIN_POSTER_VALID, false, false, false);
+        //TODO: Shawn - commented out
+        //group1 = originEntryGroupService.createGroup(dateTimeService.getCurrentSqlDate(), LABOR_MAIN_POSTER_VALID, false, false, false);
         today = dateTimeService.getCurrentDate();
 
         LaborGeneralLedgerEntry cleanup = new LaborGeneralLedgerEntry();

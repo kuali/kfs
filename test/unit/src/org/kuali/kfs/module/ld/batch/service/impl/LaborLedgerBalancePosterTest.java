@@ -73,8 +73,8 @@ public class LaborLedgerBalancePosterTest extends KualiTestBase {
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-
-        group1 = originEntryGroupService.createGroup(dateTimeService.getCurrentSqlDate(), LABOR_MAIN_POSTER_VALID, false, false, false);
+        //TODO: Shawn - commented out
+        //group1 = originEntryGroupService.createGroup(dateTimeService.getCurrentSqlDate(), LABOR_MAIN_POSTER_VALID, false, false, false);
         today = dateTimeService.getCurrentDate();
 
         LedgerBalance cleanup = new LedgerBalance();

@@ -39,25 +39,25 @@ public interface LaborOriginEntryService {
     /**
      * Get statistics from a group
      */
-    public OriginEntryStatistics getStatistics(Integer groupId);
+    //public OriginEntryStatistics getStatistics(Integer groupId);
     public OriginEntryStatistics getStatistics(String fileName);
 
     /**
      * Copy a set of entries into a new group
      */
-    public OriginEntryGroup copyEntries(Date date, String sourceCode, boolean valid, boolean process, boolean scrub, Collection<LaborOriginEntry> entries);
+    //public OriginEntryGroup copyEntries(Date date, String sourceCode, boolean valid, boolean process, boolean scrub, Collection<LaborOriginEntry> entries);
 
     /**
      * Copy a set of entries into a new group
      */
-    public OriginEntryGroup copyEntries(Date date, String sourceCode, boolean valid, boolean process, boolean scrub, Iterator<LaborOriginEntry> entries);
+    //public OriginEntryGroup copyEntries(Date date, String sourceCode, boolean valid, boolean process, boolean scrub, Iterator<LaborOriginEntry> entries);
 
     /**
      * Delete entry
      * 
      * @param oe Entry to delete
      */
-    public void delete(LaborOriginEntry oe);
+    //public void delete(LaborOriginEntry oe);
 
     /**
      * Return all documents in a group
@@ -65,7 +65,7 @@ public interface LaborOriginEntryService {
      * @param oeg Group used to select documents
      * @return Collection to all documents
      */
-    public Collection<LaborOriginEntry> getDocumentsByGroup(OriginEntryGroup oeg);
+    //public Collection<LaborOriginEntry> getDocumentsByGroup(OriginEntryGroup oeg);
 
     /**
      * Return all entries for a group sorted by account number for the error
@@ -73,7 +73,7 @@ public interface LaborOriginEntryService {
      * @param oeg
      * @return
      */
-    public Iterator<LaborOriginEntry> getEntriesByGroupAccountOrder(OriginEntryGroup oeg);
+    //public Iterator<LaborOriginEntry> getEntriesByGroupAccountOrder(OriginEntryGroup oeg);
 
     /**
      * Return all entries for a group sorted for display on the pending entry report.
@@ -81,7 +81,7 @@ public interface LaborOriginEntryService {
      * @param oeg
      * @return
      */
-    public Iterator<LaborOriginEntry> getEntriesByGroupReportOrder(OriginEntryGroup oeg);
+    //public Iterator<LaborOriginEntry> getEntriesByGroupReportOrder(OriginEntryGroup oeg);
 
     /**
      * Return all entries for a group sorted across the columns in report from left to right.
@@ -89,7 +89,7 @@ public interface LaborOriginEntryService {
      * @param oeg
      * @return
      */
-    public Iterator<LaborOriginEntry> getEntriesByGroupListingReportOrder(OriginEntryGroup oeg);
+    //public Iterator<LaborOriginEntry> getEntriesByGroupListingReportOrder(OriginEntryGroup oeg);
 
     /**
      * Return all entries for the groups where the balance type is empty
@@ -97,7 +97,7 @@ public interface LaborOriginEntryService {
      * @param groups
      * @return
      */
-    public Iterator<LaborOriginEntry> getBadBalanceEntries(Collection groups);
+    //public Iterator<LaborOriginEntry> getBadBalanceEntries(Collection groups);
 
     /**
      * Return all the entries for a specific document in a specific group
@@ -108,7 +108,7 @@ public interface LaborOriginEntryService {
      * @param originCode Origin Code selection
      * @return iterator to all the entries
      */
-    public Collection<LaborOriginEntry> getEntriesByDocument(OriginEntryGroup oeg, String documentNumber, String documentTypeCode, String originCode);
+    //public Collection<LaborOriginEntry> getEntriesByDocument(OriginEntryGroup oeg, String documentNumber, String documentTypeCode, String originCode);
 
     /**
      * Take a generic transaction and save it as an origin entry in a specific group
@@ -116,14 +116,14 @@ public interface LaborOriginEntryService {
      * @param tran transaction to save
      * @param group group to save the transaction
      */
-    public void createEntry(LaborTransaction laborTran, OriginEntryGroup group);
+    //public void createEntry(LaborTransaction laborTran, OriginEntryGroup group);
 
     /**
      * Save an laborOrigin entry
      * 
      * @param entry
      */
-    public void save(LaborOriginEntry entry);
+    //public void save(LaborOriginEntry entry);
 
     /**
      * Export all origin entries in a group to a flat text file
@@ -131,7 +131,7 @@ public interface LaborOriginEntryService {
      * @param filename Filename to save the text
      * @param groupId Group to save
      */
-    public void exportFlatFile(String filename, Integer groupId);
+    //public void exportFlatFile(String filename, Integer groupId);
 
     /**
      * Load a flat file of transations into the origin entry table
@@ -142,7 +142,7 @@ public interface LaborOriginEntryService {
      * @param processed Process flag for new group
      * @param scrub Scrub flag for new group
      */
-    public void loadFlatFile(String filename, String groupSourceCode, boolean valid, boolean processed, boolean scrub);
+    //public void loadFlatFile(String filename, String groupSourceCode, boolean valid, boolean processed, boolean scrub);
 
     /**
      * Send data to an output stream
@@ -150,21 +150,21 @@ public interface LaborOriginEntryService {
      * @param groupId
      * @param bw
      */
-    public void flatFile(Integer groupId, BufferedOutputStream bw);
+    //public void flatFile(Integer groupId, BufferedOutputStream bw);
 
     /**
      * Return all entries by searchCriteria
      * 
      * @param searchCriteria
      */
-    public Collection getMatchingEntriesByCollection(Map searchCriteria);
+    //public Collection getMatchingEntriesByCollection(Map searchCriteria);
 
     /**
      * Return a matched entry with entryId
      * 
      * @param entryId
      */
-    public LaborOriginEntry getExactMatchingEntry(Integer entryId);
+    //public LaborOriginEntry getExactMatchingEntry(Integer entryId);
 
 
     /**
@@ -173,7 +173,7 @@ public interface LaborOriginEntryService {
      * @param group the given origin entry group
      * @return origin entries that belong to the given group
      */
-    public Iterator<LaborOriginEntry> getEntriesByGroup(OriginEntryGroup group);
+    //public Iterator<LaborOriginEntry> getEntriesByGroup(OriginEntryGroup group);
 
     /**
      * Get origin entries that belong to the given group
@@ -181,7 +181,7 @@ public interface LaborOriginEntryService {
      * @param group the given origin entry group
      * @return origin entries that belong to the given group
      */
-    public Collection<LaborOriginEntry> getEntryCollectionByGroup(OriginEntryGroup group);
+    //public Collection<LaborOriginEntry> getEntryCollectionByGroup(OriginEntryGroup group);
 
     /**
      * Get origin entries that belong to the given groups
@@ -189,7 +189,7 @@ public interface LaborOriginEntryService {
      * @param groups the given origin entry groups
      * @return origin entries that belong to the given groups
      */
-    public Iterator<LaborOriginEntry> getEntriesByGroups(Collection<OriginEntryGroup> groups);
+    //public Iterator<LaborOriginEntry> getEntriesByGroups(Collection<OriginEntryGroup> groups);
 
     /**
      * Get the origin entries that belong to the given group in either the consolidation manner or not
@@ -198,7 +198,7 @@ public interface LaborOriginEntryService {
      * @param isConsolidated the flag that indicates if return origin entries in either the consolidation manner or not
      * @return the origin entries that belong to the given group in either the consolidation manner or not
      */
-    public Iterator<LaborOriginEntry> getEntriesByGroup(OriginEntryGroup group, boolean isConsolidated);
+    //public Iterator<LaborOriginEntry> getEntriesByGroup(OriginEntryGroup group, boolean isConsolidated);
 
     /**
      * Get the origin entries that belong to the given group in either the consolidation manner or not
@@ -207,7 +207,7 @@ public interface LaborOriginEntryService {
      * @param isConsolidated the flag that indicates if return origin entries in either the consolidation manner or not
      * @return the origin entries that belong to the given group in either the consolidation manner or not
      */
-    public Collection<LaborOriginEntry> getConsolidatedEntryCollectionByGroup(OriginEntryGroup group);
+    //public Collection<LaborOriginEntry> getConsolidatedEntryCollectionByGroup(OriginEntryGroup group);
 
     /**
      * get the summarized information of the entries that belong to the given entry groups
@@ -215,7 +215,7 @@ public interface LaborOriginEntryService {
      * @param groups the origin entry groups
      * @return a set of summarized information of the entries within the specified groups
      */
-    public LedgerEntryHolder getSummariedEntriesByGroups(Collection<OriginEntryGroup> groups);
+    //public LedgerEntryHolder getSummariedEntriesByGroups(Collection<OriginEntryGroup> groups);
 
     /**
      * get the summarized information of poster input entries that belong to the given entry groups
@@ -223,7 +223,7 @@ public interface LaborOriginEntryService {
      * @param groups the origin entry groups
      * @return a map of summarized information of poster input entries within the specified groups
      */
-    public Map<String, PosterOutputSummaryEntry> getPosterOutputSummaryByGroups(Collection<OriginEntryGroup> groups);
+    //public Map<String, PosterOutputSummaryEntry> getPosterOutputSummaryByGroups(Collection<OriginEntryGroup> groups);
 
     /**
      * get the count of the origin entry collection in the given groups
@@ -231,16 +231,16 @@ public interface LaborOriginEntryService {
      * @param groups the given groups
      * @return the count of the origin entry collection in the given group
      */
-    public int getCountOfEntriesInGroups(Collection<OriginEntryGroup> groups);
+    //public int getCountOfEntriesInGroups(Collection<OriginEntryGroup> groups);
 
     /**
      * get all entries with groupId
      * 
      * @param groupId
      */
-    public List<LaborOriginEntry> getEntriesByGroupId(Integer groupId);
+    //public List<LaborOriginEntry> getEntriesByGroupId(Integer groupId);
     
-    public  Map getEntriesByGroupId(String fileName, List<LaborOriginEntry> originEntryList);
+    public Map getEntriesByGroupId(String fileName, List<LaborOriginEntry> originEntryList);
 
     public Map getEntriesByBufferedReader(BufferedReader inputBufferedReader, List<LaborOriginEntry> originEntryList);
     /**
@@ -249,7 +249,7 @@ public interface LaborOriginEntryService {
      * @param groupIdList the origin entry groups
      * @return a set of summarized information of the entries within the specified group
      */
-    public LedgerEntryHolder getSummaryByGroupId(Collection groupIdList);
+    //public LedgerEntryHolder getSummaryByGroupId(Collection groupIdList);
 
     /**
      * get the count of the origin entry collection in the given group
@@ -257,7 +257,7 @@ public interface LaborOriginEntryService {
      * @param group the given group
      * @return the count of the origin entry collection in the given group
      */
-    public int getCountOfEntriesInSingleGroup(OriginEntryGroup group);
+    //public int getCountOfEntriesInSingleGroup(OriginEntryGroup group);
     
     /**
      * Get all the unscrubbed backup groups for Labor
@@ -265,14 +265,14 @@ public interface LaborOriginEntryService {
      * @param backupDate the date all groups created on or before should be return to be backed up
      * @return a Collection of labor origin entry groups to backup
      */
-    public Collection getLaborBackupGroups(Date backupDate);
+    //public Collection getLaborBackupGroups(Date backupDate);
     
     /**
      * Counts the number of entries in a group
      * @param the id of an origin entry group
      * @return the count of the entries in that group
      */
-    public Integer getGroupCount(Integer groupId);
+    //public Integer getGroupCount(Integer groupId);
     
     public Integer getGroupCount(String fileName);
     

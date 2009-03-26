@@ -109,7 +109,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
     /* Services required */
     private FlexibleOffsetAccountService flexibleOffsetAccountService;
     private OriginEntryService originEntryService;
-    private OriginEntryLiteService originEntryLiteService;
+    //private OriginEntryLiteService originEntryLiteService;
     private OriginEntryGroupService originEntryGroupService;
     private DateTimeService dateTimeService;
     private OffsetDefinitionService offsetDefinitionService;
@@ -179,11 +179,11 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
     /**
      * These parameters are all the dependencies.
      */
-    public ScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, OriginEntryService originEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService configurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, ReportService reportService, ScrubberValidator scrubberValidator, ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride, RunDateService runDateService, OriginEntryLiteService originEntryLiteService, String batchFileDirectoryName, String reportDirectoryName) {
+    public ScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, OriginEntryService originEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService configurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, ReportService reportService, ScrubberValidator scrubberValidator, ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride, RunDateService runDateService, String batchFileDirectoryName, String reportDirectoryName) {
         super();
         this.flexibleOffsetAccountService = flexibleOffsetAccountService;
         this.originEntryService = originEntryService;
-        this.originEntryLiteService = originEntryLiteService;
+        //this.originEntryLiteService = originEntryLiteService;
         this.originEntryGroupService = originEntryGroupService;
         this.dateTimeService = dateTimeService;
         this.offsetDefinitionService = offsetDefinitionService;

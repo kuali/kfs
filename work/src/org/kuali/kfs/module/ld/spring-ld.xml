@@ -118,18 +118,25 @@
     </bean>
     
 	<bean id="laborOriginEntryService" class="org.kuali.kfs.module.ld.service.impl.LaborOriginEntryServiceImpl">
+<!-- 		
 		<property name="laborOriginEntryDao">
 			<ref bean="laborOriginEntryDao" />
 		</property>
+		
+ -->		
 		<property name="originEntryGroupService">
 			<ref bean="originEntryGroupService" />
 		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
+<!-- 
 		<property name="originEntryDao">
 			<ref bean="originEntryDao" />
 		</property>
+		
+-->
+
 		<property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
 	</bean>
 
@@ -180,10 +187,11 @@
 	
     <!-- Section 2: Spring Beans for DAO -->
 
+<!-- 
 	<bean id="laborOriginEntryDao" parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborOriginEntryDaoOjb">
 	    <property name="entryClass" value="org.kuali.kfs.module.ld.businessobject.LaborOriginEntry"/>
             </bean>
-	
+-->	
     <bean id="laborLedgerEntryDao" parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborLedgerEntryDaoOjb" />
 
     <bean id="laborLedgerEntryHistoryDao" parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborLedgerEntryHistoryDaoOjb" />

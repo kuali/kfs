@@ -35,21 +35,6 @@ import org.kuali.kfs.sys.businessobject.SystemOptions;
  */
 
 public interface ReportService {
-    /**
-     * Generates a ledger summary of pending entries, created by NightlyOut
-     * 
-     * @param runDate the date this nightly out process was run on
-     * @param group the group of origin entries copied from pending entries
-     */
-    public void generatePendingEntryLedgerSummaryReport(Date runDate, OriginEntryGroup group);
-
-    /**
-     * Generates a report on all pending entries, created by Nightly out
-     * 
-     * @param runDate the date this nightly out process was run on
-     * @param group the group of origin entries copied from pending entries
-     */
-    public void generatePendingEntryReport(Date runDate, OriginEntryGroup group);
     
     public void generatePendingEntryReport(Date runDate, Collection group);
 
@@ -104,30 +89,6 @@ public interface ReportService {
      * @param demergerReport Summary information
      */
     public void generateScrubberDemergerStatisticsReports(Date runDate, DemergerReportData demergerReport);
-
-    /**
-     * Generates the Scrubber Bad Balance listing report
-     * 
-     * @param runDate Run date of the report
-     * @param groups Groups to summarize for the report
-     */
-    public void generateScrubberBadBalanceTypeListingReport(Date runDate, Collection groups);
-
-    /**
-     * Generates Scrubber Transaction Listing report for online viewing
-     * 
-     * @param runDate Run date of the report
-     * @param validGroup Group with transactions
-     */
-    public void generateScrubberTransactionsOnline(Date runDate, OriginEntryGroup validGroup, String documentNumber);
-
-    /**
-     * Generates the Scrubber Removed Transactions report
-     * 
-     * @param runDate Run date of the report
-     * @param errorGroup Group with error transactions
-     */
-    public void generateScrubberRemovedTransactions(Date runDate, OriginEntryGroup errorGroup);
 
     /**
      * Generates the GL Summary report
@@ -250,27 +211,6 @@ public interface ReportService {
      * @param orgReversionOriginEntryGroup the origin entry group that contains the reversion origin entries
      */
     public void generateOrgReversionStatisticsReport(Map jobParameters, List reportSummary, Date runDate, OriginEntryGroup orgReversionOriginEntryGroup);
-
-    /**
-     * Generates the Poster Reversal Transactions Listing
-     * 
-     * @param executionDate the actual time of poster execution
-     * @param runDate the time assumed by the poster (sometimes the poster can use a transaction date back in time to redo a failed
-     *        poster run)
-     * @param group Group with valid transactions
-     */
-    public void generatePosterReversalTransactionsListing(Date executionDate, Date runDate, OriginEntryGroup group);
-
-    /**
-     * Generates the Poster Error transaction listing
-     * 
-     * @param executionDate the actual time of poster execution
-     * @param runDate the time assumed by the poster (sometimes the poster can use a transaction date back in time to redo a failed
-     *        poster run)
-     * @param group Group with error transactions
-     * @param posterMode Mode the poster is running
-     */
-    public void generatePosterErrorTransactionListing(Date executionDate, Date runDate, OriginEntryGroup group, int posterMode);
 
     /**
      * Generates the on-line GLCP document info report

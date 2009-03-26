@@ -33,7 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class OriginEntryLiteServiceImpl implements OriginEntryLiteService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryLiteServiceImpl.class);
 
-    private OriginEntryDao originEntryDao;
+    //private OriginEntryDao originEntryDao;
 
     private static final String ENTRY_GROUP_ID = "entryGroupId";
     private static final String FINANCIAL_DOCUMENT_TYPE_CODE = "financialDocumentTypeCode";
@@ -49,17 +49,17 @@ public class OriginEntryLiteServiceImpl implements OriginEntryLiteService {
      * @return iterator to all qualifying entries
      * @see org.kuali.kfs.gl.service.OriginEntryLiteService#getEntriesByDocument(org.kuali.kfs.gl.businessobject.OriginEntryGroup, java.lang.String, java.lang.String, java.lang.String)
      */
-    public Iterator<OriginEntryLite> getEntriesByDocument(OriginEntryGroup originEntryGroup, String documentNumber, String documentTypeCode, String originCode) {
-        LOG.debug("getEntriesByDocument() started");
-
-        Map criteria = new HashMap();
-        criteria.put(ENTRY_GROUP_ID, originEntryGroup.getId());
-        criteria.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
-        criteria.put(FINANCIAL_DOCUMENT_TYPE_CODE, documentTypeCode);
-        criteria.put(FINANCIAL_SYSTEM_ORIGINATION_CODE, originCode);
-
-        return originEntryDao.getMatchingEntries(criteria);
-    }
+//    public Iterator<OriginEntryLite> getEntriesByDocument(OriginEntryGroup originEntryGroup, String documentNumber, String documentTypeCode, String originCode) {
+//        LOG.debug("getEntriesByDocument() started");
+//
+//        Map criteria = new HashMap();
+//        criteria.put(ENTRY_GROUP_ID, originEntryGroup.getId());
+//        criteria.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+//        criteria.put(FINANCIAL_DOCUMENT_TYPE_CODE, documentTypeCode);
+//        criteria.put(FINANCIAL_SYSTEM_ORIGINATION_CODE, originCode);
+//
+//        return originEntryDao.getMatchingEntries(criteria);
+//    }
 
     /**
      * Return all the entries in a specific group
@@ -68,47 +68,29 @@ public class OriginEntryLiteServiceImpl implements OriginEntryLiteService {
      * @return Iterator to all the entires
      * @see org.kuali.kfs.gl.service.OriginEntryLiteService#getEntriesByGroup(org.kuali.kfs.gl.businessobject.OriginEntryGroup)
      */
-    public Iterator<OriginEntryLite> getEntriesByGroup(OriginEntryGroup originEntryGroup) {
-        LOG.debug("getEntriesByGroup() started");
-
-        return originEntryDao.getEntriesByGroup(originEntryGroup, OriginEntryDao.SORT_DOCUMENT);
-    }
-
-    /**
-     * Gets the originEntryDao attribute.
-     * 
-     * @return Returns the originEntryDao.
-     */
-    public OriginEntryDao getOriginEntryDao() {
-        return originEntryDao;
-    }
-
-    /**
-     * Sets the originEntryDao attribute value.
-     * 
-     * @param originEntryDao The originEntryDao to set.
-     */
-    public void setOriginEntryDao(OriginEntryDao originEntryDao) {
-        this.originEntryDao = originEntryDao;
-    }
+//    public Iterator<OriginEntryLite> getEntriesByGroup(OriginEntryGroup originEntryGroup) {
+//        LOG.debug("getEntriesByGroup() started");
+//
+//        return originEntryDao.getEntriesByGroup(originEntryGroup, OriginEntryDao.SORT_DOCUMENT);
+//    }
 
     /**
      * Saves an origin entry to the persistence store, defers to the DAO
      * @param entry the origin entry lite to save
      * @see org.kuali.kfs.gl.service.OriginEntryLiteService#save(org.kuali.kfs.gl.businessobject.OriginEntryLite)
      */
-    public void save(OriginEntryLite entry) {
-        LOG.debug("save() started");
-        originEntryDao.saveOriginEntry(entry);
-    }
+//    public void save(OriginEntryLite entry) {
+//        LOG.debug("save() started");
+//        originEntryDao.saveOriginEntry(entry);
+//    }
 
     /**
      * Deletes an origin entry from the persistence store, defers to the DAO
      * @param entry the origin entry lite to delete
      * @see org.kuali.kfs.gl.service.OriginEntryLiteService#delete(org.kuali.kfs.gl.businessobject.OriginEntryLite)
      */
-    public void delete(OriginEntryLite entry) {
-        LOG.debug("delete() started");
-        originEntryDao.deleteEntry(entry);
-    }
+//    public void delete(OriginEntryLite entry) {
+//        LOG.debug("delete() started");
+//        originEntryDao.deleteEntry(entry);
+//    }
 }

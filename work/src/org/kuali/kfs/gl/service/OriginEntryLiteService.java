@@ -32,7 +32,7 @@ public interface OriginEntryLiteService {
      * @param oeg Group used to select entries
      * @return Iterator to all the entires
      */
-    public Iterator<OriginEntryLite> getEntriesByGroup(OriginEntryGroup oeg);
+    //public Iterator<OriginEntryLite> getEntriesByGroup(OriginEntryGroup oeg);
 
     /**
      * Return all the entries for a specific document in a specific group
@@ -43,19 +43,19 @@ public interface OriginEntryLiteService {
      * @param originCode the origination code to return
      * @return iterator to all qualifying entries
      */
-    public Iterator<OriginEntryLite> getEntriesByDocument(OriginEntryGroup oeg, String documentNumber, String documentTypeCode, String originCode);
+    //public Iterator<OriginEntryLite> getEntriesByDocument(OriginEntryGroup oeg, String documentNumber, String documentTypeCode, String originCode);
 
     /**
      * Saves an origin entry lite object to the database
      * 
      * @param entry an entry to save
      */
-    public void save(OriginEntryLite entry);
+    //public void save(OriginEntryLite entry);
 
     /**
      * Deletes an origin entry record from the database
      * 
      * @param entry the entry to delete
      */
-    public void delete(OriginEntryLite entry);
+    //public void delete(OriginEntryLite entry);
 }

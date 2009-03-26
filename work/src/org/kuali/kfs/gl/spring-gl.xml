@@ -613,9 +613,12 @@
 		<property name="runDateService">
 			<ref bean="glRunDateService" />
 		</property>
+<!-- 
 		<property name="originEntryLiteService">
 			<ref bean="originEntryLiteService" />
 		</property>
+		
+-->
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 		<property name="reportDirectoryName" value="${reports.directory}"/>
 	</bean>
@@ -841,9 +844,6 @@
 	</bean>
 
 	<bean id="originEntryService" class="org.kuali.kfs.gl.service.impl.OriginEntryServiceImpl">
-		<property name="originEntryDao">
-			<ref bean="originEntryDao" />
-		</property>
 		<property name="originEntryGroupService">
 			<ref bean="originEntryGroupService" />
 		</property>
@@ -870,10 +870,15 @@
 	</bean>
 	
 	<bean id="originEntryLiteService" class="org.kuali.kfs.gl.service.impl.OriginEntryLiteServiceImpl">
+<!-- 
 		<property name="originEntryDao">
 			<ref bean="originEntryLiteDao" />
 		</property>
+		
+		-->
 	</bean>
+	
+	 
 
 	<bean id="reversalService" class="org.kuali.kfs.gl.service.impl.ReversalServiceImpl">
 		<property name="reversalDao">
@@ -888,12 +893,15 @@
 	</bean>
 
 	<bean id="originEntryGroupService" class="org.kuali.kfs.gl.service.impl.OriginEntryGroupServiceImpl">
+<!-- 	
 		<property name="originEntryGroupDao">
 			<ref bean="glOriginEntryGroupDao" />
 		</property>
 		<property name="originEntryDao">
 			<ref bean="originEntryDao" />
 		</property>
+
+ -->
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
@@ -1084,8 +1092,9 @@
 		<property name="entryClass" value="org.kuali.kfs.gl.businessobject.OriginEntryLite"/>
    			</bean>
 
+<!--	
 	<bean id="glOriginEntryGroupDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.OriginEntryGroupDaoOjb" />
-
+-->
 	<bean id="glBalanceDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.BalanceDaoOjb">
 		<property name="parameterService">
 			<ref bean="parameterService" />

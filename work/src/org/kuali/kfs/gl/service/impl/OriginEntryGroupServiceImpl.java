@@ -54,8 +54,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryGroupServiceImpl.class);
 
-    private OriginEntryGroupDao originEntryGroupDao;
-    private OriginEntryDao originEntryDao;
+    //private OriginEntryGroupDao originEntryGroupDao;
+    //private OriginEntryDao originEntryDao;
     private DateTimeService dateTimeService;
     private String batchFileDirectoryName;
     private String batchLaborFileDirectoryName;
@@ -73,94 +73,63 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
      * @param groupId the id of the group to set
      * @see org.kuali.kfs.gl.service.OriginEntryGroupService#dontProcessGroup(java.lang.Integer)
      */
-    public void dontProcessGroup(Integer groupId) {
-        LOG.debug("dontProcessGroup() started");
-
-        OriginEntryGroup oeg = getExactMatchingEntryGroup(groupId);
-        if (oeg != null) {
-            oeg.setProcess(false);
-            save(oeg);
-        }
-    }
+//    public void dontProcessGroup(Integer groupId) {
+//        LOG.debug("dontProcessGroup() started");
+//
+//        OriginEntryGroup oeg = getExactMatchingEntryGroup(groupId);
+//        if (oeg != null) {
+//            oeg.setProcess(false);
+//            save(oeg);
+//        }
+//    }
 
 
     /**
      * Sets all scrubbable backup groups's scrub attributes to false, so none will be scrubbed
      * @see org.kuali.kfs.gl.service.OriginEntryGroupService#markBackupGroupsUnscrubbable()
      */
-    public void markScrubbableBackupGroupsAsUnscrubbable() {
-        LOG.debug("markScrubbableBackupGroupsAsUnscrubbable() started");
-        for (OriginEntryGroup scrubbableBackupGroup : getAllScrubbableBackupGroups()) {
-            if (LOG.isInfoEnabled()) {
-                LOG.info("marking backup origin entry group as don't process: " + scrubbableBackupGroup.getId());
-            }
-            scrubbableBackupGroup.setProcess(Boolean.FALSE);
-            save(scrubbableBackupGroup);
-        }
-    }
+//    public void markScrubbableBackupGroupsAsUnscrubbable() {
+//        LOG.debug("markScrubbableBackupGroupsAsUnscrubbable() started");
+//        for (OriginEntryGroup scrubbableBackupGroup : getAllScrubbableBackupGroups()) {
+//            if (LOG.isInfoEnabled()) {
+//                LOG.info("marking backup origin entry group as don't process: " + scrubbableBackupGroup.getId());
+//            }
+//            scrubbableBackupGroup.setProcess(Boolean.FALSE);
+//            save(scrubbableBackupGroup);
+//        }
+//    }
 
     /**
      * Sets all groups created by the scrubber and ready to be posted's process attribute to false, so they won't be posted
      * @see org.kuali.kfs.gl.service.OriginEntryGroupService#markPostableScrubberValidGroupsAsUnpostable()
      */
-    public void markPostableScrubberValidGroupsAsUnpostable() {
-        LOG.debug("markPostableScrubberValidGroupsAsUnpostable() started");
-        Collection<OriginEntryGroup> postableGroups = getGroupsToPost();
-        for (OriginEntryGroup postableGroup : postableGroups) {
-            if (LOG.isInfoEnabled()) {
-                LOG.info("marking postable SCV origin entry group as don't process: " + postableGroup.getId());
-            }
-            postableGroup.setProcess(Boolean.FALSE);
-            save(postableGroup);
-        }
-    }
+//    public void markPostableScrubberValidGroupsAsUnpostable() {
+//        LOG.debug("markPostableScrubberValidGroupsAsUnpostable() started");
+//        Collection<OriginEntryGroup> postableGroups = getGroupsToPost();
+//        for (OriginEntryGroup postableGroup : postableGroups) {
+//            if (LOG.isInfoEnabled()) {
+//                LOG.info("marking postable SCV origin entry group as don't process: " + postableGroup.getId());
+//            }
+//            postableGroup.setProcess(Boolean.FALSE);
+//            save(postableGroup);
+//        }
+//    }
 
     /**
      * Marks any postable ICR group's process attribute as false, so they won't be posted
      * @see org.kuali.kfs.gl.service.OriginEntryGroupService#markPostableIcrGroupsAsUnpostable()
      */
-    public void markPostableIcrGroupsAsUnpostable() {
-        LOG.debug("markPostableIcrGroupsAsUnpostable() started");
-        Collection<OriginEntryGroup> postableGroups = getIcrGroupsToPost();
-        for (OriginEntryGroup postableGroup : postableGroups) {
-            if (LOG.isInfoEnabled()) {
-                LOG.info("marking postable ICR origin entry group as don't process: " + postableGroup.getId());
-            }
-            postableGroup.setProcess(Boolean.FALSE);
-            save(postableGroup);
-        }
-    }
-
-    /**
-     * Returns the most recently created scrubber error group in the database
-     * @return the most recently created scrubber error group
-     * @see org.kuali.kfs.gl.service.OriginEntryGroupService#getNewestScrubberErrorGroup()
-     */
-    public OriginEntryGroup getNewestScrubberErrorGroup() {
-        LOG.debug("getNewestScrubberErrorGroup() started");
-
-        OriginEntryGroup newest = null;
-
-        Map crit = new HashMap();
-        crit.put("sourceCode", OriginEntrySource.SCRUBBER_ERROR);
-
-        Collection groups = originEntryGroupDao.getMatchingGroups(crit);
-        for (Iterator iter = groups.iterator(); iter.hasNext();) {
-            OriginEntryGroup element = (OriginEntryGroup) iter.next();
-
-            if (newest == null) {
-                newest = element;
-            }
-            else {
-                if (newest.getId().intValue() < element.getId().intValue()) {
-                    newest = element;
-                }
-            }
-        }
-
-        return newest;
-    }
-    
+//    public void markPostableIcrGroupsAsUnpostable() {
+//        LOG.debug("markPostableIcrGroupsAsUnpostable() started");
+//        Collection<OriginEntryGroup> postableGroups = getIcrGroupsToPost();
+//        for (OriginEntryGroup postableGroup : postableGroups) {
+//            if (LOG.isInfoEnabled()) {
+//                LOG.info("marking postable ICR origin entry group as don't process: " + postableGroup.getId());
+//            }
+//            postableGroup.setProcess(Boolean.FALSE);
+//            save(postableGroup);
+//        }
+//    }
 
     public String getNewestScrubberErrorFileName(){
         File newestFile = null;
@@ -225,19 +194,12 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
      * @see org.kuali.kfs.gl.businessobject.OriginEntrySource
      * @see org.kuali.kfs.gl.service.OriginEntryGroupService#getGroupsFromSource(java.lang.String)
      */
+    //TODO: Shawn - This method used for report. I will delete this method after all reports are done.
     public OriginEntryGroup getGroupWithMaxIdFromSource(String sourceCode) {
         LOG.debug("getGroupWithMaxIdFromSource() started");
 
-        return originEntryGroupDao.getGroupWithMaxIdFromSource(sourceCode);
-    }
-
-    /**
-     * Returns all groups created by the backup source that can be scrubbed
-     * @return a Collection of origin entry groups to scrub
-     * @see org.kuali.kfs.gl.service.OriginEntryGroupService#getAllScrubbableBackupGroups()
-     */
-    public Collection<OriginEntryGroup> getAllScrubbableBackupGroups() {
-        return originEntryGroupDao.getAllScrubbableBackupGroups();
+        //return originEntryGroupDao.getGroupWithMaxIdFromSource(sourceCode);
+        return new OriginEntryGroup();
     }
 
     /**
@@ -345,19 +307,6 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         }
     }
 
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     /**
      * Deletes all groups older than a given number of days
      * @param days the number of days that groups older than should be deleted
@@ -401,73 +350,6 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         }
     }
     
-
-    /**
-     * Deletes every origin entry group in the given collection.  Note: this method deletes all the origin entries
-     * in each group and then deletes the group.
-     * @param groupsToDelete a Collection of groups to delete
-     * @see org.kuali.kfs.gl.service.OriginEntryGroupService#deleteGroups(java.util.Collection)
-     */
-    public void deleteGroups(Collection<OriginEntryGroup> groupsToDelete) {
-        for (OriginEntryGroup groupToDelete : groupsToDelete) {
-            if (groupToDelete.getId() == null) {
-                throw new NullPointerException("Received null group ID trying to delete groups");
-            }
-        }
-
-        if (groupsToDelete.size() > 0) {
-            originEntryDao.deleteGroups(groupsToDelete);
-            originEntryGroupDao.deleteGroups(groupsToDelete);
-        }
-    }
-
-    /**
-     * Return all the origin entry groups that have a process attribute of false.
-     * @return a Collection of all origin entry groups that have a process indicator of false. collection is returned read-only.
-     */
-    public Collection getOriginEntryGroupsPendingProcessing() {
-        LOG.debug("getOriginEntryGroupsPendingProcessing() started");
-
-        Map criteria = new HashMap();
-        criteria.put("process", Boolean.FALSE);
-        Collection returnCollection = new ArrayList();
-        returnCollection = originEntryGroupDao.getMatchingGroups(criteria);
-        return returnCollection;
-    }
-
-    /**
-     * Returns all origin entry groups currently in the databse
-     * @return a Collection of all origin entry groups in the database
-     * @see org.kuali.kfs.gl.service.OriginEntryGroupService#getAllOriginEntryGroup()
-     */
-    public Collection getAllOriginEntryGroup() {
-        LOG.debug("getAllOriginEntryGroup() started");
-        Map criteria = new HashMap();
-
-        Collection<OriginEntryGroup> c = originEntryGroupDao.getMatchingGroups(criteria);
-
-        // GLCP and LLCP group filter exception
-        String groupException = "";
-        for (int i = 0; i < KFSConstants.LLCP_GROUP_FILTER_EXCEPTION.length; i++) {
-            groupException += KFSConstants.LLCP_GROUP_FILTER_EXCEPTION[i] + " ";
-        }
-
-        // Get the row counts for each group
-
-        for (OriginEntryGroup group : c) {
-
-            if (group.getSourceCode().startsWith("L") && !groupException.contains(group.getSourceCode())) {
-                group.setRows(SpringContext.getBean(LaborModuleService.class).getLaborOriginEntryGroupCount(group.getId()));
-            }
-            else {
-                group.setRows(originEntryDao.getGroupCount(group.getId()));
-            }
-
-        }
-        return c;
-    }
-
-
     /**
      * Create a new OriginEntryGroup and persists it to the database.
      * @param date the date this group should list as its creation date
@@ -477,20 +359,20 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
      * @param scrub whether this group should be input to the scrubber
      * @return a new origin entry group to put origin entries into
      */
-    public OriginEntryGroup createGroup(Date date, String sourceCode, boolean valid, boolean process, boolean scrub) {
-        LOG.debug("createGroup() started");
-
-        OriginEntryGroup oeg = new OriginEntryGroup();
-        oeg.setDate(date);
-        oeg.setProcess(Boolean.valueOf(process));
-        oeg.setScrub(Boolean.valueOf(scrub));
-        oeg.setSourceCode(sourceCode);
-        oeg.setValid(Boolean.valueOf(valid));
-
-        originEntryGroupDao.save(oeg);
-
-        return oeg;
-    }
+//    public OriginEntryGroup createGroup(Date date, String sourceCode, boolean valid, boolean process, boolean scrub) {
+//        LOG.debug("createGroup() started");
+//
+//        OriginEntryGroup oeg = new OriginEntryGroup();
+//        oeg.setDate(date);
+//        oeg.setProcess(Boolean.valueOf(process));
+//        oeg.setScrub(Boolean.valueOf(scrub));
+//        oeg.setSourceCode(sourceCode);
+//        oeg.setValid(Boolean.valueOf(valid));
+//
+//        originEntryGroupDao.save(oeg);
+//
+//        return oeg;
+//    }
     
     public File createGroup(String fileName){
         return new File(batchFileDirectoryName + File.separator + fileName);
@@ -504,21 +386,21 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
      * Get all non-ICR-related OriginEntryGroups waiting to be posted as of postDate.
      * @return a Collection of origin entry groups to post
      */
-    public Collection getGroupsToPost() {
-        LOG.debug("getGroupsToPost() started");
-
-        return originEntryGroupDao.getPosterGroups(OriginEntrySource.SCRUBBER_VALID);
-    }
+//    public Collection getGroupsToPost() {
+//        LOG.debug("getGroupsToPost() started");
+//
+//        return originEntryGroupDao.getPosterGroups(OriginEntrySource.SCRUBBER_VALID);
+//    }
 
     /**
      * Get all ICR-related OriginEntryGroups waiting to be posted as of postDate.
      * @return a Collection of origin entry groups with indirect cost recovery origin entries to post
      */
-    public Collection getIcrGroupsToPost() {
-        LOG.debug("getIcrGroupsToPost() started");
-
-        return originEntryGroupDao.getPosterGroups(OriginEntrySource.ICR_TRANSACTIONS);
-    }
+//    public Collection getIcrGroupsToPost() {
+//        LOG.debug("getIcrGroupsToPost() started");
+//
+//        return originEntryGroupDao.getPosterGroups(OriginEntrySource.ICR_TRANSACTIONS);
+//    }
 
     /**
      * An alias for OriginEntryGroupDao.getScrubberGroups().
@@ -526,11 +408,11 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
      * @param scrubDate the date to find backup groups for
      * @return a Collection of groups to scrub
      */
-    public Collection getGroupsToBackup(Date scrubDate) {
-        LOG.debug("getGroupsToScrub() started");
-
-        return originEntryGroupDao.getGroupsToBackup(scrubDate);
-    }
+//    public Collection getGroupsToBackup(Date scrubDate) {
+//        LOG.debug("getGroupsToScrub() started");
+//
+//        return originEntryGroupDao.getGroupsToBackup(scrubDate);
+//    }
 
     /**
      * Returns all groups to post
@@ -538,9 +420,9 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
      * @return a Collection of groups to post
      * @see org.kuali.kfs.gl.service.OriginEntryGroupService#getGroups(java.lang.String)
      */
-    public Collection getGroupsToPost(String entryGroupSourceCode) {
-        return originEntryGroupDao.getPosterGroups(entryGroupSourceCode);
-    }
+//    public Collection getGroupsToPost(String entryGroupSourceCode) {
+//        return originEntryGroupDao.getPosterGroups(entryGroupSourceCode);
+//    }
 
     /**
      * Retrieves all groups that match the given search criteria
@@ -548,22 +430,22 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
      * @return a Collection of all qualifying origin entry groups
      * @see org.kuali.kfs.gl.service.OriginEntryGroupService#getMatchingGroups(java.util.Map)
      */
-    public Collection getMatchingGroups(Map criteria) {
-        LOG.debug("getMatchingGroups() started");
-
-        return originEntryGroupDao.getMatchingGroups(criteria);
-    }
+//    public Collection getMatchingGroups(Map criteria) {
+//        LOG.debug("getMatchingGroups() started");
+//
+//        return originEntryGroupDao.getMatchingGroups(criteria);
+//    }
 
     /**
      * Persist an OriginEntryGroup to the database.
      * 
      * @param originEntryGroup
      */
-    public void save(OriginEntryGroup originEntryGroup) {
-        LOG.debug("save() started");
-
-        originEntryGroupDao.save(originEntryGroup);
-    }
+//    public void save(OriginEntryGroup originEntryGroup) {
+//        LOG.debug("save() started");
+//
+//        originEntryGroupDao.save(originEntryGroup);
+//    }
 
     /**
      * Returns the origin entry group with the given id
@@ -571,9 +453,9 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
      * @return the origin entry group with the given id if found, otherwise null
      * @see org.kuali.kfs.gl.service.OriginEntryGroupService#getExactMatchingEntryGroup(java.lang.Integer)
      */
-    public OriginEntryGroup getExactMatchingEntryGroup(Integer id) {
-        return originEntryGroupDao.getExactMatchingEntryGroup(id);
-    }
+//    public OriginEntryGroup getExactMatchingEntryGroup(Integer id) {
+//        return originEntryGroupDao.getExactMatchingEntryGroup(id);
+//    }
 
     /**
      * Returns groups created within the past number of given days
@@ -581,15 +463,15 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
      * @return a Collection of qualifying groups
      * @see org.kuali.kfs.gl.service.OriginEntryGroupService#getRecentGroupsByDays(int)
      */
-    public Collection getRecentGroupsByDays(int days) {
-
-        Calendar today = dateTimeService.getCurrentCalendar();
-        today.add(Calendar.DAY_OF_MONTH, 0 - days);
-
-        Collection groups = originEntryGroupDao.getRecentGroups(new java.sql.Date(today.getTime().getTime()));
-
-        return groups;
-    }
+//    public Collection getRecentGroupsByDays(int days) {
+//
+//        Calendar today = dateTimeService.getCurrentCalendar();
+//        today.add(Calendar.DAY_OF_MONTH, 0 - days);
+//
+//        Collection groups = originEntryGroupDao.getRecentGroups(new java.sql.Date(today.getTime().getTime()));
+//
+//        return groups;
+//    }
 
 
     /**
@@ -598,12 +480,12 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
      * @return true if such a group exists, false otherwise
      * @see org.kuali.kfs.gl.service.OriginEntryGroupService#getGroupExists(java.lang.Integer)
      */
-    public boolean getGroupExists(Integer groupId) {
-        Map<String, Integer> criteria = new HashMap<String, Integer>();
-        criteria.put("id", groupId);
-        Collection groups = getMatchingGroups(criteria);
-        return groups.size() > 0;
-    }
+//    public boolean getGroupExists(Integer groupId) {
+//        Map<String, Integer> criteria = new HashMap<String, Integer>();
+//        criteria.put("id", groupId);
+//        Collection groups = getMatchingGroups(criteria);
+//        return groups.size() > 0;
+//    }
     
     public boolean getGroupExists(String groupId) {
         
@@ -613,14 +495,6 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         } else {
             return true;
         }
-    }
-
-    public void setOriginEntryGroupDao(OriginEntryGroupDao oegd) {
-        originEntryGroupDao = oegd;
-    }
-
-    public void setOriginEntryDao(OriginEntryDao oed) {
-        originEntryDao = oed;
     }
 
     public void setDateTimeService(DateTimeService dts) {

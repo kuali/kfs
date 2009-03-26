@@ -261,7 +261,7 @@ public class CollectorBatch implements Serializable {
      * @param originEntryGroup the group into which to store the origin entries
      * @param collectorReportData report data
      */
-    public void setDefaultsAndStore(OriginEntryGroup originEntryGroup, CollectorReportData collectorReportData) {
+    public void setDefaultsAndStore(CollectorReportData collectorReportData) {
         // persistHeader is used to persist a collector header record into the DB
         CollectorHeader persistHeader = createCollectorHeaderForStorage();
         CollectorHeader foundHeader = retrieveDuplicateHeader();

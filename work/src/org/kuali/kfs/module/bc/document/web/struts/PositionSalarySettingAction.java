@@ -181,13 +181,13 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
         boolean hasFundingLineInvolveLeave = this.hasFundingLineInvolvedLeave(activeAppointmentFundings);
         BudgetConstructionPosition budgetConstructionPosition = positionSalarySettingForm.getBudgetConstructionPosition();
 
-        BigDecimal positionFte = budgetConstructionPosition.getPositionFullTimeEquivalency();
+        BigDecimal positionFte = budgetConstructionPosition.getPositionFullTimeEquivalency().setScale(2, BigDecimal.ROUND_HALF_UP);
         BigDecimal requestedFteQuantityTotal = positionSalarySettingForm.getAppointmentRequestedFteQuantityTotal().setScale(2, BigDecimal.ROUND_HALF_UP);
         if (!hasFundingLineInvolveLeave && requestedFteQuantityTotal.compareTo(positionFte) != 0) {
             warnings.add(BCKeyConstants.WARNING_FTE_NOT_EQUAL);
         }
 
-        BigDecimal positionStandardHours = budgetConstructionPosition.getPositionStandardHoursDefault();
+        BigDecimal positionStandardHours = budgetConstructionPosition.getPositionStandardHoursDefault().setScale(2, BigDecimal.ROUND_HALF_UP);
         BigDecimal requestedStandardHoursTotal = positionSalarySettingForm.getAppointmentRequestedStandardHoursTotal().setScale(2, BigDecimal.ROUND_HALF_UP);
         if (!hasFundingLineInvolveLeave && requestedStandardHoursTotal.compareTo(positionStandardHours) != 0) {
             warnings.add(BCKeyConstants.WARNING_WORKING_HOUR_NOT_EQUAL);

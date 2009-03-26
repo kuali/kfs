@@ -7,8 +7,16 @@
       <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="Account"/>
-          <requests name="Account" nextNode="OrganizationHierarchy"/>
-          <requests name="OrganizationHierarchy"/>
+          <split name="RequiresReview">
+          	<branch name="True">
+          		<requests name="Account" nextNode="OrganizationHierarchy"/>
+          		<requests name="OrganizationHierarchy" nextNode="JoinRequiresReview" />
+          	</branch>
+          	<branch name="False">
+          		<simple name="NoOpRequiresReview" nextNode="JoinRequiresReview" />
+          	</branch>
+          	<join name="JoinRequiresReview" />
+          </split>
         </routePath>
       </routePaths>
       <routeNodes>
@@ -21,6 +29,13 @@
           <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
           <activationType>P</activationType>
         </role>
+        <split name="RequiresReview">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <simple name="NoOpRequiresReview">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <join name="JoinRequiresReview"/>
       </routeNodes>
     </documentType>
   </documentTypes>

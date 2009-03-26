@@ -43,9 +43,15 @@
                   </div>
                 </th>
                 <td class="datacell-nowrap">
-					 <html:select property="selectedAccountingPeriod" >
-					 	<html:options property="accountingPeriodCompositeValueList" labelProperty="accountingPeriodLabelList"/>
-                	 </html:select>
+               		<c:if test="${readOnly}">
+                        ${KualiForm.accountingPeriod.universityFiscalPeriodName}
+                        <html:hidden property="selectedAccountingPeriod" />
+					</c:if>
+                	<c:if test="${!readOnly}">
+						<html:select property="selectedAccountingPeriod"  >
+					 		<html:options property="accountingPeriodCompositeValueList" labelProperty="accountingPeriodLabelList"  />
+                	 	</html:select>
+               		</c:if>
                 </td>
               </tr>
               <tr>

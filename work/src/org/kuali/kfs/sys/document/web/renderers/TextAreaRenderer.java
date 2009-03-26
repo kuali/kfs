@@ -60,14 +60,15 @@ public class TextAreaRenderer extends FieldRendererBase {
         tag.setCols(Integer.toString(getField().getCols()));
         tag.setStyleClass(getField().getStyleClass());
         tag.setStyleId(getFieldName());
-        if (isShowError()) {
-            tag.setStyle("border-color: red;");
-        }
         
         tag.doStartTag();
         tag.doEndTag();
         
         renderQuickFinderIfNecessary(pageContext, parentTag);
+        
+        if (isShowError()) {
+            renderErrorIcon(pageContext);
+        }
     }
 
     /**

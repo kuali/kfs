@@ -22,10 +22,9 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.document.service.DynamicNameLabelGenerator;
-import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.Field;
 
 /**
@@ -33,12 +32,12 @@ import org.kuali.rice.kns.web.ui.Field;
  */
 public abstract class FieldRendererBase implements FieldRenderer {
     private Field field;
-    private DataDictionaryService dataDictionaryService;
     private String dynamicNameLabel;
     private int arbitrarilyHighTabIndex = -1;
     private String onBlur;
     private boolean showError;
     private String accessibleTitle;
+    private static String riceImageBase;
 
     /**
      * Sets the field to render
@@ -205,4 +204,41 @@ public abstract class FieldRendererBase implements FieldRenderer {
         this.showError = showError;
     }
     
+    /**
+     * Renders the error icon
+     * @param pageContext the page context to render to
+     * @throws IOException thrown if the pageContext cannot be written to
+     */
+    protected void renderErrorIcon(PageContext pageContext) throws JspException {
+        try {
+            pageContext.getOut().write(getErrorIconImageTag());
+        }
+        catch (IOException ioe) {
+            throw new JspException("Could not render error icon", ioe);
+        }
+    }
+    
+    /**
+     * @return the tag for the error icon
+     */
+    protected String getErrorIconImageTag() {
+        return "<img src=\""+getErrorIconImageSrc()+"\" alt=\"error\" />";
+    }
+    
+    /**
+     * @return the source of the error icon
+     */
+    private String getErrorIconImageSrc() {
+        return getRiceImageBase()+"errormark.gif";
+    }
+    
+    /**
+     * @return the source of rice images
+     */
+    private String getRiceImageBase() {
+        if (riceImageBase == null) {
+            riceImageBase = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KNSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
+        }
+        return riceImageBase;
+    }
 }

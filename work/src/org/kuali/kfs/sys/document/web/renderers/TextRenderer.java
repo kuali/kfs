@@ -64,9 +64,7 @@ public class TextRenderer extends FieldRendererBase {
             tag.setOnblur(buildOnBlur());
         }
         tag.setStyleClass(getField().getStyleClass());
-        if (isShowError()) {
-            tag.setStyle("border-color: red;");
-        }
+
         tag.setValue(HtmlUtils.htmlEscape(getField().getPropertyValue()));
         tag.setStyleId(getFieldName());
         
@@ -74,6 +72,10 @@ public class TextRenderer extends FieldRendererBase {
         tag.doEndTag();
         
         renderQuickFinderIfNecessary(pageContext, parentTag);
+        
+        if (isShowError()) {
+            renderErrorIcon(pageContext);
+        }
     }
     
     /**

@@ -41,6 +41,9 @@ public class DropDownRenderer extends FieldRendererBase {
         try {
             out.write(buildSelectControl());
             renderQuickFinderIfNecessary(pageContext, parentTag);
+            if (isShowError()) {
+                renderErrorIcon(pageContext);
+            }
             RendererUtil.registerEditableProperty(pageContext, getFieldName());
         }
         catch (IOException ioe) {
@@ -74,10 +77,6 @@ public class DropDownRenderer extends FieldRendererBase {
             selectControl.append(" onblur=\"");
             selectControl.append(onBlur);
             selectControl.append("\"");
-        }
-        
-        if (isShowError()) {
-            selectControl.append(" style=\"background-color: #FFD5D5\"");
         }
         
         selectControl.append(">");

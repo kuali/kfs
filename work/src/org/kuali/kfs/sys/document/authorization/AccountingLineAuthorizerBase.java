@@ -51,6 +51,8 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingLineAuthorizerBase.class);
 
     private KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+    private static String riceImagePath;
+    private static String kfsImagePath;
 
     /**
      * Returns the basic actions - add for new lines, delete and balance inquiry for existing lines
@@ -76,7 +78,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @return true if there are errors on the line, false otherwise
      */
     protected boolean isErrorMapContainingErrorsOnLine(String accountingLinePropertyName) {
-        for (Object errorKeyAsObject : GlobalVariables.getErrorMap().keySet()) {
+        for (Object errorKeyAsObject : GlobalVariables.getErrorMap().getPropertiesWithErrors()) {
             if (((String)errorKeyAsObject).startsWith(accountingLinePropertyName)) return true;
         }
         return false;
@@ -159,6 +161,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
         if (!determineEditPermissionOnField(accountingDocument, accountingLine, accountingLineCollectionProperty, fieldName)) {
             return false;
         }
+        
         // the fields in a new line should be always editable
         if (accountingLine.getSequenceNumber() == null) {
             return true;
@@ -362,8 +365,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
         String actionMethod = this.getBalanceInquiryMethod(accountingLine, accountingLinePropertyName, accountingLineIndex);
         String actionLabel = this.getActionLabel(KFSKeyConstants.AccountingLineViewRendering.ACCOUNTING_LINE_BALANCE_INQUIRY_ACTION_LABEL, groupTitle, accountingLineIndex + 1);
 
-        String imagesPath = kualiConfigurationService.getPropertyString(KNSConstants.APPLICATION_EXTERNALIZABLE_IMAGES_URL_KEY);
-        String actionImageName = imagesPath + "tinybutton-balinquiry.gif";
+        String actionImageName = getKFSImagePath() + "tinybutton-balinquiry.gif";
 
         return new AccountingLineViewAction(actionMethod, actionLabel, actionImageName);
     }
@@ -381,8 +383,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
         String actionMethod = this.getDeleteLineMethod(accountingLine, accountingLinePropertyName, accountingLineIndex);
         String actionLabel = this.getActionLabel(KFSKeyConstants.AccountingLineViewRendering.ACCOUNTING_LINE_DELETE_ACTION_LABEL, groupTitle, accountingLineIndex + 1);
 
-        String imagesPath = kualiConfigurationService.getPropertyString(KNSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
-        String actionImageName = imagesPath + "tinybutton-delete1.gif";
+        String actionImageName = getRiceImagePath() + "tinybutton-delete1.gif";
 
         return new AccountingLineViewAction(actionMethod, actionLabel, actionImageName);
     }
@@ -400,8 +401,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
         String actionMethod = this.getAddMethod(accountingLine, accountingLinePropertyName);
         String actionLabel = this.getActionLabel(KFSKeyConstants.AccountingLineViewRendering.ACCOUNTING_LINE_ADD_ACTION_LABEL, groupTitle);
 
-        String imagesPath = kualiConfigurationService.getPropertyString(KNSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
-        String actionImageName = imagesPath + "tinybutton-add1.gif";
+        String actionImageName = getRiceImagePath() + "tinybutton-add1.gif";
 
         return new AccountingLineViewAction(actionMethod, actionLabel, actionImageName);
     }
@@ -504,5 +504,25 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      */
     private DocumentAuthorizer getDocumentAuthorizer(AccountingDocument accountingDocument) {
         return SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(accountingDocument);
+    }
+    
+    /**
+     * @return the path to rice images
+     */
+    protected String getRiceImagePath() {
+        if (riceImagePath == null) {
+            riceImagePath = kualiConfigurationService.getPropertyString(KNSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
+        }
+        return riceImagePath;
+    }
+    
+    /**
+     * @return the path to KFS images
+     */
+    protected String getKFSImagePath() {
+        if (kfsImagePath == null) {
+            kfsImagePath = kualiConfigurationService.getPropertyString(KNSConstants.APPLICATION_EXTERNALIZABLE_IMAGES_URL_KEY);
+        }
+        return kfsImagePath;
     }
 }

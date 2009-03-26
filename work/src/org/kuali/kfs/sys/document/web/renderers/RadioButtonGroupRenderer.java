@@ -41,6 +41,9 @@ public class RadioButtonGroupRenderer extends FieldRendererBase {
         try {
             out.write(buildRadioButtons());
             renderQuickFinderIfNecessary(pageContext, parentTag);
+            if (isShowError()) {
+                renderErrorIcon(pageContext);
+            }
             RendererUtil.registerEditableProperty(pageContext, getFieldName());
         }
         catch (IOException ioe) {
@@ -96,10 +99,6 @@ public class RadioButtonGroupRenderer extends FieldRendererBase {
         if (!StringUtils.isBlank(onBlur)) {
             radioButton.append(" ");
             radioButton.append(onBlur);
-        }
-        
-        if (isShowError()) {
-            radioButton.append(" style=\"border-color: red;\"");
         }
         
         radioButton.append(" /> ");

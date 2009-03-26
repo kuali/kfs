@@ -50,6 +50,9 @@ public class CheckboxRenderer extends FieldRendererBase {
      */
     public void render(PageContext pageContext, Tag parentTag) throws JspException {
         renderCheckboxTag(pageContext, parentTag);
+        if (isShowError()) {
+            renderErrorIcon(pageContext);
+        }
     }
 
     /**
@@ -66,9 +69,6 @@ public class CheckboxRenderer extends FieldRendererBase {
         checkboxTag.setOnblur(this.buildOnBlur());
         checkboxTag.setStyleId(getFieldName());
         
-        if (isShowError()) {
-            checkboxTag.setStyle("border-color: red;");
-        }
         checkboxTag.setPageContext(pageContext);
         checkboxTag.setParent(parentTag);
         

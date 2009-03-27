@@ -596,7 +596,8 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         LOG.debug("validateFiscalYear() started");
 
         if ((originEntry.getUniversityFiscalYear() == null) || (originEntry.getUniversityFiscalYear().intValue() == 0)) {
-            if (!originEntry.getFinancialBalanceTypeCode().equals(KFSConstants.BALANCE_TYPE_A21)){
+            //commented out for KULLAB-627 
+            //if (!originEntry.getFinancialBalanceTypeCode().equals(KFSConstants.BALANCE_TYPE_A21)){
             
                 workingEntry.setUniversityFiscalYear(universityRunDate.getUniversityFiscalYear());
                 workingEntry.setUniversityFiscalPeriodCode(universityRunDate.getUniversityFiscalAccountingPeriod());
@@ -604,10 +605,11 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                 // shawn - to display updated values on report
                 originEntry.setUniversityFiscalYear(universityRunDate.getUniversityFiscalYear());
                 originEntry.setUniversityFiscalPeriodCode(universityRunDate.getUniversityFiscalAccountingPeriod());
-                
-            } else {
-                return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_FISCAL_YEAR_CANNOT_BE_NULL_BALANCE_TYPE_A2, Message.TYPE_FATAL);
-            }
+
+                //commented out for KULLAB-627    
+//            } else {
+//                return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_FISCAL_YEAR_CANNOT_BE_NULL_BALANCE_TYPE_A2, Message.TYPE_FATAL);
+//            }
         }
         else {
             workingEntry.setUniversityFiscalYear(originEntry.getUniversityFiscalYear());

@@ -509,6 +509,15 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
             setupPayeeAsVendor(dvForm, payeeIdNumber, payeeAddressIdentifier);
         }
         
+        String paymentReasonCode = document.getDvPayeeDetail().getDisbVchrPaymentReasonCode(); 
+        addPaymentCodeWarningMessage(dvForm, paymentReasonCode);
+
+        return null;
+    }
+
+    // add warning message based on the given reason code
+    private void addPaymentCodeWarningMessage(DisbursementVoucherForm dvForm, String paymentReasonCode) {
+        // clear up the warning message and tab state carried from previous screen        
         for(String tabKey: TabByReasonCode.getAllTabKeys()) {
             dvForm.getTabStates().remove(tabKey);
         }
@@ -520,15 +529,13 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         String reasonCodeProperty = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE;
         GlobalVariables.getErrorMap().removeAllWarningMessagesForProperty(reasonCodeProperty);
         
-        String paymentReasonCode = document.getDvPayeeDetail().getDisbVchrPaymentReasonCode();        
+        // add warning message and reset tab state as open if any
         TabByReasonCode tab = TabByReasonCode.getTabByReasonCode(paymentReasonCode);
         if(tab != null) {
             dvForm.getTabStates().put(tab.tabKey, "OPEN");
             GlobalVariables.getErrorMap().putWarning(reasonCodeProperty, tab.messageKey);
             GlobalVariables.getErrorMap().putWarning(tab.getDocumentPropertyKey(), tab.messageKey);
         }
-
-        return null;
     }
 
     /**

@@ -19,25 +19,26 @@ import java.io.File;
 
 import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
 
+/**
+ * This is the base class for all the b2b file type classes. All the methods in this class
+ * returns a default value since there is no need to do anything in these methods in b2b. - vpremcha
+ */
+
 public abstract class B2BFileTypeBase  extends BatchInputFileTypeBase{
 
     public String getFileName(String principalId, Object parsedFileContents, String fileUserIdentifer) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     public boolean validate(Object parsedFileContents) {
-        // TODO Auto-generated method stub
         return false;
     }
     
     public String getTitleKey() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     public String getAuthorPrincipalName(File file) {
-        // TODO Auto-generated method stub
         return null;
     }
 }

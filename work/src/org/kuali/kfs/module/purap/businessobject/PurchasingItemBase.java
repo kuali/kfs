@@ -94,7 +94,7 @@ public abstract class PurchasingItemBase extends PurApItemBase implements Purcha
     }
 
     public void setPurchasingCommodityCode(String purchasingCommodityCode) {
-        this.purchasingCommodityCode = purchasingCommodityCode;
+        this.purchasingCommodityCode = (StringUtils.isNotBlank(purchasingCommodityCode) ? purchasingCommodityCode.toUpperCase() : purchasingCommodityCode);
     }
     
     public PurchasingCapitalAssetItem getPurchasingCapitalAssetItem(){

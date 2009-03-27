@@ -39,7 +39,7 @@ public class CommodityCodeServiceImpl implements CommodityCodeService {
      */
     public CommodityCode getByPrimaryId(String purchasingCommodityCode) {
         CommodityCode ccToBeRetrieved = new CommodityCode();
-        ccToBeRetrieved.setPurchasingCommodityCode(purchasingCommodityCode);
+        ccToBeRetrieved.setPurchasingCommodityCode(purchasingCommodityCode.toUpperCase());
         CommodityCode cc = (CommodityCode)businessObjectService.retrieve( ccToBeRetrieved );
         return cc;
     }

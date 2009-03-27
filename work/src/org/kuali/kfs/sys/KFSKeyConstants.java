@@ -806,6 +806,9 @@ public class KFSKeyConstants {
     public static final String WARNING_DV_MOVING_PAYMENT_REASON = "warning.dv.paymentReason.moving";
     public static final String WARNING_DV_PREPAID_TRAVEL_PAYMENT_REASON = "warning.dv.paymentReason.prepaidTravel";
     
+    public static final String WARNING_DV_PREPAID_TRAVEL_TAB = "warning.dv.paymentReason.prepaidTravelTab";
+    public static final String WARNING_DV_NON_EMPLOYEE_TRAVEL_TAB = "warning.dv.paymentReason.nonEmployeeTravelTab";
+    
     public static final String ERROR_DV_VENDOR_NAME_PERSON_NAME_CONFUSION = "error.dv.vendorNamePersonNameConfusion";
     public static final String ERROR_DV_VENDOR_EMPLOYEE_CONFUSION = "error.dv.vendorEmployeeConfusion";
     

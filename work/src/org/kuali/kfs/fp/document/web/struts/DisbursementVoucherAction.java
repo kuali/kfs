@@ -33,8 +33,10 @@ import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceRegistran
 import org.kuali.kfs.fp.businessobject.WireCharge;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.kfs.fp.document.DisbursementVoucherConstants.TabByReasonCode;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherCoverSheetService;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService;
+import org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentReasonService;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherTravelService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -505,6 +507,18 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         String payeeAddressIdentifier = request.getParameter(KFSPropertyConstants.VENDOR_ADDRESS_GENERATED_ID);
         if (isAddressLookupable && StringUtils.isNotBlank(payeeAddressIdentifier)) {
             setupPayeeAsVendor(dvForm, payeeIdNumber, payeeAddressIdentifier);
+        }
+        
+        for(String tabKey: TabByReasonCode.getAllTabKeys()) {
+            dvForm.getTabStates().remove(tabKey);
+        }
+        
+        String paymentReasonCode = document.getDvPayeeDetail().getDisbVchrPaymentReasonCode();        
+        TabByReasonCode tab = TabByReasonCode.getTabByReasonCode(paymentReasonCode);
+        if(tab != null) {
+            dvForm.getTabStates().put(tab.tabKey, "OPEN");
+            GlobalVariables.getErrorMap().putWarning(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE, tab.messageKey);
+            GlobalVariables.getErrorMap().putWarning(KFSPropertyConstants.DOCUMENT + "." + tab.propertyName + "." + tab.reprentingFieldName, tab.messageKey);
         }
 
         return null;

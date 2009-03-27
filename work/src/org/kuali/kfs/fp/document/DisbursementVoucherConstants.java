@@ -15,9 +15,13 @@
  */
 package org.kuali.kfs.fp.document;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ParameterKeyConstants;
 
 /**
@@ -84,6 +88,52 @@ public interface DisbursementVoucherConstants extends ParameterKeyConstants {
     public static class DvPdpExtractGroup {
         public static final String DV_PDP_ORG_CODE = "PRE_DISBURSEMENT_EXTRACT_ORGANIZATION";
         public static final String DV_PDP_SBUNT_CODE = "PRE_DISBURSEMENT_EXTRACT_SUB_UNIT";
+    }
+    
+    public static class TabKey {
+        public static final String NON_EMPLOYEE_TRAVEL_EXPENSE = "NonEmployeeTravelExpense";
+        public static final String PRE_PAID_TRAVEL_EXPENSES = "PrePaidTravelExpenses";
+    }
+    
+    public enum TabByReasonCode{
+        NON_EMPLOYEE_TRAVEL_TAB(PaymentReasonCodes.TRAVEL_NONEMPLOYEE, TabKey.NON_EMPLOYEE_TRAVEL_EXPENSE, KFSPropertyConstants.DV_NON_EMPLOYEE_TRAVEL, 
+                KFSPropertyConstants.DISB_VCHR_NON_EMP_TRAVELER_NAME,KFSKeyConstants.WARNING_DV_NON_EMPLOYEE_TRAVEL_TAB),
+        PREPAID_TRAVEL_TAB(PaymentReasonCodes.TRAVEL_PREPAID, TabKey.PRE_PAID_TRAVEL_EXPENSES, KFSPropertyConstants.DV_PRE_CONFERENCE_DETAIL, 
+                KFSPropertyConstants.DV_CONFERENCE_DESTINATION_NAME,KFSKeyConstants.WARNING_DV_PREPAID_TRAVEL_TAB);
+        
+        public String paymentReasonCode;
+        public String tabKey;
+        public String propertyName;
+        public String reprentingFieldName;
+        public String messageKey;
+
+        private TabByReasonCode(String paymentReasonCode, String tabKey, String propertyName, String reprentingFieldName, String messageKey) {
+            this.paymentReasonCode = paymentReasonCode;
+            this.tabKey = tabKey;
+            this.propertyName = propertyName;
+            this.reprentingFieldName = reprentingFieldName;
+            this.messageKey = messageKey;
+        }
+        
+        public static TabByReasonCode getTabByReasonCode(String paymentReasonCode) {
+            for(TabByReasonCode tab : TabByReasonCode.values()) {
+                if(StringUtils.equals(tab.paymentReasonCode, paymentReasonCode)){
+                    return tab;
+                }
+            }
+            
+            return null;
+        }
+        
+        public static List<String> getAllTabKeys() {
+            List<String> tabKeys = new ArrayList<String>();
+            
+            for(TabByReasonCode tab : TabByReasonCode.values()) {
+                tabKeys.add(tab.tabKey);
+            }
+            
+            return tabKeys;
+        }               
     }
 
     // system parameter parameter constants

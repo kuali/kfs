@@ -265,6 +265,7 @@ public class BCConstants extends JSTLConstants {
         public final static String THRESHOLD_GREATER = "greater then or equal to ";
         public final static String THRESHOLD_LESS = "less than or equal to ";
         public final static String PERCENT = "%";
+        public final static String MSG_REPORT_NO_DATA = "No data found.";
         // selection screen
         public final static String NONE_SELECTION_TITLE = "";
         public final static String SUB_FUND_SELECTION_TITLE = "Sub-Fund List Selection";

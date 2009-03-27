@@ -602,7 +602,8 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                 workingEntry.setUniversityFiscalYear(universityRunDate.getUniversityFiscalYear());
                 workingEntry.setUniversityFiscalPeriodCode(universityRunDate.getUniversityFiscalAccountingPeriod());
                 
-                // shawn - to display updated values on report
+                // shawn - to display updated values on report 
+                // TODO: shawn -need to check because below two lines are commented out in validateUniversityFiscalPeriodCode 
                 originEntry.setUniversityFiscalYear(universityRunDate.getUniversityFiscalYear());
                 originEntry.setUniversityFiscalPeriodCode(universityRunDate.getUniversityFiscalAccountingPeriod());
 

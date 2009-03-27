@@ -46,7 +46,7 @@
                 <td align=left valign=middle class="datacell">
                    <kul:htmlControlAttribute 
                    		attributeEntry="${documentAttributes.invoiceNumber}" property="document.invoiceNumber" 
-                   		tabindexOverride="${tabindexOverrideBase + 5}"/>
+                   		tabindexOverride="${tabindexOverrideBase + 0}"/>
                 </td>
             </tr>
             <tr>
@@ -64,7 +64,7 @@
                 <td align=left valign=middle class="datacell">
                    <kul:htmlControlAttribute 
                    		attributeEntry="${documentAttributes.vendorInvoiceAmount}" property="document.vendorInvoiceAmount"  
-                   		tabindexOverride="${tabindexOverrideBase + 5}"/>
+                   		tabindexOverride="${tabindexOverrideBase + 0}"/>
                 </td>
             </tr>
             <tr>

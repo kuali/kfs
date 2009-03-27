@@ -37,10 +37,27 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
     @Override
     protected boolean canSave(Document document) {
         VendorCreditMemoDocument vendorCreditMemoDocument = (VendorCreditMemoDocument) document;
+
         if (!StringUtils.equals(vendorCreditMemoDocument.getStatusCode(), PurapConstants.CreditMemoStatuses.IN_PROCESS)) {
             return false;
         }
+
+        if (canEditPreExtraction(vendorCreditMemoDocument)) {
+            return true;
+        }
+
         return super.canSave(document);
+    }
+
+    @Override
+    protected boolean canReload(Document document) {
+        VendorCreditMemoDocument vendorCreditMemoDocument = (VendorCreditMemoDocument) document;
+
+        if (canEditPreExtraction(vendorCreditMemoDocument)) {
+            return true;
+        }
+
+        return super.canReload(document);
     }
 
     @Override
@@ -93,9 +110,7 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
             editModes.add(CreditMemoEditMode.DISPLAY_INIT_TAB);
         }
         
-        if (!vendorCreditMemoDocument.isExtracted() && 
-                !workflowDocument.isAdHocRequested() &&
-                !PurapConstants.CreditMemoStatuses.CANCELLED_STATUSES.contains(vendorCreditMemoDocument.getStatusCode())) {
+        if (canEditPreExtraction(vendorCreditMemoDocument)) {
             editModes.add(CreditMemoEditMode.EDIT_PRE_EXTRACT);
         }
 
@@ -162,4 +177,10 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
         return !CreditMemoStatuses.CANCELLED_STATUSES.contains(cmDocument.getStatusCode()) && !cmDocument.isExtracted() && !cmDocument.isHoldIndicator();
     }
 
+    private boolean canEditPreExtraction(VendorCreditMemoDocument vendorCreditMemoDocument) {
+        return (!vendorCreditMemoDocument.isExtracted() && 
+                !vendorCreditMemoDocument.getDocumentHeader().getWorkflowDocument().isAdHocRequested() &&
+                !PurapConstants.CreditMemoStatuses.CANCELLED_STATUSES.contains(vendorCreditMemoDocument.getStatusCode()));
+    }
+    
 }

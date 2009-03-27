@@ -16,6 +16,8 @@
 package org.kuali.kfs.module.bc.document.web.struts;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +27,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BudgetConstructionReportMode;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper;
 import org.kuali.kfs.module.bc.document.service.ReportExportService;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -120,10 +123,17 @@ public class ReportExportAction extends BudgetConstructionImportExportAction {
                 break;
         }
 
-        // stream text file back
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        baos.write(fileString.toString().getBytes());
-        WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.TEXT_MIME_TYPE, baos, fileName);
+        if (fileString.length() == 0){
+            String noDataMessage = BCConstants.Report.MSG_REPORT_NO_DATA;
+            baos.write(noDataMessage.getBytes());
+            WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.TEXT_MIME_TYPE, baos, fileName);
+        }
+        else {
+            // stream text file back
+            baos.write(fileString.toString().getBytes());
+            WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.TEXT_MIME_TYPE, baos, fileName);
+        }
 
         return null;
     }

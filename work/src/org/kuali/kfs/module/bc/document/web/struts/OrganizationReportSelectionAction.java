@@ -175,7 +175,7 @@ public class OrganizationReportSelectionAction extends BudgetExpansionAction {
         // output the report or a message if empty
         if (reportSet.isEmpty()) {
             List<String> messageList = new ArrayList<String>();
-            messageList.add("No data found.");
+            messageList.add(BCConstants.Report.MSG_REPORT_NO_DATA);
             SpringContext.getBean(BudgetConstructionReportsServiceHelper.class).generatePdf(messageList, baos);
             WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, reportMode.jasperFileName + ReportGeneration.PDF_FILE_EXTENSION);
         }

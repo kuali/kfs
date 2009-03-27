@@ -134,8 +134,8 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             valid &= false;
         }
 
-        // check for existence and active when not separating. This can't be done in the DD because we have a condition on it. 
-        // Note: Even though on separate the payment lines can't be edited we still can't force the rules because data may have 
+        // check for existence and active when not separating. This can't be done in the DD because we have a condition on it.
+        // Note: Even though on separate the payment lines can't be edited we still can't force the rules because data may have
         // gone inactive since then.
         if (!getAssetGlobalService().isAssetSeparate(assetGlobal)) {
             assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.ACCOUNT);
@@ -297,6 +297,10 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
         boolean success = super.processCustomAddCollectionLineBusinessRules(document, collectionName, line);
+        if (GlobalVariables.getErrorMap().hasErrors()) {
+            return false;
+        }
+
         AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
         List<AssetGlobalDetail> assetSharedDetails = assetGlobal.getAssetSharedDetails();
         if (CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS.equals(collectionName)) {
@@ -545,6 +549,9 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
         List<AssetGlobalDetail> assetSharedDetails = assetGlobal.getAssetSharedDetails();
         boolean success = super.processCustomRouteDocumentBusinessRules(document);
+        if (GlobalVariables.getErrorMap().hasErrors()) {
+            return false;
+        }
 
         // need at least one asset location
         if (assetSharedDetails.isEmpty() || assetSharedDetails.get(0).getAssetGlobalUniqueDetails().isEmpty()) {
@@ -828,6 +835,9 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
         boolean success = true;
         success &= super.processCustomSaveDocumentBusinessRules(document);
+        if (GlobalVariables.getErrorMap().hasErrors()) {
+            return false;
+        }
 
         String acquisitionTypeCode = assetGlobal.getAcquisitionTypeCode();
         String statusCode = assetGlobal.getInventoryStatusCode();
@@ -946,7 +956,8 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT);
         Account organizationOwnerAccount = assetGlobal.getOrganizationOwnerAccount();
-        // when check if organizationOwnerAccount is existing, use ObjectUtils rather than comparing with 'null' since OJB proxy object is used here.
+        // when check if organizationOwnerAccount is existing, use ObjectUtils rather than comparing with 'null' since OJB proxy
+        // object is used here.
         if (StringUtils.isNotBlank(assetGlobal.getOrganizationOwnerAccountNumber()) && (ObjectUtils.isNull(organizationOwnerAccount) || !organizationOwnerAccount.isActive() || organizationOwnerAccount.isExpired())) {
             putFieldError(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_OWNER_ACCT_NOT_ACTIVE, new String[] { assetGlobal.getOrganizationOwnerChartOfAccountsCode(), assetGlobal.getOrganizationOwnerAccountNumber() });
             success &= false;

@@ -362,10 +362,6 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
 
         ElectronicInvoice eInvoice = null;
 
-        if (LOG.isDebugEnabled()){
-            LOG.debug("Processing " + invoiceFile.getName());
-        }
-        
         try {
             eInvoice = loadElectronicInvoice(xmlAsBytes);
         }catch (CxmlParseException e) {
@@ -928,15 +924,13 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
     private void sendSummary(StringBuffer message) {
 
         String fromMailId = SpringContext.getBean(ParameterService.class).getParameterValue(ElectronicInvoiceStep.class, PurapParameterConstants.ElectronicInvoiceParameters.DAILY_SUMMARY_REPORT_FROM_EMAIL_ADDRESS);
-        String toMailIds = SpringContext.getBean(ParameterService.class).getParameterValue(ElectronicInvoiceStep.class, PurapParameterConstants.ElectronicInvoiceParameters.DAILY_SUMMARY_REPORT_TO_EMAIL_ADDRESSES);
+        List<String> toMailIds = SpringContext.getBean(ParameterService.class).getParameterValues(ElectronicInvoiceStep.class, PurapParameterConstants.ElectronicInvoiceParameters.DAILY_SUMMARY_REPORT_TO_EMAIL_ADDRESSES);
         
-        /**
-         * TODO: check for valid mail id format (use commons validator API) 
-         */
+        LOG.info("From email address parameter value:"+fromMailId);
+        LOG.info("To email address parameter value:"+toMailIds);
         
-        if (StringUtils.isBlank(fromMailId) ||
-            StringUtils.isBlank(toMailIds)){
-            LOG.error("Message not sent due to invalid mail ids [From=" + StringUtils.defaultString(fromMailId) + ",To=" + StringUtils.defaultString(toMailIds) + "]");
+        if (StringUtils.isBlank(fromMailId) || toMailIds.isEmpty()){
+            LOG.error("From/To mail addresses are empty. Unable to send the message");
         }else{
         
             MailMessage mailMessage = new MailMessage();
@@ -949,44 +943,17 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                 mailService.sendMessage(mailMessage);
             }catch (InvalidAddressException e) {
                 LOG.error("Invalid email address. Message not sent", e);
-        }
-        }
-        
-        /**
-         * HAVE TO DELETE THIS CODE....
-         */
-
-        BufferedWriter bw = null;
-
-        try {
-            bw = new BufferedWriter(new FileWriter("c:\\test.txt", true));
-            bw.write(message.toString());
-            bw.newLine();
-            bw.flush();
-        }
-        catch (IOException ioe) {
-            LOG.error("Error writing to Email File", ioe);
-        }
-        finally {
-            if (bw != null) {
-                try {
-                    bw.close();
-                }
-                catch (IOException ioe2) {
-                }
             }
         }
         
     }
     
-    private MailMessage setMessageToAddressesAndSubject(MailMessage message, String toMailIds) {
+    private MailMessage setMessageToAddressesAndSubject(MailMessage message, List<String> toAddressList) {
         
-        String toAddressList[] = toMailIds.split(";");
-
-        if (toAddressList.length > 0) {
-            for (int i = 0; i < toAddressList.length; i++) {
-                if (toAddressList[i] != null) {
-                    message.addToAddress(toAddressList[i].trim());
+        if (!toAddressList.isEmpty()) {
+            for (int i = 0; i < toAddressList.size(); i++) {
+                if (StringUtils.isNotEmpty(toAddressList.get(i))) {
+                    message.addToAddress(toAddressList.get(i).trim());
                 }
             }
         }

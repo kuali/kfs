@@ -66,7 +66,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
         
         KualiDecimal thresholdPercent = budgetConstructionReportThresholdSettings.getThresholdPercent();
         if (applyAThreshold) {
-            budgetConstructionSalarySummaryReportDao.updateSalaryAndReasonSummaryReportsWithThreshold(principalName, universityFiscalYear, selectOnlyGreaterThanOrEqualToThreshold, thresholdPercent);
+            budgetConstructionSalarySummaryReportDao.updateSalaryAndReasonSummaryReportsWithThreshold(principalName, universityFiscalYear-1, selectOnlyGreaterThanOrEqualToThreshold, thresholdPercent);
         }
         else {
             budgetConstructionSalarySummaryReportDao.updateSalaryAndReasonSummaryReportsWithoutThreshold(principalName, false);
@@ -501,7 +501,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
             // calculate average and change
             if (BigDecimal.ZERO.compareTo(totalsHolder.newFte) != 0) {
                 BigDecimal averageAmount = BudgetConstructionReportHelper.calculateDivide(new BigDecimal(totalsHolder.newTotalAmount), totalsHolder.newFte);
-                totalsHolder.newAverageAmount = averageAmount.intValue();
+                totalsHolder.newAverageAmount = BudgetConstructionReportHelper.setDecimalDigit(averageAmount, 0, false).intValue();
             }
 
             if (BigDecimal.ZERO.compareTo(totalsHolder.conFte) != 0) {
@@ -509,7 +509,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
                 totalsHolder.conAverageBaseAmount = BudgetConstructionReportHelper.setDecimalDigit(averageAmount, 0, false).intValue();
 
                 BigDecimal averageRequestAmount = BudgetConstructionReportHelper.calculateDivide(new BigDecimal(totalsHolder.conTotalRequestAmount), totalsHolder.conFte);
-                totalsHolder.conAverageRequestAmount = averageRequestAmount.intValue();
+                totalsHolder.conAverageRequestAmount = BudgetConstructionReportHelper.setDecimalDigit(averageRequestAmount, 0, false).intValue();
             }
 
             totalsHolder.conAveragechange = totalsHolder.conAverageRequestAmount - totalsHolder.conAverageBaseAmount;

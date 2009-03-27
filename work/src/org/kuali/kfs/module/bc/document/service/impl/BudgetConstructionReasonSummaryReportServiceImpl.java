@@ -75,7 +75,7 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
 
         boolean applyAThreshold = budgetConstructionReportThresholdSettings.isUseThreshold();
         if (applyAThreshold) {
-            budgetConstructionSalarySummaryReportDao.updateSalaryAndReasonSummaryReportsWithThreshold(principalId, universityFiscalYear, selectOnlyGreaterThanOrEqualToThreshold, thresholdPercent);
+            budgetConstructionSalarySummaryReportDao.updateSalaryAndReasonSummaryReportsWithThreshold(principalId, universityFiscalYear-1, selectOnlyGreaterThanOrEqualToThreshold, thresholdPercent);
         }
         else {
             budgetConstructionSalarySummaryReportDao.updateSalaryAndReasonSummaryReportsWithoutThreshold(principalId, true);

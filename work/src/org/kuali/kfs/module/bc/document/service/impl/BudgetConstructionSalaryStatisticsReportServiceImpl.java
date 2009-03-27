@@ -125,8 +125,10 @@ public class BudgetConstructionSalaryStatisticsReportServiceImpl implements Budg
     public void buildReportsBody(BudgetConstructionOrgSalaryStatisticsReport orgSalaryStatisticsReportEntry, BudgetConstructionSalaryTotal salaryTotalEntry) {
         orgSalaryStatisticsReportEntry.setInitialRequestedFteQuantity(salaryTotalEntry.getInitialRequestedFteQuantity());
         
-        BigDecimal requestedAmount = BudgetConstructionReportHelper.calculateDivide(salaryTotalEntry.getInitialRequestedAmount().bigDecimalValue(), salaryTotalEntry.getInitialRequestedFteQuantity());
-        orgSalaryStatisticsReportEntry.setTotalInitialRequestedAmount(new Integer(BudgetConstructionReportHelper.setDecimalDigit(requestedAmount, 0, false).intValue()));
+        orgSalaryStatisticsReportEntry.setTotalInitialRequestedAmount(BudgetConstructionReportHelper.convertKualiInteger(salaryTotalEntry.getInitialRequestedAmount()));
+
+        BigDecimal averageAmount = BudgetConstructionReportHelper.calculateDivide(salaryTotalEntry.getInitialRequestedAmount().bigDecimalValue(), salaryTotalEntry.getInitialRequestedFteQuantity());
+        orgSalaryStatisticsReportEntry.setTotalAverageAmount(BudgetConstructionReportHelper.setDecimalDigit(averageAmount, 0, false).intValue());
         
         BigDecimal requestedFteQuantity = salaryTotalEntry.getAppointmentRequestedFteQuantity().setScale(5, BigDecimal.ROUND_HALF_UP);
         orgSalaryStatisticsReportEntry.setAppointmentRequestedFteQuantity(requestedFteQuantity);
@@ -136,11 +138,11 @@ public class BudgetConstructionSalaryStatisticsReportServiceImpl implements Budg
 
         BigDecimal csfAmount = new BigDecimal(BudgetConstructionReportHelper.convertKualiInteger(salaryTotalEntry.getCsfAmount()));
         BigDecimal averageCfsAmount = BudgetConstructionReportHelper.calculateDivide(csfAmount, salaryTotalEntry.getAppointmentRequestedFteQuantity());
-        orgSalaryStatisticsReportEntry.setAverageCsfAmount(averageCfsAmount);
+        orgSalaryStatisticsReportEntry.setAverageCsfAmount(BudgetConstructionReportHelper.setDecimalDigit(averageCfsAmount, 0, false));
         
         BigDecimal appointmentRequestedAmount = new BigDecimal(BudgetConstructionReportHelper.convertKualiInteger(salaryTotalEntry.getAppointmentRequestedAmount()));
         BigDecimal averageRequestedAmount = BudgetConstructionReportHelper.calculateDivide(appointmentRequestedAmount, requestedFteQuantity);
-        orgSalaryStatisticsReportEntry.setAverageAppointmentRequestedAmount(averageRequestedAmount);
+        orgSalaryStatisticsReportEntry.setAverageAppointmentRequestedAmount(BudgetConstructionReportHelper.setDecimalDigit(averageRequestedAmount, 0, false));
         
         BigDecimal averageChange = averageRequestedAmount.subtract(averageCfsAmount);
         orgSalaryStatisticsReportEntry.setAverageChange(averageChange);

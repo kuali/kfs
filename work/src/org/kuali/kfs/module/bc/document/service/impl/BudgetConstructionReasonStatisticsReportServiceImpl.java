@@ -60,10 +60,10 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
         boolean selectOnlyGreaterThanOrEqualToThreshold = budgetConstructionReportThresholdSettings.isUseGreaterThanOperator();
         KualiDecimal thresholdPercent = budgetConstructionReportThresholdSettings.getThresholdPercent();
         if (applyAThreshold) {
-            budgetConstructionReasonStatisticsReportDao.updateReasonStatisticsReportsWithAThreshold(principalName, universityFiscalYear, selectOnlyGreaterThanOrEqualToThreshold, thresholdPercent);
+            budgetConstructionReasonStatisticsReportDao.updateReasonStatisticsReportsWithAThreshold(principalName, universityFiscalYear-1, selectOnlyGreaterThanOrEqualToThreshold, thresholdPercent);
         }
         else {
-            budgetConstructionReasonStatisticsReportDao.updateReasonStatisticsReportsWithoutAThreshold(principalName, universityFiscalYear);
+            budgetConstructionReasonStatisticsReportDao.updateReasonStatisticsReportsWithoutAThreshold(principalName, universityFiscalYear-1);
         }
 
     }
@@ -166,8 +166,10 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
 
     public void buildReportsBody(BudgetConstructionOrgReasonStatisticsReport orgReasonStatisticsReportEntry, BudgetConstructionSalaryTotal salaryTotalEntry) {
         orgReasonStatisticsReportEntry.setInitialRequestedFteQuantity(salaryTotalEntry.getInitialRequestedFteQuantity());
-        BigDecimal requestedAmount = BudgetConstructionReportHelper.calculateDivide(salaryTotalEntry.getInitialRequestedAmount().bigDecimalValue(), salaryTotalEntry.getInitialRequestedFteQuantity());
-        orgReasonStatisticsReportEntry.setTotalInitialRequestedAmount(new Integer(BudgetConstructionReportHelper.setDecimalDigit(requestedAmount, 0, false).intValue()));
+        orgReasonStatisticsReportEntry.setTotalInitialRequestedAmount(BudgetConstructionReportHelper.convertKualiInteger(salaryTotalEntry.getInitialRequestedAmount()));
+
+        BigDecimal averageAmount = BudgetConstructionReportHelper.calculateDivide(salaryTotalEntry.getInitialRequestedAmount().bigDecimalValue(), salaryTotalEntry.getInitialRequestedFteQuantity());
+        orgReasonStatisticsReportEntry.setTotalAverageAmount(BudgetConstructionReportHelper.setDecimalDigit(averageAmount, 0, false).intValue());
 
         orgReasonStatisticsReportEntry.setAppointmentRequestedFteQuantity(salaryTotalEntry.getAppointmentRequestedFteQuantity());
         orgReasonStatisticsReportEntry.setTotalCsfAmount(BudgetConstructionReportHelper.convertKualiInteger(salaryTotalEntry.getCsfAmount()));
@@ -175,8 +177,13 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
 
         BigDecimal decimaCsfAmount = new BigDecimal(BudgetConstructionReportHelper.convertKualiInteger(salaryTotalEntry.getCsfAmount()));
         BigDecimal decimalAppointmentRequestedAmount = new BigDecimal(BudgetConstructionReportHelper.convertKualiInteger(salaryTotalEntry.getAppointmentRequestedAmount()));
-        orgReasonStatisticsReportEntry.setAverageCsfAmount(BudgetConstructionReportHelper.calculateDivide(decimaCsfAmount, salaryTotalEntry.getAppointmentRequestedFteQuantity()));
-        orgReasonStatisticsReportEntry.setAverageAppointmentRequestedAmount(BudgetConstructionReportHelper.calculateDivide(decimalAppointmentRequestedAmount, salaryTotalEntry.getAppointmentRequestedFteQuantity()));
+
+        BigDecimal averageCsfAmount = BudgetConstructionReportHelper.calculateDivide(decimaCsfAmount, salaryTotalEntry.getAppointmentRequestedFteQuantity()); 
+        orgReasonStatisticsReportEntry.setAverageCsfAmount(BudgetConstructionReportHelper.setDecimalDigit(averageCsfAmount, 0, false));
+
+        BigDecimal averageAppointmentRequestedAmount = BudgetConstructionReportHelper.calculateDivide(decimalAppointmentRequestedAmount, salaryTotalEntry.getAppointmentRequestedFteQuantity()); 
+        orgReasonStatisticsReportEntry.setAverageAppointmentRequestedAmount(BudgetConstructionReportHelper.setDecimalDigit(averageAppointmentRequestedAmount, 0, false));
+
         orgReasonStatisticsReportEntry.setAverageChange(orgReasonStatisticsReportEntry.getAverageAppointmentRequestedAmount().subtract(orgReasonStatisticsReportEntry.getAverageCsfAmount()));
 
         orgReasonStatisticsReportEntry.setPercentChange(BudgetConstructionReportHelper.calculatePercent(orgReasonStatisticsReportEntry.getAverageChange(), orgReasonStatisticsReportEntry.getAverageCsfAmount()));

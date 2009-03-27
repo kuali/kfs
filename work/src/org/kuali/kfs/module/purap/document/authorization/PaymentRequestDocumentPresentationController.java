@@ -49,11 +49,22 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
             return false;
         }
 
-        if (!paymentRequestDocument.isExtracted()) {
+        if (canEditPreExtraction(paymentRequestDocument)) {
             return true;
-        }      
+        }
         
         return super.canSave(document);
+    }
+    
+    @Override
+    protected boolean canReload(Document document) {
+        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
+
+        if (canEditPreExtraction(paymentRequestDocument)) {
+            return true;
+        }
+
+        return super.canReload(document);
     }
 
     @Override
@@ -148,9 +159,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
             editModes.add(PaymentRequestEditMode.ALLOW_CLOSE_PURCHASE_ORDER);
         }
 
-        if (!paymentRequestDocument.isExtracted() && 
-            !workflowDocument.isAdHocRequested() && 
-            !PurapConstants.PaymentRequestStatuses.CANCELLED_STATUSES.contains(paymentRequestDocument.getStatusCode())) {
+        if (canEditPreExtraction(paymentRequestDocument)) {
             editModes.add(PaymentRequestEditMode.EDIT_PRE_EXTRACT);
         }
 
@@ -347,6 +356,12 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
      */
     private boolean canRemoveRequestCancel(PaymentRequestDocument paymentRequestDocument) {
         return paymentRequestDocument.isPaymentRequestedCancelIndicator();
+    }
+
+    private boolean canEditPreExtraction(PaymentRequestDocument paymentRequestDocument) {
+        return (!paymentRequestDocument.isExtracted() && 
+                !paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isAdHocRequested() &&
+                !PurapConstants.PaymentRequestStatuses.CANCELLED_STATUSES.contains(paymentRequestDocument.getStatusCode()));
     }
 
 }

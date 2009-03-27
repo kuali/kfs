@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.gl.businessobject.Balance;
@@ -493,11 +494,10 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
      * @return Returns the Person
      */
     public Person getLedgerPerson() {
-        if (ledgerPerson == null) {
-            // Try to find a ledger person for this emplid if one exists
-            setLedgerPerson((Person) SpringContext.getBean(PersonService.class).getPersonByEmployeeId(emplid));
+        if(ledgerPerson == null || !StringUtils.equals(ledgerPerson.getEmployeeId(), emplid)) {
+            ledgerPerson = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(emplid);
         }
-
+        
         return ledgerPerson;
     }
 

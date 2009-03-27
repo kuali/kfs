@@ -31,7 +31,20 @@ import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
- * This class is a calculator which will distribute the amounts and balance them by ratio
+ * This class is a calculator which will distribute the amounts and balance them by ratio. Inputs received are
+ * <li>Source Asset</li>
+ * <li>Source Payments</li>
+ * <li>Current max of payment number used by source Asset</li>
+ * <li>AssetGlobal Document performing the separate action</li>
+ * <li>List of new assets to be created for this separate request document</li>
+ * Logic is best explained as below
+ * <li>Compute the ratio of amounts to be removed from source payments</li>
+ * <li>Compute the ratio by which each new asset should receive the allocated amount</li>
+ * <li>Separate the allocate amount from the source payment using ratio computed above</li>
+ * <li>Apply the allocate amount by ratio to each new asset</li>
+ * <li>Adjust the last payment to round against the source from which split is done</li>
+ * <li>Adjust the account charge amount of each asset by rounding the last payment with reference to user input separate amount</li>
+ * <li>Create offset payments for the source asset</li>
  */
 public class AssetSeparatePaymentDistributor {
     private Asset sourceAsset;
@@ -50,6 +63,15 @@ public class AssetSeparatePaymentDistributor {
     private static PropertyDescriptor[] assetPaymentProperties = PropertyUtils.getPropertyDescriptors(AssetPayment.class);
 
 
+    /**
+     * Constructs a AssetSeparatePaymentDistributor.java.
+     * 
+     * @param sourceAsset Source Asset
+     * @param sourcePayments Source Payments
+     * @param maxPaymentSeqNo Current max of payment number used by source Asset
+     * @param assetGlobal AssetGlobal Document performing the separate action
+     * @param newAssets List of new assets to be created for this separate request document
+     */
     public AssetSeparatePaymentDistributor(Asset sourceAsset, List<AssetPayment> sourcePayments, Integer maxPaymentSeqNo, AssetGlobal assetGlobal, List<Asset> newAssets) {
         super();
         this.sourceAsset = sourceAsset;
@@ -64,13 +86,15 @@ public class AssetSeparatePaymentDistributor {
         KualiDecimal totalSourceAmount = this.assetGlobal.getTotalCostAmount();
         KualiDecimal totalSeparateAmount = this.assetGlobal.getSeparateSourceTotalAmount();
         KualiDecimal remainingAmount = totalSourceAmount.subtract(totalSeparateAmount);
-
+        // Compute separate ratio
         separateRatio = totalSeparateAmount.doubleValue() / totalSourceAmount.doubleValue();
+        // Compute the retained ratio
         retainRatio = remainingAmount.doubleValue() / totalSourceAmount.doubleValue();
         List<AssetGlobalDetail> assetGlobalDetails = this.assetGlobal.getAssetGlobalDetails();
         int size = assetGlobalDetails.size();
         assetAllocateRatios = new double[size];
         AssetGlobalDetail assetGlobalDetail = null;
+        // Compute ratio by each asset
         for (int i = 0; i < size; i++) {
             assetGlobalDetail = assetGlobalDetails.get(i);
             Long capitalAssetNumber = assetGlobalDetail.getCapitalAssetNumber();
@@ -81,15 +105,18 @@ public class AssetSeparatePaymentDistributor {
         prepareSourcePaymentsForSplit();
         // Distribute payments by ratio
         allocatePaymentAmountsByRatio();
-        // balance by each payment line
+        // Round and balance by each payment line
         roundPaymentAmounts();
-        // balance by separate source amount
+        // Round and balance by separate source amount
         roundAccountChargeAmount();
         // create offset payments
         createOffsetPayments();
         this.sourceAsset.getAssetPayments().addAll(this.offsetPayments);
     }
 
+    /**
+     * Split the amount to be assigned from the source payments
+     */
     private void prepareSourcePaymentsForSplit() {
         // Call the allocate with ratio for each payments
         for (AssetPayment assetPayment : this.sourcePayments) {
@@ -109,6 +136,9 @@ public class AssetSeparatePaymentDistributor {
 
     }
 
+    /**
+     * Creates offset payment by copying and negating the separated payments
+     */
     private void createOffsetPayments() {
         // create offset payment by negating the amount fields
         for (AssetPayment separatePayment : this.separatedPayments) {
@@ -130,6 +160,10 @@ public class AssetSeparatePaymentDistributor {
 
     }
 
+    /**
+     * Applies the asset allocate ratio for each payment line to be created and adds to the new asset. In addition it keeps track of
+     * how amount is consumed by each asset and how each payment is being split
+     */
     private void allocatePaymentAmountsByRatio() {
         for (AssetPayment source : this.separatedPayments) {
 
@@ -172,7 +206,8 @@ public class AssetSeparatePaymentDistributor {
     }
 
     /**
-     * Rounds the last payment by adjusting the amount compared against separate source amount
+     * Rounds the last payment by adjusting the amount compared against separate source amount and copies account charge amount to
+     * primary depreciation base amount if not zero
      */
     private void roundAccountChargeAmount() {
         for (int j = 0; j < this.newAssets.size(); j++) {

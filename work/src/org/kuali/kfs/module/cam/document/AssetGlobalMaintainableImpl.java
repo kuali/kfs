@@ -38,6 +38,7 @@ import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinde
 import org.kuali.kfs.module.cam.document.gl.AssetGlobalGeneralLedgerPendingEntrySource;
 import org.kuali.kfs.module.cam.document.service.AssetDateService;
 import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
+import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.validation.impl.AssetGlobalRule;
 import org.kuali.kfs.module.cam.util.KualiDecimalUtils;
 import org.kuali.kfs.sys.KFSConstants;
@@ -52,10 +53,12 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.MaintenanceDocumentService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global assets
@@ -64,12 +67,12 @@ public class AssetGlobalMaintainableImpl extends FinancialSystemGlobalMaintainab
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalMaintainableImpl.class);
     private static final String REQUIRES_REVIEW = "RequiresReview";
 
-    @Override
     /**
      * If the Add Asset Global document is submit from CAB, bypass all the approvers.
      */
+    @Override
     protected boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        if (this.REQUIRES_REVIEW.equals(nodeName)) {
+        if (REQUIRES_REVIEW.equals(nodeName)) {
             return !((AssetGlobal) getBusinessObject()).isCapitalAssetBuilderOriginIndicator();
         }
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \"" + nodeName + "\"");
@@ -128,7 +131,7 @@ public class AssetGlobalMaintainableImpl extends FinancialSystemGlobalMaintainab
      * @return Asset
      */
     private Asset getAsset(AssetGlobal assetGlobal) {
-        HashMap map = new HashMap();
+        HashMap<Object, Object> map = new HashMap<Object, Object>();
         map.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, assetGlobal.getSeparateSourceCapitalAssetNumber());
         Asset asset = (Asset) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Asset.class, map);
         return asset;
@@ -141,7 +144,7 @@ public class AssetGlobalMaintainableImpl extends FinancialSystemGlobalMaintainab
      * @return AssetOrganization
      */
     private AssetOrganization getAssetOrganization(AssetGlobal assetGlobal) {
-        HashMap map = new HashMap();
+        HashMap<Object, Object> map = new HashMap<Object, Object>();
         map.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, assetGlobal.getSeparateSourceCapitalAssetNumber());
         AssetOrganization assetOrganization = (AssetOrganization) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(AssetOrganization.class, map);
         return assetOrganization;
@@ -541,6 +544,12 @@ public class AssetGlobalMaintainableImpl extends FinancialSystemGlobalMaintainab
         assetGlobal.setMaxAssetTotalAmount(maxAssetTotalAmount);
     }
 
+    /**
+     * Generates a unique using location fields to keep track of user changes
+     * 
+     * @param location Location
+     * @return Key String
+     */
     private String generateLocationKey(AssetGlobalDetail location) {
         StringBuilder builder = new StringBuilder();
         builder.append(location.getCampusCode() == null ? "" : location.getCampusCode().trim().toLowerCase());
@@ -556,6 +565,10 @@ public class AssetGlobalMaintainableImpl extends FinancialSystemGlobalMaintainab
         return builder.toString();
     }
 
+    /**
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterPost(org.kuali.rice.kns.document.MaintenanceDocument,
+     *      java.util.Map)
+     */
     @Override
     public void processAfterPost(MaintenanceDocument document, Map<String, String[]> parameters) {
         super.processAfterPost(document, parameters);
@@ -639,13 +652,35 @@ public class AssetGlobalMaintainableImpl extends FinancialSystemGlobalMaintainab
         if (((AssetGlobal) getBusinessObject()).isCapitalAssetBuilderOriginIndicator()) {
             SpringContext.getBean(CapitalAssetBuilderModuleService.class).notifyRouteStatusChange(documentHeader);
         }
+        removeAssetLock(documentHeader);
     }
 
+    /**
+     * Removes the asset lock if any found
+     * 
+     * @param documentHeader DocumentHeader
+     */
+    private void removeAssetLock(DocumentHeader documentHeader) {
+        // Remove the lock when document is processed/canceled/disapproved
+        KualiWorkflowDocument workflowDocument = documentHeader.getWorkflowDocument();
+        if (workflowDocument.stateIsProcessed() || workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved()) {
+            SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(documentHeader.getDocumentNumber());
+        }
+    }
+
+    /**
+     * @see org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl#getPrimaryEditedBusinessObjectClass()
+     */
     @Override
     public Class<? extends PersistableBusinessObject> getPrimaryEditedBusinessObjectClass() {
         return Asset.class;
     }
 
+    /**
+     * Returns the AssetGlobalService from context
+     * 
+     * @return AssetGlobalService
+     */
     private AssetGlobalService getAssetGlobalService() {
         return SpringContext.getBean(AssetGlobalService.class);
     }

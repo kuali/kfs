@@ -312,7 +312,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                     PurApItem purapItem = purApAccountingLine.getPurapItem();
                     PurchasingAccountsPayableItemAsset itemAsset = findMatchingPurapAssetItem(cabPurapDoc, purapItem);
                     String itemAssetKey = cabPurapDoc.getDocumentNumber() + "-" + purapItem.getItemIdentifier();
-
+                    // if new item, create and add to the list
                     if (itemAsset == null && (itemAsset = assetItems.get(itemAssetKey)) == null) {
                         itemAsset = createPurchasingAccountsPayableItemAsset(cabPurapDoc, purapItem);
                         cabPurapDoc.getPurchasingAccountsPayableItemAssets().add(itemAsset);
@@ -484,7 +484,9 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         if (matchingItems != null && !matchingItems.isEmpty() && matchingItems.size() == 1) {
             PurchasingAccountsPayableItemAsset itmAsset = matchingItems.iterator().next();
             // if still active and never split or submitted to CAMS
-            if (itmAsset.isActive() && itmAsset.getCapitalAssetManagementDocumentNumber() == null) {
+            KualiDecimal cabQty = itmAsset.getAccountsPayableItemQuantity();
+            KualiDecimal purapQty = apItem.getItemQuantity();
+            if (itmAsset.isActive() && cabQty != null && purapQty != null && cabQty.equals(purapQty)) {
                 return itmAsset;
             }
         }

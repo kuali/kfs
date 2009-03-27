@@ -49,8 +49,8 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
             return false;
         }
 
-        if (paymentRequestDocument.isExtracted()) {
-            return false;
+        if (!paymentRequestDocument.isExtracted()) {
+            return true;
         }      
         
         return super.canSave(document);

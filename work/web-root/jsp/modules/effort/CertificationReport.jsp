@@ -41,7 +41,6 @@
 	</c:forTokens>
 
 	<c:set var="canEdit" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
-	<c:set var="canEdit" value="true"/>
 	<c:set var="isSummaryTabEntry" value="${KualiForm.editingMode[EffortConstants.EffortCertificationEditMode.SUMMARY_TAB_ENTRY]}"/>
  	<c:if test="${canEdit && isSummaryTabEntry}">
 		<er:summaryTab/>	

@@ -218,3 +218,7 @@ delete from KRIM_ENTITY_T where entity_id not in ('1', '2', '3', '4016', '4026',
 /
 delete from KRIM_EMP_STAT_T where emp_stat_cd = 'X'
 /
+
+-- fix service billing edit accounting lines perm
+update krim_perm_attr_data_t set attr_val = 'PreRoute' where attr_data_id = '266'
+/

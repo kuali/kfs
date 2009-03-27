@@ -513,12 +513,19 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
             dvForm.getTabStates().remove(tabKey);
         }
         
+        for(String propertyKey: TabByReasonCode.getAllDocumentPropertyKeys()) {
+            GlobalVariables.getErrorMap().removeAllWarningMessagesForProperty(propertyKey);
+        }
+        
+        String reasonCodeProperty = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE;
+        GlobalVariables.getErrorMap().removeAllWarningMessagesForProperty(reasonCodeProperty);
+        
         String paymentReasonCode = document.getDvPayeeDetail().getDisbVchrPaymentReasonCode();        
         TabByReasonCode tab = TabByReasonCode.getTabByReasonCode(paymentReasonCode);
         if(tab != null) {
             dvForm.getTabStates().put(tab.tabKey, "OPEN");
-            GlobalVariables.getErrorMap().putWarning(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE, tab.messageKey);
-            GlobalVariables.getErrorMap().putWarning(KFSPropertyConstants.DOCUMENT + "." + tab.propertyName + "." + tab.reprentingFieldName, tab.messageKey);
+            GlobalVariables.getErrorMap().putWarning(reasonCodeProperty, tab.messageKey);
+            GlobalVariables.getErrorMap().putWarning(tab.getDocumentPropertyKey(), tab.messageKey);
         }
 
         return null;

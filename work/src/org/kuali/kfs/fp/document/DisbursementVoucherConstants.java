@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -133,7 +134,22 @@ public interface DisbursementVoucherConstants extends ParameterKeyConstants {
             }
             
             return tabKeys;
-        }               
+        } 
+        
+        public static List<String> getAllDocumentPropertyKeys(){
+            List<String> documentPropertyKeys = new ArrayList<String>();
+            
+            for(TabByReasonCode tab : TabByReasonCode.values()) {
+                String propertyKey = tab.getDocumentPropertyKey();
+                documentPropertyKeys.add(propertyKey);
+            }
+            
+            return documentPropertyKeys;
+        }
+        
+        public String getDocumentPropertyKey() {
+            return KFSPropertyConstants.DOCUMENT + PropertyUtils.NESTED_DELIM + this.propertyName + PropertyUtils.NESTED_DELIM + this.reprentingFieldName;
+        }
     }
 
     // system parameter parameter constants

@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.kuali.kfs.gl.dataaccess.CachingDao;
 import org.kuali.kfs.sys.batch.service.CacheService;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.RoleManagementService;
 
@@ -26,7 +27,8 @@ import com.opensymphony.oscache.general.GeneralCacheAdministrator;
 
 /**
  * @see com.rsmart.kuali.kfs.sys.batch.service.CacheService
- */
+ */ 
+@NonTransactional
 public class CacheServiceImpl implements CacheService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CacheServiceImpl.class);
     

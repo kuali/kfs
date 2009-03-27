@@ -81,7 +81,7 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
             return false;
         }
 
-        return super.canSave(document);
+        return super.canCancel(document);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
             return false;
         }
 
-        return super.canSave(document);
+        return super.canClose(document);
     }
 
     @Override
@@ -103,7 +103,7 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
             return false;
         }
 
-        return super.canSave(document);
+        return super.canReload(document);
     }
 
     @Override
@@ -115,60 +115,6 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
         }
 
         return super.canSave(document);
-    }
-
-    /**
-     * Determines whether to display the button to print the pdf for the first time transmit. 
-     * Conditions: PO status is Pending Print or the transmission method is changed to PRINT during the amendment. 
-     * 
-     * @return boolean true if the print first transmit button can be displayed.
-     */
-    private boolean canFirstTransmitPrintPo(PurchaseOrderDocument poDocument) {
-        // status shall be Pending Print, or the transmission method is changed to PRINT during amendment, 
-        boolean can = PurchaseOrderStatuses.PENDING_PRINT.equals(poDocument.getStatusCode());
-        if (!can) {
-            can = PurchaseOrderStatuses.OPEN.equals(poDocument.getStatusCode());
-            can = can && poDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal();
-            can = can && poDocument.getPurchaseOrderLastTransmitTimestamp() == null;
-            can = can && PurapConstants.POTransmissionMethods.PRINT.equals(poDocument.getPurchaseOrderTransmissionMethodCode());
-        }
-
-        return can;
-    }
-
-    /**
-     * Determines whether to display the print preview button for the first time transmit. Conditions are:
-     * available while the document is saved or enroute;
-     * available for only a certain number of PO transmission types which are stored in a parameter (default to PRIN and FAX)
-     * 
-     * @return boolean true if the preview print button can be displayed.
-     */
-    private boolean canPreviewPrintPo(PurchaseOrderDocument poDocument) {
-        // PO is saved or enroute
-        boolean can = poDocument.getDocumentHeader().getWorkflowDocument().stateIsSaved() || poDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute();
-
-        // transmission method must be one of those specified by the parameter
-        if (can) {
-            List<String> methods = SpringContext.getBean(ParameterService.class).getParameterValues(PurchaseOrderDocument.class, PurapParameterConstants.PURAP_PO_PRINT_PREVIEW_TRANSMISSION_METHOD_TYPES);
-            String method = poDocument.getPurchaseOrderTransmissionMethodCode();
-            can = (methods == null || methods.contains(method));
-        }
-
-        return can;
-    }
-
-    /**
-     * Determines whether to display the resend po button for the purchase order document.
-     * Conditions: PO status must be error sending cxml and must be current and not pending.
-     * 
-     * @return boolean true if the resend po button shall be displayed.
-     */
-    private boolean canResendCxml(PurchaseOrderDocument poDocument) {
-        // check PO status etc
-        boolean can = PurchaseOrderStatuses.CXML_ERROR.equals(poDocument.getStatusCode());
-        can = can && poDocument.isPurchaseOrderCurrentIndicator() && !poDocument.isPendingActionIndicator();
-
-        return can;
     }
 
     @Override
@@ -286,6 +232,60 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
         }
 
         return editModes;
+    }
+
+    /**
+     * Determines whether to display the button to print the pdf for the first time transmit. 
+     * Conditions: PO status is Pending Print or the transmission method is changed to PRINT during the amendment. 
+     * 
+     * @return boolean true if the print first transmit button can be displayed.
+     */
+    private boolean canFirstTransmitPrintPo(PurchaseOrderDocument poDocument) {
+        // status shall be Pending Print, or the transmission method is changed to PRINT during amendment, 
+        boolean can = PurchaseOrderStatuses.PENDING_PRINT.equals(poDocument.getStatusCode());
+        if (!can) {
+            can = PurchaseOrderStatuses.OPEN.equals(poDocument.getStatusCode());
+            can = can && poDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal();
+            can = can && poDocument.getPurchaseOrderLastTransmitTimestamp() == null;
+            can = can && PurapConstants.POTransmissionMethods.PRINT.equals(poDocument.getPurchaseOrderTransmissionMethodCode());
+        }
+
+        return can;
+    }
+
+    /**
+     * Determines whether to display the print preview button for the first time transmit. Conditions are:
+     * available while the document is saved or enroute;
+     * available for only a certain number of PO transmission types which are stored in a parameter (default to PRIN and FAX)
+     * 
+     * @return boolean true if the preview print button can be displayed.
+     */
+    private boolean canPreviewPrintPo(PurchaseOrderDocument poDocument) {
+        // PO is saved or enroute
+        boolean can = poDocument.getDocumentHeader().getWorkflowDocument().stateIsSaved() || poDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute();
+
+        // transmission method must be one of those specified by the parameter
+        if (can) {
+            List<String> methods = SpringContext.getBean(ParameterService.class).getParameterValues(PurchaseOrderDocument.class, PurapParameterConstants.PURAP_PO_PRINT_PREVIEW_TRANSMISSION_METHOD_TYPES);
+            String method = poDocument.getPurchaseOrderTransmissionMethodCode();
+            can = (methods == null || methods.contains(method));
+        }
+
+        return can;
+    }
+
+    /**
+     * Determines whether to display the resend po button for the purchase order document.
+     * Conditions: PO status must be error sending cxml and must be current and not pending.
+     * 
+     * @return boolean true if the resend po button shall be displayed.
+     */
+    private boolean canResendCxml(PurchaseOrderDocument poDocument) {
+        // check PO status etc
+        boolean can = PurchaseOrderStatuses.CXML_ERROR.equals(poDocument.getStatusCode());
+        can = can && poDocument.isPurchaseOrderCurrentIndicator() && !poDocument.isPendingActionIndicator();
+
+        return can;
     }
 
 }

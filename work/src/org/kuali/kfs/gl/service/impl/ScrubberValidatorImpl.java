@@ -399,7 +399,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                     continuationAccountIndicator = true;
                     //workingEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
                     //workingEntry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_AUTO_FORWARD) + " " + originEntry.getChartOfAccountsCode() + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription());
-                    workingEntry.setTransactionLedgerEntryDescription("AUTO FR " + originEntry.getChartOfAccountsCode() + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription());
+                    workingEntry.setTransactionLedgerEntryDescription(KFSKeyConstants.MSG_AUTO_FORWARD + " " + originEntry.getChartOfAccountsCode() + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription());
                     return MessageBuilder.buildMessage(KFSKeyConstants.MSG_ACCOUNT_CLOSED_TO, workingEntry.getChartOfAccountsCode() + workingEntry.getAccountNumber(), Message.TYPE_WARNING);
                 }
                 else {

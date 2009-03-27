@@ -36,7 +36,6 @@ import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants.TabByReasonCode;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherCoverSheetService;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService;
-import org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentReasonService;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherTravelService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -132,7 +131,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
     public ActionForward printDisbursementVoucherCoverSheet(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
         WebUtils.reRegisterEditablePropertiesFromPreviousRequest(dvForm);
-        
+
         // get directory of template
         String directory = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY);
 
@@ -149,7 +148,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         coverSheetService.generateDisbursementVoucherCoverSheet(directory, DisbursementVoucherConstants.DV_COVER_SHEET_TEMPLATE_NM, document, baos);
         String fileName = document.getDocumentNumber() + "_cover_sheet.pdf";
         WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", baos, fileName);
-        
+
         return (null);
     }
 
@@ -442,7 +441,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
 
         // retain error messages after a lookup
         WebUtils.reuseErrorMapFromPreviousRequest(dvForm);
-        
+
         ActionForward actionAfterPayeeLookup = this.refreshAfterPayeeSelection(mapping, dvForm, request);
         if (actionAfterPayeeLookup != null) {
             return actionAfterPayeeLookup;
@@ -508,34 +507,11 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         if (isAddressLookupable && StringUtils.isNotBlank(payeeAddressIdentifier)) {
             setupPayeeAsVendor(dvForm, payeeIdNumber, payeeAddressIdentifier);
         }
-        
-        String paymentReasonCode = document.getDvPayeeDetail().getDisbVchrPaymentReasonCode(); 
+
+        String paymentReasonCode = document.getDvPayeeDetail().getDisbVchrPaymentReasonCode();
         addPaymentCodeWarningMessage(dvForm, paymentReasonCode);
 
         return null;
-    }
-
-    // add warning message based on the given reason code
-    private void addPaymentCodeWarningMessage(DisbursementVoucherForm dvForm, String paymentReasonCode) {
-        // clear up the warning message and tab state carried from previous screen        
-        for(String tabKey: TabByReasonCode.getAllTabKeys()) {
-            dvForm.getTabStates().remove(tabKey);
-        }
-        
-        for(String propertyKey: TabByReasonCode.getAllDocumentPropertyKeys()) {
-            GlobalVariables.getErrorMap().removeAllWarningMessagesForProperty(propertyKey);
-        }
-        
-        String reasonCodeProperty = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE;
-        GlobalVariables.getErrorMap().removeAllWarningMessagesForProperty(reasonCodeProperty);
-        
-        // add warning message and reset tab state as open if any
-        TabByReasonCode tab = TabByReasonCode.getTabByReasonCode(paymentReasonCode);
-        if(tab != null) {
-            dvForm.getTabStates().put(tab.tabKey, "OPEN");
-            GlobalVariables.getErrorMap().putWarning(reasonCodeProperty, tab.messageKey);
-            GlobalVariables.getErrorMap().putWarning(tab.getDocumentPropertyKey(), tab.messageKey);
-        }
     }
 
     /**
@@ -578,12 +554,12 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
 
         props.put(KNSConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObject(dvForm));
         props.put(KNSConstants.DOC_NUM, dvForm.getDocument().getDocumentNumber());
-        
-        //TODO: how should this forward be handled
+
+        // TODO: how should this forward be handled
         String url = UrlFactory.parameterizeUrl(getBasePath(request) + "/kr/" + KNSConstants.LOOKUP_ACTION, props);
-        
+
         dvForm.registerEditableProperty("methodToCall");
-        
+
         return new ActionForward(url, true);
     }
 
@@ -621,4 +597,30 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
 
         ((DisbursementVoucherDocument) dvForm.getDocument()).templateVendor(vendorDetail, vendorAddress);
     }
+
+    /**
+     * add warning message based on the given reason code
+     */
+    private void addPaymentCodeWarningMessage(DisbursementVoucherForm dvForm, String paymentReasonCode) {
+        // clear up the warning message and tab state carried from previous screen
+        for (String tabKey : TabByReasonCode.getAllTabKeys()) {
+            dvForm.getTabStates().remove(tabKey);
+        }
+
+        for (String propertyKey : TabByReasonCode.getAllDocumentPropertyKeys()) {
+            GlobalVariables.getErrorMap().removeAllWarningMessagesForProperty(propertyKey);
+        }
+
+        String reasonCodeProperty = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE;
+        GlobalVariables.getErrorMap().removeAllWarningMessagesForProperty(reasonCodeProperty);
+
+        // add warning message and reset tab state as open if any
+        TabByReasonCode tab = TabByReasonCode.getTabByReasonCode(paymentReasonCode);
+        if (tab != null) {
+            dvForm.getTabStates().put(tab.tabKey, "OPEN");
+            GlobalVariables.getErrorMap().putWarning(reasonCodeProperty, tab.messageKey);
+            GlobalVariables.getErrorMap().putWarning(tab.getDocumentPropertyKey(), tab.messageKey);
+        }
+    }
+
 }

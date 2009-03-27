@@ -19,7 +19,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
-import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.sys.document.validation.impl.GeneralLedgerPostingDocumentRuleBase;
@@ -55,7 +54,7 @@ public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocument
         // Validate the nonInvoiced payments
         for(NonInvoiced nonInvoiced : paymentApplicationDocument.getNonInvoiceds()) {
             try {
-                if(!PaymentApplicationDocumentRuleUtil.validateNonInvoiced(nonInvoiced, paymentApplicationDocument)) {
+                if(!PaymentApplicationDocumentRuleUtil.validateNonInvoiced(nonInvoiced, paymentApplicationDocument, paymentApplicationDocument.getTotalFromControl())) {
                     isValid = false;
                     LOG.info("One of the non-invoiced lines on the payment application document is not valid.");
                 }
@@ -67,7 +66,7 @@ public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocument
         
         // Validate non applied holdings
         try {
-            if(!PaymentApplicationDocumentRuleUtil.validateNonAppliedHolding(paymentApplicationDocument)) {
+            if(!PaymentApplicationDocumentRuleUtil.validateNonAppliedHolding(paymentApplicationDocument, paymentApplicationDocument.getTotalFromControl())) {
                 isValid = false;
                 LOG.info("The unapplied line on the payment application document is not valid.");
             }

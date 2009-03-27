@@ -163,15 +163,19 @@ public class NonAppliedHolding extends PersistableBusinessObjectBase {
      * @return Returns the crmTotalAmount.
      */
     public KualiDecimal getAvailableUnappliedAmount() {
-        return availableUnappliedAmount;
-    }
-
-    /**
-     * Vivek - Sets the availableUnappliedAmount attribute value.
-     * @param crmTotalAmount The crmTotalAmount to set.
-     */
-    public void setAvailableUnappliedAmount(KualiDecimal availableUnappliedAmount) {
-        this.availableUnappliedAmount = availableUnappliedAmount;
+        //  start with the original unapplied amount
+        KualiDecimal amount = financialDocumentLineAmount;
+        
+        //  subtract any non-invoiced distributions made against it
+        for (NonInvoicedDistribution nonInvoicedDistribution : nonInvoicedDistributions) {
+            amount = amount.subtract(nonInvoicedDistribution.getFinancialDocumentLineAmount());
+        }
+        
+        //  subtract any non-applied distributions made against it
+        for (NonAppliedDistribution nonAppliedDistribution : nonAppliedDistributions) {
+            amount = amount.subtract(nonAppliedDistribution.getFinancialDocumentLineAmount());
+        }
+        return amount;
     }
 
     /**
@@ -179,15 +183,19 @@ public class NonAppliedHolding extends PersistableBusinessObjectBase {
      * @return Returns the crmTotalAmount.
      */
     public KualiDecimal getAppliedUnappliedAmount() {
-        return appliedUnappliedAmount;
-    }
-
-    /**
-     * Vivek - Sets the appliedUnappliedAmount attribute value.
-     * @param crmTotalAmount The crmTotalAmount to set.
-     */
-    public void setAppliedUnappliedAmount(KualiDecimal appliedUnappliedAmount) {
-        this.appliedUnappliedAmount = appliedUnappliedAmount;
+        //  start with zero
+        KualiDecimal amount = KualiDecimal.ZERO;
+        
+        //  add any non-invoiced distributions made against it
+        for (NonInvoicedDistribution nonInvoicedDistribution : nonInvoicedDistributions) {
+            amount = amount.add(nonInvoicedDistribution.getFinancialDocumentLineAmount());
+        }
+        
+        //  add any non-applied distributions made against it
+        for (NonAppliedDistribution nonAppliedDistribution : nonAppliedDistributions) {
+            amount = amount.add(nonAppliedDistribution.getFinancialDocumentLineAmount());
+        }
+        return amount;
     }
 
     /**

@@ -20,10 +20,12 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.document.dataaccess.NonAppliedHoldingDao;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.util.OjbCollectionAware;
 
@@ -31,10 +33,18 @@ public class NonAppliedHoldingDaoOjb extends PlatformAwareDaoBaseOjb implements 
 
     public Collection<NonAppliedHolding> getNonAppliedHoldingsByListOfDocumentNumbers(List<String> docNumbers) {
         Criteria criteria = new Criteria();
-        criteria.addIn("", docNumbers);
+        criteria.addIn("referenceFinancialDocumentNumber", docNumbers);
 
         QueryByCriteria query = QueryFactory.newQuery(NonAppliedHolding.class, criteria);
         return new ArrayList<NonAppliedHolding>(this.getPersistenceBrokerTemplate().getCollectionByQuery(query));
+    }
+
+    public Collection<NonAppliedHolding> getNonAppliedHoldingsForCustomer(String customerNumber) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("customerNumber", customerNumber);
+        criteria.addEqualTo("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
+        Query query = QueryFactory.newQuery(NonAppliedHolding.class, criteria);
+        return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 
 }

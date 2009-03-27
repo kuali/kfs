@@ -17,15 +17,13 @@ package org.kuali.kfs.module.ar.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.document.dataaccess.NonAppliedHoldingDao;
 import org.kuali.kfs.module.ar.document.service.NonAppliedHoldingService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,12 +43,20 @@ public class NonAppliedHoldingServiceImpl implements NonAppliedHoldingService {
     /**
      * @see org.kuali.kfs.module.ar.document.service.NonAppliedHoldingService#getNonAppliedHoldingsForCustomer(java.lang.String)
      */
-    @SuppressWarnings("unchecked")
     public Collection<NonAppliedHolding> getNonAppliedHoldingsForCustomer(String customerNumber) {
-        Map args = new HashMap();
-        args.put("customerNumber", customerNumber);
-        args.put("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
-        return businessObjectService.findMatching(NonAppliedHolding.class, args);
+        if (StringUtils.isBlank(customerNumber)) {
+            throw new IllegalArgumentException("The parameter [customerNumber] passed in was blank or null.");
+        }
+        List<NonAppliedHolding> nonAppliedHoldings = new ArrayList<NonAppliedHolding>();
+        //TODO WARNING this is going to degrade badly performance wise as the db fills up, 
+        //     this needs to be solved properly with a flag in the NonAppliedHolding 
+        Collection<NonAppliedHolding> tempList = nonAppliedHoldingDao.getNonAppliedHoldingsForCustomer(customerNumber);
+        for (NonAppliedHolding nonAppliedHolding : tempList) {
+            if (nonAppliedHolding.getAvailableUnappliedAmount().isPositive()) {
+                nonAppliedHoldings.add(nonAppliedHolding);
+            }
+        }
+        return nonAppliedHoldings;
     }
 
     public Collection<NonAppliedHolding> getNonAppliedHoldingsByListOfDocumentNumbers(List<String> docNumbers) {

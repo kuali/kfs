@@ -111,10 +111,10 @@
 								<tr>
 									<c:if test="${!showCCAndBtbA}">
 										<td>
-											$<c:out value="${KualiForm.document.totalAvailableUnappliedAmount}" />
+											$<c:out value="${KualiForm.totalFromControl}" />
 										</td>
 										<td>
-											$<c:out value="${KualiForm.document.unallocatedBalance}" />
+											$<c:out value="${KualiForm.unallocatedBalance}" />
 										</td>
 									</c:if>
 									<c:if test="${showCCAndBtbA}">
@@ -122,11 +122,11 @@
 											$<c:out value="${KualiForm.document.documentHeader.financialDocumentTotalAmount}" />
 										</td>
 										<td>
-											$<c:out value="${KualiForm.document.unallocatedBalance}" />
+											$<c:out value="${KualiForm.unallocatedBalance}" />
 										</td>
 									</c:if>
 									<td>
-										$<c:out value="${KualiForm.document.totalApplied}" />
+										$<c:out value="${KualiForm.totalApplied}" />
 									</td>
 								</tr>
 							</table>

@@ -21,7 +21,6 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
@@ -39,10 +38,10 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PaymentApplicationDocumentRuleUtil {
 
-    public static boolean validateAllAmounts(PaymentApplicationDocument applicationDocument, List<CustomerInvoiceDetail> invoiceDetails, NonInvoiced newNonInvoiced) throws WorkflowException {
-        boolean isValid = validateApplieds(invoiceDetails, applicationDocument);
-        isValid &= validateNonAppliedHolding(applicationDocument);
-        isValid &= validateNonInvoiced(newNonInvoiced, applicationDocument);
+    public static boolean validateAllAmounts(PaymentApplicationDocument applicationDocument, List<CustomerInvoiceDetail> invoiceDetails, NonInvoiced newNonInvoiced, KualiDecimal totalFromControl) throws WorkflowException {
+        boolean isValid = validateApplieds(invoiceDetails, applicationDocument, totalFromControl);
+        isValid &= validateNonAppliedHolding(applicationDocument, totalFromControl);
+        isValid &= validateNonInvoiced(newNonInvoiced, applicationDocument, totalFromControl);
         return isValid;
     }
     
@@ -190,7 +189,7 @@ public class PaymentApplicationDocumentRuleUtil {
      * @param nonInvoiced
      * @return
      */
-    public static boolean validateNonInvoiced(NonInvoiced nonInvoiced, PaymentApplicationDocument paymentApplicationDocument) throws WorkflowException {
+    public static boolean validateNonInvoiced(NonInvoiced nonInvoiced, PaymentApplicationDocument paymentApplicationDocument, KualiDecimal totalFromControl) throws WorkflowException {
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         int originalErrorCount = errorMap.getErrorCount();
         
@@ -213,7 +212,7 @@ public class PaymentApplicationDocumentRuleUtil {
                 ArPropertyConstants.PaymentApplicationDocumentFields.NON_INVOICED_LINE_AMOUNT,
                 ArKeyConstants.PaymentApplicationDocumentErrors.NON_AR_AMOUNT_REQUIRED);
         } else {
-            KualiDecimal cashControlBalanceToBeApplied = new KualiDecimal(0);
+            KualiDecimal cashControlBalanceToBeApplied = totalFromControl;
             cashControlBalanceToBeApplied = cashControlBalanceToBeApplied.add(paymentApplicationDocument.getTotalFromControl());
             cashControlBalanceToBeApplied.subtract(paymentApplicationDocument.getTotalApplied());
             cashControlBalanceToBeApplied.subtract(paymentApplicationDocument.getNonAppliedHoldingAmount());
@@ -243,14 +242,14 @@ public class PaymentApplicationDocumentRuleUtil {
      * @param customerInvoiceDetails
      * @return
      */
-    public static boolean validateApplieds(List<CustomerInvoiceDetail> customerInvoiceDetails, PaymentApplicationDocument paymentAplicationDocument) throws WorkflowException {
+    public static boolean validateApplieds(List<CustomerInvoiceDetail> customerInvoiceDetails, PaymentApplicationDocument paymentAplicationDocument, KualiDecimal totalFromControl) throws WorkflowException {
 
         // Indicates whether the validation succeeded
         boolean isValid = true;
 
         // Figure out the maximum we should be able to apply.
         for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetails) {
-            isValid &= validateAmountAppliedToCustomerInvoiceDetailByPaymentApplicationDocument(customerInvoiceDetail,paymentAplicationDocument);
+            isValid &= validateAmountAppliedToCustomerInvoiceDetailByPaymentApplicationDocument(customerInvoiceDetail, paymentAplicationDocument, totalFromControl);
         }
 
         return isValid;
@@ -261,7 +260,7 @@ public class PaymentApplicationDocumentRuleUtil {
      * @param paymentApplicationDocument
      * @return
      */
-    public static boolean validateAmountAppliedToCustomerInvoiceDetailByPaymentApplicationDocument(CustomerInvoiceDetail customerInvoiceDetail, PaymentApplicationDocument paymentApplicationDocument) throws WorkflowException {
+    public static boolean validateAmountAppliedToCustomerInvoiceDetailByPaymentApplicationDocument(CustomerInvoiceDetail customerInvoiceDetail, PaymentApplicationDocument paymentApplicationDocument, KualiDecimal totalFromControl) throws WorkflowException {
         
         boolean isValid = true;
         
@@ -269,7 +268,6 @@ public class PaymentApplicationDocumentRuleUtil {
         String propertyName = 
             MessageFormat.format(ArPropertyConstants.PaymentApplicationDocumentFields.AMOUNT_TO_BE_APPLIED_LINE_N, customerInvoiceDetail.getSequenceNumber().toString());
         
-        KualiDecimal detailAmount = customerInvoiceDetail.getAmount();
         KualiDecimal amountAppliedByAllOtherDocuments = 
             customerInvoiceDetail.getAmountAppliedExcludingAnyAmountAppliedBy(paymentApplicationDocument.getDocumentNumber());
         KualiDecimal amountAppliedByThisDocument = 
@@ -278,7 +276,7 @@ public class PaymentApplicationDocumentRuleUtil {
             amountAppliedByAllOtherDocuments.add(amountAppliedByThisDocument);
         
         // Can't apply more than the total amount of the detail
-        if(!totalAppliedAmount.isLessEqual(detailAmount)) {
+        if(!totalAppliedAmount.isLessEqual(totalFromControl)) {
             isValid = false;
             GlobalVariables.getErrorMap().putError(propertyName, ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_EXCEEDS_AMOUNT_OUTSTANDING);
         }
@@ -308,19 +306,13 @@ public class PaymentApplicationDocumentRuleUtil {
      * @return
      * @throws WorkflowException
      */
-    public static boolean validateNonAppliedHolding(PaymentApplicationDocument applicationDocument) throws WorkflowException {
-        // The amount of the unapplied attribute must be less than the cash control document amount
-        CashControlDetail cashControlDetail = applicationDocument.getCashControlDetail();
-        if(ObjectUtils.isNull(cashControlDetail)) { 
-            return true; 
-        }
-        KualiDecimal cashControlTotalAmount = cashControlDetail.getFinancialDocumentLineAmount();
+    public static boolean validateNonAppliedHolding(PaymentApplicationDocument applicationDocument, KualiDecimal totalFromControl) throws WorkflowException {
         NonAppliedHolding nonAppliedHolding = applicationDocument.getNonAppliedHolding();
         if(ObjectUtils.isNull(nonAppliedHolding)) { return true; }
         if(StringUtils.isNotEmpty(nonAppliedHolding.getCustomerNumber())) {
             KualiDecimal nonAppliedAmount = nonAppliedHolding.getFinancialDocumentLineAmount();
             if(null == nonAppliedAmount) { nonAppliedAmount = KualiDecimal.ZERO; }
-            boolean isValid = cashControlTotalAmount.isGreaterEqual(nonAppliedAmount);
+            boolean isValid = totalFromControl.isGreaterEqual(nonAppliedAmount);
             if(!isValid) {
                 String propertyName = ArPropertyConstants.PaymentApplicationDocumentFields.UNAPPLIED_AMOUNT;
                 String errorKey = ArKeyConstants.PaymentApplicationDocumentErrors.UNAPPLIED_AMOUNT_CANNOT_EXCEED_AVAILABLE_AMOUNT;

@@ -30,6 +30,7 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
+import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
@@ -51,28 +52,19 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     private String enteredInvoiceDocumentNumber;
     private String selectedCustomerNumber;
     private KualiDecimal unappliedCustomerAmount;
-    //private KualiDecimal selectedInvoiceTotalAmount;
-    //private KualiDecimal selectedInvoiceBalance;
-    //private KualiDecimal amountAppliedDirectlyToInvoice;
     private PaymentApplicationInvoiceApply selectedInvoiceApplication;
     private NonInvoiced nonInvoicedAddLine;
-
-    private List<PaymentApplicationInvoiceApply> invoiceApplications;
-    
-    private List<CustomerInvoiceDocument> invoices;
-    
-    //TODO Andrew
-//    @SuppressWarnings("unchecked")
-//    private Map<String, Collection> appliedPaymentsPerCustomerInvoiceDetail;
-//    private Map<String, Boolean> previouslyQuickAppliedInvoices;
-//    private Map<String, Boolean> quickApplyToInvoiceDetails;
     private Integer nextNonInvoicedLineNumber;
-
     private KualiDecimal nonAppliedHoldingAmount;
     private String nonAppliedHoldingCustomerNumber;
 
-    private KualiDecimal oldNonAppliedHoldingAmount;
-
+    private List<PaymentApplicationInvoiceApply> invoiceApplications;
+    private List<CustomerInvoiceDocument> invoices;
+    
+    //  used for non-cash-control pay app docs
+    private List<PaymentApplicationDocument> nonAppliedControlDocs;
+    private List<NonAppliedHolding> nonAppliedControlHoldings;
+    
     /**
      * Constructs a PaymentApplicationDocumentForm.java.
      */
@@ -150,40 +142,8 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
                 }
             }
         }
-        
-        //TODO Andrew - change this so quickapply's arent remembered, they're 
-        //     turned into detail applies
-//        for (int i = 0; i < invoices.size(); i++) {
-//            CustomerInvoiceDocument invoice = invoices.get(i);
-//            for (PaymentApplicationInvoiceApply application : invoiceApplications) {
-//                if (application.getDocumentNumber().equalsIgnoreCase(invoice.getDocumentNumber())) {
-//                    application.setQuickApply(request.getParameterMap().containsKey("invoices["+i+"].quickApply"));
-//                }
-//            }
-//            //TODO Andrew
-//            //invoice.setQuickApply(request.getParameterMap().containsKey("invoices["+i+"].quickApply"));
-//        }
-        
-        //TODO Andrew
-//        if(ObjectUtils.isNotNull(getSelectedInvoiceDocument())) {
-//            for(CustomerInvoiceDetail customerInvoiceDetail : getSelectedInvoiceDocument().getCustomerInvoiceDetailsWithoutDiscounts()) {
-//                customerInvoiceDetail.setCurrentPaymentApplicationDocument(paymentApplicationDocument);
-//            }
-//        }
-        
     }
 
-    //TODO Andrew - dont need this anymore
-//    public List<PaymentApplicationInvoiceApply> getQuickAppliableInvoiceApplications() {
-//        List<PaymentApplicationInvoiceApply> quickAppliable = new ArrayList<PaymentApplicationInvoiceApply>();
-//        for (PaymentApplicationInvoiceApply invoiceApplication : invoiceApplications) {
-//            if (!invoiceApplication.hasAnyAppliedAmounts()) {
-//                quickAppliable.add(invoiceApplication);
-//            }
-//        }
-//        return quickAppliable;
-//    }
-    
     protected void setupInvoiceWrappers(String payAppDocNumber) {
         if (StringUtils.isBlank(payAppDocNumber)) {
             throw new IllegalArgumentException("The payAppDocNumber parameter passed in was null or blank.");
@@ -202,23 +162,6 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         }
     }
 
-    //TODO Andrew
-//    public Map<String, Boolean> getPreviouslyQuickAppliedInvoices() {
-//        return previouslyQuickAppliedInvoices;
-//    }
-//
-//    public void setPreviouslyQuickAppliedInvoices(Map<String, Boolean> previouslyQuickAppliedInvoices) {
-//        this.previouslyQuickAppliedInvoices = previouslyQuickAppliedInvoices;
-//    }
-
-    //TODO Andrew
-//    public void setInvoicesByDocumentNumber(Map<String,CustomerInvoiceDocument> m1) {
-//        Map<String,CustomerInvoiceDocument> m2 = getInvoicesByDocumentNumber();
-//        for(String k : m1.keySet()) {
-//            m2.put(k, m1.get(k));
-//        }
-//    }
-    
     public Map<String,PaymentApplicationInvoiceApply> getInvoiceApplicationsByDocumentNumber() {
         Map<String,PaymentApplicationInvoiceApply> m = new HashMap<String,PaymentApplicationInvoiceApply>();
         for (PaymentApplicationInvoiceApply i : invoiceApplications) {
@@ -250,21 +193,6 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     public PaymentApplicationDocument getPaymentApplicationDocument() {
         return (PaymentApplicationDocument) getDocument();
     }
-
-    /**
-     * This method returns the customer invoices with their computed balance
-     * 
-     * @return the customer invoices and their balance
-     */
-    //TODO Andrew - this will likely go away as invoices calc their own balances based on the db
-//    public Collection<CustomerInvoiceBalanceHelper> getUpdatedBalanceInvoices() {
-//        Collection<CustomerInvoiceBalanceHelper> invoices = new ArrayList<CustomerInvoiceBalanceHelper>();
-//        for (CustomerInvoiceDocument invoice : getInvoices()) {
-//            // Get InvoicePaidApplieds for invoice
-//            invoices.add(new CustomerInvoiceBalanceHelper(invoice, new ArrayList<InvoicePaidApplied>()));
-//        }
-//        return invoices;
-//    }
 
     /**
      * For a given invoiceDocNumber and invoiceItemNumber, this method will return any paidApplieds 
@@ -312,8 +240,6 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
             detailApplications = invoiceApplication.getDetailApplications();
             if (null == detailApplications) {
                 detailApplications = new ArrayList<PaymentApplicationInvoiceDetailApply>();
-                //getSelectedInvoiceDocument().setCustomerInvoiceDetailsWithoutDiscounts(new ArrayList<CustomerInvoiceDetail>());
-                //details = getSelectedInvoiceDocument().getCustomerInvoiceDetailsWithoutDiscounts();
             }
         }
         return detailApplications; 
@@ -331,33 +257,9 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         return nonSelectedInvoiceApplications; 
     }
 
-    //TODO Andrew - this has got to go
-//    public void setCustomerInvoiceDetails(Collection<CustomerInvoiceDetail> customerInvoiceDetails) {
-//        if(null != getSelectedInvoiceDocument()) {
-//            // This would be dangerous under any other circumstances. But in this case the invoice is never saved. So it should be fine.
-//            getSelectedInvoiceDocument().setCustomerInvoiceDetailsWithoutDiscounts((List<CustomerInvoiceDetail>)customerInvoiceDetails);
-//        }
-//    }
-
     public List<PaymentApplicationInvoiceApply> getInvoiceApplications() {
         return invoiceApplications;
     }
-
-    //TODO Andrew
-//    /**
-//     * Returns the list of Open Invoices available for this document.
-//     * 
-//     * @return
-//     */
-//    public List<CustomerInvoiceDocument> getOpenInvoices() {
-//        List<CustomerInvoiceDocument> openInvoices = new ArrayList<CustomerInvoiceDocument>();
-//        for (CustomerInvoiceDocument invoice : invoices) {
-//            if (invoice.isOpenInvoiceIndicator()) {
-//                openInvoices.add(invoice);
-//            }
-//        }
-//        return openInvoices;
-//    }
 
     public PaymentApplicationInvoiceApply getSelectedInvoiceApplication() {
         String docNumber = getSelectedInvoiceDocumentNumber();
@@ -389,6 +291,31 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         this.enteredInvoiceDocumentNumber = enteredInvoiceDocumentNumber;
     }
 
+    public KualiDecimal getTotalApplied() {
+        return getPaymentApplicationDocument().getTotalApplied();
+    }
+    
+    public KualiDecimal getUnallocatedBalance() {
+        return getTotalFromControl().subtract(getTotalApplied());
+    }
+    
+    /**
+     * 
+     * Returns the control total available for this document, whether its 
+     * a cash-control style payapp, or a nonapplied style payapp.
+     * 
+     * @return
+     */
+    public KualiDecimal getTotalFromControl() {
+        PaymentApplicationDocument payAppDoc = (PaymentApplicationDocument) getDocument();
+        if (payAppDoc.hasCashControlDetail()) {
+            return payAppDoc.getTotalFromControl();
+        }
+        else {
+            return getNonAppliedControlAvailableUnappliedAmount();
+        }
+    }
+    
     /**
      * This method retrieves a specific customer invoice detail from the list, by array index
      * 
@@ -397,10 +324,6 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
      */
     public PaymentApplicationInvoiceDetailApply getInvoiceDetailApplication(int index) {
         List<PaymentApplicationInvoiceDetailApply> details = getSelectedInvoiceDetailApplications();
-        //TODO Andrew
-//        if (index >= details.size()) {
-//            details.add(new PaymentApplicationInvoiceDetailApply());
-//        }
         return details.get(index);
     }
 
@@ -411,12 +334,6 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
      * @return a CustomerInvoiceDocument
      */
     public PaymentApplicationInvoiceApply getInvoiceApplication(int index) {
-        //TODO Andrew
-//        if (index >= invoices.size()) {
-//            for (int i = invoices.size(); i <= index; i++) {
-//                invoices.add(new CustomerInvoiceDocument());
-//            }
-//        }
         return (PaymentApplicationInvoiceApply) invoiceApplications.get(index);
     }
 
@@ -425,20 +342,9 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         getSelectedInvoiceDetailApplications().set(key, value);
     }
 
-    //TODO Andrew - this should just delegate to the invoice balance method
     public KualiDecimal getSelectedInvoiceBalance() {
         PaymentApplicationInvoiceApply invoiceApplication = getSelectedInvoiceApplication();
         return invoiceApplication.getOpenAmount();
-        //TODO Andrew
-//        KualiDecimal amt = new KualiDecimal(0);
-//        for(CustomerInvoiceDetail invoiceDetail : invoiceApplication.getCustomerInvoiceDetailsWithoutDiscounts()) {
-//            amt = amt.add(invoiceDetail.getAmountOpen());
-//            CustomerInvoiceDetail discount = invoiceDetail.getDiscountCustomerInvoiceDetail();
-//            if(ObjectUtils.isNotNull(discount)) {
-//                amt = amt.add(discount.getAmount());
-//            }
-//        }
-//        return amt;
     }
 
     public KualiDecimal getSelectedInvoiceTotalAmount() {
@@ -454,23 +360,8 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
                 amount = amount.add(invoiceApplication.getAmountToApply());
             }
         }
-        //TODO Andrew
-//        for(CustomerInvoiceDetail invoiceDetail : invoice.getCustomerInvoiceDetailsWithoutDiscounts()) {
-//            amount = amount.add(invoiceDetail.getAmountAppliedBy(getPaymentApplicationDocument()));
-//        }
         return amount;
     }
-
-    //TODO Andrew
-//    @SuppressWarnings("unchecked")
-//    public Map<String, Collection> getAppliedPaymentsPerCustomerInvoiceDetail() {
-//        return appliedPaymentsPerCustomerInvoiceDetail;
-//    }
-//
-//    @SuppressWarnings("unchecked")
-//    public void setAppliedPaymentsPerCustomerInvoiceDetail(Map<String, Collection> appliedPaymentsPerCustomerInvoiceDetail) {
-//        this.appliedPaymentsPerCustomerInvoiceDetail = appliedPaymentsPerCustomerInvoiceDetail;
-//    }
 
     /**
      * This method gets the previous invoice document number
@@ -543,10 +434,6 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
      */
     public CashControlDocument getCashControlDocument() {
         return getPaymentApplicationDocument().getCashControlDocument();
-        //TODO Andrew
-//        PaymentApplicationDocumentService paymentApplicat ionDocumentService = SpringContext.getBean(PaymentApplicationDocumentService.class);
-//        CashControlDocument cashControlDocument = paymentApplicationDocumentService.getCashControlDocumentForPaymentApplicationDocument((PaymentApplicationDocument) getDocument());
-//        return cashControlDocument;
     }
 
     public NonInvoiced getNonInvoicedAddLine() {
@@ -569,14 +456,6 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
             }
         }
         return number + 1;
-    }
-
-    public KualiDecimal getOldNonAppliedHoldingAmount() {
-        return oldNonAppliedHoldingAmount;
-    }
-
-    public void setOldNonAppliedHoldingAmount(KualiDecimal oldNonAppliedHoldingAmount) {
-        this.oldNonAppliedHoldingAmount = oldNonAppliedHoldingAmount;
     }
 
     public PaymentApplicationInvoiceApply getInvoiceApplication(String documentNumber) {
@@ -626,6 +505,37 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
 
     public void setNonAppliedHoldingCustomerNumber(String nonAppliedHoldingCustomerNumber) {
         this.nonAppliedHoldingCustomerNumber = nonAppliedHoldingCustomerNumber;
+    }
+
+    public List<PaymentApplicationDocument> getNonAppliedControlDocs() {
+        return nonAppliedControlDocs;
+    }
+
+    public void setNonAppliedControlDocs(List<PaymentApplicationDocument> nonAppliedControlDocs) {
+        this.nonAppliedControlDocs = nonAppliedControlDocs;
+    }
+
+    /**
+     * 
+     * Returns the total amount of previously NonApplied funds available 
+     * to apply to invoices and other applications on this document.
+     * 
+     * @return
+     */
+    public KualiDecimal getNonAppliedControlAvailableUnappliedAmount() {
+        KualiDecimal amount = KualiDecimal.ZERO;
+        for (NonAppliedHolding nonAppliedHolding : nonAppliedControlHoldings) {
+            amount = amount.add(nonAppliedHolding.getAvailableUnappliedAmount());
+        }
+        return amount;
+    }
+    
+    public List<NonAppliedHolding> getNonAppliedControlHoldings() {
+        return nonAppliedControlHoldings;
+    }
+
+    public void setNonAppliedControlHoldings(List<NonAppliedHolding> nonAppliedControlHoldings) {
+        this.nonAppliedControlHoldings = nonAppliedControlHoldings;
     }
     
 }

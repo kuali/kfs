@@ -37,6 +37,7 @@ import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
 import org.kuali.kfs.module.ar.businessobject.ReceivableCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.module.ar.document.service.NonAppliedHoldingService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
@@ -82,11 +83,15 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     private transient PaymentApplicationDocumentService paymentApplicationDocumentService;
     private transient CashControlDetail cashControlDetail;
     private transient FinancialSystemUserService fsUserService;
+    private transient CustomerInvoiceDocumentService invoiceDocService;
+    private transient DocumentService docService;
+    private transient NonAppliedHoldingService nonAppliedHoldingService;
+    private transient BusinessObjectService boService;
     
-    // Vivek
-    private ArrayList<NonAppliedHolding> nonApplieds;
-    private KualiDecimal totalAvailableUnappliedAmount = KualiDecimal.ZERO;
-    private KualiDecimal totalAppliedUnappliedAmount = KualiDecimal.ZERO;
+    // used for non-cash-control payapps
+    private transient ArrayList<NonAppliedHolding> nonApplieds; // control docs for non-cash-control payapps
+    //private KualiDecimal totalAvailableUnappliedAmount = KualiDecimal.ZERO;
+    //private KualiDecimal totalAppliedUnappliedAmount = KualiDecimal.ZERO;
 
     public PaymentApplicationDocument() {
         super();
@@ -143,45 +148,58 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     }
     
     /**
+     * Returns the total from the cash control detail if this is a 
+     * cash-control based payapp.  Otherwise, it just returns the total 
+     * amount applied.
+     * 
+     * NOTE that this makes the result of this method useless when ran on 
+     * a non-cash-control payapp, as the control amount was only valid for 
+     * a specific point in time.
+     *  
      * @return
      * @throws WorkflowException
      */
     public KualiDecimal getTotalFromControl() {
-        //TODO Vivek - need to handle the 'else' part here
-        return hasCashControlDetail() ? getCashControlDetail().getFinancialDocumentLineAmount() : this.totalAvailableUnappliedAmount;
+        if (hasCashControlDetail()) {
+            return getCashControlDetail().getFinancialDocumentLineAmount();
+        }
+        else {
+            return getTotalApplied();
+        }
     }
     
-    /**
-     * Vivek - Gets the totalAvailableUnappliedAmount attribute.
-     * @return Returns the crmTotalAmount.
-     */
-    public KualiDecimal getTotalAvailableUnappliedAmount() {
-        return totalAvailableUnappliedAmount;
-    }
-
-    /**
-     * Vivek - Sets the totalAvailableUnappliedAmount attribute value.
-     * @param crmTotalAmount The crmTotalAmount to set.
-     */
-    public void setTotalAvailableUnappliedAmount(KualiDecimal totalAvailableUnappliedAmount) {
-        this.totalAvailableUnappliedAmount = totalAvailableUnappliedAmount;
-    }
-
-    /**
-     * Vivek - Gets the totalAppliedUnappliedAmount attribute.
-     * @return Returns the crmTotalAmount.
-     */
-    public KualiDecimal getTotalAppliedUnappliedAmount() {
-        return totalAppliedUnappliedAmount;
-    }
-
-    /**
-     * Vivek - Sets the totalAppliedUnappliedAmount attribute value.
-     * @param crmTotalAmount The crmTotalAmount to set.
-     */
-    public void setTotalAppliedUnappliedAmount(KualiDecimal totalAppliedUnappliedAmount) {
-        this.totalAppliedUnappliedAmount = totalAppliedUnappliedAmount;
-    }
+    //TODO Andrew - this needs to go, and be pulled from the form
+//    /**
+//     * Vivek - Gets the totalAvailableUnappliedAmount attribute.
+//     * @return Returns the crmTotalAmount.
+//     */
+//    public KualiDecimal getTotalAvailableUnappliedAmount() {
+//        return totalAvailableUnappliedAmount;
+//    }
+//
+//    /**
+//     * Vivek - Sets the totalAvailableUnappliedAmount attribute value.
+//     * @param crmTotalAmount The crmTotalAmount to set.
+//     */
+//    public void setTotalAvailableUnappliedAmount(KualiDecimal totalAvailableUnappliedAmount) {
+//        this.totalAvailableUnappliedAmount = totalAvailableUnappliedAmount;
+//    }
+//
+//    /**
+//     * Vivek - Gets the totalAppliedUnappliedAmount attribute.
+//     * @return Returns the crmTotalAmount.
+//     */
+//    public KualiDecimal getTotalAppliedUnappliedAmount() {
+//        return totalAppliedUnappliedAmount;
+//    }
+//
+//    /**
+//     * Vivek - Sets the totalAppliedUnappliedAmount attribute value.
+//     * @param crmTotalAmount The crmTotalAmount to set.
+//     */
+//    public void setTotalAppliedUnappliedAmount(KualiDecimal totalAppliedUnappliedAmount) {
+//        this.totalAppliedUnappliedAmount = totalAppliedUnappliedAmount;
+//    }
 
     /**
      * @return the sum of all invoice paid applieds.
@@ -250,19 +268,6 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      */
     public KualiDecimal getTotalApplied() {
         KualiDecimal amount = KualiDecimal.ZERO;
-
-        //TODO Andrew & Vivek - this is totally wrong logic I think.  I think it should 
-        //     just hit the db and sum the amounts on the paidApplieds generated by 
-        //     this payapp document.  What do you think Vivek?
-        
-        //  the control amount
-        //KualiDecimal ccta = getTotalFromControl();
-        
-        // The amount received via the cash control document minus the amount applied.
-        //KualiDecimal btba = getUnallocatedBalance();
-        
-        // The difference between the two is the amount applied.
-        //amount = ccta.subtract(btba);
         amount = amount.add(getSumOfInvoicePaidApplieds());
         amount = amount.add(getSumOfNonInvoiceds());
         amount = amount.add(getNonAppliedHoldingAmount());
@@ -274,33 +279,17 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * unapplied totals from the outstanding amount received via the cash
      * control document.
      * 
+     * NOTE this method is not useful for a non-cash control PayApp, as it 
+     * doesnt have access to the control documents until it is saved.  Use 
+     * the same named method on the Form instead.
+     * 
      * @return
      * @throws WorkflowException
      */
     public KualiDecimal getUnallocatedBalance() {
         
-        //  if this payapp doc isnt based on a cash control doc, then there 
-        // will be no cash control details, so no balance to be applied
-        //TODO Andrew - this will have to be updated for non-cash-control docs
-        if (!hasCashControlDetail()) {
-            return this.totalAvailableUnappliedAmount.subtract(this.totalAppliedUnappliedAmount);
-        }
-        
-        // KULAR-504: "Balance" must equal line item amount from Cash Control - not the total Cash Control
-        KualiDecimal amount = getCashControlDetail().getFinancialDocumentLineAmount();
-        
-        KualiDecimal subtrahend = getSumOfInvoicePaidApplieds();
-        if(ObjectUtils.isNotNull(subtrahend)) {
-            amount = amount.subtract(subtrahend);
-        }
-        subtrahend = getSumOfNonInvoiceds();
-        if(ObjectUtils.isNotNull(subtrahend)) {
-            amount = amount.subtract(subtrahend);
-        }
-        subtrahend = getNonAppliedHoldingAmount();
-        if(ObjectUtils.isNotNull(subtrahend)) {
-            amount = amount.subtract(subtrahend);
-        }
+        KualiDecimal amount = getTotalFromControl();
+        amount = amount.subtract(getTotalApplied());
         return amount;
     }
     
@@ -312,6 +301,106 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         return total;
     }
 
+    public boolean isFinal() {
+        return isApproved();
+    }
+    
+    public boolean isApproved() {
+        return KFSConstants.DocumentStatusCodes.APPROVED.equals(getDocumentHeader().getFinancialDocumentStatusCode());
+    }
+    
+    /**
+     * 
+     * This method is very specialized for a specific use.  It 
+     * retrieves the list of invoices that have been paid-applied 
+     * by this PayApp document.  
+     * 
+     * It is only used to retrieve what invoices were applied to it, 
+     * when the document is being viewed in Final state.
+     * 
+     * @return
+     */
+    public List<CustomerInvoiceDocument> getInvoicesPaidAgainst() {
+        List<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
+        
+        //  short circuit if no paidapplieds available
+        if (invoicePaidApplieds == null || invoicePaidApplieds.isEmpty()) {
+            return invoices;
+        }
+        
+        //  get the list of invoice docnumbers from paidapplieds
+        List<String> invoiceDocNumbers = new ArrayList<String>();
+        for (InvoicePaidApplied paidApplied : invoicePaidApplieds) {
+            invoiceDocNumbers.add(paidApplied.getFinancialDocumentReferenceInvoiceNumber());
+        }
+        
+        //  attempt to retrieve all the invoices paid applied against
+        try {
+            invoices.addAll(getDocService().getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, invoiceDocNumbers));
+        }
+        catch (WorkflowException e) {
+            throw new RuntimeException("A WorkflowException was thrown while trying to retrieve documents.", e);
+        }
+        return invoices;
+    }
+
+    /**
+     * 
+     * This is a very specialized method, that is only intended to be used once the 
+     * document is in a Final/Approved state.
+     * 
+     * It retrieves the PaymentApplication documents that were used as a control source 
+     * for this document, if any, or none, if none.
+     * 
+     * @return
+     */
+    public List<PaymentApplicationDocument> getPaymentApplicationDocumentsUsedAsControlDocuments() {
+        List<PaymentApplicationDocument> payApps = new ArrayList<PaymentApplicationDocument>();
+        
+        //  short circuit if no non-applied-distributions available
+        if (nonAppliedDistributions == null || nonAppliedDistributions.isEmpty()) {
+            return payApps;
+        }
+        
+        //  get the list of payapp docnumbers from non-applied-distributions
+        List<String> payAppDocNumbers = new ArrayList<String>();
+        for (NonAppliedDistribution nonAppliedDistribution : nonAppliedDistributions) {
+            if (!payAppDocNumbers.contains(nonAppliedDistribution.getReferenceFinancialDocumentNumber())) {
+                payAppDocNumbers.add(nonAppliedDistribution.getReferenceFinancialDocumentNumber());
+            }
+        }
+        
+        //  attempt to retrieve all the invoices paid applied against
+        try {
+            payApps.addAll(getDocService().getDocumentsByListOfDocumentHeaderIds(PaymentApplicationDocument.class, payAppDocNumbers));
+        }
+        catch (WorkflowException e) {
+            throw new RuntimeException("A WorkflowException was thrown while trying to retrieve documents.", e);
+        }
+        return payApps;
+    }
+    
+    public List<NonAppliedHolding> getNonAppliedHoldingsUsedAsControls() {
+        List<NonAppliedHolding> nonAppliedHoldingControls = new ArrayList<NonAppliedHolding>();
+        
+        //  short circuit if no non-applied-distributions available
+        if (nonAppliedDistributions == null || nonAppliedDistributions.isEmpty()) {
+            return nonAppliedHoldingControls;
+        }
+        
+        //  get the list of payapp docnumbers from non-applied-distributions
+        List<String> payAppDocNumbers = new ArrayList<String>();
+        for (NonAppliedDistribution nonAppliedDistribution : nonAppliedDistributions) {
+            if (!payAppDocNumbers.contains(nonAppliedDistribution.getReferenceFinancialDocumentNumber())) {
+                payAppDocNumbers.add(nonAppliedDistribution.getReferenceFinancialDocumentNumber());
+            }
+        }
+        
+        //  attempt to retrieve all the non applied holdings used as controls
+        nonAppliedHoldingControls.addAll(getNonAppliedHoldingService().getNonAppliedHoldingsByListOfDocumentNumbers(payAppDocNumbers));
+        return nonAppliedHoldingControls;
+    }
+    
     public List<InvoicePaidApplied> getInvoicePaidApplieds() {
         return invoicePaidApplieds;
     }
@@ -369,16 +458,6 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     public InvoicePaidApplied getInvoicePaidApplied(int index) {
         
         return index < getInvoicePaidApplieds().size() ? getInvoicePaidApplieds().get(index) : new InvoicePaidApplied();
-        //TODO (Andrew) I dont think we need to do this stuff below here, as 
-        //     we can just return a new empty PaidApplied if out of index, I 
-        //     dont see why we'd want to add it in.  But I'm not sure, so thats 
-        //     why I'm leaving it here commented out, and this comment.
-        //if (index >= invoicePaidApplieds.size()) {
-        //    for (int i = invoicePaidApplieds.size(); i <= index; i++) {
-        //        invoicePaidApplieds.add(new InvoicePaidApplied());
-        //    }
-        //}
-        //return invoicePaidApplieds.get(index);
     }
 
     /**
@@ -389,36 +468,8 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      */
     public NonInvoiced getNonInvoiced(int index) {
         return index < getNonInvoiceds().size() ? getNonInvoiceds().get(index) : new NonInvoiced();
-        //TODO (Andrew) see my comment above on getInvoicePaidApplied(int index)
-//        if (index >= nonInvoiceds.size()) {
-//            for (int i = nonInvoiceds.size(); i <= index; i++) {
-//                nonInvoiceds.add(new NonInvoiced());
-//            }
-//        }
-//        return nonInvoiceds.get(index);
     }
 
-    //TODO Andrew - Nothing is using this, so its queued for removal
-    //public ObjectCode getUnappliedCashObjectCode(InvoicePaidApplied ipa) {
-    //    return ipa.getSystemInformation().getUniversityClearingObject();
-    //}
-
-    //TODO Andrew - Nothing is using this, so its queued for removal
-    //public ObjectCode getCreditCardChargesObjectCode(InvoicePaidApplied ipa) {
-    //    return ipa.getSystemInformation().getCreditCardFinancialObject();
-    //}
-    
-    //TODO Andrew - Nothing is using this, so its queued for removal
-    //private ObjectCode getCashObjectCode(InvoicePaidApplied invoicePaidApplied) {
-    //    invoicePaidApplied.refresh();
-    //    CustomerInvoiceDetail detail = invoicePaidApplied.getInvoiceDetail();
-    //    detail.refresh();
-    //    Chart chart = detail.getChart();
-    //    chart.refresh();
-    //    chart.refreshReferenceObject("financialCashObject");
-    //    return chart.getFinancialCashObject();
-    //}
-    
     /**
      * This method gets an ObjectCode from an invoice document.
      * 
@@ -449,21 +500,20 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * @return
      * @throws WorkflowException
      */
-    //TODO Vivek - Can you please look at this, and if you dont need it, get rid of it?
-    private CashControlDocument getCashControlDocument(PaymentApplicationDocument paymentApplicationDocument) throws WorkflowException {
-        CashControlDocument cashControlDocument = paymentApplicationDocument.getCashControlDocument();
-        if(null == cashControlDocument) {
-            // FIXME Add in the recursive parent search to find a CashControlDocument 
-            // if one isn't present on the PaymentApplicationDocument passed in.
-        }
-        return cashControlDocument;
-    }
+    //TODO Andrew - I think this can go
+//    private CashControlDocument getCashControlDocument(PaymentApplicationDocument paymentApplicationDocument) throws WorkflowException {
+//        CashControlDocument cashControlDocument = paymentApplicationDocument.getCashControlDocument();
+//        if(null == cashControlDocument) {
+//            // FIXME Add in the recursive parent search to find a CashControlDocument 
+//            // if one isn't present on the PaymentApplicationDocument passed in.
+//        }
+//        return cashControlDocument;
+//    }
     
     /**
      * @param sequenceHelper
      * @return the pending entries for the document
      */
-    //TODO Andrew - Move this to the PayApp doc service, it belongs there
     private List<GeneralLedgerPendingEntry> createPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) throws WorkflowException {
         
         // Collection of all generated entries
@@ -784,7 +834,6 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         super.handleRouteStatusChange();
         
         if(getDocumentHeader().getWorkflowDocument().stateIsApproved()) {
-            DocumentService documentService = SpringContext.getBean(DocumentService.class);
             DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
             
             //  get the now time to stamp invoices with
@@ -796,7 +845,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
                 
                 //  attempt to retrieve the invoice doc
                 try {
-                     invoice = (CustomerInvoiceDocument) documentService.getByDocumentHeaderId(invoiceDocumentNumber);
+                     invoice = (CustomerInvoiceDocument) getDocService().getByDocumentHeaderId(invoiceDocumentNumber);
                 } catch(WorkflowException we) {
                     LOG.error("Failed to load the Invoice document due to a WorkflowException.", we);
                 }
@@ -808,7 +857,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
                 if (KualiDecimal.ZERO.equals(invoice.getOpenAmount())) {
                     invoice.setClosedDate(today);
                     invoice.setOpenInvoiceIndicator(false);
-                    documentService.updateDocument(invoice);
+                    getDocService().updateDocument(invoice);
                 }
             }
         }
@@ -869,6 +918,34 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         return fsUserService;
     }
     
+    private CustomerInvoiceDocumentService getInvoiceDocService() {
+        if (invoiceDocService == null) {
+            invoiceDocService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
+        }
+        return invoiceDocService;
+    }
+    
+    private DocumentService getDocService() {
+        if (docService == null) {
+            docService = SpringContext.getBean(DocumentService.class);
+        }
+        return docService;
+    }
+    
+    private NonAppliedHoldingService getNonAppliedHoldingService() {
+        if (nonAppliedHoldingService == null) {
+            nonAppliedHoldingService = SpringContext.getBean(NonAppliedHoldingService.class);
+        }
+        return nonAppliedHoldingService;
+    }
+    
+    private BusinessObjectService getBoService() {
+        if (boService == null) {
+            boService = SpringContext.getBean(BusinessObjectService.class);
+        }
+        return boService;
+    }
+    
     public String getHiddenFieldForErrors() {
         return hiddenFieldForErrors;
     }
@@ -888,92 +965,103 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     }
 
     //Vivek
-    public void refreshNonApplieds(String customerNumber) {
-
-        /**
-         * Get total applied amount in the current document
-         */
-        //set totalAppliedUnappliedAmount
-        this.setTotalAppliedUnappliedAmount(this.getTotalApplied());
-
-        /**
-         * Calculate Individual and Total Available Unapplied Amount
-         */
-        // get Unapplied Funds for the current customer and set the <ArrayList>NonAppliedHolding to display in Control Section
-        NonAppliedHoldingService nonAppliedHoldingService = SpringContext.getBean(NonAppliedHoldingService.class);
-        Collection<NonAppliedHolding> nonAppliedHoldingsForCustomer = nonAppliedHoldingService.getNonAppliedHoldingsForCustomer(customerNumber);
-        KualiDecimal availableUnappliedAmount = KualiDecimal.ZERO;
-        KualiDecimal totalAvailableUnappliedAmount = KualiDecimal.ZERO;
-        KualiDecimal totalAppliedUnappliedAmount = KualiDecimal.ZERO;
-        for(NonAppliedHolding nonAppliedHoldingForCustomer : nonAppliedHoldingsForCustomer) {
-            availableUnappliedAmount = nonAppliedHoldingForCustomer.getFinancialDocumentLineAmount();
-            
-            BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-            Map<String,Object> criteria = new HashMap<String,Object>();
-
-            //get Unapplied
-            criteria.put("referenceFinancialDocumentNumber", nonAppliedHoldingForCustomer.getReferenceFinancialDocumentNumber());
-            List<NonAppliedDistribution> nonAppliedDistributions = (List<NonAppliedDistribution>) businessObjectService.findMatching(NonAppliedDistribution.class, criteria);
-            KualiDecimal total2 = KualiDecimal.ZERO;
-            for(NonAppliedDistribution nonAppliedDistribution : nonAppliedDistributions) {
-                total2 = total2.add(nonAppliedDistribution.getFinancialDocumentLineAmount());
-            }
-
-            //get NonAR
-            criteria.put("referenceFinancialDocumentNumber", nonAppliedHoldingForCustomer.getReferenceFinancialDocumentNumber());
-            List<NonInvoicedDistribution> nonInvoicedDistributions = (List<NonInvoicedDistribution>) businessObjectService.findMatching(NonInvoicedDistribution.class, criteria);
-            KualiDecimal total3 = KualiDecimal.ZERO;
-            for(NonInvoicedDistribution nonInvoicedDistribution : nonInvoicedDistributions) {
-                total3 = total3.add(nonInvoicedDistribution.getFinancialDocumentLineAmount());
-            }
-            
-            //calculate and set Available Unapplied Amount for a single Application document
-            availableUnappliedAmount = availableUnappliedAmount.subtract(total2.add(total3));
-            nonAppliedHoldingForCustomer.setAvailableUnappliedAmount(availableUnappliedAmount);
-            
-            //calculate and set totalAvailableUnappliedAmount
-            totalAvailableUnappliedAmount = totalAvailableUnappliedAmount.add(availableUnappliedAmount);
-            this.setTotalAvailableUnappliedAmount(totalAvailableUnappliedAmount);
-
-        }
-        this.setNonApplieds(new ArrayList<NonAppliedHolding>(nonAppliedHoldingsForCustomer));
-        for(NonAppliedHolding nonApplied : this.getNonApplieds()) {
-            if (nonApplied.getAvailableUnappliedAmount().isZero()) {
-                nonAppliedHoldingsForCustomer.remove(nonApplied);
-            }
-        }
-        this.setNonApplieds(new ArrayList<NonAppliedHolding>(nonAppliedHoldingsForCustomer));
-
-
-        /**
-         * Go thru Unapplieds and allocate the appropriate Applied Amount to each Unapplied row
-         */
-        KualiDecimal totalRemainingAppliedAmount = this.totalAppliedUnappliedAmount;
-        for(NonAppliedHolding nonAppliedHoldingForCustomer : nonAppliedHoldingsForCustomer) {
-            nonAppliedHoldingForCustomer.setAppliedUnappliedAmount(KualiDecimal.ZERO);
-            if (totalRemainingAppliedAmount.isGreaterThan(KualiDecimal.ZERO)) {
-                if (nonAppliedHoldingsForCustomer.iterator().hasNext()) {
-                    if (totalRemainingAppliedAmount.isLessEqual(nonAppliedHoldingForCustomer.getAvailableUnappliedAmount())) {
-                        nonAppliedHoldingForCustomer.setAppliedUnappliedAmount(totalRemainingAppliedAmount);
-                        totalRemainingAppliedAmount = totalRemainingAppliedAmount.subtract(totalRemainingAppliedAmount);
-                    }
-                    else {
-                        nonAppliedHoldingForCustomer.setAppliedUnappliedAmount(nonAppliedHoldingForCustomer.getAvailableUnappliedAmount());
-                        totalRemainingAppliedAmount = totalRemainingAppliedAmount.subtract(nonAppliedHoldingForCustomer.getAvailableUnappliedAmount());
-                    }
-                }
-                else {
-                    nonAppliedHoldingForCustomer.setAppliedUnappliedAmount(totalRemainingAppliedAmount);
-                    totalRemainingAppliedAmount = totalRemainingAppliedAmount.subtract(totalRemainingAppliedAmount);
-                }
-            }
-        }
-    }
-        
+//    public void refreshNonApplieds(String customerNumber) {
+//
+//        /**
+//         * Get total applied amount in the current document
+//         */
+//        //set totalAppliedUnappliedAmount
+//        //TODO Andrew - I think this should go
+//        //this.setTotalAppliedUnappliedAmount(this.getTotalApplied());
+//
+//        /**
+//         * Calculate Individual and Total Available Unapplied Amount
+//         */
+//        //TODO Andrew - this isnt needed anymore, its all done in the NonAppliedHoldings and in the form
+//        // get Unapplied Funds for the current customer and set the <ArrayList>NonAppliedHolding to display in Control Section
+//        NonAppliedHoldingService nonAppliedHoldingService = SpringContext.getBean(NonAppliedHoldingService.class);
+//        Collection<NonAppliedHolding> nonAppliedHoldingsForCustomer = nonAppliedHoldingService.getNonAppliedHoldingsForCustomer(customerNumber);
+//        KualiDecimal availableUnappliedAmount = KualiDecimal.ZERO;
+//        KualiDecimal totalAvailableUnappliedAmount = KualiDecimal.ZERO;
+//        //KualiDecimal totalAppliedUnappliedAmount = KualiDecimal.ZERO;
+//        for(NonAppliedHolding nonAppliedHoldingForCustomer : nonAppliedHoldingsForCustomer) {
+//            availableUnappliedAmount = nonAppliedHoldingForCustomer.getFinancialDocumentLineAmount();
+//            
+//            BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+//            Map<String,Object> criteria = new HashMap<String,Object>();
+//
+//            //get Unapplied
+//            criteria.put("referenceFinancialDocumentNumber", nonAppliedHoldingForCustomer.getReferenceFinancialDocumentNumber());
+//            List<NonAppliedDistribution> nonAppliedDistributions = (List<NonAppliedDistribution>) businessObjectService.findMatching(NonAppliedDistribution.class, criteria);
+//            KualiDecimal total2 = KualiDecimal.ZERO;
+//            for(NonAppliedDistribution nonAppliedDistribution : nonAppliedDistributions) {
+//                total2 = total2.add(nonAppliedDistribution.getFinancialDocumentLineAmount());
+//            }
+//
+//            //get NonAR
+//            criteria.put("referenceFinancialDocumentNumber", nonAppliedHoldingForCustomer.getReferenceFinancialDocumentNumber());
+//            List<NonInvoicedDistribution> nonInvoicedDistributions = (List<NonInvoicedDistribution>) businessObjectService.findMatching(NonInvoicedDistribution.class, criteria);
+//            KualiDecimal total3 = KualiDecimal.ZERO;
+//            for(NonInvoicedDistribution nonInvoicedDistribution : nonInvoicedDistributions) {
+//                total3 = total3.add(nonInvoicedDistribution.getFinancialDocumentLineAmount());
+//            }
+//            
+//            //calculate and set Available Unapplied Amount for a single Application document
+//            availableUnappliedAmount = availableUnappliedAmount.subtract(total2.add(total3));
+//            nonAppliedHoldingForCustomer.setAvailableUnappliedAmount(availableUnappliedAmount);
+//            
+//            //calculate and set totalAvailableUnappliedAmount
+//            totalAvailableUnappliedAmount = totalAvailableUnappliedAmount.add(availableUnappliedAmount);
+//
+//        }
+//        this.setTotalAvailableUnappliedAmount(totalAvailableUnappliedAmount);
+//        
+//        //  when the doc is still in progress, we dont want to see zero-amount nonapplieds
+//        // from the control docs
+//        if (!isFinal()) {
+//            for(NonAppliedHolding nonApplied : nonAppliedHoldingsForCustomer) {
+//                if (nonApplied.getAvailableUnappliedAmount().isZero()) {
+//                    nonAppliedHoldingsForCustomer.remove(nonApplied);
+//                }
+//            }
+//        }
+//        this.setNonApplieds(new ArrayList<NonAppliedHolding>(nonAppliedHoldingsForCustomer));
+//        applyFundsToNonAppliedHoldings(getTotalAppliedUnappliedAmount());
+//    }
+//        
+//    public void applyFundsToNonAppliedHoldings(KualiDecimal amountToApply) {
+//        
+//        KualiDecimal totalRemainingAppliedAmount = amountToApply;
+//
+//        for(NonAppliedHolding nonApplied : nonApplieds) {
+//            nonApplied.setAppliedUnappliedAmount(KualiDecimal.ZERO);
+//            if (totalRemainingAppliedAmount.isGreaterThan(KualiDecimal.ZERO)) {
+//                if (nonAppliedHoldingsForCustomer.iterator().hasNext()) {
+//                    if (totalRemainingAppliedAmount.isLessEqual(nonAppliedHoldingForCustomer.getAvailableUnappliedAmount())) {
+//                        nonAppliedHoldingForCustomer.setAppliedUnappliedAmount(totalRemainingAppliedAmount);
+//                        totalRemainingAppliedAmount = totalRemainingAppliedAmount.subtract(totalRemainingAppliedAmount);
+//                    }
+//                    else {
+//                        nonAppliedHoldingForCustomer.setAppliedUnappliedAmount(nonAppliedHoldingForCustomer.getAvailableUnappliedAmount());
+//                        totalRemainingAppliedAmount = totalRemainingAppliedAmount.subtract(nonAppliedHoldingForCustomer.getAvailableUnappliedAmount());
+//                    }
+//                }
+//                else {
+//                    nonAppliedHoldingForCustomer.setAppliedUnappliedAmount(totalRemainingAppliedAmount);
+//                    totalRemainingAppliedAmount = totalRemainingAppliedAmount.subtract(totalRemainingAppliedAmount);
+//                }
+//            }
+//        }
+//    }
     
     //TODO Vivek - still working on this piece
     public void createDistributions() {
     
+        //  if there are non nonApplieds, then we have nothing to do
+        if (nonApplieds == null || nonApplieds.isEmpty()) {
+            return;
+        }
+        
         Collection<InvoicePaidApplied> invoicePaidAppliedsForCurrentDoc = this.getInvoicePaidApplieds();
         Collection<NonInvoiced> nonInvoicedsForCurrentDoc = this.getNonInvoiceds();
 

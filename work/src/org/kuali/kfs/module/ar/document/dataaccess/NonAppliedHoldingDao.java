@@ -32,4 +32,6 @@ public interface NonAppliedHoldingDao {
      */
     public Collection<NonAppliedHolding> getNonAppliedHoldingsByListOfDocumentNumbers(List<String> docNumbers);
     
+    public Collection<NonAppliedHolding> getNonAppliedHoldingsForCustomer(String customerNumber);
+    
 }

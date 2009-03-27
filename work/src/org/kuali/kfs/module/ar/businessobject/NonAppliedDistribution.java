@@ -11,9 +11,9 @@ import org.kuali.rice.kns.util.KualiDecimal;
  */
 public class NonAppliedDistribution extends PersistableBusinessObjectBase {
 
-	private String documentNumber; // ???
+	private String documentNumber; // document that generated this distribution
 	private Integer paidAppliedItemNumber; // ???
-	private String referenceFinancialDocumentNumber;
+	private String referenceFinancialDocumentNumber; // document that created the non-applied-holding that this is distributing
 	private Integer universityFiscalYear; // ???
 	private String universityFiscalPeriodCode; // ???
 	private KualiDecimal financialDocumentLineAmount;

@@ -52,7 +52,7 @@
                                 <th>Unapplied Amount</th>
                                 <th>Applied Amount</th>
                   		    </tr>
-            	            <logic:iterate name="KualiForm" property="document.nonApplieds" id="nonApplied" indexId="idx">
+            	            <logic:iterate name="KualiForm" property="nonAppliedControlHoldings" id="nonApplied" indexId="idx">
         	               	    <tr>
     	                   		    <td>
                            			    <bean:write name="nonApplied" property="referenceFinancialDocumentNumber" />
@@ -68,10 +68,10 @@
            	        	    <tr>
                         	    <kul:htmlAttributeHeaderCell align="right" literalLabel="Total:" />
                         	    <td style="text-align: right;">
-                        		    ${KualiForm.document.totalAvailableUnappliedAmount}
+                        		    <c:out value="${KualiForm.totalFromControl}" />
     						    </td>
                         	    <td style="text-align: right;">
-                        		    ${KualiForm.document.totalAppliedUnappliedAmount}
+                        		    <c:out value="${KualiForm.totalApplied}" />
                         	    </td>
                         	</tr>
                         </table>
@@ -101,7 +101,7 @@
               		</tr>
               		<tr>
                 		<th>Open Amount</th>
-                		<td><c:out value="${KualiForm.document.unallocatedBalance}" /></td>
+                		<td><c:out value="${KualiForm.unallocatedBalance}" /></td>
               		</tr>
               		<tr>
                 		<th>Payment #</th>

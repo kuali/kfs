@@ -15,24 +15,30 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.kfs.module.purap.businessobject.PurapEnterableItem;
 import org.kuali.kfs.module.purap.businessobject.ReceivingItem;
-import org.kuali.kfs.module.purap.document.ReceivingDocument;
 import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
+import org.kuali.kfs.module.purap.document.ReceivingDocument;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.module.purap.document.validation.ContinuePurapRule;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.UnitOfMeasure;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.TransactionalDocument;
 import org.kuali.rice.kns.rules.DocumentRuleBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -49,6 +55,7 @@ public class LineItemReceivingDocumentRule extends DocumentRuleBase implements C
         valid &= super.processCustomRouteDocumentBusinessRules(document);
         valid &= canCreateLineItemReceivingDocument(lineItemReceivingDocument);
         valid &= isAtLeastOneItemEntered(lineItemReceivingDocument);
+        valid &= validateItemUnitOfMeasure(lineItemReceivingDocument);
         
         return valid;
     }
@@ -127,6 +134,35 @@ public class LineItemReceivingDocumentRule extends DocumentRuleBase implements C
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_RECEIVING_LINE_DOCUMENT_ACTIVE_FOR_PO, lineItemReceivingDocument.getDocumentNumber(), lineItemReceivingDocument.getPurchaseOrderIdentifier().toString());
         }
          
+        return valid;
+    }
+
+    /**
+     * Validates that if the item type is quantity based, the unit of measure is required.
+     */
+    private boolean validateItemUnitOfMeasure(ReceivingDocument receivingDocument) {
+        boolean valid = true;
+        for (ReceivingItem item : (List<ReceivingItem>) receivingDocument.getItems()) {
+            // Validations for quantity based item type
+            if (item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+                String uomCode = item.getItemUnitOfMeasureCode();
+                if (StringUtils.isEmpty(uomCode)) {
+                    valid = false;
+                    String attributeLabel = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).getAttributeDefinition(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE).getLabel();
+                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + item.getItemUnitOfMeasureCode());
+                }
+                else {
+                    // Find out whether the unit of measure code has existed in the database
+                    Map<String, String> fieldValues = new HashMap<String, String>();
+                    fieldValues.put(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, item.getItemUnitOfMeasureCode());
+                    if (SpringContext.getBean(BusinessObjectService.class).countMatching(UnitOfMeasure.class, fieldValues) != 1) {
+                        // This is the case where the unit of measure code on the item does not exist in the database.
+                        valid = false;
+                        GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, PurapKeyConstants.PUR_ITEM_UNIT_OF_MEASURE_CODE_INVALID, item.getItemUnitOfMeasureCode());
+                    }
+                }
+            }
+        }
         return valid;
     }
 

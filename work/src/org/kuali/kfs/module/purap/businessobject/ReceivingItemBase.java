@@ -17,6 +17,7 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.sys.businessobject.UnitOfMeasure;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -112,9 +113,9 @@ public abstract class ReceivingItemBase extends PersistableBusinessObjectBase im
     }
 
     public void setItemUnitOfMeasureCode(String itemUnitOfMeasureCode) {
-        this.itemUnitOfMeasureCode = itemUnitOfMeasureCode;
-    }
-
+        this.itemUnitOfMeasureCode = (StringUtils.isNotBlank(itemUnitOfMeasureCode) ? itemUnitOfMeasureCode.toUpperCase() : itemUnitOfMeasureCode);
+    }    
+    
     public String getItemCatalogNumber() {
         return itemCatalogNumber;
     }
@@ -181,22 +182,6 @@ public abstract class ReceivingItemBase extends PersistableBusinessObjectBase im
     public void setItemType(ItemType itemType) {
         this.itemType = itemType;
     }
-    /**
-     * Gets the itemUnitOfMeasure attribute. 
-     * @return Returns the itemUnitOfMeasure.
-     */
-    public UnitOfMeasure getItemUnitOfMeasure() {
-        return itemUnitOfMeasure;
-    }
-
-    /**
-     * Sets the itemUnitOfMeasure attribute value.
-     * @param itemUnitOfMeasure The itemUnitOfMeasure to set.
-     * @deprecated
-     */
-    public void setItemUnitOfMeasure(UnitOfMeasure itemUnitOfMeasure) {
-        this.itemUnitOfMeasure = itemUnitOfMeasure;
-    }
 
     public KualiDecimal getItemOriginalReceivedTotalQuantity() { 
     	return itemOriginalReceivedTotalQuantity;
@@ -228,6 +213,17 @@ public abstract class ReceivingItemBase extends PersistableBusinessObjectBase im
 
     public void setItemReasonAdded(ItemReasonAdded itemReasonAdded) {
         this.itemReasonAdded = itemReasonAdded;
+    }    
+
+    public UnitOfMeasure getItemUnitOfMeasure() {
+        if (ObjectUtils.isNull(itemUnitOfMeasure) || (!itemUnitOfMeasure.getItemUnitOfMeasureCode().equalsIgnoreCase(getItemUnitOfMeasureCode()))) {
+            refreshReferenceObject(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE);
+        }
+        return itemUnitOfMeasure;
     }
-    
+
+    public void setItemUnitOfMeasure(UnitOfMeasure itemUnitOfMeasure) {
+        this.itemUnitOfMeasure = itemUnitOfMeasure;
+    }
+
 }

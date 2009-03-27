@@ -203,9 +203,8 @@
       <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.UnitOfMeasureValuesFinder"
-            p:includeKeyInLabel="false" />
+      <bean parent="TextControlDefinition"
+            p:size="10" />
     </property>
   </bean>
   <bean id="LineItemReceivingItem-purchaseOrderIdentifier" parent="LineItemReceivingItem-purchaseOrderIdentifier-parentBean" />

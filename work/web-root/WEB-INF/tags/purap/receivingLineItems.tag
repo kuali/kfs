@@ -17,6 +17,9 @@
 
 <%@ attribute name="itemAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
 
+<script language="JavaScript" type="text/javascript" src="dwr/interface/ItemUnitOfMeasureService.js"></script>
+<script language="JavaScript" type="text/javascript" src="scripts/purap/objectInfo.js"></script>
+
 <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 <c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
 <c:set var="colCount" value="12"/>
@@ -53,7 +56,7 @@
 			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" />
 			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" />
 			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemOrderedQuantity}" />						
-			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" />	
+			<kul:htmlAttributeHeaderCell><kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" useShortLabel="true"/></kul:htmlAttributeHeaderCell>
 
 			<c:if test="${KualiForm.stateFinal == false}">
 			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemReceivedPriorQuantity}" />
@@ -82,8 +85,19 @@
 			    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemOrderedQuantity}" property="newLineItemReceivingItemLine.itemOrderedQuantity" readOnly="${true}"/>
 		    </td>
 			<td class="infoline">
-			    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" property="newLineItemReceivingItemLine.itemUnitOfMeasureCode" tabindexOverride="${tabindexOverrideBase + 0}"/>
-		    </td>
+                <c:set var="itemUnitOfMeasureCodeField"  value="newLineItemReceivingItemLine.itemUnitOfMeasureCode" />
+                <c:set var="itemUnitOfMeasureDescriptionField"  value="newLineItemReceivingItemLine.itemUnitOfMeasure.itemUnitOfMeasureDescription" />
+                <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" 
+                    property="${itemUnitOfMeasureCodeField}" 
+                    readOnly="${fullEntryMode}"
+                    onblur="loadItemUnitOfMeasureInfo( '${itemUnitOfMeasureCodeField}', '${itemUnitOfMeasureDescriptionField}' );${onblur}" tabindexOverride="${tabindexOverrideBase + 0}"/>
+                <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.UnitOfMeasure" 
+                    fieldConversions="itemUnitOfMeasureCode:newLineItemReceivingItemLine.itemUnitOfMeasureCode"
+                    lookupParameters="'Y':active"/>     
+                <div id="newLineItemReceivingItemLine.itemUnitOfMeasure.itemUnitOfMeasureDescription.div" class="fineprint">
+                    <html:hidden write="true" property="${itemUnitOfMeasureDescriptionField}"/>&nbsp;        
+                </div>     
+            </td>        
 
 			<c:if test="${KualiForm.stateFinal == false}">
 
@@ -194,10 +208,20 @@
 				    readOnly="${true}" />
 		    </td>
 			<td class="infoline">
-			    <kul:htmlControlAttribute
-				    attributeEntry="${itemAttributes.itemUnitOfMeasureCode}"
-				    property="document.item[${ctr}].itemUnitOfMeasureCode"
-				    readOnly="${true}" />
+                        <kul:htmlControlAttribute 
+                            attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" 
+                            property="document.item[${ctr}].itemUnitOfMeasureCode"
+                            onblur="loadItemUnitOfMeasureInfo( 'document.item[${ctr}].itemUnitOfMeasureCode', 'document.item[${ctr}].itemUnitOfMeasure.itemUnitOfMeasureDescription' );${onblur}"
+                            readOnly="${true}"
+                            tabindexOverride="${tabindexOverrideBase + 0}"/>
+                        <c:if test="${!lockB2BEntry and fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator)}">   
+                            <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.UnitOfMeasure" 
+                                fieldConversions="itemUnitOfMeasureCode:document.item[${ctr}].itemUnitOfMeasureCode"
+                                lookupParameters="'Y':active"/>    
+                        </c:if>
+                        <div id="document.item[${ctr}].itemUnitOfMeasure.itemUnitOfMeasureDescription.div" class="fineprint">
+                            <html:hidden write="true" property="document.item[${ctr}].itemUnitOfMeasure.itemUnitOfMeasureDescription"/>&nbsp;  
+                        </div>     
 		    </td>
 
 			<c:if test="${KualiForm.stateFinal == false}">

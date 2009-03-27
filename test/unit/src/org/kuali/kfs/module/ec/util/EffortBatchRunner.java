@@ -122,7 +122,7 @@ public class EffortBatchRunner {
         GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
         
         Integer fiscalYear = 2007;
-        String reportPeriod = "B01";
+        String reportPeriod = "A01";
         if(args.length < 1) {
             throw new IllegalArgumentException("Wrong argument -- The argument only can be -load, -extract or -create");
         }
@@ -148,7 +148,7 @@ public class EffortBatchRunner {
             }
             else {
                 //throw new IllegalArgumentException("Wrong argument -- The argument only can be -load, -extract or -create");
-                batchRunner.loadData();
+                //batchRunner.loadData();
                 
                 EffortCertificationExtractService effortCertificationExtractService = SpringContextForBatchRunner.getBean(EffortCertificationExtractService.class);
                 effortCertificationExtractService.extract(fiscalYear, reportPeriod);

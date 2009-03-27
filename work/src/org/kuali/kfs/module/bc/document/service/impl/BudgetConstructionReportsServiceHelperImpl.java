@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.bc.document.service.impl;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -33,19 +34,27 @@ import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointme
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfWriter;
 
-@Transactional
+/**
+ * This implements the methods described in BudgetConstructionReportsServiceHelper
+ */
 public class BudgetConstructionReportsServiceHelperImpl implements BudgetConstructionReportsServiceHelper {
 
     BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
     BusinessObjectService businessObjectService;
-
     
-    
-    
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper#getDataForBuildingReports(java.lang.Class, java.lang.String, java.util.List)
+     */
+    @Transactional
     public Collection getDataForBuildingReports(Class clazz, String principalName, List<String> orderList){
         
         //build searchCriteria 
@@ -56,11 +65,35 @@ public class BudgetConstructionReportsServiceHelperImpl implements BudgetConstru
         return budgetConstructionOrganizationReportsService.getBySearchCriteriaOrderByList(clazz, searchCriteria, orderList);
     }
     
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper#getDataForBuildingReports(java.lang.Class, java.util.Map, java.util.List)
+     */
+    @Transactional
     public Collection getDataForBuildingReports(Class clazz, Map searchCriteria, List<String> orderList){
         
         return budgetConstructionOrganizationReportsService.getBySearchCriteriaOrderByList(clazz, searchCriteria, orderList);
     }
     
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper#generatePdf(java.util.List, java.io.ByteArrayOutputStream)
+     */
+    @NonTransactional
+    public void generatePdf(List<String> errorMessages, ByteArrayOutputStream baos) throws DocumentException {
+        Document document = new Document();
+        PdfWriter.getInstance(document, baos);
+        document.open();
+
+        for (String error : errorMessages) {
+            document.add(new Paragraph(error));
+        }
+
+        document.close();
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper#getObjectCode(java.lang.Integer, java.lang.String, java.lang.String)
+     */
+    @Transactional
     public ObjectCode getObjectCode(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode){
         
         Map searchCriteria = new HashMap();
@@ -70,6 +103,10 @@ public class BudgetConstructionReportsServiceHelperImpl implements BudgetConstru
         return (ObjectCode) businessObjectService.findByPrimaryKey(ObjectCode.class, searchCriteria);
     }
 
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper#getSelectedObjectCodes(java.lang.String)
+     */
+    @Transactional
     public String getSelectedObjectCodes (String principalName){
         Map searchCriteria = new HashMap();
         searchCriteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, principalName);
@@ -87,7 +124,10 @@ public class BudgetConstructionReportsServiceHelperImpl implements BudgetConstru
         return objectCodes;
     }
     
-    
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper#getBudgetConstructionAdministrativePost(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
+     */
+    @Transactional
     public BudgetConstructionAdministrativePost getBudgetConstructionAdministrativePost(PendingBudgetConstructionAppointmentFunding appointmentFundingEntry) {
         Map searchCriteria = new HashMap();
         searchCriteria.put(KFSPropertyConstants.EMPLID, appointmentFundingEntry.getEmplid());
@@ -95,6 +135,10 @@ public class BudgetConstructionReportsServiceHelperImpl implements BudgetConstru
         return (BudgetConstructionAdministrativePost) businessObjectService.findByPrimaryKey(BudgetConstructionAdministrativePost.class, searchCriteria);
     }
 
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper#getBudgetConstructionPosition(java.lang.Integer, org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
+     */
+    @Transactional
     public BudgetConstructionPosition getBudgetConstructionPosition(Integer universityFiscalYear, PendingBudgetConstructionAppointmentFunding appointmentFundingEntry) {
         Map searchCriteria = new HashMap();
         searchCriteria.put(KFSPropertyConstants.POSITION_NUMBER, appointmentFundingEntry.getPositionNumber());
@@ -102,12 +146,20 @@ public class BudgetConstructionReportsServiceHelperImpl implements BudgetConstru
         return (BudgetConstructionPosition) businessObjectService.findByPrimaryKey(BudgetConstructionPosition.class, searchCriteria);
     }
 
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper#getBudgetConstructionIntendedIncumbent(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
+     */
+    @Transactional
     public BudgetConstructionIntendedIncumbent getBudgetConstructionIntendedIncumbent(PendingBudgetConstructionAppointmentFunding appointmentFundingEntry) {
         Map searchCriteria = new HashMap();
         searchCriteria.put(KFSPropertyConstants.EMPLID, appointmentFundingEntry.getEmplid());
         return (BudgetConstructionIntendedIncumbent) businessObjectService.findByPrimaryKey(BudgetConstructionIntendedIncumbent.class, searchCriteria);
     }
     
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper#getBudgetConstructionSalarySocialSecurityNumber(java.lang.String, org.kuali.kfs.module.bc.businessobject.BudgetConstructionSalaryFunding)
+     */
+    @Transactional
     public BudgetConstructionSalarySocialSecurityNumber getBudgetConstructionSalarySocialSecurityNumber(String principalName, BudgetConstructionSalaryFunding salaryFunding){
         
         Map searchCriteria = new HashMap();
@@ -123,6 +175,10 @@ public class BudgetConstructionReportsServiceHelperImpl implements BudgetConstru
         return (BudgetConstructionSalarySocialSecurityNumber) businessObjectService.findByPrimaryKey(BudgetConstructionSalarySocialSecurityNumber.class, searchCriteria);
     }
     
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper#getSalaryFunding(java.lang.String, java.lang.String)
+     */
+    @Transactional
     public Collection<BudgetConstructionSalaryFunding> getSalaryFunding(String principalName, String emplid){
         Map searchCriteria = new HashMap();
         searchCriteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, principalName);
@@ -140,9 +196,10 @@ public class BudgetConstructionReportsServiceHelperImpl implements BudgetConstru
         return budgetConstructionOrganizationReportsService.getBySearchCriteriaOrderByList(BudgetConstructionSalaryFunding.class, searchCriteria, orderList);
     }
     
-    
-    
-    
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper#getPendingBudgetConstructionAppointmentFundingList(java.lang.Integer, org.kuali.kfs.module.bc.businessobject.BudgetConstructionObjectDump)
+     */
+    @Transactional
     public Collection<PendingBudgetConstructionAppointmentFunding> getPendingBudgetConstructionAppointmentFundingList(Integer universityFiscalYear, BudgetConstructionObjectDump budgetConstructionObjectDump) {
         Map searchCriteria = new HashMap();
         searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
@@ -159,18 +216,24 @@ public class BudgetConstructionReportsServiceHelperImpl implements BudgetConstru
         return budgetConstructionOrganizationReportsService.getBySearchCriteriaOrderByList(PendingBudgetConstructionAppointmentFunding.class, searchCriteria, orderList);
     }
 
-
-
+    /**
+     * sets the budgetConstructionOrganizationReportsService attribute value
+     * 
+     * @param budgetConstructionOrganizationReportsService
+     */
+    @NonTransactional
     public void setBudgetConstructionOrganizationReportsService(BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService) {
         this.budgetConstructionOrganizationReportsService = budgetConstructionOrganizationReportsService;
     }
 
-
-
-
+    /**
+     * sets the businessObjectService attribute value
+     * 
+     * @param businessObjectService
+     */
+    @NonTransactional
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
    }
 

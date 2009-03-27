@@ -51,6 +51,7 @@ import org.kuali.kfs.module.bc.document.service.BudgetConstructionObjectSummaryR
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionPositionFundingDetailReportService;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionReasonStatisticsReportService;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionReasonSummaryReportService;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionSalaryStatisticsReportService;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionSalarySummaryReportService;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionSubFundSummaryReportService;
@@ -102,7 +103,7 @@ public class OrganizationReportSelectionAction extends BudgetExpansionAction {
 
         // a few reports go just against the account control table, therefore we are ready to run the report
         if (ReportSelectMode.ACCOUNT.equals(reportMode.reportSelectMode)) {
-            // fixed null point exception of operationgModeTitle. 
+            // fixed null point exception of operationgModeTitle.
             organizationReportSelectionForm.setOperatingModeTitle(BCConstants.Report.NONE_SELECTION_TITLE);
             return performReport(mapping, form, request, response);
         }
@@ -158,7 +159,7 @@ public class OrganizationReportSelectionAction extends BudgetExpansionAction {
         if (!storeCodeSelections(organizationReportSelectionForm, reportMode, principalId)) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        
+
         // for report exports foward to export action to display formatting screen
         if (reportMode.export) {
             String exportUrl = this.buildReportExportForwardURL(organizationReportSelectionForm, mapping);
@@ -170,14 +171,22 @@ public class OrganizationReportSelectionAction extends BudgetExpansionAction {
 
         // build pdf and stream back
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-       
-        ResourceBundle resourceBundle = ResourceBundle.getBundle(BCConstants.Report.REPORT_MESSAGES_CLASSPATH, Locale.getDefault());
-        Map<String, Object> reportData = new HashMap<String, Object>();
-        reportData.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
-        
-        SpringContext.getBean(ReportGenerationService.class).generateReportToOutputStream(reportData, reportSet, BCConstants.Report.REPORT_TEMPLATE_CLASSPATH + reportMode.jasperFileName, baos);
-        WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, reportMode.jasperFileName + ReportGeneration.PDF_FILE_EXTENSION);
 
+        // output the report or a message if empty
+        if (reportSet.isEmpty()) {
+            List<String> messageList = new ArrayList<String>();
+            messageList.add("No data found.");
+            SpringContext.getBean(BudgetConstructionReportsServiceHelper.class).generatePdf(messageList, baos);
+            WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, reportMode.jasperFileName + ReportGeneration.PDF_FILE_EXTENSION);
+        }
+        else {
+            ResourceBundle resourceBundle = ResourceBundle.getBundle(BCConstants.Report.REPORT_MESSAGES_CLASSPATH, Locale.getDefault());
+            Map<String, Object> reportData = new HashMap<String, Object>();
+            reportData.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
+
+            SpringContext.getBean(ReportGenerationService.class).generateReportToOutputStream(reportData, reportSet, BCConstants.Report.REPORT_TEMPLATE_CLASSPATH + reportMode.jasperFileName, baos);
+            WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, reportMode.jasperFileName + ReportGeneration.PDF_FILE_EXTENSION);
+        }
         return null;
     }
 
@@ -286,27 +295,27 @@ public class OrganizationReportSelectionAction extends BudgetExpansionAction {
             case REASON_SUMMARY_REPORT:
                 SpringContext.getBean(BudgetConstructionReasonSummaryReportService.class).updateReasonSummaryReport(principalId, universityFiscalYear, budgetConstructionReportThresholdSettings);
                 reportData = SpringContext.getBean(BudgetConstructionReasonSummaryReportService.class).buildReports(universityFiscalYear, principalId, budgetConstructionReportThresholdSettings);
-                break;    
+                break;
             case REASON_STATISTICS_REPORT:
                 SpringContext.getBean(BudgetConstructionReasonStatisticsReportService.class).updateReasonStatisticsReport(principalId, universityFiscalYear, budgetConstructionReportThresholdSettings);
                 reportData = SpringContext.getBean(BudgetConstructionReasonStatisticsReportService.class).buildReports(universityFiscalYear, principalId, budgetConstructionReportThresholdSettings);
                 break;
-                
+
             case TWOPLG_LIST_REPORT:
                 SpringContext.getBean(BudgetConstructionList2PLGReportService.class).updateList2PLGReport(principalId, universityFiscalYear);
                 reportData = SpringContext.getBean(BudgetConstructionList2PLGReportService.class).buildReports(universityFiscalYear, principalId);
                 break;
-                
+
             case SYNCHRONIZATION_PROBLEMS_REPORT:
                 SpringContext.getBean(BudgetConstructionSynchronizationProblemsReportService.class).updateSynchronizationProblemsReport(principalId);
                 reportData = SpringContext.getBean(BudgetConstructionSynchronizationProblemsReportService.class).buildReports(universityFiscalYear, principalId);
                 break;
-                
+
         }
 
         return reportData;
     }
-    
+
     /**
      * Builds URL for the report dump url.
      */
@@ -314,7 +323,7 @@ public class OrganizationReportSelectionAction extends BudgetExpansionAction {
         Map<String, String> parameters = new HashMap<String, String>();
         parameters.put(BCConstants.Report.REPORT_MODE, organizationReportSelectionForm.getReportMode());
         parameters.put(BCConstants.IS_ORG_REPORT_REQUEST_PARAMETER, "true");
-        
+
         return BudgetUrlUtil.buildBudgetUrl(mapping, organizationReportSelectionForm, BCConstants.REPORT_EXPORT_ACTION, parameters);
     }
 
@@ -476,4 +485,3 @@ public class OrganizationReportSelectionAction extends BudgetExpansionAction {
         return foundSelected;
     }
 }
-

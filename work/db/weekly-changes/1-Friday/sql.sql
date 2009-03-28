@@ -29,7 +29,7 @@ INSERT INTO KRIM_PERM_ATTR_DATA_T(ATTR_DATA_ID, OBJ_ID, VER_NBR, TARGET_PRIMARY_
     VALUES('479', sys_guid(), 1, '332', '5', '14', 'F')
 /
 INSERT INTO KRIM_ROLE_PERM_T(ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND) 
-    VALUES('615', sys_guid(), 1, '83', '332', 'Y')
+    VALUES('618', sys_guid(), 1, '83', '332', 'Y')
 /
 INSERT INTO KRIM_PERM_T(PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NM, DESC_TXT, ACTV_IND, NMSPC_CD) 
     VALUES('333', sys_guid(), 1, '49', 'Send Ad Hoc Request', null, 'Y', 'KR-SYS')
@@ -55,7 +55,7 @@ INSERT INTO KRIM_PERM_ATTR_DATA_T(ATTR_DATA_ID, OBJ_ID, VER_NBR, TARGET_PRIMARY_
 INSERT INTO KRIM_ROLE_PERM_T(ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND) 
     VALUES('617', sys_guid(), 1, '66', '334', 'Y')
 /
-update krim_role_perm_id set role_id = '83' where perm_id = '259'
+update krim_role_perm_t set role_id = '83' where perm_id = '259'
 /
 
 -- add campus as qualifier to purchasing processor role and set for existing assignees
@@ -192,8 +192,6 @@ update krim_entity_emp_info_t set emp_stat_cd = 'A' where emp_stat_cd = 'X' and 
 /
 delete from KRIM_ENTITY_ADDR_T where entity_id in (select entity_id from krim_entity_emp_info_t where emp_stat_cd = 'X')
 /
-delete from KRIM_ENTITY_AFLTN_T where entity_id in (select entity_id from krim_entity_emp_info_t where emp_stat_cd = 'X')
-/
 delete from KRIM_ENTITY_BIO_T where entity_id in (select entity_id from krim_entity_emp_info_t where emp_stat_cd = 'X')
 /
 delete from KRIM_ENTITY_CTZNSHP_T where entity_id in (select entity_id from krim_entity_emp_info_t where emp_stat_cd = 'X')
@@ -213,6 +211,8 @@ delete from KRIM_ENTITY_PRIV_PREF_T where entity_id in (select entity_id from kr
 delete from KRIM_PRNCPL_T where entity_id in (select entity_id from krim_entity_emp_info_t where emp_stat_cd = 'X')
 /
 delete from KRIM_ENTITY_EMP_INFO_T where emp_stat_cd = 'X'
+/
+delete from KRIM_ENTITY_AFLTN_T where entity_id not in ('1', '2', '3', '4016', '4026', '4034', '4043', '4044', '4045', '4046') and entity_id not in (select entity_id from krim_entity_emp_info_t)
 /
 delete from KRIM_ENTITY_T where entity_id not in ('1', '2', '3', '4016', '4026', '4034', '4043', '4044', '4045', '4046') and entity_id not in (select entity_id from krim_entity_emp_info_t)
 /

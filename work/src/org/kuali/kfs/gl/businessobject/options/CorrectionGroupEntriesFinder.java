@@ -17,13 +17,11 @@ package org.kuali.kfs.gl.businessobject.options;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import org.kuali.kfs.gl.GeneralLedgerConstants;
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
@@ -59,7 +57,13 @@ public class CorrectionGroupEntriesFinder extends KeyValuesBase {
             for (File file : fileList){
                 String fileName = file.getName();
                 if (fileName.contains(GeneralLedgerConstants.BatchFileSystem.EXTENSION) || fileName.contains(GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION)){
-                    activeLabels.add(new KeyLabelPair(fileName, fileName));
+
+                    //build display file name with date and size
+                    Date date = new Date(file.lastModified());
+                    String timeInfo = "(Date: " + date.toLocaleString() + ")";
+                    String sizeInfo = "(Size: " +  (new Long(file.length())).toString() + ")";
+                                        
+                    activeLabels.add(new KeyLabelPair(fileName,  timeInfo + " " + fileName + " " + sizeInfo ));
                 }
                 
                 

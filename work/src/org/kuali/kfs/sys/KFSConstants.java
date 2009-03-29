@@ -1136,6 +1136,8 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String AWARD_SECONDARY_DIRECTOR_KIM_ROLE_NAME = "Award Project Director";
         public static final String ACTIVE_FACULTY_OR_STAFF_KIM_ROLE_NAME = "Active Faculty or Staff";
         public static final String ACTIVE_PROFESSIONAL_EMPLOYEE_KIM_ROLE_NAME = "Active Professional Employee";
+        public static final String ACTIVE_EMPLOYEE_AND_KFS_USER_KIM_ROLE_NAME = "Active Employee & Financial System User";
+        public static final String ACTIVE_PROFESSIONAL_EMPLOYEE_AND_KFS_USER_KIM_ROLE_NAME = "Active Professional Employee & Financial System User";
         public static final String CHART_MANAGER_KIM_ROLE_NAME = "Chart Manager";
         public static final String ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE = "KFS-SYS";
         public static final String ACCOUNTING_REVIEWER_ROLE_NAME = "Accounting Reviewer";
@@ -1163,13 +1165,12 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         }
     }
     
-    public enum PermissionName{
-        EDIT_INACTIVE_ACCOUNT("Edit Inactive Account"), SERVE_AS_ACCOUNT_MANAGER("Serve As Account Manager, Supervisor, or Fiscal Officer");
-
-        public final String name;
-        private PermissionName(String name) {
-            this.name = name;
-        }
+    public class PermissionNames {
+        public static final String EDIT_INACTIVE_ACCOUNT = "Edit Inactive Account";
+        public static final String SERVE_AS_ACCOUNT_MANAGER = "Serve As Account Manager";
+        public static final String SERVE_AS_ACCOUNT_SUPERVISOR = "Serve As Account Supervisor";
+        public static final String SERVE_AS_FISCAL_OFFICER = "Serve As Fiscal Officer";
+        public static final String SERVE_AS_FISCAL_OFFICER_DELEGATE = "Serve As Fiscal Officer Delegate";
     }
 
     public static final String KFS_ACTION_CAN_ERROR_CORRECT = "canErrorCorrect";

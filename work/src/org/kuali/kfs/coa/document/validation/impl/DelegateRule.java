@@ -317,24 +317,10 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
             return success;
         }
 
-        // user must be an active kuali user
-        if (ObjectUtils.isNull(accountDelegate.getPrincipalId()) || !SpringContext.getBean(FinancialSystemUserService.class).isActiveFinancialSystemUser(accountDelegate)) {
-            putFieldError("accountDelegate.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE_KUALI_USER);
-
-            return false;
-        }
-        
-        String principalId = accountDelegate.getPrincipalId();
-        String namespaceCode = KFSConstants.ParameterNamespaces.CHART;
-        String permissionName = KFSConstants.PermissionName.SERVE_AS_ACCOUNT_MANAGER.name;
-
-        IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
-        Boolean isAuthorized = identityManagementService.hasPermission(principalId, namespaceCode, permissionName, null);
-        if (!isAuthorized) {
+        if (!getDocumentHelperService().getDocumentAuthorizer(document).isAuthorized(document, KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER_DELEGATE, accountDelegate.getPrincipalId())) {
+            super.putFieldError("accountDelegate.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {accountDelegate.getName(), KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER_DELEGATE});
             success = false;
-            putFieldError("accountDelegate.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_PROFESSIONAL);
         }
-
         return success;
     }
 }

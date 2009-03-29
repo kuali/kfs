@@ -34,9 +34,7 @@ import org.kuali.kfs.coa.service.SubFundGroupService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -100,7 +98,6 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
         checkContractsAndGrants();
         checkExpirationDate(document);
         checkOnlyOneChartErrorWrapper(newAccountGlobal.getAccountGlobalDetails());
-        checkFiscalOfficerIsValidKualiUser(newAccountGlobal.getAccountFiscalOfficerSystemIdentifier());
         // checkFundGroup(document);
         // checkSubFundGroup(document);
 
@@ -127,9 +124,6 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
         success &= checkContractsAndGrants();
         success &= checkExpirationDate(document);
         success &= checkAccountDetails(document, newAccountGlobal.getAccountGlobalDetails());
-        if (!StringUtils.isEmpty(newAccountGlobal.getAccountFiscalOfficerSystemIdentifier())) {
-            success &= checkFiscalOfficerIsValidKualiUser(newAccountGlobal.getAccountFiscalOfficerSystemIdentifier());
-        }
         // success &= checkFundGroup(document);
         // success &= checkSubFundGroup(document);
 
@@ -226,10 +220,18 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
 
         boolean success = true;
 
-        // the employee type for fiscal officer, account manager, and account supervisor must be 'P' – professional.
-        success &= checkUserStatusAndType("accountFiscalOfficerUser.principalName", fiscalOfficer);
-        success &= checkUserStatusAndType("accountSupervisoryUser.principalName", accountSupervisor);
-        success &= checkUserStatusAndType("accountManagerUser.principalName", accountManager);
+        if (!getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER, fiscalOfficer.getPrincipalId())) {
+            super.putFieldError("accountFiscalOfficerUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {fiscalOfficer.getName(), KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER});
+			success = false;
+        }
+        if (!getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR, accountSupervisor.getPrincipalId())) {
+            super.putFieldError("accountSupervisoryUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {accountSupervisor.getName(), KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR});
+			success = false;
+        }
+        if (!getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER, accountManager.getPrincipalId())) {
+            super.putFieldError("accountManagerUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {accountManager.getName(), KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER});
+			success = false;
+        }
 
         // the supervisor cannot be the same as the fiscal officer or account manager.
         if (isSupervisorSameAsFiscalOfficer(newAccountGlobal)) {
@@ -382,63 +384,6 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
             return false;
         }
         return user1.getPrincipalId().equals(user2.getPrincipalId());
-    }
-
-    /**
-     * This method checks to see if the user passed in is of the type requested. If so, it returns true. If not, it returns false,
-     * and adds an error to the GlobalErrors.
-     * 
-     * @param propertyName
-     * @param user - Person to be tested
-     * @return true if user is of the requested employee type, false if not, true if the user object is null
-     */
-    protected boolean checkUserStatusAndType(String propertyName, Person user) {
-
-        boolean success = true;
-
-        // if the user isnt populated, exit with success
-        // the actual existence check is performed in the general rules so not testing here
-        if (ObjectUtils.isNull(user) || user.getPrincipalId() == null) {
-            return success;
-        }
-        
-        if (!SpringContext.getBean(FinancialSystemUserService.class).isActiveFinancialSystemUser(user)) {
-            success = false;
-            putFieldError(propertyName, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACTIVE_REQD_FOR_EMPLOYEE, getDdService().getAttributeLabel(Account.class, propertyName));
-        }
-
-        String principalId = user.getPrincipalId();
-        String namespaceCode = KFSConstants.ParameterNamespaces.CHART;
-        String permissionName = KFSConstants.PermissionName.SERVE_AS_ACCOUNT_MANAGER.name;
-        
-        IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
-        Boolean isAuthorized = identityManagementService.hasPermission(principalId, namespaceCode, permissionName, null);
-        if (!isAuthorized) {
-            success = false;
-            putFieldError(propertyName, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_PRO_TYPE_REQD_FOR_EMPLOYEE, getDdService().getAttributeLabel(Account.class, propertyName));
-        }
-
-        return success;
-    }
-
-    /**
-     * This method insures the fiscal officer is a valid Kuali User
-     * 
-     * @param fiscalOfficerUserId
-     * @return true if fiscal officer is a valid KualiUser
-     */
-    protected boolean checkFiscalOfficerIsValidKualiUser(String fiscalOfficerUserId) {
-        boolean result = true;
-
-        Person fiscalOfficer = getKfsUserService().getPerson(fiscalOfficerUserId);
-        if (fiscalOfficer == null || !SpringContext.getBean(FinancialSystemUserService.class).isActiveFinancialSystemUser(fiscalOfficer) ) {
-            result = false;
-            if ( fiscalOfficer != null ) {
-                putFieldError("accountFiscalOfficerUser.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_FISCAL_OFFICER_MUST_BE_KUALI_USER);
-            }
-        }
-
-        return result;
     }
 
     /**

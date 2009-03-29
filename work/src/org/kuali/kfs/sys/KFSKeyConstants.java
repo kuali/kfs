@@ -31,6 +31,7 @@ public class KFSKeyConstants {
     public static final String ERROR_MIN_LENGTH = "error.minLength";
     public static final String ERROR_MAX_LENGTH = "error.maxLength";
     public static final String ERROR_INVALID_FORMAT = "error.invalidFormat";
+    public static final String ERROR_USER_MISSING_PERMISSION = "error.user.missing.permission";
 
     public static final String AUTHORIZATION_ERROR_GENERAL = "error.authorization.general";
     public static final String AUTHORIZATION_ERROR_INACTIVE_DOCTYPE = "error.authorization.inactiveDocumentType";

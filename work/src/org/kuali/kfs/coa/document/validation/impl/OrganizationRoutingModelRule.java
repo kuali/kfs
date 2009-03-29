@@ -73,7 +73,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         setupConvenienceObjects();
-        return checkSimpleRules(this.model);
+        return checkSimpleRules(document, this.model);
     }
 
     /**
@@ -87,7 +87,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         setupConvenienceObjects();
-        return checkSimpleRules(this.model);
+        return checkSimpleRules(document, this.model);
     }
 
     /**
@@ -101,7 +101,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         setupConvenienceObjects();
-        checkSimpleRules(this.model);
+        checkSimpleRules(document, this.model);
         return true;
     }
 
@@ -116,7 +116,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
         setupConvenienceObjects();
-        return checkSimpleRulesForOrganizationRoutingModel(this.model, (AccountDelegateModelDetail) line);
+        return checkSimpleRulesForOrganizationRoutingModel(document, this.model, (AccountDelegateModelDetail) line);
     }
 
     /**
@@ -125,7 +125,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
      * @param globalDelegateTemplate the Organization Routing Model parent to check
      * @return true if document passes all rules, false if otherwise
      */
-    protected boolean checkSimpleRules(AccountDelegateModel globalDelegateTemplate) {
+    protected boolean checkSimpleRules(MaintenanceDocument document, AccountDelegateModel globalDelegateTemplate) {
         boolean success = true;
 
         success &= checkModelNameHasAtLeastOneModel(globalDelegateTemplate);
@@ -133,7 +133,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
         int line = 0;
         for (AccountDelegateModelDetail delegateModel : globalDelegateTemplate.getOrganizationRoutingModel()) {
             GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_ERROR_PATH + ".organizationRoutingModel[" + line + "].");
-            success &= checkSimpleRulesForOrganizationRoutingModel(globalDelegateTemplate, delegateModel);
+            success &= checkSimpleRulesForOrganizationRoutingModel(document, globalDelegateTemplate, delegateModel);
             GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_ERROR_PATH + ".organizationRoutingModel[" + line + "].");
             line++;
         }
@@ -145,14 +145,14 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
      * 
      * @return true if model passes all the checks, false if otherwise
      */
-    protected boolean checkSimpleRulesForOrganizationRoutingModel(AccountDelegateModel globalDelegateTemplate, AccountDelegateModelDetail delegateModel) {
+    protected boolean checkSimpleRulesForOrganizationRoutingModel(MaintenanceDocument document, AccountDelegateModel globalDelegateTemplate, AccountDelegateModelDetail delegateModel) {
         boolean success = true;
 
         if (delegateModel.isActive()) {
             success &= checkDelegateFromAmountPositive(delegateModel);
             success &= checkDelegateToAmountNotNull(delegateModel);
             success &= checkDelegateToAmountGreaterThanFromAmount(delegateModel);
-            success &= checkDelegateUserRules(delegateModel);
+            success &= checkDelegateUserRules(document, delegateModel);
             success &= checkPrimaryRoutePerDocType(globalDelegateTemplate, delegateModel);
         }
 
@@ -266,7 +266,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
      * @param delegateModel the Organization Routing Model to check
      * @return true if delegate user passes the rules described above; false if they fail
      */
-    protected boolean checkDelegateUserRules(AccountDelegateModelDetail delegateModel) {
+    protected boolean checkDelegateUserRules(MaintenanceDocument document, AccountDelegateModelDetail delegateModel) {
         boolean success = true;
 
         // refresh account delegate
@@ -286,21 +286,8 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
         }
 
         if (success) {
-            Person user = delegateModel.getAccountDelegate();
-
-            if (!SpringContext.getBean(FinancialSystemUserService.class).isActiveFinancialSystemUser(user)) {
-                GlobalVariables.getErrorMap().putError("accountDelegate.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE, new String[0]);
-                success = false;
-            }
-
-            String principalId = user.getPrincipalId();
-            String namespaceCode = KFSConstants.ParameterNamespaces.CHART;
-            String permissionName = KFSConstants.PermissionName.SERVE_AS_ACCOUNT_MANAGER.name;
-            
-            IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
-            Boolean isAuthorized = identityManagementService.hasPermission(principalId, namespaceCode, permissionName, null);
-            if (!isAuthorized) {
-                GlobalVariables.getErrorMap().putError("accountDelegate.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_PROFESSIONAL, new String[0]);
+            if (!getDocumentHelperService().getDocumentAuthorizer(document).isAuthorized(document, KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER_DELEGATE, delegateModel.getAccountDelegate().getPrincipalId())) {
+                super.putFieldError("accountDelegate.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {delegateModel.getAccountDelegate().getName(), KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER_DELEGATE});
                 success = false;
             }
         }

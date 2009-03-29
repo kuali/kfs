@@ -86,7 +86,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
         boolean success = true;
         setupConvenienceObjects();
         // check simple rules
-        success &= checkSimpleRulesAllLines();
+        success &= checkSimpleRulesAllLines(document);
 
         success &= checkOnlyOneChartErrorWrapper(newDelegateGlobal.getAccountGlobalDetails());
 
@@ -111,7 +111,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
         boolean success = true;
         setupConvenienceObjects();
         // check simple rules
-        success &= checkSimpleRulesAllLines();
+        success &= checkSimpleRulesAllLines(document);
 
         success &= checkAccountDetails(newDelegateGlobal.getAccountGlobalDetails());
 
@@ -135,7 +135,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         setupConvenienceObjects();
         // check simple rules
-        checkSimpleRulesAllLines();
+        checkSimpleRulesAllLines(document);
 
         checkOnlyOneChartErrorWrapper(newDelegateGlobal.getAccountGlobalDetails());
 
@@ -209,7 +209,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
      * 
      * @return
      */
-    protected boolean checkSimpleRulesAllLines() {
+    protected boolean checkSimpleRulesAllLines(MaintenanceDocument document) {
 
         boolean success = true;
         // check if there are any accounts
@@ -224,7 +224,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
                 KualiDecimal fromAmount = newDelegateGlobalDetail.getApprovalFromThisAmount();
                 KualiDecimal toAmount = newDelegateGlobalDetail.getApprovalToThisAmount();
 
-                success &= checkDelegateUserRules(newDelegateGlobalDetail, i, false);
+                success &= checkDelegateUserRules(document, newDelegateGlobalDetail, i, false);
 
                 // FROM amount must be >= 0 (may not be negative)
                 success &= checkDelegateFromAmtGreaterThanEqualZero(fromAmount, i, false);
@@ -487,7 +487,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
      * @param add
      * @return false if the delegate for the {@link Account} doesn't exist or isn't valid
      */
-    protected boolean checkDelegateUserRules(AccountDelegateGlobalDetail delegateGlobal, int lineNum, boolean add) {
+    protected boolean checkDelegateUserRules(MaintenanceDocument document, AccountDelegateGlobalDetail delegateGlobal, int lineNum, boolean add) {
 
         boolean success = true;
 
@@ -506,37 +506,17 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
             return success;
         }
         
-        Person user = delegateGlobal.getAccountDelegate();
-        if (!SpringContext.getBean(FinancialSystemUserService.class).isActiveFinancialSystemUser(user)) {
+        if (!getDocumentHelperService().getDocumentAuthorizer(document).isAuthorized(document, KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER_DELEGATE, delegateGlobal.getAccountDelegate().getPrincipalId())) {
             if (add) {
                 errorPath = KFSConstants.MAINTENANCE_ADD_PREFIX + DELEGATE_GLOBALS_PREFIX + "." + "accountDelegate.principalName";
-                putFieldError(errorPath, KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE);
+                super.putFieldError(errorPath, KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {delegateGlobal.getAccountDelegate().getName(), KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER_DELEGATE});
             }
             else {
                 errorPath = DELEGATE_GLOBALS_PREFIX + "[" + lineNum + "]." + "accountDelegate.principalName";
-                putFieldError(errorPath, KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE);
+                super.putFieldError(errorPath, KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {delegateGlobal.getAccountDelegate().getName(), KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER_DELEGATE});
             }
             success &= false;
         }
-
-        String principalId = user.getPrincipalId();
-        String namespaceCode = KFSConstants.ParameterNamespaces.CHART;
-        String permissionName = KFSConstants.PermissionName.SERVE_AS_ACCOUNT_MANAGER.name;
-        
-        IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
-        Boolean isAuthorized = identityManagementService.hasPermission(principalId, namespaceCode, permissionName, null);
-        if (!isAuthorized) {
-            if (add) {
-                errorPath = KFSConstants.MAINTENANCE_ADD_PREFIX + DELEGATE_GLOBALS_PREFIX + "." + "accountDelegate.principalName";
-                putFieldError(errorPath, KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_PROFESSIONAL);
-            }
-            else {
-                errorPath = DELEGATE_GLOBALS_PREFIX + "[" + lineNum + "]." + "accountDelegate.principalName";
-                putFieldError(errorPath, KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_PROFESSIONAL);
-            }
-            success &= false;
-        }
-
         return success;
     }
 
@@ -593,7 +573,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
 
             // check the user that is being added
             // TODO: add back in once the user issues have been fixed
-            success &= checkDelegateUserRules(detail, 0, true);
+            success &= checkDelegateUserRules(document, detail, 0, true);
 
             // check the routing
             success &= checkPrimaryRouteRules(newDelegateGlobal.getDelegateGlobals(), detail, null, true);

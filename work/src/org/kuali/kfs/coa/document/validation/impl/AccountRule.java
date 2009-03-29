@@ -262,7 +262,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         if (document.isEdit()) {
             // do the test
             if (oldAccount.isClosed() ) {
-                return !getIdentityManagementService().hasPermission(user.getPrincipalId(), KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionName.EDIT_INACTIVE_ACCOUNT.name, null);
+                return !getDocumentHelperService().getDocumentAuthorizer(document).isAuthorized(document, KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.EDIT_INACTIVE_ACCOUNT, user.getPrincipalId());
             }
             return false;
         }
@@ -343,10 +343,18 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         // check FringeBenefit account rules
         success &= checkFringeBenefitAccountRule(newAccount);
 
-        // the employee type for fiscal officer, account manager, and account supervisor must be 'P' – professional.
-        success &= checkUserStatusAndType("accountFiscalOfficerUser.principalName", fiscalOfficer);
-        success &= checkUserStatusAndType("accountSupervisoryUser.principalName", accountSupervisor);
-        success &= checkUserStatusAndType("accountManagerUser.principalName", accountManager);
+        if (!getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER, fiscalOfficer.getPrincipalId())) {
+            super.putFieldError("accountFiscalOfficerUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {fiscalOfficer.getName(), KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER});
+			success = false;
+        }
+        if (!getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR, accountSupervisor.getPrincipalId())) {
+            super.putFieldError("accountSupervisoryUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {accountSupervisor.getName(), KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR});
+			success = false;
+        }
+        if (!getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER, accountManager.getPrincipalId())) {
+            super.putFieldError("accountManagerUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {accountManager.getName(), KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER});
+			success = false;
+        }
 
         // the supervisor cannot be the same as the fiscal officer or account manager.
         if (isSupervisorSameAsFiscalOfficer(newAccount)) {
@@ -498,41 +506,6 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
             return false;
         }
         return user1.getPrincipalId().equals(user2.getPrincipalId());
-    }
-
-    /**
-     * This method checks to see if the user passed in is of the type requested. If so, it returns true. If not, it returns false,
-     * and adds an error to the GlobalErrors.
-     * 
-     * @param propertyName - property to attach error to
-     * @param user - Person to be tested
-     * @return true if user is of the requested employee type, false if not, true if the user object is null
-     */
-    protected boolean checkUserStatusAndType(String propertyName, Person user) {
-        boolean success = true;
-        
-        // if the user isnt populated, exit with success
-        // the actual existence check is performed in the general rules so not testing here
-        if (ObjectUtils.isNull(user) || user.getPrincipalId() == null) {
-            return success;
-        }
-        
-        if (!getFinancialSystemUserService().isActiveFinancialSystemUser(user)) {
-            success = false;
-            putFieldError(propertyName, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACTIVE_REQD_FOR_EMPLOYEE, getDdService().getAttributeLabel(Account.class, propertyName));
-        }
-
-        String principalId = user.getPrincipalId();
-        String namespaceCode = KFSConstants.ParameterNamespaces.CHART;
-        String permissionName = KFSConstants.PermissionName.SERVE_AS_ACCOUNT_MANAGER.name;
-        
-        Boolean isAuthorized = getIdentityManagementService().hasPermission(principalId, namespaceCode, permissionName, null);
-        if (!isAuthorized) {
-            success &= false;
-            putFieldError(propertyName, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_PRO_TYPE_REQD_FOR_EMPLOYEE, getDdService().getAttributeLabel(Account.class, propertyName));
-        }
-
-        return success;
     }
 
     /**

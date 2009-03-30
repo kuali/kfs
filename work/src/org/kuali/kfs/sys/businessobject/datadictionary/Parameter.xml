@@ -37,11 +37,11 @@
 
   <bean id="Parameter-parameterNamespaceCode" parent="Parameter-parameterNamespaceCode-parentBean" />
 
-  <bean id="Parameter-parameterNamespaceCode-parentBean" abstract="true" parent="ParameterNamespace-code">
+  <bean id="Parameter-parameterNamespaceCode-parentBean" abstract="true" parent="Namespace-code">
     <property name="name" value="parameterNamespaceCode" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.ParameterNamespaceValuesFinder"
+            p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.NamespaceValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="The namespace that the parameter is associated with." />
@@ -150,7 +150,7 @@
  
   <bean id="Parameter-parameterNamespace.codeAndDescription" parent="Parameter-parameterNamespace.codeAndDescription-parentBean" />
 
-  <bean id="Parameter-parameterNamespace.codeAndDescription-parentBean" abstract="true" parent="ParameterNamespace-codeAndDescription">
+  <bean id="Parameter-parameterNamespace.codeAndDescription-parentBean" abstract="true" parent="Namespace-codeAndDescription">
     <property name="name" value="parameterNamespace.codeAndDescription" />
   </bean>
 

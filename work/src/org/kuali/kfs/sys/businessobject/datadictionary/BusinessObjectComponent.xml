@@ -31,13 +31,13 @@
 		parent="BusinessObjectComponent-namespaceCode-parentBean" />
 
 	<bean id="BusinessObjectComponent-namespaceCode-parentBean"
-		abstract="true" parent="ParameterNamespace-code">
+		abstract="true" parent="Namespace-code">
 		<property name="name" value="namespaceCode" />
 		<property name="label" value="Namespace" />
 		<property name="control">
 			<bean parent="SelectControlDefinition">
 				<property name="valuesFinderClass"
-					value="org.kuali.rice.kns.lookup.keyvalues.ParameterNamespaceValuesFinder" />
+					value="org.kuali.rice.kns.lookup.keyvalues.NamespaceValuesFinder" />
 			</bean>
 		</property>
 	</bean>

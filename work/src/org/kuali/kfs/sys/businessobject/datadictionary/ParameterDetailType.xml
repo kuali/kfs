@@ -32,11 +32,11 @@
 
   <bean id="ParameterDetailType-parameterNamespaceCode" parent="ParameterDetailType-parameterNamespaceCode-parentBean" />
 
-  <bean id="ParameterDetailType-parameterNamespaceCode-parentBean" abstract="true" parent="ParameterNamespace-code">
+  <bean id="ParameterDetailType-parameterNamespaceCode-parentBean" abstract="true" parent="Namespace-code">
     <property name="name" value="parameterNamespaceCode" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.ParameterNamespaceValuesFinder"
+            p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.NamespaceValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -82,7 +82,7 @@
   </bean>
   <bean id="ParameterDetailType-parameterNamespace.codeAndDescription" parent="ParameterDetailType-parameterNamespace.codeAndDescription-parentBean" />
 
-  <bean id="ParameterDetailType-parameterNamespace.codeAndDescription-parentBean" abstract="true" parent="ParameterNamespace-codeAndDescription">
+  <bean id="ParameterDetailType-parameterNamespace.codeAndDescription-parentBean" abstract="true" parent="Namespace-codeAndDescription">
     <property name="name" value="parameterNamespace.codeAndDescription" />
   </bean>
   <bean id="ParameterDetailType-active" parent="ParameterDetailType-active-parentBean" />

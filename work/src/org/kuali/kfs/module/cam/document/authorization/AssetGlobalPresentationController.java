@@ -186,6 +186,7 @@ public class AssetGlobalPresentationController extends FinancialSystemMaintenanc
 
         fields.add(CamsPropertyConstants.Asset.ORGANIZATION_OWNER_CHART_OF_ACCOUNTS_CODE);
         fields.add(CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNT_NUMBER);
+        fields.add(CamsPropertyConstants.Asset.ORGANIZATION_CODE);
         fields.add(CamsPropertyConstants.Asset.AGENCY_NUMBER); // owner
         fields.add(CamsPropertyConstants.Asset.ACQUISITION_TYPE_CODE);
         fields.add(CamsPropertyConstants.Asset.INVENTORY_STATUS_CODE);

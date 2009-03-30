@@ -38,19 +38,26 @@
 			</tr>
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${equipAttributes.borrowerUniversalIdentifier}" /></th>
-		      	<td class="grid" width="25%">
-		      	<kul:checkErrors keyMatch="document.borrowerPerson.principalName,document.borrowerUniversalIdentifier" />
-				<kul:user userIdFieldName="document.borrowerPerson.principalName" 
-					      userId="${KualiForm.document.borrowerPerson.principalName}" 
-				          universalIdFieldName="document.borrowerUniversalIdentifier" 
-					      universalId="${KualiForm.document.borrowerUniversalIdentifier}" 
-				          userNameFieldName="document.borrowerPerson.name" label="User" 
-					      userName="${KualiForm.document.borrowerPerson.name}"
- 						  renderOtherFields="true"						  
- 						  lookupParameters="document.borrowerPerson.principalName:principalName" 
-						  fieldConversions="principalName:document.borrowerPerson.principalName,principalId:document.borrowerUniversalIdentifier,name:document.borrowerPerson.name" 
-						  hasErrors="${hasErrors}" readOnly="${readOnly}" />
-				</td>
+				<c:choose>
+					<c:when test="${!empty KualiForm.document.borrowerPerson.principalName}">
+						<td class="grid" width="25%"><kul:htmlControlAttribute attributeEntry="${document.borrowerPerson.principalName}" property="document.borrowerPerson.principalName" readOnly="true" />
+			        </c:when>
+			        <c:otherwise>
+					   	<td class="grid" width="25%">
+						   	<kul:checkErrors keyMatch="document.borrowerPerson.principalName,document.borrowerUniversalIdentifier" />
+							<kul:user userIdFieldName="document.borrowerPerson.principalName" 
+								userId="${KualiForm.document.borrowerPerson.principalName}" 
+								universalIdFieldName="document.borrowerUniversalIdentifier" 
+								universalId="${KualiForm.document.borrowerUniversalIdentifier}" 
+								userNameFieldName="document.borrowerPerson.name" label="User" 
+								userName="${KualiForm.document.borrowerPerson.name}"
+								renderOtherFields="true"						  
+								lookupParameters="document.borrowerPerson.principalName:principalName" 
+								fieldConversions="principalName:document.borrowerPerson.principalName,principalId:document.borrowerUniversalIdentifier,name:document.borrowerPerson.name" 
+								hasErrors="${hasErrors}" readOnly="${readOnly}" />
+						</td>
+					</c:otherwise>
+				</c:choose>				
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${equipAttributes.loanDate}" readOnly="true"/></th>
 			   	<c:choose>
 		            <c:when test="${readOnly or !displayNewLoanTab}">

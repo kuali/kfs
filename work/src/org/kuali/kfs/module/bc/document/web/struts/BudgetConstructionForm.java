@@ -31,7 +31,9 @@ import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.service.BenefitsCalculationService;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionProcessorService;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
+import org.kuali.kfs.module.bc.document.service.BudgetParameterService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
+import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
@@ -50,6 +52,9 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
 
     private PendingBudgetConstructionGeneralLedger newRevenueLine;
     private PendingBudgetConstructionGeneralLedger newExpenditureLine;
+    
+    private static String revenueObjectTypeCodesLookup = SpringContext.getBean(BudgetParameterService.class).getLookupObjectTypes(true);
+    private static String expenditureObjectTypeCodesLookup = SpringContext.getBean(BudgetParameterService.class).getLookupObjectTypes(false);
 
     private boolean closingDocument = false;
 
@@ -933,5 +938,21 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
      */
     public void setMainWindow(boolean mainWindow) {
         this.mainWindow = mainWindow;
+    }
+
+    /**
+     * Gets the revenueObjectTypeCodesLookup attribute. 
+     * @return Returns the revenueObjectTypeCodesLookup.
+     */
+    public static String getRevenueObjectTypeCodesLookup() {
+        return revenueObjectTypeCodesLookup;
+    }
+
+    /**
+     * Gets the expenditureObjectTypeCodesLookup attribute. 
+     * @return Returns the expenditureObjectTypeCodesLookup.
+     */
+    public static String getExpenditureObjectTypeCodesLookup() {
+        return expenditureObjectTypeCodesLookup;
     }
 }

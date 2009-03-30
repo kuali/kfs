@@ -36,25 +36,21 @@ public class CashReceiptInitiatorDerivedRoleTypeServiceImpl extends KimDerivedRo
     private static final String SYS_USER_ROLE_NAME = "User";
     private static final String CASH_MANAGER_ROLE_NAMESPACE = "KFS-FP";
     private static final String CASH_MANAGER_ROLE_NAME = "Cash Manager";
-
+    
     /**
      * Overridden to check principal id is in KFS-SYS User and not in KFS-FP Cash Manager
-     * @see org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase#getRoleMembersFromApplicationRole(java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
+     * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#hasApplicationRole(java.lang.String, java.util.List, java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
     @Override
-    public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
-        List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
-        if (qualification.containsKey(KfsKimAttributes.PRINCIPAL_ID)) {
-            final String principalId = qualification.get(KfsKimAttributes.PRINCIPAL_ID);
-            if (principalMemberOfSysUsers(principalId, qualification)) {
-                if (!principalMemberOfCashManagers(principalId, qualification)) {
-                    members.add(new RoleMembershipInfo(null, null, principalId, KimRole.PRINCIPAL_MEMBER_TYPE, qualification));
-                }
+    public boolean hasApplicationRole(String principalId, List<String> groupIds, String namespaceCode, String roleName, AttributeSet qualification) {
+        if (principalMemberOfSysUsers(principalId, qualification)) {
+            if (!principalMemberOfCashManagers(principalId, qualification)) {
+                return true;
             }
         }
-        return members;
+        return false;
     }
-    
+
     /**
      * Determines if the given principal with the given qualification is a member of KFS-SYS User
      * @param principalId the principal id of the shmoe trying to initiate a cash receipt

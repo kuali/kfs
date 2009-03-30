@@ -22,7 +22,6 @@
         <ref bean="ResearchRiskType-controlAttributeTypeCode" />
         <ref bean="ResearchRiskType-researchRiskTypeDescription" />
         <ref bean="ResearchRiskType-researchRiskTypeSortNumber" />
-        <ref bean="ResearchRiskType-researchRiskTypeNotificationGroupText" />
         <ref bean="ResearchRiskType-researchRiskTypeNotificationValue" />
       </list>
     </property>
@@ -103,20 +102,7 @@
     <property name="summary" value="sortNumber" />
     <property name="description" value="sortNumber description..." />
   </bean>
-  <bean id="ResearchRiskType-researchRiskTypeNotificationGroupText" parent="ResearchRiskType-researchRiskTypeNotificationGroupText-parentBean" />
-
-  <bean id="ResearchRiskType-researchRiskTypeNotificationGroupText-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="researchRiskTypeNotificationGroupText" />
-    <property name="label" value="Research Risk Type Notification Group" />
-    <property name="shortLabel" value="Not. Group" />
-    <property name="maxLength" value="70" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="WorkflowWorkgroupControlDefinition" />
-    </property>
-    <property name="summary" value="researchRiskTypeNotificationGroupText" />
-    <property name="description" value="Workgroup to notify if the user-entered value for this research risk matches the notification value." />
-  </bean>
+  
   <bean id="ResearchRiskType-researchRiskTypeNotificationValue" parent="ResearchRiskType-researchRiskTypeNotificationValue-parentBean" />
 
   <bean id="ResearchRiskType-researchRiskTypeNotificationValue-parentBean" abstract="true" parent="AttributeDefinition">
@@ -157,8 +143,6 @@
               <bean parent="FieldDefinition"
                     p:attributeName="researchRiskTypeSortNumber" />
               <bean parent="FieldDefinition"
-                    p:attributeName="researchRiskTypeNotificationGroupText" />
-              <bean parent="FieldDefinition"
                     p:attributeName="researchRiskTypeNotificationValue" />
               <bean parent="FieldDefinition"
                     p:attributeName="active" />
@@ -192,8 +176,6 @@
         <bean parent="FieldDefinition"
               p:attributeName="researchRiskTypeSortNumber" />
         <bean parent="FieldDefinition"
-              p:attributeName="researchRiskTypeNotificationGroupText" />
-        <bean parent="FieldDefinition"
               p:attributeName="researchRiskTypeNotificationValue" />
         <bean parent="FieldDefinition"
               p:defaultValue="true"
@@ -210,8 +192,6 @@
               p:attributeName="researchRiskTypeDescription" />
         <bean parent="FieldDefinition"
               p:attributeName="researchRiskTypeSortNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="researchRiskTypeNotificationGroupText" />
         <bean parent="FieldDefinition"
               p:attributeName="researchRiskTypeNotificationValue" />
         <bean parent="FieldDefinition"

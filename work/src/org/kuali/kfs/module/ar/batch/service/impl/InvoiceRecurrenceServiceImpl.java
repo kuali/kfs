@@ -136,7 +136,6 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
             /* if nextProcessDate is equal to currentDate create INV document */
             if (nextProcessDate.equals(currentDate)) {
                 /* copy INV document to a new INV document */
-                String workgroup = invoiceRecurrence.getWorkgroupName();
                 String initiator = invoiceRecurrence.getDocumentInitiatorUserPersonUserIdentifier();
                 GlobalVariables.setUserSession(new UserSession(initiator));
 
@@ -153,7 +152,6 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
                 if ((ObjectUtils.isNotNull(lastCreateDate) && lastProcessDate.after(lastCreateDate))  ||
                     (ObjectUtils.isNull(lastCreateDate))) {
                     /* copy INV document to a new INV document */
-                    String workgroup = invoiceRecurrence.getWorkgroupName();
                     String initiator = invoiceRecurrence.getDocumentInitiatorUserPersonUserIdentifier();
                     GlobalVariables.setUserSession(new UserSession(initiator));
 
@@ -169,7 +167,6 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
             /* Check if this is the last recurrence. If yes, inactivate the INVR and send an FYI to the initiator and workgroup.  */
             if (!nextProcessDate.before(endDate)) {
                 /* Change the active indicator to 'N' and send an FYI */
-                String workgroup = invoiceRecurrence.getWorkgroupName();
                 String initiator = invoiceRecurrence.getDocumentInitiatorUserPersonUserIdentifier();
                 GlobalVariables.setUserSession(new UserSession(initiator));
 

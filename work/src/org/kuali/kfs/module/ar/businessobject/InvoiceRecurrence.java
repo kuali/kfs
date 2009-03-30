@@ -22,7 +22,6 @@ public class InvoiceRecurrence extends PersistableBusinessObjectBase implements 
 	private Date documentRecurrenceEndDate;
 	private Integer documentTotalRecurrenceNumber;
 	private String documentRecurrenceIntervalCode;
-	private String workgroupName;
 	private String documentInitiatorUserIdentifier;
 	private Date documentLastCreateDate;
 	private boolean active;
@@ -167,24 +166,6 @@ public class InvoiceRecurrence extends PersistableBusinessObjectBase implements 
 	public void setDocumentRecurrenceIntervalCode(String documentRecurrenceIntervalCode) {
 		this.documentRecurrenceIntervalCode = documentRecurrenceIntervalCode;
 	}
-
-
-	
-
-
-	public String getWorkgroupName() {
-		return workgroupName;
-	}
-
-
-
-
-	public void setWorkgroupName(String workgroupName) {
-		this.workgroupName = workgroupName;
-	}
-
-
-
 
 	/**
 	 * Gets the documentInitiatorUserIdentifier attribute.

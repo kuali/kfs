@@ -39,7 +39,6 @@ public class ResearchRiskType extends PersistableBusinessObjectBase implements I
     private String researchRiskTypeDescription;
     private String controlAttributeTypeCode;
     private Integer researchRiskTypeSortNumber;
-    private String researchRiskTypeNotificationGroupText;
     private String researchRiskTypeNotificationValue;
 
     private ControlAttributeType controlAttributeType;
@@ -143,24 +142,7 @@ public class ResearchRiskType extends PersistableBusinessObjectBase implements I
         this.researchRiskTypeSortNumber = researchRiskTypeSortNumber;
     }
 
-    /**
-     * Gets the researchRiskTypeNotificationGroupText attribute.
-     * 
-     * @return Returns the researchRiskTypeNotificationGroupText.
-     */
-    public String getResearchRiskTypeNotificationGroupText() {
-        return researchRiskTypeNotificationGroupText;
-    }
-
-    /**
-     * Sets the researchRiskTypeNotificationGroupText attribute value.
-     * 
-     * @param researchRiskTypeNotificationGroupText The researchRiskTypeNotificationGroupText to set.
-     */
-    public void setResearchRiskTypeNotificationGroupText(String researchRiskTypeNotificationGroupText) {
-        this.researchRiskTypeNotificationGroupText = researchRiskTypeNotificationGroupText;
-    }
-
+   
     /**
      * Gets the researchRiskTypeNotificationValue attribute.
      * 

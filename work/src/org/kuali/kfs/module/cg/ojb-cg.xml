@@ -1442,7 +1442,6 @@
 	<field-descriptor name="controlAttributeTypeCode" column="CTRL_ATTRIB_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="researchRiskTypeDescription" column="RSRCH_RSK_TYP_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="researchRiskTypeSortNumber" column="RSRCH_RSK_TYP_SORT_NBR" jdbc-type="INTEGER"/>
-	<field-descriptor name="researchRiskTypeNotificationGroupText" column="RSRCH_RSK_TYP_NTFCTN_GRP_TXT" jdbc-type="VARCHAR"/>
 	<field-descriptor name="researchRiskTypeNotificationValue" column="RSRCH_RSK_TYP_NTFCTN_VAL" jdbc-type="VARCHAR"/>
 	<reference-descriptor name="controlAttributeType" class-ref="org.kuali.kfs.module.cg.businessobject.ControlAttributeType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="controlAttributeTypeCode" />

@@ -96,29 +96,29 @@ public class LaborReportServiceTest extends KualiTestBase {
 //        group2 = originEntryGroupService.createGroup(today, LABOR_MAIN_POSTER_VALID, true, true, false);
 //        invalidGroup = originEntryGroupService.createGroup(today, LABOR_MAIN_POSTER_ERROR, false, true, false);
 
-        LaborOriginEntry cleanup = new LaborOriginEntry();
-        ObjectUtil.populateBusinessObject(cleanup, properties, "dataCleanup", fieldNames, deliminator);
-        fieldValues = ObjectUtil.buildPropertyMap(cleanup, Arrays.asList(StringUtils.split(fieldNames, deliminator)));
-        businessObjectService.deleteMatching(LaborOriginEntry.class, fieldValues);
+//        LaborOriginEntry cleanup = new LaborOriginEntry();
+//        ObjectUtil.populateBusinessObject(cleanup, properties, "dataCleanup", fieldNames, deliminator);
+//        fieldValues = ObjectUtil.buildPropertyMap(cleanup, Arrays.asList(StringUtils.split(fieldNames, deliminator)));
+//        businessObjectService.deleteMatching(LaborOriginEntry.class, fieldValues);
     }
 
     public void testGenerateInputSummaryReport() throws Exception {
-        String testTarget = "generateInputSummaryReport.";
-        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
-        List<OriginEntryGroup> groups = new ArrayList<OriginEntryGroup>();
-
-        //laborReportService.generateInputSummaryReport(groups, ReportRegistry.LABOR_POSTER_INPUT, reportsDirectory, today);
-
-        groups.add(group1);
-        businessObjectService.save(getInputDataList(testTarget + "testData", numberOfTestData, group1));
-        groups.add(group2);
-        businessObjectService.save(getInputDataList(testTarget + "testData", numberOfTestData, group2));
-        //laborReportService.generateInputSummaryReport(groups, ReportRegistry.LABOR_POSTER_INPUT, reportsDirectory, today);
+//        String testTarget = "generateInputSummaryReport.";
+//        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
+//        List<OriginEntryGroup> groups = new ArrayList<OriginEntryGroup>();
+//
+//        //laborReportService.generateInputSummaryReport(groups, ReportRegistry.LABOR_POSTER_INPUT, reportsDirectory, today);
+//
+//        groups.add(group1);
+//        businessObjectService.save(getInputDataList(testTarget + "testData", numberOfTestData, group1));
+//        groups.add(group2);
+//        businessObjectService.save(getInputDataList(testTarget + "testData", numberOfTestData, group2));
+//        //laborReportService.generateInputSummaryReport(groups, ReportRegistry.LABOR_POSTER_INPUT, reportsDirectory, today);
     }
 
     public void testGenerateErrorTransactionListing() throws Exception {
-        String testTarget = "generateErrorTransactionListing.";
-        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
+//        String testTarget = "generateErrorTransactionListing.";
+//        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
 
 //        laborReportService.generateErrorTransactionListing(invalidGroup, ReportRegistry.LABOR_POSTER_ERROR, reportsDirectory, today);
 //
@@ -128,9 +128,9 @@ public class LaborReportServiceTest extends KualiTestBase {
     }
 
     public void testGenerateOutputSummaryReportByGroups() throws Exception {
-        String testTarget = "generateOutputSummaryReport.";
-        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
-        List<OriginEntryGroup> groups = new ArrayList<OriginEntryGroup>();
+//        String testTarget = "generateOutputSummaryReport.";
+//        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
+//        List<OriginEntryGroup> groups = new ArrayList<OriginEntryGroup>();
         //TODO: Shawn - do it later
 //        laborReportService.generateOutputSummaryReport(groups, ReportRegistry.LABOR_POSTER_OUTPUT, reportsDirectory, today);
 //
@@ -142,8 +142,8 @@ public class LaborReportServiceTest extends KualiTestBase {
     }
 
     public void testGenerateOutputSummaryReportBySingleGroup() throws Exception {
-        String testTarget = "generateOutputSummaryReport.";
-        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
+//        String testTarget = "generateOutputSummaryReport.";
+//        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
         //TODO: Shawn - do it later
 //        laborReportService.generateOutputSummaryReport(group1, ReportRegistry.LABOR_POSTER_OUTPUT_BY_SINGLE_GROUP, reportsDirectory, today);
 //
@@ -152,22 +152,22 @@ public class LaborReportServiceTest extends KualiTestBase {
     }
 
     public void testGenerateStatisticsReport() throws Exception {
-        String testTarget = "generateStatisticsReport.";
-        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
-        List<OriginEntryGroup> groups = new ArrayList<OriginEntryGroup>();
-
-        List<Summary> reportSummary = this.getReportSummary();
-        laborReportService.generateStatisticsReport(reportSummary, null, ReportRegistry.LABOR_POSTER_STATISTICS, reportsDirectory, today);
-
-        groups.add(group1);
-        businessObjectService.save(getInputDataList(testTarget + "testData", numberOfTestData, group1));
-        groups.add(group2);
-        businessObjectService.save(getInputDataList(testTarget + "testData", numberOfTestData, group2));
-
-        persistenceService.clearCache();
-
-        Map<Transaction, List<Message>> errorMap = this.getErrorMap(groups);
-        laborReportService.generateStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_STATISTICS, reportsDirectory, today);
+//        String testTarget = "generateStatisticsReport.";
+//        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
+//        List<OriginEntryGroup> groups = new ArrayList<OriginEntryGroup>();
+//
+//        List<Summary> reportSummary = this.getReportSummary();
+//        laborReportService.generateStatisticsReport(reportSummary, null, ReportRegistry.LABOR_POSTER_STATISTICS, reportsDirectory, today);
+//
+//        groups.add(group1);
+//        businessObjectService.save(getInputDataList(testTarget + "testData", numberOfTestData, group1));
+//        groups.add(group2);
+//        businessObjectService.save(getInputDataList(testTarget + "testData", numberOfTestData, group2));
+//
+//        persistenceService.clearCache();
+//
+//        Map<Transaction, List<Message>> errorMap = this.getErrorMap(groups);
+//        laborReportService.generateStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_STATISTICS, reportsDirectory, today);
     }
 
     private List<Summary> getReportSummary() {

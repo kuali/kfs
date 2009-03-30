@@ -293,12 +293,6 @@ public class LaborCorrectionAction extends CorrectionAction {
         //if file loads successfully copy the file to batchFileDirectory
         int loadedCount = originEntryList.size();
         
-        //need to change file name?
-        //String uploadedFileName = OriginEntrySource.LABOR_CORRECTION_PROCESS_EDOC + "_uploaded_file";
-        
-        //build file name with time information
-        fullFileName += buildFileExtensionWithDate(today);
-        
         //create a group
         File uploadedFile = originEntryGroupService.createLaborGroup(fullFileName);
         PrintStream uploadedFilePrintStream;

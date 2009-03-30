@@ -778,12 +778,6 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         //if file loads successfully copy the file to batchFileDirectory
         int loadedCount = originEntryList.size();
         
-        //need to change file name?
-        String uploadedFileName = OriginEntrySource.GL_CORRECTION_PROCESS_EDOC + "_uploaded_file";
-        
-        //build file name with time information
-        uploadedFileName += buildFileExtensionWithDate(today);
-        
         //create a group
         File uploadedFile = originEntryGroupService.createGroup(fullFileName);
         PrintStream uploadedFilePrintStream;

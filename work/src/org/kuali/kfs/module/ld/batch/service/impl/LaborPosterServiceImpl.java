@@ -98,7 +98,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     private PrintStream reportPrintStream;
     
     private Map<String,Integer> reportSummary = new HashMap<String,Integer>();
-    int numberOfErrorOriginEntry = 0;
+    int numberOfErrorOriginEntry;
 
     private String batchFileDirectoryName;
 
@@ -114,7 +114,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      */
     public void postMainEntries() {
         LOG.info("postMainEntries() started");
-
+        
         Date runDate = dateTimeService.getCurrentSqlDate();
         String outputFileName = this.postLaborLedgerEntries(runDate);
         //this.postLaborGLEntries(outputFileName, runDate);
@@ -131,7 +131,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     private String postLaborLedgerEntries(Date runDate) {
         LOG.info("postLaborLedgerEntries() started..........................");
         String reportsDirectory = ReportRegistry.getReportsDirectory();
-
+        numberOfErrorOriginEntry = 0;
         // change file name to FIS
 
         String postInputFileName = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.POSTER_INPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;

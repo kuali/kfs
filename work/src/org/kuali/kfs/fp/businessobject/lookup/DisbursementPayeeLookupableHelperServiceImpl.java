@@ -138,7 +138,7 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.VENDOR_NAME, messageKey, vendorNameLabel, firstNameLabel, lastNameLabel);
         }
 
-        if (!GlobalVariables.getErrorMap().isEmpty()) {
+        if (GlobalVariables.getErrorMap().hasErrors()) {
             throw new ValidationException("errors in search criteria");
         }
     }

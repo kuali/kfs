@@ -22,11 +22,11 @@
               description="Map of accounting line fields which this user is allowed to edit" %>
 
 <c:forEach items="${editableAccounts}" var="account">
-  <html:hidden property="editableAccounts(${account.key})" value="${account.key}"/>
+  
 </c:forEach>
 
 <c:forEach items="${editableFields}" var="field">
-  <html:hidden property="accountingLineEditableFields(${field.key})"/>
+  
 </c:forEach>
 
 <c:set var="columnCountUntilAmount" value="8" />
@@ -43,54 +43,11 @@
   <c:set var="baseCtr" value="0"/>
   <logic:iterate indexId="ctr" name="KualiForm" property="document.transactionEntries" id="currentTransaction">
     <table cellpadding="0" class="datatable" summary="Transaction Details">
-       <html:hidden write="false" property="document.transactionEntries[${ctr}].documentNumber"/>
-       <html:hidden write="false" property="document.transactionEntries[${ctr}].financialDocumentTransactionLineNumber"/>
-       <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionPostingDate"/>
-       <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionOriginalCurrencyCode"/>
-       <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionBillingCurrencyCode"/>
-       <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionOriginalCurrencyAmount"/>
-       <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionCurrencyExchangeRate"/>
-       <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionSettlementAmount"/>
-       <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionSalesTaxAmount"/>
-       <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionTaxExemptIndicator"/>
-       <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionPurchaseIdentifierIndicator"/>
-       <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionPurchaseIdentifierDescription"/>
-       <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionUnitContactName"/>
-       <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionTravelAuthorizationCode"/>
-       <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionPointOfSaleCode"/>
-       <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionCycleStartDate"/>
-       <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionCycleEndDate"/>
-       <html:hidden write="false" property="document.transactionEntries[${ctr}].versionNumber"/>
-       <html:hidden write="false" property="document.transactionEntries[${ctr}].procurementCardVendor.documentNumber"/>
-       <html:hidden write="false" property="document.transactionEntries[${ctr}].procurementCardVendor.financialDocumentTransactionLineNumber"/>
-       <html:hidden write="false" property="document.transactionEntries[${ctr}].procurementCardVendor.vendorName"/>
-       <html:hidden write="false" property="document.transactionEntries[${ctr}].procurementCardVendor.vendorLine1Address"/>
-       <html:hidden write="false" property="document.transactionEntries[${ctr}].procurementCardVendor.vendorLine2Address"/>
-       <html:hidden write="false" property="document.transactionEntries[${ctr}].procurementCardVendor.vendorCityName"/>
-       <html:hidden write="false" property="document.transactionEntries[${ctr}].procurementCardVendor.vendorStateCode"/>
-       <html:hidden write="false" property="document.transactionEntries[${ctr}].procurementCardVendor.vendorZipCode"/>
-       <html:hidden write="false" property="document.transactionEntries[${ctr}].procurementCardVendor.visaVendorIdentifier"/>
-       <html:hidden write="false" property="document.transactionEntries[${ctr}].procurementCardVendor.vendorOrderNumber"/>
-       <html:hidden write="false" property="document.transactionEntries[${ctr}].procurementCardVendor.transactionMerchantCategoryCode"/>
-       <html:hidden write="false" property="document.transactionEntries[${ctr}].procurementCardVendor.versionNumber"/>
+       
        
        <%-- write out source (actually from lines) as hiddens since they are not displayed but need repopulated --%>
        <logic:iterate indexId="tCtr" name="KualiForm" property="document.transactionEntries[${ctr}].sourceAccountingLines" id="currentLine">
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].documentNumber"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].financialDocumentTransactionLineNumber"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].sequenceNumber"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].versionNumber"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].chartOfAccountsCode"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].accountNumber"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].postingYear"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].financialObjectCode"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].balanceTypeCode"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].amount"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].subAccountNumber"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].financialSubObjectCode"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].projectCode"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].organizationReferenceId"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].overrideCode"/>
+        
       </logic:iterate>
                                                                                            
        <fin:subheadingWithDetailToggleRow columnCount="4" subheading="Transaction #${currentTransaction.transactionReferenceNumber}"/>
@@ -113,13 +70,13 @@
 	     </tr>
        <tr>
           <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${transactionAttributes.transactionDate}"/></div></th>
-          <td valign=top><html:hidden write="true" property="document.transactionEntries[${ctr}].transactionDate"/></td>
+          <td valign=top></td>
           <th> <div align="right"><kul:htmlAttributeLabel attributeEntry="${transactionAttributes.transactionReferenceNumber}"/></div></th>
           <td valign=top>
             <kul:inquiry boClassName="org.kuali.kfs.fp.businessobject.ProcurementCardTransactionDetail" 
                keyValues="documentNumber=${currentTransaction.documentNumber}&financialDocumentTransactionLineNumber=${currentTransaction.financialDocumentTransactionLineNumber}" 
                render="true">
-              <html:hidden write="true" property="document.transactionEntries[${ctr}].transactionReferenceNumber"/>
+              
             </kul:inquiry>
           </td>
        </tr>   
@@ -129,7 +86,7 @@
             <kul:inquiry boClassName="org.kuali.kfs.fp.businessobject.ProcurementCardVendor" 
                keyValues="documentNumber=${currentTransaction.documentNumber}&financialDocumentTransactionLineNumber=${currentTransaction.financialDocumentTransactionLineNumber}" 
                render="true">
-              <html:hidden write="true" property="document.transactionEntries[${ctr}].procurementCardVendor.vendorName"/>
+              
             </kul:inquiry>  
           </td>
           <th colspan="2"> <div align="left">

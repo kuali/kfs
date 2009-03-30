@@ -111,7 +111,6 @@ public class AssetSeparatePaymentDistributor {
         roundAccountChargeAmount();
         // create offset payments
         createOffsetPayments();
-        this.sourceAsset.getAssetPayments().addAll(this.offsetPayments);
     }
 
     /**
@@ -157,7 +156,7 @@ public class AssetSeparatePaymentDistributor {
             offsetPayment.setPaymentSequenceNumber(++maxPaymentSeqNo);
             this.offsetPayments.add(offsetPayment);
         }
-
+        this.sourceAsset.getAssetPayments().addAll(this.offsetPayments);
     }
 
     /**

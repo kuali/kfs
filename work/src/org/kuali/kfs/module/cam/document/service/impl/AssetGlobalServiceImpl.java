@@ -398,10 +398,20 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         for (AssetGlobalDetail assetGlobalDetail : assetGlobal.getAssetGlobalDetails()) {
             newAssets.add(setupAsset(assetGlobal, assetGlobalDetail, true));
         }
+        // adjust source asset amounts
+        KualiDecimalUtils kualiDecimalUtils = new KualiDecimalUtils();
+        double separateRatio = 1 - (assetGlobal.getSeparateSourceTotalAmount().doubleValue() / assetGlobal.getSeparateSourceCapitalAsset().getTotalCostAmount().doubleValue());
+        separateSourceCapitalAsset.setSalvageAmount(kualiDecimalUtils.safeMultiply(assetGlobal.getSeparateSourceCapitalAsset().getSalvageAmount(), separateRatio));
+        separateSourceCapitalAsset.setReplacementAmount(kualiDecimalUtils.safeMultiply(assetGlobal.getSeparateSourceCapitalAsset().getReplacementAmount(), separateRatio));
+        separateSourceCapitalAsset.setFabricationEstimatedTotalAmount(kualiDecimalUtils.safeMultiply(assetGlobal.getSeparateSourceCapitalAsset().getFabricationEstimatedTotalAmount(), separateRatio));
+        separateSourceCapitalAsset.setLastInventoryDate(new Timestamp(assetGlobal.getLastInventoryDate().getTime()));
+
         Integer maxSequenceNumber = SpringContext.getBean(AssetPaymentService.class).getMaxSequenceNumber(separateSourceCapitalAsset.getCapitalAssetNumber());
         // Add to the save list
         AssetSeparatePaymentDistributor distributor = new AssetSeparatePaymentDistributor(separateSourceCapitalAsset, sourcePayments, maxSequenceNumber, assetGlobal, newAssets);
         distributor.distribute();
+        // re-compute the source total cost amount after split
+        separateSourceCapitalAsset.setTotalCostAmount(getPaymentSummaryService().calculatePaymentTotalCost(separateSourceCapitalAsset));
         List<PersistableBusinessObject> persistables = new ArrayList<PersistableBusinessObject>();
         persistables.add(separateSourceCapitalAsset);
         persistables.addAll(newAssets);
@@ -434,8 +444,9 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         // set specific values for new assets if document is Asset Separate
         if (separate) {
             double separateRatio = assetGlobalDetail.getSeparateSourceAmount().doubleValue() / assetGlobal.getSeparateSourceCapitalAsset().getTotalCostAmount().doubleValue();
-
             asset.setSalvageAmount(kualiDecimalUtils.safeMultiply(assetGlobal.getSeparateSourceCapitalAsset().getSalvageAmount(), separateRatio));
+            asset.setReplacementAmount(kualiDecimalUtils.safeMultiply(assetGlobal.getSeparateSourceCapitalAsset().getReplacementAmount(), separateRatio));
+            asset.setFabricationEstimatedTotalAmount(kualiDecimalUtils.safeMultiply(assetGlobal.getSeparateSourceCapitalAsset().getFabricationEstimatedTotalAmount(), separateRatio));
             asset.setLastInventoryDate(new Timestamp(assetGlobal.getLastInventoryDate().getTime()));
         }
 

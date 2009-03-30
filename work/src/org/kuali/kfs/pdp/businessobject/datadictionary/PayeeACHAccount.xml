@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="PayeeACHAccount-lookupDefinition" />
     </property>
+    <property name="titleAttribute" value="payeeIdentifierTypeCode" />
     <property name="objectLabel" value="Payee Account Clearing House Account" />
     <property name="attributes" >
       <list>

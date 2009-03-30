@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="BalanceType-lookupDefinition" />
     </property>
+    <property name="titleAttribute" value="code" />    
     <property name="objectLabel" value="Balance Type" />
     <property name="attributes" >
       <list>

@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="BudgetRecordingLevel-lookupDefinition" />
     </property>
+    <property name="titleAttribute" value="code" />
     <property name="objectLabel" value="Budget Recording Level" />
     <property name="attributes" >
       <list>
@@ -75,7 +76,7 @@
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Budget Recording Level Details" />
+          <property name="title" value="" />
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
@@ -102,6 +103,11 @@
     <property name="instructions" value="Look up a Budget Recording Level Code" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>code</value>
+          </list>
+        </property>
       </bean>
     </property>
     <property name="lookupFields" >

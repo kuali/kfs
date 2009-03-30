@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="BasicAccountingCategory-lookupDefinition" />
     </property>
+    <property name="titleAttribute" value="code" />
     <property name="objectLabel" value="Basic Accounting Category" />
     <property name="attributes" >
       <list>
@@ -139,6 +140,11 @@
     <property name="instructions" value="Look up an Basic Accounting Category" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>code</value>
+          </list>
+        </property>
       </bean>
     </property>
     <property name="lookupFields" >

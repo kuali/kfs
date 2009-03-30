@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="FiscalYearFunctionControl-lookupDefinition" />
     </property>
+    <property name="titleAttribute" value="financialSystemFunctionControlCode" />
     <property name="objectLabel" value="Fiscal Year Function Control" />
     <property name="attributes" >
       <list>

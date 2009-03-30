@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="UnitOfMeasure-lookupDefinition" />
     </property>
+    <property name="titleAttribute" value="itemUnitOfMeasureCode" />
     <property name="objectLabel" value="Unit Of Measure" />
     <property name="attributes" >
       <list>
@@ -102,6 +103,11 @@
     <property name="instructions" value="Look up a Unit Of Measure" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>itemUnitOfMeasureCode</value>
+          </list>
+        </property>
       </bean>
     </property>
     <property name="lookupFields" >

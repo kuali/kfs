@@ -169,7 +169,7 @@
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Project Code Attributes" />
+          <property name="title" value="" />
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>

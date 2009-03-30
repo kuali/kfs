@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="AccountingPeriod-lookupDefinition" />
     </property>
+    <property name="titleAttribute" value="universityFiscalPeriodCode" />    
     <property name="objectLabel" value="Accounting Period" />
     <property name="attributes" >
       <list>
@@ -155,6 +156,11 @@
     <property name="instructions" value="Lookup an Accounting Period" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>universityFiscalPeriodCode</value>
+          </list>
+        </property>
         <property name="sortAscending" value="false" />
       </bean>
     </property>

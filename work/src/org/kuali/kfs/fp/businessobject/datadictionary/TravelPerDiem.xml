@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="TravelPerDiem-lookupDefinition" />
     </property>
+    <property name="titleAttribute" value="perDiemCountryName" />
     <property name="objectLabel" value="Disbursement Voucher Travel Per Diem" />
     <property name="attributes" >
       <list>

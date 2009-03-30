@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="BudgetAggregationCode-lookupDefinition" />
     </property>
+    <property name="titleAttribute" value="code" />
     <property name="objectLabel" value="Budget Aggregation Code" />
     <property name="attributes" >
       <list>

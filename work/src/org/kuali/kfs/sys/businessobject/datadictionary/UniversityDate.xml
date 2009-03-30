@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="UniversityDate-lookupDefinition" />
     </property>
+    <property name="titleAttribute" value="universityDate" />
     <property name="objectLabel" value="University Date" />
     <property name="attributes" >
       <list>

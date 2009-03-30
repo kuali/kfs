@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="DisbursementVoucherDocumentationLocation-lookupDefinition" />
     </property>
+    <property name="titleAttribute" value="disbursementVoucherDocumentationLocationCode" />
     <property name="objectLabel" value="Disbursement Voucher Documentation Location" />
     <property name="attributes" >
       <list>

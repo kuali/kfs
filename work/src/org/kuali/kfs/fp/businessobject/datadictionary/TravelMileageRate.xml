@@ -14,6 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="TravelMileageRate-lookupDefinition" />
     </property>
+    <property name="titleAttribute" value="disbursementVoucherMileageEffectiveDate" />
     <property name="objectLabel" value="Disbursement Voucher Travel Mileage Rate" />
     <property name="attributes" >
       <list>

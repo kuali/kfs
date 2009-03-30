@@ -16,6 +16,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="lookupDefinition" >
       <ref bean="ACHBank-lookupDefinition" />
     </property>
+    <property name="titleAttribute" value="bankRoutingNumber" />
     <property name="objectLabel" value="Account Clearing House Bank" />
     <property name="attributes" >
       <list>

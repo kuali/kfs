@@ -13,6 +13,7 @@
     <property name="inquiryDefinition" >
       <ref bean="PositionObjectGroup-inquiryDefinition" />
     </property>
+    <property name="titleAttribute" value="positionObjectGroupCode" />
     <property name="lookupDefinition" >
       <ref bean="PositionObjectGroup-lookupDefinition" />
     </property>
@@ -104,6 +105,11 @@
     <property name="instructions" value="Look up a Labor Object Group" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">
+      	<property name="attributeNames">
+      		<list>
+      			<value>positionObjectGroupCode</value>
+      		</list>
+      	</property>
       </bean>
     </property>
     <property name="lookupFields" >

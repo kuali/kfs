@@ -93,6 +93,8 @@
                     p:attributeName="code" />
               <bean parent="FieldDefinition"
                     p:attributeName="name" />
+        <bean parent="FieldDefinition"
+              p:attributeName="prepaidExpense" />
               <bean parent="FieldDefinition"
                     p:attributeName="active" />
             </list>

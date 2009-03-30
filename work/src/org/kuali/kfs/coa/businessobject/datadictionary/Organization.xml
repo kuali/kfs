@@ -681,7 +681,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
+          <property name="title" value="Organization Details" />
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
@@ -791,7 +791,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="Organization-lookupDefinition" parent="Organization-lookupDefinition-parentBean" />
 
   <bean id="Organization-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Organization Details Lookup" />
+    <property name="title" value="Organization Lookup" />
     <property name="instructions" value="Lookup an Organization" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">

@@ -116,7 +116,7 @@
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
+          <property name="title" value="Organization Reversion" />
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>

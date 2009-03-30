@@ -89,7 +89,7 @@
                   readOnly="false"
                   displayHidden="false"
                   lookupOrInquiryKeys="universityFiscalYear,chartOfAccountsCode"
-                  lookupUnkeyedFieldConversions="financialObjectTypeCode:newExpenditureLine.financialObjectTypeCode,"
+                  lookupParameters="expenditureObjectTypeCodesLookup:financialObjectTypeCode"
                   accountingLineValuesMap="${newExpenditureLine.valuesMap}"
                   inquiryExtraKeyValues="universityFiscalYear=${KualiForm.document.universityFiscalYear}"
                   anchor="expenditurenewLineLineAnchor" />

@@ -60,4 +60,13 @@ public interface WorkflowAttributePropertyResolutionService {
      * @return the String constrant representing what Field#fieldDataType this represents
      */
     public abstract String determineFieldDataType(Class<? extends BusinessObject> businessObjectClass, String attributeName);
+    
+    /**
+     * Using the type of the sent in value, determines what kind of SearchableAttributeValue implementation should be passed back 
+     * @param attributeKey
+     * @param value
+     * @return
+     */
+    public SearchableAttributeValue buildSearchableAttribute(Class<? extends BusinessObject> businessObjectClass, String attributeKey, Object value);
+    
 }

@@ -272,7 +272,7 @@ public class WorkflowAttributePropertyResolutionServiceImpl implements WorkflowA
      * @param value
      * @return
      */
-    protected SearchableAttributeValue buildSearchableAttribute(Class<? extends BusinessObject> businessObjectClass, String attributeKey, Object value) {
+    public SearchableAttributeValue buildSearchableAttribute(Class<? extends BusinessObject> businessObjectClass, String attributeKey, Object value) {
         if (value == null) return null;
         final String fieldDataType = determineFieldDataType(businessObjectClass, attributeKey);
         if (fieldDataType.equals(SearchableAttribute.DATA_TYPE_STRING)) return buildSearchableStringAttribute(attributeKey, value); // our most common case should go first

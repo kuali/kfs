@@ -234,9 +234,8 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
         final Object propertyValue = ObjectUtils.getPropertyValue(bo, propertyName);
         if (propertyValue == null) return null;
 
-        SearchableAttributeStringValue value = new SearchableAttributeStringValue();
-        value.setSearchableAttributeKey(propertyName);
-        value.setSearchableAttributeValue(propertyValue.toString());
+        final WorkflowAttributePropertyResolutionService propertyResolutionService = SpringContext.getBean(WorkflowAttributePropertyResolutionService.class);
+        SearchableAttributeValue value = propertyResolutionService.buildSearchableAttribute(businessObjectClass, propertyName, propertyValue);
         return value;
     }
 
@@ -353,7 +352,8 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
             }
             
             Field searchField = FieldUtils.getPropertyField(businessObjectClass, attributeName, false);
-            searchField.setFieldDataType(propertyResolutionService.determineFieldDataType(businessObjectClass, attributeName));
+            String dataType = propertyResolutionService.determineFieldDataType(businessObjectClass, attributeName);
+            searchField.setFieldDataType(dataType);
             List<Field> fieldList = new ArrayList<Field>();
             
             List displayedFieldNames = new ArrayList();

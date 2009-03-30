@@ -652,21 +652,8 @@ public class AssetGlobalMaintainableImpl extends FinancialSystemGlobalMaintainab
         if (((AssetGlobal) getBusinessObject()).isCapitalAssetBuilderOriginIndicator()) {
             SpringContext.getBean(CapitalAssetBuilderModuleService.class).notifyRouteStatusChange(documentHeader);
         }
-        removeAssetLock(documentHeader);
     }
 
-    /**
-     * Removes the asset lock if any found
-     * 
-     * @param documentHeader DocumentHeader
-     */
-    private void removeAssetLock(DocumentHeader documentHeader) {
-        // Remove the lock when document is processed/canceled/disapproved
-        KualiWorkflowDocument workflowDocument = documentHeader.getWorkflowDocument();
-        if (workflowDocument.stateIsProcessed() || workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved()) {
-            SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(documentHeader.getDocumentNumber());
-        }
-    }
 
     /**
      * @see org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl#getPrimaryEditedBusinessObjectClass()

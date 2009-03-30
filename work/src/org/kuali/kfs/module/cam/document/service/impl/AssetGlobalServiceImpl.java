@@ -404,7 +404,6 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         separateSourceCapitalAsset.setSalvageAmount(kualiDecimalUtils.safeMultiply(assetGlobal.getSeparateSourceCapitalAsset().getSalvageAmount(), separateRatio));
         separateSourceCapitalAsset.setReplacementAmount(kualiDecimalUtils.safeMultiply(assetGlobal.getSeparateSourceCapitalAsset().getReplacementAmount(), separateRatio));
         separateSourceCapitalAsset.setFabricationEstimatedTotalAmount(kualiDecimalUtils.safeMultiply(assetGlobal.getSeparateSourceCapitalAsset().getFabricationEstimatedTotalAmount(), separateRatio));
-        separateSourceCapitalAsset.setLastInventoryDate(new Timestamp(assetGlobal.getLastInventoryDate().getTime()));
 
         Integer maxSequenceNumber = SpringContext.getBean(AssetPaymentService.class).getMaxSequenceNumber(separateSourceCapitalAsset.getCapitalAssetNumber());
         // Add to the save list

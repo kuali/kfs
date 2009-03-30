@@ -1037,9 +1037,9 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     private void createSeparateLock(AssetGlobal assetGlobal) {
         if (SpringContext.getBean(AssetGlobalService.class).isAssetSeparate(assetGlobal)) {
             MaintenanceDocumentService maintenanceDocumentService = SpringContext.getBean(MaintenanceDocumentService.class);
-            AssetService assetService = SpringContext.getBean(AssetService.class);
             maintenanceDocumentService.deleteLocks(assetGlobal.getDocumentNumber());
             List<MaintenanceLock> maintenanceLocks = new ArrayList<MaintenanceLock>();
+            AssetService assetService = SpringContext.getBean(AssetService.class);
             maintenanceLocks.add(assetService.generateAssetLock(assetGlobal.getDocumentNumber(), assetGlobal.getSeparateSourceCapitalAssetNumber()));
             maintenanceDocumentService.storeLocks(maintenanceLocks);
         }

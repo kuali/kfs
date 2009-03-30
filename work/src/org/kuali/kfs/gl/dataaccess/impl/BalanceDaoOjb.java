@@ -762,12 +762,15 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
 
         Criteria forCGCrit = new Criteria();
         if (parameterService.getIndicatorParameter(Account.class, KFSConstants.ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG)) {
-            forCGCrit.addEqualTo("priorYearAccount.subFundGroup.fundGroupCode", subFundGroupService.getContractsAndGrantsDenotingValue());
+           for (String value : subFundGroupService.getContractsAndGrantsDenotingValues()) {
+               forCGCrit.addEqualTo("priorYearAccount.subFundGroup.fundGroupCode", value);
+           }
+        } else {
+            for (String value : subFundGroupService.getContractsAndGrantsDenotingValues()) {
+                forCGCrit.addEqualTo("priorYearAccount.subFundGroupCode", value);
+            }
         }
-        else {
-            forCGCrit.addEqualTo("priorYearAccount.subFundGroupCode", subFundGroupService.getContractsAndGrantsDenotingValue());
-        }
-
+ 
         Criteria subFundGroupCrit = new Criteria();
         subFundGroupCrit.addIn("priorYearAccount.subFundGroupCode", subFundGroupsForCumulativeBalanceForwarding);
         forCGCrit.addOrCriteria(subFundGroupCrit);

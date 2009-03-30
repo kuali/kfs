@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.coa.service.impl;
 
+import java.util.List;
+
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.FundGroup;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
@@ -41,10 +43,13 @@ public class SubFundGroupServiceImpl implements SubFundGroupService {
             return false;
         }
         else if (fundGroupDenotesContractsAndGrants()) {
-            return getContractsAndGrantsDenotingValue().equals(subFundGroup.getFundGroupCode());
+            return parameterService.getParameterEvaluator(Account.class, KFSConstants.ChartApcParms.ACCOUNT_CG_DENOTING_VALUE, subFundGroup.getFundGroupCode()).evaluationSucceeds();
+    //      return getContractsAndGrantsDenotingValue(subFundGroup.getFundGroupCode());
         }
         else {
-            return getContractsAndGrantsDenotingValue().equals(subFundGroup.getSubFundGroupCode());
+            return parameterService.getParameterEvaluator(Account.class, KFSConstants.ChartApcParms.ACCOUNT_CG_DENOTING_VALUE, subFundGroup.getSubFundGroupCode()).evaluationSucceeds();
+
+           //return getContractsAndGrantsDenotingValue(subFundGroup.getSubFundGroupCode());
         }
     }
 
@@ -75,10 +80,18 @@ public class SubFundGroupServiceImpl implements SubFundGroupService {
 
 
     /**
-     * @see org.kuali.kfs.coa.service.SubFundGroupService#getContractsAndGrantsDenotingValue()
+     * @see org.kuali.kfs.coa.service.SubFundGroupService#getContractsAndGrantsDenotingValues()
      */
-    public String getContractsAndGrantsDenotingValue() {
-        return parameterService.getParameterValue(Account.class, KFSConstants.ChartApcParms.ACCOUNT_CG_DENOTING_VALUE);
+    public List<String> getContractsAndGrantsDenotingValues() {
+        return parameterService.getParameterValues(Account.class, KFSConstants.ChartApcParms.ACCOUNT_CG_DENOTING_VALUE);
+    }
+    
+    
+    /**
+     * @see org.kuali.kfs.coa.service.SubFundGroupService#getContractsAndGrantsDenotingValueForMessage()
+     */
+    public String getContractsAndGrantsDenotingValueForMessage() {
+        return parameterService.getParameterEvaluator(Account.class, KFSConstants.ChartApcParms.ACCOUNT_CG_DENOTING_VALUE).getParameterValuesForMessage();
     }
 
     /**

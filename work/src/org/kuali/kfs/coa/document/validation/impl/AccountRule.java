@@ -732,7 +732,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
      */
     private String replaceTokens(String errorConstant) {
         String cngLabel = getSubFundGroupService().getContractsAndGrantsDenotingAttributeLabel();
-        String cngValue = getSubFundGroupService().getContractsAndGrantsDenotingValue();
+        String cngValue = getSubFundGroupService().getContractsAndGrantsDenotingValueForMessage();
         String result = getKualiConfigurationService().getPropertyString(errorConstant);
         result = StringUtils.replace(result, "{0}", cngLabel);
         result = StringUtils.replace(result, "{1}", cngValue);

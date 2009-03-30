@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.coa.service;
 
+import java.util.List;
+
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 
 /**
@@ -65,8 +67,16 @@ public interface SubFundGroupService {
 
     /**
      * 
-     * This retrieves the appropriate value for Contracts and Grants
+     * This check is the specified code is related to Contracts and Grants
      * @return string representation of the Contracts and Grants value
      */
-    public String getContractsAndGrantsDenotingValue();
+    public List<String> getContractsAndGrantsDenotingValues();
+    
+    /**
+     * This retrieves the SubFundGroupCodes of Contracts and Grants 
+     * @return string representation of Contracts and Grants value formatted for messages
+     * This method...
+     * @return
+     */
+    public String getContractsAndGrantsDenotingValueForMessage();
 }

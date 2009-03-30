@@ -75,7 +75,10 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
             Properties theProperties = new Properties();
             theProperties.put("channelTitle", "Shop Catalogs");
             String b2bUrlString = "&channelUrl=b2b.do?methodToCall=shopCatalogs";
-            String href = UrlFactory.parameterizeUrl(getBackLocation(), theProperties);            
+            String backLocation = this.getBackLocation();
+            int lastSlash = backLocation.lastIndexOf("/");
+            String returnUrlForShop = backLocation.substring(0, lastSlash+1) + "portal.do";
+            String href = UrlFactory.parameterizeUrl(returnUrlForShop, theProperties);            
             anchorHtmlDataList.add(new AnchorHtmlData(href + b2bUrlString, null, "shop"));
         }
         return anchorHtmlDataList;

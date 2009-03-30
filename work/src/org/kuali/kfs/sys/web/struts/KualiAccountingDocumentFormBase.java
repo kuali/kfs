@@ -42,6 +42,7 @@ import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.exception.InfrastructureException;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.format.CurrencyFormatter;
 
@@ -438,5 +439,26 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
     protected void customInitMaxUploadSizes() {
         super.customInitMaxUploadSizes();
         addMaxUploadSize(SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.FINANCIAL_SYSTEM_DOCUMENT.class, KFSConstants.ACCOUNTING_LINE_IMPORT_MAX_FILE_SIZE_PARM_NM));
+    }
+    
+    /**
+     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#shouldMethodToCallParameterBeUsed(java.lang.String, java.lang.String, javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {                
+        if(StringUtils.equals(methodToCallParameterName, KNSConstants.DISPATCH_REQUEST_PARAMETER)) {
+            if(this.getExcludedmethodToCall().contains(methodToCallParameterValue)) {
+                return true;
+            }
+        }
+        return super.shouldMethodToCallParameterBeUsed(methodToCallParameterName, methodToCallParameterValue, request);
+    }
+    
+    /**
+     * get the names of the methods to call that can be excluded from the "be used" check.
+     * @return the names of the methods to call that can be excluded from the "be used" check 
+     */
+    protected List<String> getExcludedmethodToCall() {
+        return new ArrayList<String>();
     }
 }

@@ -38,6 +38,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLineBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.exception.IllegalObjectStateException;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Budget
@@ -353,7 +354,7 @@ public class BudgetDocument extends ResearchDocumentBase {
             list.add(new ArrayList());
         }
 
-        if (budget.getModularBudget() != null) {
+        if (ObjectUtils.isNotNull(budget.getModularBudget())) {
             list.add(budget.getModularBudget().getBudgetModularPeriods());
         }
         else {
@@ -407,7 +408,7 @@ public class BudgetDocument extends ResearchDocumentBase {
         
         for (AdhocOrg adHocOrganization : this.getAdhocOrgs()) {
             final Organization org = organizationService.getByPrimaryId(adHocOrganization.getFiscalCampusCode(), adHocOrganization.getPrimaryDepartmentCode());
-            if (org != null) {
+            if (ObjectUtils.isNotNull(org)) {
                 organizations.add(org);
             }
         }
@@ -425,7 +426,7 @@ public class BudgetDocument extends ResearchDocumentBase {
         for (BudgetInstitutionCostShare costShare : getBudget().getInstitutionCostShareItems()) {
             if (costShare.isPermissionIndicator() || costSharePermissionCode.equals(CGConstants.COST_SHARE_PERMISSION_CODE_TRUE)) {
                 final Organization org = organizationService.getByPrimaryId(costShare.getChartOfAccountsCode(), (costShare.getOrganizationCode() != "" ? costShare.getOrganizationCode() : ""));
-                if (org != null) {
+                if (ObjectUtils.isNotNull(org)) {
                     organizations.add(org);
                 }
             }

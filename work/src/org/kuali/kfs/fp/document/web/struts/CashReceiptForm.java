@@ -275,4 +275,14 @@ public class CashReceiptForm extends KualiAccountingDocumentFormBase implements 
     public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
         this.capitalAssetInformation = capitalAssetInformation;        
     }
+    
+    /**
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase#getExcludedmethodToCall()
+     */
+    protected List<String> getExcludedmethodToCall() {
+        List<String> execludedMethodToCall = super.getExcludedmethodToCall();
+        execludedMethodToCall.add("printCoverSheet");
+        
+        return execludedMethodToCall;
+    } 
 }

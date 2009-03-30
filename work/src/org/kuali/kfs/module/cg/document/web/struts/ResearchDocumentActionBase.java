@@ -132,8 +132,8 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
             AdhocPerson newAdHocPermission = researchForm.getNewAdHocPerson();
             Person user = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(adHocRoutePerson.getId());
             newAdHocPermission.setPrincipalId(user.getPrincipalId());
-            // TODO: FIXME
-            //user.setPrincipalName(StringUtils.upperCase(user.getPrincipalName()));
+            newAdHocPermission.setPrincipalName(user.getPrincipalName());
+
             if (adHocRoutePerson.getActionRequested() == null || StringUtils.isBlank(adHocRoutePerson.getActionRequested())) {
                 newAdHocPermission.setAdhocTypeCode(CGConstants.AD_HOC_PERMISSION);
             }

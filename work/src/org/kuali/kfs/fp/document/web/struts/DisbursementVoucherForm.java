@@ -15,9 +15,12 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeExpense;
@@ -32,6 +35,7 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.kns.service.KeyValuesService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.format.SimpleBooleanFormatter;
 
 /**
@@ -262,5 +266,29 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
     public boolean isVendor() {
         DisbursementVoucherDocument disbursementVoucherDocument = (DisbursementVoucherDocument) this.getDocument();       
         return disbursementVoucherDocument.getDvPayeeDetail().isVendor();
+    }
+
+    /**
+     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#shouldMethodToCallParameterBeUsed(java.lang.String, java.lang.String, javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {                
+        if(StringUtils.equals(methodToCallParameterName, KNSConstants.DISPATCH_REQUEST_PARAMETER)) {
+            if(this.getExcludedmethodToCall().contains(methodToCallParameterValue)) {
+                return true;
+            }
+        }
+        return super.shouldMethodToCallParameterBeUsed(methodToCallParameterName, methodToCallParameterValue, request);
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase#getExcludedmethodToCall()
+     */
+    protected List<String> getExcludedmethodToCall() {
+        List<String> execludedMethodToCall = super.getExcludedmethodToCall();
+        execludedMethodToCall.add("printDisbursementVoucherCoverSheet");
+        execludedMethodToCall.add("showTravelPerDiemLinks");
+        
+        return execludedMethodToCall;
     }
 }

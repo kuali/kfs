@@ -24,24 +24,32 @@ import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
  * This provides methods specific to system parameters for the Budget module
  */
 public interface BudgetParameterService {
-    
+
     /**
-     * Returns a system parameter value as a list. If the parameter doesn't exist,
-     * a null list is returned and an info message is written to the log
-     *  
+     * Returns a system parameter value as a list. If the parameter doesn't exist, a null list is returned and an info message is
+     * written to the log
+     * 
      * @param componentClass
      * @param parameterName
      * @return
      */
     public List getParameterValues(Class componentClass, String parameterName);
-    
+
     /**
-     * determines if a BudgetConstructionDocument's account is a salary setting only account
-     * returns AccountSalarySettingOnlyCause.NONE if not and if both system parameters don't exist
+     * determines if a BudgetConstructionDocument's account is a salary setting only account returns
+     * AccountSalarySettingOnlyCause.NONE if not and if both system parameters don't exist
      * 
      * @param bcDoc
      * @return
      */
     public AccountSalarySettingOnlyCause isSalarySettingOnlyAccount(BudgetConstructionDocument bcDoc);
 
+    /**
+     * returns a string containing the allowed revenue or expenditure object types setup in the Budget Construction parameter space.
+     * this string is typically used in the lookup search criteria
+     * 
+     * @param isRevenue
+     * @return
+     */
+    public String getLookupObjectTypes(boolean isRevenue);
 }

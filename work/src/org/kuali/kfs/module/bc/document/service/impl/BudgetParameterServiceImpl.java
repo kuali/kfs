@@ -17,6 +17,7 @@ package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.util.List;
 
+import org.kuali.kfs.module.bc.BCParameterKeyConstants;
 import org.kuali.kfs.module.bc.BCConstants.AccountSalarySettingOnlyCause;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.service.BudgetParameterService;
@@ -76,6 +77,35 @@ public class BudgetParameterServiceImpl implements BudgetParameterService {
         }
 
         return retVal;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetParameterService#getLookupObjectTypes(boolean)
+     * this implementation returns a string where the values are separated by the OR symbol. 
+     */
+    public String getLookupObjectTypes(boolean isRevenue) {
+
+        List<String> objectTypes;
+        if (isRevenue) {
+            objectTypes = BudgetParameterFinder.getRevenueObjectTypes();
+        }
+        else {
+            objectTypes = BudgetParameterFinder.getExpenditureObjectTypes();
+        }
+        StringBuffer lookupBuilder = new StringBuffer(150);
+
+        if (objectTypes.isEmpty()) {
+            // for an empty list, return an empty string
+            return new String("");
+        }
+        else {
+            lookupBuilder.append(objectTypes.get(0));
+            for (int idx = 1; idx < objectTypes.size(); idx++) {
+                lookupBuilder.append("|");
+                lookupBuilder.append(objectTypes.get(idx));
+            }
+        }
+        return lookupBuilder.toString();
     }
 
     /**

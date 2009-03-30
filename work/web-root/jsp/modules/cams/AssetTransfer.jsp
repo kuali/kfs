@@ -59,7 +59,12 @@
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${organizationAttributes.organizationCode}" readOnly="true" /></th>
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.oldOrganizationOwnerAccount.organizationCode" attributeEntry="${organizationAttributes.organizationCode}" readOnly="true"/></td>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${organizationAttributes.organizationCode}" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.organizationOwnerAccount.organizationCode" attributeEntry="${organizationAttributes.organizationCode}" readOnly="true" /></td>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.organizationOwnerAccount.organizationCode" attributeEntry="${organizationAttributes.organizationCode}" readOnly="${readOnly}" />
+					<c:if test="${not readOnly}">
+						&nbsp;
+		                <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Organization" fieldConversions="organizationCode:document.organizationOwnerAccount.organizationCode,chartOfAccountsCode:document.organizationOwnerChartOfAccountsCode" lookupParameters="document.organizationOwnerAccount.organizationCode:organizationCode,document.organizationOwnerChartOfAccountsCode:chartOfAccountsCode" />
+	                </c:if>
+	            </td>
 			</tr>
 			<tr>
 				<td class="tab-subhead" colspan="4" width="100%">Interdepartmental Sale</td>

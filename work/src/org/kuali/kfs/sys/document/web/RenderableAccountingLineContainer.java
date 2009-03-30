@@ -349,9 +349,9 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
     /**
      * @see org.kuali.kfs.sys.document.web.AccountingLineRenderingContext#isFieldModifyable(org.kuali.kfs.sys.document.web.AccountingLineViewField)
      */
-    public boolean isFieldModifyable(AccountingLineViewField field) {
+    public boolean isFieldModifyable(String fieldName) {
         Person currentUser = GlobalVariables.getUserSession().getPerson();
-        return getForm().getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT) && accountingLineAuthorizer.hasEditPermissionOnField(getAccountingDocument(), accountingLine, this.accountingLineProperty, field.getName(), currentUser);
+        return getForm().getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT) && accountingLineAuthorizer.hasEditPermissionOnField(getAccountingDocument(), accountingLine, this.accountingLineProperty, fieldName, currentUser);
     }
 
     /**

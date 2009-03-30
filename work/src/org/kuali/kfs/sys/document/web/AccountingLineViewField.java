@@ -192,7 +192,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
         List errors = renderingContext.getErrors();
         
         this.getField().setPropertyPrefix(accountingLineProperty);
-        if (!renderingContext.isFieldModifyable(this)) {
+        if (!renderingContext.isFieldModifyable(this.getName())) {
             this.getField().setReadOnly(true);
         }
 

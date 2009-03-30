@@ -122,10 +122,10 @@ public interface AccountingLineRenderingContext {
     
     /**
      * Determines whether a field is modifyable or not
-     * @param field the field to test
+     * @param fieldName the simple name (that is, the name does not include the collection property) of the field
      * @return true if the field can be modified, false if the field can only be read
      */
-    public abstract boolean isFieldModifyable(AccountingLineViewField field);
+    public abstract boolean isFieldModifyable(String fieldName);
     
     /**
      * Determines whether the accounting line is - as a whole line - editable or not

@@ -99,6 +99,9 @@ public class AccountingLineViewDebitCreditAmountField implements RenderableEleme
      * @see org.kuali.kfs.sys.document.web.RenderableElement#renderElement(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag, org.kuali.kfs.sys.document.web.AccountingLineRenderingContext)
      */
     public void renderElement(PageContext pageContext, Tag parentTag, AccountingLineRenderingContext renderingContext) throws JspException {
+        if (!renderingContext.isFieldModifyable(debitOrCreditField.getPropertyName())) {
+            debitOrCreditField.setReadOnly(true);
+        }
         FieldRenderer renderer = SpringContext.getBean(AccountingLineRenderingService.class).getFieldRendererForField(getDebitOrCreditField(), renderingContext.getAccountingLine());
         if (renderer != null) {
             prepareFieldForRendering(getDebitOrCreditField(), (VoucherForm)renderingContext.getForm(), renderingContext.getCurrentLineCount());

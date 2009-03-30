@@ -24,7 +24,9 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorKeyConstants;
 import org.kuali.kfs.vnd.VendorParameterConstants;
@@ -70,11 +72,12 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
             anchorHtmlDataList.add(super.getUrlData(
                     businessObject, KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION, VendorConstants.CREATE_DIVISION, pkNames));
         }
+        
         //Adding a "Shopping" link for B2B vendors.
-        if (vendor.isB2BVendor()) {
+        String b2bUrlString = SpringContext.getBean(PurchasingAccountsPayableModuleService.class).getB2BUrlString();
+        if (vendor.isB2BVendor() && StringUtils.isNotBlank(b2bUrlString)) {
             Properties theProperties = new Properties();
             theProperties.put("channelTitle", "Shop Catalogs");
-            String b2bUrlString = "&channelUrl=b2b.do?methodToCall=shopCatalogs";
             String backLocation = this.getBackLocation();
             int lastSlash = backLocation.lastIndexOf("/");
             String returnUrlForShop = backLocation.substring(0, lastSlash+1) + "portal.do";

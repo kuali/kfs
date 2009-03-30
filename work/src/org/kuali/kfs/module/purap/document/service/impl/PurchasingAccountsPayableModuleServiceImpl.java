@@ -185,6 +185,10 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
 
     }
 
+    public String getB2BUrlString() {
+        return PurapConstants.B2B_URL_STRING;    
+    }
+    
     public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService) {
         this.purchaseOrderService = purchaseOrderService;
     }

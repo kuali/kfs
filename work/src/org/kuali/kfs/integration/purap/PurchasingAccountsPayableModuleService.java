@@ -68,4 +68,14 @@ public interface PurchasingAccountsPayableModuleService {
 
     public void handlePurchasingBatchPaids(String documentNumber, String financialSystemDocumentTypeCode, Date processDate);
 
+    /**
+     * Returns the string value for the b2b that would be used as part of the urls in the
+     * Actions url column in vendor search for the "shop" link for B2B vendor. If you 
+     * don't wish to implement the "shop" feature in KFS then you can set this string to
+     * an empty string.
+     * 
+     * @return b2bUrlString
+     */
+    public String getB2BUrlString();
+    
 }

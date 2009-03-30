@@ -150,7 +150,8 @@ public class PurapConstants extends JSTLConstants {
 
     public static final String REQ_B2B_ALLOW_COPY_DAYS = "5";
     public static final String B2B_VENDOR_CONTRACT_NOT_FOUND_ERROR_MESSAGE = "The vendor whose shopping cart you are attempting to return does not have an active contract for your organization.";
-
+    public static final String B2B_URL_STRING = "&channelUrl=b2b.do?methodToCall=shopCatalogs";
+    
     public static class RequisitionSources {
         public static final String STANDARD_ORDER = "STAN";
         public static final String B2B = "B2B";
@@ -1120,4 +1121,6 @@ public class PurapConstants extends JSTLConstants {
         public static final String ATTACHMENT_TYPE_RFP_RESPONSES = "RFP Responses";
         public static final String ATTACHMENT_TYPE_TAX_DOCUMENTS = "Tax Documents";
     }
+    
+    
 }

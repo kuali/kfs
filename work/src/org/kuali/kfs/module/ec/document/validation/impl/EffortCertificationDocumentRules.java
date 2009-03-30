@@ -113,7 +113,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
      *      org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail)
      */
     public boolean processUpdateDetailLineRules(EffortCertificationDocument document, EffortCertificationDetail detailLine) {
-        LOG.info("processAddLineBusinessRules() start");
+        LOG.info("processUpdateDetailLineRules() start");
 
         if (!this.processAddDetailLineRules(document, detailLine)) {
             return false;

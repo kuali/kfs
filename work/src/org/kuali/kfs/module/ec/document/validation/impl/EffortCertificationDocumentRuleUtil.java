@@ -293,7 +293,7 @@ public class EffortCertificationDocumentRuleUtil {
         
         KualiDecimal difference = KualiDecimal.ZERO;
         
-        Integer originalEffortPercent = (orignalPayrollAmount.divide(originalTotalAmount).multiply(HUNDRED_DOLLAR_AMOUNT)).intValue();
+        Integer originalEffortPercent = detailLine.getEffortCertificationCalculatedOverallPercent();
         Integer effortPercent = detailLine.getEffortCertificationUpdatedOverallPercent();
         
         if (isOrinalEffortPercentSameAsCurrentEffortPercent(originalEffortPercent, effortPercent)) {
@@ -303,7 +303,7 @@ public class EffortCertificationDocumentRuleUtil {
             KualiDecimal calculatedPayrollAmount = PayrollAmountHolder.recalculatePayrollAmount(originalTotalAmount, effortPercent);
             difference = calculatedPayrollAmount.subtract(payrollAmount).multiply(HUNDRED_DOLLAR_AMOUNT).abs();
         }
-
+        
         return difference.divide(originalTotalAmount).doubleValue() > limitOfLinePayrollAmountChange * HUNDRED_DOLLAR_AMOUNT.intValue();
     }
 

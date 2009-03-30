@@ -72,7 +72,7 @@
 	  <property name="accountingLineView" ref="ProcurementCard-accountingLineView"/>
 	  <property name="accountingLineClass" value="org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine"/>
 	  <property name="groupLabel" value="Accounting Lines"/>
-	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer"/>
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.ProcurementCardAccountingLineAuthorizer"/>
 	  <property name="importedLinePropertyPrefix" value="target"/>
 	  <property name="totals" ref="ProcurementCard-targetGroupTotals"/>
 	  <property name="errorKey" value="document.targetAccounting*,targetAccountingLines,newTargetLine*"/>
@@ -113,6 +113,7 @@
     	
     	<property name="routingTypeDefinitions">
     		<map>
+     			<entry key="AccountFullEdit" value-ref="RoutingType-AccountingDocument-Account-targetOnly"/>   		
     			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account-targetOnly"/>
     			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy-targetOnly"/>
     			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund-targetOnly"/>

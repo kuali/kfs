@@ -345,7 +345,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
                 transactionLineNumber++;
             }
-
+            
             pcardDocument.getDocumentHeader().setFinancialDocumentTotalAmount(documentTotalAmount);
             pcardDocument.getDocumentHeader().setDocumentDescription("SYSTEM Generated");
 
@@ -488,13 +488,15 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     private String createAndValidateAccountingLines(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction, ProcurementCardTransactionDetail docTransactionDetail) {
         // build source lines
         ProcurementCardSourceAccountingLine sourceLine = createSourceAccountingLine(transaction, docTransactionDetail);
+        sourceLine.setPostingYear(pcardDocument.getPostingYear());
 
         // add line to transaction through document since document contains the next sequence number fields
         pcardDocument.addSourceAccountingLine(sourceLine);
 
         // build target lines
         ProcurementCardTargetAccountingLine targetLine = createTargetAccountingLine(transaction, docTransactionDetail);
-
+        targetLine.setPostingYear(pcardDocument.getPostingYear());
+        
         // add line to transaction through document since document contains the next sequence number fields
         pcardDocument.addTargetAccountingLine(targetLine);
 

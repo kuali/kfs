@@ -232,7 +232,7 @@ public class NegativeAPOTest extends KualiTestBase {
          RequisitionDocument requisitionDocument = fixture.createRequisitionDocument();
          assertFalse(reqService.isAutomaticPurchaseOrderAllowed(requisitionDocument));
          if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
-             String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_COMMODITY_CODE_WITH_SENSITIVE_DATA);
+             String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_CONTAINS_RESTRICTED_COMMODITY_CODE);
              assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
          }  
      }

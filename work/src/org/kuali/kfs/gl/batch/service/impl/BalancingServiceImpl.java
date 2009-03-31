@@ -23,6 +23,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.TextReportHelper;
+import org.kuali.kfs.gl.batch.PosterBalancingStep;
 import org.kuali.kfs.gl.batch.service.BalancingService;
 import org.kuali.kfs.gl.businessobject.AccountBalance;
 import org.kuali.kfs.gl.businessobject.AccountBalanceHistory;
@@ -36,6 +37,7 @@ import org.kuali.kfs.gl.businessobject.LedgerBalanceHistory;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.dataaccess.AccountBalanceDao;
+import org.kuali.kfs.gl.dataaccess.BalancingDao;
 import org.kuali.kfs.gl.dataaccess.EncumbranceDao;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -52,6 +54,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory, BalanceHistory> implements BalancingService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalancingServiceImpl.class);
     
+    protected BalancingDao balancingDao;
     protected AccountBalanceDao accountBalanceDao;
     protected EncumbranceDao encumbranceDao;
     
@@ -84,6 +87,20 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
     }
     
     /**
+     * @see org.kuali.kfs.gl.batch.service.BalancingService#getPastFiscalYearsToConsider()
+     */
+    public int getPastFiscalYearsToConsider() {
+        return Integer.parseInt(parameterService.getParameterValue(PosterBalancingStep.class, GeneralLedgerConstants.Balancing.NUMBER_OF_PAST_FISCAL_YEARS_TO_INCLUDE));
+    }
+    
+    /**
+     * @see org.kuali.kfs.gl.batch.service.BalancingService#getComparisonFailuresToPrintPerReport()
+     */
+    public int getComparisonFailuresToPrintPerReport() {
+        return Integer.parseInt(parameterService.getParameterValue(PosterBalancingStep.class, GeneralLedgerConstants.Balancing.NUMBER_OF_COMPARISON_FAILURES_TO_PRINT_PER_REPORT));
+    }
+    
+    /**
      * @see org.kuali.kfs.gl.batch.service.BalancingService#getShortTableLabel(java.lang.String)
      */
     public String getShortTableLabel(String businessObjectName) {
@@ -98,36 +115,6 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
         names.put((EncumbranceHistory.class).getSimpleName(), kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_ENCUMBRANCE_LABEL));
         
         return names.get(businessObjectName) == null ? kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_UNKNOWN_LABEL) : names.get(businessObjectName);
-    }
-    
-    /**
-     * TODO should call a DoA executing the queries instead of printing a message
-     * @see org.kuali.kfs.gl.batch.service.BalancingService#getTableCreationInstructions(int)
-     */
-    public String getTableCreationInstructions(int startUniversityFiscalYear) {
-        return 
-              "INSERT INTO GL_ENTRY_HIST_T (UNIV_FISCAL_YR, FIN_COA_CD, FIN_OBJECT_CD, FIN_BALANCE_TYP_CD, UNIV_FISCAL_PRD_CD, TRN_DEBIT_CRDT_CD, VER_NBR, TRN_LDGR_ENTR_AMT, ROW_CNT)\n"
-            + "SELECT UNIV_FISCAL_YR, FIN_COA_CD, FIN_OBJECT_CD, FIN_BALANCE_TYP_CD, UNIV_FISCAL_PRD_CD, TRN_DEBIT_CRDT_CD, 1, sum(TRN_LDGR_ENTR_AMT), count(*)\n"
-            + "FROM GL_ENTRY_T\n"
-            + "WHERE UNIV_FISCAL_YR >= " + startUniversityFiscalYear + "\n"
-            + "GROUP BY UNIV_FISCAL_YR, FIN_COA_CD, FIN_OBJECT_CD, FIN_BALANCE_TYP_CD, UNIV_FISCAL_PRD_CD, TRN_DEBIT_CRDT_CD\n\n"
-            
-            + "INSERT INTO GL_BALANCE_HIST_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, CONTR_GR_BB_AC_AMT, MO1_ACCT_LN_AMT, MO2_ACCT_LN_AMT, MO3_ACCT_LN_AMT, MO4_ACCT_LN_AMT, MO5_ACCT_LN_AMT, MO6_ACCT_LN_AMT, MO7_ACCT_LN_AMT, MO8_ACCT_LN_AMT, MO9_ACCT_LN_AMT, MO10_ACCT_LN_AMT, MO11_ACCT_LN_AMT, MO12_ACCT_LN_AMT, MO13_ACCT_LN_AMT)\n"
-            + "SELECT UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, CONTR_GR_BB_AC_AMT, MO1_ACCT_LN_AMT, MO2_ACCT_LN_AMT, MO3_ACCT_LN_AMT, MO4_ACCT_LN_AMT, MO5_ACCT_LN_AMT, MO6_ACCT_LN_AMT, MO7_ACCT_LN_AMT, MO8_ACCT_LN_AMT, MO9_ACCT_LN_AMT, MO10_ACCT_LN_AMT, MO11_ACCT_LN_AMT, MO12_ACCT_LN_AMT, MO13_ACCT_LN_AMT\n"
-            + "FROM GL_BALANCE_T\n"
-            + "WHERE UNIV_FISCAL_YR >= " + startUniversityFiscalYear + "\n\n"
-            
-            + "INSERT INTO GL_ACCT_BALANCES_HIST_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT)\n"
-            + "SELECT UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT\n"
-            + "FROM GL_ACCT_BALANCES_T\n"
-            + "WHERE UNIV_FISCAL_YR >= " + startUniversityFiscalYear + "\n\n"
-            
-            + "INSERT INTO GL_ENCUMBRANCE_HIST_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FDOC_TYP_CD, FS_ORIGIN_CD, FDOC_NBR, ACLN_ENCUM_AMT, ACLN_ENCUM_CLS_AMT)\n"
-            + "SELECT UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FDOC_TYP_CD, FS_ORIGIN_CD, FDOC_NBR, ACLN_ENCUM_AMT, ACLN_ENCUM_CLS_AMT\n"
-            + "FROM GL_ENCUMBRANCE_T\n"
-            + "WHERE UNIV_FISCAL_YR >= " + startUniversityFiscalYear + "\n\n"
-            
-            + "Comparison skipped since no historic data available.\n";
     }
     
     /**
@@ -198,6 +185,15 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
     }
 
     /**
+     * @see org.kuali.kfs.gl.batch.service.impl.BalancingServiceBaseImpl#customPopulateHistoryTables(java.lang.Integer)
+     */
+    @Override
+    public void customPopulateHistoryTables(Integer fiscalYear) {
+        balancingDao.populateAccountBalancesHistory(fiscalYear);
+        balancingDao.populateEncumbranceHistory(fiscalYear);
+    }
+    
+    /**
      * @see org.kuali.kfs.gl.batch.service.impl.BalancingServiceBaseImpl#doesCustomHistoryExist(java.lang.Integer)
      */
     @Override
@@ -232,7 +228,7 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
      * @param originEntry representing the update details
      * @see org.kuali.kfs.gl.batch.service.impl.PostAccountBalance#post(org.kuali.kfs.gl.businessobject.Transaction, int, java.util.Date)
      */
-    private void updateAccountBalanceHistory(OriginEntry originEntry) {
+    protected void updateAccountBalanceHistory(OriginEntry originEntry) {
         OriginEntryFull originEntryFull = (OriginEntryFull) originEntry;
         
         // As taken from PostAccountBalance#post: only post transactions where: balance type code is AC or CB or where object type isn't FB and
@@ -259,7 +255,7 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
      * @param originEntry representing the update details
      * @see org.kuali.kfs.gl.batch.service.impl.PostEncumbrance#post(org.kuali.kfs.gl.businessobject.Transaction, int, java.util.Date)
      */
-    private void updateEncumbranceHistory(OriginEntry originEntry) {
+    protected void updateEncumbranceHistory(OriginEntry originEntry) {
         OriginEntryFull originEntryFull = (OriginEntryFull) originEntry;
         
         // PostEncumbrance.verifyTransaction is not run because entries that fail that verification will be in the error poster file which entries
@@ -284,7 +280,7 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
             encumbranceHistory = retrievedEncumbranceHistory;
         }
         
-        // Following is a copy & paste of PostEncumbrance.updateEncumbrance since the blancing process is to do this independently
+        // Following is a copy & paste of PostEncumbrance.updateEncumbrance since the balancing process is to do this independently
         encumbranceHistory.addAmount(originEntryFull);
         
         businessObjectService.save(encumbranceHistory);
@@ -315,7 +311,7 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
         Integer countComparisionFailures = 0;
         
         // TODO findAll might not be a good idea performance wise. Do some kind of LIMIT stepping?
-        // Finding all history lines as starting point for comparision
+        // Finding all history lines as starting point for comparison
         for (Iterator<AccountBalanceHistory> iterator = businessObjectService.findAll(AccountBalanceHistory.class).iterator(); iterator.hasNext();) {
             AccountBalanceHistory accountBalanceHistory = iterator.next();
             
@@ -327,14 +323,14 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
                     textReportHelper.writeErrorHeader(accountBalanceHistory, true);
                 }
                 countComparisionFailures++;
-                if (countComparisionFailures <= TOTAL_COMPARISION_FAILURES_TO_PRINT) {
+                if (countComparisionFailures <= this.getComparisonFailuresToPrintPerReport()) {
                     textReportHelper.writeErrors(accountBalanceHistory, new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_RECORD_FAILED_BALANCING), Message.TYPE_WARNING, accountBalanceHistory.getClass().getSimpleName()));
                 }
             }
         }
         
         if (countComparisionFailures != 0) {
-            textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_FAILURE_COUNT), (AccountBalanceHistory.class).getSimpleName(), countComparisionFailures, TOTAL_COMPARISION_FAILURES_TO_PRINT);
+            textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_FAILURE_COUNT), (AccountBalanceHistory.class).getSimpleName(), countComparisionFailures, this.getComparisonFailuresToPrintPerReport());
         }
         
         return countComparisionFailures;
@@ -349,7 +345,7 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
         Integer countComparisionFailures = 0;
         
         // TODO findAll might not be a good idea performance wise. Do some kind of LIMIT stepping?
-        // Finding all history lines as starting point for comparision
+        // Finding all history lines as starting point for comparison
         for (Iterator<EncumbranceHistory> iterator = businessObjectService.findAll(EncumbranceHistory.class).iterator(); iterator.hasNext();) {
             EncumbranceHistory encumbranceHistory = iterator.next();
             
@@ -361,14 +357,14 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
                     textReportHelper.writeErrorHeader(encumbranceHistory, true);
                 }
                 countComparisionFailures++;
-                if (countComparisionFailures <= TOTAL_COMPARISION_FAILURES_TO_PRINT) {
+                if (countComparisionFailures <= this.getComparisonFailuresToPrintPerReport()) {
                     textReportHelper.writeErrors(encumbranceHistory, new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_RECORD_FAILED_BALANCING), Message.TYPE_WARNING, encumbranceHistory.getClass().getSimpleName()));
                 }
             }
         }
         
         if (countComparisionFailures != 0) {
-            textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_FAILURE_COUNT), (EncumbranceHistory.class).getSimpleName(), countComparisionFailures, TOTAL_COMPARISION_FAILURES_TO_PRINT);
+            textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_FAILURE_COUNT), (EncumbranceHistory.class).getSimpleName(), countComparisionFailures, this.getComparisonFailuresToPrintPerReport());
         }
         
         return countComparisionFailures;
@@ -386,7 +382,16 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
         textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_ENCUMBRANCE_ROW_COUNT_HISTORY), this.getShortTableLabel((EncumbranceHistory.class).getSimpleName()), "(" + (EncumbranceHistory.class).getSimpleName() + ")", this.getHistoryCount(null, EncumbranceHistory.class));
         textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_ENCUMBRANCE_ROW_COUNT_PRODUCTION), this.getShortTableLabel((Encumbrance.class).getSimpleName()), encumbranceDao.findCountGreaterOrEqualThan(fiscalYear));
     }
-
+    
+    /**
+     * Sets the BalancingDao
+     * 
+     * @param balancingDao The BalancingDao to set.
+     */
+    public void setBalancingDao(BalancingDao balancingDao) {
+        this.balancingDao = balancingDao;
+    }
+    
     /**
      * Sets the AccountBalanceDao
      * 

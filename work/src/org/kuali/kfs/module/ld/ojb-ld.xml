@@ -210,7 +210,6 @@
 	<field-descriptor name="financialBalanceTypeCode" column="FIN_BALANCE_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="universityFiscalPeriodCode" column="UNIV_FISCAL_PRD_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="transactionDebitCreditCode" column="TRN_DEBIT_CRDT_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="transactionLedgerEntryAmount" column="TRN_LDGR_ENTR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="rowCount" column="ROW_CNT" jdbc-type="INTEGER"/>
@@ -310,7 +309,6 @@
 	<field-descriptor name="financialObjectTypeCode" column="FIN_OBJ_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="positionNumber" column="POSITION_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="accountLineAnnualBalanceAmount" column="ACLN_ANNL_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="financialBeginningBalanceLineAmount" column="FIN_BEG_BAL_LN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>

@@ -770,6 +770,9 @@
 	</bean>
 
     <bean id="glBalancingService" class="org.kuali.kfs.gl.batch.service.impl.BalancingServiceImpl">
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
         <property name="kualiConfigurationService">
             <ref bean="kualiConfigurationService" />
         </property>
@@ -785,6 +788,9 @@
         <property name="universityDateService">
             <ref bean="universityDateService" />
         </property>
+        <property name="ledgerBalancingDao">
+            <ref bean="glLedgerBalancingDao" />
+        </property>
         <property name="ledgerEntryBalancingDao">
             <ref bean="glEntryDao" />
         </property>
@@ -796,6 +802,9 @@
         </property>
         <property name="ledgerEntryHistoryBalancingDao">
             <ref bean="glEntryHistoryDao" />
+        </property>
+        <property name="balancingDao">
+            <ref bean="glBalancingDao" />
         </property>
         <property name="accountBalanceDao">
             <ref bean="glAccountBalanceDao" />
@@ -877,8 +886,6 @@
 		
 		-->
 	</bean>
-	
-	 
 
 	<bean id="reversalService" class="org.kuali.kfs.gl.service.impl.ReversalServiceImpl">
 		<property name="reversalDao">
@@ -1079,6 +1086,10 @@
 	<bean id="glEntryHistoryDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.EntryHistoryDaoOjb" />
 
 	<bean id="glBalanceHistoryDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.BalanceHistoryDaoOjb" />
+
+	<bean id="glLedgerBalancingDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.gl.dataaccess.impl.BalancingDaoJdbc" />
+
+	<bean id="glBalancingDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.gl.dataaccess.impl.BalancingDaoJdbc" />
 
 	<bean id="glEncumbranceDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.EncumbranceDaoOjb" />
 

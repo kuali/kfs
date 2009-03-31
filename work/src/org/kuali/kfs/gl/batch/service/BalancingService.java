@@ -15,11 +15,9 @@
  */
 package org.kuali.kfs.gl.batch.service;
 
-import org.kuali.kfs.gl.TextReportHelper;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.LedgerBalanceHistory;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 
 /**
@@ -53,16 +51,20 @@ public interface BalancingService {
     public abstract String getPosterErrorOutputFilename();
     
     /**
+     * @return system parameter for NUMBER_OF_PAST_FISCAL_YEARS_TO_CONSIDER
+     */
+    public abstract int getPastFiscalYearsToConsider();
+    
+    /**
+     * @return system parameter for NUMBER_OF_COMPARISON_FAILURES_TO_PRINT_PER_REPORT
+     */
+    public abstract int getComparisonFailuresToPrintPerReport();
+    
+    /**
      * @param businessObjectName name of the BO for which to return the label
      * @return functional short labels for tables affected in this process
      */
     public abstract String getShortTableLabel(String businessObjectName);
-        
-    /**
-     * @param startUniversityFiscalYear university fiscal year for which the process starts on
-     * @return verbal instructions for a user on how to generate data for the process to properly run
-     */
-    public abstract String getTableCreationInstructions(int startUniversityFiscalYear);
     
     /**
      * Gets an OriginEntry for the parsed line. This needs to be handled separately for GL and Labor because Labor is a special case

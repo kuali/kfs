@@ -16,8 +16,11 @@
 package org.kuali.kfs.sys.context;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -371,5 +374,47 @@ public class TestUtils {
         privateAdvisedField.setAccessible(true);
         ProxyFactory proxyFactory = (ProxyFactory) privateAdvisedField.get(invocationHandler);
         return proxyFactory.getTargetSource().getTarget();
+    }
+    
+    /**
+     * Writes an array to a file.  Useful for GL / LD poster file handling.
+     * @param pathname file and path to write
+     * @param inputTransactions data to write to pathname
+     * @throws IllegalArgumentException if file already exists
+     */
+    public static void writeFile(String pathname, String[] inputTransactions) {
+        File file = new File(pathname);
+        
+        if (file.exists()) {
+            throw new IllegalArgumentException("File already exists: " + pathname);
+        }
+        
+        PrintStream outputFileStream = null;
+        try {
+            outputFileStream = new PrintStream(file);
+        }
+        catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        
+        for (String line: inputTransactions){
+            outputFileStream.printf("%s\n", line);
+        }
+        outputFileStream.close();
+    }
+    
+    /**
+     * Deletes a file. Useful for GL / LD poster file handling.
+     * @param pathname file and path to delete
+     */
+    public static boolean deleteFile(String pathname) {
+        File file = new File(pathname);
+        
+        if (!file.exists()) {
+            LOG.debug("File doesn't exist, returning.");
+            return false;
+        }
+        
+        return file.delete();
     }
 }

@@ -815,7 +815,7 @@ public class KFSKeyConstants {
     public static final class Balancing {
         public static final String ERROR_BATCH_BALANCING_FILES = "error.batch.balancing.files";
         public static final String ERROR_BATCH_BALANCING_UNKNOWN_FAILURE = "error.batch.balancing.unknown.failure";
-        public static final String MESSAGE_BATCH_BALANCING_DATA_INSERTED = "message.batch.balancing.data.inserted";
+        public static final String MESSAGE_BATCH_BALANCING_DATA_INSERT = "message.batch.balancing.data.insert";
         public static final String MESSAGE_BATCH_BALANCING_OBSOLETE_FISCAL_YEAR_DATA_DELETED = "message.batch.balancing.obsolete.fiscal.year.data.deleted";
         public static final String MESSAGE_BATCH_BALANCING_FAILURE_COUNT = "message.batch.balancing.failure.count";
         public static final String MESSAGE_BATCH_BALANCING_RECORD_BEFORE_FISCAL_YEAR = "message.batch.balancing.record.before.fiscal.year";
@@ -830,6 +830,7 @@ public class KFSKeyConstants {
         public static final String REPORT_ENCUMBRANCE_LABEL = "message.gl.balancing.report.encumbrance.label";
         
         public static final String REPORT_FISCAL_YEARS_INCLUDED = "message.gl.balancing.report.fiscal.years.included";
+        public static final String REPORT_HISTORY_TABLES_INITIALIZED = "message.gl.balancing.report.history.tables.initialized";
         public static final String REPORT_OBSOLETE_DELETED = "message.gl.balancing.report.obsolete.deleted";
         public static final String REPORT_UPDATED_SKIPPED = "message.gl.balancing.report.updated.skipped";
         public static final String REPORT_COMPARISION_FAILURE = "message.gl.balancing.report.comparision.failure";

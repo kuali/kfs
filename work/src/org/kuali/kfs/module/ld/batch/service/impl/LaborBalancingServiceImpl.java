@@ -22,13 +22,12 @@ import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.BalancingService;
 import org.kuali.kfs.gl.batch.service.impl.BalancingServiceBaseImpl;
 import org.kuali.kfs.gl.businessobject.Balance;
-import org.kuali.kfs.gl.businessobject.BalanceHistory;
 import org.kuali.kfs.gl.businessobject.Entry;
-import org.kuali.kfs.gl.businessobject.EntryHistory;
 import org.kuali.kfs.gl.businessobject.LedgerBalanceHistory;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
+import org.kuali.kfs.module.ld.batch.LaborBalancingStep;
 import org.kuali.kfs.module.ld.businessobject.LaborBalanceHistory;
 import org.kuali.kfs.module.ld.businessobject.LaborEntryHistory;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
@@ -74,37 +73,32 @@ public class LaborBalancingServiceImpl extends BalancingServiceBaseImpl<LaborEnt
         return LaborConstants.BatchFileSystem.POSTER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
     }
     
+    
+    /**
+     * @see org.kuali.kfs.gl.batch.service.BalancingService#getPastFiscalYearsToConsider()
+     */
+    public int getPastFiscalYearsToConsider() {
+        return Integer.parseInt(parameterService.getParameterValue(LaborBalancingStep.class, LaborConstants.Balancing.NUMBER_OF_PAST_FISCAL_YEARS_TO_INCLUDE));
+    }
+    
+    /**
+     * @see org.kuali.kfs.gl.batch.service.BalancingService#getComparisonFailuresToPrintPerReport()
+     */
+    public int getComparisonFailuresToPrintPerReport() {
+        return Integer.parseInt(parameterService.getParameterValue(LaborBalancingStep.class, LaborConstants.Balancing.NUMBER_OF_COMPARISON_FAILURES_TO_PRINT_PER_REPORT));
+    }
+    
     /**
      * @see org.kuali.kfs.gl.batch.service.BalancingService#getShortTableLabel(java.lang.String)
      */
     public String getShortTableLabel(String businessObjectName) {
         Map<String, String> names = new HashMap<String, String>();
         names.put((Entry.class).getSimpleName(), kualiConfigurationService.getPropertyString(LaborKeyConstants.Balancing.REPORT_ENTRY_LABEL));
-        names.put((EntryHistory.class).getSimpleName(), kualiConfigurationService.getPropertyString(LaborKeyConstants.Balancing.REPORT_ENTRY_LABEL));
+        names.put((LaborEntryHistory.class).getSimpleName(), kualiConfigurationService.getPropertyString(LaborKeyConstants.Balancing.REPORT_ENTRY_LABEL));
         names.put((Balance.class).getSimpleName(), kualiConfigurationService.getPropertyString(LaborKeyConstants.Balancing.REPORT_BALANCE_LABEL));
-        names.put((BalanceHistory.class).getSimpleName(), kualiConfigurationService.getPropertyString(LaborKeyConstants.Balancing.REPORT_BALANCE_LABEL));
+        names.put((LaborBalanceHistory.class).getSimpleName(), kualiConfigurationService.getPropertyString(LaborKeyConstants.Balancing.REPORT_BALANCE_LABEL));
         
         return names.get(businessObjectName) == null ? kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_UNKNOWN_LABEL) : names.get(businessObjectName);
-    }
-    
-    /**
-     * TODO should call a DoA executing the queries instead of printing a message
-     * @see org.kuali.kfs.gl.batch.service.BalancingService#getTableCreationInstructions(int)
-     */
-    public String getTableCreationInstructions(int startUniversityFiscalYear) {
-        return 
-              "INSERT INTO LD_LDGR_ENTR_HIST_T (UNIV_FISCAL_YR, FIN_COA_CD, FIN_OBJECT_CD, FIN_BALANCE_TYP_CD, UNIV_FISCAL_PRD_CD, TRN_DEBIT_CRDT_CD, OBJ_ID, VER_NBR, TRN_LDGR_ENTR_AMT, ROW_CNT)\n"
-            + "SELECT UNIV_FISCAL_YR, FIN_COA_CD, FIN_OBJECT_CD, FIN_BALANCE_TYP_CD, UNIV_FISCAL_PRD_CD, TRN_DEBIT_CRDT_CD, OBJ_ID, 1, sum(TRN_LDGR_ENTR_AMT), count(*)\n"
-            + "FROM LD_LDGR_ENTR_T\n"
-            + "WHERE UNIV_FISCAL_YR >= " + startUniversityFiscalYear + "\n"
-            + "GROUP BY UNIV_FISCAL_YR, FIN_COA_CD, FIN_OBJECT_CD, FIN_BALANCE_TYP_CD, UNIV_FISCAL_PRD_CD, TRN_DEBIT_CRDT_CD\n\n"
-            
-            + "INSERT INTO LD_LDGR_BAL_HIST_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, POSITION_NBR, EMPLID, OBJ_ID, VER_NBR, ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, CONTR_GR_BB_AC_AMT, MO1_ACCT_LN_AMT, MO2_ACCT_LN_AMT, MO3_ACCT_LN_AMT, MO4_ACCT_LN_AMT, MO5_ACCT_LN_AMT, MO6_ACCT_LN_AMT, MO7_ACCT_LN_AMT, MO8_ACCT_LN_AMT, MO9_ACCT_LN_AMT, MO10_ACCT_LN_AMT, MO11_ACCT_LN_AMT, MO12_ACCT_LN_AMT, MO13_ACCT_LN_AMT)\n"
-            + "SELECT UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, POSITION_NBR, EMPLID, OBJ_ID, 1, ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, CONTR_GR_BB_AC_AMT, MO1_ACCT_LN_AMT, MO2_ACCT_LN_AMT, MO3_ACCT_LN_AMT, MO4_ACCT_LN_AMT, MO5_ACCT_LN_AMT, MO6_ACCT_LN_AMT, MO7_ACCT_LN_AMT, MO8_ACCT_LN_AMT, MO9_ACCT_LN_AMT, MO10_ACCT_LN_AMT, MO11_ACCT_LN_AMT, MO12_ACCT_LN_AMT, MO13_ACCT_LN_AMT\n"
-            + "FROM LD_LDGR_BAL_T\n"
-            + "WHERE UNIV_FISCAL_YR >= " + startUniversityFiscalYear + "\n\n"
-            
-            + "Comparison skipped since no historic data available.\n";
     }
     
     /**

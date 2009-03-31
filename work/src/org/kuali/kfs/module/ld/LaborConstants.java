@@ -46,6 +46,13 @@ public class LaborConstants {
         public static final String UnknownPersonName = "* Unknown Name *";
     }
 
+    public static class ColumnNames {
+        public static final String UNIVERSITY_FISCAL_YEAR = "UNIV_FISCAL_YR";
+        public static final String TRANSACTION_LEDGER_ENTRY_AMOUNT = "TRN_LDGR_ENTR_AMT";
+        public static final String POSITION_NUMBER = "POSITION_NBR";
+        public static final String EMPLOYEE_IDENTIFIER = "EMPLID";
+    }
+    
     public static class BenefitExpenseTransfer {
         public static final String LABOR_LEDGER_BENEFIT_CODE = "F";
     }
@@ -121,7 +128,12 @@ public class LaborConstants {
         public static final String OBJECT_CODES_NOT_PROCESSED = "SENT_TO_POSTER_OBJECT_CODES";
         public static final String PERIOD_CODES_NOT_PROCESSED = "SENT_TO_GL_PERIOD_CODES";
     }
-
+    
+    public static class Balancing {
+        public static final String NUMBER_OF_PAST_FISCAL_YEARS_TO_INCLUDE = "NUMBER_OF_PAST_FISCAL_YEARS_TO_INCLUDE";
+        public static final String NUMBER_OF_COMPARISON_FAILURES_TO_PRINT_PER_REPORT = "NUMBER_OF_COMPARISON_FAILURES_TO_PRINT_PER_REPORT";        
+    }
+    
     public static class SalaryExpenseTransfer {
         public static final String BENEFIT_CLEARING_ACCOUNT_PARM_NM = "BENEFIT_CLEARING_ACCOUNT_NUMBER";
         public static final String BENEFIT_CLEARING_CHART_PARM_NM = "BENEFIT_CLEARING_CHART_OF_ACCOUNTS";

@@ -35,6 +35,7 @@ import org.kuali.kfs.gl.businessobject.LedgerEntryHistory;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.dataaccess.LedgerBalanceBalancingDao;
 import org.kuali.kfs.gl.dataaccess.LedgerBalanceHistoryBalancingDao;
+import org.kuali.kfs.gl.dataaccess.LedgerBalancingDao;
 import org.kuali.kfs.gl.dataaccess.LedgerEntryBalancingDao;
 import org.kuali.kfs.gl.dataaccess.LedgerEntryHistoryBalancingDao;
 import org.kuali.kfs.gl.service.impl.ReportServiceImpl;
@@ -48,6 +49,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,17 +61,17 @@ import org.springframework.transaction.annotation.Transactional;
 public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balance> implements BalancingService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalancingServiceBaseImpl.class);
 
-    protected static final int TOTAL_COMPARISION_FAILURES_TO_PRINT = 10;
-    
     // Used to enable us to do generic general ledger or labor balancing
     protected Class<T> entryHistoryPersistentClass;
     protected Class<S> balanceHistoryPersistentClass;
     
+    protected ParameterService parameterService;
     protected KualiConfigurationService kualiConfigurationService;
     protected BusinessObjectService businessObjectService;
     protected OptionsService optionsService;
     protected DateTimeService dateTimeService;
     protected UniversityDateService universityDateService;
+    protected LedgerBalancingDao ledgerBalancingDao;
     protected LedgerEntryBalancingDao ledgerEntryBalancingDao;
     protected LedgerBalanceBalancingDao ledgerBalanceBalancingDao;
     protected LedgerBalanceHistoryBalancingDao ledgerBalanceHistoryBalancingDao;
@@ -108,26 +110,28 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
         
         // Prepare date constants used throughout the process
         Integer currentUniversityFiscalYear = optionsService.getCurrentYearOptions().getUniversityFiscalYear();
-        // TODO could make "- 1" some kind of System Parameter to make this configurable
-        int startUniversityFiscalYear = currentUniversityFiscalYear - 1;
+        int startUniversityFiscalYear = currentUniversityFiscalYear - this.getPastFiscalYearsToConsider();
 
         LOG.debug("Checking files required for balancing process are present.");
         if(!this.isFilesReady()) {
+            // Write title manually since we are returning after this without printing statistics
+            textReportHelper.writeTitle();
+            
             textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.ERROR_BATCH_BALANCING_FILES));
             return false;
         }
         
         LOG.debug("Checking data required for balancing process is present.");
-        // Following does not check for GL specific data present. Should be OK since it can't exist without entry and balance data.
+        boolean historyTablesPopulated = false;
+        // Following does not check for custom data (AccountBalance & Encumbrance) present. Should be OK since it can't exist without entry and balance data.
         if (this.getHistoryCount(null, entryHistoryPersistentClass) == 0 || this.getHistoryCount(null, balanceHistoryPersistentClass) == 0) {
-            // Write title manually since there won't be any error records
-            textReportHelper.writeTitle();
-
-            textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_DATA_INSERTED), entryHistoryPersistentClass.getSimpleName(), balanceHistoryPersistentClass.getSimpleName());
+            textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_DATA_INSERT), entryHistoryPersistentClass.getSimpleName(), balanceHistoryPersistentClass.getSimpleName());
             
-            textReportHelper.printf(getTableCreationInstructions(startUniversityFiscalYear));
+            ledgerBalancingDao.populateLedgerEntryHistory(startUniversityFiscalYear);
+            ledgerBalancingDao.populateLedgerBalanceHistory(startUniversityFiscalYear);
+            this.customPopulateHistoryTables(startUniversityFiscalYear);
             
-            return true;
+            historyTablesPopulated = true;
         }
         
         LOG.debug("Checking if obsolete historic data present. Deleting if yes.");
@@ -143,19 +147,23 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
             obsoleteUniversityFiscalYearDeleted = true;
         }
         
-        LOG.debug("Getting postable records and save them to history tables.");
-        int updateRecordsIgnored = this.updateHistoriesHelper(startUniversityFiscalYear, textReportHelper);
+        // We only do update step if history has not been populated. If it has we can't run the update cycle because they were already picked up
+        int updateRecordsIgnored = 0;
+        if (!historyTablesPopulated) {
+            LOG.debug("Getting postable records and save them to history tables.");
+            updateRecordsIgnored = this.updateHistoriesHelper(startUniversityFiscalYear, textReportHelper);            
+        }
 
         LOG.debug("Comparing entry history table with the PRD counterpart.");
         int countEntryComparisionFailure = this.compareEntryHistory(textReportHelper);
         if (countEntryComparisionFailure != 0) {
-            textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_FAILURE_COUNT), entryHistoryPersistentClass.getSimpleName(), countEntryComparisionFailure, TOTAL_COMPARISION_FAILURES_TO_PRINT);
+            textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_FAILURE_COUNT), entryHistoryPersistentClass.getSimpleName(), countEntryComparisionFailure, this.getComparisonFailuresToPrintPerReport());
         }
         
         LOG.debug("Comparing balance history table with the PRD counterpart.");
         int countBalanceComparisionFailure = this.compareBalanceHistory(textReportHelper);
         if (countBalanceComparisionFailure != 0) {
-            textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_FAILURE_COUNT), balanceHistoryPersistentClass.getSimpleName(), countBalanceComparisionFailure, TOTAL_COMPARISION_FAILURES_TO_PRINT);
+            textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_FAILURE_COUNT), balanceHistoryPersistentClass.getSimpleName(), countBalanceComparisionFailure, this.getComparisonFailuresToPrintPerReport());
         }
         
         LOG.debug("Comparing custom, if any, history table with the PRD counterpart.");
@@ -166,6 +174,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
         textReportHelper.writeTitle();
         textReportHelper.writeStatisticsHeader();
         textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_FISCAL_YEARS_INCLUDED), ledgerBalanceHistoryBalancingDao.findDistinctFiscalYears());
+        textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_HISTORY_TABLES_INITIALIZED), historyTablesPopulated ? "Yes" : "No");
         textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_OBSOLETE_DELETED), obsoleteUniversityFiscalYearDeleted ? "Yes (" + obsoleteUniversityFiscalYear + ")": "No");
         textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_UPDATED_SKIPPED), updateRecordsIgnored);
         textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_COMPARISION_FAILURE), this.getShortTableLabel(entryHistoryPersistentClass.getSimpleName()), "(" + entryHistoryPersistentClass.getSimpleName() + ")", countEntryComparisionFailure);
@@ -311,7 +320,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
                     textReportHelper.writeErrorHeader(ledgerBalanceHistory, true);
                 }
                 countComparisionFailures++;
-                if (countComparisionFailures <= TOTAL_COMPARISION_FAILURES_TO_PRINT) {
+                if (countComparisionFailures <= this.getComparisonFailuresToPrintPerReport()) {
                     textReportHelper.writeErrors(ledgerBalanceHistory, new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_RECORD_FAILED_BALANCING), Message.TYPE_WARNING, ledgerBalanceHistory.getClass().getSimpleName()));
                 }
             }
@@ -343,13 +352,21 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
                     textReportHelper.writeErrorHeader(ledgerEntryHistory, true);
                 }
                 countComparisionFailures++;
-                if (countComparisionFailures <= TOTAL_COMPARISION_FAILURES_TO_PRINT) {
+                if (countComparisionFailures <= this.getComparisonFailuresToPrintPerReport()) {
                     textReportHelper.writeErrors(ledgerEntryHistory, new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_RECORD_FAILED_BALANCING), Message.TYPE_WARNING, ledgerEntryHistory.getClass().getSimpleName()));
                 }
             }
         }
         
         return countComparisionFailures;
+    }
+    
+    /**
+     * Possible override if sub class has additional history tables. Populates custom history tables.
+     * @param fiscalYear fiscal year populate should start from
+     */
+    public void customPopulateHistoryTables(Integer fiscalYear) {
+        return;
     }
     
     /**
@@ -397,6 +414,15 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
     }
     
     /**
+     * Sets the ParameterService
+     * 
+     * @param parameterService The ParameterService to set.
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+    
+    /**
      * Sets the KualiConfigurationService
      * 
      * @param kualiConfigurationService The KualiConfigurationService to set.
@@ -439,6 +465,15 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
      */
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
+    }
+    
+    /**
+     * Sets the LedgerBalancingDao
+     * 
+     * @param ledgerBalancingDao The LedgerBalancingDao to set.
+     */
+    public void setLedgerBalancingDao(LedgerBalancingDao ledgerBalancingDao) {
+        this.ledgerBalancingDao = ledgerBalancingDao;
     }
 
     /**

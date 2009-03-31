@@ -90,6 +90,78 @@ public class LaborBalanceHistory extends LedgerBalance implements LedgerBalanceH
     }
     
     /**
+     * It's called financialObjectCode
+     * @see org.kuali.kfs.gl.businessobject.Balance#getObjectCode()
+     */
+    @Override
+    public String getObjectCode() {
+        throw new UnsupportedOperationException();
+    }
+    
+    /**
+     * It's called financialObjectCode
+     * @see org.kuali.kfs.gl.businessobject.Balance#setObjectCode(java.lang.String)
+     */
+    @Override
+    public void setObjectCode(String objectCode) {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * It's called financialSubObjectCode
+     * @see org.kuali.kfs.gl.businessobject.Balance#getSubObjectCode()
+     */
+    @Override
+    public String getSubObjectCode() {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * It's called financialSubObjectCode
+     * @see org.kuali.kfs.gl.businessobject.Balance#setSubObjectCode(java.lang.String)
+     */
+    @Override
+    public void setSubObjectCode(String subObjectCode) {
+        throw new UnsupportedOperationException();
+    }
+    
+    /**
+     * It's called financialObjectTypeCode
+     * @see org.kuali.kfs.gl.businessobject.Balance#getObjectTypeCode()
+     */
+    @Override
+    public String getObjectTypeCode() {
+        throw new UnsupportedOperationException();
+    }
+    
+    /**
+     * It's called financialObjectTypeCode
+     * @see org.kuali.kfs.gl.businessobject.Balance#setObjectTypeCode(java.lang.String)
+     */
+    @Override
+    public void setObjectTypeCode(String objectTypeCode) {
+        throw new UnsupportedOperationException();
+    }
+    
+    /**
+     * It's called financialBalanceTypeCode
+     * @see org.kuali.kfs.module.ld.businessobject.LedgerBalance#getBalanceTypeCode()
+     */
+    @Override
+    public String getBalanceTypeCode() {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * It's called financialBalanceTypeCode
+     * @see org.kuali.kfs.module.ld.businessobject.LedgerBalance#setBalanceTypeCode(java.lang.String)
+     */
+    @Override
+    public void setBalanceTypeCode(String balanceTypeCode) {
+        throw new UnsupportedOperationException();
+    }
+    
+    /**
      * History does not track this field.
      * @see org.kuali.kfs.gl.businessobject.Balance#getTimestamp()
      */

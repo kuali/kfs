@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.gl;
 
-import java.io.PrintStream;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -70,6 +69,7 @@ public class GeneralLedgerConstants {
         // amounts in the balances table
         static final public String ANNUAL_BALANCE = "ACLN_ANNL_BAL_AMT";
         static final public String BEGINNING_BALANCE = "FIN_BEG_BAL_LN_AMT";
+        static final public String CONTRACT_AND_GRANTS_BEGINNING_BALANCE = "CONTR_GR_BB_AC_AMT";
 
         static final public String UNIVERSITY_FISCAL_YEAR = "UNIV_FISCAL_YR";
         static final public String CHART_OF_ACCOUNTS_CODE = "FIN_COA_CD";
@@ -77,6 +77,7 @@ public class GeneralLedgerConstants {
         static final public String SUB_OBJECT_CODE = "FIN_SUB_OBJ_CD";
         static final public String OBJECT_TYPE_CODE = "FIN_OBJ_TYP_CD";
         static final public String BALANCE_TYPE_CODE = "FIN_BALANCE_TYP_CD";
+        static final public String FISCAL_PERIOD_CODE = "UNIV_FISCAL_PRD_CD";
         static final public String DEBIT_CREDIT_CODE = "TRN_DEBIT_CRDT_CD";
         static final public String OBJECT_TYPE_DEBIT_CREDIT_CODE = "FIN_OBJTYP_DBCR_CD";
         static final public String OFFSET_GENERATION_CODE = "FIN_OFFST_GNRTN_CD";
@@ -89,6 +90,17 @@ public class GeneralLedgerConstants {
         static final public String FUND_BAL_OBJ_TYP_CD = "FUND_BAL_OBJ_TYP_CD";
         static final public String FUND_BAL_OBJECT_CD = "FUND_BAL_OBJECT_CD";
         static final public String UNIV_DT = "UNIV_DT";
+        
+        static final public String FINANCIAL_DOCUMENT_TYPE_CODE = "FDOC_TYP_CD";
+        static final public String ORIGINATION_CODE = "FS_ORIGIN_CD";
+        static final public String DOCUMENT_NUMBER = "FDOC_NBR";
+
+        static final public String CURRENT_BUDGET_LINE_BALANCE_AMOUNT = "CURR_BDLN_BAL_AMT";
+        static final public String ACCOUNT_LINE_ACTUALS_BALANCE_AMOUNT = "ACLN_ACTLS_BAL_AMT";
+        static final public String ACCOUNT_LINE_ENCUMBRANCE_BALANCE_AMOUNT = "ACLN_ENCUM_BAL_AMT";
+        
+        static final public String ACCOUNT_LINE_ENCUMBRANCE_AMOUNT = "ACLN_ENCUM_AMT";
+        static final public String ACCOUNT_LINE_ENCUMBRANCE_CLOSED_AMOUNT = "ACLN_ENCUM_CLS_AMT";
     }
 
     public static class BalanceInquiryDrillDowns {
@@ -186,6 +198,11 @@ public class GeneralLedgerConstants {
     public static class PosterService {
         static final public String SYMBOL_USE_EXPENDITURE_ENTRY = "@";
         static final public String SYMBOL_USE_ICR_FROM_ACCOUNT = "#";
+    }
+    
+    public static class Balancing {
+        public static final String NUMBER_OF_PAST_FISCAL_YEARS_TO_INCLUDE = "NUMBER_OF_PAST_FISCAL_YEARS_TO_INCLUDE";
+        public static final String NUMBER_OF_COMPARISON_FAILURES_TO_PRINT_PER_REPORT = "NUMBER_OF_COMPARISON_FAILURES_TO_PRINT_PER_REPORT";        
     }
     
     public static class BatchFileSystem {

@@ -198,8 +198,6 @@
 
     <bean id="laborLedgerBalanceHistoryDao" parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborLedgerBalanceHistoryDaoOjb" />
 
-	<bean id="laborBalancingDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborBalancingDaoJdbc" />
-
     <bean id="laborGeneralLedgerEntryDao" parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborGeneralLedgerEntryDaoOjb" />
 
 	<bean id="laborLedgerBalanceDao" parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborLedgerBalanceDaoOjb">
@@ -358,9 +356,6 @@
     </bean>
     
     <bean id="laborBalancingService" class="org.kuali.kfs.module.ld.batch.service.impl.LaborBalancingServiceImpl">
-		<property name="parameterService">
-			<ref bean="parameterService" />
-		</property>
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
@@ -375,9 +370,6 @@
         </property>
         <property name="universityDateService">
             <ref bean="universityDateService" />
-        </property>
-        <property name="ledgerBalancingDao">
-            <ref bean="laborBalancingDao" />
         </property>
         <property name="ledgerEntryBalancingDao">
             <ref bean="laborLedgerEntryDao" />
@@ -434,7 +426,7 @@
 		<property name="laborCachingDao">
 		  	<ref bean="laborCachingDao" />
 		</property>
-    </bean>
+	</bean>
 
     <bean id="laborGLLedgerEntryPoster" class="org.kuali.kfs.module.ld.batch.service.impl.LaborGLLedgerEntryPoster">
         <property name="laborGeneralLedgerEntryService">

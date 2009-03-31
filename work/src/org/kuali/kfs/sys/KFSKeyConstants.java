@@ -59,7 +59,6 @@ public class KFSKeyConstants {
     public static final String ERROR_DOCUMENT_BALANCE_CONSIDERING_SOURCE_AND_TARGET_AMOUNTS = "error.document.balanceConsideringSourceAndTargetAmounts";
     public static final String ERROR_DOCUMENT_EXPENSE_ON_INCOME_SIDE = "error.document.incorrectExpenseOnIncomeSide";
     public static final String ERROR_DOCUMENT_INCOME_ON_EXPENSE_SIDE = "error.document.incorrectIncomeOnExpenseSide";
-    public static final String ERROR_DOCUMENT_INVALID_VALUE = "error.document.invalid.value";
     public static final String ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_BUDGET_AGGREGATION = "error.document.incorrectObjCodeWithBudgetAggregation";
     public static final String ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_SUB_TYPE_OBJ_LEVEL_AND_OBJ_TYPE = "error.document.incorrectObjCodeWithSubTypeObjLevelAndObjType";
     public static final String ERROR_DOCUMENT_NO_ACCOUNTING_LINES = "error.document.noAccountingLines";

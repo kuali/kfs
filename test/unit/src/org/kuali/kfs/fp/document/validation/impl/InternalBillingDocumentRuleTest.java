@@ -42,6 +42,7 @@ import org.kuali.kfs.sys.service.IsDebitTestUtils;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.RiceKeyConstants;
 
 /**
  * This class tests the business rules of the internal billing document. This is not implemented yet and needs to extend
@@ -82,7 +83,7 @@ public class InternalBillingDocumentRuleTest extends KualiTestBase {
         line.refresh();
         assertGlobalErrorMapEmpty();
         boolean actual = isSubFundGroupAllowed(new InternalBillingDocument(), line);
-        assertGlobalErrorMapContains(KFSPropertyConstants.ACCOUNT_NUMBER, KFSKeyConstants.ERROR_DOCUMENT_INVALID_VALUE, new String[] { null, "PFIP", null, "not allowed", "PFRI, PFIP", null });
+        assertGlobalErrorMapContains(KFSPropertyConstants.ACCOUNT_NUMBER, RiceKeyConstants.ERROR_DOCUMENT_INVALID_VALUE_DENIED_VALUES_PARAMETER, new String[] { null, "PFIP", null, "PFRI, PFIP", null });
         assertEquals(false, actual);
     }
     

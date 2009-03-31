@@ -19,21 +19,25 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
-import org.kuali.kfs.sys.document.validation.event.DeleteAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.document.validation.event.DeleteAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -66,6 +70,14 @@ public class AccountingLineAccessibleValidation extends GenericValidation {
      */
     public boolean validate(AttributedDocumentEvent event) {        
         final Person currentUser = GlobalVariables.getUserSession().getPerson();
+        
+        Document document = event.getDocument();
+        if (document instanceof Correctable) {
+            String errorDocumentNumber = ((FinancialSystemDocumentHeader)document.getDocumentHeader()).getFinancialDocumentInErrorNumber();
+            if (StringUtils.isNotBlank(errorDocumentNumber))
+                return true;
+        }
+        
         final boolean isAccessible = lookupAccountingLineAuthorizer().hasEditPermissionOnField(accountingDocumentForValidation, accountingLineForValidation, getAccountingLineCollectionProperty(), KFSPropertyConstants.ACCOUNT_NUMBER, currentUser);
 
         // report errors

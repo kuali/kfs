@@ -30,12 +30,14 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.web.AccountingLineRenderingContext;
 import org.kuali.kfs.sys.document.web.AccountingLineViewAction;
 import org.kuali.kfs.sys.document.web.AccountingLineViewField;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -234,6 +236,13 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @return true if the line as a whole can be edited, false otherwise
      */
     public boolean determineEditPermissionOnLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty) {
+       
+        if (accountingDocument instanceof Correctable) {
+            String errorDocumentNumber = ((FinancialSystemDocumentHeader)accountingDocument.getDocumentHeader()).getFinancialDocumentInErrorNumber();
+            if (StringUtils.isNotBlank(errorDocumentNumber))
+                return false;
+        }
+        
         return true;
     }
 

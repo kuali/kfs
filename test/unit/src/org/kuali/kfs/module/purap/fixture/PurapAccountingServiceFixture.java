@@ -250,8 +250,8 @@ public enum PurapAccountingServiceFixture {
     
     
     private VendorCreditMemoDocument augmentVendorCreditMemoDocument(VendorCreditMemoDocument vcm) {
-        List<PaymentRequestItem> augmentedItems = new TypedArrayList(CreditMemoItem.class);
-        for(PaymentRequestItem item : (List<PaymentRequestItem>)vcm.getItems()) {
+        List<CreditMemoItem> augmentedItems = new TypedArrayList(CreditMemoItem.class);
+        for(CreditMemoItem item : (List<CreditMemoItem>)vcm.getItems()) {
             item.setTotalAmount(this.totalAmount);
             item.setSourceAccountingLines(purApAccountingLineList);        
             augmentedItems.add(item);

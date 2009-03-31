@@ -30,23 +30,22 @@ import org.kuali.kfs.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurApSummaryItem;
-import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.service.CreditMemoService;
-import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.fixture.PurapAccountingServiceFixture;
-import org.kuali.kfs.module.purap.fixture.RequisitionItemFixture;
+import org.kuali.kfs.module.purap.fixture.RequisitionDocumentFixture;
 import org.kuali.kfs.module.purap.util.SummaryAccount;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 @ConfigureContext(session = kfs)
@@ -55,6 +54,7 @@ public class PurapAccountingServiceTest extends KualiTestBase {
 
     private PurapAccountingService purapAccountingService;
     private PurapService purapService;
+    private ParameterService parameterService;
     
     @Override
     protected void setUp() throws Exception {
@@ -65,12 +65,13 @@ public class PurapAccountingServiceTest extends KualiTestBase {
         if(purapService == null) {
             purapService = SpringContext.getBean(PurapService.class);
         }
+        if(parameterService == null) {
+            parameterService = SpringContext.getBean(ParameterService.class);
+        }
     }
     
     @Override
     protected void tearDown() throws Exception {
-        purapAccountingService = null;
-        purapService = null;
         super.tearDown();
     }
         
@@ -303,7 +304,7 @@ public class PurapAccountingServiceTest extends KualiTestBase {
                         containsOneAccount = true;
                     }
                     else {
-                        break;
+                        fail();
                     }
                 }
             }
@@ -374,9 +375,105 @@ public class PurapAccountingServiceTest extends KualiTestBase {
      * Tests of generateSummaryWithNoZeroTotalsNoUseTax(List<PurApItem> items)
      */
     
+    public void testGenerateSummaryWithNoZeroTotalsNoUseTax_OneItem_OneAccount() {
+        PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.REQ_SUMMARY_ONE_ITEM_ONE_ACCOUNT;
+        List<SourceAccountingLine> originalSourceAccounts = fixture.getSourceAccountingLineList();
+        List<PurApItem> items = fixture.getItems();
+        GlobalVariables.getUserSession().setBackdoorUser("parke");
+        RequisitionDocumentFixture reqFixture = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS;
+        RequisitionDocument req = reqFixture.createRequisitionDocument();
+        GlobalVariables.getUserSession().setBackdoorUser("kfs");
+        for(PurApItem item : items) {
+            item.setPurapDocument(req);
+        }      
+        List<SourceAccountingLine> sourceLines = purapAccountingService.generateSummaryWithNoZeroTotalsNoUseTax(items);
+        assertEquals(sourceLines.size(),originalSourceAccounts.size());
+        checkAccountConsolidation(sourceLines,originalSourceAccounts);
+    }
+    
+    public void testGenerateSummaryWithNoZeroTotalsNoUseTax_OneItem_TwoAccounts() {
+        PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.REQ_SUMMARY_ONE_ITEM_TWO_ACCOUNTS;
+        List<SourceAccountingLine> originalSourceAccounts = fixture.getSourceAccountingLineList();
+        List<PurApItem> items = fixture.getItems();
+        GlobalVariables.getUserSession().setBackdoorUser("parke");
+        RequisitionDocumentFixture reqFixture = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS;
+        RequisitionDocument req = reqFixture.createRequisitionDocument();
+        GlobalVariables.getUserSession().setBackdoorUser("kfs");
+        for(PurApItem item : items) {
+            item.setPurapDocument(req);
+        }
+        List<SourceAccountingLine> sourceLines = purapAccountingService.generateSummaryWithNoZeroTotalsNoUseTax(items);
+        assertEquals(sourceLines.size(),originalSourceAccounts.size());
+        checkAccountConsolidation(sourceLines,originalSourceAccounts);
+    }
+    
+    public void testGenerateSummaryWithNoZeroTotalsNoUseTax_TwoItems_OneAccount() {
+        PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.REQ_SUMMARY_TWO_ITEMS_ONE_ACCOUNT;
+        List<SourceAccountingLine> originalSourceAccounts = fixture.getSourceAccountingLineList();
+        List<PurApItem> items = fixture.getItems();
+        GlobalVariables.getUserSession().setBackdoorUser("parke");
+        RequisitionDocumentFixture reqFixture = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS;
+        RequisitionDocument req = reqFixture.createRequisitionDocument();
+        GlobalVariables.getUserSession().setBackdoorUser("kfs");
+        for(PurApItem item : items) {
+            item.setPurapDocument(req);
+        }
+        List<SourceAccountingLine> sourceLines = purapAccountingService.generateSummaryWithNoZeroTotalsNoUseTax(items);
+        assertEquals(sourceLines.size(),originalSourceAccounts.size());
+        checkAccountConsolidation(sourceLines,originalSourceAccounts);
+    }   
+    
     /*
      * Tests of generateSummaryWithNoZeroTotalsUsingAlternateAmount(List<PurApItem> items)
      */
+    
+    public void testGenerateSummaryWithNoZeroTotalsUsingAlternateAmount_OneItem_OneAccount() {
+        PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.REQ_SUMMARY_ONE_ITEM_ONE_ACCOUNT;
+        List<SourceAccountingLine> originalSourceAccounts = fixture.getSourceAccountingLineList();
+        List<PurApItem> items = fixture.getItems();
+        GlobalVariables.getUserSession().setBackdoorUser("parke");
+        RequisitionDocumentFixture reqFixture = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS;
+        RequisitionDocument req = reqFixture.createRequisitionDocument();
+        GlobalVariables.getUserSession().setBackdoorUser("kfs");
+        for(PurApItem item : items) {
+            item.setPurapDocument(req);
+        }      
+        List<SourceAccountingLine> sourceLines = purapAccountingService.generateSummaryWithNoZeroTotalsUsingAlternateAmount(items);
+        assertEquals(sourceLines.size(),originalSourceAccounts.size());
+        checkAccountConsolidation(sourceLines,originalSourceAccounts);
+    }
+    
+    public void testGenerateSummaryWithNoZeroTotalsUsingAlternateAmount_OneItem_TwoAccounts() {
+        PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.REQ_SUMMARY_ONE_ITEM_TWO_ACCOUNTS;
+        List<SourceAccountingLine> originalSourceAccounts = fixture.getSourceAccountingLineList();
+        List<PurApItem> items = fixture.getItems();
+        GlobalVariables.getUserSession().setBackdoorUser("parke");
+        RequisitionDocumentFixture reqFixture = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS;
+        RequisitionDocument req = reqFixture.createRequisitionDocument();
+        GlobalVariables.getUserSession().setBackdoorUser("kfs");
+        for(PurApItem item : items) {
+            item.setPurapDocument(req);
+        }
+        List<SourceAccountingLine> sourceLines = purapAccountingService.generateSummaryWithNoZeroTotalsUsingAlternateAmount(items);
+        assertEquals(sourceLines.size(),originalSourceAccounts.size());
+        checkAccountConsolidation(sourceLines,originalSourceAccounts);
+    }
+    
+    public void testGenerateSummaryWithNoZeroTotalsUsingAlternateAmount_TwoItems_OneAccount() {
+        PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.REQ_SUMMARY_TWO_ITEMS_ONE_ACCOUNT;
+        List<SourceAccountingLine> originalSourceAccounts = fixture.getSourceAccountingLineList();
+        List<PurApItem> items = fixture.getItems();
+        GlobalVariables.getUserSession().setBackdoorUser("parke");
+        RequisitionDocumentFixture reqFixture = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS;
+        RequisitionDocument req = reqFixture.createRequisitionDocument();
+        GlobalVariables.getUserSession().setBackdoorUser("kfs");
+        for(PurApItem item : items) {
+            item.setPurapDocument(req);
+        }
+        List<SourceAccountingLine> sourceLines = purapAccountingService.generateSummaryWithNoZeroTotalsUsingAlternateAmount(items);
+        assertEquals(sourceLines.size(),originalSourceAccounts.size());
+        checkAccountConsolidation(sourceLines,originalSourceAccounts);
+    }    
     
     /*
      * Tests of generateSummaryExcludeItemTypes(List<PurApItem> items, Set excludedItemTypeCodes)
@@ -482,32 +579,25 @@ public class PurapAccountingServiceTest extends KualiTestBase {
     /*
      * Tests of deleteSummaryAccounts(Integer purapDocumentIdentifier)
      */
-    /*@ConfigureContext(session = appleton, shouldCommitTransactions=true)
+    @ConfigureContext(session = appleton, shouldCommitTransactions=true)
     public void testDeleteSummaryAccounts_PaymentRequest() {
         PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.PREQ_PRORATION_ONE_ACCOUNT;
         PaymentRequestDocument preq = fixture.generatePaymentRequestDocument_OneItem();
         List<SummaryAccount> summaryAccounts = purapAccountingService.generateSummaryAccounts(preq);
         assertNotNull(summaryAccounts);
-        try {
-            SpringContext.getBean(PaymentRequestService.class).populateAndSavePaymentRequest(preq);
-        }
-        catch (WorkflowException we) {
-            fail(we.toString());
-        }
         purapAccountingService.deleteSummaryAccounts(preq.getPurapDocumentIdentifier(), PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT);
         assertNull(purapAccountingService.getAccountsPayableSummaryAccounts(preq.getPurapDocumentIdentifier(), PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT));
-    }*/
+    }
     
-    /*@ConfigureContext(session = appleton, shouldCommitTransactions=true)
+    @ConfigureContext(session = appleton, shouldCommitTransactions=true)
     public void testDeleteSummaryAccounts_CreditMemo() {
         PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.CREDIT_MEMO_ONE_ACCOUNT;
         VendorCreditMemoDocument vcm = fixture.generateVendorCreditMemoDocument_OneItem();
         List<SummaryAccount> summaryAccounts = purapAccountingService.generateSummaryAccounts(vcm);
         assertNotNull(summaryAccounts);
-        SpringContext.getBean(CreditMemoService.class).populateAndSaveCreditMemo(vcm);
         purapAccountingService.deleteSummaryAccounts(vcm.getPurapDocumentIdentifier(), PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT);
         assertNull(purapAccountingService.getAccountsPayableSummaryAccounts(vcm.getPurapDocumentIdentifier(), PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT));
-    }*/
+    }
     
     /*
      * Tests of generateSourceAccountsForVendorRemit(PurchasingAccountsPayableDocument document)

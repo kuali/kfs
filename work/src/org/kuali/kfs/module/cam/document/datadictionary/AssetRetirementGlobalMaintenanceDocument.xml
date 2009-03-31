@@ -26,7 +26,7 @@
         <value>documentNumber</value>
       </list>
     </property>
-    <property name="documentTypeName" value="AR"/>
+    <property name="documentTypeName" value="ARG"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetRetirementGlobalRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetRetirementPresentationController"/>

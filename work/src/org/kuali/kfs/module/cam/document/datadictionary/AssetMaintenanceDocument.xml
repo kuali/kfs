@@ -66,10 +66,17 @@
   <bean id="AssetMaintenanceDocument-ViewRelatedDocumentLink" parent="AssetMaintenanceDocument-ViewRelatedDocumentLink-parentBean"/>
   <bean id="AssetMaintenanceDocument-ViewRelatedDocumentLink-parentBean" abstract="true" parent="MaintainableSectionDefinition">
 	<property name="id" value="documentLookup"/>  
-    <property name="title" value="Related Document Lookup"/>
+    <property name="title" value="Lookup Related Document"/>
     <property name="maintainableItems">
       <list>
-     	<bean parent="MaintainableFieldDefinition" p:name="documentLookup"/>	                        
+     	<bean parent="MaintainableFieldDefinition" p:name="assetMaintenanceDocumentLookup"/>	                        
+     	<bean parent="MaintainableFieldDefinition" p:name="assetFabricationDocumentLookup"/>	                        
+     	<bean parent="MaintainableFieldDefinition" p:name="assetCreateOrSeparateDocumentLookup"/>	                        
+     	<bean parent="MaintainableFieldDefinition" p:name="assetPaymentDocumentLookup"/>	                        
+     	<bean parent="MaintainableFieldDefinition" p:name="assetTransferDocumentLookup"/>	                        
+     	<bean parent="MaintainableFieldDefinition" p:name="assetEquipmentLoanOrReturnDocumentLookup"/>	                        
+     	<bean parent="MaintainableFieldDefinition" p:name="assetLocationDocumentLookup"/>	                        
+     	<bean parent="MaintainableFieldDefinition" p:name="assetMergeOrRetirementDocumentLookup"/>	                        
       </list>
 	</property>
   </bean>

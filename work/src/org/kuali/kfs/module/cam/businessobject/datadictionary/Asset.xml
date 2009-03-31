@@ -152,7 +152,14 @@
         <ref bean="Asset-assetPayments.documentNumber" />
 
 		<ref bean="Asset-assetPayments-lookup"/>
-		<ref bean="Asset-relatedDocument-documentLookup"/>
+		<ref bean="Asset-relatedDocument-assetTransferDocumentLookup"/>
+		<ref bean="Asset-relatedDocument-assetMaintenanceDocumentLookup"/>
+		<ref bean="Asset-relatedDocument-assetCreateOrSeparateDocumentLookup"/>
+		<ref bean="Asset-relatedDocument-assetFabricationDocumentLookup"/>
+		<ref bean="Asset-relatedDocument-assetPaymentDocumentLookup"/>
+		<ref bean="Asset-relatedDocument-assetEquipmentLoanOrReturnDocumentLookup"/>
+		<ref bean="Asset-relatedDocument-assetLocationDocumentLookup"/>
+		<ref bean="Asset-relatedDocument-assetMergeOrRetirementDocumentLookup"/>
 
       </list>
     </property>
@@ -240,20 +247,126 @@
 	</property>
 </bean>
 
-<bean id="Asset-relatedDocument-documentLookup" parent="Asset-relatedDocument-documentLookup-parentBean" />
-<bean id="Asset-relatedDocument-documentLookup-parentBean" abstract="true" parent="AttributeDefinition">
-	<property name="name" value="documentLookup" />
-	<property name="label" value="To view the related document for this Asset" />
+<bean id="Asset-relatedDocument-assetTransferDocumentLookup" parent="Asset-relatedDocument-assetTransferDocumentLookup-parentBean" />
+<bean id="Asset-relatedDocument-assetTransferDocumentLookup-parentBean" abstract="true" parent="AttributeDefinition">
+	<property name="name" value="assetTransferDocumentLookup" />
+	<property name="label" value="Asset Transfer Document(s)" />
     <property name="maxLength" value="1000" />
     <property name="required" value="false"/>    
 	<property name="control" >
 		<bean parent="LinkControlDefinition"
 			p:styleClass="globalLinks"
 			p:target="_blank"
-			p:hrefText="view related document click here"
+			p:hrefText="click here"
 		/>
 	</property>
 </bean>
+
+<bean id="Asset-relatedDocument-assetMaintenanceDocumentLookup" parent="Asset-relatedDocument-assetMaintenanceDocumentLookup-parentBean" />
+<bean id="Asset-relatedDocument-assetMaintenanceDocumentLookup-parentBean" abstract="true" parent="AttributeDefinition">
+	<property name="name" value="assetMaintenanceDocumentLookup" />
+	<property name="label" value="Asset Maintenance Document(s)" />
+    <property name="maxLength" value="1000" />
+    <property name="required" value="false"/>    
+	<property name="control" >
+		<bean parent="LinkControlDefinition"
+			p:styleClass="globalLinks"
+			p:target="_blank"
+			p:hrefText="click here"
+		/>
+	</property>
+</bean>
+
+<bean id="Asset-relatedDocument-assetFabricationDocumentLookup" parent="Asset-relatedDocument-assetFabricationDocumentLookup-parentBean" />
+<bean id="Asset-relatedDocument-assetFabricationDocumentLookup-parentBean" abstract="true" parent="AttributeDefinition">
+	<property name="name" value="assetFabricationDocumentLookup" />
+	<property name="label" value="Asset Fabrication Document(s)" />
+    <property name="maxLength" value="1000" />
+    <property name="required" value="false"/>    
+	<property name="control" >
+		<bean parent="LinkControlDefinition"
+			p:styleClass="globalLinks"
+			p:target="_blank"
+			p:hrefText="click here"
+		/>
+	</property>
+</bean>
+
+<bean id="Asset-relatedDocument-assetCreateOrSeparateDocumentLookup" parent="Asset-relatedDocument-assetCreateOrSeparateDocumentLookup-parentBean" />
+<bean id="Asset-relatedDocument-assetCreateOrSeparateDocumentLookup-parentBean" abstract="true" parent="AttributeDefinition">
+	<property name="name" value="assetCreateOrSeparateDocumentLookup" />
+	<property name="label" value="Asset Create or Separate Document(s)" />
+    <property name="maxLength" value="1000" />
+    <property name="required" value="false"/>    
+	<property name="control" >
+		<bean parent="LinkControlDefinition"
+			p:styleClass="globalLinks"
+			p:target="_blank"
+			p:hrefText="click here"
+		/>
+	</property>
+</bean>
+
+<bean id="Asset-relatedDocument-assetPaymentDocumentLookup" parent="Asset-relatedDocument-assetPaymentDocumentLookup-parentBean" />
+<bean id="Asset-relatedDocument-assetPaymentDocumentLookup-parentBean" abstract="true" parent="AttributeDefinition">
+	<property name="name" value="assetPaymentDocumentLookup" />
+	<property name="label" value="Asset Payment Document(s)" />
+    <property name="maxLength" value="1000" />
+    <property name="required" value="false"/>    
+	<property name="control" >
+		<bean parent="LinkControlDefinition"
+			p:styleClass="globalLinks"
+			p:target="_blank"
+			p:hrefText="click here"
+		/>
+	</property>
+</bean>
+
+<bean id="Asset-relatedDocument-assetEquipmentLoanOrReturnDocumentLookup" parent="Asset-relatedDocument-assetEquipmentLoanOrReturnDocumentLookup-parentBean" />
+<bean id="Asset-relatedDocument-assetEquipmentLoanOrReturnDocumentLookup-parentBean" abstract="true" parent="AttributeDefinition">
+	<property name="name" value="assetEquipmentLoanOrReturnDocumentLookup" />
+	<property name="label" value="Equipment Loan or Return Document(s)" />
+    <property name="maxLength" value="1000" />
+    <property name="required" value="false"/>    
+	<property name="control" >
+		<bean parent="LinkControlDefinition"
+			p:styleClass="globalLinks"
+			p:target="_blank"
+			p:hrefText="click here"
+		/>
+	</property>
+</bean>
+
+<bean id="Asset-relatedDocument-assetLocationDocumentLookup" parent="Asset-relatedDocument-assetLocationDocumentLookup-parentBean" />
+<bean id="Asset-relatedDocument-assetLocationDocumentLookup-parentBean" abstract="true" parent="AttributeDefinition">
+	<property name="name" value="assetLocationDocumentLookup" />
+	<property name="label" value="Asset Location Document(s)" />
+    <property name="maxLength" value="1000" />
+    <property name="required" value="false"/>    
+	<property name="control" >
+		<bean parent="LinkControlDefinition"
+			p:styleClass="globalLinks"
+			p:target="_blank"
+			p:hrefText="click here"
+		/>
+	</property>
+</bean>
+
+<bean id="Asset-relatedDocument-assetMergeOrRetirementDocumentLookup" parent="Asset-relatedDocument-assetMergeOrRetirementDocumentLookup-parentBean" />
+<bean id="Asset-relatedDocument-assetMergeOrRetirementDocumentLookup-parentBean" abstract="true" parent="AttributeDefinition">
+	<property name="name" value="assetMergeOrRetirementDocumentLookup" />
+	<property name="label" value="Asset Retirement or Merge Document(s)" />
+    <property name="maxLength" value="1000" />
+    <property name="required" value="false"/>    
+	<property name="control" >
+		<bean parent="LinkControlDefinition"
+			p:styleClass="globalLinks"
+			p:target="_blank"
+			p:hrefText="click here"
+		/>
+	</property>
+</bean>
+
   <bean id="Asset-organizationOwnerAccount.organizationCode" parent="Asset-organizationOwnerAccount.organizationCode-parentBean" />
   <bean id="Asset-organizationOwnerAccount.organizationCode-parentBean" abstract="true" parent="Account-organizationCode">
     <property name="name" value="organizationOwnerAccount.organizationCode" />
@@ -1686,7 +1799,21 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="documentLookup" />
+                    p:attributeName="assetMaintenanceDocumentLookup" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetFabricationDocumentLookup" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetCreateOrSeparateDocumentLookup" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetPaymentDocumentLookup" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetTransferDocumentLookup" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetEquipmentLoanOrReturnDocumentLookup" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetLocationDocumentLookup" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetMergeOrRetirementDocumentLookup" />
             </list>
           </property>
         </bean>

@@ -94,8 +94,11 @@ public class CamsConstants extends JSTLConstants {
         public static final String TRANSFER = "AT";
         public static final String EQUIPMENT_LOAN_OR_RETURN = "ELR";
         public static final String PAYMENT = "MPAY";
-        public static final String RETIREMENT = "AR";
+        public static final String RETIREMENT = "ARG";
         public static final String CREATE = "AA";
+        public static final String MAINTENANCE = "CASM";
+        public static final String FABRICATION = "FR";
+        public static final String LOCATION = "ALOC";
     }
 
     public static class PaymentDocumentTypeCodes {
@@ -201,7 +204,7 @@ public class CamsConstants extends JSTLConstants {
         public static final String SECTION_ID_AUCTION_OR_SOLD = "AuctionOrSold";
         public static final String SECTION_ID_THEFT = "Theft";
         public static final String SECTION_TARGET_ASSET_RETIREMENT_INFO = "Retirement Target Information";
-        public static final String DOCUMENT_TYPE_CODE = "AR";
+        public static final String DOCUMENT_TYPE_CODE = "ARG";
         public static final String LINE_DESCRIPTION_PLANT_FUND_FOR_FMS = "Plant Fund for FMS";
         public static final String LINE_DESCRIPTION_ACCUMULATED_DEPRECIATION = "Accumulated Depreciation";
         public static final String LINE_DESCRIPTION_GAIN_LOSS_DISPOSITION = "Gain/Loss Disposition of Assets";

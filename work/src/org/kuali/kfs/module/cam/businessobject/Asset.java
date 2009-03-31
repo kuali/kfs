@@ -2,7 +2,6 @@ package org.kuali.kfs.module.cam.businessobject;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Properties;
@@ -16,19 +15,18 @@ import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgency;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
-import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
-import org.kuali.kfs.module.cam.document.dataaccess.impl.DepreciableAssetsDaoOjb;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -146,7 +144,14 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     private Date depreciationDateCopy;
     private transient Integer quantity;
     private String lookup;
-    private String documentLookup;
+    private String assetTransferDocumentLookup;
+    private String assetMaintenanceDocumentLookup;
+    private String assetFabricationDocumentLookup;
+    private String assetCreateOrSeparateDocumentLookup;
+    private String assetPaymentDocumentLookup;
+    private String assetEquipmentLoanOrReturnDocumentLookup;
+    private String assetLocationDocumentLookup;
+    private String assetMergeOrRetirementDocumentLookup;
     private boolean tagged;
 
     /**
@@ -1920,6 +1925,11 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     }
 
 
+    /**
+     * Return the link for payment lookup
+     * 
+     * @return
+     */
     public String getLookup() {
         if (this.getCapitalAssetNumber() == null)
             return "";
@@ -1935,7 +1945,140 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
         return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
     }
 
-    public String getDocumentLookup() {
-        return null;
+    /**
+     * Build the properties collection for document lookup link. This link will be used for related document lookup.
+     * 
+     * @return
+     */
+    private Properties buildDocumentLookupLinkProperties() {
+        Properties params = new Properties();
+        params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
+        params.put(KFSConstants.DOC_FORM_KEY, "88888888");
+        params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
+        params.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, this.getCapitalAssetNumber().toString());
+        params.put(KFSConstants.RETURN_LOCATION_PARAMETER, "portal.do");
+        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocSearchCriteriaDTO.class.getName());
+        return params;
     }
+
+    /**
+     * return the link for asset transfer document lookup for given capital asset number.
+     * 
+     * @return
+     */
+    public String getAssetTransferDocumentLookup() {
+        if (this.getCapitalAssetNumber() == null)
+            return "";
+
+        Properties params = buildDocumentLookupLinkProperties();
+        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.TRANSFER);
+
+        return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
+    }
+
+    /**
+     * return the link for asset maintenance document lookup for given capital asset number.
+     * 
+     * @return
+     */
+    public String getAssetMaintenanceDocumentLookup() {
+        if (this.getCapitalAssetNumber() == null)
+            return "";
+
+        Properties params = buildDocumentLookupLinkProperties();
+        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.MAINTENANCE);
+
+        return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
+    }
+
+    /**
+     * return the link for asset fabrication document lookup for given capital asset number.
+     * 
+     * @return
+     */
+    public String getAssetFabricationDocumentLookup() {
+        if (this.getCapitalAssetNumber() == null)
+            return "";
+
+        Properties params = buildDocumentLookupLinkProperties();
+        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.FABRICATION);
+
+        return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
+    }
+    
+    /**
+     * return the link for asset create or separate global document lookup for given capital asset number.
+     * 
+     * @return
+     */
+    public String getAssetCreateOrSeparateDocumentLookup() {
+        if (this.getCapitalAssetNumber() == null)
+            return "";
+        
+        Properties params = buildDocumentLookupLinkProperties();
+        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.CREATE);
+        
+        return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
+    }
+    
+    /**
+     * return the link for asset payment document lookup for given capital asset number.
+     * 
+     * @return
+     */
+    public String getAssetPaymentDocumentLookup() {
+        if (this.getCapitalAssetNumber() == null)
+            return "";
+        
+        Properties params = buildDocumentLookupLinkProperties();
+        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.PAYMENT);
+        
+        return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
+    }
+    
+    /**
+     * return the link for asset equipment loan or return document lookup for given capital asset number.
+     * 
+     * @return
+     */
+    public String getAssetEquipmentLoanOrReturnDocumentLookup() {
+        if (this.getCapitalAssetNumber() == null)
+            return "";
+        
+        Properties params = buildDocumentLookupLinkProperties();
+        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.EQUIPMENT_LOAN_OR_RETURN);
+        
+        return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
+    }
+    
+    /**
+     * return the link for asset location global document lookup for given capital asset number.
+     * 
+     * @return
+     */
+    public String getAssetLocationDocumentLookup() {
+        if (this.getCapitalAssetNumber() == null)
+            return "";
+        
+        Properties params = buildDocumentLookupLinkProperties();
+        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.LOCATION);
+        
+        return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
+    }
+    
+    /**
+     * return the link for asset retirement or merge document lookup for given capital asset number.
+     * 
+     * @return
+     */
+    public String getAssetMergeOrRetirementDocumentLookup() {
+        if (this.getCapitalAssetNumber() == null)
+            return "";
+        
+        Properties params = buildDocumentLookupLinkProperties();
+        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.RETIREMENT);
+        
+        return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
+    }
+
 }

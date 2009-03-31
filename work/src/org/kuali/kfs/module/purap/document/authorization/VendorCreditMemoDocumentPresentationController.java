@@ -29,6 +29,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 
@@ -131,10 +132,12 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
         }
 
         //TODO hjs-is this right?  check to see if the checkbox is showing up for non-AP folks
-        if (!vendorCreditMemoDocument.isSourceVendor() &&
-                !isFullDocumentEntryCompleted && 
-                PurapConstants.PurchaseOrderStatuses.CLOSED.equals(vendorCreditMemoDocument.getPurchaseOrderDocument().getStatusCode())) {
-            editModes.add(CreditMemoEditMode.ALLOW_REOPEN_PURCHASE_ORDER);
+        if (ObjectUtils.isNotNull(vendorCreditMemoDocument.getPurchaseOrderDocument())){  
+            if (!vendorCreditMemoDocument.isSourceVendor() &&
+                    !isFullDocumentEntryCompleted && 
+                    PurapConstants.PurchaseOrderStatuses.CLOSED.equals(vendorCreditMemoDocument.getPurchaseOrderDocument().getStatusCode())) {
+                editModes.add(CreditMemoEditMode.ALLOW_REOPEN_PURCHASE_ORDER);
+            }
         }
         
         // Remove editBank edit mode if the document has been extracted

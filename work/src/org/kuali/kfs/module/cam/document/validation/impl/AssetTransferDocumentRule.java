@@ -209,7 +209,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
-        if (!super.processCustomRouteDocumentBusinessRules(document))
+        if (!super.processCustomRouteDocumentBusinessRules(document) || GlobalVariables.getErrorMap().hasErrors())
             return false;
 
         AssetTransferDocument assetTransferDocument = (AssetTransferDocument) document;
@@ -227,7 +227,6 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         if (valid) {
             valid &= applyRules(document);
         }
-
 
         return valid;
     }

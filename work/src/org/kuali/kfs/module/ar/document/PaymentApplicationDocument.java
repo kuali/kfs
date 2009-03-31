@@ -890,11 +890,11 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         fields.put("referenceFinancialDocumentNumber", documentNumber);
         boService.deleteMatching(NonAppliedHolding.class, fields);
         
-        // Vivek - create nonApplied and nonInvoiced Distributions
-        createDistributions();
-
         //  generate GLPEs only when routing or blanket approving
         if (event instanceof RouteDocumentEvent || event instanceof BlanketApproveDocumentEvent) {
+            // Vivek - create nonApplied and nonInvoiced Distributions
+            createDistributions();
+
             GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class); 
             if (!glpeService.generateGeneralLedgerPendingEntries(this)) {
                 logErrors();

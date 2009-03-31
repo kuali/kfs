@@ -85,7 +85,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="capitalAssetNumber" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="organizationOwnerChartOfAccountsCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="organizationOwnerAccountNumber" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="organizationOwnerAccount.organizationCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationOwnerAccount.organizationCode" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="agencyNumber"/>
         <bean parent="MaintainableFieldDefinition" p:name="acquisitionTypeCode" p:unconditionallyReadOnly="false" p:defaultValue="C"/>
         <bean parent="MaintainableFieldDefinition" p:name="inventoryStatusCode" p:required="true" p:defaultValue="U"/>

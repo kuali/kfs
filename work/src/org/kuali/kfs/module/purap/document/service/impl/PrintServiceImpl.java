@@ -157,7 +157,7 @@ public class PrintServiceImpl implements PrintService {
         ContractManager contractManager = po.getContractManager();
         String contractManagerCampusCode = "N/A";
         if (contractManager != null && contractManager.getContractManagerUserIdentifier() != null) {
-            Person contractManagerUser = KIMServiceLocator.getPersonService().getPerson(contractManager.getContractManagerUserIdentifier().toLowerCase());
+            Person contractManagerUser = KIMServiceLocator.getPersonService().getPerson(contractManager.getContractManagerUserIdentifier());
             contractManagerCampusCode = contractManagerUser.getCampusCode();
         }
 
@@ -213,7 +213,7 @@ public class PrintServiceImpl implements PrintService {
         ContractManager contractManager = po.getContractManager();
         String contractManagerCampusCode = "";
         if (contractManager.getContractManagerUserIdentifier() != null) {            
-            Person contractManagerUser = KIMServiceLocator.getPersonService().getPerson(contractManager.getContractManagerUserIdentifier().toLowerCase());
+            Person contractManagerUser = KIMServiceLocator.getPersonService().getPerson(contractManager.getContractManagerUserIdentifier());
             contractManagerCampusCode = contractManagerUser.getCampusCode();
         }
 

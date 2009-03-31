@@ -24,9 +24,12 @@ import java.util.HashMap;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.dataaccess.impl.CachingDaoJdbc;
 import org.kuali.kfs.module.ld.businessobject.LaborObject;
+import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
 import org.kuali.kfs.module.ld.dataaccess.LaborCachingDao;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.Guid;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class LaborCachingDaoJdbc extends CachingDaoJdbc implements LaborCachingDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborCachingDaoJdbc.class);
@@ -36,7 +39,14 @@ public class LaborCachingDaoJdbc extends CachingDaoJdbc implements LaborCachingD
     private PreparedStatement ledgerEntryInsert;
     private PreparedStatement laborObjectPreparedSelect;
     private PreparedStatement ledgerEntryPreparedSelect;
+    private PreparedStatement ledgerBalancePreparedSelect;
+    private PreparedStatement ledgerBalanceInsert;
+    private PreparedStatement ledgerBalanceUpdate;
+    private DateTimeService dateTimeService;
 
+    private String previousLedgerBalanceKey = "";
+    private LedgerBalance previousLedgerBalance = new LedgerBalance();
+    
     private Connection connection;
 
     public void insertLedgerEntry(LedgerEntry ledgerEntry) {
@@ -193,6 +203,150 @@ public class LaborCachingDaoJdbc extends CachingDaoJdbc implements LaborCachingD
         return transactionLedgerEntrySequenceNumber;
     }
 
+    
+    
+    
+    public LedgerBalance getLedgerBalance(LedgerBalance ledgerBalance) {
+        //NOTE: caches one value only!
+        String key = "LD_LDGR_BAL_T:" + ledgerBalance.getUniversityFiscalYear().toString() + "/" + ledgerBalance.getChartOfAccountsCode() + "/" + ledgerBalance.getAccountNumber() + "/" + ledgerBalance.getSubAccountNumber() + "/" + ledgerBalance.getFinancialObjectCode() + "/" + ledgerBalance.getFinancialSubObjectCode() + "/" + ledgerBalance.getFinancialBalanceTypeCode() + "/" + ledgerBalance.getFinancialObjectTypeCode() + "/" + ledgerBalance.getPositionNumber() + "/" + ledgerBalance.getEmplid();
+        if (!key.equals(previousLedgerBalanceKey)) {
+            try {
+                ledgerBalancePreparedSelect.setInt(1, ledgerBalance.getUniversityFiscalYear());
+                ledgerBalancePreparedSelect.setString(2, ledgerBalance.getChartOfAccountsCode());
+                ledgerBalancePreparedSelect.setString(3, ledgerBalance.getAccountNumber());
+                ledgerBalancePreparedSelect.setString(4, ledgerBalance.getSubAccountNumber());
+                ledgerBalancePreparedSelect.setString(5, ledgerBalance.getFinancialObjectCode());
+                ledgerBalancePreparedSelect.setString(6, ledgerBalance.getFinancialSubObjectCode());
+                ledgerBalancePreparedSelect.setString(7, ledgerBalance.getFinancialBalanceTypeCode());
+                ledgerBalancePreparedSelect.setString(8, ledgerBalance.getFinancialObjectTypeCode());
+                ledgerBalancePreparedSelect.setString(9, ledgerBalance.getPositionNumber());
+                ledgerBalancePreparedSelect.setString(10, ledgerBalance.getEmplid());
+                ResultSet rs = ledgerBalancePreparedSelect.executeQuery();
+                if (rs.next()) {
+                    previousLedgerBalance.setUniversityFiscalYear(ledgerBalance.getUniversityFiscalYear());
+                    previousLedgerBalance.setChartOfAccountsCode(ledgerBalance.getChartOfAccountsCode());
+                    previousLedgerBalance.setAccountNumber(ledgerBalance.getAccountNumber());
+                    previousLedgerBalance.setSubAccountNumber(ledgerBalance.getSubAccountNumber());
+                    previousLedgerBalance.setFinancialObjectCode(ledgerBalance.getFinancialObjectCode());
+                    previousLedgerBalance.setFinancialSubObjectCode(ledgerBalance.getFinancialSubObjectCode());
+                    previousLedgerBalance.setFinancialBalanceTypeCode(ledgerBalance.getFinancialBalanceTypeCode());
+                    previousLedgerBalance.setFinancialObjectTypeCode(ledgerBalance.getFinancialObjectTypeCode());
+                    previousLedgerBalance.setPositionNumber(ledgerBalance.getPositionNumber());
+                    previousLedgerBalance.setEmplid(ledgerBalance.getEmplid());
+                    previousLedgerBalance.setAccountLineAnnualBalanceAmount(new KualiDecimal(rs.getBigDecimal(1)));
+                    previousLedgerBalance.setBeginningBalanceLineAmount(new KualiDecimal(rs.getBigDecimal(2)));
+                    previousLedgerBalance.setContractsGrantsBeginningBalanceAmount(new KualiDecimal(rs.getBigDecimal(3)));
+                    previousLedgerBalance.setMonth1Amount(new KualiDecimal(rs.getBigDecimal(4)));
+                    previousLedgerBalance.setMonth2Amount(new KualiDecimal(rs.getBigDecimal(5)));
+                    previousLedgerBalance.setMonth3Amount(new KualiDecimal(rs.getBigDecimal(6)));
+                    previousLedgerBalance.setMonth4Amount(new KualiDecimal(rs.getBigDecimal(7)));
+                    previousLedgerBalance.setMonth5Amount(new KualiDecimal(rs.getBigDecimal(8)));
+                    previousLedgerBalance.setMonth6Amount(new KualiDecimal(rs.getBigDecimal(9)));
+                    previousLedgerBalance.setMonth7Amount(new KualiDecimal(rs.getBigDecimal(10)));
+                    previousLedgerBalance.setMonth8Amount(new KualiDecimal(rs.getBigDecimal(11)));
+                    previousLedgerBalance.setMonth9Amount(new KualiDecimal(rs.getBigDecimal(12)));
+                    previousLedgerBalance.setMonth10Amount(new KualiDecimal(rs.getBigDecimal(13)));
+                    previousLedgerBalance.setMonth11Amount(new KualiDecimal(rs.getBigDecimal(14)));
+                    previousLedgerBalance.setMonth12Amount(new KualiDecimal(rs.getBigDecimal(15)));
+                    previousLedgerBalance.setMonth13Amount(new KualiDecimal(rs.getBigDecimal(16)));
+                    previousLedgerBalanceKey = key;
+               } else { LOG.debug("Ledger Balance not found: " + key); return null; }
+                if (rs.next()) { throw new RuntimeException("More than one row returned from select by primary key."); }
+                rs.close();
+            } catch (SQLException e) {
+    //          TODO: should do something else here I'm sure
+                throw new RuntimeException(e);
+            }
+        }
+        return previousLedgerBalance;
+    }
+    
+    public void insertLedgerBalance(LedgerBalance ledgerBalance) {
+        try {
+            ledgerBalanceInsert.setInt(1, ledgerBalance.getUniversityFiscalYear());
+            ledgerBalanceInsert.setString(2, ledgerBalance.getChartOfAccountsCode());
+            ledgerBalanceInsert.setString(3, ledgerBalance.getAccountNumber());
+            ledgerBalanceInsert.setString(4, ledgerBalance.getSubAccountNumber());
+            ledgerBalanceInsert.setString(5, ledgerBalance.getFinancialObjectCode());
+            ledgerBalanceInsert.setString(6, ledgerBalance.getFinancialSubObjectCode());
+            ledgerBalanceInsert.setString(7, ledgerBalance.getFinancialBalanceTypeCode());
+            ledgerBalanceInsert.setString(8, ledgerBalance.getFinancialObjectTypeCode());
+            ledgerBalanceInsert.setString(9, ledgerBalance.getPositionNumber());
+            ledgerBalanceInsert.setString(10, ledgerBalance.getEmplid());
+            ledgerBalanceInsert.setBigDecimal(11, ledgerBalance.getAccountLineAnnualBalanceAmount().bigDecimalValue());
+            ledgerBalanceInsert.setBigDecimal(12, ledgerBalance.getBeginningBalanceLineAmount().bigDecimalValue());
+            ledgerBalanceInsert.setBigDecimal(13, ledgerBalance.getContractsGrantsBeginningBalanceAmount().bigDecimalValue());
+            ledgerBalanceInsert.setBigDecimal(14, ledgerBalance.getMonth1Amount().bigDecimalValue());
+            ledgerBalanceInsert.setBigDecimal(15, ledgerBalance.getMonth2Amount().bigDecimalValue());
+            ledgerBalanceInsert.setBigDecimal(16, ledgerBalance.getMonth3Amount().bigDecimalValue());
+            ledgerBalanceInsert.setBigDecimal(17, ledgerBalance.getMonth4Amount().bigDecimalValue());
+            ledgerBalanceInsert.setBigDecimal(18, ledgerBalance.getMonth5Amount().bigDecimalValue());
+            ledgerBalanceInsert.setBigDecimal(19, ledgerBalance.getMonth6Amount().bigDecimalValue());
+            ledgerBalanceInsert.setBigDecimal(20, ledgerBalance.getMonth7Amount().bigDecimalValue());
+            ledgerBalanceInsert.setBigDecimal(21, ledgerBalance.getMonth8Amount().bigDecimalValue());
+            ledgerBalanceInsert.setBigDecimal(22, ledgerBalance.getMonth9Amount().bigDecimalValue());
+            ledgerBalanceInsert.setBigDecimal(23, ledgerBalance.getMonth10Amount().bigDecimalValue());
+            ledgerBalanceInsert.setBigDecimal(24, ledgerBalance.getMonth11Amount().bigDecimalValue());
+            ledgerBalanceInsert.setBigDecimal(25, ledgerBalance.getMonth12Amount().bigDecimalValue());
+            ledgerBalanceInsert.setBigDecimal(26, ledgerBalance.getMonth13Amount().bigDecimalValue());
+            ledgerBalanceInsert.setTimestamp(27, dateTimeService.getCurrentTimestamp());
+            
+            ledgerBalanceInsert.executeUpdate();
+            previousLedgerBalanceKey = "LD_LDGR_BAL_T:" + ledgerBalance.getUniversityFiscalYear().toString() + "/" + ledgerBalance.getChartOfAccountsCode() + "/" + ledgerBalance.getAccountNumber() + "/" + ledgerBalance.getSubAccountNumber() + "/" + ledgerBalance.getFinancialObjectCode() + "/" + ledgerBalance.getFinancialSubObjectCode() + "/" + ledgerBalance.getFinancialBalanceTypeCode() + "/" + ledgerBalance.getFinancialObjectTypeCode() + "/" + ledgerBalance.getPositionNumber() + "/" + ledgerBalance.getEmplid();
+            previousLedgerBalance = ledgerBalance;
+        } catch (SQLException e) {
+            //TODO: should do something else here I'm sure
+            throw new RuntimeException(e);
+        }
+    }
+    
+    public void updateLedgerBalance(LedgerBalance ledgerBalance) {
+        try {
+            ledgerBalanceUpdate.setBigDecimal(1, ledgerBalance.getAccountLineAnnualBalanceAmount().bigDecimalValue());
+            ledgerBalanceUpdate.setBigDecimal(2, ledgerBalance.getBeginningBalanceLineAmount().bigDecimalValue());
+            ledgerBalanceUpdate.setBigDecimal(3, ledgerBalance.getContractsGrantsBeginningBalanceAmount().bigDecimalValue());
+            ledgerBalanceUpdate.setBigDecimal(4, ledgerBalance.getMonth1Amount().bigDecimalValue());
+            ledgerBalanceUpdate.setBigDecimal(5, ledgerBalance.getMonth2Amount().bigDecimalValue());
+            ledgerBalanceUpdate.setBigDecimal(6, ledgerBalance.getMonth3Amount().bigDecimalValue());
+            ledgerBalanceUpdate.setBigDecimal(7, ledgerBalance.getMonth4Amount().bigDecimalValue());
+            ledgerBalanceUpdate.setBigDecimal(8, ledgerBalance.getMonth5Amount().bigDecimalValue());
+            ledgerBalanceUpdate.setBigDecimal(9, ledgerBalance.getMonth6Amount().bigDecimalValue());
+            ledgerBalanceUpdate.setBigDecimal(10, ledgerBalance.getMonth7Amount().bigDecimalValue());
+            ledgerBalanceUpdate.setBigDecimal(11, ledgerBalance.getMonth8Amount().bigDecimalValue());
+            ledgerBalanceUpdate.setBigDecimal(12, ledgerBalance.getMonth9Amount().bigDecimalValue());
+            ledgerBalanceUpdate.setBigDecimal(13, ledgerBalance.getMonth10Amount().bigDecimalValue());
+            ledgerBalanceUpdate.setBigDecimal(14, ledgerBalance.getMonth11Amount().bigDecimalValue());
+            ledgerBalanceUpdate.setBigDecimal(15, ledgerBalance.getMonth12Amount().bigDecimalValue());
+            ledgerBalanceUpdate.setBigDecimal(16, ledgerBalance.getMonth13Amount().bigDecimalValue());
+            ledgerBalanceUpdate.setTimestamp(17, dateTimeService.getCurrentTimestamp());
+            ledgerBalanceUpdate.setInt(18, ledgerBalance.getUniversityFiscalYear());
+            ledgerBalanceUpdate.setString(19, ledgerBalance.getChartOfAccountsCode());
+            ledgerBalanceUpdate.setString(20, ledgerBalance.getAccountNumber());
+            ledgerBalanceUpdate.setString(21, ledgerBalance.getSubAccountNumber());
+            ledgerBalanceUpdate.setString(22, ledgerBalance.getFinancialObjectCode());
+            ledgerBalanceUpdate.setString(23, ledgerBalance.getFinancialSubObjectCode());
+            ledgerBalanceUpdate.setString(24, ledgerBalance.getFinancialBalanceTypeCode());
+            ledgerBalanceUpdate.setString(25, ledgerBalance.getFinancialObjectTypeCode());
+            ledgerBalanceUpdate.setString(26, ledgerBalance.getPositionNumber());
+            ledgerBalanceUpdate.setString(27, ledgerBalance.getEmplid());
+ 
+            ledgerBalanceUpdate.executeUpdate();
+            previousLedgerBalance = ledgerBalance;  //should we also update the key for safety?  it should be the same though
+        } catch (SQLException e) {
+            //TODO: should do something else here I'm sure
+            throw new RuntimeException(e);
+        }
+    }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     public void init() {
         if (connection == null) {
@@ -201,6 +355,13 @@ public class LaborCachingDaoJdbc extends CachingDaoJdbc implements LaborCachingD
                 laborObjectPreparedSelect = connection.prepareStatement("select finobj_frngslry_cd from LD_LABOR_OBJ_T where univ_fiscal_yr = ? and fin_coa_cd = ? and fin_object_cd = ?");
                 ledgerEntryInsert = connection.prepareStatement("INSERT INTO LD_LDGR_ENTR_T VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
                 ledgerEntryPreparedSelect = connection.prepareStatement("select max(trn_entr_seq_nbr) from ld_ldgr_entr_t where univ_fiscal_yr = ? and fin_coa_cd = ? and account_nbr = ? and sub_acct_nbr = ? and fin_object_cd = ? and fin_sub_obj_cd = ? and fin_balance_typ_cd = ? and fin_obj_typ_cd = ? and univ_fiscal_prd_cd = ? and fdoc_typ_cd = ? and fs_origin_cd = ? and fdoc_nbr = ?");
+                
+                ledgerBalancePreparedSelect = connection.prepareStatement("select ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, CONTR_GR_BB_AC_AMT, MO1_ACCT_LN_AMT, MO2_ACCT_LN_AMT, MO3_ACCT_LN_AMT, MO4_ACCT_LN_AMT, MO5_ACCT_LN_AMT, MO6_ACCT_LN_AMT, MO7_ACCT_LN_AMT, MO8_ACCT_LN_AMT, MO9_ACCT_LN_AMT, MO10_ACCT_LN_AMT, MO11_ACCT_LN_AMT, MO12_ACCT_LN_AMT, MO13_ACCT_LN_AMT from LD_LDGR_BAL_T where UNIV_FISCAL_YR = ? and FIN_COA_CD = ? and ACCOUNT_NBR = ? and SUB_ACCT_NBR = ? and FIN_OBJECT_CD = ? and FIN_SUB_OBJ_CD = ? and FIN_BALANCE_TYP_CD = ? and FIN_OBJ_TYP_CD = ? and POSITION_NBR = ? and EMPLID = ?");
+                ledgerBalanceInsert = connection.prepareStatement("insert into LD_LDGR_BAL_T values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                ledgerBalanceUpdate = connection.prepareStatement("update LD_LDGR_BAL_T set ACLN_ANNL_BAL_AMT = ?, FIN_BEG_BAL_LN_AMT = ?, CONTR_GR_BB_AC_AMT = ?, MO1_ACCT_LN_AMT = ?, MO2_ACCT_LN_AMT = ?, MO3_ACCT_LN_AMT = ?, MO4_ACCT_LN_AMT = ?, MO5_ACCT_LN_AMT = ?, MO6_ACCT_LN_AMT = ?, MO7_ACCT_LN_AMT = ?, MO8_ACCT_LN_AMT = ?, MO9_ACCT_LN_AMT = ?, MO10_ACCT_LN_AMT = ?, MO11_ACCT_LN_AMT = ?, MO12_ACCT_LN_AMT = ?, MO13_ACCT_LN_AMT = ?, TIMESTAMP = ? where UNIV_FISCAL_YR = ? and FIN_COA_CD = ? and ACCOUNT_NBR = ? and SUB_ACCT_NBR = ? and FIN_OBJECT_CD = ? and FIN_SUB_OBJ_CD = ? and FIN_BALANCE_TYP_CD = ? and FIN_OBJ_TYP_CD = ? and POSITION_NBR = ? and EMPLID = ?");
+                
+                
+                
             }
             catch (SQLException e) {
                 LOG.info(e.getErrorCode() + e.getMessage());
@@ -209,5 +370,9 @@ public class LaborCachingDaoJdbc extends CachingDaoJdbc implements LaborCachingD
             }
         }
 
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 }

@@ -18,6 +18,7 @@ package org.kuali.kfs.module.ld.dataaccess;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.dataaccess.CachingDao;
 import org.kuali.kfs.module.ld.businessobject.LaborObject;
+import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
 
 public interface LaborCachingDao extends CachingDao {
@@ -25,7 +26,8 @@ public interface LaborCachingDao extends CachingDao {
     public void insertLedgerEntry(LedgerEntry ledgerEntry);
     public LaborObject getLaborObject(OriginEntry originEntry);   
     public int getMaxLaborSequenceNumber(LedgerEntry t);
-    
-    
+    public LedgerBalance getLedgerBalance(LedgerBalance ledgerBalance);
+    public void insertLedgerBalance(LedgerBalance ledgerBalance);
+    public void updateLedgerBalance(LedgerBalance ledgerBalance);
     public void init();
 }

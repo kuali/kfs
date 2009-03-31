@@ -15,19 +15,17 @@
  */
 package org.kuali.kfs.module.ld.batch.service.impl;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.kfs.gl.batch.service.PostTransaction;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.businessobject.LaborTransaction;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
-import org.kuali.kfs.module.ld.service.LaborLedgerBalanceService;
+import org.kuali.kfs.module.ld.dataaccess.LaborCachingDao;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -36,9 +34,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class LaborLedgerBalancePoster implements PostTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerBalancePoster.class);
-    private BusinessObjectService businessObjectService;
-    private LaborLedgerBalanceService laborLedgerBalanceService;
 
+    private LaborCachingDao laborCachingDao;
     /**
      * @see org.kuali.kfs.gl.batch.service.PostTransaction#post(org.kuali.kfs.gl.businessobject.Transaction, int, java.util.Date)
      */
@@ -47,7 +44,7 @@ public class LaborLedgerBalancePoster implements PostTransaction {
         LedgerBalance ledgerBalance = new LedgerBalance((LaborTransaction) transaction);
         // ObjectUtil.buildObject(ledgerBalance, transaction);
 
-        LedgerBalance tempLedgerBalance = (LedgerBalance) businessObjectService.retrieve(ledgerBalance);
+        LedgerBalance tempLedgerBalance = laborCachingDao.getLedgerBalance(ledgerBalance);
         if (ObjectUtils.isNotNull(tempLedgerBalance)) {
             ledgerBalance = tempLedgerBalance;
             operationType = KFSConstants.OperationType.UPDATE;
@@ -57,9 +54,12 @@ public class LaborLedgerBalancePoster implements PostTransaction {
         amount = debitCreditCode.equals(KFSConstants.GL_CREDIT_CODE) ? amount.negated() : amount;
 
         ledgerBalance.addAmount(transaction.getUniversityFiscalPeriodCode(), amount);
-        ledgerBalance.setTransactionDateTimeStamp(new Timestamp(postDate.getTime()));
 
-        laborLedgerBalanceService.save(ledgerBalance);
+        if (operationType.equals(KFSConstants.OperationType.INSERT)) {
+            laborCachingDao.insertLedgerBalance(ledgerBalance);
+        } else {
+            laborCachingDao.updateLedgerBalance(ledgerBalance);
+        }
         return operationType;
     }
 
@@ -70,21 +70,7 @@ public class LaborLedgerBalancePoster implements PostTransaction {
         return LaborConstants.DestinationNames.LEDGER_BALANCE;
     }
 
-    /**
-     * Sets the businessObjectService attribute value.
-     * 
-     * @param businessObjectService The businessObjectService to set.
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
-    /**
-     * Sets the laborLedgerBalanceService attribute value.
-     * 
-     * @param laborLedgerBalanceService The laborLedgerBalanceService to set.
-     */
-    public void setLaborLedgerBalanceService(LaborLedgerBalanceService laborLedgerBalanceService) {
-        this.laborLedgerBalanceService = laborLedgerBalanceService;
+    public void setLaborCachingDao(LaborCachingDao laborCachingDao) {
+        this.laborCachingDao = laborCachingDao;
     }
 }

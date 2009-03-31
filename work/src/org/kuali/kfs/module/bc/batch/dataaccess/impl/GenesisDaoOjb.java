@@ -2554,7 +2554,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         //     this checks to see whether the missing row could have come in from CSF earlier, but the CSF row which created it is not inactive.  
         //     if they it not come in from CSF, then it follows that someone entered it and we should not touch it.  
         CSFBCAFRowsMissing = CSFBCAFRowsMissing + 1;
-        if ((!bcaf.getAppointmentRequestedAmount().equals(rqstAmount)) || (bcaf.getAppointmentFundingDurationCode().compareTo(notOnLeave) != 0) || (bcaf.isAppointmentFundingDeleteIndicator())) {
+        if ((bcaf.getAppointmentRequestedAmount().compareTo(rqstAmount) != 0) || (bcaf.getAppointmentFundingDurationCode().compareTo(notOnLeave) != 0) || (bcaf.isAppointmentFundingDeleteIndicator())) {
             return;
         }
         //
@@ -2629,12 +2629,13 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         // (c) must be done with rounded values, to avoid letting differences in high-order decimal places in DB storage make equivalent values technically unequal. 
         //
         // we are making the assumption here, based on the business object, that these values are BigDecimal
+        // for BigDecimal, compareTo ignores the scale if it differs between the two comparands and only looks at the values (2 = 2.00), while equals will return false for the same value but different scales
         BigDecimal CSFFTE  = resultCSF.getCsfFullTimeEmploymentQuantity().round(compareContext);
         BigDecimal BCAFFTE = bcaf.getAppointmentRequestedFteQuantity().round(compareContext);
-        boolean FTEOK = CSFFTE.equals(BCAFFTE);
+        boolean FTEOK = (CSFFTE.compareTo(BCAFFTE) == 0);
         BigDecimal CSFPctTime  = resultCSF.getCsfTimePercent().round(compareContext);
         BigDecimal BCAFPctTime = bcaf.getAppointmentRequestedTimePercent().round(compareContext);
-        boolean PctTimeOK = CSFPctTime.equals(BCAFPctTime);
+        boolean PctTimeOK = (CSFPctTime.compareTo(BCAFPctTime) == 0);
         String bcafPosition = bcaf.getPositionNumber();
         return (FTEOK && PctTimeOK);
     }

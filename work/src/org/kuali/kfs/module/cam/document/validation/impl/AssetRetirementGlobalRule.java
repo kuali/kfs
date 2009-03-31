@@ -259,9 +259,14 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
         if (!checkEmptyValue(assetRetirementGlobalDetail.getCapitalAssetNumber())) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER, CamsKeyConstants.Retirement.ERROR_BLANK_CAPITAL_ASSET_NUMBER);
-            success = false;
+            return false;
         }
-        else if (!getAssetService().isDocumentEnrouting(document)){
+        
+        assetRetirementGlobalDetail.refreshReferenceObject(CamsPropertyConstants.AssetLocationGlobalDetail.ASSET);
+        if (this.getAssetService().isAssetLoaned(assetRetirementGlobalDetail.getAsset())) {
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER, CamsKeyConstants.Retirement.ERROR_LOANED_ASSET_CANNOT_RETIRED);            
+            success = false;
+        } else if (!getAssetService().isDocumentEnrouting(document)){
             success &= checkRetirementDetailOneLine(assetRetirementGlobalDetail, assetRetirementGlobal, document);
             success &= checkRetireMultipleAssets(assetRetirementGlobal.getRetirementReasonCode(), assetRetirementGlobal.getAssetRetirementGlobalDetails(), new Integer(0), document);
         }
@@ -481,6 +486,8 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         else if (getAssetService().isAssetRetired(asset)) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER, CamsKeyConstants.Retirement.ERROR_NON_ACTIVE_ASSET_RETIREMENT, asset.getCapitalAssetNumber().toString());
             valid = false;
+        } else if (!this.validateAssetOnLoan(asset)) {
+            valid=false;
         }
 
         return valid;
@@ -541,6 +548,23 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
 
+    
+    /**
+     * 
+     * Validates whether or not asset is on loan status
+     * @param assetRetirementGlobalDetail
+     * @return boolean
+     */
+    private boolean validateAssetOnLoan(Asset asset){
+        boolean success = true;
+        if (this.getAssetService().isAssetLoaned(asset)) {
+            GlobalVariables.getErrorMap().putErrorForSectionId(CamsConstants.AssetRetirementGlobal.SECTION_ID_ASSET_DETAIL_INFORMATION, CamsKeyConstants.Retirement.ERROR_LOANED_ASSET_CANNOT_RETIRED);            
+            success = false;
+        }
+        return success;
+    }
+
+    
     private AssetService getAssetService() {
         return SpringContext.getBean(AssetService.class);
     }

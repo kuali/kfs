@@ -276,11 +276,13 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
+                    p:attributeName="vendorDetail.vendorName" />   
+              <bean parent="FieldDefinition"
                     p:attributeName="vendorContractName" />
               <bean parent="FieldDefinition"
                     p:attributeName="vendorContractDescription" />
               <bean parent="FieldDefinition"
-                    p:attributeName="vendorCampusCode" />
+                    p:attributeName="vendorCampusCode" />                 
               <bean parent="FieldDefinition"
                     p:attributeName="vendorContractBeginningDate" />
               <bean parent="FieldDefinition"

@@ -73,10 +73,10 @@
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.preparerPersonName}" 
 	                    	property="document.preparerPersonName" readOnly="${true}"/>
 	                </td>
-	                <th align=right valign=middle class="bord-l-b" rowspan="3">
+	                <th align=right valign=middle class="bord-l-b" rowspan="4">
 	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryAdditionalInstructionText}"/></div>
 	                </th>
-	                <td align=right valign=middle class="bord-l-b" rowspan="3">
+	                <td align=right valign=middle class="bord-l-b" rowspan="4">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryAdditionalInstructionText}" 
 	                    	property="document.deliveryAdditionalInstructionText" readOnly="${not (fullEntryMode)}"/>
 	                </td>
@@ -100,17 +100,43 @@
 	                </td>
 	            </tr>
 	            <tr>
-	            	<th align=right valign=middle class="bord-l-b">
+        			<th align=left valign=middle class="bord-l-b">
+	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.institutionContactName}"/></div>
+	                </th>
+	                <td align=left valign=middle class="datacell">
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.institutionContactName}" 
+	                    	property="document.institutionContactName" readOnly="${true}"/>
+	                </td>
+	            </tr>
+	            <tr>
+        			<th align=left valign=middle class="bord-l-b">
+	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.institutionContactPhoneNumber}"/></div>
+	                </th>
+	                <td align=left valign=middle class="datacell">
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.institutionContactPhoneNumber}" 
+	                    	property="document.institutionContactPhoneNumber" readOnly="${true}"/>
+	                </td>
+	                <th align=right valign=middle class="bord-l-b">
 	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryCampusName}" /></div>
 	                </th>
 	                <td align=left valign=middle class="datacell">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryCampusName}" property="document.deliveryCampus.campusName" readOnly="true" />
                	 	</td>
-               	 	<th align=right valign=middle class="bord-l-b">
+	            </tr>
+	            <tr>
+        			<th align=left valign=middle class="bord-l-b">
+	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.institutionContactEmailAddress}"/></div>
 	                </th>
 	                <td align=left valign=middle class="datacell">
-               	 	</td>
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.institutionContactEmailAddress}" 
+	                    	property="document.institutionContactEmailAddress" readOnly="${true}"/>
+	                </td>
+	                <th align=left valign=middle class="bord-l-b">
+	                </th>
+	                <td align=left valign=middle class="datacell">
+	                </td>
 	            </tr>
+	           
         	</c:if>
         	
         	

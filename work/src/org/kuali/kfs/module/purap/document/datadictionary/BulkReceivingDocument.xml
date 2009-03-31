@@ -621,7 +621,7 @@
 
   <bean id="BulkReceivingDocument-institutionContactEmailAddress-parentBean" abstract="true" parent="GenericAttributes-emailAddress">
     <property name="name" value="institutionContactEmailAddress"/>
-    <property name="label" value="Institutional Contact Email"/>
+    <property name="label" value="Contact Email"/>
     <property name="shortLabel" value="Address"/>
   </bean>
   <bean id="BulkReceivingDocument-institutionContactName" parent="BulkReceivingDocument-institutionContactName-parentBean"/>
@@ -629,7 +629,7 @@
   <bean id="BulkReceivingDocument-institutionContactName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="institutionContactName"/>
     <property name="forceUppercase" value="false"/>
-    <property name="label" value="Institutional Contact Name"/>
+    <property name="label" value="Contact Name"/>
     <property name="shortLabel" value="Name"/>
     <property name="maxLength" value="45"/>
     <property name="validationPattern">
@@ -644,7 +644,7 @@
 
   <bean id="BulkReceivingDocument-institutionContactPhoneNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberWithValidation">
     <property name="name" value="institutionContactPhoneNumber"/>
-    <property name="label" value="Institutional Contact Phone"/>
+    <property name="label" value="Contact Phone"/>
     <property name="shortLabel" value="Number"/>
   </bean>
   

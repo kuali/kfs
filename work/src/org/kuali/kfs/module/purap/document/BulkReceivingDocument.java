@@ -208,7 +208,6 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
         setDeliveryToEmailAddress( po.getDeliveryToEmailAddress() );
         setDeliveryToName( po.getDeliveryToName() );
         setDeliveryToPhoneNumber( po.getDeliveryToPhoneNumber() );
-        setDeliveryCampus(po.getDeliveryCampus()); 
         setInstitutionContactName(po.getInstitutionContactName());
         setInstitutionContactPhoneNumber(po.getInstitutionContactPhoneNumber());
         setInstitutionContactEmailAddress(po.getInstitutionContactEmailAddress());

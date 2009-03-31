@@ -21,9 +21,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintenanceDocument;
+import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemMaintenanceDocumentEntry;
 import org.kuali.kfs.sys.document.service.WorkflowAttributePropertyResolutionService;
 import org.kuali.rice.kew.docsearch.DocumentSearchContext;
@@ -36,6 +38,7 @@ import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.GlobalBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.kns.datadictionary.DataDictionaryEntry;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry;
 import org.kuali.rice.kns.datadictionary.SearchingAttribute;
@@ -88,6 +91,18 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
             
         }
         
+        if (doc instanceof FinancialSystemTransactionalDocument) {
+            SearchableAttributeStringValue searchableAttributeValue = new SearchableAttributeStringValue();
+            searchableAttributeValue.setSearchableAttributeKey("documentDescription");
+            searchableAttributeValue.setSearchableAttributeValue(((FinancialSystemTransactionalDocument)doc).getDocumentHeader().getDocumentDescription());
+            saValues.add(searchableAttributeValue);
+            
+            searchableAttributeValue = new SearchableAttributeStringValue();
+            searchableAttributeValue.setSearchableAttributeKey("organizationDocumentNumber");
+            searchableAttributeValue.setSearchableAttributeValue(((FinancialSystemTransactionalDocument)doc).getDocumentHeader().getOrganizationDocumentNumber());
+            saValues.add(searchableAttributeValue);
+        }
+        
         if (doc instanceof FinancialSystemMaintenanceDocument) {
             final Class<? extends BusinessObject> businessObjectClass = getBusinessObjectClass(documentSearchContext.getDocumentTypeName());
             if (businessObjectClass != null) {
@@ -118,6 +133,30 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
         
        List<Row> docSearchRows = new ArrayList<Row>();
         
+           final DataDictionaryEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDictionaryObjectEntry("FinancialSystemDocumentHeader");
+           String businessObjectClassName = boEntry.getFullClassName();
+           Class boClass = null;
+           try {
+               boClass = Class.forName(businessObjectClassName);
+           } catch (ClassNotFoundException cnfe) {
+               throw new RuntimeException(cnfe);
+           }
+           
+           Field descriptionField = FieldUtils.getPropertyField(boClass, "documentDescription", true);
+           descriptionField.setFieldDataType(SearchableAttribute.DATA_TYPE_STRING);
+           
+           Field orgDocNumberField = FieldUtils.getPropertyField(boClass, "organizationDocumentNumber", true);
+           orgDocNumberField.setFieldDataType(SearchableAttribute.DATA_TYPE_STRING);
+
+           List<Field> fieldList = new ArrayList<Field>();
+           fieldList.add(descriptionField);
+           docSearchRows.add(new Row(fieldList));
+
+           fieldList = new ArrayList<Field>();
+           fieldList.add(orgDocNumberField);
+           docSearchRows.add(new Row(fieldList));
+           
+       
        DocumentEntry entry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(documentSearchContext.getDocumentTypeName());
        if (entry  == null)
            return docSearchRows;

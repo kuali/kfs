@@ -431,7 +431,9 @@
     </bean>
 
     <bean id="laborLedgerBalancePoster" class="org.kuali.kfs.module.ld.batch.service.impl.LaborLedgerBalancePoster">
-
+		<property name="laborCachingDao">
+		  	<ref bean="laborCachingDao" />
+		</property>
     </bean>
 
     <bean id="laborGLLedgerEntryPoster" class="org.kuali.kfs.module.ld.batch.service.impl.LaborGLLedgerEntryPoster">

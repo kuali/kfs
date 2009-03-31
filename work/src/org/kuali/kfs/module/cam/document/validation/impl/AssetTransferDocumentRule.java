@@ -82,7 +82,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         AssetTransferDocument assetTransferDocument = (AssetTransferDocument) document;
         Asset asset = assetTransferDocument.getAsset();
-        if (SpringContext.getBean(AssetService.class).isAssetLocked(document.getDocumentNumber(), asset.getCapitalAssetNumber())) {
+        if (this.getAssetService().isAssetLocked(document.getDocumentNumber(), asset.getCapitalAssetNumber())) {
             return false;
         }
         boolean valid = checkReferencesExist(assetTransferDocument);
@@ -215,7 +215,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         AssetTransferDocument assetTransferDocument = (AssetTransferDocument) document;
         Asset asset = assetTransferDocument.getAsset();
 
-        if (SpringContext.getBean(AssetService.class).isAssetLocked(document.getDocumentNumber(), asset.getCapitalAssetNumber())) {
+        if (this.getAssetService().isAssetLocked(document.getDocumentNumber(), asset.getCapitalAssetNumber())) {
             return false;
         }
         boolean valid = true;
@@ -274,7 +274,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         GlobalVariables.getErrorMap().addToErrorPath(CamsConstants.DOCUMENT_PATH);
         Asset asset = assetTransferDocument.getAsset();
         asset.refreshReferenceObject(CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE);
-        boolean isCapitalAsset = SpringContext.getBean(AssetService.class).isCapitalAsset(asset);
+        boolean isCapitalAsset = this.getAssetService().isCapitalAsset(asset);
         boolean valid = SpringContext.getBean(AssetLocationService.class).validateLocation(LOCATION_FIELD_MAP, assetTransferDocument, isCapitalAsset, asset.getCapitalAssetType());
         GlobalVariables.getErrorMap().removeFromErrorPath(CamsConstants.DOCUMENT_PATH);
         return valid;
@@ -292,7 +292,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
 
         assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.ASSET);
         // If asset is loaned, ask a confirmation question
-        if (assetTransferDocument.getAsset().getExpectedReturnDate() != null && assetTransferDocument.getAsset().getLoanReturnDate() == null) {
+        if (this.getAssetService().isAssetLoaned(assetTransferDocument.getAsset())) {
             putError(CamsPropertyConstants.AssetTransferDocument.ASSET + "." + CamsPropertyConstants.AssetTransferDocument.CAPITAL_ASSET_NUMBER, CamsKeyConstants.Transfer.ERROR_TRFR_LOANED);
             valid &= false;
         }

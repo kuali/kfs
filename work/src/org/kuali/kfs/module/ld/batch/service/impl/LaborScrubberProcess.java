@@ -146,22 +146,11 @@ public class LaborScrubberProcess {
 
     /* Misc stuff */
     private ThreadLocal<OriginEntryLookupService> referenceLookup = new ThreadLocal<OriginEntryLookupService>();
-    
-    //TODO: change to FIS
     private String inputFile;
     private String validFile;
     private String errorFile; 
     private String expiredFile;
-    
     private String reportFileName;
-    
-
-//    private String inputFileName = "c:/scrubberEntries.txt";
-//    private String validOutputFilename = "c:/SCRBOUT1";
-//    private String errorOutputFilename = "c:/SCRBERR1";
-//    private String expiredOutputFilename = "c:/EXPACCTS";
- 
-    
     
     /**
      * These parameters are all the dependencies.
@@ -239,15 +228,8 @@ public class LaborScrubberProcess {
         LOG.debug("scrubEntries() started");
         // We are in report only mode if reportOnlyMode is true.
         // if not, we are in batch mode and we scrub the backup group
-
-//        LaborOriginEntryLookupService refLookup = SpringContext.getBean(LaborOriginEntryLookupService.class);
-//        refLookup.setLookupService(SpringContext.getBean(CachingLookup.class));
-//        scrubberValidator.setReferenceLookup(refLookup);
-
         String reportsDirectory = ReportRegistry.getReportsDirectory();
-
         scrubberReportErrors = new HashMap<Transaction, List<Message>>();
-
         // setup an object to hold the "default" date information
         runDate = calculateRunDate(dateTimeService.getCurrentDate());
         runCal = Calendar.getInstance();
@@ -259,20 +241,12 @@ public class LaborScrubberProcess {
         if (universityRunDate == null) {
             throw new IllegalStateException(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_UNIV_DATE_NOT_FOUND));
         }
-
         setOffsetString();
         setDescriptions();
         scrubberReport = new ScrubberReportData();
         processGroup();
 
         laborReportService.generateBatchScrubberStatisticsReport(scrubberReport, scrubberReportErrors, reportsDirectory, runDate);
-        
-        // run the demerger
-        
-        // Shawn - made it seperate batch step
-//        if (!reportOnlyMode) {
-//            performDemerger(errorOutputFilename, validOutputFilename);
-//        }
 
         // Run the reports
         if (reportOnlyMode) {
@@ -282,15 +256,11 @@ public class LaborScrubberProcess {
         else {
             // Run bad balance type report and removed transaction report
             Collection badBalanceEntries = getBadBalanceEntries(inputFile);
-            
             //laborReportService.generateScrubberBadBalanceTypeListingReport(badBalanceEntries, reportsDirectory, runDate);
-            
             Collection removedTransactions = getRemovedTransactions(errorFile);
             //laborReportService.generateScrubberRemovedTransactions(errorGroup, reportsDirectory, runDate);
             //laborReportService.generateScrubberRemovedTransactions(removedTransactions, reportsDirectory, runDate);
         }
-
-        
     }
 
     /**
@@ -339,41 +309,26 @@ public class LaborScrubberProcess {
     private void processGroup() {
         this.referenceLookup.get().setLookupService(SpringContext.getBean(CachingLookup.class));
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-
         LaborOriginEntry lastEntry = null;
         scrubCostShareAmount = KualiDecimal.ZERO;
         unitOfWork = new UnitOfWorkInfo();
-        
-        // TEMPORARY CHANGES JUST EXPERIMENTING WITH STUFF - DON'T CHECK IN LIKE THIS!
         FileReader INPUT_GLE_FILE = null;
-        // FileWriter OUTPUT_GLE_FILE = null;
-        // FIXME still have to make error file(s)
         String GLEN_RECORD;
         BufferedReader INPUT_GLE_FILE_br;
         PrintStream OUTPUT_GLE_FILE_ps;
         PrintStream OUTPUT_ERR_FILE_ps;
         PrintStream OUTPUT_EXP_FILE_ps;
-        
         PrintStream reportPrintStream;
-        
-        // BufferedWriter OUTPUT_GLE_FILE_bw;
         try {
             INPUT_GLE_FILE = new FileReader(inputFile);
-            // FIXME TEMP FOR TESTING!!
-
         }
         catch (FileNotFoundException e) {
-            // FIXME: do whatever is supposed to be done here
             throw new RuntimeException(e);
         }
         try {
-            // OUTPUT_GLE_FILE = new FileWriter("scrbout1.txt");
-            
-
             OUTPUT_GLE_FILE_ps = new PrintStream(validFile);
             OUTPUT_ERR_FILE_ps = new PrintStream(errorFile);
             OUTPUT_EXP_FILE_ps = new PrintStream(expiredFile);
-            
             reportPrintStream = new PrintStream(reportFileName);
         }
         catch (IOException e) {
@@ -385,10 +340,8 @@ public class LaborScrubberProcess {
         textReportHelper.writeErrorHeader();
 
         INPUT_GLE_FILE_br = new BufferedReader(INPUT_GLE_FILE);
-        // OUTPUT_GLE_FILE_bw = new BufferedWriter(OUTPUT_GLE_FILE);
-
         LOG.info("Starting Scrubber Process process group...");
-
+     
         int lineNumber = 0;
         int loadedCount = 0;
         boolean errorsLoading = false;
@@ -401,8 +354,6 @@ public class LaborScrubberProcess {
                 boolean saveErrorTransaction = false;
                 boolean saveValidTransaction = false;
                 LaborOriginEntry scrubbedEntry = new LaborOriginEntry();
-                
-                // shawn - won't need this try catch block since above try will catch all IOexception
                 try {
                     lineNumber++;
                     
@@ -418,7 +369,6 @@ public class LaborScrubberProcess {
 
                     // just test entry with the entry loaded above
                     scrubberReport.incrementUnscrubbedRecordsRead();
-
                     transactionErrors = new ArrayList<Message>();
 
                     // This is done so if the code modifies this row, then saves it, it will be an insert,
@@ -426,7 +376,6 @@ public class LaborScrubberProcess {
                     unscrubbedEntry.setGroup(null);
                     unscrubbedEntry.setVersionNumber(null);
                     unscrubbedEntry.setEntryId(null);
-
                     saveErrorTransaction = false;
                     saveValidTransaction = false;
 
@@ -443,7 +392,6 @@ public class LaborScrubberProcess {
                         transactionErrors.add(new Message(e.toString() + " occurred for this record.", Message.TYPE_FATAL));
                         saveValidTransaction = false;
                     }   
-                    
                     transactionErrors.addAll(tmperrors);
 
                     // Expired account?
@@ -463,17 +411,10 @@ public class LaborScrubberProcess {
                         // See if unit of work has changed
                         if (!unitOfWork.isSameUnitOfWork(scrubbedEntry)) {
                             // Generate offset for last unit of work
-
-                            // generateOffset(lastEntry);
-
                             unitOfWork = new UnitOfWorkInfo(scrubbedEntry);
                         }
-
                         KualiDecimal transactionAmount = scrubbedEntry.getTransactionLedgerEntryAmount();
-
                         ParameterEvaluator offsetFiscalPeriods = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.OFFSET_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode());
-
-
                         BalanceType scrubbedEntryBalanceType = referenceLookup.get().getBalanceType(scrubbedEntry);
                         if (scrubbedEntryBalanceType.isFinancialOffsetGenerationIndicator() && offsetFiscalPeriods.evaluationSucceeds()) {
                             if (scrubbedEntry.isDebit()) {
@@ -525,40 +466,35 @@ public class LaborScrubberProcess {
                         //scrubberReportErrors.put(unscrubbedEntry, transactionErrors);
                         textReportHelper.writeErrors(unscrubbedEntry, transactionErrors);
                     }
-                
+                    
+                    if (saveValidTransaction) {
+                        scrubbedEntry.setTransactionScrubberOffsetGenerationIndicator(false);
+                        createOutputEntry(scrubbedEntry, OUTPUT_GLE_FILE_ps);
+                        scrubberReport.incrementScrubbedRecordWritten();
+                    }
 
-                if (saveValidTransaction) {
-                    scrubbedEntry.setTransactionScrubberOffsetGenerationIndicator(false);
-                    createOutputEntry(scrubbedEntry, OUTPUT_GLE_FILE_ps);
-                    scrubberReport.incrementScrubbedRecordWritten();
+                    if (saveErrorTransaction) {
+                        // Make a copy of it so OJB doesn't just update the row in the original
+                        // group. It needs to make a new one in the error group
+                        LaborOriginEntry errorEntry = new LaborOriginEntry(unscrubbedEntry);
+                        errorEntry.setTransactionScrubberOffsetGenerationIndicator(false);
+                        createOutputEntry(currentLine, OUTPUT_ERR_FILE_ps);
+                        scrubberReport.incrementErrorRecordWritten();
+                    }
                 }
-
-                if (saveErrorTransaction) {
-                    // Make a copy of it so OJB doesn't just update the row in the original
-                    // group. It needs to make a new one in the error group
-                    LaborOriginEntry errorEntry = new LaborOriginEntry(unscrubbedEntry);
-                    errorEntry.setTransactionScrubberOffsetGenerationIndicator(false);
-                    createOutputEntry(currentLine, OUTPUT_ERR_FILE_ps);
-                    scrubberReport.incrementErrorRecordWritten();
-                }
-
-                }
-                currentLine = INPUT_GLE_FILE_br.readLine();
-                
+                    currentLine = INPUT_GLE_FILE_br.readLine();
+               
                 } catch (IOException ioe) {
                     //catch here again, it should be from postSingleEntryIntoLaborLedger
                     LOG.error("processGroup() stopped due to: " + ioe.getMessage() + " on line number : " + loadedCount, ioe);
                     throw new RuntimeException("processGroup() stopped due to: " + ioe.getMessage() + " on line number : " + loadedCount , ioe);
-                    
                 } 
-
             }
             INPUT_GLE_FILE_br.close();
             INPUT_GLE_FILE.close();
             OUTPUT_GLE_FILE_ps.close();
             OUTPUT_ERR_FILE_ps.close();
             OUTPUT_EXP_FILE_ps.close();
-
 
             textReportHelper.writeStatisticsHeader();
             reportPrintStream.printf("                                        UNSCRUBBED RECORDS READ              %,9d\n", scrubberReport.getNumberOfUnscrubbedRecordsRead());
@@ -567,15 +503,11 @@ public class LaborScrubberProcess {
             reportPrintStream.printf("                                        TOTAL OUTPUT RECORDS WRITTEN         %,9d\n", scrubberReport.getTotalNumberOfRecordsWritten());
             reportPrintStream.printf("                                        EXPIRED ACCOUNTS FOUND               %,9d\n", scrubberReport.getNumberOfExpiredAccountsFound());
             reportPrintStream.close();
-
-
         }
         catch (IOException ioe) {
             LOG.error("processGroup() stopped due to: " + ioe.getMessage(), ioe);
             throw new RuntimeException("processGroup() stopped due to: " + ioe.getMessage(), ioe);
         }
-
-
     }
 
 
@@ -624,7 +556,6 @@ public class LaborScrubberProcess {
 
         return msg.substring(0, 33) + offsetString;
     }
-
 
     /**
      * If object is null, generate an error
@@ -850,7 +781,6 @@ public class LaborScrubberProcess {
 
         // For Labor's more fields
         // It might be changed based on Labor Scrubber's business rule
-
         scrubbedEntry.setPositionNumber(unscrubbedEntry.getPositionNumber());
         scrubbedEntry.setTransactionPostingDate(unscrubbedEntry.getTransactionPostingDate());
         scrubbedEntry.setPayPeriodEndDate(unscrubbedEntry.getPayPeriodEndDate());
@@ -878,7 +808,6 @@ public class LaborScrubberProcess {
         scrubbedEntry.setReferenceFinancialDocumentTypeCode(unscrubbedEntry.getReferenceFinancialDocumentTypeCode());
         scrubbedEntry.setReferenceFinancialSystemOrigination(unscrubbedEntry.getReferenceFinancialSystemOrigination());
         scrubbedEntry.setPayrollEndDateFiscalPeriod(unscrubbedEntry.getPayrollEndDateFiscalPeriod());
-
     }
 
     /**

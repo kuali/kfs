@@ -34,7 +34,6 @@ public class BatchSortUtil {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BatchSortUtil.class);
     
     static public void sortTextFileWithFields(String inputFileName, String outputFileName, Comparator comparator){
-    //static public void sortTextFileWithFields(String inputFileName, String outputFileName, Comparator comparator, Comparator reverseComparator){
         FileReader inputFile = null;
         PrintStream outputFileStream = null;
         try {
@@ -60,13 +59,11 @@ public class BatchSortUtil {
             inputBufferedReader.close();    
             
         } catch (IOException e) {
-            // FIXME: do whatever should be done here
-            LOG.error("performDemerger Stopped: " + e.getMessage());
+            LOG.error("sortTextFileWithFields() Stopped: " + e.getMessage());
             throw new RuntimeException("sortTextFileWithFields() Stopped: " + e.getMessage(), e);
         }
-
         Collections.sort(lineList, comparator);
-        
+
         for (String line: lineList){
             outputFileStream.printf("%s\n", line);
         }

@@ -109,7 +109,6 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
     /* Services required */
     private FlexibleOffsetAccountService flexibleOffsetAccountService;
     private OriginEntryService originEntryService;
-    //private OriginEntryLiteService originEntryLiteService;
     private OriginEntryGroupService originEntryGroupService;
     private DateTimeService dateTimeService;
     private OffsetDefinitionService offsetDefinitionService;
@@ -173,7 +172,6 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
     private String errorFile;
     private String expiredFile;
     
-    //TODO: Shawn - need to change time info of the file name
     private String reportFileName;
 
     /**
@@ -219,6 +217,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
         
         scrubEntries(true, documentNumber);
         
+        // delete files
         File deleteValidFile = new File(validFile);
         File deleteErrorFile = new File(errorFile);
         File deleteExpiredFile = new File(expiredFile);
@@ -230,7 +229,6 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
             LOG.error("scrubGroupReportOnly delete output files process Stopped: " + e.getMessage());
             throw new RuntimeException("scrubGroupReportOnly delete output files process Stopped: " + e.getMessage(), e);
         }
-        
     }
 
     /**
@@ -265,7 +263,6 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
         this.errorFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_SCRUBBER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         this.expiredFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_SCRUBBER_EXPIRED_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         runDate = calculateRunDate(dateTimeService.getCurrentDate());
-        
        
         // sort input file
         String scrubberSortInputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
@@ -311,7 +308,6 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
 
         // We are in report only mode if reportOnlyMode is true.
         // if not, we are in batch mode and we scrub the backup group
-
         scrubberReportErrors = new HashMap<Transaction, List<Message>>();
 
         // setup an object to hold the "default" date information
@@ -323,15 +319,10 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
         if (universityRunDate == null) {
             throw new IllegalStateException(configurationService.getPropertyString(KFSKeyConstants.ERROR_UNIV_DATE_NOT_FOUND));
         }
-
+        
         setOffsetString();
         setDescriptions();
-
-        // Create the groups that will store the valid and error entries that come out of the scrubber
-        // We don't need groups for the reportOnlyMode
-
         scrubberReport = new ScrubberReportData();
-        //TODO: TEMPORARY TESTING!
         processGroup(reportOnlyMode);
         reportService.generateBatchScrubberStatisticsReport(runDate, scrubberReport, scrubberReportErrors);
     }
@@ -376,7 +367,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
 
             demergerValidOutputFilename = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
             demergerErrorOutputFilename = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.DEMERGER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-            
+            // TODO: Constant
             reportFileName = reportDirectoryName + File.separator + "demerger_report_" + runDate.toString() + ".txt";
 
         } else {
@@ -386,7 +377,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
 
             demergerValidOutputFilename = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_DEMERGER_VAILD_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
             demergerErrorOutputFilename = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_DEMERGER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-            
+            // TODO: Constant
             reportFileName = reportDirectoryName + File.separator + "collector_demerger_report_" + runDate.toString() + ".txt";
         }
         
@@ -410,7 +401,6 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
             throw new RuntimeException(e);
         }
         try {
-            
             OUTPUT_DEMERGER_GLE_FILE_ps = new PrintStream(demergerValidOutputFilename);
             OUTPUT_DEMERGER_ERR_FILE_ps = new PrintStream(demergerErrorOutputFilename);
             PRINT_FILE_ps = new PrintStream(reportFileName);
@@ -438,7 +428,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
             
             while (currentValidLine != null || currentErrorLine != null) {
                
-                //shawn - Demerger only catch IOexception since demerger report doesn't display
+                // Demerger only catch IOexception since demerger report doesn't display
                 // detail error message.
                 try{
                    //validLine is null means that errorLine is not null 
@@ -511,8 +501,8 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
             INPUT_ERR_FILE_br.close();
             OUTPUT_DEMERGER_GLE_FILE_ps.close();
             OUTPUT_DEMERGER_ERR_FILE_ps.close();
+            
         } catch (IOException e) {
-            // FIXME: do whatever should be done here
             LOG.error("performDemerger Stopped: " + e.getMessage());
             throw new RuntimeException("performDemerger Stopped: " + e.getMessage(), e);
         }
@@ -534,8 +524,6 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
             PRINT_FILE_ps.printf("                                       TRANSFER TRANSACTIONS BYPASSED         %,9d\n", demergerReport.getTransferTransactionsBypassed());
             PRINT_FILE_ps.printf("                                       COST SHARE TRANSACTIONS BYPASSED       %,9d\n", demergerReport.getCostShareTransactionsBypassed());
             PRINT_FILE_ps.printf("                                       COST SHARE ENC TRANSACTIONS BYPASSED   %,9d\n", demergerReport.getCostShareEncumbranceTransactionsBypassed());
-            
-            //reportService.generateScrubberDemergerStatisticsReports(runDate, demergerReport);
         }
     }
 
@@ -812,7 +800,6 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
                         }
     
                         if (transactionErrors.size() > 0) {
-                            //scrubberReportErrors.put(OriginEntryFull.copyFromOriginEntryable(scrubbedEntry), transactionErrors);
                             textReportHelper.writeErrors(OriginEntryFull.copyFromOriginEntryable(scrubbedEntry), transactionErrors);
                         }
 
@@ -823,7 +810,6 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
                     // Error transaction
                     saveErrorTransaction = true;
                     textReportHelper.writeErrors(OriginEntryFull.copyFromOriginEntryable(unscrubbedEntry), transactionErrors);
-                    //scrubberReportErrors.put(OriginEntryFull.copyFromOriginEntryable(unscrubbedEntry), transactionErrors);
                 }
     
                 if (saveValidTransaction) {
@@ -856,6 +842,8 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
             OUTPUT_EXP_FILE_ps.close();
             
             textReportHelper.writeStatisticsHeader();
+            // constants? key constants? 
+            // should be moved to textReportHelper?
             PRINT_FILE_ps.printf("                                        UNSCRUBBED RECORDS READ              %,9d\n", scrubberReport.getNumberOfUnscrubbedRecordsRead());
             PRINT_FILE_ps.printf("                                        SCRUBBED RECORDS WRITTEN             %,9d\n", scrubberReport.getNumberOfScrubbedRecordsWritten());
             PRINT_FILE_ps.printf("                                        ERROR RECORDS WRITTEN                %,9d\n", scrubberReport.getNumberOfErrorRecordsWritten());

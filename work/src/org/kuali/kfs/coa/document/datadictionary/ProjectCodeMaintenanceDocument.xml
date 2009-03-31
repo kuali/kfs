@@ -83,8 +83,8 @@
 	<bean id="ProjectCodeMaintenanceDocument-DocumentValuePathGroup-ChartOrganization" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
     	<property name="documentValues">
     		<list>
-    			<value>initiatorChartOfAccountsCode</value>
-    			<value>initiatorOrganizationCode</value>
+    			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
+    			<value>newMaintainableObject.businessObject.organizationCode</value>
     		</list>
     	</property>
    	</bean>

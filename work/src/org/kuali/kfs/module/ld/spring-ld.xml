@@ -315,6 +315,9 @@
 	
 	
 	<bean id="laborCachingDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborCachingDaoJdbc" init-method="init" >
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
 	</bean>
 	
 	
@@ -420,13 +423,10 @@
     </bean>
 
     <bean id="laborLedgerBalancePoster" class="org.kuali.kfs.module.ld.batch.service.impl.LaborLedgerBalancePoster">
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>
-        <property name="laborLedgerBalanceService">
-			<ref bean="laborLedgerBalanceService" />
-		</property>	
-    </bean>
+		<property name="laborCachingDao">
+		  	<ref bean="laborCachingDao" />
+		</property>
+	</bean>
 
     <bean id="laborGLLedgerEntryPoster" class="org.kuali.kfs.module.ld.batch.service.impl.LaborGLLedgerEntryPoster">
         <property name="laborGeneralLedgerEntryService">

@@ -119,17 +119,19 @@ public class AssetSeparatePaymentDistributor {
     private void prepareSourcePaymentsForSplit() {
         // Call the allocate with ratio for each payments
         for (AssetPayment assetPayment : this.sourcePayments) {
-            // Separate amount
-            AssetPayment separatePayment = new AssetPayment();
-            ObjectValueUtils.copySimpleProperties(assetPayment, separatePayment);
-            this.separatedPayments.add(separatePayment);
+            if (assetPayment.getAccountChargeAmount() != null && assetPayment.getAccountChargeAmount().isNonZero()) {
+                // Separate amount
+                AssetPayment separatePayment = new AssetPayment();
+                ObjectValueUtils.copySimpleProperties(assetPayment, separatePayment);
+                this.separatedPayments.add(separatePayment);
 
-            // Remaining amount
-            AssetPayment remainingPayment = new AssetPayment();
-            ObjectValueUtils.copySimpleProperties(assetPayment, remainingPayment);
-            this.remainingPayments.add(remainingPayment);
+                // Remaining amount
+                AssetPayment remainingPayment = new AssetPayment();
+                ObjectValueUtils.copySimpleProperties(assetPayment, remainingPayment);
+                this.remainingPayments.add(remainingPayment);
 
-            applyRatioToPaymentAmounts(assetPayment, new AssetPayment[] { separatePayment, remainingPayment }, new double[] { separateRatio, retainRatio });
+                applyRatioToPaymentAmounts(assetPayment, new AssetPayment[] { separatePayment, remainingPayment }, new double[] { separateRatio, retainRatio });
+            }
         }
 
 
@@ -164,6 +166,7 @@ public class AssetSeparatePaymentDistributor {
      * how amount is consumed by each asset and how each payment is being split
      */
     private void allocatePaymentAmountsByRatio() {
+        int index = 0;
         for (AssetPayment source : this.separatedPayments) {
 
             // for each source payment, create target payments by ratio
@@ -179,7 +182,7 @@ public class AssetSeparatePaymentDistributor {
                 targets[j] = newPayment;
                 newPayment.setVersionNumber(null);
                 newPayment.setObjectId(null);
-                currentAsset.getAssetPayments().add(newPayment);
+                currentAsset.getAssetPayments().add(index, newPayment);
             }
             applyRatioToPaymentAmounts(source, targets, assetAllocateRatios);
 
@@ -192,6 +195,7 @@ public class AssetSeparatePaymentDistributor {
                 Long capitalAssetNumber = currentAsset.getCapitalAssetNumber();
                 this.totalByAsset.put(capitalAssetNumber, this.totalByAsset.get(capitalAssetNumber).add(targets[j].getAccountChargeAmount()));
             }
+            index++;
         }
     }
 
@@ -217,9 +221,12 @@ public class AssetSeparatePaymentDistributor {
             KualiDecimal diff = detail.getSeparateSourceAmount().subtract(totalForAsset);
             lastPayment.setAccountChargeAmount(lastPayment.getAccountChargeAmount().add(diff));
             currentAsset.setTotalCostAmount(totalForAsset.add(diff));
+            AssetPayment lastSource = this.separatedPayments.get(this.separatedPayments.size() - 1);
+            lastSource.setAccountChargeAmount(lastSource.getAccountChargeAmount().add(diff));
             // adjust primary depreciation base amount, same as account charge amount
             if (lastPayment.getPrimaryDepreciationBaseAmount() != null && lastPayment.getPrimaryDepreciationBaseAmount().isNonZero()) {
                 lastPayment.setPrimaryDepreciationBaseAmount(lastPayment.getAccountChargeAmount());
+                lastSource.setPrimaryDepreciationBaseAmount(lastSource.getAccountChargeAmount());
             }
         }
     }

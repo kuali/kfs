@@ -86,7 +86,7 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="organizationOwnerChartOfAccountsCode" p:required="true" p:webUILeaveFieldFunction="accountNameLookup"/>
         <bean parent="MaintainableFieldDefinition" p:name="organizationOwnerAccountNumber" p:required="true" p:webUILeaveFieldFunction="accountNameLookup"/>
-        <bean parent="MaintainableFieldDefinition" p:name="organizationOwnerAccount.organizationCode" p:required="false"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationOwnerAccount.organizationCode" p:required="false" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="agencyNumber" p:required="false"/>
         <bean parent="MaintainableFieldDefinition" p:name="inventoryStatusCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="conditionCode" p:required="true"/>

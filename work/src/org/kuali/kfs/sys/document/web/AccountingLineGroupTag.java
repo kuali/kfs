@@ -16,6 +16,8 @@
 package org.kuali.kfs.sys.document.web;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -268,14 +270,15 @@ public class AccountingLineGroupTag extends TagSupport {
         // add all existing lines
         int count = 0;
         boolean anyEditableLines = false;
-        for (AccountingLine accountingLine : getAccountingLineCollection()) {
+        List<AccountingLine> lines = getAccountingLineCollection();
+        Collections.sort(lines, new AccountingLineComparator());
+        for (AccountingLine accountingLine : lines) {
             final RenderableAccountingLineContainer container = buildContainerForLine(groupDefinition, document, accountingLine, currentUser, new Integer(count), (addedTopLine ? false : true));
             containers.add(container);
             anyEditableLines = anyEditableLines || container.isEditableLine() || isErrorMapContainingErrorsOnLine(container.getAccountingLinePropertyPath());
             count += 1;
             addedTopLine = true;
         }
-        
         // add the new line
         if (StringUtils.isNotBlank(newLinePropertyName) && ((getForm().getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT) && groupDefinition.getAccountingLineAuthorizer().renderNewLine(document, collectionPropertyName)) || anyEditableLines)) {
             containers.add(0, buildContainerForLine(groupDefinition, document, getNewAccountingLine(), currentUser, null, true));
@@ -352,6 +355,17 @@ public class AccountingLineGroupTag extends TagSupport {
             document = getForm().getFinancialDocument();
         }
         return document;
+    }
+    
+    private class AccountingLineComparator implements Comparator<AccountingLine> {
+       
+        public int compare(AccountingLine al1, AccountingLine al2) {
+            if (ObjectUtils.isNotNull(al1) && ObjectUtils.isNotNull(al2))
+                if (ObjectUtils.isNotNull(al1.getSequenceNumber()) && ObjectUtils.isNotNull(al2.getSequenceNumber()))
+                    return al1.getSequenceNumber().compareTo(al2.getSequenceNumber());
+            return 0;
+        }
+        
     }
 }
 

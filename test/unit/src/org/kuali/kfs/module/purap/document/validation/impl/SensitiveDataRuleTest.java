@@ -103,7 +103,6 @@ public class SensitiveDataRuleTest extends PurapRuleTestBase {
      * since the latter involves all major operations provided by the service class. 
      */
     @ConfigureContext(session = parke)
-    @RelatesTo(JiraIssue.KULPURAP3266)
     public final void testSensitiveDataInactivationBlocking() {
         // create a new sensitive data entry and save it (if not exists yet) for this test     
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);

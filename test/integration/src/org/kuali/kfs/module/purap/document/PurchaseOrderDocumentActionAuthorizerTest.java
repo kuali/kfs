@@ -122,7 +122,6 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
 //     * 
 //     * @throws Exception
 //     */
-//    @RelatesTo(JiraIssue.KULPURAP3143)
 //    @ConfigureContext(session = parke, shouldCommitTransactions=true)
 //    public final void testFirstTransmitPrintPO() throws Exception {
 //        Map editMode = new HashMap();

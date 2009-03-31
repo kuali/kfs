@@ -26,7 +26,7 @@ import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.KimDelegationTypeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends OrganizationHierarchyReviewRoleTypeServiceImpl implements KimDelegationTypeService {
+public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends OrganizationHierarchyReviewRoleTypeServiceImpl {
 
     /**
      * Create role type service - org.kuali.kfs.coa.identity.AccountingOrganizationHierarchyReviewRoleTypeService for
@@ -63,21 +63,6 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
         return isValidTotalAmount;
     }
 
-
-    public boolean doesDelegationQualifierMatchQualification(AttributeSet qualification, AttributeSet delegationQualifier) {
-        return performMatch(translateInputAttributeSet(qualification), delegationQualifier);
-    }
-
-    public List<DelegateInfo> doDelegationQualifiersMatchQualification(AttributeSet qualification, List<DelegateInfo> delegationMemberList) {
-        AttributeSet translatedQualification = translateInputAttributeSet(qualification);
-        List<DelegateInfo> matchingMemberships = new ArrayList<DelegateInfo>();
-        for (DelegateInfo dmi : delegationMemberList) {
-            if (performMatch(translatedQualification, dmi.getQualifier())) {
-                matchingMemberships.add(dmi);
-            }
-        }
-        return matchingMemberships;
-    }
 
     public AttributeSet convertQualificationAttributesToRequired(AttributeSet qualificationAttributes) {
         return qualificationAttributes;

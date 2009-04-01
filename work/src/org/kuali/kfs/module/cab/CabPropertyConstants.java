@@ -128,7 +128,6 @@ public class CabPropertyConstants {
     }
 
     public static class PreTagExtract {
-        // TODO - check with Purap team and see if it can be moved to PurapPropertyConstants
         public static final String FINANCIAL_OBJECT_SUB_TYPE_CODE = "objectCode.financialObjectSubTypeCode";
         public static final String ACCOUNT_SUB_FUND_GROUP_CODE = "account.subFundGroupCode";
         public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";

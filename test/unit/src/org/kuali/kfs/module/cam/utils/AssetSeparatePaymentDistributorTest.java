@@ -18,6 +18,8 @@ package org.kuali.kfs.module.cam.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import junit.framework.TestCase;
+
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
@@ -25,15 +27,14 @@ import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.util.AssetSeparatePaymentDistributor;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-import junit.framework.TestCase;
-
 public class AssetSeparatePaymentDistributorTest extends TestCase {
     public void testDistributeByAsset() throws Exception {
         Asset sourceAsset = new Asset();
-        sourceAsset.getAssetPayments().add(createPayment(13));
-        sourceAsset.getAssetPayments().add(createPayment(13));
-        sourceAsset.getAssetPayments().add(createPayment(13));
-        // sourceAsset.getAssetPayments().add(createPayment(13));
+        sourceAsset.getAssetPayments().add(createPayment(0, "DUMMY1"));
+        sourceAsset.getAssetPayments().add(createPayment(13, "DUMMY2"));
+        sourceAsset.getAssetPayments().add(createPayment(13, "DUMMY3"));
+        sourceAsset.getAssetPayments().add(createPayment(13, "DUMMY4"));
+        sourceAsset.getAssetPayments().add(createPayment(0, "DUMMY5"));
 
 
         AssetGlobal assetGlobal = new AssetGlobal();
@@ -54,8 +55,11 @@ public class AssetSeparatePaymentDistributorTest extends TestCase {
         Asset asset = newAssets.get(0);
         assertEquals(3, asset.getAssetPayments().size());
         assertEquals(new KualiDecimal(7.33), asset.getAssetPayments().get(0).getAccountChargeAmount());
+        assertEquals("DUMMY2", asset.getAssetPayments().get(0).getAccountNumber());
         assertEquals(new KualiDecimal(7.33), asset.getAssetPayments().get(1).getAccountChargeAmount());
+        assertEquals("DUMMY3", asset.getAssetPayments().get(1).getAccountNumber());
         assertEquals(new KualiDecimal(7.34), asset.getAssetPayments().get(2).getAccountChargeAmount());
+        assertEquals("DUMMY4", asset.getAssetPayments().get(2).getAccountNumber());
 
         assertEquals(new KualiDecimal(7.33), asset.getAssetPayments().get(0).getPrimaryDepreciationBaseAmount());
         assertEquals(new KualiDecimal(7.33), asset.getAssetPayments().get(1).getPrimaryDepreciationBaseAmount());
@@ -64,25 +68,33 @@ public class AssetSeparatePaymentDistributorTest extends TestCase {
         asset = newAssets.get(1);
         assertEquals(3, asset.getAssetPayments().size());
         assertEquals(new KualiDecimal(5.67), asset.getAssetPayments().get(0).getAccountChargeAmount());
+        assertEquals("DUMMY2", asset.getAssetPayments().get(0).getAccountNumber());
         assertEquals(new KualiDecimal(5.67), asset.getAssetPayments().get(1).getAccountChargeAmount());
+        assertEquals("DUMMY3", asset.getAssetPayments().get(1).getAccountNumber());
         assertEquals(new KualiDecimal(5.66), asset.getAssetPayments().get(2).getAccountChargeAmount());
+        assertEquals("DUMMY4", asset.getAssetPayments().get(2).getAccountNumber());
 
         assertEquals(new KualiDecimal(5.67), asset.getAssetPayments().get(0).getPrimaryDepreciationBaseAmount());
         assertEquals(new KualiDecimal(5.67), asset.getAssetPayments().get(1).getPrimaryDepreciationBaseAmount());
         assertEquals(new KualiDecimal(5.66), asset.getAssetPayments().get(2).getPrimaryDepreciationBaseAmount());
 
         // make sure offset payments are added to source asset
-        assertEquals(6, sourceAsset.getAssetPayments().size());
-        assertEquals(new KualiDecimal(-13), sourceAsset.getAssetPayments().get(3).getAccountChargeAmount());
-        assertEquals(new KualiDecimal(-13), sourceAsset.getAssetPayments().get(4).getAccountChargeAmount());
+        assertEquals(8, sourceAsset.getAssetPayments().size());
         assertEquals(new KualiDecimal(-13), sourceAsset.getAssetPayments().get(5).getAccountChargeAmount());
+        assertEquals("DUMMY2", sourceAsset.getAssetPayments().get(5).getAccountNumber());
+        assertEquals(new KualiDecimal(-13), sourceAsset.getAssetPayments().get(6).getAccountChargeAmount());
+        assertEquals("DUMMY3", sourceAsset.getAssetPayments().get(6).getAccountNumber());
+        assertEquals(new KualiDecimal(-13), sourceAsset.getAssetPayments().get(7).getAccountChargeAmount());
+        assertEquals("DUMMY4", sourceAsset.getAssetPayments().get(7).getAccountNumber());
 
-        assertEquals(new KualiDecimal(-13), sourceAsset.getAssetPayments().get(3).getPrimaryDepreciationBaseAmount());
-        assertEquals(new KualiDecimal(-13), sourceAsset.getAssetPayments().get(4).getPrimaryDepreciationBaseAmount());
         assertEquals(new KualiDecimal(-13), sourceAsset.getAssetPayments().get(5).getPrimaryDepreciationBaseAmount());
+        assertEquals(new KualiDecimal(-13), sourceAsset.getAssetPayments().get(6).getPrimaryDepreciationBaseAmount());
+        assertEquals(new KualiDecimal(-13), sourceAsset.getAssetPayments().get(7).getPrimaryDepreciationBaseAmount());
 
         // sum and see if dollar amount sums up correctly
-
+        assertEquals(new KualiDecimal(13), newAssets.get(0).getAssetPayments().get(0).getAccountChargeAmount().add(newAssets.get(1).getAssetPayments().get(0).getAccountChargeAmount()));
+        assertEquals(new KualiDecimal(13), newAssets.get(0).getAssetPayments().get(1).getAccountChargeAmount().add(newAssets.get(1).getAssetPayments().get(1).getAccountChargeAmount()));
+        assertEquals(new KualiDecimal(13), newAssets.get(0).getAssetPayments().get(2).getAccountChargeAmount().add(newAssets.get(1).getAssetPayments().get(2).getAccountChargeAmount()));
     }
 
     private Asset createAsset(long assetNumber) {
@@ -98,9 +110,9 @@ public class AssetSeparatePaymentDistributorTest extends TestCase {
         return detail;
     }
 
-    private AssetPayment createPayment(double amount) {
+    private AssetPayment createPayment(double amount, String acctNo) {
         AssetPayment payment = new AssetPayment();
-        payment.setAccountNumber("DUMMY");
+        payment.setAccountNumber(acctNo);
         payment.setAccountChargeAmount(new KualiDecimal(amount));
         payment.setPrimaryDepreciationBaseAmount(new KualiDecimal(amount));
         return payment;

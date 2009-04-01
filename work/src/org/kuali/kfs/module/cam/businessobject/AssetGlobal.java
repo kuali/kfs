@@ -1026,7 +1026,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     @Override
     public void afterInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
         super.afterInsert(persistenceBroker);
-        createSeparateLock(this);
+        createSeparateLock(this, persistenceBroker);
     }
 
     /**
@@ -1034,14 +1034,15 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      * 
      * @param assetGlobal AssetGlobal
      */
-    private void createSeparateLock(AssetGlobal assetGlobal) {
+    private void createSeparateLock(AssetGlobal assetGlobal, PersistenceBroker persistenceBroker) {
         if (SpringContext.getBean(AssetGlobalService.class).isAssetSeparate(assetGlobal)) {
             MaintenanceDocumentService maintenanceDocumentService = SpringContext.getBean(MaintenanceDocumentService.class);
-            maintenanceDocumentService.deleteLocks(assetGlobal.getDocumentNumber());
             List<MaintenanceLock> maintenanceLocks = new ArrayList<MaintenanceLock>();
             AssetService assetService = SpringContext.getBean(AssetService.class);
-            maintenanceLocks.add(assetService.generateAssetLock(assetGlobal.getDocumentNumber(), assetGlobal.getSeparateSourceCapitalAssetNumber()));
+            MaintenanceLock lock = assetService.generateAssetLock(assetGlobal.getDocumentNumber(), assetGlobal.getSeparateSourceCapitalAssetNumber());
+            maintenanceLocks.add(lock);
             maintenanceDocumentService.storeLocks(maintenanceLocks);
+            persistenceBroker.removeFromCache(lock);
         }
     }
 }

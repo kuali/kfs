@@ -3,9 +3,6 @@
   <bean id="LineItemReceivingDocument" parent="LineItemReceivingDocument-parentBean"/>
 
   <bean id="LineItemReceivingDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    
-    
-        
     <property name="documentTypeName" value="RCVL"/>
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.LineItemReceivingDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.LineItemReceivingDocumentRule"/>
@@ -13,6 +10,7 @@
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.ReceivingDocumentAuthorizerBase"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.LineItemReceivingDocumentPresentationController"/>
     <property name="sessionDocument" value="true"/>
+    <property name="potentiallySensitive" value="true"/>
     <property name="workflowAttributes">
     	<ref bean="LineItemReceivingDocument-workflowAttributes"/>
     </property>

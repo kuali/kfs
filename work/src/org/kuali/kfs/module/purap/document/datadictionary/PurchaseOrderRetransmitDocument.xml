@@ -3,15 +3,13 @@
   <bean id="PurchaseOrderRetransmitDocument" parent="PurchaseOrderRetransmitDocument-parentBean"/>
 
   <bean id="PurchaseOrderRetransmitDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    
-    
-    
     <property name="documentTypeName" value="PORT"/>
     <property name="sessionDocument" value="true"/>
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderRetransmitDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderRetransmitDocumentRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderRetransmitDocumentPresentationController"/>
+    <property name="potentiallySensitive" value="true"/>
     <property name="workflowAttributes">
     	<ref bean="PurchaseOrderRetransmitDocument-workflowAttributes"/>
     </property>

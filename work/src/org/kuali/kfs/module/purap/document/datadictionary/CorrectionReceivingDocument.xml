@@ -3,15 +3,13 @@
   <bean id="CorrectionReceivingDocument" parent="CorrectionReceivingDocument-parentBean"/>
 
   <bean id="CorrectionReceivingDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    
-    
-            
     <property name="documentTypeName" value="RCVC"/>
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.CorrectionReceivingDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.CorrectionReceivingDocumentRule"/>
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.module.purap.document.validation.impl.LineItemReceivingDocumentPreRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.ReceivingDocumentAuthorizerBase"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.CorrectionReceivingDocumentPresentationController"/>
+    <property name="potentiallySensitive" value="true"/>
     <property name="workflowAttributes">
     	<ref bean="CorrectionReceivingDocument-workflowAttributes"/>
     </property> 

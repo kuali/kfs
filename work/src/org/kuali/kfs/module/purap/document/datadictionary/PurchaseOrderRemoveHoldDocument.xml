@@ -3,15 +3,13 @@
   <bean id="PurchaseOrderRemoveHoldDocument" parent="PurchaseOrderRemoveHoldDocument-parentBean"/>
 
   <bean id="PurchaseOrderRemoveHoldDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    
-    
-    
     <property name="documentTypeName" value="PORH"/>
     <property name="sessionDocument" value="true"/>
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderRemoveHoldDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderRemoveHoldDocumentRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderRemoveHoldDocumentPresentationController"/>
+    <property name="potentiallySensitive" value="true"/>
     <property name="workflowAttributes">
     	<ref bean="PurchaseOrderRemoveHoldDocument-workflowAttributes"/>
     </property>

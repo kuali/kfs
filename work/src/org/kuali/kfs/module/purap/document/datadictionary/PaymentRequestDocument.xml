@@ -3,9 +3,6 @@
   <bean id="PaymentRequestDocument" parent="PaymentRequestDocument-parentBean"/>
 
   <bean id="PaymentRequestDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    
-    
-    
     <property name="documentTypeName" value="PREQ"/>
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
@@ -14,6 +11,7 @@
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestDocumentPreRules"/>
     <property name="attachmentTypesValuesFinderClass" value="org.kuali.kfs.module.purap.businessobject.options.PaymentRequestAttachmentTypeValuesFinder"/>    
     <property name="sessionDocument" value="true"/>
+    <property name="potentiallySensitive" value="true"/>
 
     <property name="workflowAttributes">
     	<ref bean="PaymentRequestDocument-workflowAttributes"/>

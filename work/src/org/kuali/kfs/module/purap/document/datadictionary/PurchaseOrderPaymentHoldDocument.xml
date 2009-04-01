@@ -3,15 +3,13 @@
   <bean id="PurchaseOrderPaymentHoldDocument" parent="PurchaseOrderPaymentHoldDocument-parentBean"/>
 
   <bean id="PurchaseOrderPaymentHoldDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    
-    
-    
     <property name="documentTypeName" value="POPH"/>
     <property name="sessionDocument" value="true"/>
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderPaymentHoldDocument"/>
     <property name="businessRulesClass" value="org.kuali.rice.kns.rules.TransactionalDocumentRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderPaymentHoldDocumentPresentationController"/>
+    <property name="potentiallySensitive" value="true"/>
     <property name="workflowAttributes">
     	<ref bean="PurchaseOrderPaymentHoldDocument-workflowAttributes"/>
     </property>

@@ -3,17 +3,14 @@
   <bean id="PurchaseOrderAmendmentDocument" parent="PurchaseOrderAmendmentDocument-parentBean"/>
 
   <bean id="PurchaseOrderAmendmentDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
-    
-    
-    
     <property name="documentTypeName" value="POA"/>
     <property name="sessionDocument" value="true"/>    
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderAmendmentDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
-    <!--property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderAmendmentDocumentRule" /-->
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderAmendmentDocumentPreRules"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderAmendmentDocumentPresentationController"/>
+    <property name="potentiallySensitive" value="true"/>
     <property name="workflowAttributes">
     	<ref bean="PurchaseOrderAmendmentDocument-workflowAttributes"/>
     </property>

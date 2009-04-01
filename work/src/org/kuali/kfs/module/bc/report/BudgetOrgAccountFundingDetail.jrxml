@@ -829,7 +829,7 @@
 						height="12"
 						key="textField-13"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
+					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{fiscalYear}]]></textFieldExpression>
@@ -862,7 +862,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="368"
+						x="373"
 						y="16"
 						width="132"
 						height="12"
@@ -1315,7 +1315,7 @@
 				</line>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="311"
+						x="309"
 						y="176"
 						width="36"
 						height="12"
@@ -1328,7 +1328,7 @@
 				</textField>
 				<line direction="TopDown">
 					<reportElement
-						x="311"
+						x="309"
 						y="188"
 						width="36"
 						height="1"
@@ -1797,9 +1797,9 @@
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="###0.00000;-###0.00000" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="311"
+						x="309"
 						y="12"
-						width="35"
+						width="45"
 						height="12"
 						key="textField-205"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>

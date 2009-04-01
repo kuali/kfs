@@ -114,7 +114,7 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
         String fundGroupDes = accountFundingDetail.getSubFundGroup().getFundGroup().getName();
 
         Integer prevFiscalyear = universityFiscalYear - 1;
-        orgAccountFundingDetailReportEntry.setFiscalYear(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4));
+        orgAccountFundingDetailReportEntry.setFiscalYear(prevFiscalyear.toString() + "-" + universityFiscalYear.toString().substring(2, 4));
         orgAccountFundingDetailReportEntry.setOrgChartOfAccountsCode(accountFundingDetail.getOrganizationChartOfAccountsCode());
 
         if (orgChartDesc == null) {
@@ -236,19 +236,22 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
         }
 
         BudgetConstructionCalculatedSalaryFoundationTracker csfTracker = appointmentFundingEntry.getEffectiveCSFTracker();
+        orgAccountFundingDetailReportEntry.setAmountChange(new Integer(0));
+        orgAccountFundingDetailReportEntry.setPercentChange(BigDecimal.ZERO);
         if (csfTracker != null) {
             orgAccountFundingDetailReportEntry.setCsfTimePercent(BudgetConstructionReportHelper.setDecimalDigit(csfTracker.getCsfTimePercent(), 2, false));
             orgAccountFundingDetailReportEntry.setCsfAmount(new Integer(csfTracker.getCsfAmount().intValue()));
             orgAccountFundingDetailReportEntry.setCsfFullTimeEmploymentQuantity(BudgetConstructionReportHelper.setDecimalDigit(csfTracker.getCsfFullTimeEmploymentQuantity(), 5, true));
 
             // calculate amountChange and percentChange
-            Integer amountChange = 0;
+            Integer amountChange = new Integer(0);
             BigDecimal percentChange = BigDecimal.ZERO;
-            if (appointmentFundingEntry.getAppointmentRequestedFteQuantity().equals(csfTracker.getCsfFullTimeEmploymentQuantity())) {
+            BigDecimal csfFte = BudgetConstructionReportHelper.setDecimalDigit(csfTracker.getCsfFullTimeEmploymentQuantity(), 5, false);
+            BigDecimal reqFte = BudgetConstructionReportHelper.setDecimalDigit(appointmentFundingEntry.getAppointmentRequestedFteQuantity(), 5, false);
+            if (reqFte.compareTo(csfFte) == 0) {
                 amountChange = appointmentFundingEntry.getAppointmentRequestedAmount().subtract(csfTracker.getCsfAmount()).intValue();
                 percentChange = BudgetConstructionReportHelper.calculatePercent(new BigDecimal(amountChange.intValue()), csfTracker.getCsfAmount().bigDecimalValue());
             }
-
             orgAccountFundingDetailReportEntry.setAmountChange(amountChange);
             orgAccountFundingDetailReportEntry.setPercentChange(percentChange);
         }

@@ -367,7 +367,7 @@ public class SpringContext {
                                         		"          AND sess.STATUS<>'KILLED'\r\n" + 
                                         		"          AND sess.SQL_ADDRESS=sql.ADDRESS\r\n" + 
                                         		"          AND sess.PADDR=process.ADDR\r\n" + 
-//                                        		"            AND sess.status = 'ACTIVE'\r\n" + 
+                                        		"            AND sess.status = 'ACTIVE'\r\n" + 
                                         		"        ORDER BY sess.STATUS ASC,\r\n" + 
                                         		"                    sess.USERNAME ASC,\r\n" + 
                                         		"                    sql.sql_text ASC\r\n";

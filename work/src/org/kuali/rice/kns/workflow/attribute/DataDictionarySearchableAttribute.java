@@ -360,10 +360,11 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
             Object value = ObjectUtils.getPropertyValue(changeToPersist, primaryKeyName);
 
             if (value != null) {
-                SearchableAttributeStringValue searchableAttributeValue = new SearchableAttributeStringValue();
-                searchableAttributeValue.setSearchableAttributeKey(primaryKeyName);
-                searchableAttributeValue.setSearchableAttributeValue(value.toString());
-                return searchableAttributeValue;
+                
+                final WorkflowAttributePropertyResolutionService propertyResolutionService = SpringContext.getBean(WorkflowAttributePropertyResolutionService.class);
+                SearchableAttributeValue saValue = propertyResolutionService.buildSearchableAttribute(changeToPersist.getClass(), primaryKeyName, value);
+                return saValue;
+               
             }
         }
         return null;

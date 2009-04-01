@@ -190,7 +190,7 @@ public class LaborCorrectionAction extends CorrectionAction {
         document.setCorrectionTypeCode(laborCorrectionForm.getEditMethod());
         document.setCorrectionSelection(laborCorrectionForm.getMatchCriteriaOnly());
         document.setCorrectionFileDelete(!laborCorrectionForm.getProcessInBatch());
-        document.setCorrectionInputFileName(laborCorrectionForm.getInputFileName());
+        document.setCorrectionInputFileName(laborCorrectionForm.getInputGroupId());
         document.setCorrectionOutputFileName(null); // this field is never used
         if (laborCorrectionForm.getDataLoadedFlag() || laborCorrectionForm.isRestrictedFunctionalityMode()) {
             document.setCorrectionInputFileName(laborCorrectionForm.getInputGroupId());

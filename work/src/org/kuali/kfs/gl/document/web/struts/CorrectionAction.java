@@ -187,8 +187,8 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         document.setCorrectionTypeCode(correctionForm.getEditMethod());
         document.setCorrectionSelection(correctionForm.getMatchCriteriaOnly());
         document.setCorrectionFileDelete(!correctionForm.getProcessInBatch());
-        document.setCorrectionInputFileName(correctionForm.getInputFileName());
-        document.setCorrectionOutputFileName(null); // this field is never used
+        document.setCorrectionInputFileName(correctionForm.getInputGroupId());
+        document.setCorrectionOutputFileName(null); 
         if (correctionForm.getDataLoadedFlag() || correctionForm.isRestrictedFunctionalityMode()) {
             document.setCorrectionInputFileName(correctionForm.getInputGroupId());
         }
@@ -726,6 +726,8 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         
         List<OriginEntryFull> originEntryList = new ArrayList();
         BufferedReader br = new BufferedReader(new InputStreamReader(sourceFile.getInputStream()));
+        
+        //
         Map loadErrorMap = originEntryService.getEntriesByBufferedReader(br, originEntryList);
         
         // close bufferedReader here

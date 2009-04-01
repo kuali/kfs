@@ -227,8 +227,13 @@ public class PosterServiceImpl implements PosterService {
 
                         GLEN_RECORD = org.apache.commons.lang.StringUtils.rightPad(GLEN_RECORD, 183, ' ');
                         OriginEntryFull tran = new OriginEntryFull();
-                        tran.setFromTextFileForBatch(GLEN_RECORD, ecount);
 
+                        // checking parsing process and stop poster when it has errors. 
+                        List<Message> parsingError = new ArrayList();
+                        parsingError = tran.setFromTextFileForBatch(GLEN_RECORD, ecount);
+                        if (parsingError.size() > 0) {
+                            throw new RuntimeException("Exception happened from parsing process");
+                        }
                         // need to pass ecount for building better message
                         addReporting(reportSummary, "SEQUENTIAL", GeneralLedgerConstants.SELECT_CODE);
                         postTransaction(tran, mode, reportSummary, OUTPUT_ERR_FILE_ps, runUniversityDate);

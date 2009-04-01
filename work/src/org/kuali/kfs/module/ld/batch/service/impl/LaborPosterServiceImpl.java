@@ -184,29 +184,22 @@ public class LaborPosterServiceImpl implements LaborPosterService {
                 try {
                     lineNumber++;
                     if (!StringUtils.isEmpty(currentLine) && !StringUtils.isBlank(currentLine.trim())) {
-                        try {
                             laborOriginEntry = new LaborOriginEntry();
-                            laborOriginEntry.setFromTextFileForBatch(currentLine, lineNumber);
-
-                        }
-                        catch (LoadException e) {
-                            errorsLoading = true;
-                        }
-
+                            // checking parsing process and stop poster when it has errors. 
+                            List<Message> parsingError = new ArrayList();
+                            parsingError = laborOriginEntry.setFromTextFileForBatch(currentLine, lineNumber);
+                            if (parsingError.size() > 0) {
+                                throw new RuntimeException("Exception happened from parsing process");
+                            }
                         loadedCount++;
                         if (loadedCount % 1000 == 0) {
                             LOG.info(loadedCount + " " + laborOriginEntry.toString());
                         }
                         if (postSingleEntryIntoLaborLedger(laborOriginEntry, reportSummary,  runDate)) {
-                            
                             summarizeLaborGLEntries(laborOriginEntry, laborLedgerUnitOfWork, runDate, lineNumber);
-                            
-                            
                             numberOfSelectedOriginEntry++;
                             laborOriginEntry = null;
                         }
-
-
                     }
                     currentLine = INPUT_GLE_FILE_br.readLine();
 

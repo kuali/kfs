@@ -85,7 +85,7 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
     private void buildReportsHeader(Integer universityFiscalYear, PendingBudgetConstructionAppointmentFunding pendingAppointmentFunding, BudgetConstructionAccountSalaryDetailReport accountSalaryDetailReport) {
 
         Integer prevFiscalyear = universityFiscalYear - 1;
-        accountSalaryDetailReport.setFiscalYear(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4));
+        accountSalaryDetailReport.setFiscalYear(prevFiscalyear.toString() + "-" + universityFiscalYear.toString().substring(2, 4));
 
 
         accountSalaryDetailReport.setAccountNumber(pendingAppointmentFunding.getAccountNumber());
@@ -199,15 +199,17 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
         // from BudgetConstructionCalculatedSalaryFoundationTracker
         if (csfTracker != null) {
             accountMonthlyDetailReport.setPositionCsfAmount(csfTracker.getCsfAmount().intValue());
-            accountMonthlyDetailReport.setPositionCsfFullTimeEmploymentQuantity(csfTracker.getCsfFullTimeEmploymentQuantity());
+            accountMonthlyDetailReport.setPositionCsfFullTimeEmploymentQuantity(BudgetConstructionReportHelper.setDecimalDigit(csfTracker.getCsfFullTimeEmploymentQuantity(), 5, false));
             accountMonthlyDetailReport.setPositionCsfFundingStatusCode(csfTracker.getCsfFundingStatusCode());
             
-            if (pendingAppointmentFunding.getAppointmentRequestedFteQuantity().equals(csfTracker.getCsfFullTimeEmploymentQuantity())) {
+            BigDecimal csfFte = BudgetConstructionReportHelper.setDecimalDigit(csfTracker.getCsfFullTimeEmploymentQuantity(), 5, false);
+            BigDecimal reqFte = BudgetConstructionReportHelper.setDecimalDigit(pendingAppointmentFunding.getAppointmentRequestedFteQuantity(), 5, false);
+            if (reqFte.compareTo(csfFte) == 0) {
                 amountChange = pendingAppointmentFunding.getAppointmentRequestedAmount().subtract(csfTracker.getCsfAmount()).intValue();
-            }
-            
-            if (!csfTracker.getCsfAmount().equals(KualiInteger.ZERO)) {
-                percentChange = BudgetConstructionReportHelper.calculatePercent(amountChange, csfTracker.getCsfAmount().intValue());
+
+                if (!csfTracker.getCsfAmount().equals(KualiInteger.ZERO)) {
+                    percentChange = BudgetConstructionReportHelper.calculatePercent(amountChange, csfTracker.getCsfAmount().intValue());
+                }
             }
         }
 
@@ -215,11 +217,11 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
         accountMonthlyDetailReport.setAppointmentFundingMonth(pendingAppointmentFunding.getAppointmentFundingMonth());
         accountMonthlyDetailReport.setAppointmentRequestedPayRate(pendingAppointmentFunding.getAppointmentRequestedPayRate());
         accountMonthlyDetailReport.setAppointmentRequestedAmount(pendingAppointmentFunding.getAppointmentRequestedAmount().intValue());
-        accountMonthlyDetailReport.setAppointmentRequestedFteQuantity(pendingAppointmentFunding.getAppointmentRequestedFteQuantity());
+        accountMonthlyDetailReport.setAppointmentRequestedFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(pendingAppointmentFunding.getAppointmentRequestedFteQuantity(), 5, false));
         accountMonthlyDetailReport.setAppointmentRequestedCsfAmount(pendingAppointmentFunding.getAppointmentRequestedCsfAmount().intValue());
         accountMonthlyDetailReport.setAppointmentFundingDurationCode(pendingAppointmentFunding.getAppointmentFundingDurationCode());
         accountMonthlyDetailReport.setAppointmentTotalIntendedAmount(pendingAppointmentFunding.getAppointmentTotalIntendedAmount().intValue());
-        accountMonthlyDetailReport.setAppointmentTotalIntendedFteQuantity(pendingAppointmentFunding.getAppointmentTotalIntendedFteQuantity());
+        accountMonthlyDetailReport.setAppointmentTotalIntendedFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(pendingAppointmentFunding.getAppointmentTotalIntendedFteQuantity(), 5, false));
 
         accountMonthlyDetailReport.setFinancialObjectCode(pendingAppointmentFunding.getFinancialObjectCode());
         accountMonthlyDetailReport.setFinancialObjectCodeName(pendingAppointmentFunding.getFinancialObject().getFinancialObjectCodeName());

@@ -57,8 +57,6 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GeneralLedgerCorrectionProcessDocument.class);
 
     private String correctionTypeCode; // CorrectionDocumentService.CORRECTION_TYPE_MANUAL or
-    // CorrectionDocumentService.CORRECTION_TYPE_CRITERIA or
-    // CorrectionDocumentService.CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING
     private boolean correctionSelection; // false if all input rows should be in the output, true if only selected rows should be
     // in the output
     private boolean correctionFileDelete; // false if the file should be processed by scrubber, true if the file should not be
@@ -67,8 +65,8 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
     private KualiDecimal correctionDebitTotalAmount; // Debit amount total in output group
     private KualiDecimal correctionCreditTotalAmount; // Credit amount total in output group
     private KualiDecimal correctionBudgetTotalAmount; // Budget amount total in output group
-    private String correctionInputFileName; // File name if uploaded
-    private String correctionOutputFileName; // Not used
+    private String correctionInputFileName; // input file name 
+    private String correctionOutputFileName; // output file name
     private String correctionScriptText; // Not used
     private Integer correctionChangeGroupNextLineNumber;
 
@@ -199,7 +197,6 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
             String correctionType = doc.getCorrectionTypeCode();
             if (CorrectionDocumentService.CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING.equals(correctionType)) {
                 
-                //originEntryGroupService.dontProcessGroup(doc.getCorrectionInputGroupId());
                 String dataFileName = doc.getCorrectionInputFileName();
                 String doneFileName = dataFileName.replace(GeneralLedgerConstants.BatchFileSystem.EXTENSION, GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION);
                 originEntryGroupService.deleteFile(doneFileName);

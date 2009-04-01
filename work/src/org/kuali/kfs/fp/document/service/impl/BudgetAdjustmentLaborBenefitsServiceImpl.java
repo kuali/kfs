@@ -113,11 +113,14 @@ public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmen
                     benefitLine.copyFrom(line);
                     benefitLine.setFinancialObjectCode(benefitsCalculation.getPositionFringeBenefitObjectCode());
                     benefitLine.refreshNonUpdateableReferences();
-
-                    KualiDecimal benefitCurrentAmount = line.getCurrentBudgetAdjustmentAmount().multiply(benefitsCalculation.getPositionFringeBenefitPercent());
+                    
+                    //convert whole percentage to decimal value (5% to .05)
+                    KualiDecimal fringeBenefitPercent = formatPercentageForMultiplication(benefitsCalculation.getPositionFringeBenefitPercent());
+                    
+                    KualiDecimal benefitCurrentAmount = line.getCurrentBudgetAdjustmentAmount().multiply(fringeBenefitPercent);
                     benefitLine.setCurrentBudgetAdjustmentAmount(benefitCurrentAmount);
 
-                    KualiInteger benefitBaseAmount = line.getBaseBudgetAdjustmentAmount().multiply(benefitsCalculation.getPositionFringeBenefitPercent());
+                    KualiInteger benefitBaseAmount = line.getBaseBudgetAdjustmentAmount().multiply(fringeBenefitPercent);
                     benefitLine.setBaseBudgetAdjustmentAmount(benefitBaseAmount);
 
                     // clear monthly lines per KULEDOCS-1606
@@ -171,6 +174,10 @@ public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmen
         return hasLaborObjectCodes;
     }
 
+    
+    private KualiDecimal formatPercentageForMultiplication(KualiDecimal percent) {
+        return percent.divide(new KualiDecimal(100));
+    }
 
     /**
      * Gets the businessObjectService attribute.

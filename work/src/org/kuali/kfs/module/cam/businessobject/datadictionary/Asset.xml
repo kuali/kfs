@@ -250,7 +250,7 @@
 <bean id="Asset-relatedDocument-assetTransferDocumentLookup" parent="Asset-relatedDocument-assetTransferDocumentLookup-parentBean" />
 <bean id="Asset-relatedDocument-assetTransferDocumentLookup-parentBean" abstract="true" parent="AttributeDefinition">
 	<property name="name" value="assetTransferDocumentLookup" />
-	<property name="label" value="Asset Transfer Document(s)" />
+	<property name="label" value="Asset Transfer Document" />
     <property name="maxLength" value="1000" />
     <property name="required" value="false"/>    
 	<property name="control" >
@@ -265,7 +265,7 @@
 <bean id="Asset-relatedDocument-assetMaintenanceDocumentLookup" parent="Asset-relatedDocument-assetMaintenanceDocumentLookup-parentBean" />
 <bean id="Asset-relatedDocument-assetMaintenanceDocumentLookup-parentBean" abstract="true" parent="AttributeDefinition">
 	<property name="name" value="assetMaintenanceDocumentLookup" />
-	<property name="label" value="Asset Maintenance Document(s)" />
+	<property name="label" value="Asset Maintenance Document" />
     <property name="maxLength" value="1000" />
     <property name="required" value="false"/>    
 	<property name="control" >
@@ -280,7 +280,7 @@
 <bean id="Asset-relatedDocument-assetFabricationDocumentLookup" parent="Asset-relatedDocument-assetFabricationDocumentLookup-parentBean" />
 <bean id="Asset-relatedDocument-assetFabricationDocumentLookup-parentBean" abstract="true" parent="AttributeDefinition">
 	<property name="name" value="assetFabricationDocumentLookup" />
-	<property name="label" value="Asset Fabrication Document(s)" />
+	<property name="label" value="Asset Fabrication Document" />
     <property name="maxLength" value="1000" />
     <property name="required" value="false"/>    
 	<property name="control" >
@@ -295,7 +295,7 @@
 <bean id="Asset-relatedDocument-assetCreateOrSeparateDocumentLookup" parent="Asset-relatedDocument-assetCreateOrSeparateDocumentLookup-parentBean" />
 <bean id="Asset-relatedDocument-assetCreateOrSeparateDocumentLookup-parentBean" abstract="true" parent="AttributeDefinition">
 	<property name="name" value="assetCreateOrSeparateDocumentLookup" />
-	<property name="label" value="Asset Create or Separate Document(s)" />
+	<property name="label" value="Asset Create or Separate Document" />
     <property name="maxLength" value="1000" />
     <property name="required" value="false"/>    
 	<property name="control" >
@@ -310,7 +310,7 @@
 <bean id="Asset-relatedDocument-assetPaymentDocumentLookup" parent="Asset-relatedDocument-assetPaymentDocumentLookup-parentBean" />
 <bean id="Asset-relatedDocument-assetPaymentDocumentLookup-parentBean" abstract="true" parent="AttributeDefinition">
 	<property name="name" value="assetPaymentDocumentLookup" />
-	<property name="label" value="Asset Payment Document(s)" />
+	<property name="label" value="Asset Payment Document" />
     <property name="maxLength" value="1000" />
     <property name="required" value="false"/>    
 	<property name="control" >
@@ -325,7 +325,7 @@
 <bean id="Asset-relatedDocument-assetEquipmentLoanOrReturnDocumentLookup" parent="Asset-relatedDocument-assetEquipmentLoanOrReturnDocumentLookup-parentBean" />
 <bean id="Asset-relatedDocument-assetEquipmentLoanOrReturnDocumentLookup-parentBean" abstract="true" parent="AttributeDefinition">
 	<property name="name" value="assetEquipmentLoanOrReturnDocumentLookup" />
-	<property name="label" value="Equipment Loan or Return Document(s)" />
+	<property name="label" value="Equipment Loan or Return Document" />
     <property name="maxLength" value="1000" />
     <property name="required" value="false"/>    
 	<property name="control" >
@@ -340,7 +340,7 @@
 <bean id="Asset-relatedDocument-assetLocationDocumentLookup" parent="Asset-relatedDocument-assetLocationDocumentLookup-parentBean" />
 <bean id="Asset-relatedDocument-assetLocationDocumentLookup-parentBean" abstract="true" parent="AttributeDefinition">
 	<property name="name" value="assetLocationDocumentLookup" />
-	<property name="label" value="Asset Location Document(s)" />
+	<property name="label" value="Asset Location Document" />
     <property name="maxLength" value="1000" />
     <property name="required" value="false"/>    
 	<property name="control" >
@@ -355,7 +355,7 @@
 <bean id="Asset-relatedDocument-assetMergeOrRetirementDocumentLookup" parent="Asset-relatedDocument-assetMergeOrRetirementDocumentLookup-parentBean" />
 <bean id="Asset-relatedDocument-assetMergeOrRetirementDocumentLookup-parentBean" abstract="true" parent="AttributeDefinition">
 	<property name="name" value="assetMergeOrRetirementDocumentLookup" />
-	<property name="label" value="Asset Retirement or Merge Document(s)" />
+	<property name="label" value="Asset Retirement or Merge Document" />
     <property name="maxLength" value="1000" />
     <property name="required" value="false"/>    
 	<property name="control" >

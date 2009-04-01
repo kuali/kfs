@@ -240,13 +240,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Account-subFundGroup.codeAndDescription" parent="Account-subFundGroup.codeAndDescription-parentBean" />
 
-  <bean id="Account-subFundGroup.codeAndDescription-parentBean" abstract="true" parent="SubFundGroup-codeAndDescription">
-    <property name="name" value="subFundGroup.codeAndDescription" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
-    </property>
-  </bean>
+  <dd:boAttributeRef id="Account-subFundGroup.codeAndDescription-parentBean" abstract="true" parent="SubFundGroup-codeAndDescription"
+                     attributeName="subFundGroup.codeAndDescription"
+                     label="SubFund Group Code"
+                     shortLabel="SubFund Group Code" />
+  
   <bean id="Account-accountsFringesBnftIndicator" parent="Account-accountsFringesBnftIndicator-parentBean" />
 
   <bean id="Account-accountsFringesBnftIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
@@ -263,15 +261,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Account-financialHigherEdFunction.codeAndDescription" parent="Account-financialHigherEdFunction.codeAndDescription-parentBean" />
 
-  <bean id="Account-financialHigherEdFunction.codeAndDescription-parentBean" abstract="true" parent="HigherEducationFunction-codeAndDescription">
-    <property name="name" value="financialHigherEdFunction.codeAndDescription" />
-    <property name="label" value="Higher Ed Function Code" />
-    <property name="shortLabel" value="Higher Ed Function Code" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
-    </property>
-  </bean>
+  <dd:boAttributeRef id="Account-financialHigherEdFunction.codeAndDescription-parentBean" abstract="true" parent="HigherEducationFunction-codeAndDescription"
+                     attributeName="financialHigherEdFunction.codeAndDescription"
+                     label="Higher Ed Function Code"
+                     shortLabel="Higher Ed Function Code" />
+
   <bean id="Account-accountRestrictedStatusCode" parent="Account-accountRestrictedStatusCode-parentBean" />
 
   <bean id="Account-accountRestrictedStatusCode-parentBean" abstract="true" parent="RestrictedStatus-accountRestrictedStatusCode">
@@ -319,15 +313,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="Account-accountState.codeAndDescription" parent="Account-accountState.codeAndDescription-parentBean" />
 
-  <bean id="Account-accountState.codeAndDescription-parentBean" abstract="true" parent="State-codeAndDescription">
-    <property name="name" value="accountState.codeAndDescription" />
-    <property name="label" value="Account State Code" />
-    <property name="shortLabel" value="Account State Code" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
-    </property>
-  </bean>
+  <dd:boAttributeRef id="Account-accountState.codeAndDescription-parentBean" abstract="true" parent="State-codeAndDescription"
+                     attributeName="accountState.codeAndDescription"
+                     label="Account State Code"
+                     shortLabel="Account State Code" />
+  
   <bean id="Account-accountStreetAddress" parent="Account-accountStreetAddress-parentBean" />
 
   <bean id="Account-accountStreetAddress-parentBean" abstract="true" parent="AttributeDefinition">

@@ -96,11 +96,11 @@ public class BudgetConstructionDocumentAccountObjectDetailReportServiceImpl impl
      */
     private void buildReportsHeader(BudgetConstructionBalanceByAccount balanceByAccount, BudgetConstructionAccountObjectDetailReport accountObjectDetailReport) {
         Integer prevFiscalyear = balanceByAccount.getUniversityFiscalYear() - 1;
-        accountObjectDetailReport.setFiscalYear(prevFiscalyear.toString() + " - " + balanceByAccount.getUniversityFiscalYear().toString().substring(2, 4));
+        accountObjectDetailReport.setFiscalYear(prevFiscalyear.toString() + "-" + balanceByAccount.getUniversityFiscalYear().toString().substring(2, 4));
         
         Integer prevPrevFiscalyear = prevFiscalyear - 1;
-        accountObjectDetailReport.setBaseFy(prevPrevFiscalyear.toString() + " - " + prevFiscalyear.toString().substring(2, 4));
-        accountObjectDetailReport.setReqFy(prevFiscalyear.toString() + " - " + balanceByAccount.getUniversityFiscalYear().toString().substring(2, 4));
+        accountObjectDetailReport.setBaseFy(prevPrevFiscalyear.toString() + "-" + prevFiscalyear.toString().substring(2, 4));
+        accountObjectDetailReport.setReqFy(prevFiscalyear.toString() + "-" + balanceByAccount.getUniversityFiscalYear().toString().substring(2, 4));
         
         accountObjectDetailReport.setAccountNumber(balanceByAccount.getAccountNumber());
         accountObjectDetailReport.setSubAccountNumber(balanceByAccount.getSubAccountNumber());

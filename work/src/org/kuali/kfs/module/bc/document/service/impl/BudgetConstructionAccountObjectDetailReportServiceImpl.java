@@ -126,7 +126,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
         String fundGroupDes = accountBalance.getSubFundGroup().getFundGroup().getName();
 
         Integer prevFiscalyear = universityFiscalYear - 1;
-        orgAccountObjectDetailReportEntry.setFiscalYear(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4));
+        orgAccountObjectDetailReportEntry.setFiscalYear(prevFiscalyear.toString() + "-" + universityFiscalYear.toString().substring(2, 4));
         orgAccountObjectDetailReportEntry.setOrgChartOfAccountsCode(accountBalance.getOrganizationChartOfAccountsCode());
 
         if (orgChartDesc == null) {
@@ -169,8 +169,8 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
         }
 
         Integer prevPrevFiscalyear = prevFiscalyear - 1;
-        orgAccountObjectDetailReportEntry.setBaseFy(prevPrevFiscalyear.toString() + " - " + prevFiscalyear.toString().substring(2, 4) + " Base");
-        orgAccountObjectDetailReportEntry.setReqFy(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4) + "Request");
+        orgAccountObjectDetailReportEntry.setBaseFy(prevPrevFiscalyear.toString() + "-" + prevFiscalyear.toString().substring(2, 4) + " Base");
+        orgAccountObjectDetailReportEntry.setReqFy(prevFiscalyear.toString() + "-" + universityFiscalYear.toString().substring(2, 4) + " Request");
         if (consolidated) {
             orgAccountObjectDetailReportEntry.setConsHdr(BCConstants.Report.CONSOLIIDATED);
         }

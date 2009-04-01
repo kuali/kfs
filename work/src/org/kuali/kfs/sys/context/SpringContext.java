@@ -19,6 +19,10 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -329,6 +333,75 @@ public class SpringContext {
                                 logStatement.append( "-----------------------------------------------\n" );
                                 logStatement.append( "Datasource Information:\n" );
                                 logStatement.append( ((XAPoolDataSource)ds).getDataSource().toString() ).append( '\n' );
+                                try {
+                                    logStatement.append( "-----------------------------------------------\n" );
+                                    logStatement.append( "Active Connection SQL Dump:\n" );
+                                    if ( ((XAPoolDataSource)ds).getDriverClassName().contains("Oracle") ) {
+                                        String sql = "  SELECT " +
+                                                "              sess.USERNAME \r\n" + 
+//                                        		" ,            process.SPID \r\n" + 
+//                                        		" ,            sess.SID \r\n" + 
+//                                        		" ,            sess.SERIAL## AS serial \r\n" + 
+                                        		" ,            sess.STATUS \r\n" + 
+                                        		" ,            TO_DATE( sql.FIRST_LOAD_TIME, 'YYYY-MM-DD/HH24:MI:SS' ) AS first_load_time\r\n" + 
+//                                        		" ,            sql.OPTIMIZER_MODE \r\n" + 
+                                        		" ,            sql.EXECUTIONS \r\n" + 
+                                        		" ,            sql.DISK_READS \r\n" + 
+                                        		" ,            sql.BUFFER_GETS \r\n" + 
+                                        		" ,            sql.ROWS_PROCESSED \r\n" + 
+                                        		" ,            sql.OPTIMIZER_COST \r\n" + 
+                                                " ,            sql.SQL_TEXT \r\n" + 
+//                                        		" ,            sql.MODULE, \r\n" + 
+//                                        		" ,            sql.loads,\r\n" + 
+//                                        		" ,            sql.invalidations,\r\n" + 
+//                                        		" ,            sess.MACHINE, \r\n" + 
+//                                        		" ,            sess.TERMINAL, \r\n" + 
+//                                        		" ,            sess.PROGRAM, \r\n" + 
+//                                        		" ,            sess.OSUSER,\r\n" + 
+//                                        		" ,            RAWTOHEX( sess.SQL_ADDRESS ) SQL_ADDRESS\r\n" + 
+                                        		"        FROM    SYS.V_$SESSION      sess, \r\n" + 
+                                        		"                SYS.V_$PROCESS      process, \r\n" + 
+                                        		"                SYS.V_$SQL          sql\r\n" + 
+                                        		"        WHERE sess.USERNAME IS NOT NULL\r\n" + 
+                                        		"          AND sql.SQL_TEXT NOT LIKE '%SYS.V_$%'\r\n" + 
+                                        		"          AND sess.STATUS<>'KILLED'\r\n" + 
+                                        		"          AND sess.SQL_ADDRESS=sql.ADDRESS\r\n" + 
+                                        		"          AND sess.PADDR=process.ADDR\r\n" + 
+//                                        		"            AND sess.status = 'ACTIVE'\r\n" + 
+                                        		"        ORDER BY sess.STATUS ASC,\r\n" + 
+                                        		"                    sess.USERNAME ASC,\r\n" + 
+                                        		"                    sql.sql_text ASC\r\n";
+                                        java.sql.Connection con = ((XAPoolDataSource)ds).getConnection();
+                                        try {
+                                            Statement stmt = con.createStatement();
+                                            ResultSet rs = stmt.executeQuery(sql);
+                                            ResultSetMetaData md = rs.getMetaData();
+                                            logStatement.append( "Columns: " );
+                                            for ( int i = 1; i < md.getColumnCount(); i++ ) {
+                                                logStatement.append( md.getColumnName(i) ).append( "|" );
+                                            }
+                                            while ( rs.next() ) {
+                                                logStatement.append( "Statement Info: " );
+                                                for ( int i = 1; i < md.getColumnCount(); i++ ) {
+                                                    logStatement.append( rs.getString(i) ).append( "|" );
+                                                }
+                                                logStatement.append( "\nSQL Text: " + rs.getString(md.getColumnCount()) );
+                                                logStatement.append( "\n\n" );
+                                            }
+                                            rs.close();
+                                            stmt.close();
+                                        } finally {
+                                            if ( con != null ) {
+                                                con.close();
+                                            }
+                                        }
+                                    } else {
+                                        logStatement.append( "Not Running - don't have MySQL specific code.\n" );
+                                    }
+                                }
+                                catch (SQLException e) {
+                                    LOG.warn( "Unable to pull current connection SQL: " + e.getMessage() );
+                                }
                             }
                             w.write(logStatement.toString());
                             w.close();

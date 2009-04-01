@@ -65,6 +65,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorContract;
@@ -72,6 +73,7 @@ import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.kfs.vnd.service.PhoneNumberService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -585,6 +587,27 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     }
 
     /**
+     * Validates that the accounting lines while a distribute accounts action is being taken.
+     * 
+     * @param document
+     * @param distributionsourceAccountingLines
+     * @return
+     */
+    private boolean validateDistributeAccounts(Document document, List<PurApAccountingLine> distributionsourceAccountingLines){
+        boolean rulePassed = true;
+        String errorPrefix = null;
+        int i = 0;
+        
+        for(PurApAccountingLine accountingLine : distributionsourceAccountingLines){
+            errorPrefix = "accountDistributionsourceAccountingLine" + "[" + Integer.toString(i) + "]";
+            rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(errorPrefix, document, accountingLine));
+            i++;
+        }
+        
+        return rulePassed;
+    }
+    
+    /**
      * Distribute accounting line(s) to the item(s). Does not distribute the accounting line(s) to an item if there are 
 	 * already accounting lines associated with that item, if the item is a below-the-line item and has no unit cost, or if the item 
 	 * is inactive. Distribute commodity code to the item(s). Does not distribute the commodity code to an item if the item is not
@@ -625,8 +648,14 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             if (institutionNeedsDistributeAccountValidation && needToDistributeAccount && purchasingForm.getTotalPercentageOfAccountDistributionsourceAccountingLines().compareTo(new BigDecimal(100)) != 0) {
                 GlobalVariables.getErrorMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.ERROR_DISTRIBUTE_ACCOUNTS_NOT_100_PERCENT);
                 foundAccountDistributionError = true;
-
             }
+            
+            // if the institution's validate account distribution indicator is true and
+            // there is a validation error in the accounts to distribute then we should display an error
+            if(institutionNeedsDistributeAccountValidation && needToDistributeAccount && (validateDistributeAccounts(purchasingForm.getDocument(), distributionsourceAccountingLines) == false)){                
+                foundAccountDistributionError = true;                
+            }
+            
             for (PurApItem item : ((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItems()) {
                 boolean itemIsActive = true;
                 if (item instanceof PurchaseOrderItem) {

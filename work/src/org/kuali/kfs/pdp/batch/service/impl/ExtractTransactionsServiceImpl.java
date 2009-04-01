@@ -59,9 +59,9 @@ public class ExtractTransactionsServiceImpl implements ExtractTransactionsServic
         LOG.debug("extractGlTransactions() started");
 
         Date processDate = dateTimeService.getCurrentSqlDate();
-        
+
         // TODO - shawn: this should be moved to some kind of util class
-        java.util.Date jobRunDate =  dateTimeService.getCurrentDate();
+        java.util.Date jobRunDate = dateTimeService.getCurrentDate();
         String timeString = jobRunDate.toString();
         String year = timeString.substring(timeString.length() - 4, timeString.length());
         String month = timeString.substring(4, 7);
@@ -69,63 +69,58 @@ public class ExtractTransactionsServiceImpl implements ExtractTransactionsServic
         String hour = timeString.substring(11, 13);
         String min = timeString.substring(14, 16);
         String sec = timeString.substring(17, 19);
-        String fileTimeInfo =  "." + year + "-" + month + "-" + day + "." + hour + "-" + min + "-" + sec;
-        //OriginEntryGroup oeg = null;
-        
+        String fileTimeInfo = "." + year + "-" + month + "-" + day + "." + hour + "-" + min + "-" + sec;
+        // OriginEntryGroup oeg = null;
+
         String extractTGlTransactionFileName = GeneralLedgerConstants.BatchFileSystem.EXTRACT_TRANSACTION_FILE + fileTimeInfo + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         File extractTGlTransactionFile = new File(batchFileDirectoryName + File.separator + extractTGlTransactionFileName);
-        PrintStream  extractTGlTransactionPS = null; 
-        
+        PrintStream extractTGlTransactionPS = null;
+
+        try {
+            extractTGlTransactionPS = new PrintStream(extractTGlTransactionFile);
+        }
+        catch (FileNotFoundException e) {
+            throw new RuntimeException("extract transaction file doesn't exist " + extractTGlTransactionFileName);
+        }
+
+
         Iterator transactions = glPendingTransactionService.getUnextractedTransactions();
         while (transactions.hasNext()) {
             GlPendingTransaction tran = (GlPendingTransaction) transactions.next();
 
-            // We only want to create the group if there are transactions in the group
-//            if (oeg == null) {
-//                oeg = originEntryGroupService.createGroup(processDate, OriginEntrySource.PDP, true, true, true);
-//            }
-            
-            if (extractTGlTransactionPS == null){
-                try {
-                    extractTGlTransactionPS = new PrintStream(extractTGlTransactionFile);
-                } catch (FileNotFoundException e) {
-                    throw new RuntimeException("enterpriseFeedFile doesn't exist " + extractTGlTransactionFileName);
-                }
-            }
-            
-           // originEntryService.createEntry(tran.getOriginEntry(), oeg);
+            // originEntryService.createEntry(tran.getOriginEntry(), oeg);
             extractTGlTransactionPS.printf("%s\n", tran.getOriginEntry().getLine());
 
             tran.setProcessInd(true);
             glPendingTransactionService.save(tran);
         }
-        
-        
-        
+
+
         if (extractTGlTransactionPS != null) {
             extractTGlTransactionPS.close();
-            
+
             // TODO - shawn: this should be moved to some kind of util class
             // create done file
             String extractTGlTransactionDoneFileName = extractTGlTransactionFileName.replace(GeneralLedgerConstants.BatchFileSystem.EXTENSION, GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION);
-            File extractTGlTransactionDoneFile = new File (batchFileDirectoryName + File.separator + extractTGlTransactionDoneFileName);
-            if (!extractTGlTransactionDoneFile.exists()){
+            File extractTGlTransactionDoneFile = new File(batchFileDirectoryName + File.separator + extractTGlTransactionDoneFileName);
+            if (!extractTGlTransactionDoneFile.exists()) {
                 try {
                     extractTGlTransactionDoneFile.createNewFile();
-                } catch (IOException e) {
+                }
+                catch (IOException e) {
                     throw new RuntimeException();
                 }
             }
-            
+
             String reportTitle = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.EXTRACT_TRANSACTION_SERVICE_REPORT_TITLE);
-            reportTitle = MessageFormat.format(reportTitle, new Object[]{ null });
-            
+            reportTitle = MessageFormat.format(reportTitle, new Object[] { null });
+
             String reportFilename = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.EXTRACT_TRANSACTION_SERVICE_REPORT_FILENAME);
-            reportFilename = MessageFormat.format(reportFilename, new Object[]{ null });
-            
+            reportFilename = MessageFormat.format(reportFilename, new Object[] { null });
+
             // Run a report
             Collection groups = new ArrayList();
-           // groups.add(oeg);
+            // groups.add(oeg);
             LedgerEntryHolder ledgerEntries = originEntryService.getSummaryByGroupId(groups);
 
             LedgerReport ledgerReport = new LedgerReport();

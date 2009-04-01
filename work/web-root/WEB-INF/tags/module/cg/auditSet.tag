@@ -24,9 +24,9 @@
 <c:forEach items="${AuditErrors}" var="cluster">
 	<c:if test="${cluster.value.softAudits == soft && cluster.value.size != 0}">
 		<c:if test="${!found}"><c:set var="found" value="${true}"/></c:if>
-		<kra:auditRow tabTitle="${cluster.value.label}" defaultOpen="false" totalErrors="${cluster.value.size}">
-			<kra:auditErrors cluster="${cluster.key}" isLink="true"/>
-		</kra:auditRow>
+		<cg:auditRow tabTitle="${cluster.value.label}" defaultOpen="false" totalErrors="${cluster.value.size}">
+			<cg:auditErrors cluster="${cluster.key}" isLink="true"/>
+		</cg:auditRow>
 	</c:if>
 </c:forEach>
 <c:if test="${!found}">

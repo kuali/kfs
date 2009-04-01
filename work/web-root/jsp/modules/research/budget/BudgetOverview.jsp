@@ -23,7 +23,7 @@
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
 
-	<kra-b:budgetOverview />
+	<cg:budgetOverview />
 
         <div id="globalbuttons" class="globalbuttons">
           <c:if test="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_ROUTE]}">

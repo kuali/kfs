@@ -22,9 +22,9 @@
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
 
-	<kra-b:budgetHiddenDocumentFields includeDocumenHeaderIdFields="true" />
+	<cg:budgetHiddenDocumentFields includeDocumenHeaderIdFields="true" />
 
-	<kra-b:budgetTemplate />
+	<cg:budgetTemplate />
 
 	<div id="globalbuttons" class="globalbuttons"><html:image
 		src="${ConfigProperties.externalizable.images.url}buttonsmall_template.gif" styleClass="globalbuttons"

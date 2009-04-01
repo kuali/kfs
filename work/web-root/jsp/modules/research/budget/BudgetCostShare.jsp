@@ -28,8 +28,8 @@
 		<kul:help documentTypeName="${DataDictionary.BudgetDocument.documentTypeName}" pageName="${CGConstants.COST_SHARE_HEADER_TAB}" altText="page help"/>
 	</div>
 
-	<div id="workarea"><kra-b:budgetCostShareInstitutionDirect /> <kra-b:budgetCostShareIndirect />
-	<kra-b:budgetCostShare3rdPartyDirect /> <kra-b:budgetCostShareTotals /></div>
+	<div id="workarea"><cg:budgetCostShareInstitutionDirect /> <cg:budgetCostShareIndirect />
+	<cg:budgetCostShare3rdPartyDirect /> <cg:budgetCostShareTotals /></div>
 
 	<div align="center"><sys:documentControls transactionalDocument="false"
 		saveButtonOverride="saveBudgetCostShare" suppressRoutingControls="true" viewOnly="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" /></div>

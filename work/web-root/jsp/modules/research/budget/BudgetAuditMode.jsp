@@ -25,9 +25,9 @@
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
 
-	<kra-b:budgetHiddenDocumentFields includeDocumenHeaderIdFields="true"
+	<cg:budgetHiddenDocumentFields includeDocumenHeaderIdFields="true"
 		includeTaskPeriodLists="false" />
 
-	<kra-b:budgetAuditMode />
+	<cg:budgetAuditMode />
 
 </kul:documentPage>

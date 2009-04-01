@@ -22,15 +22,15 @@
 	
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
 	
-	<kra-rf:routingFormHiddenDocumentFields />
+	<cg:routingFormHiddenDocumentFields />
 	
 	<div align="right">
 		<kul:help documentTypeName="${DataDictionary.RoutingFormDocument.documentTypeName}" pageName="Permissions" altText="page help"/>
 	</div>
 	
-	<kra:kraAdHocRecipients adhocType="P" adhocLabel="Permissions" excludeActionRequested="true" disableActionRequested="true" actionRequestedDefault="" editingMode="${KualiForm.editingMode}"/>
+	<cg:kraAdHocRecipients adhocType="P" adhocLabel="Permissions" excludeActionRequested="true" disableActionRequested="true" actionRequestedDefault="" editingMode="${KualiForm.editingMode}"/>
 	
-	<kra-rf:routingFormDefaultPermissions />
+	<cg:routingFormDefaultPermissions />
 	
 	<kul:panelFooter />
 	

@@ -24,7 +24,7 @@
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
 
-	<kra-b:budgetNonpersonnel />
+	<cg:budgetNonpersonnel />
 
 	<div align="center"><sys:documentControls transactionalDocument="false"
 		saveButtonOverride="saveNonpersonnel" suppressRoutingControls="true" viewOnly="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" /></div>

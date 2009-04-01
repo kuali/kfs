@@ -22,12 +22,12 @@
 	
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
 
-	<kra-rf:routingFormHiddenDocumentFields/>
+	<cg:routingFormHiddenDocumentFields/>
 	
 	<div align="right">
 		<kul:help documentTypeName="${DataDictionary.RoutingFormDocument.documentTypeName}" pageName="Output" altText="page help"/>
 	</div>	
 
-	<kra-rf:routingFormOutput/>
+	<cg:routingFormOutput/>
 	
 </kul:documentPage>

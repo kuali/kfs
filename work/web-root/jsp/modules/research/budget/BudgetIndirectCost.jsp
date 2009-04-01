@@ -23,7 +23,7 @@
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
 
-	<kra-b:budgetIndirectCost />
+	<cg:budgetIndirectCost />
 
 	<div align="center"><sys:documentControls transactionalDocument="false" suppressRoutingControls="true" viewOnly="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
 	</div>

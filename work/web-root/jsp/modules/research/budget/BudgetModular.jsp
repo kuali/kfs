@@ -23,10 +23,10 @@
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
 
-	<kra-b:budgetHiddenDocumentFields includeDocumenHeaderIdFields="true"
+	<cg:budgetHiddenDocumentFields includeDocumenHeaderIdFields="true"
 		includeTaskPeriodLists="false" />
 
-	<kra-b:budgetModular />
+	<cg:budgetModular />
 		
 	<div align="center"><sys:documentControls transactionalDocument="false" saveButtonOverride="saveAndRegenerate" suppressRoutingControls="true" 
 		viewOnly="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>

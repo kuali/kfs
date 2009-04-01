@@ -29,10 +29,10 @@
 		<kul:help documentTypeName="${DataDictionary.BudgetDocument.documentTypeName}" pageName="${CGConstants.PERMISSIONS_HEADER_TAB}" altText="page help"/>
 	</div>
 
-	<kra-b:budgetHiddenDocumentFields includeDocumenHeaderIdFields="true"
+	<cg:budgetHiddenDocumentFields includeDocumenHeaderIdFields="true"
 		includeTaskPeriodLists="false" />
 	
-	<kra:kraAdHocRecipients adhocType="A" adhocLabel="Recipients" disableActionRequested="true" actionRequestedMessage="(upon completion)" actionRequestedDefault="${Constants.WORKFLOW_FYI_REQUEST}" editingMode="${KualiForm.editingMode}"/>
+	<cg:kraAdHocRecipients adhocType="A" adhocLabel="Recipients" disableActionRequested="true" actionRequestedMessage="(upon completion)" actionRequestedDefault="${Constants.WORKFLOW_FYI_REQUEST}" editingMode="${KualiForm.editingMode}"/>
 	
 	<kul:routeLog />
 	

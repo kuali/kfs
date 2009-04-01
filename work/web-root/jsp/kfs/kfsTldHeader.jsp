@@ -23,9 +23,7 @@
 
 <%@ taglib tagdir="/WEB-INF/tags/sys" prefix="sys"%>
 
-<%@ taglib tagdir="/WEB-INF/tags/module/cg" prefix="kra"%>
-<%@ taglib tagdir="/WEB-INF/tags/module/cg/budget" prefix="kra-b"%>
-<%@ taglib tagdir="/WEB-INF/tags/module/cg/routingform" prefix="kra-rf"%>
+<%@ taglib tagdir="/WEB-INF/tags/module/cg" prefix="cg"%>
 
 <%@ taglib tagdir="/WEB-INF/tags/module/bc" prefix="bc"%>
 

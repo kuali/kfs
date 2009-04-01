@@ -25,7 +25,7 @@
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS_LESS_DOCUMENT}" />
 	
-	<kra-b:budgetParameters />
+	<cg:budgetParameters />
 
 	<sys:documentControls transactionalDocument="false"
 		saveButtonOverride="saveParameters" suppressRoutingControls="true" viewOnly="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />

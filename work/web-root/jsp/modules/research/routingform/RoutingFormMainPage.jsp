@@ -22,7 +22,7 @@
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS_LESS_DOCUMENT}" />
 
-    <kra-rf:routingFormHiddenDocumentFields includeRoutingFormMainPage="true" />
+    <cg:routingFormHiddenDocumentFields includeRoutingFormMainPage="true" />
     
 	<div align="right">
 		<kul:help documentTypeName="${DataDictionary.RoutingFormDocument.documentTypeName}" pageName="Main Page" altText="page help"/>
@@ -30,11 +30,11 @@
 
 	<sys:documentOverview editingMode="${KualiForm.editingMode}" />
 
-	<kra-rf:routingFormMainPageAgencyDeliveryInfo/>
+	<cg:routingFormMainPageAgencyDeliveryInfo/>
 
-	<kra-rf:routingFormMainPagePersonnelOrg/>
+	<cg:routingFormMainPagePersonnelOrg/>
 
-	<kra-rf:routingFormMainPageSubmissionDetails/>
+	<cg:routingFormMainPageSubmissionDetails/>
 
     <table width="100%" border="0" cellpadding="0" cellspacing="0" class="b3" summary="">
       <tr>

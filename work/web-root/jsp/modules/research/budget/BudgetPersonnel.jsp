@@ -31,9 +31,9 @@
 	</div>
 
   <c:if test="${! viewOnly}">
-    <kra-b:budgetPersonnelAdd />
+    <cg:budgetPersonnelAdd />
   </c:if>
-	<kra-b:budgetPersonnel />
+	<cg:budgetPersonnel />
 
   <c:if test="${! viewOnly}">
   	<c:set var="extraButtonSource" value="${ConfigProperties.externalizable.images.url}buttonsmall_deletesel.gif"/>

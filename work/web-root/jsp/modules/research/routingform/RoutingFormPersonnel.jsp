@@ -26,7 +26,7 @@
 		<kul:help documentTypeName="${DataDictionary.RoutingFormDocument.documentTypeName}" pageName="Personnel" altText="page help"/>
 	</div>
 
-	<kra-rf:routingFormPersonnel/>
+	<cg:routingFormPersonnel/>
 
     <c:if test="${!empty KualiForm.document.routingFormPersonnel}">
 	  <sys:documentControls transactionalDocument="false" suppressRoutingControls="true" viewOnly="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />

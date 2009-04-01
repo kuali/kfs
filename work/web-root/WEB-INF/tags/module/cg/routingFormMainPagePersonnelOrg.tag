@@ -22,7 +22,7 @@
 <c:set var="budgetLinked" value="${KualiForm.editingMode['budgetLinked']}"/>
 
 <kul:tab tabTitle="Personnel and Units/Orgs" defaultOpen="true" tabErrorKey="newRoutingFormProjectDirector*,newRoutingFormOtherPerson*,document.routingFormPersonnel*,newRoutingFormOrganizationCreditPercent*,document.routingFormOrganizationCreditPercent*,document.routingFormFellowFullName" auditCluster="mainPageAuditErrors" tabAuditKey="document.routingFormPersonnel*,document.routingFormOrganizationCreditPercent*">
-	<div class="tab-container-error"><div class="left-errmsg-tab"><kra:auditErrors cluster="mainPageAuditErrors" keyMatch="document.routingFormPersonnel*,document.routingFormOrganizationCreditPercent*" isLink="false" includesTitle="true"/></div></div>
+	<div class="tab-container-error"><div class="left-errmsg-tab"><cg:auditErrors cluster="mainPageAuditErrors" keyMatch="document.routingFormPersonnel*,document.routingFormOrganizationCreditPercent*" isLink="false" includesTitle="true"/></div></div>
 
           <div class="tab-container" align="center">
               <h3>Personnel and Units/Orgs</h3>

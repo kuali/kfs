@@ -26,19 +26,19 @@
 
        	<sys:documentOverview editingMode="${KualiForm.editingMode}" />
 
-        <kra-b:budgetParametersGeneral supportsModular="${supportsModular}" />
+        <cg:budgetParametersGeneral supportsModular="${supportsModular}" />
 
-        <kra-b:budgetPeriods />
+        <cg:budgetPeriods />
 
-        <kra-b:budgetTasks supportsModular="${supportsModular}" />
+        <cg:budgetTasks supportsModular="${supportsModular}" />
 
          <kul:tab tabTitle="Fringe Benefit Rates" defaultOpen="true" tabErrorKey="document.budget.fringe*">
               <div class="tab-container" id="G02" style="" align="center">
-        <kra-b:budgetFringeBenefits />
+        <cg:budgetFringeBenefits />
         
         <c:if test="${KualiForm.numberOfAcademicYearSubdivisions gt 0}">
 	        <div class="left-errmsg-tab" style="padding-bottom: 10px;"><kul:errors keyMatch="document.budget.grad*"/></div>
-	        <kra-b:budgetGradAssistantFringeRates />
+	        <cg:budgetGradAssistantFringeRates />
         </c:if>
         
 				<br>

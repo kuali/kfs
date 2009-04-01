@@ -26,13 +26,13 @@
 		<kul:help documentTypeName="${DataDictionary.RoutingFormDocument.documentTypeName}" pageName="Project Details" altText="page help"/>
 	</div>
 
-	<kra-rf:routingFormProjectDetailsCostShare editingMode="${KualiForm.editingMode}" />
+	<cg:routingFormProjectDetailsCostShare editingMode="${KualiForm.editingMode}" />
 
-	<kra-rf:routingFormProjectDetailsSubcontracts editingMode="${KualiForm.editingMode}" />
+	<cg:routingFormProjectDetailsSubcontracts editingMode="${KualiForm.editingMode}" />
 
-	<kra-rf:routingFormProjectDetailsOtherInstitutions editingMode="${KualiForm.editingMode}" />
+	<cg:routingFormProjectDetailsOtherInstitutions editingMode="${KualiForm.editingMode}" />
 
-	<kra-rf:routingFormProjectDetailsOtherProjectDetails editingMode="${KualiForm.editingMode}" />
+	<cg:routingFormProjectDetailsOtherProjectDetails editingMode="${KualiForm.editingMode}" />
   <table class="b3" summary="" border="0" cellpadding="0" cellspacing="0" width="100%">
           <tbody><tr>
             <td class="footer" align="left"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" class="bl3" height="14" width="12"></td>

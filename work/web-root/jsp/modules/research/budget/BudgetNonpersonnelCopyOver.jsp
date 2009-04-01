@@ -24,7 +24,7 @@
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
   
 
-	<kra-b:budgetNonpersonnelCopyOver />
+	<cg:budgetNonpersonnelCopyOver />
 
 	<div id="globalbuttons" class="globalbuttons" align="center">
 	<c:if test="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}">

@@ -22,13 +22,13 @@
 	
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
 
-	<kra-rf:routingFormHiddenDocumentFields />
+	<cg:routingFormHiddenDocumentFields />
 	
 	<div align="right">
 		<kul:help documentTypeName="${DataDictionary.RoutingFormDocument.documentTypeName}" pageName="Research Risks" altText="page help"/>
 	</div> 	
 
-	<kra-rf:routingFormResearchRisks/>
+	<cg:routingFormResearchRisks/>
 
 	<sys:documentControls transactionalDocument="false" suppressRoutingControls="true" viewOnly="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 

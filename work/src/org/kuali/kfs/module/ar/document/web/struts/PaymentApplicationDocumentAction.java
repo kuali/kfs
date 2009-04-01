@@ -537,6 +537,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
                 //  set the form vars from what we've loaded up here
                 payAppForm.setNonAppliedControlDocs(nonAppliedControlDocs);
                 payAppForm.setNonAppliedControlHoldings(nonAppliedControlHoldings);
+                payAppDoc.setNonApplieds(new ArrayList<NonAppliedHolding>(nonAppliedControlHoldings));
             }
         }
 

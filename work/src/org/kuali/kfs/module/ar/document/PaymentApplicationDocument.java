@@ -89,7 +89,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     private transient BusinessObjectService boService;
     
     // used for non-cash-control payapps
-    private transient ArrayList<NonAppliedHolding> nonApplieds; // control docs for non-cash-control payapps
+    private ArrayList<NonAppliedHolding> nonApplieds; // control docs for non-cash-control payapps
     //private KualiDecimal totalAvailableUnappliedAmount = KualiDecimal.ZERO;
     //private KualiDecimal totalAppliedUnappliedAmount = KualiDecimal.ZERO;
 

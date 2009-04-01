@@ -10,13 +10,14 @@ import java.util.Date;
 import javax.sql.DataSource;
 
 import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.batch.TestingStep;
 import org.kuali.kfs.sys.context.SpringContext;
 
 //FIXME--to be removed later when CAB testing is over
 /**
  * This class is created for temporarily incrementing the sequence so that old data can be res-stored
  */
-public class SequenceIncrementerStep extends AbstractStep {
+public class SequenceIncrementerStep extends AbstractStep implements TestingStep {
     protected Connection getConnection() throws SQLException {
         DataSource dataSource = SpringContext.getBean(DataSource.class);
         Connection connection = dataSource.getConnection();

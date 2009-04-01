@@ -34,7 +34,7 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
 
     private String chartOfAccountsCode;
     private String organizationCode;
-    private String organizationRoutingModelName;
+    private String accountDelegateModelName;
     private String accountDelegateUniversalId;
     private String financialDocumentTypeCode;
     private KualiDecimal approvalFromThisAmount;
@@ -101,21 +101,21 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
 
 
     /**
-     * Gets the organizationRoutingModelName attribute.
+     * Gets the accountDelegateModelName attribute.
      * 
-     * @return Returns the organizationRoutingModelName
+     * @return Returns the accountDelegateModelName
      */
-    public String getOrganizationRoutingModelName() {
-        return organizationRoutingModelName;
+    public String getAccountDelegateModelName() {
+        return accountDelegateModelName;
     }
 
     /**
-     * Sets the organizationRoutingModelName attribute.
+     * Sets the accountDelegateModelName attribute.
      * 
-     * @param organizationRoutingModelName The organizationRoutingModelName to set.
+     * @param accountDelegateModelName The accountDelegateModelName to set.
      */
-    public void setOrganizationRoutingModelName(String organizationRoutingModelName) {
-        this.organizationRoutingModelName = organizationRoutingModelName;
+    public void setAccountDelegateModelName(String organizationRoutingModelName) {
+        this.accountDelegateModelName = organizationRoutingModelName;
     }
 
 
@@ -302,7 +302,7 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
         LinkedHashMap m = new LinkedHashMap();
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("organizationCode", this.organizationCode);
-        m.put("organizationRoutingModelName", this.organizationRoutingModelName);
+        m.put("accountDelegateModelName", this.accountDelegateModelName);
         m.put("accountDelegateUniversalId", this.accountDelegateUniversalId);
         m.put("financialDocumentTypeCode", this.financialDocumentTypeCode);
         return m;
@@ -311,7 +311,7 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
     public boolean equals(Object o) {
         if (o instanceof AccountDelegateModelDetail) {
             AccountDelegateModelDetail orgRouteModel = (AccountDelegateModelDetail) o;
-            return (((this.getChartOfAccountsCode() == null && orgRouteModel.getChartOfAccountsCode() == null) || this.getChartOfAccountsCode().equals(orgRouteModel.getChartOfAccountsCode())) && ((this.getOrganizationCode() == null && orgRouteModel.getOrganizationCode() == null) || this.getOrganizationCode().equals(orgRouteModel.getOrganizationCode())) && ((this.getOrganizationRoutingModelName() == null && orgRouteModel.getOrganizationRoutingModelName() == null) || this.getOrganizationRoutingModelName().equals(orgRouteModel.getOrganizationRoutingModelName())) && ((this.getAccountDelegateUniversalId() == null && orgRouteModel.getAccountDelegateUniversalId() == null) || this.getAccountDelegateUniversalId().equals(orgRouteModel.getAccountDelegateUniversalId())) && ((this.getFinancialDocumentTypeCode() == null && orgRouteModel.getFinancialDocumentTypeCode() == null) || this.getFinancialDocumentTypeCode().equals(orgRouteModel.getFinancialDocumentTypeCode())));
+            return (((this.getChartOfAccountsCode() == null && orgRouteModel.getChartOfAccountsCode() == null) || this.getChartOfAccountsCode().equals(orgRouteModel.getChartOfAccountsCode())) && ((this.getOrganizationCode() == null && orgRouteModel.getOrganizationCode() == null) || this.getOrganizationCode().equals(orgRouteModel.getOrganizationCode())) && ((this.getAccountDelegateModelName() == null && orgRouteModel.getAccountDelegateModelName() == null) || this.getAccountDelegateModelName().equals(orgRouteModel.getAccountDelegateModelName())) && ((this.getAccountDelegateUniversalId() == null && orgRouteModel.getAccountDelegateUniversalId() == null) || this.getAccountDelegateUniversalId().equals(orgRouteModel.getAccountDelegateUniversalId())) && ((this.getFinancialDocumentTypeCode() == null && orgRouteModel.getFinancialDocumentTypeCode() == null) || this.getFinancialDocumentTypeCode().equals(orgRouteModel.getFinancialDocumentTypeCode())));
         }
         else {
             return false;
@@ -319,7 +319,7 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
     }
 
     public int hashCode() {
-        return ((((this.getChartOfAccountsCode().hashCode() * 29 + this.getOrganizationCode().hashCode()) * 29 + this.getOrganizationRoutingModelName().hashCode()) * 29 + this.getAccountDelegateUniversalId().hashCode()) * 29 + this.getFinancialDocumentTypeCode().hashCode()) * 29;
+        return ((((this.getChartOfAccountsCode().hashCode() * 29 + this.getOrganizationCode().hashCode()) * 29 + this.getAccountDelegateModelName().hashCode()) * 29 + this.getAccountDelegateUniversalId().hashCode()) * 29 + this.getFinancialDocumentTypeCode().hashCode()) * 29;
     }
 
 }

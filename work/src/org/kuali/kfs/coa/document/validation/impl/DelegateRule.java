@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountDelegate;
@@ -29,7 +30,6 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -201,19 +201,15 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         }
 
         // TO amount must be >= FROM amount or Zero
-        if (ObjectUtils.isNotNull(toAmount)) {
+        if (ObjectUtils.isNotNull(toAmount) && !toAmount.equals(KualiDecimal.ZERO)) {
 
             if (ObjectUtils.isNull(fromAmount)) {
-                // case if FROM amount is null then TO amount must be zero
-                if (!toAmount.equals(KualiDecimal.ZERO)) {
-                    putFieldError("finDocApprovalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
-                    success &= false;
-                }
+                putFieldError("finDocApprovalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
+                success &= false;
             }
             else {
                 // case if FROM amount is non-null and positive, disallow TO amount being less
-                // if to amount is zero it is considered infinite (fromAmount -> infinity)
-                if (toAmount.isLessThan(fromAmount) && !toAmount.equals(KualiDecimal.ZERO)) {
+                if (toAmount.isLessThan(fromAmount)) {
                     putFieldError("finDocApprovalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
                     success &= false;
                 }
@@ -310,14 +306,14 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
      */
     protected boolean checkDelegateUserRules(MaintenanceDocument document) {
         boolean success = true;
-        Person accountDelegate = newDelegate.getAccountDelegate();
+        final Person accountDelegate = newDelegate.getAccountDelegate();
 
         // if the user doesnt exist, then do nothing, it'll fail the existence test elsewhere
         if (ObjectUtils.isNull(accountDelegate)) {
             return success;
         }
 
-        if (!getDocumentHelperService().getDocumentAuthorizer(document).isAuthorized(document, KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER_DELEGATE, accountDelegate.getPrincipalId())) {
+        if (StringUtils.isBlank(accountDelegate.getEntityId()) || !getDocumentHelperService().getDocumentAuthorizer(document).isAuthorized(document, KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER_DELEGATE, accountDelegate.getPrincipalId())) {
             super.putFieldError("accountDelegate.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {accountDelegate.getName(), KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER_DELEGATE});
             success = false;
         }

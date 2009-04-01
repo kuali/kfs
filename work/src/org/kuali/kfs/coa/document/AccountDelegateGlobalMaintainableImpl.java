@@ -67,7 +67,7 @@ public class AccountDelegateGlobalMaintainableImpl extends KualiGlobalMaintainab
             if (globalDelegateTemplate != null) {
                 // 2. if there is a model record, then let's populate the global delegate
                 // based on that
-                for (AccountDelegateModelDetail model : globalDelegateTemplate.getOrganizationRoutingModel()) {
+                for (AccountDelegateModelDetail model : globalDelegateTemplate.getAccountDelegateModelDetails()) {
                     if (model.isActive()) { // only populate with active models
                         AccountDelegateGlobalDetail newDelegate = new AccountDelegateGlobalDetail(model);
                         // allow deletion of the new delegate from the global delegate

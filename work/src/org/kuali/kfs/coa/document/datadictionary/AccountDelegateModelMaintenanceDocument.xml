@@ -15,7 +15,7 @@
       <list>
         <value>chartOfAccountsCode</value>
         <value>organizationCode</value>
-        <value>organizationRoutingModelName</value>
+        <value>accountDelegateModelName</value>
       </list>
     </property>
     
@@ -24,7 +24,7 @@
     
     
     <property name="documentTypeName" value="GDLM"/>
-    <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.OrganizationRoutingModelRule"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.AccountDelegateModelRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.coa.document.validation.impl.OrganizationRoutingModelPreRules"/>
     <property name="workflowAttributes">
@@ -44,7 +44,7 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserChartValueFinder"/>
         <bean parent="MaintainableFieldDefinition" p:name="organizationCode" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserOrgValueFinder"/>
-        <bean parent="MaintainableFieldDefinition" p:name="organizationRoutingModelName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="accountDelegateModelName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:defaultValue="true" p:name="active"/>
       </list>
     </property>
@@ -57,7 +57,7 @@
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">
-          <property name="name" value="organizationRoutingModel"/>
+          <property name="name" value="accountDelegateModelDetails"/>
           <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.AccountDelegateModelDetail"/>
           <property name="summaryTitle" value="Account Delegate Model Delegate"/>
           <property name="summaryFields">

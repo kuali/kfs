@@ -26,6 +26,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.coa.dataaccess.AccountDao;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountResponsibility;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
@@ -144,16 +145,49 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
         criteria.addLessOrEqualThan("accountDelegateStartDate", SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
         criteria.addEqualTo("accountsDelegatePrmrtIndicator", accountsDelegatePrmrtIndicator);
         if (totalDollarAmount != null) {
-            Criteria totalDollarAmountInRangeCriteria = new Criteria();
-            totalDollarAmountInRangeCriteria.addLessOrEqualThan("finDocApprovalFromThisAmt", totalDollarAmount);
-            totalDollarAmountInRangeCriteria.addGreaterOrEqualThan("finDocApprovalToThisAmount", totalDollarAmount);
-            Criteria totalDollarAmountZeroCriteria = new Criteria();
-            totalDollarAmountZeroCriteria.addEqualTo("finDocApprovalToThisAmount", "0");
-            totalDollarAmountZeroCriteria.addLessOrEqualThan("finDocApprovalFromThisAmt", totalDollarAmount);
-            Criteria totalDollarAmountOrCriteria = new Criteria();
-            totalDollarAmountOrCriteria.addOrCriteria(totalDollarAmountInRangeCriteria);
-            totalDollarAmountOrCriteria.addOrCriteria(totalDollarAmountZeroCriteria);
-            criteria.addAndCriteria(totalDollarAmountOrCriteria);
+            // (toAmt is nullish and (fromAmt is nullish or fromAmt <= total)) or (fromAmt is nullish and (toAmt is nullish or toAmt >= total)) or (fromAmt <= total and toAmount >= total)
+            
+            /* to not active clause: (toAmt is nullish and (fromAmt is nullish or fromAmt <= total)) */
+            Criteria toAmountIsNullish = new Criteria();
+            toAmountIsNullish.addIsNull(KFSPropertyConstants.FIN_DOC_APPROVAL_TO_THIS_AMOUNT);
+            Criteria toAmountIsZero1 = new Criteria();
+            toAmountIsZero1.addEqualTo(KFSPropertyConstants.FIN_DOC_APPROVAL_TO_THIS_AMOUNT, "0");
+            toAmountIsNullish.addOrCriteria(toAmountIsZero1);
+                        
+            Criteria fromMatchesClause = new Criteria();
+            fromMatchesClause.addIsNull(KFSPropertyConstants.FIN_DOC_APPROVAL_FROM_THIS_AMT);
+            Criteria fromAmountIsLessThanTotal = new Criteria();
+            fromAmountIsLessThanTotal.addLessOrEqualThan(KFSPropertyConstants.FIN_DOC_APPROVAL_FROM_THIS_AMT, totalDollarAmount);
+            fromMatchesClause.addOrCriteria(fromAmountIsLessThanTotal);
+            
+            Criteria toNotActiveClause = new Criteria();
+            toNotActiveClause.addAndCriteria(toAmountIsNullish);
+            toNotActiveClause.addAndCriteria(fromMatchesClause);
+            
+            /* from not active clause: (fromAmt is nullish and (toAmt is nullish or toAmt >= total)) */
+            Criteria toMatchesClause = new Criteria();
+            toMatchesClause.addIsNull(KFSPropertyConstants.FIN_DOC_APPROVAL_TO_THIS_AMOUNT);
+            Criteria toAmountIsZero2 = new Criteria();
+            toAmountIsZero2.addEqualTo(KFSPropertyConstants.FIN_DOC_APPROVAL_TO_THIS_AMOUNT, "0");
+            toMatchesClause.addOrCriteria(toAmountIsZero2);
+            Criteria toAmountIsGreaterThanTotal = new Criteria();
+            toAmountIsGreaterThanTotal.addGreaterOrEqualThan(KFSPropertyConstants.FIN_DOC_APPROVAL_TO_THIS_AMOUNT, totalDollarAmount);
+            toMatchesClause.addOrCriteria(toAmountIsGreaterThanTotal);
+            
+            Criteria fromNotActiveClause = new Criteria();
+            fromNotActiveClause.addIsNull(KFSPropertyConstants.FIN_DOC_APPROVAL_FROM_THIS_AMT);
+            fromNotActiveClause.addAndCriteria(toMatchesClause);
+            
+            Criteria bothActive = new Criteria();
+            bothActive.addLessOrEqualThan(KFSPropertyConstants.FIN_DOC_APPROVAL_FROM_THIS_AMT, totalDollarAmount);
+            bothActive.addGreaterOrEqualThan(KFSPropertyConstants.FIN_DOC_APPROVAL_TO_THIS_AMOUNT, totalDollarAmount);
+            
+            Criteria totalDollarAmountCriteria = new Criteria();
+            totalDollarAmountCriteria.addOrCriteria(toNotActiveClause);
+            totalDollarAmountCriteria.addOrCriteria(fromNotActiveClause);
+            totalDollarAmountCriteria.addOrCriteria(bothActive);
+
+            criteria.addAndCriteria(totalDollarAmountCriteria);
         }
         return criteria;
     }

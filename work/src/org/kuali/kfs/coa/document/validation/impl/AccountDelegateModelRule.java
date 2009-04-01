@@ -36,16 +36,14 @@ import org.kuali.rice.kns.util.ObjectUtils;
 /**
  * This class implements the business rules specific to the {@link OrganizationRoutingModelName} Maintenance Document.
  */
-public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
+public class AccountDelegateModelRule extends MaintenanceDocumentRuleBase {
 
     private AccountDelegateModel model;
 
-    private static final String ORG_ROUTING_MODEL_PREFIX = "organizationRoutingModel";
-
     /**
-     * Constructs a OrganizationRoutingModelRule
+     * Constructs a AccountDelegateModelRule
      */
-    public OrganizationRoutingModelRule() {
+    public AccountDelegateModelRule() {
     }
 
     /**
@@ -57,7 +55,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
     @Override
     public void setupConvenienceObjects() {
         model = (AccountDelegateModel) super.getNewBo();
-        for (AccountDelegateModelDetail delegateModel : model.getOrganizationRoutingModel()) {
+        for (AccountDelegateModelDetail delegateModel : model.getAccountDelegateModelDetails()) {
             delegateModel.refreshNonUpdateableReferences();
         }
     }
@@ -65,7 +63,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
     /**
      * This performs rules checks on document approve
      * <ul>
-     * <li>{@link OrganizationRoutingModelRule#checkSimpleRules(OrganizationRoutingModelName)}</li>
+     * <li>{@link AccountDelegateModelRule#checkSimpleRules(OrganizationRoutingModelName)}</li>
      * </ul>
      * This rule fails on business rule failures
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
@@ -79,7 +77,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
     /**
      * This performs rules checks on document route
      * <ul>
-     * <li>{@link OrganizationRoutingModelRule#checkSimpleRules(OrganizationRoutingModelName)}</li>
+     * <li>{@link AccountDelegateModelRule#checkSimpleRules(OrganizationRoutingModelName)}</li>
      * </ul>
      * This rule fails on business rule failures
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
@@ -93,7 +91,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
     /**
      * This performs rules checks on document save
      * <ul>
-     * <li>{@link OrganizationRoutingModelRule#checkSimpleRules(OrganizationRoutingModelName)}</li>
+     * <li>{@link AccountDelegateModelRule#checkSimpleRules(OrganizationRoutingModelName)}</li>
      * </ul>
      * This rule does not fail on business rule failures
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
@@ -108,7 +106,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
     /**
      * This method calls 
      * <ul>
-     * <li>{@link OrganizationRoutingModelRule#checkSimpleRulesForOrganizationRoutingModel(OrganizationRoutingModelName, OrganizationRoutingModel)}</li>
+     * <li>{@link AccountDelegateModelRule#checkSimpleRulesForOrganizationRoutingModel(OrganizationRoutingModelName, OrganizationRoutingModel)}</li>
      * </ul>
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
      *      java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
@@ -131,10 +129,10 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
         success &= checkModelNameHasAtLeastOneModel(globalDelegateTemplate);
 
         int line = 0;
-        for (AccountDelegateModelDetail delegateModel : globalDelegateTemplate.getOrganizationRoutingModel()) {
-            GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_ERROR_PATH + ".organizationRoutingModel[" + line + "].");
+        for (AccountDelegateModelDetail delegateModel : globalDelegateTemplate.getAccountDelegateModelDetails()) {
+            GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_ERROR_PATH + ".accountDelegateModelDetails[" + line + "].");
             success &= checkSimpleRulesForOrganizationRoutingModel(document, globalDelegateTemplate, delegateModel);
-            GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_ERROR_PATH + ".organizationRoutingModel[" + line + "].");
+            GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_ERROR_PATH + ".accountDelegateModelDetails[" + line + "].");
             line++;
         }
         return success;
@@ -150,7 +148,6 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
 
         if (delegateModel.isActive()) {
             success &= checkDelegateFromAmountPositive(delegateModel);
-            success &= checkDelegateToAmountNotNull(delegateModel);
             success &= checkDelegateToAmountGreaterThanFromAmount(delegateModel);
             success &= checkDelegateUserRules(document, delegateModel);
             success &= checkPrimaryRoutePerDocType(globalDelegateTemplate, delegateModel);
@@ -168,9 +165,9 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
      */
     protected boolean checkModelNameHasAtLeastOneModel(AccountDelegateModel globalDelegateTemplate) {
         boolean success = true;
-        if (globalDelegateTemplate.getOrganizationRoutingModel().size() == 0) {
+        if (globalDelegateTemplate.getAccountDelegateModelDetails().size() == 0) {
             success = false;
-            GlobalVariables.getErrorMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + "add.organizationRoutingModel.financialDocumentTypeCode", KFSKeyConstants.ERROR_DOCUMENT_DELEGATE_CHANGE_NO_DELEGATE, new String[0]);
+            GlobalVariables.getErrorMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + "add.accountDelegateModelDetails.financialDocumentTypeCode", KFSKeyConstants.ERROR_DOCUMENT_DELEGATE_CHANGE_NO_DELEGATE, new String[0]);
         }
         return success;
     }
@@ -186,7 +183,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         int activeModelCount = 0;
 
-        for (AccountDelegateModelDetail mdl : globalDelegateTemplate.getOrganizationRoutingModel()) {
+        for (AccountDelegateModelDetail mdl : globalDelegateTemplate.getAccountDelegateModelDetails()) {
             if (mdl.isActive()) {
                 activeModelCount++;
             }
@@ -194,11 +191,11 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
 
         if (activeModelCount == 0) {
             success = false;
-            if (globalDelegateTemplate.getOrganizationRoutingModel().size() == 0) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + "add.organizationRoutingModel.active", KFSKeyConstants.ERROR_DOCUMENT_DELEGATE_CHANGE_NO_ACTIVE_DELEGATE, new String[0]);
+            if (globalDelegateTemplate.getAccountDelegateModelDetails().size() == 0) {
+                GlobalVariables.getErrorMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + "add.accountDelegateModelDetails.active", KFSKeyConstants.ERROR_DOCUMENT_DELEGATE_CHANGE_NO_ACTIVE_DELEGATE, new String[0]);
             }
             else {
-                GlobalVariables.getErrorMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + "organizationRoutingModel[0].active", KFSKeyConstants.ERROR_DOCUMENT_DELEGATE_CHANGE_NO_ACTIVE_DELEGATE, new String[0]);
+                GlobalVariables.getErrorMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + "accountDelegateModelDetails[0].active", KFSKeyConstants.ERROR_DOCUMENT_DELEGATE_CHANGE_NO_ACTIVE_DELEGATE, new String[0]);
             }
         }
         return success;
@@ -217,21 +214,6 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
                 GlobalVariables.getErrorMap().putError("approvalFromThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_FROM_AMOUNT_NONNEGATIVE, new String[0]);
                 result = false;
             }
-        }
-        return result;
-    }
-
-    /**
-     * Checks that if approval from amount is not null then approval to amount is also not null
-     * 
-     * @param delegateModel Organization Routing Model to check
-     * @return true if Organization Routing Model passes all checks, false if otherwise
-     */
-    protected boolean checkDelegateToAmountNotNull(AccountDelegateModelDetail delegateModel) {
-        boolean result = true;
-        if (!ObjectUtils.isNull(delegateModel.getApprovalFromThisAmount()) && ObjectUtils.isNull(delegateModel.getApprovalToThisAmount())) {
-            GlobalVariables.getErrorMap().putError("approvalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO, new String[0]);
-            result = false;
         }
         return result;
     }
@@ -310,7 +292,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
 
         // exit immediately if the adding line isnt a Primary routing
-        if (delegateModel == null || globalDelegateTemplate == null || globalDelegateTemplate.getOrganizationRoutingModel().isEmpty()) {
+        if (delegateModel == null || globalDelegateTemplate == null || globalDelegateTemplate.getAccountDelegateModelDetails().isEmpty()) {
             return success;
         }
         if (!delegateModel.getAccountDelegatePrimaryRoutingIndicator()) {
@@ -323,7 +305,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
         // at this point, the delegateGlobal being added is a Primary for ALL docTypes, so we need to
         // test whether any in the existing list are also Primary, regardless of docType
         String docType = delegateModel.getFinancialDocumentTypeCode();
-        for (AccountDelegateModelDetail currDelegateModel : globalDelegateTemplate.getOrganizationRoutingModel()) {
+        for (AccountDelegateModelDetail currDelegateModel : globalDelegateTemplate.getAccountDelegateModelDetails()) {
             if (currDelegateModel.isActive() && !delegateModel.equals(currDelegateModel) && currDelegateModel.getAccountDelegatePrimaryRoutingIndicator() && delegateModel.getFinancialDocumentTypeCode().equals(currDelegateModel.getFinancialDocumentTypeCode())) {
                 success = false;
                 GlobalVariables.getErrorMap().putError("accountDelegatePrimaryRoutingIndicator", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_DELEGATEMAINT_PRIMARY_ROUTE_ALREADY_EXISTS_FOR_DOCTYPE, new String[0]);

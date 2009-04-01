@@ -38,8 +38,6 @@ public class AccountDelegate extends PersistableBusinessObjectBase {
      * Default no-arg constructor.
      */
     public AccountDelegate() {
-        this.finDocApprovalFromThisAmt = KualiDecimal.ZERO;
-        this.finDocApprovalToThisAmount = KualiDecimal.ZERO;
     }
 
     private String chartOfAccountsCode;

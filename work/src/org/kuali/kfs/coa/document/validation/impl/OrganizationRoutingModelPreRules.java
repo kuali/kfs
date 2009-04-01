@@ -48,10 +48,10 @@ public class OrganizationRoutingModelPreRules extends MaintenancePreRulesBase {
      * @param model
      */
     protected void copyKeyAttributesToModelDetail(AccountDelegateModel model) {
-        for (AccountDelegateModelDetail modelDelegate : model.getOrganizationRoutingModel()) {
+        for (AccountDelegateModelDetail modelDelegate : model.getAccountDelegateModelDetails()) {
             modelDelegate.setChartOfAccountsCode(model.getChartOfAccountsCode());
             modelDelegate.setOrganizationCode(model.getOrganizationCode());
-            modelDelegate.setOrganizationRoutingModelName(model.getOrganizationRoutingModelName());
+            modelDelegate.setAccountDelegateModelName(model.getAccountDelegateModelName());
         }
     }
 

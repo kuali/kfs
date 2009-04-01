@@ -1594,7 +1594,7 @@
 <class-descriptor class="org.kuali.kfs.coa.businessobject.AccountDelegateModelDetail" table="CA_ORG_RTNG_MDL_T">
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="organizationRoutingModelName" column="ORG_RTNG_MDL_NM" jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <field-descriptor name="accountDelegateModelName" column="ORG_RTNG_MDL_NM" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="accountDelegateUniversalId" column="ACCT_DLGT_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
@@ -1612,7 +1612,7 @@
 <class-descriptor class="org.kuali.kfs.coa.businessobject.AccountDelegateModel" table="CA_ORG_RTNG_MDL_NM_T">
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="organizationRoutingModelName" column="ORG_RTNG_MDL_NM" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="accountDelegateModelName" column="ORG_RTNG_MDL_NM" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<reference-descriptor name="organization" class-ref="org.kuali.kfs.coa.businessobject.Organization" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
@@ -1622,12 +1622,12 @@
 	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
-    <collection-descriptor name="organizationRoutingModel" element-class-ref="org.kuali.kfs.coa.businessobject.AccountDelegateModelDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+    <collection-descriptor name="accountDelegateModelDetails" element-class-ref="org.kuali.kfs.coa.businessobject.AccountDelegateModelDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <orderby name="accountDelegateUniversalId" sort="ASC" />
         <orderby name="financialDocumentTypeCode" sort="ASC" />
         <inverse-foreignkey field-ref="chartOfAccountsCode" />
         <inverse-foreignkey field-ref="organizationCode" />
-        <inverse-foreignkey field-ref="organizationRoutingModelName" />
+        <inverse-foreignkey field-ref="accountDelegateModelName" />
     </collection-descriptor>
 </class-descriptor>
 

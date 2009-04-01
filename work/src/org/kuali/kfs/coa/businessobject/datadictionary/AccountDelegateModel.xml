@@ -20,7 +20,7 @@
       <list>
         <ref bean="AccountDelegateModel-chartOfAccountsCode" />
         <ref bean="AccountDelegateModel-organizationCode" />
-        <ref bean="AccountDelegateModel-organizationRoutingModelName" />
+        <ref bean="AccountDelegateModel-accountDelegateModelName" />
         <ref bean="AccountDelegateModel-active" />
       </list>
     </property>
@@ -61,10 +61,10 @@
             p:size="6" />
     </property>
   </bean>
-  <bean id="AccountDelegateModel-organizationRoutingModelName" parent="AccountDelegateModel-organizationRoutingModelName-parentBean" />
+  <bean id="AccountDelegateModel-accountDelegateModelName" parent="AccountDelegateModel-accountDelegateModelName-parentBean" />
 
-  <bean id="AccountDelegateModel-organizationRoutingModelName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationRoutingModelName" />
+  <bean id="AccountDelegateModel-accountDelegateModelName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountDelegateModelName" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Account Delegate Model Name" />
     <property name="shortLabel" value="Name" />
@@ -104,7 +104,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="organizationCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="organizationRoutingModelName" />
+                    p:attributeName="accountDelegateModelName" />
               <bean parent="FieldDefinition"
                     p:attributeName="active" />
             </list>
@@ -116,7 +116,7 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="InquiryCollectionDefinition">
-                <property name="attributeName" value="organizationRoutingModel" />
+                <property name="attributeName" value="accountDelegateModelDetails" />
                 <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.AccountDelegateModelDetail" />
                 <property name="numberOfColumns" value="1" />
                 <property name="inquiryFields" >
@@ -161,7 +161,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="organizationCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="organizationRoutingModelName" />
+              p:attributeName="accountDelegateModelName" />
         <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>
@@ -173,7 +173,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="organizationCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="organizationRoutingModelName"
+              p:attributeName="accountDelegateModelName"
               p:forceInquiry="true" />
         <bean parent="FieldDefinition"
               p:attributeName="active" />

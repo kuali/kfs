@@ -229,9 +229,6 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
                 // FROM amount must be >= 0 (may not be negative)
                 success &= checkDelegateFromAmtGreaterThanEqualZero(fromAmount, i, false);
 
-                // to amount cannot be null if from amount is valid
-                success &= checkDelegateForNullToAmount(fromAmount, toAmount, i, false);
-
                 // TO amount must be >= FROM amount or Zero
                 success &= checkDelegateToAmtGreaterThanFromAmt(fromAmount, toAmount, i, false);
 
@@ -281,31 +278,6 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
                 }
                 success &= false;
             }
-        }
-        return success;
-    }
-
-    /**
-     * This method checks to see if the from amount is not null and the to amount is null
-     * 
-     * @param fromAmount
-     * @param toAmount
-     * @param lineNum
-     * @return false if from amount valid and to amount are null
-     */
-    protected boolean checkDelegateForNullToAmount(KualiDecimal fromAmount, KualiDecimal toAmount, int lineNum, boolean add) {
-        boolean success = true;
-        if (ObjectUtils.isNotNull(fromAmount) && ObjectUtils.isNull(toAmount)) {
-            String errorPath = KFSConstants.EMPTY_STRING;
-            if (add) {
-                errorPath = KFSConstants.MAINTENANCE_ADD_PREFIX + DELEGATE_GLOBALS_PREFIX + "." + "approvalToThisAmount";
-                putFieldError(errorPath, KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
-            }
-            else {
-                errorPath = DELEGATE_GLOBALS_PREFIX + "[" + lineNum + "]." + "approvalToThisAmount";
-                putFieldError(errorPath, KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
-            }
-            success &= false;
         }
         return success;
     }
@@ -564,9 +536,6 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
 
             // FROM amount must be >= 0 (may not be negative)
             success &= checkDelegateFromAmtGreaterThanEqualZero(fromAmount, 0, true);
-
-            // from cannot be a valid value and toAmount cannot be null
-            success &= checkDelegateForNullToAmount(fromAmount, toAmount, 0, true);
 
             // TO amount must be >= FROM amount or Zero
             success &= checkDelegateToAmtGreaterThanFromAmt(fromAmount, toAmount, 0, true);

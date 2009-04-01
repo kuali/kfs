@@ -28,7 +28,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 @ConfigureContext
-public class OrganizationRoutingModelTest extends KualiTestBase {
+public class AccountDelegateModelTest extends KualiTestBase {
 
     AccountDelegateModelDetail model;
 
@@ -45,9 +45,9 @@ public class OrganizationRoutingModelTest extends KualiTestBase {
     }
 
     public void testSaveModel() {
-        String name = model.getOrganizationRoutingModelName();
+        String name = model.getAccountDelegateModelName();
         AccountDelegateModelDetail routingModel = new AccountDelegateModelDetail();
-        routingModel.setOrganizationRoutingModelName(name);
+        routingModel.setAccountDelegateModelName(name);
         routingModel.setChartOfAccountsCode(model.getChartOfAccountsCode());
         routingModel.setOrganizationCode(model.getOrganizationCode());
         routingModel.setAccountDelegateUniversalId(model.getAccountDelegateUniversalId());

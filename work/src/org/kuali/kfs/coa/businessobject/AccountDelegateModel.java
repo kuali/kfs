@@ -35,9 +35,9 @@ public class AccountDelegateModel extends PersistableBusinessObjectBase implemen
 
     private String chartOfAccountsCode;
     private String organizationCode;
-    private String organizationRoutingModelName;
+    private String accountDelegateModelName;
     private boolean active;
-    private List<AccountDelegateModelDetail> organizationRoutingModel;
+    private List<AccountDelegateModelDetail> accountDelegateModelDetails;
 
     private Organization organization;
     private Chart chartOfAccounts;
@@ -46,7 +46,7 @@ public class AccountDelegateModel extends PersistableBusinessObjectBase implemen
      * Default constructor.
      */
     public AccountDelegateModel() {
-        organizationRoutingModel = new TypedArrayList(AccountDelegateModelDetail.class);
+        accountDelegateModelDetails = new TypedArrayList(AccountDelegateModelDetail.class);
     }
 
     /**
@@ -88,21 +88,21 @@ public class AccountDelegateModel extends PersistableBusinessObjectBase implemen
 
 
     /**
-     * Gets the organizationRoutingModelName attribute.
+     * Gets the accountDelegateModelName attribute.
      * 
-     * @return Returns the organizationRoutingModelName
+     * @return Returns the accountDelegateModelName
      */
-    public String getOrganizationRoutingModelName() {
-        return organizationRoutingModelName;
+    public String getAccountDelegateModelName() {
+        return accountDelegateModelName;
     }
 
     /**
-     * Sets the organizationRoutingModelName attribute.
+     * Sets the accountDelegateModelName attribute.
      * 
-     * @param organizationRoutingModelName The organizationRoutingModelName to set.
+     * @param accountDelegateModelName The accountDelegateModelName to set.
      */
-    public void setOrganizationRoutingModelName(String organizationRoutingModelName) {
-        this.organizationRoutingModelName = organizationRoutingModelName;
+    public void setAccountDelegateModelName(String organizationRoutingModelName) {
+        this.accountDelegateModelName = organizationRoutingModelName;
     }
 
 
@@ -145,21 +145,21 @@ public class AccountDelegateModel extends PersistableBusinessObjectBase implemen
     }
 
     /**
-     * Gets the organizationRoutingModel attribute.
+     * Gets the accountDelegateModelDetails attribute.
      * 
-     * @return Returns the organizationRoutingModel.
+     * @return Returns the accountDelegateModelDetails.
      */
-    public List<AccountDelegateModelDetail> getOrganizationRoutingModel() {
-        return organizationRoutingModel;
+    public List<AccountDelegateModelDetail> getAccountDelegateModelDetails() {
+        return accountDelegateModelDetails;
     }
 
     /**
-     * Sets the organizationRoutingModel attribute value.
+     * Sets the accountDelegateModelDetails attribute value.
      * 
-     * @param organizationRoutingModel The organizationRoutingModel to set.
+     * @param accountDelegateModelDetails The accountDelegateModelDetails to set.
      */
-    public void setOrganizationRoutingModel(List<AccountDelegateModelDetail> organizationRoutingModel) {
-        this.organizationRoutingModel = organizationRoutingModel;
+    public void setAccountDelegateModelDetails(List<AccountDelegateModelDetail> organizationRoutingModel) {
+        this.accountDelegateModelDetails = organizationRoutingModel;
     }
 
     /**
@@ -169,7 +169,7 @@ public class AccountDelegateModel extends PersistableBusinessObjectBase implemen
         LinkedHashMap m = new LinkedHashMap();
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("organizationCode", this.organizationCode);
-        m.put("organizationRoutingModelName", this.organizationRoutingModelName);
+        m.put("accountDelegateModelName", this.accountDelegateModelName);
         return m;
     }
 
@@ -183,7 +183,7 @@ public class AccountDelegateModel extends PersistableBusinessObjectBase implemen
             throw new IllegalArgumentException("parameter passed in was null");
         }
         List bos = new ArrayList();
-        bos.addAll(getOrganizationRoutingModel());
+        bos.addAll(getAccountDelegateModelDetails());
         SpringContext.getBean(BusinessObjectService.class).linkUserFields(bos);
     }
 

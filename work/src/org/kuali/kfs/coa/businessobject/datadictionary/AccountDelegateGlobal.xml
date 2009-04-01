@@ -13,7 +13,7 @@
       <list>
         <ref bean="AccountDelegateGlobal-model.chartOfAccountsCode" />
         <ref bean="AccountDelegateGlobal-model.organizationCode" />
-        <ref bean="AccountDelegateGlobal-model.organizationRoutingModelName" />
+        <ref bean="AccountDelegateGlobal-model.accountDelegateModelName" />
       </list>
     </property>
   </bean>
@@ -38,10 +38,10 @@
     <property name="name" value="model.organizationCode" />
     <property name="shortLabel" value="Org" />
   </bean>
-  <bean id="AccountDelegateGlobal-model.organizationRoutingModelName" parent="AccountDelegateGlobal-model.organizationRoutingModelName-parentBean" />
+  <bean id="AccountDelegateGlobal-model.accountDelegateModelName" parent="AccountDelegateGlobal-model.accountDelegateModelName-parentBean" />
 
-  <bean id="AccountDelegateGlobal-model.organizationRoutingModelName-parentBean" abstract="true" parent="AccountDelegateModel-organizationRoutingModelName">
-    <property name="name" value="model.organizationRoutingModelName" />
+  <bean id="AccountDelegateGlobal-model.accountDelegateModelName-parentBean" abstract="true" parent="AccountDelegateModel-accountDelegateModelName">
+    <property name="name" value="model.accountDelegateModelName" />
     <property name="label" value="Model Name" />
     <property name="shortLabel" value="Load" />
     <property name="required" value="false" />

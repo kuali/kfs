@@ -406,27 +406,6 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         assertGlobalErrorMapContains(ERROR_PREFIX + "finDocApprovalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
     }
 
-    public void testCheckSimpleRulesStartDateRule_validFromAmtNullToAmt() {
-        DelegateRule rule = new DelegateRule();
-        newDelegate = badDelegate6();
-
-        // new delegate with start-date same as today
-        maintDoc = newMaintDoc(newDelegate);
-        rule = (DelegateRule) setupMaintDocRule(maintDoc, rule.getClass());
-
-        // now we need to setup the convenience objects so that the rule has the right
-        // delegate values
-        rule.setupConvenienceObjects(maintDoc);
-
-
-        // confirm that there are no errors to begin with
-        assertGlobalErrorMapEmpty();
-
-        // run the business rules
-        rule.checkSimpleRules();
-        assertGlobalErrorMapContains(ERROR_PREFIX + "finDocApprovalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
-    }
-
     public void testCheckSimpleRulesStartDateRule_nullFromAmtZeroPlusToAmt() {
         DelegateRule rule = new DelegateRule();
         newDelegate = badDelegate7();
@@ -503,7 +482,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         // confirm that there are no errors to begin with
         assertGlobalErrorMapEmpty();
         rule.checkDelegateUserRules(maintDoc);
-        assertGlobalErrorMapContains(ERROR_PREFIX + "accountDelegate.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE_KUALI_USER);
+        assertGlobalErrorMapContains(ERROR_PREFIX + "accountDelegate.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION);
     }
 
     public void testcheckDelegateUserRules_badDelegate2() {
@@ -536,7 +515,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         // confirm that there are no errors to begin with
         assertGlobalErrorMapEmpty();
         rule.checkDelegateUserRules(maintDoc);
-        assertGlobalErrorMapContains(ERROR_PREFIX + "accountDelegate.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE_KUALI_USER);
+        assertGlobalErrorMapContains(ERROR_PREFIX + "accountDelegate.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION);
     }
 
     /**

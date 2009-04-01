@@ -14,7 +14,7 @@
         <ref bean="AccountDelegateModelDetail-financialDocumentTypeCode" />
         <ref bean="AccountDelegateModelDetail-chartOfAccountsCode" />
         <ref bean="AccountDelegateModelDetail-organizationCode" />
-        <ref bean="AccountDelegateModelDetail-organizationRoutingModelName" />
+        <ref bean="AccountDelegateModelDetail-accountDelegateModelName" />
         <ref bean="AccountDelegateModelDetail-accountDelegatePrimaryRoutingIndicator" />
         <ref bean="AccountDelegateModelDetail-accountDelegateStartDate" />
         <ref bean="AccountDelegateModelDetail-accountDelegateUniversalId" />
@@ -82,9 +82,9 @@
   <bean id="AccountDelegateModelDetail-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
   	<property name="forceUppercase" value="true" />
   </bean>
-  <bean id="AccountDelegateModelDetail-organizationRoutingModelName" parent="AccountDelegateModelDetail-organizationRoutingModelName-parentBean" />
+  <bean id="AccountDelegateModelDetail-accountDelegateModelName" parent="AccountDelegateModelDetail-accountDelegateModelName-parentBean" />
 
-  <bean id="AccountDelegateModelDetail-organizationRoutingModelName-parentBean" abstract="true" parent="AccountDelegateModel-organizationRoutingModelName">
+  <bean id="AccountDelegateModelDetail-accountDelegateModelName-parentBean" abstract="true" parent="AccountDelegateModel-accountDelegateModelName">
     <property name="required" value="true" />
     <property name="forceUppercase" value="true" />
   </bean>

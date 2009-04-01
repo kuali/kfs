@@ -22,17 +22,16 @@ import org.kuali.kfs.sys.ParameterKeyConstants;
  */
 public class VendorParameterConstants implements ParameterKeyConstants {
     public static final String DEFAULT_TAX_NUMBER_DIGITS = "DEFAULT_TAX_NUMBER_DIGITS";
-    public static final String PAYMENT_TERMS_DUE_TYPE_DESC = "PAYMENT_TERMS_DUE_TYPE_DESC";
-    public static String PURAP_VENDOR_MIN_ORDER_AMOUNT = "MIN_ORDER_AMOUNT";
-    public static String PURAP_NOT_ALLOWED_TAX_NUMBERS = "TAX_NUMBERS";
-    public static String PURAP_VNDR_MIN_NUM_LOOKUP_CRITERIA = "LOOKUP_MINIMUM_NUMBER_OF_CRITERIA";
-    public static String PURAP_VNDR_LOOKUP_MIN_NAME_LENGTH = "LOOKUP_MINIMUM_NAME_LENGTH";
-    public static String PURAP_SSN_ALLOWED_OWNERSHIP_TYPES = "SSN_OWNERSHIP_TYPES";
-    public static String PURAP_FEIN_ALLOWED_OWNERSHIP_TYPES = "FEIN_OWNERSHIP_TYPES";
-    public static final String PHONE_NUMBER_FORMATS_PARM_NM = "GENERIC_PHONE_NUMBER_FORMATS";
-    public static final String DEFAULT_PHONE_NUMBER_DIGITS_PARM_NM = "GENERIC_DEFAULT_PHONE_NUMBER_LENGTH";
-    public static final String PURAP_OVERRIDE_VENDOR_DOC_TITLE = "OVERRIDE_DOCUMENT_TITLE_IND";
+    public static final String NOT_ALLOWED_TAX_NUMBERS = "TAX_NUMBERS";
     public static final String TAX_FEIN_NUMBER_FORMATS = "TAX_FEIN_NUMBER_FORMATS";
     public static final String TAX_SSN_NUMBER_FORMATS = "TAX_SSN_NUMBER_FORMATS";
+    public static final String PAYMENT_TERMS_DUE_TYPE_DESC = "PAYMENT_TERMS_DUE_TYPE_DESC";
+    public static final String VENDOR_MIN_ORDER_AMOUNT = "MIN_ORDER_AMOUNT";
+    public static final String LOOKUP_MINIMUM_NAME_LENGTH = "LOOKUP_MINIMUM_NAME_LENGTH";
+    public static final String SSN_ALLOWED_OWNERSHIP_TYPES = "SSN_OWNERSHIP_TYPES";
+    public static final String FEIN_ALLOWED_OWNERSHIP_TYPES = "FEIN_OWNERSHIP_TYPES";
+    public static final String PHONE_NUMBER_FORMATS = "GENERIC_PHONE_NUMBER_FORMATS";
+    public static final String DEFAULT_PHONE_NUMBER_DIGITS = "GENERIC_DEFAULT_PHONE_NUMBER_LENGTH";
+    public static final String OVERRIDE_VENDOR_DOC_TITLE = "OVERRIDE_DOCUMENT_TITLE_IND";
     
 }

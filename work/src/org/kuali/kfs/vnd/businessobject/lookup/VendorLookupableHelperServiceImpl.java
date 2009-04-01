@@ -52,9 +52,6 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
     private VendorService vendorService;
     private ParameterService parameterService;
 
-    private static String VNDR_LOOKUP_MIN_NAME_LENGTH;
-    private static String VNDR_MIN_NUM_LOOKUP_CRITERIA;
-
     /**
      * Allows only active parent vendors to create new divisions
      *
@@ -279,10 +276,8 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
     private void validateVendorName(Map fieldValues) {
         String vendorName = (String) fieldValues.get(VendorPropertyConstants.VENDOR_NAME);
         if (StringUtils.isNotBlank(vendorName)) {
-            if (ObjectUtils.isNull(VNDR_LOOKUP_MIN_NAME_LENGTH)) {
-                VNDR_LOOKUP_MIN_NAME_LENGTH = parameterService.getParameterValue(VendorDetail.class, VendorParameterConstants.PURAP_VNDR_LOOKUP_MIN_NAME_LENGTH);
-            }
-            if (vendorName.length() < Integer.parseInt(VNDR_LOOKUP_MIN_NAME_LENGTH)) {
+            String VNDR_LOOKUP_MIN_NAME_LENGTH = parameterService.getParameterValue(VendorDetail.class, VendorParameterConstants.LOOKUP_MINIMUM_NAME_LENGTH);
+            if (ObjectUtils.isNotNull(VNDR_LOOKUP_MIN_NAME_LENGTH) && vendorName.length() < Integer.parseInt(VNDR_LOOKUP_MIN_NAME_LENGTH)) {
                 GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_NAME, VendorKeyConstants.ERROR_VENDOR_LOOKUP_NAME_TOO_SHORT, VNDR_LOOKUP_MIN_NAME_LENGTH);
             }
         }

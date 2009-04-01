@@ -51,7 +51,7 @@ public class PhoneNumberServiceImpl implements PhoneNumberService {
             return unformattedNumber;
         }
         String formattedNumber = unformattedNumber.replaceAll("\\D", "");
-        Integer defaultPhoneNumberDigits = new Integer(parameterService.getParameterValue(VendorDetail.class, VendorParameterConstants.DEFAULT_PHONE_NUMBER_DIGITS_PARM_NM));
+        Integer defaultPhoneNumberDigits = new Integer(parameterService.getParameterValue(VendorDetail.class, VendorParameterConstants.DEFAULT_PHONE_NUMBER_DIGITS));
         // Before moving to the parameter table:
         // if ( formattedNumber.length() != VendorConstants.GENERIC_DEFAULT_PHONE_NUM_DIGITS ) {
         if (formattedNumber.length() != defaultPhoneNumberDigits) {
@@ -87,7 +87,7 @@ public class PhoneNumberServiceImpl implements PhoneNumberService {
      */
     protected String[] parseFormats() {
         if (ObjectUtils.isNull(phoneNumberFormats)) {
-            phoneNumberFormats = parameterService.getParameterValues(VendorDetail.class, VendorParameterConstants.PHONE_NUMBER_FORMATS_PARM_NM);
+            phoneNumberFormats = parameterService.getParameterValues(VendorDetail.class, VendorParameterConstants.PHONE_NUMBER_FORMATS);
         }
         return phoneNumberFormats.toArray(new String[] {});
     }

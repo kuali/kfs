@@ -184,7 +184,7 @@ public class TaxNumberServiceImpl implements TaxNumberService {
      */
     public String[] parseNotAllowedTaxNumbers() {
         if (ObjectUtils.isNull(notAllowedTaxNumbers)) {
-            notAllowedTaxNumbers = parameterService.getParameterValues(VendorDetail.class, VendorParameterConstants.PURAP_NOT_ALLOWED_TAX_NUMBERS);
+            notAllowedTaxNumbers = parameterService.getParameterValues(VendorDetail.class, VendorParameterConstants.NOT_ALLOWED_TAX_NUMBERS);
         }
         return notAllowedTaxNumbers.toArray(new String[] {});
     }

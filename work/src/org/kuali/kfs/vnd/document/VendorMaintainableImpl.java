@@ -74,7 +74,7 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
     public String getDocumentTitle(MaintenanceDocument document) {
         String documentTitle = "";
         // Check if we are choosing to override the Kuali default document title.
-        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(VendorDetail.class, VendorParameterConstants.PURAP_OVERRIDE_VENDOR_DOC_TITLE)) {
+        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(VendorDetail.class, VendorParameterConstants.OVERRIDE_VENDOR_DOC_TITLE)) {
             // We are overriding the standard with a Vendor-specific document title style.
             if (document.isOldBusinessObjectInDocument()) {
                 documentTitle = "Edit Vendor - ";

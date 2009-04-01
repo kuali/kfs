@@ -71,7 +71,6 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
     private VendorDetail oldVendor;
     private VendorDetail newVendor;
-    private static KualiDecimal VENDOR_MIN_ORDER_AMOUNT;
 
 
     /**
@@ -608,12 +607,12 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         String taxTypeCode = vendorDetail.getVendorHeader().getVendorTaxTypeCode();
         if (StringUtils.isNotEmpty(ownershipTypeCode) && StringUtils.isNotEmpty(taxTypeCode)) {
             if (VendorConstants.TAX_TYPE_FEIN.equals(taxTypeCode)) {
-                if (!SpringContext.getBean(ParameterService.class).getParameterEvaluator(VendorDetail.class, VendorParameterConstants.PURAP_FEIN_ALLOWED_OWNERSHIP_TYPES, ownershipTypeCode).evaluationSucceeds()) {
+                if (!SpringContext.getBean(ParameterService.class).getParameterEvaluator(VendorDetail.class, VendorParameterConstants.FEIN_ALLOWED_OWNERSHIP_TYPES, ownershipTypeCode).evaluationSucceeds()) {
                     valid &= false;
                 }
             }
             else if (VendorConstants.TAX_TYPE_SSN.equals(taxTypeCode)) {
-                if (!SpringContext.getBean(ParameterService.class).getParameterEvaluator(VendorDetail.class, VendorParameterConstants.PURAP_SSN_ALLOWED_OWNERSHIP_TYPES, ownershipTypeCode).evaluationSucceeds()) {
+                if (!SpringContext.getBean(ParameterService.class).getParameterEvaluator(VendorDetail.class, VendorParameterConstants.SSN_ALLOWED_OWNERSHIP_TYPES, ownershipTypeCode).evaluationSucceeds()) {
                     valid &= false;
                 }
             }
@@ -629,22 +628,17 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
 
     /**
-     * Per code review 9/19, these business rules should be moved to the rule table. This method validates that the minimum order
-     * amount is less than the minimum order amount constant that is currently defined in VendorConstants.java but someday should be
-     * moved to APC.
+     * Validates that the minimum order amount is less than the maximum allowed amount.
      * 
      * @param vendorDetail The VendorDetail object to be validated
-     * @return booelan true if the vendorMinimumOrderAmount is less than the minimum order amount specified in the VendorConstants
-     *         (in the future the amount will be in APC).
+     * @return booelan true if the vendorMinimumOrderAmount is less than the maximum allowed amount.
      */
     private boolean validateMinimumOrderAmount(VendorDetail vendorDetail) {
         boolean valid = true;
         KualiDecimal minimumOrderAmount = vendorDetail.getVendorMinimumOrderAmount();
-        if (minimumOrderAmount != null) {
-            if (ObjectUtils.isNull(VENDOR_MIN_ORDER_AMOUNT)) {
-                VENDOR_MIN_ORDER_AMOUNT = new KualiDecimal(SpringContext.getBean(ParameterService.class).getParameterValue(VendorDetail.class, VendorParameterConstants.PURAP_VENDOR_MIN_ORDER_AMOUNT));
-            }
-            if ((VENDOR_MIN_ORDER_AMOUNT.compareTo(minimumOrderAmount) < 1) || (minimumOrderAmount.isNegative())) {
+        if (ObjectUtils.isNotNull(minimumOrderAmount)) {
+            KualiDecimal VENDOR_MIN_ORDER_AMOUNT = new KualiDecimal(SpringContext.getBean(ParameterService.class).getParameterValue(VendorDetail.class, VendorParameterConstants.VENDOR_MIN_ORDER_AMOUNT));
+            if (ObjectUtils.isNotNull(VENDOR_MIN_ORDER_AMOUNT) && (VENDOR_MIN_ORDER_AMOUNT.compareTo(minimumOrderAmount) < 1) || (minimumOrderAmount.isNegative())) {
                 putFieldError(VendorPropertyConstants.VENDOR_MIN_ORDER_AMOUNT, VendorKeyConstants.ERROR_VENDOR_MAX_MIN_ORDER_AMOUNT, VENDOR_MIN_ORDER_AMOUNT.toString());
                 valid &= false;
             }

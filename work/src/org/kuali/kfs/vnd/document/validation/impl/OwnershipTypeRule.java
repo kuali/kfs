@@ -56,8 +56,8 @@ public class OwnershipTypeRule extends MaintenanceDocumentRuleBase {
     protected boolean checkForSystemParametersExistence() {
         LOG.info("checkForSystemParametersExistence called");
         boolean success = true;
-        List<String> feinParameterValues = SpringContext.getBean(ParameterService.class).getParameterValues(VendorDetail.class, VendorParameterConstants.PURAP_FEIN_ALLOWED_OWNERSHIP_TYPES);
-        List<String> ssnParameterValues = SpringContext.getBean(ParameterService.class).getParameterValues(VendorDetail.class, VendorParameterConstants.PURAP_SSN_ALLOWED_OWNERSHIP_TYPES);
+        List<String> feinParameterValues = SpringContext.getBean(ParameterService.class).getParameterValues(VendorDetail.class, VendorParameterConstants.FEIN_ALLOWED_OWNERSHIP_TYPES);
+        List<String> ssnParameterValues = SpringContext.getBean(ParameterService.class).getParameterValues(VendorDetail.class, VendorParameterConstants.SSN_ALLOWED_OWNERSHIP_TYPES);
         OwnershipType newBo = (OwnershipType)getNewBo();
         OwnershipType oldBo= (OwnershipType)getOldBo();
 

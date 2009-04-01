@@ -14,7 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="TaxRegion-lookupDefinition" />
     </property>
-    <property name="titleAttribute" value="TaxRegionCode" />
+    <property name="titleAttribute" value="taxRegionCode" />
     <property name="objectLabel" value="Tax Region" />
     <property name="attributes" >
       <list>
@@ -149,8 +149,7 @@
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="taxRegionCode"
-              p:forceInquiry="true" />              
+              p:attributeName="taxRegionCode" />
         <bean parent="FieldDefinition"
               p:attributeName="taxRegionName" />
         <bean parent="FieldDefinition"

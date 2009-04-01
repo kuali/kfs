@@ -53,8 +53,8 @@
     <property name="maxLength" value="10" />
     <property name="validationPattern" >
       <bean parent="FixedPointValidationPattern"
-            p:precision="10"
-            p:scale="3" />
+            p:precision="19"
+            p:scale="4" />
     </property>
     <property name="control" >
       <bean parent="CurrencyControlDefinition"

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -201,6 +202,11 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
             summaryAccounts = purapAccountingService.generateSummary(purDoc.getTradeInItems());
 
             distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE, tradeIn.getAccountingLineClass());
+            for (PurApAccountingLine distributedAccount : distributedAccounts) {
+                BigDecimal percent = distributedAccount.getAccountLinePercent();
+                BigDecimal roundedPercent = new BigDecimal(Math.round(percent.doubleValue()));
+                distributedAccount.setAccountLinePercent(roundedPercent);
+            }
             tradeIn.setSourceAccountingLines(distributedAccounts);
         }
     }

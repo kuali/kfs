@@ -27,13 +27,13 @@
     <c:forEach items="${KualiForm.budgetConstructionDocumentReportModes}" var="item" varStatus="status" >
         <tr>
             <td class="datacell" nowrap>
-                <div align="left">
-                    ${item.reportDesc}
+                <div align="center">
+                  <html:image property="methodToCall.performReportDump.line${status.index}" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Run Report/Dump For Line ${status.index}" onclick="excludeSubmitRestriction=true" alt="Run Report/Dump Line ${status.index}" styleClass="tinybutton" />
                 </div>
             </td>
             <td class="datacell" nowrap>
-                <div align="center">
-                  <html:image property="methodToCall.performReportDump.line${status.index}" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Run Report/Dump For Line ${status.index}" onclick="excludeSubmitRestriction=true" alt="Run Report/Dump Line ${status.index}" styleClass="tinybutton" />
+                <div align="left">
+                    ${item.reportDesc}
                 </div>
             </td>
         </tr>

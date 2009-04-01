@@ -18,6 +18,7 @@ package org.kuali.kfs.fp.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -29,6 +30,8 @@ public class TravelPerDiem extends PersistableBusinessObjectBase {
     private String perDiemCountryName;
     private KualiDecimal perDiemRate;
     private String perDiemCountryText;
+
+    private SystemOptions fiscalYear;
 
     /**
      * Default no-arg constructor.
@@ -91,6 +94,24 @@ public class TravelPerDiem extends PersistableBusinessObjectBase {
      */
     public void setPerDiemRate(KualiDecimal perDiemRate) {
         this.perDiemRate = perDiemRate;
+    }
+
+    /**
+     * Gets the fiscalYear attribute.
+     * 
+     * @return Returns the fiscalYear.
+     */
+    public SystemOptions getFiscalYear() {
+        return fiscalYear;
+    }
+
+    /**
+     * Sets the fiscalYear attribute value.
+     * 
+     * @param fiscalYear The fiscalYear to set.
+     */
+    public void setFiscalYear(SystemOptions fiscalYear) {
+        this.fiscalYear = fiscalYear;
     }
 
     /**

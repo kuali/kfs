@@ -15,19 +15,18 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 
@@ -39,7 +38,7 @@ public class PaymentFileLoad extends TransientBusinessObjectBase {
     private String chart;
     private String unit;
     private String subUnit;
-    private Date creationDate;
+    private Timestamp creationDate;
 
     // trailer fields
     private int paymentCount;
@@ -158,7 +157,7 @@ public class PaymentFileLoad extends TransientBusinessObjectBase {
      * 
      * @return Returns the creationDate.
      */
-    public Date getCreationDate() {
+    public Timestamp getCreationDate() {
         return creationDate;
     }
 
@@ -167,20 +166,23 @@ public class PaymentFileLoad extends TransientBusinessObjectBase {
      * 
      * @param creationDate The creationDate to set.
      */
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(Timestamp creationDate) {
         this.creationDate = creationDate;
     }
-
+    
     /**
-     * Takes <code>String</code> input and attempts to format as a Date for setting the creationDate field
+     * Takes a <code>String</code> and attempt to format as <code>Timestamp</code for setting the
+     * creationDate field
      * 
-     * @param creationDate date in string format
+     * @param creationDate Timestamp as string
      */
-    public void setCreationDate(String creationDate) throws ParseException {
-        // date string contains a T separating the date and time part, need to remove before format
-        creationDate = StringUtils.replace(creationDate, PdpConstants.PAYMENT_LOAD_CREATE_DATE_SEPARATOR, " ");
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(PdpConstants.PAYMENT_LOAD_CREATE_DATE_FORMAT, Locale.US);
-        this.creationDate = simpleDateFormat.parse(creationDate);
+    public void setCreationDate(String creationDate) {
+        try {
+            this.creationDate = SpringContext.getBean(DateTimeService.class).convertToSqlTimestamp(creationDate);
+        }
+        catch (ParseException e) {
+            throw new RuntimeException("Unable to convert create timestamp value " + creationDate + " :" + e.getMessage(), e);
+        }
     }
 
     /**

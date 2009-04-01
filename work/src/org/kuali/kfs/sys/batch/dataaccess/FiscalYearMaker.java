@@ -78,18 +78,26 @@ public interface FiscalYearMaker {
     public Class<? extends PersistableBusinessObject> getBusinessObjectClass();
 
     /**
-     * Returns Set of Class objects that are parents to this business object. Parents will be copied before this object to
-     * satisfy referential integrity in the database
+     * Returns Set of Class objects that are parents to this business object. Parents will be copied before this object to satisfy
+     * referential integrity in the database
      * 
      * @return Set of Class objects that extend PersistableBusinessObject
      */
     public Set<Class<? extends PersistableBusinessObject>> getParentClasses();
-    
+
     /**
      * Indicates whether records should be created for two fiscal years out as opposed to just one
      * 
      * @return true if two years should be copied, false otherwise (only the default one)
      */
     public boolean isTwoYearCopy();
+
+    /**
+     * Indicates whether records of this type can be cleared for target year (if Override parameter is set to true). Clearing
+     * records for some tables causes RI issues therefore they cannot be safely deleted once created
+     * 
+     * @return true if target year data can be cleared, false if not
+     */
+    public boolean isAllowOverrideTargetYear();
 
 }

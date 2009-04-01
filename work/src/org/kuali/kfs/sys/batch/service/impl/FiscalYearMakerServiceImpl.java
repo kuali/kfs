@@ -76,7 +76,9 @@ public class FiscalYearMakerServiceImpl implements FiscalYearMakerService {
         if (replaceMode) {
             List<FiscalYearMaker> deleteList = getFiscalYearMakerHelpersInDeleteOrder(copyList);
             for (FiscalYearMaker fiscalYearMakerHelper : deleteList) {
-                fiscalYearMakersDao.deleteNewYearRows(baseYear, fiscalYearMakerHelper);
+                if (fiscalYearMakerHelper.isAllowOverrideTargetYear()) {
+                    fiscalYearMakersDao.deleteNewYearRows(baseYear, fiscalYearMakerHelper);
+                }
             }
         }
 
@@ -106,8 +108,8 @@ public class FiscalYearMakerServiceImpl implements FiscalYearMakerService {
     }
 
     /**
-     * Returns List of <code>FiscalYearMaker</code> objects in the order they should be copied. Ordered by Parent classes first
-     * then children. This is necessary to ensure referential integrity is satisfied when the new record is inserted.
+     * Returns List of <code>FiscalYearMaker</code> objects in the order they should be copied. Ordered by Parent classes first then
+     * children. This is necessary to ensure referential integrity is satisfied when the new record is inserted.
      * 
      * @return List<FiscalYearMaker> in copy order
      */
@@ -154,8 +156,8 @@ public class FiscalYearMakerServiceImpl implements FiscalYearMakerService {
     }
 
     /**
-     * Returns List of <code>FiscalYearMaker</code> objects in the order they should be deleted. Ordered by Child classes first
-     * then Parents. This is necessary to ensure referential integrity is satisfied when the new record is deleted.
+     * Returns List of <code>FiscalYearMaker</code> objects in the order they should be deleted. Ordered by Child classes first then
+     * Parents. This is necessary to ensure referential integrity is satisfied when the new record is deleted.
      * 
      * @param fiscalYearMakerHelpersCopyOrder list of fiscal year makers in copy order
      * @return List<FiscalYearMaker> in delete order

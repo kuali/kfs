@@ -1452,6 +1452,10 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="perDiemRate" column="DV_DIEM_RT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="perDiemCountryText" column="DV_DIEM_CNTRY_TXT" jdbc-type="VARCHAR" />
+
+    <reference-descriptor name="fiscalYear" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="universityFiscalYear" />
+    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceRegistrant" table="FP_DV_PRECNF_REG_T">

@@ -49,6 +49,7 @@ public class FiscalYearMakerImpl extends PlatformAwareDaoBaseOjb implements Fisc
     private boolean fiscalYearOneAhead;
     private boolean twoYearCopy;
     private boolean carryForwardInactive;
+    private boolean allowOverrideTargetYear;
 
     /**
      * Constructs a FiscalYearMakerImpl.java.
@@ -58,6 +59,7 @@ public class FiscalYearMakerImpl extends PlatformAwareDaoBaseOjb implements Fisc
         fiscalYearOneAhead = false;
         twoYearCopy = false;
         carryForwardInactive = false;
+        allowOverrideTargetYear = true;
         parentClasses = new HashSet<Class<? extends PersistableBusinessObject>>();
     }
 
@@ -224,8 +226,7 @@ public class FiscalYearMakerImpl extends PlatformAwareDaoBaseOjb implements Fisc
     }
 
     /**
-     * <code>Options</code> is the parent for univFiscalYear which all our copy objects should have. Added to list here by
-     * default.
+     * <code>Options</code> is the parent for univFiscalYear which all our copy objects should have. Added to list here by default.
      * 
      * @see org.kuali.kfs.coa.batch.dataaccess.FiscalYearMakerHelper#getParentClasses()
      * @see org.kuali.kfs.sys.businessobject.Options
@@ -335,6 +336,24 @@ public class FiscalYearMakerImpl extends PlatformAwareDaoBaseOjb implements Fisc
      */
     public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
         this.persistenceStructureService = persistenceStructureService;
+    }
+
+    /**
+     * Gets the allowOverrideTargetYear attribute.
+     * 
+     * @return Returns the allowOverrideTargetYear.
+     */
+    public boolean isAllowOverrideTargetYear() {
+        return allowOverrideTargetYear;
+    }
+
+    /**
+     * Sets the allowOverrideTargetYear attribute value.
+     * 
+     * @param allowOverrideTargetYear The allowOverrideTargetYear to set.
+     */
+    public void setAllowOverrideTargetYear(boolean allowOverrideTargetYear) {
+        this.allowOverrideTargetYear = allowOverrideTargetYear;
     }
 
 }

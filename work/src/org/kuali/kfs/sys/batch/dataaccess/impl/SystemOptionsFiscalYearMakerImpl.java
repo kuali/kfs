@@ -24,6 +24,12 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
  */
 public class SystemOptionsFiscalYearMakerImpl extends FiscalYearMakerImpl {
 
+    public SystemOptionsFiscalYearMakerImpl() {
+        super();
+        
+        super.setAllowOverrideTargetYear(false);
+    }
+
     /**
      * @see org.kuali.kfs.coa.batch.dataaccess.impl.FiscalYearMakerHelperImpl#changeForNewYear(java.lang.Integer,
      *      org.kuali.rice.kns.bo.PersistableBusinessObject)

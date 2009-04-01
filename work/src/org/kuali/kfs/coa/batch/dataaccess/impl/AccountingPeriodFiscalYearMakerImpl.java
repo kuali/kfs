@@ -33,6 +33,12 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
  * Performs custom population of accounting periods records for a new year being created in the fiscal year maker process
  */
 public class AccountingPeriodFiscalYearMakerImpl extends FiscalYearMakerImpl {
+    
+    public AccountingPeriodFiscalYearMakerImpl() {
+        super();
+        
+        super.setAllowOverrideTargetYear(false);
+    }
 
     /**
      * Updates the year on the fiscal period name and sets status to open for next year records

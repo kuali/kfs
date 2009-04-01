@@ -40,7 +40,7 @@
 	>
     <html:hidden property="mainWindow" />
 
-	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
+	<sys:documentOverview editingMode="${KualiForm.editingMode}" />
 
     <c:if test="${!KualiForm.securityNoAccess}">
     <bc:systemInformation />
@@ -56,7 +56,7 @@
 
 	<kul:panelFooter />
 
-	<kfs:documentControls transactionalDocument="false"
+	<sys:documentControls transactionalDocument="false"
 		suppressRoutingControls="true" />
 
 <%-- Need these here to override and initialize vars used by objectinfo.js to BC specific --%>

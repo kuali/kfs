@@ -59,7 +59,7 @@
 
     <c:otherwise>
 		<c:if test="${empty KualiForm.editingMode['amendmentEntry']}">
-			<kfs:documentOverview editingMode="${KualiForm.editingMode}"
+			<sys:documentOverview editingMode="${KualiForm.editingMode}"
 		    	includePostingYear="true"
                 fiscalYearReadOnly="${not KualiForm.editingMode['allowPostingYearEntry']}"
 		        postingYearAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" >
@@ -68,13 +68,13 @@
 		        	documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}"
 		            purchaseOrder="true"
 		            detailSectionLabel="Purchase Order Detail" />
-		    </kfs:documentOverview>
+		    </sys:documentOverview>
 		</c:if>
 		 
 		<!--  TODO maybe we ought to rename the accountingLineEditingMode to something more generic -->
 		<c:if test="${! empty KualiForm.editingMode['amendmentEntry']}">
 		 	<c:set target="${KualiForm.accountingLineEditingMode}" property="fullEntry" value="true" />
-		    <kfs:documentOverview editingMode="${KualiForm.accountingLineEditingMode}"
+		    <sys:documentOverview editingMode="${KualiForm.accountingLineEditingMode}"
 		    	includePostingYear="true"
 		        fiscalYearReadOnly="true"
 		        postingYearAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" >
@@ -83,7 +83,7 @@
 		        	documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}"
 		            purchaseOrder="true"
 		            detailSectionLabel="Purchase Order Detail" />
-		    </kfs:documentOverview>
+		    </sys:documentOverview>
 		</c:if>
 		    	    
 		<c:if test="${retransmitMode}" >
@@ -168,13 +168,13 @@
 
 	<c:choose>
 		<c:when test="${KualiForm.document.assigningSensitiveData}">
-    		<kfs:documentControls 
+    		<sys:documentControls 
         		transactionalDocument="true" 
         		extraButtons="${KualiForm.extraButtons}"
         		suppressRoutingControls="true" />
 		</c:when>
 		<c:otherwise>
-    		<kfs:documentControls 
+    		<sys:documentControls 
         		transactionalDocument="true" 
         		extraButtons="${KualiForm.extraButtons}" />
 		</c:otherwise>

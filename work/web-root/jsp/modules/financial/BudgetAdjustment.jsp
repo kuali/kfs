@@ -20,19 +20,19 @@
 	htmlFormAction="financialBudgetAdjustment" renderMultipart="true"
 	showTabButtons="true">
 
-	<kfs:hiddenDocumentFields excludePostingYear="true" />
+	<sys:hiddenDocumentFields excludePostingYear="true" />
 
-	<kfs:documentOverview editingMode="${KualiForm.editingMode}"
+	<sys:documentOverview editingMode="${KualiForm.editingMode}"
 		includePostingYear="true"
         postingYearOnChange="submitForm()"
         includePostingYearRefresh="true"
         postingYearAttributes="${DataDictionary.BudgetAdjustmentDocument.attributes}" />
 
 	<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
-		<sys:accountingLines>
-			<sys:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
-			<sys:accountingLineGroup newLinePropertyName="newTargetLine" collectionPropertyName="document.targetAccountingLines" collectionItemPropertyName="document.targetAccountingLine" attributeGroupName="target"/>
-		</sys:accountingLines>
+		<sys-java:accountingLines>
+			<sys-java:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
+			<sys-java:accountingLineGroup newLinePropertyName="newTargetLine" collectionPropertyName="document.targetAccountingLines" collectionItemPropertyName="document.targetAccountingLine" attributeGroupName="target"/>
+		</sys-java:accountingLines>
 	</kul:tab>
 
 	<gl:generalLedgerPendingEntries />
@@ -45,6 +45,6 @@
 
 	<kul:panelFooter />
 
-	<kfs:documentControls transactionalDocument="true" extraButtons="${KualiForm.extraButtons}"/>
+	<sys:documentControls transactionalDocument="true" extraButtons="${KualiForm.extraButtons}"/>
 
 </kul:documentPage>

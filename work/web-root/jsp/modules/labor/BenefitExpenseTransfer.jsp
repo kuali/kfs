@@ -35,7 +35,7 @@
     htmlFormAction="${htmlFormAction}" renderMultipart="true"
     showTabButtons="true">
 
-	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
+	<sys:documentOverview editingMode="${KualiForm.editingMode}" />
 	
 	<kul:tab tabTitle="Ledger Balance Importing" defaultOpen="true"
 		tabErrorKey="${Constants.EMPLOYEE_LOOKUP_ERRORS}">
@@ -130,10 +130,10 @@
 		
 	<kul:tab tabTitle="Accounting Lines" defaultOpen="true">
 
-	<sys:accountingLines>
-		<sys:accountingLineGroup collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
-		<sys:accountingLineGroup collectionPropertyName="document.targetAccountingLines" collectionItemPropertyName="document.targetAccountingLine" attributeGroupName="target"/> 
-	</sys:accountingLines>
+	<sys-java:accountingLines>
+		<sys-java:accountingLineGroup collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
+		<sys-java:accountingLineGroup collectionPropertyName="document.targetAccountingLines" collectionItemPropertyName="document.targetAccountingLine" attributeGroupName="target"/> 
+	</sys-java:accountingLines>
 	</kul:tab>
 	
 	<ld:laborLedgerPendingEntries />
@@ -141,5 +141,5 @@
 	<kul:adHocRecipients />
 	<kul:routeLog />
 	<kul:panelFooter />
-	<kfs:documentControls transactionalDocument="true" extraButtons="${KualiForm.extraButtons}" />
+	<sys:documentControls transactionalDocument="true" extraButtons="${KualiForm.extraButtons}" />
 </kul:documentPage>

@@ -24,8 +24,8 @@
 	htmlFormAction="financialCreditCardReceipt"
 	documentTypeName="CreditCardReceiptDocument"
 	renderMultipart="true" showTabButtons="true">
-	<kfs:hiddenDocumentFields />
-	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
+	<sys:hiddenDocumentFields />
+	<sys:documentOverview editingMode="${KualiForm.editingMode}" />
 	<SCRIPT type="text/javascript">
 	    <!--
 	        function submitForm() {
@@ -33,12 +33,12 @@
 	        }
 	    //-->
 	</SCRIPT>
-	<ccr:creditCardReceipts editingMode="${KualiForm.editingMode}" />
+	<fp:creditCardReceipts editingMode="${KualiForm.editingMode}" />
 			
 	<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
-		<sys:accountingLines>
-			<sys:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
-		</sys:accountingLines>
+		<sys-java:accountingLines>
+			<sys-java:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
+		</sys-java:accountingLines>
 	</kul:tab>
 		
 	<gl:generalLedgerPendingEntries />
@@ -46,5 +46,5 @@
 	<kul:adHocRecipients />
 	<kul:routeLog />
 	<kul:panelFooter />
-	<kfs:documentControls transactionalDocument="${documentEntry.transactionalDocument}" />
+	<sys:documentControls transactionalDocument="${documentEntry.transactionalDocument}" />
 </kul:documentPage>

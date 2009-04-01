@@ -22,7 +22,7 @@
 
     <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] && (empty KualiForm.editingMode['restrictFiscalEntry'])}" />
  
-	<kfs:documentOverview editingMode="${KualiForm.editingMode}"
+	<sys:documentOverview editingMode="${KualiForm.editingMode}"
 		includePostingYear="true"
         fiscalYearReadOnly="${not KualiForm.editingMode['allowPostingYearEntry']}"
         postingYearAttributes="${DataDictionary.RequisitionDocument.attributes}" >
@@ -31,7 +31,7 @@
 	    	documentAttributes="${DataDictionary.RequisitionDocument.attributes}"
 	    	detailSectionLabel="Requisition Detail"
 	    	editableFundingSource="true" />
-    </kfs:documentOverview>
+    </sys:documentOverview>
 
     <purap:delivery
         documentAttributes="${DataDictionary.RequisitionDocument.attributes}" 
@@ -80,6 +80,6 @@
 	
 	<c:set var="extraButtons" value="${KualiForm.extraButtons}"/>  	
 
-	<kfs:documentControls transactionalDocument="true" extraButtons="${extraButtons}" />
+	<sys:documentControls transactionalDocument="true" extraButtons="${extraButtons}" />
 
 </kul:documentPage>

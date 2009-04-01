@@ -49,7 +49,7 @@
 	docTitle="Budget Construction Selection"
     transactionalDocument="false">
 
-<%--	<kfs:hiddenDocumentFields /> --%>
+<%--	<sys:hiddenDocumentFields /> --%>
 
 	<kul:errors keyMatch="${BCConstants.BUDGET_CONSTRUCTION_SELECTION_ERRORS}" errorTitle="Errors found in Search Criteria:" />
 	<c:forEach items="${KualiForm.messages}" var="message">

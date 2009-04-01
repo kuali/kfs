@@ -20,17 +20,17 @@
 	htmlFormAction="financialYearEndGeneralErrorCorrection"
 	renderMultipart="true" showTabButtons="true">
 	
-	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
+	<sys:documentOverview editingMode="${KualiForm.editingMode}" />
 
 	<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
-		<sys:accountingLines>
-			<sys:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
-			<sys:accountingLineGroup newLinePropertyName="newTargetLine" collectionPropertyName="document.targetAccountingLines" collectionItemPropertyName="document.targetAccountingLine" attributeGroupName="target"/>
-		</sys:accountingLines>
+		<sys-java:accountingLines>
+			<sys-java:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
+			<sys-java:accountingLineGroup newLinePropertyName="newTargetLine" collectionPropertyName="document.targetAccountingLines" collectionItemPropertyName="document.targetAccountingLine" attributeGroupName="target"/>
+		</sys-java:accountingLines>
 	</kul:tab>
 
 	<c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
-	<fin:capitalAssetEditTab readOnly="${readOnly}"/>
+	<fp:capitalAssetEditTab readOnly="${readOnly}"/>
 	
 	<gl:generalLedgerPendingEntries />
 
@@ -42,6 +42,6 @@
 
 	<kul:panelFooter />
 
-	<kfs:documentControls transactionalDocument="${documentEntry.transactionalDocument}" />
+	<sys:documentControls transactionalDocument="${documentEntry.transactionalDocument}" />
 
 </kul:documentPage>

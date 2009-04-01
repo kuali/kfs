@@ -30,9 +30,9 @@
 	htmlFormAction="${htmlFormAction}" renderMultipart="true"
     showTabButtons="true">
     
-    <kfs:hiddenDocumentFields isFinancialDocument="false" />
+    <sys:hiddenDocumentFields isFinancialDocument="false" />
     
-    <kfs:documentOverview editingMode="${KualiForm.editingMode}" />
+    <sys:documentOverview editingMode="${KualiForm.editingMode}" />
     
     <c:set var="hiddenFieldNames" value="emplid,universityFiscalYear,effortCertificationReportNumber,effortCertificationDocumentCode,totalOriginalPayrollAmount"/>
 	<c:forTokens var="fieldName" items="${hiddenFieldNames}" delims=",">	
@@ -44,7 +44,7 @@
 		
 		<div class="tab-container" align=center>
 			<h3>Retrieve Data</h3>
-			<er:detailLineImport readOnly="${readOnly}" attributes="${documentAttributes}" />				
+			<ec:detailLineImport readOnly="${readOnly}" attributes="${documentAttributes}" />				
 		</div>
 		
 		<div class="tab-container-error"><div class="left-errmsg-tab"><kul:errors keyMatch="${EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS}"/></div></div>
@@ -52,7 +52,7 @@
 		<div class="tab-container" align=center>			
 			<h3>Effort Detail Lines</h3>
 			
-			<er:detailLines detailLines="${detailLines}" attributes="${detailAttributes}"
+			<ec:detailLines detailLines="${detailLines}" attributes="${detailAttributes}"
 				detailFieldNames="chartOfAccountsCode,accountNumber,subAccountNumber,financialObjectCode,sourceChartOfAccountsCode,sourceAccountNumber,positionNumber,effortCertificationCalculatedOverallPercent,effortCertificationOriginalPayrollAmount"
 				detailFieldNamesWithHiddenFormWhenReadonly="chartOfAccountsCode,accountNumber,subAccountNumber,financialObjectCode,sourceChartOfAccountsCode,sourceAccountNumber,positionNumber,effortCertificationOriginalPayrollAmount,effortCertificationCalculatedOverallPercent"				
 				hiddenFieldNames="universityFiscalYear,effortCertificationUpdatedOverallPercent,effortCertificationPayrollAmount,costShareSourceSubAccountNumber,versionNumber"
@@ -65,5 +65,5 @@
     <kul:adHocRecipients />
     <kul:routeLog />
     <kul:panelFooter />
-    <kfs:documentControls transactionalDocument="false" />
+    <sys:documentControls transactionalDocument="false" />
 </kul:documentPage>

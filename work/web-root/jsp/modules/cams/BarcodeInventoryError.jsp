@@ -19,7 +19,7 @@
 <kul:documentPage showDocumentInfo="true"  htmlFormAction="camsBarcodeInventoryError"  documentTypeName="BarcodeInventoryErrorDocument" 
 renderMultipart="true"  showTabButtons="true">
 
- 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
+ 	<sys:documentOverview editingMode="${KualiForm.editingMode}" />
  	
  	<cams:barcodeInventoryErrorDetails/>
  	
@@ -31,6 +31,6 @@ renderMultipart="true"  showTabButtons="true">
     
     <kul:panelFooter />
     
-    <kfs:documentControls transactionalDocument="${documentEntry.transactionalDocument}"/>
+    <sys:documentControls transactionalDocument="${documentEntry.transactionalDocument}"/>
     
 </kul:documentPage>

@@ -35,7 +35,7 @@
 	</c:if>
 	
 	<c:if test="${not KualiForm.editingMode['displayInitTab']}" >
-	    <kfs:documentOverview editingMode="${KualiForm.editingMode}"
+	    <sys:documentOverview editingMode="${KualiForm.editingMode}"
 	        includePostingYear="true"
 	        fiscalYearReadOnly="true"
 	        postingYearAttributes="${DataDictionary.PaymentRequestDocument.attributes}" >
@@ -44,7 +44,7 @@
 	    		documentAttributes="${DataDictionary.PaymentRequestDocument.attributes}"
 	    		detailSectionLabel="Payment Request Detail"
 	    		paymentRequest="true" />
-	    </kfs:documentOverview>
+	    </sys:documentOverview>
 	</c:if>
     
     <c:if test="${KualiForm.editingMode['displayInitTab']}" > 
@@ -97,7 +97,7 @@
 	
     <kul:panelFooter />
 	<c:set var="extraButtons" value="${KualiForm.extraButtons}" />
-  	<kfs:documentControls 
+  	<sys:documentControls 
         transactionalDocument="true"  
         extraButtons="${extraButtons}"  
         suppressRoutingControls="${KualiForm.editingMode['displayInitTab']}"

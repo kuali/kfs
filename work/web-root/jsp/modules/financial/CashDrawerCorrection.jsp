@@ -22,7 +22,7 @@
     <kul:tabTop tabTitle="Cash Drawer Corrections" defaultOpen="true" tabErrorKey="cashDrawerErrors">
       <div class="tab-container" align="center">
           <h3>Cash Drawer for ${KualiForm.cashDrawer.campusCode}</h3>
-        <cm:cashDrawerCurrencyCoin cashDrawerProperty="cashDrawer" readOnly="false" showCashDrawerSummary="false" />
+        <fp:cashDrawerCurrencyCoin cashDrawerProperty="cashDrawer" readOnly="false" showCashDrawerSummary="false" />
       </div>
     </kul:tabTop>
     

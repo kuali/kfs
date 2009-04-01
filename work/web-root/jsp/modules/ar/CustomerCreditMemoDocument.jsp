@@ -23,7 +23,7 @@
 	<c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 	<c:set var="displayInitTab" value="${KualiForm.editingMode['displayInitTab']}" scope="request" />
 	
-	<kfs:hiddenDocumentFields isFinancialDocument="false" />
+	<sys:hiddenDocumentFields isFinancialDocument="false" />
 
 	<ar:customerCreditMemoHiddenFields />
 

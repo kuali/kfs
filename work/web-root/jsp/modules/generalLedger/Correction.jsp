@@ -21,7 +21,7 @@
 	renderMultipart="true" showTabButtons="true">
   <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
-  <kfs:documentOverview editingMode="${KualiForm.editingMode}"/>
+  <sys:documentOverview editingMode="${KualiForm.editingMode}"/>
 
   
   <c:if test="${debug == true}">
@@ -836,5 +836,5 @@
   <kul:adHocRecipients />        
   <kul:routeLog/>
   <kul:panelFooter/>
-  <kfs:documentControls transactionalDocument="false" />
+  <sys:documentControls transactionalDocument="false" />
 </kul:documentPage>

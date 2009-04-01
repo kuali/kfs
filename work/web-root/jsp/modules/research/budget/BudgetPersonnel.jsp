@@ -42,7 +42,7 @@
   </c:if>  
   
   	<p>
-	<kfs:documentControls 
+	<sys:documentControls 
 		transactionalDocument="false" 
 		saveButtonOverride="savePersonnel" 
 		suppressRoutingControls="true"

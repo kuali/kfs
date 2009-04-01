@@ -26,7 +26,7 @@
 	htmlFormAction="financialCashReceipt"
 	documentTypeName="CashReceiptDocument" renderMultipart="true"
 	showTabButtons="true">
-	<cr:printCoverSheet />
+	<fp:crPrintCoverSheet />
 	<c:set var="docStatusMessage"
 		value="${KualiForm.financialDocumentStatusMessage}" />
 	<c:if test="${!empty docStatusMessage}">
@@ -40,7 +40,7 @@
 		</div>
 		<br>
 	</c:if>
-	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
+	<sys:documentOverview editingMode="${KualiForm.editingMode}" />
 	<SCRIPT type="text/javascript">
     <!--
         function submitForm() {
@@ -113,29 +113,29 @@
   <kul:tab tabTitle="Currency and Coin Detail" defaultOpen="true" tabErrorKey="${KFSConstants.EDIT_CASH_RECEIPT_CURRENCY_COIN_ERRORS}">
     <div class="tab-container" align="center">
         <h3>Currency and Coin Detail</h3>
-      <fin:currencyCoinLine currencyProperty="document.currencyDetail" coinProperty="document.coinDetail" readOnly="${readOnly}" editingMode="${KualiForm.editingMode}" />
+      <fp:currencyCoinLine currencyProperty="document.currencyDetail" coinProperty="document.coinDetail" readOnly="${readOnly}" editingMode="${KualiForm.editingMode}" />
     </div>
   </kul:tab>
 	
-	<cr:checkLines checkDetailMode="${checkDetailMode}"
+	<fp:crCheckLines checkDetailMode="${checkDetailMode}"
 		editingMode="${KualiForm.editingMode}"
 		totalAmount="${KualiForm.cashReceiptDocument.currencyFormattedTotalCheckAmount}"
 		displayHidden="${displayHidden}" />
 		
 	<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
-		<sys:accountingLines>
-			<sys:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
-		</sys:accountingLines>
+		<sys-java:accountingLines>
+			<sys-java:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
+		</sys-java:accountingLines>
 	</kul:tab>			
 		 
   	<c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
-	<fin:capitalAssetEditTab readOnly="${readOnly}"/>
+	<fp:capitalAssetEditTab readOnly="${readOnly}"/>
 			
 	<gl:generalLedgerPendingEntries />
 	<kul:notes />
 	<kul:adHocRecipients />
 	<kul:routeLog />
 	<kul:panelFooter />
-	<kfs:documentControls
+	<sys:documentControls
 		transactionalDocument="${documentEntry.transactionalDocument}" />
 </kul:documentPage>

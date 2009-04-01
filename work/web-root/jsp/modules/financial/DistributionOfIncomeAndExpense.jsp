@@ -20,23 +20,23 @@
 	documentTypeName="DistributionOfIncomeAndExpenseDocument"
 	renderMultipart="true" showTabButtons="true">
 
-	<kfs:hiddenDocumentFields />
+	<sys:hiddenDocumentFields />
 
 	<c:if test="${!empty KualiForm.editingMode['sourceLinesReadOnlyMode']}">
 		<c:set var="sourceLinesReadOnlyMode" value="true" scope="request" />
 	</c:if>
 
-	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
+	<sys:documentOverview editingMode="${KualiForm.editingMode}" />
 
 	<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
-		<sys:accountingLines>
-			<sys:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
-			<sys:accountingLineGroup newLinePropertyName="newTargetLine" collectionPropertyName="document.targetAccountingLines" collectionItemPropertyName="document.targetAccountingLine" attributeGroupName="target"/>
-		</sys:accountingLines>
+		<sys-java:accountingLines>
+			<sys-java:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
+			<sys-java:accountingLineGroup newLinePropertyName="newTargetLine" collectionPropertyName="document.targetAccountingLines" collectionItemPropertyName="document.targetAccountingLine" attributeGroupName="target"/>
+		</sys-java:accountingLines>
 	</kul:tab>
 	
 	<c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
-	<fin:capitalAssetEditTab readOnly="${readOnly}"/>
+	<fp:capitalAssetEditTab readOnly="${readOnly}"/>
 	
 	<gl:generalLedgerPendingEntries />
 
@@ -48,7 +48,7 @@
 
 	<kul:panelFooter />
 
-	<kfs:documentControls
+	<sys:documentControls
 		transactionalDocument="${documentEntry.transactionalDocument}" extraButtons="${KualiForm.extraButtons}" />
 
 </kul:documentPage>

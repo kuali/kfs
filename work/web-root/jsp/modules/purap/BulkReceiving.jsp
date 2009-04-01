@@ -20,7 +20,7 @@
     htmlFormAction="purapBulkReceiving" renderMultipart="true"
     showTabButtons="true">
 
-    <kfs:hiddenDocumentFields isFinancialDocument="false" />
+    <sys:hiddenDocumentFields isFinancialDocument="false" />
     		     		
     <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
     
@@ -38,7 +38,7 @@
     </c:choose>
     
    <c:if test="${not KualiForm.editingMode['displayInitTab']}" >
-	    <kfs:documentOverview editingMode="${KualiForm.editingMode}" />
+	    <sys:documentOverview editingMode="${KualiForm.editingMode}" />
 	
 		 <purap:bulkReceivingVendor
 		    documentAttributes="${DataDictionary.BulkReceivingDocument.attributes}"/> 
@@ -62,7 +62,7 @@
 	
     <c:set var="extraButtons" value="${KualiForm.extraButtons}"/>  
   	
-    <kfs:documentControls 
+    <sys:documentControls 
         transactionalDocument="true" 
         extraButtons="${extraButtons}"
         suppressRoutingControls="${KualiForm.editingMode['displayInitTab']}" />

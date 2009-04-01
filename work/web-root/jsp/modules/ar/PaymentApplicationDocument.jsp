@@ -55,9 +55,9 @@ function toggle(id) {
 	htmlFormAction="arPaymentApplicationDocument" renderMultipart="true"
 	showTabButtons="true">
 
-	<kfs:hiddenDocumentFields isFinancialDocument="false" />
+	<sys:hiddenDocumentFields isFinancialDocument="false" />
 
-	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
+	<sys:documentOverview editingMode="${KualiForm.editingMode}" />
 
     <ar:paymentApplicationControlInformation isCustomerSelected="${isCustomerSelected}"
         hasRelatedCashControlDocument="${hasRelatedCashControlDocument}"
@@ -96,5 +96,5 @@ function toggle(id) {
 	
 	<kul:panelFooter />
 	
-	<kfs:documentControls transactionalDocument="true" />
+	<sys:documentControls transactionalDocument="true" />
 </kul:documentPage>

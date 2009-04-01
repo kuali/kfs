@@ -21,16 +21,16 @@
 
 	
 
-	<kfs:hiddenDocumentFields />
+	<sys:hiddenDocumentFields />
 
-	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
+	<sys:documentOverview editingMode="${KualiForm.editingMode}" />
 
-	<fin:procurementCardTransactions
+	<fp:procurementCardTransactions
 		editingMode="${KualiForm.editingMode}"
 		editableAccounts="${KualiForm.editableAccounts}" />
 	
 	<c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
-	<fin:capitalAssetEditTab readOnly="${readOnly}"/>	
+	<fp:capitalAssetEditTab readOnly="${readOnly}"/>	
 
 	<gl:generalLedgerPendingEntries />
 
@@ -42,6 +42,6 @@
 
 	<kul:panelFooter />
 
-	<kfs:documentControls transactionalDocument="true" />
+	<sys:documentControls transactionalDocument="true" />
 
 </kul:documentPage>

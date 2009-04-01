@@ -37,7 +37,7 @@
 
     <html:hidden property="financialBalanceTypeCode" />
     
-    <kfs:documentOverview editingMode="${KualiForm.editingMode}" />
+    <sys:documentOverview editingMode="${KualiForm.editingMode}" />
  
 	<kul:tab tabTitle="Ledger Balance Importing" defaultOpen="true"
 		tabErrorKey="${KFSConstants.EMPLOYEE_LOOKUP_ERRORS}">
@@ -70,14 +70,14 @@
                    forceRequired="true" labelFor="emplid"
                    />
                <td>
-                     <kfs:employee userIdFieldName="emplid"
+                     <sys:employee userIdFieldName="emplid"
                                  userNameFieldName="user.name" 
                                  fieldConversions="employeeId:emplid"
                                  lookupParameters="emplid:employeeId,universityFiscalYear:universityFiscalYear"
                                  hasErrors="${hasErrors}"
                                  onblur="${onblur}"
                                  highlight="${addHighlighting}" readOnly="${readOnly}" >
-                     </kfs:employee>
+                     </sys:employee>
                </td>
              </tr>
             
@@ -99,10 +99,10 @@
 	</kul:tab>
 	
 	<kul:tab tabTitle="Accounting Lines" defaultOpen="true"	tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">			
-		<sys:accountingLines>
-			<sys:accountingLineGroup collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine"	attributeGroupName="source" />
-	       	<sys:accountingLineGroup collectionPropertyName="document.targetAccountingLines" collectionItemPropertyName="document.targetAccountingLine" attributeGroupName="target" />
-		</sys:accountingLines>
+		<sys-java:accountingLines>
+			<sys-java:accountingLineGroup collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine"	attributeGroupName="source" />
+	       	<sys-java:accountingLineGroup collectionPropertyName="document.targetAccountingLines" collectionItemPropertyName="document.targetAccountingLine" attributeGroupName="target" />
+		</sys-java:accountingLines>
 	</kul:tab> 
 	     
 	<ld:laborLedgerPendingEntries />
@@ -110,5 +110,5 @@
     <kul:adHocRecipients />
     <kul:routeLog />
     <kul:panelFooter />
-    <kfs:documentControls transactionalDocument="true" extraButtons="${KualiForm.extraButtons}" />
+    <sys:documentControls transactionalDocument="true" extraButtons="${KualiForm.extraButtons}" />
 </kul:documentPage>

@@ -62,8 +62,8 @@
 		        </td>
 	        </c:when>
 	        <c:when test="${includeBankCode}">
-	            <kfs:bankLabel align="right"/>
-	            <kfs:bankControl property="${bankProperty}" objectProperty="${bankObjectProperty}" depositOnly="${depositOnly}" disbursementOnly="${disbursementOnly}" readOnly="${readOnly}"/>
+	            <sys:bankLabel align="right"/>
+	            <sys:bankControl property="${bankProperty}" objectProperty="${bankObjectProperty}" depositOnly="${depositOnly}" disbursementOnly="${disbursementOnly}" readOnly="${readOnly}"/>
 	        </c:when>	        
 	        <c:otherwise>
 	          <th colspan="2">
@@ -96,8 +96,8 @@
 	    <!-- need to display bank code in a new row if it was not displayed above -->
 	    <c:if test="${includePostingYear and includeBankCode}">
 	      <tr>
-		     <kfs:bankLabel align="right"/>
-	         <kfs:bankControl property="${bankProperty}" objectProperty="${bankObjectProperty}" depositOnly="${depositOnly}" disbursementOnly="${disbursementOnly}" readOnly="${readOnly}"/>      
+		     <sys:bankLabel align="right"/>
+	         <sys:bankControl property="${bankProperty}" objectProperty="${bankObjectProperty}" depositOnly="${depositOnly}" disbursementOnly="${disbursementOnly}" readOnly="${readOnly}"/>      
 	      </tr>
 	    </c:if>
 	   

@@ -29,6 +29,6 @@
 	<kra-rf:routingFormPersonnel/>
 
     <c:if test="${!empty KualiForm.document.routingFormPersonnel}">
-	  <kfs:documentControls transactionalDocument="false" suppressRoutingControls="true" viewOnly="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
+	  <sys:documentControls transactionalDocument="false" suppressRoutingControls="true" viewOnly="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 	</c:if>
 </kul:documentPage>

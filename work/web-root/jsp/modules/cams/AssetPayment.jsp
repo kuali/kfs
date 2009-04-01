@@ -21,7 +21,7 @@
 	htmlFormAction="camsAssetPayment"
 	documentTypeName="AssetPaymentDocument" renderMultipart="true"
 	showTabButtons="true">
-	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
+	<sys:documentOverview editingMode="${KualiForm.editingMode}" />
 	<html:hidden property="document.capitalAssetNumber" />
 	<cams:assetPayments />
 
@@ -30,20 +30,20 @@
 		<c:choose>
 			<c:when
 				test="${KualiForm.document.capitalAssetBuilderOriginIndicator }">
-				<sys:accountingLines>
-					<sys:accountingLineGroup
+				<sys-java:accountingLines>
+					<sys-java:accountingLineGroup
 						collectionPropertyName="document.sourceAccountingLines"
 						collectionItemPropertyName="document.sourceAccountingLines"
 						attributeGroupName="source" />
-				</sys:accountingLines>
+				</sys-java:accountingLines>
 			</c:when>
 			<c:otherwise>
-				<sys:accountingLines>
-					<sys:accountingLineGroup newLinePropertyName="newSourceLine"
+				<sys-java:accountingLines>
+					<sys-java:accountingLineGroup newLinePropertyName="newSourceLine"
 						collectionPropertyName="document.sourceAccountingLines"
 						collectionItemPropertyName="document.sourceAccountingLines"
 						attributeGroupName="source" />
-				</sys:accountingLines>
+				</sys-java:accountingLines>
 			</c:otherwise>
 		</c:choose>
 	</kul:tab>
@@ -55,6 +55,6 @@
 	<kul:adHocRecipients />
 	<kul:routeLog />
 	<kul:panelFooter />
-	<kfs:documentControls
+	<sys:documentControls
 		transactionalDocument="${documentEntry.transactionalDocument}" />
 </kul:documentPage>

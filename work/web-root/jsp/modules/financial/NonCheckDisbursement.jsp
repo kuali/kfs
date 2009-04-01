@@ -20,15 +20,15 @@
 	htmlFormAction="financialNonCheckDisbursement" renderMultipart="true"
 	showTabButtons="true">
 	
-	<kfs:documentOverview editingMode="${KualiForm.editingMode}" includeBankCode="true"
+	<sys:documentOverview editingMode="${KualiForm.editingMode}" includeBankCode="true"
 	  bankProperty="document.financialDocumentBankCode" 
 	  bankObjectProperty="document.bank"
 	  disbursementOnly="true" />
 
 	<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
-		<sys:accountingLines>
-			<sys:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
-		</sys:accountingLines>
+		<sys-java:accountingLines>
+			<sys-java:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
+		</sys-java:accountingLines>
 	</kul:tab>
 			
 	<gl:generalLedgerPendingEntries />
@@ -41,6 +41,6 @@
 
 	<kul:panelFooter />
 
-	<kfs:documentControls transactionalDocument="true" extraButtons="${KualiForm.extraButtons}" />
+	<sys:documentControls transactionalDocument="true" extraButtons="${KualiForm.extraButtons}" />
 
 </kul:documentPage>

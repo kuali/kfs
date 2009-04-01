@@ -23,29 +23,29 @@
 <c:set var="showDeposits" value="${allowAdditionalDeposits || (!empty KualiForm.document.deposits)}" />
 
 <kul:documentPage showDocumentInfo="true" htmlFormAction="financialCashManagement" documentTypeName="CashManagementDocument" renderMultipart="true" showTabButtons="true">
-    <kfs:hiddenDocumentFields isFinancialDocument="false"/>
+    <sys:hiddenDocumentFields isFinancialDocument="false"/>
     
-    <kfs:documentOverview editingMode="${KualiForm.editingMode}"/>
+    <sys:documentOverview editingMode="${KualiForm.editingMode}"/>
     
     <c:if test="${!empty KualiForm.document.checks}">
       <logic:iterate indexId="ctr" name="KualiForm" property="document.checks" id="currentCheck">
-        <fin:hiddenCheckLine propertyName="document.checks[${ctr}]" displayHidden="false" />
+        <fp:hiddenCheckLine propertyName="document.checks[${ctr}]" displayHidden="false" />
       </logic:iterate>
     </c:if>
     
-    <cm:cashDrawerActivity/>
+    <fp:cashDrawerActivity/>
     
     <c:if test="${!showDeposits}">
         <kul:hiddenTab forceOpen="true" />
     </c:if>
     <c:if test="${showDeposits}">
-        <cm:deposits editingMode="${KualiForm.editingMode}"/>
+        <fp:deposits editingMode="${KualiForm.editingMode}"/>
     </c:if>
 
-    <cm:cashieringActivity />
+    <fp:cashieringActivity />
     
     <c:if test="${!empty KualiForm.recentlyClosedItemsInProcess}">
-      <cm:recentlyClosedMiscAdvances />
+      <fp:recentlyClosedMiscAdvances />
     </c:if>
 
     <c:if test="${KualiForm.document.bankCashOffsetEnabled}" >
@@ -57,5 +57,5 @@
     <kul:routeLog/>
     <kul:panelFooter/>
     
-    <kfs:documentControls transactionalDocument="false"/>
+    <sys:documentControls transactionalDocument="false"/>
 </kul:documentPage>

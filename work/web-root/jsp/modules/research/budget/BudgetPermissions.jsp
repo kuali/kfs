@@ -38,7 +38,7 @@
 	
 	<kul:panelFooter />
 
-	<div align="center"><kfs:documentControls transactionalDocument="false" suppressRoutingControls="true" viewOnly="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
+	<div align="center"><sys:documentControls transactionalDocument="false" suppressRoutingControls="true" viewOnly="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
 	</div>
 
 </kul:documentPage>

@@ -31,9 +31,9 @@
 	documentTypeName="${documentTypeName}" renderMultipart="true"
 	showTabButtons="true">
 	
-	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />	
+	<sys:documentOverview editingMode="${KualiForm.editingMode}" />	
 	
-	<er:reportInformation />
+	<ec:reportInformation />
 	
     <c:set var="hiddenFieldNames" value="effortCertificationDocumentCode,totalOriginalPayrollAmount"/>
 	<c:forTokens var="fieldName" items="${hiddenFieldNames}" delims=",">	
@@ -43,11 +43,11 @@
 	<c:set var="canEdit" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
 	<c:set var="isSummaryTabEntry" value="${KualiForm.editingMode[EffortConstants.EffortCertificationEditMode.SUMMARY_TAB_ENTRY]}"/>
  	<c:if test="${canEdit && isSummaryTabEntry}">
-		<er:summaryTab/>	
+		<ec:summaryTab/>	
 	</c:if>
 	
 	<c:set var="isDetailTabEntry" value="${KualiForm.editingMode[EffortConstants.EffortCertificationEditMode.DETAIL_TAB_ENTRY]}" />
-	<er:detailTab isOpen="${!isSummaryTabEntry}" isEditable="${canEdit && isDetailTabEntry}"/>
+	<ec:detailTab isOpen="${!isSummaryTabEntry}" isEditable="${canEdit && isDetailTabEntry}"/>
 	
 	<kul:notes />
 	
@@ -57,6 +57,6 @@
 	
 	<kul:panelFooter />
 	
-	<kfs:documentControls transactionalDocument="${document.transactionalDocument}" />
+	<sys:documentControls transactionalDocument="${document.transactionalDocument}" />
 
 </kul:documentPage>

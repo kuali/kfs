@@ -33,9 +33,9 @@
 		NOTE: This reject document is currently being researched. See the notes below for more detail. The document will not be allowed to be routed until the research is complete.<br /><br />
 	</c:if>
 			
-	<kfs:documentOverview editingMode="${KualiForm.editingMode}"
+	<sys:documentOverview editingMode="${KualiForm.editingMode}"
 		includePostingYear="false" >
-    </kfs:documentOverview>
+    </sys:documentOverview>
 	
 	<kul:tab tabTitle="Comparison Data" defaultOpen="TRUE" tabErrorKey="${PurapConstants.REJECT_DOCUMENT_TAB_ERRORS}">
 	    <div class="tab-container">
@@ -653,6 +653,6 @@
 
 	<kul:panelFooter />
 
-	<kfs:documentControls transactionalDocument="true" extraButtons="${KualiForm.extraButtons}"/>
+	<sys:documentControls transactionalDocument="true" extraButtons="${KualiForm.extraButtons}"/>
 
 </kul:documentPage>

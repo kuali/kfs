@@ -39,9 +39,9 @@
         <c:set var="fullEntryMode" value="true" scope="request" />
     </c:if>
 
-	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
+	<sys:documentOverview editingMode="${KualiForm.editingMode}" />
 	
-	<kfs:hiddenDocumentFields isFinancialDocument="false" />
+	<sys:hiddenDocumentFields isFinancialDocument="false" />
 	
     <ar:cashControl
         documentAttributes="${DataDictionary.CashControlDocument.attributes}"
@@ -66,6 +66,6 @@
 
 	<kul:panelFooter />
 
-	<kfs:documentControls transactionalDocument="true" />
+	<sys:documentControls transactionalDocument="true" />
 
 </kul:documentPage>

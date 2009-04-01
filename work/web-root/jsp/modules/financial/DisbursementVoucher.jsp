@@ -20,8 +20,8 @@
 	documentTypeName="DisbursementVoucherDocument"
 	renderMultipart="true" showTabButtons="true">
 	
-	<dv:dvPrintCoverSheet />
-	<dv:dvMessages />
+	<fp:dvPrintCoverSheet />
+	<fp:dvMessages />
 	
 	<c:set var="canEdit" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" scope="request" />
 	<c:set var="fullEntryMode" value="${canEdit && KualiForm.editingMode['fullEntry']}" scope="request" />
@@ -35,27 +35,27 @@
 	<c:set var="adminEntryMode" value="${canEdit && KualiForm.editingMode['adminEntry']}" scope="request" />
 	<c:set var="payeeEntryMode" value="${canEdit && KualiForm.editingMode['payeeEntry']}" scope="request" />
 	
-	<kfs:documentOverview editingMode="${KualiForm.editingMode}" includeBankCode="true"
+	<sys:documentOverview editingMode="${KualiForm.editingMode}" includeBankCode="true"
 	  bankProperty="document.disbVchrBankCode" 
 	  bankObjectProperty="document.bank"
 	  disbursementOnly="true" />
 	  
-	<dv:dvPayment />
+	<fp:dvPayment />
 
 	<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
-		<sys:accountingLines>
-			<sys:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
-		</sys:accountingLines>
+		<sys-java:accountingLines>
+			<sys-java:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
+		</sys-java:accountingLines>
 	</kul:tab>
 	
-	<dv:dvContact />
-    <dv:dvSpecialHandling />
-	<dv:dvNRATax />
-	<dv:dvWireTransfer />
-	<dv:dvForeignDraft />
-	<dv:dvNonEmployeeTravel />
-	<dv:dvPrePaidTravel />
-    <dv:dvPDPStatus />
+	<fp:dvContact />
+    <fp:dvSpecialHandling />
+	<fp:dvNRATax />
+	<fp:dvWireTransfer />
+	<fp:dvForeignDraft />
+	<fp:dvNonEmployeeTravel />
+	<fp:dvPrePaidTravel />
+    <fp:dvPDPStatus />
 	<gl:generalLedgerPendingEntries />
 	<kul:notes />
 	<kul:adHocRecipients />
@@ -64,5 +64,5 @@
 
 	<kul:panelFooter />
 	
-	<kfs:documentControls transactionalDocument="${documentEntry.transactionalDocument}" />
+	<sys:documentControls transactionalDocument="${documentEntry.transactionalDocument}" />
 </kul:documentPage>

@@ -28,7 +28,7 @@
 	    </SCRIPT>
 
 		
-        <kfs:documentOverview editingMode="${KualiForm.editingMode}"/>
+        <sys:documentOverview editingMode="${KualiForm.editingMode}"/>
 		<!-- AUXILIARY VOUCHER SPECIFIC FIELDS -->
 		<kul:tab tabTitle="Auxiliary Voucher Details" defaultOpen="true" tabErrorKey="${KFSConstants.EDIT_AUXILIARY_VOUCHER_ERRORS}" >
 	    	
@@ -104,9 +104,9 @@
 	    	</div>
 		</kul:tab>
         <kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
-			<sys:accountingLines>
-				<sys:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
-			</sys:accountingLines>
+			<sys-java:accountingLines>
+				<sys-java:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
+			</sys-java:accountingLines>
 		</kul:tab>
 		<gl:generalLedgerPendingEntries/>
 
@@ -118,6 +118,6 @@
 
 		<kul:panelFooter/>
 
-		<kfs:documentControls transactionalDocument="${documentEntry.transactionalDocument}" extraButtons="${KualiForm.extraButtons}"/>
+		<sys:documentControls transactionalDocument="${documentEntry.transactionalDocument}" extraButtons="${KualiForm.extraButtons}"/>
 
 </kul:documentPage>

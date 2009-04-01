@@ -28,7 +28,7 @@
     
     <c:if test="${not KualiForm.editingMode['displayInitTab']}" >
 	
-	    <kfs:documentOverview editingMode="${KualiForm.editingMode}" />
+	    <sys:documentOverview editingMode="${KualiForm.editingMode}" />
 	
 		<purap:receivingVendor documentAttributes="${DataDictionary.LineItemReceivingDocument.attributes}" />
 	
@@ -49,7 +49,7 @@
 	
     <c:set var="extraButtons" value="${KualiForm.extraButtons}"/>  	
   	
-    <kfs:documentControls 
+    <sys:documentControls 
         transactionalDocument="true" 
         extraButtons="${extraButtons}"
         suppressRoutingControls="${KualiForm.editingMode['displayInitTab']}" />

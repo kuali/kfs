@@ -22,7 +22,7 @@
 
    <c:set var="fullEntryMode" value="${ KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
     		    
-    <kfs:documentOverview editingMode="${KualiForm.editingMode}" />
+    <sys:documentOverview editingMode="${KualiForm.editingMode}" />
 
 	<purap:receivingVendor documentAttributes="${DataDictionary.CorrectionReceivingDocument.attributes}" />
 
@@ -40,6 +40,6 @@
     		
     <kul:panelFooter />
 	
-  	<kfs:documentControls transactionalDocument="true"  />
+  	<sys:documentControls transactionalDocument="true"  />
     
 </kul:documentPage>

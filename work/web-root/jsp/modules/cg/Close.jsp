@@ -22,8 +22,8 @@
 	docTitle="CFDA Close"
     transactionalDocument="false">
 
-    <kfs:hiddenDocumentFields isFinancialDocument="false" />
-    <kfs:documentOverview editingMode="${KualiForm.editingMode}" />
+    <sys:hiddenDocumentFields isFinancialDocument="false" />
+    <sys:documentOverview editingMode="${KualiForm.editingMode}" />
     <kul:tab tabTitle="Close" defaultOpen="true"
              tabErrorKey="document.userInitiatedCloseDate,document.closeOnOrBeforeDate">
         <c:set var="closeAttributes" value="${DataDictionary.CFDAClose.attributes}" />
@@ -71,6 +71,6 @@
     <kul:routeLog />
     <kul:panelFooter />
 
-    <kfs:documentControls transactionalDocument="true" />
+    <sys:documentControls transactionalDocument="true" />
 
 </kul:page>

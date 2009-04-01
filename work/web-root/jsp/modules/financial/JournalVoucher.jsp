@@ -24,8 +24,8 @@
 	documentTypeName="JournalVoucherDocument"
 	htmlFormAction="financialJournalVoucher" renderMultipart="true"
 	showTabButtons="true">
-	<kfs:hiddenDocumentFields />
-	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
+	<sys:hiddenDocumentFields />
+	<sys:documentOverview editingMode="${KualiForm.editingMode}" />
 	<!-- JOURNAL VOUCHER SPECIFIC FIELDS -->
 	<kul:tab tabTitle="Journal Voucher Details" defaultOpen="true"
 		tabErrorKey="${KFSConstants.EDIT_JOURNAL_VOUCHER_ERRORS}">
@@ -159,9 +159,9 @@
 	</c:choose>
 
 	<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
-		<sys:accountingLines>
-			<sys:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="${attributeGroupName}" />
-		</sys:accountingLines>
+		<sys-java:accountingLines>
+			<sys-java:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="${attributeGroupName}" />
+		</sys-java:accountingLines>
 	</kul:tab>
 		
 	<gl:generalLedgerPendingEntries />
@@ -169,5 +169,5 @@
 	<kul:adHocRecipients />
 	<kul:routeLog />
 	<kul:panelFooter />
-	<kfs:documentControls transactionalDocument="true" extraButtons="${KualiForm.extraButtons}"/>
+	<sys:documentControls transactionalDocument="true" extraButtons="${KualiForm.extraButtons}"/>
 </kul:documentPage>

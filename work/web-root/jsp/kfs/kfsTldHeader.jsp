@@ -16,38 +16,32 @@
 
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp" %>
 
-<%@ taglib tagdir="/WEB-INF/tags/ad" prefix="ad"%>
-
-<%@ taglib tagdir="/WEB-INF/tags/bc" prefix="bc"%>
-
-<%@ taglib tagdir="/WEB-INF/tags/fin" prefix="fin"%>
-<%@ taglib tagdir="/WEB-INF/tags/fin/ccr" prefix="ccr"%>
-<%@ taglib tagdir="/WEB-INF/tags/fin/cm" prefix="cm"%>
-<%@ taglib tagdir="/WEB-INF/tags/fin/cr" prefix="cr"%>
-<%@ taglib tagdir="/WEB-INF/tags/fin/dv" prefix="dv"%>
+<%@ taglib tagdir="/WEB-INF/tags/fp" prefix="fp"%>
 
 <%@ taglib tagdir="/WEB-INF/tags/gl" prefix="gl"%>
 <%@ taglib tagdir="/WEB-INF/tags/gl/glcp" prefix="glcp"%>
 
-<%@ taglib tagdir="/WEB-INF/tags/kfs" prefix="kfs"%>
+<%@ taglib tagdir="/WEB-INF/tags/sys" prefix="sys"%>
 
-<%@ taglib tagdir="/WEB-INF/tags/kra" prefix="kra"%>
-<%@ taglib tagdir="/WEB-INF/tags/kra/budget" prefix="kra-b"%>
-<%@ taglib tagdir="/WEB-INF/tags/kra/routingform" prefix="kra-rf"%>
+<%@ taglib tagdir="/WEB-INF/tags/module/cg" prefix="kra"%>
+<%@ taglib tagdir="/WEB-INF/tags/module/cg/budget" prefix="kra-b"%>
+<%@ taglib tagdir="/WEB-INF/tags/module/cg/routingform" prefix="kra-rf"%>
 
-<%@ taglib tagdir="/WEB-INF/tags/ld" prefix="ld"%>
+<%@ taglib tagdir="/WEB-INF/tags/module/bc" prefix="bc"%>
 
-<%@ taglib tagdir="/WEB-INF/tags/purap" prefix="purap"%>
+<%@ taglib tagdir="/WEB-INF/tags/module/ld" prefix="ld"%>
 
-<%@ taglib tagdir="/WEB-INF/tags/cams" prefix="cams"%>
+<%@ taglib tagdir="/WEB-INF/tags/module/purap" prefix="purap"%>
 
-<%@ taglib tagdir="/WEB-INF/tags/cab" prefix="cab"%>
+<%@ taglib tagdir="/WEB-INF/tags/module/cams" prefix="cams"%>
 
-<%@ taglib tagdir="/WEB-INF/tags/ar" prefix="ar" %>
+<%@ taglib tagdir="/WEB-INF/tags/module/cab" prefix="cab"%>
+
+<%@ taglib tagdir="/WEB-INF/tags/module/ar" prefix="ar" %>
 
 <%@ taglib tagdir="/WEB-INF/tags/pdp" prefix="pdp" %>
 
-<%@ taglib tagdir="/WEB-INF/tags/er" prefix="er" %>
+<%@ taglib tagdir="/WEB-INF/tags/module/ec" prefix="ec" %>
 
 <%@ taglib tagdir="/WEB-INF/tags/portal" prefix="portal"%>
 <%@ taglib tagdir="/WEB-INF/tags/portal/channel" prefix="channel"%>
@@ -59,4 +53,4 @@
 <%-- utility web functions --%>
 <%@ taglib uri="/WEB-INF/tlds/kfsfunc.tld" prefix="kfsfunc" %>
 
-<%@ taglib uri="/WEB-INF/tlds/kfssys.tld" prefix="sys" %>
+<%@ taglib uri="/WEB-INF/tlds/kfssys.tld" prefix="sys-java" %>

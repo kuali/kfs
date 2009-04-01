@@ -38,7 +38,7 @@
         </c:if>
       </tr>
       <logic:iterate indexId="ctr" name="KualiForm" property="claims" id="currentLine">
-        <kfs:electronicPaymentClaim claimIndex="${ctr}" allowAdministration="${allowAdministration}" electronicPaymentClaim="${currentLine}" />
+        <sys:electronicPaymentClaim claimIndex="${ctr}" allowAdministration="${allowAdministration}" electronicPaymentClaim="${currentLine}" />
       </logic:iterate>
     </table>
   </div>

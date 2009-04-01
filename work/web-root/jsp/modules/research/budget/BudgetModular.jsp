@@ -28,7 +28,7 @@
 
 	<kra-b:budgetModular />
 		
-	<div align="center"><kfs:documentControls transactionalDocument="false" saveButtonOverride="saveAndRegenerate" suppressRoutingControls="true" 
+	<div align="center"><sys:documentControls transactionalDocument="false" saveButtonOverride="saveAndRegenerate" suppressRoutingControls="true" 
 		viewOnly="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
 	</div>
 

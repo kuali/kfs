@@ -22,7 +22,7 @@
 	
 	<c:set var="displayInitTab" value="${KualiForm.editingMode['displayInitTab']}" scope="request" />
 	
-	<kfs:hiddenDocumentFields isFinancialDocument="false" />
+	<sys:hiddenDocumentFields isFinancialDocument="false" />
 
 	<!--  Display 1st screen -->
 	<c:if test="${displayInitTab}" >

@@ -54,8 +54,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryGroupServiceImpl.class);
 
-    //private OriginEntryGroupDao originEntryGroupDao;
-    //private OriginEntryDao originEntryDao;
     private DateTimeService dateTimeService;
     private String batchFileDirectoryName;
     private String batchLaborFileDirectoryName;
@@ -208,29 +206,14 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
      */
     public void createBackupGroup() {
         LOG.debug("createBackupGroup() started");
-
-        // Get the groups that need to be added
-        Date today = dateTimeService.getCurrentSqlDate();
-        
         //check file from nightly out 
         String nightlyOutFileName = GeneralLedgerConstants.BatchFileSystem.NIGHTLY_OUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         File nightlyOutFile = new File(batchFileDirectoryName + File.separator + nightlyOutFileName);
         if (!nightlyOutFile.exists()){
             LOG.warn("nightlyOutFile doesn't exist :" + nightlyOutFileName);
         }
-        //check laborGlEntryFileName
-        //TODO: Shawn - commented out for a while 
-//        if (kualiModuleService.isModuleServiceInstalled(KFSConstants.LABOR_MODULE_CODE)){
-//            String laborGlEntryFileName = GeneralLedgerConstants.BatchFileSystem.LABOR_GL_ENTRY_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-//            File laborGlEntryFile = new File(batchFileDirectoryName + File.separator + laborGlEntryFileName);
-//            if (!laborGlEntryFile.exists()){
-//                throw new RuntimeException("laborGlEntryFile doesn't exist :" + laborGlEntryFileName);
-//            }
-//        }
         
         String backupFileName = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;    
-        //File backupFile = new File(batchFileDirectoryName + File.separator + backupFileName);
-         
         PrintStream backupPs = null;
         try {
             backupPs = new PrintStream(backupFileName);

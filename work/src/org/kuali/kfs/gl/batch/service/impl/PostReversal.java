@@ -26,6 +26,7 @@ import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.PostTransaction;
 import org.kuali.kfs.gl.businessobject.Reversal;
 import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.gl.dataaccess.CachingDao;
 import org.kuali.kfs.gl.dataaccess.ReversalDao;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,11 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostReversal implements PostTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostReversal.class);
 
-    private ReversalDao reversalDao;
-
-    public void setReversalDao(ReversalDao red) {
-        reversalDao = red;
-    }
+    private CachingDao cachingDao;
 
     /**
      * Constructs a PostReversal instance
@@ -68,12 +65,7 @@ public class PostReversal implements PostTransaction {
 
         Reversal re = new Reversal(t);
 
-        // Make sure the row will be unique when adding to the reversal table by
-        // adjusting the transaction sequence id
-        int maxSequenceId = reversalDao.getMaxSequenceNumber(t);
-        re.setTransactionLedgerEntrySequenceNumber(new Integer(maxSequenceId + 1));
-
-        reversalDao.save(re);
+        cachingDao.insertReversal(re);
 
         return GeneralLedgerConstants.INSERT_CODE;
     }
@@ -83,5 +75,9 @@ public class PostReversal implements PostTransaction {
      */
     public String getDestinationName() {
         return MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(Reversal.class).getFullTableName();
+    }
+
+    public void setCachingDao(CachingDao cachingDao) {
+        this.cachingDao = cachingDao;
     }
 }

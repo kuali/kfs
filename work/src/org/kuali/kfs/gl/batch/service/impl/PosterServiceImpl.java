@@ -395,21 +395,6 @@ public class PosterServiceImpl implements PosterService {
                 }
             }
 
-            // Now check each poster to see if it needs to verify the transaction. If
-            // it returns errors, we won't post it
-            for (Iterator posterIter = transactionPosters.iterator(); posterIter.hasNext();) {
-                PostTransaction poster = (PostTransaction) posterIter.next();
-                if (poster instanceof VerifyTransaction) {
-                    VerifyTransaction vt = (VerifyTransaction) poster;
-                    try {
-                        errors.addAll(vt.verifyTransaction(tran));
-                    }
-                    catch (Exception e) {
-                        errors.add(new Message(e.toString() + " occurred for this record.", Message.TYPE_FATAL));
-                    }
-                }
-            }
-
             if (errors.size() > 0) {
                 // Error on this transaction
                 textReportHelper.writeErrors(tran, errors);

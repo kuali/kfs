@@ -945,20 +945,20 @@
 	</bean>
 
 	<bean id="glPostGlEntry" class="org.kuali.kfs.gl.batch.service.impl.PostEntry">
-		<property name="entryDao">
-			<ref bean="glEntryDao" />
+		<property name="cachingDao">
+		  	<ref bean="cachingDao" />
 		</property>
 	</bean>
 
 	<bean id="glPostBalance" class="org.kuali.kfs.gl.batch.service.impl.PostBalance">
-		<property name="balanceDao">
-			<ref bean="glBalanceDao" />
+		<property name="cachingDao">
+		  	<ref bean="cachingDao" />
 		</property>
 	</bean>
 
 	<bean id="glPostGlAccountBalance" class="org.kuali.kfs.gl.batch.service.impl.PostAccountBalance">
-		<property name="accountBalanceDao">
-			<ref bean="glAccountBalanceDao" />
+		<property name="cachingDao">
+		  	<ref bean="cachingDao" />
 		</property>
 	</bean>
 
@@ -972,14 +972,14 @@
 	</bean>
 
 	<bean id="glPostReversal" class="org.kuali.kfs.gl.batch.service.impl.PostReversal">
-		<property name="reversalDao">
-			<ref bean="glReversalDao" />
+		<property name="cachingDao">
+		  	<ref bean="cachingDao" />
 		</property>
 	</bean>
 
 	<bean id="glPostEncumbrance" class="org.kuali.kfs.gl.batch.service.impl.PostEncumbrance">
-		<property name="encumbranceDao">
-			<ref bean="glEncumbranceDao" />
+		<property name="cachingDao">
+		  	<ref bean="cachingDao" />
 		</property>
         <property name="dateTimeService">
         	<ref bean="dateTimeService"/>
@@ -993,11 +993,8 @@
 		<property name="indirectCostRecoveryExclusionTypeDao">
 			<ref bean="indirectCostRecoveryExclusionTypeDao" />
 		</property>
-		<property name="a21SubAccountDao">
-			<ref bean="a21SubAccountDao" />
-		</property>
-		<property name="expenditureTransactionDao">
-			<ref bean="glExpenditureTransactionDao" />
+		<property name="cachingDao">
+		  	<ref bean="cachingDao" />
 		</property>
 	</bean>
 
@@ -1007,12 +1004,6 @@
 		</property>
 		<property name="indirectCostRecoveryExclusionTypeDao">
 			<ref bean="indirectCostRecoveryExclusionTypeDao" />
-		</property>
-		<property name="a21SubAccountDao">
-			<ref bean="a21SubAccountDao" />
-		</property>
-		<property name="expenditureTransactionDao">
-			<ref bean="glExpenditureTransactionDao" />
 		</property>
 	</bean>
 

@@ -25,7 +25,7 @@ import org.kuali.kfs.gl.batch.service.AccountBalanceCalculator;
 import org.kuali.kfs.gl.batch.service.PostTransaction;
 import org.kuali.kfs.gl.businessobject.AccountBalance;
 import org.kuali.kfs.gl.businessobject.Transaction;
-import org.kuali.kfs.gl.dataaccess.AccountBalanceDao;
+import org.kuali.kfs.gl.dataaccess.CachingDao;
 import org.kuali.kfs.sys.KFSConstants;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,11 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostAccountBalance implements PostTransaction, AccountBalanceCalculator {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostAccountBalance.class);
 
-    private AccountBalanceDao accountBalanceDao;
-
-    public void setAccountBalanceDao(AccountBalanceDao abd) {
-        accountBalanceDao = abd;
-    }
+    private CachingDao cachingDao;
 
     /**
      * Constructs a PostAccountBalance instance
@@ -66,7 +62,7 @@ public class PostAccountBalance implements PostTransaction, AccountBalanceCalcul
             String returnCode = GeneralLedgerConstants.UPDATE_CODE;
 
             // Load it
-            AccountBalance ab = accountBalanceDao.getByTransaction(t);
+            AccountBalance ab = cachingDao.getAccountBalance(t);
 
             if (ab == null) {
                 returnCode = GeneralLedgerConstants.INSERT_CODE;
@@ -79,7 +75,11 @@ public class PostAccountBalance implements PostTransaction, AccountBalanceCalcul
                 return GeneralLedgerConstants.EMPTY_CODE;
             }
 
-            accountBalanceDao.save(ab);
+            if (returnCode.equals(GeneralLedgerConstants.INSERT_CODE)) {
+                cachingDao.insertAccountBalance(ab);
+            } else {
+                cachingDao.updateAccountBalance(ab);
+            }
 
             return returnCode;
         }
@@ -142,5 +142,9 @@ public class PostAccountBalance implements PostTransaction, AccountBalanceCalcul
 
     public String getDestinationName() {
         return MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(AccountBalance.class).getFullTableName();
+    }
+
+    public void setCachingDao(CachingDao cachingDao) {
+        this.cachingDao = cachingDao;
     }
 }

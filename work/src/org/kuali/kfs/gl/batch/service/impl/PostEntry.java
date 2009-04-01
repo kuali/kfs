@@ -27,6 +27,7 @@ import org.kuali.kfs.gl.batch.service.PostTransaction;
 import org.kuali.kfs.gl.batch.service.PosterService;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.gl.dataaccess.CachingDao;
 import org.kuali.kfs.gl.dataaccess.EntryDao;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,7 +38,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostEntry implements PostTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostEntry.class);
 
-    private EntryDao entryDao;
+    private CachingDao cachingDao;
 
     /**
      * Constructs an instance of PostEntry
@@ -66,10 +67,10 @@ public class PostEntry implements PostTransaction {
 
         // Make sure the row will be unique when adding to the entries table by
         // adjusting the transaction sequence id
-        int maxSequenceId = entryDao.getMaxSequenceNumber(t);
+        int maxSequenceId = cachingDao.getMaxSequenceNumber(t);
         e.setTransactionLedgerEntrySequenceNumber(new Integer(maxSequenceId + 1));
-
-        entryDao.addEntry(e, postDate);
+        
+        cachingDao.insertEntry(e);
 
         return GeneralLedgerConstants.INSERT_CODE;
     }
@@ -81,7 +82,8 @@ public class PostEntry implements PostTransaction {
         return MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(Entry.class).getFullTableName();
     }
 
-    public void setEntryDao(EntryDao ed) {
-        entryDao = ed;
+    public void setCachingDao(CachingDao cachingDao) {
+        this.cachingDao = cachingDao;
     }
+
 }

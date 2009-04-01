@@ -38,23 +38,27 @@ import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.businessobject.AccountBalance;
+import org.kuali.kfs.gl.businessobject.Balance;
+import org.kuali.kfs.gl.businessobject.Encumbrance;
 import org.kuali.kfs.gl.businessobject.Entry;
+import org.kuali.kfs.gl.businessobject.ExpenditureTransaction;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.Reversal;
+import org.kuali.kfs.gl.businessobject.SufficientFundBalances;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.dataaccess.CachingDao;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kew.dto.DocumentTypeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.service.WorkflowInfo;
-import org.kuali.rice.kew.service.impl.KEWModuleService;
 import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 //TODO is it right to extend this
 public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingDao {
@@ -83,12 +87,40 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
     private PreparedStatement entryPreparedSelect;
     private PreparedStatement entryInsert;
     private PreparedStatement indirectCostRecoveryTypePreparedSelect;
+    private PreparedStatement balancePreparedSelect; 
+    private PreparedStatement balanceInsert;
+    private PreparedStatement balanceUpdate;
+    private PreparedStatement encumbrancePreparedSelect;
+    private PreparedStatement encumbranceInsert;
+    private PreparedStatement encumbranceUpdate;
+    private String previousExpenditureTransactionKey = "";
+    private ExpenditureTransaction previousExpenditureTransaction = new ExpenditureTransaction();
+    private PreparedStatement expenditureTransactionPreparedSelect;
+    private PreparedStatement expenditureTransactionInsert;
+    private PreparedStatement expenditureTransactionUpdate;
+    private PreparedStatement sufficientFundBalancesPreparedSelect;
+    private PreparedStatement sufficientFundBalancesInsert;
+    private PreparedStatement sufficientFundBalancesUpdate;
+    private String previousSufficientFundBalancesKey = "";
+    private SufficientFundBalances previousSufficientFundBalances = new SufficientFundBalances();
+    private String previousAccountBalanceKey = "";
+    private AccountBalance previousAccountBalance = new AccountBalance();
+    private PreparedStatement accountBalancePreparedSelect;
+    private PreparedStatement accountBalanceInsert;
+    private PreparedStatement accountBalanceUpdate;
+
+    
     private WorkflowInfo workflowInfo = new WorkflowInfo();
     
     private Connection connection;
     private UniversityDateService universityDateService;
     private DateTimeService dateTimeService;
     
+    private String previousBalanceKey = "";
+    private Balance previousBalance = new Balance();
+    private String previousEncumbranceKey = "";
+    private Encumbrance previousEncumbrance = new Encumbrance();
+
     public CachingDaoJdbc() {
     }
 
@@ -891,7 +923,20 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
                 entryPreparedSelect = connection.prepareStatement("select max(trn_entr_seq_nbr) from gl_entry_t where univ_fiscal_yr = ? and fin_coa_cd = ? and account_nbr = ? and sub_acct_nbr = ? and fin_object_cd = ? and fin_sub_obj_cd = ? and fin_balance_typ_cd = ? and fin_obj_typ_cd = ? and univ_fiscal_prd_cd = ? and fdoc_typ_cd = ? and fs_origin_cd = ? and fdoc_nbr = ?");
                 entryInsert = connection.prepareStatement("INSERT INTO GL_ENTRY_T VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
                 indirectCostRecoveryTypePreparedSelect = connection.prepareStatement("select ACCT_ICR_TYP_ACTV_IND from CA_ICR_TYPE_T");
+                balancePreparedSelect = connection.prepareStatement("select ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, CONTR_GR_BB_AC_AMT, MO1_ACCT_LN_AMT, MO2_ACCT_LN_AMT, MO3_ACCT_LN_AMT, MO4_ACCT_LN_AMT, MO5_ACCT_LN_AMT, MO6_ACCT_LN_AMT, MO7_ACCT_LN_AMT, MO8_ACCT_LN_AMT, MO9_ACCT_LN_AMT, MO10_ACCT_LN_AMT, MO11_ACCT_LN_AMT, MO12_ACCT_LN_AMT, MO13_ACCT_LN_AMT from GL_BALANCE_T where UNIV_FISCAL_YR = ? and FIN_COA_CD = ? and ACCOUNT_NBR = ? and SUB_ACCT_NBR = ? and FIN_OBJECT_CD = ? and FIN_SUB_OBJ_CD = ? and FIN_BALANCE_TYP_CD = ? and FIN_OBJ_TYP_CD = ?");
+                balanceInsert = connection.prepareStatement("insert into GL_BALANCE_T values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                balanceUpdate = connection.prepareStatement("update GL_BALANCE_T set ACLN_ANNL_BAL_AMT = ?, FIN_BEG_BAL_LN_AMT = ?, CONTR_GR_BB_AC_AMT = ?, MO1_ACCT_LN_AMT = ?, MO2_ACCT_LN_AMT = ?, MO3_ACCT_LN_AMT = ?, MO4_ACCT_LN_AMT = ?, MO5_ACCT_LN_AMT = ?, MO6_ACCT_LN_AMT = ?, MO7_ACCT_LN_AMT = ?, MO8_ACCT_LN_AMT = ?, MO9_ACCT_LN_AMT = ?, MO10_ACCT_LN_AMT = ?, MO11_ACCT_LN_AMT = ?, MO12_ACCT_LN_AMT = ?, MO13_ACCT_LN_AMT = ?, TIMESTAMP = ? where UNIV_FISCAL_YR = ? and FIN_COA_CD = ? and ACCOUNT_NBR = ? and SUB_ACCT_NBR = ? and FIN_OBJECT_CD = ? and FIN_SUB_OBJ_CD = ? and FIN_BALANCE_TYP_CD = ? and FIN_OBJ_TYP_CD = ?");
+                expenditureTransactionPreparedSelect = connection.prepareStatement("select ACCT_OBJ_DCST_AMT from GL_EXPEND_TRN_T where UNIV_FISCAL_YR = ? and FIN_COA_CD = ? and ACCOUNT_NBR = ? and SUB_ACCT_NBR = ? and FIN_OBJECT_CD = ? and FIN_SUB_OBJ_CD = ? and FIN_BALANCE_TYP_CD = ? and FIN_OBJ_TYP_CD = ? and UNIV_FISCAL_PRD_CD = ? and PROJECT_CD = ? and ORG_REFERENCE_ID = ?");
+                expenditureTransactionInsert = connection.prepareStatement("insert into GL_EXPEND_TRN_T values (?,?,?,?,?,?,?,?,?,?,?,?)");
+                expenditureTransactionUpdate = connection.prepareStatement("update GL_EXPEND_TRN_T set ACCT_OBJ_DCST_AMT = ? where UNIV_FISCAL_YR = ? and FIN_COA_CD = ? and ACCOUNT_NBR = ? and SUB_ACCT_NBR = ? and FIN_OBJECT_CD = ? and FIN_SUB_OBJ_CD = ? and FIN_BALANCE_TYP_CD = ? and FIN_OBJ_TYP_CD = ? and UNIV_FISCAL_PRD_CD = ? and PROJECT_CD = ? and ORG_REFERENCE_ID = ?");
+                sufficientFundBalancesPreparedSelect = connection.prepareStatement("select ACCT_SF_CD, CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT from GL_SF_BALANCES_T where UNIV_FISCAL_YR = ? and FIN_COA_CD = ? and ACCOUNT_NBR = ? and FIN_OBJECT_CD = ?");
+                sufficientFundBalancesInsert = connection.prepareStatement("insert into GL_SF_BALANCES_T values (?,?,?,?,?,?,?,?,?,?)");
+                sufficientFundBalancesUpdate = connection.prepareStatement("update GL_SF_BALANCES_T set ACCT_SF_CD = ?, CURR_BDGT_BAL_AMT = ?, ACCT_ACTL_XPND_AMT = ?, ACCT_ENCUM_AMT = ?, TIMESTAMP = ? where UNIV_FISCAL_YR = ? and FIN_COA_CD = ? and ACCOUNT_NBR = ? and FIN_OBJECT_CD = ?"); //NOTE: not updating u_version, but shouldn't cause a problem since Uniface never updated this table
+                accountBalancePreparedSelect = connection.prepareStatement("select CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT from GL_ACCT_BALANCES_T where UNIV_FISCAL_YR = ? and FIN_COA_CD = ? and ACCOUNT_NBR = ? and SUB_ACCT_NBR = ? and FIN_OBJECT_CD = ? and FIN_SUB_OBJ_CD = ?");
+                accountBalanceInsert = connection.prepareStatement("insert into GL_ACCT_BALANCES_T values (?,?,?,?,?,?,?,?,?,?,?)");
+                accountBalanceUpdate = connection.prepareStatement("update GL_ACCT_BALANCES_T set CURR_BDLN_BAL_AMT = ?, ACLN_ACTLS_BAL_AMT = ?, ACLN_ENCUM_BAL_AMT = ?, TIMESTAMP = ? where UNIV_FISCAL_YR = ? and FIN_COA_CD = ? and ACCOUNT_NBR = ? and SUB_ACCT_NBR = ? and FIN_OBJECT_CD = ? and FIN_SUB_OBJ_CD = ?"); //NOTE: not updating u_version, but shouldn't cause a problem since Uniface never updated this table
 
+                
             } catch (SQLException e) {
                 LOG.info(e.getErrorCode() + e.getMessage());
                 e.printStackTrace();
@@ -899,6 +944,471 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
             }
         }
     }
+    
+    public Balance getBalance(Transaction t) {
+        //NOTE: caches one value only!
+        String key = "GL_BALANCE_T:" + t.getUniversityFiscalYear().toString() + "/" + t.getChartOfAccountsCode() + "/" + t.getAccountNumber() + "/" + t.getSubAccountNumber() + "/" + t.getFinancialObjectCode() + "/" + t.getFinancialSubObjectCode() + "/" + t.getFinancialBalanceTypeCode() + "/" + t.getFinancialObjectTypeCode();
+        if (!key.equals(previousBalanceKey)) {
+            try {
+                balancePreparedSelect.setInt(1, t.getUniversityFiscalYear());
+                balancePreparedSelect.setString(2, t.getChartOfAccountsCode());
+                balancePreparedSelect.setString(3, t.getAccountNumber());
+                balancePreparedSelect.setString(4, t.getSubAccountNumber());
+                balancePreparedSelect.setString(5, t.getFinancialObjectCode());
+                balancePreparedSelect.setString(6, t.getFinancialSubObjectCode());
+                balancePreparedSelect.setString(7, t.getFinancialBalanceTypeCode());
+                balancePreparedSelect.setString(8, t.getFinancialObjectTypeCode());
+                ResultSet rs = balancePreparedSelect.executeQuery();
+                if (rs.next()) {
+                    previousBalance.setUniversityFiscalYear(t.getUniversityFiscalYear());
+                    previousBalance.setChartOfAccountsCode(t.getChartOfAccountsCode());
+                    previousBalance.setAccountNumber(t.getAccountNumber());
+                    previousBalance.setSubAccountNumber(t.getSubAccountNumber());
+                    previousBalance.setObjectCode(t.getFinancialObjectCode());
+                    previousBalance.setSubObjectCode(t.getFinancialSubObjectCode());
+                    previousBalance.setBalanceTypeCode(t.getFinancialBalanceTypeCode());
+                    previousBalance.setObjectTypeCode(t.getFinancialObjectTypeCode());
+                    previousBalance.setAccountLineAnnualBalanceAmount(new KualiDecimal(rs.getBigDecimal(1)));
+                    previousBalance.setBeginningBalanceLineAmount(new KualiDecimal(rs.getBigDecimal(2)));
+                    previousBalance.setContractsGrantsBeginningBalanceAmount(new KualiDecimal(rs.getBigDecimal(3)));
+                    previousBalance.setMonth1Amount(new KualiDecimal(rs.getBigDecimal(4)));
+                    previousBalance.setMonth2Amount(new KualiDecimal(rs.getBigDecimal(5)));
+                    previousBalance.setMonth3Amount(new KualiDecimal(rs.getBigDecimal(6)));
+                    previousBalance.setMonth4Amount(new KualiDecimal(rs.getBigDecimal(7)));
+                    previousBalance.setMonth5Amount(new KualiDecimal(rs.getBigDecimal(8)));
+                    previousBalance.setMonth6Amount(new KualiDecimal(rs.getBigDecimal(9)));
+                    previousBalance.setMonth7Amount(new KualiDecimal(rs.getBigDecimal(10)));
+                    previousBalance.setMonth8Amount(new KualiDecimal(rs.getBigDecimal(11)));
+                    previousBalance.setMonth9Amount(new KualiDecimal(rs.getBigDecimal(12)));
+                    previousBalance.setMonth10Amount(new KualiDecimal(rs.getBigDecimal(13)));
+                    previousBalance.setMonth11Amount(new KualiDecimal(rs.getBigDecimal(14)));
+                    previousBalance.setMonth12Amount(new KualiDecimal(rs.getBigDecimal(15)));
+                    previousBalance.setMonth13Amount(new KualiDecimal(rs.getBigDecimal(16)));
+                    previousBalanceKey = key;
+               } else { LOG.debug("Balance not found: " + key); return null; }
+                if (rs.next()) { throw new RuntimeException("More than one row returned from select by primary key."); }
+                rs.close();
+            } catch (SQLException e) {
+    //          TODO: should do something else here I'm sure
+                throw new RuntimeException(e);
+            }
+        }
+        return previousBalance;
+    }
+
+    public void insertBalance(Balance balance) {
+        try {
+            balanceInsert.setInt(1, balance.getUniversityFiscalYear());
+            balanceInsert.setString(2, balance.getChartOfAccountsCode());
+            balanceInsert.setString(3, balance.getAccountNumber());
+            balanceInsert.setString(4, balance.getSubAccountNumber());
+            balanceInsert.setString(5, balance.getObjectCode());
+            balanceInsert.setString(6, balance.getSubObjectCode());
+            balanceInsert.setString(7, balance.getBalanceTypeCode());
+            balanceInsert.setString(8, balance.getObjectTypeCode());
+            balanceInsert.setBigDecimal(9, balance.getAccountLineAnnualBalanceAmount().bigDecimalValue());
+            balanceInsert.setBigDecimal(10, balance.getBeginningBalanceLineAmount().bigDecimalValue());
+            balanceInsert.setBigDecimal(11, balance.getContractsGrantsBeginningBalanceAmount().bigDecimalValue());
+            balanceInsert.setBigDecimal(12, balance.getMonth1Amount().bigDecimalValue());
+            balanceInsert.setBigDecimal(13, balance.getMonth2Amount().bigDecimalValue());
+            balanceInsert.setBigDecimal(14, balance.getMonth3Amount().bigDecimalValue());
+            balanceInsert.setBigDecimal(15, balance.getMonth4Amount().bigDecimalValue());
+            balanceInsert.setBigDecimal(16, balance.getMonth5Amount().bigDecimalValue());
+            balanceInsert.setBigDecimal(17, balance.getMonth6Amount().bigDecimalValue());
+            balanceInsert.setBigDecimal(18, balance.getMonth7Amount().bigDecimalValue());
+            balanceInsert.setBigDecimal(19, balance.getMonth8Amount().bigDecimalValue());
+            balanceInsert.setBigDecimal(20, balance.getMonth9Amount().bigDecimalValue());
+            balanceInsert.setBigDecimal(21, balance.getMonth10Amount().bigDecimalValue());
+            balanceInsert.setBigDecimal(22, balance.getMonth11Amount().bigDecimalValue());
+            balanceInsert.setBigDecimal(23, balance.getMonth12Amount().bigDecimalValue());
+            balanceInsert.setBigDecimal(24, balance.getMonth13Amount().bigDecimalValue());
+            balanceInsert.setTimestamp(25, dateTimeService.getCurrentTimestamp());
+            
+            balanceInsert.executeQuery();
+            previousBalanceKey = "GL_BALANCE_T:" + balance.getUniversityFiscalYear().toString() + "/" + balance.getChartOfAccountsCode() + "/" + balance.getAccountNumber() + "/" + balance.getSubAccountNumber() + "/" + balance.getObjectCode() + "/" + balance.getSubObjectCode() + "/" + balance.getBalanceTypeCode() + "/" + balance.getObjectTypeCode();
+            previousBalance = balance;
+        } catch (SQLException e) {
+            //TODO: should do something else here I'm sure
+            throw new RuntimeException(e);
+        }
+    }
+    
+    public void updateBalance(Balance balance) {
+        try {
+            balanceUpdate.setBigDecimal(1, balance.getAccountLineAnnualBalanceAmount().bigDecimalValue());
+            balanceUpdate.setBigDecimal(2, balance.getBeginningBalanceLineAmount().bigDecimalValue());
+            balanceUpdate.setBigDecimal(3, balance.getContractsGrantsBeginningBalanceAmount().bigDecimalValue());
+            balanceUpdate.setBigDecimal(4, balance.getMonth1Amount().bigDecimalValue());
+            balanceUpdate.setBigDecimal(5, balance.getMonth2Amount().bigDecimalValue());
+            balanceUpdate.setBigDecimal(6, balance.getMonth3Amount().bigDecimalValue());
+            balanceUpdate.setBigDecimal(7, balance.getMonth4Amount().bigDecimalValue());
+            balanceUpdate.setBigDecimal(8, balance.getMonth5Amount().bigDecimalValue());
+            balanceUpdate.setBigDecimal(9, balance.getMonth6Amount().bigDecimalValue());
+            balanceUpdate.setBigDecimal(10, balance.getMonth7Amount().bigDecimalValue());
+            balanceUpdate.setBigDecimal(11, balance.getMonth8Amount().bigDecimalValue());
+            balanceUpdate.setBigDecimal(12, balance.getMonth9Amount().bigDecimalValue());
+            balanceUpdate.setBigDecimal(13, balance.getMonth10Amount().bigDecimalValue());
+            balanceUpdate.setBigDecimal(14, balance.getMonth11Amount().bigDecimalValue());
+            balanceUpdate.setBigDecimal(15, balance.getMonth12Amount().bigDecimalValue());
+            balanceUpdate.setBigDecimal(16, balance.getMonth13Amount().bigDecimalValue());
+            balanceUpdate.setTimestamp(17, dateTimeService.getCurrentTimestamp());
+            balanceUpdate.setInt(18, balance.getUniversityFiscalYear());
+            balanceUpdate.setString(19, balance.getChartOfAccountsCode());
+            balanceUpdate.setString(20, balance.getAccountNumber());
+            balanceUpdate.setString(21, balance.getSubAccountNumber());
+            balanceUpdate.setString(22, balance.getObjectCode());
+            balanceUpdate.setString(23, balance.getSubObjectCode());
+            balanceUpdate.setString(24, balance.getBalanceTypeCode());
+            balanceUpdate.setString(25, balance.getObjectTypeCode());
+ 
+            balanceUpdate.executeQuery();
+            previousBalance = balance;  //should we also update the key for safety?  it should be the same though
+        } catch (SQLException e) {
+            //TODO: should do something else here I'm sure
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Encumbrance getEncumbrance(Entry entry) {
+        //NOTE: caches one value only!
+        String key = "GL_ENCUMBRANCE_T:" + entry.getUniversityFiscalYear().toString() + "/" + entry.getChartOfAccountsCode() + "/" + entry.getAccountNumber() + "/" + entry.getSubAccountNumber() + "/" + entry.getFinancialObjectCode() + "/" + entry.getFinancialSubObjectCode() + "/" + entry.getFinancialBalanceTypeCode() + "/" + entry.getFinancialDocumentTypeCode() + "/" + entry.getFinancialSystemOriginationCode() + "/" + entry.getDocumentNumber();
+        if (!key.equals(previousEncumbranceKey)) {
+            try {
+                encumbrancePreparedSelect.setInt(1, entry.getUniversityFiscalYear());
+                encumbrancePreparedSelect.setString(2, entry.getChartOfAccountsCode());
+                encumbrancePreparedSelect.setString(3, entry.getAccountNumber());
+                encumbrancePreparedSelect.setString(4, entry.getSubAccountNumber());
+                encumbrancePreparedSelect.setString(5, entry.getFinancialObjectCode());
+                encumbrancePreparedSelect.setString(6, entry.getFinancialSubObjectCode());
+                encumbrancePreparedSelect.setString(7, entry.getFinancialBalanceTypeCode());
+                encumbrancePreparedSelect.setString(8, entry.getFinancialDocumentTypeCode());
+                encumbrancePreparedSelect.setString(9, entry.getFinancialSystemOriginationCode());
+                encumbrancePreparedSelect.setString(10, entry.getDocumentNumber());
+                ResultSet rs = encumbrancePreparedSelect.executeQuery();
+                if (rs.next()) {
+                    previousEncumbrance.setUniversityFiscalYear(entry.getUniversityFiscalYear());
+                    previousEncumbrance.setChartOfAccountsCode(entry.getChartOfAccountsCode());
+                    previousEncumbrance.setAccountNumber(entry.getAccountNumber());
+                    previousEncumbrance.setSubAccountNumber(entry.getSubAccountNumber());
+                    previousEncumbrance.setObjectCode(entry.getFinancialObjectCode());
+                    previousEncumbrance.setSubObjectCode(entry.getFinancialSubObjectCode());
+                    previousEncumbrance.setBalanceTypeCode(entry.getFinancialBalanceTypeCode());
+                    previousEncumbrance.setDocumentTypeCode(entry.getFinancialDocumentTypeCode());
+                    previousEncumbrance.setOriginCode(entry.getFinancialSystemOriginationCode());
+                    previousEncumbrance.setDocumentNumber(entry.getDocumentNumber());
+                    previousEncumbrance.setTransactionEncumbranceDescription(rs.getString(1));
+                    previousEncumbrance.setTransactionEncumbranceDate(rs.getDate(2));
+                    previousEncumbrance.setAccountLineEncumbranceAmount(new KualiDecimal(rs.getBigDecimal(3)));
+                    previousEncumbrance.setAccountLineEncumbranceClosedAmount(new KualiDecimal(rs.getBigDecimal(4)));
+                    previousEncumbrance.setAccountLineEncumbrancePurgeCode(rs.getString(5));
+                    previousEncumbranceKey = key;
+                } else { LOG.debug("Encumbrance not found: " + key); return null; }
+                if (rs.next()) { throw new RuntimeException("More than one row returned from select by primary key."); }
+                rs.close();
+            } catch (SQLException e) {
+    //          TODO: should do something else here I'm sure
+                throw new RuntimeException(e);
+            }
+        }
+        return previousEncumbrance;
+    }
+    
+    public void insertEncumbrance(Encumbrance encumbrance) {
+        try {
+            encumbranceInsert.setInt(1, encumbrance.getUniversityFiscalYear());
+            encumbranceInsert.setString(2, encumbrance.getChartOfAccountsCode());
+            encumbranceInsert.setString(3, encumbrance.getAccountNumber());
+            encumbranceInsert.setString(4, encumbrance.getSubAccountNumber());
+            encumbranceInsert.setString(5, encumbrance.getObjectCode());
+            encumbranceInsert.setString(6, encumbrance.getSubObjectCode());
+            encumbranceInsert.setString(7, encumbrance.getBalanceTypeCode());
+            encumbranceInsert.setString(8, encumbrance.getDocumentTypeCode());
+            encumbranceInsert.setString(9, encumbrance.getOriginCode());
+            encumbranceInsert.setString(10, encumbrance.getDocumentNumber());
+            encumbranceInsert.setString(11, encumbrance.getTransactionEncumbranceDescription());
+            encumbranceInsert.setDate(12, encumbrance.getTransactionEncumbranceDate());
+            encumbranceInsert.setBigDecimal(13, encumbrance.getAccountLineEncumbranceAmount().bigDecimalValue());
+            encumbranceInsert.setBigDecimal(14, encumbrance.getAccountLineEncumbranceClosedAmount().bigDecimalValue());
+            encumbranceInsert.setString(15, encumbrance.getAccountLineEncumbrancePurgeCode());
+            encumbranceInsert.setTimestamp(16, dateTimeService.getCurrentTimestamp());
+            
+            encumbranceInsert.executeQuery();
+            previousEncumbranceKey = "GL_ENCUMBRANCE_T:" + encumbrance.getUniversityFiscalYear().toString() + "/" + encumbrance.getChartOfAccountsCode() + "/" + encumbrance.getAccountNumber() + "/" + encumbrance.getSubAccountNumber() + "/" + encumbrance.getObjectCode() + "/" + encumbrance.getSubObjectCode() + "/" + encumbrance.getBalanceTypeCode() + "/" + encumbrance.getDocumentTypeCode() + "/" + encumbrance.getOriginCode() + "/" + encumbrance.getDocumentNumber();
+            previousEncumbrance = encumbrance;
+        } catch (SQLException e) {
+            //TODO: should do something else here I'm sure
+            throw new RuntimeException(e);
+        }
+    }
+    
+    public void updateEncumbrance(Encumbrance encumbrance) {
+        try {
+            encumbranceUpdate.setString(1, encumbrance.getTransactionEncumbranceDescription());
+            encumbranceUpdate.setDate(2, encumbrance.getTransactionEncumbranceDate());
+            encumbranceUpdate.setBigDecimal(3, encumbrance.getAccountLineEncumbranceAmount().bigDecimalValue());
+            encumbranceUpdate.setBigDecimal(4, encumbrance.getAccountLineEncumbranceClosedAmount().bigDecimalValue());
+            encumbranceUpdate.setString(5, encumbrance.getAccountLineEncumbrancePurgeCode());
+            encumbranceUpdate.setTimestamp(6, dateTimeService.getCurrentTimestamp());
+            encumbranceUpdate.setInt(7, encumbrance.getUniversityFiscalYear());
+            encumbranceUpdate.setString(8, encumbrance.getChartOfAccountsCode());
+            encumbranceUpdate.setString(9, encumbrance.getAccountNumber());
+            encumbranceUpdate.setString(10, encumbrance.getSubAccountNumber());
+            encumbranceUpdate.setString(11, encumbrance.getObjectCode());
+            encumbranceUpdate.setString(12, encumbrance.getSubObjectCode());
+            encumbranceUpdate.setString(13, encumbrance.getBalanceTypeCode());
+            encumbranceUpdate.setString(14, encumbrance.getDocumentTypeCode());
+            encumbranceUpdate.setString(15, encumbrance.getOriginCode());
+            encumbranceUpdate.setString(16, encumbrance.getDocumentNumber());
+ 
+            encumbranceUpdate.executeQuery();
+            previousEncumbrance = encumbrance;
+        } catch (SQLException e) {
+            //TODO: should do something else here I'm sure
+            throw new RuntimeException(e);
+        }
+    }
+
+    public ExpenditureTransaction getExpenditureTransaction(Transaction t) {
+        String organizationReferenceId = org.apache.commons.lang.StringUtils.isBlank(t.getOrganizationReferenceId()) ? GeneralLedgerConstants.getDashOrganizationReferenceId() : t.getOrganizationReferenceId();
+        //NOTE: caches one value only!
+        String key = "GL_EXPEND_TRN_T:" + t.getUniversityFiscalYear().toString() + "/" + t.getChartOfAccountsCode() + "/" + t.getAccountNumber() + "/" + t.getSubAccountNumber() + "/" + t.getFinancialObjectCode() + "/" + t.getFinancialSubObjectCode() + "/" + t.getFinancialBalanceTypeCode() + "/" + t.getFinancialObjectTypeCode() + "/" + t.getUniversityFiscalPeriodCode() + "/" + t.getProjectCode() + "/" + organizationReferenceId;
+        if (!key.equals(previousExpenditureTransactionKey)) {
+            try {
+                expenditureTransactionPreparedSelect.setInt(1, t.getUniversityFiscalYear());
+                expenditureTransactionPreparedSelect.setString(2, t.getChartOfAccountsCode());
+                expenditureTransactionPreparedSelect.setString(3, t.getAccountNumber());
+                expenditureTransactionPreparedSelect.setString(4, t.getSubAccountNumber());
+                expenditureTransactionPreparedSelect.setString(5, t.getFinancialObjectCode());
+                expenditureTransactionPreparedSelect.setString(6, t.getFinancialSubObjectCode());
+                expenditureTransactionPreparedSelect.setString(7, t.getFinancialBalanceTypeCode());
+                expenditureTransactionPreparedSelect.setString(8, t.getFinancialObjectTypeCode());
+                expenditureTransactionPreparedSelect.setString(9, t.getUniversityFiscalPeriodCode());
+                expenditureTransactionPreparedSelect.setString(10, t.getProjectCode());
+                expenditureTransactionPreparedSelect.setString(11, organizationReferenceId); 
+                ResultSet rs = expenditureTransactionPreparedSelect.executeQuery();
+                if (rs.next()) {
+                    previousExpenditureTransaction.setUniversityFiscalYear(t.getUniversityFiscalYear());
+                    previousExpenditureTransaction.setChartOfAccountsCode(t.getChartOfAccountsCode());
+                    previousExpenditureTransaction.setAccountNumber(t.getAccountNumber());
+                    previousExpenditureTransaction.setSubAccountNumber(t.getSubAccountNumber());
+                    previousExpenditureTransaction.setObjectCode(t.getFinancialObjectCode());
+                    previousExpenditureTransaction.setSubObjectCode(t.getFinancialSubObjectCode());
+                    previousExpenditureTransaction.setBalanceTypeCode(t.getFinancialBalanceTypeCode());
+                    previousExpenditureTransaction.setObjectTypeCode(t.getFinancialObjectTypeCode());
+                    previousExpenditureTransaction.setUniversityFiscalAccountingPeriod(t.getUniversityFiscalPeriodCode());
+                    previousExpenditureTransaction.setProjectCode(t.getProjectCode());
+                    previousExpenditureTransaction.setOrganizationReferenceId(organizationReferenceId);
+                    previousExpenditureTransaction.setAccountObjectDirectCostAmount(new KualiDecimal(rs.getBigDecimal(1)));
+                    previousExpenditureTransactionKey = key;
+                } else { LOG.debug("Expenditure Transaction not found: " + key); return null; }
+                if (rs.next()) { throw new RuntimeException("More than one row returned from select by primary key."); }
+                rs.close();
+            } catch (SQLException e) {
+    //          TODO: should do something else here I'm sure
+                throw new RuntimeException(e);
+            }
+        }
+        return previousExpenditureTransaction;
+    }
+    
+    public void insertExpenditureTransaction(ExpenditureTransaction expenditureTransaction) {
+        try {
+            expenditureTransactionInsert.setInt(1, expenditureTransaction.getUniversityFiscalYear());
+            expenditureTransactionInsert.setString(2, expenditureTransaction.getChartOfAccountsCode());
+            expenditureTransactionInsert.setString(3, expenditureTransaction.getAccountNumber());
+            expenditureTransactionInsert.setString(4, expenditureTransaction.getSubAccountNumber());
+            expenditureTransactionInsert.setString(5, expenditureTransaction.getObjectCode());
+            expenditureTransactionInsert.setString(6, expenditureTransaction.getSubObjectCode());
+            expenditureTransactionInsert.setString(7, expenditureTransaction.getBalanceTypeCode());
+            expenditureTransactionInsert.setString(8, expenditureTransaction.getObjectTypeCode());
+            expenditureTransactionInsert.setString(9, expenditureTransaction.getUniversityFiscalAccountingPeriod());
+            expenditureTransactionInsert.setString(10, expenditureTransaction.getProjectCode());
+            expenditureTransactionInsert.setString(11, expenditureTransaction.getOrganizationReferenceId());
+            expenditureTransactionInsert.setBigDecimal(12, expenditureTransaction.getAccountObjectDirectCostAmount().bigDecimalValue());
+
+            expenditureTransactionInsert.executeQuery();
+            previousExpenditureTransactionKey = "GL_EXPEND_TRN_T:" + expenditureTransaction.getUniversityFiscalYear().toString() + "/" + expenditureTransaction.getChartOfAccountsCode() + "/" + expenditureTransaction.getAccountNumber() + "/" + expenditureTransaction.getSubAccountNumber() + "/" + expenditureTransaction.getObjectCode() + "/" + expenditureTransaction.getSubObjectCode() + "/" + expenditureTransaction.getBalanceTypeCode() + "/" + expenditureTransaction.getObjectTypeCode() + "/" + expenditureTransaction.getUniversityFiscalAccountingPeriod() + "/" + expenditureTransaction.getProjectCode() + "/" + expenditureTransaction.getOrganizationReferenceId();
+            previousExpenditureTransaction = expenditureTransaction;
+        } catch (SQLException e) {
+            //TODO: should do something else here I'm sure
+            throw new RuntimeException(e);
+        }
+    }
+    
+    public void updateExpenditureTransaction(ExpenditureTransaction expenditureTransaction) {
+        try {
+            expenditureTransactionUpdate.setBigDecimal(1, expenditureTransaction.getAccountObjectDirectCostAmount().bigDecimalValue());
+            expenditureTransactionUpdate.setInt(2, expenditureTransaction.getUniversityFiscalYear());
+            expenditureTransactionUpdate.setString(3, expenditureTransaction.getChartOfAccountsCode());
+            expenditureTransactionUpdate.setString(4, expenditureTransaction.getAccountNumber());
+            expenditureTransactionUpdate.setString(5, expenditureTransaction.getSubAccountNumber());
+            expenditureTransactionUpdate.setString(6, expenditureTransaction.getObjectCode());
+            expenditureTransactionUpdate.setString(7, expenditureTransaction.getSubObjectCode());
+            expenditureTransactionUpdate.setString(8, expenditureTransaction.getBalanceTypeCode());
+            expenditureTransactionUpdate.setString(9, expenditureTransaction.getObjectTypeCode());
+            expenditureTransactionUpdate.setString(10, expenditureTransaction.getUniversityFiscalAccountingPeriod());
+            expenditureTransactionUpdate.setString(11, expenditureTransaction.getProjectCode());
+            expenditureTransactionUpdate.setString(12, expenditureTransaction.getOrganizationReferenceId());
+
+            expenditureTransactionUpdate.executeQuery();
+            previousExpenditureTransaction = expenditureTransaction;
+        } catch (SQLException e) {
+            //TODO: should do something else here I'm sure
+            throw new RuntimeException(e);
+        }
+    }
+
+    public SufficientFundBalances getSufficientFundBalances(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode) {
+        //NOTE: caches one value only!
+        String key = "GL_SF_BALANCES_T:" + universityFiscalYear.toString() + "/" + chartOfAccountsCode + "/" + accountNumber + "/" + financialObjectCode;
+        if (!key.equals(previousSufficientFundBalancesKey)) {
+            try {
+                sufficientFundBalancesPreparedSelect.setInt(1, universityFiscalYear);
+                sufficientFundBalancesPreparedSelect.setString(2, chartOfAccountsCode);
+                sufficientFundBalancesPreparedSelect.setString(3, accountNumber);
+                sufficientFundBalancesPreparedSelect.setString(4, financialObjectCode);
+                ResultSet rs = sufficientFundBalancesPreparedSelect.executeQuery();
+                if (rs.next()) {
+                    previousSufficientFundBalances.setUniversityFiscalYear(universityFiscalYear);
+                    previousSufficientFundBalances.setChartOfAccountsCode(chartOfAccountsCode);
+                    previousSufficientFundBalances.setAccountNumber(accountNumber);
+                    previousSufficientFundBalances.setFinancialObjectCode(financialObjectCode);
+                    previousSufficientFundBalances.setAccountSufficientFundsCode(rs.getString(1));
+                    previousSufficientFundBalances.setCurrentBudgetBalanceAmount(new KualiDecimal(rs.getBigDecimal(2)));
+                    previousSufficientFundBalances.setAccountActualExpenditureAmt(new KualiDecimal(rs.getBigDecimal(3)));
+                    previousSufficientFundBalances.setAccountEncumbranceAmount(new KualiDecimal(rs.getBigDecimal(4)));
+                    previousSufficientFundBalancesKey = key;
+                } else { LOG.debug("Sufficient Funds Balance not found: " + key); return null; }
+                if (rs.next()) { throw new RuntimeException("More than one row returned from select by primary key."); }
+                rs.close();
+            } catch (SQLException e) {
+    //          TODO: should do something else here I'm sure
+                throw new RuntimeException(e);
+            }
+        }
+        return previousSufficientFundBalances;
+    }
+    
+    public void insertSufficientFundBalances(SufficientFundBalances sufficientFundBalances) {
+        try {
+            sufficientFundBalancesInsert.setInt(1, sufficientFundBalances.getUniversityFiscalYear());
+            sufficientFundBalancesInsert.setString(2, sufficientFundBalances.getChartOfAccountsCode());
+            sufficientFundBalancesInsert.setString(3, sufficientFundBalances.getAccountNumber());
+            sufficientFundBalancesInsert.setString(4, sufficientFundBalances.getFinancialObjectCode());
+            sufficientFundBalancesInsert.setString(5, "!"); //u_version
+            sufficientFundBalancesInsert.setString(6, sufficientFundBalances.getAccountSufficientFundsCode());
+            sufficientFundBalancesInsert.setBigDecimal(7, sufficientFundBalances.getCurrentBudgetBalanceAmount().bigDecimalValue());
+            sufficientFundBalancesInsert.setBigDecimal(8, sufficientFundBalances.getAccountActualExpenditureAmt().bigDecimalValue());
+            sufficientFundBalancesInsert.setBigDecimal(9, sufficientFundBalances.getAccountEncumbranceAmount().bigDecimalValue());
+            sufficientFundBalancesInsert.setTimestamp(10, dateTimeService.getCurrentTimestamp());
+            
+            sufficientFundBalancesInsert.executeQuery();
+            previousSufficientFundBalancesKey = "GL_SF_BALANCES_T:" + sufficientFundBalances.getUniversityFiscalYear().toString() + "/" + sufficientFundBalances.getChartOfAccountsCode() + "/" + sufficientFundBalances.getAccountNumber() + "/" + sufficientFundBalances.getFinancialObjectCode();
+            previousSufficientFundBalances = sufficientFundBalances;
+        } catch (SQLException e) {
+            //TODO: should do something else here I'm sure
+            throw new RuntimeException(e);
+        }
+    }
+    
+    public void updateSufficientFundBalances(SufficientFundBalances sufficientFundBalances) {
+        try {
+            sufficientFundBalancesUpdate.setString(1, sufficientFundBalances.getAccountSufficientFundsCode());
+            sufficientFundBalancesUpdate.setBigDecimal(2, sufficientFundBalances.getCurrentBudgetBalanceAmount().bigDecimalValue());
+            sufficientFundBalancesUpdate.setBigDecimal(3, sufficientFundBalances.getAccountActualExpenditureAmt().bigDecimalValue());
+            sufficientFundBalancesUpdate.setBigDecimal(4, sufficientFundBalances.getAccountEncumbranceAmount().bigDecimalValue());
+            sufficientFundBalancesUpdate.setTimestamp(5, dateTimeService.getCurrentTimestamp());
+            sufficientFundBalancesUpdate.setInt(6, sufficientFundBalances.getUniversityFiscalYear());
+            sufficientFundBalancesUpdate.setString(7, sufficientFundBalances.getChartOfAccountsCode());
+            sufficientFundBalancesUpdate.setString(8, sufficientFundBalances.getAccountNumber());
+            sufficientFundBalancesUpdate.setString(9, sufficientFundBalances.getFinancialObjectCode());
+
+            sufficientFundBalancesUpdate.executeQuery();
+            previousSufficientFundBalances = sufficientFundBalances;
+        } catch (SQLException e) {
+            //TODO: should do something else here I'm sure
+            throw new RuntimeException(e);
+        }
+    }
+
+    public AccountBalance getAccountBalance(Transaction t) {
+        //NOTE: caches one value only!
+        String key = "GL_ACCT_BALANCES_T:" + t.getUniversityFiscalYear().toString() + "/" + t.getChartOfAccountsCode() + "/" + t.getAccountNumber() + "/" + t.getSubAccountNumber() + "/" + t.getFinancialObjectCode() + "/" + t.getFinancialSubObjectCode();
+        if (!key.equals(previousAccountBalanceKey)) {
+            try {
+                accountBalancePreparedSelect.setInt(1, t.getUniversityFiscalYear());
+                accountBalancePreparedSelect.setString(2, t.getChartOfAccountsCode());
+                accountBalancePreparedSelect.setString(3, t.getAccountNumber());
+                accountBalancePreparedSelect.setString(4, t.getSubAccountNumber());
+                accountBalancePreparedSelect.setString(5, t.getFinancialObjectCode());
+                accountBalancePreparedSelect.setString(6, t.getFinancialSubObjectCode());
+                ResultSet rs = accountBalancePreparedSelect.executeQuery();
+                if (rs.next()) {
+                    previousAccountBalance.setUniversityFiscalYear(t.getUniversityFiscalYear());
+                    previousAccountBalance.setChartOfAccountsCode(t.getChartOfAccountsCode());
+                    previousAccountBalance.setAccountNumber(t.getAccountNumber());
+                    previousAccountBalance.setSubAccountNumber(t.getSubAccountNumber());
+                    previousAccountBalance.setObjectCode(t.getFinancialObjectCode());
+                    previousAccountBalance.setSubObjectCode(t.getFinancialSubObjectCode());
+                    previousAccountBalance.setCurrentBudgetLineBalanceAmount(new KualiDecimal(rs.getBigDecimal(1)));
+                    previousAccountBalance.setAccountLineActualsBalanceAmount(new KualiDecimal(rs.getBigDecimal(2)));
+                    previousAccountBalance.setAccountLineEncumbranceBalanceAmount(new KualiDecimal(rs.getBigDecimal(3)));
+                    previousAccountBalanceKey = key;
+                } else { LOG.debug("Account Balance not found: " + key); return null; }
+                if (rs.next()) { throw new RuntimeException("More than one row returned from select by primary key."); }
+                rs.close();
+            } catch (SQLException e) {
+    //          TODO: should do something else here I'm sure
+                throw new RuntimeException(e);
+            }
+        }
+        return previousAccountBalance;
+    }
+    
+    public void insertAccountBalance(AccountBalance accountBalance) {
+        try {
+            accountBalanceInsert.setInt(1, accountBalance.getUniversityFiscalYear());
+            accountBalanceInsert.setString(2, accountBalance.getChartOfAccountsCode());
+            accountBalanceInsert.setString(3, accountBalance.getAccountNumber());
+            accountBalanceInsert.setString(4, accountBalance.getSubAccountNumber());
+            accountBalanceInsert.setString(5, accountBalance.getObjectCode());
+            accountBalanceInsert.setString(6, accountBalance.getSubObjectCode());
+            accountBalanceInsert.setString(7, "!"); //u_version
+            accountBalanceInsert.setBigDecimal(8, accountBalance.getCurrentBudgetLineBalanceAmount().bigDecimalValue());
+            accountBalanceInsert.setBigDecimal(9, accountBalance.getAccountLineActualsBalanceAmount().bigDecimalValue());
+            accountBalanceInsert.setBigDecimal(10, accountBalance.getAccountLineEncumbranceBalanceAmount().bigDecimalValue());
+            accountBalanceInsert.setTimestamp(11, dateTimeService.getCurrentTimestamp());
+            
+            accountBalanceInsert.executeQuery();
+            previousAccountBalanceKey = "GL_ACCT_BALANCES_T:" + accountBalance.getUniversityFiscalYear().toString() + "/" + accountBalance.getChartOfAccountsCode() + "/" + accountBalance.getAccountNumber() + "/" + accountBalance.getSubAccountNumber() + "/" + accountBalance.getObjectCode() + "/" + accountBalance.getSubObjectCode();
+            previousAccountBalance = accountBalance;
+        } catch (SQLException e) {
+            //TODO: should do something else here I'm sure
+            throw new RuntimeException(e);
+        }
+    }
+    
+    public void updateAccountBalance(AccountBalance accountBalance) {
+        try {
+            accountBalanceUpdate.setBigDecimal(1, accountBalance.getCurrentBudgetLineBalanceAmount().bigDecimalValue());
+            accountBalanceUpdate.setBigDecimal(2, accountBalance.getAccountLineActualsBalanceAmount().bigDecimalValue());
+            accountBalanceUpdate.setBigDecimal(3, accountBalance.getAccountLineEncumbranceBalanceAmount().bigDecimalValue());
+            accountBalanceUpdate.setTimestamp(4, dateTimeService.getCurrentTimestamp());
+            accountBalanceUpdate.setInt(5, accountBalance.getUniversityFiscalYear());
+            accountBalanceUpdate.setString(6, accountBalance.getChartOfAccountsCode());
+            accountBalanceUpdate.setString(7, accountBalance.getAccountNumber());
+            accountBalanceUpdate.setString(8, accountBalance.getSubAccountNumber());
+            accountBalanceUpdate.setString(9, accountBalance.getObjectCode());
+            accountBalanceUpdate.setString(10, accountBalance.getSubObjectCode());
+
+            accountBalanceUpdate.executeQuery();
+            previousAccountBalance = accountBalance;
+        } catch (SQLException e) {
+            //TODO: should do something else here I'm sure
+            throw new RuntimeException(e);
+        }
+    }
+
     
     /**
      * @see org.kuali.kfs.gl.dataaccess.CachingDao#flushCache()

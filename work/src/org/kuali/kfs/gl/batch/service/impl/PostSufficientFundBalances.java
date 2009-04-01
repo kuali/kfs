@@ -89,7 +89,7 @@ public class PostSufficientFundBalances implements PostTransaction {
         }
 
         // Look to see if there is a sufficient funds record for this
-        SufficientFundBalances sfBalance = sufficientFundBalancesDao.getByPrimaryId(t.getUniversityFiscalYear(), t.getChartOfAccountsCode(), t.getAccountNumber(), sufficientFundsObjectCode);
+        SufficientFundBalances sfBalance = cachingDao.getSufficientFundBalances(t.getUniversityFiscalYear(), t.getChartOfAccountsCode(), t.getAccountNumber(), sufficientFundsObjectCode);
         if (sfBalance == null) {
             returnCode = GeneralLedgerConstants.INSERT_CODE;
             sfBalance = new SufficientFundBalances();
@@ -156,7 +156,12 @@ public class PostSufficientFundBalances implements PostTransaction {
         }
 
         // If we get here, we need to save the balance entry
-        sufficientFundBalancesDao.save(sfBalance);
+        if (returnCode.equals(GeneralLedgerConstants.INSERT_CODE)) {
+            cachingDao.insertSufficientFundBalances(sfBalance);
+        } else {
+            cachingDao.updateSufficientFundBalances(sfBalance);
+        }
+
 
         return returnCode;
     }

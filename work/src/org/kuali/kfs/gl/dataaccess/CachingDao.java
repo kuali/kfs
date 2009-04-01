@@ -32,9 +32,14 @@ import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
+import org.kuali.kfs.gl.businessobject.AccountBalance;
+import org.kuali.kfs.gl.businessobject.Balance;
+import org.kuali.kfs.gl.businessobject.Encumbrance;
 import org.kuali.kfs.gl.businessobject.Entry;
+import org.kuali.kfs.gl.businessobject.ExpenditureTransaction;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.Reversal;
+import org.kuali.kfs.gl.businessobject.SufficientFundBalances;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
@@ -179,6 +184,23 @@ public interface CachingDao {
         public void insertReversal(Reversal reversal);
         public int getMaxSequenceNumber(Transaction t);
         public void insertEntry(Entry entry);
+        public Balance getBalance(Transaction t);
+        public void insertBalance(Balance balance);
+        public void updateBalance(Balance balance);
+        public Encumbrance getEncumbrance(Entry entry);
+        public void insertEncumbrance(Encumbrance encumbrance);
+        public void updateEncumbrance(Encumbrance encumbrance);
+        public ExpenditureTransaction getExpenditureTransaction(Transaction t);
+        public void insertExpenditureTransaction(ExpenditureTransaction expenditureTransaction);
+        public void updateExpenditureTransaction(ExpenditureTransaction expenditureTransaction);
+        public SufficientFundBalances getSufficientFundBalances(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode);
+        public void insertSufficientFundBalances(SufficientFundBalances sufficientFundBalances);
+        public void updateSufficientFundBalances(SufficientFundBalances sufficientFundBalances);
+        public AccountBalance getAccountBalance(Transaction t);
+        public void insertAccountBalance(AccountBalance accountBalance);
+        public void updateAccountBalance(AccountBalance accountBalance);
+
+
         
         public IndirectCostRecoveryType getIndirectCostRecoveryType(String accountIcrTypeCode);
         

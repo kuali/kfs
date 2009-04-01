@@ -24,16 +24,14 @@ import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionAccount;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionType;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
-import org.kuali.kfs.coa.dataaccess.A21SubAccountDao;
 import org.kuali.kfs.coa.dataaccess.IndirectCostRecoveryExclusionAccountDao;
 import org.kuali.kfs.coa.dataaccess.IndirectCostRecoveryExclusionTypeDao;
-import org.kuali.kfs.coa.dataaccess.IndirectCostRecoveryTypeDao;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.IndirectCostRecoveryService;
 import org.kuali.kfs.gl.batch.service.PostTransaction;
 import org.kuali.kfs.gl.businessobject.ExpenditureTransaction;
 import org.kuali.kfs.gl.businessobject.Transaction;
-import org.kuali.kfs.gl.dataaccess.ExpenditureTransactionDao;
+import org.kuali.kfs.gl.dataaccess.CachingDao;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,26 +45,16 @@ import org.springframework.util.StringUtils;
 public class PostExpenditureTransaction implements IndirectCostRecoveryService, PostTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostExpenditureTransaction.class);
 
-    private A21SubAccountDao a21SubAccountDao;
     private IndirectCostRecoveryExclusionAccountDao indirectCostRecoveryExclusionAccountDao;
     private IndirectCostRecoveryExclusionTypeDao indirectCostRecoveryExclusionTypeDao;
-    private IndirectCostRecoveryTypeDao indirectCostRecoveryTypeDao;
-    private ExpenditureTransactionDao expenditureTransactionDao;
-
-    public void setA21SubAccountDao(A21SubAccountDao asad) {
-        a21SubAccountDao = asad;
-    }
-
+    private CachingDao cachingDao;
+    
     public void setIndirectCostRecoveryExclusionAccountDao(IndirectCostRecoveryExclusionAccountDao icrea) {
         indirectCostRecoveryExclusionAccountDao = icrea;
     }
 
     public void setIndirectCostRecoveryExclusionTypeDao(IndirectCostRecoveryExclusionTypeDao icrea) {
         indirectCostRecoveryExclusionTypeDao = icrea;
-    }
-
-    public void setExpenditureTransactionDao(ExpenditureTransactionDao etd) {
-        expenditureTransactionDao = etd;
     }
 
     /**
@@ -95,8 +83,7 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
             // Continue on the posting process
 
             // Check the sub account type code. A21 subaccounts with the type of CS don't get posted
-            A21SubAccount a21SubAccount = a21SubAccountDao.getByPrimaryKey(account.getChartOfAccountsCode(), account.getAccountNumber(), subAccountNumber);
-            
+            A21SubAccount a21SubAccount = cachingDao.getA21SubAccount(account.getChartOfAccountsCode(), account.getAccountNumber(), subAccountNumber);
             String financialIcrSeriesIdentifier;
             String indirectCostRecoveryTypeCode;
             
@@ -165,6 +152,7 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
                         foundIt = true;
                     }
                     else {
+                        currentObjectCode.setReportsToFinancialObject(cachingDao.getObjectCode(currentObjectCode.getUniversityFiscalYear(), currentObjectCode.getReportsToChartOfAccountsCode(), currentObjectCode.getReportsToFinancialObjectCode()));
                         if (ObjectUtils.isNull(currentObjectCode.getReportsToFinancialObject())) {
                             foundIt = true;
                         }
@@ -234,8 +222,7 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
         LOG.debug("postTransaction() started");
 
         String returnCode = GeneralLedgerConstants.UPDATE_CODE;
-
-        ExpenditureTransaction et = expenditureTransactionDao.getByTransaction(t);
+        ExpenditureTransaction et = cachingDao.getExpenditureTransaction(t);
         if (et == null) {
             LOG.warn("Posting expenditure transation");
             et = new ExpenditureTransaction(t);
@@ -253,7 +240,11 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
             et.setAccountObjectDirectCostAmount(et.getAccountObjectDirectCostAmount().subtract(t.getTransactionLedgerEntryAmount()));
         }
 
-        expenditureTransactionDao.save(et);
+        if (returnCode.equals(GeneralLedgerConstants.INSERT_CODE)) {
+            cachingDao.insertExpenditureTransaction(et);
+        } else {
+            cachingDao.updateExpenditureTransaction(et);
+        }
 
         return returnCode;
     }
@@ -266,5 +257,9 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
     }
     
     protected class IncorrectIndirectCostRecoveryMetadataException extends RuntimeException {
+    }
+
+    public void setCachingDao(CachingDao cachingDao) {
+        this.cachingDao = cachingDao;
     }
 }

@@ -18,6 +18,8 @@ package org.kuali.kfs.gl.batch.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.VerifyTransaction;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.sys.KFSConstants;
@@ -121,6 +123,19 @@ public class VerifyTransactionImpl implements VerifyTransaction {
         if (t.getTransactionLedgerEntrySequenceNumber() == null) {
             errors.add(new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_SEQUENCE_NUMBER_NOT_BE_NULL), Message.TYPE_FATAL));
         }
+        
+        if (t.getBalanceType() != null && t.getBalanceType().isFinBalanceTypeEncumIndicator()  && !t.getObjectType().isFundBalanceIndicator()){
+            if (t.getTransactionEncumbranceUpdateCode().trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
+                errors.add(new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_ENCUMBRANCE_UPDATE_CODE_CANNOT_BE_BLANK_FOR_BALANCE_TYPE) + " " + t.getFinancialBalanceTypeCode(), Message.TYPE_FATAL));
+            }
+        }
+
+        // The encumbrance update code can only be space, N, R or D. Nothing else
+        if ((StringUtils.isNotBlank(t.getTransactionEncumbranceUpdateCode())) && (!" ".equals(t.getTransactionEncumbranceUpdateCode())) && (!KFSConstants.ENCUMB_UPDT_NO_ENCUMBRANCE_CD.equals(t.getTransactionEncumbranceUpdateCode())) && (!KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdateCode())) && (!KFSConstants.ENCUMB_UPDT_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdateCode()))) {
+            errors.add(new Message("Invalid Encumbrance Update Code (" + t.getTransactionEncumbranceUpdateCode() + ")", Message.TYPE_FATAL));
+        }
+
+        
 
         return errors;
     }

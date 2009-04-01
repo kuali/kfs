@@ -16,24 +16,21 @@
 package org.kuali.kfs.gl.batch.service.impl;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.metadata.MetadataManager;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.EncumbranceCalculator;
 import org.kuali.kfs.gl.batch.service.PostTransaction;
-import org.kuali.kfs.gl.batch.service.VerifyTransaction;
 import org.kuali.kfs.gl.businessobject.Encumbrance;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.gl.dataaccess.CachingDao;
 import org.kuali.kfs.gl.dataaccess.EncumbranceDao;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.Message;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,42 +38,17 @@ import org.springframework.transaction.annotation.Transactional;
  * This implementation of PostTransaction posts a transaction that could be an encumbrance
  */
 @Transactional
-public class PostEncumbrance implements PostTransaction, VerifyTransaction, EncumbranceCalculator {
+public class PostEncumbrance implements PostTransaction, EncumbranceCalculator {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostEncumbrance.class);
 
-    private EncumbranceDao encumbranceDao;
+    private CachingDao cachingDao;
     private DateTimeService dateTimeService;
-
-    public void setEncumbranceDao(EncumbranceDao ed) {
-        encumbranceDao = ed;
-    }
 
     /**
      * Constructs a PostEncumbrance instance
      */
     public PostEncumbrance() {
         super();
-    }
-
-    /**
-     * Make sure the transaction is correct for posting. If there is an error, this will stop the transaction from posting in all
-     * files.
-     * 
-     * @param t the transaction to verify
-     * @return a List of error messages, as Strings
-     */
-    public List<Message> verifyTransaction(Transaction t) {
-        LOG.debug("verifyTransaction() started");
-
-        //TODO:  Shawn - need to check with Jeff because there is no this method in FIS 
-        List<Message> errors = new ArrayList();
-
-        // The encumbrance update code can only be space, N, R or D. Nothing else
-        if ((StringUtils.isNotBlank(t.getTransactionEncumbranceUpdateCode())) && (!" ".equals(t.getTransactionEncumbranceUpdateCode())) && (!KFSConstants.ENCUMB_UPDT_NO_ENCUMBRANCE_CD.equals(t.getTransactionEncumbranceUpdateCode())) && (!KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdateCode())) && (!KFSConstants.ENCUMB_UPDT_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdateCode()))) {
-            errors.add(new Message("Invalid Encumbrance Update Code (" + t.getTransactionEncumbranceUpdateCode() + ")", Message.TYPE_FATAL));
-        }
-
-        return errors;
     }
 
     /**
@@ -106,8 +78,8 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
             e.setFinancialSystemOriginationCode(t.getReferenceFinancialSystemOriginationCode());
             e.setFinancialDocumentTypeCode(t.getReferenceFinancialDocumentTypeCode());
         }
-
-        Encumbrance enc = encumbranceDao.getEncumbranceByTransaction(e);
+        
+        Encumbrance enc = cachingDao.getEncumbrance(e);
         if (enc == null) {
             // Build a new encumbrance record
             enc = new Encumbrance(e);
@@ -125,9 +97,11 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
 
         updateEncumbrance(t, enc);
 
-        enc.setTimestamp(new Timestamp(postDate.getTime()));
-
-        encumbranceDao.save(enc);
+        if (returnCode.equals(GeneralLedgerConstants.INSERT_CODE)) {
+            cachingDao.insertEncumbrance(enc);
+        } else {
+            cachingDao.updateEncumbrance(enc);
+        }
 
         return returnCode;
     }
@@ -213,5 +187,9 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }
+
+    public void setCachingDao(CachingDao cachingDao) {
+        this.cachingDao = cachingDao;
     }
 }

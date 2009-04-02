@@ -49,7 +49,7 @@ public class DocumentTypePermissionTypeServiceTest extends KualiTestBase {
         requestedDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "REQS" );
         
         List<KimPermissionInfo> permissions = 
-            buildPermissionlist( new String[] {"REQS","PurchasingTransactionalDocument","FinancialProcessingTransactionalDocument","KualiDocument","*"} );
+            buildPermissionlist( new String[] {"REQS","PUR","FP","KualiDocument","*"} );
         
         List<KimPermissionInfo> results = srv.performPermissionMatches(requestedDetails, permissions);
         for ( KimPermissionInfo info : results ) {
@@ -66,14 +66,14 @@ public class DocumentTypePermissionTypeServiceTest extends KualiTestBase {
         requestedDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "REQS" );
         
         List<KimPermissionInfo> permissions = 
-            buildPermissionlist( new String[] {"PurchasingTransactionalDocument","FinancialProcessingTransactionalDocument","KualiDocument","*"} );
+            buildPermissionlist( new String[] {"PUR","FP","KualiDocument","*"} );
         
         List<KimPermissionInfo> results = srv.performPermissionMatches(requestedDetails, permissions);
         for ( KimPermissionInfo info : results ) {
             System.out.println( info );
         }
         assertEquals( "Wrong number of matches", 1, results.size() );
-        assertDocInList( results, "PurchasingTransactionalDocument" );
+        assertDocInList( results, "PUR" );
     }
 
     public void testPerformMatches_parentlist_2() {

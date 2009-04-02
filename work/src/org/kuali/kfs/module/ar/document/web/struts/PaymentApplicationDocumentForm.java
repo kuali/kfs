@@ -64,6 +64,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     //  used for non-cash-control pay app docs
     private List<PaymentApplicationDocument> nonAppliedControlDocs;
     private List<NonAppliedHolding> nonAppliedControlHoldings;
+    private Map<String,KualiDecimal> nonAppliedControlAllocations;
     
     /**
      * Constructs a PaymentApplicationDocumentForm.java.
@@ -536,6 +537,24 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
 
     public void setNonAppliedControlHoldings(List<NonAppliedHolding> nonAppliedControlHoldings) {
         this.nonAppliedControlHoldings = nonAppliedControlHoldings;
+    }
+    
+    public Map<String,KualiDecimal> getNonAppliedControlAllocations() {
+        if (nonAppliedControlAllocations == null || nonAppliedControlAllocations.isEmpty()) {
+            nonAppliedControlAllocations = getPaymentApplicationDocument().allocateFundsFromUnappliedControls(nonAppliedControlHoldings, getTotalApplied());
+        }
+        return nonAppliedControlAllocations;
+    }
+    
+    public void setNonAppliedControlAllocations(Map<String, KualiDecimal> nonAppliedControlAllocations) {
+        this.nonAppliedControlAllocations = nonAppliedControlAllocations;
+    }
+
+    public KualiDecimal getNonAppliedControlAllocation(String documentNumber) {
+        if (!getNonAppliedControlAllocations().containsKey(documentNumber)) {
+            return KualiDecimal.ZERO;
+        }
+        return getNonAppliedControlAllocations().get(documentNumber);
     }
     
 }

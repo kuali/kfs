@@ -264,6 +264,9 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
             // make an empty new one
             paymentApplicationDocumentForm.setNonInvoicedAddLine(new NonInvoiced());
         }
+        
+        //  reset the allocations, so it gets re-calculated
+        paymentApplicationDocumentForm.setNonAppliedControlAllocations(null);
     }
     
     private List<InvoicePaidApplied> applyToIndividualCustomerInvoiceDetails(PaymentApplicationDocumentForm paymentApplicationDocumentForm) {
@@ -537,7 +540,8 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
                 //  set the form vars from what we've loaded up here
                 payAppForm.setNonAppliedControlDocs(nonAppliedControlDocs);
                 payAppForm.setNonAppliedControlHoldings(nonAppliedControlHoldings);
-                payAppDoc.setNonApplieds(new ArrayList<NonAppliedHolding>(nonAppliedControlHoldings));
+                payAppDoc.setNonAppliedHoldingsForCustomer(new ArrayList<NonAppliedHolding>(nonAppliedControlHoldings));
+                payAppForm.setNonAppliedControlAllocations(null);
             }
         }
 

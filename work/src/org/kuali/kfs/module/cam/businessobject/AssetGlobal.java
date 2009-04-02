@@ -20,12 +20,13 @@ import org.kuali.rice.kns.bo.GlobalBusinessObject;
 import org.kuali.rice.kns.bo.GlobalBusinessObjectDetail;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.MaintenanceDocumentService;
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
@@ -875,14 +876,9 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      * @return
      */
     public Date getSeparateDocumentHeaderFinalDate() {
-        if (ObjectUtils.isNull(documentHeader)) {
-            return null;
-        }
-        else {
-            AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
+        // FIXME - later
+        return null;
 
-            return assetGlobalService.isAssetSeparate(this) ? documentHeader.getDocumentFinalDate() : null;
-        }
     }
 
     public boolean isCapitalAssetBuilderOriginIndicator() {

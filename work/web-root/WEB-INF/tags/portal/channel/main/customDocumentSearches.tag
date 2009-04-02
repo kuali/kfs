@@ -17,7 +17,7 @@
 
 <channel:portalChannelTop channelTitle="Custom Document Searches" />
 <div class="body">
-	<portal:portalLink displayTitle="true" title="Financial Transactions" url="${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=FinancialSystemTransactionalDocument" /><br /><br />
+	<portal:portalLink displayTitle="true" title="Financial Transactions" url="${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=KFST" /><br /><br />
 	<strong>Contracts & Grants</strong><br/>
     <ul class="chan">
 		<li><portal:portalLink displayTitle="true" title='Proposals' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=PRPL'/></li>

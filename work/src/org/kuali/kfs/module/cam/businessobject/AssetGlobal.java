@@ -879,6 +879,9 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      * @return
      */
     public Date getSeparateDocumentHeaderFinalDate() {
+        if (this.documentNumber == null) {
+            return null;
+        }
         DocumentRouteHeaderValue routeHeader = SpringContext.getBean(RouteHeaderService.class).getRouteHeader(Long.valueOf(this.documentNumber));
         if (routeHeader != null && routeHeader.getApprovedDate() != null) {
             return new Date(routeHeader.getApprovedDate().getTime());

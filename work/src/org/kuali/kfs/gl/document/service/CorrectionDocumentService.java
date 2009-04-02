@@ -237,4 +237,6 @@ public interface CorrectionDocumentService {
     public String generateOutputOriginEntryFileName(String docId);
     
     public String createOutputFileForProcessing(String docId, java.util.Date today);
+    
+    public void deleteOlderCorrectionDocumentFiles(int days, java.util.Date today);
 }

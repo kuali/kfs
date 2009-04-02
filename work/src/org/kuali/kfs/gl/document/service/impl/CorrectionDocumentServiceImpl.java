@@ -22,10 +22,12 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -76,12 +78,13 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
     protected static final String INPUT_ORIGIN_ENTRIES_FILE_SUFFIX = "-input.txt";
     protected static final String OUTPUT_ORIGIN_ENTRIES_FILE_SUFFIX = "-output.txt";
     protected static final String GLCP_OUTPUT_PREFIX = "glcp_output";
+    protected static final String CORRECTION_FILE_FILTER = "put.txt";
 
     protected CorrectionDocumentDao correctionDocumentDao;
-    private String batchFileDirectoryName; 
+    private String batchFileDirectoryName;
 
     /**
-     * Returns a specific correction change group for a GLCP document.  Defers to DAO.
+     * Returns a specific correction change group for a GLCP document. Defers to DAO.
      * 
      * @param docId the document id of a GLCP document
      * @param i the number of the correction group within the document
@@ -368,7 +371,8 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * 
      * @param document an initiated or saved document
      * @param entries an Iterator of origin entries
-     * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#persistOriginEntriesToFile(java.lang.String, java.util.Iterator)
+     * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#persistOriginEntriesToFile(java.lang.String,
+     *      java.util.Iterator)
      */
     public void persistInputOriginEntriesForInitiatedOrSavedDocument(GeneralLedgerCorrectionProcessDocument document, Iterator<OriginEntryFull> entries) {
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
@@ -459,7 +463,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
     }
 
     /**
-     * Removes all output origin entries persisted in the database created by the given document 
+     * Removes all output origin entries persisted in the database created by the given document
      * 
      * @param document a GLCP document
      * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#removePersistedOutputOriginEntriesForInitiatedOrSavedDocument(org.kuali.kfs.gl.document.CorrectionDocument)
@@ -481,8 +485,8 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
     }
 
     /**
-     * Removes all output origin entries persisted in the database created by the given document 
-     *
+     * Removes all output origin entries persisted in the database created by the given document
+     * 
      * @param docId the document id of a GLCP document
      * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#removePersistedOutputOriginEntries(java.lang.String)
      */
@@ -491,7 +495,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
     }
 
     /**
-     * Removes a file of origin entries.  Just deletes the whole thing!
+     * Removes a file of origin entries. Just deletes the whole thing!
      * 
      * @param fullPathUniqueFileName the file name of the file holding origin entries
      */
@@ -653,6 +657,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
 
     /**
      * Returns true if and only if the file corresponding to this document's output origin entries are on the file system.
+     * 
      * @param document a GLCP document to query
      * @return true if origin entries are stored to the system, false otherwise
      * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#areOutputOriginEntriesPersisted(org.kuali.kfs.gl.document.CorrectionDocument)
@@ -712,41 +717,42 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
             fileIn.close();
         }
     }
-    
+
     public String createOutputFileForProcessing(String docId, java.util.Date today) {
         File outputFile = new File(glcpDirectoryName + File.separator + docId + OUTPUT_ORIGIN_ENTRIES_FILE_SUFFIX);
         String newFileName = batchFileDirectoryName + File.separator + GLCP_OUTPUT_PREFIX + buildFileExtensionWithDate(today);
-        File newFile = new File (newFileName);
+        File newFile = new File(newFileName);
         FileReader inputFileReader;
         FileWriter newFileWriter;
-        
-        try{
+
+        try {
             // copy output file and put in OriginEntry directory
             inputFileReader = new FileReader(outputFile);
             newFileWriter = new FileWriter(newFile);
             int c;
-            while ((c = inputFileReader.read()) != -1){
+            while ((c = inputFileReader.read()) != -1) {
                 newFileWriter.write(c);
             }
-            
+
             inputFileReader.close();
             newFileWriter.close();
-            
+
             // create done file, after successfully copying output file
             String doneFileName = newFileName.replace(GeneralLedgerConstants.BatchFileSystem.EXTENSION, GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION);
             File doneFile = new File(doneFileName);
-            if (!doneFile.exists()){
+            if (!doneFile.exists()) {
                 doneFile.createNewFile();
             }
 
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             throw new RuntimeException(e);
         }
-        
+
         return newFileName;
     }
-    
-    protected String buildFileExtensionWithDate(java.util.Date date){
+
+    protected String buildFileExtensionWithDate(java.util.Date date) {
 
         String timeString = date.toString();
         String year = timeString.substring(timeString.length() - 4, timeString.length());
@@ -755,18 +761,19 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
         String hour = timeString.substring(11, 13);
         String min = timeString.substring(14, 16);
         String sec = timeString.substring(17, 19);
-        
+
         return "." + year + "-" + month + "-" + day + "." + hour + "-" + min + "-" + sec + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-        
-        
+
+
     }
-    
+
     /**
      * Saves the input and output origin entry groups for a document prior to saving the document
      * 
      * @param document a GLCP document
      * @param correctionDocumentEntryMetadata metadata about this GLCP document
-     * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#persistOriginEntryGroupsForDocumentSave(org.kuali.kfs.gl.document.CorrectionDocument, org.kuali.kfs.gl.document.web.CorrectionDocumentEntryMetadata)
+     * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#persistOriginEntryGroupsForDocumentSave(org.kuali.kfs.gl.document.CorrectionDocument,
+     *      org.kuali.kfs.gl.document.web.CorrectionDocumentEntryMetadata)
      */
     public void persistOriginEntryGroupsForDocumentSave(GeneralLedgerCorrectionProcessDocument document, CorrectionDocumentEntryMetadata correctionDocumentEntryMetadata) {
         if (correctionDocumentEntryMetadata.getAllEntries() == null && !correctionDocumentEntryMetadata.isRestrictedFunctionalityMode()) {
@@ -792,9 +799,9 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
             // we haven't saved the origin entry group yet, so let's load the entries from the DB and persist them for the document
             // this could be because we've previously saved the doc, but now we are now using a new input group, so we have to
             // repersist the input group
-            
-            
-            //OriginEntryGroup group = originEntryGroupService.getExactMatchingEntryGroup(document.getCorrectionInputGroupId());
+
+
+            // OriginEntryGroup group = originEntryGroupService.getExactMatchingEntryGroup(document.getCorrectionInputGroupId());
             String fileName = document.getCorrectionInputFileName();
             inputGroupEntries = originEntryService.getEntriesIteratorByGroupIdWithoutErrorChecking(fileName);
             persistInputOriginEntriesForInitiatedOrSavedDocument(document, inputGroupEntries);
@@ -869,6 +876,30 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
         }
 
         CorrectionDocumentUtils.copyStatisticsToDocument(statistics, document);
+    }
+
+
+    public void deleteOlderCorrectionDocumentFiles(int days, java.util.Date today ){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(today);
+        calendar.add(Calendar.DAY_OF_MONTH, 0 - days);
+        File[] allFilesList = new File(getGlcpDirectoryName()).listFiles(new CorrectionFileFilter());
+        
+        for (File file: allFilesList) {
+            java.util.Date fileDate = new java.util.Date(file.lastModified());
+            if (fileDate.before(calendar.getTime())){
+                file.delete();
+            }
+        }
+    }
+    
+    final class CorrectionFileFilter implements FilenameFilter {
+        /**
+         * @see java.io.FilenameFilter#accept(java.io.File, java.lang.String)
+         */
+        public boolean accept(File dir, String name) {
+            return name.contains(CORRECTION_FILE_FILTER);
+        }
     }
 
     /**

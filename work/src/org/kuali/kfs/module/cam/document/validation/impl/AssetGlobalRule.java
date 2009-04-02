@@ -328,14 +328,14 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             }
         }
 
-        // only for "Asset Separate" document
-        if (getAssetGlobalService().isAssetSeparate(assetGlobal)) {
-            // qty. of assets (unique) to be created
-            success &= validateLocationQuantity(line);
-            // total cost must be > 0
-            success &= validateTotalCostAmount(assetGlobal);
-        }
+        // qty. of assets (unique) to be created
+        success &= validateLocationQuantity(line);
 
+       // only for "Asset Separate" document
+       if (getAssetGlobalService().isAssetSeparate(assetGlobal)) {
+           // total cost must be > 0
+          success &= validateTotalCostAmount(assetGlobal);
+       }
         return success;
     }
 

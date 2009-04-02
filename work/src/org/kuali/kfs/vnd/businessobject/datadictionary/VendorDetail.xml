@@ -653,6 +653,8 @@
               <bean parent="FieldDefinition"
                     p:attributeName="vendorName" />
               <bean parent="FieldDefinition"
+                    p:attributeName="vendorParentIndicator" />
+              <bean parent="FieldDefinition"
                     p:attributeName="vendorParentName" />
               <bean parent="InquirySubSectionHeaderDefinition"
                     p:attributeName="Corporate Information" />

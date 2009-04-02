@@ -81,7 +81,7 @@ public class PdpKeyConstants {
     public static final String DAILY_REPORT_SERVICE_NUMBER_OF_PAYEES_SUBTITLE = "pdp.dailyReportService.numberOfPayeesSubtitle";
     
     public static final String EXTRACT_TRANSACTION_SERVICE_REPORT_TITLE = "pdp.extractTransactions.reportTitle";
-    public static final String EXTRACT_TRANSACTION_SERVICE_REPORT_FILENAME = "pdp_ledger";
+    public static final String EXTRACT_TRANSACTION_SERVICE_REPORT_FILENAME = "pdp.extractTransactions.reportFilename";
     
     public static final String ERROR_ONE_BANK_PER_DISBURSEMENT_TYPE_CODE = "error.pdp.customerProfile.duplicateBankPerDisburementTypeCode";
     

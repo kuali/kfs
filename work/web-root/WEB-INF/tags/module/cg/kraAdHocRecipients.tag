@@ -23,11 +23,11 @@
 <%@ attribute name="actionRequestedMessage" required="false" %>
 <%@ attribute name="editingMode" required="false" type="java.util.Map"%>
 
-                        <%-- Define variable that will hold the Title of the html control --%>
-                        <c:set var="accessibleTitle" value="${DataDictionary.AdHocRoutePerson.attributes.actionRequested.label}"/>
-                                                <c:set var="accessibleTitle2" value="${adhocOrgAttributes.actionRequested.label}"/>
-                                                <c:set var="accessibleTitle3" value="${DataDictionary.AdHocRouteWorkgroup.attributes.actionRequested.label}"/>
-                        <c:if test="${DataDictionary.AdHocRoutePerson.attributes.actionRequested.required}">
+<%-- Define variable that will hold the Title of the html control --%>
+<c:set var="accessibleTitle" value="${DataDictionary.AdHocRoutePerson.attributes.actionRequested.label}"/>
+                        <c:set var="accessibleTitle2" value="${adhocOrgAttributes.actionRequested.label}"/>
+                        <c:set var="accessibleTitle3" value="${DataDictionary.AdHocRouteWorkgroup.attributes.actionRequested.label}"/>
+<c:if test="${DataDictionary.AdHocRoutePerson.attributes.actionRequested.required}">
 <c:set var="accessibleTitle" value="${Constants.REQUIRED_FIELD_SYMBOL} ${accessibleTitle}"/>
   </c:if>
                           <c:if test="${adhocOrgAttributes.actionRequested.required}">

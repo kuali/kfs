@@ -189,7 +189,7 @@
 		                  <html:image src="${ConfigProperties.externalizable.images.url}tinybutton-updateview.gif" styleClass="tinybutton" property="methodToCall.updateView.anchor${currentTabIndex}" title="update view" alt="update view"/> </span></td>
 		              </tr>
 
-                 <kra-b:budgetPersonnelIndividualGrid person="${person}" personListIndex="${listIndex}" />
+                 <cg:budgetPersonnelIndividualGrid person="${person}" personListIndex="${listIndex}" />
                   
                  <c:if test="${! viewOnly }">
                    <tr>

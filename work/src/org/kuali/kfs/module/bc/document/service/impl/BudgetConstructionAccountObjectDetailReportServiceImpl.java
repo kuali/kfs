@@ -577,6 +577,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
             bcObjectTotal.setTypeAccountLineAnnualBalanceAmount(typeAccountLineAnnualBalanceAmount);
 
             returnList.add(bcObjectTotal);
+
             grossFinancialBeginningBalanceLineAmount = new Integer(0);
             grossAccountLineAnnualBalanceAmount = new Integer(0);
 
@@ -647,12 +648,17 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
             bcObjectTotal.setAccountExpenditureFinancialBeginningBalanceLineAmount(accountExpenditureFinancialBeginningBalanceLineAmount);
             bcObjectTotal.setAccountExpenditureAccountLineAnnualBalanceAmount(accountExpenditureAccountLineAnnualBalanceAmount);
 
-
             returnList.add(bcObjectTotal);
+
+            accountPositionCsfLeaveFteQuantity = BigDecimal.ZERO;
+            accountPositionFullTimeEquivalencyQuantity = BigDecimal.ZERO;
+            accountAppointmentRequestedCsfFteQuantity = BigDecimal.ZERO;
+            accountAppointmentRequestedFteQuantity = BigDecimal.ZERO;
 
             accountRevenueFinancialBeginningBalanceLineAmount = new Integer(0);
             accountRevenueAccountLineAnnualBalanceAmount = new Integer(0);
-
+            accountTrnfrInFinancialBeginningBalanceLineAmount = new Integer(0);
+            accountTrnfrInAccountLineAnnualBalanceAmount = new Integer(0);
             accountExpenditureFinancialBeginningBalanceLineAmount = new Integer(0);
             accountExpenditureAccountLineAnnualBalanceAmount = new Integer(0);
         }
@@ -720,15 +726,19 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
             bcObjectTotal.setSubFundExpenditureFinancialBeginningBalanceLineAmount(subFundExpenditureFinancialBeginningBalanceLineAmount);
             bcObjectTotal.setSubFundExpenditureAccountLineAnnualBalanceAmount(subFundExpenditureAccountLineAnnualBalanceAmount);
 
-
             returnList.add(bcObjectTotal);
+
+            subFundPositionCsfLeaveFteQuantity = BigDecimal.ZERO;
+            subFundPositionFullTimeEquivalencyQuantity = BigDecimal.ZERO;
+            subFundAppointmentRequestedCsfFteQuantity = BigDecimal.ZERO;
+            subFundAppointmentRequestedFteQuantity = BigDecimal.ZERO;
 
             subFundRevenueFinancialBeginningBalanceLineAmount = new Integer(0);
             subFundRevenueAccountLineAnnualBalanceAmount = new Integer(0);
-
+            subFundTrnfrInFinancialBeginningBalanceLineAmount = new Integer(0);
+            subFundTrnfrInAccountLineAnnualBalanceAmount = new Integer(0);
             subFundExpenditureFinancialBeginningBalanceLineAmount = new Integer(0);
             subFundExpenditureAccountLineAnnualBalanceAmount = new Integer(0);
-
         }
         return returnList;
     }

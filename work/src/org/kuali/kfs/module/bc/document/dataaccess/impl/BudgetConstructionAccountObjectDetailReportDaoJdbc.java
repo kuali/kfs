@@ -121,7 +121,7 @@ public class BudgetConstructionAccountObjectDetailReportDaoJdbc extends BudgetCo
         sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.sub_acct_nbr = af.sub_acct_nbr \n");
         sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.fin_object_cd = af.fin_object_cd \n");
         sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.fin_sub_obj_cd = af.fin_sub_obj_cd),  \n");
-        sqlText.append(" appt_rqcsf_fte_qty = (SELECT SUM(af.appt_rqst_fte_qty) \n");
+        sqlText.append(" appt_rqcsf_fte_qty = (SELECT SUM(af.appt_rqcsf_fte_qty) \n");
         sqlText.append("FROM ld_pndbc_apptfnd_t af \n");
         sqlText.append("WHERE LD_BCN_BUILD_ACCTBAL01_MT.univ_fiscal_yr = af.univ_fiscal_yr \n");
         sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.fin_coa_cd = af.fin_coa_cd \n");

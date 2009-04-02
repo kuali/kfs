@@ -26,6 +26,7 @@ public class BudgetConstructionOrgAccountObjectDetailReportTotal {
 
     // Total parts
     
+    // object total
     private BigDecimal totalObjectPositionCsfLeaveFteQuantity;
     private BigDecimal totalObjectPositionFullTimeEquivalencyQuantity;
     private Integer totalObjectFinancialBeginningBalanceLineAmount;
@@ -33,6 +34,7 @@ public class BudgetConstructionOrgAccountObjectDetailReportTotal {
     private BigDecimal totalObjectAppointmentRequestedFteQuantity;
     private Integer totalObjectAccountLineAnnualBalanceAmount;
     
+    //level total
     private BigDecimal totalLevelPositionCsfLeaveFteQuantity;
     private BigDecimal totalLevelPositionFullTimeEquivalencyQuantity;
     private Integer totalLevelFinancialBeginningBalanceLineAmount;
@@ -40,6 +42,7 @@ public class BudgetConstructionOrgAccountObjectDetailReportTotal {
     private BigDecimal totalLevelAppointmentRequestedFteQuantity;
     private Integer totalLevelAccountLineAnnualBalanceAmount;
 
+    // Gexp And Type Total
     private Integer grossFinancialBeginningBalanceLineAmount;
     private Integer grossAccountLineAnnualBalanceAmount;
 

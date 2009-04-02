@@ -158,7 +158,7 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
 
 
         Integer prevPrevFiscalyear = prevFiscalyear - 1;
-        orgAccountFundingDetailReportEntry.setReqFy(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4));
+        orgAccountFundingDetailReportEntry.setReqFy(prevFiscalyear.toString() + "-" + universityFiscalYear.toString().substring(2, 4));
         orgAccountFundingDetailReportEntry.setConsHdr("");
 
         orgAccountFundingDetailReportEntry.setFinancialObjectCode(accountFundingDetail.getFinancialObjectCode());

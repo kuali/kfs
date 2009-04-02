@@ -53,9 +53,11 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
     private ParameterService parameterService;
 
     /**
-     * Allows only active parent vendors to create new divisions
-     *
-     * @see org.kuali.rice.kns.lookup.LookupableHelperService#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List, java.util.List pkNames)
+     * Add custom links to the vendor search results. One to Allow only active parent vendors to create new divisions. Another to
+     * create a link for B2B shopping if PURAP service has been setup to allow for that.
+     * 
+     * @see org.kuali.rice.kns.lookup.LookupableHelperService#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject,
+     *      java.util.List, java.util.List pkNames)
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
@@ -66,8 +68,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
         anchorHtmlDataList.add(anchorHtmlData);
         if (vendor.isVendorParentIndicator() && vendor.isActiveIndicator()) {
             // only allow active parent vendors to create new divisions
-            anchorHtmlDataList.add(super.getUrlData(
-                    businessObject, KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION, VendorConstants.CREATE_DIVISION, pkNames));
+            anchorHtmlDataList.add(super.getUrlData(businessObject, KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION, VendorConstants.CREATE_DIVISION, pkNames));
         }
         
         //Adding a "Shopping" link for B2B vendors.
@@ -186,13 +187,13 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
                 for (VendorDetail tmpVendor : relatedVendors) {
                     if (tmpVendor != null && !processedSearchResults.contains(tmpVendor)) {
                         // populate state from default address
-                        updatedefaultVendorAddress(tmpVendor);
+                        updateDefaultVendorAddress(tmpVendor);
                         processedSearchResults.add(tmpVendor);
                     }
                 }
 
                 if (!processedSearchResults.contains(vendor)) {
-                    updatedefaultVendorAddress(vendor);
+                    updateDefaultVendorAddress(vendor);
                     processedSearchResults.add(vendor);
                 }
             }
@@ -229,7 +230,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
      *
      * @param vendor venodrDetail
      */
-    private void updatedefaultVendorAddress(VendorDetail vendor) {
+    private void updateDefaultVendorAddress(VendorDetail vendor) {
         VendorAddress defaultAddress = vendorService.getVendorDefaultAddress(vendor.getVendorAddresses(), vendor.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
         if (defaultAddress != null ) {
             if (defaultAddress.getVendorState() != null) {
@@ -260,26 +261,10 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
         super.validateSearchParameters(fieldValues);
 
         validateVendorNumber(fieldValues);
-        validateVendorName(fieldValues);
         validateTaxNumber(fieldValues);
 
         if (!GlobalVariables.getErrorMap().isEmpty()) {
             throw new ValidationException("Error(s) in search criteria");
-        }
-    }
-
-    /**
-     * Ensures that if a string is entered in the Vendor Name field, it is at least the minimum number of characters in length.
-     *
-     * @param fieldValues a Map containing only those key-value pairs that have been filled in on the lookup
-     */
-    private void validateVendorName(Map fieldValues) {
-        String vendorName = (String) fieldValues.get(VendorPropertyConstants.VENDOR_NAME);
-        if (StringUtils.isNotBlank(vendorName)) {
-            String VNDR_LOOKUP_MIN_NAME_LENGTH = parameterService.getParameterValue(VendorDetail.class, VendorParameterConstants.LOOKUP_MINIMUM_NAME_LENGTH);
-            if (ObjectUtils.isNotNull(VNDR_LOOKUP_MIN_NAME_LENGTH) && vendorName.length() < Integer.parseInt(VNDR_LOOKUP_MIN_NAME_LENGTH)) {
-                GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_NAME, VendorKeyConstants.ERROR_VENDOR_LOOKUP_NAME_TOO_SHORT, VNDR_LOOKUP_MIN_NAME_LENGTH);
-            }
         }
     }
 

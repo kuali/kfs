@@ -57,7 +57,7 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
         RequisitionDocument reqDocument = (RequisitionDocument)document;
 
         //if the ENABLE_COMMODITY_CODE_IND system parameter is Y then add this edit mode so that the commodity code fields would display on the document.
-        boolean enableCommodityCode = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter("KFS-PURAP", "Document", PurapParameterConstants.ENABLE_COMMODITY_CODE_IND);
+        boolean enableCommodityCode = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.ENABLE_COMMODITY_CODE_IND);
         if (enableCommodityCode) {
             editModes.add(RequisitionEditMode.ENABLE_COMMODITY_CODE);
         }

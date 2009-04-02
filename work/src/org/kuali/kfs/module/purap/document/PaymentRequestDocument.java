@@ -540,7 +540,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             this.setVendorPostalCode(po.getVendorPostalCode());
             this.setVendorCountryCode(po.getVendorCountryCode());
             
-            boolean blankAttentionLine = StringUtils.equalsIgnoreCase("Y",SpringContext.getBean(KualiConfigurationService.class).getParameterValue("KFS-PURAP", "Document", PurapParameterConstants.BLANK_ATTENTION_LINE_FOR_PO_TYPE_ADDRESS));
+            boolean blankAttentionLine = StringUtils.equalsIgnoreCase("Y",SpringContext.getBean(KualiConfigurationService.class).getParameterValue(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.BLANK_ATTENTION_LINE_FOR_PO_TYPE_ADDRESS));
 
             if (blankAttentionLine){
                 setVendorAttentionName(StringUtils.EMPTY);

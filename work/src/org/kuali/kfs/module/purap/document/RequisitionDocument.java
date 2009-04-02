@@ -147,7 +147,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             LOG.error("Exception while attempting to retrieve all prior approvers from workflow: " + we);
         }
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        KualiDecimal maxAllowedAmount = new KualiDecimal(parameterService.getParameterValue(RequisitionDocument.class, PurapParameterConstants.WorkflowParameters.RequisitionDocument.SEPARATION_OF_DUTIES_DOLLAR_AMOUNT));
+        KualiDecimal maxAllowedAmount = new KualiDecimal(parameterService.getParameterValue(RequisitionDocument.class, PurapParameterConstants.SEPARATION_OF_DUTIES_DOLLAR_AMOUNT));
         // if app param amount is greater than or equal to documentTotalAmount... no need for separation of duties
         KualiDecimal totalAmount = documentHeader.getFinancialDocumentTotalAmount();
         if (ObjectUtils.isNotNull(maxAllowedAmount) && ObjectUtils.isNotNull(totalAmount) && (maxAllowedAmount.compareTo(totalAmount) >= 0)) {

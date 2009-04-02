@@ -45,6 +45,8 @@ public class PurapParameterConstants implements ParameterKeyConstants {
     public static final String PURAP_PDP_CM_CANCEL_NOTE = "CANCEL_NOTE";
     public static final String PURAP_PDP_CM_RESET_NOTE = "RESET_NOTE";
 
+    public static final String PRE_DISBURSEMENT_EXTRACT_CUTOFF_TIME = "PRE_DISBURSEMENT_EXTRACT_CUTOFF_TIME";
+    
     public static final String DEFAULT_QUANTITY_ITEM_TYPE = "DEFAULT_QUANTITY_ITEM_TYPE";
     public static final String DEFAULT_NON_QUANTITY_ITEM_TYPE = "DEFAULT_NON_QUANTITY_ITEM_TYPE";
     
@@ -65,6 +67,7 @@ public class PurapParameterConstants implements ParameterKeyConstants {
     
     public static final String ENABLE_COMMODITY_CODE_IND = "ENABLE_COMMODITY_CODE_IND";
     
+    public static final String SEPARATION_OF_DUTIES_DOLLAR_AMOUNT = "SEPARATION_OF_DUTIES_DOLLAR_AMOUNT";
     public static final String CG_ROUTE_OBJECT_LEVELS_BY_CHART = "CG_ROUTE_OBJECT_LEVELS_BY_CHART";
     public static final String NO_CG_ROUTE_OBJECT_LEVELS_BY_CHART = "NO_CG_ROUTE_OBJECT_LEVELS_BY_CHART";
     public static final String CG_ROUTE_OBJECT_CODES_BY_CHART = "CG_ROUTE_OBJECT_CODES_BY_CHART";
@@ -74,14 +77,22 @@ public class PurapParameterConstants implements ParameterKeyConstants {
     public static final String DEFAULT_APO_VENDOR_CHOICE = "DEFAULT_APO_VENDOR_CHOICE";
     public static final String DEFAULT_B2B_VENDOR_CHOICE = "DEFAULT_B2B_VENDOR_CHOICE";
     
+    public static final String LINE_ITEM_IMPORT = "LINE_ITEM_IMPORT";
+    
     public static class CapitalAsset {
-        public static final String ASSET_NUMBER_CAMS_TRAN_TYPES = "CAPITAL_ASSET_TRANSACTION_TYPES_REQUIRING_ASSET_NUMBERS";
-        public static final String QUANTITY_OBJECT_CODE_SUBTYPES = "OBJECT_SUB_TYPES_REQUIRING_QUANTITY";
-        public static final String CAMS_DOC_ITEM_CREATION_TRAN_TYPES = "CAMS_DOC_ITEM_CREATION_TRAN_TYPES";
-        public static final String CAMS_DOC_CAPITAL_OC_SUBTYPES = "CAMS_DOC_CAPITAL_OC_SUBTYPES";
+        // used in CAB module service
         public static final String PURCHASING_OBJECT_SUB_TYPES = "PURCHASING_OBJECT_SUB_TYPES";
+
+        // used in PURAP
         public static final String PURCHASING_DEFAULT_ASSET_TYPE_WHEN_NOT_THIS_FISCAL_YEAR = "PURCHASING_DEFAULT_ASSET_TYPE_WHEN_NOT_THIS_FISCAL_YEAR";
+
+        //NOT USED
+//public static final String ASSET_NUMBER_CAMS_TRAN_TYPES = "CAPITAL_ASSET_TRANSACTION_TYPES_REQUIRING_ASSET_NUMBERS";
+//public static final String QUANTITY_OBJECT_CODE_SUBTYPES = "OBJECT_SUB_TYPES_REQUIRING_QUANTITY";
+//public static final String CAMS_DOC_ITEM_CREATION_TRAN_TYPES = "CAMS_DOC_ITEM_CREATION_TRAN_TYPES";
+//public static final String CAMS_DOC_CAPITAL_OC_SUBTYPES = "CAMS_DOC_CAPITAL_OC_SUBTYPES";
         
+        // used by PurapConstants which is used by CAB module service
         public static final String CHARTS_REQUIRING_ASSET_NUMBER_ON_REQUISITION = "CHARTS_REQUIRING_ASSET_NUMBER_ON_REQUISITION";
         public static final String CHARTS_REQUIRING_ASSET_TRANSACTION_TYPE_ON_REQUISITION = "CHARTS_REQUIRING_ASSET_TRANSACTION_TYPE_ON_REQUISITION";
         public static final String CHARTS_REQUIRING_ASSET_TYPE_ON_REQUISITION = "CHARTS_REQUIRING_ASSET_TYPE_ON_REQUISITION";
@@ -108,22 +119,7 @@ public class PurapParameterConstants implements ParameterKeyConstants {
         
     }
 
-    public static final String PRE_DISBURSEMENT_EXTRACT_CUTOFF_TIME = "PRE_DISBURSEMENT_EXTRACT_CUTOFF_TIME";
-    
-    public static class WorkflowParameters {
-        public static class RequisitionDocument {
-            public static final String SEPARATION_OF_DUTIES_DOLLAR_AMOUNT = "SEPARATION_OF_DUTIES_DOLLAR_AMOUNT";
-        }
-
-        public static class PurchaseOrderDocument {
-            // Config parameter group names
-            //TODO hjs:these aren't being used, but shouldn't they be?
-            public static final String CG_RESTRICTED_OBJECT_CODE_RULE_PARM_NM = "CG_ROUTE_OBJECT_CODES_BY_CHART";
-            public static final String NO_CG_RESTRICTED_OBJECT_CODE_RULE_PARM_NM = "NO_CG_ROUTE_OBJECT_CODES_BY_CHART";
-        }
-    }
-    
-    public static class B2BParameters{
+    public static class B2BParameters {
         public static final String PUNCHOUT_URL = "B2B_PUNCHOUT_URL";
         public static final String PUNCHBACK_URL = "B2B_PUNCHBACK_URL";
         public static final String ENVIRONMENT = "B2B_ENVIRONMENT";
@@ -133,7 +129,7 @@ public class PurapParameterConstants implements ParameterKeyConstants {
         public static final String PO_URL = "B2B_PURCHASE_ORDER_URL";
     }
 
-    public static class ElectronicInvoiceParameters{
+    public static class ElectronicInvoiceParameters {
         public static final String FILE_MOVE_AFTER_LOAD_IND = "FILE_MOVE_AFTER_LOAD_IND";
         public static final String REQUISITION_SOURCES_REQUIRING_CATALOG_MATCHING = "REQUISITION_SOURCES_REQUIRING_CATALOG_MATCHING";
         public static final String DAILY_SUMMARY_REPORT_FROM_EMAIL_ADDRESS = "DAILY_SUMMARY_REPORT_FROM_EMAIL_ADDRESS";
@@ -142,6 +138,16 @@ public class PurapParameterConstants implements ParameterKeyConstants {
         public static final String SALES_TAX_LOWER_VARIANCE_PERCENT = "SALES_TAX_LOWER_VARIANCE_PERCENT";
     }
     
+    public static class TaxParameters {
+        public static final String TAXABLE_DELIVERY_STATES = "TAXABLE_DELIVERY_STATES";
+        public static final String FOR_TAXABLE_STATES_SUFFIX = "FOR_TAXABLE_STATES";
+        public static final String FOR_NON_TAXABLE_STATES_SUFFIX = "FOR_NON_TAXABLE_STATES";
+        public static final String TAXABLE_FUND_GROUPS_PREFIX = "TAXABLE_FUND_GROUPS_";
+        public static final String TAXABLE_SUB_FUND_GROUPS_PREFIX = "TAXABLE_SUB_FUND_GROUPS_";
+        public static final String TAXABLE_OBJECT_LEVELS_PREFIX = "TAXABLE_OBJECT_LEVELS_";
+        public static final String TAXABLE_OBJECT_CONSOLIDATIONS_PREFIX = "TAXABLE_OBJECT_CONSOLIDATIONS_";
+    }
+
     public static class NRATaxParameters {
         public static final String FEDERAL_TAX_PARM_PREFIX = "NON_RESIDENT_ALIEN_TAX_FEDERAL_";
         public static final String STATE_TAX_PARM_PREFIX = "NON_RESIDENT_ALIEN_TAX_STATE_";
@@ -150,12 +156,4 @@ public class PurapParameterConstants implements ParameterKeyConstants {
         public static final String TAX_PARM_OBJECT_BY_INCOME_CLASS_SUFFIX = "OBJECT_CODE_BY_INCOME_CLASS";
     }        
     
-    public static class PurapMassRequisitionParameters {
-        public static final String RUN_INDICATOR_PARAMETER_NAMESPACE_CODE = "KFS-PURAP";
-        public static final String RUN_INDICATOR_PARAMETER_NAMESPACE_STEP = "PurapMassRequisitionStep";
-        public static final String RUN_INDICATOR_PARAMETER_VALUE = "N";
-        public static final String RUN_INDICATOR_PARAMETER_ALLOWED = "A";
-        public static final String RUN_INDICATOR_PARAMETER_DESCRIPTION = "Tells the job framework whether to run this job or not; because the PurapMassRequisitionJob needs to only be run once after database initialization.";
-        public static final String RUN_INDICATOR_PARAMETER_TYPE = "CONFG";       
-    }
 }

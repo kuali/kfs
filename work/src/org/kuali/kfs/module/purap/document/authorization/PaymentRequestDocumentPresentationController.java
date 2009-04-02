@@ -97,7 +97,8 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
     protected boolean canEdit(Document document) {
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
 
-        if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(paymentRequestDocument)) {
+        if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(paymentRequestDocument) &&
+                !PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals(paymentRequestDocument.getStatusCode())) {
             return false;
         }
 
@@ -159,6 +160,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
             editModes.add(PaymentRequestEditMode.ALLOW_CLOSE_PURCHASE_ORDER);
         }
 
+        //FIXME hjs: alter to restrict what AP shouldn't be allowed to edit
         if (canEditPreExtraction(paymentRequestDocument)) {
             editModes.add(PaymentRequestEditMode.EDIT_PRE_EXTRACT);
         }

@@ -766,7 +766,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             cmDocument.setVendorPostalCode(purchaseOrderDocument.getVendorPostalCode());
             cmDocument.setVendorCountryCode(purchaseOrderDocument.getVendorCountryCode());
             
-            boolean blankAttentionLine = StringUtils.equalsIgnoreCase("Y",SpringContext.getBean(KualiConfigurationService.class).getParameterValue("KFS-PURAP", "Document", PurapParameterConstants.BLANK_ATTENTION_LINE_FOR_PO_TYPE_ADDRESS));
+            boolean blankAttentionLine = StringUtils.equalsIgnoreCase("Y",SpringContext.getBean(KualiConfigurationService.class).getParameterValue(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.BLANK_ATTENTION_LINE_FOR_PO_TYPE_ADDRESS));
             if (blankAttentionLine){
                 cmDocument.setVendorAttentionName(StringUtils.EMPTY);
             }else{

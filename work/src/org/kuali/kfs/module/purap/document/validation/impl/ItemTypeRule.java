@@ -65,8 +65,8 @@ public class ItemTypeRule extends MaintenanceDocumentRuleBase {
         List<String> preqAdditionalCharges = SpringContext.getBean(ParameterService.class).getParameterValues(PaymentRequestDocument.class, PurapConstants.BELOW_THE_LINES_PARAMETER);
         List<String> poAdditionalCharges = SpringContext.getBean(ParameterService.class).getParameterValues(PurchaseOrderDocument.class, PurapConstants.BELOW_THE_LINES_PARAMETER);
         List<String> reqAdditionalCharges = SpringContext.getBean(ParameterService.class).getParameterValues(RequisitionDocument.class, PurapConstants.BELOW_THE_LINES_PARAMETER);
-        List<String> defaultNonQuantityItemTypes = SpringContext.getBean(KualiConfigurationService.class).getParameterValues("KFS-PURAP", "Document", PurapParameterConstants.DEFAULT_NON_QUANTITY_ITEM_TYPE);
-        List<String> defaultQuantityItemTypes = SpringContext.getBean(KualiConfigurationService.class).getParameterValues("KFS-PURAP", "Document", PurapParameterConstants.DEFAULT_QUANTITY_ITEM_TYPE);
+        List<String> defaultNonQuantityItemTypes = SpringContext.getBean(KualiConfigurationService.class).getParameterValues(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.DEFAULT_NON_QUANTITY_ITEM_TYPE);
+        List<String> defaultQuantityItemTypes = SpringContext.getBean(KualiConfigurationService.class).getParameterValues(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.DEFAULT_QUANTITY_ITEM_TYPE);
         List<String> cmAllowNegative = SpringContext.getBean(ParameterService.class).getParameterValues(VendorCreditMemoDocument.class, PurapConstants.ITEM_ALLOWS_NEGATIVE);
         List<String> preqAllowNegative = SpringContext.getBean(ParameterService.class).getParameterValues(PaymentRequestDocument.class, PurapConstants.ITEM_ALLOWS_NEGATIVE);
         List<String> poAllowNegative = SpringContext.getBean(ParameterService.class).getParameterValues(PurchaseOrderDocument.class, PurapConstants.ITEM_ALLOWS_NEGATIVE);

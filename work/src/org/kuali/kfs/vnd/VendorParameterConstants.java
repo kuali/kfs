@@ -27,7 +27,6 @@ public class VendorParameterConstants implements ParameterKeyConstants {
     public static final String TAX_SSN_NUMBER_FORMATS = "TAX_SSN_NUMBER_FORMATS";
     public static final String PAYMENT_TERMS_DUE_TYPE_DESC = "PAYMENT_TERMS_DUE_TYPE_DESC";
     public static final String VENDOR_MIN_ORDER_AMOUNT = "MIN_ORDER_AMOUNT";
-    public static final String LOOKUP_MINIMUM_NAME_LENGTH = "LOOKUP_MINIMUM_NAME_LENGTH";
     public static final String SSN_ALLOWED_OWNERSHIP_TYPES = "SSN_OWNERSHIP_TYPES";
     public static final String FEIN_ALLOWED_OWNERSHIP_TYPES = "FEIN_OWNERSHIP_TYPES";
     public static final String PHONE_NUMBER_FORMATS = "GENERIC_PHONE_NUMBER_FORMATS";

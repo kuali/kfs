@@ -28,6 +28,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants.TaxParameters;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
@@ -852,7 +853,7 @@ public class PurapServiceImpl implements PurapService {
      */
     public void calculateTax(PurchasingAccountsPayableDocument purapDocument){
         
-          boolean salesTaxInd = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter("KFS-PURAP", "Document", PurapParameterConstants.ENABLE_SALES_TAX_IND);
+          boolean salesTaxInd = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.ENABLE_SALES_TAX_IND);
           boolean useTaxIndicator = purapDocument.isUseTaxIndicator();
           String deliveryState = getDeliveryState(purapDocument);
           String deliveryPostalCode = getDeliveryPostalCode(purapDocument);
@@ -948,24 +949,15 @@ public class PurapServiceImpl implements PurapService {
     }
 
     /**
-     * Determines if the delivery state is taxable or not.
+     * Determines if the delivery state is taxable or not. If parameter is Allow and delivery state in list, or parameter is Denied
+     * and delivery state is not in list then state is taxable.
      * 
      * @param deliveryState
      * @return
      */
-    private boolean isDeliveryStateTaxable(String deliveryState){
-        
-        boolean isDeliveryStateTaxable = false;
-        
-        ParameterEvaluator parmEval = SpringContext.getBean(ParameterService.class).getParameterEvaluator(KfsParameterConstants.PURCHASING_DOCUMENT.class, "TAXABLE_DELIVERY_STATES", deliveryState);
-        
-        //if parm is Allow and delivery state in list, or parm is Denied and delivery state is not in list
-        // then state is taxable
-        if(parmEval.evaluationSucceeds()){            
-            isDeliveryStateTaxable = true;
-        }
-        
-        return isDeliveryStateTaxable;
+    private boolean isDeliveryStateTaxable(String deliveryState) {
+        ParameterEvaluator parmEval = SpringContext.getBean(ParameterService.class).getParameterEvaluator(KfsParameterConstants.PURCHASING_DOCUMENT.class, TaxParameters.TAXABLE_DELIVERY_STATES, deliveryState);
+        return parmEval.evaluationSucceeds();
     }
     
     /**
@@ -975,26 +967,26 @@ public class PurapServiceImpl implements PurapService {
      * @param item
      * @return
      */
-    private boolean doesAccountAllowCallToTaxService(String deliveryState, PurApItem item){
-        
+    private boolean doesAccountAllowCallToTaxService(String deliveryState, PurApItem item) {
         boolean callService = false;
         boolean deliveryStateTaxable = isDeliveryStateTaxable(deliveryState);
         String parameterSuffix = null;
-        
-        for(PurApAccountingLine acctLine : item.getSourceAccountingLines()){
-            if(deliveryStateTaxable){
-                parameterSuffix = "FOR_TAXABLE_STATES";
-            }else{
-                parameterSuffix = "FOR_NON_TAXABLE_STATES";
+
+        for (PurApAccountingLine acctLine : item.getSourceAccountingLines()) {
+            if (deliveryStateTaxable) {
+                parameterSuffix = TaxParameters.FOR_TAXABLE_STATES_SUFFIX;
             }
-        
-            //is account (fund/subfund) and object code (level/consolidation) taxable?
-            if(isAccountTaxable(parameterSuffix, acctLine) && isObjectCodeTaxable(parameterSuffix, acctLine)){
+            else {
+                parameterSuffix = TaxParameters.FOR_NON_TAXABLE_STATES_SUFFIX;
+            }
+
+            // is account (fund/subfund) and object code (level/consolidation) taxable?
+            if (isAccountTaxable(parameterSuffix, acctLine) && isObjectCodeTaxable(parameterSuffix, acctLine)) {
                 callService = true;
                 break;
-            }            
-        }        
-        
+            }
+        }
+
         return callService;
     }
     
@@ -1009,8 +1001,8 @@ public class PurapServiceImpl implements PurapService {
     private boolean isAccountTaxable(String parameterSuffix, PurApAccountingLine acctLine){
         
         boolean isAccountTaxable = false;
-        String fundParam = "TAXABLE_FUND_GROUPS_" + parameterSuffix;
-        String subFundParam = "TAXABLE_SUB_FUND_GROUPS_" + parameterSuffix;
+        String fundParam = TaxParameters.TAXABLE_FUND_GROUPS_PREFIX + parameterSuffix;
+        String subFundParam = TaxParameters.TAXABLE_SUB_FUND_GROUPS_PREFIX + parameterSuffix;
         ParameterEvaluator fundParamEval = null;
         ParameterEvaluator subFundParamEval = null;
         
@@ -1039,8 +1031,8 @@ public class PurapServiceImpl implements PurapService {
     private boolean isObjectCodeTaxable(String parameterSuffix, PurApAccountingLine acctLine){
         
         boolean isObjectCodeTaxable = false;
-        String levelParam = "TAXABLE_OBJECT_LEVELS_" + parameterSuffix;
-        String consolidationParam = "TAXABLE_OBJECT_CONSOLIDATIONS_" + parameterSuffix;
+        String levelParam = TaxParameters.TAXABLE_OBJECT_LEVELS_PREFIX + parameterSuffix;
+        String consolidationParam = TaxParameters.TAXABLE_OBJECT_CONSOLIDATIONS_PREFIX + parameterSuffix;
         ParameterEvaluator levelParamEval = null;
         ParameterEvaluator consolidationParamEval = null;
 
@@ -1064,30 +1056,30 @@ public class PurapServiceImpl implements PurapService {
      * @param eval
      * @return
      */
-    private boolean isAllowedFound(ParameterEvaluator eval){
+    private boolean isAllowedFound(ParameterEvaluator eval) {
         boolean exists = false;
-        
-        if(eval.evaluationSucceeds() && eval.constraintIsAllow()){
+
+        if (eval.evaluationSucceeds() && eval.constraintIsAllow()) {
             exists = true;
         }
-        
+
         return exists;
     }
-    
+
     /**
      * Helper method to work with parameter evaluator to find, allowed and not found in parameter value.
      * 
      * @param eval
      * @return
      */
-    private boolean isAllowedNotFound(ParameterEvaluator eval){
+    private boolean isAllowedNotFound(ParameterEvaluator eval) {
         boolean exists = false;
 
-        if(eval.evaluationSucceeds() == false && eval.constraintIsAllow()){
+        if (eval.evaluationSucceeds() == false && eval.constraintIsAllow()) {
             exists = true;
         }
 
-        return exists;        
+        return exists;
     }
     
     /**
@@ -1096,34 +1088,33 @@ public class PurapServiceImpl implements PurapService {
      * @param eval
      * @return
      */
-    private boolean isDeniedFound(ParameterEvaluator eval){
+    private boolean isDeniedFound(ParameterEvaluator eval) {
         boolean exists = false;
-        
-        if(eval.evaluationSucceeds() == false && eval.constraintIsAllow() == false){
+
+        if (eval.evaluationSucceeds() == false && eval.constraintIsAllow() == false) {
             exists = true;
         }
-        
+
         return exists;
     }
-    
+
     /**
      * Helper method to work with parameter evaluator to find, denied and not found in parameter value.
      * 
      * @param eval
      * @return
      */
-    private boolean isDeniedNotFound(ParameterEvaluator eval){
+    private boolean isDeniedNotFound(ParameterEvaluator eval) {
         boolean exists = false;
 
-        if(eval.evaluationSucceeds() && eval.constraintIsAllow() == false){
+        if (eval.evaluationSucceeds() && eval.constraintIsAllow() == false) {
             exists = true;
         }
-        
-        return exists;        
+
+        return exists;
     }
 
     /**
-     *      
      * @param useTaxIndicator
      * @param deliveryPostalCode
      * @param transactionTaxDate

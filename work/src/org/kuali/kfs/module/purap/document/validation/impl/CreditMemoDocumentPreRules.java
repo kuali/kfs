@@ -72,7 +72,7 @@ public class CreditMemoDocumentPreRules extends AccountsPayableDocumentPreRulesB
         questionTextBuffer.append("<tr><td class=\"leftTd\">Total credit processed prior to restocking fee:</td><td class=\"rightTd\">" + (String)cf.format(cm.getGrandPreTaxTotalExcludingRestockingFee()) + "</td></tr>");
 
         //if sales tax is enabled, show additional summary lines
-        boolean salesTaxInd = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter("KFS-PURAP", "Document", PurapParameterConstants.ENABLE_SALES_TAX_IND);                
+        boolean salesTaxInd = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.ENABLE_SALES_TAX_IND);                
         if(salesTaxInd){
             questionTextBuffer.append("<tr><td class=\"leftTd\">Grand Total Prior to Tax:</td><td class=\"rightTd\">" + (String)cf.format(cm.getGrandPreTaxTotal()) + "</td></tr>");
             questionTextBuffer.append("<tr><td class=\"leftTd\">Grand Total Tax :</td><td class=\"rightTd\">" + (String)cf.format(cm.getGrandTaxAmount()) + "</td></tr>");

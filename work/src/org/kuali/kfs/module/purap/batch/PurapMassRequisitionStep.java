@@ -23,11 +23,11 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.POCostSources;
 import org.kuali.kfs.module.purap.PurapConstants.POTransmissionMethods;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionStatuses;
-import org.kuali.kfs.module.purap.PurapParameterConstants.PurapMassRequisitionParameters;
 import org.kuali.kfs.module.purap.businessobject.ContractManagerAssignmentDetail;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderView;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
@@ -58,7 +58,6 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 public class PurapMassRequisitionStep extends AbstractStep {
-
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurapMassRequisitionStep.class);
 
     private DocumentService documentService;
@@ -69,6 +68,11 @@ public class PurapMassRequisitionStep extends AbstractStep {
 
     private final int NUM_DOCS_TO_CREATE = 25; // number of each document type to create
     private final int ROUTE_TO_FINAL_SECONDS_LIMIT = 240; // number of seconds to wait for routing of documents to Final.
+    private final String RUN_INDICATOR_PARAMETER_NAMESPACE_STEP = "PurapMassRequisitionStep";
+    private final String RUN_INDICATOR_PARAMETER_VALUE = "N";
+    private final String RUN_INDICATOR_PARAMETER_ALLOWED = "A";
+    private final String RUN_INDICATOR_PARAMETER_DESCRIPTION = "Tells the job framework whether to run this job or not; because the PurapMassRequisitionJob needs to only be run once after database initialization.";
+    private final String RUN_INDICATOR_PARAMETER_TYPE = "CONFG";       
 
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         LOG.info("Starting execution of PurapMassRequisitionStep");
@@ -573,14 +577,14 @@ public class PurapMassRequisitionStep extends AbstractStep {
         if (runIndicatorParameter == null) {
             runIndicatorParameter = new Parameter();
             runIndicatorParameter.setVersionNumber(new Long(1));
-            runIndicatorParameter.setParameterNamespaceCode(PurapMassRequisitionParameters.RUN_INDICATOR_PARAMETER_NAMESPACE_CODE);
-            runIndicatorParameter.setParameterDetailTypeCode(PurapMassRequisitionParameters.RUN_INDICATOR_PARAMETER_NAMESPACE_STEP);
+            runIndicatorParameter.setParameterNamespaceCode(PurapConstants.PURAP_NAMESPACE);
+            runIndicatorParameter.setParameterDetailTypeCode(RUN_INDICATOR_PARAMETER_NAMESPACE_STEP);
             runIndicatorParameter.setParameterName(Job.STEP_RUN_PARM_NM);
-            runIndicatorParameter.setParameterDescription(PurapMassRequisitionParameters.RUN_INDICATOR_PARAMETER_DESCRIPTION);
-            runIndicatorParameter.setParameterConstraintCode(PurapMassRequisitionParameters.RUN_INDICATOR_PARAMETER_ALLOWED);
-            runIndicatorParameter.setParameterTypeCode(PurapMassRequisitionParameters.RUN_INDICATOR_PARAMETER_TYPE);
+            runIndicatorParameter.setParameterDescription(RUN_INDICATOR_PARAMETER_DESCRIPTION);
+            runIndicatorParameter.setParameterConstraintCode(RUN_INDICATOR_PARAMETER_ALLOWED);
+            runIndicatorParameter.setParameterTypeCode(RUN_INDICATOR_PARAMETER_TYPE);
         }
-        runIndicatorParameter.setParameterValue(PurapMassRequisitionParameters.RUN_INDICATOR_PARAMETER_VALUE);
+        runIndicatorParameter.setParameterValue(RUN_INDICATOR_PARAMETER_VALUE);
         boService.save(runIndicatorParameter);
     }
 
@@ -594,11 +598,11 @@ public class PurapMassRequisitionStep extends AbstractStep {
 
         // Set up a list of all the field names and values of the fields in the Parameter object.
         Map<String, Object> fieldNamesValuesForParameter = new HashMap<String, Object>();
-        fieldNamesValuesForParameter.put("parameterNamespaceCode", PurapMassRequisitionParameters.RUN_INDICATOR_PARAMETER_NAMESPACE_CODE);
-        fieldNamesValuesForParameter.put("parameterDetailTypeCode", PurapMassRequisitionParameters.RUN_INDICATOR_PARAMETER_NAMESPACE_STEP);
+        fieldNamesValuesForParameter.put("parameterNamespaceCode", PurapConstants.PURAP_NAMESPACE);
+        fieldNamesValuesForParameter.put("parameterDetailTypeCode", RUN_INDICATOR_PARAMETER_NAMESPACE_STEP);
         fieldNamesValuesForParameter.put("parameterName", Job.STEP_RUN_PARM_NM);
-        fieldNamesValuesForParameter.put("parameterConstraintCode", PurapMassRequisitionParameters.RUN_INDICATOR_PARAMETER_ALLOWED);
-        fieldNamesValuesForParameter.put("parameterTypeCode", PurapMassRequisitionParameters.RUN_INDICATOR_PARAMETER_TYPE);
+        fieldNamesValuesForParameter.put("parameterConstraintCode", RUN_INDICATOR_PARAMETER_ALLOWED);
+        fieldNamesValuesForParameter.put("parameterTypeCode", RUN_INDICATOR_PARAMETER_TYPE);
 
         // get the primary keys and assign them to values
         List<String> parameterPKFields = psService.getPrimaryKeys(Parameter.class);

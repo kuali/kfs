@@ -637,7 +637,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         }
         if (needToDistributeAccount || needToDistributeCommodityCode) {
 
-            boolean institutionNeedsDistributeAccountValidation = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter("KFS-PURAP", "Document", PurapParameterConstants.VALIDATE_ACCOUNT_DISTRIBUTION_IND);
+            boolean institutionNeedsDistributeAccountValidation = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.VALIDATE_ACCOUNT_DISTRIBUTION_IND);
             boolean foundAccountDistributionError = false;
             boolean foundCommodityCodeDistributionError = false;
             boolean performedAccountDistribution = false;
@@ -748,7 +748,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         int itemIndex = getSelectedLine(request);
         PurApItem item = null;
 
-        boolean institutionNeedsDistributeAccountValidation = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter("KFS-PURAP", "Document", PurapParameterConstants.VALIDATE_ACCOUNT_DISTRIBUTION_IND);
+        boolean institutionNeedsDistributeAccountValidation = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.VALIDATE_ACCOUNT_DISTRIBUTION_IND);
 
         if (itemIndex == -2 && !institutionNeedsDistributeAccountValidation) {
             PurApAccountingLine line = purchasingForm.getAccountDistributionnewSourceLine();

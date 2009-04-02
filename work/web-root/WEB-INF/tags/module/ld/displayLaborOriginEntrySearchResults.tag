@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <%@ attribute name="laborOriginEntries" required="true" type="java.util.List" description="The list of LaborOriginEntries that we'll iterate to display." %>
 <%@ attribute name="image" required="false"%>

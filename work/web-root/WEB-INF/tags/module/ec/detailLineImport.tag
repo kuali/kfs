@@ -15,7 +15,7 @@
  limitations under the License.
 --%>
 
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <%@ attribute name="attributes" required="true" type="java.util.Map"
 			  description="The DataDictionary entry containing attributes for the line fields."%>

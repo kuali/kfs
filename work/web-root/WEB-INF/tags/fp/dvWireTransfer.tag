@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <kul:tab tabTitle="Wire Transfer" defaultOpen="false" tabErrorKey="${KFSConstants.DV_WIRETRANSFER_TAB_ERRORS}">
 	<c:set var="wireTransAttributes" value="${DataDictionary.DisbursementVoucherWireTransfer.attributes}" />

@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <%@ attribute name="itemInProcess" required="true" description="An item in process to provide an inquirable link to." type="org.kuali.kfs.fp.businessobject.CashieringItemInProcess" %>
 

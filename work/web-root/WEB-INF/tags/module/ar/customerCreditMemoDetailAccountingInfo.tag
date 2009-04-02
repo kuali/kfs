@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <%@ attribute name="invPropertyName" required="true" description="The customer invoice detail" %>              
 <%@ attribute name="cssClass" required="true" description="The cssClass" %>

@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <%@ attribute name="isOpen" required="false" description="determine whehter the tab is open"%>
 <%@ attribute name="isEditable" required="false" description="determine whehter the tab is editable"%>

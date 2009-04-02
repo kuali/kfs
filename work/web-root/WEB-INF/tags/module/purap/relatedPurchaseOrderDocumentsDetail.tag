@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
 <%@ attribute name="viewList" required="true" %>
 <%@ attribute name="limitByPoId" required="true" %>

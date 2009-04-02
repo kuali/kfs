@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <%@ attribute name="editingMode" required="true" description="used to decide editability of overview fields" type="java.util.Map"%>
 <%@ attribute name="includePostingYear" required="false" description="set to true to include posting year in document overview" %>

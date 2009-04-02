@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <%@ attribute name="readOnly" required="true" description="determines whether the checkLineGroup will be displayed readonly" %>
 <%@ attribute name="rowHeading" required="true" %>

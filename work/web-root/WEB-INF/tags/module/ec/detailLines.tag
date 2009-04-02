@@ -16,7 +16,7 @@
 
 <%@ tag description="display all detail lines of current document in a table" %>
 
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <%@ attribute name="detailLines" required="true" type="java.util.List"
     description="the detail lines being displayed" %>             

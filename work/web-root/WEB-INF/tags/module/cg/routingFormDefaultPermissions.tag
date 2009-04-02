@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <kul:tab tabTitle="Default Permissions" defaultOpen="false">
 	<div class="tab-container" align=center>

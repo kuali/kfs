@@ -15,7 +15,7 @@
 --%>
 <!-- BEGIN budgetPersonnel.tag -->
 
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <div id="workarea">
 

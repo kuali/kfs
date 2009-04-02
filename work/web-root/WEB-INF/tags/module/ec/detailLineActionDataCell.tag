@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <%@ attribute name="action" required="true"
     description="the name of action that could be rendered" %>

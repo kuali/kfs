@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <script type='text/javascript' src="dwr/interface/BankService.js"></script>
 <script language="JavaScript" type="text/javascript" src="scripts/financial/objectInfo.js"></script>

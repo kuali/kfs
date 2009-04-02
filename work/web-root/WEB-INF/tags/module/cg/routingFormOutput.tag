@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <div align="right">
 	<kul:help documentTypeName="${DataDictionary.RoutingFormDocument.documentTypeName}" pageName="${CGConstants.OUTPUT_HEADER_TAB}" altText="page help"/>

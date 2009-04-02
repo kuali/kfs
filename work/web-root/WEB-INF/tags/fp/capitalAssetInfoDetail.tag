@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <%@ tag description="render the given field in the capital asset info object"%>
 

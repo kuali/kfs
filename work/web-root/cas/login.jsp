@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="header.jsp" %>
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <%-- NOTE THAT THIS PAGE NOW REQUIRES A TRANSACTION ID TO BE PART OF THE
      LOGIN FORM!  IF YOU HAVE A CUSTOM login.jsp, YOU MUST ADD THIS

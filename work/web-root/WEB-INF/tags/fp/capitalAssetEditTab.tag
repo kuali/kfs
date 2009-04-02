@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 <%@ tag description="render the capital edit tag that contains the given capital asset info"%>
 
 <%@ attribute name="readOnly" required="false" description="Whether the capital asset information should be read only" %>

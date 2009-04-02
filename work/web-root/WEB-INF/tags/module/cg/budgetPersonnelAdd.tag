@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 <!-- BEGIN budgetPersonnelAdd.tag -->
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <c:set var="budgetPersonnelAttributes" value="${DataDictionary.BudgetUser.attributes}" />
 

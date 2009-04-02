@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <%@ attribute name="subTitle" required="true" description="Sub Title for Address Sub Section"%>
 <%@ attribute name="lookupFieldConversion" required="true" description="Lookup field conversion for Customer Address Lookup"%>

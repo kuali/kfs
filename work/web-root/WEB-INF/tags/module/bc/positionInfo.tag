@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <c:set var="positionAttributes"	value="${DataDictionary['BudgetConstructionPosition'].attributes}" />
 <c:set var="budgetConstructionPosition"	value="${KualiForm.budgetConstructionPosition}" />

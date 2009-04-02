@@ -16,7 +16,7 @@
 
 <%@ tag description="render the totals of the given field in the given detail lines" %>
 
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <%@ attribute name="index" required="false"
     description="The order of the detail line that contains the field being rendered" %>

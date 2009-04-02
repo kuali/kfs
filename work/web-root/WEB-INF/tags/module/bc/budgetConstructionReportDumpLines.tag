@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <kul:tabTop tabTitle="Report/Export" defaultOpen="true" tabErrorKey="${BCConstants.BUDGET_CONSTRUCTION_REPORTDUMP_TAB_ERRORS}">
 <div class="tab-container" align=center>

@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <kul:tab tabTitle="Pre-Paid Travel Expenses" defaultOpen="false" tabErrorKey="${KFSConstants.DV_PREPAID_TAB_ERRORS}">
 	<c:set var="prePaidConfAttributes" value="${DataDictionary.DisbursementVoucherPreConferenceDetail.attributes}" />

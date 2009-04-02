@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <script type='text/javascript' src="dwr/interface/CustomerService.js"></script>
 <script language="JavaScript" type="text/javascript" src="scripts/ar/customerObjectInfo.js"></script>

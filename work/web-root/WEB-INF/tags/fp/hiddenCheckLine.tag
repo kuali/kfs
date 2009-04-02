@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <%@ attribute name="propertyName" required="true" description="name of form property containing the Check" %>
 <%@ attribute name="baselinePropertyName" required="false" description="name of form property containing the baselineCheck" %>

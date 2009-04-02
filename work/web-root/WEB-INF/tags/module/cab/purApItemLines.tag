@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 <%@ attribute name="activeIndicator" required="true" description="The display active/inactive line item indicator"%>
 <%@ attribute name="title" required="true" description="tab title"%>
 <%@ attribute name="defaultOpen" required="false" description="tab title"%>

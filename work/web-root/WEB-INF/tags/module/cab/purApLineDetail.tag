@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 <%@ attribute name="chkcount" required="true" description="The total check number"%>
 <%@ attribute name="docPos" required="true" description="The index of the CAB PurAp Document"%>
 <%@ attribute name="linePos" required="true" description="The index of CAB PurAp item asset"%>

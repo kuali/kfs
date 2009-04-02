@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <c:set var="routingFormResearchRiskStudyAttributes" value="${DataDictionary.RoutingFormResearchRiskStudy.attributes}" />
 <c:set var="routingFormResearchRiskAttributes" value="${DataDictionary.RoutingFormResearchRisk.attributes}"/>

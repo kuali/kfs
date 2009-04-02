@@ -16,7 +16,7 @@
 
 <%@ tag description="render the given field in the given detail line" %>
 
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <%@ attribute name="fieldFormName" required="true"
     description="the form name of the field" %> 

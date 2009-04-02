@@ -16,7 +16,7 @@
 
 <%@ tag description="display all detail lines of current document in a table. The detail lines will be displayed in two groups: federal and nonfederal" %>
 
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <%@ attribute name="id" required="false"
     description="The unique id of the table, which will be used to identify the table in the HTML DOM tree" %> 

@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <c:set var="cmDocAttributes" value="${DataDictionary.CashManagementDocument.attributes}" />
 <c:set var="drawerAttributes" value="${DataDictionary.CashManagementDocument.attributes}" />

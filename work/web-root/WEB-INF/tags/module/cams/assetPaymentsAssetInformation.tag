@@ -1,4 +1,4 @@
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 <c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />
 <c:set var="accountAttributes" value="${DataDictionary.Account.attributes}" />
 <c:set var="assetPaymentAssetDetailAttributes" value="${DataDictionary.AssetPaymentAssetDetail.attributes}" />

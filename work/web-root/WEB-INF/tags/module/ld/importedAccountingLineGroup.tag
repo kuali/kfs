@@ -17,7 +17,7 @@
 The first row is for adding a new accounting line (if not read-only).
 It's followed by 0 or more rows for the accounting lines that have already been added." %>
 
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 <%@ include file="/jsp/modules/financial/customActionsInterface.inc"%>
 
 <%@ attribute name="isSource" required="true"

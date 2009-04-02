@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <%@ attribute name="claimIndex" required="true" description="The index of the org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim in the form to display." %>
 <%@ attribute name="electronicPaymentClaim" required="true" description="The ElectronicPaymentClaim being displayed" type="org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim" %>

@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 <%@ attribute name="defaultTabHide" type="java.lang.Boolean" required="false" description="Show tab contents indicator" %>
 <c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />
 <c:set var="assetOrganizationAttributes" value="${DataDictionary.AssetOrganization.attributes}" />

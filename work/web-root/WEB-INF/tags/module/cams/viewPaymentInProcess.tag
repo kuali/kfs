@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 <%@ attribute name="assetPaymentDetails" type="java.util.List" required="true" description="In process asset payments list" %>
 <%@ attribute name="assetPaymentAssetDetail" type="org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail" required="true" description="Asset payment in process list" %>
 <%@ attribute name="defaultTabHide" type="java.lang.Boolean" required="false" description="Show tab contents indicator" %>

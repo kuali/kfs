@@ -188,8 +188,8 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
 
         reportDataHolder.setSysinfo(sysinfoMap);
 
-        invoiceMap.put("billingOrgFax", (String)phoneNumberFormatter.format(orgOptions.getOrganizationFaxNumber()));
-        invoiceMap.put("billingOrgPhone", (String)phoneNumberFormatter.format(orgOptions.getOrganizationPhoneNumber()));
+        invoiceMap.put("billingOrgFax", (String)phoneNumberFormatter.format(phoneNumberFormatter.convertFromPresentationFormat(orgOptions.getOrganizationFaxNumber())));
+        invoiceMap.put("billingOrgPhone", (String)phoneNumberFormatter.format(phoneNumberFormatter.convertFromPresentationFormat(orgOptions.getOrganizationPhoneNumber())));
 
         creditMemo.populateCustomerCreditMemoDetailsAfterLoad();
         List<CustomerCreditMemoDetail> detailsList = creditMemo.getCreditMemoDetails();
@@ -333,8 +333,8 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
 
         sysinfoMap.put("remitToCityStateZip", generateCityStateZipLine(orgOptions.getOrganizationRemitToCityName(), orgOptions.getOrganizationRemitToStateCode(), orgOptions.getOrganizationRemitToZipCode()));
         
-        invoiceMap.put("billingOrgFax", (String)phoneNumberFormatter.format(orgOptions.getOrganizationFaxNumber()));
-        invoiceMap.put("billingOrgPhone", (String)phoneNumberFormatter.format(orgOptions.getOrganizationPhoneNumber()));
+        invoiceMap.put("billingOrgFax", (String)phoneNumberFormatter.format(phoneNumberFormatter.convertFromPresentationFormat(orgOptions.getOrganizationFaxNumber())));
+        invoiceMap.put("billingOrgPhone", (String)phoneNumberFormatter.format(phoneNumberFormatter.convertFromPresentationFormat(orgOptions.getOrganizationPhoneNumber())));
 
         invoiceMap.put("orgOptionsMessageText", orgOptions.getOrganizationMessageText());
 
@@ -417,8 +417,8 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         sysinfoMap.put("remitToAddressLine2", orgOptions.getOrganizationRemitToLine2StreetAddress());
         sysinfoMap.put("remitToCityStateZip", generateCityStateZipLine(orgOptions.getOrganizationRemitToCityName(), orgOptions.getOrganizationRemitToStateCode(), orgOptions.getOrganizationRemitToZipCode()));
 
-        invoiceMap.put("billingOrgFax", (String)phoneNumberFormatter.format(orgOptions.getOrganizationFaxNumber()));
-        invoiceMap.put("billingOrgPhone", (String)phoneNumberFormatter.format(orgOptions.getOrganizationPhoneNumber()));
+        invoiceMap.put("billingOrgFax", (String)phoneNumberFormatter.format(phoneNumberFormatter.convertFromPresentationFormat(orgOptions.getOrganizationFaxNumber())));
+        invoiceMap.put("billingOrgPhone", (String)phoneNumberFormatter.format(phoneNumberFormatter.convertFromPresentationFormat(orgOptions.getOrganizationPhoneNumber())));
 
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         String fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().toString();
@@ -618,12 +618,18 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
                     }
 
                     // Now add the appropriate invoice and associated memos to the collection
-                    Collection<CustomerCreditMemoDocument> creditMemos = service.getCustomerCreditMemoDocumentByInvoiceDocument(invoice.getDocumentNumber());
-                    for (CustomerCreditMemoDocument doc : creditMemos) {
-                        doc.populateCustomerCreditMemoDetailsAfterLoad();
-                        CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(doc.getDocumentHeader(), doc.getInvoice().getAccountsReceivableDocumentHeader().getProcessingOrganization(), ArConstants.CREDIT_MEMO_DOC_TYPE, doc.getTotalDollarAmount());
-                        statementDetailsByCustomer.add(detail);
-                    }
+//                    Collection<CustomerCreditMemoDocument> creditMemos = service.getCustomerCreditMemoDocumentByInvoiceDocument(invoice.getDocumentNumber());
+//                    for (CustomerCreditMemoDocument doc : creditMemos) {
+//                        try {
+//                            doc.populateCustomerCreditMemoDetailsAfterLoad();
+//                            CustomerCreditMemoDocument creditMemoDoc = (CustomerCreditMemoDocument) documentService.getByDocumentHeaderId(doc.getDocumentNumber());
+//                            CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(creditMemoDoc.getDocumentHeader(), creditMemoDoc.getInvoice().getAccountsReceivableDocumentHeader().getProcessingOrganization(), ArConstants.CREDIT_MEMO_DOC_TYPE, creditMemoDoc.getTotalDollarAmount());
+//                            CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(doc.getDocumentHeader(), doc.getInvoice().getAccountsReceivableDocumentHeader().getProcessingOrganization(), ArConstants.CREDIT_MEMO_DOC_TYPE, doc.getTotalDollarAmount());
+//                            statementDetailsByCustomer.add(detail);
+//                        } catch(Exception ex) {
+//                            LOG.error(ex);
+//                        }
+//                    }
                     CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(invoice.getDocumentHeader(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), ArConstants.INVOICE_DOC_TYPE, invoice.getTotalDollarAmount());
                     statementDetailsByCustomer.add(detail);
                     

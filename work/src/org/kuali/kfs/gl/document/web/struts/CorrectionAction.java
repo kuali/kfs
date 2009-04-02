@@ -20,7 +20,6 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -45,11 +44,11 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.batch.service.impl.OriginEntryFileIterator;
 import org.kuali.kfs.gl.businessobject.CorrectionChange;
 import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
 import org.kuali.kfs.gl.businessobject.CorrectionCriteria;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
-import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.gl.businessobject.OriginEntryStatistics;
 import org.kuali.kfs.gl.businessobject.options.CorrectionGroupEntriesFinder;
 import org.kuali.kfs.gl.businessobject.options.OriginEntryFieldFinder;
@@ -724,62 +723,8 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         FormFile sourceFile = correctionForm.getSourceFile();
         String fullFileName = sourceFile.getFileName();
         
-        List<OriginEntryFull> originEntryList = new ArrayList();
         BufferedReader br = new BufferedReader(new InputStreamReader(sourceFile.getInputStream()));
-        
-        //
-        Map loadErrorMap = originEntryService.getEntriesByBufferedReader(br, originEntryList);
-        
-        // close bufferedReader here
-        try {
-            br.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        //put errors on GlobalVariables
-        if (loadErrorMap.size() > 0){
-            Iterator iter = loadErrorMap.keySet().iterator();
-            while(iter.hasNext()){
-                Integer lineNumber = (Integer) iter.next();
-                List<Message> messageList = (List<Message>) loadErrorMap.get(lineNumber);
-                if (messageList.size() > 0){
-                    for (Message errorMmessage : messageList){
-                        GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_INVALID_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] {lineNumber.toString(), errorMmessage.toString()});
-                    }    
-                }
-            }
-            
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
-        }
-        
-        
-        
-//        int lineNumber = 0;
-        
-//        boolean errorsLoading = false;
-//        try {
-//            String currentLine = br.readLine();
-//            while (currentLine != null) {
-//                lineNumber++;
-//                if (!StringUtils.isEmpty(currentLine)) {
-//                    try {
-//                        OriginEntryFull entryFromFile = new OriginEntryFull();
-//                        entryFromFile.setFromTextFile(currentLine, lineNumber);
-//                        entryFromFile.setEntryGroupId(newOriginEntryGroup.getId());
-//                        originEntryService.createEntry(entryFromFile, newOriginEntryGroup);
-//                        loadedCount++;
-//                    }
-//                    catch (LoadException e) {
-//                        errorsLoading = true;
-//                    }
-//                }
-//                currentLine = br.readLine();
-//            }
-//        }
-        
-        //if file loads successfully copy the file to batchFileDirectory
-        int loadedCount = originEntryList.size();
-        
+        OriginEntryFileIterator originIterator = new OriginEntryFileIterator(br);
         //create a group
         File uploadedFile = originEntryGroupService.createGroup(fullFileName);
         PrintStream uploadedFilePrintStream;
@@ -790,9 +735,12 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         }
         
         //write entries to file
-        for (OriginEntryFull entry : originEntryList){
+        int loadedCount = 0;
+        while(originIterator.hasNext()){
+            OriginEntryFull entry = originIterator.next();
             try {
                 uploadedFilePrintStream.printf("%s\n", entry.getLine());
+                loadedCount++;
             } catch (Exception e) {
                 throw new IOException(e.toString());
             }
@@ -820,6 +768,24 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         else {
             correctionForm.setRestrictedFunctionalityMode(false);
             if (loadedCount > 0) {
+                //now we can load all data from file
+                List<OriginEntryFull> originEntryList = new ArrayList();
+                Map loadErrorMap = originEntryService.getEntriesByGroupId(uploadedFile.getName(), originEntryList);
+                //put errors on GlobalVariables
+                if (loadErrorMap.size() > 0){
+                    Iterator iter = loadErrorMap.keySet().iterator();
+                    while(iter.hasNext()){
+                        Integer lineNumber = (Integer) iter.next();
+                        List<Message> messageList = (List<Message>) loadErrorMap.get(lineNumber);
+                        if (messageList.size() > 0){
+                            for (Message errorMmessage : messageList){
+                                GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_INVALID_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] {lineNumber.toString(), errorMmessage.toString()});
+                            }    
+                        }
+                    }
+                    return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                }
+                
                 // Set all the data that we know
                 correctionForm.setDataLoadedFlag(true);
                 correctionForm.setInputFileName(fullFileName);
@@ -1321,7 +1287,6 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
                     List<Message> messageList = (List<Message>) loadErrorMap.get(lineNumber);
                     for (Message errorMmessage : messageList){
                         GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_INVALID_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] {lineNumber.toString(), errorMmessage.toString()});
-                        
                     }
                 }
             } else {

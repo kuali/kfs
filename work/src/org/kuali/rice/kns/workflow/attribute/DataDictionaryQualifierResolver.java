@@ -40,55 +40,51 @@ import org.kuali.rice.kns.service.DocumentService;
  * QualifierResolver which uses Data Dictionary defined workflow attributes to gather a collection
  * of qualifiers to use to determine the responsibility for a document at a given workflow route node.
  * 
- * WorkflowAttributes can be defined in the data dictionary like so:
+ * WorkflowAttributes can be defined in the data dictionary like so (this has been abbreviated):
  * 
- * <dd:workflowAttributes id="InternalBillingDocument-workflowAttributes-parentBean" abstract="true">
- *   <dd:searchingType name="Chart" >
- *     <dd:searchingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Chart" attributeName="chartOfAccountsCode" />
- *     <dd:documentValue path="sourceAccountingLines.chartOfAccountsCode" />
- *     <dd:documentValue path="targetAccountingLines.chartOfAccountsCode" />
- *   </dd:searchingType>
- *   <dd:searchingType name="Account" >
- *     <dd:searchingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Account" attributeName="accountNumber" />
- *     <dd:documentValue path="sourceAccountingLines.accountNumber" />
- *     <dd:documentValue path="targetAccountingLines.accountNumber" />
- *  </dd:searchingType>
- *  <dd:routingType name="AccountingOrgReview">
- *     <dd:routingAttributes>
- *       <dd:routingAttribute businessObjectClassName="org.kuali.kfs.sys.businessobject.AccountingDocument" attributeName="totalAmount" />
- *       <dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Chart" attributeName="chartOfAccountsCode" />
- *       <dd:routingAttribute businessObjectClassName="org.kuali.kfs.coa.businessobject.Org" attributeName="organizationCode" />
- *       <dd:routingAttribute businessObjectClassName="org.kuali.kfs.sys.businessobject.AccountingLine" attributeName="overrideCode" />
- *     </dd:routingAttributes>
- *     <dd:documentValuePathGroup>
- *       <dd:documentValue path="totalAmount"/>
- *       <dd:documentCollectionPath path="items">
- *         <dd:documentValue path="amount" />
- *         <dd:documentCollectionPath path="sourceAccountingLines">
- *           <dd:documentValue path="chartsOfAccountCode"/>
- *           <dd:documentValue path="account.organizationCode"/>
- *           <dd:documentValue path="overrideCode"/>
- *         </dd:documentCollectionPath>
- *       </dd:documentCollectionPath>
- *     </dd:documentValuePathGroup>
- *     <dd:documentValuePathGroup>
- *       <dd:documentValue path="totalAmount"/>
- *       <dd:documentCollectionPath path="items">
- *         <dd:documentValue path="amount" />
- *         <dd:documentCollectionPath path="targetAccountingLines">
- *           <dd:documentValue path="chartsOfAccountCode"/>
- *             <dd:documentValue path="account.organizationCode"/>
- *             <dd:documentValue path="overrideCode"/>
- *           </dd:documentCollectionPath>
- *         </dd:documentCollectionPath>
- *      </dd:documentValuePathGroup>
- *   </dd:routingType>
- * </dd:workflowAttributes> 
+ * <!-- Exported Workflow Attributes -->
+ *   <bean id="DisbursementVoucherDocument-workflowAttributes" parent="DisbursementVoucherDocument-workflowAttributes-parentBean"/>
+ *
+ *   <bean id="DisbursementVoucherDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+ *       <property name="routingTypeDefinitions">
+ *           <map>
+ *               <!-- no qualifiers for purchasing node -->
+ *               <entry key="Account" value-ref="RoutingType-AccountingDocument-Account-sourceOnly"/>
+ *               <entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy-sourceOnly"/>
+ *               <entry key="Campus" value-ref="DisbursementVoucherDocument-RoutingType-Campus"/>
+ *               <!-- no qualifiers for tax review -->
+ *               <!-- no qualifiers for travel review -->
+ *               <entry key="PaymentMethod" value-ref="DisbursementVoucherDocument-RoutingType-PaymentMethod"/>
+ *               <entry key="Award" value-ref="RoutingType-AccountingDocument-Award"/>
+ *           </map>
+ *       </property>
+ *   </bean>
  * 
- * This means that at the "AccountReview" node, a collection of chartOfAccountsCode and accountNumber combinations will be returned
- * as qualifiers; at the "OrganizationReview" node, there will be a collection of chartOfAccountsCode and organizationCode combinations.
- * These qualifiers will be used by workflow to route the document to only the qualified members of the
- * role associated with the responsibility.
+ *   <bean id="DisbursementVoucherDocument-RoutingType-PaymentMethod" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+ *       <property name="routingAttributes">
+ *           <list>
+ *               <bean class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+ *                   <property name="qualificationAttributeName" value="disbVchrPaymentMethodCode"/>
+ *               </bean>
+ *           </list>
+ *       </property>
+ *       <property name="documentValuePathGroups">
+ *           <list>
+ *               <bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+ *                   <property name="documentValues">
+ *                       <list>
+ *                           <value>disbVchrPaymentMethodCode</value>
+ *                       </list>
+ *                   </property>
+ *               </bean>
+ *           </list>
+ *       </property>
+ *   </bean> 
+ * 
+ * At the PaymentMethod node of the document, the DisbursementVoucherDocument-RoutingType-PaymentMethod RoutingTypeDefinition will be
+ * consulted; it will pull values from the document (in this case, document.disbVchrPaymentMethodCode) and populate those
+ * into the role qualifier AttributeSet, with the key being the qualificationAttributeName and the value being the value of the property
+ * listed in the documentValuePathGroups in the document.
  */
 public class DataDictionaryQualifierResolver implements QualifierResolver {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DataDictionaryQualifierResolver.class);

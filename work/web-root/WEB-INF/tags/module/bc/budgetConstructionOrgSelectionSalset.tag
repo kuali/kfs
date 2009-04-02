@@ -21,20 +21,20 @@
       	
       	<table width="100%" cellpadding="0" cellspacing="0">
       		 <tr>
-                <td>Show Position Pick List </td>
                 <td width="200">
                   <div align="center">
                      <html:image property="methodToCall.performPositionPick" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Position Pick" alt="Position Pick" styleClass="tinybutton" />
                   </div>
                 </td>
+                <td>Show Position Pick List </td>
              </tr>
        		 <tr>
-                <td>Show Incumbent Pick List </td>
                 <td width="200">
                   <div align="center">
                      <html:image property="methodToCall.performIncumbentPick" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Incumbent Pick" alt="Incumbent Pick" styleClass="tinybutton" />
                   </div>
                 </td>
+                <td>Show Incumbent Pick List </td>
              </tr>            
       </table>
   </div>

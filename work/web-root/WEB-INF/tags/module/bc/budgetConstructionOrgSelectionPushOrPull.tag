@@ -30,22 +30,22 @@
         <table width="100%" cellpadding="0" cellspacing="0">
       		<c:if test="${KualiForm.operatingMode == BCConstants.OrgSelOpMode.PULLUP}">
       		 <tr>
-                <td>List Pullup Candidate Documents </td>
                 <td width="200">
                   <div align="center">
                     <html:image property="methodToCall.performShowPullUpBudgetDocs" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Show Documents" alt="Show Documents" styleClass="tinybutton" />
                   </div>
                 </td>
+                <td>List Pullup Candidate Documents </td>
              </tr>
            </c:if>
            <c:if test="${KualiForm.operatingMode == BCConstants.OrgSelOpMode.PUSHDOWN}">
               <tr>
-                <td>List Pushdown Candidate Documents </td>
                 <td width="200">
                   <div align="center">
                     <html:image property="methodToCall.performShowPushDownBudgetDocs" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Show Documents" alt="Show Documents" styleClass="tinybutton" />
                   </div>
                 </td>
+                <td>List Pushdown Candidate Documents </td>
              </tr>
            </c:if>
       </table>

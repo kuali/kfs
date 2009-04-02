@@ -43,8 +43,14 @@
                     <html:option value="">type:</html:option>
                     <html:option value="NIH-398">NIH - PHS 398 Form Page 4&amp;5 - Rev 04/06</html:option>
                     <html:option value="NIH-2590">NIH - PHS 2590 - Rev 04/06</html:option>
-                    <c:if test="${KualiForm.document.budget.agencyModularIndicator}"><html:option value="NIH-mod">NIH Modular Budget</html:option></c:if>
-                    <c:if test="${KualiForm.document.budget.budgetAgency.agencyExtension.agencyNsfOutputIndicator}"><html:option value="NSF-summary">NSF Summary Proposal Budget</html:option></c:if>
+                    
+                    <c:if test="${KualiForm.document.budget.agencyModularIndicator}">
+                    	<html:option value="NIH-mod">NIH Modular Budget</html:option>
+                    </c:if>
+                    
+                    <c:if test="${KualiForm.document.budget.budgetAgency.agencyExtension.agencyNsfOutputIndicator}">
+                    	<html:option value="NSF-summary">NSF Summary Proposal Budget</html:option>
+                    </c:if>
                   </html:select>
                   <br>
                   <br>

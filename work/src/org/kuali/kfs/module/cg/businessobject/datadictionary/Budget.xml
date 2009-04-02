@@ -34,7 +34,7 @@
         <ref bean="Budget-agencyModularIndicator" />
         <ref bean="Budget-budgetAgency" />
         <ref bean="Budget-budgetAgencyNumber" />
-        <ref bean="Budget-federalPassThroughAgency" />
+        <ref bean="Budget-federalPassThroughAgencyNumber" />
         <ref bean="Budget-budgetProjectDirectorUniversalIdentifier" />
         <ref bean="Budget-projectDirector.principalName" />
         <ref bean="Budget-projectDirector.name" />
@@ -365,11 +365,11 @@
     <property name="summary" value="Budget Agency Number" />
     <property name="description" value="BudgetAgencyNumber..." />
   </bean>
-  <bean id="Budget-federalPassThroughAgency" parent="Budget-federalPassThroughAgency-parentBean" />
+  <bean id="Budget-federalPassThroughAgencyNumber" parent="Budget-federalPassThroughAgencyNumber-parentBean" />
 
-  <bean id="Budget-federalPassThroughAgency-parentBean" abstract="true" parent="Agency-agencyNumber">
-    <property name="name" value="federalPassThroughAgency" />
-    <property name="label" value="Federal Pass Through" />
+  <bean id="Budget-federalPassThroughAgencyNumber-parentBean" abstract="true" parent="Agency-agencyNumber">
+    <property name="name" value="federalPassThroughAgencyNumber" />
+    <property name="label" value="Federal Pass Through Agency Number" />
     <property name="shortLabel" value="Fed PT Agency" />
     <property name="summary" value="Federal Pass Through Agency ..." />
     <property name="description" value="Federal Pass Through Agency ..." />

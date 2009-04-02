@@ -28,6 +28,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -132,7 +133,7 @@ public class Budget extends PersistableBusinessObjectBase {
      * @return Returns the projectDirector.
      */
     public Person getProjectDirector() {
-        projectDirector = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(budgetProjectDirectorUniversalIdentifier, projectDirector);
+        projectDirector = SpringContext.getBean(PersonService.class).updatePersonIfNecessary(budgetProjectDirectorUniversalIdentifier, projectDirector);
         return projectDirector;
     }
 

@@ -238,11 +238,13 @@
 						<c:choose>
 							<c:when test="${empty KualiForm.newAdHocOrg.fiscalCampusCode}">&nbsp;</c:when>
 							<c:otherwise>
-								${KualiForm.newAdHocOrg.fiscalCampusCode}/${KualiForm.newAdHocOrg.primaryDepartmentCode}
+								<kul:htmlControlAttribute property="newAdHocOrg.fiscalCampusCode" attributeEntry="${adhocOrgAttributes.fiscalCampusCode}" readOnly="true"/>
+								/
+								<kul:htmlControlAttribute property="newAdHocOrg.primaryDepartmentCode" attributeEntry="${adhocOrgAttributes.primaryDepartmentCode}" readOnly="true"/>
 							</c:otherwise>
 						</c:choose>
 						&nbsp;&nbsp;
-						<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:newAdHocOrg.fiscalCampusCode,organizationCode:newAdHocOrg.primaryDepartmentCode" />
+						<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Organization" fieldConversions="chartOfAccounts.chartOfAccountsCode:newAdHocOrg.fiscalCampusCode,organizationCode:newAdHocOrg.primaryDepartmentCode" />
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				      </div>
 					</td>

@@ -46,11 +46,18 @@
   <c:if test="${KualiForm.document.taskListSize lt CGConstants.maximumNumberOfTasks && not viewOnly}">
   <tr>
     <th width="50" align="right" scope="row"><div align="right">add:</div></th>
-    <td class="infoline"><span> <kul:htmlControlAttribute property="newTask.budgetTaskName" attributeEntry="${budgetTaskAttributes.budgetTaskName}"/> </span> </td>
-    <td class="infoline"><div align="center"> <kul:htmlControlAttribute property="newTask.budgetTaskOnCampus" attributeEntry="${budgetTaskAttributes.budgetTaskOnCampus}"/> </div></td>
+    <td class="infoline"><span>
+    	<kul:htmlControlAttribute property="newTask.budgetTaskName" attributeEntry="${budgetTaskAttributes.budgetTaskName}"/> 
+    </span> </td>
+    
+    <td class="infoline"><div align="center"> 
+    	<kul:htmlControlAttribute property="newTask.budgetTaskOnCampus" attributeEntry="${budgetTaskAttributes.budgetTaskOnCampus}"/> 
+    </div></td>
+    
     <td class="infoline"><div align="center">
-        <input type="radio" id="document.budget.modularBudget.budgetModularTaskNumber" name="document.budget.modularBudget.budgetModularTaskNumber" disabled="true" value="-1" /></label>
-      </div></td>
+        <html:radio property="document.budget.modularBudget.budgetModularTaskNumber" disabled="true" value="-1" />
+    </div></td>
+    
     <td class="infoline"><div align="center"><html:image property="methodToCall.insertTaskLine.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="add task line" alt="add task line"/></div></td>
   </tr>
   </c:if>

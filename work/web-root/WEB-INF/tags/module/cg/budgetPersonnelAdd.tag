@@ -62,7 +62,7 @@
 							              </c:if>
 							              <html:hidden property="newPersonnel.user.name" write="true" />
                           </label>
-						              <kul:lookup boClassName="org.kuali.rice.kim.bo.Person" fieldConversions="principalId:newPersonnel.principalId,name:newPersonnel.user.name,personBaseSalaryAmount:newPersonnel.baseSalary" />
+						              <kul:lookup boClassName="org.kuali.rice.kim.bo.Person" fieldConversions="principalId:newPersonnel.principalId,name:newPersonnel.user.name" />
 						              <br />
 						              <html:radio property="newPersonnelType" value="ToBeNamed" styleId="newPersonnelType.ToBeNamed" />
                           <label for="newPersonnelType.ToBeNamed">name later</label>

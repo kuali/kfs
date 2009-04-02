@@ -48,7 +48,7 @@
 	          	auditCluster="personnelAuditErrors"
 	          	tabAuditKey="document.budget.audit.personnel.${personId}*"
 	          	useCurrentTabIndexAsKey="true">
-	          	<div class="tab-container-error"><div class="left-errmsg-tab"><cg:auditErrors cluster="personnelAuditErrors" keyMatch="document.budget.audit.personnel.${personId}*" isLink="false" includesTitle="true"/></div></div>
+	          	<div class="tab-container-error"><div class="left-errmsg-tab"><kra:auditErrors cluster="personnelAuditErrors" keyMatch="document.budget.audit.personnel.${personId}*" isLink="false" includesTitle="true"/></div></div>
               <div class="tab-container" id="G02" style="" align="center">
                 <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
                   <tbody>
@@ -143,8 +143,6 @@
                         <kul:htmlControlAttribute property="document.budget.personFromList[${listIndex}].appointmentTypeCode" extraReadOnlyProperty="document.budget.personFromList[${listIndex}].appointmentTypeDescription" attributeEntry="${budgetUserAttributes.appointmentTypeCode}" readOnly="${viewOnly}" />
                         <c:if test="${! viewOnly }">
                           &nbsp;&nbsp;&nbsp; 
-                          <html:hidden property="document.budget.personFromList[${listIndex}].previousAppointmentTypeCode" value="${KualiForm.document.budget.personnel[listIndex].appointmentTypeCode}" />
-                          <html:hidden property="document.budget.personFromList[${listIndex}].previousSecondaryAppointmentTypeCode" value="${KualiForm.document.budget.personnel[listIndex].secondaryAppointmentTypeCode}" />
                           <html:image src="${ConfigProperties.externalizable.images.url}tinybutton-updateview.gif" styleClass="tinybutton" property="methodToCall.updateView.anchor${currentTabIndex}" title="update view" alt="update view"/>
                         </c:if>
                       </span>
@@ -188,11 +186,10 @@
 		                    <c:set var="budgetTasks" value="${KualiForm.budgetDocument.budget.tasks}"/>
 		                    <html:options collection="budgetTasks" property="budgetTaskSequenceNumber" labelProperty="budgetTaskName"/>
 		                  </html:select>
-		                  <html:hidden property="document.budget.personFromList[${listIndex}].previousTaskNumber" value="${KualiForm.document.budget.personnel[listIndex].currentTaskNumber}" />
 		                  <html:image src="${ConfigProperties.externalizable.images.url}tinybutton-updateview.gif" styleClass="tinybutton" property="methodToCall.updateView.anchor${currentTabIndex}" title="update view" alt="update view"/> </span></td>
 		              </tr>
 
-                 <cg:budgetPersonnelIndividualGrid person="${person}" personListIndex="${listIndex}" />
+                 <kra-b:budgetPersonnelIndividualGrid person="${person}" personListIndex="${listIndex}" />
                   
                  <c:if test="${! viewOnly }">
                    <tr>

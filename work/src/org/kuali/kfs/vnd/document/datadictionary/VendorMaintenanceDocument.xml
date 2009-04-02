@@ -53,7 +53,8 @@
         <bean parent="MaintainableFieldDefinition" p:name="vendorHeaderGeneratedIdentifier" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="vendorDetailAssignedIdentifier" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="vendorNumber" p:unconditionallyReadOnly="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="vendorParentIndicator" p:defaultValue="true"/>              
+        <bean parent="MaintainableFieldDefinition" p:name="vendorParentIndicator" p:defaultValue="true"/>       
+        <bean parent="MaintainableFieldDefinition" p:name="vendorParentName" p:unconditionallyReadOnly="true"/>       
         <bean parent="MaintainableFieldDefinition" p:name="vendorName"/>
         <bean parent="MaintainableFieldDefinition" p:name="vendorLastName"/>
         <bean parent="MaintainableFieldDefinition" p:name="vendorFirstName"/>
@@ -62,8 +63,6 @@
         <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorForeignIndicator" p:defaultValue="No" p:required="true"/>
         <bean parent="MaintainableFieldDefinition">
           <property name="name" value="vendorHeader.vendorTaxNumber"/>
-          
-          
         </bean>
         <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorTaxTypeCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorOwnershipCode" p:required="true"/>

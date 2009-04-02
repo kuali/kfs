@@ -17,16 +17,20 @@
 package org.kuali.kfs.vnd.businessobject;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.LookupService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -88,7 +92,8 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     private ShippingPaymentTerms vendorShippingPaymentTerms;
     private VendorDetail soldToVendorDetail;
     private Person vendorRestrictedPerson;
-
+    
+    private String vendorParentName; // not persisted in the db
     private String defaultAddressLine1; // not persisted in the db
     private String defaultAddressLine2; // not persisted in the db
     private String defaultAddressCity; // not persisted in the db
@@ -756,6 +761,34 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
         return false;
     }
     
+    public VendorDetail getVendorParent() {
+        Map<String, String> tmpValues = new HashMap<String, String>();
+        List<VendorDetail> relatedVendors = new ArrayList<VendorDetail>();
+        tmpValues.put(VendorPropertyConstants.VENDOR_HEADER_GENERATED_ID, getVendorHeaderGeneratedIdentifier().toString());
+        tmpValues.put(VendorPropertyConstants.VENDOR_PARENT_INDICATOR, "Y");
+        VendorDetail parentVendor = (VendorDetail) SpringContext.getBean(LookupService.class).findObjectBySearch(VendorDetail.class, tmpValues);
+        return parentVendor;
+    }
+
+    public String getVendorParentName() {
+        if (StringUtils.isNotBlank(this.vendorParentName)) {
+            return vendorParentName;
+        }
+        else if (isVendorParentIndicator()) {
+            setVendorParentName(this.getVendorName());
+            return vendorParentName;
+        }
+        else {
+            this.setVendorParentName(getVendorParent().getVendorName());
+            return vendorParentName;
+        }
+    }
+
+    public void setVendorParentName(String vendorParentName) {
+        this.vendorParentName = vendorParentName;
+    }
+
+
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */

@@ -17,9 +17,11 @@ package org.kuali.kfs.vnd.document.authorization;
 
 import java.util.Set;
 
+import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -73,5 +75,16 @@ public class VendorDocumentPresentationController extends FinancialSystemMainten
         return conditionallyReadonlyPropertyNames;
     }
     
-    
+    @Override
+    public Set<String> getConditionallyHiddenPropertyNames(BusinessObject businessObject) {
+        Set<String> conditionallyHiddenPropertyNames = super.getConditionallyHiddenPropertyNames(businessObject);
+        MaintenanceDocument document = (MaintenanceDocument) businessObject;
+        VendorDetail vendor = (VendorDetail)document.getNewMaintainableObject().getBusinessObject();
+        // If the vendor is a parent then the vendor parent name should be hidden.
+        if (vendor.isVendorParentIndicator()) {
+            conditionallyHiddenPropertyNames.add(VendorPropertyConstants.VENDOR_PARENT_NAME);
+        }
+        
+        return conditionallyHiddenPropertyNames;
+    }
 }

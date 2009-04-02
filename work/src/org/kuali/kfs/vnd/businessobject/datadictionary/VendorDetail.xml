@@ -76,6 +76,7 @@
         <ref bean="VendorDetail-vendorCommodities.purchasingCommodityCode" />
         <ref bean="VendorDetail-activeIndicator" />
         <ref bean="VendorDetail-taxableIndicator" />
+        <ref bean="VendorDetail-vendorParentName" />
       </list>
     </property>
     <property name="collections" >
@@ -614,6 +615,23 @@
     <property name="shortLabel" value="Taxable" />
    </bean>
 
+  <bean id="VendorDetail-vendorParentName" parent="VendorDetail-vendorParentName-parentBean" />
+
+  <bean id="VendorDetail-vendorParentName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="vendorParentName" />
+    <property name="label" value="Vendor Parent Name" />
+    <property name="shortLabel" value="Parent Name" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" 
+            p:allowWhitespace="true"/>
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="45" />
+    </property>
+  </bean>
+  
 <!-- Business Object Inquiry Definition -->
 
 
@@ -634,6 +652,8 @@
                     p:attributeName="vendorNumber" />
               <bean parent="FieldDefinition"
                     p:attributeName="vendorName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorParentName" />
               <bean parent="InquirySubSectionHeaderDefinition"
                     p:attributeName="Corporate Information" />
               <bean parent="FieldDefinition"

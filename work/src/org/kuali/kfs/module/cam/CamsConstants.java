@@ -308,4 +308,9 @@ public class CamsConstants extends JSTLConstants {
     public static class AssetTransfer {
         public static final String DOCUMENT_TYPE_CODE = "AT";
     }
+    
+    
+    public static class PreAssetTagging {
+        public static final String SECTION_ID_PREASSET_TAGGING_DETAIL = "Edit List of Pre-Asset Tagging Details";   
+    }
 }

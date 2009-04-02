@@ -26,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.Pretag;
 import org.kuali.kfs.module.cab.businessobject.PretagDetail;
+import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
@@ -250,7 +251,7 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
             }
             else {
                 if ((pretag.getQuantityInvoiced().compareTo(new KualiDecimal(0)) > 0) && (totalActiveDetails == 0)) {
-                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(DOCUMENT_ERROR_PREFIX + CabPropertyConstants.DOCUMENT_NUMBER, CamsKeyConstants.ERROR_NO_DETAIL_LINE);
+                    GlobalVariables.getErrorMap().putErrorForSectionId(CamsConstants.PreAssetTagging.SECTION_ID_PREASSET_TAGGING_DETAIL, CamsKeyConstants.ERROR_NO_DETAIL_LINE);
                     success &= false;
                 }
             }

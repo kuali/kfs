@@ -45,7 +45,7 @@
         <value>../scripts/cams/assetGlobalMaintenanceDocument.js</value>
       </list>
     </property>
-    <property name="additionalSectionsFile" value="/jsp/modules/cams/AssetMaintenanceGlpe.jsp"/>
+    <property name="additionalSectionsFile" value="/jsp/module/cams/AssetMaintenanceGlpe.jsp"/>
   </bean>
 
 <!-- Maintenance Section Definitions -->

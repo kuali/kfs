@@ -33,7 +33,7 @@
     <property name="workflowAttributes">
       <ref bean="AssetRetirementGlobalMaintenanceDocument-workflowAttributes"/>
     </property>
-    <property name="additionalSectionsFile" value="/jsp/modules/cams/AssetMaintenanceGlpe.jsp"/>
+    <property name="additionalSectionsFile" value="/jsp/module/cams/AssetMaintenanceGlpe.jsp"/>
   </bean>
 
 <!-- Maintenance Section Definitions -->

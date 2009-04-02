@@ -438,9 +438,6 @@ public class BCConstants extends JSTLConstants {
     public static final String MAPPING_ORGANIZATION_SALARY_SETTING_RETURNING = "organizationSalarySettingReturning";
     public static final String MAPPING_LOST_SESSION_RETURNING = "lostSessionReturning";
 
-    /**
-     *   moved from KFSConstants 03/24/2009
-     */
 
 
     public enum LockStatus {
@@ -512,9 +509,6 @@ public class BCConstants extends JSTLConstants {
     public final static String ACTIVE_CSF_DELETE_CODE = "-";
         
     
-    /**
-     *   end of code moved from KFSConstants
-     */
     
     /**
      * enumerate the leave duration code

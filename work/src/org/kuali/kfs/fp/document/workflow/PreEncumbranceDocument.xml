@@ -3,7 +3,7 @@
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
       <name>PE</name>
-      <parent>FinancialProcessingTransactionalDocument</parent>
+      <parent>FP</parent>
       <docHandler>${application.url}/financialPreEncumbrance.do?methodToCall=docHandler</docHandler>
       <routePaths>
         <routePath>

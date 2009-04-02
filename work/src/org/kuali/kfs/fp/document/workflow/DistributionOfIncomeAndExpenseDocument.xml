@@ -3,7 +3,7 @@
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
       <name>DI</name>
-      <parent>FinancialProcessingTransactionalDocument</parent>
+      <parent>FP</parent>
       <docHandler>${application.url}/financialDistributionOfIncomeAndExpense.do?methodToCall=docHandler</docHandler>
       <routePaths>
         <routePath>

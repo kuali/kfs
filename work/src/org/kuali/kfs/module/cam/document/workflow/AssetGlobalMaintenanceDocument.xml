@@ -3,19 +3,19 @@
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
       <name>AA</name>
-      <parent>CapitalAssetManagementComplexMaintenanceDocument</parent>
+      <parent>CAMM</parent>
       <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="RequiresReview"/>
           <split name="RequiresReview">
-          	<branch name="True">
-          		<requests name="Account" nextNode="OrganizationHierarchy"/>
-          		<requests name="OrganizationHierarchy" nextNode="JoinRequiresReview" />
-          	</branch>
-          	<branch name="False">
-          		<simple name="NoOpRequiresReview" nextNode="JoinRequiresReview" />
-          	</branch>
-          	<join name="JoinRequiresReview" />
+            <branch name="True">
+              <requests name="Account" nextNode="OrganizationHierarchy"/>
+              <requests name="OrganizationHierarchy" nextNode="JoinRequiresReview"/>
+            </branch>
+            <branch name="False">
+              <simple name="NoOpRequiresReview" nextNode="JoinRequiresReview"/>
+            </branch>
+            <join name="JoinRequiresReview"/>
           </split>
         </routePath>
       </routePaths>

@@ -3,7 +3,7 @@
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
       <name>KRFD</name>
-      <parent>ResearchTransactionalDocument</parent>
+      <parent>RA</parent>
       <docHandler>${application.url}/researchRoutingFormMainPage.do?methodToCall=docHandler</docHandler>
       <routePaths>
         <routePath>

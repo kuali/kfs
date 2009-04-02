@@ -3,7 +3,7 @@
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
       <name>PAAT</name>
-      <parent>PreDisbursementProcessorSimpleMaintenanceDocument</parent>
+      <parent>PDSM</parent>
     </documentType>
   </documentTypes>
 </data>

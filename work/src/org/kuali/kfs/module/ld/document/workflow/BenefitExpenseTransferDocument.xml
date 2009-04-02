@@ -3,7 +3,7 @@
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
       <name>BT</name>
-      <parent>LaborDistributionTransactionalDocument</parent>
+      <parent>LD</parent>
       <docHandler>${application.url}/laborBenefitExpenseTransfer.do?methodToCall=docHandler</docHandler>
       <routePaths>
         <routePath>

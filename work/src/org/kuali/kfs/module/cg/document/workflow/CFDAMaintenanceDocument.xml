@@ -3,7 +3,7 @@
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
       <name>CFDM</name>
-      <parent>ContractsAndGrantsSimpleMaintenanceDocument</parent>
+      <parent>CGSM</parent>
     </documentType>
   </documentTypes>
 </data>

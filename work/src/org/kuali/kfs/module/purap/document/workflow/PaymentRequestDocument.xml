@@ -3,7 +3,7 @@
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
       <name>PREQ</name>
-      <parent>AccountsPayableTransactionalDocument</parent>
+      <parent>AP</parent>
       <docHandler>${application.url}/purapPaymentRequest.do?methodToCall=docHandler</docHandler>
       <routePaths>
         <routePath>

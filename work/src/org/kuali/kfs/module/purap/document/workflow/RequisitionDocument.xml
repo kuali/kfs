@@ -3,7 +3,7 @@
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
       <name>REQS</name>
-      <parent>PurchasingTransactionalDocument</parent>
+      <parent>PUR</parent>
       <docHandler>${application.url}/purapRequisition.do?methodToCall=docHandler</docHandler>
       <routePaths>
         <routePath>

@@ -3,7 +3,7 @@
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
       <name>INV</name>
-      <parent>AccountsReceivableTransactionalDocument</parent>
+      <parent>AR</parent>
       <docHandler>${application.url}/arCustomerInvoiceDocument.do?methodToCall=docHandler</docHandler>
       <routePaths>
         <routePath>

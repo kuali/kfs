@@ -3,7 +3,7 @@
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
       <name>MPAY</name>
-      <parent>CapitalAssetManagementTransactionalDocument</parent>
+      <parent>CAM</parent>
       <docHandler>${application.url}/camsAssetPayment.do?methodToCall=docHandler</docHandler>
       <routePaths>
         <routePath>

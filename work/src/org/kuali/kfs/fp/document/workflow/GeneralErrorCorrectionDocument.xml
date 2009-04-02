@@ -3,7 +3,7 @@
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
       <name>GEC</name>
-      <parent>FinancialProcessingTransactionalDocument</parent>
+      <parent>FP</parent>
       <docHandler>${application.url}/financialGeneralErrorCorrection.do?methodToCall=docHandler</docHandler>
       <routePaths>
         <routePath>

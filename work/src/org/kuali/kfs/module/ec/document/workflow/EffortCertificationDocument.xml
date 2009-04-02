@@ -3,7 +3,7 @@
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
       <name>ECD</name>
-      <parent>EffortCertificationTransactionalDocument</parent>
+      <parent>EC</parent>
       <docHandler>${application.url}/effortEffortCertification.do?methodToCall=docHandler</docHandler>
       <routePaths>
         <routePath>

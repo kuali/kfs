@@ -49,7 +49,9 @@
     				    <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
                     	    <tr>
                         	    <th>Application Document #</th>
-                                <th>Unapplied Amount</th>
+                        	    <c:if test="${readOnly ne true}">
+                        	    	<th>Unapplied Amount</th>
+                        	    </c:if>
                                 <th>Applied Amount</th>
                   		    </tr>
             	            <logic:iterate name="KualiForm" property="nonAppliedControlHoldings" id="nonApplied" indexId="idx">
@@ -57,9 +59,11 @@
     	                   		    <td>
                            			    <bean:write name="nonApplied" property="referenceFinancialDocumentNumber" />
                         		    </td>
-                    	   		    <td style="text-align: right;">
-                	           		    <bean:write name="nonApplied" property="availableUnappliedAmount" />
-            	           		    </td>
+	                        	    <c:if test="${readOnly ne true}">
+	                    	   		    <td style="text-align: right;">
+	                	           		    <bean:write name="nonApplied" property="availableUnappliedAmount" />
+	            	           		    </td>
+	                        	    </c:if>
                     	   		    <td style="text-align: right;">
                    	   		    	<c:choose>
                    	   		    	<c:when test="${KualiForm.document.final}">
@@ -74,9 +78,11 @@
                             </logic:iterate>
            	        	    <tr>
                         	    <kul:htmlAttributeHeaderCell align="right" literalLabel="Total:" />
-                        	    <td style="text-align: right;">
-                        		    <c:out value="${KualiForm.totalFromControl}" />
-    						    </td>
+                        	    <c:if test="${readOnly ne true}">
+	                        	    <td style="text-align: right;">
+    	                    		    <c:out value="${KualiForm.totalFromControl}" />
+    							    </td>
+                        	    </c:if>
                         	    <td style="text-align: right;">
                         		    <c:out value="${KualiForm.totalApplied}" />
                         	    </td>

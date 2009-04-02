@@ -82,7 +82,11 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      */
     //public KualiDecimal getAmountToApply() { return getAmountAppliedBy(currentPaymentApplicationDocument); }
     public KualiDecimal getAmountToApply() {
-        return this.isDiscountLine() ? this.getAmount().abs() : new KualiDecimal(0);
+        KualiDecimal amount = this.isDiscountLine() ? this.getAmount().abs() : new KualiDecimal(0);
+        if (getCustomerInvoiceDocument().isInvoiceReversal()) {
+            amount = amount.negated();
+        }
+        return amount;
     }
     
     //TODO andrew
@@ -775,6 +779,11 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         }
         return customerInvoiceDocument;
     }
+    
+    public void setCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument) {
+        this.customerInvoiceDocument = customerInvoiceDocument;
+    }
+    
     public String getCustomerInvoiceWriteoffDocumentNumber() {
         return customerInvoiceWriteoffDocumentNumber;
     }
@@ -824,12 +833,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      * @see org.kuali.kfs.module.ar.businessobject.AppliedPayment#getInvoiceReferenceNumber()
      */
     public String getInvoiceReferenceNumber() {
-        if (getCustomerInvoiceDocument().isInvoiceReversal()) {
-            return getCustomerInvoiceDocument().getDocumentHeader().getFinancialDocumentInErrorNumber();
-        } 
-        else {
-            return getDocumentNumber();
-        }
+        return getDocumentNumber();
     }
     
     /**

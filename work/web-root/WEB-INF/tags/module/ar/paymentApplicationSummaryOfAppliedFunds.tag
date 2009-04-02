@@ -89,12 +89,14 @@
                             <table class='datatable'>
 								<tr>
 									<c:if test="${!showCCAndBtbA}">
-										<th class='tab-subhead'>
-											Total Unapplied Funds
-										</th>
-										<th class='tab-subhead'>
-											Open Amount
-										</th>
+		                        	    <c:if test="${readOnly ne true}">
+											<th class='tab-subhead'>
+												Total Unapplied Funds
+											</th>
+											<th class='tab-subhead'>
+												Open Amount
+											</th>
+										</c:if>
 									</c:if>
 									<c:if test="${showCCAndBtbA}">
 										<th class='tab-subhead'>
@@ -110,12 +112,14 @@
 								</tr>
 								<tr>
 									<c:if test="${!showCCAndBtbA}">
-										<td>
-											$<c:out value="${KualiForm.totalFromControl}" />
-										</td>
-										<td>
-											$<c:out value="${KualiForm.unallocatedBalance}" />
-										</td>
+		                        	    <c:if test="${readOnly ne true}">
+											<td>
+												$<c:out value="${KualiForm.totalFromControl}" />
+											</td>
+											<td>
+												$<c:out value="${KualiForm.unallocatedBalance}" />
+											</td>
+										</c:if>
 									</c:if>
 									<c:if test="${showCCAndBtbA}">
 										<td>

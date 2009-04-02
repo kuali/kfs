@@ -1285,6 +1285,9 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         for (Iterator i = getSourceAccountingLines().iterator(); i.hasNext();) {
             customerInvoiceDetail = (CustomerInvoiceDetail) i.next();
             customerInvoiceDetail.setInvoiceItemUnitPrice(customerInvoiceDetail.getInvoiceItemUnitPrice().negate());
+            
+            //clear the old CustomerInvoiceDocument
+            customerInvoiceDetail.setCustomerInvoiceDocument(null);
         }
 
     }

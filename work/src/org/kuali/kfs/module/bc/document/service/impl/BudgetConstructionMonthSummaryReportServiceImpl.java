@@ -90,7 +90,7 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
         String fundGroupDes = monthSummary.getSubFundGroup().getFundGroup().getName();
 
         Integer prevFiscalyear = universityFiscalYear - 1;
-        orgMonthSummaryReportEntry.setFiscalYear(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4));
+        orgMonthSummaryReportEntry.setFiscalYear(prevFiscalyear.toString() + "-" + universityFiscalYear.toString().substring(2, 4));
         orgMonthSummaryReportEntry.setOrgChartOfAccountsCode(monthSummary.getOrganizationChartOfAccountsCode());
 
         if (orgChartDesc == null) {
@@ -129,6 +129,9 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
         }
         if (consolidateToObjectCodeLevel) {
             orgMonthSummaryReportEntry.setConsHdr(BCConstants.Report.CONSOLIIDATED);
+        }
+        else {
+            orgMonthSummaryReportEntry.setConsHdr(BCConstants.Report.BLANK);
         }
         orgMonthSummaryReportEntry.setIncomeExpenseCode(monthSummary.getIncomeExpenseCode());
         orgMonthSummaryReportEntry.setFinancialConsolidationSortCode(monthSummary.getFinancialConsolidationSortCode());
@@ -349,17 +352,17 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
             bcMonthTotal.setBudgetConstructionMonthSummary(levelEntry);
             bcMonthTotal.setLevelAccountLineAnnualBalanceAmount(levelAccountLineAnnualBalanceAmount);
             bcMonthTotal.setLevelMonth1LineAmount(levelMonth1LineAmount);
-            bcMonthTotal.setLevelMonth2LineAmount(levelMonth1LineAmount);
-            bcMonthTotal.setLevelMonth3LineAmount(levelMonth1LineAmount);
-            bcMonthTotal.setLevelMonth4LineAmount(levelMonth1LineAmount);
-            bcMonthTotal.setLevelMonth5LineAmount(levelMonth1LineAmount);
-            bcMonthTotal.setLevelMonth6LineAmount(levelMonth1LineAmount);
-            bcMonthTotal.setLevelMonth7LineAmount(levelMonth1LineAmount);
-            bcMonthTotal.setLevelMonth8LineAmount(levelMonth1LineAmount);
-            bcMonthTotal.setLevelMonth9LineAmount(levelMonth1LineAmount);
-            bcMonthTotal.setLevelMonth10LineAmount(levelMonth1LineAmount);
-            bcMonthTotal.setLevelMonth11LineAmount(levelMonth1LineAmount);
-            bcMonthTotal.setLevelMonth12LineAmount(levelMonth1LineAmount);
+            bcMonthTotal.setLevelMonth2LineAmount(levelMonth2LineAmount);
+            bcMonthTotal.setLevelMonth3LineAmount(levelMonth3LineAmount);
+            bcMonthTotal.setLevelMonth4LineAmount(levelMonth4LineAmount);
+            bcMonthTotal.setLevelMonth5LineAmount(levelMonth5LineAmount);
+            bcMonthTotal.setLevelMonth6LineAmount(levelMonth6LineAmount);
+            bcMonthTotal.setLevelMonth7LineAmount(levelMonth7LineAmount);
+            bcMonthTotal.setLevelMonth8LineAmount(levelMonth8LineAmount);
+            bcMonthTotal.setLevelMonth9LineAmount(levelMonth9LineAmount);
+            bcMonthTotal.setLevelMonth10LineAmount(levelMonth10LineAmount);
+            bcMonthTotal.setLevelMonth11LineAmount(levelMonth11LineAmount);
+            bcMonthTotal.setLevelMonth12LineAmount(levelMonth12LineAmount);
             returnList.add(bcMonthTotal);
             levelAccountLineAnnualBalanceAmount = new Integer(0);
             levelMonth1LineAmount = new Integer(0);
@@ -424,17 +427,17 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
             bcMonthTotal.setBudgetConstructionMonthSummary(consEntry);
             bcMonthTotal.setConsAccountLineAnnualBalanceAmount(consAccountLineAnnualBalanceAmount);
             bcMonthTotal.setConsMonth1LineAmount(consMonth1LineAmount);
-            bcMonthTotal.setConsMonth2LineAmount(consMonth1LineAmount);
-            bcMonthTotal.setConsMonth3LineAmount(consMonth1LineAmount);
-            bcMonthTotal.setConsMonth4LineAmount(consMonth1LineAmount);
-            bcMonthTotal.setConsMonth5LineAmount(consMonth1LineAmount);
-            bcMonthTotal.setConsMonth6LineAmount(consMonth1LineAmount);
-            bcMonthTotal.setConsMonth7LineAmount(consMonth1LineAmount);
-            bcMonthTotal.setConsMonth8LineAmount(consMonth1LineAmount);
-            bcMonthTotal.setConsMonth9LineAmount(consMonth1LineAmount);
-            bcMonthTotal.setConsMonth10LineAmount(consMonth1LineAmount);
-            bcMonthTotal.setConsMonth11LineAmount(consMonth1LineAmount);
-            bcMonthTotal.setConsMonth12LineAmount(consMonth1LineAmount);
+            bcMonthTotal.setConsMonth2LineAmount(consMonth2LineAmount);
+            bcMonthTotal.setConsMonth3LineAmount(consMonth3LineAmount);
+            bcMonthTotal.setConsMonth4LineAmount(consMonth4LineAmount);
+            bcMonthTotal.setConsMonth5LineAmount(consMonth5LineAmount);
+            bcMonthTotal.setConsMonth6LineAmount(consMonth6LineAmount);
+            bcMonthTotal.setConsMonth7LineAmount(consMonth7LineAmount);
+            bcMonthTotal.setConsMonth8LineAmount(consMonth8LineAmount);
+            bcMonthTotal.setConsMonth9LineAmount(consMonth9LineAmount);
+            bcMonthTotal.setConsMonth10LineAmount(consMonth10LineAmount);
+            bcMonthTotal.setConsMonth11LineAmount(consMonth11LineAmount);
+            bcMonthTotal.setConsMonth12LineAmount(consMonth12LineAmount);
             returnList.add(bcMonthTotal);
 
             consAccountLineAnnualBalanceAmount = new Integer(0);
@@ -500,17 +503,17 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
             bcMonthTotal.setBudgetConstructionMonthSummary(typeEntry);
             bcMonthTotal.setTypeAccountLineAnnualBalanceAmount(typeAccountLineAnnualBalanceAmount);
             bcMonthTotal.setTypeMonth1LineAmount(typeMonth1LineAmount);
-            bcMonthTotal.setTypeMonth2LineAmount(typeMonth1LineAmount);
-            bcMonthTotal.setTypeMonth3LineAmount(typeMonth1LineAmount);
-            bcMonthTotal.setTypeMonth4LineAmount(typeMonth1LineAmount);
-            bcMonthTotal.setTypeMonth5LineAmount(typeMonth1LineAmount);
-            bcMonthTotal.setTypeMonth6LineAmount(typeMonth1LineAmount);
-            bcMonthTotal.setTypeMonth7LineAmount(typeMonth1LineAmount);
-            bcMonthTotal.setTypeMonth8LineAmount(typeMonth1LineAmount);
-            bcMonthTotal.setTypeMonth9LineAmount(typeMonth1LineAmount);
-            bcMonthTotal.setTypeMonth10LineAmount(typeMonth1LineAmount);
-            bcMonthTotal.setTypeMonth11LineAmount(typeMonth1LineAmount);
-            bcMonthTotal.setTypeMonth12LineAmount(typeMonth1LineAmount);
+            bcMonthTotal.setTypeMonth2LineAmount(typeMonth2LineAmount);
+            bcMonthTotal.setTypeMonth3LineAmount(typeMonth3LineAmount);
+            bcMonthTotal.setTypeMonth4LineAmount(typeMonth4LineAmount);
+            bcMonthTotal.setTypeMonth5LineAmount(typeMonth5LineAmount);
+            bcMonthTotal.setTypeMonth6LineAmount(typeMonth6LineAmount);
+            bcMonthTotal.setTypeMonth7LineAmount(typeMonth7LineAmount);
+            bcMonthTotal.setTypeMonth8LineAmount(typeMonth8LineAmount);
+            bcMonthTotal.setTypeMonth9LineAmount(typeMonth9LineAmount);
+            bcMonthTotal.setTypeMonth10LineAmount(typeMonth10LineAmount);
+            bcMonthTotal.setTypeMonth11LineAmount(typeMonth11LineAmount);
+            bcMonthTotal.setTypeMonth12LineAmount(typeMonth12LineAmount);
             returnList.add(bcMonthTotal);
 
             typeAccountLineAnnualBalanceAmount = new Integer(0);

@@ -30,11 +30,9 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundi
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundingReasonCode;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionCalculatedSalaryFoundationTracker;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionObjectPick;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgReasonSummaryReport;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgReasonSummaryReportTotal;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReasonCodePick;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReportThresholdSettings;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionSalaryFunding;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionSalarySocialSecurityNumber;
@@ -44,7 +42,6 @@ import org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationRe
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionReasonSummaryReportService;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper;
 import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -75,7 +72,7 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
 
         boolean applyAThreshold = budgetConstructionReportThresholdSettings.isUseThreshold();
         if (applyAThreshold) {
-            budgetConstructionSalarySummaryReportDao.updateSalaryAndReasonSummaryReportsWithThreshold(principalId, universityFiscalYear-1, selectOnlyGreaterThanOrEqualToThreshold, thresholdPercent);
+            budgetConstructionSalarySummaryReportDao.updateSalaryAndReasonSummaryReportsWithThreshold(principalId, universityFiscalYear - 1, selectOnlyGreaterThanOrEqualToThreshold, thresholdPercent);
         }
         else {
             budgetConstructionSalarySummaryReportDao.updateSalaryAndReasonSummaryReportsWithoutThreshold(principalId, true);
@@ -109,27 +106,11 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
         Collection<BudgetConstructionOrgReasonSummaryReportTotal> reasonSummaryTotalPerson = calculatePersonTotal(universityFiscalYear, reasonSummaryList, listForCalculateTotalPerson, salarySsnMap);
         Collection<BudgetConstructionOrgReasonSummaryReportTotal> reasonSummaryTotalOrg = calculateOrgTotal(reasonSummaryTotalPerson, listForCalculateTotalOrg, salarySsnMap);
 
-        // object codes --> helper?
-        Map<String, Object> objectPickSearchCriteria = new HashMap<String, Object>();
-        objectPickSearchCriteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, principalId);
-        objectPickSearchCriteria.put(KFSPropertyConstants.SELECT_FLAG, true);
-        Collection<BudgetConstructionObjectPick> objectPickList = businessObjectService.findMatching(BudgetConstructionObjectPick.class, objectPickSearchCriteria);
+        // get object codes
+        String objectCodes = budgetConstructionReportsServiceHelper.getSelectedObjectCodes(principalId);
 
-        String objectCodes = StringUtils.EMPTY;
-        for (BudgetConstructionObjectPick objectPick : objectPickList) {
-            objectCodes += objectPick.getFinancialObjectCode() + KFSConstants.BLANK_SPACE;
-        }
-
-        // get reason codes --> helper class?
-        Map<String, Object> reasonCodePickSearchCriteria = new HashMap<String, Object>();
-        reasonCodePickSearchCriteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, principalId);
-        reasonCodePickSearchCriteria.put(KFSPropertyConstants.SELECT_FLAG, true);
-        Collection<BudgetConstructionReasonCodePick> reasonCodePickList = businessObjectService.findMatching(BudgetConstructionReasonCodePick.class, reasonCodePickSearchCriteria);
-
-        String reasonCodes = StringUtils.EMPTY;
-        for (BudgetConstructionReasonCodePick reasonCode : reasonCodePickList) {
-            reasonCodes += reasonCode.getAppointmentFundingReasonCode() + KFSConstants.BLANK_SPACE;
-        }
+        // get reason codes
+        String reasonCodes = budgetConstructionReportsServiceHelper.getSelectedReasonCodes(principalId);
 
         for (BudgetConstructionSalaryFunding salaryFundingEntry : reasonSummaryList) {
             BudgetConstructionSalarySocialSecurityNumber budgetSsnEntry = salarySsnMap.get(salaryFundingEntry);
@@ -150,7 +131,7 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
      */
     public void buildReportsHeader(Integer universityFiscalYear, String objectCodes, String reasonCodes, BudgetConstructionOrgReasonSummaryReport reasonSummaryReport, BudgetConstructionSalaryFunding salaryFundingEntry, BudgetConstructionSalarySocialSecurityNumber bcSSN, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings) {
         Integer prevFiscalyear = universityFiscalYear - 1;
-        reasonSummaryReport.setFiscalYear(prevFiscalyear + " - " + universityFiscalYear.toString().substring(2, 4));
+        reasonSummaryReport.setFiscalYear(prevFiscalyear + "-" + universityFiscalYear.toString().substring(2, 4));
 
         reasonSummaryReport.setOrganizationCode(bcSSN.getOrganizationCode());
         String organizationName = bcSSN.getOrganization().getOrganizationName();
@@ -173,7 +154,7 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
         }
 
         Integer prevPrevFiscalyear = prevFiscalyear - 1;
-        reasonSummaryReport.setReqFy(prevFiscalyear + " - " + universityFiscalYear.toString().substring(2, 4));
+        reasonSummaryReport.setReqFy(prevFiscalyear + "-" + universityFiscalYear.toString().substring(2, 4));
         reasonSummaryReport.setFinancialObjectCode(salaryFundingEntry.getFinancialObjectCode());
 
         reasonSummaryReport.setObjectCodes(objectCodes);

@@ -25,14 +25,13 @@ import java.util.Map;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionObjectPick;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgReasonStatisticsReport;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReasonCodePick;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReportThresholdSettings;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionSalaryTotal;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionReasonStatisticsReportDao;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionReasonStatisticsReportService;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper;
 import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -48,6 +47,7 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
 
     BudgetConstructionReasonStatisticsReportDao budgetConstructionReasonStatisticsReportDao;
     BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
+    private BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
     KualiConfigurationService kualiConfigurationService;
     BusinessObjectService businessObjectService;
 
@@ -60,10 +60,10 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
         boolean selectOnlyGreaterThanOrEqualToThreshold = budgetConstructionReportThresholdSettings.isUseGreaterThanOperator();
         KualiDecimal thresholdPercent = budgetConstructionReportThresholdSettings.getThresholdPercent();
         if (applyAThreshold) {
-            budgetConstructionReasonStatisticsReportDao.updateReasonStatisticsReportsWithAThreshold(principalName, universityFiscalYear-1, selectOnlyGreaterThanOrEqualToThreshold, thresholdPercent);
+            budgetConstructionReasonStatisticsReportDao.updateReasonStatisticsReportsWithAThreshold(principalName, universityFiscalYear - 1, selectOnlyGreaterThanOrEqualToThreshold, thresholdPercent);
         }
         else {
-            budgetConstructionReasonStatisticsReportDao.updateReasonStatisticsReportsWithoutAThreshold(principalName, universityFiscalYear-1);
+            budgetConstructionReasonStatisticsReportDao.updateReasonStatisticsReportsWithoutAThreshold(principalName, universityFiscalYear - 1);
         }
 
     }
@@ -72,35 +72,23 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionReasonStatisticsReportService#buildReports(java.lang.Integer,
      *      java.lang.String, org.kuali.kfs.module.bc.businessobject.BudgetConstructionReportThresholdSettings)
      */
-    public Collection<BudgetConstructionOrgReasonStatisticsReport> buildReports(Integer universityFiscalYear, String principalName, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings) {
+    public Collection<BudgetConstructionOrgReasonStatisticsReport> buildReports(Integer universityFiscalYear, String principalId, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings) {
         Collection<BudgetConstructionOrgReasonStatisticsReport> reportSet = new ArrayList<BudgetConstructionOrgReasonStatisticsReport>();
 
         BudgetConstructionOrgReasonStatisticsReport orgReasonStatisticsReportEntry;
         // build searchCriteria
         Map<String, Object> searchCriteria = new HashMap<String, Object>();
-        searchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, principalName);
+        searchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, principalId);
 
         // build order list
         List<String> orderList = buildOrderByList();
         Collection<BudgetConstructionSalaryTotal> reasonStatisticsList = budgetConstructionOrganizationReportsService.getBySearchCriteriaOrderByList(BudgetConstructionSalaryTotal.class, searchCriteria, orderList);
 
-        // get object codes --> helper class?
-        searchCriteria.clear();
-        searchCriteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, principalName);
-        Collection<BudgetConstructionObjectPick> objectCodePickList = businessObjectService.findMatching(BudgetConstructionObjectPick.class, searchCriteria);
-        String objectCodes = "";
-        for (BudgetConstructionObjectPick objectCode : objectCodePickList) {
-            objectCodes += objectCode.getFinancialObjectCode() + " ";
-        }
+        // get object codes
+        String objectCodes = budgetConstructionReportsServiceHelper.getSelectedObjectCodes(principalId);
 
-        // get reason codes --> helper class?
-        searchCriteria.clear();
-        searchCriteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, principalName);
-        Collection<BudgetConstructionReasonCodePick> reasonCodePickList = businessObjectService.findMatching(BudgetConstructionReasonCodePick.class, searchCriteria);
-        String reasonCodes = "";
-        for (BudgetConstructionReasonCodePick reasonCode : reasonCodePickList) {
-            reasonCodes += reasonCode.getAppointmentFundingReasonCode() + " ";
-        }
+        // get reason codes
+        String reasonCodes = budgetConstructionReportsServiceHelper.getSelectedReasonCodes(principalId);
 
         // build reports
         for (BudgetConstructionSalaryTotal reasonStatisticsEntry : reasonStatisticsList) {
@@ -122,8 +110,8 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
 
         // set fiscal year
         Integer prevFiscalyear = universityFiscalYear - 1;
-        orgReasonStatisticsReportEntry.setFiscalYear(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4));
-        
+        orgReasonStatisticsReportEntry.setFiscalYear(prevFiscalyear.toString() + "-" + universityFiscalYear.toString().substring(2, 4));
+
         // get Chart with orgChartCode
         Map<String, Object> searchCriteria = new HashMap<String, Object>();
         searchCriteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, salaryTotalEntry.getOrganizationChartOfAccountsCode());
@@ -178,10 +166,10 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
         BigDecimal decimaCsfAmount = new BigDecimal(BudgetConstructionReportHelper.convertKualiInteger(salaryTotalEntry.getCsfAmount()));
         BigDecimal decimalAppointmentRequestedAmount = new BigDecimal(BudgetConstructionReportHelper.convertKualiInteger(salaryTotalEntry.getAppointmentRequestedAmount()));
 
-        BigDecimal averageCsfAmount = BudgetConstructionReportHelper.calculateDivide(decimaCsfAmount, salaryTotalEntry.getAppointmentRequestedFteQuantity()); 
+        BigDecimal averageCsfAmount = BudgetConstructionReportHelper.calculateDivide(decimaCsfAmount, salaryTotalEntry.getAppointmentRequestedFteQuantity());
         orgReasonStatisticsReportEntry.setAverageCsfAmount(BudgetConstructionReportHelper.setDecimalDigit(averageCsfAmount, 0, false));
 
-        BigDecimal averageAppointmentRequestedAmount = BudgetConstructionReportHelper.calculateDivide(decimalAppointmentRequestedAmount, salaryTotalEntry.getAppointmentRequestedFteQuantity()); 
+        BigDecimal averageAppointmentRequestedAmount = BudgetConstructionReportHelper.calculateDivide(decimalAppointmentRequestedAmount, salaryTotalEntry.getAppointmentRequestedFteQuantity());
         orgReasonStatisticsReportEntry.setAverageAppointmentRequestedAmount(BudgetConstructionReportHelper.setDecimalDigit(averageAppointmentRequestedAmount, 0, false));
 
         orgReasonStatisticsReportEntry.setAverageChange(orgReasonStatisticsReportEntry.getAverageAppointmentRequestedAmount().subtract(orgReasonStatisticsReportEntry.getAverageCsfAmount()));
@@ -236,5 +224,14 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    /**
+     * Sets the budgetConstructionReportsServiceHelper attribute value.
+     * 
+     * @param budgetConstructionReportsServiceHelper The budgetConstructionReportsServiceHelper to set.
+     */
+    public void setBudgetConstructionReportsServiceHelper(BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper) {
+        this.budgetConstructionReportsServiceHelper = budgetConstructionReportsServiceHelper;
     }
 }

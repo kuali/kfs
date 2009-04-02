@@ -85,6 +85,14 @@ public interface BudgetConstructionReportsServiceHelper {
     public String getSelectedObjectCodes(String principalName);
 
     /**
+     * get the selected reason codes from the list displayed to the user
+     * 
+     * @param principalName
+     * @return
+     */
+    public String getSelectedReasonCodes(String principalName);
+
+    /**
      * get a budget construction administrative post
      * 
      * @param appointmentFundingEntry

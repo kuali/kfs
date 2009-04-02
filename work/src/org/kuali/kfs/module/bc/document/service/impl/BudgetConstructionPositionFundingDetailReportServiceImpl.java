@@ -38,7 +38,6 @@ import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.KualiInteger;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -193,12 +192,7 @@ public class BudgetConstructionPositionFundingDetailReportServiceImpl implements
         }
 
         if (appointmentFundingEntry != null) {
-            if (appointmentFundingEntry.getFinancialSubObjectCode().equals(BCConstants.Report.BLANK_SUB_OBJECT_CODE)) {
-                detailReportEntry.setFinancialSubObjectCode(BCConstants.Report.BLANK);
-            }
-            else {
-                detailReportEntry.setFinancialSubObjectCode(appointmentFundingEntry.getFinancialSubObjectCode());
-            }
+            detailReportEntry.setFinancialSubObjectCode(appointmentFundingEntry.getFinancialSubObjectCode());
 
             detailReportEntry.setAppointmentFundingMonth(appointmentFundingEntry.getAppointmentFundingMonth());
             detailReportEntry.setAppointmentRequestedAmount(new Integer(appointmentFundingEntry.getAppointmentRequestedAmount().intValue()));
@@ -247,7 +241,7 @@ public class BudgetConstructionPositionFundingDetailReportServiceImpl implements
                 orgPositionFundingDetailReportEntry.setTotalPersonPercentChange(BigDecimal.ZERO);
                 BigDecimal csfFte = BudgetConstructionReportHelper.setDecimalDigit(fundingDetailTotalPersonEntry.getTotalPersonPositionCsfFteQuantity(), 5, false);
                 BigDecimal reqFte = BudgetConstructionReportHelper.setDecimalDigit(fundingDetailTotalPersonEntry.getTotalPersonAppointmentRequestedFteQuantity(), 5, false);
-                if (csfFte.compareTo(reqFte) == 0){
+                if (csfFte.compareTo(reqFte) == 0) {
                     Integer amountChange = fundingDetailTotalPersonEntry.getTotalPersonAppointmentRequestedAmount() - fundingDetailTotalPersonEntry.getTotalPersonPositionCsfAmount();
                     BigDecimal percentChange = BigDecimal.ZERO;
                     orgPositionFundingDetailReportEntry.setTotalPersonAmountChange(amountChange);

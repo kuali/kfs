@@ -60,15 +60,18 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
      * @throws WorkflowException
      */
     public PaymentApplicationDocument createPaymentApplicationToMatchInvoice(CustomerInvoiceDocument customerInvoiceDocument) throws WorkflowException {
+        
         PaymentApplicationDocument applicationDocument = 
             (PaymentApplicationDocument) documentService.getNewDocument(PaymentApplicationDocument.class);
 
-        // KULAR-290
-        // This code is basically copied from PaymentApplicationDocumentAction.createDocument
-        AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
-        AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
-        accountsReceivableDocumentHeader.setDocumentNumber(applicationDocument.getDocumentNumber());
-        applicationDocument.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
+        //  get the processing chart & org off the invoice, we'll create the payapp with the same processing org
+        String processingChartCode = customerInvoiceDocument.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode();
+        String processingOrgCode = customerInvoiceDocument.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode();
+        
+        AccountsReceivableDocumentHeaderService arDocHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
+        AccountsReceivableDocumentHeader arDocHeader = arDocHeaderService.getNewAccountsReceivableDocumentHeader(processingChartCode, processingOrgCode);
+        arDocHeader.setDocumentNumber(applicationDocument.getDocumentNumber());
+        applicationDocument.setAccountsReceivableDocumentHeader(arDocHeader);
         
         // This code is basically copied from PaymentApplicationDocumentAction.quickApply
         int paidAppliedItemNumber = 1;
@@ -110,7 +113,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
     public PaymentApplicationDocument createSaveAndApprovePaymentApplicationToMatchInvoice(CustomerInvoiceDocument customerInvoiceDocument, String approvalAnnotation, List workflowNotificationRecipients) throws WorkflowException {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         PaymentApplicationDocument applicationDocument = createAndSavePaymentApplicationToMatchInvoice(customerInvoiceDocument);
-        documentService.approveDocument(applicationDocument,approvalAnnotation,workflowNotificationRecipients);
+        documentService.approveDocument(applicationDocument, approvalAnnotation, workflowNotificationRecipients);
         return applicationDocument;
     }
 

@@ -74,12 +74,21 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
 
         // the line amount for the new PaymentApplicationDocument should be the line amount in the new cash control detail
         doc.getDocumentHeader().setFinancialDocumentTotalAmount(cashControlDetail.getFinancialDocumentLineAmount());
+
+        //  re-use the Processing Chart/Org from the CashControlDoc's arDocHeader
+        String processingChartCode = cashControlDocument.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode();
+        String processingOrgCode = cashControlDocument.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode();
         
-        AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
-        AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
-        accountsReceivableDocumentHeader.setDocumentNumber(doc.getDocumentNumber());
-        accountsReceivableDocumentHeader.setCustomerNumber(cashControlDetail.getCustomerNumber());
-        doc.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
+        //  create the arDocHeader
+        // NOTE that we re-use the processing chart/org from the CashControl document, rather than 
+        // pull from the current user.  This is done to bypass some challenges in the Lockbox batch process, 
+        // and we dont believe it will impact the processing CashControl processing, as the PayApps created 
+        // always have the same processing chart/org as the cashcontrol doc that creates is
+        AccountsReceivableDocumentHeaderService arDocHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
+        AccountsReceivableDocumentHeader arDocHeader = arDocHeaderService.getNewAccountsReceivableDocumentHeader(processingChartCode, processingOrgCode);
+        arDocHeader.setDocumentNumber(doc.getDocumentNumber());
+        arDocHeader.setCustomerNumber(cashControlDetail.getCustomerNumber());
+        doc.setAccountsReceivableDocumentHeader(arDocHeader);
 
         doc.getDocumentHeader().setOrganizationDocumentNumber(cashControlDocument.getDocumentNumber());
         

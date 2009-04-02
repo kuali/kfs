@@ -17,6 +17,7 @@ package org.kuali.kfs.module.ar.batch.service.impl;
 
 import java.util.Iterator;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.batch.service.LockboxService;
@@ -61,7 +62,7 @@ public class LockboxServiceImpl implements LockboxService {
     private SystemInformationService systemInformationService;
     private AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
     private CashControlDocumentService cashControlDocumentService;
-    private PaymentApplicationDocumentService paymentApplicationDocumentService;
+    private PaymentApplicationDocumentService payAppDocService;
     private PersonService<PersonImpl> personService;
     private DataDictionaryService dataDictionaryService;
     
@@ -82,18 +83,30 @@ public class LockboxServiceImpl implements LockboxService {
             Lockbox lockbox = (Lockbox)itr.next();
             LOG.info("LOCKBOX: '" + lockbox.getLockboxNumber() + "'");
 
+            //  retrieve the processingOrg (system information) for this lockbox number
             SystemInformation sysInfo = systemInformationService.getByLockboxNumberForCurrentFiscalYear(lockbox.getLockboxNumber());
             String initiator = sysInfo.getFinancialDocumentInitiatorIdentifier();
-            LOG.info("Using SystemInformation: '" + sysInfo.toString() + "'");
-            LOG.info("Using Financial Document Initiator PrincipalID: '" + initiator + "'");
+            LOG.info("   using SystemInformation: '" + sysInfo.toString() + "'");
+            LOG.info("   using Financial Document Initiator ID: '" + initiator + "'");
             
-            //  this will throw obviously if the user isnt setup in the system
+            //  puke if the initiator stored in the systemInformation table is no good
             Person person = personService.getPerson(initiator);
             if (person == null) {
-                LOG.error("Financial Document Initiator ID [" + initiator + "] specified in SystemInformation [" + sysInfo.toString() + "] for Lockbox Number " + lockbox.getLockboxNumber() + " is not present in the system.");
-                throw new RuntimeException("Financial Document Initiator ID [" + initiator + "] specified in SystemInformation [" + sysInfo.toString() + "] for Lockbox Number " + lockbox.getLockboxNumber() + " is not present in the system.");
+                LOG.warn("   could not find [" + initiator + "] when searching by PrincipalID, so trying to find as a PrincipalName.");
+                person = personService.getPersonByPrincipalName(initiator);
+                if (person == null) {
+                    LOG.error("Financial Document Initiator ID [" + initiator + "] specified in SystemInformation [" + sysInfo.toString() + "] for Lockbox Number " + lockbox.getLockboxNumber() + " is not present in the system as either a PrincipalID or a PrincipalName.");
+                    throw new RuntimeException("Financial Document Initiator ID [" + initiator + "] specified in SystemInformation [" + sysInfo.toString() + "] for Lockbox Number " + lockbox.getLockboxNumber() + " is not present in the system as either a PrincipalID or a PrincipalName.");
+                }
+                else {
+                    LOG.info("   found [" + initiator + "] in the system as a PrincipalName.");
+                }
+            }
+            else {
+                LOG.info("   found [" + initiator + "] in the system as a PrincipalID.");
             }
             
+            //  masquerade as the person indicated in the systemInformation
             GlobalVariables.clear();
             GlobalVariables.setUserSession(new UserSession(person.getPrincipalName()));
 
@@ -103,70 +116,162 @@ public class LockboxServiceImpl implements LockboxService {
                 // to the current cashcontroldocument as cashcontroldetails.
                 LOG.info("New Lockbox batch");
 
-                cashControlDocument = (CashControlDocument)documentService.getNewDocument(dataDictionaryService.getDocumentTypeNameByClass(CashControlDocument.class));
+                //  create a new CashControl document
+                LOG.info("Creating new CashControl document for invoice: " + lockbox.getFinancialDocumentReferenceInvoiceNumber() + ".");
+                try {
+                    cashControlDocument = (CashControlDocument)documentService.getNewDocument(dataDictionaryService.getDocumentTypeNameByClass(CashControlDocument.class));
+                }
+                catch (Exception e) {
+                    LOG.error("A Exception was thrown while trying to initiate a new CashControl document.", e);
+                    throw new RuntimeException("A Exception was thrown while trying to initiate a new CashControl document.", e);
+                }
+                LOG.info("   CashControl documentNumber == '" + cashControlDocument.getDocumentNumber() + "'");
                 cashControlDocument.setCustomerPaymentMediumCode(lockbox.getCustomerPaymentMediumCode());
-                
                 if(ObjectUtils.isNotNull(lockbox.getBankCode())) {
                     String bankCode = lockbox.getBankCode();
                     cashControlDocument.setBankCode(bankCode);
                 } 
-                
                 cashControlDocument.getDocumentHeader().setDocumentDescription(ArConstants.LOCKBOX_DOCUMENT_DESCRIPTION + lockbox.getLockboxNumber());
 
-                AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
-                accountsReceivableDocumentHeader.setDocumentNumber(cashControlDocument.getDocumentNumber());
-                accountsReceivableDocumentHeader.setCustomerNumber(lockbox.getCustomerNumber());
-                accountsReceivableDocumentHeader.setProcessingChartOfAccountCode(sysInfo.getProcessingChartOfAccountCode());
-                accountsReceivableDocumentHeader.setProcessingOrganizationCode(sysInfo.getProcessingOrganizationCode());
-
-                cashControlDocument.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
+                //  setup the AR header for this CashControl doc
+                LOG.info("   creating AR header for customer: [" + lockbox.getCustomerNumber() + "] and ProcessingOrg: " + sysInfo.getProcessingChartOfAccountCode() + "-" + sysInfo.getProcessingOrganizationCode() + ".");
+                AccountsReceivableDocumentHeader arDocHeader;
+                try {
+                    arDocHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeader(
+                            sysInfo.getProcessingChartOfAccountCode(), sysInfo.getProcessingOrganizationCode());
+                }
+                catch (Exception e) {
+                    LOG.error("An Exception was thrown while trying to create a new AccountsReceivableDocumentHeader for the current user: '" + person.getPrincipalName() + "'.", e);
+                    throw new RuntimeException("An Exception was thrown while trying to create a new AccountsReceivableDocumentHeader for the current user: '" + person.getPrincipalName() + "'.", e);
+                }
+                arDocHeader.setDocumentNumber(cashControlDocument.getDocumentNumber());
+                arDocHeader.setCustomerNumber(lockbox.getCustomerNumber());
+                cashControlDocument.setAccountsReceivableDocumentHeader(arDocHeader);
             } 
             // set our control lockbox as the current lockbox and create details.
             ctrlLockbox = lockbox;
 
+            //  skip zero-dollar-amount lockboxes
+            if (lockbox.getInvoicePaidOrAppliedAmount().isZero()) {
+                LOG.warn("   lockbox has a zero dollar amount, so we're skipping it.");
+                continue;
+            }
+            
+            //  create a new cashcontrol detail
             CashControlDetail detail = new CashControlDetail();
             detail.setCustomerNumber(lockbox.getCustomerNumber());
             detail.setFinancialDocumentLineAmount(lockbox.getInvoicePaidOrAppliedAmount());
             detail.setCustomerPaymentDate(lockbox.getProcessedInvoiceDate());
             detail.setCustomerPaymentDescription("Lockbox Remittance  " +lockbox.getFinancialDocumentReferenceInvoiceNumber());
 
-            getCashControlDocumentService().addNewCashControlDetail(ArConstants.LOCKBOX_DOCUMENT_DESCRIPTION, cashControlDocument, detail);
+            //  add it to the document
+            LOG.info("   creating detail " + lockbox.getInvoicePaidOrAppliedAmount() + " with invoiceDate: " + lockbox.getProcessedInvoiceDate());
+            try {
+                getCashControlDocumentService().addNewCashControlDetail(ArConstants.LOCKBOX_DOCUMENT_DESCRIPTION, cashControlDocument, detail);
+            }
+            catch (Exception e) {
+                LOG.error("A Exception was thrown while trying to create a new CashControl detail.", e);
+                throw new RuntimeException("A Exception was thrown while trying to create a new CashControl detail.", e);
+            }
 
             String invoiceNumber = lockbox.getFinancialDocumentReferenceInvoiceNumber();
-           
-            // This is just a temporary work around due to the invoice numbers being in FIS format still.
-            try {
-                Integer.parseInt(invoiceNumber);
-            } catch (Exception e) {
-                detail.setCustomerPaymentDescription(ArConstants.LOCKBOX_REMITTANCE_FOR_INVALID_INVOICE_NUMBER +lockbox.getFinancialDocumentReferenceInvoiceNumber());
-                documentService.saveDocument(cashControlDocument);
-                continue;
-            }
+            LOG.info("   lockbox references invoice number [" + invoiceNumber + "].");
             
-            if (!documentService.documentExists(invoiceNumber)) {
-                detail.setCustomerPaymentDescription(ArConstants.LOCKBOX_REMITTANCE_FOR_INVALID_INVOICE_NUMBER +lockbox.getFinancialDocumentReferenceInvoiceNumber());
-                documentService.saveDocument(cashControlDocument);
-                continue;
+            //  before release 3, during dev, sometimes invoice numbers we got from the functional 
+            // testing dataset were old FIS style, and not compatible with KFS
+            boolean invoiceNumberNotParsable = false;
+            if (StringUtils.isBlank(invoiceNumber)) {
+                invoiceNumberNotParsable = true;
             }
-
-            CustomerInvoiceDocument customerInvoiceDocument = (CustomerInvoiceDocument)documentService.getByDocumentHeaderId(lockbox.getFinancialDocumentReferenceInvoiceNumber());
-            
-            if (!customerInvoiceDocument.isOpenInvoiceIndicator()) {
-                detail.setCustomerPaymentDescription(ArConstants.LOCKBOX_REMITTANCE_FOR_CLOSED_INVOICE_NUMBER +lockbox.getFinancialDocumentReferenceInvoiceNumber());
-                documentService.saveDocument(cashControlDocument);
-                continue;
-            } else {
-                detail.setCustomerPaymentDescription(ArConstants.LOCKBOX_REMITTANCE_FOR_INVOICE_NUMBER +lockbox.getFinancialDocumentReferenceInvoiceNumber());
-
-                if (customerInvoiceDocument.getTotalDollarAmount().equals(lockbox.getInvoicePaidOrAppliedAmount())){
-                    // KULAR-290
-                    PaymentApplicationDocument paymentApplicationDocument = 
-                        getPaymentApplicationDocumentService().createSaveAndApprovePaymentApplicationToMatchInvoice(customerInvoiceDocument, "Auto-approving. Created via Lockbox process.", null);
-                    customerInvoiceDocument.setOpenInvoiceIndicator(false);
+            else {
+                try {
+                    Integer.parseInt(invoiceNumber);
+                } catch (Exception e) {
+                    invoiceNumberNotParsable = true;
                 }
-                documentService.saveDocument(cashControlDocument);
+            }
+            
+            //  if thats the case, dont even bother looking for an invoice, just save the CashControl
+            if (invoiceNumberNotParsable) {
+                LOG.info("   invoice number [" + invoiceNumber + "] isnt in expected KFS format, so cannot load the original invoice.");
+                detail.setCustomerPaymentDescription(ArConstants.LOCKBOX_REMITTANCE_FOR_INVALID_INVOICE_NUMBER +lockbox.getFinancialDocumentReferenceInvoiceNumber());
+                try {
+                    documentService.saveDocument(cashControlDocument);
+                }
+                catch (Exception e) {
+                    LOG.error("A Exception was thrown while trying to save the CashControl document.", e);
+                    throw new RuntimeException("A Exception was thrown while trying to save the CashControl document.", e);
+                }
+                continue;
+            }
+            
+            //  check to see if the invoice indicated exists, and if not, then save the CashControl and move on
+            if (!documentService.documentExists(invoiceNumber)) {
+                LOG.info("   invoice number [" + invoiceNumber + "] does not exist in system, so cannot load the original invoice.");
+                detail.setCustomerPaymentDescription(ArConstants.LOCKBOX_REMITTANCE_FOR_INVALID_INVOICE_NUMBER +lockbox.getFinancialDocumentReferenceInvoiceNumber());
+                try {
+                    documentService.saveDocument(cashControlDocument);
+                }
+                catch (Exception e) {
+                    LOG.error("A Exception was thrown while trying to save the CashControl document.", e);
+                    throw new RuntimeException("A Exception was thrown while trying to save the CashControl document.", e);
+                }
+                continue;
             }
 
+            //  load up the specified invoice from the lockbox
+            LOG.info("   loading invoice number [" + invoiceNumber + "].");
+            CustomerInvoiceDocument customerInvoiceDocument;
+            try {
+                customerInvoiceDocument = (CustomerInvoiceDocument)documentService.getByDocumentHeaderId(invoiceNumber);
+            }
+            catch (Exception e) {
+                LOG.error("A Exception was thrown while trying to load invoice #" + invoiceNumber + ".", e);
+                throw new RuntimeException("A Exception was thrown while trying to load invoice #" + invoiceNumber + ".", e);
+            }
+            
+            //  if the invoice is already closed, then just save the CashControl and move on
+            if (!customerInvoiceDocument.isOpenInvoiceIndicator()) {
+                LOG.info("   invoice is already closed, so saving CashControl doc and moving on.");
+                detail.setCustomerPaymentDescription(ArConstants.LOCKBOX_REMITTANCE_FOR_CLOSED_INVOICE_NUMBER +lockbox.getFinancialDocumentReferenceInvoiceNumber());
+                try {
+                    documentService.saveDocument(cashControlDocument);
+                }
+                catch (Exception e) {
+                    LOG.error("A Exception was thrown while trying to save the CashControl document.", e);
+                    throw new RuntimeException("A Exception was thrown while trying to save the CashControl document.", e);
+                }
+                continue;
+            }
+            
+            //  if the lockbox amount matches the invoice amount, then create, save and approve a PayApp, and then 
+            // mark the invoice
+            detail.setCustomerPaymentDescription(ArConstants.LOCKBOX_REMITTANCE_FOR_INVOICE_NUMBER +lockbox.getFinancialDocumentReferenceInvoiceNumber());
+            if (customerInvoiceDocument.getTotalDollarAmount().equals(lockbox.getInvoicePaidOrAppliedAmount())){
+                LOG.info("   lockbox amount matches invoice total document amount.");
+                // KULAR-290
+                LOG.info("   creating, saving, and approving Payment Application Document.");
+                PaymentApplicationDocument payAppDoc;
+                try {
+                    payAppDoc = payAppDocService.createSaveAndApprovePaymentApplicationToMatchInvoice(customerInvoiceDocument, 
+                            "Auto-approving. Created via Lockbox process.", null);
+                    // note that the payapp will automatically close the invoice if it brought 
+                    // the invoice to zero open amount
+                }
+                catch (Exception e) {
+                    LOG.error("A Exception was thrown while trying to create, save and approve a PayAppDoc.", e);
+                    throw new RuntimeException("A Exception was thrown while trying to create, save and approve a PayAppDoc.", e);
+                }
+                LOG.info("   paymentApplicationDocument [" + payAppDoc.getDocumentNumber() + "] created successfully.");
+            }
+            LOG.info("   saving cash control document.");
+            try {
+                documentService.saveDocument(cashControlDocument);
+            }
+            catch (Exception e) {
+                LOG.error("A Exception was thrown while trying to save the CashControl document.", e);
+                throw new RuntimeException("A Exception was thrown while trying to save the CashControl document.", e);
+            }
         }
         return true;
 
@@ -200,12 +305,8 @@ public class LockboxServiceImpl implements LockboxService {
         this.accountsReceivableDocumentHeaderService = accountsReceivableDocumentHeaderService;
     }
 
-    public PaymentApplicationDocumentService getPaymentApplicationDocumentService() {
-        return paymentApplicationDocumentService;
-    }
-
     public void setPaymentApplicationDocumentService(PaymentApplicationDocumentService paymentApplicationDocumentService) {
-        this.paymentApplicationDocumentService = paymentApplicationDocumentService;
+        this.payAppDocService = paymentApplicationDocumentService;
     }
 
     public void setPersonService(PersonService<PersonImpl> personService) {

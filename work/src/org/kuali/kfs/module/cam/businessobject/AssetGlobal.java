@@ -1,6 +1,7 @@
 package org.kuali.kfs.module.cam.businessobject;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -15,6 +16,8 @@ import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
+import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.GlobalBusinessObject;
 import org.kuali.rice.kns.bo.GlobalBusinessObjectDetail;
@@ -876,9 +879,11 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      * @return
      */
     public Date getSeparateDocumentHeaderFinalDate() {
-        // FIXME - later
+        DocumentRouteHeaderValue routeHeader = SpringContext.getBean(RouteHeaderService.class).getRouteHeader(Long.valueOf(this.documentNumber));
+        if (routeHeader != null && routeHeader.getApprovedDate() != null) {
+            return new Date(routeHeader.getApprovedDate().getTime());
+        }
         return null;
-
     }
 
     public boolean isCapitalAssetBuilderOriginIndicator() {

@@ -64,7 +64,7 @@
     <property name="title" value="Award Maintenance"/>
     <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="proposalNumber" p:required="true" p:readOnlyAfterAdd="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="proposalNumber" p:required="true" p:lookupReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="awardStatusCode" p:defaultValue="A" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="agencyNumber" p:required="true" p:webUILeaveFieldFunction="onblur_agencyNumber"/>
         <bean parent="MaintainableFieldDefinition" p:name="agency.fullName" p:unconditionallyReadOnly="true"/>

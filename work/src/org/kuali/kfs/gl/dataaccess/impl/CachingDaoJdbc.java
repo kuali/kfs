@@ -930,10 +930,10 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
                 expenditureTransactionInsert = connection.prepareStatement("insert into GL_EXPEND_TRN_T values (?,?,?,?,?,?,?,?,?,?,?,?)");
                 expenditureTransactionUpdate = connection.prepareStatement("update GL_EXPEND_TRN_T set ACCT_OBJ_DCST_AMT = ? where UNIV_FISCAL_YR = ? and FIN_COA_CD = ? and ACCOUNT_NBR = ? and SUB_ACCT_NBR = ? and FIN_OBJECT_CD = ? and FIN_SUB_OBJ_CD = ? and FIN_BALANCE_TYP_CD = ? and FIN_OBJ_TYP_CD = ? and UNIV_FISCAL_PRD_CD = ? and PROJECT_CD = ? and ORG_REFERENCE_ID = ?");
                 sufficientFundBalancesPreparedSelect = connection.prepareStatement("select ACCT_SF_CD, CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT from GL_SF_BALANCES_T where UNIV_FISCAL_YR = ? and FIN_COA_CD = ? and ACCOUNT_NBR = ? and FIN_OBJECT_CD = ?");
-                sufficientFundBalancesInsert = connection.prepareStatement("insert into GL_SF_BALANCES_T values (?,?,?,?,?,?,?,?,?,?)");
+                sufficientFundBalancesInsert = connection.prepareStatement("insert into GL_SF_BALANCES_T values (?,?,?,?,?,?,?,?,?)");
                 sufficientFundBalancesUpdate = connection.prepareStatement("update GL_SF_BALANCES_T set ACCT_SF_CD = ?, CURR_BDGT_BAL_AMT = ?, ACCT_ACTL_XPND_AMT = ?, ACCT_ENCUM_AMT = ?, TIMESTAMP = ? where UNIV_FISCAL_YR = ? and FIN_COA_CD = ? and ACCOUNT_NBR = ? and FIN_OBJECT_CD = ?"); //NOTE: not updating u_version, but shouldn't cause a problem since Uniface never updated this table
                 accountBalancePreparedSelect = connection.prepareStatement("select CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT from GL_ACCT_BALANCES_T where UNIV_FISCAL_YR = ? and FIN_COA_CD = ? and ACCOUNT_NBR = ? and SUB_ACCT_NBR = ? and FIN_OBJECT_CD = ? and FIN_SUB_OBJ_CD = ?");
-                accountBalanceInsert = connection.prepareStatement("insert into GL_ACCT_BALANCES_T values (?,?,?,?,?,?,?,?,?,?,?)");
+                accountBalanceInsert = connection.prepareStatement("insert into GL_ACCT_BALANCES_T values (?,?,?,?,?,?,?,?,?,?)");
                 accountBalanceUpdate = connection.prepareStatement("update GL_ACCT_BALANCES_T set CURR_BDLN_BAL_AMT = ?, ACLN_ACTLS_BAL_AMT = ?, ACLN_ENCUM_BAL_AMT = ?, TIMESTAMP = ? where UNIV_FISCAL_YR = ? and FIN_COA_CD = ? and ACCOUNT_NBR = ? and SUB_ACCT_NBR = ? and FIN_OBJECT_CD = ? and FIN_SUB_OBJ_CD = ?"); //NOTE: not updating u_version, but shouldn't cause a problem since Uniface never updated this table
 
                 
@@ -1295,12 +1295,11 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
             sufficientFundBalancesInsert.setString(2, sufficientFundBalances.getChartOfAccountsCode());
             sufficientFundBalancesInsert.setString(3, sufficientFundBalances.getAccountNumber());
             sufficientFundBalancesInsert.setString(4, sufficientFundBalances.getFinancialObjectCode());
-            sufficientFundBalancesInsert.setString(5, "!"); //u_version
-            sufficientFundBalancesInsert.setString(6, sufficientFundBalances.getAccountSufficientFundsCode());
-            sufficientFundBalancesInsert.setBigDecimal(7, sufficientFundBalances.getCurrentBudgetBalanceAmount().bigDecimalValue());
-            sufficientFundBalancesInsert.setBigDecimal(8, sufficientFundBalances.getAccountActualExpenditureAmt().bigDecimalValue());
-            sufficientFundBalancesInsert.setBigDecimal(9, sufficientFundBalances.getAccountEncumbranceAmount().bigDecimalValue());
-            sufficientFundBalancesInsert.setTimestamp(10, dateTimeService.getCurrentTimestamp());
+            sufficientFundBalancesInsert.setString(5, sufficientFundBalances.getAccountSufficientFundsCode());
+            sufficientFundBalancesInsert.setBigDecimal(6, sufficientFundBalances.getCurrentBudgetBalanceAmount().bigDecimalValue());
+            sufficientFundBalancesInsert.setBigDecimal(7, sufficientFundBalances.getAccountActualExpenditureAmt().bigDecimalValue());
+            sufficientFundBalancesInsert.setBigDecimal(8, sufficientFundBalances.getAccountEncumbranceAmount().bigDecimalValue());
+            sufficientFundBalancesInsert.setTimestamp(9, dateTimeService.getCurrentTimestamp());
             
             sufficientFundBalancesInsert.executeQuery();
             previousSufficientFundBalancesKey = "GL_SF_BALANCES_T:" + sufficientFundBalances.getUniversityFiscalYear().toString() + "/" + sufficientFundBalances.getChartOfAccountsCode() + "/" + sufficientFundBalances.getAccountNumber() + "/" + sufficientFundBalances.getFinancialObjectCode();
@@ -1373,11 +1372,10 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
             accountBalanceInsert.setString(4, accountBalance.getSubAccountNumber());
             accountBalanceInsert.setString(5, accountBalance.getObjectCode());
             accountBalanceInsert.setString(6, accountBalance.getSubObjectCode());
-            accountBalanceInsert.setString(7, "!"); //u_version
-            accountBalanceInsert.setBigDecimal(8, accountBalance.getCurrentBudgetLineBalanceAmount().bigDecimalValue());
-            accountBalanceInsert.setBigDecimal(9, accountBalance.getAccountLineActualsBalanceAmount().bigDecimalValue());
-            accountBalanceInsert.setBigDecimal(10, accountBalance.getAccountLineEncumbranceBalanceAmount().bigDecimalValue());
-            accountBalanceInsert.setTimestamp(11, dateTimeService.getCurrentTimestamp());
+            accountBalanceInsert.setBigDecimal(7, accountBalance.getCurrentBudgetLineBalanceAmount().bigDecimalValue());
+            accountBalanceInsert.setBigDecimal(8, accountBalance.getAccountLineActualsBalanceAmount().bigDecimalValue());
+            accountBalanceInsert.setBigDecimal(9, accountBalance.getAccountLineEncumbranceBalanceAmount().bigDecimalValue());
+            accountBalanceInsert.setTimestamp(10, dateTimeService.getCurrentTimestamp());
             
             accountBalanceInsert.executeQuery();
             previousAccountBalanceKey = "GL_ACCT_BALANCES_T:" + accountBalance.getUniversityFiscalYear().toString() + "/" + accountBalance.getChartOfAccountsCode() + "/" + accountBalance.getAccountNumber() + "/" + accountBalance.getSubAccountNumber() + "/" + accountBalance.getObjectCode() + "/" + accountBalance.getSubObjectCode();

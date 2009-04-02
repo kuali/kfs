@@ -174,6 +174,14 @@ public class LaborLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements L
         
         Iterator<Object[]> iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(reportQuery);
         Object[] returnResult = TransactionalServiceUtils.retrieveFirstAndExhaustIterator(iterator);
+        
+        if (returnResult[0] instanceof BigDecimal) {
+            returnResult[0] = ((BigDecimal) returnResult[0]).intValue();
+        }
+        else {
+            returnResult[0] = ((Long) returnResult[0]).intValue();
+        }
+        
         return returnResult;
     }
     

@@ -345,7 +345,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
             Object[] objects = ledgerEntryBalancingDao.findEntryByGroup(ledgerEntryHistory.getUniversityFiscalYear(), ledgerEntryHistory.getChartOfAccountsCode(), ledgerEntryHistory.getFinancialObjectCode(), ledgerEntryHistory.getFinancialBalanceTypeCode(), ledgerEntryHistory.getUniversityFiscalPeriodCode(), ledgerEntryHistory.getTransactionDebitCreditCode());
             
             if (ObjectUtils.isNull(objects) ||
-                    !(((Long) objects[0]).intValue() == ledgerEntryHistory.getRowCount()
+                    !(((Integer) objects[0]).intValue() == ledgerEntryHistory.getRowCount()
                             && ((KualiDecimal) objects[1]).equals(ledgerEntryHistory.getTransactionLedgerEntryAmount()))) {
                 // Compare failed, properly log it if we havn't written more then TOTAL_COMPARISION_FAILURES_TO_PRINT yet
                 if (countComparisionFailures == 0) {

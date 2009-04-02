@@ -236,7 +236,7 @@ public class PosterServiceImpl implements PosterService {
                         }
                         // need to pass ecount for building better message
                         addReporting(reportSummary, "SEQUENTIAL", GeneralLedgerConstants.SELECT_CODE);
-                        postTransaction(tran, mode, reportSummary, OUTPUT_ERR_FILE_ps, runUniversityDate);
+                        postTransaction(tran, mode, reportSummary, OUTPUT_ERR_FILE_ps, runUniversityDate, GLEN_RECORD);
                         
                         if (ecount % 1000 == 0) {
                             LOG.info("postEntries() Posted Entry " + ecount);
@@ -262,7 +262,7 @@ public class PosterServiceImpl implements PosterService {
                     Transaction tran = (Transaction) reversalTransactions.next();
                     addReporting(reportSummary, GL_REVERSAL_T, GeneralLedgerConstants.SELECT_CODE);
 
-                    postTransaction(tran, mode, reportSummary, OUTPUT_ERR_FILE_ps, runUniversityDate);
+                    postTransaction(tran, mode, reportSummary, OUTPUT_ERR_FILE_ps, runUniversityDate, GL_REVERSAL_T);
                     if (ecount % 1000 == 0) {
                         LOG.info("postEntries() Posted Entry " + ecount);
                     }
@@ -319,7 +319,7 @@ public class PosterServiceImpl implements PosterService {
      * @param validGroup the gorup to save valid posted entries into
      * @param runUniversityDate the university date of this poster run
      */
-    private void postTransaction(Transaction tran, int mode, Map<String,Integer> reportSummary, PrintStream invalidGroup, UniversityDate runUniversityDate) {
+    private void postTransaction(Transaction tran, int mode, Map<String,Integer> reportSummary, PrintStream invalidGroup, UniversityDate runUniversityDate, String line) {
 
         List<Message> errors = new ArrayList();
         Transaction originalTransaction = tran;
@@ -400,7 +400,7 @@ public class PosterServiceImpl implements PosterService {
                 textReportHelper.writeErrors(tran, errors);
                 addReporting(reportSummary, "WARNING", GeneralLedgerConstants.INSERT_CODE);
                 try {
-                    createOutputEntry(tran, invalidGroup);
+                    writeErrorEntry(line, invalidGroup);
                 }
                 catch (IOException ioe) {
                     LOG.error("PosterServiceImpl Stopped: " + ioe.getMessage());
@@ -1012,6 +1012,14 @@ public class PosterServiceImpl implements PosterService {
         }
     }
 
+    private void writeErrorEntry(String line, PrintStream invaliGroup) throws IOException {
+        try {
+            invaliGroup.printf("%s\n", line);
+        } catch (Exception e) {
+            throw new IOException(e.toString());
+        }
+    }
+    
     public CachingDao getCachingDao() {
         return cachingDao;
     }

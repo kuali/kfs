@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.ld.batch.service.impl;
 
-import static org.kuali.kfs.module.ld.LaborConstants.DestinationNames.ORIGN_ENTRY;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,7 +23,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,8 +34,8 @@ import org.kuali.kfs.gl.batch.service.VerifyTransaction;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.Transaction;
-import org.kuali.kfs.gl.exception.LoadException;
 import org.kuali.kfs.gl.report.Summary;
+import org.kuali.kfs.gl.report.TextReportHelper;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborConstants.Poster;
@@ -55,7 +52,6 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.MessageBuilder;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.gl.report.TextReportHelper;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -195,7 +191,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
                         if (loadedCount % 1000 == 0) {
                             LOG.info(loadedCount + " " + laborOriginEntry.toString());
                         }
-                        if (postSingleEntryIntoLaborLedger(laborOriginEntry, reportSummary,  runDate)) {
+                        if (postSingleEntryIntoLaborLedger(laborOriginEntry, reportSummary,  runDate, currentLine)) {
                             summarizeLaborGLEntries(laborOriginEntry, laborLedgerUnitOfWork, runDate, lineNumber);
                             numberOfSelectedOriginEntry++;
                             laborOriginEntry = null;
@@ -254,7 +250,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      */
     // private boolean postSingleEntryIntoLaborLedger(LaborOriginEntry originEntry, List<Summary> reportSummary, Map<Transaction,
     // List<Message>> errorMap, OriginEntryGroup validGroup, OriginEntryGroup invalidGroup, Date runDate) {
-    private boolean postSingleEntryIntoLaborLedger(LaborOriginEntry originEntry,  Map<String,Integer> reportSummary, Date runDate) {
+    private boolean postSingleEntryIntoLaborLedger(LaborOriginEntry originEntry,  Map<String,Integer> reportSummary, Date runDate, String line) {
         // reject the entry that is not postable
         if (!isPostableEntry(originEntry)) {
             return false;
@@ -272,7 +268,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         if (errors != null && !errors.isEmpty()) {
             textReportHelper.writeErrors(originEntry, errors);
             numberOfErrorOriginEntry += errors.size();
-            writeErrorEntry(originEntry);
+            writeErrorEntry(line);
             return false;
         }
 
@@ -744,9 +740,9 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         }
     }
     
-    private void writeErrorEntry(LaborOriginEntry originEntry) {
+    private void writeErrorEntry(String line) {
         try {
-            POSTER_OUTPUT_ERR_FILE_ps.printf("%s\n", originEntry.getLine());
+            POSTER_OUTPUT_ERR_FILE_ps.printf("%s\n", line);
         } catch (Exception e) {
             LOG.error("postAsProcessedOriginEntry stopped due to: " + e.getMessage(), e);
             throw new RuntimeException("Unable to execute: " + e.getMessage(), e);

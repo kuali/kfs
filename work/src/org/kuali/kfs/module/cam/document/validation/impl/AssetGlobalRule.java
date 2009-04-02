@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cam.document.validation.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -54,6 +55,7 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.ParameterEvaluator;
@@ -477,23 +479,22 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validates the posted date
+     * payment posted date can't be a future date
      * 
      * @param assetPaymentDetail
      * @return boolean
      */
     private boolean validatePostedDate(AssetPaymentDetail assetPaymentDetail) {
         boolean valid = true;
+        Date currentDate= SpringContext.getBean(DateTimeService.class).getCurrentDate();
+        
         if (!getAssetPaymentService().extractPostedDatePeriod(assetPaymentDetail)) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR, CamsKeyConstants.AssetGlobal.ERROR_UNIVERSITY_NOT_DEFINED_FOR_DATE, new String[] { assetPaymentDetail.getExpenditureFinancialDocumentPostedDate().toString() });
             valid &= false;
-        }
-        // payment posted date can't be a future date, i.e. extracted fiscal year from posted date should be less than or equal the
-        // current fiscal year.
-        else if (assetPaymentDetail.getPostingYear().compareTo(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear()) > 0) {
+        } else if (assetPaymentDetail.getExpenditureFinancialDocumentPostedDate().compareTo(currentDate) > 0) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, CamsKeyConstants.Payment.ERROR_INVALID_DOC_POST_DATE);
             valid = false;
         }
-
         return valid;
     }
 

@@ -60,13 +60,11 @@ public class CorrectionGroupEntriesFinder extends KeyValuesBase {
 
                     //build display file name with date and size
                     Date date = new Date(file.lastModified());
-                    String timeInfo = "(Date: " + date.toLocaleString() + ")";
-                    String sizeInfo = "(Size: " +  (new Long(file.length())).toString() + ")";
+                    String timeInfo = "(" + date.toLocaleString() + ")";
+                    String sizeInfo = "(" +  (new Long(file.length())).toString() + ")";
                                         
                     activeLabels.add(new KeyLabelPair(fileName,  timeInfo + " " + fileName + " " + sizeInfo ));
                 }
-                
-                
             }    
         }
         

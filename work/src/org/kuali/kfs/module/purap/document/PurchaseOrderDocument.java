@@ -291,7 +291,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         }
         return null;
     }
-        
+    
     public boolean getAssigningSensitiveData() {
         return assigningSensitiveData;
     }
@@ -471,7 +471,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         this.setPostingYear(requisitionDocument.getPostingYear());
         this.setPurchaseOrderEndDate(requisitionDocument.getPurchaseOrderEndDate());
         this.setChartOfAccountsCode(requisitionDocument.getChartOfAccountsCode());
-        this.setFundingSourceCode(requisitionDocument.getFundingSourceCode());
+        this.setDocumentFundingSourceCode(requisitionDocument.getDocumentFundingSourceCode());
         this.setInstitutionContactEmailAddress(requisitionDocument.getInstitutionContactEmailAddress());
         this.setInstitutionContactName(requisitionDocument.getInstitutionContactName());
         this.setInstitutionContactPhoneNumber(requisitionDocument.getInstitutionContactPhoneNumber());
@@ -1571,7 +1571,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         }
         return accounts;
     }
-
+    
     public DocSearchCriteriaDTO convertSelections(DocSearchCriteriaDTO searchCriteria) {
 
         for (SearchAttributeCriteriaComponent comp : searchCriteria.getSearchableAttributes()) {  

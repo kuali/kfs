@@ -55,9 +55,9 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
      */
     public ItemParser getItemParser();
 
-    public String getFundingSourceCode();
+    public String getDocumentFundingSourceCode();
 
-    public void setFundingSourceCode(String fundingSourceCode);
+    public void setDocumentFundingSourceCode(String fundingSourceCode);
 
     public String getRequisitionSourceCode();
 

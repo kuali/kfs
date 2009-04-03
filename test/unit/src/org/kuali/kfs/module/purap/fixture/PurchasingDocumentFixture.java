@@ -1000,7 +1000,7 @@ public enum PurchasingDocumentFixture {
 
     private PurchasingDocument createPurchasingDocument(Class clazz, PurchasingAccountsPayableDocumentFixture purapFixture) {
         PurchasingDocument doc = (PurchasingDocument) purapFixture.createPurchasingAccountsPayableDocument(clazz);
-        doc.setFundingSourceCode(this.fundingSourceCode);
+        doc.setDocumentFundingSourceCode(this.fundingSourceCode);
         doc.setRequisitionSourceCode(this.requisitionSourceCode);
         doc.setPurchaseOrderTransmissionMethodCode(this.purchaseOrderTransmissionMethodCode);
         doc.setPurchaseOrderCostSourceCode(this.purchaseOrderCostSourceCode);

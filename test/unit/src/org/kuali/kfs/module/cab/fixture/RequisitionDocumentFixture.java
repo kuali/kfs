@@ -30,7 +30,7 @@ public enum RequisitionDocumentFixture {
             RequisitionDocument obj = new RequisitionDocument();
             obj.setPurapDocumentIdentifier(11);
             obj.setDocumentNumber("11");
-            obj.setFundingSourceCode("INST");
+            obj.setDocumentFundingSourceCode("INST");
             obj.setRequisitionSourceCode("STAN");
             obj.setStatusCode("ACMR");
             obj.setPurchaseOrderTransmissionMethodCode("PRIN");
@@ -73,7 +73,7 @@ public enum RequisitionDocumentFixture {
             RequisitionDocument obj = new RequisitionDocument();
             obj.setPurapDocumentIdentifier(12);
             obj.setDocumentNumber("12");
-            obj.setFundingSourceCode("INST");
+            obj.setDocumentFundingSourceCode("INST");
             obj.setRequisitionSourceCode("STAN");
             obj.setStatusCode("ACMR");
             obj.setPurchaseOrderTransmissionMethodCode("PRIN");
@@ -116,7 +116,7 @@ public enum RequisitionDocumentFixture {
             RequisitionDocument obj = new RequisitionDocument();
             obj.setPurapDocumentIdentifier(13);
             obj.setDocumentNumber("13");
-            obj.setFundingSourceCode("INST");
+            obj.setDocumentFundingSourceCode("INST");
             obj.setRequisitionSourceCode("STAN");
             obj.setStatusCode("ACMR");
             obj.setPurchaseOrderTransmissionMethodCode("PRIN");

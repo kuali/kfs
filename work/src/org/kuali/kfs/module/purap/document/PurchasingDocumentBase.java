@@ -73,7 +73,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchasingDocumentBase.class);
 
     // SHARED FIELDS BETWEEN REQUISITION AND PURCHASE ORDER
-    private String fundingSourceCode;
+    private String documentFundingSourceCode;
     private String requisitionSourceCode;
     private String purchaseOrderTransmissionMethodCode;
     private String purchaseOrderCostSourceCode;
@@ -654,12 +654,12 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         this.externalOrganizationB2bSupplierIdentifier = externalOrganizationB2bSupplierIdentifier;
     }
 
-    public String getFundingSourceCode() {
-        return fundingSourceCode;
+    public String getDocumentFundingSourceCode() {
+        return documentFundingSourceCode;
     }
 
-    public void setFundingSourceCode(String fundingSourceCode) {
-        this.fundingSourceCode = fundingSourceCode;
+    public void setDocumentFundingSourceCode(String documentFundingSourceCode) {
+        this.documentFundingSourceCode = documentFundingSourceCode;
     }
 
     public String getInstitutionContactEmailAddress() {

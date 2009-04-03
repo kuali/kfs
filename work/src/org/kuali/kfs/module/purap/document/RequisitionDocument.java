@@ -185,7 +185,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.setStatusCode(PurapConstants.RequisitionStatuses.IN_PROCESS);
         this.setPurchaseOrderCostSourceCode(PurapConstants.POCostSources.ESTIMATE);
         this.setPurchaseOrderTransmissionMethodCode(determinePurchaseOrderTransmissionMethod());
-        this.setFundingSourceCode(SpringContext.getBean(ParameterService.class).getParameterValue(getClass(), PurapParameterConstants.DEFAULT_FUNDING_SOURCE));
+        this.setDocumentFundingSourceCode(SpringContext.getBean(ParameterService.class).getParameterValue(getClass(), PurapParameterConstants.DEFAULT_FUNDING_SOURCE));
         this.setUseTaxIndicator(SpringContext.getBean(PurchasingService.class).getDefaultUseTaxIndicatorValue(this));
             
         Person currentUser = GlobalVariables.getUserSession().getPerson();

@@ -51,7 +51,7 @@ public enum PurchaseOrderDocumentFixture {
             obj.setVendorShippingTitleCode("OR");
             obj.setVendorFaxNumber("517-515-5117");
             obj.setVendorShippingPaymentTermsCode("AL");
-            obj.setFundingSourceCode("INST");
+            obj.setDocumentFundingSourceCode("INST");
             obj.setRequestorPersonName("HUNTLEY,KEISHA Y");
             obj.setRequestorPersonEmailAddress("KGLTEST-L@INDIANA.EDU");
             obj.setRequestorPersonPhoneNumber("248-837-5242");
@@ -118,7 +118,7 @@ public enum PurchaseOrderDocumentFixture {
             obj.setVendorShippingTitleCode("OR");
             obj.setVendorFaxNumber("517-515-5117");
             obj.setVendorShippingPaymentTermsCode("AL");
-            obj.setFundingSourceCode("INST");
+            obj.setDocumentFundingSourceCode("INST");
             obj.setRequestorPersonName("HUNTLEY,KEISHA Y");
             obj.setRequestorPersonEmailAddress("KGLTEST-L@INDIANA.EDU");
             obj.setRequestorPersonPhoneNumber("248-837-5242");
@@ -185,7 +185,7 @@ public enum PurchaseOrderDocumentFixture {
             obj.setVendorShippingTitleCode("OR");
             obj.setVendorFaxNumber("517-515-5117");
             obj.setVendorShippingPaymentTermsCode("AL");
-            obj.setFundingSourceCode("INST");
+            obj.setDocumentFundingSourceCode("INST");
             obj.setRequestorPersonName("HUNTLEY,KEISHA Y");
             obj.setRequestorPersonEmailAddress("KGLTEST-L@INDIANA.EDU");
             obj.setRequestorPersonPhoneNumber("248-837-5242");

@@ -94,7 +94,7 @@
         <ref bean="PurchaseOrderDocument-deliveryToName"/>
         <ref bean="PurchaseOrderDocument-deliveryToPhoneNumber"/>
         <ref bean="PurchaseOrderDocument-externalOrganizationB2bSupplierIdentifier"/>
-        <ref bean="PurchaseOrderDocument-fundingSourceCode"/>
+        <ref bean="PurchaseOrderDocument-documentFundingSourceCode"/>
         <ref bean="PurchaseOrderDocument-institutionContactEmailAddress"/>
         <ref bean="PurchaseOrderDocument-institutionContactName"/>
         <ref bean="PurchaseOrderDocument-institutionContactPhoneNumber"/>
@@ -673,9 +673,10 @@
       <bean parent="TextControlDefinition" p:size="21"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderDocument-fundingSourceCode" parent="PurchaseOrderDocument-fundingSourceCode-parentBean"/>
+  <bean id="PurchaseOrderDocument-documentFundingSourceCode" parent="PurchaseOrderDocument-documentFundingSourceCode-parentBean"/>
 
-  <bean id="PurchaseOrderDocument-fundingSourceCode-parentBean" abstract="true" parent="FundingSource-fundingSourceCode">
+  <bean id="PurchaseOrderDocument-documentFundingSourceCode-parentBean" abstract="true" parent="FundingSource-fundingSourceCode">
+    <property name="name" value="documentFundingSourceCode" />
     <property name="label" value="Funding Source"/>
     <property name="shortLabel" value="Funding Source"/>
     <property name="required" value="true"/>

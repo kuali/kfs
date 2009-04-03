@@ -194,7 +194,7 @@ public class PurapMassRequisitionStep extends AbstractStep {
             reqDoc.getDocumentHeader().setExplanation("batch created quantity document");
             DocumentHeader documentHeader = reqDoc.getDocumentHeader();
             documentHeader.setDocumentDescription("batch created quantity document");
-            reqDoc.setFundingSourceCode("INST");
+            reqDoc.setDocumentFundingSourceCode("INST");
             reqDoc.setRequisitionSourceCode(RequisitionSources.STANDARD_ORDER);
             reqDoc.setPurchaseOrderTransmissionMethodCode(POTransmissionMethods.NOPRINT);
             reqDoc.setPurchaseOrderCostSourceCode(POCostSources.ESTIMATE);
@@ -274,7 +274,7 @@ public class PurapMassRequisitionStep extends AbstractStep {
             reqDoc.getDocumentHeader().setExplanation("batch created non-quantity document");
             DocumentHeader documentHeader = reqDoc.getDocumentHeader();
             documentHeader.setDocumentDescription("batch created non-quantity document");
-            reqDoc.setFundingSourceCode("INST");
+            reqDoc.setDocumentFundingSourceCode("INST");
             reqDoc.setRequisitionSourceCode(RequisitionSources.STANDARD_ORDER);
             reqDoc.setPurchaseOrderTransmissionMethodCode(POTransmissionMethods.NOPRINT);
             reqDoc.setPurchaseOrderCostSourceCode(POCostSources.ESTIMATE);
@@ -352,7 +352,7 @@ public class PurapMassRequisitionStep extends AbstractStep {
             reqDoc.getDocumentHeader().setExplanation("batch created quantity document for cams");
             DocumentHeader documentHeader = reqDoc.getDocumentHeader();
             documentHeader.setDocumentDescription("batch created quantity document for cams");
-            reqDoc.setFundingSourceCode("INST");
+            reqDoc.setDocumentFundingSourceCode("INST");
             reqDoc.setRequisitionSourceCode(RequisitionSources.STANDARD_ORDER);
             reqDoc.setPurchaseOrderTransmissionMethodCode(POTransmissionMethods.NOPRINT);
             reqDoc.setPurchaseOrderCostSourceCode(POCostSources.ESTIMATE);
@@ -480,7 +480,7 @@ public class PurapMassRequisitionStep extends AbstractStep {
             reqDoc.getDocumentHeader().setExplanation("batch created quantity document BAS");
             DocumentHeader documentHeader = reqDoc.getDocumentHeader();
             documentHeader.setDocumentDescription("batch created quantity document BAS");
-            reqDoc.setFundingSourceCode("INST");
+            reqDoc.setDocumentFundingSourceCode("INST");
             reqDoc.setRequisitionSourceCode(RequisitionSources.STANDARD_ORDER);
             reqDoc.setPurchaseOrderTransmissionMethodCode(POTransmissionMethods.NOPRINT);
             reqDoc.setPurchaseOrderCostSourceCode(POCostSources.ESTIMATE);

@@ -87,7 +87,7 @@
         <ref bean="RequisitionDocument-deliveryToName"/>
         <ref bean="RequisitionDocument-deliveryToPhoneNumber"/>
         <ref bean="RequisitionDocument-externalOrganizationB2bSupplierIdentifier"/>
-        <ref bean="RequisitionDocument-fundingSourceCode"/>
+        <ref bean="RequisitionDocument-documentFundingSourceCode"/>
         <ref bean="RequisitionDocument-institutionContactEmailAddress"/>
         <ref bean="RequisitionDocument-institutionContactName"/>
         <ref bean="RequisitionDocument-institutionContactPhoneNumber"/>
@@ -573,9 +573,10 @@
       <bean parent="TextControlDefinition" p:size="21"/>
     </property>
   </bean>
-  <bean id="RequisitionDocument-fundingSourceCode" parent="RequisitionDocument-fundingSourceCode-parentBean"/>
+  <bean id="RequisitionDocument-documentFundingSourceCode" parent="RequisitionDocument-documentFundingSourceCode-parentBean"/>
 
-  <bean id="RequisitionDocument-fundingSourceCode-parentBean" abstract="true" parent="FundingSource-fundingSourceCode">
+  <bean id="RequisitionDocument-documentFundingSourceCode-parentBean" abstract="true" parent="FundingSource-fundingSourceCode">
+    <property name="name" value="documentFundingSourceCode" />
     <property name="label" value="Funding Source"/>
     <property name="shortLabel" value="Funding Source"/>
     <property name="required" value="true"/>

@@ -64,12 +64,12 @@
 	            </c:if>
 	        </td>
 	        <th align=right valign=middle class="bord-l-b">
-	            <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.fundingSourceCode}" /></div>
+	            <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.documentFundingSourceCode}" /></div>
 	        </th>
 	        <td align=left valign=middle class="datacell">
 	            <kul:htmlControlAttribute
-	                property="document.fundingSourceCode"
-	                attributeEntry="${documentAttributes.fundingSourceCode}"
+	                property="document.documentFundingSourceCode"
+	                attributeEntry="${documentAttributes.documentFundingSourceCode}"
 	                extraReadOnlyProperty="document.fundingSource.fundingSourceDescription"
 	                readOnly="${not (fullEntryMode and editableFundingSource)}"
 	                tabindexOverride="${tabindexOverrideBase + 5}"/>

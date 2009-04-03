@@ -82,7 +82,7 @@
         <ref bean="PurchaseOrderDocument-deliveryToName"/>
         <ref bean="PurchaseOrderDocument-deliveryToPhoneNumber"/>
         <ref bean="PurchaseOrderDocument-externalOrganizationB2bSupplierIdentifier"/>
-        <ref bean="PurchaseOrderDocument-fundingSourceCode"/>
+        <ref bean="PurchaseOrderDocument-documentFundingSourceCode"/>
         <ref bean="PurchaseOrderDocument-institutionContactEmailAddress"/>
         <ref bean="PurchaseOrderDocument-institutionContactName"/>
         <ref bean="PurchaseOrderDocument-institutionContactPhoneNumber"/>

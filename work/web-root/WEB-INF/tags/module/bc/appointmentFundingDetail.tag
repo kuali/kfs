@@ -121,7 +121,7 @@
                 attributes="${pbcafAttributes}"
                 field="appointmentRequestedPayRate"
                 fieldAlign="right"
-                readOnly="${readOnly || not (hourlyPaid || newLine)}"
+                readOnly="${readOnly || (!hourlyPaid && hasBeenAdded)}"
                 excludedFromTotal="${excludedFromTotal}"
                 rowSpan="1" dataFieldCssClass="amount" />
 		

@@ -23,9 +23,9 @@
               for the existing misc items." %>
 
 <script language="JavaScript" type="text/javascript" src="dwr/interface/CommodityCodeService.js"></script>
-<script language="JavaScript" type="text/javascript" src="scripts/vendor/objectInfo.js"></script>
+<script language="JavaScript" type="text/javascript" src="scripts/vnd/objectInfo.js"></script>
 <script language="JavaScript" type="text/javascript" src="dwr/interface/ItemUnitOfMeasureService.js"></script>
-<script language="JavaScript" type="text/javascript" src="scripts/purap/objectInfo.js"></script>
+<script language="JavaScript" type="text/javascript" src="scripts/module/purap/objectInfo.js"></script>
 
 <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] && (empty KualiForm.editingMode['restrictFiscalEntry'])}" />
 <c:set var="amendmentEntry"	value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />

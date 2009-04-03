@@ -18,7 +18,7 @@
 <%@ attribute name="docPos" required="true" description="The index of the CAB PurAp Document"%>
 <%@ attribute name="linePos" required="true" description="The index of CAB PurAp item asset"%>
 <%@ attribute name="itemLine" required="true" type="org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset" description="determine row span number for additional charge"%>
-<script language="JavaScript" type="text/javascript" src="scripts/cab/selectCheckBox.js"></script>
+<script language="JavaScript" type="text/javascript" src="scripts/module/cab/selectCheckBox.js"></script>
 
 <c:set var="purApDocumentAttributes" value="${DataDictionary.PurchasingAccountsPayableDocument.attributes}" />
 <c:set var="purApItemAssetAttributes" value="${DataDictionary.PurchasingAccountsPayableItemAsset.attributes}" />

@@ -23,7 +23,7 @@
 <%@ attribute name="receivableValuesMap" required="false" type="java.util.Map"
               description="map of the accounting line primitive fields and values, for inquiry keys" %>     
 
-<script language="JavaScript" type="text/javascript" src="scripts/ar/receivableObjectInfo.js"></script>        
+<script language="JavaScript" type="text/javascript" src="scripts/module/ar/receivableObjectInfo.js"></script>        
                          
 <kul:tab tabTitle="Receivable" defaultOpen="true" tabErrorKey="${KFSConstants.CUSTOMER_INVOICE_DOCUMENT_RECEIVABLE_ACCOUNTING_LINE}">
     <div class="tab-container" align=center>	

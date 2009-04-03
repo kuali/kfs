@@ -29,11 +29,6 @@
         <value>organizationCode</value>
       </list>
     </property>
-    
-    
-    
-    
-    
     <property name="documentTypeName" value="ORGN"/>
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.OrgRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
@@ -41,7 +36,7 @@
     <property name="webScriptFiles">
       <list>
         <value>../dwr/interface/PostalCodeService.js</value>
-        <value>../scripts/chart/organizationDocument.js</value>
+        <value>../scripts/coa/organizationDocument.js</value>
       </list>
     </property>
     <property name="workflowAttributes">

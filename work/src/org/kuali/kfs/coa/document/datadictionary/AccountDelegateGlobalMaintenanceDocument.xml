@@ -23,8 +23,8 @@
     <property name="webScriptFiles">
       <list>
         <value>../dwr/interface/AccountService.js</value>
-        <value>../scripts/chart/accountGlobal.js</value>
-        <value>../scripts/kfs/objectInfo.js</value>
+        <value>../scripts/coa/accountGlobal.js</value>
+        <value>../scripts/sys/objectInfo.js</value>
       </list>
     </property>
     <property name="workflowAttributes">

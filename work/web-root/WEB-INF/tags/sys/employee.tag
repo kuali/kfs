@@ -34,7 +34,7 @@
                <%@ attribute name="forceRequired" required="false" %>
                
 <script language="JavaScript" type="text/javascript" src="dwr/interface/PersonService.js"></script>
-<script language="JavaScript" type="text/javascript" src="scripts/kfs/objectInfo.js"></script>
+<script language="JavaScript" type="text/javascript" src="scripts/sys/objectInfo.js"></script>
 
 <kul:htmlControlAttribute property="${userIdFieldName}" 
                     attributeEntry="${DataDictionary['PersonImpl'].attributes.employeeId}" forceRequired="${forceRequired}"

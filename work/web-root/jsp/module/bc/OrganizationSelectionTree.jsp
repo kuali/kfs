@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
-<script language="JavaScript" type="text/javascript" src="scripts/budget/organizationSelectionTree.js"></script>
+<script language="JavaScript" type="text/javascript" src="scripts/module/bc/organizationSelectionTree.js"></script>
 
 <c:set var="pointOfViewOrgAttributes" value="${DataDictionary.BudgetConstructionOrganizationReports.attributes}" />
 <c:set var="pullupOrgAttributes" value="${DataDictionary.BudgetConstructionPullup.attributes}" />

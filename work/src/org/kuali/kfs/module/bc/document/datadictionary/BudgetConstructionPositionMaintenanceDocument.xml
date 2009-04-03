@@ -16,17 +16,14 @@
         <value>universityFiscalYear</value>
       </list>
     </property>
-    
-    
-    
-    
+
     <property name="documentTypeName" value="BCPS"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.module.bc.document.validation.impl.BudgetConstructionPositionPreRules"/>
     <property name="webScriptFiles">
       <list>
         <value>../dwr/interface/BudgetConstructionPosition.js</value>
-        <value>../scripts/budget/budgetConstructionPositionDocument.js</value>
+        <value>../scripts/module/bc/budgetConstructionPositionDocument.js</value>
       </list>
     </property>
     <property name="workflowAttributes">

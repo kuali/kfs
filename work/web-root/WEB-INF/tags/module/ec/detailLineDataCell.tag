@@ -70,8 +70,8 @@
 	<script type='text/javascript' src="dwr/interface/PayrollAmountUtil.js"></script>
 	<script type='text/javascript' src="dwr/interface/EffortCertificationForm.js"></script>
 	
-	<script language="JavaScript" type="text/javascript" src="scripts/kfs/objectInfo.js"></script>
-	<script language="JavaScript" type="text/javascript" src="scripts/effort/objectInfo.js"></script>
+	<script language="JavaScript" type="text/javascript" src="scripts/sys/objectInfo.js"></script>
+	<script language="JavaScript" type="text/javascript" src="scripts/module/ec/objectInfo.js"></script>
 	
 	<c:set var="scriptsLoaded" value="true" scope="request" />
 </c:if>              

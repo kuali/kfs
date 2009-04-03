@@ -42,7 +42,7 @@
     <property name="webScriptFiles">
       <list>
         <value>../dwr/interface/AccountService.js</value>
-        <value>../scripts/cams/assetGlobalMaintenanceDocument.js</value>
+        <value>../scripts/module/cams/assetGlobalMaintenanceDocument.js</value>
       </list>
     </property>
     <property name="additionalSectionsFile" value="/jsp/module/cams/AssetMaintenanceGlpe.jsp"/>

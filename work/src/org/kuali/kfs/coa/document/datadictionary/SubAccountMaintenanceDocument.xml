@@ -28,11 +28,6 @@
         <value>subAccountNumber</value>
       </list>
     </property>
-    
-    
-    
-    
-    
     <property name="documentTypeName" value="SACC"/>
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.SubAccountRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
@@ -40,7 +35,7 @@
     <property name="webScriptFiles">
       <list>
         <value>../dwr/interface/AccountService.js</value>
-        <value>../scripts/chart/subAccountDocument.js</value>
+        <value>../scripts/coa/subAccountDocument.js</value>
       </list>
     </property>
     <property name="workflowAttributes">

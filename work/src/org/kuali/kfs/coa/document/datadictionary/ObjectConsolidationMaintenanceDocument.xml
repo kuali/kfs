@@ -21,18 +21,13 @@
         <value>finConsolidationObjectCode</value>
       </list>
     </property>
-    
-    
-    
-    
-    
     <property name="documentTypeName" value="OBJC"/>
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.ObjectConsRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="webScriptFiles">
       <list>
         <value>../dwr/interface/ObjectCodeService.js</value>
-        <value>../scripts/chart/objConsDocument.js</value>
+        <value>../scripts/coa/objConsDocument.js</value>
       </list>
     </property>
 

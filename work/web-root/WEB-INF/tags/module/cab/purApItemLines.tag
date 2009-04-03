@@ -19,7 +19,7 @@
 <%@ attribute name="defaultOpen" required="false" description="tab title"%>
 <%@ attribute name="tabErrorKey" required="false" description="tab error keys"%>
 <%@ attribute name="readOnly" required="false" description="read only attribute"%>
-<script language="JavaScript" type="text/javascript" src="scripts/cab/selectCheckBox.js"></script>
+<script language="JavaScript" type="text/javascript" src="scripts/module/cab/selectCheckBox.js"></script>
 <c:set var="purApDocumentAttributes" value="${DataDictionary.PurchasingAccountsPayableDocument.attributes}" />
 <c:set var="purApItemAssetAttributes" value="${DataDictionary.PurchasingAccountsPayableItemAsset.attributes}" />
 <kul:tab tabTitle="${title}" defaultOpen="${defaultOpen}" tabErrorKey="${tabErrorKey }">

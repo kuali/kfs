@@ -16,7 +16,7 @@
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <script type='text/javascript' src="dwr/interface/BankService.js"></script>
-<script language="JavaScript" type="text/javascript" src="scripts/financial/objectInfo.js"></script>
+<script language="JavaScript" type="text/javascript" src="scripts/fp/objectInfo.js"></script>
 
 <%@ attribute name="property" required="true" description="name of the property that holds the bank code value in the form" %>
 <%@ attribute name="objectProperty" required="true" description="name of the property that holds the bank object in the form" %>

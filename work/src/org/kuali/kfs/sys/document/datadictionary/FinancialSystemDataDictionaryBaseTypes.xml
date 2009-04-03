@@ -126,7 +126,7 @@
 				<value>dwr/interface/SubObjectCodeService.js</value>
 				<value>dwr/interface/ProjectCodeService.js</value>
 				<value>dwr/interface/OriginationCodeService.js</value>
-				<value>scripts/kfs/objectInfo.js</value>
+				<value>scripts/sys/objectInfo.js</value>
 			</list>
 		</property>
 	</bean>

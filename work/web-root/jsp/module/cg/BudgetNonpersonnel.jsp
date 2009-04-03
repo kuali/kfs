@@ -32,7 +32,7 @@
 var kualiForm = document.forms['KualiForm'];
 var kualiElements = kualiForm.elements;
 </SCRIPT>
-<script language="javascript" src="scripts/research/researchDocument.js"></script>
+<script language="javascript" src="scripts/module/cg/researchDocument.js"></script>
 <script language="javascript" src="dwr/interface/SubcontractorService.js"></script>
 
 </kul:documentPage>

@@ -16,7 +16,7 @@
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <script type='text/javascript' src="dwr/interface/CustomerService.js"></script>
-<script language="JavaScript" type="text/javascript" src="scripts/ar/customerObjectInfo.js"></script>
+<script language="JavaScript" type="text/javascript" src="scripts/module/ar/customerObjectInfo.js"></script>
 
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for this row's fields." %>

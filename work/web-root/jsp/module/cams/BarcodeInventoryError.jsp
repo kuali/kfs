@@ -15,7 +15,7 @@
 --%>
 
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
-<script language="JavaScript" type="text/javascript" src="scripts/cams/selectAllCheckbox.js"></script>
+<script language="JavaScript" type="text/javascript" src="scripts/module/cams/selectAllCheckbox.js"></script>
 <kul:documentPage showDocumentInfo="true"  htmlFormAction="camsBarcodeInventoryError"  documentTypeName="BarcodeInventoryErrorDocument" 
 renderMultipart="true"  showTabButtons="true">
 

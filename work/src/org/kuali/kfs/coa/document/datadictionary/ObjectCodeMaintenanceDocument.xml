@@ -39,7 +39,7 @@
     <property name="webScriptFiles">
       <list>
         <value>../dwr/interface/ChartService.js</value>
-        <value>../scripts/kfs/objectInfo.js</value>
+        <value>../scripts/sys/objectInfo.js</value>
       </list>
     </property>
 

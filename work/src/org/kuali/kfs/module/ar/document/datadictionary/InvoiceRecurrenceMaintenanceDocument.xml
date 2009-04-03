@@ -23,7 +23,7 @@
     <property name="webScriptFiles">
       <list>
         <value>../dwr/interface/CustomerInvoiceDocumentService.js</value>
-        <value>../scripts/ar/customerInvoiceObjectInfo.js</value>
+        <value>../scripts/module/ar/customerInvoiceObjectInfo.js</value>
       </list>
     </property>
     <property name="workflowAttributes">

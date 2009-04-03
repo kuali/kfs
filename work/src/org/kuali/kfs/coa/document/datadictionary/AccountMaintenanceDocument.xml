@@ -53,7 +53,7 @@
     <property name="webScriptFiles">
       <list>
         <value>../dwr/interface/SubFundGroupService.js</value>
-        <value>../scripts/chart/accountDocument.js</value>
+        <value>../scripts/coa/accountDocument.js</value>
       </list>
     </property>
 

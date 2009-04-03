@@ -19,7 +19,7 @@
 	<script type='text/javascript' src="dwr/interface/ChartService.js"></script>
 	<script type='text/javascript' src="dwr/interface/AccountService.js"></script>
 	<script type='text/javascript' src="dwr/interface/SubAccountService.js"></script>
-	<script language="JavaScript" type="text/javascript" src="scripts/kfs/objectInfo.js"></script>
+	<script language="JavaScript" type="text/javascript" src="scripts/sys/objectInfo.js"></script>
 	<c:set var="accountingLineScriptsLoaded" value="true" scope="request" />
 </c:if>
 

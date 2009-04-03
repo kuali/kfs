@@ -32,7 +32,7 @@
     <xsd:element name="chart" type="kfs:twoCharType"/>
     <xsd:element name="unit" type="kfs:oneToFourCharType"/>
     <xsd:element name="sub_unit" type="kfs:oneToFourAlphaType"/>
-    <xsd:element name="creation_date" type="xsd:dateTime"/>
+    <xsd:element name="creation_date" type="xsd:string"/>
     <xsd:element name="source_doc_nbr" type="kfs:fdocNumberType"/>
     <xsd:element name="invoice_nbr" type="kfs:fdocNumberType"/>
     <xsd:element name="po_nbr" type="kfs:oneToNineCharType"/>
@@ -50,8 +50,8 @@
     <xsd:element name="zip" type="kfs:zeroToTwentyCharType"/>
     <xsd:element name="country" type="kfs:zeroToThirtyCharType"/>
     <xsd:element name="campus_address_ind" type="kfs:indicatorType"/>
-    <xsd:element name="payment_date" type="xsd:date"/>
-    <xsd:element name="invoice_date" type="xsd:date"/>
+    <xsd:element name="payment_date" type="xsd:string"/>
+    <xsd:element name="invoice_date" type="xsd:string"/>
     <xsd:element name="attachment_ind" type="kfs:indicatorType"/>
     <xsd:element name="special_handling_ind" type="kfs:indicatorType"/>
     <xsd:element name="taxable_ind" type="kfs:indicatorType"/>

@@ -123,9 +123,8 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         if (newAwardCopy.getFederalPassThroughIndicator()) {
 
             String indicatorLabel = SpringContext.getBean(DataDictionaryService.class).getAttributeErrorLabel(Award.class, KFSPropertyConstants.FEDERAL_PASS_THROUGH_INDICATOR);
-            if (null == newAwardCopy.getFederalPassThroughFundedAmount()) {
-                String amountLabel = SpringContext.getBean(DataDictionaryService.class).getAttributeErrorLabel(Award.class, KFSPropertyConstants.FEDERAL_PASS_THROUGH_FUNDED_AMOUNT);
-                putFieldError(KFSPropertyConstants.FEDERAL_PASS_THROUGH_FUNDED_AMOUNT, KFSKeyConstants.ERROR_FPT_AGENCY_NUMBER_REQUIRED, new String[] { amountLabel, indicatorLabel });
+            if (StringUtils.isBlank(newAwardCopy.getFederalPassThroughAgencyNumber())) {
+                putFieldError(KFSPropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER, KFSKeyConstants.ERROR_FPT_AGENCY_NUMBER_REQUIRED);
                 success = false;
             }
             String grantDescCode = newAwardCopy.getGrantDescription().getGrantDescriptionCode();

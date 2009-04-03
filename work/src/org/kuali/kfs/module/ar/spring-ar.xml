@@ -127,7 +127,15 @@
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
-		<property name="dataDictionaryService" ref="dataDictionaryService" />
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="reportsDirectory">
+			<value>${reports.directory}</value>
+		</property>		
 	</bean>
 	
 	<bean id="customerInvoiceDetailService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceDetailServiceImpl">

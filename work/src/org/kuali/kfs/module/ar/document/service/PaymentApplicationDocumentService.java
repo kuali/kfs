@@ -24,7 +24,6 @@ import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.util.KualiDecimal;
 
 public interface PaymentApplicationDocumentService {
     
@@ -64,8 +63,28 @@ public interface PaymentApplicationDocumentService {
     public CashControlDocument getCashControlDocumentForPayAppDocNumber(String payAppDocNumber);
     
     /**
-     * This method creates an invoice paid applied for the given customer invoice detail. If an invoice paid applied already exists for this 
-     * customer invoice detail than it will only update the applied amount and it will return null.
+     * 
+     * Creates PaidApplieds for all the invoice lines on the passed in InvoiceDocument, on the passed in 
+     * PaymentApplicationDocument.
+     * 
+     * This method will overwrite any existing PaidApplieds on the document, it assumes an empty 
+     * PayApp doc with no paidapplieds.
+     * 
+     * This method does no checking to prevent over or under applying, it assumes that the documents have 
+     * been setup such that it will work correctly.  So if this method is used to over or under apply, then 
+     * the resulting PaymentApplicationDocument will fail business rules validation.
+     * 
+     * @param customerInvoiceDocument
+     * @param paymentApplicationDocument
+     * @return
+     */
+    public PaymentApplicationDocument createInvoicePaidAppliedsForEntireInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument, PaymentApplicationDocument paymentApplicationDocument);
+    
+    /**
+     * This method creates an invoice paid applied for the given customer invoice detail. 
+     * 
+     * This method assumes that no existing paidApplieds are already on the document.
+     * 
      * @param customerInvoiceDetail the customer invoice detail for which we want to create the invoice paid applied
      * @param applicationDocNbr the payment application document number
      * @param universityFiscalYear the university fiscal year
@@ -73,7 +92,7 @@ public interface PaymentApplicationDocumentService {
      * @param amount the amount to be applied
      * @return the created invoice paid applied if it did not exist, null otherwise
      */
-    public InvoicePaidApplied createInvoicePaidAppliedForInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, PaymentApplicationDocument paymentApplicationDocument, KualiDecimal amount, Integer paidAppliedItemNumber);
+    public InvoicePaidApplied createInvoicePaidAppliedForInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, PaymentApplicationDocument paymentApplicationDocument, Integer paidAppliedItemNumber);
     
     /**
      * This method is used in the lockbox process to create a PA document which is then auto-approved when the amount on the invoice matches 

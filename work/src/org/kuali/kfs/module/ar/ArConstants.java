@@ -118,6 +118,11 @@ public class ArConstants {
         public static final String BATCH_REPORT_BASENAME = "customer_invoice_writeoff";
     }
     
+    public static final class Lockbox {
+        public static final String LOCKBOX_REPORT_SUBFOLDER = "ar";
+        public static final String BATCH_REPORT_BASENAME = "lockbox_batch";
+    }
+    
     public static final String ORGANIZATION_RECEIVABLE_ACCOUNT_DEFAULTS = "Organization Receivable Account Defaults";
     public static final String DISCOUNT_PREFIX = "DISCOUNT - ";
     public static final String GLPE_WRITEOFF_OBJECT_CODE_BY_CHART = "GLPE_WRITEOFF_OBJECT_CODE_BY_CHART";

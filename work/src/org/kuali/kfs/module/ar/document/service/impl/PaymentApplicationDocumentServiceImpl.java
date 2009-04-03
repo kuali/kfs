@@ -78,7 +78,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         for(CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDocument.getCustomerInvoiceDetailsWithoutDiscounts()) {
             InvoicePaidApplied invoicePaidApplied = 
                 createInvoicePaidAppliedForInvoiceDetail(
-                    customerInvoiceDetail, applicationDocument, customerInvoiceDetail.getAmountOpen(),paidAppliedItemNumber);
+                    customerInvoiceDetail, applicationDocument, paidAppliedItemNumber);
             // if there was not another invoice paid applied already created for the current detail then invoicePaidApplied will not be null
             if (invoicePaidApplied != null) {
                 // add it to the payment application document list of applied payments
@@ -237,15 +237,36 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         this.businessObjectService = businessObjectService;
     }
 
+    public PaymentApplicationDocument createInvoicePaidAppliedsForEntireInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument, PaymentApplicationDocument paymentApplicationDocument) {
+        
+        //  clear any existing paidapplieds
+        paymentApplicationDocument.getInvoicePaidApplieds().clear();
+
+        int paidAppliedItemNumber = 1;
+        for(CustomerInvoiceDetail detail : customerInvoiceDocument.getCustomerInvoiceDetailsWithoutDiscounts()) {
+
+            //  create the new paidapplied
+            InvoicePaidApplied invoicePaidApplied = createInvoicePaidAppliedForInvoiceDetail(
+                    detail, paymentApplicationDocument, paidAppliedItemNumber);
+            
+            // add it to the payment application document list of applied payments
+            paymentApplicationDocument.getInvoicePaidApplieds().add(invoicePaidApplied);
+            paidAppliedItemNumber++;
+        }
+        
+        return paymentApplicationDocument;
+    }
+    
     /**
      * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#createInvoicePaidAppliedForInvoiceDetail(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail, org.kuali.rice.kns.util.KualiDecimal)
      */
-    public InvoicePaidApplied createInvoicePaidAppliedForInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, PaymentApplicationDocument paymentApplicationDocument, KualiDecimal amount, Integer paidAppliedItemNumber) {
+    public InvoicePaidApplied createInvoicePaidAppliedForInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, PaymentApplicationDocument paymentApplicationDocument, Integer paidAppliedItemNumber) {
 
         Integer universityFiscalYear = universityDateService.getCurrentFiscalYear();
         String universityFiscalPeriodCode = universityDateService.getCurrentUniversityDate().getAccountingPeriod().getUniversityFiscalPeriodCode();
         
         InvoicePaidApplied invoicePaidApplied = new InvoicePaidApplied();
+        
         // set the document number for the invoice paid applied to the payment application document number.
         invoicePaidApplied.setDocumentNumber(paymentApplicationDocument.getDocumentNumber());
         
@@ -253,10 +274,9 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         invoicePaidApplied.setFinancialDocumentReferenceInvoiceNumber(customerInvoiceDetail.getDocumentNumber());
         
         invoicePaidApplied.setInvoiceItemNumber(customerInvoiceDetail.getSequenceNumber());
-        invoicePaidApplied.setInvoiceItemAppliedAmount(amount);
+        invoicePaidApplied.setInvoiceItemAppliedAmount(customerInvoiceDetail.getAmountOpen());
         invoicePaidApplied.setUniversityFiscalYear(universityFiscalYear);
         invoicePaidApplied.setUniversityFiscalPeriodCode(universityFiscalPeriodCode);
-        //Integer invoicePaidAppliedItemNumber = 1 + paymentApplicationDocument.getInvoicePaidApplieds().size();
         invoicePaidApplied.setPaidAppliedItemNumber(paidAppliedItemNumber);
 
         return invoicePaidApplied;

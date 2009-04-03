@@ -26,6 +26,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
@@ -55,13 +56,17 @@ public class FinancialSystemTransactionalDocumentFormBase extends KualiTransacti
                 extendDocInfoToThreeColumns();
                 int insertIndex = 2;
                 getDocInfo().remove(insertIndex);
-                getDocInfo().add(insertIndex, new HeaderField("DataDictionary.FinancialSystemDocumentHeader.attributes.financialDocumentInErrorNumber", documentHeader.getFinancialDocumentInErrorNumber()));
+                getDocInfo().add(insertIndex, new HeaderField("DataDictionary.FinancialSystemDocumentHeader.attributes.financialDocumentInErrorNumber", 
+                        documentHeader.getFinancialDocumentInErrorNumber(), buildHtmlLink(getDocumentHandlerUrl(documentHeader.getFinancialDocumentInErrorNumber()), documentHeader.getFinancialDocumentInErrorNumber())));
             }
             if (StringUtils.isNotBlank(documentHeader.getCorrectedByDocumentId())) {
                 extendDocInfoToThreeColumns();
                 int insertIndex = getNumColumns() + 2;
                 getDocInfo().remove(insertIndex);
-                getDocInfo().add(insertIndex, new HeaderField("DataDictionary.FinancialSystemDocumentHeader.attributes.correctedByDocumentId", documentHeader.getCorrectedByDocumentId()));
+                getDocInfo().add(insertIndex, new HeaderField("DataDictionary.FinancialSystemDocumentHeader.attributes.correctedByDocumentId", 
+                        documentHeader.getCorrectedByDocumentId(), buildHtmlLink(getDocumentHandlerUrl(documentHeader.getCorrectedByDocumentId()), documentHeader.getCorrectedByDocumentId())));
+          
+            
             }
         }
     }

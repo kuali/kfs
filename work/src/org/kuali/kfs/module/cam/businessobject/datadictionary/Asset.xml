@@ -997,16 +997,19 @@
   <bean id="Asset-campusCode-parentBean" abstract="true" parent="Campus-campusCode">
     <property name="label" value="Campus" />
     <property name="required" value="false" />
+    <property name="forceUppercase" value="true" />    
   </bean>
   
   <bean id="Asset-buildingCode" parent="Asset-buildingCode-parentBean" />
   <bean id="Asset-buildingCode-parentBean" abstract="true" parent="Building-buildingCode">
     <property name="required" value="false" />
+    <property name="forceUppercase" value="true" />    
   </bean>
   
   <bean id="Asset-buildingRoomNumber" parent="Asset-buildingRoomNumber-parentBean" />
   <bean id="Asset-buildingRoomNumber-parentBean" abstract="true" parent="Room-buildingRoomNumber">
     <property name="required" value="false" />
+    <property name="forceUppercase" value="true" />    
   </bean>
   
   <bean id="Asset-assetOrganization.organizationText" parent="Asset-assetOrganization.organizationText-parentBean" />

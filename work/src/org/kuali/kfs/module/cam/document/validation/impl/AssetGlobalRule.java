@@ -236,11 +236,11 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         boolean valid = true;
         if (StringUtils.isNotBlank(assetGlobalDetail.getCampusCode())) {
             Map<String, Object> criteria = new HashMap<String, Object>();
-            criteria.put(CamsPropertyConstants.Asset.CAMPUS_CODE, assetGlobalDetail.getCampusCode().toUpperCase());
+            criteria.put(CamsPropertyConstants.Asset.CAMPUS_CODE, assetGlobalDetail.getCampusCode());
             Campus campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).getExternalizableBusinessObject(Campus.class, criteria);
 
             if (ObjectUtils.isNull(campus)) {
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_CAMPUS_CODE, assetGlobalDetail.getCampusCode().toUpperCase());
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_CAMPUS_CODE, assetGlobalDetail.getCampusCode());
                 valid &= false;
             }
             else if (!campus.isActive()) {
@@ -252,12 +252,12 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
         if (StringUtils.isNotBlank(assetGlobalDetail.getBuildingCode())) {
             Map objectKeys = new HashMap();
-            objectKeys.put(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_CODE, assetGlobalDetail.getCampusCode().toUpperCase());
-            objectKeys.put(CamsPropertyConstants.AssetGlobalDetail.BUILDING_CODE, assetGlobalDetail.getBuildingCode().toUpperCase());
+            objectKeys.put(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_CODE, assetGlobalDetail.getCampusCode());
+            objectKeys.put(CamsPropertyConstants.AssetGlobalDetail.BUILDING_CODE, assetGlobalDetail.getBuildingCode());
             Building building = (Building) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Building.class, objectKeys);
 
             if (ObjectUtils.isNull(building)) {
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.BUILDING_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_BUILDING_CODE, assetGlobalDetail.getBuildingCode().toUpperCase(), assetGlobalDetail.getCampusCode().toUpperCase());
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.BUILDING_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_BUILDING_CODE, assetGlobalDetail.getBuildingCode(), assetGlobalDetail.getCampusCode());
                 valid &= false;
             }
             else if (!building.isActive()) {
@@ -269,13 +269,13 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
         if (StringUtils.isNotBlank(assetGlobalDetail.getBuildingRoomNumber())) {
             Map objectKeys = new HashMap();
-            objectKeys.put(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_CODE, assetGlobalDetail.getCampusCode().toUpperCase());
-            objectKeys.put(CamsPropertyConstants.AssetGlobalDetail.BUILDING_CODE, assetGlobalDetail.getBuildingCode().toUpperCase());
+            objectKeys.put(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_CODE, assetGlobalDetail.getCampusCode());
+            objectKeys.put(CamsPropertyConstants.AssetGlobalDetail.BUILDING_CODE, assetGlobalDetail.getBuildingCode());
             objectKeys.put(CamsPropertyConstants.AssetGlobalDetail.BUILDING_ROOM_NUMBER, assetGlobalDetail.getBuildingRoomNumber());
             Room room = (Room) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Room.class, objectKeys);
 
             if (ObjectUtils.isNull(room)) {
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.BUILDING_ROOM_NUMBER, CamsKeyConstants.AssetLocation.ERROR_INVALID_ROOM_NUMBER, assetGlobalDetail.getBuildingCode().toUpperCase(), assetGlobalDetail.getBuildingRoomNumber(), assetGlobalDetail.getCampusCode().toUpperCase());
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.BUILDING_ROOM_NUMBER, CamsKeyConstants.AssetLocation.ERROR_INVALID_ROOM_NUMBER, assetGlobalDetail.getBuildingCode(), assetGlobalDetail.getBuildingRoomNumber(), assetGlobalDetail.getCampusCode());
                 valid &= false;
             }
             else if (!room.isActive()) {

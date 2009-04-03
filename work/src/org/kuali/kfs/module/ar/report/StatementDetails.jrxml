@@ -192,8 +192,7 @@
 						height="20"
 						key="textField-7"
 						stretchType="RelativeToTallestObject"
-						isPrintInFirstWholeBand="true"
-						isPrintWhenDetailOverflows="true"/>
+						isPrintInFirstWholeBand="true"/>
 					<box leftPadding="10"></box>
 					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="1_1_2">
 						<font fontName="Times New Roman"/>

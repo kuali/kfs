@@ -34,306 +34,6 @@
 		<background>
 			<band height="749"  isSplitAllowed="true" >
 				<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue() ==1)]]></printWhenExpression>
-				<rectangle>
-					<reportElement
-						mode="Transparent"
-						x="284"
-						y="589"
-						width="227"
-						height="35"
-						key="rectangle-1"/>
-					<graphicElement stretchType="NoStretch"/>
-				</rectangle>
-				<staticText>
-					<reportElement
-						x="0"
-						y="537"
-						width="552"
-						height="16"
-						key="staticText-24"/>
-					<box></box>
-					<textElement textAlignment="Center" verticalAlignment="Bottom">
-						<font size="10"/>
-					</textElement>
-				<text><![CDATA[Detach & Return Lower Portion with Payment]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						x="18"
-						y="562"
-						width="201"
-						height="16"
-						key="staticText-22"/>
-					<box></box>
-					<textElement verticalAlignment="Middle">
-						<font/>
-					</textElement>
-				<text><![CDATA[PLEASE MAKE CHECKS PAYABLE TO:]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						mode="Opaque"
-						x="284"
-						y="644"
-						width="62"
-						height="16"
-						backcolor="#DDDDDD"
-						key="staticText-23"/>
-					<box></box>
-					<textElement verticalAlignment="Middle">
-						<font/>
-					</textElement>
-				<text><![CDATA[REMIT TO:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="224"
-						y="562"
-						width="259"
-						height="16"
-						key="textField-23"/>
-					<box></box>
-					<textElement verticalAlignment="Middle">
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{sysinfo}.get("checkPayableTo")]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="350"
-						y="644"
-						width="191"
-						height="16"
-						key="textField-24"/>
-					<box></box>
-					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{sysinfo}.get("remitToName")]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="350"
-						y="661"
-						width="191"
-						height="16"
-						key="textField-25"/>
-					<box></box>
-					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{sysinfo}.get("remitToAddressLine1")]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="350"
-						y="678"
-						width="191"
-						height="16"
-						key="textField-26"/>
-					<box></box>
-					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{sysinfo}.get("remitToAddressLine2")]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="350"
-						y="695"
-						width="191"
-						height="16"
-						key="textField-27"/>
-					<box></box>
-					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{sysinfo}.get("remitToCityStateZip")]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
-						mode="Opaque"
-						x="18"
-						y="579"
-						width="92"
-						height="16"
-						backcolor="#DDDDDD"
-						key="staticText-28"/>
-					<box></box>
-					<textElement verticalAlignment="Middle">
-						<font/>
-					</textElement>
-				<text><![CDATA[CUSTOMER NBR:]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						mode="Opaque"
-						x="285"
-						y="590"
-						width="110"
-						height="16"
-						backcolor="#DDDDDD"
-						key="staticText-29"/>
-					<box></box>
-					<textElement verticalAlignment="Middle">
-						<font/>
-					</textElement>
-				<text><![CDATA[STATEMENT DATE:]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						mode="Opaque"
-						x="285"
-						y="607"
-						width="110"
-						height="16"
-						backcolor="#DDDDDD"
-						key="staticText-30"/>
-					<box></box>
-					<textElement verticalAlignment="Middle">
-						<font/>
-					</textElement>
-				<text><![CDATA[AMOUNT DUE:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="114"
-						y="579"
-						width="105"
-						height="16"
-						key="textField-32"/>
-					<box></box>
-					<textElement verticalAlignment="Middle">
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{customer}.get("id")]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" pattern="MM/dd/yyyy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="400"
-						y="590"
-						width="105"
-						height="16"
-						key="textField-33"/>
-					<box></box>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{invoice}.get("createDate")]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="400"
-						y="607"
-						width="105"
-						height="16"
-						key="textField-34"/>
-					<box></box>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{invoice}.get("amountDue")]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
-						mode="Opaque"
-						x="18"
-						y="644"
-						width="49"
-						height="16"
-						backcolor="#DDDDDD"
-						key="staticText-31"/>
-					<box></box>
-					<textElement verticalAlignment="Middle">
-						<font/>
-					</textElement>
-				<text><![CDATA[ATTN:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="72"
-						y="644"
-						width="191"
-						height="16"
-						key="textField-35"/>
-					<box></box>
-					<textElement verticalAlignment="Middle">
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{customer}.get("billToName")]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="72"
-						y="661"
-						width="191"
-						height="16"
-						key="textField-36"/>
-					<box></box>
-					<textElement verticalAlignment="Middle">
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{customer}.get("billToStreetAddressLine1")]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="72"
-						y="695"
-						width="191"
-						height="16"
-						key="textField-37"/>
-					<box></box>
-					<textElement verticalAlignment="Middle">
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{customer}.get("billToCityStateZip")]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="72"
-						y="678"
-						width="191"
-						height="16"
-						key="textField-40"/>
-					<box></box>
-					<textElement verticalAlignment="Middle">
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{customer}.get("billToStreetAddressLine2")]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="72"
-						y="733"
-						width="480"
-						height="16"
-						key="textField-43"/>
-					<box></box>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{invoice}.get("ocrLine")]]></textFieldExpression>
-				</textField>
-				<line direction="BottomUp">
-					<reportElement
-						x="0"
-						y="555"
-						width="551"
-						height="0"
-						key="line-1"/>
-					<graphicElement stretchType="NoStretch">
-					<pen lineWidth="1.0" lineStyle="Dashed"/>
-</graphicElement>
-				</line>
-				<line direction="TopDown">
-					<reportElement
-						x="284"
-						y="606"
-						width="227"
-						height="0"
-						key="line-2"/>
-					<graphicElement stretchType="NoStretch"/>
-				</line>
 			</band>
 		</background>
 		<title>
@@ -756,7 +456,8 @@
 						width="550"
 						height="24"
 						key="subreport-1"
-						stretchType="RelativeToTallestObject"/>
+						stretchType="RelativeToTallestObject"
+						isPrintWhenDetailOverflows="true"/>
 					<subreportParameter  name="REPORT_RESOURCE_BUNDLE">
 						<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
 					</subreportParameter>
@@ -782,14 +483,310 @@
 			</band>
 		</columnFooter>
 		<pageFooter>
-			<band height="0"  isSplitAllowed="true" >
+			<band height="222"  isSplitAllowed="true" >
 				<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue() ==1)]]></printWhenExpression>
+				<rectangle>
+					<reportElement
+						mode="Transparent"
+						x="285"
+						y="60"
+						width="227"
+						height="35"
+						key="rectangle-1"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<staticText>
+					<reportElement
+						x="0"
+						y="7"
+						width="552"
+						height="16"
+						key="staticText-24"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Bottom">
+						<font size="10"/>
+					</textElement>
+				<text><![CDATA[Detach & Return Lower Portion with Payment]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="19"
+						y="33"
+						width="201"
+						height="16"
+						key="staticText-22"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[PLEASE MAKE CHECKS PAYABLE TO:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="285"
+						y="115"
+						width="62"
+						height="16"
+						backcolor="#DDDDDD"
+						key="staticText-23"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[REMIT TO:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="225"
+						y="33"
+						width="259"
+						height="16"
+						key="textField-23"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{sysinfo}.get("checkPayableTo")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="351"
+						y="115"
+						width="191"
+						height="16"
+						key="textField-24"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{sysinfo}.get("remitToName")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="351"
+						y="132"
+						width="191"
+						height="16"
+						key="textField-25"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{sysinfo}.get("remitToAddressLine1")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="351"
+						y="149"
+						width="191"
+						height="16"
+						key="textField-26"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{sysinfo}.get("remitToAddressLine2")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="351"
+						y="166"
+						width="191"
+						height="16"
+						key="textField-27"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{sysinfo}.get("remitToCityStateZip")]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="19"
+						y="50"
+						width="92"
+						height="16"
+						backcolor="#DDDDDD"
+						key="staticText-28"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[CUSTOMER NBR:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="286"
+						y="61"
+						width="110"
+						height="16"
+						backcolor="#DDDDDD"
+						key="staticText-29"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[STATEMENT DATE:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="286"
+						y="78"
+						width="110"
+						height="16"
+						backcolor="#DDDDDD"
+						key="staticText-30"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[AMOUNT DUE:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="115"
+						y="50"
+						width="105"
+						height="16"
+						key="textField-32"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{customer}.get("id")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="MM/dd/yyyy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="401"
+						y="61"
+						width="105"
+						height="16"
+						key="textField-33"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{invoice}.get("createDate")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="401"
+						y="78"
+						width="105"
+						height="16"
+						key="textField-34"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{invoice}.get("amountDue")]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="19"
+						y="115"
+						width="49"
+						height="16"
+						backcolor="#DDDDDD"
+						key="staticText-31"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[ATTN:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="73"
+						y="115"
+						width="191"
+						height="16"
+						key="textField-35"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{customer}.get("billToName")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="73"
+						y="132"
+						width="191"
+						height="16"
+						key="textField-36"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{customer}.get("billToStreetAddressLine1")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="73"
+						y="166"
+						width="191"
+						height="16"
+						key="textField-37"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{customer}.get("billToCityStateZip")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="73"
+						y="149"
+						width="191"
+						height="16"
+						key="textField-40"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{customer}.get("billToStreetAddressLine2")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="72"
+						y="204"
+						width="480"
+						height="16"
+						key="textField-43"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{invoice}.get("ocrLine")]]></textFieldExpression>
+				</textField>
+				<line direction="BottomUp">
+					<reportElement
+						x="1"
+						y="26"
+						width="551"
+						height="0"
+						key="line-1"/>
+					<graphicElement stretchType="NoStretch">
+					<pen lineWidth="1.0" lineStyle="Dashed"/>
+</graphicElement>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="285"
+						y="77"
+						width="227"
+						height="0"
+						key="line-2"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
 			</band>
 		</pageFooter>
-		<lastPageFooter>
-			<band height="222"  isSplitAllowed="true" >
-			</band>
-		</lastPageFooter>
 		<summary>
 			<band height="0"  isSplitAllowed="true" >
 			</band>

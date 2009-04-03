@@ -89,7 +89,6 @@
                 <c:set var="itemUnitOfMeasureDescriptionField"  value="newLineItemReceivingItemLine.itemUnitOfMeasure.itemUnitOfMeasureDescription" />
                 <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" 
                     property="${itemUnitOfMeasureCodeField}" 
-                    readOnly="${fullEntryMode}"
                     onblur="loadItemUnitOfMeasureInfo( '${itemUnitOfMeasureCodeField}', '${itemUnitOfMeasureDescriptionField}' );${onblur}" tabindexOverride="${tabindexOverrideBase + 0}"/>
                 <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.UnitOfMeasure" 
                     fieldConversions="itemUnitOfMeasureCode:newLineItemReceivingItemLine.itemUnitOfMeasureCode"
@@ -214,11 +213,6 @@
                             onblur="loadItemUnitOfMeasureInfo( 'document.item[${ctr}].itemUnitOfMeasureCode', 'document.item[${ctr}].itemUnitOfMeasure.itemUnitOfMeasureDescription' );${onblur}"
                             readOnly="${true}"
                             tabindexOverride="${tabindexOverrideBase + 0}"/>
-                        <c:if test="${!lockB2BEntry and fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator)}">   
-                            <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.UnitOfMeasure" 
-                                fieldConversions="itemUnitOfMeasureCode:document.item[${ctr}].itemUnitOfMeasureCode"
-                                lookupParameters="'Y':active"/>    
-                        </c:if>
                         <div id="document.item[${ctr}].itemUnitOfMeasure.itemUnitOfMeasureDescription.div" class="fineprint">
                             <html:hidden write="true" property="document.item[${ctr}].itemUnitOfMeasure.itemUnitOfMeasureDescription"/>&nbsp;  
                         </div>     

@@ -41,6 +41,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="RoutingFormPersonnel-personStateCode" />
         <ref bean="RoutingFormPersonnel-personSuffixText" />
         <ref bean="RoutingFormPersonnel-principalId" />
+        <ref bean="RoutingFormPersonnel-principalName" />
         <ref bean="RoutingFormPersonnel-personZipCode" />
       </list>
     </property>
@@ -444,8 +445,18 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="summary" value="principalId" />
     <property name="description" value="principalId description..." />
   </bean>
+  
+  <bean id="RoutingFormPersonnel-principalName" parent="RoutingFormPersonnel-principalName-parentBean" />
+  <bean id="RoutingFormPersonnel-principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="principalName" />
+    <property name="label" value="Principal Name" />
+    <property name="shortLabel" value="Principal Name" />
+    <property name="required" value="true" />
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="description..." />
+  </bean>
+  
   <bean id="RoutingFormPersonnel-personZipCode" parent="RoutingFormPersonnel-personZipCode-parentBean" />
-
   <bean id="RoutingFormPersonnel-personZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
 	p:sourceAttributeName="postalCode">

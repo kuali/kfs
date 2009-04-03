@@ -57,8 +57,7 @@
 					<kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Organization" fieldConversions="chartOfAccounts.chartOfAccountsCode:newRoutingFormOrganization.chartOfAccountsCode,organizationCode:newRoutingFormOrganization.organizationCode"  anchor="otherOrganizations" />
 					</div>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				</td>
-                
+				</td>               
                 
                 <td class="infoline"><div align=center><html:image property="methodToCall.insertRoutingFormOrganization.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="add other organization" alt="add other organization" /></div></td>
               </tr>

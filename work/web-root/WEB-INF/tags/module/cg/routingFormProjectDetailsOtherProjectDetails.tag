@@ -25,6 +25,7 @@
 		<h3>Other Project Details</h3>
 		<table cellpadding=0 cellspacing="0" summary="">
 			<tr><td colspan="2" class="nobord">&nbsp;</td></tr>
+			
 			<c:forEach items="${KualiForm.routingFormDocument.routingFormQuestions}" var="routingFormQuestion" varStatus="questionStatus">
         		<tr>
               		<td width="20%" class="nobord">

@@ -66,20 +66,6 @@
                 </td>
               </tr>
               
-              <%-- Grants.gov %>
-              <tr>
-
-                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAttributes.federalIdentifier}" skipHelpUrl="true" /></th>
-                <td align=left valign=middle >
-                	<kul:htmlControlAttribute property="document.federalIdentifier" attributeEntry="${routingFormAttributes.federalIdentifier}" readOnly="${viewOnly}"/>
-                </td>
-                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAttributes.grantsGovernmentConfirmationNumber}" skipHelpUrl="true" /></th>
-                <td align=left valign=middle >
-                	<kul:htmlControlAttribute property="document.grantsGovernmentConfirmationNumber" attributeEntry="${routingFormAttributes.grantsGovernmentConfirmationNumber}" readOnly="${viewOnly}"/>
-                </td>
-              </tr>
-              --%>
-              
               <tr>
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAttributes.grantNumber}" skipHelpUrl="true" /></th>
                 <td align=left valign=middle >

@@ -71,6 +71,7 @@
 						</th>
                 		<th>Action</th>
               		</tr>
+              		
               		<tr>
                 		<th scope="row">add:</th>
                 		<td class="infoline">
@@ -148,6 +149,7 @@
           	</div>
 		</kul:tab>
 	  </c:when>
+	  
 	  <c:when test="${researchRisk.researchRiskType.controlAttributeTypeCode == CGConstants.RESEARCH_RISK_TYPE_SOME_COLUMNS}">
 		<kul:tab 
 			tabTitle="${researchRisk.researchRiskType.researchRiskTypeDescription}" 

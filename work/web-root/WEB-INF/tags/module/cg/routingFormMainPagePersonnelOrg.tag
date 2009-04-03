@@ -32,12 +32,17 @@
               </tr>
               <tr>
                 <th>&nbsp;</th>
-                <th><div align=left>* Name</div></th>
-                <th><div align=left><kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.personRoleCode}" skipHelpUrl="true" noColon="true" /></div></th>
-                <th><div align="left"><kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.personRoleText}" skipHelpUrl="true" noColon="true" /></div></th>
-                <th><div align=center><kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.chartOfAccountsCode}" skipHelpUrl="true" noColon="true" useShortLabel="true"/>/<kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.organizationCode}" skipHelpUrl="true" noColon="true" useShortLabel="true"/></div></th>
-                <th><kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.personFinancialAidPercent}" skipHelpUrl="true" noColon="true" /></th>
-                <th><kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.personCreditPercent}" skipHelpUrl="true" noColon="true" /></th>
+                <kul:htmlAttributeHeaderCell attributeEntry="${routingFormPersonnel.principalName}" useShortLabel="false"/>
+                <kul:htmlAttributeHeaderCell attributeEntry="${routingFormPersonnel.personRoleCode}" useShortLabel="false"/>
+                <kul:htmlAttributeHeaderCell attributeEntry="${routingFormPersonnel.personRoleText}" useShortLabel="false"/>
+                
+                <th><div align="center">
+                	<kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.chartOfAccountsCode}" skipHelpUrl="true" noColon="true" useShortLabel="true"/>
+                	/<kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.organizationCode}" skipHelpUrl="true" noColon="true" useShortLabel="true"/>
+                </div></th>
+                
+                <kul:htmlAttributeHeaderCell attributeEntry="${routingFormPersonnel.personFinancialAidPercent}" useShortLabel="false"/>
+                <kul:htmlAttributeHeaderCell attributeEntry="${routingFormPersonnel.personCreditPercent}" useShortLabel="false"/>
                 <th>Profile</th>
                 <th>Action</th>
               </tr>
@@ -48,7 +53,9 @@
                 <th scope="row">add:
                 </th>
                 <td class="infoline">
-                  <html:text title="* Name" property="newRoutingFormProjectDirector.principalName" onblur="personIDLookup('newRoutingFormProjectDirector.principalName')"/>                  
+                  <kul:htmlControlAttribute	attributeEntry="${routingFormPersonnel.principalName}"
+					property="newRoutingFormProjectDirector.principalName" onblur="personIDLookup('newRoutingFormProjectDirector.principalName')"/> 
+					
                   <!-- <c:if test="${empty KualiForm.newRoutingFormProjectDirector.principalId && !KualiForm.newRoutingFormProjectDirector.personToBeNamedIndicator}">&nbsp;</c:if> -->
 		    	  <c:if test="${KualiForm.newRoutingFormProjectDirector.personToBeNamedIndicator}">TO BE NAMED</c:if>
                   <c:if test="${!viewOnly}">
@@ -117,8 +124,11 @@
                       <c:choose>
                         <c:when test="${budgetLinked and isProjectDirector }" />
                         <c:otherwise>
-                    		<html:text title="* Name" property="document.routingFormPersonnel[${status.index}].principalName" onblur="personIDLookup('document.routingFormPersonnel[${status.index}].principalName')"/>                  
-                          <kul:lookup boClassName="org.kuali.rice.kim.bo.impl.PersonImpl" fieldConversions="principalId:document.routingFormPersonnel[${status.index}].principalId,name:document.routingFormPersonnel[${status.index}].principalName" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&document.routingFormPersonnel[${status.index}].personToBeNamedIndicator=true" anchor="${currentTabIndex}" />
+			                <kul:htmlControlAttribute	attributeEntry="${routingFormPersonnel.principalName}"
+								property="document.routingFormPersonnel[${status.index}].principalName" 
+								onblur="personIDLookup('document.routingFormPersonnel[${status.index}].principalName')"/> 
+                        
+                          	<kul:lookup boClassName="org.kuali.rice.kim.bo.impl.PersonImpl" fieldConversions="principalId:document.routingFormPersonnel[${status.index}].principalId,name:document.routingFormPersonnel[${status.index}].principalName" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&document.routingFormPersonnel[${status.index}].personToBeNamedIndicator=true" anchor="${currentTabIndex}" />
                         </c:otherwise>
                       </c:choose>
                     </c:if>
@@ -189,12 +199,17 @@
               </tr>
               <tr>
                 <th>&nbsp;</th>
-                <th><div align=left>* Name</div></th>
-                <th><div align=left><kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.personRoleCode}" skipHelpUrl="true" noColon="true" /></div></th>
-                <th><div align="left"><kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.personRoleText}" skipHelpUrl="true" noColon="true" /></div></th>
-                <th><div align=center><kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.chartOfAccountsCode}" skipHelpUrl="true" noColon="true" useShortLabel="true"/>/<kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.organizationCode}" skipHelpUrl="true" noColon="true" useShortLabel="true"/></div></th>
-                <th><kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.personFinancialAidPercent}" skipHelpUrl="true" noColon="true" /></th>
-                <th><kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.personCreditPercent}" skipHelpUrl="true" noColon="true" /></th>
+                <kul:htmlAttributeHeaderCell attributeEntry="${routingFormPersonnel.principalName}" useShortLabel="false"/>
+                <kul:htmlAttributeHeaderCell attributeEntry="${routingFormPersonnel.personRoleCode}" useShortLabel="false"/>
+                <kul:htmlAttributeHeaderCell attributeEntry="${routingFormPersonnel.personRoleText}" useShortLabel="false"/>
+                
+                <th><div align="center">
+                	<kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.chartOfAccountsCode}" skipHelpUrl="true" noColon="true" useShortLabel="true"/>
+                	/<kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.organizationCode}" skipHelpUrl="true" noColon="true" useShortLabel="true"/>
+                </div></th>
+                
+                <kul:htmlAttributeHeaderCell attributeEntry="${routingFormPersonnel.personFinancialAidPercent}" useShortLabel="false"/>
+                <kul:htmlAttributeHeaderCell attributeEntry="${routingFormPersonnel.personCreditPercent}" useShortLabel="false"/>
                 <th>Profile</th>
                 <th>Action</th>
               </tr>
@@ -204,9 +219,12 @@
                 <th scope="row">add:
                 </th>
                 <td class="infoline">
-                  <html:text title="* Name" property="newRoutingFormOtherPerson.principalName" onblur="personIDLookup('newRoutingFormOtherPerson.principalName')"/>                  
+                
+                  <kul:htmlControlAttribute	attributeEntry="${routingFormPersonnel.principalName}"
+						property="newRoutingFormOtherPerson.principalName" /> 
+                           
                   <!--  <c:if test="${empty KualiForm.newRoutingFormOtherPerson.principalId && !KualiForm.newRoutingFormOtherPerson.personToBeNamedIndicator}">&nbsp;</c:if> -->
-            <c:if test="${KualiForm.newRoutingFormOtherPerson.personToBeNamedIndicator}">TO BE NAMED</c:if>
+            	  <c:if test="${KualiForm.newRoutingFormOtherPerson.personToBeNamedIndicator}">TO BE NAMED</c:if>
                   <c:if test="${!viewOnly}">
                     <kul:lookup boClassName="org.kuali.rice.kim.bo.Person" fieldConversions="principalId:newRoutingFormOtherPerson.principalId,name:newRoutingFormOtherPerson.principalName" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&newRoutingFormOtherPerson.personToBeNamedIndicator=true" anchor="${currentTabIndex}" />
                   </c:if>
@@ -271,8 +289,11 @@
                       <c:choose>
                         <c:when test="${budgetLinked and isProjectDirector }" />
                         <c:otherwise>
-                          <html:text title="* Name" property="document.routingFormPersonnel[${status.index}].principalName" onblur="personIDLookup('document.routingFormPersonnel[${status.index}].principalName')"/>                  
-                          <kul:lookup boClassName="org.kuali.rice.kim.bo.Person" fieldConversions="principalId:document.routingFormPersonnel[${status.index}].principalId,name:document.routingFormPersonnel[${status.index}].principalName" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&document.routingFormPersonnel[${status.index}].personToBeNamedIndicator=true" anchor="${currentTabIndex}" />
+                        	<kul:htmlControlAttribute attributeEntry="${routingFormPersonnel.principalName}"
+								property="document.routingFormPersonnel[${status.index}].principalName" 
+								onblur="personIDLookup('document.routingFormPersonnel[${status.index}].principalName')"/>
+
+                          	<kul:lookup boClassName="org.kuali.rice.kim.bo.Person" fieldConversions="principalId:document.routingFormPersonnel[${status.index}].principalId,name:document.routingFormPersonnel[${status.index}].principalName" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&document.routingFormPersonnel[${status.index}].personToBeNamedIndicator=true" anchor="${currentTabIndex}" />
                         </c:otherwise>
                       </c:choose>
                     </c:if>

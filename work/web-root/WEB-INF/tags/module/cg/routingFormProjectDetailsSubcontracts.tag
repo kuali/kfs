@@ -95,6 +95,7 @@
                         </c:if>
            </div>
           </td>
+          
           <td>
             <div align="right">
               <kul:htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].routingFormSubcontractorAmount" attributeEntry="${subcontractorAttributes.routingFormSubcontractorAmount}" styleClass="amount" readOnly="${readOnly or budgetLinked}" />

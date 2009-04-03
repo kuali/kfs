@@ -122,6 +122,7 @@
       </div>
     </kul:tab>
   </c:forEach>
+  
   <c:choose>
     <c:when test="${empty KualiForm.document.routingFormPersonnel}">
       <div align="center">

@@ -183,26 +183,26 @@
       <c:if test="${not readOnly and not budgetLinked}"><th>Action</th></c:if>
     </tr>
 
-<c:if test="${not viewOnly and not budgetLinked}">
-    <tr>
-      <th scope="row">add:</th>
-      <td colspan="3" class="infoline">
-        <div align="center">
-          <kul:htmlControlAttribute property="newRoutingFormOtherCostShare.routingFormCostShareSourceName" attributeEntry="${otherCostShareAttributes.routingFormCostShareSourceName}" readOnly="${viewOnly or budgetLinked}"/>
-        </div>
-      </td>
-      <td colspan="2" class="infoline">
-        <div align="right">
-          <kul:htmlControlAttribute property="newRoutingFormOtherCostShare.routingFormCostShareAmount" attributeEntry="${otherCostShareAttributes.routingFormCostShareAmount}" styleClass="amount" readOnly="${viewOnly or budgetLinked}"/>
-        </div>
-      </td>
-      <td class="infoline">
-        <div align=center>
-          <html:image property="methodToCall.insertRoutingFormOtherCostShare.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add 3rd party cost share" title="add 3rd party cost share" />
-        </div>
-      </td>
-    </tr>
-</c:if>
+	<c:if test="${not viewOnly and not budgetLinked}">
+	    <tr>
+	      <th scope="row">add:</th>
+	      <td colspan="3" class="infoline">
+	        <div align="center">
+	          <kul:htmlControlAttribute property="newRoutingFormOtherCostShare.routingFormCostShareSourceName" attributeEntry="${otherCostShareAttributes.routingFormCostShareSourceName}" readOnly="${viewOnly or budgetLinked}"/>
+	        </div>
+	      </td>
+	      <td colspan="2" class="infoline">
+	        <div align="right">
+	          <kul:htmlControlAttribute property="newRoutingFormOtherCostShare.routingFormCostShareAmount" attributeEntry="${otherCostShareAttributes.routingFormCostShareAmount}" styleClass="amount" readOnly="${viewOnly or budgetLinked}"/>
+	        </div>
+	      </td>
+	      <td class="infoline">
+	        <div align=center>
+	          <html:image property="methodToCall.insertRoutingFormOtherCostShare.anchor${currentTabIndex}" styleClass="tinybutton" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add 3rd party cost share" title="add 3rd party cost share" />
+	        </div>
+	      </td>
+	    </tr>
+	</c:if>
 
     <c:forEach items="${KualiForm.document.routingFormOtherCostShares}" var="routingFormOtherCostShare" varStatus="status">
       <tr>

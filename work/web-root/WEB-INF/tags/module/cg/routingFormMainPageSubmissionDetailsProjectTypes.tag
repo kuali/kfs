@@ -28,9 +28,11 @@
       <td class="nobord">
         <label>
           <kul:htmlControlAttribute accessibilityHint=" - ${routingFormProjectType.projectType.projectTypeDescription}" property="document.routingFormProjectTypes[${status.index}].projectTypeSelectedIndicator" attributeEntry="${routingFormProjectTypeAttributes.projectTypeSelectedIndicator}" readOnly="${viewOnly}"/>
+          
           <%-- Need to expicitly reference description because kul:htmlControlAttribute doesn't fine it withing a referenceObject. --%>
           ${routingFormProjectType.projectType.projectTypeDescription}
         </label>
+        
         <c:if test="${routingFormProjectType.projectTypeCode eq KualiForm.systemParametersMap[CGConstants.PROJECT_TYPE_OTHER]}">
           &nbsp;<kul:htmlControlAttribute property="document.projectTypeOtherDescription" attributeEntry="${routingFormAttributes.projectTypeOtherDescription}" readOnly="${viewOnly}"/>
         </c:if>

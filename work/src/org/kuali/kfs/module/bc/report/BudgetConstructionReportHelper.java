@@ -31,7 +31,7 @@ public class BudgetConstructionReportHelper {
     public static BigDecimal setDecimalDigit(BigDecimal number, int digit, boolean setNullIndicator) {
         BigDecimal returnNum = BigDecimal.ZERO;
         if (number != null) {
-            if (number.equals(BigDecimal.ZERO) && setNullIndicator){
+            if ((number.compareTo(BigDecimal.ZERO) == 0) && setNullIndicator){
                 return null;
             }
             returnNum = number.setScale(digit, BigDecimal.ROUND_HALF_UP);

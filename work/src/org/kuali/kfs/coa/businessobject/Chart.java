@@ -629,7 +629,10 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
      * @return Returns the code and description in format: xx - xxxxxxxxxxxxxxxx
      */
     public String getCodeAndDescription() {
-        return getChartOfAccountsCode() + " - " + getFinChartOfAccountDescription();
+        if (StringUtils.isNotBlank(getChartOfAccountsCode()) && StringUtils.isNotBlank(getFinChartOfAccountDescription()))
+            return getChartOfAccountsCode() + " - " + getFinChartOfAccountDescription();
+        else 
+            return "";
     }
 
     public String getCode() {

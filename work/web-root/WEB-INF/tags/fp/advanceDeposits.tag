@@ -91,7 +91,7 @@
             </tr>
         </logic:iterate>
 		<tr>
-			<c:set var="leadingColSpan" value="${KualiForm.editingMode[Constants.BANK_ENTRY_VIEWABLE_EDITING_MODE] ? 5 : 4}" />
+			<c:set var="leadingColSpan" value="${KualiForm.editingMode[Constants.BANK_ENTRY_VIEWABLE_EDITING_MODE] ? 6 : 5}" />
 	 		<td class="total-line" colspan="${leadingColSpan}">&nbsp;</td>
 	  		<td class="total-line" ><strong>Total: ${KualiForm.document.currencyFormattedTotalAdvanceDepositAmount}</strong></td>
             <c:if test="${not readOnly}">

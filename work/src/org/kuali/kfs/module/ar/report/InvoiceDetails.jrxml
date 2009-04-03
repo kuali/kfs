@@ -245,7 +245,8 @@ $V{PAGE_NUMBER}.intValue() == 1 ? $V{REPORT_COUNT} : null]]></groupExpression>
 						y="0"
 						width="40"
 						height="20"
-						key="textField-7"/>
+						key="textField-7"
+						stretchType="RelativeToTallestObject"/>
 					<box leftPadding="10"></box>
 					<textElement textAlignment="Right" verticalAlignment="Top" lineSpacing="1_1_2">
 						<font fontName="Times New Roman"/>
@@ -260,7 +261,8 @@ $V{PAGE_NUMBER}.intValue() == 1 ? $V{REPORT_COUNT} : null]]></groupExpression>
 						y="0"
 						width="50"
 						height="20"
-						key="textField-8"/>
+						key="textField-8"
+						stretchType="RelativeToTallestObject"/>
 					<box leftPadding="10"></box>
 					<textElement textAlignment="Center" verticalAlignment="Top" lineSpacing="1_1_2">
 						<font fontName="Times New Roman"/>
@@ -275,7 +277,9 @@ $V{PAGE_NUMBER}.intValue() == 1 ? $V{REPORT_COUNT} : null]]></groupExpression>
 						y="0"
 						width="200"
 						height="20"
-						key="textField-9"/>
+						key="textField-9"
+						stretchType="RelativeToTallestObject"
+						isPrintWhenDetailOverflows="true"/>
 					<box leftPadding="10"></box>
 					<textElement textAlignment="Left" verticalAlignment="Top" lineSpacing="1_1_2">
 						<font fontName="Times New Roman"/>
@@ -290,7 +294,8 @@ $V{PAGE_NUMBER}.intValue() == 1 ? $V{REPORT_COUNT} : null]]></groupExpression>
 						y="0"
 						width="55"
 						height="20"
-						key="textField-10"/>
+						key="textField-10"
+						stretchType="RelativeToTallestObject"/>
 					<box leftPadding="10"></box>
 					<textElement textAlignment="Center" verticalAlignment="Top" lineSpacing="1_1_2">
 						<font fontName="Times New Roman"/>
@@ -305,7 +310,8 @@ $V{PAGE_NUMBER}.intValue() == 1 ? $V{REPORT_COUNT} : null]]></groupExpression>
 						y="0"
 						width="70"
 						height="20"
-						key="textField-11"/>
+						key="textField-11"
+						stretchType="RelativeToTallestObject"/>
 					<box leftPadding="10"></box>
 					<textElement textAlignment="Right" verticalAlignment="Top" lineSpacing="1_1_2">
 						<font fontName="Times New Roman"/>
@@ -320,7 +326,8 @@ $V{PAGE_NUMBER}.intValue() == 1 ? $V{REPORT_COUNT} : null]]></groupExpression>
 						y="0"
 						width="80"
 						height="20"
-						key="textField-12"/>
+						key="textField-12"
+						stretchType="RelativeToTallestObject"/>
 					<box leftPadding="10"></box>
 					<textElement textAlignment="Right" verticalAlignment="Top" lineSpacing="1_1_2">
 						<font fontName="Times New Roman"/>
@@ -335,7 +342,8 @@ $V{PAGE_NUMBER}.intValue() == 1 ? $V{REPORT_COUNT} : null]]></groupExpression>
 						y="0"
 						width="55"
 						height="20"
-						key="textField-14"/>
+						key="textField-14"
+						stretchType="RelativeToTallestObject"/>
 					<box leftPadding="10"></box>
 					<textElement textAlignment="Right" verticalAlignment="Top" lineSpacing="1_1_2">
 						<font fontName="Times New Roman"/>
@@ -443,7 +451,7 @@ $V{PAGE_NUMBER}.intValue() == 1 ? $V{REPORT_COUNT} : null]]></groupExpression>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{invoice}.get("invoiceTermsText")]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="6"
 						y="46"

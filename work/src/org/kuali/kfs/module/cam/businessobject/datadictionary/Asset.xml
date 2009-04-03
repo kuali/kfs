@@ -458,7 +458,7 @@
     </property>
     <property name="attributeSecurity">
         <bean parent="AttributeSecurity">
-           <property name="readOnly" value="true" />
+           <property name="readOnly" value="false" />
        </bean>
 	</property> 
   </bean>
@@ -481,7 +481,7 @@
     </property>
     <property name="attributeSecurity">
         <bean parent="AttributeSecurity">
-           <property name="readOnly" value="true" />
+           <property name="readOnly" value="false" />
        </bean>
 	</property> 
   </bean>
@@ -988,7 +988,7 @@
     <property name="label" value="Asset Type Code" />
     <property name="attributeSecurity">
         <bean parent="AttributeSecurity">
-           <property name="readOnly" value="true" />
+           <property name="readOnly" value="false" />
        </bean>
 	</property> 
   </bean>

@@ -3,11 +3,6 @@
   <bean id="AdvanceDepositDocument" parent="AdvanceDepositDocument-parentBean"/>
 
   <bean id="AdvanceDepositDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
-    
-    
-    
-    
-    
     <property name="documentTypeName" value="AD"/>
     <property name="documentClass" value="org.kuali.kfs.fp.document.AdvanceDepositDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
@@ -44,6 +39,10 @@
   <bean id="AdvanceDepositDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
 		<map>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent</value></key>
+				<value>AdvanceDeposit-saveDocumentValidation</value>
+			</entry>
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
 				<value>AdvanceDeposit-routeDocumentValidation</value>

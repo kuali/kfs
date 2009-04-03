@@ -53,7 +53,7 @@ public class AdvanceDepositMinimumAdvanceDepositValidation extends GenericValida
      * Sets the documentForValidation attribute value.
      * @param documentForValidation The documentForValidation to set.
      */
-    public void setAccoutingDocumentForValidation(AdvanceDepositDocument accountingDocumentForValidation) {
+    public void setAccountingDocumentForValidation(AdvanceDepositDocument accountingDocumentForValidation) {
         this.accountingDocumentForValidation = accountingDocumentForValidation;
     }
     /**

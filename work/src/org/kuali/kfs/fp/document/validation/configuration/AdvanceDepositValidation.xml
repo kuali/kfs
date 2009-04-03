@@ -25,6 +25,63 @@
 	<bean id="AdvanceDeposit-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
+				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" p:quitOnFail="true">
+					<property name="validations">
+						<list>
+							<bean parent="AccountingDocument-oneSidedRequiredAccountingLinesCountValidation" scope="prototype">
+								<property name="requiredMinimumCount" value="1" />
+								<property name="parameterProperties">
+									<list>
+										<bean parent="validationFieldConversion">
+											<property name="sourceEventProperty" value="document" />
+											<property name="targetValidationProperty" value="accountingDocumentForValidation" />
+										</bean>
+									</list>
+								</property>
+							</bean>
+							<bean parent="CashReceiptFamily-accountingLineTotalValidation" scope="prototype">
+								<property name="parameterProperties">
+									<list>
+										<bean parent="validationFieldConversion">
+											<property name="sourceEventProperty" value="document" />
+											<property name="targetValidationProperty" value="accountingDocumentForValidation" />
+										</bean>
+									</list>
+								</property>
+							</bean>
+							<bean parent="AdvanceDeposit-documentTotalValidation" scope="prototype">
+								<property name="parameterProperties">
+									<list>
+										<bean parent="validationFieldConversion">
+											<property name="sourceEventProperty" value="document" />
+											<property name="targetValidationProperty" value="advanceDepositDocumentForValidation" />
+										</bean>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean parent="AdvanceDeposit-minimumAdvanceDepositValidation" scope="prototype">
+					<property name="requiredMinimumCount" value="1" />
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="AdvanceDeposit-saveDocumentValidation" parent="AdvanceDeposit-saveDocumentValidation-parentBean" scope="prototype" />
+	
+	<bean id="AdvanceDeposit-saveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+			<list>
 				<bean parent="AccountingDocument-oneSidedRequiredAccountingLinesCountValidation" scope="prototype">
 					<property name="requiredMinimumCount" value="1" />
 					<property name="parameterProperties">
@@ -36,33 +93,36 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="CashReceiptFamily-accountingLineTotalValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
-						</list>
-					</property>
-				</bean>
-				<bean parent="CashReceiptFamily-documentTotalValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="cashReceiptFamilyDocumentForValidation" />
-							</bean>
-						</list>
-					</property>
-				</bean>
-				
-				
+				<bean class="org.kuali.kfs.sys.document.validation.impl.CollectionValidation" scope="prototype">
+  					<property name="collectionProperty" value="document.advanceDeposits" />
+  					<property name="validations">
+  						<list>
+  							<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype" p:quitOnFail="true">
+  								<property name="parameterProperties">
+  									<list>
+  										<bean parent="validationFieldConversion">
+  											<property name="sourceEventProperty" value="iterationSubject" />
+  											<property name="targetValidationProperty" value="businessObjectForValidation" />
+  										</bean>
+  									</list>
+  								</property>
+  							</bean>
+  							<bean parent="AdvanceDeposit-advanceDepositValidation" scope="prototype">
+  								<property name="parameterProperties">
+  									<list>
+  										<bean parent="validationFieldConversion">
+  											<property name="sourceEventProperty" value="iterationSubject" />
+  											<property name="targetValidationProperty" value="advanceDepositDetailForValidation" />
+  										</bean>
+  									</list>
+  								</property>
+  							</bean>
+  						</list>
+  					</property>
+  				</bean>
 			</list>
 		</property>
 	</bean>
-	
-	
 	
 	<bean id="AdvanceDeposit-addAccountingLineValidation" parent="AdvanceDeposit-addAccountingLineValidation-parentBean" scope="prototype" />
 	

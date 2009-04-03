@@ -39,19 +39,14 @@ public class AdvanceDepositValidation extends GenericValidation {
     public boolean validate(AttributedDocumentEvent event) {
         
         AdvanceDepositDetail advanceDeposit = getAdvanceDepositDetailForValidation();
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        int originalErrorCount = errorMap.getErrorCount();
-
-        // call the DD validation which checks basic data integrity
-        SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(advanceDeposit);
-        boolean isValid = (errorMap.getErrorCount() == originalErrorCount);
+        boolean isValid = true;
 
         // check that dollar amount is not zero before continuing
         if (isValid) {
             isValid = !advanceDeposit.getFinancialDocumentAdvanceDepositAmount().isZero();
             if (!isValid) {
                 String label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(AdvanceDepositDetail.class, KFSPropertyConstants.ADVANCE_DEPOSIT_AMOUNT);
-                errorMap.putError(KFSPropertyConstants.ADVANCE_DEPOSIT_AMOUNT, KFSKeyConstants.AdvanceDeposit.ERROR_DOCUMENT_ADVANCE_DEPOSIT_ZERO_AMOUNT, label);
+                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ADVANCE_DEPOSIT_AMOUNT, KFSKeyConstants.AdvanceDeposit.ERROR_DOCUMENT_ADVANCE_DEPOSIT_ZERO_AMOUNT, label);
             }
         }
 

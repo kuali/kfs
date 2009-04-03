@@ -37,7 +37,6 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 	private AccountingPeriod universityFiscalPeriod;
 	private FinancialSystemDocumentHeader documentHeader;
 	transient private DocumentService documentService;
-    //Vivek
     private KualiDecimal paidAppiedDistributionAmount = KualiDecimal.ZERO;
     private Collection<NonInvoicedDistribution> nonInvoicedDistributions;
     private Collection<NonAppliedDistribution> nonAppliedDistributions;
@@ -341,7 +340,6 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Vivek
      * Get the paidAppiedDistributionAmount attribute.
      * 
      * @return Returns the paidAppiedDistributionAmount
@@ -352,7 +350,6 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Vivek
      * Set the paidAppiedDistributionAmount attribute.
      * 
      * @param paidAppiedDistributionAmount The paidAppiedDistributionAmount to set.

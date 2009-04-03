@@ -29,6 +29,7 @@ public class NonInvoiced extends PersistableBusinessObjectBase {
 	private String projectCode;
 	private KualiDecimal financialDocumentLineAmount;
 	private String financialDocumentOverrideCode;
+    private KualiDecimal nonInvoicedDistributionAmount = KualiDecimal.ZERO;
 
     private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
     private ObjectCode financialObject;
@@ -37,8 +38,6 @@ public class NonInvoiced extends PersistableBusinessObjectBase {
 	private SubObjectCode financialSubObject;
 	private Account account;
 	private ProjectCode project;
-    //Vivek
-    private KualiDecimal nonInvoicedDistributionAmount = KualiDecimal.ZERO;
 
 
     List<NonInvoicedDistribution> nonInvoicedDistributions;
@@ -447,7 +446,6 @@ public class NonInvoiced extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Vivek
      * Gets the nonInvoicedDistributionAmount attribute.
      * 
      * @return Returns the nonInvoicedDistributionAmount
@@ -458,7 +456,6 @@ public class NonInvoiced extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Vivek
      * Sets the remainingAmountForDistribution attribute.
      * 
      * @param remainingAmountForDistribution The remainingAmountForDistribution to set.

@@ -156,8 +156,8 @@ public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocument
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         PaymentApplicationDocument paymentApplicationDocument = (PaymentApplicationDocument) document;
 
-        // Vivek - this rules is only applicable to CashControl generated Application document
-        //  dont let PayApp docs started from CashControl docs through if not all funds are applied
+        // this rules is only applicable to CashControl generated Application document
+        // dont let PayApp docs started from CashControl docs through if not all funds are applied
         if (paymentApplicationDocument.hasCashControlDetail()) {
             if (!KualiDecimal.ZERO.equals(paymentApplicationDocument.getUnallocatedBalance())) {
                 isValid &= false;

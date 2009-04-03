@@ -45,8 +45,7 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.NonAppliedHoldingService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
 import org.kuali.kfs.module.ar.document.validation.impl.PaymentApplicationDocumentRuleUtil;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.KFSConstants;import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -183,15 +182,6 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
     
     public ActionForward applyAllAmounts(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         doApplicationOfFunds((PaymentApplicationDocumentForm)form);
-        //TODO Andrew - delete once I'm sure I dont need it
-//        // Vivek
-//        PaymentApplicationDocumentForm paymentApplicationDocumentForm = (PaymentApplicationDocumentForm) form;
-//        PaymentApplicationDocument applicationDocument = paymentApplicationDocumentForm.getPaymentApplicationDocument();
-//        String customerNumber = applicationDocument.getAccountsReceivableDocumentHeader() == null ? null : applicationDocument.getAccountsReceivableDocumentHeader().getCustomerNumber();
-//        if (!applicationDocument.hasCashControlDocument()) {
-//            applicationDocument.refreshNonApplieds(customerNumber);
-//        }
-
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
@@ -267,7 +257,13 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         
         //  reset the allocations, so it gets re-calculated
         paymentApplicationDocumentForm.setNonAppliedControlAllocations(null);
-    }
+
+        // Update the doc total if it is not a CashControl generated PayApp
+        if (!paymentApplicationDocument.hasCashControlDetail()) {
+            paymentApplicationDocument.getDocumentHeader().setFinancialDocumentTotalAmount(appliedAmount);
+        }
+        
+}
     
     private List<InvoicePaidApplied> applyToIndividualCustomerInvoiceDetails(PaymentApplicationDocumentForm paymentApplicationDocumentForm) {
         PaymentApplicationDocument paymentApplicationDocument = paymentApplicationDocumentForm.getPaymentApplicationDocument();

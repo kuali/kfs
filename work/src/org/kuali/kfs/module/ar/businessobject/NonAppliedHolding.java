@@ -17,10 +17,7 @@ public class NonAppliedHolding extends PersistableBusinessObjectBase {
 	private String referenceFinancialDocumentNumber;
 	private KualiDecimal financialDocumentLineAmount = KualiDecimal.ZERO;
 	private String customerNumber;
-
 	private Customer customer;
-
-    // Vivek
     private KualiDecimal availableUnappliedAmount = KualiDecimal.ZERO;
     private KualiDecimal appliedUnappliedAmount = KualiDecimal.ZERO;
     private Collection<NonInvoicedDistribution> nonInvoicedDistributions;
@@ -159,8 +156,8 @@ public class NonAppliedHolding extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Vivek - Gets the availableUnappliedAmount attribute.
-     * @return Returns the crmTotalAmount.
+     * Gets the availableUnappliedAmount attribute.
+     * @return Returns the availableUnappliedAmount.
      */
     public KualiDecimal getAvailableUnappliedAmount() {
         //  start with the original unapplied amount
@@ -179,8 +176,8 @@ public class NonAppliedHolding extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Vivek - Gets the appliedUnappliedAmount attribute.
-     * @return Returns the crmTotalAmount.
+     * Gets the appliedUnappliedAmount attribute.
+     * @return Returns the appliedUnappliedAmount.
      */
     public KualiDecimal getAppliedUnappliedAmount() {
         //  start with zero
@@ -199,7 +196,7 @@ public class NonAppliedHolding extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Vivek - Sets the documentHeader attribute value.
+     * Sets the documentHeader attribute value.
      * @param documentHeader.
      */
     public FinancialSystemDocumentHeader getDocumentHeader() {
@@ -207,7 +204,7 @@ public class NonAppliedHolding extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Vivek - Sets the documentHeader attribute value.
+     * Sets the documentHeader attribute value.
      * @param documentHeader.
      */
     public void setDocumentHeader(FinancialSystemDocumentHeader documentHeader) {

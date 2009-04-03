@@ -835,8 +835,11 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         
         //  generate GLPEs only when routing or blanket approving
         if (event instanceof RouteDocumentEvent || event instanceof BlanketApproveDocumentEvent) {
-            // Vivek - create nonApplied and nonInvoiced Distributions
-            createDistributions();
+            // if this document is not generated thru CashControl, 
+            // create nonApplied and nonInvoiced Distributions
+            if (!this.hasCashControlDetail()) {
+                createDistributions();
+            }
 
             GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class); 
             if (!glpeService.generateGeneralLedgerPendingEntries(this)) {
@@ -983,10 +986,11 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         return allocations;
     }
     
-    //TODO Vivek - still working on this piece
+    // this method is only used by Unapplied PayApp. 
+    // create nonApplied and nonInvoiced Distributions
     public void createDistributions() {
-    
-        //  if there are non nonApplieds, then we have nothing to do
+        
+        // if there are non nonApplieds, then we have nothing to do
         if (nonAppliedHoldingsForCustomer == null || nonAppliedHoldingsForCustomer.isEmpty()) {
             return;
         }
@@ -996,8 +1000,8 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
         for(NonAppliedHolding nonAppliedHoldings : this.getNonAppliedHoldingsForCustomer()) {
             
-            //check if payment has been applied to Invoices
-            //create Unapplied Distribution for each PaidApplied
+            // check if payment has been applied to Invoices
+            // create Unapplied Distribution for each PaidApplied
             KualiDecimal remainingUnappliedForDistribution = nonAppliedHoldings.getAvailableUnappliedAmount();
             for(InvoicePaidApplied invoicePaidAppliedForCurrentDoc : invoicePaidAppliedsForCurrentDoc) {
                 KualiDecimal paidAppliedDistributionAmount = invoicePaidAppliedForCurrentDoc.getPaidAppiedDistributionAmount();
@@ -1007,9 +1011,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
                     continue;
                 }
                 
-//                if (remainingUnappliedForDistribution.isGreaterThan(KualiDecimal.ZERO)) {
-                    
-                    //set NonAppliedDistributions for the current document
+                    // set NonAppliedDistributions for the current document
                     NonAppliedDistribution nonAppliedDistribution = new NonAppliedDistribution();
                     nonAppliedDistribution.setDocumentNumber(invoicePaidAppliedForCurrentDoc.getDocumentNumber());
                     nonAppliedDistribution.setPaidAppliedItemNumber(invoicePaidAppliedForCurrentDoc.getPaidAppliedItemNumber());
@@ -1018,21 +1020,17 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
                         nonAppliedDistribution.setFinancialDocumentLineAmount(remainingPaidAppliedForDistribution);
                         remainingUnappliedForDistribution = remainingUnappliedForDistribution.subtract(remainingPaidAppliedForDistribution);
                         invoicePaidAppliedForCurrentDoc.setPaidAppiedDistributionAmount(paidAppliedDistributionAmount.add(remainingPaidAppliedForDistribution));
-//                        this.nonAppliedDistributions.add(nonAppliedDistribution);
                     }
                     else {
                         nonAppliedDistribution.setFinancialDocumentLineAmount(remainingUnappliedForDistribution);
                         invoicePaidAppliedForCurrentDoc.setPaidAppiedDistributionAmount(paidAppliedDistributionAmount.add(remainingUnappliedForDistribution));
                         remainingUnappliedForDistribution = KualiDecimal.ZERO;
-//                        this.nonAppliedDistributions.add(nonAppliedDistribution);
-//                        continue;
                     }
                     this.nonAppliedDistributions.add(nonAppliedDistribution);
-//                }
             }
 
-            //check if payment has been applied to NonAR
-            //create NonAR distribution for each NonAR Applied row
+            // check if payment has been applied to NonAR
+            // create NonAR distribution for each NonAR Applied row
             for(NonInvoiced nonInvoicedForCurrentDoc : nonInvoicedsForCurrentDoc) {
                 KualiDecimal nonInvoicedDistributionAmount = nonInvoicedForCurrentDoc.getNonInvoicedDistributionAmount();
                 KualiDecimal remainingNonInvoicedForDistribution = nonInvoicedForCurrentDoc.getFinancialDocumentLineAmount().subtract(nonInvoicedDistributionAmount);
@@ -1041,7 +1039,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
                     continue;
                 }
                 
-                //set NonAppliedDistributions for the current document
+                // set NonAppliedDistributions for the current document
                 NonInvoicedDistribution nonInvoicedDistribution = new NonInvoicedDistribution();
                 nonInvoicedDistribution.setDocumentNumber(nonInvoicedForCurrentDoc.getDocumentNumber());
                 nonInvoicedDistribution.setFinancialDocumentLineNumber(nonInvoicedForCurrentDoc.getFinancialDocumentLineNumber());

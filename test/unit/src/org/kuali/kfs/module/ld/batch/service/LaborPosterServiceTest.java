@@ -86,7 +86,8 @@ public class LaborPosterServiceTest extends KualiTestBase {
         groupFieldValues = new HashMap();
         groupFieldValues.put(KFSPropertyConstants.SOURCE_CODE, LABOR_SCRUBBER_VALID);
         originEntryGroupService.deleteOlderGroups(0);
-        businessObjectService.deleteMatching(OriginEntryGroup.class, groupFieldValues);
+        
+        //businessObjectService.deleteMatching(OriginEntryGroup.class, groupFieldValues);
 
         Date today = (SpringContext.getBean(DateTimeService.class)).getCurrentSqlDate();
         //TODO: Shawn - commented out
@@ -95,10 +96,12 @@ public class LaborPosterServiceTest extends KualiTestBase {
         LaborOriginEntry cleanup = new LaborOriginEntry();
         ObjectUtil.populateBusinessObject(cleanup, properties, "dataCleanup", fieldNames, deliminator);
         fieldValues = ObjectUtil.buildPropertyMap(cleanup, Arrays.asList(StringUtils.split(fieldNames, deliminator)));
-        businessObjectService.deleteMatching(LaborOriginEntry.class, fieldValues);
+        //businessObjectService.deleteMatching(LaborOriginEntry.class, fieldValues);
         businessObjectService.deleteMatching(LedgerEntry.class, fieldValues);
         businessObjectService.deleteMatching(LaborGeneralLedgerEntry.class, fieldValues);
-        businessObjectService.deleteMatching(LedgerBalance.class, fieldValues);
+        
+        //TODO: Shawn - commented out - problem with "PROJECTCODE" - invalid identifier???? 
+        //businessObjectService.deleteMatching(LedgerBalance.class, fieldValues);
     }
 
     public void testPostAsLedgerEntry() throws Exception {

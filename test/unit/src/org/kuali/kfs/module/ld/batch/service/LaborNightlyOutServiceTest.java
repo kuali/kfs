@@ -72,7 +72,7 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
         LaborOriginEntry cleanup = new LaborOriginEntry();
         ObjectUtil.populateBusinessObject(cleanup, properties, "dataCleanup", fieldNames, deliminator);
         fieldValues = ObjectUtil.buildPropertyMap(cleanup, Arrays.asList(StringUtils.split(fieldNames, deliminator)));
-        businessObjectService.deleteMatching(LaborOriginEntry.class, fieldValues);
+        //businessObjectService.deleteMatching(LaborOriginEntry.class, fieldValues);
         businessObjectService.deleteMatching(LaborLedgerPendingEntry.class, fieldValues);
     }
 

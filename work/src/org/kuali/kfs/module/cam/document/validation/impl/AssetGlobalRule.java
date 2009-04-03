@@ -310,6 +310,9 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             AssetGlobalDetail assetGlobalDetail = (AssetGlobalDetail) line;
             success &= checkReferenceExists(assetGlobalDetail);
             success &= validateLocation(assetGlobal, assetGlobalDetail);
+
+            // qty. of assets (unique) to be created
+            success &= validateLocationQuantity(line);            
         }
         else if (StringUtils.isNotBlank(collectionName) && collectionName.contains(CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS)) {
             // handle unique information
@@ -328,8 +331,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             }
         }
 
-        // qty. of assets (unique) to be created
-        success &= validateLocationQuantity(line);
+        
 
        // only for "Asset Separate" document
        if (getAssetGlobalService().isAssetSeparate(assetGlobal)) {

@@ -68,20 +68,23 @@ public class CustomerAgingReportServiceImpl implements CustomerAgingReportServic
         Date cutoffdate120 = DateUtils.addDays(reportRunDate, -1*Integer.parseInt(nbrDaysForLastBucket));
         
         Map<String, Object> knownCustomers = new HashMap<String, Object>(details.size());
-
-        CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
-
+        Map<String, Object> retrievedInvoices = new HashMap<String, Object>(); // Simple caching mechanism to try to lower overhead for retrieving invoices that have multiple details
+        
         KualiDecimal totalBalance = new KualiDecimal(0.00);
         CustomerAgingReportDetail custDetail = null;
-        String previousCustomerNumber = "";
-        int detailnum=0;
+        
         // iterate over all invoices consolidating balances for each customer
         for (CustomerInvoiceDetail cid : details) {
             String invoiceDocumentNumber = cid.getDocumentNumber();
-            CustomerInvoiceDocument custInvoice = SpringContext.getBean(CustomerInvoiceDocumentService.class).getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
-            Date approvalDate;
-            detailnum++;
-            approvalDate=custInvoice.getBillingDate(); // use this if above isn't set since this is never null
+            CustomerInvoiceDocument custInvoice;
+            // check cache for already retrieved invoices before attempting to retrieve it from the DB
+            if(retrievedInvoices.containsKey(invoiceDocumentNumber)) {
+                custInvoice = (CustomerInvoiceDocument) retrievedInvoices.get(invoiceDocumentNumber);
+            } else {
+                custInvoice = SpringContext.getBean(CustomerInvoiceDocumentService.class).getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
+                retrievedInvoices.put(invoiceDocumentNumber, custInvoice);
+            }
+            Date approvalDate=custInvoice.getBillingDate(); 
             if (ObjectUtils.isNull(approvalDate)) {
                 continue;
             }

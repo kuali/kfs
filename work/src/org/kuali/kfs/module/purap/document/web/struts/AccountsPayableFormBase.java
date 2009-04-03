@@ -157,32 +157,4 @@ public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
         countOfAboveTheLine = items.size() - countOfBelowTheLine;
     }
 
-    /**
-     * This method builds the url for the disbursement info on the purap documents.
-     * @return the disbursement info url
-     */
-    public String getDisbursementInfoUrl() {
-        String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
-        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-
-        String orgCode = parameterService.getParameterValue(KfsParameterConstants.PURCHASING_BATCH.class, KFSParameterKeyConstants.PurapPdpParameterConstants.PURAP_PDP_EPIC_ORG_CODE);
-        String subUnitCode = parameterService.getParameterValue(KfsParameterConstants.PURCHASING_BATCH.class, KFSParameterKeyConstants.PurapPdpParameterConstants.PURAP_PDP_EPIC_SBUNT_CODE);
-
-        Properties parameters = new Properties();
-        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
-        parameters.put(KFSConstants.BACK_LOCATION, basePath + "/" + KFSConstants.MAPPING_PORTAL + ".do");
-        parameters.put(KNSConstants.DOC_FORM_KEY, "88888888");
-        parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, PaymentDetail.class.getName());
-        parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
-        parameters.put(KFSConstants.SUPPRESS_ACTIONS, "false");
-        parameters.put(PdpPropertyConstants.PaymentDetail.PAYMENT_CUSTOMER_DOC_NUMBER, getDocument().getDocumentNumber());
-        parameters.put(PdpPropertyConstants.PaymentDetail.PAYMENT_DISBURSEMENT_FINANCIAL_DOCUMENT_TYPE_CODE, SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(getDocument().getClass()));
-        parameters.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ORG_CODE, orgCode);
-        parameters.put(PdpPropertyConstants.PaymentDetail.PAYMENT_SUBUNIT_CODE, subUnitCode);
-
-        String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + KFSConstants.LOOKUP_ACTION, parameters);
-
-        return lookupUrl;
-    }
-
 }

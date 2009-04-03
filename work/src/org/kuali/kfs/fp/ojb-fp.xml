@@ -1262,14 +1262,6 @@
 
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.fp.businessobject.TaxControlCode" table="FP_DV_TAX_CTRL_T">
-    <field-descriptor name="code" column="DV_PAYEE_TXCTRL_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="name" column="DV_TAX_CTRL_NM" jdbc-type="VARCHAR" />
-    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-</class-descriptor>
-
 <class-descriptor class="org.kuali.kfs.fp.businessobject.NonResidentAlienTaxPercent" table="FP_NRA_TAX_PCT_T">
     <field-descriptor name="incomeClassCode" column="INC_CLS_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="incomeTaxTypeCode" column="INC_TAX_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />

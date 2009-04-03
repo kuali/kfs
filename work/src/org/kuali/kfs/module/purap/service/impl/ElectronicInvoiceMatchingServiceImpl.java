@@ -83,8 +83,8 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
     
     public void doMatchingProcess(ElectronicInvoiceOrderHolder orderHolder) {
         
-        if (LOG.isDebugEnabled()){
-            LOG.debug("Matching process started");
+        if (LOG.isInfoEnabled()){
+            LOG.info("Matching process started");
         }
         
         upperVariancePercentString = SpringContext.getBean(ParameterService.class).getParameterValue(ElectronicInvoiceStep.class, PurapParameterConstants.ElectronicInvoiceParameters.SALES_TAX_UPPER_VARIANCE_PERCENT);
@@ -96,8 +96,8 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
                 validateHeaderInformation(orderHolder);
                 
                 if (orderHolder.isInvoiceRejected()) {
-                    if (LOG.isDebugEnabled()){
-                        LOG.debug("Matching process failed at header validation");
+                    if (LOG.isInfoEnabled()){
+                        LOG.info("Matching process failed at header validation");
                     }
                     return;
                 }
@@ -106,24 +106,24 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
             validateInvoiceDetails(orderHolder);
             
             if (orderHolder.isInvoiceRejected()) {
-                if (LOG.isDebugEnabled()){
-                    LOG.debug("Matching process failed at order detail validation");
+                if (LOG.isInfoEnabled()){
+                    LOG.info("Matching process failed at order detail validation");
                 }
                 return;
             }
             
         }
         catch (NumberFormatException e) {
-            if (LOG.isDebugEnabled()){
-                LOG.debug("Matching process matching failed due to number format exception " + e.getMessage());
+            if (LOG.isInfoEnabled()){
+                LOG.info("Matching process matching failed due to number format exception " + e.getMessage());
             }
             ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.INVALID_NUMBER_FORMAT, e.getMessage(), orderHolder.getFileName());
             orderHolder.addInvoiceHeaderRejectReason(rejectReason);
             return;
         }
         
-        if (LOG.isDebugEnabled()){
-            LOG.debug("Matching process ended successfully");
+        if (LOG.isInfoEnabled()){
+            LOG.info("Matching process ended successfully");
         }
     }
 
@@ -281,9 +281,9 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         
         validateInvoiceItems(orderHolder);
         
-        if (LOG.isDebugEnabled()){
+        if (LOG.isInfoEnabled()){
             if (!orderHolder.isInvoiceRejected()){
-                LOG.debug("Purchase order document match done successfully");
+                LOG.info("Purchase order document match done successfully");
             }
         }
     }
@@ -548,8 +548,8 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
     
     private void validateSalesTax(ElectronicInvoiceItemHolder itemHolder){
 
-        if (LOG.isDebugEnabled()){
-            LOG.debug("Validating sales tax");
+        if (LOG.isInfoEnabled()){
+            LOG.info("Validating sales tax");
         }
 
         ElectronicInvoiceOrderHolder orderHolder = itemHolder.getInvoiceOrderHolder();
@@ -564,14 +564,14 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         KualiDecimal salesTaxAmountCalculated = taxService.getTotalSalesTaxAmount(transTaxDate, deliveryPostalCode, extendedPrice);
         KualiDecimal actualVariance = invoiceSalesTaxAmount.subtract(salesTaxAmountCalculated);
         
-        if (LOG.isDebugEnabled()){
-            LOG.debug("Sales Tax Upper Variance param - " + upperVariancePercentString);
-            LOG.debug("Sales Tax Lower Variance param - " + lowerVariancePercentString);
-            LOG.debug("Trans date (from invoice/rejectdoc) - " + transTaxDate);
-            LOG.debug("Delivery Postal Code - " + deliveryPostalCode);
-            LOG.debug("Extended price - " + extendedPrice);
-            LOG.debug("Invoice item tax amount - " + invoiceSalesTaxAmount);
-            LOG.debug("Sales Tax amount (from sales tax service) - " + salesTaxAmountCalculated);
+        if (LOG.isInfoEnabled()){
+            LOG.info("Sales Tax Upper Variance param - " + upperVariancePercentString);
+            LOG.info("Sales Tax Lower Variance param - " + lowerVariancePercentString);
+            LOG.info("Trans date (from invoice/rejectdoc) - " + transTaxDate);
+            LOG.info("Delivery Postal Code - " + deliveryPostalCode);
+            LOG.info("Extended price - " + extendedPrice);
+            LOG.info("Invoice item tax amount - " + invoiceSalesTaxAmount);
+            LOG.info("Sales Tax amount (from sales tax service) - " + salesTaxAmountCalculated);
         }
         
         if (StringUtils.isNotEmpty(upperVariancePercentString)){

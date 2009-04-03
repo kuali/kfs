@@ -321,9 +321,18 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                     PurchasingAccountsPayableLineAssetAccount assetAccount = createPurchasingAccountsPayableLineAssetAccount(generalLedgerEntry, cabPurapDoc, purApAccountingLine, itemAsset);
                     String acctLineKey = cabPurapDoc.getDocumentNumber() + "-" + itemAsset.getAccountsPayableLineItemIdentifier() + "-" + itemAsset.getCapitalAssetBuilderLineNumber() + "-" + generalLedgerEntry.getGeneralLedgerAccountIdentifier();
 
-                    if ((assetAccount = assetAcctLines.get(acctLineKey)) == null) {
+                    KualiDecimal transactionLedgerEntryAmount = generalLedgerEntry.getTransactionLedgerEntryAmount();
+                    if ((assetAccount = assetAcctLines.get(acctLineKey)) == null && transactionLedgerEntryAmount.isNonZero()) {
                         // if new unique account line within GL, then create a new account line
                         assetAccount = createPurchasingAccountsPayableLineAssetAccount(generalLedgerEntry, cabPurapDoc, purApAccountingLine, itemAsset);
+                        assetAcctLines.put(acctLineKey, assetAccount);
+                        itemAsset.getPurchasingAccountsPayableLineAssetAccounts().add(assetAccount);
+                    }
+                    else if (transactionLedgerEntryAmount.isZero()) {
+                        // if amount is zero, means canceled doc, then create a copy and retain the account line
+                        GeneralLedgerEntry copyEntry = createCancelledGlEntry(entry, purApAccountingLine);
+                        businessObjectService.save(copyEntry);
+                        assetAccount = createPurchasingAccountsPayableLineAssetAccount(copyEntry, cabPurapDoc, purApAccountingLine, itemAsset);
                         assetAcctLines.put(acctLineKey, assetAccount);
                         itemAsset.getPurchasingAccountsPayableLineAssetAccounts().add(assetAccount);
                     }
@@ -341,6 +350,25 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         }
         updateProcessLog(processLog, reconciliationService);
         return purApDocuments;
+    }
+
+    /**
+     * Creates a entry for a canceled accounting line
+     * 
+     * @param entry Original Entry
+     * @param generalLedgerEntry
+     * @param purApAccountingLine
+     * @return
+     */
+    private GeneralLedgerEntry createCancelledGlEntry(Entry entry, PurApAccountingLineBase purApAccountingLine) {
+        GeneralLedgerEntry copyEntry = new GeneralLedgerEntry(entry);
+        KualiDecimal purapAmount = purApAccountingLine.getAmount();
+        if (CabConstants.CM.equals(entry.getFinancialDocumentTypeCode())) {
+            purapAmount = purapAmount.negated();
+        }
+        copyEntry.setTransactionLedgerEntryAmount(purapAmount.abs());
+        copyEntry.setTransactionDebitCreditCode(purapAmount.isNegative() ? "C" : "D");
+        return copyEntry;
     }
 
     /**

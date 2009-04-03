@@ -322,7 +322,7 @@ public class LockboxServiceImpl implements LockboxService {
                 //  Save and approve the payapp doc
                 LOG.info("   attempting to save and approve the PayApp Doc.");
                 try {
-                    documentService.approveDocument(payAppDoc, "Automatically approved by Lockbox batch job.", null);
+                    documentService.routeDocument(payAppDoc, "Automatically approved by Lockbox batch job.", null);
                 }
                 catch (Exception e) {
                     LOG.error("A Exception was thrown while trying to approve PayAppDoc #" + payAppDoc.getDocumentNumber() + ".", e);

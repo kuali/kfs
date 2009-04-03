@@ -828,6 +828,9 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         if (appointmentFunding.isHourlyPaid()) {
             this.normalizePayRateAndAmount(appointmentFunding);
         }
+        else {
+            appointmentFunding.setAppointmentRequestedPayRate(BigDecimal.ZERO);
+        }
 
         BigDecimal requestedFteQuantity = this.calculateFteQuantityFromAppointmentFunding(appointmentFunding);
         appointmentFunding.setAppointmentRequestedFteQuantity(requestedFteQuantity);

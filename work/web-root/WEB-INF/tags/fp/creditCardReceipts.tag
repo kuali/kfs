@@ -65,7 +65,9 @@
         </c:if>
         <logic:iterate id="creditCardReceipt" name="KualiForm" property="document.creditCardReceipts" indexId="ctr">
             <tr>
-                
+                <th>
+					<c:out value="${ctr + 1}" />:
+				</th>
                 <td class="datacell">
                 	<kul:htmlControlAttribute attributeEntry="${ccrAttributes.financialDocumentCreditCardTypeCode}" property="document.creditCardReceipt[${ctr}].financialDocumentCreditCardTypeCode" readOnly="${readOnly}" />
                 	<c:if test="${not readOnly}">

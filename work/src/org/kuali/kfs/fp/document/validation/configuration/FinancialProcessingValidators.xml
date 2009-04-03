@@ -24,7 +24,7 @@
 
 	<bean id="AdvanceDeposit-minimumAdvanceDepositValidation" class="org.kuali.kfs.fp.document.validation.impl.AdvanceDepositMinimumAdvanceDepositValidation" abstract="true" />
 	
-	<bean id="AdvanceDeposit-documentTotalValidation" class="org.kuali.kfs.fp.document.validation.impl.AdvanceDepositDocumentTotalValidation" />
+	<bean id="AdvanceDeposit-documentTotalValidation" class="org.kuali.kfs.fp.document.validation.impl.AdvanceDepositDocumentTotalValidation" abstract="true" />
 	
 	<bean id="InternalBilling-accountingLineAmountNonZeroValidation" class="org.kuali.kfs.fp.document.validation.impl.AccountingLineAmountNonZeroValidation" abstract="true" />
 	
@@ -145,6 +145,8 @@
 	<bean id="CreditCardReceipt-cashTotalsValidation" class="org.kuali.kfs.fp.document.validation.impl.CreditCardReceiptCashTotalsValidation" abstract="true" />
 	
 	<bean id="CreditCardReceipt-creditCardReceiptValidation" class="org.kuali.kfs.fp.document.validation.impl.CreditCardReceiptValidation" abstract="true" />
+	
+	<bean id="CreditCardReceipt-documentTotalValidation" class="org.kuali.kfs.fp.document.validation.impl.CreditCardReceiptDocumentTotalValidation" abstract="true" />
 	
 	<bean id="GeneralErrorCorrection-objectTypeValidation" class="org.kuali.kfs.fp.document.validation.impl.GeneralErrorCorrectionObjectTypeValidation" abstract="true" >
 		<property name="parameterService" ref="parameterService" />

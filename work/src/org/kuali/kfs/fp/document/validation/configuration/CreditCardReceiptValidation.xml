@@ -37,12 +37,12 @@
 					</property>
 				</bean>
 				
-				<bean parent="CashReceiptFamily-documentTotalValidation" scope="prototype">
+				<bean parent="CreditCardReceipt-documentTotalValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
 							<bean parent="validationFieldConversion">
 								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="cashReceiptFamilyDocumentForValidation" />
+								<property name="targetValidationProperty" value="creditCardReceiptDocumentForValidation" />
 							</bean>
 						</list>
 					</property>

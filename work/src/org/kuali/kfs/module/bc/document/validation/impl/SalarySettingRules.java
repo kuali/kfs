@@ -41,7 +41,7 @@ public class SalarySettingRules implements SalarySettingRule {
      * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processQuickSaveAppointmentFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     public boolean processQuickSaveAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        LOG.info("processQuickSaveAppointmentFunding() start");
+        LOG.debug("processQuickSaveAppointmentFunding() start");
 
         boolean hasValidFormat = budgetConstructionRuleHelperService.isFieldFormatValid(appointmentFunding, errorMap);
         if (!hasValidFormat) {
@@ -68,7 +68,7 @@ public class SalarySettingRules implements SalarySettingRule {
      *      org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     public boolean processSaveAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        LOG.info("processSaveAppointmentFunding() start");
+        LOG.debug("processSaveAppointmentFunding() start");
 
         boolean hasValidFormat = budgetConstructionRuleHelperService.isFieldFormatValid(appointmentFunding, errorMap);
         if (!hasValidFormat) {
@@ -109,7 +109,7 @@ public class SalarySettingRules implements SalarySettingRule {
      *      org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
      */
     public boolean processAddAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> existingAppointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        LOG.info("processAddAppointmentFunding() start");
+        LOG.debug("processAddAppointmentFunding() start");
 
         boolean hasNoExistingLine = salarySettingRuleHelperService.hasNoExistingLine(existingAppointmentFundings, appointmentFunding, errorMap);
         if (!hasNoExistingLine) {

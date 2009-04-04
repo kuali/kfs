@@ -1,6 +1,11 @@
 package org.kuali.kfs.module.ar.document.validation.impl;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Calendar;
+
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
@@ -12,14 +17,17 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class CustomerRule extends MaintenanceDocumentRuleBase {
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(CustomerRule.class);
     private Customer oldCustomer;
     private Customer newCustomer;
+    private DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
 
     /**
      * This method initializes the old and new customer
@@ -48,12 +56,13 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
         if (isValid) {
             initializeAttributes(document);
             isValid &= checkCustomerHasAddress(newCustomer);
+
             if (isValid) {
-                isValid &= checkAddresses(newCustomer);
+                isValid &= validateAddresses(newCustomer);
             }
             
             if (isValid) {
-                validateAddresses(newCustomer);
+                isValid &= checkAddresses(newCustomer);
             }
 
             if (isValid) {
@@ -127,6 +136,7 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
             
             if (isValid) {
                 isValid &= checkAddressIsValid(customerAddress);
+                isValid &= validateEndDateForNewAddressLine(customerAddress.getCustomerAddressEndDate());
             }
             
             if (isValid) {
@@ -136,15 +146,103 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
                     for (int i = 0; i < customer.getCustomerAddresses().size(); i++) {
                         if (customer.getCustomerAddresses().get(i).getCustomerAddressTypeCode().equalsIgnoreCase(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY)) {
                             customer.getCustomerAddresses().get(i).setCustomerAddressTypeCode(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_ALTERNATE);
-                            break;
+                            // OK
+                            //break;
                         }
                     }
+                }
+                // if new address is not Primary, check if there is an active primary address for this customer. If not, make a new address primary
+                else {
+                    boolean isActivePrimaryAddress = false;
+                    Date endDate;
+
+                    for (int i = 0; i < customer.getCustomerAddresses().size(); i++) {
+                        if (customer.getCustomerAddresses().get(i).getCustomerAddressTypeCode().equalsIgnoreCase(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY)) {
+                            endDate = customer.getCustomerAddresses().get(i).getCustomerAddressEndDate();
+                            // check if endDate qualifies this customer address as inactive (if endDate is a passed date or present date)
+                            if (!checkEndDateIsValid(endDate,false))
+                                customer.getCustomerAddresses().get(i).setCustomerAddressTypeCode(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_ALTERNATE);
+                            else
+                                isActivePrimaryAddress = true;
+                        }
+                    }
+                    if (!isActivePrimaryAddress)
+                        customerAddress.setCustomerAddressTypeCode(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY);      
                 }
             }
         }
 
         return isValid;
 
+    }
+ 
+    /**
+     * 
+     * This method checks if customer end date is valid:
+     * 1. if a new address is being added, customer end date must be a future date
+     * 2. if inactivating an address, customer end date must be current or future date
+     * 
+     * @param endDate
+     * @param canBeTodaysDateFlag
+     * @return True if endDate is valid.
+     */
+    public boolean checkEndDateIsValid(Date endDate, boolean canBeTodaysDateFlag) {
+        boolean isValid = true;
+        
+        if (ObjectUtils.isNull(endDate))
+            return isValid;
+        
+        Timestamp today = dateTimeService.getCurrentTimestamp();
+        today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime());
+
+        // end date must be todays date or future date
+        if (canBeTodaysDateFlag) {
+            if (endDate.before(today)) {
+                isValid = false;
+            }
+        } // end date must be a future date
+        else {
+            if (!endDate.after(today)) {
+                isValid = false;
+            }
+        }
+        
+        return isValid;
+    }
+    
+    public boolean validateEndDateForNewAddressLine(Date endDate) {
+        boolean isValid = checkEndDateIsValid(endDate,false);
+        if (!isValid) {
+            String propertyName = ArPropertyConstants.CustomerFields.CUSTOMER_TAB_ADDRESSES_ADD_NEW_ADDRESS + "." + ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS_END_DATE;
+            putFieldError(propertyName, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_END_DATE_MUST_BE_FUTURE_DATE);
+        }
+        
+        return isValid;  
+    }
+    
+    public boolean validateEndDateForExistingCustomerAddress(Date newEndDate, int ind) {
+        boolean isValid = checkEndDateIsValid(newEndDate,true);
+        
+        // valid end date for an existing customer address;
+        // 1. blank <=> no date entered
+        // 2. todays date -> makes address inactive
+        // 3. future date
+        // 4. if end date is a passed date AND it hasn't been updated <=> oldEndDate = newEndDate
+        // 
+        // invalid end date for an existing customer address
+        // 1. if end date is a passed date AND it has been updated <=> oldEndDate != newEndDate
+        if (!isValid) {
+            Date oldEndDate = oldCustomer.getCustomerAddresses().get(ind).getCustomerAddressEndDate();
+            // passed end date has been entered
+            if (ObjectUtils.isNull(oldEndDate) || ObjectUtils.isNotNull(oldEndDate) && !oldEndDate.toString().equals(newEndDate.toString()) ) {
+                String propertyName = ArPropertyConstants.CustomerFields.CUSTOMER_TAB_ADDRESSES + "[" + ind + "]." + ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS_END_DATE;
+                putFieldError(propertyName, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_END_DATE_MUST_BE_CURRENT_OR_FUTURE_DATE);
+            }
+            else {
+                isValid = true;
+            }
+        }
+        return isValid;
     }
     
     /**
@@ -266,11 +364,33 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
         int i = 0;
         for (CustomerAddress customerAddress : customer.getCustomerAddresses()) {
             isValid &= checkAddressIsValid(customerAddress,i);
+            isValid &= validateEndDateForExistingCustomerAddress(customerAddress.getCustomerAddressEndDate(),i);
             i++;
-            
         }
         
+        
+        if (isValid) {
+            i = 0;
+            for (CustomerAddress customerAddress : customer.getCustomerAddresses()) {
+                if (customerAddress.getCustomerAddressTypeCode().equalsIgnoreCase(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY) && ObjectUtils.isNotNull(customerAddress.getCustomerAddressEndDate()))
+                    isValid &= checkIfPrimaryAddressActive(customerAddress.getCustomerAddressEndDate(), i);
+                i++;
+            }
+        }
+
         return isValid;
+    }
+    
+    public boolean checkIfPrimaryAddressActive(Date newEndDate, int ind) {
+        // if here -> this is a Primary Address, customer end date is not null
+        boolean isActiveAddressFlag = checkEndDateIsValid(newEndDate, false);
+        
+        if (!isActiveAddressFlag) {
+            String propertyName = ArPropertyConstants.CustomerFields.CUSTOMER_TAB_ADDRESSES + "[" + ind + "]." + ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS_END_DATE;
+            putFieldError(propertyName,ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_PRIMARY_ADDRESS_MUST_HAVE_FUTURE_END_DATE);
+        } 
+
+        return isActiveAddressFlag;
     }
     
     /**

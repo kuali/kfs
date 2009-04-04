@@ -119,6 +119,9 @@ public class ArKeyConstants {
         public static final String ERROR_CUSTOMER_ADDRESS_INTERNATIONAL_MAIL_CODE_REQUIRED_WHEN_COUNTTRY_NON_US = "error.document.customer.internationalMailCodeIsRequiredWhenCountryNonUS";
         public static final String ERROR_TAX_NUMBER_IS_REQUIRED = "error.document.customer.taxNumberRequired";
         public static final String ACTIONS_REPORT = "report";
+        public static final String ERROR_CUSTOMER_ADDRESS_END_DATE_MUST_BE_FUTURE_DATE = "error.document.customer.endDateMustBeFutureDate";
+        public static final String ERROR_CUSTOMER_ADDRESS_END_DATE_MUST_BE_CURRENT_OR_FUTURE_DATE = "error.document.customer.endDateMustBeCurrenOrFutureDate";
+        public static final String ERROR_CUSTOMER_PRIMARY_ADDRESS_MUST_HAVE_FUTURE_END_DATE = "error.document.customer.primaryAddressMustHaveFutureEndDate";
     }
 
     // Customer Credit Memo errors/warnings:

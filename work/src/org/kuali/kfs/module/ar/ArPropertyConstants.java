@@ -105,6 +105,7 @@ public class ArPropertyConstants {
     public static class CustomerFields {
         public static final String CUSTOMER_TAB_GENERAL_INFORMATION = "customerGeneralInformation";
         public static final String CUSTOMER_TAB_ADDRESSES = "customerAddresses";
+        public static final String CUSTOMER_TAB_ADDRESSES_ADD_NEW_ADDRESS = "add.customerAddresses";
         public static final String CUSTOMER_ADDRESS_TYPE_CODE = "customerAddressTypeCode";
         public static final String CUSTOMER_ADDRESS_IDENTIFIER = "customerAddressIdentifier";
         public static final String CUSTOMER_NUMBER = "customerNumber";
@@ -114,6 +115,7 @@ public class ArPropertyConstants {
         public static final String CUSTOMER_ADDRESS_INTERNATIONAL_PROVINCE_NAME = "customerAddressInternationalProvinceName";
         public static final String CUSTOMER_ADDRESS_INTERNATIONAL_MAIL_CODE = "customerInternationalMailCode";
         public static final String CUSTOMER_SOCIAL_SECURITY_NUMBER = "customerSocialSecurityNumberIdentifier";
+        public static final String CUSTOMER_ADDRESS_END_DATE = "customerAddressEndDate";
     }
 
     // CustomerCreditMemoDocument

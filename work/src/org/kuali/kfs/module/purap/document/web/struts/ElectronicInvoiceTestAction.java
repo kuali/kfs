@@ -19,6 +19,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.StringBufferInputStream;
+import java.util.Date;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -33,12 +34,16 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.module.purap.batch.ElectronicInvoiceInputFileType;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoice;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
+import org.kuali.kfs.module.purap.util.ElectronicInvoiceUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.vnd.businessobject.PaymentTermType;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 /**
@@ -46,9 +51,13 @@ import org.kuali.rice.kns.web.struts.action.KualiAction;
  */
 public class ElectronicInvoiceTestAction extends KualiAction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceTestAction.class);
+    
+    private static final String AREA_C0DE = "areaCode";
+    private static final String PHONE_NUMBER = "phoneNumber";
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
         //get parameters - are we doing upload xml or create based on PO?
         String action = request.getParameter("action");
         
@@ -78,13 +87,13 @@ public class ElectronicInvoiceTestAction extends KualiAction {
                             }
                         }
                     } else {
-                        // show error
+                        throw new RuntimeException("Invalid file type " + xmlFile.getFileName());
                     }
                 } else {
-                    // show error
+                    throw new RuntimeException("Invalid file name " + xmlFile.getFileName());
                 }
             } else {
-                // show error
+                throw new RuntimeException("Error getting xml file");
             }
         } else if ("returnXML".equalsIgnoreCase(action)) {
             
@@ -118,10 +127,19 @@ public class ElectronicInvoiceTestAction extends KualiAction {
 
             response.setHeader("Content-disposition", sbContentDispValue.toString());
 
+            
             // lookup the PO and fill in the XML will valid data
             
             if (po != null) {   
-                String eInvoiceFile = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                
+                String duns = StringUtils.defaultString(po.getVendorDetail().getVendorDunsNumber());
+                String invoiceDate = ElectronicInvoiceUtils.getDateDisplayText(new Date()); // getting date in kfs format
+                
+                String eInvoiceFile = 
+                
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                "\n<!-- ******Testing tool generated XML****** -->\n\n" +   
+                "<!-- All the cXML attributes are junk values -->\n" +
                 "<cXML payloadID=\"200807260401062080.964@eai002\"\n" +
                 "    timestamp=\"2008-07-26T04:01:06-08:00\"\n" +
                 "    version=\"1.2.014\" xml:lang=\"en\" \n" +
@@ -130,124 +148,63 @@ public class ElectronicInvoiceTestAction extends KualiAction {
                 "  <Header>\n" +
                 "      <From>\n" +
                 "          <Credential domain=\"DUNS\">\n" +
-                "              <Identity>" + po.getVendorDetail().getVendorDunsNumber() + "</Identity>\n" +
+                "              <Identity>" + duns + "</Identity> <!-- DUNS number from PO-->\n" +
                 "          </Credential>\n" +
                 "      </From>\n" +
                 "      <To>\n" +
                 "          <Credential domain=\"NetworkId\">\n" +
-                "              <Identity>" + po.getVendorDetail().getVendorNumber() + "</Identity>\n" +
+                "              <Identity>" + "IU" + "</Identity> <!-- Hardcoded --> \n" +
                 "          </Credential>\n" +
                 "      </To>\n" +
                 "      <Sender>\n" +
                 "          <Credential domain=\"DUNS\">\n" +
-                "              <Identity>" + po.getVendorDetail().getVendorDunsNumber() + "</Identity>\n" +
-                "              <SharedSecret>fisherscipass</SharedSecret>\n" +
+                "              <Identity>" + duns + "</Identity> <!-- DUNS number from PO-->\n" +
                 "          </Credential>\n" +
-                "          <UserAgent>IUPUI</UserAgent>\n" +
+                "          <UserAgent/>\n" +
                 "      </Sender>\n" +
                 "  </Header>\n" +
                 "  <Request deploymentMode=\"production\">\n" +
                 "      <InvoiceDetailRequest>\n" +
                 "          <InvoiceDetailRequestHeader\n" +
-                "              invoiceDate=\"2008-07-25T00:00:00-08:00\" invoiceID=\"133\"\n" +
-                "              operation=\"new\" purpose=\"standard\" isInformationOnly='yes'>\n" +
-                "              <InvoiceDetailHeaderIndicator isHeaderInvoice=\"yes\"/>\n" +
+                "              invoiceDate=\"" + invoiceDate + "\" invoiceID=\"" + RandomUtils.nextInt() + "\" operation=\"new\" purpose=\"standard\"> <!-- invoiceID=Random unique Id, invoiceDate=Curr date -->\n" +
+                "              <InvoiceDetailHeaderIndicator/>\n" +
                 "              <InvoiceDetailLineIndicator/>\n" +
                 "              <InvoicePartner>\n" +
-                "                  <Contact addressID=\"\" role=\"billTo\">\n" +
-                "                      <Name xml:lang=\"en\">INDIANA UNIV@INDPLS</Name>\n" +
-                "                      <PostalAddress>\n" +
-                "                          <Street>ACCOUNTING DEPT</Street>\n" +
-                "                          <Street>620 UNION DR</Street>\n" +
-                "                          <Street>RM 443</Street>\n" +
-                "                          <City>INDIANAPOLIS</City>\n" +
-                "                          <State>IN</State>\n" +
-                "                          <PostalCode>462025130</PostalCode>\n" +
-                "                          <Country isoCountryCode=\"US\">\n" +
-                "                              United States\n" +
-                "                          </Country>\n" +
-                "                      </PostalAddress>\n" +
-                "                  </Contact>\n" +
+                               getContactXMLChunk("billTo", po) +
                 "              </InvoicePartner>\n" +
-                "              <InvoicePartner>\n" +
-                "                  <Contact addressID=\"004321519\" role=\"remitTo\">\n" +
-                "                      <Name xml:lang=\"en\">\n" +
-                "                          FISHER SCIENTIFIC COMPANY LLC\n" +
-                "                      </Name>\n" +
-                "                      <PostalAddress>\n" +
-                "                          <Street>13551 COLLECTIONS CTR DR</Street>\n" +
-                "                          <City>CHICAGO</City>\n" +
-                "                          <State>IL</State>\n" +
-                "                          <PostalCode>60693</PostalCode>\n" +
-                "                          <Country isoCountryCode=\"US\">\n" +
-                "                              United States\n" +
-                "                          </Country>\n" +
-                "                      </PostalAddress>\n" +
-                "                  </Contact>\n" +
-                "              </InvoicePartner>\n" +
-                "              <InvoiceDetailShipping\n" +
-                "                  shippingDate=\"2008-07-25T00:00:00-08:00\">\n" +
-                "                  <Contact addressID=\"387520002\" role=\"shipTo\">\n" +
-                "                      <Name xml:lang=\"en\">INDIANA UNIVERSITY</Name>\n" +
-                "                      <PostalAddress>\n" +
-                "                          <Street>" + po.getVendorLine1Address() + "</Street>\n" +
-                "                          <Street>" + po.getVendorLine2Address() + "</Street>\n" +
-                "                          <City>" + po.getVendorCityName() + "</City>\n" +
-                "                          <State>" + po.getVendorStateCode() + "</State>\n" +
-                "                          <PostalCode>" + po.getVendorPostalCode() + "</PostalCode>\n" +
-                "                          <Country isoCountryCode=\"US\">\n" +
-                "                              United States\n" +
-                "                          </Country>\n" +
-                "                      </PostalAddress>\n" +
-                "                      <Email name=\"test1\">abc@efg.com</Email>\n" +
-                "                      <Email name=\"test2\">efg@hij.com</Email>\n" +
-                "                      <Phone name=\"testPhone\">\n" +
-                "                          <TelephoneNumber>\n" +
-                "                              <CountryCode isoCountryCode=\"US\">1</CountryCode>\n" +
-                "                              <AreaOrCityCode>209</AreaOrCityCode>\n" +
-                "                              <Number>9545333</Number>\n" +
-                "                          </TelephoneNumber>\n" +
-                "                      </Phone>\n" +
-                "                      <Phone name=\"testFax\">\n" +
-                "                          <TelephoneNumber>\n" +
-                "                              <CountryCode isoCountryCode=\"US\">1</CountryCode>\n" +
-                "                              <AreaOrCityCode>209</AreaOrCityCode>\n" +
-                "                              <Number>9545331</Number>\n" +
-                "                          </TelephoneNumber>\n" +
-                "                      </Phone>\n" +
-                "                      <URL name=\"sampleCompanyURL\">www.abc.com</URL>\n" +
-                "                  </Contact>\n" +
-                "              </InvoiceDetailShipping>\n" +
-                "              <InvoiceDetailPaymentTerm payInNumberOfDays=\"30\"\n" +
-                "                  percentageRate=\"0\" />\n" +
+                //"              <InvoicePartner>\n" +
+                //"                  <Contact addressID=\"" + RandomUtils.nextInt() + "\" role=\"remitTo\">\n" +
+                //"                      <Name xml:lang=\"en\">\n" +
+               // "                          " + po.getVendorName() + "\n" +
+               // "                      </Name>\n" +
+               // "                  </Contact>\n" +
+                //"              </InvoicePartner>\n" +
+                                getDeliveryAddressXMLChunk("shipTo",po) +
+                                getPaymentTermXML(po) +
                 "          </InvoiceDetailRequestHeader>\n" +
                 "          <InvoiceDetailOrder>\n" +
                 "              <InvoiceDetailOrderInfo>\n" +
                 "                  <OrderReference\n" +
-                "                      orderDate=\"2008-07-25T00:00:00-08:00\" orderID=\"1085\">\n" +
-                "                      <DocumentReference payloadID=\"\" />\n" +
+                "                      orderDate=\"" + ElectronicInvoiceUtils.getDateDisplayText(new Date()) + "\" orderID=\"" + po.getPurapDocumentIdentifier() + "\"> <!--orderDate=Curr date,orderID=PO#-->\n" +
+                "                      <DocumentReference payloadID=\"NA\" /> <!--HardCoded-->\n" +
                 "                  </OrderReference>\n" +
                 "              </InvoiceDetailOrderInfo>\n" +
-                "              <InvoiceDetailItem invoiceLineNumber=\"1\"\n" +
-                "                  quantity=\"" + po.getItem(0).getItemQuantity() + "\">\n" +
-                "                  <UnitOfMeasure>" + po.getItem(0).getItemUnitOfMeasureCode() + "</UnitOfMeasure>\n" +
-                "                  <UnitPrice>\n" +
-                "                      <Money currency=\"USD\">" + po.getItem(0).getItemUnitPrice() + "</Money>\n" +
-                "                  </UnitPrice>\n" +
-                "                  <InvoiceDetailItemReference lineNumber=\"1\">\n" +
-                "                      <ItemID>\n" +
-                "                          <SupplierPartID>" + po.getItem(0).getItemCatalogNumber() + "</SupplierPartID>\n" +
-                "                      </ItemID>\n" +
-                "                      <Description xml:lang=\"en\">" + po.getItem(0).getItemDescription() + "</Description>\n" +
-                "                  </InvoiceDetailItemReference>\n" +
-                "                  <SubtotalAmount>\n" +
-                "                      <Money currency=\"USD\" >" + po.getItem(0).getItemUnitPrice().multiply(po.getItem(0).getItemQuantity().bigDecimalValue()) + "</Money>\n" +
-                "                  </SubtotalAmount>\n" +
-                "              </InvoiceDetailItem>\n" +
+                "              <!-- No junk values in Items-->\n";
+                
+                               for (int i = 0; i < po.getItems().size(); i++) {
+                                   PurchaseOrderItem item = (PurchaseOrderItem)po.getItem(i);
+                                   if (!item.getItemType().isAdditionalChargeIndicator()){
+                                       eInvoiceFile = eInvoiceFile + getPOItemXMLChunk((PurchaseOrderItem)po.getItem(i));
+                                   }
+                               }
+                
+                KualiDecimal totalDollarAmt = po.getTotalDollarAmount() == null ? KualiDecimal.ZERO : po.getTotalDollarAmount();
+                eInvoiceFile = eInvoiceFile +
+                
                 "          </InvoiceDetailOrder>\n" +
                 "          <InvoiceDetailSummary>\n" +
                 "              <SubtotalAmount>\n" +
-                "                  <Money currency=\"USD\">" + po.getItem(0).getItemUnitPrice().multiply(po.getItem(0).getItemQuantity().bigDecimalValue()) + "</Money>\n" +
+                "                  <Money currency=\"USD\">" + po.getTotalPreTaxDollarAmount() + "</Money>\n" +
                 "              </SubtotalAmount>\n" +
                 "              <Tax>\n" +
                 "                  <Money currency=\"USD\">" + po.getTotalTaxAmount() + "</Money>\n" +
@@ -260,19 +217,19 @@ public class ElectronicInvoiceTestAction extends KualiAction {
                 "                  <Money currency=\"USD\">0.00</Money>\n" +
                 "              </ShippingAmount>\n" +
                 "              <GrossAmount>\n" +
-                "                  <Money currency=\"USD\">" + po.getTotalDollarAmount() + "</Money>\n" +
+                "                  <Money currency=\"USD\">" + totalDollarAmt + "</Money>\n" +
                 "              </GrossAmount>\n" +
                 "              <InvoiceDetailDiscount>\n" +
                 "                  <Money currency=\"USD\">0.00</Money>\n" +
                 "                  </InvoiceDetailDiscount>\n" +
                 "              <NetAmount>\n" +
-                "                  <Money currency=\"USD\">" + po.getTotalDollarAmount() + "</Money>\n" +
+                "                  <Money currency=\"USD\">" + totalDollarAmt + "</Money>\n" +
                 "              </NetAmount>\n" +
                 "              <DepositAmount>\n" +
                 "                  <Money currency=\"USD\">0.00</Money>\n" +
                 "              </DepositAmount>\n" +
                 "              <DueAmount>\n" +
-                "                  <Money currency=\"USD\">" + po.getTotalDollarAmount() + "</Money>\n" +
+                "                  <Money currency=\"USD\">" + totalDollarAmt + "</Money>\n" +
                 "              </DueAmount>\n" +
                 "          </InvoiceDetailSummary>\n" +
                 "      </InvoiceDetailRequest>\n" +
@@ -303,6 +260,141 @@ public class ElectronicInvoiceTestAction extends KualiAction {
       return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    private String getPaymentTermXML(PurchaseOrderDocument po){
+        String returnXML = "";
+        
+        PaymentTermType paymentTerm = po.getVendorDetail().getVendorPaymentTerms();
+        
+        if (paymentTerm != null){
+            if (paymentTerm.getVendorNetDueNumber() != null){
+                returnXML = 
+                "              <InvoiceDetailPaymentTerm payInNumberOfDays=\"" + paymentTerm.getVendorNetDueNumber().toString() + "\" percentageRate=\"0\" />\n";     
+            }else if (paymentTerm.getVendorPaymentTermsPercent() != null){
+                returnXML = 
+                "              <InvoiceDetailPaymentTerm payInNumberOfDays=\"0\" percentageRate=\"" + paymentTerm.getVendorPaymentTermsPercent() + "\" />\n";
+            }
+            
+        }
+        
+        
+        
+        return returnXML;
+    }
+    
+    private String getPOItemXMLChunk(PurchaseOrderItem item){
+        
+        String itemUnitPrice = item.getItemUnitPrice() == null ?
+                               StringUtils.EMPTY :
+                               item.getItemUnitPrice().toString();
+        
+        String subTotal = StringUtils.EMPTY;
+        if (item.getItemUnitPrice() != null && item.getItemQuantity() != null){
+            subTotal = (item.getItemUnitPrice().multiply(item.getItemQuantity().bigDecimalValue())).toString();    
+        }
+        
+        return 
+        
+        "              <InvoiceDetailItem invoiceLineNumber=\"" + item.getItemLineNumber() + "\"\n" +
+        "                  quantity=\"" + item.getItemQuantity() + "\">\n" +
+        "                  <UnitOfMeasure>" + item.getItemUnitOfMeasureCode() + "</UnitOfMeasure>\n" +
+        "                  <UnitPrice>\n" +
+        "                      <Money currency=\"USD\">" + itemUnitPrice + "</Money>\n" +
+        "                  </UnitPrice>\n" +
+        "                  <InvoiceDetailItemReference lineNumber=\"" + item.getItemLineNumber() + "\">\n" +
+        "                      <ItemID>\n" +
+        "                          <SupplierPartID>" + StringUtils.defaultString(item.getItemCatalogNumber()) + "</SupplierPartID>\n" +
+        "                      </ItemID>\n" +
+        "                      <Description xml:lang=\"en\">" + StringUtils.defaultString(item.getItemDescription()) + "</Description>\n" +
+        "                  </InvoiceDetailItemReference>\n" +
+        "                  <SubtotalAmount>\n" +
+        "                      <Money currency=\"USD\" >" + subTotal + "</Money>\n" +
+        "                  </SubtotalAmount>\n" +
+        "              </InvoiceDetailItem>\n";
+        
+    }
+    
+    private String getDeliveryAddressXMLChunk(String addressType,
+                                              PurchaseOrderDocument po){
+        
+        String deliveryDate = "";
+        if (po.getDeliveryRequiredDate() != null){
+            deliveryDate = ElectronicInvoiceUtils.getDateDisplayText(po.getDeliveryRequiredDate());
+        }
+        
+        String returnXML = "";
+        
+        if (StringUtils.isNotEmpty(deliveryDate)){
+            returnXML = returnXML + "              <InvoiceDetailShipping shippingDate=\"" +  deliveryDate + "\"> <!--Delivery reqd date -->\n";
+        }else{
+            returnXML = returnXML + "              <InvoiceDetailShipping> <!-- shipTo address same as billTo-->\n";
+        }
+
+        returnXML = returnXML + 
+                    getContactXMLChunk("shipTo",po) +
+                    "              </InvoiceDetailShipping>\n";
+        
+        return returnXML;
+        
+    }
+    
+    private String getContactXMLChunk(String addressType,
+                                      PurchaseOrderDocument po){
+        
+        String returnXML =          
+        
+        "                  <Contact addressID=\"" + RandomUtils.nextInt() + "\" role=\"" + addressType + "\"> <!-- addressId=Random Unique Id -->\n" +
+        "                      <Name xml:lang=\"en\">" + po.getDeliveryCampusCode() + " - " + po.getDeliveryBuildingName() + "</Name> <!-- Format:CampusCode - Bldg Nm -->\n" +
+        "                      <PostalAddress>\n" +
+        "                          <Street>" + StringUtils.defaultString(po.getDeliveryBuildingLine1Address()) + "</Street>\n" +
+        "                          <Street>" + StringUtils.defaultString(po.getDeliveryBuildingLine2Address()) + "</Street>\n" +
+        "                          <City>" + StringUtils.defaultString(po.getDeliveryCityName()) + "</City>\n" +
+        "                          <State>" + StringUtils.defaultString(po.getDeliveryStateCode()) + "</State>\n" +
+        "                          <PostalCode>" + StringUtils.defaultString(po.getDeliveryPostalCode()) + "</PostalCode>\n" +
+        "                          <Country isoCountryCode=\"" + StringUtils.defaultString(po.getDeliveryCountryCode()) + "\">\n" +
+        "                              " + StringUtils.defaultString(po.getDeliveryCountryName()) + "\n" +
+        "                          </Country>\n" +
+        "                      </PostalAddress>\n";
+        
+        if (StringUtils.isNotEmpty(po.getDeliveryToEmailAddress())){
+            returnXML = returnXML + 
+            "                      <Email name=\"" + po.getDeliveryToEmailAddress() + "\">" + po.getDeliveryToEmailAddress() + "</Email>\n";
+        }
+        
+        if (StringUtils.isNotEmpty(po.getDeliveryToPhoneNumber())){
+            returnXML = returnXML + 
+            "                      <Phone name=\"" + po.getDeliveryToPhoneNumber() + "\">\n" +
+            "                          <TelephoneNumber>\n" +
+            "                              <CountryCode isoCountryCode=\"US\">1</CountryCode>\n" +
+            "                              <AreaOrCityCode>" + getPhoneNumber(AREA_C0DE, po.getDeliveryToPhoneNumber()) + "</AreaOrCityCode>\n" +
+            "                              <Number>" + getPhoneNumber(PHONE_NUMBER, po.getDeliveryToPhoneNumber()) + "</Number>\n" +
+            "                          </TelephoneNumber>\n" +
+            "                      </Phone>\n";
+        }    
+        
+        returnXML = returnXML + 
+//        "                      <URL name=\"sampleCompanyURL\">www.abc.com</URL>\n" +
+        "                  </Contact>\n";
+        
+        
+        return returnXML;
+        
+    }
+    
+    private String getPhoneNumber(String whichPart,String phNo){
+
+        if (StringUtils.isEmpty(phNo)){
+            return StringUtils.EMPTY;
+        }
+        
+        if (StringUtils.equals(whichPart,AREA_C0DE)){
+            return phNo.substring(0,3);
+        }else if (StringUtils.equals(whichPart,PHONE_NUMBER)){
+            return phNo.substring(3,phNo.length());
+        }
+        
+        return StringUtils.EMPTY;
+    }
+    
     private boolean convert(java.io.OutputStream out, java.io.InputStream in) {
         try {
             int r;

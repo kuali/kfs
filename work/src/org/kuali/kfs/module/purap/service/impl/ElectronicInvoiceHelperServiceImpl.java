@@ -256,11 +256,11 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
              * It's not needed to have the namespace added file after processing. Original file will be in base/accept/reject dir
              * based on the processing result 
              */
-            try {
-                FileUtils.forceDelete(getInvoiceFile(filesToBeProcessed[i].getName()));
-            }catch (IOException e) {
-                throw new PurError(e);
-            }
+//            try {
+//                FileUtils.forceDelete(getInvoiceFile(filesToBeProcessed[i].getName()));
+//            }catch (IOException e) {
+//                throw new PurError(e);
+//            }
         }
 
          StringBuffer summaryText = saveLoadSummary(eInvoiceLoad);
@@ -343,7 +343,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         }
         
         if (LOG.isInfoEnabled()){
-            LOG.info("Successfully added the namespace");
+            LOG.info("Namespace validation completed");
         }
 
         return out.toByteArray();

@@ -44,6 +44,7 @@ import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.batch.Job;
+import org.kuali.kfs.sys.batch.TestingStep;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.DocumentHeader;
@@ -55,9 +56,10 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 
-public class PurapMassRequisitionStep extends AbstractStep {
+public class PurapMassRequisitionStep extends AbstractStep implements TestingStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurapMassRequisitionStep.class);
 
     private DocumentService documentService;
@@ -76,109 +78,118 @@ public class PurapMassRequisitionStep extends AbstractStep {
 
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         LOG.info("Starting execution of PurapMassRequisitionStep");
-        for (int i = 0; i < NUM_DOCS_TO_CREATE; i++) {
+        
+        Parameter runIndicatorParameter = (Parameter) boService.findByPrimaryKey(Parameter.class, this.buildRunParameterSearchKeyMap());
+        if (ObjectUtils.isNotNull(runIndicatorParameter) && "Y".equals(runIndicatorParameter.getParameterValue())) {
+            // save runParameter as "N" so that the job won't run until DB has been cleared
+            setInitiatedRunParameter();
 
-            try {
-                LOG.info("Setting user session for routing of quantity document.");
-                GlobalVariables.setUserSession(new UserSession("khuntley"));
-                // create document
-                RequisitionDocument reqDoc = populateQuantityDocument();
+            for (int i = 0; i < NUM_DOCS_TO_CREATE; i++) {
 
-                LOG.info("Blanket approving quantity requisition document.");
-                // route it
-                documentService.blanketApproveDocument(reqDoc, "auto-routing: Test Requisition Job.", null);
+                try {
+                    LOG.info("Setting user session for routing of quantity document.");
+                    GlobalVariables.setUserSession(new UserSession("khuntley"));
+                    // create document
+                    RequisitionDocument reqDoc = populateQuantityDocument();
+
+                    LOG.info("Blanket approving quantity requisition document.");
+                    // route it
+                    documentService.blanketApproveDocument(reqDoc, "auto-routing: Test Requisition Job.", null);
+                }
+                catch (WorkflowException e) {
+                    e.printStackTrace();
+                }
+                Thread.sleep(5000);
             }
-            catch (WorkflowException e) {
-                e.printStackTrace();
+
+            for (int i = 0; i < NUM_DOCS_TO_CREATE; i++) {
+
+                try {
+                    LOG.info("Setting user session for routing of non-quantity document.");
+                    GlobalVariables.setUserSession(new UserSession("khuntley"));
+                    // create document
+                    RequisitionDocument reqDoc = populateNonQuantityDocument();
+                    LOG.info("Blanket approving non-quantity requisition document.");
+                    // route it
+                    documentService.blanketApproveDocument(reqDoc, "auto-routing: Test Requisition Job.", null);
+                }
+                catch (WorkflowException e) {
+                    e.printStackTrace();
+                }
+                Thread.sleep(5000);
             }
-            Thread.sleep(5000);
+
+            
+//TODO leaving CAMS docs commented out until problem is fixed (see KULPURAP-3345)
+// for (int i = 0; i < NUM_DOCS_TO_CREATE; i++) {
+//                RequisitionDocument reqDoc = null;
+//                try {
+//                    LOG.info("Setting user session for routing of requisition with capital asset data and addresses.");
+//                    GlobalVariables.setUserSession(new UserSession("khuntley"));
+//                    // create document
+//                    reqDoc = populateCapitalAsset_Individual_WithAddresses_Document();
+//                    Thread.sleep(10000);
+//                    LOG.info("Blanket approving requisition with capital asset data and addresses.");
+//                    // route it
+//                    documentService.blanketApproveDocument(reqDoc, "auto-routing: Test Requisition Job.", null);
+//                }
+//                catch (WorkflowException e) {
+//                    e.printStackTrace();
+//                }
+//                catch (ValidationException ve) {
+//                    continue;
+//                }
+//                Thread.sleep(5000);
+    //
+//                // Use Contract Manager Assignment to create PO.
+//                LOG.info("Setting user session for contract manager assignment of requisition with capital asset data and addresses.");
+//                GlobalVariables.setUserSession(new UserSession("parke"));
+//                LOG.info("Routing Contract Manager Assignment document for requisition with capital asset data and addresses.");
+//                ContractManagerAssignmentDocument acmDoc = createAndRouteContractManagerAssignmentDocument(reqDoc);
+    //
+//                Thread.sleep(20000);
+    //
+//                LOG.info("Routing Purchase Order document for requisition with capital asset data and addresses.");
+//                createAndRoutePurchaseOrderDocument(reqDoc, acmDoc);
+    //
+//                Thread.sleep(5000);
+//            }
+    //
+//            for (int i = 0; i < NUM_DOCS_TO_CREATE; i++) {
+//                RequisitionDocument reqDoc = null;
+//                try {
+//                    LOG.info("Setting user session for routing of BAS requisition.");
+//                    GlobalVariables.setUserSession(new UserSession("khuntley"));
+//                    // create document
+//                    reqDoc = populateCapitalAsset_Individual_Unfilled_Document();
+//                    Thread.sleep(10000);
+//                    LOG.info("Blanket approving BAS requisition.");
+//                    // route it
+//                    documentService.blanketApproveDocument(reqDoc, "auto-routing: Test Requisition Job.", null);
+//                }
+//                catch (WorkflowException e) {
+//                    e.printStackTrace();
+//                }
+//                catch (ValidationException ve) {
+//                    continue;
+//                }
+//                Thread.sleep(5000);
+    //
+//                // Use Contract Manager Assignment to create PO.
+//                LOG.info("Setting user session for contract manager assignment BAS requisition.");
+//                GlobalVariables.setUserSession(new UserSession("parke"));
+//                LOG.info("Routing Contract Manager Assignment document for BAS requisition.");
+//                ContractManagerAssignmentDocument acmDoc = createAndRouteContractManagerAssignmentDocument(reqDoc);
+    //
+//                Thread.sleep(20000);
+    //
+//                LOG.info("Routing Purchase Order document for BAS requisition");
+//                createAndRoutePurchaseOrderDocument(reqDoc, acmDoc);
+    //
+//                Thread.sleep(5000);
+//            }
         }
-
-        for (int i = 0; i < NUM_DOCS_TO_CREATE; i++) {
-
-            try {
-                LOG.info("Setting user session for routing of non-quantity document.");
-                GlobalVariables.setUserSession(new UserSession("khuntley"));
-                // create document
-                RequisitionDocument reqDoc = populateNonQuantityDocument();
-                LOG.info("Blanket approving non-quantity requisition document.");
-                // route it
-                documentService.blanketApproveDocument(reqDoc, "auto-routing: Test Requisition Job.", null);
-            }
-            catch (WorkflowException e) {
-                e.printStackTrace();
-            }
-            Thread.sleep(5000);
-        }
-
-        for (int i = 0; i < NUM_DOCS_TO_CREATE; i++) {
-            RequisitionDocument reqDoc = null;
-            try {
-                LOG.info("Setting user session for routing of requisition with capital asset data and addresses.");
-                GlobalVariables.setUserSession(new UserSession("khuntley"));
-                // create document
-                reqDoc = populateCapitalAsset_Individual_WithAddresses_Document();
-                Thread.sleep(10000);
-                LOG.info("Blanket approving requisition with capital asset data and addresses.");
-                // route it
-                documentService.blanketApproveDocument(reqDoc, "auto-routing: Test Requisition Job.", null);
-            }
-            catch (WorkflowException e) {
-                e.printStackTrace();
-            }
-            catch (ValidationException ve) {
-                continue;
-            }
-            Thread.sleep(5000);
-
-            // Use Contract Manager Assignment to create PO.
-            LOG.info("Setting user session for contract manager assignment of requisition with capital asset data and addresses.");
-            GlobalVariables.setUserSession(new UserSession("parke"));
-            LOG.info("Routing Contract Manager Assignment document for requisition with capital asset data and addresses.");
-            ContractManagerAssignmentDocument acmDoc = createAndRouteContractManagerAssignmentDocument(reqDoc);
-
-            Thread.sleep(20000);
-
-            LOG.info("Routing Purchase Order document for requisition with capital asset data and addresses.");
-            createAndRoutePurchaseOrderDocument(reqDoc, acmDoc);
-
-            Thread.sleep(5000);
-        }
-
-        for (int i = 0; i < NUM_DOCS_TO_CREATE; i++) {
-            RequisitionDocument reqDoc = null;
-            try {
-                LOG.info("Setting user session for routing of BAS requisition.");
-                GlobalVariables.setUserSession(new UserSession("khuntley"));
-                // create document
-                reqDoc = populateCapitalAsset_Individual_Unfilled_Document();
-                Thread.sleep(10000);
-                LOG.info("Blanket approving BAS requisition.");
-                // route it
-                documentService.blanketApproveDocument(reqDoc, "auto-routing: Test Requisition Job.", null);
-            }
-            catch (WorkflowException e) {
-                e.printStackTrace();
-            }
-            catch (ValidationException ve) {
-                continue;
-            }
-            Thread.sleep(5000);
-
-            // Use Contract Manager Assignment to create PO.
-            LOG.info("Setting user session for contract manager assignment BAS requisition.");
-            GlobalVariables.setUserSession(new UserSession("parke"));
-            LOG.info("Routing Contract Manager Assignment document for BAS requisition.");
-            ContractManagerAssignmentDocument acmDoc = createAndRouteContractManagerAssignmentDocument(reqDoc);
-
-            Thread.sleep(20000);
-
-            LOG.info("Routing Purchase Order document for BAS requisition");
-            createAndRoutePurchaseOrderDocument(reqDoc, acmDoc);
-
-            Thread.sleep(5000);
-        }
-        setInitiatedRunParameter();
+        
         Thread.sleep(60000);
         return true;
     }

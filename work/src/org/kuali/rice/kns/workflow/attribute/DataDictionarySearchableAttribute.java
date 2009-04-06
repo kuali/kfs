@@ -80,6 +80,7 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
         
         List<SearchableAttributeValue> saValues = new ArrayList<SearchableAttributeValue>();
         
+       
         String docId = documentSearchContext.getDocumentId();
         DocumentEntry docEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(documentSearchContext.getDocumentTypeName());
 
@@ -91,18 +92,16 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
             
         }
         
-        if (doc instanceof FinancialSystemTransactionalDocument) {
-            SearchableAttributeStringValue searchableAttributeValue = new SearchableAttributeStringValue();
-            searchableAttributeValue.setSearchableAttributeKey("documentDescription");
-            searchableAttributeValue.setSearchableAttributeValue(((FinancialSystemTransactionalDocument)doc).getDocumentHeader().getDocumentDescription());
-            saValues.add(searchableAttributeValue);
-            
-            searchableAttributeValue = new SearchableAttributeStringValue();
-            searchableAttributeValue.setSearchableAttributeKey("organizationDocumentNumber");
-            searchableAttributeValue.setSearchableAttributeValue(((FinancialSystemTransactionalDocument)doc).getDocumentHeader().getOrganizationDocumentNumber());
-            saValues.add(searchableAttributeValue);
-        }
+        SearchableAttributeStringValue searchableAttributeValue = new SearchableAttributeStringValue();
+        searchableAttributeValue.setSearchableAttributeKey("documentDescription");
+        searchableAttributeValue.setSearchableAttributeValue(doc.getDocumentHeader().getDocumentDescription());
+        saValues.add(searchableAttributeValue);
         
+        searchableAttributeValue = new SearchableAttributeStringValue();
+        searchableAttributeValue.setSearchableAttributeKey("organizationDocumentNumber");
+        searchableAttributeValue.setSearchableAttributeValue(doc.getDocumentHeader().getOrganizationDocumentNumber());
+        saValues.add(searchableAttributeValue);
+    
         if (doc instanceof FinancialSystemMaintenanceDocument) {
             final Class<? extends BusinessObject> businessObjectClass = getBusinessObjectClass(documentSearchContext.getDocumentTypeName());
             if (businessObjectClass != null) {

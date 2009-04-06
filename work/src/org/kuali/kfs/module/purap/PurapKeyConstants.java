@@ -269,6 +269,7 @@ public class PurapKeyConstants {
     //FIXME venkat, please fill in the string
     public static final String ERROR_RECEIVING_LINE_DOCUMENT_PO_NOT_ACTIVE = "";
     public static final String ERROR_RECEIVING_LINE_DOCUMENT_ACTIVE_FOR_PO = "errors.receivingLine.documentActiveForPo";
+    public static final String ERROR_RECEIVING_LINE_DOCUMENT_PO_NOT_ACTIVE = "errors.receivingLine.poNotActive";
     public static final String ERROR_RECEIVING_LINEITEM_REQUIRED = "errors.receiving.lineitem.required";
     public static final String MESSAGE_DUPLICATE_RECEIVING_LINE_PREFIX = "message.duplicate.receivingLine.prefix";
     public static final String MESSAGE_DUPLICATE_RECEIVING_LINE_SUFFIX = "message.duplicate.receivingLine.suffix";

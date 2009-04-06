@@ -121,7 +121,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
 
 
         Integer prevFiscalyear = universityFiscalYear - 1;
-        orgSalarySummaryReportEntry.setFiscalYear(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4));
+        orgSalarySummaryReportEntry.setFiscalYear(prevFiscalyear.toString() + "-" + universityFiscalYear.toString().substring(2, 4));
 
         orgSalarySummaryReportEntry.setOrganizationCode(bcSSN.getOrganizationCode());
         if (orgName == null) {
@@ -140,7 +140,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
         }
 
         Integer prevPrevFiscalyear = prevFiscalyear - 1;
-        orgSalarySummaryReportEntry.setReqFy(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4));
+        orgSalarySummaryReportEntry.setReqFy(prevFiscalyear.toString() + "-" + universityFiscalYear.toString().substring(2, 4));
         orgSalarySummaryReportEntry.setFinancialObjectCode(salaryFundingEntry.getFinancialObjectCode());
 
         orgSalarySummaryReportEntry.setObjectCodes(objectCodes);

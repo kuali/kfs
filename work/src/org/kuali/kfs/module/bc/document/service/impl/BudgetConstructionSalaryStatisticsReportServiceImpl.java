@@ -29,6 +29,7 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgSalaryStatist
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionSalaryTotal;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSalaryStatisticsReportDao;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionSalaryStatisticsReportService;
 import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -44,6 +45,7 @@ public class BudgetConstructionSalaryStatisticsReportServiceImpl implements Budg
 
     BudgetConstructionSalaryStatisticsReportDao budgetConstructionSalaryStatisticsReportDao;
     BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
+    private BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
     KualiConfigurationService kualiConfigurationService;
     BusinessObjectService businessObjectService;
 
@@ -67,10 +69,7 @@ public class BudgetConstructionSalaryStatisticsReportServiceImpl implements Budg
         searchCriteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, principalName);
         Collection<BudgetConstructionObjectPick> objectPickList = businessObjectService.findMatching(BudgetConstructionObjectPick.class, searchCriteria);
         
-        String objectCodes = "";
-        for (BudgetConstructionObjectPick objectPick : objectPickList) {
-            objectCodes += objectPick.getFinancialObjectCode() + " ";
-        }
+        String objectCodes = budgetConstructionReportsServiceHelper.getSelectedObjectCodes(principalName);
         
         // build reports
         for (BudgetConstructionSalaryTotal salaryStatisticsEntry : salaryStatisticsList) {
@@ -93,7 +92,7 @@ public class BudgetConstructionSalaryStatisticsReportServiceImpl implements Budg
 
         // set fiscal year
         Integer prevFiscalyear = universityFiscalYear - 1;
-        orgSalaryStatisticsReportEntry.setFiscalYear(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4));
+        orgSalaryStatisticsReportEntry.setFiscalYear(prevFiscalyear.toString() + "-" + universityFiscalYear.toString().substring(2, 4));
         // get Chart with orgChartCode
         Map searchCriteria = new HashMap();
         searchCriteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, salaryTotalEntry.getOrganizationChartOfAccountsCode());
@@ -144,10 +143,10 @@ public class BudgetConstructionSalaryStatisticsReportServiceImpl implements Budg
         BigDecimal averageRequestedAmount = BudgetConstructionReportHelper.calculateDivide(appointmentRequestedAmount, requestedFteQuantity);
         orgSalaryStatisticsReportEntry.setAverageAppointmentRequestedAmount(BudgetConstructionReportHelper.setDecimalDigit(averageRequestedAmount, 0, false));
         
-        BigDecimal averageChange = averageRequestedAmount.subtract(averageCfsAmount);
+        BigDecimal averageChange = orgSalaryStatisticsReportEntry.getAverageAppointmentRequestedAmount().subtract(orgSalaryStatisticsReportEntry.getAverageCsfAmount());
         orgSalaryStatisticsReportEntry.setAverageChange(averageChange);
       
-        BigDecimal percentChange = BudgetConstructionReportHelper.calculatePercent(averageChange, averageCfsAmount);
+        BigDecimal percentChange = BudgetConstructionReportHelper.calculatePercent(orgSalaryStatisticsReportEntry.getAverageChange(), orgSalaryStatisticsReportEntry.getAverageCsfAmount());
         orgSalaryStatisticsReportEntry.setPercentChange(percentChange);
     }
 
@@ -179,6 +178,14 @@ public class BudgetConstructionSalaryStatisticsReportServiceImpl implements Budg
 
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
+    }
+
+    /**
+     * Sets the budgetConstructionReportsServiceHelper attribute value.
+     * @param budgetConstructionReportsServiceHelper The budgetConstructionReportsServiceHelper to set.
+     */
+    public void setBudgetConstructionReportsServiceHelper(BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper) {
+        this.budgetConstructionReportsServiceHelper = budgetConstructionReportsServiceHelper;
     }
 
 }

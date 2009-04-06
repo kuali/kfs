@@ -10,7 +10,7 @@
           <start name="AdHoc" nextNode="Account"/>
           <requests name="Account" nextNode="AccountingOrganizationHierarchy"/>
           <requests name="AccountingOrganizationHierarchy" nextNode="Subfund"/>
-          <requests name="Subfund"/>
+          <requests name="SubFund"/>
         </routePath>
       </routePaths>
       <routeNodes>
@@ -23,7 +23,7 @@
           <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
           <activationType>P</activationType>
         </role>
-        <role name="Subfund">
+        <role name="SubFund">
           <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
           <activationType>P</activationType>
         </role>

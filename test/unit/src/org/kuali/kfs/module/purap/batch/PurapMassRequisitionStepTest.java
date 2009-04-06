@@ -33,6 +33,6 @@ public class PurapMassRequisitionStepTest extends KualiTestBase {
 
     public void testExecute() throws Exception {
         // This is time-consuming process, which is only good to run locally
-        purapMassRequisitionStep.execute("", null);
+//        purapMassRequisitionStep.execute("", null);
     }
 }

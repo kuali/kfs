@@ -80,7 +80,7 @@ public class PurapMassRequisitionStep extends AbstractStep implements TestingSte
         LOG.info("Starting execution of PurapMassRequisitionStep");
         
         Parameter runIndicatorParameter = (Parameter) boService.findByPrimaryKey(Parameter.class, this.buildRunParameterSearchKeyMap());
-        if (ObjectUtils.isNotNull(runIndicatorParameter) && "Y".equals(runIndicatorParameter.getParameterValue())) {
+        if (ObjectUtils.isNull(runIndicatorParameter) || "Y".equals(runIndicatorParameter.getParameterValue())) {
             // save runParameter as "N" so that the job won't run until DB has been cleared
             setInitiatedRunParameter();
 

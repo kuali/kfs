@@ -154,9 +154,23 @@ public interface ReceivingService {
      */
     public void approveReceivingDocsForPOAmendment();
     
+    /**
+     * Returns a list of line item receiving documents in process for a purchase order 
+     * @param receivingDocumentNumber
+     * @return
+     */
     public List<String> getLineItemReceivingDocumentNumbersInProcessForPurchaseOrder(Integer poId,String receivingDocumentNumber);
     
+    /**
+     * Returns a list of correction receiving documents in process for a purchase order 
+     * @param poId
+     * @param receivingDocumentNumber
+     * @return
+     */
     public List<String> getCorrectionReceivingDocumentNumbersInProcessForPurchaseOrder(Integer poId,String receivingDocumentNumber);
     
-    
+    /**
+     * Returns true, if the po is active for receiving document creation
+     */
+    public boolean isPurchaseOrderActiveForLineItemReceivingDocumentCreation(Integer poId);
 }

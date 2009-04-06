@@ -180,21 +180,29 @@ public class ReceivingServiceImpl implements ReceivingService {
     private boolean canCreateLineItemReceivingDocument(PurchaseOrderDocument po, String receivingDocumentNumber) {
         boolean canCreate = false;
 
-        if (po != null && 
-                ObjectUtils.isNotNull(po.getPurapDocumentIdentifier()) && 
-                !isLineItemReceivingDocumentInProcessForPurchaseOrder(po.getPurapDocumentIdentifier(), receivingDocumentNumber) && 
-                !isCorrectionReceivingDocumentInProcessForPurchaseOrder(po.getPurapDocumentIdentifier(), null) && 
-                po.isPurchaseOrderCurrentIndicator() && 
-                (PurchaseOrderStatuses.OPEN.equals(po.getStatusCode()) || 
-                        PurchaseOrderStatuses.CLOSED.equals(po.getStatusCode()) || 
-                        PurchaseOrderStatuses.PAYMENT_HOLD.equals(po.getStatusCode()))) {
-
+        if (isPurchaseOrderValidForLineItemReceivingDocumentCreation(po) && 
+            !isLineItemReceivingDocumentInProcessForPurchaseOrder(po.getPurapDocumentIdentifier(), receivingDocumentNumber) && 
+            !isCorrectionReceivingDocumentInProcessForPurchaseOrder(po.getPurapDocumentIdentifier(), null)) {
             canCreate = true;
         }
 
         return canCreate;
     }
 
+    public boolean isPurchaseOrderActiveForLineItemReceivingDocumentCreation(Integer poId){
+        PurchaseOrderDocument po = purchaseOrderService.getCurrentPurchaseOrder(poId);
+        return isPurchaseOrderValidForLineItemReceivingDocumentCreation(po);
+    }
+    
+    private boolean isPurchaseOrderValidForLineItemReceivingDocumentCreation(PurchaseOrderDocument po){
+        return po != null &&
+               ObjectUtils.isNotNull(po.getPurapDocumentIdentifier()) && 
+               po.isPurchaseOrderCurrentIndicator() && 
+                   (PurchaseOrderStatuses.OPEN.equals(po.getStatusCode()) || 
+                    PurchaseOrderStatuses.CLOSED.equals(po.getStatusCode()) || 
+                    PurchaseOrderStatuses.PAYMENT_HOLD.equals(po.getStatusCode()));
+    }
+    
     public boolean canCreateCorrectionReceivingDocument(LineItemReceivingDocument rl) throws RuntimeException {
         return canCreateCorrectionReceivingDocument(rl, null);
     }

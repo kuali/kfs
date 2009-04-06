@@ -87,9 +87,14 @@ public class LineItemReceivingAction extends ReceivingBaseAction {
             return forward;
         }
         
-        //Must check if able to create receiving document, if not throw an error
-        if( SpringContext.getBean(ReceivingService.class).canCreateLineItemReceivingDocument(rlDoc.getPurchaseOrderIdentifier(), rlDoc.getDocumentNumber()) == false){
-            String docNumbers = getReceivingDocInProcessNumbersAsString(rlDoc.getPurchaseOrderIdentifier(), rlDoc.getDocumentNumber());
+        if (!SpringContext.getBean(ReceivingService.class).isPurchaseOrderActiveForLineItemReceivingDocumentCreation(rlDoc.getPurchaseOrderIdentifier())){
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_RECEIVING_LINE_DOCUMENT_PO_NOT_ACTIVE, rlDoc.getPurchaseOrderIdentifier().toString());
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+        
+        String docNumbers = getReceivingDocInProcessNumbersAsString(rlDoc.getPurchaseOrderIdentifier(), rlDoc.getDocumentNumber());
+        
+        if (StringUtils.isNotEmpty(docNumbers)){
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_RECEIVING_LINE_DOCUMENT_ACTIVE_FOR_PO, docNumbers, rlDoc.getPurchaseOrderIdentifier().toString());
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }

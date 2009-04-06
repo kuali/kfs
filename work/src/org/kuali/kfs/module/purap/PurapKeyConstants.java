@@ -266,8 +266,6 @@ public class PurapKeyConstants {
     public static final String MESSAGE_DUPLICATE_CREDIT_MEMO_VENDOR_NUMBER_DATE_AMOUNT = "message.duplicate.creditMemo.vendorNumber.date.amount";
 
     // Receiving Line
-    //FIXME venkat, please fill in the string
-    public static final String ERROR_RECEIVING_LINE_DOCUMENT_PO_NOT_ACTIVE = "";
     public static final String ERROR_RECEIVING_LINE_DOCUMENT_ACTIVE_FOR_PO = "errors.receivingLine.documentActiveForPo";
     public static final String ERROR_RECEIVING_LINE_DOCUMENT_PO_NOT_ACTIVE = "errors.receivingLine.poNotActive";
     public static final String ERROR_RECEIVING_LINEITEM_REQUIRED = "errors.receiving.lineitem.required";

@@ -21,6 +21,8 @@ import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.BalanceType;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ObjectTypeService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -67,9 +69,15 @@ public class AccountingDocumentRuleHelperServiceImpl implements AccountingDocume
      * @param accountingLine
      * @return the object type code of the object code of the given accounting line
      */
-    public String getObjectCodeTypeCodeWithoutSideEffects(GeneralLedgerPendingEntrySourceDetail postable) {
-        postable.refreshReferenceObject("objectCode");
-        return postable.getObjectCode().getFinancialObjectTypeCode();
+    public String getObjectCodeTypeCodeWithoutSideEffects(GeneralLedgerPendingEntrySourceDetail postable) {            
+        Integer fiscalYear = postable.getPostingYear();
+        String chartOfAccountsCode = postable.getChartOfAccountsCode();
+        String financialObjectCode = postable.getFinancialObjectCode();
+        
+        ObjectCodeService objectCodeService = SpringContext.getBean(ObjectCodeService.class);
+        ObjectCode objectCode = objectCodeService.getByPrimaryId(fiscalYear, chartOfAccountsCode, financialObjectCode);
+        
+        return ObjectUtils.isNotNull(objectCode) ? objectCode.getFinancialObjectTypeCode() : null;
     }
 
     /**

@@ -331,5 +331,7 @@
 	</bean>
 	
 	<bean id="DisbursementVoucher-wireTransferValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherWireTransferValidation" abstract="true" />
+
+    <bean id="DisbursementVoucher-payeeAddressValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherPayeeAddressValidation" abstract="true" />
 			
 </beans>

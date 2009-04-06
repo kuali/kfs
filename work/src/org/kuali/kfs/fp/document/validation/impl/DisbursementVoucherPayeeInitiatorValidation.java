@@ -29,6 +29,7 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -102,7 +103,7 @@ public class DisbursementVoucherPayeeInitiatorValidation extends GenericValidati
      * @return <code>Person</code>
      */
     private Person retrieveEmployeeBySSN(String ssnNumber) {
-        Person person = (Person) SpringContext.getBean(PersonService.class).getPersonByExternalIdentifier(org.kuali.rice.kim.util.KimConstants.PersonExternalIdentifierTypes.TAX, ssnNumber).get(0);
+        Person person = (Person) SpringContext.getBean(PersonService.class).getPersonByExternalIdentifier(KimConstants.PersonExternalIdentifierTypes.TAX, ssnNumber).get(0);
         if (person == null) {
             LOG.error("User Not Found");
         }
@@ -116,7 +117,7 @@ public class DisbursementVoucherPayeeInitiatorValidation extends GenericValidati
      * @return <code>KualiUser</code>
      */
     private Person getInitiator(AccountingDocument document) {
-        Person initUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId());
+        Person initUser = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId());
         if (initUser == null) {
             throw new RuntimeException("Document Initiator not found");
         }

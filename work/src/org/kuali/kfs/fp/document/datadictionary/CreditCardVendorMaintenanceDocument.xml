@@ -55,16 +55,17 @@
         <bean parent="MaintainableFieldDefinition" p:name="financialDocumentCreditCardVendorNumber" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="financialDocumentCreditCardVendorName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="financialDocumentCreditCardTypeCode" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="incomeFinancialChartOfAccountsCode" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="incomeAccountNumber" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="incomeFinancialObjectCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="incomeFinancialChartOfAccountsCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="incomeAccountNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="incomeFinancialObjectCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="incomeFinancialSubObjectCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="incomeSubAccountNumber"/>
-        <bean parent="MaintainableFieldDefinition" p:name="expenseFinancialChartOfAccountsCode" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="expenseAccountNumber" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="expenseFinancialObjectCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="expenseFinancialChartOfAccountsCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="expenseAccountNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="expenseFinancialObjectCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="expenseFinancialSubObjectCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="expenseSubAccountNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:required="false"/>
       </list>
     </property>
   </bean>

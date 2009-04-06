@@ -82,6 +82,7 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -116,6 +117,8 @@ public class PosterServiceImpl implements PosterService {
     private OffsetDefinitionService offsetDefinitionService;
     private DataDictionaryService dataDictionaryService;
     private BusinessObjectService businessObjectService;
+    private PersistenceStructureService persistenceStructureService;
+    
     private PrintStream OUTPUT_ERR_FILE_ps;
     private PrintStream OUTPUT_GLE_FILE_ps;
     private PrintStream reportPrintStream;
@@ -256,6 +259,7 @@ public class PosterServiceImpl implements PosterService {
             }
             else {
                 LOG.debug("postEntries() Processing reversal transactions");
+                
                 final String GL_REVERSAL_T = MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(Reversal.class).getFullTableName();
                 while (reversalTransactions.hasNext()) {
                     ecount++;
@@ -1066,6 +1070,10 @@ public class PosterServiceImpl implements PosterService {
 
     public void setReportDirectoryName(String reportDirectoryName) {
         this.reportDirectoryName = reportDirectoryName;
+    }
+
+    public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
+        this.persistenceStructureService = persistenceStructureService;
     }
 
 }

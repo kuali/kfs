@@ -24,9 +24,11 @@ import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.AccountBalanceCalculator;
 import org.kuali.kfs.gl.batch.service.PostTransaction;
 import org.kuali.kfs.gl.businessobject.AccountBalance;
+import org.kuali.kfs.gl.businessobject.ExpenditureTransaction;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.dataaccess.CachingDao;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -34,6 +36,7 @@ public class PostAccountBalance implements PostTransaction, AccountBalanceCalcul
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostAccountBalance.class);
 
     private CachingDao cachingDao;
+    private PersistenceStructureService persistenceStructureService;
 
     /**
      * Constructs a PostAccountBalance instance
@@ -141,10 +144,14 @@ public class PostAccountBalance implements PostTransaction, AccountBalanceCalcul
     }
 
     public String getDestinationName() {
-        return MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(AccountBalance.class).getFullTableName();
+        return persistenceStructureService.getTableName(AccountBalance.class);
     }
 
     public void setCachingDao(CachingDao cachingDao) {
         this.cachingDao = cachingDao;
+    }
+
+    public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
+        this.persistenceStructureService = persistenceStructureService;
     }
 }

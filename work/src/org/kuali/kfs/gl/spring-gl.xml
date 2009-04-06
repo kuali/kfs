@@ -767,6 +767,9 @@
 		<property name="cachingDao">
 		  	<ref bean="cachingDao" />
 		</property>
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
 	</bean>
 
     <bean id="glBalancingService" class="org.kuali.kfs.gl.batch.service.impl.BalancingServiceImpl">
@@ -948,6 +951,9 @@
 		<property name="cachingDao">
 		  	<ref bean="cachingDao" />
 		</property>
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
 	</bean>
 
 	<bean id="glPostBalance" class="org.kuali.kfs.gl.batch.service.impl.PostBalance">
@@ -960,6 +966,9 @@
 		<property name="cachingDao">
 		  	<ref bean="cachingDao" />
 		</property>
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
 	</bean>
 
 	<bean id="glPostSufficientFundBalances" class="org.kuali.kfs.gl.batch.service.impl.PostSufficientFundBalances">
@@ -969,11 +978,17 @@
 		<property name="cachingDao">
 		  	<ref bean="cachingDao" />
 		</property>
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
 	</bean>
 
 	<bean id="glPostReversal" class="org.kuali.kfs.gl.batch.service.impl.PostReversal">
 		<property name="cachingDao">
 		  	<ref bean="cachingDao" />
+		</property>
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
 		</property>
 	</bean>
 
@@ -984,6 +999,9 @@
         <property name="dateTimeService">
         	<ref bean="dateTimeService"/>
         </property>
+        <property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
 	</bean>
 
 	<bean id="glPostExpenditureTransaction" class="org.kuali.kfs.gl.batch.service.impl.PostExpenditureTransaction">
@@ -995,6 +1013,9 @@
 		</property>
 		<property name="cachingDao">
 		  	<ref bean="cachingDao" />
+		</property>
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
 		</property>
 	</bean>
 

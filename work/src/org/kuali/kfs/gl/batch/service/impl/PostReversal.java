@@ -24,10 +24,12 @@ import java.util.Date;
 import org.apache.ojb.broker.metadata.MetadataManager;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.PostTransaction;
+import org.kuali.kfs.gl.businessobject.ExpenditureTransaction;
 import org.kuali.kfs.gl.businessobject.Reversal;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.dataaccess.CachingDao;
 import org.kuali.kfs.gl.dataaccess.ReversalDao;
+import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -38,6 +40,7 @@ public class PostReversal implements PostTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostReversal.class);
 
     private CachingDao cachingDao;
+    private PersistenceStructureService persistenceStructureService;
 
     /**
      * Constructs a PostReversal instance
@@ -74,10 +77,14 @@ public class PostReversal implements PostTransaction {
      * @see org.kuali.kfs.gl.batch.service.PostTransaction#getDestinationName()
      */
     public String getDestinationName() {
-        return MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(Reversal.class).getFullTableName();
+        return persistenceStructureService.getTableName(Reversal.class);
     }
 
     public void setCachingDao(CachingDao cachingDao) {
         this.cachingDao = cachingDao;
+    }
+
+    public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
+        this.persistenceStructureService = persistenceStructureService;
     }
 }

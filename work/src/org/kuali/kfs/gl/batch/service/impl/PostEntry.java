@@ -25,10 +25,12 @@ import org.apache.ojb.broker.metadata.MetadataManager;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.PostTransaction;
 import org.kuali.kfs.gl.batch.service.PosterService;
+import org.kuali.kfs.gl.businessobject.AccountBalance;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.dataaccess.CachingDao;
 import org.kuali.kfs.gl.dataaccess.EntryDao;
+import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -39,6 +41,7 @@ public class PostEntry implements PostTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostEntry.class);
 
     private CachingDao cachingDao;
+    private PersistenceStructureService persistenceStructureService;
 
     /**
      * Constructs an instance of PostEntry
@@ -79,11 +82,15 @@ public class PostEntry implements PostTransaction {
      * @see org.kuali.kfs.gl.batch.service.PostTransaction#getDestinationName()
      */
     public String getDestinationName() {
-        return MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(Entry.class).getFullTableName();
+        return persistenceStructureService.getTableName(Entry.class);
     }
 
     public void setCachingDao(CachingDao cachingDao) {
         this.cachingDao = cachingDao;
+    }
+
+    public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
+        this.persistenceStructureService = persistenceStructureService;
     }
 
 }

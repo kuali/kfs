@@ -17,7 +17,6 @@ package org.kuali.kfs.gl.batch.service.impl;
 
 import java.util.Date;
 
-import org.apache.ojb.broker.metadata.MetadataManager;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionAccount;
@@ -29,10 +28,12 @@ import org.kuali.kfs.coa.dataaccess.IndirectCostRecoveryExclusionTypeDao;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.IndirectCostRecoveryService;
 import org.kuali.kfs.gl.batch.service.PostTransaction;
+import org.kuali.kfs.gl.businessobject.Encumbrance;
 import org.kuali.kfs.gl.businessobject.ExpenditureTransaction;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.dataaccess.CachingDao;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -48,6 +49,7 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
     private IndirectCostRecoveryExclusionAccountDao indirectCostRecoveryExclusionAccountDao;
     private IndirectCostRecoveryExclusionTypeDao indirectCostRecoveryExclusionTypeDao;
     private CachingDao cachingDao;
+    private PersistenceStructureService persistenceStructureService;
     
     public void setIndirectCostRecoveryExclusionAccountDao(IndirectCostRecoveryExclusionAccountDao icrea) {
         indirectCostRecoveryExclusionAccountDao = icrea;
@@ -253,7 +255,7 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
      * @see org.kuali.kfs.gl.batch.service.PostTransaction#getDestinationName()
      */
     public String getDestinationName() {
-        return MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(ExpenditureTransaction.class).getFullTableName();
+        return persistenceStructureService.getTableName(ExpenditureTransaction.class);
     }
     
     protected class IncorrectIndirectCostRecoveryMetadataException extends RuntimeException {
@@ -261,5 +263,9 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
 
     public void setCachingDao(CachingDao cachingDao) {
         this.cachingDao = cachingDao;
+    }
+
+    public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
+        this.persistenceStructureService = persistenceStructureService;
     }
 }

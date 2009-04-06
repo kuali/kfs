@@ -15,13 +15,11 @@
  */
 package org.kuali.kfs.gl.batch.service.impl;
 
-import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.metadata.MetadataManager;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.EncumbranceCalculator;
 import org.kuali.kfs.gl.batch.service.PostTransaction;
@@ -29,9 +27,9 @@ import org.kuali.kfs.gl.businessobject.Encumbrance;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.dataaccess.CachingDao;
-import org.kuali.kfs.gl.dataaccess.EncumbranceDao;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -43,6 +41,7 @@ public class PostEncumbrance implements PostTransaction, EncumbranceCalculator {
 
     private CachingDao cachingDao;
     private DateTimeService dateTimeService;
+    private PersistenceStructureService persistenceStructureService;
 
     /**
      * Constructs a PostEncumbrance instance
@@ -181,7 +180,7 @@ public class PostEncumbrance implements PostTransaction, EncumbranceCalculator {
      * @see org.kuali.kfs.gl.batch.service.PostTransaction#getDestinationName()
      */
     public String getDestinationName() {
-        return MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(Encumbrance.class).getFullTableName();
+        return persistenceStructureService.getTableName(Encumbrance.class);
     }
 
 
@@ -191,5 +190,9 @@ public class PostEncumbrance implements PostTransaction, EncumbranceCalculator {
 
     public void setCachingDao(CachingDao cachingDao) {
         this.cachingDao = cachingDao;
+    }
+
+    public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
+        this.persistenceStructureService = persistenceStructureService;
     }
 }

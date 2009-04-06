@@ -20,11 +20,13 @@ import java.util.Date;
 import org.apache.ojb.broker.metadata.MetadataManager;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.PostTransaction;
+import org.kuali.kfs.gl.businessobject.Reversal;
 import org.kuali.kfs.gl.businessobject.SufficientFundBalances;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.dataaccess.CachingDao;
 import org.kuali.kfs.gl.dataaccess.SufficientFundBalancesDao;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +39,7 @@ public class PostSufficientFundBalances implements PostTransaction {
 
     private SufficientFundBalancesDao sufficientFundBalancesDao;
     private CachingDao cachingDao;
+    private PersistenceStructureService persistenceStructureService;
     
     /**
      * Constructs a PostSufficientFundBalances instance
@@ -218,10 +221,14 @@ public class PostSufficientFundBalances implements PostTransaction {
      * @see org.kuali.kfs.gl.batch.service.PostTransaction#getDestinationName()
      */
     public String getDestinationName() {
-        return MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(SufficientFundBalances.class).getFullTableName();
+        return persistenceStructureService.getTableName(SufficientFundBalances.class);
     }
     
     public void setCachingDao(CachingDao cachingDao) {
         this.cachingDao = cachingDao;
+    }
+
+    public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
+        this.persistenceStructureService = persistenceStructureService;
     }
 }

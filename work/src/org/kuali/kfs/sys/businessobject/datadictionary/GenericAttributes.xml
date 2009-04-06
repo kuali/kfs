@@ -517,22 +517,10 @@
   
   <bean id="GenericAttributes-financialSystemDocumentTypeCode" parent="GenericAttributes-financialSystemDocumentTypeCode-parentBean" />
 
-  <bean id="GenericAttributes-financialSystemDocumentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="forceUppercase" value="true" />
-
+  <bean id="GenericAttributes-financialSystemDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-name">
     <property name="shortLabel" value="Type Code" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
-    </property>
-
+    <property name="label" value="Document Type Name" />
     <property name="name" value="financialSystemDocumentTypeCode" />
-    <property name="label" value="Financial System Document Type Code" />
   </bean>
   
 </beans>

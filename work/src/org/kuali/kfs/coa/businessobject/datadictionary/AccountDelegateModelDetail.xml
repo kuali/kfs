@@ -68,9 +68,9 @@
 
   <bean id="AccountDelegateModelDetail-financialDocumentTypeCode" parent="AccountDelegateModelDetail-financialDocumentTypeCode-parentBean" />
 
-  <bean id="AccountDelegateModelDetail-financialDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
+  <bean id="AccountDelegateModelDetail-financialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-name">
     <property name="name" value="financialDocumentTypeCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="label" value="Document Type Name" />
   </bean>
   <bean id="AccountDelegateModelDetail-chartOfAccountsCode" parent="AccountDelegateModelDetail-chartOfAccountsCode-parentBean" />
 

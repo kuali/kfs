@@ -18,11 +18,6 @@
         <value>accountDelegateModelName</value>
       </list>
     </property>
-    
-    
-    
-    
-    
     <property name="documentTypeName" value="GDLM"/>
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.AccountDelegateModelRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>

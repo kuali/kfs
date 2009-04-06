@@ -152,7 +152,6 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         success &= checkExpirationDate(document);
         success &= checkFundGroup(document);
         success &= checkSubFundGroup(document);
-        success &= checkFiscalOfficerIsValidKualiUser(newAccount.getAccountFiscalOfficerSystemIdentifier());
 
         return success;
     }
@@ -913,25 +912,6 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         }
 
         return success;
-    }
-
-    /**
-     * This method insures the fiscal officer is a valid Kuali User
-     * 
-     * @param fiscalOfficerUserId
-     * @return true if they are a valid Kuali user
-     */
-    protected boolean checkFiscalOfficerIsValidKualiUser(String fiscalOfficerUserId) {
-        boolean result = true;
-        Person fiscalOfficer = getKfsUserService().getPerson(fiscalOfficerUserId);
-        if (fiscalOfficer == null || !getFinancialSystemUserService().isActiveFinancialSystemUser(fiscalOfficer) ) {
-            result = false;
-            if ( fiscalOfficer != null ) {
-                putFieldError("accountFiscalOfficerUser.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_FISCAL_OFFICER_MUST_BE_KUALI_USER);
-            }
-        }
-
-        return result;
     }
 
     /**

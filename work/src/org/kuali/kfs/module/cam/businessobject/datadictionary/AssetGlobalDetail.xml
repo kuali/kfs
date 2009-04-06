@@ -90,20 +90,24 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="AssetGlobalDetail-buildingCode" parent="AssetGlobalDetail-buildingCode-parentBean" />
   <bean id="AssetGlobalDetail-buildingCode-parentBean" abstract="true" parent="Asset-buildingCode">
     <property name="shortLabel" value="Code" />
+    <property name="forceUppercase" value="true" />    
   </bean>
   
   <bean id="AssetGlobalDetail-buildingRoomNumber" parent="AssetGlobalDetail-buildingRoomNumber-parentBean" />
   <bean id="AssetGlobalDetail-buildingRoomNumber-parentBean" abstract="true" parent="Asset-buildingRoomNumber">
+  		<property name="forceUppercase" value="true" />
   </bean>
   
   <bean id="AssetGlobalDetail-buildingSubRoomNumber" parent="AssetGlobalDetail-buildingSubRoomNumber-parentBean" />
   <bean id="AssetGlobalDetail-buildingSubRoomNumber-parentBean" abstract="true" parent="Asset-buildingSubRoomNumber">
+		<property name="forceUppercase" value="true" />  
   </bean>
   
   <bean id="AssetGlobalDetail-campusCode" parent="AssetGlobalDetail-campusCode-parentBean" />
   <bean id="AssetGlobalDetail-campusCode-parentBean" abstract="true" parent="Asset-campusCode">
   	<property name="label" value="Campus"></property>
     <property name="shortLabel" value="Code" />
+	<property name="forceUppercase" value="true" />    
   </bean>
   
   <bean id="AssetGlobalDetail-campusTagNumber" parent="AssetGlobalDetail-campusTagNumber-parentBean" />
@@ -192,6 +196,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="name" value="offCampusStateCode" />
     <property name="label" value="Off Campus State" />
     <property name="shortLabel" value="State" />
+    <property name="forceUppercase" value="true" />        
   </bean>
   
   <bean id="AssetGlobalDetail-offCampusZipCode" parent="AssetGlobalDetail-offCampusZipCode-parentBean" />

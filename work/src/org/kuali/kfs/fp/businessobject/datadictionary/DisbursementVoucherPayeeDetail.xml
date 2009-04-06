@@ -1,8 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="DisbursementVoucherPayeeDetail" parent="DisbursementVoucherPayeeDetail-parentBean" />
 
@@ -35,6 +37,21 @@
         <ref bean="DisbursementVoucherPayeeDetail-disbursementVoucherPayeeTypeName" />
       </list>
     </property>
+    <property name="relationships" >
+      <list>
+        <dd:relationship objectAttribute="disbVchrPayeePostalZipCode">
+            <dd:primitiveAttribute source="disbVchrPayeeCountryCode" target="postalCountryCode" />
+            <dd:primitiveAttribute source="disbVchrPayeeZipCode" target="postalCode" />
+        </dd:relationship>
+        <dd:relationship objectAttribute="disbVchrPayeeState">
+            <dd:primitiveAttribute source="disbVchrPayeeCountryCode" target="postalCountryCode" />
+            <dd:primitiveAttribute source="disbVchrPayeeStateCode" target="postalStateCode" />            
+        </dd:relationship>
+        <dd:relationship objectAttribute="disbVchrPayeeCountry">
+            <dd:primitiveAttribute source="disbVchrPayeeCountryCode" target="postalCountryCode" />
+        </dd:relationship>
+      </list>
+    </property> 
   </bean>
 
 <!-- Attribute Definitions -->

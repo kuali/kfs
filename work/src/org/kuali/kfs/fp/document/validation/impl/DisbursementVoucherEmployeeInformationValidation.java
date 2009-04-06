@@ -47,7 +47,7 @@ public class DisbursementVoucherEmployeeInformationValidation extends GenericVal
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
         DisbursementVoucherPayeeDetail payeeDetail = document.getDvPayeeDetail();
         
-        if(!payeeDetail.isEmployee()) {
+        if(!payeeDetail.isEmployee() || payeeDetail.isVendor()) {
             return true;
         }
         

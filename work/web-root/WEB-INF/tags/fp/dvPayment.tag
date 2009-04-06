@@ -38,8 +38,11 @@
               </div></th>
               <td colspan="3" class="datacell">              	
                 <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPayeeIdNumber}" property="document.dvPayeeDetail.disbVchrPayeeIdNumber" readOnly="true" />
-                <kul:lookup boClassName="org.kuali.kfs.fp.businessobject.DisbursementPayee"
-                	fieldConversions="payeeIdNumber:document.dvPayeeDetail.disbVchrPayeeIdNumber,payeeTypeCode:document.dvPayeeDetail.disbursementVoucherPayeeTypeCode,paymentReasonCode:document.dvPayeeDetail.disbVchrPaymentReasonCode"/>
+                <c:if test="${fullEntryMode}">
+	                <kul:lookup boClassName="org.kuali.kfs.fp.businessobject.DisbursementPayee"
+	                	fieldConversions="payeeIdNumber:document.dvPayeeDetail.disbVchrPayeeIdNumber,payeeTypeCode:document.dvPayeeDetail.disbursementVoucherPayeeTypeCode,paymentReasonCode:document.dvPayeeDetail.disbVchrPaymentReasonCode"
+	                	/>
+                </c:if>
               </td>
             </tr>
 		

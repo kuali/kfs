@@ -23,7 +23,13 @@ import org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.bo.PostalCode;
+import org.kuali.rice.kns.bo.State;
+import org.kuali.rice.kns.service.CountryService;
+import org.kuali.rice.kns.service.PostalCodeService;
+import org.kuali.rice.kns.service.StateService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -68,6 +74,10 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
 
     // The following universal user-associated attributes are for convenience only and are not mapped to OJB or the the DB.
     private String disbVchrEmployeeIdNumber;
+    
+    private State disbVchrPayeeState;
+    private Country disbVchrPayeeCountry;    
+    private PostalCode disbVchrPayeePostalZipCode;
 
     /**
      * Default no-arg constructor.
@@ -749,6 +759,58 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
     public void setHasMultipleVendorAddresses(boolean hasMultipleVendorAddresses) {
         this.hasMultipleVendorAddresses = hasMultipleVendorAddresses;
     }
+    
+    /**
+     * Gets the disbVchrPayeeState attribute. 
+     * @return Returns the disbVchrPayeeState.
+     */
+    public State getDisbVchrPayeeState() {
+        disbVchrPayeeState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(this, disbVchrPayeeCountryCode, disbVchrPayeeStateCode, disbVchrPayeeState);
+        return disbVchrPayeeState;
+    }
+
+    /**
+     * Sets the disbVchrPayeeState attribute value.
+     * @param disbVchrPayeeState The disbVchrPayeeState to set.
+     */
+    public void setDisbVchrPayeeState(State disbVchrPayeeState) {
+        this.disbVchrPayeeState = disbVchrPayeeState;
+    }
+
+    /**
+     * Gets the disbVchrPayeeCountry attribute. 
+     * @return Returns the disbVchrPayeeCountry.
+     */
+    public Country getDisbVchrPayeeCountry() {
+        disbVchrPayeeCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(this, disbVchrPayeeCountryCode, disbVchrPayeeCountry);
+        return disbVchrPayeeCountry;
+    }
+
+    /**
+     * Sets the disbVchrPayeeCountry attribute value.
+     * @param disbVchrPayeeCountry The disbVchrPayeeCountry to set.
+     */
+    public void setDisbVchrPayeeCountry(Country disbVchrPayeeCountry) {
+        this.disbVchrPayeeCountry = disbVchrPayeeCountry;
+    }
+
+    /**
+     * Gets the disbVchrPayeePostalZipCode attribute. 
+     * @return Returns the disbVchrPayeePostalZipCode.
+     */
+    public PostalCode getDisbVchrPayeePostalZipCode() {
+        disbVchrPayeePostalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(this, disbVchrPayeeCountryCode, disbVchrPayeeZipCode, disbVchrPayeePostalZipCode);
+        return disbVchrPayeePostalZipCode;
+    }
+
+    /**
+     * Sets the disbVchrPayeePostalZipCode attribute value.
+     * @param disbVchrPayeePostalZipCode The disbVchrPayeePostalZipCode to set.
+     */
+    public void setDisbVchrPayeePostalZipCode(PostalCode disbVchrPayeePostalZipCode) {
+        this.disbVchrPayeePostalZipCode = disbVchrPayeePostalZipCode;
+    }
+    
 
     /**
      * Checks the payee type code for vendor type

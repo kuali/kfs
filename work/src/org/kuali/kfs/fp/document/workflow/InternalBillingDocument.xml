@@ -9,7 +9,7 @@
         <routePath>
           <start name="AdHoc" nextNode="Account"/>
           <requests name="Account" nextNode="AccountingOrganizationHierarchy"/>
-          <requests name="AccountingOrganizationHierarchy" nextNode="Subfund"/>
+          <requests name="AccountingOrganizationHierarchy" nextNode="SubFund"/>
           <requests name="SubFund"/>
         </routePath>
       </routePaths>

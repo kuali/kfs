@@ -21,14 +21,6 @@
 <%@ attribute name="editableFields" required="false" type="java.util.Map"
               description="Map of accounting line fields which this user is allowed to edit" %>
 
-<c:forEach items="${editableAccounts}" var="account">
-  
-</c:forEach>
-
-<c:forEach items="${editableFields}" var="field">
-  
-</c:forEach>
-
 <c:set var="columnCountUntilAmount" value="8" />
 <c:set var="columnCount" value="${columnCountUntilAmount + 1 + (KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] ? 1 : 0)}" />
 <c:set var="accountingLineAttributes" value="${DataDictionary['TargetAccountingLine'].attributes}" />
@@ -43,12 +35,6 @@
   <c:set var="baseCtr" value="0"/>
   <logic:iterate indexId="ctr" name="KualiForm" property="document.transactionEntries" id="currentTransaction">
     <table cellpadding="0" class="datatable" summary="Transaction Details">
-       
-       
-       <%-- write out source (actually from lines) as hiddens since they are not displayed but need repopulated --%>
-       <logic:iterate indexId="tCtr" name="KualiForm" property="document.transactionEntries[${ctr}].sourceAccountingLines" id="currentLine">
-        
-      </logic:iterate>
                                                                                            
        <fp:subheadingWithDetailToggleRow columnCount="4" subheading="Transaction #${currentTransaction.transactionReferenceNumber}"/>
 	      <tr>

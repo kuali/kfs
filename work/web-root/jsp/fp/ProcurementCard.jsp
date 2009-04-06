@@ -19,8 +19,6 @@
 	htmlFormAction="financialProcurementCard" renderMultipart="true"
 	showTabButtons="true">
 
-	
-
 	<sys:hiddenDocumentFields />
 
 	<sys:documentOverview editingMode="${KualiForm.editingMode}" />

@@ -879,7 +879,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      * @return
      */
     public Date getSeparateDocumentHeaderFinalDate() {
-        if (this.documentNumber == null) {
+        if (this.documentNumber == null || !SpringContext.getBean(AssetGlobalService.class).isAssetSeparate(this)) {
             return null;
         }
         DocumentRouteHeaderValue routeHeader = SpringContext.getBean(RouteHeaderService.class).getRouteHeader(Long.valueOf(this.documentNumber));
@@ -924,6 +924,9 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     public KualiDecimal getSeparateSourceRemainingAmount() {
+        if (separateSourceRemainingAmount == null && getTotalCostAmount() != null) {
+            return getTotalCostAmount().subtract(getSeparateSourceTotalAmount());
+        }
         return separateSourceRemainingAmount;
     }
 

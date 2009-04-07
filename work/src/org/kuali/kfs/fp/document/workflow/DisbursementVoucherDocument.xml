@@ -28,8 +28,8 @@
             </branch>
             <join name="JoinRequiresTaxReview"/>
           </split>
-          <requests name="Campus" nextNode="RequiresTravelReview"/>
-          <split name="RequiresTravelReview" nextNode="PaymentMethod">
+          <requests name="Award" nextNode="RequiresTravelReview"/>
+          <split name="RequiresTravelReview" nextNode="Campus">
             <branch name="True">
               <requests name="Travel" nextNode="JoinRequiresTravelReview"/>
             </branch>
@@ -38,13 +38,25 @@
             </branch>
             <join name="JoinRequiresTravelReview"/>
           </split>
-          <requests name="PaymentMethod" nextNode="Award"/>
-          <requests name="Award"/>
+          <requests name="Campus" nextNode="RequiresPaymentReview"/>
+          <split name="RequiresPaymentReview" >
+            <branch name="True">
+              <requests name="PaymentMethod" nextNode="JoinRequiresPaymentReview"/>
+            </branch>
+            <branch name="False">
+              <simple name="NoOpPaymentReview" nextNode="JoinRequiresPaymentReview"/>
+            </branch>
+            <join name="JoinRequiresPaymentReview"/>
+          </split>
+          
         </routePath>
       </routePaths>
       <routeNodes>
         <start name="AdHoc"/>
         <split name="PayeeIsPurchaseOrderVendor">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <split name="RequiresPaymentReview">
           <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
         </split>
         <split name="RequiresTaxReview">
@@ -56,6 +68,9 @@
         <simple name="NoOpPayee">
           <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
         </simple>
+         <simple name="NoOpPaymentReview">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
         <simple name="NoOpTaxReview">
           <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
         </simple>
@@ -63,6 +78,7 @@
           <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
         </simple>
         <join name="JoinPayeeIsPurchaseOrderVendor"/>
+        <join name="JoinRequiresPaymentReview"/>
         <join name="JoinRequiresTaxReview"/>
         <join name="JoinRequiresTravelReview"/>
         <role name="Purchasing">

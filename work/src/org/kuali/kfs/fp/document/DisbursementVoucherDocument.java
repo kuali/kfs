@@ -94,6 +94,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     
     private static final String PAYEE_IS_PURCHASE_ORDER_VENDOR_SPLIT = "PayeeIsPurchaseOrderVendor";
     private static final String PURCHASE_ORDER_VENDOR_TYPE = "PO";
+    private static final String DOCUMENT_REQUIRES_PAYMENT_REVIEW_SPLIT = "RequiresPaymentReview";
     private static final String DOCUMENT_REQUIRES_TAX_REVIEW_SPLIT = "RequiresTaxReview";
     private static final String DOCUMENT_REQUIRES_TRAVEL_REVIEW_SPLIT = "RequiresTravelReview";
     private static final String PAYMENT_REASON_PREPAID_TRAVEL = "P";
@@ -1523,6 +1524,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     @Override
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
         if (nodeName.equals(DisbursementVoucherDocument.PAYEE_IS_PURCHASE_ORDER_VENDOR_SPLIT)) return isPayeePurchaseOrderVendor();
+        if (nodeName.equals(DisbursementVoucherDocument.DOCUMENT_REQUIRES_PAYMENT_REVIEW_SPLIT)) return isPaymentReviewRequired();
         if (nodeName.equals(DisbursementVoucherDocument.DOCUMENT_REQUIRES_TAX_REVIEW_SPLIT)) return isTaxReviewRequired();
         if (nodeName.equals(DisbursementVoucherDocument.DOCUMENT_REQUIRES_TRAVEL_REVIEW_SPLIT)) return isTravelReviewRequired();
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
@@ -1548,13 +1550,28 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * @return true if any of the above conditions exist and this document should receive tax review, false otherwise
      */
     protected boolean isTaxReviewRequired() {
+        if (isPayeePurchaseOrderVendorHasWithholding()) return true;
         if (this.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode().equals(DisbursementVoucherConstants.DV_PAYEE_TYPE_EMPLOYEE)) return true;
         if (this.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode().equals(DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR) && SpringContext.getBean(VendorService.class).isVendorForeign(getDvPayeeDetail().getDisbVchrVendorHeaderIdNumberAsInteger())) return true;
         if (!StringUtils.isBlank(this.getDisbVchrPayeeTaxControlCode()) && (this.getDisbVchrPayeeTaxControlCode().equals(DisbursementVoucherDocument.TAX_CONTROL_BACKUP_HOLDING) || this.getDisbVchrPayeeTaxControlCode().equals(DisbursementVoucherDocument.TAX_CONTROL_HOLD_PAYMENTS))) return true;
         if (this.getDvPayeeDetail().getDisbVchrPaymentReasonCode().equals(DisbursementVoucherDocument.PAYMENT_REASON_DECENDENT_COMPENSATION)) return true;
         if (this.getDvPayeeDetail().getDisbVchrPaymentReasonCode().equals(DisbursementVoucherDocument.PAYMENT_REASON_MOVING_REASON) && taxedCampusForMovingReimbursements()) return true;
-        return true;
+        return false;
     }
+    
+    /**
+     * @return true if the payee is a purchase order vendor and has withholding dates therefore should receive tax review, false otherwise
+     */
+    protected boolean isPayeePurchaseOrderVendorHasWithholding() {
+        if (!this.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode().equals(DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR)) return false;
+        final VendorDetail vendor = getVendorService().getByVendorNumber(this.getDvPayeeDetail().getDisbVchrPayeeIdNumber());
+        if (vendor == null) return false;
+        if (vendor.getVendorHeader().getVendorTypeCode().equals(DisbursementVoucherDocument.PURCHASE_ORDER_VENDOR_TYPE)) {
+            return (vendor.getVendorHeader().getVendorFederalWithholdingTaxBeginningDate()!= null || vendor.getVendorHeader().getVendorFederalWithholdingTaxEndDate()!= null);
+        } 
+        return false;
+    }
+    
     
     /**
      * Determines if the campus this DV is related to is taxed (and should get tax review routing) for moving reimbursements
@@ -1563,6 +1580,12 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     protected boolean taxedCampusForMovingReimbursements() {
         return SpringContext.getBean(ParameterService.class).getParameterEvaluator(this.getClass(), CAMPUSES_TAXED_FOR_MOVING_REIMBURSEMENTS_PARAMETER_NAME, this.getCampusCode()).evaluationSucceeds();
     }
+    
+    protected boolean isPaymentReviewRequired() {
+        return (disbVchrPaymentMethodCode.equals("W") || disbVchrPaymentMethodCode.equals("F"));
+        
+    }
+        
     
     /**
      * Travel review is required under the following circumstances:

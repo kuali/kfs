@@ -353,25 +353,6 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         super.deleteAccountingLine(isSource, financialDocumentForm, deleteIndex);
     }
 
-    /**
-     * Overrides the docHandler method in the superclass. In addition to doing the normal process in the superclass and returning
-     * its action forward from the superclass, it also invokes the <code>checkForPOWarnings</code> method to check on a few
-     * conditions that could have caused warning messages to be displayed on top of Purchase Order page.
-     * 
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward forward = super.docHandler(mapping, form, request, response);
-
-        CustomerInvoiceDocumentForm ciForm = (CustomerInvoiceDocumentForm) form;
-        CustomerInvoiceDocument invoice = (CustomerInvoiceDocument) ciForm.getDocument();
-        
-        return forward;
-    }
-    
-    
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.refresh(mapping, form, request, response);
@@ -447,8 +428,6 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
      * @throws Exception
      */
     public ActionForward print(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        WebUtils.reRegisterEditablePropertiesFromPreviousRequest((KualiForm) form);
-        
         String basePath = getBasePath(request);
         String docId = ((CustomerInvoiceDocumentForm) form).getCustomerInvoiceDocument().getDocumentNumber();
         String methodToCallPrintInvoicePDF = "printInvoicePDF";
@@ -475,9 +454,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
      * @return
      * @throws Exception
      */
-    public ActionForward printInvoicePDF(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        WebUtils.reRegisterEditablePropertiesFromPreviousRequest((KualiForm) form);
-        
+    public synchronized ActionForward printInvoicePDF(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String invoiceDocId = request.getParameter("docId");
         CustomerInvoiceDocument customerInvoiceDocument = (CustomerInvoiceDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(invoiceDocId);
         

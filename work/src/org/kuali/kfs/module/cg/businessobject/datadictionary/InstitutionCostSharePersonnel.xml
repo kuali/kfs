@@ -74,9 +74,8 @@
       <bean parent="AlphaValidationPattern" />
     </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
-            p:includeKeyInLabel="false" />
+       <bean parent="TextControlDefinition"
+            p:size="4" />
     </property>
     <property name="summary" value="Organization Code" />
     <property name="description" value="Organization Code" />

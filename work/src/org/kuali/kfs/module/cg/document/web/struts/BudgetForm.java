@@ -93,14 +93,14 @@ public class BudgetForm extends ResearchDocumentFormBase {
 
     private List nonpersonnelCategories;
     private List newNonpersonnelList;
-    private BudgetOverviewFormHelper budgetOverviewFormHelper;
-    private BudgetNonpersonnelFormHelper budgetNonpersonnelFormHelper;
-    private BudgetNonpersonnelCopyOverFormHelper budgetNonpersonnelCopyOverFormHelper;
-    private BudgetIndirectCostFormHelper budgetIndirectCostFormHelper;
+    private transient BudgetOverviewFormHelper budgetOverviewFormHelper;
+    private transient BudgetNonpersonnelFormHelper budgetNonpersonnelFormHelper;
+    private transient BudgetNonpersonnelCopyOverFormHelper budgetNonpersonnelCopyOverFormHelper;
+    private transient BudgetIndirectCostFormHelper budgetIndirectCostFormHelper;
 
     private BudgetInstitutionCostShare newInstitutionCostShare;
     private BudgetThirdPartyCostShare newThirdPartyCostShare;
-    private BudgetCostShareFormHelper budgetCostShareFormHelper;
+    private transient BudgetCostShareFormHelper budgetCostShareFormHelper;
 
     private Integer currentTaskNumber;
     private Integer previousTaskNumber;
@@ -810,6 +810,9 @@ public class BudgetForm extends ResearchDocumentFormBase {
      * @return Returns the budgetIndirectCostFormHelper.
      */
     public BudgetIndirectCostFormHelper getBudgetIndirectCostFormHelper() {
+        if (budgetIndirectCostFormHelper == null) {
+            budgetIndirectCostFormHelper = new BudgetIndirectCostFormHelper(this);
+        }
         return budgetIndirectCostFormHelper;
     }
 

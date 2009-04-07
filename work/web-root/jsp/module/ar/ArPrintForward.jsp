@@ -41,7 +41,7 @@
   <script language ="javascript">
     window.onload = dothis();
     function dothis() {
-      _win = window.open('', 'printinvoicepdf');
+      _win = window.open('', 'printarpdf');
       document.printPDFForm.target=_win.name;
       document.printPDFForm.submit();
       document.backForm.submit();

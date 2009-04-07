@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -29,6 +30,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDocumentService;
 import org.kuali.kfs.module.ar.document.validation.event.ContinueCustomerCreditMemoDocumentEvent;
@@ -39,6 +41,7 @@ import org.kuali.kfs.module.ar.web.struts.CustomerStatementForm;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.WebUtils;
@@ -235,7 +238,44 @@ public class CustomerCreditMemoDocumentAction extends KualiTransactionalDocument
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
+    /**
+     * 
+     * This method...
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward print(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String basePath = getBasePath(request);
+        String docId = ((CustomerCreditMemoDocumentForm) form).getDocNum();
+        String methodToCallPrintCreditMemoPDF = "printCreditMemoPDF";
+        String methodToCallDocHandler = "docHandler";
+        String printCreditMemoPDFUrl = getUrlForPrintCreditMemo(basePath, docId, methodToCallPrintCreditMemoPDF);
+        String displayInvoiceTabbedPageUrl = getUrlForPrintCreditMemo(basePath, docId, methodToCallDocHandler);
+        
+        request.setAttribute("printPDFUrl", printCreditMemoPDFUrl);
+        request.setAttribute("displayTabbedPageUrl", displayInvoiceTabbedPageUrl);
+        request.setAttribute("docId", docId);
+        String label = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(CustomerCreditMemoDocument.class);
+        request.setAttribute("printLabel", label);
+        return mapping.findForward("arPrintPDF");
+        
+    }
+        
+    /**
+     * 
+     * This method...
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward printCreditMemoPdf(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         CustomerCreditMemoDocumentForm customerCreditMemoDocumentForm = (CustomerCreditMemoDocumentForm)form;
         CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument) customerCreditMemoDocumentForm.getDocument();
@@ -255,6 +295,7 @@ public class CustomerCreditMemoDocumentAction extends KualiTransactionalDocument
         }
             
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        String contentDisposition = "";
         try {
             ArrayList master = new ArrayList();
             PdfCopy  writer = null;
@@ -288,13 +329,59 @@ public class CustomerCreditMemoDocumentAction extends KualiTransactionalDocument
                 writer.setOutlines(master);
             // step 5: we close the document
             document.close();
+
+            StringBuffer sbContentDispValue = new StringBuffer();
+            String useJavascript = request.getParameter("useJavascript");
+            if (useJavascript == null || useJavascript.equalsIgnoreCase("false")) {
+                sbContentDispValue.append("attachment");
+            }
+            else {
+                sbContentDispValue.append("inline");
+            }
+            sbContentDispValue.append("; filename=");
+            sbContentDispValue.append(fileName);
+            
+            contentDisposition = sbContentDispValue.toString();
         }
         catch(Exception e) {
             e.printStackTrace();
         } 
 
-        WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", baos, fileName.toString());
-        //csForm.setMessage("Report Generated");
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition", contentDisposition);
+        response.setHeader("Expires", "0");
+        response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+        response.setHeader("Pragma", "public");
+        response.setContentLength(baos.size());
+
+        // write to output
+        ServletOutputStream sos;
+        sos = response.getOutputStream();
+        baos.writeTo(sos);
+        sos.flush();
+        sos.close();
+
         return null;
     }
+    
+    /**
+     * Creates a URL to be used in printing the customer credit memo.
+     * 
+     * @param basePath String: The base path of the current URL
+     * @param docId String: The document ID of the document to be printed
+     * @param methodToCall String: The name of the method that will be invoked to do this particular print
+     * @return The URL
+     */
+    private String getUrlForPrintCreditMemo(String basePath, String docId, String methodToCall) {
+        StringBuffer result = new StringBuffer(basePath);
+        result.append("/arCustomerCreditMemoDocument.do?methodToCall=");
+        result.append(methodToCall);
+        result.append("&docId=");
+        result.append(docId);
+        result.append("&command=displayDocSearchView");
+
+        return result.toString();
+    }
+
+    
 }

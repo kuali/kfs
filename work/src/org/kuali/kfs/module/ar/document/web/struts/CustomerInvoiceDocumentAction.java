@@ -434,6 +434,16 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }    
 
+    /**
+     * 
+     * This method...
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward print(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String basePath = getBasePath(request);
         String docId = ((CustomerInvoiceDocumentForm) form).getCustomerInvoiceDocument().getDocumentNumber();
@@ -451,6 +461,16 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         
     }
     
+    /**
+     * 
+     * This method...
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward printInvoicePDF(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         String invoiceDocId = request.getParameter("docId");
@@ -544,7 +564,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
     }
     
     /**
-     * Creates a URL to be used in printing the purchase order.
+     * Creates a URL to be used in printing the customer invoice document.
      * 
      * @param basePath String: The base path of the current URL
      * @param docId String: The document ID of the document to be printed

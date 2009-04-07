@@ -83,7 +83,7 @@ public class JobListener implements org.quartz.JobListener {
     private void initializeLogging(JobExecutionContext jobExecutionContext) {
         try {
             Calendar startTimeCalendar = dateTimeService.getCurrentCalendar();
-            StringBuffer nestedDiagnosticContext = new StringBuffer(jobExecutionContext.getJobDetail().getName()).append("-").append(dateTimeService.toString(startTimeCalendar.getTime(), "yyyyMMdd-HH-mm-ss-S"));
+            StringBuffer nestedDiagnosticContext = new StringBuffer(StringUtils.substringAfter(BatchSpringContext.getJobDescriptor(jobExecutionContext.getJobDetail().getName()).getNamespaceCode(), "-").toLowerCase()).append(File.separator).append(jobExecutionContext.getJobDetail().getName()).append("-").append(dateTimeService.toString(startTimeCalendar.getTime(), "yyyyMMdd-HH-mm-ss-S"));
             ((Job) jobExecutionContext.getJobInstance()).setNdcAppender(new FileAppender(Logger.getRootLogger().getAppender("LogFile").getLayout(), getLogFileName(nestedDiagnosticContext.toString())));
             ((Job) jobExecutionContext.getJobInstance()).getNdcAppender().addFilter(new NDCFilter(nestedDiagnosticContext.toString()));
             Logger.getRootLogger().addAppender(((Job) jobExecutionContext.getJobInstance()).getNdcAppender());

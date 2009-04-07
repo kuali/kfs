@@ -101,7 +101,7 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
          sqlBuilder.append("(SELECT EMPLID, PERSON_NM, BUSINESS_UNIT, POS_SAL_PLAN_DFLT, POS_GRADE_DFLT, ?, 'Y'\n"); 
          sqlBuilder.append("FROM\n");
          sqlBuilder.append("(SELECT DISTINCT csf.EMPLID,\n");
-         sqlBuilder.append("        CONCAT(KRIM_ENTITY_NM_T.LAST_NM,CONCAT(', ',KRIM_ENTITY_NM_T.FIRST_NM)) AS PERSON_NM,\n");
+         sqlBuilder.append("        CONCAT(COALESCE(KRIM_ENTITY_NM_T.LAST_NM,CONCAT(csf.EMPLID,'Last')),CONCAT(', ',COALESCE(KRIM_ENTITY_NM_T.FIRST_NM,CONCAT(csf.EMPLID,'First')))) AS PERSON_NM,\n");
          sqlBuilder.append("        pos.BUSINESS_UNIT,\n");
          sqlBuilder.append("        pos.POS_SAL_PLAN_DFLT,\n");
          sqlBuilder.append("        pos.POS_GRADE_DFLT\n");

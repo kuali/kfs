@@ -55,6 +55,7 @@ import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.BlanketApproveDocumentEvent;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
@@ -72,6 +73,8 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentApplicationDocument.class);
 
+    private static final String LAUNCHED_FROM_BATCH = "LaunchedBySystemUser";
+    
     private String hiddenFieldForErrors;
     private List<InvoicePaidApplied> invoicePaidApplieds;
     private List<NonInvoiced> nonInvoiceds;
@@ -959,9 +962,62 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     }
 
     /**
+     * 
+     * Collects and returns the combined distributions from NonInvoiced/NonAr and Unapplied.
+     * 
+     * This method is intended to be used only when the document has gone to final, to show what 
+     * control documents were issued what funds.
+     * 
+     * The return value is a Map<String,KualiDecimal> where the key is the NonAppliedHolding's 
+     * ReferenceFinancialDocumentNumber and the value is the Amount to be applied.
+     *  
+     * @return
+     */
+    public Map<String,KualiDecimal> getDistributionsFromControlDocuments() {
+        if (!isFinal()) {
+            throw new UnsupportedOperationException("This method should only be used once the document has been approved/gone to final.");
+        }
+
+        Map<String,KualiDecimal> distributions = new HashMap<String,KualiDecimal>();
+        
+        //  short circuit if no non-applied-distributions available
+        if ((nonAppliedDistributions == null || nonAppliedDistributions.isEmpty()) && 
+                (nonInvoicedDistributions == null || nonInvoicedDistributions.isEmpty())) {
+            return distributions;
+        }
+        
+        //  get the list of payapp docnumbers from non-applied-distributions
+        for (NonAppliedDistribution nonAppliedDistribution : nonAppliedDistributions) {
+            String refDocNbr = nonAppliedDistribution.getReferenceFinancialDocumentNumber();
+            if (distributions.containsKey(refDocNbr)) {
+                distributions.put(refDocNbr, (distributions.get(refDocNbr).add(nonAppliedDistribution.getFinancialDocumentLineAmount())));
+            }
+            else {
+                distributions.put(refDocNbr, nonAppliedDistribution.getFinancialDocumentLineAmount());
+            }
+        }
+        
+        //  get the list of payapp docnumbers from non-applied-distributions
+        for (NonInvoicedDistribution nonInvoicedDistribution : nonInvoicedDistributions) {
+            String refDocNbr = nonInvoicedDistribution.getReferenceFinancialDocumentNumber();
+            if (distributions.containsKey(refDocNbr)) {
+                distributions.put(refDocNbr, (distributions.get(refDocNbr).add(nonInvoicedDistribution.getFinancialDocumentLineAmount())));
+            }
+            else {
+                distributions.put(refDocNbr, nonInvoicedDistribution.getFinancialDocumentLineAmount());
+            }
+        }
+        
+        return distributions;
+    }
+    
+    /**
      *
      *  Walks through the nonAppliedHoldings passed in (the control docs) and allocates how the 
      *  funding should be allocated.
+     *  
+     *  This function is intended to be used when the document is still live, ie not for when its 
+     *  been finalized. 
      *  
      *  The return value is a Map<String,KualiDecimal> where the key is the NonAppliedHolding's 
      *  ReferenceFinancialDocumentNumber and the value is the Amount to be applied.
@@ -974,7 +1030,10 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         if (amountToBeApplied == null || amountToBeApplied.isNegative()) {
             throw new IllegalArgumentException("A null or negative value for the parameter [amountToBeApplied] was passed in.");
         }
-
+        if (isFinal()) {
+            throw new UnsupportedOperationException("This method should not be used when the document has been approved/gone to final.");
+        }
+        
         Map<String,KualiDecimal> allocations = new HashMap<String,KualiDecimal>();
         KualiDecimal remainingAmount = new KualiDecimal(amountToBeApplied.toString()); //clone it
         
@@ -1080,6 +1139,25 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
                 this.nonInvoicedDistributions.add(nonInvoicedDistribution);
             }
         }
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#answerSplitNodeQuestion(java.lang.String)
+     */
+    @Override
+    public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
+        if (LAUNCHED_FROM_BATCH.equals(nodeName)) {
+            return launchedFromBatch();
+        }
+        throw new UnsupportedOperationException("answerSplitNode('" + nodeName + "') was called but no handler for nodeName specified.");
+    }
+
+    private boolean launchedFromBatch() {
+        boolean result = false;
+        Person initiator = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
+        result = initiator.getPrincipalId().equalsIgnoreCase(getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+        return result;
     }
     
 }

@@ -65,6 +65,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     private List<PaymentApplicationDocument> nonAppliedControlDocs;
     private List<NonAppliedHolding> nonAppliedControlHoldings;
     private Map<String,KualiDecimal> nonAppliedControlAllocations;
+    private Map<String,KualiDecimal> distributionsFromControlDocs;
     
     /**
      * Constructs a PaymentApplicationDocumentForm.java.
@@ -539,6 +540,23 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         this.nonAppliedControlHoldings = nonAppliedControlHoldings;
     }
     
+    /**
+     * 
+     * Used for when the doc is final, to show the control docs section.
+     * @return
+     */
+    public Map<String,KualiDecimal> getDistributionsFromControlDocs() {
+        if (distributionsFromControlDocs == null || distributionsFromControlDocs.isEmpty()) {
+            distributionsFromControlDocs = getPaymentApplicationDocument().getDistributionsFromControlDocuments();
+        }
+        return distributionsFromControlDocs;
+    }
+    
+    /**
+     * 
+     * Used for when the doc is live, to show the control docs section.
+     * @return
+     */
     public Map<String,KualiDecimal> getNonAppliedControlAllocations() {
         if (nonAppliedControlAllocations == null || nonAppliedControlAllocations.isEmpty()) {
             nonAppliedControlAllocations = getPaymentApplicationDocument().allocateFundsFromUnappliedControls(nonAppliedControlHoldings, getTotalApplied());

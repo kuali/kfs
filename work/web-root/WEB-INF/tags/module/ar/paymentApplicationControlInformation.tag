@@ -67,7 +67,7 @@
                     	   		    <td style="text-align: right;">
                    	   		    	<c:choose>
                    	   		    	<c:when test="${KualiForm.document.final}">
-                	           		    <bean:write name="nonApplied" property="appliedUnappliedAmount" />
+                   	   		    		<c:out value="${KualiForm.distributionsFromControlDocs[nonApplied.referenceFinancialDocumentNumber]}" />
                    	   		    	</c:when>
                    	   		    	<c:otherwise>
                    	   		    		<c:out value="${KualiForm.nonAppliedControlAllocations[nonApplied.referenceFinancialDocumentNumber]}" />

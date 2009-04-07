@@ -45,7 +45,8 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.NonAppliedHoldingService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
 import org.kuali.kfs.module.ar.document.validation.impl.PaymentApplicationDocumentRuleUtil;
-import org.kuali.kfs.sys.KFSConstants;import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -525,11 +526,14 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
                             }
                         }
                     }
-                    try {
-                        nonAppliedControlDocs.addAll(documentService.getDocumentsByListOfDocumentHeaderIds(PaymentApplicationDocument.class, controlDocNumbers));
-                    }
-                    catch (WorkflowException e) {
-                        throw new RuntimeException("A runtimeException was thrown when trying to retrieve a list of documents.", e);
+                    //   only try to retrieve docs if we have any to retrieve
+                    if (!controlDocNumbers.isEmpty()) {
+                        try {
+                            nonAppliedControlDocs.addAll(documentService.getDocumentsByListOfDocumentHeaderIds(PaymentApplicationDocument.class, controlDocNumbers));
+                        }
+                        catch (WorkflowException e) {
+                            throw new RuntimeException("A runtimeException was thrown when trying to retrieve a list of documents.", e);
+                        }
                     }
                 }
                 

@@ -323,7 +323,8 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         List<PaymentApplicationDocument> payApps = new ArrayList<PaymentApplicationDocument>();
         
         //  short circuit if no non-applied-distributions available
-        if (nonAppliedDistributions == null || nonAppliedDistributions.isEmpty()) {
+        if ((nonAppliedDistributions == null || nonAppliedDistributions.isEmpty()) && 
+                (nonInvoicedDistributions == null || nonInvoicedDistributions.isEmpty())) {
             return payApps;
         }
         
@@ -333,6 +334,18 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             if (!payAppDocNumbers.contains(nonAppliedDistribution.getReferenceFinancialDocumentNumber())) {
                 payAppDocNumbers.add(nonAppliedDistribution.getReferenceFinancialDocumentNumber());
             }
+        }
+        
+        //  get the list of payapp docnumbers from non-applied-distributions
+        for (NonInvoicedDistribution nonInvoicedDistribution : nonInvoicedDistributions) {
+            if (!payAppDocNumbers.contains(nonInvoicedDistribution.getReferenceFinancialDocumentNumber())) {
+                payAppDocNumbers.add(nonInvoicedDistribution.getReferenceFinancialDocumentNumber());
+            }
+        }
+        
+        //  exit out if no results, dont even try to retrieve
+        if (payAppDocNumbers.isEmpty()) {
+            return payApps;
         }
         
         //  attempt to retrieve all the invoices paid applied against
@@ -362,7 +375,9 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         }
         
         //  attempt to retrieve all the non applied holdings used as controls
-        nonAppliedHoldingControls.addAll(getNonAppliedHoldingService().getNonAppliedHoldingsByListOfDocumentNumbers(payAppDocNumbers));
+        if (!payAppDocNumbers.isEmpty()) {
+            nonAppliedHoldingControls.addAll(getNonAppliedHoldingService().getNonAppliedHoldingsByListOfDocumentNumbers(payAppDocNumbers));
+        }
         return nonAppliedHoldingControls;
     }
     

@@ -66,7 +66,7 @@ public class AccountBalanceLevelDaoJdbc extends AccountBalanceDaoJdbcBase implem
             clearTempTable("fp_interim1_level_mt", "SESID", sessionId);
 
             // Add in all the data we need
-            getSimpleJdbcTemplate().update("INSERT INTO fp_interim1_level_mt (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, " + " CURR_BDLN_BAL_AMT, " + "ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, TIMESTAMP, FIN_REPORT_SORT_CD, " + " FIN_OBJ_LEVEL_CD, SESID) " + " SELECT A.UNIV_FISCAL_YR, A.FIN_COA_CD, A.ACCOUNT_NBR, A.SUB_ACCT_NBR,A.FIN_OBJECT_CD, " + " A.FIN_SUB_OBJ_CD,A.CURR_BDLN_BAL_AMT, A.ACLN_ACTLS_BAL_AMT, A.ACLN_ENCUM_BAL_AMT, " + " A.TIMESTAMP, fin_report_sort_cd, l.fin_obj_level_cd, ? " + " FROM gl_acct_balances_t a, ca_object_code_t o, ca_obj_level_t l " + " WHERE a.univ_fiscal_yr = ? AND a.fin_coa_cd = ? AND a.account_nbr = ?" + " AND a.univ_fiscal_yr = o.univ_fiscal_yr AND a.fin_coa_cd = o.fin_coa_cd " + " AND a.fin_object_cd = o.fin_object_cd AND o.fin_coa_cd = l.fin_coa_cd AND o.fin_obj_level_cd = l.fin_obj_level_cd" + " AND l.fin_cons_obj_cd = ? AND o.univ_fiscal_yr = ? AND o.fin_coa_cd = ? ", sessionId, universityFiscalYear,
+            getSimpleJdbcTemplate().update("INSERT INTO fp_interim1_level_mt (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, " + " CURR_BDLN_BAL_AMT, " + "ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, TIMESTAMP, FIN_REPORT_SORT_CD, " + " FIN_OBJ_LEVEL_CD, SESID) " + " SELECT A.UNIV_FISCAL_YR, A.FIN_COA_CD, A.ACCOUNT_NBR, A.SUB_ACCT_NBR,A.FIN_OBJECT_CD, " + " A.FIN_SUB_OBJ_CD,A.CURR_BDLN_BAL_AMT, A.ACLN_ACTLS_BAL_AMT, A.ACLN_ENCUM_BAL_AMT, " + " A.TIMESTAMP, l.fin_report_sort_cd, l.fin_obj_level_cd, ? " + " FROM gl_acct_balances_t a, ca_object_code_t o, ca_obj_level_t l " + " WHERE a.univ_fiscal_yr = ? AND a.fin_coa_cd = ? AND a.account_nbr = ?" + " AND a.univ_fiscal_yr = o.univ_fiscal_yr AND a.fin_coa_cd = o.fin_coa_cd " + " AND a.fin_object_cd = o.fin_object_cd AND o.fin_coa_cd = l.fin_coa_cd AND o.fin_obj_level_cd = l.fin_obj_level_cd" + " AND l.fin_cons_obj_cd = ? AND o.univ_fiscal_yr = ? AND o.fin_coa_cd = ? ", sessionId, universityFiscalYear,
                     chartOfAccountsCode, accountNumber, financialConsolidationObjectCode, universityFiscalYear, chartOfAccountsCode);
 
             // Summarize pending entries into fp_interim1_level_mt if necessary
@@ -90,7 +90,7 @@ public class AccountBalanceLevelDaoJdbc extends AccountBalanceDaoJdbcBase implem
             }
 
             // Here's the data
-            data = getSimpleJdbcTemplate().queryForList("select SUB_ACCT_NBR, FIN_OBJ_LEVEL_CD, FIN_REPORT_SORT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, TYP_FIN_REPORT_SORT_CD " + "from FP_BAL_BY_LEVEL_MT where SESID = ? ", sessionId);
+            data = getSimpleJdbcTemplate().queryForList("select SUB_ACCT_NBR, FIN_OBJ_LEVEL_CD, FIN_REPORT_SORT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, TYP_FIN_REPORT_SORT_CD " + "from FP_BAL_BY_LEVEL_MT where SESID = ? order by fin_report_sort_cd", sessionId);
         }
         finally {
             // Clean up everything

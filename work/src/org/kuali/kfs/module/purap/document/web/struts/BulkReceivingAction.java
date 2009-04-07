@@ -200,8 +200,6 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BulkReceivingForm blkRecForm = (BulkReceivingForm) form;
-        // retain error messages after a lookup
-        WebUtils.reuseErrorMapFromPreviousRequest(blkRecForm);
         
         BulkReceivingDocument blkRecDoc = (BulkReceivingDocument) blkRecForm.getDocument();
         String refreshCaller = blkRecForm.getRefreshCaller();

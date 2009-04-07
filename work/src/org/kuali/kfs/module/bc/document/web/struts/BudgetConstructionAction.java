@@ -1166,8 +1166,6 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
-        // retain error messages after a lookup
-        WebUtils.reuseErrorMapFromPreviousRequest(budgetConstructionForm);
         budgetConstructionForm.setDerivedValuesOnForm(request);
 
         // Do specific refresh stuff here based on refreshCaller parameter

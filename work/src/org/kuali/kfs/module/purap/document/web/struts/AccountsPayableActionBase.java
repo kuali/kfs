@@ -81,8 +81,6 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
      */
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingAccountsPayableFormBase baseForm = (PurchasingAccountsPayableFormBase) form;
-        // retain error messages after a lookup
-        WebUtils.reuseErrorMapFromPreviousRequest(baseForm);
         
         AccountsPayableDocumentBase document = (AccountsPayableDocumentBase) baseForm.getDocument();
 

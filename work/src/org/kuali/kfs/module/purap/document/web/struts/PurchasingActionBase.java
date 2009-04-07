@@ -100,8 +100,6 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingAccountsPayableFormBase baseForm = (PurchasingAccountsPayableFormBase) form;
-        // retain error messages after a lookup
-        WebUtils.reuseErrorMapFromPreviousRequest(baseForm);
         
         PurchasingDocument document = (PurchasingDocument) baseForm.getDocument();
         String refreshCaller = baseForm.getRefreshCaller();

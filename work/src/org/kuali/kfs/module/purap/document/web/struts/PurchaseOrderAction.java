@@ -103,9 +103,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
         
-        // retain error messages after a lookup
-        WebUtils.reuseErrorMapFromPreviousRequest(poForm);
-        
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
 

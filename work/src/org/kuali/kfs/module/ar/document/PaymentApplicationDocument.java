@@ -362,7 +362,8 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         List<NonAppliedHolding> nonAppliedHoldingControls = new ArrayList<NonAppliedHolding>();
         
         //  short circuit if no non-applied-distributions available
-        if (nonAppliedDistributions == null || nonAppliedDistributions.isEmpty()) {
+        if ((nonAppliedDistributions == null || nonAppliedDistributions.isEmpty()) && 
+                (nonInvoicedDistributions == null || nonInvoicedDistributions.isEmpty())) {
             return nonAppliedHoldingControls;
         }
         
@@ -374,6 +375,13 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             }
         }
         
+        //  get the list of non-invoiced/non-ar distro payapp doc numbers
+        for (NonInvoicedDistribution nonInvoicedDistribution : nonInvoicedDistributions) {
+            if (!payAppDocNumbers.contains(nonInvoicedDistribution.getReferenceFinancialDocumentNumber())) {
+                payAppDocNumbers.add(nonInvoicedDistribution.getReferenceFinancialDocumentNumber());
+            }
+        }
+
         //  attempt to retrieve all the non applied holdings used as controls
         if (!payAppDocNumbers.isEmpty()) {
             nonAppliedHoldingControls.addAll(getNonAppliedHoldingService().getNonAppliedHoldingsByListOfDocumentNumbers(payAppDocNumbers));

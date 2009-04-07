@@ -16,7 +16,6 @@ public class NonInvoicedDistribution extends PersistableBusinessObjectBase {
 	private KualiDecimal financialDocumentLineAmount;
 
     private NonAppliedHolding nonAppliedHolding;
-    private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
     
 	/**
 	 * Default constructor.
@@ -123,29 +122,11 @@ public class NonInvoicedDistribution extends PersistableBusinessObjectBase {
 	 * Sets the nonAppliedHolding attribute.
 	 * 
 	 * @param nonAppliedHolding The nonAppliedHolding to set.
-	 * @deprecated
 	 */
 	public void setNonAppliedHolding(NonAppliedHolding nonAppliedHolding) {
 		this.nonAppliedHolding = nonAppliedHolding;
 	}
 
-    /**
-     * Gets the accountsReceivableDocumentHeader attribute. 
-     * @return Returns the accountsReceivableDocumentHeader.
-     */
-    public AccountsReceivableDocumentHeader getAccountsReceivableDocumentHeader() {
-        return accountsReceivableDocumentHeader;
-    }
-
-    /**
-     * Sets the accountsReceivableDocumentHeader attribute value.
-     * @param accountsReceivableDocumentHeader The accountsReceivableDocumentHeader to set.
-     * @deprecated
-     */
-    public void setAccountsReceivableDocumentHeader(AccountsReceivableDocumentHeader accountsReceivableDocumentHeader) {
-        this.accountsReceivableDocumentHeader = accountsReceivableDocumentHeader;
-    }    
-    
 	/**
 	 * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
 	 */

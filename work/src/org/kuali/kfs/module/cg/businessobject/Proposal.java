@@ -697,18 +697,18 @@ public class Proposal extends PersistableBusinessObjectBase implements Inactivat
     }
 
     /**
-     * Gets the {@link Cfda} attribute.
+     * Gets the {@link CFDA} attribute.
      * 
-     * @return Returns the {@link Cfda}
+     * @return Returns the {@link CFDA}
      */
     public CFDA getCfda() {
         return cfda;
     }
 
     /**
-     * Sets the {@link Cfda} attribute.
+     * Sets the {@link CFDA} attribute.
      * 
-     * @param cfda The {@link Cfda} to set.
+     * @param cfda The {@link CFDA} to set.
      * @deprecated
      */
     public void setCfda(CFDA cfda) {

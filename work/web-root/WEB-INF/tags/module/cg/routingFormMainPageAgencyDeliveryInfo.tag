@@ -152,7 +152,7 @@
 			    	<c:if test="${!viewOnly}">
 			    	    <!--  <c:if test="${empty KualiForm.document.routingFormCatalogOfFederalDomesticAssistanceNumber}">&nbsp;</c:if> -->
 			    	     <html:text styleId="document.cfda.cfdaNumber" property="document.cfda.cfdaNumber" onblur="cfdaLookup('document.cfda.cfdaNumber')"/>
-			    		<kul:lookup boClassName="org.kuali.kfs.module.cg.businessobject.Cfda" lookupParameters="document.routingFormCatalogOfFederalDomesticAssistanceNumber:cfdaNumber" fieldConversions="cfdaNumber:document.routingFormCatalogOfFederalDomesticAssistanceNumber,cfdaNumber:document.cfda.cfdaNumber,cfdaProgramTitleName:document.cfda.cfdaProgramTitleName" anchor="${currentTabIndex}" />
+			    		<kul:lookup boClassName="org.kuali.kfs.module.cg.businessobject.CFDA" lookupParameters="document.routingFormCatalogOfFederalDomesticAssistanceNumber:cfdaNumber" fieldConversions="cfdaNumber:document.routingFormCatalogOfFederalDomesticAssistanceNumber,cfdaNumber:document.cfda.cfdaNumber,cfdaProgramTitleName:document.cfda.cfdaProgramTitleName" anchor="${currentTabIndex}" />
                 	</c:if>
 		          <div id="document.cfda.cfdaProgramTitleName.div" >
 		             <c:if test="${!empty KualiForm.document.cfda.cfdaNumber}">

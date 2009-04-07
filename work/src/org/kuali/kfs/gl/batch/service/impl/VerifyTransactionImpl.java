@@ -87,7 +87,7 @@ public class VerifyTransactionImpl implements VerifyTransaction {
             if (t.getBalanceType() != null) {
                 if (t.getBalanceType().isFinancialOffsetGenerationIndicator()) {
                     if ((!KFSConstants.GL_DEBIT_CODE.equals(t.getTransactionDebitCreditCode())) && (!KFSConstants.GL_CREDIT_CODE.equals(t.getTransactionDebitCreditCode()))) {
-                        errors.add(new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_DEDIT_CREDIT_CODE_MUST_BE) + KFSConstants.GL_DEBIT_CODE + " or " + KFSConstants.GL_CREDIT_CODE + kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_FOR_BALANCE_TYPE), Message.TYPE_FATAL));
+                        errors.add(new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_DEDIT_CREDIT_CODE_MUST_BE) + " '" + KFSConstants.GL_DEBIT_CODE + " or " + KFSConstants.GL_CREDIT_CODE + kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_FOR_BALANCE_TYPE), Message.TYPE_FATAL));
                     }
                 }
                 else {

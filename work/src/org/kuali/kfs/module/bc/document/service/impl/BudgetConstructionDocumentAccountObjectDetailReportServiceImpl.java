@@ -176,7 +176,6 @@ public class BudgetConstructionDocumentAccountObjectDetailReportServiceImpl impl
         
         
         //group
-        
         accountObjectDetailReport.setTypeFinancialReportSortCode(balanceByAccount.getTypeFinancialReportSortCode());
         accountObjectDetailReport.setLevelFinancialReportSortCode(balanceByAccount.getLevelFinancialReportSortCode());
         accountObjectDetailReport.setFinancialSubObjectCode(balanceByAccount.getFinancialSubObjectCode());
@@ -189,16 +188,21 @@ public class BudgetConstructionDocumentAccountObjectDetailReportServiceImpl impl
      */
     private void buildReportsBody(BudgetConstructionBalanceByAccount balanceByAccount, BudgetConstructionAccountObjectDetailReport accountObjectDetailReport) {
         accountObjectDetailReport.setFinancialObjectCode(balanceByAccount.getFinancialObjectCode());
-        
-        accountObjectDetailReport.setFinancialObjectName(balanceByAccount.getFinancialObject().getFinancialObjectCodeName());
 
-        accountObjectDetailReport.setPositionCsfLeaveFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(balanceByAccount.getPositionCsfLeaveFteQuantity(), 2, false));
+        if (balanceByAccount.getFinancialSubObjectCode().equals(BCConstants.DASH_SUB_OBJECT_CODE)){
+            accountObjectDetailReport.setFinancialObjectName(balanceByAccount.getFinancialObject().getFinancialObjectCodeName());
+        }
+        else {
+            accountObjectDetailReport.setFinancialObjectName(balanceByAccount.getFinancialSubObject().getFinancialSubObjectCodeName());
+        }
 
-        accountObjectDetailReport.setCsfFullTimeEmploymentQuantity(BudgetConstructionReportHelper.setDecimalDigit(balanceByAccount.getCsfFullTimeEmploymentQuantity(), 2, false));
+        accountObjectDetailReport.setPositionCsfLeaveFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(balanceByAccount.getPositionCsfLeaveFteQuantity(), 2, true));
 
-        accountObjectDetailReport.setAppointmentRequestedCsfFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(balanceByAccount.getAppointmentRequestedCsfFteQuantity(), 2, false));
+        accountObjectDetailReport.setCsfFullTimeEmploymentQuantity(BudgetConstructionReportHelper.setDecimalDigit(balanceByAccount.getCsfFullTimeEmploymentQuantity(), 2, true));
 
-        accountObjectDetailReport.setAppointmentRequestedFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(balanceByAccount.getAppointmentRequestedFteQuantity(), 2, false));
+        accountObjectDetailReport.setAppointmentRequestedCsfFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(balanceByAccount.getAppointmentRequestedCsfFteQuantity(), 2, true));
+
+        accountObjectDetailReport.setAppointmentRequestedFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(balanceByAccount.getAppointmentRequestedFteQuantity(), 2, true));
 
         accountObjectDetailReport.setAccountLineAnnualBalanceAmount(BudgetConstructionReportHelper.convertKualiInteger(balanceByAccount.getAccountLineAnnualBalanceAmount()));
 
@@ -224,11 +228,11 @@ public class BudgetConstructionDocumentAccountObjectDetailReportServiceImpl impl
             if (BudgetConstructionReportHelper.isSameEntry(balanceByAccount, objectTotal.getBudgetConstructionBalanceByAccount(), fieldsForObject())) {
                 accountObjectDetailReport.setTotalObjectDescription(balanceByAccount.getFinancialObject().getFinancialObjectCodeName());
 
-                accountObjectDetailReport.setTotalObjectPositionCsfLeaveFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(objectTotal.getTotalObjectPositionCsfLeaveFteQuantity(), 2, false));
-                accountObjectDetailReport.setTotalObjectCsfFullTimeEmploymentQuantity(BudgetConstructionReportHelper.setDecimalDigit(objectTotal.getTotalObjectCsfFullTimeEmploymentQuantity(), 2, false));
+                accountObjectDetailReport.setTotalObjectPositionCsfLeaveFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(objectTotal.getTotalObjectPositionCsfLeaveFteQuantity(), 2, true));
+                accountObjectDetailReport.setTotalObjectCsfFullTimeEmploymentQuantity(BudgetConstructionReportHelper.setDecimalDigit(objectTotal.getTotalObjectCsfFullTimeEmploymentQuantity(), 2, true));
                 accountObjectDetailReport.setTotalObjectFinancialBeginningBalanceLineAmount(objectTotal.getTotalObjectFinancialBeginningBalanceLineAmount());
-                accountObjectDetailReport.setTotalObjectAppointmentRequestedCsfFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(objectTotal.getTotalObjectAppointmentRequestedCsfFteQuantity(), 2, false));
-                accountObjectDetailReport.setTotalObjectAppointmentRequestedFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(objectTotal.getTotalObjectAppointmentRequestedFteQuantity(), 2, false));
+                accountObjectDetailReport.setTotalObjectAppointmentRequestedCsfFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(objectTotal.getTotalObjectAppointmentRequestedCsfFteQuantity(), 2, true));
+                accountObjectDetailReport.setTotalObjectAppointmentRequestedFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(objectTotal.getTotalObjectAppointmentRequestedFteQuantity(), 2, true));
                 accountObjectDetailReport.setTotalObjectAccountLineAnnualBalanceAmount(objectTotal.getTotalObjectAccountLineAnnualBalanceAmount());
 
                 Integer totalObjectAmountChange = objectTotal.getTotalObjectAccountLineAnnualBalanceAmount() - objectTotal.getTotalObjectFinancialBeginningBalanceLineAmount();
@@ -241,11 +245,11 @@ public class BudgetConstructionDocumentAccountObjectDetailReportServiceImpl impl
             if (BudgetConstructionReportHelper.isSameEntry(balanceByAccount, levelTotal.getBudgetConstructionBalanceByAccount(), fieldsForLevel())) {
                 accountObjectDetailReport.setTotalLevelDescription(balanceByAccount.getFinancialObjectLevel().getFinancialObjectLevelName());
 
-                accountObjectDetailReport.setTotalLevelPositionCsfLeaveFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(levelTotal.getTotalLevelPositionCsfLeaveFteQuantity(), 2, false));
-                accountObjectDetailReport.setTotalLevelCsfFullTimeEmploymentQuantity(BudgetConstructionReportHelper.setDecimalDigit(levelTotal.getTotalLevelCsfFullTimeEmploymentQuantity(), 2, false));
+                accountObjectDetailReport.setTotalLevelPositionCsfLeaveFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(levelTotal.getTotalLevelPositionCsfLeaveFteQuantity(), 2, true));
+                accountObjectDetailReport.setTotalLevelCsfFullTimeEmploymentQuantity(BudgetConstructionReportHelper.setDecimalDigit(levelTotal.getTotalLevelCsfFullTimeEmploymentQuantity(), 2, true));
                 accountObjectDetailReport.setTotalLevelFinancialBeginningBalanceLineAmount(levelTotal.getTotalLevelFinancialBeginningBalanceLineAmount());
-                accountObjectDetailReport.setTotalLevelAppointmentRequestedCsfFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(levelTotal.getTotalLevelAppointmentRequestedCsfFteQuantity(), 2, false));
-                accountObjectDetailReport.setTotalLevelAppointmentRequestedFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(levelTotal.getTotalLevelAppointmentRequestedFteQuantity(), 2, false));
+                accountObjectDetailReport.setTotalLevelAppointmentRequestedCsfFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(levelTotal.getTotalLevelAppointmentRequestedCsfFteQuantity(), 2, true));
+                accountObjectDetailReport.setTotalLevelAppointmentRequestedFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(levelTotal.getTotalLevelAppointmentRequestedFteQuantity(), 2, true));
                 accountObjectDetailReport.setTotalLevelAccountLineAnnualBalanceAmount(levelTotal.getTotalLevelAccountLineAnnualBalanceAmount());
 
                 Integer totalLevelAmountChange = levelTotal.getTotalLevelAccountLineAnnualBalanceAmount() - levelTotal.getTotalLevelFinancialBeginningBalanceLineAmount();
@@ -265,11 +269,11 @@ public class BudgetConstructionDocumentAccountObjectDetailReportServiceImpl impl
                 else {
                     accountObjectDetailReport.setTotalTypeDescription(BCConstants.Report.TOTAL_EXPENDITURES_MARGIN);
                 }
-                accountObjectDetailReport.setTotalTypePositionCsfLeaveFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(typeTotal.getTotalTypePositionCsfLeaveFteQuantity(), 2, false));
-                accountObjectDetailReport.setTotalTypeCsfFullTimeEmploymentQuantity(BudgetConstructionReportHelper.setDecimalDigit(typeTotal.getTotalTypeCsfFullTimeEmploymentQuantity(), 2, false));
+                accountObjectDetailReport.setTotalTypePositionCsfLeaveFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(typeTotal.getTotalTypePositionCsfLeaveFteQuantity(), 2, true));
+                accountObjectDetailReport.setTotalTypeCsfFullTimeEmploymentQuantity(BudgetConstructionReportHelper.setDecimalDigit(typeTotal.getTotalTypeCsfFullTimeEmploymentQuantity(), 2, true));
                 accountObjectDetailReport.setTotalTypeFinancialBeginningBalanceLineAmount(typeTotal.getTotalTypeFinancialBeginningBalanceLineAmount());
-                accountObjectDetailReport.setTotalTypeAppointmentRequestedCsfFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(typeTotal.getTotalTypeAppointmentRequestedCsfFteQuantity(), 2, false));
-                accountObjectDetailReport.setTotalTypeAppointmentRequestedFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(typeTotal.getTotalTypeAppointmentRequestedFteQuantity(), 2, false));
+                accountObjectDetailReport.setTotalTypeAppointmentRequestedCsfFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(typeTotal.getTotalTypeAppointmentRequestedCsfFteQuantity(), 2, true));
+                accountObjectDetailReport.setTotalTypeAppointmentRequestedFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(typeTotal.getTotalTypeAppointmentRequestedFteQuantity(), 2, true));
                 accountObjectDetailReport.setTotalTypeAccountLineAnnualBalanceAmount(typeTotal.getTotalTypeAccountLineAnnualBalanceAmount());
 
                 Integer totalTypeAmountChange = typeTotal.getTotalTypeAccountLineAnnualBalanceAmount() - typeTotal.getTotalTypeFinancialBeginningBalanceLineAmount();

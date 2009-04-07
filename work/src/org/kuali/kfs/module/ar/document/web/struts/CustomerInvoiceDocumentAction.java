@@ -50,7 +50,9 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.pdf.PdfCopy;
@@ -445,6 +447,8 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
      * @throws Exception
      */
     public ActionForward print(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        WebUtils.reRegisterEditablePropertiesFromPreviousRequest((KualiForm) form);
+        
         String basePath = getBasePath(request);
         String docId = ((CustomerInvoiceDocumentForm) form).getCustomerInvoiceDocument().getDocumentNumber();
         String methodToCallPrintInvoicePDF = "printInvoicePDF";
@@ -472,6 +476,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
      * @throws Exception
      */
     public ActionForward printInvoicePDF(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        WebUtils.reRegisterEditablePropertiesFromPreviousRequest((KualiForm) form);
         
         String invoiceDocId = request.getParameter("docId");
         CustomerInvoiceDocument customerInvoiceDocument = (CustomerInvoiceDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(invoiceDocId);

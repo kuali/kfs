@@ -139,18 +139,15 @@ public class AccountBalanceConsolidationDaoJdbc extends AccountBalanceDaoJdbcBas
 
         List<Object> params = new ArrayList<Object>(20);
 
-        String selectSql = "SELECT ?, p.FS_ORIGIN_CD, p.FDOC_NBR, p.TRN_ENTR_SEQ_NBR," + "p.FIN_COA_CD, p.ACCOUNT_NBR, " + getDbPlatform().getIsNullFunction("p.SUB_ACCT_NBR", "'-----'") + ", p.FIN_OBJECT_CD, " + getDbPlatform().getIsNullFunction("p.FIN_SUB_OBJ_CD", "'---'") + " , p.FIN_BALANCE_TYP_CD,p.FIN_OBJ_TYP_CD, p.UNIV_FISCAL_YR, p.UNIV_FISCAL_PRD_CD, " + "p.TRN_LDGR_ENTR_DESC, p.TRN_LDGR_ENTR_AMT, p.TRN_DEBIT_CRDT_CD, p.TRANSACTION_DT, p.FDOC_TYP_CD, p.ORG_DOC_NBR, PROJECT_CD, p.ORG_REFERENCE_ID,p.FDOC_REF_TYP_CD, " + "p.FS_REF_ORIGIN_CD,p.FDOC_REF_NBR, p.FDOC_REVERSAL_DT, p.TRN_ENCUM_UPDT_CD, p.FDOC_APPROVED_CD, p.ACCT_SF_FINOBJ_CD,p.TRN_ENTR_OFST_CD,p.TRNENTR_PROCESS_TM " + " FROM gl_pending_entry_t p,krns_doc_hdr_t d,fs_doc_header_t fd " + " WHERE p.fdoc_nbr = d.DOC_HDR_ID " + "AND d.DOC_HDR_ID = fd.fdoc_nbr " + "AND p.FIN_COA_CD = ? " + "AND p.account_nbr = ? " + " AND fd.FDOC_STATUS_CD NOT IN('" + KFSConstants.DocumentStatusCodes.CANCELLED + "', '" + KFSConstants.DocumentStatusCodes.DISAPPROVED + "') "
-                + " AND p.fin_obj_typ_cd IN " + inString(objectTypes.length);
+        String selectSql = "SELECT ?, p.FS_ORIGIN_CD, p.FDOC_NBR, p.TRN_ENTR_SEQ_NBR," + "p.FIN_COA_CD, p.ACCOUNT_NBR, " + getDbPlatform().getIsNullFunction("p.SUB_ACCT_NBR", "'-----'") + ", p.FIN_OBJECT_CD, " + getDbPlatform().getIsNullFunction("p.FIN_SUB_OBJ_CD", "'---'") + " , p.FIN_BALANCE_TYP_CD,p.FIN_OBJ_TYP_CD, p.UNIV_FISCAL_YR, p.UNIV_FISCAL_PRD_CD, " + "p.TRN_LDGR_ENTR_DESC, p.TRN_LDGR_ENTR_AMT, p.TRN_DEBIT_CRDT_CD, p.TRANSACTION_DT, p.FDOC_TYP_CD, p.ORG_DOC_NBR, PROJECT_CD, p.ORG_REFERENCE_ID,p.FDOC_REF_TYP_CD, " + "p.FS_REF_ORIGIN_CD,p.FDOC_REF_NBR, p.FDOC_REVERSAL_DT, p.TRN_ENCUM_UPDT_CD, p.FDOC_APPROVED_CD, p.ACCT_SF_FINOBJ_CD,p.TRN_ENTR_OFST_CD,p.TRNENTR_PROCESS_TM " + " FROM gl_pending_entry_t p WHERE p.FIN_COA_CD = ? AND p.account_nbr = ? "
+                + " AND p.fin_obj_typ_cd IN " + inString(objectTypes.length) + " AND p.FDOC_APPROVED_CD <> '" + KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED + "' ";
         params.add(sessionId);
         params.add(chartOfAccountsCode);
         params.add(accountNumber);
         Collections.addAll(params, objectTypes);
 
         if (pendingEntriesCode == AccountBalanceService.PENDING_APPROVED) {
-            selectSql = selectSql + " AND fd.fdoc_status_cd = '" + KFSConstants.DocumentStatusCodes.APPROVED + "' ";
-        }
-        else {
-            selectSql = selectSql + " AND fd.fdoc_status_cd <> '" + KFSConstants.DocumentStatusCodes.DISAPPROVED + "' ";
+            selectSql = selectSql + " AND p.fdoc_status_cd = '" + KFSConstants.DocumentStatusCodes.APPROVED + "' ";
         }
 
         if (today.getUniversityFiscalYear().equals(universityFiscalYear)) {

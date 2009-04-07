@@ -145,47 +145,59 @@
                         </td>
                         <td>
                             <kul:htmlControlAttribute
-                                attributeEntry="${nonInvoicedAttributes.chartOfAccountsCode}"
+                                attributeEntry="${nonInvoicedAttributes.chartOfAccountsCode}" 
+                                readOnly="${readOnly}" 
                                 property="document.nonInvoiced[${ctr}].chartOfAccountsCode"/>
                         </td>
                         <td>
                             <kul:htmlControlAttribute
                                 attributeEntry="${nonInvoicedAttributes.accountNumber}"
+                                readOnly="${readOnly}" 
                                 property="paymentApplicationDocument.nonInvoiced[${ctr}].accountNumber"/>
                         </td>
                         <td>
                             <kul:htmlControlAttribute
                                 attributeEntry="${nonInvoicedAttributes.subAccountNumber}"
+                                readOnly="${readOnly}" 
                                 property="paymentApplicationDocument.nonInvoiced[${ctr}].subAccountNumber"/>
                         </td>
                         <td>
                             <kul:htmlControlAttribute
                                 attributeEntry="${nonInvoicedAttributes.financialObjectCode}"
+                                readOnly="${readOnly}" 
                                 property="paymentApplicationDocument.nonInvoiced[${ctr}].financialObjectCode"/>
                         </td>
                         <td>
                             <kul:htmlControlAttribute
                                 attributeEntry="${nonInvoicedAttributes.financialSubObjectCode}"
+                                readOnly="${readOnly}" 
                                 property="paymentApplicationDocument.nonInvoiced[${ctr}].financialSubObjectCode"/>
                         </td>
                         <td>
                             <kul:htmlControlAttribute
                                 attributeEntry="${nonInvoicedAttributes.projectCode}"
+                                readOnly="${readOnly}" 
                                 property="paymentApplicationDocument.nonInvoiced[${ctr}].projectCode"/>
                         </td>
                         <td>
                             <kul:htmlControlAttribute
                             	styleClass="amount"
                                 attributeEntry="${nonInvoicedAttributes.financialDocumentLineAmount}"
+                                readOnly="${readOnly}" 
                                 property="paymentApplicationDocument.nonInvoiced[${ctr}].financialDocumentLineAmount"/>
                         </td>
-                        <c:if test="${readOnly ne true}">
+                        <c:choose>
+                        <c:when test="${readOnly ne true}">
                             <td>
 	                    	    <html:image property="methodToCall.deleteNonArLine.line${nonInvoiced.financialDocumentLineNumber}"
 		                            src="${ConfigProperties.externalizable.images.url}tinybutton-delete1.gif"
 		                            alt="Delete" title="Delete" styleClass="tinybutton" />
                             </td>
-                        </c:if>
+                        </c:when>
+                        <c:otherwise>
+                        	<td>&nbsp;</td>
+                        </c:otherwise>
+                        </c:choose>
                     </tr>
                 </logic:iterate>
                 <tr>

@@ -585,8 +585,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      *         itemCapitalAsset contains at least one asset numbers.
      */
     protected boolean validatePurchasingTransactionTypesAllowingAssetNumbers(CapitalAssetSystem capitalAssetSystem, String capitalAssetTransactionType, String prefix) {
-        String parameterName = CabParameterConstants.CapitalAsset.PURCHASING_ASSET_TRANSACTION_TYPES_ALLOWING_ASSET_NUMBERS;
-        boolean allowedAssetNumbers = (this.getParameterService().getParameterEvaluator(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, parameterName, capitalAssetTransactionType).evaluationSucceeds());
+        boolean allowedAssetNumbers = (this.getParameterService().getParameterEvaluator(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.PURCHASING_ASSET_TRANSACTION_TYPES_ALLOWING_ASSET_NUMBERS, capitalAssetTransactionType).evaluationSucceeds());
         if (allowedAssetNumbers) {
             // If this is a transaction type that allows asset numbers, we don't need to validate anymore, just return true here.
             return true;

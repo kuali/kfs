@@ -181,7 +181,10 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
         payeeDetail.setDisbursementVoucherPayeeTypeCode("V");
         payeeDetail.setDisbVchrPayeeLine1Addr("100 Main St");
         payeeDetail.setDisbVchrPayeeCityName("Bloomington");
+        payeeDetail.setDisbVchrPayeeStateCode("IN");
+        payeeDetail.setDisbVchrPayeeZipCode("47405");
         payeeDetail.setDisbVchrPayeeCountryCode("US");
+        
         payeeDetail.setDisbVchrVendorDetailAssignedIdNumber("0");
         payeeDetail.setDisbVchrPayeePersonName("Jerry Neal");
         payeeDetail.setDisbVchrPaymentReasonCode("B");

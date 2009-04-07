@@ -38,6 +38,7 @@ public class DisbursementVoucherPayeeAddressValidation extends GenericValidation
      */
     public boolean validate(AttributedDocumentEvent event) {
         LOG.debug("validate start");
+        boolean isValid = true;
 
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
         DisbursementVoucherPayeeDetail payeeDetail = document.getDvPayeeDetail();
@@ -50,23 +51,26 @@ public class DisbursementVoucherPayeeAddressValidation extends GenericValidation
             String label = dataDictionaryService.getAttributeLabel(DisbursementVoucherPayeeDetail.class, KFSPropertyConstants.DISB_VCHR_PAYEE_STATE_CODE);
             String propertyPath = KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYEE_STATE_CODE;
             errors.putError(propertyPath, KFSKeyConstants.ERROR_EXISTENCE, label);
+            isValid = false;
         }
 
         if (ObjectUtils.isNull(payeeDetail.getDisbVchrPayeePostalZipCode())) {
             String label = dataDictionaryService.getAttributeLabel(DisbursementVoucherPayeeDetail.class, KFSPropertyConstants.DISB_VCHR_PAYEE_ZIP_CODE);
             String propertyPath = KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYEE_ZIP_CODE;
             errors.putError(propertyPath, KFSKeyConstants.ERROR_EXISTENCE, label);
+            isValid = false;
         }
 
         if (ObjectUtils.isNull(payeeDetail.getDisbVchrPayeeCountry())) {
             String label = dataDictionaryService.getAttributeLabel(DisbursementVoucherPayeeDetail.class, KFSPropertyConstants.DISB_VCHR_PAYEE_COUNTRY_CODE);
             String propertyPath = KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYEE_COUNTRY_CODE;
             errors.putError(propertyPath, KFSKeyConstants.ERROR_EXISTENCE, label);
+            isValid = false;
         }
 
         errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
 
-        return errors.hasErrors();
+        return isValid;
     }
 
 

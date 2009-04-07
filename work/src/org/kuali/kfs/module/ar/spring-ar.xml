@@ -136,6 +136,9 @@
 		<property name="reportsDirectory">
 			<value>${reports.directory}</value>
 		</property>		
+		<property name="boService">
+			<ref bean="businessObjectService" />
+		</property>
 	</bean>
 	
 	<bean id="customerInvoiceDetailService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceDetailServiceImpl">

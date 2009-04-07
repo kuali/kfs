@@ -21,7 +21,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -44,6 +46,7 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.impl.PersonImpl;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -81,6 +84,7 @@ public class LockboxServiceImpl implements LockboxService {
     private PersonService<PersonImpl> personService;
     private DataDictionaryService dataDictionaryService;
     private DateTimeService dateTimeService;
+    private BusinessObjectService boService;
     
     private LockboxDao lockboxDao;
     private String reportsDirectory;
@@ -192,6 +196,7 @@ public class LockboxServiceImpl implements LockboxService {
             if (lockbox.getInvoicePaidOrAppliedAmount().isZero()) {
                 LOG.warn("   lockbox has a zero dollar amount, so we're skipping it.");
                 writeCashControlDetailLine(pdfdoc, lockbox.getInvoicePaidOrAppliedAmount(), "SKIPPED");
+                deleteProcessedLockboxEntry(lockbox);
                 continue;
             }
             if (lockbox.getInvoicePaidOrAppliedAmount().isLessThan(KualiDecimal.ZERO)) {
@@ -253,6 +258,8 @@ public class LockboxServiceImpl implements LockboxService {
                 //  write the detail and payapp lines to the report
                 writeCashControlDetailLine(pdfdoc, detail.getFinancialDocumentLineAmount(), detail.getCustomerPaymentDescription());
                 writePayAppLine(pdfdoc, detail.getReferenceFinancialDocumentNumber(), "CREATED & SAVED");
+                //  delete the lockbox now we're done with it
+                deleteProcessedLockboxEntry(lockbox);
                 continue;
             }
             
@@ -269,6 +276,8 @@ public class LockboxServiceImpl implements LockboxService {
                 }
                 writeCashControlDetailLine(pdfdoc, detail.getFinancialDocumentLineAmount(), detail.getCustomerPaymentDescription());
                 writePayAppLine(pdfdoc, detail.getReferenceFinancialDocumentNumber(), "CREATED & SAVED");
+                //  delete the lockbox now we're done with it
+                deleteProcessedLockboxEntry(lockbox);
                 continue;
             }
 
@@ -296,6 +305,7 @@ public class LockboxServiceImpl implements LockboxService {
                 }
                 writeCashControlDetailLine(pdfdoc, detail.getFinancialDocumentLineAmount(), detail.getCustomerPaymentDescription());
                 writePayAppLine(pdfdoc, detail.getReferenceFinancialDocumentNumber(), "CREATED & SAVED");
+                deleteProcessedLockboxEntry(lockbox);
                 continue;
             }
             
@@ -345,6 +355,9 @@ public class LockboxServiceImpl implements LockboxService {
                 LOG.error("A Exception was thrown while trying to save the CashControl document.", e);
                 throw new RuntimeException("A Exception was thrown while trying to save the CashControl document.", e);
             }
+            
+            //  delete the lockbox now we're done with it
+            deleteProcessedLockboxEntry(lockbox);
         }
         
         //  if we have a cashControlDocument here, then it needs to be routed, its the last one
@@ -371,6 +384,12 @@ public class LockboxServiceImpl implements LockboxService {
 
     }
 
+    private void deleteProcessedLockboxEntry(Lockbox lockboxEntry) {
+        Map<String,Object> pkMap = new HashMap<String,Object>();
+        pkMap.put("invoiceSequenceNumber", lockboxEntry.getInvoiceSequenceNumber());
+        boService.deleteMatching(Lockbox.class, pkMap);
+    }
+    
     private com.lowagie.text.Document getPdfDoc() {
         
         String reportDropFolder = reportsDirectory + "/" + ArConstants.Lockbox.LOCKBOX_REPORT_SUBFOLDER + "/";
@@ -568,6 +587,10 @@ public class LockboxServiceImpl implements LockboxService {
 
     public void setReportsDirectory(String reportsDirectory) {
         this.reportsDirectory = reportsDirectory;
+    }
+
+    public void setBoService(BusinessObjectService boService) {
+        this.boService = boService;
     }
 
 }

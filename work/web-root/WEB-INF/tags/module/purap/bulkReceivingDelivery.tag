@@ -78,7 +78,7 @@
 	                </th>
 	                <td align=right valign=middle class="bord-l-b" rowspan="4">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryAdditionalInstructionText}" 
-	                    	property="document.deliveryAdditionalInstructionText" readOnly="${not (fullEntryMode)}"/>
+	                    	property="document.deliveryAdditionalInstructionText" readOnly="${not (fullEntryMode)}" tabindexOverride="${tabindexOverrideBase + 5}"/>
 	                </td>
 	            </tr>
 				<tr>

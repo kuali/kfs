@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.FileWriter;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.BooleanUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.batch.ElectronicInvoiceInputFileType;
@@ -67,8 +68,7 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
         super.tearDown();
     }
 
-    @RelatesTo(JiraIssue.KULPURAP3047)
-    @ConfigureContext(session = kfs, shouldCommitTransactions=false)
+    @ConfigureContext(session = kfs, shouldCommitTransactions=true)
     public void testRejectDocumentCreationInvalidData()
     throws Exception{
         
@@ -76,9 +76,6 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
         PurchaseOrderDocument poDocument = createPODoc(null);
         String vendorDUNS = poDocument.getVendorDetail().getVendorDunsNumber();
         String poNumber = poDocument.getPurapDocumentIdentifier().toString();
-        
-        createItemMappingsRecords(poDocument);
-        updateUnitPriceVariance();
         
         String xmlChunk = ElectronicInvoiceHelperServiceFixture.getCXMLForRejectDocCreation(vendorDUNS,poNumber);
         writeXMLFile(xmlChunk, rejectFile);
@@ -90,15 +87,14 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
         ElectronicInvoiceRejectDocument rejectDoc = (ElectronicInvoiceRejectDocument)load.getRejectDocuments().get(0);
         assertNotNull(rejectDoc);
         assertEquals(rejectDoc.getInvoiceFileName(),rejectFile);
-        assertEquals(1, rejectDoc.getInvoiceRejectReasons().size());
-        assertEquals(PurapConstants.ElectronicInvoice.PO_ITEM_QTY_LESSTHAN_INVOICE_ITEM_QTY,rejectDoc.getInvoiceRejectReasons().get(0).getInvoiceRejectReasonTypeCode());
+        assertEquals(4, rejectDoc.getInvoiceRejectReasons().size());
+        
         File rejectedFileInRejectDir = new File(electronicInvoiceInputFileType.getDirectoryPath() + File.separator + "reject" + File.separator + rejectFile);
         assertTrue(rejectedFileInRejectDir.exists());
         
     }
     
-    @RelatesTo(JiraIssue.KULPURAP3047)
-    @ConfigureContext(session = kfs, shouldCommitTransactions=false)
+    @ConfigureContext(session = kfs, shouldCommitTransactions=true)
     public void testRejectDocumentCreationCorruptXML()
     throws Exception{
         
@@ -106,9 +102,6 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
         PurchaseOrderDocument poDocument = createPODoc(null);
         String vendorDUNS = poDocument.getVendorDetail().getVendorDunsNumber();
         String poNumber = poDocument.getPurapDocumentIdentifier().toString();
-        
-        createItemMappingsRecords(poDocument);
-        updateUnitPriceVariance();
         
         String xmlChunk = ElectronicInvoiceHelperServiceFixture.getCorruptedCXML(vendorDUNS,poNumber);
         writeXMLFile(xmlChunk, corruptFile);
@@ -123,12 +116,13 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
         assertEquals(rejectDoc.getInvoiceFileName(),corruptFile);
         assertEquals(1, rejectDoc.getInvoiceRejectReasons().size());
         assertEquals(PurapConstants.ElectronicInvoice.FILE_FORMAT_INVALID,rejectDoc.getInvoiceRejectReasons().get(0).getInvoiceRejectReasonTypeCode());
+        
         File  corruptedFileInRejectDir = new File(electronicInvoiceInputFileType.getDirectoryPath() + File.separator + "reject" + File.separator + corruptFile);
         assertTrue(corruptedFileInRejectDir.exists());
         
     }
 
-    @RelatesTo(JiraIssue.KULPURAP3047)
+    @RelatesTo(JiraIssue.KULPURAP3706)
     @ConfigureContext(session = kfs, shouldCommitTransactions=false)
     public void testPaymentRequestDocumentCreation()
     throws Exception{
@@ -146,7 +140,7 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
         String vendorDUNS = poDocument.getVendorDetail().getVendorDunsNumber();
         String poNumber = poDocument.getPurapDocumentIdentifier().toString();
         
-        createItemMappingsRecords(poDocument);
+        createItemMappingsRecords("1001", "0");
         updateUnitPriceVariance();
         
         String xmlChunk = ElectronicInvoiceHelperServiceFixture.getCXMLForPaymentDocCreation(vendorDUNS,poNumber);
@@ -176,18 +170,18 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
         return poDocument;
     }
     
-    private void createItemMappingsRecords(PurchaseOrderDocument poDocument){
+    private void createItemMappingsRecords(String vendorHeaderGeneratedId,String vendorDetailAssignedId){
         unitTestSqlDao.sqlCommand("truncate table AP_ELCTRNC_INV_MAP_T");
-        createItemMappingsRecord("1",poDocument.getVendorHeaderGeneratedIdentifier(),poDocument.getVendorDetailAssignedIdentifier(),"ITEM",ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_ITEM);
-        createItemMappingsRecord("2",poDocument.getVendorHeaderGeneratedIdentifier(),poDocument.getVendorDetailAssignedIdentifier(),"TAX",ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_TAX);
-        createItemMappingsRecord("3",poDocument.getVendorHeaderGeneratedIdentifier(),poDocument.getVendorDetailAssignedIdentifier(),"SPHD",ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_SPECIAL_HANDLING);
-        createItemMappingsRecord("4",poDocument.getVendorHeaderGeneratedIdentifier(),poDocument.getVendorDetailAssignedIdentifier(),"SHIP",ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_SHIPPING);
-        createItemMappingsRecord("5",poDocument.getVendorHeaderGeneratedIdentifier(),poDocument.getVendorDetailAssignedIdentifier(),"DISC",ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_DISCOUNT);
+        createItemMappingsRecord("1",vendorHeaderGeneratedId,vendorDetailAssignedId,"ITEM",ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_ITEM);
+        createItemMappingsRecord("2",vendorHeaderGeneratedId,vendorDetailAssignedId,"TAX",ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_TAX);
+        createItemMappingsRecord("3",vendorHeaderGeneratedId,vendorDetailAssignedId,"SPHD",ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_SPECIAL_HANDLING);
+        createItemMappingsRecord("4",vendorHeaderGeneratedId,vendorDetailAssignedId,"SHIP",ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_SHIPPING);
+        createItemMappingsRecord("5",vendorHeaderGeneratedId,vendorDetailAssignedId,"DISC",ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_DISCOUNT);
     }
     
     private void createItemMappingsRecord(String invId,
-                                          Integer vendorHeaderGeneratedIdentifier,
-                                          Integer vendorDetailAssignedIdentifier,
+                                          String vendorHeaderGeneratedIdentifier,
+                                          String vendorDetailAssignedIdentifier,
                                           String invoiceItemTypeCode,
                                           String itemTypeCode){
             

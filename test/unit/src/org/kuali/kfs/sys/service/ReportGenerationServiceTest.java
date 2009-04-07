@@ -107,6 +107,74 @@ public class ReportGenerationServiceTest extends KualiTestBase {
             fail("fail to generate PDF file." + e);
         }
     }
+    
+    public void testGenerateReportToPdfFile_100DataSet() throws Exception {
+        this.generateReportWithLargeDataSet(100);
+    }
+    
+    public void testGenerateReportToPdfFile_1000DataSet() throws Exception {
+        this.generateReportWithLargeDataSet(1000);
+    }
+
+    public void testGenerateReportToPdfFile_10000DataSet() throws Exception {
+        this.generateReportWithLargeDataSet(10000);
+    }
+    
+    private void generateReportWithLargeDataSet(int size) throws Exception {
+        String reportFileName = infoForParameterMapReport.getReportFileName();
+        String reportDirectoty = infoForParameterMapReport.getReportsDirectory();
+        String reportTemplateClassPath = infoForParameterMapReport.getReportTemplateClassPath();
+        String reportTemplateName = infoForParameterMapReport.getReportTemplateName();
+        ResourceBundle resourceBundle = infoForParameterMapReport.getResourceBundle();
+        String subReportTemplateClassPath = infoForParameterMapReport.getSubReportTemplateClassPath();
+        Map<String, String> subReports = infoForParameterMapReport.getSubReports();
+
+        Map<String, Object> reportData = new HashMap<String, Object>();
+        reportData.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
+        reportData.put(ReportGeneration.PARAMETER_NAME_SUBREPORT_DIR, subReportTemplateClassPath);
+        reportData.put(ReportGeneration.PARAMETER_NAME_SUBREPORT_TEMPLATE_NAME, subReports);
+
+        Collection<Account> accounts = this.getAccounts(size);
+        reportData.put("accounts", this.getAccounts(size));
+        reportData.put("subAccounts", this.getSubAccounts(size));
+
+        try {
+            String template = reportTemplateClassPath + reportTemplateName;
+            String fullReportFileName = reportDirectoty + reportFileName + "LargeDataSet" + size;
+            
+            long start = System.currentTimeMillis();
+            reportGenerationService.generateReportToPdfFile(reportData, template, fullReportFileName);
+            
+            long duration = System.currentTimeMillis() - start;
+            LOG.info("=======Data Size: " +  accounts.size() + " account records and " + accounts.size() + " sub account records.");
+            LOG.info("=======Execution time: " +  duration + " millis");
+        }
+        catch (Exception e) {
+            fail("fail to generate PDF file." + e);
+        }
+    }
+
+    // create a list of accounts that will be posted in report
+    private Collection<Account> getAccounts(int size) {
+        Collection<Account> accounts = new ArrayList<Account>();
+        for(int i = 0; i< size; i++) {
+            for (AccountFixture account : AccountFixture.values()) {
+                accounts.add(account.createAccount());
+            }
+        }
+        return accounts;
+    }
+
+    // create a list of sub accounts that will be posted in report 
+    private Collection<SubAccount> getSubAccounts(int size) {
+        Collection<SubAccount> subAccounts = new ArrayList<SubAccount>();
+        for(int i = 0; i< size; i++) {
+            for (SubAccountFixture subAccount : SubAccountFixture.values()) {
+                subAccounts.add(subAccount.createSubAccount());
+            }
+        }
+        return subAccounts;
+    }
 
     // create a list of accounts that will be posted in report
     private Collection<Account> getAccounts() {

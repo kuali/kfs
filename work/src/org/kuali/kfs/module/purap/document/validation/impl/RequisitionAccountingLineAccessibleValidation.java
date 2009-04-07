@@ -15,24 +15,12 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import java.util.Arrays;
 import java.util.List;
 
-import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
-import org.kuali.kfs.sys.document.validation.event.DeleteAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent;
-import org.kuali.kfs.sys.document.validation.impl.AccountingLineAccessibleValidation;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -48,8 +36,9 @@ public class RequisitionAccountingLineAccessibleValidation extends PurchasingAcc
     public boolean validate(AttributedDocumentEvent event) {
         KualiWorkflowDocument workflowDocument = event.getDocument().getDocumentHeader().getWorkflowDocument();
         List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
-
-        if (((RequisitionDocument) event.getDocument()).isDocumentStoppedInRouteNode(NodeDetailEnum.CONTENT_REVIEW)) {
+        RequisitionDocument requisitionDocument = (RequisitionDocument) event.getDocument();
+        if (requisitionDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.CONTENT_REVIEW) ||
+            requisitionDocument.getStatusCode().equals(PurapConstants.RequisitionStatuses.IN_PROCESS)) {
             // DO NOTHING: do not check that user owns acct lines; at this level, approvers can edit all detail on REQ
 
             return true;

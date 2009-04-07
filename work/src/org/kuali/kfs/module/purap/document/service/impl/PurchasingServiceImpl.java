@@ -199,15 +199,21 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
 
             totalAmount = purDoc.getTotalDollarAmountForTradeIn();
 
+            //Before we generate account summary, we should update the account amounts first.
+            purapAccountingService.updateAccountAmounts(purDoc);
             summaryAccounts = purapAccountingService.generateSummary(purDoc.getTradeInItems());
-
-            distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE, tradeIn.getAccountingLineClass());
-            for (PurApAccountingLine distributedAccount : distributedAccounts) {
-                BigDecimal percent = distributedAccount.getAccountLinePercent();
-                BigDecimal roundedPercent = new BigDecimal(Math.round(percent.doubleValue()));
-                distributedAccount.setAccountLinePercent(roundedPercent);
+            if (summaryAccounts.size() == 0) {
+                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_SUMMARY_ACCOUNTS_LIST_EMPTY);    
             }
-            tradeIn.setSourceAccountingLines(distributedAccounts);
+            else {
+                distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE, tradeIn.getAccountingLineClass());
+                for (PurApAccountingLine distributedAccount : distributedAccounts) {
+                    BigDecimal percent = distributedAccount.getAccountLinePercent();
+                    BigDecimal roundedPercent = new BigDecimal(Math.round(percent.doubleValue()));
+                    distributedAccount.setAccountLinePercent(roundedPercent);
+                }
+                tradeIn.setSourceAccountingLines(distributedAccounts);
+            }
         }
     }
 

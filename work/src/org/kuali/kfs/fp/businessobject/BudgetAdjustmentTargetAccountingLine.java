@@ -55,6 +55,7 @@ public class BudgetAdjustmentTargetAccountingLine extends TargetAccountingLine i
     @Override
     public Map getValuesMap() {
         Map simpleValues = super.getValuesMap();
+        simpleValues.remove("amount"); // remove the amount key; we'll use base and current instead
         BudgetAdjustmentAccountingLineUtil.appendToValuesMap(simpleValues, this);
         return simpleValues;
     }

@@ -60,12 +60,12 @@
 			</band>
 			</groupHeader>
 			<groupFooter>
-			<band height="45"  isSplitAllowed="true" >
+			<band height="65"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
 						mode="Opaque"
 						x="26"
-						y="5"
+						y="19"
 						width="105"
 						height="14"
 						backcolor="#EFEFEF"
@@ -85,7 +85,7 @@
 					<reportElement
 						mode="Opaque"
 						x="231"
-						y="5"
+						y="19"
 						width="100"
 						height="14"
 						backcolor="#EFEFEF"
@@ -105,7 +105,7 @@
 					<reportElement
 						mode="Opaque"
 						x="131"
-						y="5"
+						y="19"
 						width="100"
 						height="14"
 						backcolor="#EFEFEF"
@@ -125,7 +125,7 @@
 					<reportElement
 						mode="Opaque"
 						x="431"
-						y="5"
+						y="19"
 						width="105"
 						height="14"
 						backcolor="#EFEFEF"
@@ -145,7 +145,7 @@
 					<reportElement
 						mode="Opaque"
 						x="331"
-						y="5"
+						y="19"
 						width="100"
 						height="14"
 						backcolor="#EFEFEF"
@@ -164,7 +164,7 @@
 				<textField isStretchWithOverflow="false" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="26"
-						y="19"
+						y="33"
 						width="105"
 						height="14"
 						key="textField-20"/>
@@ -182,7 +182,7 @@
 				<textField isStretchWithOverflow="false" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="131"
-						y="19"
+						y="33"
 						width="100"
 						height="14"
 						key="textField-21"/>
@@ -200,7 +200,7 @@
 				<textField isStretchWithOverflow="false" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="231"
-						y="19"
+						y="33"
 						width="100"
 						height="14"
 						key="textField-22"/>
@@ -218,7 +218,7 @@
 				<textField isStretchWithOverflow="false" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="331"
-						y="19"
+						y="33"
 						width="100"
 						height="14"
 						key="textField-23"/>
@@ -236,7 +236,7 @@
 				<textField isStretchWithOverflow="false" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="431"
-						y="19"
+						y="33"
 						width="105"
 						height="14"
 						key="textField-24"/>
@@ -294,7 +294,7 @@
 						mode="Opaque"
 						x="101"
 						y="4"
-						width="70"
+						width="75"
 						height="18"
 						key="textField-2"/>
 					<box leftPadding="10">					<pen lineWidth="0.0"/>
@@ -312,7 +312,7 @@
 					<reportElement
 						style="table"
 						mode="Opaque"
-						x="171"
+						x="176"
 						y="4"
 						width="213"
 						height="18"
@@ -332,7 +332,7 @@
 					<reportElement
 						style="table"
 						mode="Opaque"
-						x="474"
+						x="479"
 						y="4"
 						width="90"
 						height="18"
@@ -352,7 +352,7 @@
 					<reportElement
 						style="table"
 						mode="Opaque"
-						x="384"
+						x="389"
 						y="4"
 						width="90"
 						height="18"
@@ -371,7 +371,7 @@
 			</band>
 		</columnHeader>
 		<detail>
-			<band height="50"  isSplitAllowed="true" >
+			<band height="30"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						style="dataCell"
@@ -382,7 +382,7 @@
 						height="20"
 						key="textField-7"
 						stretchType="RelativeToTallestObject"
-						isPrintInFirstWholeBand="true"/>
+						isPrintWhenDetailOverflows="true"/>
 					<box leftPadding="10"></box>
 					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="1_1_2">
 						<font fontName="Times New Roman"/>
@@ -395,11 +395,10 @@
 						mode="Transparent"
 						x="101"
 						y="2"
-						width="70"
+						width="75"
 						height="20"
 						key="textField-8"
 						stretchType="RelativeToTallestObject"
-						isPrintInFirstWholeBand="true"
 						isPrintWhenDetailOverflows="true"/>
 					<box leftPadding="10"></box>
 					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="1_1_2">
@@ -411,13 +410,12 @@
 					<reportElement
 						style="dataCell"
 						mode="Transparent"
-						x="171"
+						x="176"
 						y="2"
 						width="215"
 						height="20"
 						key="textField-9"
 						stretchType="RelativeToTallestObject"
-						isPrintInFirstWholeBand="true"
 						isPrintWhenDetailOverflows="true"/>
 					<box leftPadding="10"></box>
 					<textElement verticalAlignment="Middle" lineSpacing="1_1_2">
@@ -429,13 +427,12 @@
 					<reportElement
 						style="dataCell"
 						mode="Transparent"
-						x="474"
+						x="479"
 						y="2"
 						width="90"
 						height="20"
 						key="textField-17"
 						stretchType="RelativeToTallestObject"
-						isPrintInFirstWholeBand="true"
 						isPrintWhenDetailOverflows="true"/>
 					<box leftPadding="10"></box>
 					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="1_1_2">
@@ -447,13 +444,12 @@
 					<reportElement
 						style="dataCell"
 						mode="Transparent"
-						x="384"
+						x="389"
 						y="2"
 						width="90"
 						height="20"
 						key="textField-19"
 						stretchType="RelativeToTallestObject"
-						isPrintInFirstWholeBand="true"
 						isPrintWhenDetailOverflows="true"/>
 					<box leftPadding="10"></box>
 					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="1_1_2">

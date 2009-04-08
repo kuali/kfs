@@ -357,7 +357,7 @@ function checkCheckAllOrNone() {
 	<c:if test="${empty KualiForm.depositableCashReceipts && empty KualiForm.depositableCashieringChecks && empty KualiForm.checkFreeCashReceipts}">
 		<%-- manually handle parameter-substitution --%>
 		<c:set var="msg0">
-            ${fn:replace(ConfigProperties.depositWizard.status.noCashReceipts, "{0}", KualiForm.cashDrawerVerificationUnit )}
+            ${fn:replace(ConfigProperties.depositWizard.status.noCashReceipts, "{0}", KualiForm.cashDrawerCampusCode )}
         </c:set>
 		<c:set var="msg1">
             ${fn:replace(msg0, "{1}", KualiForm.cashManagementDocId)}

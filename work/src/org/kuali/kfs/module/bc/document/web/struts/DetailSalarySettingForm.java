@@ -369,9 +369,23 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
         if (this.isAddLine() || this.isSingleAccountMode()) {
             appointmentFunding.setChartOfAccountsCode(this.getChartOfAccountsCode());
             appointmentFunding.setAccountNumber(this.getAccountNumber());
-            appointmentFunding.setSubAccountNumber(this.getSubAccountNumber());
+
+            // empty field implies dashes and is fixed in add action
+            if (this.getSubAccountNumber().equals(KFSConstants.getDashSubAccountNumber())) {
+                appointmentFunding.setSubAccountNumber(KFSConstants.EMPTY_STRING);
+            }
+            else {
+                appointmentFunding.setSubAccountNumber(this.getSubAccountNumber());
+            }
             appointmentFunding.setFinancialObjectCode(this.getFinancialObjectCode());
-            appointmentFunding.setFinancialSubObjectCode(this.getFinancialSubObjectCode());
+
+            // empty field implies dashes and is fixed in add action
+            if (this.getFinancialSubObjectCode().equals(KFSConstants.getDashFinancialSubObjectCode())) {
+                appointmentFunding.setFinancialSubObjectCode(KFSConstants.EMPTY_STRING);
+            }
+            else {
+                appointmentFunding.setFinancialSubObjectCode(this.getFinancialSubObjectCode());
+            }
         }
 
         appointmentFunding.setUniversityFiscalYear(this.getUniversityFiscalYear());

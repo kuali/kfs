@@ -454,7 +454,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
      * @return
      * @throws Exception
      */
-    public synchronized ActionForward printInvoicePDF(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward printInvoicePDF(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String invoiceDocId = request.getParameter("docId");
         CustomerInvoiceDocument customerInvoiceDocument = (CustomerInvoiceDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(invoiceDocId);
         

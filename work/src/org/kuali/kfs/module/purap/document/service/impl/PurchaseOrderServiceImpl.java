@@ -42,6 +42,7 @@ import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.batch.AutoCloseRecurringOrdersStep;
+import org.kuali.kfs.module.purap.businessobject.AutoClosePurchaseOrderView;
 import org.kuali.kfs.module.purap.businessobject.ContractManagerAssignmentDetail;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoView;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
@@ -52,7 +53,6 @@ import org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetSystem
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteStatus;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
-import org.kuali.kfs.module.purap.businessobject.PurchaseOrderView;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.document.ContractManagerAssignmentDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
@@ -1659,9 +1659,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public boolean autoCloseFullyDisencumberedOrders() {
         LOG.info("autoCloseFullyDisencumberedOrders() started");
 
-        List<PurchaseOrderView> purchaseOrderAutoCloseList = purchaseOrderDao.getAllOpenPurchaseOrders(getExcludedVendorChoiceCodes());
+        List<AutoClosePurchaseOrderView> purchaseOrderAutoCloseList = purchaseOrderDao.getAllOpenPurchaseOrders(getExcludedVendorChoiceCodes());
 
-        for (PurchaseOrderView poAutoClose : purchaseOrderAutoCloseList) {
+        for (AutoClosePurchaseOrderView poAutoClose : purchaseOrderAutoCloseList) {
             if ((poAutoClose.getTotalAmount() != null) && ((KualiDecimal.ZERO.compareTo(poAutoClose.getTotalAmount())) != 0)) {
                 LOG.info("autoCloseFullyDisencumberedOrders() PO ID " + poAutoClose.getPurapDocumentIdentifier() + " with total " + poAutoClose.getTotalAmount().doubleValue() + " will be closed");
                 String newStatus = PurapConstants.PurchaseOrderStatuses.PENDING_CLOSE;
@@ -1748,10 +1748,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             return false;
         }
 
-        List<PurchaseOrderView> purchaseOrderAutoCloseList = purchaseOrderDao.getAutoCloseRecurringPurchaseOrders(getExcludedVendorChoiceCodes());
+        List<AutoClosePurchaseOrderView> purchaseOrderAutoCloseList = purchaseOrderDao.getAutoCloseRecurringPurchaseOrders(getExcludedVendorChoiceCodes());
         LOG.info("autoCloseRecurringOrders(): " + purchaseOrderAutoCloseList.size() + " PO's were returned for processing.");
         int counter = 0;
-        for (PurchaseOrderView poAutoClose : purchaseOrderAutoCloseList) {
+        for (AutoClosePurchaseOrderView poAutoClose : purchaseOrderAutoCloseList) {
             LOG.info("autoCloseRecurringOrders(): Testing PO ID " + poAutoClose.getPurapDocumentIdentifier() + ". recurringPaymentEndDate: " + poAutoClose.getRecurringPaymentEndDate());
             if (poAutoClose.getRecurringPaymentEndDate().before(appSettingsDay)) {
                 String newStatus = PurapConstants.PurchaseOrderStatuses.PENDING_CLOSE;

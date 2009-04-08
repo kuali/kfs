@@ -36,8 +36,6 @@ public class PurchaseOrderView extends AbstractRelatedView {
     private String recurringPaymentTypeCode;
     private String vendorChoiceCode;
     private Timestamp recurringPaymentEndDate;
-    private KualiDecimal totalEncumbrance;
-    private KualiDecimal totalAmount;
     
     public boolean isPurchaseOrderCurrentIndicator() {
         return purchaseOrderCurrentIndicator;
@@ -83,28 +81,8 @@ public class PurchaseOrderView extends AbstractRelatedView {
         this.recurringPaymentEndDate = recurringPaymentEndDate;
     }
 
-    public KualiDecimal getTotalEncumbrance() {
-        return totalEncumbrance;
-    }
-
-    public void setTotalEncumbrance(KualiDecimal totalEncumbrance) {
-        this.totalEncumbrance = totalEncumbrance;
-    }
-
-    public void setPurchaseOrderCurrentIndicator(Boolean purchaseOrderCurrentIndicator) {
-        this.purchaseOrderCurrentIndicator = purchaseOrderCurrentIndicator;
-    }
-    
-    public KualiDecimal getTotalAmount() {
-        return totalAmount;
-    }
-
-    public void setTotalAmount(KualiDecimal totalAmount) {
-        this.totalAmount = totalAmount;
-    }
-
     /**
-     * The next four methods are overridden but shouldnt be! If they arent overridden, they dont show up in the tag, not sure why at
+     * The next four methods are overridden but shouldn't be! If they aren't overridden, they don't show up in the tag, not sure why at
      * this point! (AAP)
      * 
      * @see org.kuali.kfs.module.purap.businessobject.AbstractRelatedView#getPurapDocumentIdentifier()

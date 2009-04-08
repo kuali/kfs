@@ -3366,7 +3366,7 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.module.purap.businessobject.PurchaseOrderView" table="PUR_PO_V">
+<class-descriptor class="org.kuali.kfs.module.purap.businessobject.PurchaseOrderView" table="PUR_PO_T">
     <field-descriptor name="accountsPayablePurchasingDocumentLinkIdentifier" column="AP_PUR_DOC_LNK_ID" primarykey="true" jdbc-type="INTEGER"/>
     <field-descriptor name="purapDocumentIdentifier" column="PO_ID" primarykey="true" jdbc-type="INTEGER"/>
     <field-descriptor name="purchaseOrderCurrentIndicator" column="PO_CUR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
@@ -3376,8 +3376,6 @@
     <field-descriptor name="recurringPaymentTypeCode" column="RECUR_PMT_TYP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="vendorChoiceCode" column="PO_VNDR_CHC_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="recurringPaymentEndDate" column="PO_END_DT" jdbc-type="TIMESTAMP"/>
-    <field-descriptor name="totalEncumbrance" column="TOTAL_ENCUMBRANCE" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-    <field-descriptor name="totalAmount" column="TOTAL_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.PaymentRequestView" table="AP_PMT_RQST_T">
@@ -3425,6 +3423,20 @@
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.kfs.module.purap.businessobject.AutoClosePurchaseOrderView" table="PUR_PO_V">
+    <field-descriptor name="accountsPayablePurchasingDocumentLinkIdentifier" column="AP_PUR_DOC_LNK_ID" primarykey="true" jdbc-type="INTEGER"/>
+    <field-descriptor name="purapDocumentIdentifier" column="PO_ID" primarykey="true" jdbc-type="INTEGER"/>
+    <field-descriptor name="purchaseOrderCurrentIndicator" column="PO_CUR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="documentNumber" column="FDOC_NBR" primarykey="true" jdbc-type="VARCHAR"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
+    <field-descriptor name="purchaseOrderStatusCode" column="PO_STAT_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="recurringPaymentTypeCode" column="RECUR_PMT_TYP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorChoiceCode" column="PO_VNDR_CHC_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="recurringPaymentEndDate" column="PO_END_DT" jdbc-type="TIMESTAMP"/>
+    <field-descriptor name="totalEncumbrance" column="TOTAL_ENCUMBRANCE" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+    <field-descriptor name="totalAmount" column="TOTAL_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteLanguage" table="PUR_PO_QT_LANG_T">

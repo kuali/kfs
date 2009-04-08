@@ -450,6 +450,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         // make open invoice indicator to true
         document.setOpenInvoiceIndicator(true);
         document.setPrintDate(null);
+        document.setBillingDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight());
     }
 
     /**

@@ -103,7 +103,10 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
         BigDecimal annualWorkingHours = BigDecimal.valueOf(BudgetParameterFinder.getAnnualWorkingHours());
         BigDecimal totalPayHoursForYear = fteQuantity.multiply(annualWorkingHours);
-        BigDecimal hourlyPayRate = requestedAmount.divide(totalPayHoursForYear).setScale(2, BigDecimal.ROUND_HALF_UP);
+        BigDecimal hourlyPayRate = BigDecimal.ZERO;
+        if (totalPayHoursForYear.compareTo(BigDecimal.ZERO) != 0) {
+            hourlyPayRate = requestedAmount.divide(totalPayHoursForYear).setScale(2, BigDecimal.ROUND_HALF_UP);
+        }
 
         return hourlyPayRate;
     }

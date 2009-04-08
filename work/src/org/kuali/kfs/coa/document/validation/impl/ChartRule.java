@@ -20,6 +20,7 @@ import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -65,7 +66,7 @@ public class ChartRule extends MaintenanceDocumentRuleBase {
             putFieldError("finCoaManagerUniversal.principalName", KFSKeyConstants.ERROR_DOCUMENT_CHART_MANAGER_MUST_EXIST);
         }
 
-        if (chartManager != null && !org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).isActiveFinancialSystemUser(chartManager)) {
+        if (chartManager != null && !SpringContext.getBean(FinancialSystemUserService.class).isActiveFinancialSystemUser(chartManager)) {
             result = false;
             putFieldError("finCoaManagerUniversal.principalName", KFSKeyConstants.ERROR_DOCUMENT_CHART_MANAGER_MUST_BE_KUALI_USER);
         }

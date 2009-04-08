@@ -25,6 +25,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.ParameterEvaluator;
 import org.kuali.rice.kns.service.ParameterService;
@@ -66,7 +67,7 @@ public class DisbursementVoucherDocumentLocationValidation extends GenericValida
         }
 
         Person initiator = getInitiator(document);
-        ChartOrgHolder chartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getPrimaryOrganization(initiator, KFSConstants.ParameterNamespaces.FINANCIAL);
+        ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(initiator, KFSConstants.ParameterNamespaces.FINANCIAL);
         String locationCode = (chartOrg == null || chartOrg.getOrganization() == null) ? null : chartOrg.getOrganization().getOrganizationPhysicalCampusCode();
 
         // initiator campus code restrictions

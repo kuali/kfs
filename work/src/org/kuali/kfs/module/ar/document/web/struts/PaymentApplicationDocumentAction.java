@@ -92,7 +92,10 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, ServletRequest request, ServletResponse response) throws Exception {
-        doApplicationOfFunds((PaymentApplicationDocumentForm)form);
+        PaymentApplicationDocumentForm payAppForm = (PaymentApplicationDocumentForm) form;
+        if (!payAppForm.getPaymentApplicationDocument().isFinal()) {
+            doApplicationOfFunds(payAppForm);
+        }
         return super.execute(mapping, form, request, response);
     }
 
@@ -620,9 +623,11 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      * @throws Exception
      */
     public ActionForward goToInvoice(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PaymentApplicationDocumentForm paymentApplicationDocumentForm = (PaymentApplicationDocumentForm) form;
-        loadInvoices(paymentApplicationDocumentForm, paymentApplicationDocumentForm.getSelectedInvoiceDocumentNumber());
-        doApplicationOfFunds(paymentApplicationDocumentForm);
+        PaymentApplicationDocumentForm payAppForm = (PaymentApplicationDocumentForm) form;
+        loadInvoices(payAppForm, payAppForm.getSelectedInvoiceDocumentNumber());
+        if (!payAppForm.getPaymentApplicationDocument().isFinal()) {
+            doApplicationOfFunds(payAppForm);
+        }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -637,9 +642,11 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      * @throws Exception
      */
     public ActionForward goToNextInvoice(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PaymentApplicationDocumentForm paymentApplicationDocumentForm = (PaymentApplicationDocumentForm) form;
-        loadInvoices(paymentApplicationDocumentForm, paymentApplicationDocumentForm.getNextInvoiceDocumentNumber());
-        doApplicationOfFunds(paymentApplicationDocumentForm);
+        PaymentApplicationDocumentForm payAppForm = (PaymentApplicationDocumentForm) form;
+        loadInvoices(payAppForm, payAppForm.getNextInvoiceDocumentNumber());
+        if (!payAppForm.getPaymentApplicationDocument().isFinal()) {
+            doApplicationOfFunds(payAppForm);
+        }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -654,9 +661,11 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      * @throws Exception
      */
     public ActionForward goToPreviousInvoice(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PaymentApplicationDocumentForm paymentApplicationDocumentForm = (PaymentApplicationDocumentForm) form;
-        loadInvoices(paymentApplicationDocumentForm, paymentApplicationDocumentForm.getPreviousInvoiceDocumentNumber());
-        doApplicationOfFunds(paymentApplicationDocumentForm);
+        PaymentApplicationDocumentForm payAppForm = (PaymentApplicationDocumentForm) form;
+        loadInvoices(payAppForm, payAppForm.getPreviousInvoiceDocumentNumber());
+        if (!payAppForm.getPaymentApplicationDocument().isFinal()) {
+            doApplicationOfFunds(payAppForm);
+        }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

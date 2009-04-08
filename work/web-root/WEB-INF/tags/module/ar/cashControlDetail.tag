@@ -51,8 +51,7 @@
 					readOnly="true" />
 			</c:when>
 			<c:otherwise>
-				<a
-					href="${ConfigProperties.workflow.url}/DocHandler.do?docId=${KualiForm.document.cashControlDetails[rowHeading-1].referenceFinancialDocumentNumber}&command=displayDocSearchView">
+				<a href="${ConfigProperties.workflow.url}/DocHandler.do?docId=${KualiForm.document.cashControlDetails[rowHeading-1].referenceFinancialDocumentNumber}&command=displayDocSearchView" target="cashControlDetailPayApp">
 					<kul:htmlControlAttribute
 						attributeEntry="${cashControlDetailAttributes.referenceFinancialDocumentNumber}"
 						property="${propertyName}.referenceFinancialDocumentNumber"

@@ -844,4 +844,7 @@ public class KFSKeyConstants {
         public static final String REPORT_ENCUMBRANCE_ROW_COUNT_HISTORY = "message.gl.balancing.report.encumbrance.row.count.history";
         public static final String REPORT_ENCUMBRANCE_ROW_COUNT_PRODUCTION = "message.gl.balancing.report.encumbrance.row.count.production";
     }
+    
+    public static final String NO_MEMBER_SELECTED = "error.member.none.selected";
+    public static final String ALREADY_ASSIGNED_MEMBER = "error.member.already.assigned";
 }

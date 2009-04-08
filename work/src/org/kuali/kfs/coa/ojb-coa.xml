@@ -1793,5 +1793,11 @@
 	<field-descriptor name="name" column="ACCT_SF_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 </class-descriptor>
+
+  <!-- A hack entry to make Org Review Role work with Maintenance Framework -->
+  <class-descriptor class="org.kuali.kfs.coa.identity.OrgReviewRole" table="CA_ORG_TYPE_T">
+    <field-descriptor name="organizationTypeCode" column="ORG_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+  </class-descriptor>
+
 </descriptor-repository>
 

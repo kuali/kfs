@@ -1189,5 +1189,23 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     }
     
     public static final String ROOT_DOCUMENT_TYPE = "KFS";
+    
+    public static class COAConstants{
+        public static final String FINANCIAL_SYSTEM_DOCUMENT = "KFS";
+        public static final String FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT = "FinancialSystemTransactionalDocument";
+        public static final String FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT = "FinancialSystemComplexMaintenanceDocument";
+        public static final String FINANCIAL_SYSTEM_SIMPLE_MAINTENANCE_DOCUMENT = "FinancialSystemSimpleMaintenanceDocument";
+        
+        public static final String NODE_NAME_ORGANIZATION_HIERARCHY = "OrganizationHierarchy";
+        public static final String NODE_NAME_ACCOUNTING_ORGANIZATION_HIERARCHY = "AccountingOrganizationHierarchy";
+        
+        public static final String ORG_REVIEW_ROLE_ORG_ACC_ONLY_CODE = "A";
+        public static final String ORG_REVIEW_ROLE_ORG_ACC_ONLY_TEXT = "Organization Accounting Only";
+        public static final String ORG_REVIEW_ROLE_ORG_ONLY_CODE = "O";
+        public static final String ORG_REVIEW_ROLE_ORG_ONLY_TEXT = "Organization Only";
+        public static final String ORG_REVIEW_ROLE_ORG_ACC_BOTH_CODE = "B";
+        public static final String ORG_REVIEW_ROLE_ORG_ACC_BOTH_TEXT = "Both";
+    }
+    
 }
 

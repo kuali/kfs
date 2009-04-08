@@ -15,22 +15,27 @@
  */
 package org.kuali.kfs.coa.identity;
 
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants.FINANCIAL_SYSTEM_DOCUMENT;
 import org.kuali.rice.core.util.RiceUtilities;
 import org.kuali.rice.kew.doctype.service.DocumentTypeService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.service.WorkflowInfo;
-import org.kuali.rice.kim.bo.entity.dto.KimDefaultableInfo;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.entity.impl.KimPrincipalImpl;
 import org.kuali.rice.kim.bo.group.impl.KimGroupImpl;
 import org.kuali.rice.kim.bo.impl.KimAbstractMemberImpl;
@@ -42,15 +47,25 @@ import org.kuali.rice.kim.bo.role.impl.RoleMemberAttributeDataImpl;
 import org.kuali.rice.kim.bo.role.impl.RoleMemberImpl;
 import org.kuali.rice.kim.bo.role.impl.RoleResponsibilityImpl;
 import org.kuali.rice.kim.bo.types.impl.KimAttributeDataImpl;
+import org.kuali.rice.kim.lookup.KimTypeLookupableHelperServiceImpl;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kim.service.UiDocumentService;
 import org.kuali.rice.kim.util.KimCommonUtils;
 import org.kuali.rice.kim.util.KimConstants;
+import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.LookupService;
+import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.web.format.Formatter;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
 
 public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
@@ -63,11 +78,11 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
     protected static final String DOCUMENT_TYPE_NAME = KfsKimAttributes.FINANCIAL_SYSTEM_DOCUMENT_TYPE_CODE;
     public static final String MEMBER_ATTRIBUTE_CHART_OF_ACCOUNTS_CODE = "chart.chartOfAccountsCode";
     public static final String MEMBER_ATTRIBUTE_ORGANIZATION_CODE = "organization.organizationCode";
-    protected static final String MEMBER_PRINCIPAL_NAME = "principal.principalName";
-    protected static final String MEMBER_GROUP_NAMESPACE_CODE = "group.namespaceCode";
-    protected static final String MEMBER_GROUP_NAME = "group.groupName";
-    protected static final String MEMBER_ROLE_NAMESPACE = "role.namespaceCode";
-    protected static final String MEMBER_ROLE_NAME = "role.roleName";
+    protected static final String MEMBER_PRINCIPAL_NAME = "principalMemberPrincipalName";
+    protected static final String MEMBER_GROUP_NAMESPACE_CODE = "groupMemberGroupNamespaceCode";
+    protected static final String MEMBER_GROUP_NAME = "groupMemberGroupName";
+    protected static final String MEMBER_ROLE_NAMESPACE = "roleMemberRoleNamespaceCode";
+    protected static final String MEMBER_ROLE_NAME = "roleMemberRoleName";
 
     protected static final String MEMBER_ID = "memberId";
     protected static final String MEMBER_ATTRIBUTE_NAME_KEY = "attributes.kimAttribute.attributeName";
@@ -78,14 +93,39 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
     protected static final String ACTIVE_FROM_DATE = "activeFromDate";
     protected static final String ACTIVE_TO_DATE = "activeToDate";
     
-    protected static final String FINANCIAL_SYSTEM_DOCUMENT = "KFS";
-    protected static final String FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT = "FinancialSystemTransactionalDocument";
-    protected static final String FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT = "FinancialSystemComplexMaintenanceDocument";
-    protected static final String FINANCIAL_SYSTEM_SIMPLE_MAINTENANCE_DOCUMENT = "FinancialSystemSimpleMaintenanceDocument";
-    
-    protected static final String NODE_NAME_ORGANIZATION_HIERARCHY = "OrganizationHierarchy";
-    protected static final String NODE_NAME_ACCOUNTING_ORGANIZATION_HIERARCHY = "AccountingOrganizationHierarchy";
+    @Override
+    public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
+        lookupForm.setShowMaintenanceLinks(true);
+        lookupForm.setHideReturnLink(true);
+        return super.performLookup(lookupForm, resultTable, bounded);
+    }
 
+    protected String getActionUrlHref(BusinessObject businessObject, String methodToCall, List pkNames){
+        OrgReviewRole orr = (OrgReviewRole)businessObject;
+        Properties parameters = new Properties();
+        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
+        parameters.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, OrgReviewRole.class.getName());
+
+        if(orr.isDelegate()){
+            parameters.put(KNSConstants.COPY_KEYS, OrgReviewRole.ORIGINAL_DELEGATION_MEMBER_ID_TO_MODIFY);
+            parameters.put(OrgReviewRole.ORIGINAL_DELEGATION_MEMBER_ID_TO_MODIFY, orr.getDelegationMemberId());
+        } else {
+            parameters.put(KNSConstants.COPY_KEYS, OrgReviewRole.ORIGINAL_ROLE_MEMBER_ID_TO_MODIFY);
+            parameters.put(OrgReviewRole.ORIGINAL_ROLE_MEMBER_ID_TO_MODIFY, orr.getRoleMemberId());
+        }
+        return UrlFactory.parameterizeUrl(KNSConstants.MAINTENANCE_ACTION, parameters);
+    }
+
+    protected String getActionUrlTitleText(BusinessObject businessObject, String displayText, List pkNames, BusinessObjectRestrictions businessObjectRestrictions){
+        OrgReviewRole orr = (OrgReviewRole)businessObject;
+        List overridePKNames = new ArrayList<String>();
+        if(orr.isDelegate())
+            overridePKNames.add(KimConstants.PrimaryKeyConstants.DELEGATION_MEMBER_ID);
+        else
+            overridePKNames.add(KimConstants.PrimaryKeyConstants.ROLE_MEMBER_ID);
+        return super.getActionUrlTitleText(businessObject, displayText, overridePKNames, businessObjectRestrictions);
+    }
+    
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String,String> fieldValues) {
         return getMemberSearchResults(fieldValues);
@@ -119,35 +159,8 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
             5.  Else, if FinancialSystemSimpleMaintenanceDocument is the closest parent (per KimCommonUtils.getClosestParent), 
                     this makes no sense and should generate an error.
          */
-        List<String> roleNamesToSearchInto = new ArrayList<String>();
-        try{
-            boolean hasOrganizationHierarchy = (new WorkflowInfo()).hasRouteNode(documentTypeName, NODE_NAME_ORGANIZATION_HIERARCHY);
-            boolean hasAccountingOrganizationHierarchy = (new WorkflowInfo()).hasRouteNode(documentTypeName, NODE_NAME_ACCOUNTING_ORGANIZATION_HIERARCHY);
-            if(hasOrganizationHierarchy || hasAccountingOrganizationHierarchy){
-                if(hasOrganizationHierarchy) roleNamesToSearchInto.add(KFSConstants.SysKimConstants.ORGANIZATION_REVIEWER_ROLE_NAME);                
-                if(hasAccountingOrganizationHierarchy) roleNamesToSearchInto.add(KFSConstants.SysKimConstants.ACCOUNTING_REVIEWER_ROLE_NAME);
-            } else if(FINANCIAL_SYSTEM_DOCUMENT.equals(documentTypeName)){
-                roleNamesToSearchInto.add(KFSConstants.SysKimConstants.ORGANIZATION_REVIEWER_ROLE_NAME);                
-                roleNamesToSearchInto.add(KFSConstants.SysKimConstants.ACCOUNTING_REVIEWER_ROLE_NAME);
-            } else{
-                Set<String> potentialParentDocumentTypeNames = new HashSet<String>();
-                potentialParentDocumentTypeNames.add(FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT);
-                potentialParentDocumentTypeNames.add(FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT);
-                potentialParentDocumentTypeNames.add(FINANCIAL_SYSTEM_SIMPLE_MAINTENANCE_DOCUMENT);
-                String closestParentDocumentTypeName = 
-                    KimCommonUtils.getClosestParentDocumentTypeName(getDocumentTypeService().findByName(documentTypeName), potentialParentDocumentTypeNames);
-                if(StringUtils.isNotEmpty(closestParentDocumentTypeName)){
-                    if(closestParentDocumentTypeName.equals(FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT))
-                        roleNamesToSearchInto.add(KFSConstants.SysKimConstants.ACCOUNTING_REVIEWER_ROLE_NAME);
-                    else if(closestParentDocumentTypeName.equals(FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT))
-                        roleNamesToSearchInto.add(KFSConstants.SysKimConstants.ORGANIZATION_REVIEWER_ROLE_NAME);
-                    else if(closestParentDocumentTypeName.equals(FINANCIAL_SYSTEM_SIMPLE_MAINTENANCE_DOCUMENT))
-                        throw new RuntimeException("Invalid document type chosen for Org Review Role: "+FINANCIAL_SYSTEM_SIMPLE_MAINTENANCE_DOCUMENT);
-                }
-            }
-        } catch(WorkflowException wex){
-            throw new RuntimeException("Workflow Exception occurred: "+wex);
-        }
+        List<String> roleNamesToSearchInto = getRolesToConsider(documentTypeName);
+        
         String delegateStr = fieldValues.get(DELEGATE);
         List<Class> classesToSearch = new ArrayList<Class>();
         if(StringUtils.isEmpty(delegateStr)){
@@ -176,8 +189,68 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         return flattenToOrgReviewMembers(fieldValues.get(ACTIVE), documentTypeName, searchMembers(searchCriteria, classesToSearch));
     }
 
+    public boolean hasOrganizationHierarchy(String documentTypeName) {
+        if(StringUtils.isEmpty(documentTypeName)) return false;
+        try {
+            return (new WorkflowInfo()).hasRouteNode(documentTypeName, KFSConstants.COAConstants.NODE_NAME_ORGANIZATION_HIERARCHY);
+        } catch(WorkflowException wex){
+            throw new RuntimeException("Workflow Exception occurred: "+wex);
+        }
+    }
+
+    public boolean hasAccountingOrganizationHierarchy(String documentTypeName) {
+        if(StringUtils.isEmpty(documentTypeName)) return false;
+        try{ 
+            return (new WorkflowInfo()).hasRouteNode(documentTypeName, KFSConstants.COAConstants.NODE_NAME_ACCOUNTING_ORGANIZATION_HIERARCHY);
+        } catch(WorkflowException wex){
+            throw new RuntimeException("Workflow Exception occurred: "+wex);
+        }
+    }
+
+    public String getClosestOrgReviewRoleParentDocumentTypeName(String documentTypeName){
+        if(StringUtils.isEmpty(documentTypeName)) return null;
+        Set<String> potentialParentDocumentTypeNames = new HashSet<String>();
+        potentialParentDocumentTypeNames.add(KFSConstants.COAConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT);
+        potentialParentDocumentTypeNames.add(KFSConstants.COAConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT);
+        potentialParentDocumentTypeNames.add(KFSConstants.COAConstants.FINANCIAL_SYSTEM_SIMPLE_MAINTENANCE_DOCUMENT);
+        return KimCommonUtils.getClosestParentDocumentTypeName(getDocumentTypeService().findByName(documentTypeName), potentialParentDocumentTypeNames);
+    }
+
+    public List<String> getRolesToConsider(String documentTypeName) {
+        return getRolesToConsider(documentTypeName, 
+                hasOrganizationHierarchy(documentTypeName), 
+                hasAccountingOrganizationHierarchy(documentTypeName), 
+                getClosestOrgReviewRoleParentDocumentTypeName(documentTypeName));
+    }
+    
+    public List<String> getRolesToConsider(String documentTypeName, boolean hasOrganizationHierarchy, boolean hasAccountingOrganizationHierarchy, String closestParentDocumentTypeName){
+        if(StringUtils.isEmpty(documentTypeName)) return null;
+
+        List<String> roleToConsider = new ArrayList<String>();
+        if(hasOrganizationHierarchy || hasAccountingOrganizationHierarchy){
+            if(hasOrganizationHierarchy) roleToConsider.add(KFSConstants.SysKimConstants.ORGANIZATION_REVIEWER_ROLE_NAME);                
+            if(hasAccountingOrganizationHierarchy) roleToConsider.add(KFSConstants.SysKimConstants.ACCOUNTING_REVIEWER_ROLE_NAME);
+            //readonly
+        } else if(KFSConstants.COAConstants.FINANCIAL_SYSTEM_DOCUMENT.equals(documentTypeName)){
+            roleToConsider.add(KFSConstants.SysKimConstants.ORGANIZATION_REVIEWER_ROLE_NAME);                
+            roleToConsider.add(KFSConstants.SysKimConstants.ACCOUNTING_REVIEWER_ROLE_NAME);
+        } else{
+            if(StringUtils.isNotEmpty(closestParentDocumentTypeName)){
+                if(closestParentDocumentTypeName.equals(KFSConstants.COAConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT))
+                    roleToConsider.add(KFSConstants.SysKimConstants.ACCOUNTING_REVIEWER_ROLE_NAME);
+                else if(closestParentDocumentTypeName.equals(KFSConstants.COAConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT)){
+                    roleToConsider.add(KFSConstants.SysKimConstants.ORGANIZATION_REVIEWER_ROLE_NAME);
+                    //readonly
+                } else if(closestParentDocumentTypeName.equals(KFSConstants.COAConstants.FINANCIAL_SYSTEM_SIMPLE_MAINTENANCE_DOCUMENT))
+                    throw new RuntimeException("Invalid document type chosen for Org Review Role: "+KFSConstants.COAConstants.FINANCIAL_SYSTEM_SIMPLE_MAINTENANCE_DOCUMENT);
+            }
+        }
+
+        return roleToConsider;
+    }
+    
     private List<OrgReviewRole> flattenToOrgReviewMembers(String active, String documentTypeName, List<? extends BusinessObject> members){
-        List<OrgReviewRole> orgReviewRoleMembers = new ArrayList<OrgReviewRole>();
+        List<OrgReviewRole> orgReviewRoles = new ArrayList<OrgReviewRole>();
         OrgReviewRole orgReviewRole;
         String memberType;
         KimAbstractMemberImpl absMember;
@@ -207,19 +280,26 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
                         attributes.add(attribute);
                     }
                     orgReviewRole.setRoleRspActions(getRoleRspActions((RoleMemberImpl)member));
+                    orgReviewRole.setRoleMemberId(((RoleMemberImpl)member).getRoleMemberId());
+                    orgReviewRole.setRoleId(((RoleMemberImpl)member).getRoleId());
+                    orgReviewRole.setDelegate(false);
                 } else if(member instanceof KimDelegationMemberImpl){
                     for(KimDelegationMemberAttributeDataImpl delegationMemberAttribute: ((KimDelegationMemberImpl)member).getAttributes()){
                         attribute = new KimAttributeDataImpl();
                         KimCommonUtils.copyProperties(attribute, delegationMemberAttribute);
                         attributes.add(attribute);
                     }
-                    populateDelegationMembersDelegationType((KimDelegationMemberImpl)member);
+                    KimDelegationImpl delegation = getDelegation((KimDelegationMemberImpl)member);
+                    orgReviewRole.setDelegationMemberId(((KimDelegationMemberImpl)member).getDelegationMemberId());
+                    orgReviewRole.setRoleId(delegation.getRoleId());
+                    orgReviewRole.setDelegationTypeCode(delegation.getDelegationTypeCode());
+                    orgReviewRole.setDelegate(true);
                 }
                 orgReviewRole.setAttributes(attributes);
-                orgReviewRoleMembers.add(orgReviewRole);
+                orgReviewRoles.add(orgReviewRole);
             }
         }
-        return orgReviewRoleMembers;
+        return orgReviewRoles;
     }
     
     private List getRoleRspActions(RoleMemberImpl roleMemberImpl){
@@ -242,12 +322,11 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         return members;
     }
 
-    private void populateDelegationMembersDelegationType(KimDelegationMemberImpl delegationMember){
+    private KimDelegationImpl getDelegation(KimDelegationMemberImpl delegationMember){
         Map<String, String> criteria = new HashMap<String, String>();
         KimDelegationImpl delegation;
         criteria.put(KimConstants.PrimaryKeyConstants.DELEGATION_ID, delegationMember.getDelegationId());
-        delegation = (KimDelegationImpl)KNSServiceLocator.getBusinessObjectService().findByPrimaryKey(KimDelegationImpl.class, criteria);
-        delegationMember.setDelegationTypeCode(delegation.getDelegationTypeCode());
+        return (KimDelegationImpl)KNSServiceLocator.getBusinessObjectService().findByPrimaryKey(KimDelegationImpl.class, criteria);
     }
 
     protected String getQueryString(String parameter){
@@ -396,6 +475,14 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
             uiDocumentService = KIMServiceLocator.getUiDocumentService();
         }
         return uiDocumentService;
+    }
+
+    @Override
+    public void validateSearchParameters(Map fieldValues) {
+        if (StringUtils.isEmpty((String)fieldValues.get(DOCUMENT_TYPE_NAME))){
+            throw new ValidationException("Please select a document type name.");
+        }
+        super.validateSearchParameters(fieldValues);
     }
 
 }

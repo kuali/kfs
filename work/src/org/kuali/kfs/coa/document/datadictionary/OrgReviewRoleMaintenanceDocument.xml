@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+
+  <bean id="OrgReviewRoleMaintenanceDocument" parent="OrgReviewRoleMaintenanceDocument-parentBean"/>
+
+  <bean id="OrgReviewRoleMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.kfs.coa.identity.OrgReviewRole" p:maintainableClass="org.kuali.kfs.coa.document.OrgReviewRoleMaintainableImpl">
+    <property name="maintainableSections">
+      <list>
+        <ref bean="OrgReviewRoleMaintenanceDocument-RoleDetails"/>
+        <ref bean="OrgReviewRoleMaintenanceDocument-RoleMemberOrDelegation"/>
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>roleMemberRoleId</value>
+        <value>roleMemberRoleNamespaceCode</value>
+        <value>roleMemberRoleName</value>
+    	<value>groupMemberGroupId</value>
+        <value>groupMemberGroupNamespaceCode</value>
+        <value>groupMemberGroupName</value>
+		<value>principalMemberPrincipalId</value>
+        <value>principalMemberPrincipalName</value>
+        <value>chart.chartOfAccountsCode</value>
+        <value>organization.organizationCode</value>
+      </list>
+    </property>
+    
+    <property name="documentTypeName" value="ORR"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.OrgReviewRoleRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+    <property name="webScriptFiles">
+      <list>
+        <value>../dwr/interface/SubFundGroupService.js</value>
+        <value>../scripts/chart/accountDocument.js</value>
+      </list>
+    </property>
+
+    <property name="workflowAttributes">
+    	<ref bean="OrgReviewRoleMaintenanceDocument-workflowAttributes"/>
+    </property>
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+
+  <bean id="OrgReviewRoleMaintenanceDocument-RoleDetails" parent="OrgReviewRoleMaintenanceDocument-RoleDetails-parentBean"/>
+  <bean id="OrgReviewRoleMaintenanceDocument-RoleDetails-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="title" value="Organization Review"/>
+    <property name="maintainableItems">
+      <list>
+        <dd:maintField attributeName="chart.chartOfAccountsCode" required="true"/>
+        <dd:maintField attributeName="organization.organizationCode" required="true"/>
+        <dd:maintField attributeName="financialSystemDocumentTypeCode" required="true"/>
+        <dd:maintField attributeName="reviewRolesIndicator"/>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="OrgReviewRoleMaintenanceDocument-RoleMemberOrDelegation" parent="OrgReviewRoleMaintenanceDocument-RoleMemberOrDelegation-parentBean"/>
+  <bean id="OrgReviewRoleMaintenanceDocument-RoleMemberOrDelegation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="title" value="Assignee / Delegation"/>
+    <property name="maintainableItems">
+      <list>
+        <dd:maintField attributeName="fromAmount" />
+        <dd:maintField attributeName="toAmount" />
+        <dd:maintField attributeName="overrideCode" />
+        <dd:maintField attributeName="delegate" />
+        <dd:maintField attributeName="delegationTypeCode" />
+        <dd:maintField attributeName="roleMemberId" />
+        <dd:maintField attributeName="delegationMemberId" />
+        <dd:maintField attributeName="principalMemberPrincipalName" />
+        <dd:maintField attributeName="roleMemberRoleNamespaceCode" />
+        <dd:maintField attributeName="roleMemberRoleName" />
+        <dd:maintField attributeName="groupMemberGroupNamespaceCode" />
+        <dd:maintField attributeName="groupMemberGroupName" />
+        <dd:maintField attributeName="actionTypeCode" required="true"/>
+        <dd:maintField attributeName="priorityNumber" />
+        <dd:maintField attributeName="actionPolicyCode" required="true" />
+        <dd:maintField attributeName="ignorePrevious" />
+        <dd:maintField attributeName="activeFromDate" />
+        <dd:maintField attributeName="activeToDate" />
+      </list>
+    </property>
+  </bean>
+
+	<!-- workflow attributes -->
+  <bean id="OrgReviewRoleMaintenanceDocument-workflowAttributes" parent="OrgReviewRoleMaintenanceDocument-workflowAttributes-parentBean"/>
+  
+  <bean id="OrgReviewRoleMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+		<property name="routingTypeDefinitions">
+    		<map>
+    			<entry key="OrganizationHierarchy" value-ref="OrgReviewRoleMaintenanceDocument-RoutingType-OrganizationHierarchy"/>
+    			<entry key="Chart" value-ref="OrgReviewRoleMaintenanceDocument-RoutingType-OrganizationHierarchy"/>
+    		</map>
+		</property>
+	</bean>
+	
+	<bean id="OrgReviewRoleMaintenanceDocument-RoutingAttribute-Chart" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+    	<property name="qualificationAttributeName" value="chartOfAccountsCode"/>
+	</bean>
+	
+	<bean id="OrgReviewRoleMaintenanceDocument-RoutingAttribute-Organization" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+    	<property name="qualificationAttributeName" value="organizationCode"/>
+	</bean>
+	
+   	<bean id="OrgReviewRoleMaintenanceDocument-DocumentValuePathGroup-ChartOrganization" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+		<property name="documentValues">
+	   		<list>
+	   			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
+	   			<value>newMaintainableObject.businessObject.organizationCode</value>
+	   		</list>
+   		</property>
+   	</bean>
+
+	<bean id="OrgReviewRoleMaintenanceDocument-DocumentValuePathGroup-Chart" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+		<property name="documentValues">
+	   		<list>
+	   			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
+	   		</list>
+   		</property>
+   	</bean>
+   	
+   	<bean id="OrgReviewRoleMaintenanceDocument-RoutingType-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="OrgReviewRoleMaintenanceDocument-RoutingAttribute-Chart"/>
+    			<ref bean="OrgReviewRoleMaintenanceDocument-RoutingAttribute-Organization"/>
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="OrgReviewRoleMaintenanceDocument-DocumentValuePathGroup-ChartOrganization"/>
+    		</list>
+    	</property>
+    </bean>
+   	 
+	<bean id="OrgReviewRoleMaintenanceDocument-RoutingType-Chart" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="OrgReviewRoleMaintenanceDocument-RoutingAttribute-Chart"/>
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="OrgReviewRoleMaintenanceDocument-DocumentValuePathGroup-Chart"/>
+    		</list>
+    	</property>
+    </bean>
+  
+</beans>

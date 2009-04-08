@@ -71,9 +71,8 @@ public class AccountingLineAccessibleValidation extends GenericValidation {
     public boolean validate(AttributedDocumentEvent event) {        
         final Person currentUser = GlobalVariables.getUserSession().getPerson();
         
-        Document document = event.getDocument();
-        if (document instanceof Correctable) {
-            String errorDocumentNumber = ((FinancialSystemDocumentHeader)document.getDocumentHeader()).getFinancialDocumentInErrorNumber();
+        if (accountingDocumentForValidation instanceof Correctable) {
+            final String errorDocumentNumber = ((FinancialSystemDocumentHeader)accountingDocumentForValidation.getDocumentHeader()).getFinancialDocumentInErrorNumber();
             if (StringUtils.isNotBlank(errorDocumentNumber))
                 return true;
         }
@@ -84,10 +83,10 @@ public class AccountingLineAccessibleValidation extends GenericValidation {
         if (!isAccessible) {
             final String principalName = currentUser.getPrincipalName();
             
-            final String[] chartErrorParams = new String[] { accountingLineForValidation.getChartOfAccountsCode(),  principalName};
+            final String[] chartErrorParams = new String[] { getDataDictionaryService().getAttributeLabel(accountingLineForValidation.getClass(), KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE), accountingLineForValidation.getChartOfAccountsCode(),  principalName};
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, convertEventToMessage(event), chartErrorParams);
             
-            final String[] accountErrorParams = new String[] { accountingLineForValidation.getAccountNumber(), principalName };
+            final String[] accountErrorParams = new String[] { getDataDictionaryService().getAttributeLabel(accountingLineForValidation.getClass(), KFSPropertyConstants.ACCOUNT_NUMBER), accountingLineForValidation.getAccountNumber(), principalName };
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, convertEventToMessage(event), accountErrorParams);
         }
 

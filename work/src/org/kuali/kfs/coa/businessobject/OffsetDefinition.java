@@ -229,6 +229,16 @@ public class OffsetDefinition extends PersistableBusinessObjectBase {
     }
 
     /**
+     * This method (a hack by any other name...) returns a string so that an offset Definition can have a link to view its own
+     * inquiry page after a look up
+     * 
+     * @return the String "View Offset Definition"
+     */
+    public String getOffsetDefinitionViewer() {
+        return "View Offset Definition";
+    }
+
+    /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {

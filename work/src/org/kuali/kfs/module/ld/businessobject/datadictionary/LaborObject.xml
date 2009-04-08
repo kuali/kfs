@@ -16,8 +16,10 @@
     <property name="lookupDefinition" >
       <ref bean="LaborObject-lookupDefinition" />
     </property>
+    <property name="titleAttribute" value="laborObjectCodeViewer" />
     <property name="attributes" >
       <list>
+        <ref bean="LaborObject-laborObjectCodeViewer" />      
         <ref bean="LaborObject-chartOfAccountsCode" />
         <ref bean="LaborObject-detailPositionRequiredIndicator" />
         <ref bean="LaborObject-financialObjectCode" />
@@ -41,6 +43,18 @@
 
 <!-- Attribute Definitions -->
 
+  <bean id="LaborObject-laborObjectCodeViewer" parent="LaborObject-laborObjectCodeViewer-parentBean" />
+
+  <bean id="LaborObject-laborObjectCodeViewer-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="laborObjectCodeViewer" />
+    <property name="label" value="View" />
+    <property name="shortLabel" value="View" />
+    <property name="maxLength" value="100" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
 
   <bean id="LaborObject-chartOfAccountsCode" parent="LaborObject-chartOfAccountsCode-parentBean" />
 
@@ -159,6 +173,29 @@
             </list>
           </property>
         </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Labor Position Object Group Code" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="InquiryCollectionDefinition">
+                <property name="attributeName" value="positionObjectGroup" />
+                <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.PositionObjectGroup" />
+                <property name="numberOfColumns" value="1" />
+                <property name="inquiryFields" >
+                  <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="positionObjectGroupCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="positionObjectGroupName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
       </list>
     </property>
   </bean>
@@ -199,6 +236,8 @@
     </property>
     <property name="resultFields" >
       <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="laborObjectCodeViewer" />
         <bean parent="FieldDefinition"
               p:attributeName="chartOfAccountsCode" />
         <bean parent="FieldDefinition"

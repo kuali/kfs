@@ -16,8 +16,10 @@
     <property name="lookupDefinition" >
       <ref bean="PositionObjectBenefit-lookupDefinition" />
     </property>
+    <property name="titleAttribute" value="laborObjectCodeBenefitsViewer" />
     <property name="attributes" >
       <list>
+        <ref bean="PositionObjectBenefit-laborObjectCodeBenefitsViewer" />           
         <ref bean="PositionObjectBenefit-universityFiscalYear" />
         <ref bean="PositionObjectBenefit-chartOfAccountsCode" />
         <ref bean="PositionObjectBenefit-financialObjectCode" />
@@ -37,6 +39,18 @@
 
 <!-- Attribute Definitions -->
 
+  <bean id="PositionObjectBenefit-laborObjectCodeBenefitsViewer" parent="PositionObjectBenefit-laborObjectCodeBenefitsViewer-parentBean" />
+
+  <bean id="PositionObjectBenefit-laborObjectCodeBenefitsViewer-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="laborObjectCodeBenefitsViewer" />
+    <property name="label" value="View" />
+    <property name="shortLabel" value="View" />
+    <property name="maxLength" value="100" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
 
   <bean id="PositionObjectBenefit-universityFiscalYear" parent="PositionObjectBenefit-universityFiscalYear-parentBean" />
 
@@ -123,6 +137,8 @@
     </property>
     <property name="resultFields" >
       <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="laborObjectCodeBenefitsViewer" />      
         <bean parent="FieldDefinition"
               p:attributeName="universityFiscalYear" />
         <bean parent="FieldDefinition"

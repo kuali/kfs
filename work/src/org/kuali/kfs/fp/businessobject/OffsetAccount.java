@@ -232,6 +232,16 @@ public class OffsetAccount extends PersistableBusinessObjectBase implements Inac
     }
 
     /**
+     * This method (a hack by any other name...) returns a string so that an offset Account can have a link to view its own
+     * inquiry page after a look up
+     * 
+     * @return the String "View Offset Account"
+     */
+    public String getOffsetAccountViewer() {
+        return "View Offset Account";
+    }
+
+    /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {

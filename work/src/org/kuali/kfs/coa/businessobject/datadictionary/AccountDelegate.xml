@@ -14,9 +14,11 @@
     <property name="lookupDefinition" >
       <ref bean="AccountDelegate-lookupDefinition" />
     </property>
+    <property name="titleAttribute" value="accountDelegateViewer" />    
     <property name="objectLabel" value="Account Delegate" />
     <property name="attributes" >
       <list>
+        <ref bean="AccountDelegate-accountDelegateViewer" />
         <ref bean="AccountDelegate-chartOfAccountsCode" />
         <ref bean="AccountDelegate-accountNumber" />
         <ref bean="AccountDelegate-financialDocumentTypeCode" />
@@ -69,6 +71,18 @@
 
 <!-- Attribute Definitions -->
 
+  <bean id="AccountDelegate-accountDelegateViewer" parent="AccountDelegate-accountDelegateViewer-parentBean" />
+
+  <bean id="AccountDelegate-accountDelegateViewer-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountDelegateViewer" />
+    <property name="label" value="View" />
+    <property name="shortLabel" value="View" />
+    <property name="maxLength" value="100" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
 
   <bean id="AccountDelegate-chartOfAccountsCode" parent="AccountDelegate-chartOfAccountsCode-parentBean" />
 
@@ -233,6 +247,8 @@
     </property>
     <property name="resultFields" >
       <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="accountDelegateViewer" />      
         <bean parent="FieldDefinition"
               p:attributeName="chartOfAccountsCode" />
         <bean parent="FieldDefinition"

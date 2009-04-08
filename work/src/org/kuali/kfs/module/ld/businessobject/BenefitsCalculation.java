@@ -214,6 +214,16 @@ public class BenefitsCalculation extends PersistableBusinessObjectBase implement
     public void setUniversityFiscal(SystemOptions universityFiscal) {
         this.universityFiscal = universityFiscal;
     }
+    
+    /**
+     * This method (a hack by any other name...) returns a string so that an Labor Benefits Calculation can have a link to view its own
+     * inquiry page after a look up
+     * 
+     * @return the String "View Labor Benefits Calculation"
+     */
+    public String getLaborBenefitsCalculationViewer() {
+        return "View Labor Benefits Calculation";
+    }
 
     /**
      * Gets the active attribute.

@@ -279,6 +279,15 @@ public class WireCharge extends PersistableBusinessObjectBase {
         this.fiscalYear = fiscalYear;
     }
 
+    /**
+     * This method (a hack by any other name...) returns a string so that an wire charge can have a link to view its own
+     * inquiry page after a look up
+     * 
+     * @return the String "View Wire Charge"
+     */
+    public String getWireChargeViewer() {
+        return "View Wire Charge";
+    }
 
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()

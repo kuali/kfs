@@ -255,6 +255,16 @@ public class PositionObjectBenefit extends PersistableBusinessObjectBase impleme
     }
 
     /**
+     * This method (a hack by any other name...) returns a string so that an Labor Object Code Benefits can have a link to view its own
+     * inquiry page after a look up
+     * 
+     * @return the String "View Labor Object Code Benefits"
+     */
+    public String getLaborObjectCodeBenefitsViewer() {
+        return "View Labor Object Code Benefits";
+    }
+    
+    /**
      * construct the key list of the business object.
      * 
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()

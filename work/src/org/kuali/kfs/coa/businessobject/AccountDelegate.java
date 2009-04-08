@@ -261,6 +261,16 @@ public class AccountDelegate extends PersistableBusinessObjectBase {
     }
 
     /**
+     * This method (a hack by any other name...) returns a string so that an Account Delegate can have a link to view its own
+     * inquiry page after a look up
+     * 
+     * @return the String "View Account Delegate"
+     */
+    public String getAccountDelegateViewer() {
+        return "View Account Delegate";
+    }
+
+    /**
      * Gets the chart attribute.
      * 
      * @return Returns the chart.

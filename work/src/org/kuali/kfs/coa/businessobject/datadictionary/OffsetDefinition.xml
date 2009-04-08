@@ -14,9 +14,11 @@
     <property name="lookupDefinition" >
       <ref bean="OffsetDefinition-lookupDefinition" />
     </property>
+    <property name="titleAttribute" value="offsetDefinitionViewer" />
     <property name="objectLabel" value="Offset Definition" />
     <property name="attributes" >
       <list>
+      	<ref bean="OffsetDefinition-offsetDefinitionViewer" />
         <ref bean="OffsetDefinition-universityFiscalYear" />
         <ref bean="OffsetDefinition-chartOfAccountsCode" />
         <ref bean="OffsetDefinition-financialObjectCode" />
@@ -50,6 +52,18 @@
 
 <!-- Attribute Definitions -->
 
+  <bean id="OffsetDefinition-offsetDefinitionViewer" parent="OffsetDefinition-offsetDefinitionViewer-parentBean" />
+
+  <bean id="OffsetDefinition-offsetDefinitionViewer-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="offsetDefinitionViewer" />
+    <property name="label" value="View" />
+    <property name="shortLabel" value="View" />
+    <property name="maxLength" value="100" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
 
   <bean id="OffsetDefinition-universityFiscalYear" parent="OffsetDefinition-universityFiscalYear-parentBean" />
 
@@ -146,6 +160,8 @@
     </property>
     <property name="resultFields" >
       <list>
+      <bean parent="FieldDefinition" 
+      		p:attributeName="offsetDefinitionViewer" />
         <bean parent="FieldDefinition"
               p:attributeName="universityFiscalYear" />
         <bean parent="FieldDefinition"

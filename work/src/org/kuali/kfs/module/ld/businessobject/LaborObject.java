@@ -305,6 +305,16 @@ public class LaborObject extends PersistableBusinessObjectBase implements LaborL
     }
 
     /**
+     * This method (a hack by any other name...) returns a string so that an Labor Object Code can have a link to view its own
+     * inquiry page after a look up
+     * 
+     * @return the String "View Labor Object Code"
+     */
+    public String getLaborObjectCodeViewer() {
+        return "View Labor Object Code";
+    }
+
+    /**
      * construct the key list of the business object.
      * 
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()

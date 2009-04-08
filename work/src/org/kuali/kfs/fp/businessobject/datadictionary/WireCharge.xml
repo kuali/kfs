@@ -14,9 +14,11 @@
     <property name="lookupDefinition" >
       <ref bean="WireCharge-lookupDefinition" />
     </property>
+    <property name="titleAttribute" value="wireChargeViewer" />
     <property name="objectLabel" value="Disbursement Voucher Wire Charge" />
     <property name="attributes" >
       <list>
+        <ref bean="WireCharge-wireChargeViewer" />
         <ref bean="WireCharge-universityFiscalYear" />
         <ref bean="WireCharge-chartOfAccountsCode" />
         <ref bean="WireCharge-accountNumber" />
@@ -30,6 +32,18 @@
 
 <!-- Attribute Definitions -->
 
+  <bean id="WireCharge-wireChargeViewer" parent="WireCharge-wireChargeViewer-parentBean" />
+
+  <bean id="WireCharge-wireChargeViewer-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="wireChargeViewer" />
+    <property name="label" value="View" />
+    <property name="shortLabel" value="View" />
+    <property name="maxLength" value="100" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
 
   <bean id="WireCharge-universityFiscalYear" parent="WireCharge-universityFiscalYear-parentBean" />
 
@@ -142,6 +156,8 @@
     </property>
     <property name="resultFields" >
       <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="wireChargeViewer" />
         <bean parent="FieldDefinition"
               p:attributeName="universityFiscalYear" />
         <bean parent="FieldDefinition"

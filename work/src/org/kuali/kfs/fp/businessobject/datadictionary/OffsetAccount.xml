@@ -14,10 +14,11 @@
     <property name="lookupDefinition" >
       <ref bean="OffsetAccount-lookupDefinition" />
     </property>
-    <property name="titleAttribute" value="OffsetAccount" />
+    <property name="titleAttribute" value="offsetAccountViewer" />       
     <property name="objectLabel" value="Offset Account" />
     <property name="attributes" >
       <list>
+        <ref bean="OffsetAccount-accountDelegateViewer" />
         <ref bean="OffsetAccount-chartOfAccountsCode" />
         <ref bean="OffsetAccount-accountNumber" />
         <ref bean="OffsetAccount-financialOffsetChartOfAccountCode" />
@@ -30,6 +31,18 @@
 
 <!-- Attribute Definitions -->
 
+  <bean id="OffsetAccount-accountDelegateViewer" parent="OffsetAccount-accountDelegateViewer-parentBean" />
+
+  <bean id="OffsetAccount-accountDelegateViewer-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="offsetAccountViewer" />
+    <property name="label" value="View" />
+    <property name="shortLabel" value="View" />
+    <property name="maxLength" value="100" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
 
   <bean id="OffsetAccount-chartOfAccountsCode" parent="OffsetAccount-chartOfAccountsCode-parentBean" />
 
@@ -139,6 +152,8 @@
     </property>
     <property name="resultFields" >
       <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="offsetAccountViewer" />            
         <bean parent="FieldDefinition"
               p:attributeName="chartOfAccountsCode" />
         <bean parent="FieldDefinition"

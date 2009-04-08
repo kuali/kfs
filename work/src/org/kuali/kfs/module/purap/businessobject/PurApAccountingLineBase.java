@@ -17,9 +17,11 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -248,6 +250,20 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
         this.postingPeriodCode = postingPeriodCode;
     }
 
+    /**
+     * Overridden to use purap doc identifier, rather than document number
+     * @see org.kuali.kfs.sys.businessobject.AccountingLineBase#getValuesMap()
+     */
+    @Override
+    public Map getValuesMap() {
+        Map valuesMap = super.getValuesMap();
+        // remove document number
+        valuesMap.remove(KFSPropertyConstants.DOCUMENT_NUMBER);
+        // put purap identifier
+        valuesMap.put("purapDocumentIdentifier", ((PurApItem)getPurapItem()).getPurapDocumentIdentifier());
+        return valuesMap;
+    }
+
 //    @Override
 //    public ObjectCode getObjectCode() {
 //        updateObjectCode();
@@ -297,4 +313,6 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
 //        // TODO Auto-generated method stub
 //        super.setSubObjectCode(subObjectCode);
 //    }
+    
+    
 }

@@ -6,9 +6,9 @@
 		 columnCount="1"
 		 printOrder="Vertical"
 		 orientation="Landscape"
-		 pageWidth="842"
-		 pageHeight="595"
-		 columnWidth="782"
+		 pageWidth="791"
+		 pageHeight="611"
+		 columnWidth="771"
 		 columnSpacing="0"
 		 leftMargin="10"
 		 rightMargin="10"
@@ -181,7 +181,7 @@
 					<reportElement
 						x="684"
 						y="13"
-						width="53"
+						width="59"
 						height="12"
 						key="textField-214"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -192,7 +192,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="738"
+						x="744"
 						y="13"
 						width="14"
 						height="12"
@@ -259,7 +259,7 @@
 					<reportElement
 						x="684"
 						y="49"
-						width="53"
+						width="59"
 						height="12"
 						key="textField-220"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -270,7 +270,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="738"
+						x="744"
 						y="49"
 						width="14"
 						height="12"
@@ -324,7 +324,7 @@
 					<reportElement
 						x="684"
 						y="75"
-						width="53"
+						width="59"
 						height="12"
 						key="textField-225"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -335,7 +335,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="738"
+						x="744"
 						y="75"
 						width="14"
 						height="12"
@@ -379,7 +379,7 @@
 						width="73"
 						height="1"
 						key="line-70"/>
-					<graphicElement stretchType="NoStretch"/>
+					<graphicElement stretchType="NoStretch" pen="Thin"/>
 				</line>
 				<line direction="TopDown">
 					<reportElement
@@ -388,7 +388,7 @@
 						width="74"
 						height="0"
 						key="line-71"/>
-					<graphicElement stretchType="NoStretch"/>
+					<graphicElement stretchType="NoStretch" pen="Thin"/>
 				</line>
 				<textField isStretchWithOverflow="false" pattern="#,##0;-#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -410,7 +410,7 @@
 						width="74"
 						height="0"
 						key="line-72"/>
-					<graphicElement stretchType="NoStretch"/>
+					<graphicElement stretchType="NoStretch" pen="Thin"/>
 				</line>
 				<line direction="TopDown">
 					<reportElement
@@ -419,7 +419,7 @@
 						width="74"
 						height="0"
 						key="line-73"/>
-					<graphicElement stretchType="NoStretch"/>
+					<graphicElement stretchType="NoStretch" pen="Thin"/>
 				</line>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -451,7 +451,7 @@
 					<reportElement
 						x="684"
 						y="25"
-						width="53"
+						width="59"
 						height="12"
 						key="textField-232"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -462,7 +462,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="738"
+						x="744"
 						y="25"
 						width="14"
 						height="12"
@@ -516,7 +516,7 @@
 					<reportElement
 						x="684"
 						y="37"
-						width="53"
+						width="59"
 						height="12"
 						key="textField-237"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -527,7 +527,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="738"
+						x="744"
 						y="37"
 						width="14"
 						height="12"
@@ -748,7 +748,7 @@
 					<reportElement
 						x="684"
 						y="13"
-						width="53"
+						width="59"
 						height="12"
 						key="textField-168"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -759,7 +759,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="738"
+						x="744"
 						y="13"
 						width="14"
 						height="12"
@@ -826,7 +826,7 @@
 					<reportElement
 						x="684"
 						y="49"
-						width="53"
+						width="59"
 						height="12"
 						key="textField-174"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -837,7 +837,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="738"
+						x="744"
 						y="49"
 						width="14"
 						height="12"
@@ -891,7 +891,7 @@
 					<reportElement
 						x="684"
 						y="75"
-						width="53"
+						width="59"
 						height="12"
 						key="textField-179"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -902,7 +902,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="738"
+						x="744"
 						y="75"
 						width="14"
 						height="12"
@@ -946,7 +946,7 @@
 						width="73"
 						height="1"
 						key="line-66"/>
-					<graphicElement stretchType="NoStretch"/>
+					<graphicElement stretchType="NoStretch" pen="Thin"/>
 				</line>
 				<line direction="TopDown">
 					<reportElement
@@ -955,7 +955,7 @@
 						width="74"
 						height="0"
 						key="line-67"/>
-					<graphicElement stretchType="NoStretch"/>
+					<graphicElement stretchType="NoStretch" pen="Thin"/>
 				</line>
 				<textField isStretchWithOverflow="false" pattern="#,##0;-#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -977,7 +977,7 @@
 						width="74"
 						height="0"
 						key="line-68"/>
-					<graphicElement stretchType="NoStretch"/>
+					<graphicElement stretchType="NoStretch" pen="Thin"/>
 				</line>
 				<line direction="TopDown">
 					<reportElement
@@ -986,7 +986,7 @@
 						width="74"
 						height="0"
 						key="line-69"/>
-					<graphicElement stretchType="NoStretch"/>
+					<graphicElement stretchType="NoStretch" pen="Thin"/>
 				</line>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -1018,7 +1018,7 @@
 					<reportElement
 						x="684"
 						y="25"
-						width="53"
+						width="59"
 						height="12"
 						key="textField-191"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -1029,7 +1029,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="738"
+						x="744"
 						y="25"
 						width="14"
 						height="12"
@@ -1083,7 +1083,7 @@
 					<reportElement
 						x="684"
 						y="37"
-						width="53"
+						width="59"
 						height="12"
 						key="textField-196"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -1094,7 +1094,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="738"
+						x="744"
 						y="37"
 						width="14"
 						height="12"
@@ -1284,7 +1284,7 @@
 			</band>
 			</groupHeader>
 			<groupFooter>
-			<band height="34"  isSplitAllowed="true" >
+			<band height="36"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="32"
@@ -1321,7 +1321,7 @@
 					<reportElement
 						x="684"
 						y="1"
-						width="53"
+						width="59"
 						height="12"
 						key="textField-104"
 						isRemoveLineWhenBlank="true">
@@ -1335,7 +1335,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="738"
+						x="744"
 						y="1"
 						width="14"
 						height="12"
@@ -1427,7 +1427,7 @@
 					<reportElement
 						x="684"
 						y="14"
-						width="53"
+						width="59"
 						height="12"
 						key="textField-115"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -1438,7 +1438,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="738"
+						x="744"
 						y="14"
 						width="14"
 						height="12"
@@ -1550,11 +1550,11 @@
 			</band>
 			</groupHeader>
 			<groupFooter>
-			<band height="17"  isSplitAllowed="true" >
+			<band height="24"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="32"
-						y="0"
+						y="2"
 						width="157"
 						height="12"
 						key="textField-145"/>
@@ -1567,8 +1567,8 @@
 				<textField isStretchWithOverflow="false" pattern="###0.0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="684"
-						y="0"
-						width="53"
+						y="2"
+						width="59"
 						height="12"
 						key="textField-146"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -1579,8 +1579,8 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="738"
-						y="0"
+						x="744"
+						y="2"
 						width="14"
 						height="12"
 						key="textField-147"/>
@@ -1593,7 +1593,7 @@
 				<textField isStretchWithOverflow="false" pattern="###0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="274"
-						y="0"
+						y="2"
 						width="45"
 						height="12"
 						key="textField-148"/>
@@ -1606,7 +1606,7 @@
 				<textField isStretchWithOverflow="false" pattern="###0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="320"
-						y="0"
+						y="2"
 						width="45"
 						height="12"
 						key="textField-149"/>
@@ -1619,7 +1619,7 @@
 				<textField isStretchWithOverflow="false" pattern="#,##0;-#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="367"
-						y="0"
+						y="2"
 						width="74"
 						height="12"
 						key="textField-150"/>
@@ -1632,7 +1632,7 @@
 				<textField isStretchWithOverflow="false" pattern="###0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="443"
-						y="0"
+						y="2"
 						width="45"
 						height="12"
 						key="textField-151"/>
@@ -1645,7 +1645,7 @@
 				<textField isStretchWithOverflow="false" pattern="###0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="489"
-						y="0"
+						y="2"
 						width="45"
 						height="12"
 						key="textField-152"/>
@@ -1658,7 +1658,7 @@
 				<textField isStretchWithOverflow="false" pattern="#,##0;-#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="535"
-						y="0"
+						y="2"
 						width="74"
 						height="12"
 						key="textField-153"/>
@@ -1671,7 +1671,7 @@
 				<textField isStretchWithOverflow="false" pattern="#,##0;-#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="610"
-						y="0"
+						y="2"
 						width="74"
 						height="12"
 						key="textField-154"/>
@@ -1681,6 +1681,68 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{totalLevelAmountChange}]]></textFieldExpression>
 				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="367"
+						y="1"
+						width="74"
+						height="1"
+						key="line-75"/>
+					<graphicElement stretchType="NoStretch" pen="Thin"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="535"
+						y="1"
+						width="74"
+						height="1"
+						key="line-76"/>
+					<graphicElement stretchType="NoStretch" pen="Thin"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="274"
+						y="1"
+						width="45"
+						height="1"
+						key="line-77">
+							<printWhenExpression><![CDATA[new Boolean($F{totalLevelPositionCsfLeaveFteQuantity} != null)]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch" pen="Thin"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="320"
+						y="1"
+						width="45"
+						height="1"
+						key="line-78">
+							<printWhenExpression><![CDATA[new Boolean($F{totalLevelPositionFullTimeEquivalencyQuantity} != null)]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch" pen="Thin"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="489"
+						y="1"
+						width="45"
+						height="1"
+						key="line-79">
+							<printWhenExpression><![CDATA[new Boolean($F{totalLevelAppointmentRequestedFteQuantity} != null)]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch" pen="Thin"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="443"
+						y="1"
+						width="45"
+						height="1"
+						key="line-80">
+							<printWhenExpression><![CDATA[new Boolean($F{totalLevelAppointmentRequestedCsfFteQuantity} != null)]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch" pen="Thin"/>
+				</line>
 			</band>
 			</groupFooter>
 		</group>
@@ -1692,6 +1754,7 @@
 			</groupHeader>
 			<groupFooter>
 			<band height="12"  isSplitAllowed="true" >
+				<printWhenExpression><![CDATA[new Boolean(!$F{financialSubObjectCode}.equals("---"))]]></printWhenExpression>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="60"
@@ -1712,7 +1775,7 @@
 					<reportElement
 						x="684"
 						y="0"
-						width="53"
+						width="59"
 						height="12"
 						key="textField-157"
 						isRemoveLineWhenBlank="true">
@@ -1726,7 +1789,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="738"
+						x="744"
 						y="0"
 						width="14"
 						height="12"
@@ -1864,7 +1927,7 @@
 			</band>
 		</title>
 		<pageHeader>
-			<band height="177"  isSplitAllowed="true" >
+			<band height="165"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="9"
@@ -2075,8 +2138,8 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="60"
-						y="163"
+						x="74"
+						y="151"
 						width="179"
 						height="12"
 						key="textField-22"/>
@@ -2089,7 +2152,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="274"
-						y="149"
+						y="137"
 						width="166"
 						height="12"
 						key="textField-24"/>
@@ -2102,7 +2165,7 @@
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="274"
-						y="163"
+						y="151"
 						width="45"
 						height="12"
 						key="textField-25"/>
@@ -2115,7 +2178,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="488"
-						y="149"
+						y="137"
 						width="120"
 						height="12"
 						key="textField-26"/>
@@ -2128,7 +2191,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="534"
-						y="163"
+						y="151"
 						width="74"
 						height="12"
 						key="textField-27"/>
@@ -2141,7 +2204,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="609"
-						y="163"
+						y="151"
 						width="74"
 						height="12"
 						key="textField-29"/>
@@ -2154,7 +2217,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="684"
-						y="163"
+						y="151"
 						width="74"
 						height="12"
 						key="textField-31"/>
@@ -2167,7 +2230,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="609"
-						y="149"
+						y="137"
 						width="74"
 						height="12"
 						key="textField-59"/>
@@ -2180,7 +2243,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="684"
-						y="149"
+						y="137"
 						width="74"
 						height="12"
 						key="textField-60"/>
@@ -2192,8 +2255,8 @@
 				</textField>
 				<line direction="TopDown">
 					<reportElement
-						x="61"
-						y="175"
+						x="75"
+						y="163"
 						width="178"
 						height="1"
 						key="line-1"/>
@@ -2202,7 +2265,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="274"
-						y="162"
+						y="150"
 						width="165"
 						height="0"
 						key="line-3"/>
@@ -2211,7 +2274,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="488"
-						y="162"
+						y="150"
 						width="121"
 						height="0"
 						key="line-4"/>
@@ -2220,7 +2283,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="609"
-						y="175"
+						y="163"
 						width="74"
 						height="0"
 						key="line-5"/>
@@ -2229,7 +2292,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="684"
-						y="175"
+						y="163"
 						width="74"
 						height="0"
 						key="line-6"/>
@@ -2238,7 +2301,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="534"
-						y="175"
+						y="163"
 						width="74"
 						height="0"
 						key="line-7"/>
@@ -2247,7 +2310,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="274"
-						y="175"
+						y="163"
 						width="45"
 						height="1"
 						key="line-8"/>
@@ -2321,7 +2384,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="366"
-						y="163"
+						y="151"
 						width="74"
 						height="12"
 						key="textField-83"/>
@@ -2334,7 +2397,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="366"
-						y="175"
+						y="163"
 						width="73"
 						height="1"
 						key="line-30"/>
@@ -2343,7 +2406,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="442"
-						y="149"
+						y="137"
 						width="45"
 						height="12"
 						key="textField-84"/>
@@ -2356,7 +2419,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="488"
-						y="163"
+						y="151"
 						width="45"
 						height="12"
 						key="textField-85"/>
@@ -2369,7 +2432,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="320"
-						y="163"
+						y="151"
 						width="45"
 						height="12"
 						key="textField-86"/>
@@ -2382,7 +2445,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="320"
-						y="175"
+						y="163"
 						width="45"
 						height="1"
 						key="line-31"/>
@@ -2391,7 +2454,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="442"
-						y="175"
+						y="163"
 						width="45"
 						height="1"
 						key="line-32"/>
@@ -2400,7 +2463,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="441"
-						y="163"
+						y="151"
 						width="45"
 						height="12"
 						key="textField-87"/>
@@ -2413,7 +2476,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="488"
-						y="175"
+						y="163"
 						width="45"
 						height="1"
 						key="line-33"/>
@@ -2435,7 +2498,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="9"
-						y="149"
+						y="137"
 						width="230"
 						height="12"
 						key="textField-254"/>
@@ -2447,8 +2510,8 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="8"
-						y="163"
+						x="9"
+						y="151"
 						width="52"
 						height="12"
 						key="textField-256"/>
@@ -2460,8 +2523,8 @@
 				</textField>
 				<line direction="TopDown">
 					<reportElement
-						x="8"
-						y="175"
+						x="9"
+						y="163"
 						width="51"
 						height="1"
 						key="line-74"/>
@@ -2526,12 +2589,12 @@
 			</band>
 		</columnHeader>
 		<detail>
-			<band height="14"  isSplitAllowed="true" >
+			<band height="12"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="60"
+						x="74"
 						y="0"
-						width="132"
+						width="183"
 						height="12"
 						key="textField-8"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -2544,7 +2607,7 @@
 					<reportElement
 						x="684"
 						y="0"
-						width="53"
+						width="59"
 						height="12"
 						key="textField-12"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -2555,7 +2618,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="738"
+						x="744"
 						y="0"
 						width="14"
 						height="12"
@@ -2661,7 +2724,7 @@
 					<reportElement
 						x="9"
 						y="0"
-						width="43"
+						width="35"
 						height="12"
 						key="textField-255"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -2670,6 +2733,19 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{financialObjectCode}]]></textFieldExpression>
 				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="45"
+						y="0"
+						width="25"
+						height="12"
+						key="textField-261"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Courier New" pdfFontName="Courier"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{financialSubObjectCode}]]></textFieldExpression>
+				</textField>
 			</band>
 		</detail>
 		<columnFooter>
@@ -2677,12 +2753,12 @@
 			</band>
 		</columnFooter>
 		<pageFooter>
-			<band height="52"  isSplitAllowed="true" >
+			<band height="24"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="9"
-						y="35"
-						width="243"
+						y="12"
+						width="238"
 						height="12"
 						key="textField-74"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -2694,7 +2770,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="247"
-						y="35"
+						y="12"
 						width="125"
 						height="12"
 						key="textField-55"/>
@@ -2707,12 +2783,12 @@
 			</band>
 		</pageFooter>
 		<lastPageFooter>
-			<band height="52"  isSplitAllowed="true" >
+			<band height="24"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="10"
-						y="40"
-						width="243"
+						x="9"
+						y="12"
+						width="238"
 						height="12"
 						key="textField-75"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -2724,7 +2800,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="247"
-						y="40"
+						y="12"
 						width="125"
 						height="12"
 						key="textField-56"/>

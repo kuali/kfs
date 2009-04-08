@@ -188,7 +188,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
         }
 
         orgAccountObjectDetailReportEntry.setSubAccountNumber(accountBalance.getSubAccountNumber());
-        
+
         String subAccountName = StringUtils.EMPTY;
         String subAccountNumberAndName = StringUtils.EMPTY;
         String divider = StringUtils.EMPTY;
@@ -209,10 +209,10 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
                 subAccountNumberAndName = subAccountName;
             }
         }
-        
+
         orgAccountObjectDetailReportEntry.setSubAccountName(subAccountName);
         orgAccountObjectDetailReportEntry.setSubAccountNumberAndName(subAccountNumberAndName);
-        orgAccountObjectDetailReportEntry.setDivider(divider);   
+        orgAccountObjectDetailReportEntry.setDivider(divider);
 
         // For group
         orgAccountObjectDetailReportEntry.setSubAccountNumber(accountBalance.getSubAccountNumber() + accountBalance.getAccountNumber());
@@ -236,7 +236,12 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
      * @param BudgetConstructionLevelSummary bcas
      */
     private void buildReportsBody(Integer universityFiscalYear, BudgetConstructionOrgAccountObjectDetailReport orgAccountObjectDetailReportEntry, BudgetConstructionAccountBalance accountBalance) {
-        orgAccountObjectDetailReportEntry.setFinancialObjectName(accountBalance.getFinancialObject().getFinancialObjectCodeName());
+        if (accountBalance.getFinancialSubObjectCode().equals(BCConstants.DASH_SUB_OBJECT_CODE)) {
+            orgAccountObjectDetailReportEntry.setFinancialObjectName(accountBalance.getFinancialObject().getFinancialObjectCodeName());
+        }
+        else {
+            orgAccountObjectDetailReportEntry.setFinancialObjectName(accountBalance.getFinancialSubObject().getFinancialSubObjectCodeName());
+        }
 
         orgAccountObjectDetailReportEntry.setPositionCsfLeaveFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(accountBalance.getPositionCsfLeaveFteQuantity(), 2, true));
 
@@ -753,7 +758,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
         List<String> fieldList = new ArrayList();
         fieldList.addAll(fieldsForLevel());
         fieldList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
-        fieldList.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        // fieldList.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
         return fieldList;
     }
 
@@ -844,4 +849,3 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
     }
 
 }
-

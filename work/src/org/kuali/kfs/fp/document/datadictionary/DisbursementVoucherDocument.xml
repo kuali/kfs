@@ -97,26 +97,15 @@
     <property name="summary" value="&amp;nbsp;"/>
     <property name="description" value="Full name of the Contact, expressed as &quot;Lastname, Firstname Initial&quot;"/>
   </bean>
+  
   <bean id="DisbursementVoucherDocument-disbVchrContactPhoneNumber" parent="DisbursementVoucherDocument-disbVchrContactPhoneNumber-parentBean"/>
-
-  <bean id="DisbursementVoucherDocument-disbVchrContactPhoneNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="DisbursementVoucherDocument-disbVchrContactPhoneNumber-parentBean" abstract="true" parent="PersonImpl-phoneNumber">
     <property name="name" value="disbVchrContactPhoneNumber"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Phone"/>
-    <property name="shortLabel" value="Phone"/>
-    <property name="maxLength" value="10"/>
-    <property name="required" value="true"/>
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>    
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
-    </property>
     <property name="summary" value="&amp;nbsp;"/>
     <property name="description" value="Phone number of the Contact, expressed as nnn-mmm-pppp."/>
   </bean>
+  
   <bean id="DisbursementVoucherDocument-disbVchrContactEmailId" parent="DisbursementVoucherDocument-disbVchrContactEmailId-parentBean"/>
-
   <bean id="DisbursementVoucherDocument-disbVchrContactEmailId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="disbVchrContactEmailId"/>
     <property name="forceUppercase" value="false"/>

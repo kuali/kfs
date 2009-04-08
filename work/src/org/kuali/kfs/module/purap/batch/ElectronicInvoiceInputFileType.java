@@ -56,7 +56,10 @@ public class ElectronicInvoiceInputFileType extends BatchInputFileTypeBase {
             throw new RuntimeException("Invalid object type.");
         }
         
-        return ((ElectronicInvoice)parsedFileContents).getFileName();
+        String fileName = ((ElectronicInvoice)parsedFileContents).getFileName();
+        int whereDot = fileName.lastIndexOf('.');
+        
+        return fileName.substring(0, whereDot);
     }
 }
 

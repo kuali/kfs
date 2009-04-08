@@ -195,7 +195,7 @@
 		    <kul:htmlAttributeHeaderCell attributeEntry="${generalLedgerAttributes.referenceFinancialDocumentNumber}" hideRequiredAsterisk="true"/>
 		    <kul:htmlAttributeHeaderCell attributeEntry="${generalLedgerAttributes.documentNumber}" hideRequiredAsterisk="true"/>
 		    <kul:htmlAttributeHeaderCell attributeEntry="${generalLedgerAttributes.financialDocumentTypeCode}" hideRequiredAsterisk="true"/>
-		    <kul:htmlAttributeHeaderCell attributeEntry="${generalLedgerAttributes.transactionPostingDate}" hideRequiredAsterisk="true"/>
+		    <kul:htmlAttributeHeaderCell attributeEntry="${generalLedgerAttributes.transactionDate}" hideRequiredAsterisk="true"/>
 		    <kul:htmlAttributeHeaderCell attributeEntry="${generalLedgerAttributes.universityFiscalYear}" hideRequiredAsterisk="true"/>
 		    <kul:htmlAttributeHeaderCell attributeEntry="${generalLedgerAttributes.universityFiscalPeriodCode}" hideRequiredAsterisk="true"/>
 		    <kul:htmlAttributeHeaderCell attributeEntry="${purApLineAssetAccountsAttributes.itemAccountTotalAmount}" hideRequiredAsterisk="true"/>
@@ -230,7 +230,7 @@
 			</td>
 			<td class="infoline"><kul:htmlControlAttribute property="${pmtStr}.generalLedgerEntry.documentNumber" attributeEntry="${generalLedgerAttributes.documentNumber}" readOnly="true"/></td>
 			<td class="infoline"><kul:htmlControlAttribute property="${pmtStr}.generalLedgerEntry.financialDocumentTypeCode" attributeEntry="${generalLedgerAttributes.financialDocumentTypeCode}" readOnly="true"/></td>
-			<td class="infoline"><kul:htmlControlAttribute property="${pmtStr}.generalLedgerEntry.transactionPostingDate" attributeEntry="${generalLedgerAttributes.transactionPostingDate}" readOnly="true"/></td>
+			<td class="infoline"><kul:htmlControlAttribute property="${pmtStr}.generalLedgerEntry.transactionDate" attributeEntry="${generalLedgerAttributes.transactionDate}" readOnly="true"/></td>
 			<td class="infoline"><kul:htmlControlAttribute property="${pmtStr}.generalLedgerEntry.universityFiscalYear" attributeEntry="${generalLedgerAttributes.universityFiscalYear}" readOnly="true"/></td>
 			<td class="infoline"><kul:htmlControlAttribute property="${pmtStr}.generalLedgerEntry.universityFiscalPeriodCode" attributeEntry="${generalLedgerAttributes.universityFiscalPeriodCode}" readOnly="true"/></td>
 			<td class="infoline"><kul:htmlControlAttribute property="${pmtStr}.itemAccountTotalAmount" attributeEntry="${purApLineAssetAccountsAttributes.itemAccountTotalAmount}" readOnly="true"/></td>

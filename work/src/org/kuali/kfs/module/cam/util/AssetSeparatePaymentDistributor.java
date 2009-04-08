@@ -111,7 +111,11 @@ public class AssetSeparatePaymentDistributor {
         roundAccountChargeAmount();
         // create offset payments
         createOffsetPayments();
+
+        // Compute accumulated depreciation amounts
+        computeAccumulatedDepreciationAmount();
     }
+
 
     /**
      * Split the amount to be assigned from the source payments
@@ -320,6 +324,51 @@ public class AssetSeparatePaymentDistributor {
         catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Sums up YTD values and Previous Year value to decide accumulated depreciation amount
+     */
+    private void computeAccumulatedDepreciationAmount() {
+        KualiDecimal previousYearAmount = null;
+        for (Asset asset : this.newAssets) {
+            List<AssetPayment> assetPayments = asset.getAssetPayments();
+            for (AssetPayment currPayment : assetPayments) {
+                previousYearAmount = currPayment.getPreviousYearPrimaryDepreciationAmount();
+                previousYearAmount = previousYearAmount == null ? KualiDecimal.ZERO : previousYearAmount;
+                currPayment.setAccumulatedPrimaryDepreciationAmount(previousYearAmount.add(sumPeriodicDepreciationAmounts(currPayment)));
+            }
+        }
+        for (AssetPayment currPayment : this.offsetPayments) {
+            previousYearAmount = currPayment.getPreviousYearPrimaryDepreciationAmount();
+            previousYearAmount = previousYearAmount == null ? KualiDecimal.ZERO : previousYearAmount;
+            currPayment.setAccumulatedPrimaryDepreciationAmount(previousYearAmount.add(sumPeriodicDepreciationAmounts(currPayment)));
+        }
+    }
+
+    /**
+     * Sums up periodic amounts for a payment
+     * 
+     * @param currPayment Payment
+     * @return Sum of payment
+     */
+    private KualiDecimal sumPeriodicDepreciationAmounts(AssetPayment currPayment) {
+        KualiDecimal ytdAmount = KualiDecimal.ZERO;
+        try {
+            for (PropertyDescriptor propertyDescriptor : assetPaymentProperties) {
+                Method readMethod = propertyDescriptor.getReadMethod();
+                if (readMethod != null && readMethod.getName().contains("Depreciation1") && propertyDescriptor.getPropertyType() != null && KualiDecimal.class.isAssignableFrom(propertyDescriptor.getPropertyType())) {
+                    KualiDecimal amount = (KualiDecimal) readMethod.invoke(currPayment);
+                    if (amount != null) {
+                        ytdAmount = ytdAmount.add(amount);
+                    }
+                }
+            }
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return ytdAmount;
     }
 
     /**

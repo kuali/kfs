@@ -30,13 +30,14 @@ public class CamsConstants extends JSTLConstants {
     public static final String CAM_MODULE_CODE = "KFS-CAM";
     public static final String[] MONTHS = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
     public static final String SET_PERIOD_DEPRECIATION_AMOUNT_REGEX = "setperiod\\d.*depreciation\\damount";
+    public static final String GET_PERIOD_DEPRECIATION_AMOUNT_REGEX = "getperiod\\d.*depreciation\\damount";
     public static final String CPTLAST_NBR_SEQ = "CPTLAST_NBR_SEQ";
     public static final String DOCUMENT_NUMBER_PATH = "documentNumber";
     public static final String DOCUMENT_PATH = "document";
     public static final String DOC_HEADER_PATH = DOCUMENT_PATH + "." + DOCUMENT_NUMBER_PATH;
     public static final String INQUIRY_URL = "inquiry.do";
-    public static final Currency CURRENCY_USD = Currency.getInstance("USD");    
-    public static final String LOCATION_INFORMATION_SECTION_ID="Location Information";        
+    public static final Currency CURRENCY_USD = Currency.getInstance("USD");
+    public static final String LOCATION_INFORMATION_SECTION_ID = "Location Information";
 
     public static class DateFormats {
         public static final String MONTH_DAY_YEAR = "MM/dd/yyyy";
@@ -45,8 +46,8 @@ public class CamsConstants extends JSTLConstants {
         public static final String STANDARD_TIME = "hh:mm:ss";
         public static final String YEAR_MONTH_DAY_NO_DELIMITER = "yyyyMMdd";
         public static final String MILITARY_TIME_NO_DELIMITER = "HHmmss";
-    }    
-    
+    }
+
     public static class PermissionNames {
         public static final String ADD_NEGATIVE_PAYMENTS = "Add Negative Payments";
         public static final String RETIRE_MULTIPLE = "Retire Multiple";
@@ -168,7 +169,7 @@ public class CamsConstants extends JSTLConstants {
         public static final String STATUS_CODE_CORRECTED_DESCRIPTION = "Corrected";
         public static final String STATUS_CODE_DELETED_DESCRIPTION = "Deleted";
         public static final String BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS_NO = "N";
-        
+
         public static final Map<String, String> statusDescription = new HashMap<String, String>();
         static {
             statusDescription.put(STATUS_CODE_CORRECTED, STATUS_CODE_CORRECTED_DESCRIPTION);
@@ -199,7 +200,7 @@ public class CamsConstants extends JSTLConstants {
     public static class AssetRetirementGlobal {
         public static final String ASSET_LOOKUPABLE_ID = "assetLookupable";
         public static final String DOCUMENT_HEADER = "documentHeader";
-        public static final String SECTION_ID_ASSET_DETAIL_INFORMATION="Asset Detail Information";
+        public static final String SECTION_ID_ASSET_DETAIL_INFORMATION = "Asset Detail Information";
         public static final String SECTION_ID_EXTERNAL_TRANSFER_OR_GIFT = "ExternalTransferOrGift";
         public static final String SECTION_ID_AUCTION_OR_SOLD = "AuctionOrSold";
         public static final String SECTION_ID_THEFT = "Theft";
@@ -308,9 +309,9 @@ public class CamsConstants extends JSTLConstants {
     public static class AssetTransfer {
         public static final String DOCUMENT_TYPE_CODE = "AT";
     }
-    
-    
+
+
     public static class PreAssetTagging {
-        public static final String SECTION_ID_PREASSET_TAGGING_DETAIL = "Edit List of Pre-Asset Tagging Details";   
+        public static final String SECTION_ID_PREASSET_TAGGING_DETAIL = "Edit List of Pre-Asset Tagging Details";
     }
 }

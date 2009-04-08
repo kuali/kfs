@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.kfs.module.cam.CamsConstants;
@@ -357,7 +358,7 @@ public class AssetSeparatePaymentDistributor {
         try {
             for (PropertyDescriptor propertyDescriptor : assetPaymentProperties) {
                 Method readMethod = propertyDescriptor.getReadMethod();
-                if (readMethod != null && readMethod.getName().contains("Depreciation1") && propertyDescriptor.getPropertyType() != null && KualiDecimal.class.isAssignableFrom(propertyDescriptor.getPropertyType())) {
+                if (readMethod != null && Pattern.matches(CamsConstants.GET_PERIOD_DEPRECIATION_AMOUNT_REGEX, readMethod.getName().toLowerCase()) && propertyDescriptor.getPropertyType() != null && KualiDecimal.class.isAssignableFrom(propertyDescriptor.getPropertyType())) {
                     KualiDecimal amount = (KualiDecimal) readMethod.invoke(currPayment);
                     if (amount != null) {
                         ytdAmount = ytdAmount.add(amount);

@@ -65,6 +65,10 @@ public class AssetSeparatePaymentDistributorTest extends TestCase {
         assertEquals(new KualiDecimal(7.33), asset.getAssetPayments().get(1).getPrimaryDepreciationBaseAmount());
         assertEquals(new KualiDecimal(7.34), asset.getAssetPayments().get(2).getPrimaryDepreciationBaseAmount());
 
+        assertEquals(new KualiDecimal(3.9), asset.getAssetPayments().get(0).getAccumulatedPrimaryDepreciationAmount());
+        assertEquals(new KualiDecimal(3.9), asset.getAssetPayments().get(1).getAccumulatedPrimaryDepreciationAmount());
+        assertEquals(new KualiDecimal(3.9), asset.getAssetPayments().get(2).getAccumulatedPrimaryDepreciationAmount());
+
         asset = newAssets.get(1);
         assertEquals(3, asset.getAssetPayments().size());
         assertEquals(new KualiDecimal(5.67), asset.getAssetPayments().get(0).getAccountChargeAmount());
@@ -78,6 +82,10 @@ public class AssetSeparatePaymentDistributorTest extends TestCase {
         assertEquals(new KualiDecimal(5.67), asset.getAssetPayments().get(1).getPrimaryDepreciationBaseAmount());
         assertEquals(new KualiDecimal(5.66), asset.getAssetPayments().get(2).getPrimaryDepreciationBaseAmount());
 
+        assertEquals(new KualiDecimal(3.0), asset.getAssetPayments().get(0).getAccumulatedPrimaryDepreciationAmount());
+        assertEquals(new KualiDecimal(3.0), asset.getAssetPayments().get(1).getAccumulatedPrimaryDepreciationAmount());
+        assertEquals(new KualiDecimal(3.0), asset.getAssetPayments().get(2).getAccumulatedPrimaryDepreciationAmount());
+
         // make sure offset payments are added to source asset
         assertEquals(8, sourceAsset.getAssetPayments().size());
         assertEquals(new KualiDecimal(-13), sourceAsset.getAssetPayments().get(5).getAccountChargeAmount());
@@ -90,6 +98,10 @@ public class AssetSeparatePaymentDistributorTest extends TestCase {
         assertEquals(new KualiDecimal(-13), sourceAsset.getAssetPayments().get(5).getPrimaryDepreciationBaseAmount());
         assertEquals(new KualiDecimal(-13), sourceAsset.getAssetPayments().get(6).getPrimaryDepreciationBaseAmount());
         assertEquals(new KualiDecimal(-13), sourceAsset.getAssetPayments().get(7).getPrimaryDepreciationBaseAmount());
+
+        assertEquals(new KualiDecimal(-6.9), sourceAsset.getAssetPayments().get(5).getAccumulatedPrimaryDepreciationAmount());
+        assertEquals(new KualiDecimal(-6.9), sourceAsset.getAssetPayments().get(6).getAccumulatedPrimaryDepreciationAmount());
+        assertEquals(new KualiDecimal(-6.9), sourceAsset.getAssetPayments().get(7).getAccumulatedPrimaryDepreciationAmount());
 
         // sum and see if dollar amount sums up correctly
         assertEquals(new KualiDecimal(13), newAssets.get(0).getAssetPayments().get(0).getAccountChargeAmount().add(newAssets.get(1).getAssetPayments().get(0).getAccountChargeAmount()));
@@ -115,6 +127,11 @@ public class AssetSeparatePaymentDistributorTest extends TestCase {
         payment.setAccountNumber(acctNo);
         payment.setAccountChargeAmount(new KualiDecimal(amount));
         payment.setPrimaryDepreciationBaseAmount(new KualiDecimal(amount));
+        payment.setPreviousYearPrimaryDepreciationAmount(new KualiDecimal(2.3));
+        payment.setPeriod2Depreciation1Amount(new KualiDecimal(2.3));
+        payment.setPeriod3Depreciation1Amount(new KualiDecimal(2.3));
+        payment.setPeriod4Depreciation1Amount(new KualiDecimal(0));
+        payment.setPeriod5Depreciation1Amount(null);
         return payment;
     }
 }

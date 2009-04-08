@@ -327,10 +327,10 @@
 	                    <kul:htmlControlAttribute attributeEntry="${purchaseOrderAttributes.purapDocumentIdentifier}" property="document.currentPurchaseOrderDocument.purapDocumentIdentifier" readOnly="true" />
 	                </td>
 	                <th align="right" valign="middle" class="bord-l-b">
-	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${purchaseOrderAttributes.fundingSourceCode}" /></div>
+	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${purchaseOrderAttributes.documentFundingSourceCode}" /></div>
 	                </th>
 	                <td align="left" valign="middle" class="datacell">
-	                    <kul:htmlControlAttribute attributeEntry="${purchaseOrderAttributes.fundingSourceCode}" property="document.currentPurchaseOrderDocument.fundingSourceCode" readOnly="true" />
+	                    <kul:htmlControlAttribute attributeEntry="${purchaseOrderAttributes.documentFundingSourceCode}" property="document.currentPurchaseOrderDocument.documentFundingSourceCode" readOnly="true" />
 	                </td>
 	            </tr>
 

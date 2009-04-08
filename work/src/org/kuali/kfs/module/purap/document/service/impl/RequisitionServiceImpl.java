@@ -23,10 +23,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetItem;
@@ -38,7 +40,6 @@ import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.RequisitionDao;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
-import org.kuali.kfs.module.purap.document.validation.event.AttributedValidateCapitalAssetsForAutomaticPurchaseOrderEvent;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.vnd.businessobject.VendorCommodityCode;
@@ -68,6 +69,7 @@ public class RequisitionServiceImpl implements RequisitionService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RequisitionServiceImpl.class);
 
     private BusinessObjectService businessObjectService;
+    private CapitalAssetBuilderModuleService capitalAssetBuilderModuleService;
     private DateTimeService dateTimeService;
     private DocumentService documentService;
     private KualiRuleService ruleService;
@@ -216,6 +218,7 @@ public class RequisitionServiceImpl implements RequisitionService {
             if (item.isItemRestrictedIndicator()) {
                 return "Requisition contains an item that is marked as restricted.";
             }
+            
             //We only need to check the commodity codes if this is an above the line item.
             if (item.getItemType().isLineItemIndicator()) {
                 String commodityCodesReason = "";
@@ -225,29 +228,27 @@ public class RequisitionServiceImpl implements RequisitionService {
                     return commodityCodesReason;
                 }
             }
+            
             if (PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE.equals(item.getItemType().getItemTypeCode()) || PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE.equals(item.getItemType().getItemTypeCode())) {
                 if ((item.getItemUnitPrice() != null) && ((BigDecimal.ZERO.compareTo(item.getItemUnitPrice())) != 0)) {
                     // discount or trade-in item has unit price that is not empty or zero
                     return "Requisition contains a " + item.getItemType().getItemTypeDescription() + " item, so it does not qualify as an APO.";
                 }
             }
-//TODO RELEASE 3 - Capital Asset Codes
-//          if (!PurapConstants.RequisitionSources.B2B.equals(requisitionSource)) {
-//              for (Iterator iterator = item.getSourceAccountingLines().iterator(); iterator.hasNext();) {
-//                  RequisitionAccount account = (RequisitionAccount) iterator.next();
-//                  ObjectCode code =  objectCodeService.getByPrimaryId(requisition.getPostingYear(), account.getChartOfAccountsCode(), account.getFinancialObjectCode());
-//                  if (EpicConstants.FIS_CAPITAL_ASSET_OBJECT_LEVEL_CODE.equals(code.getFinancialObjectLevelCode())) {
-//                      return "Standard requisition with a capital asset object code.";
-//                  }
-//              }//endfor accounts
-//          }
+            
+            if (!PurapConstants.RequisitionSources.B2B.equals(requisitionSource)) {
+                for (PurApAccountingLine accountingLine : item.getSourceAccountingLines()) {
+                    if (capitalAssetBuilderModuleService.doesAccountingLineFailAutomaticPurchaseOrderRules(accountingLine)) {
+                        return "Requisition contains accounting line with capital object level";
+                    }
+                }
+            }
 
         }// endfor items
 
-// TODO RELEASE 3 - need to implement validateCapitalASsetNumbersForAPO
-//    if( !validateCapitalAssetNumbersForAPO( requisition ) ) {
-//        return "Requisition did not pass CAMS validation.";
-//    }
+        if (capitalAssetBuilderModuleService.doesDocumentFailAutomaticPurchaseOrderRules(requisition)) {
+            return "Requisition contains capital asset items.";
+        }
 
         if (StringUtils.isNotEmpty(requisition.getRecurringPaymentTypeCode())) {
             return "Payment type is marked as recurring.";
@@ -261,14 +262,6 @@ public class RequisitionServiceImpl implements RequisitionService {
         if (StringUtils.isNotEmpty(requisition.getAlternate1VendorName()) || StringUtils.isNotEmpty(requisition.getAlternate2VendorName()) || StringUtils.isNotEmpty(requisition.getAlternate3VendorName()) || StringUtils.isNotEmpty(requisition.getAlternate4VendorName()) || StringUtils.isNotEmpty(requisition.getAlternate5VendorName())) {
             LOG.debug("isAPO() alternate vendor name exists; return false.");
             return "Requisition contains additional suggested vendor names.";
-        }
-        
-        //This is temporary so that unit test won't fail.
-        //TODO:  Decide where to put the processCapitalAssetsForAutomaticPurchaseOrderRule after
-        //rule refactoring is done.        
-        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedValidateCapitalAssetsForAutomaticPurchaseOrderEvent("", requisition));        
-        if (!rulePassed) {
-            return "Requisition has failed Capital Asset rules.";
         }
         
         if (requisition.isPostingYearNext() && !purapService.isTodayWithinApoAllowedRange()) {
@@ -392,6 +385,10 @@ public class RequisitionServiceImpl implements RequisitionService {
 
     public void setPersonService(org.kuali.rice.kim.service.PersonService personService) {
         this.personService = personService;
+    }
+
+    public void setCapitalAssetBuilderModuleService(CapitalAssetBuilderModuleService capitalAssetBuilderModuleService) {
+        this.capitalAssetBuilderModuleService = capitalAssetBuilderModuleService;
     }
 
 }

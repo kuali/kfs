@@ -120,10 +120,6 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 
-	<bean id="Purchasing-capitalAssetsForAutomaticPurchaseOrderValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingCapitalAssetsForAutomaticPurchaseOrderValidation" abstract="true">
-		<property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
-	</bean>
-
 	<bean id="Purchasing-changeSystemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingChangeSystemValidation" abstract="true"/>	
 	
 	<bean id="Purchasing-selectSystemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingSelectSystemValidation" abstract="true"/>

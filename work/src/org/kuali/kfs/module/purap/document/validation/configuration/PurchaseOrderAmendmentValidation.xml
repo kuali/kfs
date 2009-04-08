@@ -345,16 +345,6 @@
 		</property>
 	</bean>
 
-    <bean id="PurchaseOrderAmendment-validateCapitalAssetsForAutomaticPurchaseOrderValidation" parent="PurchaseOrderAmendment-validateCapitalAssetsForAutomaticPurchaseOrderValidation-parentBean" scope="prototype" />
-  
-	<bean id="PurchaseOrderAmendment-validateCapitalAssetsForAutomaticPurchaseOrderValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-		<property name="validations">
-  			<list>		
-	  			<bean parent="Purchasing-capitalAssetsForAutomaticPurchaseOrderValidation" scope="prototype"/>  			
-			</list>
-		</property>
-	</bean>
-	
     <bean id="PurchaseOrderAmendment-changeSystemPurapValidation" parent="PurchaseOrderAmendment-changeSystemPurapValidation-parentBean" scope="prototype" />
   
 	<bean id="PurchaseOrderAmendment-changeSystemPurapValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">

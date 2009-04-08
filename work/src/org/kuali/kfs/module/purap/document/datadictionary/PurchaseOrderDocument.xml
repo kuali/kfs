@@ -1372,10 +1372,6 @@
 					<value>PurchaseOrder-importPurchasingAccountsPayableItemValidation</value>				
 				</entry>						
 				<entry>
-					<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedValidateCapitalAssetsForAutomaticPurchaseOrderEvent</value></key>
-					<value>PurchaseOrder-validateCapitalAssetsForAutomaticPurchaseOrderValidation</value>
-				</entry>			
-				<entry>
 					<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedChangeSystemPurapEvent</value></key>
 					<value>PurchaseOrder-changeSystemPurapValidation</value>				
 				</entry>			

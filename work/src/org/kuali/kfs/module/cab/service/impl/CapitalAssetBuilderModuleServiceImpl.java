@@ -71,10 +71,10 @@ import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAssetBase;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
-import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -137,15 +137,24 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         return valid;
     }
 
-    public boolean validateAutomaticPurchaseOrderRule(AccountingDocument accountingDocument) {
+    /**
+     * Perform the item level capital asset validation to determine if the given document is not allowed to become an Automatic
+     * Purchase Order (APO). The APO is not allowed if any accounting strings on the document are using an object level indicated as
+     * capital via a parameter setting.
+     */
+    public boolean doesAccountingLineFailAutomaticPurchaseOrderRules(AccountingLine accountingLine) {
+        PurApAccountingLine purapAccountingLine = (PurApAccountingLine)accountingLine;
+        purapAccountingLine.refreshNonUpdateableReferences();
+        return getParameterService().getParameterEvaluator(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.CAPITAL_ASSET_OBJECT_LEVELS, purapAccountingLine.getObjectCode().getFinancialObjectLevelCode()).evaluationSucceeds();
+    }
+    
+    /**
+     * Perform the document level capital asset validation to determine if the given document is not allowed to become an Automatic
+     * Purchase Order (APO). The APO is not allowed if any capital asset items exist on the document.
+     */
+    public boolean doesDocumentFailAutomaticPurchaseOrderRules(AccountingDocument accountingDocument) {
         PurchasingDocument purchasingDocument = (PurchasingDocument) accountingDocument;
-        for (PurApItem item : purchasingDocument.getItems()) {
-            if (doesItemNeedCapitalAsset(item.getItemTypeCode(), item.getSourceAccountingLines())) {
-                // if the item needs capital asset, we cannot have an APO, so return false.
-                return false;
-            }
-        }
-        return true;
+        return ObjectUtils.isNotNull(purchasingDocument.getPurchasingCapitalAssetItems()) && !purchasingDocument.getPurchasingCapitalAssetItems().isEmpty();
     }
 
     public boolean doesItemNeedCapitalAsset(String itemTypeCode, List accountingLines) {
@@ -305,11 +314,13 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         results.add(SpringContext.getBean(KualiConfigurationService.class).getParameterWithoutExceptions(CabConstants.Parameters.NAMESPACE, CabConstants.Parameters.DETAIL_TYPE_DOCUMENT, "CHARTS_REQUIRING%" + documentType));
 
         for (Parameter parameter : results) {
-            if (systemType.equals(PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL)) {
-                valid &= validateFieldRequirementByChartForIndividualSystemType(systemState, capitalAssetItems, chartCode, parameter.getParameterName(), parameter.getParameterValue());
-            }
-            else {
-                valid &= validateFieldRequirementByChartForOneOrMultipleSystemType(systemType, systemState, capitalAssetSystems, capitalAssetItems, chartCode, parameter.getParameterName(), parameter.getParameterValue());
+            if (ObjectUtils.isNotNull(parameter)) {
+                if (systemType.equals(PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL)) {
+                    valid &= validateFieldRequirementByChartForIndividualSystemType(systemState, capitalAssetItems, chartCode, parameter.getParameterName(), parameter.getParameterValue());
+                }
+                else {
+                    valid &= validateFieldRequirementByChartForOneOrMultipleSystemType(systemType, systemState, capitalAssetSystems, capitalAssetItems, chartCode, parameter.getParameterName(), parameter.getParameterValue());
+                }
             }
         }
         return valid;

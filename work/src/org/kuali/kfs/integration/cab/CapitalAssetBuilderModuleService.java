@@ -20,6 +20,7 @@ import java.util.List;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.integration.purap.ExternalPurApItem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.rice.kns.bo.DocumentHeader;
 
@@ -39,7 +40,9 @@ public interface CapitalAssetBuilderModuleService {
     
     public boolean validateAccountsPayableData(AccountingDocument accountingDocument);
 
-    public boolean validateAutomaticPurchaseOrderRule(AccountingDocument accountingDocument);
+    public boolean doesAccountingLineFailAutomaticPurchaseOrderRules(AccountingLine accountingLine);
+    
+    public boolean doesDocumentFailAutomaticPurchaseOrderRules(AccountingDocument accountingDocument);
 
     public boolean doesItemNeedCapitalAsset(String itemTypeCode, List accountingLines);
     

@@ -18,6 +18,7 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -769,6 +770,19 @@ public class Proposal extends PersistableBusinessObjectBase implements Inactivat
     public List<ProposalResearchRisk> getProposalResearchRisks() {
         return proposalResearchRisks;
     }
+    
+    /**
+     * @return Returns the active proposalResearchRisks.
+     */
+    public List<ProposalResearchRisk> getActiveProposalResearchRisks() {
+        List<ProposalResearchRisk> activeRisks = new ArrayList<ProposalResearchRisk>();
+        for (ProposalResearchRisk risk : proposalResearchRisks) {
+            if (risk.isActive())
+                activeRisks.add(risk);
+        }
+        return activeRisks;
+    }
+
 
     /**
      * @param proposalResearchRisks The proposalResearchRisks to set.
@@ -926,5 +940,8 @@ public class Proposal extends PersistableBusinessObjectBase implements Inactivat
 
     public void setUserLookupRoleName(String userLookupRoleName) {
     }
+    
+   
+    
 }
 

@@ -305,7 +305,7 @@
     			<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
 			    	<property name="documentCollectionPath">
 			    		<bean class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath">
-			    			<property name="collectionPath" value="newMaintainableObject.businessObject.proposalResearchRisks"/>
+			    			<property name="collectionPath" value="newMaintainableObject.businessObject.activeProposalResearchRisks"/>
 			    			<property name="documentValues">
 			    				<list>
 			    					<value>researchRiskTypeCode</value>

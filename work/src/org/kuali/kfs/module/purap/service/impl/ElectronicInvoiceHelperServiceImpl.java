@@ -16,36 +16,29 @@
 package org.kuali.kfs.module.purap.service.impl;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.WeakHashMap;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.apache.xml.serialize.OutputFormat;
 import org.apache.xml.serialize.XMLSerializer;
 import org.kuali.kfs.module.purap.PurapConstants;
@@ -90,13 +83,10 @@ import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.bo.AdHocRoutePerson;
-import org.kuali.rice.kns.bo.AdHocRouteRecipient;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Attachment;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.mail.InvalidAddressException;
 import org.kuali.rice.kns.mail.MailMessage;
@@ -109,7 +99,6 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.MailService;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -136,9 +125,6 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
     
     private StringBuffer emailTextErrorList;
     
-    private Map<String, Map> itemTypeMappingsCache = new WeakHashMap<String, Map>();  
-    private Map<String,ItemType> kualiItemTypes = new HashMap<String, ItemType>();
-
     private ElectronicInvoiceInputFileType electronicInvoiceInputFileType;
     private MailService mailService;
     private ElectronicInvoiceMatchingService matchingService; 
@@ -219,12 +205,14 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
 
             byte[] modifiedXML = addNamespaceDefinition(eInvoiceLoad, filesToBeProcessed[i]);
             
-            if (modifiedXML == null){
-                continue;
+            boolean isRejected = false;
+            
+            if (modifiedXML == null){//Not able to parse the xml
+                isRejected = true;
+            }else{
+                isRejected = processElectronicInvoice(eInvoiceLoad, filesToBeProcessed[i], modifiedXML);    
             }
             
-            boolean isRejected = processElectronicInvoice(eInvoiceLoad, filesToBeProcessed[i], modifiedXML);
-
             /**
              * If there is a single order has rejects and the remainings are accepted in a invoice file, 
              * then the entire file has been moved to the reject dir. 
@@ -533,11 +521,9 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         if (vendorHeaderId != null && vendorDetailId != null) {
             
             String vendorNumber = getVendorNumber(vendorHeaderId,vendorDetailId);
-            itemTypeMappings = itemTypeMappingsCache.get(vendorNumber);
             
             if (itemTypeMappings == null){
                 itemTypeMappings = electronicInvoicingDao.getItemMappingMap(vendorHeaderId,vendorDetailId);
-                itemTypeMappingsCache.put(vendorNumber,itemTypeMappings);
             }
         }
         /*else {
@@ -568,20 +554,17 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
     
     private Map<String, ItemType> getKualiItemTypes(){
         
-        if (kualiItemTypes == null){
-            
-            Collection<ItemType> collection = SpringContext.getBean(BusinessObjectService.class).findAll(ItemType.class);
-            Map kualiItemTypes = new HashMap<String, ItemType>();
-            
-            if (collection == null || collection.size() == 0){
-                throw new RuntimeException("Kauli Item types not available");
-            }else{
-                if (collection != null){
-                    ItemType[] itemTypes = new ItemType[collection.size()];
-                    collection.toArray(itemTypes);
-                    for (int i = 0; i < itemTypes.length; i++) {
-                        kualiItemTypes.put(itemTypes[i].getItemTypeCode(),itemTypes[i]);
-                    }
+        Collection<ItemType> collection = SpringContext.getBean(BusinessObjectService.class).findAll(ItemType.class);
+        Map kualiItemTypes = new HashMap<String, ItemType>();
+        
+        if (collection == null || collection.size() == 0){
+            throw new RuntimeException("Kauli Item types not available");
+        }else{
+            if (collection != null){
+                ItemType[] itemTypes = new ItemType[collection.size()];
+                collection.toArray(itemTypes);
+                for (int i = 0; i < itemTypes.length; i++) {
+                    kualiItemTypes.put(itemTypes[i].getItemTypeCode(),itemTypes[i]);
                 }
             }
         }

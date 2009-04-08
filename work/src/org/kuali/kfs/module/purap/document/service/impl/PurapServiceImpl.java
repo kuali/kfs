@@ -1006,6 +1006,10 @@ public class PurapServiceImpl implements PurapService {
         ParameterEvaluator fundParamEval = null;
         ParameterEvaluator subFundParamEval = null;
         
+        if (ObjectUtils.isNull(acctLine.getAccount().getSubFundGroup())){
+            acctLine.refreshNonUpdateableReferences();
+        }
+        
         fundParamEval = SpringContext.getBean(ParameterService.class).getParameterEvaluator(KfsParameterConstants.PURCHASING_DOCUMENT.class, fundParam, acctLine.getAccount().getSubFundGroup().getFundGroupCode());
         subFundParamEval = SpringContext.getBean(ParameterService.class).getParameterEvaluator(KfsParameterConstants.PURCHASING_DOCUMENT.class, subFundParam, acctLine.getAccount().getSubFundGroupCode());
 

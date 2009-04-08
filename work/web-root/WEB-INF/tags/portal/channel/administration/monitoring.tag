@@ -26,7 +26,6 @@
 	<strong>Workflow</strong></br>
    	<ul class="chan">
 		<li><portal:portalLink displayTitle="true" title="Document Operation" url="${ConfigProperties.workflow.url}/DocumentOperation.do" /></li>
-		<li><portal:portalLink displayTitle="true" title="Routing Report" url="${ConfigProperties.workflow.url}/RoutingReport.do" /></li>
 		<li><portal:portalLink displayTitle="true" title="Statistics Report" url="${ConfigProperties.workflow.url}/Stats.do" /></li>
 	</ul>	
 </div>

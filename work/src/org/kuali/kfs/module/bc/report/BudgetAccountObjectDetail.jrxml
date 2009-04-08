@@ -366,7 +366,7 @@
 						height="0"
 						key="line-47"
 						isRemoveLineWhenBlank="true">
-							<printWhenExpression><![CDATA[new Boolean($F{financialSubObjectCode}.equals("---"))]]></printWhenExpression>
+							<printWhenExpression><![CDATA[new Boolean(($F{totalLevelPositionCsfLeaveFteQuantity} != null) || ($F{totalLevelCsfFullTimeEmploymentQuantity} != null))]]></printWhenExpression>
 						</reportElement>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
@@ -378,7 +378,7 @@
 						height="0"
 						key="line-48"
 						isRemoveLineWhenBlank="true">
-							<printWhenExpression><![CDATA[new Boolean($F{financialSubObjectCode}.equals("---"))]]></printWhenExpression>
+							<printWhenExpression><![CDATA[new Boolean(($F{totalLevelAppointmentRequestedCsfFteQuantity} != null) || ($F{totalLevelAppointmentRequestedFteQuantity} != null))]]></printWhenExpression>
 						</reportElement>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
@@ -599,7 +599,7 @@
 						height="0"
 						key="line-39"
 						isRemoveLineWhenBlank="true">
-							<printWhenExpression><![CDATA[new Boolean(!$F{financialSubObjectCode}.equals("---"))]]></printWhenExpression>
+							<printWhenExpression><![CDATA[new Boolean(!$F{financialSubObjectCode}.equals("---") && (($F{totalObjectPositionCsfLeaveFteQuantity} != null) ||($F{totalObjectCsfFullTimeEmploymentQuantity} != null)))]]></printWhenExpression>
 						</reportElement>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
@@ -611,7 +611,7 @@
 						height="0"
 						key="line-40"
 						isRemoveLineWhenBlank="true">
-							<printWhenExpression><![CDATA[new Boolean(!$F{financialSubObjectCode}.equals("---"))]]></printWhenExpression>
+							<printWhenExpression><![CDATA[new Boolean(!$F{financialSubObjectCode}.equals("---") && (($F{totalObjectAppointmentRequestedCsfFteQuantity} != null) ||($F{totalObjectAppointmentRequestedFteQuantity} != null)))]]></printWhenExpression>
 						</reportElement>
 					<graphicElement stretchType="NoStretch"/>
 				</line>

@@ -19,7 +19,19 @@
     <function-class>org.kuali.kfs.sys.web.WebUtilities</function-class>
     <function-signature>java.lang.String renamePropertyForMaintenanceFramework(java.lang.String)</function-signature>
     <example>
-      &lt;html:hidden property="${kfs-func:renamePropertyForMaintenanceFramework(propertyName)}" /&gt;
+      &lt;html:hidden property="${kfsfunc:renamePropertyForMaintenanceFramework(propertyName)}" /&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      Determines if the given value matches the given pattern
+    </description>
+    <name>matchesPattern</name>
+    <function-class>org.kuali.kfs.sys.web.WebUtilities</function-class>
+    <function-signature>boolean matchesPattern(java.lang.String, java.lang.String)</function-signature>
+    <example>
+      &lt;c:if test="${kfsfunc:matchesPattern(value,'^-*$')}"&gt;
     </example>
   </function>
   

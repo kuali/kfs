@@ -17,6 +17,8 @@ package org.kuali.kfs.sys.web;
 
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * A utility class which holds functions that can be used as JSP functions.
  */
@@ -41,5 +43,16 @@ public class WebUtilities {
             return propertyName.replaceFirst("^document\\.newMaintainableObject\\.businessObject\\.", "document.newMaintainableObject.");
         }
         return propertyName;
+    }
+    
+    /**
+     * Determines if the given value matches the given pattern
+     * @param value the value which is matching the pattern
+     * @param pattern the Java regular expression pattern to match against
+     * @return true if the value matches; false otherwise
+     * @see java.util.regex.Pattern
+     */
+    public static boolean matchesPattern(String value, String pattern) {
+        return (StringUtils.isBlank(value)) ? false : value.matches(pattern);
     }
 }

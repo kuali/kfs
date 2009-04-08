@@ -140,7 +140,16 @@ public class ReadOnlyRenderer extends FieldRendererBase {
      * @return true if the inquiry link should be rendered, false otherwise
      */
     protected boolean shouldRenderInquiryLink() {
-        return getField().getInquiryURL() != null && !StringUtils.isBlank(((AnchorHtmlData)getField().getInquiryURL()).getHref()) && !StringUtils.isBlank(getField().getPropertyValue())  && shouldRenderInquiry;
+        return getField().getInquiryURL() != null && !StringUtils.isBlank(((AnchorHtmlData)getField().getInquiryURL()).getHref()) && isInquirableValue(getField().getPropertyValue())  && shouldRenderInquiry;
+    }
+    
+    /**
+     * Determines if the given property value is worthy of having an inquiry for it
+     * @param propertyValue the value of the property to potentially render an inquiry for
+     * @return true if the value is inquirable; false otherwise
+     */
+    protected boolean isInquirableValue(String propertyValue) {
+        return !StringUtils.isBlank(propertyValue) && !propertyValue.matches("^-*$");
     }
     
     /**

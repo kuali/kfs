@@ -136,14 +136,18 @@
                     
         <c:set var="aKeyIsMissing" value="${empty businessObjectValuesMap[field]}"/>
 		<c:set var="keyValues" value="${conversionField}=${businessObjectValuesMap[field]}"/>
+		<c:set var="dashedValue" value="false" />
 		
 		<c:forTokens var="key" items="${lookupOrInquiryKeys}" delims=",">
 			<c:set var="aKeyIsMissing" value="${missingKey || empty businessObjectValuesMap[key]}"/>
 			<c:set var="keyValues" value="${keyValues}&${key}=${businessObjectValuesMap[key]}"/>
+			<c:if test="${!empty businessObjectValuesMap[key] && kfsfunc:matchesPattern(businessObjectValuesMap[key], '^-*$')}">
+				<c:set var="dashedValue" value="true" />
+			</c:if>
 		</c:forTokens>
 		
 		<c:set var="keyValues" value="${keyValues}${empty inquiryExtraKeyValues ? '' : '&'}${inquiryExtraKeyValues}"/>
-		<c:set var="canRenderInquiry" value="${not empty keyValues && not aKeyIsMissing}"/>
+		<c:set var="canRenderInquiry" value="${not empty keyValues && not aKeyIsMissing && !dashedValue}"/>
 		
 		<kul:inquiry
 		    boClassName="${boClassName}"

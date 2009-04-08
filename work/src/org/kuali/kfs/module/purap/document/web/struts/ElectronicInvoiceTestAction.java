@@ -61,6 +61,8 @@ public class ElectronicInvoiceTestAction extends KualiAction {
         //get parameters - are we doing upload xml or create based on PO?
         String action = request.getParameter("action");
         
+        String currDate = ElectronicInvoiceUtils.getDateDisplayText(new Date()); // getting date in kfs format
+        
         if ("postXML".equalsIgnoreCase(action)) {
             // get the file and send the contents to the eInvoice mechanism and display the results
             ElectronicInvoiceTestForm rejectForm = (ElectronicInvoiceTestForm) form;
@@ -99,6 +101,8 @@ public class ElectronicInvoiceTestAction extends KualiAction {
             
             String poDocNumber = request.getParameter("poDocNumber");
             
+            LOG.info("Generating xml for the po - " + poDocNumber);
+            
             PurchaseOrderService poService = SpringContext.getBean(PurchaseOrderService.class);
             PurchaseOrderDocument po = null;
             try{
@@ -133,12 +137,11 @@ public class ElectronicInvoiceTestAction extends KualiAction {
             if (po != null) {   
                 
                 String duns = StringUtils.defaultString(po.getVendorDetail().getVendorDunsNumber());
-                String invoiceDate = ElectronicInvoiceUtils.getDateDisplayText(new Date()); // getting date in kfs format
                 
                 String eInvoiceFile = 
                 
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "\n<!-- ******Testing tool generated XML****** -->\n\n" +   
+                "\n<!-- ******Testing tool generated XML****** Version 1.1,Generated On " + currDate + " -->\n\n" +   
                 "<!-- All the cXML attributes are junk values -->\n" +
                 "<cXML payloadID=\"200807260401062080.964@eai002\"\n" +
                 "    timestamp=\"2008-07-26T04:01:06-08:00\"\n" +
@@ -166,7 +169,7 @@ public class ElectronicInvoiceTestAction extends KualiAction {
                 "  <Request deploymentMode=\"production\">\n" +
                 "      <InvoiceDetailRequest>\n" +
                 "          <InvoiceDetailRequestHeader\n" +
-                "              invoiceDate=\"" + invoiceDate + "\" invoiceID=\"" + RandomUtils.nextInt() + "\" operation=\"new\" purpose=\"standard\"> <!-- invoiceID=Random unique Id, invoiceDate=Curr date -->\n" +
+                "              invoiceDate=\"" + currDate + "\" invoiceID=\"" + RandomUtils.nextInt() + "\" operation=\"new\" purpose=\"standard\"> <!-- invoiceID=Random unique Id, invoiceDate=Curr date -->\n" +
                 "              <InvoiceDetailHeaderIndicator/>\n" +
                 "              <InvoiceDetailLineIndicator/>\n" +
                 "              <InvoicePartner>\n" +

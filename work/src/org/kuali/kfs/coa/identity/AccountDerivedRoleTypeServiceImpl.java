@@ -106,10 +106,6 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
         else if (KFSConstants.SysKimConstants.FISCAL_OFFICER_KIM_ROLE_NAME.equals(roleName)) {
             Account account = getAccount(chartOfAccountsCode, accountNumber);
             if (account != null) {
-                if (StringUtils.isBlank(account.getAccountFiscalOfficerSystemIdentifier())) {
-                    throw new RuntimeException("The account specified [" + chartOfAccountsCode + "-" + accountNumber + "] does " + 
-                            "not have a Fiscal Officer configured.  This must be fixed before routing can take place.");
-                }
                 members.add(new RoleMembershipInfo(null, null, account.getAccountFiscalOfficerSystemIdentifier(), KimRole.PRINCIPAL_MEMBER_TYPE, roleQualifier));
             }
             // only add the additional approver if they are different

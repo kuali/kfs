@@ -35,6 +35,7 @@
 						</list>
 					</property>
 				</bean>
+<!--  				
 				<bean parent="AuxiliaryVoucher-accountingLinesBalanceValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
@@ -45,6 +46,7 @@
 						</list>
 					</property>
 				</bean>
+-->				
 				<bean parent="AuxiliaryVoucher-generalLedgerPendingEntriesBalanceValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>

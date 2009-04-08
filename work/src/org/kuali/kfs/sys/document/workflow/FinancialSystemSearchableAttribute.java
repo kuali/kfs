@@ -20,12 +20,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.sys.businessobject.AccountingLineBase;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.AmountTotaling;
-import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.rice.kew.docsearch.DocumentSearchContext;
 import org.kuali.rice.kew.docsearch.SearchableAttribute;
 import org.kuali.rice.kew.docsearch.SearchableAttributeFloatValue;
@@ -48,27 +49,24 @@ import org.kuali.rice.kns.workflow.attribute.DataDictionarySearchableAttribute;
 public class FinancialSystemSearchableAttribute extends DataDictionarySearchableAttribute {
 
     public List<Row> getSearchingRows(DocumentSearchContext documentSearchContext) {
+        DataDictionaryService ddService = SpringContext.getBean(DataDictionaryService.class);
+
         List<Row> docSearchRows = super.getSearchingRows(documentSearchContext);
         
-        DocumentEntry entry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(documentSearchContext.getDocumentTypeName());
+        DocumentEntry entry = ddService.getDataDictionary().getDocumentEntry(documentSearchContext.getDocumentTypeName());
         
         if (entry == null) {
             return docSearchRows;
         }
         Class<? extends Document> docClass = entry.getDocumentClass();
-        Document doc = null;
-        try {
-            doc = docClass.newInstance();
-        } catch (Exception e){}
+ 
       
-        if (doc instanceof AccountingDocument) {
-            final DataDictionaryEntry alEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDictionaryObjectEntry("SourceAccountingLine");
-            String accountingLineClassName = alEntry.getFullClassName();
+        if (AccountingDocument.class.isAssignableFrom( docClass)) {
+            String accountingLineClassName = SourceAccountingLine.class.getName();
             Class alClass = null;
             BusinessObject alBusinessObject  = null;
             
-            final DataDictionaryEntry orgEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDictionaryObjectEntry("Organization");
-            String orgClassName = orgEntry.getFullClassName();
+            String orgClassName = Organization.class.getName();
             Class orgClass = null;
             BusinessObject orgBusinessObject  = null;
             
@@ -112,9 +110,9 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
             fieldList.add(orgField);
             docSearchRows.add(new Row(fieldList));
         }
-        if (doc instanceof AmountTotaling) {
-              final DataDictionaryEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDictionaryObjectEntry("FinancialSystemDocumentHeader");
-              String businessObjectClassName = boEntry.getFullClassName();
+        
+        if (AmountTotaling.class.isAssignableFrom( docClass)) {
+              String businessObjectClassName = FinancialSystemDocumentHeader.class.getName();
               Class boClass = null;
               try {
                   boClass = Class.forName(businessObjectClassName);
@@ -155,6 +153,8 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
             searchableAttributeValue.setSearchableAttributeValue(((AmountTotaling)doc).getTotalDollarAmount().bigDecimalValue());
             searchAttrValues.add(searchableAttributeValue);
         }
+        
+        
         if (doc instanceof AccountingDocument) {
             AccountingDocument accountingDoc = (AccountingDocument)doc; 
            
@@ -195,7 +195,7 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
                 searchAttrValues.add(searchableAttributeValue);
             }
         }
-        
+       
         return searchAttrValues;
     }
     
@@ -214,7 +214,6 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
         values.add(new KeyLabelPair("document", "Document Specific Data"));
         values.add(new KeyLabelPair("workflow", "Workflow Data"));
         searchField.setFieldValidValues(values);
-   //     searchField.setDefaultValue("document");
         searchField.setPropertyValue("document");
 
         List<Field> fieldList = new ArrayList<Field>();

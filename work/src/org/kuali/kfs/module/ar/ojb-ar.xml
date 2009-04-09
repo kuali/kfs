@@ -175,6 +175,9 @@
 	<field-descriptor name="bankCode" column="BNK_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="cashControlTotalAmount" column="AR_CSHCTRL_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 
+	<reference-descriptor name="bank" class-ref="org.kuali.kfs.sys.businessobject.Bank" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="bankCode" />
+	</reference-descriptor>
 	<reference-descriptor name="customerPaymentMedium" class-ref="org.kuali.kfs.module.ar.businessobject.PaymentMedium" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="customerPaymentMediumCode" />
 	</reference-descriptor>

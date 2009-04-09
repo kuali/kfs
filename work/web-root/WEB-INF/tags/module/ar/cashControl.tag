@@ -55,19 +55,18 @@
 					attributeEntry="${documentAttributes.bankCode}"
 					horizontal="true" forceRequired="true" labelFor="document.bankCode" />
 
-				<td class="datacell-nowrap">
-					<c:choose>
-						<c:when test="${editBankCode}">
-							<kul:htmlControlAttribute
-								attributeEntry="${documentAttributes.bankCode}"
-								property="document.bankCode"
-								forceRequired="true" />
-						</c:when>
-						<c:otherwise>
-							<c:out value="${KualiForm.document.bankCode}" />
-						</c:otherwise>
-					</c:choose>
-				</td>
+				<c:choose>
+					<c:when test="${editBankCode}">
+					<sys:bankControl property="document.bankCode" objectProperty="document.bank" 
+									 depositOnly="false" disbursementOnly="false" 
+									 readOnly="${readOnly}" style="datacell-nowrap" />
+					</c:when>
+					<c:otherwise>
+					<td class="datacell-nowrap">
+						<c:out value="${KualiForm.document.bankCode}" />
+					</td>
+					</c:otherwise>
+				</c:choose>
 			</tr>
 
 			<tr>

@@ -53,6 +53,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
     private String lockboxNumber;
     private String bankCode;
 
+    private Bank bank;
     private PaymentMedium customerPaymentMedium;
     private AccountingPeriod universityFiscalPeriod;
     private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
@@ -637,4 +638,13 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
         }
         return null;
     }
+
+    public Bank getBank() {
+        return bank;
+    }
+
+    public void setBank(Bank bank) {
+        this.bank = bank;
+    }
+    
 }

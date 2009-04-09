@@ -135,7 +135,6 @@
         <ref bean="RequisitionDocument-useTaxIndicator"/>
         <ref bean="RequisitionDocument-statusCodeForMultiboxSearching"/>
         <ref bean="RequisitionDocument-deliveryCampusCodeForSearching"/>
-        <ref bean="RequisitionDocument-postingYearForSearching"/>     
         <ref bean="RequisitionDocument-documentChartOfAccountsCodeForSearching"/>
         <ref bean="RequisitionDocument-documentOrganizationCodeForSearching"/> 
       </list>
@@ -189,15 +188,6 @@
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurapFiscalYearValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  
-  <bean id="RequisitionDocument-postingYearForSearching" parent="RequisitionDocument-postingYearForSearching-parentBean"/>
-
-  <bean id="RequisitionDocument-postingYearForSearching-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="postingYearForSearching"/>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurapFiscalYearWithBlankValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
-  </bean> 
   
   <bean id="RequisitionDocument-vendorNumber" parent="RequisitionDocument-vendorNumber-parentBean"/>
 
@@ -285,9 +275,6 @@
     <property name="name" value="documentChartOfAccountsCodeForSearching"/>
     <property name="label" value="Requisition Chart Code"/>
     <property name="shortLabel" value="Chart Code"/>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
-    </property> 
   </bean>
   
   <bean id="RequisitionDocument-organizationCode" parent="RequisitionDocument-organizationCode-parentBean"/>
@@ -301,7 +288,6 @@
     <property name="name" value="documentOrganizationCodeForSearching"/>
     <property name="label" value="Requisition Organization Code"/>
     <property name="shortLabel" value="Organization Code"/>
-   
   </bean>
   
   <bean id="RequisitionDocument-vendorAddressGeneratedIdentifier" parent="RequisitionDocument-vendorAddressGeneratedIdentifier-parentBean"/>

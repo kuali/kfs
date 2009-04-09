@@ -961,10 +961,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         return statusCode;
     }
         
-    public Integer getPostingYearForSearching() {
-        return getPostingYear();
-    }
-
     @Override
     public void refreshNonUpdateableReferences() {
 

@@ -158,7 +158,6 @@
         <ref bean="PurchaseOrderDocument-useTaxIndicator"/>
         <ref bean="PurchaseOrderDocument-statusCodeForMultiboxSearching"/>
         <ref bean="PurchaseOrderDocument-deliveryCampusCodeForSearching"/>
-        <ref bean="PurchaseOrderDocument-postingYearForSearching"/>
         <ref bean="PurchaseOrderDocument-purchaseOrderCurrentIndicatorForSearching"/>
         <ref bean="PurchaseOrderDocument-receivingDocumentRequiredIndicatorForSearching"/>
         <ref bean="PurchaseOrderDocument-paymentRequestPositiveApprovalIndicatorForSearching"/>
@@ -210,15 +209,6 @@
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurapFiscalYearValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  
-  <bean id="PurchaseOrderDocument-postingYearForSearching" parent="PurchaseOrderDocument-postingYearForSearching-parentBean"/>
-
-  <bean id="PurchaseOrderDocument-postingYearForSearching-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="postingYearForSearching"/>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurapFiscalYearWithBlankValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
-  </bean> 
   
   <bean id="PurchaseOrderDocument-vendorNumber" parent="PurchaseOrderDocument-vendorNumber-parentBean"/>
 
@@ -376,9 +366,6 @@
     <property name="name" value="documentChartOfAccountsCodeForSearching"/>
     <property name="label" value="Purchase Order Chart Code"/>
     <property name="shortLabel" value="Chart Code"/>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
-    </property> 
   </bean>
   
   <bean id="PurchaseOrderDocument-organizationCode" parent="PurchaseOrderDocument-organizationCode-parentBean"/>

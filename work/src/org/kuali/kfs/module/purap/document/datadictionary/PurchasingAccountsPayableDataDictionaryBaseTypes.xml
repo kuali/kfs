@@ -487,20 +487,6 @@
     					</list>
     				</property>
     			</bean>    			
-          		<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">       		
-    				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
-    						<property name="attributeName" value="postingYearForSearching"/>
-    						<property name="showAttributeInResultSet" value="true"/>
-    					</bean>
-    				</property>
-    				<property name="documentValues">
-    					<list>
-    						<value>postingYear</value>
-    					</list>
-    				</property>
-    			</bean>
            		<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">

@@ -482,7 +482,7 @@
     	</property>
     	<property name="routingTypeDefinitions">
     		<map>
-    			<!-- no qualifiers for purchasing node -->
+    			<entry key="Purchasing" value-ref="DisbursementVoucherDocument-RoutingType-Campus"/>
     			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account-sourceOnly"/>
     			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy-sourceOnly"/>
     			<entry key="Campus" value-ref="DisbursementVoucherDocument-RoutingType-Campus"/>

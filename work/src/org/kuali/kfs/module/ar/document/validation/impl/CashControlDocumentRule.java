@@ -444,14 +444,15 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
     public boolean validateBankCode(CashControlDocument document) {
         boolean isValid = true;
         
+        //  if the EDIT_BANK_CODE isnt enabled, then dont bother checking it, return with success
         CashControlDocumentPresentationController ccPC =(CashControlDocumentPresentationController) SpringContext.getBean( DocumentHelperService.class).getDocumentPresentationController(document);
         if (!ccPC.getEditModes(document).contains(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_BANK_CODE)) {
-            isValid = false;
             return isValid;
         }
         
+        //  otherwise, make sure it exists and is valid
         String bankCode = document.getBankCode();
-        if (ObjectUtils.isNotNull(bankCode) && StringUtils.isNotEmpty(bankCode)) {
+        if (StringUtils.isNotBlank(bankCode)) {
             Bank bank = SpringContext.getBean(BankService.class).getByPrimaryId(bankCode);
             if (ObjectUtils.isNull(bank)) {
                 isValid = false;

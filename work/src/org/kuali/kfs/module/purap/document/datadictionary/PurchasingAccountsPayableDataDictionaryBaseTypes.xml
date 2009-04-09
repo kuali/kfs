@@ -259,6 +259,7 @@
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
     						<property name="attributeName" value="purapDocumentIdentifier"/>
+    						<property name="showAttributeInSearchCriteria" value="true"/>
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -395,6 +396,7 @@
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.vnd.businessobject.VendorContract"/>
     						<property name="attributeName" value="vendorContractName"/>
+    						<property name="showAttributeInResultSet" value="true"/>
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -473,6 +475,8 @@
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderStatus"/>
     						<property name="attributeName" value="statusDescription"/>
+    						<property name="showAttributeInSearchCriteria" value="false"/>
+    						<property name="showAttributeInResultSet" value="true"/>
     					</bean>
     				</property>
     				<property name="documentValues">

@@ -153,6 +153,16 @@
                 </list>
               </property>
     		</bean>
+    		<bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="organization" />
+              <property name="primitiveAttributes" >
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition"
+                        p:sourceName="documentOrganizationCodeForSearching"
+                        p:targetName="organizationCode" />
+                </list>
+              </property>
+    		</bean>
 		</list>
 	</property>
   </bean>
@@ -1112,6 +1122,7 @@
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.RequisitionDocument"/>
     						<property name="attributeName" value="purapDocumentIdentifier"/>
+    						<property name="showAttributeInResultSet" value="true"/>
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -1125,6 +1136,7 @@
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.RequisitionDocument"/>
     						<property name="attributeName" value="vendorName"/>
+    						<property name="showAttributeInResultSet" value="true"/>
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -1151,6 +1163,7 @@
     	      			<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     	      				<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.RequisitionDocument"/>
     	      				<property name="attributeName" value="documentChartOfAccountsCodeForSearching" />
+    	      				<property name="showAttributeInResultSet" value="true"/>
     	      			</bean>
     	      		</property>
     	      		<property name="documentValues">
@@ -1165,6 +1178,7 @@
     	      			<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     	      				<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.RequisitionDocument"/>
     	      				<property name="attributeName" value="documentOrganizationCodeForSearching" />
+    	      				<property name="showAttributeInResultSet" value="true"/>
     	      			</bean>
     	      		</property>
     	      		<property name="documentValues">
@@ -1277,6 +1291,21 @@
     					</list>
     				</property>
     			</bean>   			
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">       		
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.businessobject.RequisitionStatus"/>
+    						<property name="attributeName" value="statusDescription"/>
+    						<property name="showAttributeInSearchCriteria" value="false"/>
+    						<property name="showAttributeInResultSet" value="true"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>statusDescription</value>
+    					</list>
+    				</property>
+    			</bean>    			
     		</list>
     	</property>
     

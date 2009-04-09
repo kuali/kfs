@@ -33,6 +33,8 @@
 <%@ attribute name="actionAlt" required="true"
 	description="alt value for actionImage"%>
 <%@ attribute name="cssClass" required="true"%>
+
+<!--  this parameter is ignored now, as of KULAR-755 -->
 <%@ attribute name="editPaymentAppDoc" required="true"%>
 
 
@@ -42,9 +44,8 @@
 	</kul:htmlAttributeHeaderCell>
 
 	<td align=left class="${cssClass}">
-
 		<c:choose>
-			<c:when test="${addLine or (not editPaymentAppDoc)}">
+			<c:when test="${addLine}"> <!--  we always make the link live now, as of KULAR-755 -->
 				<kul:htmlControlAttribute
 					attributeEntry="${cashControlDetailAttributes.referenceFinancialDocumentNumber}"
 					property="${propertyName}.referenceFinancialDocumentNumber"
@@ -55,8 +56,8 @@
 					<kul:htmlControlAttribute
 						attributeEntry="${cashControlDetailAttributes.referenceFinancialDocumentNumber}"
 						property="${propertyName}.referenceFinancialDocumentNumber"
-						readOnly="true" /> </a>
-
+						readOnly="true" />
+				</a>
 			</c:otherwise>
 		</c:choose>
 	</td>

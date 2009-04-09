@@ -197,7 +197,7 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
         document.setDisbursementVoucherDocumentationLocationCode("F");
         // contact information
         document.setCampusCode("BL");
-        document.setDisbVchrContactPhoneNumber("8081234567");
+        document.setDisbVchrContactPhoneNumber("808-123-4567");
         document.setDisbVchrContactPersonName("aynalem");
         document.setDisbVchrCheckStubText("Test DV Check");
         document.setDisbVchrBankCode(KualiTestConstants.TestConstants.BankCodeTestData.BANK_CODE);

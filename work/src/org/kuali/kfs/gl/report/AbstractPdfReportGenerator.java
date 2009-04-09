@@ -122,7 +122,7 @@ public abstract class AbstractPdfReportGenerator {
      * 
      * @param document document being closed
      */
-    private void closeDocument(Document document) {
+    protected void closeDocument(Document document) {
         try {
             if ((document != null) && document.isOpen()) {
                 document.close();

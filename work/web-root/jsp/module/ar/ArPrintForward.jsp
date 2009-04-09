@@ -45,7 +45,7 @@
       document.printPDFForm.target=_win.name;
       document.printPDFForm.submit();
       <%-- Need to insert a brief pause to keep a race condition from occurring.  --%>
-      waitThenSubmit(1);
+      waitThenSubmit(5);
     }
     function waitThenSubmit(sec) {
         setTimeout("document.backForm.submit();", sec * 1000);

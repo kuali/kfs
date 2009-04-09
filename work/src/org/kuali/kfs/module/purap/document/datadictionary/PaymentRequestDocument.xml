@@ -335,15 +335,15 @@
   <bean id="PaymentRequestDocument-purapDocumentIdentifier" parent="PaymentRequestDocument-purapDocumentIdentifier-parentBean"/>
 
   <bean id="PaymentRequestDocument-purapDocumentIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-purapDocumentIdentifier">
-    <property name="label" value="Payment Request Nbr"/>
-    <property name="shortLabel" value="PREQ Nbr"/>
+    <property name="label" value="Payment Request #"/>
+    <property name="shortLabel" value="Payment Request #"/>
   </bean>
   <bean id="PaymentRequestDocument-purchaseOrderIdentifier" parent="PaymentRequestDocument-purchaseOrderIdentifier-parentBean"/>
 
   <bean id="PaymentRequestDocument-purchaseOrderIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-purapDocumentIdentifier">
     <property name="name" value="purchaseOrderIdentifier"/>
-    <property name="label" value="Purchase Order Nbr"/>
-    <property name="shortLabel" value="PO Nbr"/>
+    <property name="label" value="Purchase Order #"/>
+    <property name="shortLabel" value="Purchase Order #"/>
     <property name="required" value="true"/>
   </bean>
   <bean id="PaymentRequestDocument-statusCode" parent="PaymentRequestDocument-statusCode-parentBean"/>
@@ -1116,7 +1116,6 @@
     					</list>
     				</property>
     			</bean>   			
-    			<ref bean="SearchingType-PurchasingAccountsPayableDocument-organizationCode"/>
      			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
   					<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
@@ -1221,20 +1220,6 @@
     					</list>
     				</property>
     			</bean>
-      			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">		
-    				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument"/>
-    						<property name="attributeName" value="paymentPaidTimestamp"/>
-    					</bean>
-    				</property>
-    				<property name="documentValues">
-    					<list>
-    						<value>paymentPaidTimestamp</value>
-    					</list>
-    				</property>
-    			</bean>
-
           		<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">

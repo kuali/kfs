@@ -37,7 +37,7 @@
   <bean id="VendorCustomerNumber-vendorCustomerNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorCustomerNumber" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Customer Number" />
+    <property name="label" value="Customer #" />
     <property name="shortLabel" value="Customer #" />
     <property name="maxLength" value="30" />
     <property name="validationPattern" >

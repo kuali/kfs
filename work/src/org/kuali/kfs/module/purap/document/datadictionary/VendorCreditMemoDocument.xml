@@ -287,8 +287,8 @@
   <bean id="VendorCreditMemoDocument-purapDocumentIdentifier" parent="VendorCreditMemoDocument-purapDocumentIdentifier-parentBean"/>
 
   <bean id="VendorCreditMemoDocument-purapDocumentIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-purapDocumentIdentifier">
-    <property name="label" value="Credit Memo Nbr"/>
-    <property name="shortLabel" value="CM Nbr"/>
+    <property name="label" value="Vendor Credit Memo #"/>
+    <property name="shortLabel" value="Credit Memo #"/>
   </bean>
   <bean id="VendorCreditMemoDocument-vendorHeaderGeneratedIdentifier" parent="VendorCreditMemoDocument-vendorHeaderGeneratedIdentifier-parentBean"/>
 
@@ -312,8 +312,8 @@
 
   <bean id="VendorCreditMemoDocument-purchaseOrderIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-purapDocumentIdentifier">
     <property name="name" value="purchaseOrderIdentifier"/>
-    <property name="label" value="Purchase Order Nbr"/>
-    <property name="shortLabel" value="PO Nbr"/>
+    <property name="label" value="Purchase Order #"/>
+    <property name="shortLabel" value="Purchase Order #"/>
   </bean>
   <bean id="VendorCreditMemoDocument-purchaseOrderEndDate" parent="VendorCreditMemoDocument-purchaseOrderEndDate-parentBean"/>
 
@@ -343,8 +343,8 @@
   <bean id="VendorCreditMemoDocument-creditMemoNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="creditMemoNumber"/>
     <property name="forceUppercase" value="true"/>
-    <property name="label" value="Vendor Credit Memo Number"/>
-    <property name="shortLabel" value="Vendor CM Number"/>
+    <property name="label" value="Credit Memo # from Vendor"/>
+    <property name="shortLabel" value="Credit Memo # from Vendor"/>
     <property name="maxLength" value="35"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
@@ -374,8 +374,8 @@
   <bean id="VendorCreditMemoDocument-paymentRequestIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="paymentRequestIdentifier"/>
     <property name="forceUppercase" value="true"/>
-    <property name="label" value="Payment Request Nbr"/>
-    <property name="shortLabel" value="PREQ #"/>
+    <property name="label" value="Payment Request #"/>
+    <property name="shortLabel" value="Payment Request #"/>
     <property name="maxLength" value="9"/>
     <property name="validationPattern">
       <bean parent="NumericValidationPattern"/>
@@ -706,7 +706,6 @@
     					</list>
     				</property>
     			</bean>
-				<ref bean="SearchingType-PurchasingAccountsPayableDocument-organizationCode"/>
       			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
    					<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">

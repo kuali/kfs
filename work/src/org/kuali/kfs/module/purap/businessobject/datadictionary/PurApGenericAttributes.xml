@@ -205,8 +205,8 @@
 
   <bean id="PurApGenericAttributes-requisitionIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-purapDocumentIdentifier">
     <property name="name" value="requisitionIdentifier" />
-    <property name="label" value="Requisition Nbr" />
-    <property name="shortLabel" value="REQ Nbr" />
+    <property name="label" value="Requisition #" />
+    <property name="shortLabel" value="Requisition #" />
   </bean>
   <bean id="PurApGenericAttributes-contractManager" parent="PurApGenericAttributes-contractManager-parentBean" />
 

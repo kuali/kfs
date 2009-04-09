@@ -184,7 +184,7 @@
 
   <bean id="VendorDetail-vendorNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorNumber" />
-    <property name="label" value="Vendor Number" />
+    <property name="label" value="Vendor #" />
     <property name="shortLabel" value="Vendor #" />
     <property name="maxLength" value="20" />
     <property name="validationPattern" >
@@ -200,7 +200,7 @@
   <bean id="VendorDetail-vendorDunsNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorDunsNumber" />
     <property name="label" value="DUNS Number" />
-    <property name="shortLabel" value="DUNS Num." />
+    <property name="shortLabel" value="DUNS #" />
     <property name="maxLength" value="9" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />

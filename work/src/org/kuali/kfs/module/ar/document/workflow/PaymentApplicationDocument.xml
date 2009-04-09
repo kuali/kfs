@@ -5,6 +5,34 @@
       <name>APP</name>
       <parent>AR</parent>
       <docHandler>${application.url}/arPaymentApplicationDocument.do?methodToCall=docHandler</docHandler>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="LaunchedBySystemUser"/>
+          <split name="LaunchedBySystemUser">
+            <branch name="True">
+              <requests name="Lockbox" nextNode="Join"/>
+            </branch>
+            <branch name="False">
+              <simple name="NoOp" nextNode="Join"/>
+            </branch>
+            <join name="Join"/>
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="Lockbox">
+          <qualifierResolverClass> org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver </qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <split name="LaunchedBySystemUser">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <simple name="NoOp">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <join name="Join"/>
+      </routeNodes>
     </documentType>
   </documentTypes>
 </data>

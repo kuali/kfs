@@ -544,6 +544,15 @@
 			<ref bean="parameterService" /> 
 		</property>
 	</bean>
+	
+	<bean id="segmentedLookupResultsService" class="org.kuali.kfs.sys.service.impl.SegmentedLookupResultsServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+        <property name="dateTimeService">
+            <ref bean="dateTimeService"/>
+        </property>
+	</bean>
 
     <bean id="objectCodeDynamicNameLabelGenerator" class="org.kuali.kfs.sys.document.service.impl.ObjectCodeDynamicNameLabelGeneratorImpl" />
 

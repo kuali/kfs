@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.kfs.module.ld.service.impl;
+package org.kuali.kfs.sys.service.impl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -27,8 +27,8 @@ import java.util.Set;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kfs.module.ld.service.SegmentedLookupResultsService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.service.SegmentedLookupResultsService;
 import org.kuali.rice.kns.bo.LookupResults;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.bo.SelectedObjectIds;

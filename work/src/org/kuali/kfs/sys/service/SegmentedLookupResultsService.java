@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.kfs.module.ld.service;
+package org.kuali.kfs.sys.service;
 
 import java.util.Collection;
 import java.util.Set;

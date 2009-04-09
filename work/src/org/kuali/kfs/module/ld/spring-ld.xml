@@ -1001,15 +1001,6 @@
 		</property>		
 	</bean>
 
-	<bean id="segmentedLookupResultsService" class="org.kuali.kfs.module.ld.service.impl.SegmentedLookupResultsServiceImpl">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-        <property name="dateTimeService">
-            <ref bean="dateTimeService"/>
-        </property>
-	</bean>
-
 	<bean id="laborDao" parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborDaoOjb" />
 	
 	<bean id="laborCorrectionDocumentService" class="org.kuali.kfs.module.ld.document.service.impl.LaborCorrectionDocumentServiceImpl">

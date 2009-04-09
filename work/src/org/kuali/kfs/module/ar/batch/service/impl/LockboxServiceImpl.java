@@ -440,7 +440,7 @@ public class LockboxServiceImpl implements LockboxService {
         Font font = FontFactory.getFont(FontFactory.COURIER, 10, Font.BOLD);
         
         String lineText = "CASHCTL " + rightPad(cashControlDocNumber, 12) + " " + 
-                            "LOCKBOX: " + rightPad(batchSeqNbr, 5) + " " + 
+                            "BATCH GROUP: " + rightPad(batchSeqNbr, 5) + " " + 
                             rightPad((procInvDt == null ? "NONE" : procInvDt.toString()), 35);
         
         Paragraph paragraph = new Paragraph();

@@ -93,8 +93,8 @@
   <bean id="LineItemReceivingDocument-purchaseOrderIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="purchaseOrderIdentifier"/>
     <property name="forceUppercase" value="true"/>
-    <property name="label" value="Purchase Order Identifier"/>
-    <property name="shortLabel" value="Identifier"/>
+    <property name="label" value="Purchase Order #"/>
+    <property name="shortLabel" value="Purchase Order #"/>
     <property name="maxLength" value="9"/>
     <property name="validationPattern">
       <bean parent="NumericValidationPattern"/>

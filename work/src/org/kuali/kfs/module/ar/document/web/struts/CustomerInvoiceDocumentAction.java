@@ -74,7 +74,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         CustomerInvoiceDocumentForm customerInvoiceDocumentForm = (CustomerInvoiceDocumentForm) form;
         CustomerInvoiceDocument customerInvoiceDocument = customerInvoiceDocumentForm.getCustomerInvoiceDocument();
         if(StringUtils.isBlank(customerInvoiceDocument.getDocumentNumber())) {
-            String docId = request.getParameter("docId");
+            String docId = request.getParameter(KFSConstants.PARAMETER_DOC_ID);
             customerInvoiceDocument.setDocumentNumber(docId);
             customerInvoiceDocument.refresh();
         }
@@ -437,7 +437,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         
         request.setAttribute("printPDFUrl", printInvoicePDFUrl);
         request.setAttribute("displayTabbedPageUrl", displayInvoiceTabbedPageUrl);
-        request.setAttribute("docId", docId);
+        request.setAttribute(KFSConstants.PARAMETER_DOC_ID, docId);
         String label = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(CustomerInvoiceDocument.class);
         request.setAttribute("printLabel", label);
         return mapping.findForward("arPrintPDF");
@@ -455,7 +455,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
      * @throws Exception
      */
     public ActionForward printInvoicePDF(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String invoiceDocId = request.getParameter("docId");
+        String invoiceDocId = request.getParameter(KFSConstants.PARAMETER_DOC_ID);
         CustomerInvoiceDocument customerInvoiceDocument = (CustomerInvoiceDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(invoiceDocId);
         
         AccountsReceivableReportService reportService = SpringContext.getBean(AccountsReceivableReportService.class);

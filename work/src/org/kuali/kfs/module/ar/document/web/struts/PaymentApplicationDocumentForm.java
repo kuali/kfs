@@ -37,6 +37,7 @@ import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -112,9 +113,9 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         // of amounts for the display.
         String customerNumber = null;
         String docId = getDocument().getDocumentNumber();
-        if(ObjectUtils.isNotNull(request.getParameter("docId")) && ObjectUtils.isNull(getDocument().getDocumentNumber())) {
+        if(ObjectUtils.isNotNull(request.getParameter(KFSConstants.PARAMETER_DOC_ID)) && ObjectUtils.isNull(getDocument().getDocumentNumber())) {
             // The document hasn't yet been set on the form. Let's look it up manually so that we can get the customer number.
-            docId = request.getParameter("docId").trim();
+            docId = request.getParameter(KFSConstants.PARAMETER_DOC_ID).trim();
             DocumentService documentService = SpringContext.getBean(DocumentService.class);
             Document d;
             try {

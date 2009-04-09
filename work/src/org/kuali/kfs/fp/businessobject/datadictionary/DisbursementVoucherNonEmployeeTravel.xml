@@ -118,16 +118,12 @@
   </bean>
   <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrTravelFromStateCode" parent="DisbursementVoucherNonEmployeeTravel-disbVchrTravelFromStateCode-parentBean" />
 
-  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrTravelFromStateCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrTravelFromStateCode-parentBean" abstract="true" parent="VendorAddress-vendorStateCode">
     <property name="name" value="disbVchrTravelFromStateCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="State" />
-    <property name="shortLabel" value="St" />
-    <property name="maxLength" value="2" />
-    <property name="required" value="false" />
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.StateCodeValuesFinder"
+            p:includeKeyInLabel="false" />
     </property>
   </bean>
   <bean id="DisbursementVoucherNonEmployeeTravel-dvTravelFromCountryCode" parent="DisbursementVoucherNonEmployeeTravel-dvTravelFromCountryCode-parentBean" />
@@ -187,18 +183,14 @@
             p:size="40" />
     </property>
   </bean>
+  
   <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrTravelToStateCode" parent="DisbursementVoucherNonEmployeeTravel-disbVchrTravelToStateCode-parentBean" />
-
-  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrTravelToStateCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrTravelToStateCode-parentBean" abstract="true" parent="VendorAddress-vendorStateCode">
     <property name="name" value="disbVchrTravelToStateCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="State" />
-    <property name="shortLabel" value="St" />
-    <property name="maxLength" value="2" />
-    <property name="required" value="false" />
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.StateCodeValuesFinder"
+            p:includeKeyInLabel="false" />
     </property>
   </bean>
   <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrTravelToCountryCode" parent="DisbursementVoucherNonEmployeeTravel-disbVchrTravelToCountryCode-parentBean" />
@@ -304,16 +296,14 @@
   </bean>
   <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrAutoFromStateCode" parent="DisbursementVoucherNonEmployeeTravel-disbVchrAutoFromStateCode-parentBean" />
 
-  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrAutoFromStateCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrAutoFromStateCode-parentBean" abstract="true" parent="VendorAddress-vendorStateCode">
     <property name="name" value="disbVchrAutoFromStateCode" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="From (City/State)" />
-    <property name="shortLabel" value="St" />
-    <property name="maxLength" value="2" />
-    <property name="required" value="false" />
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.StateCodeValuesFinder"
+            p:includeKeyInLabel="false" />
     </property>
   </bean>
   <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrAutoToCityName" parent="DisbursementVoucherNonEmployeeTravel-disbVchrAutoToCityName-parentBean" />
@@ -332,16 +322,14 @@
   </bean>
   <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrAutoToStateCode" parent="DisbursementVoucherNonEmployeeTravel-disbVchrAutoToStateCode-parentBean" />
 
-  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrAutoToStateCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrAutoToStateCode-parentBean" abstract="true" parent="VendorAddress-vendorStateCode">
     <property name="name" value="disbVchrAutoToStateCode" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="To (City/State)" />
-    <property name="shortLabel" value="St" />
-    <property name="maxLength" value="2" />
-    <property name="required" value="false" />
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.StateCodeValuesFinder"
+            p:includeKeyInLabel="false" />
     </property>
   </bean>
   <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrAutoRoundTripCode" parent="DisbursementVoucherNonEmployeeTravel-disbVchrAutoRoundTripCode-parentBean" />

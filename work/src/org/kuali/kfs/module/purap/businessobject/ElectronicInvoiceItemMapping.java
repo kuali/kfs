@@ -9,10 +9,6 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-/**
- * @author delyea
- *
- */
 public class ElectronicInvoiceItemMapping extends PersistableBusinessObjectBase {
   
   private Integer invoiceMapIdentifier;
@@ -66,8 +62,8 @@ public class ElectronicInvoiceItemMapping extends PersistableBusinessObjectBase 
   /**
    * @param itemTypeCode The itemTypeCode to set.
    */
-  public void setItemTypeCode(String epicItemTypeCode) {
-    this.itemTypeCode = epicItemTypeCode;
+  public void setItemTypeCode(String itemTypeCode) {
+    this.itemTypeCode = itemTypeCode;
   }
   /**
    * @return Returns the itemType.

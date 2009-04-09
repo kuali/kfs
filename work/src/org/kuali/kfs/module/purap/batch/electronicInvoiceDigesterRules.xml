@@ -100,8 +100,6 @@
 		    
 	   		<!-- INVOICE PARTNER -->
 	   		<pattern value="InvoicePartner">
-	   		
-	   			<!-- IdReference not handled in EPIC -->
 	   			<set-properties-rule pattern="IdReference">
 		      		<alias attr-name="domain" prop-name="idReferenceDomain" />
 		      		<alias attr-name="identifier" prop-name="idReferenceIdentifier" />
@@ -110,7 +108,6 @@
 	      		<call-method-rule pattern="IdReference/Creator" methodname="setIdReferenceCreator" paramcount="0" />
 	      		<call-method-rule pattern="IdReference/Description" methodname="setIdReferenceDescription" paramcount="0" />
 	      		
-	      		<!-- CONTACTS -->
 	      		<pattern value="Contact">
 
 		      		<object-create-rule classname="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceContact" />
@@ -122,18 +119,10 @@
 
 					<call-method-rule pattern="Name" methodname="setName" paramcount="0" />			      		
 					
-					<!-- INFO: NOT HANDLED IN EPIC PARSER -->
-		      		<!--<pattern value="Name">
-		      			<set-properties-rule>
-			      			<alias attr-name="xml:lang" prop-name="xxxx" />
-		      			</set-properties-rule>
-		      		</pattern>-->
-	      			
 	      			<pattern value="PostalAddress">
 	      			
 	      				<object-create-rule classname="org.kuali.kfs.module.purap.businessobject.ElectronicInvoicePostalAddress" />
 	      				
-	      				<!-- EPIC parser is doing like this-->
 	      				<set-properties-rule>
 			      			<alias attr-name="name" prop-name="type" />
 		      			</set-properties-rule>
@@ -142,7 +131,6 @@
 	      				
 	      				<!-- Have to find a better way of handling this element -->
 	      				<call-method-rule pattern="Street" methodname="addStreet" paramcount="0" />
-	      				
 	      				
 	      				<call-method-rule pattern="City" methodname="setCityName" paramcount="0" />
 	      				<call-method-rule pattern="State" methodname="setStateCode" paramcount="0" />
@@ -207,18 +195,10 @@
 
 					<call-method-rule pattern="Name" methodname="setName" paramcount="0" />			      		
 					
-					<!-- INFO: NOT HANDLED IN EPIC PARSER -->
-		      		<!--<pattern value="Name">
-		      			<set-properties-rule>
-			      			<alias attr-name="xml:lang" prop-name="DONO" />
-		      			</set-properties-rule>
-		      		</pattern>-->
-	      			
 	      			<pattern value="PostalAddress">
 	      			
 	      				<object-create-rule classname="org.kuali.kfs.module.purap.businessobject.ElectronicInvoicePostalAddress" />
 	      				
-	      				<!-- EPIC parser is doing like this-->
 	      				<set-properties-rule>
 			      			<alias attr-name="name" prop-name="type" />
 		      			</set-properties-rule>
@@ -272,11 +252,11 @@
 	      			
       			</pattern> <!-- InvoiceDetailShipping/Contact -->
       			
-      			<!-- INFO: Skipping CarrierIdentifier,ShipmentIdentifier,DocumentReference since these are not handled in EPIC -->
+      			<!-- INFO: Skipping CarrierIdentifier,ShipmentIdentifier,DocumentReference since these are not handled currently -->
       			
 	   		</pattern> <!-- InvoiceDetailShipping -->
 	   		
-	   		<!-- The next two elements were not used in EPIC -->
+	   		<!-- The next two elements were not used currently -->
 	   		<set-properties-rule pattern="InvoiceDetailPaymentTerm">
    				<alias attr-name="payInNumberOfDays" prop-name="payInNumberOfDays" paramtype="java.lang.Integer"/>
    				<alias attr-name="percentageRate" prop-name="percentageRate"/>
@@ -286,7 +266,7 @@
    				<alias attr-name="payInNumberOfDays" prop-name="payInNumberOfDays" paramtype="java.lang.Integer"/>
    			</set-properties-rule>
 
-			<!-- INFO: Comments element not handled in EPIC-->    			
+			<!-- INFO: Comments element not handled currently -->    			
 			
 	   		<pattern value="Extrinsic">
 	   			<object-create-rule classname="org.kuali.kfs.module.purap.util.cxml.CxmlExtrinsic" />
@@ -355,8 +335,7 @@
     				<alias attr-name="currency" prop-name="unitPriceCurrency" />
     			</set-properties-rule>
     			
-    			<!-- In EPIC parser, the element name is SubTotalAmount instead of SubtotalAmount (case problem - total/Total)
-    			I think we're not using this element-->
+    			<!-- Currently, the element name is SubTotalAmount instead of SubtotalAmount (case problem - total/Total) I think we're not using this element-->
     			<call-method-rule pattern="SubtotalAmount/Money" methodname="setSubTotalAmount" paramcount="0" />
     			<set-properties-rule pattern="SubtotalAmount/Money">
     				<alias attr-name="currency" prop-name="subTotalAmountCurrency" />
@@ -367,7 +346,7 @@
     				<alias attr-name="currency" prop-name="taxAmountCurrency" />
     			</set-properties-rule>
     			
-    			<!-- EPIC Parser is just trying to read the value of Tax element and setting it as description. (I think it's not possible....)
+    			<!-- Parser is just trying to read the value of Tax element and setting it as description. (I think it's not possible....)
     			But there is a seperate element available for description in xsd/dtd, 
     			HAVE TO DECIDE BASED ON MORE SAMPLE DATA FILES -->
     			<call-method-rule pattern="Tax/Description" methodname="setTaxDescription" paramcount="0" />
@@ -397,18 +376,10 @@
 
 					<call-method-rule pattern="Name" methodname="setName" paramcount="0" />			      		
 					
-					<!-- INFO: NOT HANDLED IN EPIC PARSER -->
-		      		<!--<pattern value="Name">
-		      			<set-properties-rule>
-			      			<alias attr-name="xml:lang" prop-name="xxxx" />
-		      			</set-properties-rule>
-		      		</pattern>-->
-	      			
 	      			<pattern value="PostalAddress">
 	      			
 	      				<object-create-rule classname="org.kuali.kfs.module.purap.businessobject.ElectronicInvoicePostalAddress" />
 	      				
-	      				<!-- EPIC parser is doing like this-->
 	      				<set-properties-rule>
 			      			<alias attr-name="name" prop-name="type" />
 		      			</set-properties-rule>
@@ -472,7 +443,7 @@
     				<alias attr-name="currency" prop-name="invoiceLineDiscountAmountCurrency" />
     			</set-properties-rule>
     			
-    			<!-- Not handled in EPIC, but this is there in Barnes&Noble's xml file,
+    			<!-- Not handled currently, but this is there in Barnes&Noble's xml file,
     			but contains ZERO!!! -->
     			<set-properties-rule pattern="Money">
     				<alias attr-name="percentageRate" prop-name="invoiceLineDiscountPercentageRate" />
@@ -539,12 +510,12 @@
     			<call-method-rule pattern="UnitRate/UnitOfMeasure" methodname="setUnitOfMeasure" paramcount="0" />
     			<call-method-rule pattern="UnitRate/Money" methodname="setUnitPrice" paramcount="0" />
     			
-    			<!-- This is not handled in EPCI, but it is needed if there is no UnitPrice/Money element-->
+    			<!-- This is not handled currently, but it is needed if there is no UnitPrice/Money element-->
     			<set-properties-rule pattern="UnitRate/Money">
     				<alias attr-name="currency" prop-name="unitPriceCurrency" />
     			</set-properties-rule>
     			
-    			<!-- In EPIC parser, the element name is SubTotalAmount instead of SubtotalAmount (case problem - total/Total)
+    			<!-- In parser, the element name is SubTotalAmount instead of SubtotalAmount (case problem - total/Total)
     			I think we're not using this element-->
     			<call-method-rule pattern="SubtotalAmount/Money" methodname="setSubTotalAmount" paramcount="0" />
     			<set-properties-rule pattern="SubtotalAmount/Money">
@@ -556,7 +527,7 @@
     				<alias attr-name="currency" prop-name="taxAmountCurrency" />
     			</set-properties-rule>
     			
-    			<!-- EPIC Parser is just trying to read the value of Tax element and setting it as description. (I think it's not possible....)
+    			<!-- Parser is just trying to read the value of Tax element and setting it as description. (I think it's not possible....)
     			But there is a seperate element available for description in xsd/dtd, 
     			HAVE TO DECIDE BASED ON MORE SAMPLE DATA FILES -->
     			<call-method-rule pattern="Tax/Description" methodname="setTaxDescription" paramcount="0" />
@@ -571,7 +542,7 @@
     				<alias attr-name="currency" prop-name="invoiceLineDiscountAmountCurrency" />
     			</set-properties-rule>
     			
-    			<!-- Not handled in EPIC, but this is there in Barnes&Noble's xml file,
+    			<!-- Not handled currently, but this is there in Barnes&Noble's xml file,
     			but contains ZERO!!! -->
     			<set-properties-rule pattern="Money">
     				<alias attr-name="percentageRate" prop-name="invoiceLineDiscountPercentageRate" />
@@ -638,7 +609,7 @@
 		   
 		   <call-method-rule pattern="SpecialHandlingAmount/Description" methodname="setSpecialHandlingAmountDescription" paramcount="0" />
 		   
-		   <!-- In EPIC parser, the element name is SubTotalAmount instead of SubtotalAmount (case problem - total/Total)
+		   <!-- In parser, the element name is SubTotalAmount instead of SubtotalAmount (case problem - total/Total)
    			I think we're not using this element-->
    			<call-method-rule pattern="SubtotalAmount/Money" methodname="setSubTotalAmount" paramcount="0" />
    			<set-properties-rule pattern="SubtotalAmount/Money">
@@ -660,7 +631,7 @@
     			<alias attr-name="currency" prop-name="discountAmountCurrency" />
     		</set-properties-rule>
 		   
-		    <!-- Not handled in EPIC, but this is there in Barnes&Noble's xml file,
+		    <!-- Not handled currently, but this is there in Barnes&Noble's xml file,
     			 but contains ZERO!!! -->
     		<set-properties-rule pattern="Money">
     			<alias attr-name="percentageRate" prop-name="invoiceLineDiscountPercentageRate" />

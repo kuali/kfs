@@ -27,6 +27,7 @@
         <ref bean="ElectronicInvoiceRejectDocument-invoiceFileNumber"/>
         <ref bean="ElectronicInvoiceRejectDocument-invoiceFileDeploymentModeValue"/>
         <ref bean="ElectronicInvoiceRejectDocument-invoiceResearchIndicator"/>
+        <ref bean="ElectronicInvoiceRejectDocument-invoiceResearchIndicatorForSearching"/>
         <ref bean="ElectronicInvoiceRejectDocument-invoiceFileDiscountInLineIndicator"/>
         <ref bean="ElectronicInvoiceRejectDocument-invoiceFileHeaderTypeIndicator"/>
         <ref bean="ElectronicInvoiceRejectDocument-invoiceFileInformationOnlyIndicator"/>
@@ -140,8 +141,8 @@
   <bean id="ElectronicInvoiceRejectDocument-purchaseOrderDeliveryCampusCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="purchaseOrderDeliveryCampusCode"/>
     <property name="forceUppercase" value="true"/>
-    <property name="label" value="Epic Purchase Order Delivery Campus Code"/>
-    <property name="shortLabel" value="Code"/>
+    <property name="label" value="Purchase Order Delivery Campus"/>
+    <property name="shortLabel" value="Purchase Order Delivery Campus"/>
     <property name="maxLength" value="2"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
@@ -155,8 +156,8 @@
   <bean id="ElectronicInvoiceRejectDocument-purchaseOrderIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="purchaseOrderIdentifier"/>
     <property name="forceUppercase" value="true"/>
-    <property name="label" value="Epic Purchase Order Identifier"/>
-    <property name="shortLabel" value="Identifier"/>
+    <property name="label" value="Purchase Order #"/>
+    <property name="shortLabel" value="Purchase Order #"/>
     <property name="maxLength" value="9"/>
     <property name="validationPattern">
       <bean parent="NumericValidationPattern"/>
@@ -170,8 +171,8 @@
   <bean id="ElectronicInvoiceRejectDocument-invoiceCustomerNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="invoiceCustomerNumber"/>
     <property name="forceUppercase" value="true"/>
-    <property name="label" value="Invoice Customer Number"/>
-    <property name="shortLabel" value="Number"/>
+    <property name="label" value="Invoice Customer #"/>
+    <property name="shortLabel" value="Invoice Customer #"/>
     <property name="maxLength" value="50"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
@@ -233,6 +234,14 @@
     </property>
   </bean>
     
+  <bean id="ElectronicInvoiceRejectDocument-invoiceResearchIndicatorForSearching" parent="ElectronicInvoiceRejectDocument-invoiceResearchIndicator-parentBean">
+    <property name="name" value="invoiceResearchIndicatorForSearching"/>
+    <property name="label" value="Research Indicator"/>
+    <property name="control">
+      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorValuesFinder" p:includeKeyInLabel="false"/>
+    </property>     
+  </bean>
+  
   <bean id="ElectronicInvoiceRejectDocument-invoiceFileDiscountInLineIndicator" parent="ElectronicInvoiceRejectDocument-invoiceFileDiscountInLineIndicator-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectDocument-invoiceFileDiscountInLineIndicator-parentBean" abstract="true" parent="AttributeDefinition">
@@ -289,7 +298,7 @@
     <property name="name" value="invoiceFileNumber"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Invoice Number"/>
-    <property name="shortLabel" value="Number"/>
+    <property name="shortLabel" value="Invoice Number"/>
     <property name="maxLength" value="100"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
@@ -369,8 +378,8 @@
   <bean id="ElectronicInvoiceRejectDocument-purapDocumentIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="purapDocumentIdentifier"/>
     <property name="forceUppercase" value="true"/>
-    <property name="label" value="Invoice Header Information Identifier"/>
-    <property name="shortLabel" value="Identifier"/>
+    <property name="label" value="Reject #"/>
+    <property name="shortLabel" value="Reject #"/>
     <property name="maxLength" value="9"/>
     <property name="validationPattern">
       <bean parent="NumericValidationPattern"/>
@@ -743,8 +752,8 @@
   <bean id="ElectronicInvoiceRejectDocument-invoiceOrderPurchaseOrderIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="invoiceOrderPurchaseOrderIdentifier"/>
     <property name="forceUppercase" value="true"/>
-    <property name="label" value="Purchase Order Number"/>
-    <property name="shortLabel" value="Identifier"/>
+    <property name="label" value="Purchase Order #"/>
+    <property name="shortLabel" value="Purchase Order #"/>
     <property name="maxLength" value="100"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
@@ -849,8 +858,8 @@
   <bean id="ElectronicInvoiceRejectDocument-invoicePurchaseOrderNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="invoicePurchaseOrderNumber"/>
     <property name="forceUppercase" value="true"/>
-    <property name="label" value="Invoice Purchase Order Number"/>
-    <property name="shortLabel" value="Number"/>
+    <property name="label" value="Invoice Purchase Order #"/>
+    <property name="shortLabel" value="Invoice Purchase Order #"/>
     <property name="maxLength" value="100"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
@@ -1362,8 +1371,8 @@
   <bean id="ElectronicInvoiceRejectDocument-vendorDunsNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorDunsNumber"/>
     <property name="forceUppercase" value="true"/>
-    <property name="label" value="Vendor Duns Number"/>
-    <property name="shortLabel" value="Number"/>
+    <property name="label" value="Vendor DUNS Number"/>
+    <property name="shortLabel" value="Vendor DUNS Number"/>
     <property name="maxLength" value="50"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
@@ -1544,14 +1553,14 @@
     		      <property name="searchingAttribute">
     			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument"/>
-    					  <property name="attributeName" value="invoiceResearchIndicator"/>
+    					  <property name="attributeName" value="invoiceResearchIndicatorForSearching"/>
     					  <property name="showAttributeInSearchCriteria" value="true"/>
                           <property name="showAttributeInResultSet" value="true"/>    					  
     				  </bean>
     			  </property>
     			  <property name="documentValues">
     			      <list>
-    					  <value>invoiceResearchIndicator</value>
+    					  <value>invoiceResearchIndicatorForSearching</value>
     				  </list>
     			  </property>
     		  </bean> 

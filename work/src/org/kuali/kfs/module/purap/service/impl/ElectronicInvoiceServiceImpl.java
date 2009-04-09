@@ -47,15 +47,9 @@ import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kim.bo.Person;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * @author delyea
- */
 @Transactional
 public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
-    
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceServiceImpl.class);
-  
-  private static BigDecimal zero = new BigDecimal(0.00);
   
   private ElectronicInvoicingDao electronicInvoicingDao;
   private PurchaseOrderService purchaseOrderService;
@@ -63,7 +57,6 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
   private VendorService vendorService;
   private EnvironmentService environmentService;
   private ElectronicInvoiceMappingService electronicInvoiceMappingService;
-  
   private ElectronicInvoiceInputFileType electronicInvoiceInputFileType;
   private BatchInputFileService batchInputFileService;
   
@@ -79,15 +72,12 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
   public void setVendorService(VendorService vendorService) {
     this.vendorService = vendorService;
   }
-
   public void setEnvironmentService(EnvironmentService environmentService) {
     this.environmentService = environmentService;
   }
-  public void setElectronicInvoiceMappingService(
-      ElectronicInvoiceMappingService electronicInvoiceMappingService) {
+  public void setElectronicInvoiceMappingService(ElectronicInvoiceMappingService electronicInvoiceMappingService) {
     this.electronicInvoiceMappingService = electronicInvoiceMappingService;
   }
-  
   public void setBatchInputFileService(BatchInputFileService batchInputFileService) {
       this.batchInputFileService = batchInputFileService;
   }
@@ -428,7 +418,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
   private void validateCxmlSummaryAmountValues(ElectronicInvoice ei,BigDecimal summaryAmount,String summaryAmountCurrency,
       String amountDescriptor,String invoiceLineItemTypeCode,Map itemTypeMappings) {
     // we only care if the amount is more than 0
-    if ( (zero.compareTo(summaryAmount)) != 0 ) {
+    if ( (BigDecimal.ZERO.compareTo(summaryAmount)) != 0 ) {
       // amount is not zero - check valid dollars
       String kualiItemType = this.getKualiItemTypeCodeForInvoiceCode(invoiceLineItemTypeCode,itemTypeMappings);
       if (!(electronicInvoiceMappingService.acceptAmountType(kualiItemType))) {
@@ -451,7 +441,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
   private void validateCxmlLineAmountValues(ElectronicInvoice ei,BigDecimal summaryAmount,String summaryAmountCurrency,
       String amountDescriptor,String invoiceLineItemTypeCode,Map itemTypeMappings) {
     BigDecimal lineItemAmount = ei.getFileTotalAmountForInLineItems(invoiceLineItemTypeCode);
-    if ( (zero.compareTo(lineItemAmount)) != 0 ) {
+    if ( (BigDecimal.ZERO.compareTo(lineItemAmount)) != 0 ) {
       // line item total is not zero so we check other errors
       String kualiItemType = this.getKualiItemTypeCodeForInvoiceCode(invoiceLineItemTypeCode,itemTypeMappings);
       if (!(electronicInvoiceMappingService.acceptAmountType(kualiItemType))) {
@@ -792,7 +782,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
         
         if (poi.getItemQuantity() != null) {
           // PO ITEM is QTY based
-          if (zero.compareTo(poi.getItemOutstandingEncumberedQuantity().bigDecimalValue()) >= 0) {
+          if (BigDecimal.ZERO.compareTo(poi.getItemOutstandingEncumberedQuantity().bigDecimalValue()) >= 0) {
             // we have no quantity left encumbered on the po item
             String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  Kuali item (line number '" + poi.getItemLineNumber() + 
                 "') outstanding encumbered order quantity is '" + poi.getItemOutstandingEncumberedQuantity() + "'";
@@ -823,7 +813,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
           }
         } else {
           // PO ITEM is DOLLARS based
-          if ((zero.compareTo(poi.getItemOutstandingEncumberedAmount().bigDecimalValue())) >= 0) {
+          if ((BigDecimal.ZERO.compareTo(poi.getItemOutstandingEncumberedAmount().bigDecimalValue())) >= 0) {
             // we have no dollars left encumbered on the po item
             String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  Kuali item (line number '" + poi.getItemLineNumber() + 
                 "') outstanding encumbered amount is '" + poi.getItemOutstandingEncumberedAmount() + "'";

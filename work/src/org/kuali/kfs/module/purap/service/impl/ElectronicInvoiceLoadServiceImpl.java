@@ -61,11 +61,7 @@ import org.kuali.rice.kns.service.MailService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 
-/**
- * @author delyea
- */
 public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadService {
-
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceLoadServiceImpl.class);
 
     private static String UNKNOWN_DUNS_IDENTIFIER = "Unknown";
@@ -98,7 +94,7 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
         LOG.debug("loadElectronicInvoices() started");
 
         /**
-         * FIXME: Add parameters for each dir name In EPIC, accept and reject dir names are coming from sys param and invoice dir
+         * FIXME: Add parameters for each dir name In system, accept and reject dir names are coming from sys param and invoice dir
          * are coming from cmd line args
          */
         String rejectDirName = electronicInvoiceInputFileType.getDirectoryPath() + File.separator + "reject" + File.separator;
@@ -362,7 +358,7 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
             if (electronicInvoice.isFileRejected()) {
                 /*
                  * the file was parsed and the data sent was in correct format but the electronic invoice DUNS did not match in the
-                 * EPIC system
+                 * system
                  */
                 this.rejectElectronicInvoiceFileWithSave(electronicInvoiceLoad, loadSummaryDunsNumber, electronicInvoice);
                 LOG.debug("processElectronicInvoice() ended");
@@ -382,7 +378,7 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
             
             // TODO FUTURE ENHANCEMENT: E-Invoicing - enable per vendor acceptance/rejecting of electronic invoice item types here
             // itemTypeMappings = electronicInvoiceMappingService.getItemMappingMap(ei.getVendorHeaderID(), ei.getVendorDetailID());
-            // here we are getting the EPIC standard E-Invoice Item Mappings
+            // here we are getting the standard E-Invoice Item Mappings
             itemTypeMappings = electronicInvoiceMappingService.getDefaultItemMappingMap();
             electronicInvoiceService.doCxmlAmountValidationChecks(electronicInvoice, itemTypeMappings); // uses mapping
             if (electronicInvoice.isFileRejected()) {
@@ -422,14 +418,14 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
             }
             try {
                 if (electronicInvoice.isFileRejected()) {
-                    // file is already rejected, do not attempt to match to EPIC data
+                    // file is already rejected, do not attempt to match to  data
                     rejectSingleElectronicInvoiceOrderDetail(electronicInvoiceLoad, loadSummaryDunsNumber, electronicInvoice, eio);
                 }
                 else {
                     // check to make sure each po line item is referenced only once
                     electronicInvoiceService.matchElectronicInvoiceToPurchaseOrder(electronicInvoice, eio);
                     if (eio.isRejected()) {
-                        // electronic invoice orer does not match to purchase order in EPIC
+                        // electronic invoice orer does not match to purchase order in system
                         this.rejectSingleElectronicInvoiceOrderDetail(electronicInvoiceLoad, loadSummaryDunsNumber, electronicInvoice, eio);
                     }
                     else {
@@ -437,7 +433,7 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
                         electronicInvoiceService.performElectronicInvoiceOrderValidation(electronicInvoice, eio);
 
                         if (eio.isRejected()) {
-                            // electronic invoice orer does not match to purchase order in EPIC
+                            // electronic invoice orer does not match to purchase order in system
                             this.rejectSingleElectronicInvoiceOrderDetail(electronicInvoiceLoad, loadSummaryDunsNumber, electronicInvoice, eio);
                         }
                         else {

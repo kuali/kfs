@@ -32,20 +32,15 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
-
 import org.kuali.kfs.module.purap.util.ElectronicInvoiceUtils;
 import org.kuali.kfs.module.purap.util.cxml.CxmlHeader;
 
-/**
- * @author delyea
- */
 public class ElectronicInvoice {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoice.class);
 

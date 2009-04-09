@@ -1133,6 +1133,19 @@
     					</list>
     				</property>
     			</bean>
+                <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                            <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.RequisitionDocument"/>
+                            <property name="attributeName" value="vendorNumber"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>vendorNumber</value>
+                        </list>
+                    </property>
+                </bean>             
     			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
     	      		<property name="searchingAttribute">
     	      			<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
@@ -1248,19 +1261,6 @@
     				<property name="documentValues">
     					<list>
     						<value>documentHeader.documentDescription</value>
-    					</list>
-    				</property>
-    			</bean>
-         		<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-    				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.rice.kns.bo.DocumentHeader"/>
-    						<property name="attributeName" value="organizationDocumentNumber"/>
-    					</bean>
-    				</property>
-    				<property name="documentValues">
-    					<list>
-    						<value>documentHeader.organizationDocumentNumber</value>
     					</list>
     				</property>
     			</bean>

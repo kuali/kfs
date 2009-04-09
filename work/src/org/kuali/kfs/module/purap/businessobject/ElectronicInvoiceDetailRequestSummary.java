@@ -10,14 +10,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
 
-
-/**
- * @author delyea
- *
- */
 public class ElectronicInvoiceDetailRequestSummary {
-  
-  private static BigDecimal zero = new BigDecimal(0.00);
   
   private String subTotalAmount; // has money xml node
   private String subTotalAmountCurrency;
@@ -59,7 +52,7 @@ public class ElectronicInvoiceDetailRequestSummary {
   public String getShippingDescription() {
     if (this.shippingAmount != null) {
       try {
-        if (zero.compareTo(this.getInvoiceShippingAmount()) != 0) {
+        if (BigDecimal.ZERO.compareTo(this.getInvoiceShippingAmount()) != 0) {
           return PurapConstants.ElectronicInvoice.DEFAULT_SHIPPING_DESCRIPTION;
         } else {
           return null;
@@ -73,7 +66,7 @@ public class ElectronicInvoiceDetailRequestSummary {
   
   public BigDecimal getInvoiceSubTotalAmount() {
     if ( (this.subTotalAmount == null) || ("".equals(this.subTotalAmount)) ) {
-      return zero;
+      return BigDecimal.ZERO;
     } else {
       return new BigDecimal(this.subTotalAmount);
     }
@@ -81,7 +74,7 @@ public class ElectronicInvoiceDetailRequestSummary {
 
   public BigDecimal getInvoiceTaxAmount() {
     if ( (this.taxAmount == null) || ("".equals(this.taxAmount)) ) {
-      return zero;
+      return BigDecimal.ZERO;
     } else {
       return new BigDecimal(this.taxAmount);
     }
@@ -89,7 +82,7 @@ public class ElectronicInvoiceDetailRequestSummary {
 
   public BigDecimal getInvoiceSpecialHandlingAmount() {
     if ( (this.specialHandlingAmount == null) || ("".equals(this.specialHandlingAmount)) ) {
-      return zero;
+      return BigDecimal.ZERO;
     } else {
       return new BigDecimal(this.specialHandlingAmount);
     }
@@ -97,7 +90,7 @@ public class ElectronicInvoiceDetailRequestSummary {
 
   public BigDecimal getInvoiceShippingAmount() {
     if ( (this.shippingAmount == null) || ("".equals(this.shippingAmount)) ) {
-      return zero;
+      return BigDecimal.ZERO;
     } else {
       return new BigDecimal(this.shippingAmount);
     }
@@ -105,7 +98,7 @@ public class ElectronicInvoiceDetailRequestSummary {
 
   public BigDecimal getInvoiceGrossAmount() {
     if ( (this.grossAmount == null) || ("".equals(this.grossAmount)) ) {
-      return zero;
+      return BigDecimal.ZERO;
     } else {
       return new BigDecimal(this.grossAmount);
     }
@@ -113,7 +106,7 @@ public class ElectronicInvoiceDetailRequestSummary {
 
   public BigDecimal getInvoiceDiscountAmount() {
     if ( (this.discountAmount == null) || ("".equals(this.discountAmount)) ) {
-      return zero;
+      return BigDecimal.ZERO;
     } else {
       return new BigDecimal(this.discountAmount);
     }
@@ -121,7 +114,7 @@ public class ElectronicInvoiceDetailRequestSummary {
 
   public BigDecimal getInvoiceNetAmount() {
     if ( (this.netAmount == null) || ("".equals(this.netAmount)) ) {
-      return zero;
+      return BigDecimal.ZERO;
     } else {
       return new BigDecimal(this.netAmount);
     }
@@ -129,7 +122,7 @@ public class ElectronicInvoiceDetailRequestSummary {
   
   public BigDecimal getInvoiceDepositAmount() {
     if ( (this.depositAmount == null) || ("".equals(this.depositAmount)) ) {
-      return zero;
+      return BigDecimal.ZERO;
     } else {
       return new BigDecimal(this.depositAmount);
     }
@@ -137,7 +130,7 @@ public class ElectronicInvoiceDetailRequestSummary {
   
   public BigDecimal getInvoiceDueAmount() {
     if ( (this.dueAmount == null) || ("".equals(this.dueAmount)) ) {
-      return zero;
+      return BigDecimal.ZERO;
     } else {
       return new BigDecimal(this.dueAmount);
     }

@@ -231,7 +231,7 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
 
         BigDecimal lineItemTotalAmount = orderHolder.getElectronicInvoice().getFileTotalAmountForInLineItems(invoiceLineItemTypeCode);
 
-//        if (lineItemTotalAmount.compareTo(BigDecimal.ZERO) != 0) { // EPIC way, but it's not needed
+//        if (lineItemTotalAmount.compareTo(BigDecimal.ZERO) != 0) { // old way, but it's not needed
             if ((lineItemTotalAmount.compareTo(summaryAmount)) != 0) {
                 String extraDescription = "Line Total Amount:" + lineItemTotalAmount + ",Summary Total Amount:" + summaryAmount;
                 ElectronicInvoiceRejectReason rejectReason = createRejectReason(rejectDescriptionCode, extraDescription, orderHolder.getFileName());

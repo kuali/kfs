@@ -20,14 +20,8 @@ import org.kuali.kfs.module.purap.util.ElectronicInvoiceUtils;
 import org.kuali.kfs.module.purap.util.cxml.CxmlExtrinsic;
 
 
-/**
- * @author delyea
- *
- */
 public class ElectronicInvoiceItem {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceItem.class);
-  
-  private static final BigDecimal zero = new BigDecimal(0.00);
   
   // this class is equiped to hold InvoiceDetailItem values as well as a few rudimentary
   // InvoiceDetailServiceItem values
@@ -105,7 +99,7 @@ public class ElectronicInvoiceItem {
     if (StringUtils.isNotEmpty(unitPrice)) {
       return new BigDecimal(this.unitPrice);
     } else {
-      return zero;
+      return BigDecimal.ZERO;
     }
   }
   
@@ -113,7 +107,7 @@ public class ElectronicInvoiceItem {
     if (StringUtils.isNotEmpty(subTotalAmount)) {
       return new BigDecimal(this.subTotalAmount);
     } else {
-      return zero;
+      return BigDecimal.ZERO;
     }
   }
 
@@ -121,7 +115,7 @@ public class ElectronicInvoiceItem {
     if (StringUtils.isNotEmpty(taxAmount)) {
       return new BigDecimal(this.taxAmount);
     } else {
-      return zero;
+      return BigDecimal.ZERO;
     }
   }
 
@@ -129,7 +123,7 @@ public class ElectronicInvoiceItem {
     if (StringUtils.isNotEmpty(invoiceLineSpecialHandlingAmount)) {
       return new BigDecimal(this.invoiceLineSpecialHandlingAmount);
     } else {
-      return zero;
+      return BigDecimal.ZERO;
     }
   }
 
@@ -137,7 +131,7 @@ public class ElectronicInvoiceItem {
     if (StringUtils.isNotEmpty(invoiceLineShippingAmount)) {
       return new BigDecimal(this.invoiceLineShippingAmount);
     } else {
-      return zero;
+      return BigDecimal.ZERO;
     }
   }
 
@@ -145,7 +139,7 @@ public class ElectronicInvoiceItem {
     if (StringUtils.isNotEmpty(invoiceLineGrossAmount)) {
       return new BigDecimal(this.invoiceLineGrossAmount);
     } else {
-      return zero;
+      return BigDecimal.ZERO;
     }
   }
 
@@ -153,7 +147,7 @@ public class ElectronicInvoiceItem {
     if (StringUtils.isNotEmpty(invoiceLineDiscountAmount)) {
       return new BigDecimal(this.invoiceLineDiscountAmount);
     } else {
-      return zero;
+      return BigDecimal.ZERO;
     }
   }
 
@@ -161,7 +155,7 @@ public class ElectronicInvoiceItem {
     if (StringUtils.isNotEmpty(invoiceLineNetAmount)) {
       return new BigDecimal(this.invoiceLineNetAmount);
     } else {
-      return zero;
+      return BigDecimal.ZERO;
     }
   }
 

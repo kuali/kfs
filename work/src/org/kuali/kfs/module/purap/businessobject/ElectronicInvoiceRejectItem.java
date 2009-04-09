@@ -11,16 +11,7 @@ import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 
-/**
- * @author delyea
- *
- */
-/**
- * This class...
- */
 public class ElectronicInvoiceRejectItem extends PersistableBusinessObjectBase {
-
-    private static BigDecimal zero = new BigDecimal(0);
 
     // NOT NULL FIELDS
     private Integer invoiceRejectItemIdentifier;
@@ -123,11 +114,11 @@ public class ElectronicInvoiceRejectItem extends PersistableBusinessObjectBase {
         // setup the sub total amount so that the reject prints to the files correctly
         if (((eii.getSubTotalAmount() == null) || ("".equals(eii.getSubTotalAmount())))) {
             // the sub total amount of this electronic invoice item was not given
-            if (((this.invoiceItemQuantity != null) && ((zero.compareTo(this.invoiceItemQuantity)) != 0)) && ((this.invoiceItemUnitPrice != null) && ((zero.compareTo(this.invoiceItemUnitPrice)) != 0))) {
+            if (((this.invoiceItemQuantity != null) && ((BigDecimal.ZERO.compareTo(this.invoiceItemQuantity)) != 0)) && ((this.invoiceItemUnitPrice != null) && ((BigDecimal.ZERO.compareTo(this.invoiceItemUnitPrice)) != 0))) {
                 // unit price and quantity are valid... calculate subtotal
                 this.invoiceItemSubTotalAmount = this.invoiceItemQuantity.multiply(this.invoiceItemUnitPrice);
             }
-            else if (((this.invoiceItemQuantity == null) || ("".equals(this.invoiceItemQuantity))) && ((this.invoiceItemUnitPrice != null) && ((zero.compareTo(this.invoiceItemUnitPrice)) != 0))) {
+            else if (((this.invoiceItemQuantity == null) || ("".equals(this.invoiceItemQuantity))) && ((this.invoiceItemUnitPrice != null) && ((BigDecimal.ZERO.compareTo(this.invoiceItemUnitPrice)) != 0))) {
                 // quantity is empty but unit cost exists... use it
                 this.invoiceItemSubTotalAmount = this.invoiceItemUnitPrice;
             }
@@ -408,11 +399,11 @@ public class ElectronicInvoiceRejectItem extends PersistableBusinessObjectBase {
     public BigDecimal getInvoiceItemSubTotalAmount() {
         // this needs to be calculated when read
         BigDecimal returnValue;
-        if (((this.invoiceItemQuantity != null) && ((zero.compareTo(this.invoiceItemQuantity)) != 0)) && ((this.invoiceItemUnitPrice != null) && ((zero.compareTo(this.invoiceItemUnitPrice)) != 0))) {
+        if (((this.invoiceItemQuantity != null) && ((BigDecimal.ZERO.compareTo(this.invoiceItemQuantity)) != 0)) && ((this.invoiceItemUnitPrice != null) && ((BigDecimal.ZERO.compareTo(this.invoiceItemUnitPrice)) != 0))) {
             // unit price and quantity are valid... calculate subtotal
             returnValue = this.invoiceItemQuantity.multiply(this.invoiceItemUnitPrice);
         }
-        else if (((this.invoiceItemQuantity == null) || ("".equals(this.invoiceItemQuantity))) && ((this.invoiceItemUnitPrice != null) && ((zero.compareTo(this.invoiceItemUnitPrice)) != 0))) {
+        else if (((this.invoiceItemQuantity == null) || ("".equals(this.invoiceItemQuantity))) && ((this.invoiceItemUnitPrice != null) && ((BigDecimal.ZERO.compareTo(this.invoiceItemUnitPrice)) != 0))) {
             // quantity is empty but unit cost exists... use it
             returnValue = this.invoiceItemUnitPrice;
         }

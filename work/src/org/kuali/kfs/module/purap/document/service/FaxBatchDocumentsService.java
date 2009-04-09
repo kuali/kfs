@@ -24,18 +24,14 @@
  */
 package org.kuali.kfs.module.purap.document.service;
 
-import java.util.Collection;
 
-/**
- * @delyea
- */
 public interface FaxBatchDocumentsService {
-  /**
-   * Faxes pending documents.  Currently only PO documents set to Pending Fax
-   * Status inside workflow.
-   * 
-   * @return true if all the POs are faxed
-   */
-  public boolean faxPendingPurchaseOrders();
-}
 
+    /**
+     * Faxes pending documents. Currently only PO documents set to Pending Fax Status inside workflow.
+     * 
+     * @return true if all the POs are faxed
+     */
+    public boolean faxPendingPurchaseOrders();
+
+}

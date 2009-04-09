@@ -20,17 +20,12 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
 import org.kuali.kfs.module.purap.util.ElectronicInvoiceUtils;
 
-/**
- * @author delyea
- */
 public class ElectronicInvoiceOrder {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceOrder.class);
   
   public static boolean INVOICE_ORDER_REJECTED = true;
   public static boolean INVOICE_ORDER_NOT_REJECTED = false;
   
-  private static BigDecimal zero = new BigDecimal(0.00);
-
   // the following fields come from the <InvoiceDetailOrderInfo> tag
   private String orderReferenceOrderID;
   private String orderReferenceDocumentRefPayloadID;
@@ -114,7 +109,7 @@ public class ElectronicInvoiceOrder {
   }
   /**
    * This method returns the first shipping date found in the list of items.  This 
-   * is called if shipping information is in line. Since EPIC only allows for one 
+   * is called if shipping information is in line. Since system only allows for one 
    * shipping date per invoice-order we take the first date we find
    * 
    * @return  Date defining first shipping date found or null if none are found
@@ -132,7 +127,7 @@ public class ElectronicInvoiceOrder {
   
   /**
    * This method returns the first shipping date string found in the list of items.  This 
-   * is called if shipping information is in line. Since EPIC only allows for one shipping 
+   * is called if shipping information is in line. Since system only allows for one shipping 
    * date per invoice-order we take the first date string we find
    * 
    * @return  Date defining first shipping date found or null if none are found
@@ -149,11 +144,11 @@ public class ElectronicInvoiceOrder {
   }
   
   public String getInvoiceTaxDescription() {
-    BigDecimal total = zero;
+    BigDecimal total = BigDecimal.ZERO;
     for (Iterator iter = this.invoiceItems.iterator(); iter.hasNext();) {
       ElectronicInvoiceItem eii = (ElectronicInvoiceItem) iter.next();
       BigDecimal taxAmount = eii.getInvoiceLineTaxAmountBigDecimal(); 
-      if ( (taxAmount != null) && (zero.compareTo(taxAmount) != 0) ) {
+      if ( (taxAmount != null) && (BigDecimal.ZERO.compareTo(taxAmount) != 0) ) {
         return eii.getTaxDescription();
       }
     }
@@ -161,11 +156,11 @@ public class ElectronicInvoiceOrder {
   }
 
   public String getInvoiceShippingDescription() {
-    BigDecimal total = zero;
+    BigDecimal total = BigDecimal.ZERO;
     for (Iterator iter = this.invoiceItems.iterator(); iter.hasNext();) {
       ElectronicInvoiceItem eii = (ElectronicInvoiceItem) iter.next();
       BigDecimal shippingAmount = eii.getInvoiceLineShippingAmountBigDecimal(); 
-      if ( (shippingAmount != null) && (zero.compareTo(shippingAmount) != 0) ) {
+      if ( (shippingAmount != null) && (BigDecimal.ZERO.compareTo(shippingAmount) != 0) ) {
         return PurapConstants.ElectronicInvoice.DEFAULT_SHIPPING_DESCRIPTION;
       }
     }
@@ -173,7 +168,7 @@ public class ElectronicInvoiceOrder {
   }
 
   public BigDecimal getInvoiceSubTotalAmount() {
-    BigDecimal total = zero;
+    BigDecimal total = BigDecimal.ZERO;
     for (Iterator iter = this.invoiceItems.iterator(); iter.hasNext();) {
       ElectronicInvoiceItem eii = (ElectronicInvoiceItem) iter.next();
       total = total.add(eii.getInvoiceLineSubTotalAmountBigDecimal());
@@ -182,7 +177,7 @@ public class ElectronicInvoiceOrder {
   }
 
   public BigDecimal getInvoiceTaxAmount() {
-    BigDecimal total = zero;
+    BigDecimal total = BigDecimal.ZERO;
     for (Iterator iter = this.invoiceItems.iterator(); iter.hasNext();) {
       ElectronicInvoiceItem eii = (ElectronicInvoiceItem) iter.next();
       total = total.add(eii.getInvoiceLineTaxAmountBigDecimal());
@@ -191,7 +186,7 @@ public class ElectronicInvoiceOrder {
   }
 
   public BigDecimal getInvoiceSpecialHandlingAmount() {
-    BigDecimal total = zero;
+    BigDecimal total = BigDecimal.ZERO;
     for (Iterator iter = this.invoiceItems.iterator(); iter.hasNext();) {
       ElectronicInvoiceItem eii = (ElectronicInvoiceItem) iter.next();
       total = total.add(eii.getInvoiceLineSpecialHandlingAmountBigDecimal());
@@ -200,7 +195,7 @@ public class ElectronicInvoiceOrder {
   }
 
   public BigDecimal getInvoiceShippingAmount() {
-    BigDecimal total = zero;
+    BigDecimal total = BigDecimal.ZERO;
     for (Iterator iter = this.invoiceItems.iterator(); iter.hasNext();) {
       ElectronicInvoiceItem eii = (ElectronicInvoiceItem) iter.next();
       total = total.add(eii.getInvoiceLineShippingAmountBigDecimal());
@@ -209,7 +204,7 @@ public class ElectronicInvoiceOrder {
   }
 
   public BigDecimal getInvoiceGrossAmount() {
-    BigDecimal total = zero;
+    BigDecimal total = BigDecimal.ZERO;
     for (Iterator iter = this.invoiceItems.iterator(); iter.hasNext();) {
       ElectronicInvoiceItem eii = (ElectronicInvoiceItem) iter.next();
       total = total.add(eii.getInvoiceLineGrossAmountBigDecimal());
@@ -218,7 +213,7 @@ public class ElectronicInvoiceOrder {
   }
 
   public BigDecimal getInvoiceDiscountAmount() {
-    BigDecimal total = zero;
+    BigDecimal total = BigDecimal.ZERO;
     for (Iterator iter = this.invoiceItems.iterator(); iter.hasNext();) {
       ElectronicInvoiceItem eii = (ElectronicInvoiceItem) iter.next();
       total = total.add(eii.getInvoiceLineDiscountAmountBigDecimal());
@@ -227,7 +222,7 @@ public class ElectronicInvoiceOrder {
   }
 
   public BigDecimal getInvoiceNetAmount() {
-    BigDecimal total = zero;
+    BigDecimal total = BigDecimal.ZERO;
     for (Iterator iter = this.invoiceItems.iterator(); iter.hasNext();) {
       ElectronicInvoiceItem eii = (ElectronicInvoiceItem) iter.next();
       total = total.add(eii.getInvoiceLineNetAmountBigDecimal());

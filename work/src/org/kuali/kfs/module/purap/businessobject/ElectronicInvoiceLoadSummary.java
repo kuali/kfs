@@ -13,10 +13,6 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-/**
- * @author delyea
- *
- */
 public class ElectronicInvoiceLoadSummary extends PersistableBusinessObjectBase {
   
   private Integer invoiceLoadSummaryIdentifier;

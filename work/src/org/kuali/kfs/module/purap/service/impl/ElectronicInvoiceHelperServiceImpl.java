@@ -110,14 +110,10 @@ import org.w3c.dom.Node;
 /**
  * This is a helper service to parse electronic invoice file, match it with a PO and create PREQs based on the eInvoice. Also, it 
  * provides helper methods to the reject document to match it with a PO and create PREQ.
- * 
- * @author vpremcha
- * @author delyea (code copied from EPIC)
  */
 
 @Transactional
 public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelperService {
-
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceHelperServiceImpl.class);
 
     private final String UNKNOWN_DUNS_IDENTIFIER = "Unknown";
@@ -590,7 +586,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             return true;
         }
         
-        //IN EPIC, it says - Future Release - Enter valid location for Customer Number from E-Invoice
+        //it says - Future Release - Enter valid location for Customer Number from E-Invoice
         //mappingService.getInvoiceCustomerNumber() doesnt have any implementation
 //        electronicInvoice.setCustomerNumber(mappingService.getInvoiceCustomerNumber(electronicInvoice));
         
@@ -1230,7 +1226,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                     /**
                      * FIXME : I dont think this block will gets executed
                      */  
-                    // item is not epic payment terms discount item... just add value
+                    // item is not payment terms discount item... just add value
                     // if discount item exists on PREQ and discount dollar amount exists... use greater amount
                     if (LOG.isInfoEnabled()){
                         LOG.info("Discount Check - E-Invoice matches PREQ item type '" + preqItem.getItemTypeCode() + "'");

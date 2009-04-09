@@ -822,7 +822,7 @@ public class PurapConstants extends JSTLConstants {
         public static String[] ITEM_TYPES_REQUIRES_DESCRIPTION = {PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE,
                                                                   PurapConstants.ItemTypeCodes.ITEM_TYPE_MISC_CODE};
         
-        // EPIC ELECTRONIC INVOICE REJECT REASON TYPE CODES
+        // ELECTRONIC INVOICE REJECT REASON TYPE CODES
         public static String REJECT_REASON_TYPE_FILE = "FILE";
         public static String REJECT_REASON_TYPE_ORDER = "INVC";
 

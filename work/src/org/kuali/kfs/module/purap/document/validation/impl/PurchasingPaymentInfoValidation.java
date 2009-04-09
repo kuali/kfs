@@ -84,7 +84,7 @@ public class PurchasingPaymentInfoValidation extends GenericValidation {
 
     /**
      * Implementation of the rule that if a document has a recurring payment begin date and end date, the begin date should come
-     * before the end date. In EPIC, we needed to play around with this order if the fiscal year is the next fiscal year, since we
+     * before the end date. We needed to play around with this order if the fiscal year is the next fiscal year, since we
      * were dealing just with month and day, but we don't need to do that here; we're dealing with the whole Date object.
      * 
      * @param purDocument the purchasing document to be validated

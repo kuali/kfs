@@ -9,10 +9,6 @@ import java.util.List;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-/**
- * @author delyea
- *
- */
 public class ElectronicInvoicePostalAddress {
   // no deliverTo attributes currently
   private String type;

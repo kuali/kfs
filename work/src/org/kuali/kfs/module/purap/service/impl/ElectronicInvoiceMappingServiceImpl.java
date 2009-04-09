@@ -14,10 +14,6 @@ import org.kuali.kfs.module.purap.dataaccess.impl.ElectronicInvoicingDaoOjb;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * @author delyea
- *
- */
 @Transactional
 public class ElectronicInvoiceMappingServiceImpl implements ElectronicInvoiceMappingService {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoicingDaoOjb.class);
@@ -39,7 +35,7 @@ public class ElectronicInvoiceMappingServiceImpl implements ElectronicInvoiceMap
   }
   
   public boolean acceptAmountType(String cxmlAmountType) {
-    return ( (cxmlAmountType != null) && (!(cxmlAmountType.equalsIgnoreCase(EPIC_ITEM_TYPE_RETURN_VALUE_UNACCEPTED))) );
+    return ( (cxmlAmountType != null) && (!(cxmlAmountType.equalsIgnoreCase(ITEM_TYPE_RETURN_VALUE_UNACCEPTED))) );
   }
   
   /**

@@ -10,10 +10,6 @@ import java.util.Map;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceLoadSummary;
 import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
 
-/**
- * @author delyea
- *
- */
 public interface ElectronicInvoicingDao {
   public ElectronicInvoiceLoadSummary getElectronicInvoiceLoadSummary(Integer loadId,String vendorDunsNumber);
   public ElectronicInvoiceLoadSummary saveElectronicInvoiceLoadSummary(ElectronicInvoiceLoadSummary loadSummary);

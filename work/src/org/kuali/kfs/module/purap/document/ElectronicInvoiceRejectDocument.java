@@ -28,13 +28,9 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kns.document.SessionDocument;
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
-/**
- * @author delyea
- */
 public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactionalDocumentBase implements SessionDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceRejectDocument.class);
     private static BigDecimal zero = new BigDecimal(0);
@@ -104,8 +100,8 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
 
     private String invoiceCustomerNumber;
     private String invoicePurchaseOrderNumber;
-    private Integer purchaseOrderIdentifier; // epic
-    private String purchaseOrderDeliveryCampusCode; // epic
+    private Integer purchaseOrderIdentifier;
+    private String purchaseOrderDeliveryCampusCode;
 
     private String invoiceItemSubTotalCurrencyCode;
     private String invoiceItemSpecialHandlingCurrencyCode;
@@ -649,8 +645,8 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     /**
      * @param purchaseOrderDeliveryCampusCode The purchaseOrderDeliveryCampusCode to set.
      */
-    public void setPurchaseOrderDeliveryCampusCode(String epicPODeliveryCampusCode) {
-        this.purchaseOrderDeliveryCampusCode = epicPODeliveryCampusCode;
+    public void setPurchaseOrderDeliveryCampusCode(String poDeliveryCampusCode) {
+        this.purchaseOrderDeliveryCampusCode = poDeliveryCampusCode;
     }
 
     /**
@@ -663,8 +659,8 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     /**
      * @param purchaseOrderIdentifier The purchaseOrderIdentifier to set.
      */
-    public void setPurchaseOrderIdentifier(Integer epicPurchaseOrderId) {
-        this.purchaseOrderIdentifier = epicPurchaseOrderId;
+    public void setPurchaseOrderIdentifier(Integer purchaseOrderId) {
+        this.purchaseOrderIdentifier = purchaseOrderId;
     }
 
     /**
@@ -1829,6 +1825,11 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
         return false;
     }       
     
+    public boolean isInvoiceResearchIndicatorForSearching() {
+        return invoiceResearchIndicator;
+    }
+    
+
 }
 /*
  * Copyright (c) 2004, 2005 The National Association of College and University Business Officers, Cornell University, Trustees of

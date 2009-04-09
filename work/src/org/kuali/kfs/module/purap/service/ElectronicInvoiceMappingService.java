@@ -10,15 +10,11 @@ import org.kuali.kfs.module.purap.businessobject.ElectronicInvoice;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceItem;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceOrder;
 
-/**
- * @author delyea
- *
- */
 public interface ElectronicInvoiceMappingService {
   
   // default values
   public static String DEFAULT_BELOW_LINE_ITEM_DESCRIPTION = "Electronically entered amount";
-  // EPIC ELECTRONIC INVOICE SHIPPING DESCRIPTION
+  // ELECTRONIC INVOICE SHIPPING DESCRIPTION
   public static String E_INVOICE_SHIPPING_DESCRIPTION = "Shipping";
 
   
@@ -38,15 +34,15 @@ public interface ElectronicInvoiceMappingService {
    * If the PREQ ITEM TYPE is null then we do not accept or care
    * about these items
    */
-  public static String EPIC_ITEM_TYPE_RETURN_VALUE_UNACCEPTED = "";
+  public static String ITEM_TYPE_RETURN_VALUE_UNACCEPTED = "";
   
-  // EPIC ELECTRONIC INVOICE CXML US DOLLAR CODE
+  // ELECTRONIC INVOICE CXML US DOLLAR CODE
   public static String[] CXML_VALID_CURRENCY_CODES = {"USD"};
 
-  // EPIC ELECTRONIC INVOICE CXML OPERATION CODE
+  // ELECTRONIC INVOICE CXML OPERATION CODE
   public static String[] CXML_VALID_OPERATION_CODES = {"new"};
 
-  // EPIC ELECTRONIC INVOICE CXML PURPOSE CODE
+  // ELECTRONIC INVOICE CXML PURPOSE CODE
   public static String[] CXML_VALID_PURPOSE_CODES = {"standard"};
 
   public Map getDefaultItemMappingMap();

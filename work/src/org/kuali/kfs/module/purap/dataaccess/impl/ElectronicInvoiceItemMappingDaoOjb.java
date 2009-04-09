@@ -44,8 +44,8 @@ ElectronicInvoiceItemMappingDao {
     return (ElectronicInvoiceItemMapping)getPersistenceBrokerTemplate().getObjectByQuery(qbc);
   }
   
-  public List getAllEpicItemTypes() {
-    LOG.debug("getAllEpicItemTypes() started");
+  public List getAllItemTypes() {
+    LOG.debug("getAllItemTypes() started");
 
     Criteria criteria = new Criteria();
     criteria.addEqualTo("active",Boolean.TRUE);

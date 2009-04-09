@@ -587,7 +587,7 @@ public class PurapServiceImpl implements PurapService {
 
             if (creditMemo.isReopenPurchaseOrderIndicator() && PurapConstants.PurchaseOrderStatuses.CLOSED.equals(creditMemo.getPurchaseOrderDocument().getStatusCode())) {
                 // get the po id and get the current PO
-                // route 'Re-Open PO Document' if PO criteria meets requirements from EPIC business rules
+                // route 'Re-Open PO Document' if PO criteria meets requirements from business rules
                 processCloseReopenPo((AccountsPayableDocumentBase) purapDocument, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT);
             }
 

@@ -11,10 +11,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-/**
- * @author delyea
- *
- */
 public class ElectronicInvoiceContact {
   
   private String role;

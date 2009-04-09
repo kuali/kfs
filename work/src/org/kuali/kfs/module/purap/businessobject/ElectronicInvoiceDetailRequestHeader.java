@@ -4,24 +4,16 @@
  */
 package org.kuali.kfs.module.purap.businessobject;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.util.ElectronicInvoiceUtils;
 import org.kuali.kfs.module.purap.util.cxml.CxmlExtrinsic;
 
-/**
- * @author delyea
- *
- */
 public class ElectronicInvoiceDetailRequestHeader {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceDetailRequestHeader.class);
   

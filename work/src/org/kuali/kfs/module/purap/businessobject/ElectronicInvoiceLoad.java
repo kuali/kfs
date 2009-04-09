@@ -12,9 +12,6 @@ import java.util.Map;
 
 import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
 
-/**
- * @author delyea
- */
 public class ElectronicInvoiceLoad {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceLoad.class);

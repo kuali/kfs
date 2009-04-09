@@ -41,12 +41,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-/**
- * @author delyea
- *
- */
 public class FaxBatchDocumentsServiceImpl implements FaxBatchDocumentsService {
-    
    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FaxBatchDocumentsServiceImpl.class);
 
    private PurchaseOrderService purchaseOrderService;

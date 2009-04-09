@@ -9,10 +9,6 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-/**
- * @author delyea
- *
- */
 public class ElectronicInvoiceRejectReason extends PersistableBusinessObjectBase {
   
   private Integer invoiceRejectReasonIdentifier;

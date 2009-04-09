@@ -1114,8 +1114,8 @@ public class PurapConstants extends JSTLConstants {
         public static final String ATTACHMENT_TYPE_OTHER = "Other";
         public static final String ATTACHMENT_TYPE_OTHER_RESTRICTED = "Other - Restricted";
         public static final String ATTACHMENT_TYPE_INVOICE_IMAGE = "Invoice Image";
-        public static final String ATTACHMENT_TYPE_QUOTE = "Quote";
-        public static final String ATTACHMENT_TYPE_RFP = "RFP";
+        public static final String ATTACHMENT_TYPE_QUOTE = "Quotes";
+        public static final String ATTACHMENT_TYPE_RFP = "RFPs";
         public static final String ATTACHMENT_TYPE_RFP_RESPONSES = "RFP Responses";
         public static final String ATTACHMENT_TYPE_TAX_DOCUMENTS = "Tax Documents";
     }

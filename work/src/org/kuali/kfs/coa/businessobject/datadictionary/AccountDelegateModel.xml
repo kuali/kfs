@@ -14,7 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="AccountDelegateModel-lookupDefinition" />
     </property>
-    <property name="titleAttribute" value="accountDelegateModel" />
+    <property name="titleAttribute" value="accountDelegateModelName" />
     <property name="objectLabel" value="Account Delegate Model" />
     <property name="attributes" >
       <list>
@@ -131,6 +131,9 @@
                           p:attributeName="approvalToThisAmount" />
                     <bean parent="FieldDefinition"
                           p:attributeName="accountDelegate.name" />
+             		 <bean parent="FieldDefinition"
+                    	  p:attributeName="active" />
+                          
                   </list>
                 </property>
               </bean>
@@ -143,7 +146,6 @@
 
 <!-- Business Object Lookup Definition -->
 
-
   <bean id="AccountDelegateModel-lookupDefinition" parent="AccountDelegateModel-lookupDefinition-parentBean" />
 
   <bean id="AccountDelegateModel-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
@@ -152,6 +154,12 @@
     <property name="instructions" value="Look up an Account Delegate Model Name" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>accountDelegateModelName</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="false" />
       </bean>
     </property>
     <property name="lookupFields" >

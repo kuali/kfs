@@ -19,7 +19,7 @@
           </split>
           <requests name="Account" nextNode="AccountingOrganizationHierarchy"/>
           <requests name="AccountingOrganizationHierarchy" nextNode="RequiresTaxReview"/>
-          <split name="RequiresTaxReview" nextNode="Campus">
+          <split name="RequiresTaxReview" nextNode="Award">
             <branch name="True">
               <requests name="Tax" nextNode="JoinRequiresTaxReview"/>
             </branch>
@@ -38,25 +38,13 @@
             </branch>
             <join name="JoinRequiresTravelReview"/>
           </split>
-          <requests name="Campus" nextNode="RequiresPaymentReview"/>
-          <split name="RequiresPaymentReview" >
-            <branch name="True">
-              <requests name="PaymentMethod" nextNode="JoinRequiresPaymentReview"/>
-            </branch>
-            <branch name="False">
-              <simple name="NoOpPaymentReview" nextNode="JoinRequiresPaymentReview"/>
-            </branch>
-            <join name="JoinRequiresPaymentReview"/>
-          </split>
-          
+          <requests name="Campus" nextNode="PaymentMethod"/>
+          <requests name="PaymentMethod"/>
         </routePath>
       </routePaths>
       <routeNodes>
         <start name="AdHoc"/>
         <split name="PayeeIsPurchaseOrderVendor">
-          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
-        </split>
-        <split name="RequiresPaymentReview">
           <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
         </split>
         <split name="RequiresTaxReview">
@@ -68,9 +56,6 @@
         <simple name="NoOpPayee">
           <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
         </simple>
-         <simple name="NoOpPaymentReview">
-          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-        </simple>
         <simple name="NoOpTaxReview">
           <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
         </simple>
@@ -78,7 +63,6 @@
           <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
         </simple>
         <join name="JoinPayeeIsPurchaseOrderVendor"/>
-        <join name="JoinRequiresPaymentReview"/>
         <join name="JoinRequiresTaxReview"/>
         <join name="JoinRequiresTravelReview"/>
         <role name="Purchasing">

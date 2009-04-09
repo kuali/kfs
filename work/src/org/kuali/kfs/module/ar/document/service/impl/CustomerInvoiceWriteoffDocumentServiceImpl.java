@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.batch.service.CustomerInvoiceWriteoffBatchService;
 import org.kuali.kfs.module.ar.batch.vo.CustomerInvoiceWriteoffBatchVO;
@@ -29,6 +30,7 @@ import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
 import org.kuali.kfs.module.ar.businessobject.lookup.CustomerInvoiceWriteoffLookupUtil;
+import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
@@ -43,12 +45,15 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kns.exception.UnknownDocumentIdException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -167,15 +172,18 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
              customerInvoiceDocuments = customerInvoiceDocumentService.getAllOpenCustomerInvoiceDocumentsWithoutWorkflow();
         }
         
+        // filter invoices which have related CRMs and writeoffs in route.
+        Collection<CustomerInvoiceDocument> filteredCustomerInvoiceDocuments = filterInvoices(customerInvoiceDocuments);
+        
         //  if no age value was specified, then we're done!
         if (StringUtils.isEmpty(age)) {
-            return CustomerInvoiceWriteoffLookupUtil.getPopulatedCustomerInvoiceWriteoffLookupResults(customerInvoiceDocuments);
+            return CustomerInvoiceWriteoffLookupUtil.getPopulatedCustomerInvoiceWriteoffLookupResults(filteredCustomerInvoiceDocuments);
         }
         
         // walk through what we have, and do any extra filtering based on age, if necessary
         boolean eligibleInvoiceFlag;
         Collection<CustomerInvoiceDocument> eligibleInvoices = new ArrayList<CustomerInvoiceDocument>();
-        for (CustomerInvoiceDocument invoice : customerInvoiceDocuments) {
+        for (CustomerInvoiceDocument invoice : filteredCustomerInvoiceDocuments) {
             eligibleInvoiceFlag = true;
             
             if (ObjectUtils.isNotNull(invoice.getAge())) {
@@ -191,6 +199,108 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
 
         return CustomerInvoiceWriteoffLookupUtil.getPopulatedCustomerInvoiceWriteoffLookupResults(eligibleInvoices);
     }
+    
+    /**
+     * This method filters invoices which have related CRMs and/or writeoffs in route
+     * 
+     * @param customerInvoiceDocuments
+     * @return filteredInvoices
+     */    
+    public Collection<CustomerInvoiceDocument> filterInvoices(Collection<CustomerInvoiceDocument> customerInvoiceDocuments) {
+        Collection<CustomerInvoiceDocument> filteredInvoices = new ArrayList<CustomerInvoiceDocument>();
+        boolean hasNoDocumentsInRouteFlag;
+        
+        for (CustomerInvoiceDocument invoice : customerInvoiceDocuments) {
+            hasNoDocumentsInRouteFlag = checkIfThereIsNoAnotherCRMInRouteForTheInvoice(invoice.getDocumentNumber());
+            if (hasNoDocumentsInRouteFlag)
+                hasNoDocumentsInRouteFlag = checkIfThereIsNoAnotherWriteoffInRouteForTheInvoice(invoice.getDocumentNumber());
+            if (hasNoDocumentsInRouteFlag)
+                filteredInvoices.add(invoice);
+        }
+        return filteredInvoices;
+    }
+    
+    /**
+     * This method checks if there is no another CRM in route for the invoice
+     * Not in route if CRM status is one of the following: processed, cancelled, or disapproved
+     * 
+     * @param invoice
+     * @return
+     */
+    public boolean checkIfThereIsNoAnotherCRMInRouteForTheInvoice(String invoiceDocumentNumber) {
+
+        KualiWorkflowDocument workflowDocument;
+        boolean success = true;
+
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("financialDocumentReferenceInvoiceNumber", invoiceDocumentNumber);
+
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        Collection<CustomerCreditMemoDocument> customerCreditMemoDocuments = businessObjectService.findMatching(CustomerCreditMemoDocument.class, fieldValues);
+
+        // no CRMs associated with the invoice are found
+        if (customerCreditMemoDocuments.isEmpty())
+            return success;
+
+        Person user = GlobalVariables.getUserSession().getPerson();
+
+        for (CustomerCreditMemoDocument customerCreditMemoDocument : customerCreditMemoDocuments) {
+            try {
+                workflowDocument = SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument(Long.valueOf(customerCreditMemoDocument.getDocumentNumber()), user);
+            }
+            catch (WorkflowException e) {
+                throw new UnknownDocumentIdException("no document found for documentHeaderId '" + customerCreditMemoDocument.getDocumentNumber() + "'", e);
+            }
+
+            if (!(workflowDocument.stateIsApproved() || workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved())) {
+                success = false;
+                break;
+            }
+        }
+        return success;
+    }
+
+    /**
+     * This method checks if there is no another writeoff in route for the invoice
+     * Not in route if writeoff status is one of the following: processed, cancelled, or disapproved
+     * 
+     * @param invoice
+     * @return
+     */
+    public boolean checkIfThereIsNoAnotherWriteoffInRouteForTheInvoice(String invoiceDocumentNumber) {
+
+        KualiWorkflowDocument workflowDocument;
+        boolean success = true;
+
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("financialDocumentReferenceInvoiceNumber", invoiceDocumentNumber);
+
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        Collection<CustomerInvoiceWriteoffDocument> customerInvoiceWriteoffDocuments = businessObjectService.findMatching(CustomerInvoiceWriteoffDocument.class, fieldValues);
+
+
+        // no writeoffs associated with the invoice are found
+        if (customerInvoiceWriteoffDocuments.isEmpty())
+            return success;
+
+        Person user = GlobalVariables.getUserSession().getPerson();
+
+        for (CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument : customerInvoiceWriteoffDocuments) {
+            try {
+                workflowDocument = SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument(Long.valueOf(customerInvoiceWriteoffDocument.getDocumentNumber()), user);
+            }
+            catch (WorkflowException e) {
+                throw new UnknownDocumentIdException("no document found for documentHeaderId '" + customerInvoiceWriteoffDocument.getDocumentNumber() + "'", e);
+            }
+
+            if (!(workflowDocument.stateIsApproved() || workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved())) {
+                success = false;
+                break;
+            }
+        }
+        return success;
+    }
+
     
     /**
      * 

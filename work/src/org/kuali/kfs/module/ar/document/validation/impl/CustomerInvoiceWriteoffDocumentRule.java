@@ -25,10 +25,10 @@ import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
-import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
 import org.kuali.kfs.module.ar.document.validation.ContinueCustomerInvoiceWriteoffDocumentRule;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -234,36 +234,11 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
      * @return
      */
     public boolean checkIfThereIsNoAnotherCRMInRouteForTheInvoice(String invoiceDocumentNumber) {
+        CustomerInvoiceWriteoffDocumentService service = SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class);
+        boolean success = service.checkIfThereIsNoAnotherCRMInRouteForTheInvoice(invoiceDocumentNumber);
+        if (!success)
+            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_ONE_CRM_IN_ROUTE_PER_INVOICE);
 
-        KualiWorkflowDocument workflowDocument;
-        boolean success = true;
-
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("financialDocumentReferenceInvoiceNumber", invoiceDocumentNumber);
-
-        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        Collection<CustomerCreditMemoDocument> customerCreditMemoDocuments = businessObjectService.findMatching(CustomerCreditMemoDocument.class, fieldValues);
-
-        // no CRMs associated with the invoice are found
-        if (customerCreditMemoDocuments.isEmpty())
-            return success;
-
-        Person user = GlobalVariables.getUserSession().getPerson();
-
-        for (CustomerCreditMemoDocument customerCreditMemoDocument : customerCreditMemoDocuments) {
-            try {
-                workflowDocument = SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument(Long.valueOf(customerCreditMemoDocument.getDocumentNumber()), user);
-            }
-            catch (WorkflowException e) {
-                throw new UnknownDocumentIdException("no document found for documentHeaderId '" + customerCreditMemoDocument.getDocumentNumber() + "'", e);
-            }
-
-            if (!(workflowDocument.stateIsApproved() || workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved())) {
-                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_ONE_CRM_IN_ROUTE_PER_INVOICE);
-                success = false;
-                break;
-            }
-        }
         return success;
     }
 
@@ -275,37 +250,11 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
      * @return
      */
     public boolean checkIfThereIsNoAnotherWriteoffInRouteForTheInvoice(String invoiceDocumentNumber) {
+        CustomerInvoiceWriteoffDocumentService service = SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class);
+        boolean success = service.checkIfThereIsNoAnotherWriteoffInRouteForTheInvoice(invoiceDocumentNumber);
+        if (!success)
+            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_ONE_WRITEOFF_IN_ROUTE_PER_INVOICE);
 
-        KualiWorkflowDocument workflowDocument;
-        boolean success = true;
-
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("financialDocumentReferenceInvoiceNumber", invoiceDocumentNumber);
-
-        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        Collection<CustomerInvoiceWriteoffDocument> customerInvoiceWriteoffDocuments = businessObjectService.findMatching(CustomerInvoiceWriteoffDocument.class, fieldValues);
-
-
-        // no CRMs associated with the invoice are found
-        if (customerInvoiceWriteoffDocuments.isEmpty())
-            return success;
-
-        Person user = GlobalVariables.getUserSession().getPerson();
-
-        for (CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument : customerInvoiceWriteoffDocuments) {
-            try {
-                workflowDocument = SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument(Long.valueOf(customerInvoiceWriteoffDocument.getDocumentNumber()), user);
-            }
-            catch (WorkflowException e) {
-                throw new UnknownDocumentIdException("no document found for documentHeaderId '" + customerInvoiceWriteoffDocument.getDocumentNumber() + "'", e);
-            }
-
-            if (!(workflowDocument.stateIsApproved() || workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved())) {
-                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_ONE_CRM_IN_ROUTE_PER_INVOICE);
-                success = false;
-                break;
-            }
-        }
         return success;
     }
 

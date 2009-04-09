@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
@@ -45,6 +46,30 @@ public interface CustomerInvoiceWriteoffDocumentService {
      * @return
      */
     public Collection<CustomerInvoiceWriteoffLookupResult> getCustomerInvoiceDocumentsForInvoiceWriteoffLookup(Map<String, String> fieldValues);
+    
+    /**
+     * This method filters invoices which have related CRMs and/or writeoffs in route
+     * @param customerInvoiceDocuments
+     * @return filteredInvoices
+     */    
+    public Collection<CustomerInvoiceDocument> filterInvoices(Collection<CustomerInvoiceDocument> customerInvoiceDocuments);
+    
+    /**
+     * This method checks if there is no another CRM in route for the invoice
+     * Not in route if CRM status is one of the following: processed, cancelled, or disapproved
+     * @param invoice
+     * @return
+     */
+    public boolean checkIfThereIsNoAnotherCRMInRouteForTheInvoice(String invoiceDocumentNumber);
+
+    /**
+     * This method checks if there is no another writeoff in route for the invoice
+     * Not in route if writeoff status is one of the following: processed, cancelled, or disapproved
+     * 
+     * @param invoice
+     * @return
+     */
+    public boolean checkIfThereIsNoAnotherWriteoffInRouteForTheInvoice(String invoiceDocumentNumber);
     
     /**
      * This method initiates customer invoice writeoff documents based on a collection of customer invoice writeoff lookup results

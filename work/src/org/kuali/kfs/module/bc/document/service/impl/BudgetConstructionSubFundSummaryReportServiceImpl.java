@@ -96,7 +96,7 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
         String subFundGroupName = subFundSummaryList.getFundGroup().getName();
         String subFundGroupDes = subFundSummaryList.getSubFundGroup().getSubFundGroupDescription();
         Integer prevFiscalyear = universityFiscalYear - 1;
-        orgSubFundSummaryReportEntry.setFiscalYear(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4));
+        orgSubFundSummaryReportEntry.setFiscalYear(prevFiscalyear.toString() + "-" + universityFiscalYear.toString().substring(2, 4));
         orgSubFundSummaryReportEntry.setOrgChartOfAccountsCode(subFundSummaryList.getOrganizationChartOfAccountsCode());
         if (orgChartDesc == null) {
             orgSubFundSummaryReportEntry.setOrgChartOfAccountDescription(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
@@ -133,8 +133,8 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
             orgSubFundSummaryReportEntry.setSubFundGroupDescription(subFundGroupDes);
         }
         Integer prevPrevFiscalyear = prevFiscalyear - 1;
-        orgSubFundSummaryReportEntry.setBaseFy(prevPrevFiscalyear.toString() + " - " + prevFiscalyear.toString().substring(2, 4));
-        orgSubFundSummaryReportEntry.setReqFy(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4));
+        orgSubFundSummaryReportEntry.setBaseFy(prevPrevFiscalyear.toString() + "-" + prevFiscalyear.toString().substring(2, 4));
+        orgSubFundSummaryReportEntry.setReqFy(prevFiscalyear.toString() + "-" + universityFiscalYear.toString().substring(2, 4));
         orgSubFundSummaryReportEntry.setHeader1(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_HEADER_SUBFUND));
         orgSubFundSummaryReportEntry.setHeader2(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_HEADER_SUBFUND_DESCRIPTION));
         orgSubFundSummaryReportEntry.setHeader3(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_HEADER_BASE_AMOUNT));

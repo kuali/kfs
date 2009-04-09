@@ -108,7 +108,7 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
         String fundGroupDes = levelSummary.getSubFundGroup().getFundGroup().getName();
 
         Integer prevFiscalyear = universityFiscalYear - 1;
-        orgLevelSummaryReportEntry.setFiscalYear(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4));
+        orgLevelSummaryReportEntry.setFiscalYear(prevFiscalyear.toString() + "-" + universityFiscalYear.toString().substring(2, 4));
         orgLevelSummaryReportEntry.setOrgChartOfAccountsCode(levelSummary.getOrganizationChartOfAccountsCode());
 
         if (orgChartDesc == null) {
@@ -151,8 +151,8 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
         }
 
         Integer prevPrevFiscalyear = prevFiscalyear - 1;
-        orgLevelSummaryReportEntry.setBaseFy(prevPrevFiscalyear.toString() + " - " + prevFiscalyear.toString().substring(2, 4));
-        orgLevelSummaryReportEntry.setReqFy(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4));
+        orgLevelSummaryReportEntry.setBaseFy(prevPrevFiscalyear.toString() + "-" + prevFiscalyear.toString().substring(2, 4));
+        orgLevelSummaryReportEntry.setReqFy(prevFiscalyear.toString() + "-" + universityFiscalYear.toString().substring(2, 4));
         orgLevelSummaryReportEntry.setHeader1("Object Level Name");
         orgLevelSummaryReportEntry.setHeader2a("Lv. FTE");
         orgLevelSummaryReportEntry.setHeader2("FTE");

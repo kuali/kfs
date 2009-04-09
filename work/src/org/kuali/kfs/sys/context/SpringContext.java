@@ -295,17 +295,17 @@ public class SpringContext {
                 LOG.info( "Starting the Periodic Thread Dump thread - dumping every " + getBean(KualiConfigurationService.class).getPropertyString("periodic.thread.dump.seconds") + " seconds");
             }
             Runnable processWatch = new Runnable() {
-                DateFormat df = new SimpleDateFormat( "yyyy-MM-dd" );
+                DateFormat df = new SimpleDateFormat( "yyyyMMdd" );
                 DateFormat tf = new SimpleDateFormat( "HH-mm-ss" );
                 long sleepPeriod = Long.parseLong( getBean(KualiConfigurationService.class).getPropertyString("periodic.thread.dump.seconds") ) * 1000;
                 public void run() {
                     File logDir = new File( getBean(KualiConfigurationService.class).getPropertyString( "logs.directory" ) );
                     while ( true ) {
-                        File todaysLogDir = new File( logDir, "ProcessWatch-" + df.format(new Date()) );
+                        File todaysLogDir = new File( logDir + File.separator + "monitoring", df.format(new Date()) );
                         if ( !todaysLogDir.exists() ) {
                             todaysLogDir.mkdir();
                         }
-                        File logFile = new File( todaysLogDir, "pw-"+tf.format(new Date())+".log" );
+                        File logFile = new File( todaysLogDir, "process-"+tf.format(new Date())+".log" );
                         try {
                             BufferedWriter w = new BufferedWriter( new FileWriter( logFile ) );
                             StringBuffer logStatement = new StringBuffer(10240);

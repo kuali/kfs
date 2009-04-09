@@ -42,6 +42,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.WebUtils;
@@ -250,7 +251,7 @@ public class CustomerCreditMemoDocumentAction extends KualiTransactionalDocument
      */
     public ActionForward print(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String basePath = getBasePath(request);
-        String docId = ((CustomerCreditMemoDocumentForm) form).getDocNum();
+        String docId = ((CustomerCreditMemoDocumentForm) form).getDocument().getDocumentNumber();
         String methodToCallPrintCreditMemoPDF = "printCreditMemoPDF";
         String methodToCallDocHandler = "docHandler";
         String printCreditMemoPDFUrl = getUrlForPrintCreditMemo(basePath, docId, methodToCallPrintCreditMemoPDF);
@@ -275,10 +276,9 @@ public class CustomerCreditMemoDocumentAction extends KualiTransactionalDocument
      * @return
      * @throws Exception
      */
-    public ActionForward printCreditMemoPdf(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
-        CustomerCreditMemoDocumentForm customerCreditMemoDocumentForm = (CustomerCreditMemoDocumentForm)form;
-        CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument) customerCreditMemoDocumentForm.getDocument();
+    public ActionForward printCreditMemoPDF(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String creditMemoDocId = request.getParameter(KFSConstants.PARAMETER_DOC_ID);
+        CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(creditMemoDocId);
         
         AccountsReceivableReportService reportService = SpringContext.getBean(AccountsReceivableReportService.class);
         File report = reportService.generateCreditMemo(customerCreditMemoDocument);

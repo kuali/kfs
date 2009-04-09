@@ -123,7 +123,7 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
         String subFundGroupName = accountSummary.getFundGroup().getName();
         String subFundGroupDes = accountSummary.getSubFundGroup().getSubFundGroupDescription();
         Integer prevFiscalyear = universityFiscalYear - 1;
-        orgAccountSummaryReportEntry.setFiscalYear(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4));
+        orgAccountSummaryReportEntry.setFiscalYear(prevFiscalyear.toString() + "-" + universityFiscalYear.toString().substring(2, 4));
         orgAccountSummaryReportEntry.setOrgChartOfAccountsCode(accountSummary.getOrganizationChartOfAccountsCode());
 
         if (orgChartDesc == null) {
@@ -166,8 +166,8 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
         }
 
         Integer prevPrevFiscalyear = prevFiscalyear - 1;
-        orgAccountSummaryReportEntry.setBaseFy(prevPrevFiscalyear.toString() + " - " + prevFiscalyear.toString().substring(2, 4));
-        orgAccountSummaryReportEntry.setReqFy(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4));
+        orgAccountSummaryReportEntry.setBaseFy(prevPrevFiscalyear.toString() + "-" + prevFiscalyear.toString().substring(2, 4));
+        orgAccountSummaryReportEntry.setReqFy(prevFiscalyear.toString() + "-" + universityFiscalYear.toString().substring(2, 4));
         orgAccountSummaryReportEntry.setHeader1(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_HEADER_ACCOUNT_SUB));
         orgAccountSummaryReportEntry.setHeader2(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_HEADER_ACCOUNT_SUB_NAME));
         orgAccountSummaryReportEntry.setHeader3(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_HEADER_BASE_AMOUNT));

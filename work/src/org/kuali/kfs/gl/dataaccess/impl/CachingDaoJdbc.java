@@ -1024,7 +1024,7 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
             balanceInsert.setBigDecimal(24, balance.getMonth13Amount().bigDecimalValue());
             balanceInsert.setTimestamp(25, dateTimeService.getCurrentTimestamp());
             
-            balanceInsert.executeQuery();
+            balanceInsert.executeUpdate();
             previousBalanceKey = "GL_BALANCE_T:" + balance.getUniversityFiscalYear().toString() + "/" + balance.getChartOfAccountsCode() + "/" + balance.getAccountNumber() + "/" + balance.getSubAccountNumber() + "/" + balance.getObjectCode() + "/" + balance.getSubObjectCode() + "/" + balance.getBalanceTypeCode() + "/" + balance.getObjectTypeCode();
             previousBalance = balance;
         } catch (SQLException e) {
@@ -1061,7 +1061,7 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
             balanceUpdate.setString(24, balance.getBalanceTypeCode());
             balanceUpdate.setString(25, balance.getObjectTypeCode());
  
-            balanceUpdate.executeQuery();
+            balanceUpdate.executeUpdate();
             previousBalance = balance;  //should we also update the key for safety?  it should be the same though
         } catch (SQLException e) {
             //TODO: should do something else here I'm sure
@@ -1132,7 +1132,7 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
             encumbranceInsert.setString(15, encumbrance.getAccountLineEncumbrancePurgeCode());
             encumbranceInsert.setTimestamp(16, dateTimeService.getCurrentTimestamp());
             
-            encumbranceInsert.executeQuery();
+            encumbranceInsert.executeUpdate();
             previousEncumbranceKey = "GL_ENCUMBRANCE_T:" + encumbrance.getUniversityFiscalYear().toString() + "/" + encumbrance.getChartOfAccountsCode() + "/" + encumbrance.getAccountNumber() + "/" + encumbrance.getSubAccountNumber() + "/" + encumbrance.getObjectCode() + "/" + encumbrance.getSubObjectCode() + "/" + encumbrance.getBalanceTypeCode() + "/" + encumbrance.getDocumentTypeCode() + "/" + encumbrance.getOriginCode() + "/" + encumbrance.getDocumentNumber();
             previousEncumbrance = encumbrance;
         } catch (SQLException e) {
@@ -1160,7 +1160,7 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
             encumbranceUpdate.setString(15, encumbrance.getOriginCode());
             encumbranceUpdate.setString(16, encumbrance.getDocumentNumber());
  
-            encumbranceUpdate.executeQuery();
+            encumbranceUpdate.executeUpdate();
             previousEncumbrance = encumbrance;
         } catch (SQLException e) {
             //TODO: should do something else here I'm sure
@@ -1226,7 +1226,7 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
             expenditureTransactionInsert.setString(11, expenditureTransaction.getOrganizationReferenceId());
             expenditureTransactionInsert.setBigDecimal(12, expenditureTransaction.getAccountObjectDirectCostAmount().bigDecimalValue());
 
-            expenditureTransactionInsert.executeQuery();
+            expenditureTransactionInsert.executeUpdate();
             previousExpenditureTransactionKey = "GL_EXPEND_TRN_T:" + expenditureTransaction.getUniversityFiscalYear().toString() + "/" + expenditureTransaction.getChartOfAccountsCode() + "/" + expenditureTransaction.getAccountNumber() + "/" + expenditureTransaction.getSubAccountNumber() + "/" + expenditureTransaction.getObjectCode() + "/" + expenditureTransaction.getSubObjectCode() + "/" + expenditureTransaction.getBalanceTypeCode() + "/" + expenditureTransaction.getObjectTypeCode() + "/" + expenditureTransaction.getUniversityFiscalAccountingPeriod() + "/" + expenditureTransaction.getProjectCode() + "/" + expenditureTransaction.getOrganizationReferenceId();
             previousExpenditureTransaction = expenditureTransaction;
         } catch (SQLException e) {
@@ -1250,7 +1250,7 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
             expenditureTransactionUpdate.setString(11, expenditureTransaction.getProjectCode());
             expenditureTransactionUpdate.setString(12, expenditureTransaction.getOrganizationReferenceId());
 
-            expenditureTransactionUpdate.executeQuery();
+            expenditureTransactionUpdate.executeUpdate();
             previousExpenditureTransaction = expenditureTransaction;
         } catch (SQLException e) {
             //TODO: should do something else here I'm sure
@@ -1301,7 +1301,7 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
             sufficientFundBalancesInsert.setBigDecimal(8, sufficientFundBalances.getAccountEncumbranceAmount().bigDecimalValue());
             sufficientFundBalancesInsert.setTimestamp(9, dateTimeService.getCurrentTimestamp());
             
-            sufficientFundBalancesInsert.executeQuery();
+            sufficientFundBalancesInsert.executeUpdate();
             previousSufficientFundBalancesKey = "GL_SF_BALANCES_T:" + sufficientFundBalances.getUniversityFiscalYear().toString() + "/" + sufficientFundBalances.getChartOfAccountsCode() + "/" + sufficientFundBalances.getAccountNumber() + "/" + sufficientFundBalances.getFinancialObjectCode();
             previousSufficientFundBalances = sufficientFundBalances;
         } catch (SQLException e) {
@@ -1322,7 +1322,7 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
             sufficientFundBalancesUpdate.setString(8, sufficientFundBalances.getAccountNumber());
             sufficientFundBalancesUpdate.setString(9, sufficientFundBalances.getFinancialObjectCode());
 
-            sufficientFundBalancesUpdate.executeQuery();
+            sufficientFundBalancesUpdate.executeUpdate();
             previousSufficientFundBalances = sufficientFundBalances;
         } catch (SQLException e) {
             //TODO: should do something else here I'm sure
@@ -1377,7 +1377,7 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
             accountBalanceInsert.setBigDecimal(9, accountBalance.getAccountLineEncumbranceBalanceAmount().bigDecimalValue());
             accountBalanceInsert.setTimestamp(10, dateTimeService.getCurrentTimestamp());
             
-            accountBalanceInsert.executeQuery();
+            accountBalanceInsert.executeUpdate();
             previousAccountBalanceKey = "GL_ACCT_BALANCES_T:" + accountBalance.getUniversityFiscalYear().toString() + "/" + accountBalance.getChartOfAccountsCode() + "/" + accountBalance.getAccountNumber() + "/" + accountBalance.getSubAccountNumber() + "/" + accountBalance.getObjectCode() + "/" + accountBalance.getSubObjectCode();
             previousAccountBalance = accountBalance;
         } catch (SQLException e) {
@@ -1399,7 +1399,7 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
             accountBalanceUpdate.setString(9, accountBalance.getObjectCode());
             accountBalanceUpdate.setString(10, accountBalance.getSubObjectCode());
 
-            accountBalanceUpdate.executeQuery();
+            accountBalanceUpdate.executeUpdate();
             previousAccountBalance = accountBalance;
         } catch (SQLException e) {
             //TODO: should do something else here I'm sure

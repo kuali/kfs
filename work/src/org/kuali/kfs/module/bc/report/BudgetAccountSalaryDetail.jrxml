@@ -933,7 +933,7 @@
 					<reportElement
 						x="112"
 						y="69"
-						width="44"
+						width="48"
 						height="12"
 						key="textField-232"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -944,7 +944,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="164"
+						x="168"
 						y="69"
 						width="36"
 						height="12"
@@ -1076,7 +1076,7 @@
 				</textField>
 				<staticText>
 					<reportElement
-						x="157"
+						x="161"
 						y="69"
 						width="7"
 						height="12"

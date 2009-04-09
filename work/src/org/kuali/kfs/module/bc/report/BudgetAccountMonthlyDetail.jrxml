@@ -360,7 +360,7 @@
 					<reportElement
 						x="113"
 						y="59"
-						width="44"
+						width="48"
 						height="12"
 						key="textField-344"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -371,7 +371,7 @@
 				</textField>
 				<staticText>
 					<reportElement
-						x="158"
+						x="162"
 						y="59"
 						width="7"
 						height="12"
@@ -384,7 +384,7 @@
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="165"
+						x="169"
 						y="59"
 						width="36"
 						height="12"

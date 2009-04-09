@@ -41,8 +41,7 @@
 	        <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${cardAttributes.transactionCreditCardNumber}" readOnly="true"/></div></th>
 	        <td>
 	          <kul:inquiry boClassName="org.kuali.kfs.fp.businessobject.ProcurementCardHolder" 
-               keyValues="documentNumber=${currentTransaction.documentNumber}" 
-               render="true">
+               keyValues="documentNumber=${currentTransaction.documentNumber}" render="true">
 	            <kul:htmlControlAttribute attributeEntry="${cardAttributes.transactionCreditCardNumber}" property="document.procurementCardHolder.transactionCreditCardNumber"
 	             readOnly="true" encryptValue="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" displayMaskValue="****************" />
 	          </kul:inquiry>

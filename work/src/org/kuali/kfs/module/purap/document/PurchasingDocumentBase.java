@@ -1140,10 +1140,6 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         this.purchasingCapitalAssetItems = purchasingCapitalAssetItems;
     }
     
-    public String getDeliveryCampusCodeForSearching() {
-        return deliveryCampusCode;
-    }
-
     public abstract Class getPurchasingCapitalAssetItemClass();
 
     public abstract Class getPurchasingCapitalAssetSystemClass();

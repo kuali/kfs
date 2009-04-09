@@ -157,7 +157,6 @@
         <ref bean="PurchaseOrderDocument-capitalAssetSystemStateCode"/>
         <ref bean="PurchaseOrderDocument-useTaxIndicator"/>
         <ref bean="PurchaseOrderDocument-statusCodeForMultiboxSearching"/>
-        <ref bean="PurchaseOrderDocument-deliveryCampusCodeForSearching"/>
         <ref bean="PurchaseOrderDocument-purchaseOrderCurrentIndicatorForSearching"/>
         <ref bean="PurchaseOrderDocument-receivingDocumentRequiredIndicatorForSearching"/>
         <ref bean="PurchaseOrderDocument-paymentRequestPositiveApprovalIndicatorForSearching"/>
@@ -345,8 +344,8 @@
   <bean id="PurchaseOrderDocument-purapDocumentIdentifier" parent="PurchaseOrderDocument-purapDocumentIdentifier-parentBean"/>
 
   <bean id="PurchaseOrderDocument-purapDocumentIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-purapDocumentIdentifier">
-    <property name="label" value="Purchase Order Nbr"/>
-    <property name="shortLabel" value="PO Nbr"/>
+    <property name="label" value="Purchase Order #"/>
+    <property name="shortLabel" value="Purchase Order #"/>
   </bean>
   <bean id="PurchaseOrderDocument-statusCode" parent="PurchaseOrderDocument-statusCode-parentBean"/>
 
@@ -517,21 +516,7 @@
     <property name="label" value="Delivery Campus"/>
     <property name="shortLabel" value="Delivery Campus"/>
     <property name="required" value="true"/>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.CampusNoBlankValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
   </bean>
-  
-  <bean id="PurchaseOrderDocument-deliveryCampusCodeForSearching" parent="PurchaseOrderDocument-deliveryCampusCodeForSearching-parentBean"/>
-
-  <bean id="PurchaseOrderDocument-deliveryCampusCodeForSearching-parentBean" abstract="true" parent="VendorGenericAttributes-campusCode">
-    <property name="name" value="deliveryCampusCodeForSearching"/>
-    <property name="label" value="Delivery Campus"/>
-    <property name="shortLabel" value="Delivery Campus"/>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
-  </bean> 
   
   <bean id="PurchaseOrderDocument-deliveryBuildingOtherIndicator" parent="PurchaseOrderDocument-deliveryBuildingOtherIndicator-parentBean"/>
 

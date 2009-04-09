@@ -134,7 +134,6 @@
         <ref bean="RequisitionDocument-capitalAssetSystemTypeCode"/>  
         <ref bean="RequisitionDocument-useTaxIndicator"/>
         <ref bean="RequisitionDocument-statusCodeForMultiboxSearching"/>
-        <ref bean="RequisitionDocument-deliveryCampusCodeForSearching"/>
         <ref bean="RequisitionDocument-documentChartOfAccountsCodeForSearching"/>
         <ref bean="RequisitionDocument-documentOrganizationCodeForSearching"/> 
       </list>
@@ -426,21 +425,7 @@
     <property name="label" value="Delivery Campus"/>
     <property name="shortLabel" value="Delivery Campus"/>
     <property name="required" value="true"/>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.CampusNoBlankValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
   </bean>
-  
-  <bean id="RequisitionDocument-deliveryCampusCodeForSearching" parent="RequisitionDocument-deliveryCampusCodeForSearching-parentBean"/>
-
-  <bean id="RequisitionDocument-deliveryCampusCodeForSearching-parentBean" abstract="true" parent="VendorGenericAttributes-campusCode">
-    <property name="name" value="deliveryCampusCodeForSearching"/>
-    <property name="label" value="Delivery Campus"/>
-    <property name="shortLabel" value="Delivery Campus"/>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
-  </bean> 
   
   <bean id="RequisitionDocument-deliveryBuildingOtherIndicator" parent="RequisitionDocument-deliveryBuildingOtherIndicator-parentBean"/>
 
@@ -1190,7 +1175,7 @@
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.RequisitionDocument"/>
-    						<property name="attributeName" value="deliveryCampusCodeForSearching"/>
+    						<property name="attributeName" value="deliveryCampusCode"/>
     					</bean>
     				</property>
     				<property name="documentValues">

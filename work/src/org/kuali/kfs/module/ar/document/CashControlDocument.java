@@ -1,8 +1,10 @@
 package org.kuali.kfs.module.ar.document;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -32,6 +34,7 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -646,5 +649,21 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
     public void setBank(Bank bank) {
         this.bank = bank;
     }
+
+    @Override
+    public void prepareForSave() {
+        
+        //  remove all the cash control detail records from the db in prep for the save, 
+        // where they'll get re-persisted.  This is necessary to make sure that details 
+        // deleted on the form are actually deleted, as OJB does a terrible job at this 
+        // by itself.
+        deleteCashControlDetailsFromDB();
+    }
     
+    private void deleteCashControlDetailsFromDB() {
+        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
+        Map<String,String> pkMap = new HashMap<String,String>();
+        pkMap.put("documentNumber", getDocumentNumber());
+        boService.deleteMatching(CashControlDetail.class, pkMap);
+    }
 }

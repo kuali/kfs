@@ -187,9 +187,14 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
             totalAmount = purDoc.getTotalDollarAmountAllItems(new String[] { PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE });
 
             summaryAccounts = purapAccountingService.generateSummary(purDoc.getItems());
-
-            distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE, fullOrderDiscount.getAccountingLineClass());
-            fullOrderDiscount.setSourceAccountingLines(distributedAccounts);
+            if (summaryAccounts.size() == 0) {
+                if (purDoc.shouldGiveErrorForEmptyAccountsProration()) {
+                    GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_SUMMARY_ACCOUNTS_LIST_EMPTY, "full order discount");    
+                }
+            } else {
+                distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE, fullOrderDiscount.getAccountingLineClass());
+                fullOrderDiscount.setSourceAccountingLines(distributedAccounts);
+            }
         }
         // TODO: Should we also check at least one trade in selected?
         // If Discount is not null or zero get proration list for all non misc items and set (if not empty?)
@@ -205,7 +210,7 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
             summaryAccounts = purapAccountingService.generateSummary(purDoc.getTradeInItems());
             if (summaryAccounts.size() == 0) {
                 if (purDoc.shouldGiveErrorForEmptyAccountsProration()) {
-                    GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_SUMMARY_ACCOUNTS_LIST_EMPTY);    
+                    GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_SUMMARY_ACCOUNTS_LIST_EMPTY, "trade in");    
                 }
             }
             else {

@@ -44,7 +44,6 @@ import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.PurchasingDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
-import org.kuali.kfs.module.purap.document.validation.event.AttributedPurchasingAccountsPayableAccountValidationEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
@@ -67,7 +66,6 @@ import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -676,6 +674,15 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     @Override
     public Class getPurchasingCapitalAssetSystemClass() {
         return RequisitionCapitalAssetSystem.class;
+    }
+    
+    @Override
+    public boolean shouldGiveErrorForEmptyAccountsProration() {
+        if (isDocumentStoppedInRouteNode(NodeDetailEnum.CONTENT_REVIEW) ||
+            getStatusCode().equals(PurapConstants.RequisitionStatuses.IN_PROCESS)) {
+            return false;
+        }
+        return true;
     }
 }
 

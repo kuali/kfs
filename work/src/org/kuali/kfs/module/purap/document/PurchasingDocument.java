@@ -530,4 +530,5 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
 
     public void clearCapitalAssetFields();
     
+    public boolean shouldGiveErrorForEmptyAccountsProration();
 }

@@ -1268,4 +1268,8 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     public String getDocumentOrganizationCodeForSearching(){
         return organizationCode;
     }
+    
+    public boolean shouldGiveErrorForEmptyAccountsProration() {
+        return true;
+    }
 }

@@ -384,6 +384,9 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         try {
             poService.printPurchaseOrderQuotePDF(po, vendorQuote, baosPDF);
             assertTrue(baosPDF.size()>0);
+            LOG.error("Attn From testPrintPurchaseOrderQuotePDF");
+            LOG.error("baosPDF.size is : " + baosPDF.size());
+            LOG.error("----------------------------------------");
         }
         catch (ValidationException e) {
             LOG.warn("Caught ValidationException while trying to retransmit PO with doc id " + po.getDocumentNumber());

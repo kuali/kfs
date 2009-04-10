@@ -59,7 +59,7 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
             // should be able to modify the document
             if (workflowDocument.isApprovalRequested() && !ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(cashControlDocument.getCustomerPaymentMediumCode())) {
                 // if glpes have not been generated yet the user can change payment medium and generate glpes
-                if (cashControlDocument.getGeneralLedgerPendingEntries().isEmpty() && !(cashControlDocument.getElectronicPaymentClaims().size() > 0)) {
+                if (cashControlDocument.getGeneralLedgerPendingEntries().isEmpty()) {
                     editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_PAYMENT_MEDIUM);
                     editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.SHOW_GENERATE_BUTTON);
                 }

@@ -515,12 +515,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             purapWorkflowIntegrationService.takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission by user " + GlobalVariables.getUserSession().getPerson().getName(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), systemUserPerson, KFSConstants.SYSTEM_USER);
         }
         po.setOverrideWorkflowButtons(Boolean.TRUE);
-        if (po.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN)) {
-            purapService.saveDocumentNoValidation(po);    
+        if (!po.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN)) {
+            attemptSetupOfInitialOpenOfDocument(po);
         }
-        else {
-        attemptSetupOfInitialOpenOfDocument(po);
-        }
+        purapService.saveDocumentNoValidation(po);
     }
 
     /**
@@ -528,9 +526,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      *      java.io.ByteArrayOutputStream)
      */
     public void performPurchaseOrderPreviewPrinting(String documentNumber, ByteArrayOutputStream baosPDF) {
-        PurchaseOrderDocument po = getPurchaseOrderByDocumentNumber(documentNumber);
         performPrintPurchaseOrderPDFOnly(documentNumber, baosPDF);
-        attemptSetupOfInitialOpenOfDocument(po);
     }
 
     /**
@@ -1183,11 +1179,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * and update the status to OPEN, then save the purchase order.
      * 
      * @param po The purchase order document whose initial open date and status we want to update.
-     * @return boolean false if the initial open date, status update and the saving of the purchase order did not occur.
      */
-    private boolean attemptSetupOfInitialOpenOfDocument(PurchaseOrderDocument po) {
+    private void attemptSetupOfInitialOpenOfDocument(PurchaseOrderDocument po) {
         LOG.debug("attemptSetupOfInitialOpenOfDocument() started using document with doc id " + po.getDocumentNumber());
-        boolean documentWasSaved = false;
+
         if (!PurchaseOrderStatuses.OPEN.equals(po.getStatusCode())) {
             if (ObjectUtils.isNull(po.getPurchaseOrderInitialOpenTimestamp())) {
                 LOG.debug("attemptSetupOfInitialOpenOfDocument() setting initial open date on document");
@@ -1198,13 +1193,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             }
             LOG.info("attemptSetupOfInitialOpenOfDocument() Setting po document id " + po.getDocumentNumber() + " status from '" + po.getStatusCode() + "' to '" + PurchaseOrderStatuses.OPEN + "'");
             purapService.updateStatus(po, PurchaseOrderStatuses.OPEN);
-            purapService.saveDocumentNoValidation(po);
-            documentWasSaved = true;
+            //no need to save here because calling class should handle the save if needed
         }
         else {
-            LOG.info("attemptSetupOfInitialOpenOfDocument() Found document already in '" + PurchaseOrderStatuses.OPEN + "' status... will not change or update");
+            LOG.error("attemptSetupOfInitialOpenOfDocument() Found document already in '" + PurchaseOrderStatuses.OPEN + "' status for PO#" + po.getPurapDocumentIdentifier() + "; will not change or update");
         }
-        return documentWasSaved;
     }
 
     /**

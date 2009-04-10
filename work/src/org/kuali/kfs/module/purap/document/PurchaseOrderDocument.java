@@ -399,11 +399,11 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         String documentType = getDocumentHeader().getWorkflowDocument().getDocumentType();
         if ((documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT)) ||
             (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT))) {
-            if (!getDocumentHeader().getWorkflowDocument().stateIsProcessed() && !getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+            if (!getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
                 super.prepareForSave(event);
             }
             else {
-                // if doc is PROCESSED or FINAL, saving should not be creating GL entries
+                // if doc is FINAL, saving should not be creating GL entries
                 setGeneralLedgerPendingEntries(new ArrayList());
             }
         }

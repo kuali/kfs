@@ -261,8 +261,15 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
         CashControlDetail cashControlDetail = cashControlDocument.getCashControlDetail(indexOfLineToDelete);
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
 
-        PaymentApplicationDocument applicationDocument = (PaymentApplicationDocument) documentService.getByDocumentHeaderId(cashControlDetail.getReferenceFinancialDocumentNumber());
-        documentService.cancelDocument(applicationDocument, ArKeyConstants.DOCUMENT_DELETED_FROM_CASH_CTRL_DOC);
+        PaymentApplicationDocument payAppDoc = (PaymentApplicationDocument) documentService.getByDocumentHeaderId(cashControlDetail.getReferenceFinancialDocumentNumber());
+        
+        //  this if statement is to catch the situation where a person deletes the line, but doesnt save 
+        // and then reloads.  This will bring the deleted line back on the screen.  If they then click 
+        // the delete line, and this test isnt here, it will try to cancel the already cancelled 
+        // document, which will throw a workflow error and barf.
+        if (!payAppDoc.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
+            documentService.cancelDocument(payAppDoc, ArKeyConstants.DOCUMENT_DELETED_FROM_CASH_CTRL_DOC);
+        }
         cashControlDocument.deleteCashControlDetail(indexOfLineToDelete);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

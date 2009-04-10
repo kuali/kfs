@@ -107,7 +107,7 @@
               </th>
               <td class="datacell">	 
                 <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPayeeZipCode}" property="document.dvPayeeDetail.disbVchrPayeeZipCode" readOnly="${!fullEntryMode && !payeeEntryMode}"/>
-                <c:if test="${!fullEntryMode && !payeeEntryMode}">
+                <c:if test="${fullEntryMode}">
               		<kul:lookup boClassName="org.kuali.rice.kns.bo.PostalCode" fieldConversions="postalCode:document.dvPayeeDetail.disbVchrPayeeZipCode,postalCountryCode:document.dvPayeeDetail.disbVchrPayeeCountryCode,postalStateCode:document.dvPayeeDetail.disbVchrPayeeStateCode,postalCityName:document.dvPayeeDetail.disbVchrPayeeCityName" 
               		lookupParameters="document.dvPayeeDetail.disbVchrPayeeCountryCode:postalCountryCode,document.dvPayeeDetail.disbVchrPayeeZipCode:postalCode,document.dvPayeeDetail.disbVchrPayeeStateCode:postalStateCode,document.dvPayeeDetail.disbVchrPayeeCityName:postalCityName" />
               	</c:if>

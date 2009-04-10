@@ -195,11 +195,6 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
             }
         }
 
-        if (ObjectUtils.isNotNull(fromAmount) && ObjectUtils.isNull(toAmount)) {
-            putFieldError("finDocApprovalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
-            success &= false;
-        }
-
         // TO amount must be >= FROM amount or Zero
         if (ObjectUtils.isNotNull(toAmount) && !toAmount.equals(KualiDecimal.ZERO)) {
 

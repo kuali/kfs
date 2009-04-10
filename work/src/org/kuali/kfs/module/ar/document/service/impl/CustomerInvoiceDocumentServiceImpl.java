@@ -45,6 +45,7 @@ import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.module.ar.document.service.NonInvoicedDistributionService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -222,6 +223,25 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
             total = total.add(detail.getAmountOpen());
         }
         return total;
+    }
+
+    public KualiDecimal getOriginalTotalAmountForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument) {
+        LOG.info("\n\n\n\t\t invoice: " + customerInvoiceDocument.getDocumentNumber() +
+                "\n\t\t 111111111 HEADER TOTAL AMOUNT (should be null): " + customerInvoiceDocument.getDocumentHeader().getFinancialDocumentTotalAmount() +
+                "\n\n");
+        customerInvoiceDocument.getDocumentNumber();
+        //original-amount = SpringContext.getBean(FinancialSystemDocumentService.class).get
+        HashMap criteria = new HashMap();
+        criteria.put("documentNumber", customerInvoiceDocument.getDocumentHeader().getDocumentTemplateNumber());
+        businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        FinancialSystemDocumentHeader financialSystemDocumentHeader = (FinancialSystemDocumentHeader) businessObjectService.findByPrimaryKey(FinancialSystemDocumentHeader.class, criteria);
+        KualiDecimal originalTotalAmount = KualiDecimal.ZERO;
+        originalTotalAmount = financialSystemDocumentHeader.getFinancialDocumentTotalAmount();
+
+        LOG.info("\n\n\n\t\t invoice: " + customerInvoiceDocument.getDocumentNumber() +
+                "\n\t\t 333333333333 HEADER TOTAL AMOUNT (should be set now): " + customerInvoiceDocument.getDocumentHeader().getFinancialDocumentTotalAmount() +
+                "\n\n");
+        return originalTotalAmount;
     }
 
     /**

@@ -1,39 +1,10 @@
 package org.kuali.kfs.module.ar.document;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.kfs.coa.businessobject.ProjectCode;
-import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjectCode;
+import org.kuali.kfs.coa.businessobject.*;
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
-import org.kuali.kfs.module.ar.businessobject.Customer;
-import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
-import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
-import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceRecurrenceDetails;
-import org.kuali.kfs.module.ar.businessobject.CustomerProcessingType;
-import org.kuali.kfs.module.ar.businessobject.InvoiceRecurrence;
-import org.kuali.kfs.module.ar.businessobject.PrintInvoiceOptions;
-import org.kuali.kfs.module.ar.businessobject.ReceivableCustomerInvoiceDetail;
-import org.kuali.kfs.module.ar.businessobject.SalesTaxCustomerInvoiceDetail;
-import org.kuali.kfs.module.ar.document.service.AccountsReceivableTaxService;
-import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceGLPEService;
-import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
+import org.kuali.kfs.module.ar.businessobject.*;
+import org.kuali.kfs.module.ar.document.service.*;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.TaxDetail;
@@ -51,11 +22,11 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.DateUtils;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kns.util.*;
+
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.*;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -129,6 +100,9 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     private CustomerAddress customerShipToAddress;
     private CustomerAddress customerBillToAddress;
     private CustomerInvoiceRecurrenceDetails customerInvoiceRecurrenceDetails;
+    private BusinessObjectService businessObjectService;
+
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocument.class);
 
     // added for quick apply check control
     //TODO Andrew
@@ -1255,7 +1229,9 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     @Override
     public void toCopy() throws WorkflowException {
         super.toCopy();
-        SpringContext.getBean(CustomerInvoiceDocumentService.class).setupDefaultValuesForCopiedCustomerInvoiceDocument(this);
+        CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
+        customerInvoiceDocumentService.setupDefaultValuesForCopiedCustomerInvoiceDocument(this);
+        this.getDocumentHeader().setFinancialDocumentTotalAmount(customerInvoiceDocumentService.getOriginalTotalAmountForCustomerInvoiceDocument(this));
     }
 
     /**
@@ -1649,6 +1625,14 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 
     public void setBillingZipCode(String billingZipCode) {
         this.billingZipCode = billingZipCode;
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
     public String getCustomerName() {

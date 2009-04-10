@@ -234,5 +234,8 @@ public interface CustomerInvoiceDocumentService {
      * @return
      */
     public KualiDecimal getOpenAmountForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument);
-    
+
+    public KualiDecimal getOriginalTotalAmountForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument);
+
 }
+

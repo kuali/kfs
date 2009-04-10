@@ -155,13 +155,13 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
         assertTrue("Should have an approve request.", document.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
         SpringContext.getBean(DocumentService.class).approveDocument(document, "Approve", null);
         
-        WorkflowTestUtils.waitForNodeChange(document.getDocumentHeader().getWorkflowDocument(), PAYMENT_METHOD);
+        /*WorkflowTestUtils.waitForNodeChange(document.getDocumentHeader().getWorkflowDocument(), PAYMENT_METHOD);
         // doc should be in "Campus Code" routing to mylarge
         changeCurrentUser(UserNameFixture.appleton);
         document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(document, PAYMENT_METHOD));
         assertTrue("Should have an approve request.", document.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
-        SpringContext.getBean(DocumentService.class).approveDocument(document, "Approve", null);
+        SpringContext.getBean(DocumentService.class).approveDocument(document, "Approve", null);*/
 
         WorkflowTestUtils.waitForStatusChange(document.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
 
@@ -177,7 +177,8 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
     private Document getDocumentParameterFixture() throws Exception {
         DisbursementVoucherDocument document = DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), DisbursementVoucherDocument.class);
         DisbursementVoucherPayeeDetail payeeDetail = new DisbursementVoucherPayeeDetail();
-        payeeDetail.setDisbVchrPayeeIdNumber("1012-0");
+        payeeDetail.setDisbVchrPayeeIdNumber("1013-0");
+       // payeeDetail.setDisbVchrAlienPaymentCode(true);
         payeeDetail.setDisbursementVoucherPayeeTypeCode("V");
         payeeDetail.setDisbVchrPayeeLine1Addr("100 Main St");
         payeeDetail.setDisbVchrPayeeCityName("Bloomington");

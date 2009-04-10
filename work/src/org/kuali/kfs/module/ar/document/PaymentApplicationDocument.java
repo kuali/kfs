@@ -1153,6 +1153,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         throw new UnsupportedOperationException("answerSplitNode('" + nodeName + "') was called but no handler for nodeName specified.");
     }
 
+    // determines if the doc was launched by SYSTEM_USER, if so, then it was launched from batch
     private boolean launchedFromBatch() {
         boolean result = false;
         Person initiator = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(KFSConstants.SYSTEM_USER);

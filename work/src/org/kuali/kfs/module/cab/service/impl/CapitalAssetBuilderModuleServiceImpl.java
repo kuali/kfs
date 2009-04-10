@@ -1093,7 +1093,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     private boolean isCapitalAssetDataRequired(AccountingDocument accountingDocument, String dataEntryExpected) {
         boolean isCapitalAssetDataRequired = true;
         String accountingDocumentType = accountingDocument.getDocumentHeader().getWorkflowDocument().getDocumentType();
-        if (isDocumentTypeRestricted(accountingDocument) || accountingDocumentType.equals(KFSConstants.FinancialDocumentTypeCodes.INTERNAL_BILLING)) {
+        //if (isDocumentTypeRestricted(accountingDocument) || accountingDocumentType.equals(KFSConstants.FinancialDocumentTypeCodes.INTERNAL_BILLING)) {
+        if (accountingDocumentType.equals(KFSConstants.FinancialDocumentTypeCodes.INTERNAL_BILLING)) {            
             if (dataEntryExpected.equals(KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE + KFSConstants.TARGET_ACCT_LINE_TYPE_CODE))
                 isCapitalAssetDataRequired = false;
         }

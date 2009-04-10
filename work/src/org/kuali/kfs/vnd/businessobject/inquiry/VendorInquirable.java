@@ -41,7 +41,7 @@ public class VendorInquirable extends KfsInquirableImpl {
         if (businessObject instanceof VendorDetail && attributeName.equalsIgnoreCase("vendorUrlAddress")) {
             Object objFieldValue = ObjectUtils.getPropertyValue(businessObject, attributeName);
             String fieldValue = objFieldValue == null ? KFSConstants.EMPTY_STRING : objFieldValue.toString();
-            return new AnchorHtmlData("http://" + fieldValue, KNSConstants.EMPTY_STRING);
+            return new AnchorHtmlData("http://" + fieldValue, KNSConstants.EMPTY_STRING, ((VendorDetail)businessObject).getVendorName()+" ("+fieldValue+")");
         }
 
         return super.getInquiryUrl(businessObject, attributeName, forceInquiry);

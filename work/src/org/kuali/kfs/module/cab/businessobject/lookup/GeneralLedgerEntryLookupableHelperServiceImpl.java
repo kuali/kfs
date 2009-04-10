@@ -77,7 +77,7 @@ public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupab
                 anchorHtmlDataList.add(viewDocLink);
             }
             else {
-                anchorHtmlDataList.add(new AnchorHtmlData("", "n/a"));
+                anchorHtmlDataList.add(new AnchorHtmlData("", "n/a", "n/a"));
             }
         }
         return anchorHtmlDataList;

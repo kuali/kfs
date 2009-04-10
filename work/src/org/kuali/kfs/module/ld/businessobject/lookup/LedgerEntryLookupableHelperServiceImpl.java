@@ -57,7 +57,7 @@ public class LedgerEntryLookupableHelperServiceImpl extends AbstractLookupableHe
         if (KFSPropertyConstants.DOCUMENT_NUMBER.equals(propertyName)) {
             if (businessObject instanceof LedgerEntry) {
                 LedgerEntry entry = (LedgerEntry) businessObject;
-                return new AnchorHtmlData(new InquirableFinancialDocument().getInquirableDocumentUrl(entry), KFSConstants.EMPTY_STRING);
+                return new AnchorHtmlData(new InquirableFinancialDocument().getInquirableDocumentUrl(entry), KFSConstants.EMPTY_STRING, "view ledger entry");
             }
         }
         else if (KFSPropertyConstants.POSITION_NUMBER.equals(propertyName)) {

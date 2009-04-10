@@ -70,7 +70,7 @@ public class PendingEntryLookupableHelperServiceImpl extends AbstractLookupableH
     public HtmlData getInquiryUrl(BusinessObject businessObject, String propertyName) {
         if (KFSPropertyConstants.DOCUMENT_NUMBER.equals(propertyName) && businessObject instanceof GeneralLedgerPendingEntry) {
             GeneralLedgerPendingEntry pendingEntry = (GeneralLedgerPendingEntry) businessObject;
-            return new AnchorHtmlData(new InquirableFinancialDocument().getInquirableDocumentUrl(pendingEntry), KNSConstants.EMPTY_STRING);
+            return new AnchorHtmlData(new InquirableFinancialDocument().getInquirableDocumentUrl(pendingEntry), KNSConstants.EMPTY_STRING, "view pending entry "+pendingEntry.toString());
         }
         return (new EntryInquirableImpl()).getInquiryUrl(businessObject, propertyName);
         //return super.getInquiryUrl(businessObject, propertyName);

@@ -49,7 +49,7 @@ public class CustomerOpenItemReportInquirableImpl extends KfsInquirableImpl {
             f.setFieldLabel("History Report");
             f.setPropertyValue("Click here to view the history report for this customer.");
             f.setFieldType(Field.TEXT);
-            HtmlData hRef = new AnchorHtmlData("../arCustomerOpenItemReportLookup.do?methodToCall=search&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerOpenItemReportDetail&lookupableImplementaionServiceName=arCustomerOpenItemReportLookupable&docFormKey=88888888&returnLocation=&hideReturnLink=true&reportName=" + KFSConstants.CustomerOpenItemReport.HISTORY_REPORT_NAME + "&customerNumber=" + customer.getCustomerNumber() + "&customerName="+customer.getCustomerName(),KNSConstants.EMPTY_STRING);
+            HtmlData hRef = new AnchorHtmlData("../arCustomerOpenItemReportLookup.do?methodToCall=search&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerOpenItemReportDetail&lookupableImplementaionServiceName=arCustomerOpenItemReportLookupable&docFormKey=88888888&returnLocation=&hideReturnLink=true&reportName=" + KFSConstants.CustomerOpenItemReport.HISTORY_REPORT_NAME + "&customerNumber=" + customer.getCustomerNumber() + "&customerName="+customer.getCustomerName(),KNSConstants.EMPTY_STRING, "view open item report");
             f.setInquiryURL(hRef);
             rows.add(new Row(f));
 

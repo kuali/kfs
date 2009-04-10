@@ -86,7 +86,7 @@ public class EntryLookupableHelperServiceImpl extends AbstractGeneralLedgerLooku
         if (KFSPropertyConstants.DOCUMENT_NUMBER.equals(propertyName)) {
             if (businessObject instanceof Entry) {
                 Entry entry = (Entry) businessObject;
-                return new AnchorHtmlData(new InquirableFinancialDocument().getInquirableDocumentUrl(entry), KNSConstants.EMPTY_STRING);
+                return new AnchorHtmlData(new InquirableFinancialDocument().getInquirableDocumentUrl(entry), KNSConstants.EMPTY_STRING, "view entry "+entry.toString());
             }
         }
         return (new EntryInquirableImpl()).getInquiryUrl(businessObject, propertyName);

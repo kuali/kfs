@@ -103,10 +103,14 @@
               </td>
                           
               <th class="bord-l-b">
-              	<div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrPayeeZipCode}"/></div>
+              	<div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrPayeeZipCode}"/></div>            	
               </th>
-              <td class="datacell">
+              <td class="datacell">	 
                 <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPayeeZipCode}" property="document.dvPayeeDetail.disbVchrPayeeZipCode" readOnly="${!fullEntryMode && !payeeEntryMode}"/>
+                <c:if test="${!fullEntryMode && !payeeEntryMode}">
+              		<kul:lookup boClassName="org.kuali.rice.kns.bo.PostalCode" fieldConversions="postalCode:document.dvPayeeDetail.disbVchrPayeeZipCode,postalCountryCode:document.dvPayeeDetail.disbVchrPayeeCountryCode,postalStateCode:document.dvPayeeDetail.disbVchrPayeeStateCode,postalCityName:document.dvPayeeDetail.disbVchrPayeeCityName" 
+              		lookupParameters="document.dvPayeeDetail.disbVchrPayeeCountryCode:postalCountryCode,document.dvPayeeDetail.disbVchrPayeeZipCode:postalCode,document.dvPayeeDetail.disbVchrPayeeStateCode:postalStateCode,document.dvPayeeDetail.disbVchrPayeeCityName:postalCityName" />
+              	</c:if>
               </td>              
             </tr>
             
@@ -197,6 +201,10 @@
               <th  class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${dvAttributes.disbursementVoucherDocumentationLocationCode}"/></div></th>
               <td  class="datacell">
                 <kul:htmlControlAttribute attributeEntry="${dvAttributes.disbursementVoucherDocumentationLocationCode}" property="document.disbursementVoucherDocumentationLocationCode" extraReadOnlyProperty="document.disbursementVoucherDocumentationLocationName" onchange="documentationMessage(this.value);" readOnly="${!fullEntryMode}"/>
+                <c:if test="${fullEntryMode}">
+              		<kul:lookup boClassName="org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation" fieldConversions="disbursementVoucherDocumentationLocationCode:document.disbursementVoucherDocumentationLocationCode" 
+              		lookupParameters="document.disbursementVoucherDocumentationLocationCode:disbursementVoucherDocumentationLocationCode" />
+              	</c:if>
               </td>
             </tr>
             <tr>

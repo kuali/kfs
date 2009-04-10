@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -47,21 +48,25 @@ public class DisbursementVoucherPayeeAddressValidation extends GenericValidation
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
 
         DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
-        if (ObjectUtils.isNull(payeeDetail.getDisbVchrPayeeState())) {
+        
+        String stateCode = payeeDetail.getDisbVchrPayeeStateCode();
+        if (StringUtils.isNotBlank(stateCode) && ObjectUtils.isNull(payeeDetail.getDisbVchrPayeeState())) {
             String label = dataDictionaryService.getAttributeLabel(DisbursementVoucherPayeeDetail.class, KFSPropertyConstants.DISB_VCHR_PAYEE_STATE_CODE);
             String propertyPath = KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYEE_STATE_CODE;
             errors.putError(propertyPath, KFSKeyConstants.ERROR_EXISTENCE, label);
             isValid = false;
         }
 
-        if (ObjectUtils.isNull(payeeDetail.getDisbVchrPayeePostalZipCode())) {
+        String zipCode = payeeDetail.getDisbVchrPayeeZipCode();
+        if (StringUtils.isNotBlank(zipCode) && ObjectUtils.isNull(payeeDetail.getDisbVchrPayeePostalZipCode())) {
             String label = dataDictionaryService.getAttributeLabel(DisbursementVoucherPayeeDetail.class, KFSPropertyConstants.DISB_VCHR_PAYEE_ZIP_CODE);
             String propertyPath = KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYEE_ZIP_CODE;
             errors.putError(propertyPath, KFSKeyConstants.ERROR_EXISTENCE, label);
             isValid = false;
         }
 
-        if (ObjectUtils.isNull(payeeDetail.getDisbVchrPayeeCountry())) {
+        String countryCode = payeeDetail.getDisbVchrPayeeCountryCode();
+        if (StringUtils.isNotBlank(countryCode) && ObjectUtils.isNull(payeeDetail.getDisbVchrPayeeCountry())) {
             String label = dataDictionaryService.getAttributeLabel(DisbursementVoucherPayeeDetail.class, KFSPropertyConstants.DISB_VCHR_PAYEE_COUNTRY_CODE);
             String propertyPath = KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYEE_COUNTRY_CODE;
             errors.putError(propertyPath, KFSKeyConstants.ERROR_EXISTENCE, label);

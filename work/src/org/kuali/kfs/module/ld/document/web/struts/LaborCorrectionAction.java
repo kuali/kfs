@@ -129,6 +129,7 @@ public class LaborCorrectionAction extends CorrectionAction {
                         // reapply the any criteria to pare down the list if the match criteria only flag is checked
                         LaborCorrectionDocument document = rForm.getLaborCorrectionDocument();
                         List<CorrectionChangeGroup> groups = document.getCorrectionChangeGroup();
+                        //TODO: Shawn - need to change for LLCP                      
                         updateEntriesFromCriteria(rForm, rForm.isRestrictedFunctionalityMode());
                     }
 
@@ -152,7 +153,7 @@ public class LaborCorrectionAction extends CorrectionAction {
             }
         }
 
-        ActionForward af = super.execute(mapping, form, request, response);
+        ActionForward af = super.superExecute(mapping, form, request, response);
         return af;
     }
 
@@ -165,7 +166,7 @@ public class LaborCorrectionAction extends CorrectionAction {
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("save() started");
-
+        
         LaborCorrectionForm laborCorrectionForm = (LaborCorrectionForm) form;
         LaborCorrectionDocument document = laborCorrectionForm.getLaborCorrectionDocument();
 
@@ -191,7 +192,7 @@ public class LaborCorrectionAction extends CorrectionAction {
         document.setCorrectionSelection(laborCorrectionForm.getMatchCriteriaOnly());
         document.setCorrectionFileDelete(!laborCorrectionForm.getProcessInBatch());
         document.setCorrectionInputFileName(laborCorrectionForm.getInputGroupId());
-        document.setCorrectionOutputFileName(null); // this field is never used
+        document.setCorrectionOutputFileName(null); 
         if (laborCorrectionForm.getDataLoadedFlag() || laborCorrectionForm.isRestrictedFunctionalityMode()) {
             document.setCorrectionInputFileName(laborCorrectionForm.getInputGroupId());
         }
@@ -203,7 +204,8 @@ public class LaborCorrectionAction extends CorrectionAction {
         SpringContext.getBean(LaborCorrectionDocumentService.class).persistOriginEntryGroupsForDocumentSave(document, laborCorrectionForm);
         
         LOG.debug("save() doc type name: " + laborCorrectionForm.getDocTypeName());
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        ActionForward af = super.superSave(mapping, form, request, response);
+        return af;
     }
 
 

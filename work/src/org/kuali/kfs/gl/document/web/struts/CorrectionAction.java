@@ -101,7 +101,6 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             CorrectionAction.originEntryService = SpringContext.getBean(OriginEntryService.class);
             CorrectionAction.dateTimeService = SpringContext.getBean(DateTimeService.class);
             CorrectionAction.kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
-            
         }
 
         CorrectionForm rForm = (CorrectionForm) form;
@@ -154,7 +153,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         ActionForward af = super.execute(mapping, form, request, response);
         return af;
     }
-
+    
     /**
      * Save the document when they click the save button
      */
@@ -1897,5 +1896,13 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         Collections.sort(sortList, comparator); 
         maxEntryId = sortList.get(0).getEntryId();
         return maxEntryId;
+    }
+    
+    public ActionForward superExecute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return super.execute(mapping, form, request, response);
+    }
+    
+    public ActionForward superSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return super.save(mapping, form, request, response);
     }
 }

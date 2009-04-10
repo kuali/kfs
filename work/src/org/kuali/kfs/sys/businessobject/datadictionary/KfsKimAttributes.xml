@@ -67,7 +67,13 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
   </bean>
 
-  <bean id="KfsKimAttributes-chartOfAccountsCode" parent="Chart-chartOfAccountsCode" />
+  <bean id="KfsKimAttributes-chartOfAccountsCode" parent="Chart-chartOfAccountsCode">
+    <property name="control">
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
+            p:includeKeyInLabel="true" />
+    </property>
+  </bean>
   <bean id="KfsKimAttributes-accountNumber" parent="Account-accountNumber" />
   <bean id="KfsKimAttributes-organizationCode" parent="Organization-organizationCode" />
 

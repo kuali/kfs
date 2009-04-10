@@ -172,6 +172,8 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
              customerInvoiceDocuments = customerInvoiceDocumentService.getAllOpenCustomerInvoiceDocumentsWithoutWorkflow();
         }
         
+        // attach headers
+        customerInvoiceDocuments = customerInvoiceDocumentService.attachWorkflowHeadersToTheInvoices(customerInvoiceDocuments);
         // filter invoices which have related CRMs and writeoffs in route.
         Collection<CustomerInvoiceDocument> filteredCustomerInvoiceDocuments = filterInvoices(customerInvoiceDocuments);
         
@@ -201,7 +203,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
     }
     
     /**
-     * This method filters invoices which have related CRMs and/or writeoffs in route
+     * This method returns invoices which are in FINAL status and have no related CRMs and writeoffs in route
      * 
      * @param customerInvoiceDocuments
      * @return filteredInvoices
@@ -211,11 +213,13 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         boolean hasNoDocumentsInRouteFlag;
         
         for (CustomerInvoiceDocument invoice : customerInvoiceDocuments) {
-            hasNoDocumentsInRouteFlag = checkIfThereIsNoAnotherCRMInRouteForTheInvoice(invoice.getDocumentNumber());
-            if (hasNoDocumentsInRouteFlag)
-                hasNoDocumentsInRouteFlag = checkIfThereIsNoAnotherWriteoffInRouteForTheInvoice(invoice.getDocumentNumber());
-            if (hasNoDocumentsInRouteFlag)
-                filteredInvoices.add(invoice);
+            if (invoice.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+                hasNoDocumentsInRouteFlag = checkIfThereIsNoAnotherCRMInRouteForTheInvoice(invoice.getDocumentNumber());
+                if (hasNoDocumentsInRouteFlag)
+                    hasNoDocumentsInRouteFlag = checkIfThereIsNoAnotherWriteoffInRouteForTheInvoice(invoice.getDocumentNumber());
+                if (hasNoDocumentsInRouteFlag)
+                    filteredInvoices.add(invoice);
+            }
         }
         return filteredInvoices;
     }

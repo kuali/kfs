@@ -140,6 +140,25 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         return docs;
     }
     
+    public Collection<CustomerInvoiceDocument> attachWorkflowHeadersToTheInvoices(Collection<CustomerInvoiceDocument> invoices) {
+        //  make a list of necessary workflow docs to retrieve
+        List<String> documentHeaderIds = new ArrayList<String>();
+        for (CustomerInvoiceDocument invoice : invoices) {
+            documentHeaderIds.add(invoice.getDocumentNumber());
+        }
+
+        //  get all of our docs with full workflow headers
+        List<CustomerInvoiceDocument> docs = new ArrayList<CustomerInvoiceDocument>();
+        try {
+            docs = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds);
+        }
+        catch (WorkflowException e) {
+            throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
+        }
+
+        return docs;   
+    }
+    
     public Collection<CustomerInvoiceDocument> getOpenInvoiceDocumentsByCustomerNumber(String customerNumber) {
         Collection<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
 

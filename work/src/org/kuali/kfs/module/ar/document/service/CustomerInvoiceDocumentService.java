@@ -48,6 +48,12 @@ public interface CustomerInvoiceDocumentService {
      * @return
      */
     public Collection<CustomerInvoiceDocument> getAllOpenCustomerInvoiceDocumentsWithoutWorkflow();
+    
+    /**
+     * Gets invoices without workflow headers, retrieves the workflow headers and returns invoices with workflow headers.
+     * @return
+     */
+    public Collection<CustomerInvoiceDocument> attachWorkflowHeadersToTheInvoices(Collection<CustomerInvoiceDocument> invoices);
 
     /**
      * 
@@ -234,6 +240,8 @@ public interface CustomerInvoiceDocumentService {
      * @return
      */
     public KualiDecimal getOpenAmountForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument);
+
+    public KualiDecimal getOriginalTotalAmountForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument);
 
     public KualiDecimal getOriginalTotalAmountForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument);
 

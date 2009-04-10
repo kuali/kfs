@@ -46,19 +46,12 @@
       <list>
         <bean parent="RelationshipDefinition">
           <property name="objectAttributeName" value="ledgerPerson" />
-          <property name="primitiveAttributes" >
-            <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="ledgerPerson.principalId"
-                    p:targetName="principalId" />
-            </list>
-          </property>
           <property name="supportAttributes" >
             <list>
               <bean parent="SupportAttributeDefinition"
                     p:identifier="true"
                     p:sourceName="emplid"
-                    p:targetName="employeeId" />
+                    p:targetName="employeeId" />                   
             </list>
           </property>
         </bean>
@@ -77,6 +70,7 @@
   <bean id="EmployeeFunding-name" parent="EmployeeFunding-name-parentBean" />
 
   <bean id="EmployeeFunding-name-parentBean" abstract="true" parent="PersonImpl-name">
+    <property name="name" value="name" />
   </bean>
   <bean id="EmployeeFunding-positionNumber" parent="EmployeeFunding-positionNumber-parentBean" />
 

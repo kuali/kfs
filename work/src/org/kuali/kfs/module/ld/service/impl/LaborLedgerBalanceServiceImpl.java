@@ -163,7 +163,6 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
 
         // update the employee fundings
         for (EmployeeFunding employeeFunding : currentFundsCollection) {
-            employeeFunding.setName(employeeFunding.getEmplid());
             employeeFunding.setCurrentAmount(employeeFunding.getAccountLineAnnualBalanceAmount());
         }
         return currentFundsCollection;

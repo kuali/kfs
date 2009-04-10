@@ -30,7 +30,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  */
 public class EmployeeFunding extends LedgerBalance {
 
-    private String personName;
+    private String name;
     private String csfDeleteCode;
     private String csfFundingStatusCode;
     private BigDecimal csfTimePercent;
@@ -58,7 +58,7 @@ public class EmployeeFunding extends LedgerBalance {
      * @return Returns the PersonName.
      */
     public String getName() {
-        Person person = (Person) SpringContext.getBean(PersonService.class).getPersonByEmployeeId(getEmplid());
+        Person person = this.getLedgerPerson();
         if (person == null) {
             return LaborConstants.BalanceInquiries.UnknownPersonName;
         }
@@ -73,7 +73,7 @@ public class EmployeeFunding extends LedgerBalance {
      */
 
     public void setName(String personName) {
-        this.personName = personName;
+        this.name = personName;
     }
 
     /**

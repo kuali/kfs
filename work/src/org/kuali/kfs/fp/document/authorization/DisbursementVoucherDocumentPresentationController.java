@@ -18,14 +18,13 @@ package org.kuali.kfs.fp.document.authorization;
 import java.util.List;
 import java.util.Set;
 
+import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
-import org.kuali.kfs.sys.KFSConstants.RouteLevelNames;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentPresentationControllerBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class DisbursementVoucherDocumentPresentationController extends AccountingDocumentPresentationControllerBase {
-
     /**
      * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canBlanketApprove(org.kuali.rice.kns.document.Document)
      */
@@ -63,14 +62,9 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
             editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.PAYEE_ENTRY);
         }
         else if (workflowDocument.stateIsEnroute()) {
-            if (editModes.contains(KfsAuthorizationConstants.TransactionalEditMode.EXPENSE_ENTRY)) {
+            List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
+            if (currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.ACCOUNT) || currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.TAX) || currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.AWARD) || currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.CAMPUS)) {
                 editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.PAYEE_ENTRY);
-            }
-            else {
-                List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
-                if (currentRouteLevels.contains(RouteLevelNames.ACCOUNTING_ORGANIZATION_HIERARCHY)) {
-                    editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.PAYEE_ENTRY);
-                }
             }
         }
     }

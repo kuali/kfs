@@ -227,4 +227,15 @@ public interface DisbursementVoucherConstants extends ParameterKeyConstants {
     public static final String DV_COVER_SHEET_TEMPLATE_HANDLING_PARM_NM = "COVER_SHEET_TEMPLATE_HANDLING";
     public static final String DV_COVER_SHEET_TEMPLATE_BAR_PARM_NM = "COVER_SHEET_TEMPLATE_BAR";
     public static final String DV_COVER_SHEET_TEMPLATE_NM = "disbursementVoucherCoverSheetTemplate.pdf";
+    
+    public static class RouteLevelNames {
+        public static final String PURCHASING = "Purchasing";
+        public static final String ACCOUNT = "Account";
+        public static final String ACCOUNTING_ORGANIZATION_HIERARCHY = "AccountingOrganizationHierarchy";
+        public static final String TAX = "Tax";
+        public static final String AWARD = "Award";
+        public static final String TRAVEL = "Travel";
+        public static final String CAMPUS = "Campus";
+        public static final String PAYMENT_METHOD = "PaymentMethod";
+    }
 }

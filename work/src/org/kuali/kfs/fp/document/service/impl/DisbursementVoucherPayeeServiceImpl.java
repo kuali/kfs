@@ -28,6 +28,7 @@ import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorType;
@@ -37,8 +38,8 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.AdHocRoutePerson;
-import org.kuali.rice.kns.bo.AdHocRouteRecipient;
 import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -268,22 +269,48 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
 
 
     /**
-     * This method...
+     * Creates FYI requests to previous approvers
      * 
-     * @param dvDoc
-     * @param priorApprovers
+     * @param dvDoc the document where the payee address has changed
+     * @param priorApprovers the previous approvers
+     * @param initiatorUserId the id of the initiator
      */
     private void setupFYIs(DisbursementVoucherDocument dvDoc, Set<Person> priorApprovers, String initiatorUserId) {
         List<AdHocRoutePerson> adHocRoutePersons = dvDoc.getAdHocRoutePersons();
-
+        final FinancialSystemTransactionalDocumentAuthorizerBase documentAuthorizer = getDocumentAuthorizer(dvDoc);
+        
         // Add FYI for each approver who has already approved the document
         for (Person approver : priorApprovers) {
-            String approverPersonUserId = approver.getPrincipalName();
-            adHocRoutePersons.add(buildFyiRecipient(approverPersonUserId));
+            if (documentAuthorizer.canReceiveAdHoc(dvDoc, approver, KEWConstants.ACTION_REQUEST_FYI_REQ)) {
+                String approverPersonUserId = approver.getPrincipalName();
+                adHocRoutePersons.add(buildFyiRecipient(approverPersonUserId));
+            }
         }
 
         // Add FYI for initiator
         adHocRoutePersons.add(buildFyiRecipient(initiatorUserId));
+    }
+    
+    /**
+     * Constructs a document authorizer for this class
+     * @return the document authorizer for this class
+     */
+    private FinancialSystemTransactionalDocumentAuthorizerBase getDocumentAuthorizer(DisbursementVoucherDocument dvDoc) {
+        final String docTypeName = dataDictionaryService.getDocumentTypeNameByClass(dvDoc.getClass());
+        Class<? extends DocumentAuthorizer> documentAuthorizerClass = dataDictionaryService.getDataDictionary().getDocumentEntry(docTypeName).getDocumentAuthorizerClass();
+        
+        FinancialSystemTransactionalDocumentAuthorizerBase documentAuthorizer = null;
+        try {
+            documentAuthorizer = (FinancialSystemTransactionalDocumentAuthorizerBase)documentAuthorizerClass.newInstance();
+        }
+        catch (InstantiationException ie) {
+            throw new RuntimeException("Could not construct document authorizer: "+documentAuthorizerClass.getName(), ie);
+        }
+        catch (IllegalAccessException iae) {
+            throw new RuntimeException("Could not construct document authorizer: "+documentAuthorizerClass.getName(), iae);
+        }
+        
+        return documentAuthorizer;
     }
 
     /**

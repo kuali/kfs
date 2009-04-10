@@ -48,7 +48,7 @@
                 <c:forEach items="${KualiForm.tableRenderColumnMetadata}" var="column" varStatus="columnLoopStatus">
                     <td class="sortable" style="text-align: center;">
                         <c:if test="${column.sortable}">
-                            <input name="methodToCall.sort.<c:out value="${columnLoopStatus.index}"/>.anchor${currentTabIndex}.x" type="image" src="${ConfigProperties.kr.externalizable.images.url}sort.gif" alt="Sort column ${column.columnTitle}" valign="bottom" title="Sort column ${column.columnTitle}">
+                            <html:image property="methodToCall.sort.${columnLoopStatus.index}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}sort.gif" styleClass="tinybutton" alt="Sort column" title="Sort column ${column.columnTitle}"/>
                         </c:if>
                         <c:if test="${!column.sortable}">
                             &nbsp;

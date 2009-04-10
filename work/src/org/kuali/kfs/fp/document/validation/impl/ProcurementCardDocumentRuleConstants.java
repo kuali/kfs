@@ -22,7 +22,7 @@ public class ProcurementCardDocumentRuleConstants {
 
     public static final String PCARD_DOCUMENT_PARAMETERS_SEC_GROUP = "Kuali.FinancialTransactionProcessing.ProcurementCardDocument";
     public static final String SINGLE_TRANSACTION_IND_PARM_NM = "SINGLE_TRANSACTION_IND";
-    public static final String ERROR_TRANS_CHART_CODE_PARM_NM = "ERROR_TRANSACTION_CHART_CODE";
+    public static final String ERROR_TRANS_CHART_CODE_PARM_NM = "ERROR_TRANSACTION_CHART";
     public static final String ERROR_TRANS_ACCOUNT_PARM_NM = "ERROR_TRANSACTION_ACCOUNT_NUMBER";
     public static final String DEFAULT_TRANS_CHART_CODE_PARM_NM = "DEFAULT_TRANSACTION_CHART";
     public static final String DEFAULT_TRANS_ACCOUNT_PARM_NM = "DEFAULT_TRANSACTION_ACCOUNT";

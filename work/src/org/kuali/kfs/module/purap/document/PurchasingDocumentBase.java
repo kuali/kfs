@@ -1272,4 +1272,12 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     public boolean shouldGiveErrorForEmptyAccountsProration() {
         return true;
     }
+    
+    public String getChartAndOrgCodeForResult(){
+        return getChartOfAccountsCode() + "-" + getOrganizationCode();
+    }
+    
+    public KualiDecimal getFinancialDocumentTotalAmountForResult1(){
+           return getDocumentHeader().getFinancialDocumentTotalAmount();
+       }
 }

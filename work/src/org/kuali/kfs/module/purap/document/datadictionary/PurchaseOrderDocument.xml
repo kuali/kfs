@@ -162,6 +162,7 @@
         <ref bean="PurchaseOrderDocument-paymentRequestPositiveApprovalIndicatorForSearching"/>
         <ref bean="PurchaseOrderDocument-documentChartOfAccountsCodeForSearching"/>
         <ref bean="PurchaseOrderDocument-documentOrganizationCodeForSearching"/> 
+        <ref bean="PurchaseOrderDocument-chartAndOrgCodeForResult"/>
       </list>
     </property>
     <property name="validationMap" ref="PurchaseOrderDocument-validations"/>
@@ -1227,6 +1228,22 @@
       <bean parent="MultiselectControlDefinition">
 		<property name="valuesFinderClass" value="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderStatusValuesFinder" />
 	  </bean>
+    </property>
+  </bean>
+  
+  <bean id="PurchaseOrderDocument-chartAndOrgCodeForResult" parent="PurchaseOrderDocument-chartAndOrgCodeForResult-parentBean"/>
+
+  <bean id="PurchaseOrderDocument-chartAndOrgCodeForResult-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="chartAndOrgCodeForResult"/>
+    <property name="label" value="Chart/Org"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="50"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
     </property>
   </bean>
   

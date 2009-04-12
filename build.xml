@@ -14,7 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<project name="kuali" default="dist-local" basedir=".">
+<project name="kfs" default="dist-local" basedir=".">
 	<!-- run the help target to view usage instructions for public targets -->
 	
 	<target name="dist-local" if="is.local.build" depends="clean,filter-project,filter-local" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
@@ -257,6 +257,7 @@
 		<mkdir dir="${settings.directory}" />
 		<echo file="${log4j.settings.file}" message="${log4j}" />
 		<mkdir dir="${security.directory}" />
+		<echo message="${security.property.file}" />
 		<echo file="${security.property.file}" message="${security}"  />
 		<mkdir dir="${logs.directory}" />
 		<echo file="${logs.directory}/${ant.project.name}.log" message="" />

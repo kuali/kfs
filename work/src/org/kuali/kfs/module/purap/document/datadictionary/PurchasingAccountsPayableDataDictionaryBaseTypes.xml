@@ -269,6 +269,51 @@
     					</list>
     				</property>
     			</bean>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">       		
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderStatus"/>
+    						<property name="attributeName" value="statusDescription"/>
+    						<property name="showAttributeInSearchCriteria" value="true"/>
+    						<property name="showAttributeInResultSet" value="true"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>status.statusDescription</value>
+    					</list>
+    				</property>
+    			</bean>    
+    			 <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                            <property name="businessObjectClassName" value="org.kuali.kfs.vnd.businessobject.ContractManager"/>
+                            <property name="attributeName" value="contractManagerName"/>
+                            <property name="showAttributeInSearchCriteria" value="true"/>
+                            <property name="showAttributeInResultSet" value="true"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>contractManager.contractManagerName</value>
+                        </list>
+                    </property>
+                </bean>			
+                 <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">       		
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
+    						<property name="attributeName" value="chartAndOrgCodeForResult"/>
+    						<property name="showAttributeInSearchCriteria" value="true"/>
+    						<property name="showAttributeInResultSet" value="true"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>chartAndOrgCodeForResult</value>
+    					</list>
+    				</property>
+    			</bean>    		 
                 <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">                    
                     <property name="searchingAttribute">
                         <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
@@ -296,6 +341,20 @@
     					</list>
     				</property>
     			</bean>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
+    						<property name="attributeName" value="postingYear"/>
+    						<property name="showAttributeInResultSet" value="true"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>postingYear</value>
+    					</list>
+    				</property>
+    			</bean>
                 <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
                     <property name="searchingAttribute">
                         <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
@@ -309,34 +368,6 @@
                         </list>
                     </property>
                 </bean>
-                <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-                    <property name="searchingAttribute">
-                        <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-                            <property name="businessObjectClassName" value="org.kuali.kfs.vnd.businessobject.VendorContract"/>
-                            <property name="attributeName" value="vendorContractName"/>
-                        </bean>
-                    </property>
-                    <property name="documentValues">
-                        <list>
-                            <value>vendorContractName</value>
-                        </list>
-                    </property>
-                </bean>
-                <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">       		
-    				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
-    						<property name="attributeName" value="chartAndOrgCodeForResult"/>
-    						<property name="showAttributeInSearchCriteria" value="true"/>
-    						<property name="showAttributeInResultSet" value="true"/>
-    					</bean>
-    				</property>
-    				<property name="documentValues">
-    					<list>
-    						<value>chartAndOrgCodeForResult</value>
-    					</list>
-    				</property>
-    			</bean>    		 
     	      	<bean id="SearchingType-PurchasingAccountsPayableDocument-chartCodeForSearching"
     	      		  class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
     	      		<property name="searchingAttribute">
@@ -396,6 +427,7 @@
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
     						<property name="attributeName" value="contractManagerCode"/>
+    						<property name="showAttributeInResultSet" value="false"/>
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -482,21 +514,6 @@
                         </list>
                     </property>
                 </bean>             
-        		<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">       		
-    				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderStatus"/>
-    						<property name="attributeName" value="statusDescription"/>
-    						<property name="showAttributeInSearchCriteria" value="false"/>
-    						<property name="showAttributeInResultSet" value="true"/>
-    					</bean>
-    				</property>
-    				<property name="documentValues">
-    					<list>
-    						<value>statusDescription</value>
-    					</list>
-    				</property>
-    			</bean>    			
            		<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">

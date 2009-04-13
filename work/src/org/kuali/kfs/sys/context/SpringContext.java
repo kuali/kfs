@@ -300,8 +300,12 @@ public class SpringContext {
                 long sleepPeriod = Long.parseLong( getBean(KualiConfigurationService.class).getPropertyString("periodic.thread.dump.seconds") ) * 1000;
                 public void run() {
                     File logDir = new File( getBean(KualiConfigurationService.class).getPropertyString( "logs.directory" ) );
+                    File monitoringLogDir = new File( logDir, "monitoring" );
+                    if ( !monitoringLogDir.exists() ) {
+                        monitoringLogDir.mkdir();
+                    }
                     while ( true ) {
-                        File todaysLogDir = new File( logDir + File.separator + "monitoring", df.format(new Date()) );
+                        File todaysLogDir = new File( monitoringLogDir, df.format(new Date()) );
                         if ( !todaysLogDir.exists() ) {
                             todaysLogDir.mkdir();
                         }

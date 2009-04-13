@@ -60,6 +60,7 @@ import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.bo.Parameter;
@@ -336,10 +337,9 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                         GeneralLedgerEntry copyEntry = createCancelledGlEntry(entry, purApAccountingLine);
                         businessObjectService.save(copyEntry);
                         assetAccount = createPurchasingAccountsPayableLineAssetAccount(copyEntry, cabPurapDoc, purApAccountingLine, itemAsset);
-                        assetAcctLines.put(acctLineKey, assetAccount);
                         itemAsset.getPurchasingAccountsPayableLineAssetAccounts().add(assetAccount);
                     }
-                    else {
+                    else if ((assetAccount = assetAcctLines.get(acctLineKey)) != null) {
                         // if account line key matches within same GL Entry, combine the amount
                         assetAccount.setItemAccountTotalAmount(assetAccount.getItemAccountTotalAmount().add(purApAccountingLine.getAmount()));
                     }
@@ -369,8 +369,10 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         if (CabConstants.CM.equals(entry.getFinancialDocumentTypeCode())) {
             purapAmount = purapAmount.negated();
         }
+        copyEntry.setOrganizationReferenceId(purApAccountingLine.getOrganizationReferenceId());
+        copyEntry.setProjectCode(purApAccountingLine.getProjectCode());
         copyEntry.setTransactionLedgerEntryAmount(purapAmount.abs());
-        copyEntry.setTransactionDebitCreditCode(purapAmount.isNegative() ? "C" : "D");
+        copyEntry.setTransactionDebitCreditCode(purapAmount.isNegative() ? KFSConstants.GL_CREDIT_CODE : KFSConstants.GL_DEBIT_CODE);
         return copyEntry;
     }
 

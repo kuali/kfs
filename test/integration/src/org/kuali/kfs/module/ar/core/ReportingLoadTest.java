@@ -91,7 +91,7 @@ public class ReportingLoadTest extends KualiTestBase {
     }
     
     //TODO change this to testCustomer... to make this runnable
-    public void testCustomerAgingReport() throws Exception {
+    public void doNotTestCustomerAgingReport() throws Exception {
         createManyInvoiceReadyForAgingReport();
         
         Map<String,String> fieldValues = new HashMap<String,String>();

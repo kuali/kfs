@@ -113,6 +113,9 @@
  		<ref bean="PaymentRequestDocument-paymentRequestedCancelIndicatorForSearching"/>    
  		<ref bean="PaymentRequestDocument-receivingDocumentRequiredIndicatorForSearching"/>
         <ref bean="PaymentRequestDocument-paymentRequestPositiveApprovalIndicatorForSearching"/>   
+        <ref bean="PaymentRequestDocument-requestCancelIndicatorForResult"/>
+        <ref bean="PaymentRequestDocument-holdIndicatorForResult"/>
+        <ref bean="PaymentRequestDocument-paidIndicatorForResult"/>
       </list>
     </property>
     <property name="validationMap" ref="PaymentRequestDocument-validations"/>    
@@ -386,6 +389,54 @@
     <property name="name" value="paymentRequestPositiveApprovalIndicator"/>
     <property name="label" value="Payment Request Positive Approval Required"/>
     <property name="shortLabel" value="Payment Request Positive Approval Required"/>
+  </bean>
+  
+  <bean id="PaymentRequestDocument-requestCancelIndicatorForResult" parent="PaymentRequestDocument-requestCancelIndicatorForResult-parentBean"/>
+
+  <bean id="PaymentRequestDocument-requestCancelIndicatorForResult-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="requestCancelIndicatorForResult"/>
+    <property name="label" value="Request Cancel"/>
+    <property name="shortLabel" value="Indicator"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+  </bean>
+  
+  <bean id="PaymentRequestDocument-holdIndicatorForResult" parent="PaymentRequestDocument-holdIndicatorForResult-parentBean"/>
+
+  <bean id="PaymentRequestDocument-holdIndicatorForResult-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="holdIndicatorForResult"/>
+    <property name="label" value="Hold"/>
+    <property name="shortLabel" value="Indicator"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+  </bean>
+  
+  <bean id="PaymentRequestDocument-paidIndicatorForResult" parent="PaymentRequestDocument-paidIndicatorForResult-parentBean"/>
+
+  <bean id="PaymentRequestDocument-paidIndicatorForResult-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="paidIndicatorForResult"/>
+    <property name="label" value="Paid"/>
+    <property name="shortLabel" value="Indicator"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
   </bean>
   
   <bean id="PaymentRequestDocument-paymentRequestPositiveApprovalIndicatorForSearching-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
@@ -1043,6 +1094,7 @@
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument"/>
     						<property name="attributeName" value="purapDocumentIdentifier"/>
+    						<property name="showAttributeInResultSet" value="true"/>
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -1056,6 +1108,7 @@
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument"/>
     						<property name="attributeName" value="invoiceNumber"/>
+    						<property name="showAttributeInResultSet" value="true"/>
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -1069,11 +1122,57 @@
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument"/>
     						<property name="attributeName" value="purchaseOrderIdentifier"/>
+    						<property name="showAttributeInResultSet" value="true"/>
     					</bean>
     				</property>
     				<property name="documentValues">
     					<list>
     						<value>purchaseOrderIdentifier</value>
+    					</list>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">       		
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.businessobject.PaymentRequestStatus"/>
+    						<property name="attributeName" value="statusDescription"/>
+    						<property name="showAttributeInSearchCriteria" value="true"/>
+    						<property name="showAttributeInResultSet" value="true"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>status.statusDescription</value>
+    					</list>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">       		
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument"/>
+    						<property name="attributeName" value="holdIndicatorForResult"/>
+    						<property name="showAttributeInSearchCriteria" value="true"/>
+    						<property name="showAttributeInResultSet" value="true"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>holdIndicatorForResult</value>
+    					</list>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">       		
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument"/>
+    						<property name="attributeName" value="requestCancelIndicatorForResult"/>
+    						<property name="showAttributeInSearchCriteria" value="true"/>
+    						<property name="showAttributeInResultSet" value="true"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>requestCancelIndicatorForResult</value>
     					</list>
     				</property>
     			</bean>
@@ -1095,6 +1194,7 @@
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument"/>
     						<property name="attributeName" value="vendorName"/>
+    						<property name="showAttributeInResultSet" value="true"/>
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -1134,6 +1234,7 @@
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument"/>
     						<property name="attributeName" value="vendorCustomerNumber"/>
+    						<property name="showAttributeInResultSet" value="true"/>	
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -1160,11 +1261,41 @@
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument"/>
     						<property name="attributeName" value="paymentRequestPayDate"/>
+    						<property name="showAttributeInResultSet" value="true"/>	
     					</bean>
     				</property>
     				<property name="documentValues">
     					<list>
     						<value>paymentRequestPayDate</value>
+    					</list>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument"/>
+    						<property name="attributeName" value="extractedTimestamp"/>
+    						<property name="showAttributeInResultSet" value="true"/>	
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>extractedTimestamp</value>
+    					</list>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">       		
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument"/>
+    						<property name="attributeName" value="paidIndicatorForResult"/>
+    						<property name="showAttributeInSearchCriteria" value="true"/>
+    						<property name="showAttributeInResultSet" value="true"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>paidIndicatorForResult</value>
     					</list>
     				</property>
     			</bean>
@@ -1198,7 +1329,7 @@
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument"/>
-    						<property name="attributeName" value="holdIndicatorForSearching"/>						
+    						<property name="attributeName" value="holdIndicatorForSearching"/>		
     					</bean>  					
     				</property>
     				<property name="documentValues">

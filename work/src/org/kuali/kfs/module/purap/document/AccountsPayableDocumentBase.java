@@ -578,5 +578,9 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         return value;
     }
     
+    public String getHoldIndicatorForResult(){
+        return isHoldIndicator() ? "Yes" : "No";
+    }
+    
 }
 

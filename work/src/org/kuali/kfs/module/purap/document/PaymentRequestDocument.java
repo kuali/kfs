@@ -1288,6 +1288,13 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         }
     }
     
+    public String getRequestCancelIndicatorForResult(){
+        return isPaymentRequestedCancelIndicator() ? "Yes" : "No";
+    }
+    
+    public String getPaidIndicatorForResult(){
+        return getPaymentPaidTimestamp() != null ? "Yes" : "No";
+    }
 }
 
 

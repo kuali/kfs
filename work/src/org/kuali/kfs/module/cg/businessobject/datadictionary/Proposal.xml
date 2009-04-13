@@ -106,6 +106,32 @@
           </property>
         </bean>
         <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="proposalProjectDirectors.projectDirector" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="proposalProjectDirectors.projectDirector.principalId"
+                    p:targetName="principalId" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="proposalProjectDirectors.projectDirector.principalName"
+                    p:targetName="principalName" />
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="proposalProjectDirectors.projectDirector.name"
+                    p:targetName="name" />
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="userLookupRoleNamespaceCode"
+                    p:targetName="lookupRoleNamespaceCode" />
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="userLookupRoleName"
+                    p:targetName="lookupRoleName" />
+            </list>
+          </property>          
+        </bean>        
+        <bean parent="RelationshipDefinition">
           <property name="objectAttributeName" value="lookupPerson" />
           <property name="primitiveAttributes" >
             <list>
@@ -775,9 +801,9 @@
         <bean parent="FieldDefinition"
               p:attributeName="lookupPerson.name" />
         <bean parent="FieldDefinition"
-              p:attributeName="userLookupRoleNamespaceCode" p:defaultValue="KFS-CG" />
+              p:attributeName="userLookupRoleNamespaceCode" p:defaultValue="KFS-SYS" />
         <bean parent="FieldDefinition"
-              p:attributeName="userLookupRoleName" p:defaultValue="Pre-Award Project Director" />
+              p:attributeName="userLookupRoleName" p:defaultValue="Contracts &amp; Grants Project Director" />
         <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>

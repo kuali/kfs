@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cg.document.web.struts;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -27,7 +28,7 @@ import org.kuali.kfs.module.cg.businessobject.BudgetTaskPeriodIndirectCost;
 /**
  * Used by UI to get totals, counts, aggregations, and other things to render the Indirect Cost page.
  */
-public class BudgetIndirectCostFormHelper {
+public class BudgetIndirectCostFormHelper implements Serializable {
 
     /**
      * List of taskPeriod objects to store task totals across all periods. Each taskPeriod BO will be attached to only a task, not a

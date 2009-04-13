@@ -17,11 +17,7 @@ package org.kuali.kfs.pdp.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiInteger;
@@ -31,20 +27,17 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements In
     private KualiInteger achAccountGeneratedIdentifier;
     private String bankRoutingNumber;
     private String bankAccountNumber;
+    private String payeeIdNumber;
     private String payeeName;
     private String payeeEmailAddress;
-    private KualiInteger vendorHeaderGeneratedIdentifier;
-    private KualiInteger vendorDetailAssignedIdentifier;
-    private String principalId;
     private String payeeIdentifierTypeCode;
     private String achTransactionType;
-    private boolean active;
     private String bankAccountTypeCode;
+    private boolean active;
 
     private ACHBank bankRouting;
-    private VendorDetail vendorDetail;
-    private Person user;
     private ACHTransactionType transactionType;
+    private ACHPayee achPayee;
 
     /**
      * Default constructor.
@@ -145,62 +138,6 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements In
      */
     public void setPayeeEmailAddress(String payeeEmailAddress) {
         this.payeeEmailAddress = payeeEmailAddress;
-    }
-
-
-    /**
-     * Gets the vendorHeaderGeneratedIdentifier attribute.
-     * 
-     * @return Returns the vendorHeaderGeneratedIdentifier
-     */
-    public KualiInteger getVendorHeaderGeneratedIdentifier() {
-        return vendorHeaderGeneratedIdentifier;
-    }
-
-    /**
-     * Sets the vendorHeaderGeneratedIdentifier attribute.
-     * 
-     * @param vendorHeaderGeneratedIdentifier The vendorHeaderGeneratedIdentifier to set.
-     */
-    public void setVendorHeaderGeneratedIdentifier(KualiInteger vendorHeaderGeneratedIdentifier) {
-        this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
-    }
-
-
-    /**
-     * Gets the vendorDetailAssignedIdentifier attribute.
-     * 
-     * @return Returns the vendorDetailAssignedIdentifier
-     */
-    public KualiInteger getVendorDetailAssignedIdentifier() {
-        return vendorDetailAssignedIdentifier;
-    }
-
-    /**
-     * Sets the vendorDetailAssignedIdentifier attribute.
-     * 
-     * @param vendorDetailAssignedIdentifier The vendorDetailAssignedIdentifier to set.
-     */
-    public void setVendorDetailAssignedIdentifier(KualiInteger vendorDetailAssignedIdentifier) {
-        this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
-    }
-
-    /**
-     * Gets the principalId attribute.
-     * 
-     * @return Returns the principalId
-     */
-    public String getPrincipalId() {
-        return principalId;
-    }
-
-    /**
-     * Sets the principalId attribute.
-     * 
-     * @param principalId The principalId to set.
-     */
-    public void setPrincipalId(String principalId) {
-        this.principalId = principalId;
     }
 
     /**
@@ -312,23 +249,42 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements In
         this.bankRouting = bankRouting;
     }
 
+
     /**
-     * Gets the user attribute.
+     * Gets the payeeIdNumber attribute.
      * 
-     * @return Returns the user.
+     * @return Returns the payeeIdNumber.
      */
-    public Person getUser() {
-        user = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(principalId, user);
-        return user;
+    public String getPayeeIdNumber() {
+        return payeeIdNumber;
     }
 
     /**
-     * Sets the user attribute value.
+     * Sets the payeeIdNumber attribute value.
      * 
-     * @param user The user to set.
+     * @param payeeIdNumber The payeeIdNumber to set.
      */
-    public void setUser(Person user) {
-        this.user = user;
+    public void setPayeeIdNumber(String payeeIdNumber) {
+        this.payeeIdNumber = payeeIdNumber;
+    }
+
+
+    /**
+     * Gets the achPayee attribute.
+     * 
+     * @return Returns the achPayee.
+     */
+    public ACHPayee getAchPayee() {
+        return achPayee;
+    }
+
+    /**
+     * Sets the achPayee attribute value.
+     * 
+     * @param achPayee The achPayee to set.
+     */
+    public void setAchPayee(ACHPayee achPayee) {
+        this.achPayee = achPayee;
     }
 
     /**
@@ -340,35 +296,5 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements In
             m.put(PdpPropertyConstants.ACH_ACCOUNT_GENERATED_IDENTIFIER, this.achAccountGeneratedIdentifier.toString());
         }
         return m;
-    }
-
-    public VendorDetail getVendorDetail() {
-        return vendorDetail;
-    }
-
-    public void setVendorDetail(VendorDetail vendorDetail) {
-        this.vendorDetail = vendorDetail;
-    }
-
-    public String getVendorNumber() {
-        // using the code from the VendorDetail to generate the vendor number
-        if (vendorHeaderGeneratedIdentifier != null && vendorDetailAssignedIdentifier != null) {
-            VendorDetail vDUtil = new VendorDetail();
-            vDUtil.setVendorHeaderGeneratedIdentifier(vendorHeaderGeneratedIdentifier.intValue());
-            vDUtil.setVendorDetailAssignedIdentifier(vendorDetailAssignedIdentifier.intValue());
-            return vDUtil.getVendorNumber();
-        }
-
-        return "";
-    }
-
-    public void setVendorNumber(String vendorNumber) {
-        // using the code from the VendorDetail to set the 2 component fields of the vendor number
-        if (StringUtils.isNotBlank(vendorNumber)) {
-            VendorDetail vDUtil = new VendorDetail();
-            vDUtil.setVendorNumber(vendorNumber);
-            setVendorHeaderGeneratedIdentifier(new KualiInteger(vDUtil.getVendorHeaderGeneratedIdentifier()));
-            setVendorDetailAssignedIdentifier(new KualiInteger(vDUtil.getVendorDetailAssignedIdentifier()));
-        }
     }
 }

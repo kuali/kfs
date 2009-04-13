@@ -905,9 +905,9 @@
         <bean parent="FieldDefinition"
               p:attributeName="lookupPerson.name" />
         <bean parent="FieldDefinition"
-              p:attributeName="userLookupRoleNamespaceCode" p:defaultValue="KFS-CG" />
+              p:attributeName="userLookupRoleNamespaceCode" p:defaultValue="KFS-SYS" />
         <bean parent="FieldDefinition"
-              p:attributeName="userLookupRoleName" p:defaultValue="Pre-Award Project Director" />
+              p:attributeName="userLookupRoleName" p:defaultValue="Contracts &amp; Grants Project Director" />
         <bean parent="FieldDefinition"
               p:attributeName="awardOrganizations.organization.organizationCode" />  
         <bean parent="FieldDefinition"

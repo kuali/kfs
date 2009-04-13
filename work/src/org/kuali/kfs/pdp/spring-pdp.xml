@@ -431,15 +431,6 @@
 		<property name="dateTimeService" ref="dateTimeService"/>
 		<property name="businessObjectService" ref="businessObjectService"/>
 	</bean>
-
-	<bean id="pdpPayeeAchAccountLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.PayeeAchAccountLookupableHelperService" parent="lookupableHelperService" scope="prototype">
-	</bean>
-	
-	<bean id="pdpPayeeAchAccountLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
-	    <property name="lookupableHelperService">
-	        <ref bean="pdpPayeeAchAccountLookupableHelperService" />
-	    </property>
-	</bean>
 	
 	<bean id="processPdpCancelPaidService" class="org.kuali.kfs.pdp.batch.service.impl.ProcessPdpCancelPaidServiceImpl">
 		<property name="paymentGroupService">
@@ -544,6 +535,15 @@
 		<property name="lookupableHelperService">
 			<ref bean="bankChangeHistoryLookupableHelperService" />
 		</property>
+	</bean>	
+	
+	<bean id="achPayeeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="achPayeeLookupableHelperService" />
+		</property>
+	</bean>
+ 
+	<bean id="achPayeeLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.ACHPayeeLookupableHelperServiceImpl" scope="prototype" parent="disbursementPayeeLookupableHelperService">
 	</bean>	
 
     <bean id="customerRoleTypeService" class="org.kuali.kfs.pdp.identity.CustomerRoleTypeServiceImpl"/>

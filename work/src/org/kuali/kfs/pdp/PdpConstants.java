@@ -39,7 +39,7 @@ public class PdpConstants {
 
     public static class PayeeIdTypeCodes {
         public static String SSN = "S";
-        public static String EMPLOYEE_ID = "E";
+        public static String ENTITY_ID = "E";
         public static String FEIN = "F";
         public static String VENDOR_ID = "V";
         public static String OTHER = "X";

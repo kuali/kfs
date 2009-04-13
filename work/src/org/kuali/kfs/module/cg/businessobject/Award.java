@@ -25,6 +25,7 @@ import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
 import org.kuali.kfs.module.cg.CGConstants;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Inactivateable;
@@ -101,8 +102,8 @@ public class Award extends PersistableBusinessObjectBase implements Inactivateab
     private transient String lookupPersonUniversalIdentifier;
     private transient Person lookupPerson;
     
-    private final String userLookupRoleNamespaceCode = CGConstants.CG_NAMESPACE_CODE;
-    private final String userLookupRoleName = CGConstants.CGKimConstants.PREAWARD_PROJECT_DIRECTOR_KIM_ROLE_NAME;
+    private final String userLookupRoleNamespaceCode = KFSConstants.ParameterNamespaces.KFS;
+    private final String userLookupRoleName = KFSConstants.SysKimConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR;
 
     /**
      * Default no-args constructor.

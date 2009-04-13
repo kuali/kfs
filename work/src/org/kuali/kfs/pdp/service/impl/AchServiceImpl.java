@@ -45,23 +45,7 @@ public class AchServiceImpl implements AchService {
         fields.put(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
         fields.put(PdpPropertyConstants.PAYEE_IDENTIFIER_TYPE_CODE, idType);
         fields.put(PdpPropertyConstants.ACH_TRANSACTION_TYPE, achTransactionType);
-
-        if (PdpConstants.PayeeIdTypeCodes.EMPLOYEE_ID.equals(idType)) {
-            fields.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, payeeId);
-        }
-        else if (PdpConstants.PayeeIdTypeCodes.VENDOR_ID.equals(idType)) {
-            String parts[] = payeeId.split("-");
-            if (parts.length == 2) {
-                try {
-                    fields.put(KFSPropertyConstants.VENDOR_HEADER_GENERATED_ID, new Integer(Integer.parseInt(parts[0])));
-                    fields.put(KFSPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID, new Integer(Integer.parseInt(parts[1])));
-                }
-                catch (NumberFormatException e) {
-                    LOG.error("Invaid vendor id: " + payeeId);
-                    throw new RuntimeException("Invaid vendor id: " + payeeId);
-                }
-            }
-        }
+        fields.put(PdpPropertyConstants.PAYEE_ID_NUMBER, payeeId);
 
         Collection<PayeeACHAccount> rows = businessObjectService.findMatching(PayeeACHAccount.class, fields);
         if (rows.size() != 1) {

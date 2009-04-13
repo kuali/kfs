@@ -44,6 +44,7 @@ public class PdpPropertyConstants {
     public static final String DISBURSEMENT_NUMBER_RANGE_START_DATE = "disbNbrRangeStartDt";    
     
     public static final String PAYEE_IDENTIFIER_TYPE_CODE = "payeeIdentifierTypeCode";
+    public static final String PAYEE_ID_NUMBER = "payeeIdNumber";
     public static final String ACH_TRANSACTION_TYPE = "achTransactionType";
     public static final String PAYEE_SOCIAL_SECURITY_NUMBER = "payeeSocialSecurityNumber";
     public static final String PAYEE_FEDERAL_EMPLOYER_IDENTIFICATION_NUMBER = "payeeFederalEmployerIdentificationNumber";

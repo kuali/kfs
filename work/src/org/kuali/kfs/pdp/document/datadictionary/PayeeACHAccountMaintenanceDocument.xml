@@ -21,14 +21,9 @@
         <value>achAccountGeneratedIdentifier</value>
       </list>
     </property>
-    
-    
-    
-    
     <property name="documentTypeName" value="PAAT"/>
     <property name="businessRulesClass" value="org.kuali.kfs.pdp.document.validation.impl.PayeeAchAccountRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
-    <property name="promptBeforeValidationClass" value="org.kuali.kfs.pdp.document.validation.impl.PayeeAchAccountPreRules"/>
     <property name="webScriptFiles">
       <list>
         <value>../scripts/pdp/objectInfo.js</value>
@@ -50,22 +45,17 @@
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="achAccountGeneratedIdentifier" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.pdp.businessobject.defaultvalue.NextAchAccountIdentifierFinder"/>
-        <bean parent="MaintainableFieldDefinition" p:name="payeeIdentifierTypeCode" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="user.principalName" p:readOnlyAfterAdd="true"/>   
-        <bean parent="MaintainableFieldDefinition" p:name="vendorNumber" p:readOnlyAfterAdd="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="payeeIdentifierTypeCode" p:required="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="payeeIdNumber" p:required="true" />   
         <bean parent="MaintainableFieldDefinition">
           <property name="name" value="bankRoutingNumber"/>
           <property name="required" value="true"/>
-          
-          
           <property name="webUILeaveFieldFunction" value="loadAchBankInfo"/>
         </bean>
         <bean parent="MaintainableFieldDefinition" p:name="bankRouting.bankName" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition">
           <property name="name" value="bankAccountNumber"/>
           <property name="required" value="true"/>
-          
-          
         </bean>
         <bean parent="MaintainableFieldDefinition" p:name="bankAccountTypeCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="payeeName" p:required="true"/>

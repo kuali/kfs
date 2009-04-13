@@ -144,12 +144,12 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
     }
 
     // get the label for the given attribute of the current business object
-    private String getAttribueLabel(String attributeName) {
+    protected String getAttribueLabel(String attributeName) {
         return this.getDataDictionaryService().getAttributeLabel(getBusinessObjectClass(), attributeName);
     }
 
     // perform vendor search
-    private List<DisbursementPayee> getVendorsAsPayees(Map<String, String> fieldValues) {
+    protected List<DisbursementPayee> getVendorsAsPayees(Map<String, String> fieldValues) {
         List<DisbursementPayee> payeeList = new ArrayList<DisbursementPayee>();
 
         Map<String, String> fieldsForLookup = this.getVendorFieldValues(fieldValues);
@@ -159,12 +159,18 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
         List<BusinessObject> vendorList = vendorLookupable.getSearchResults(fieldsForLookup);
         for (BusinessObject vendor : vendorList) {
             VendorDetail vendorDetail = (VendorDetail) vendor;
-            DisbursementPayee payee = DisbursementPayee.getPayeeFromVendor(vendorDetail);
-            payee.setPaymentReasonCode(fieldValues.get(KFSPropertyConstants.PAYMENT_REASON_CODE));
+            DisbursementPayee payee = getPayeeFromVendor(vendorDetail, fieldValues);
             payeeList.add(payee);
         }
 
         return payeeList;
+    }
+    
+    protected DisbursementPayee getPayeeFromVendor(VendorDetail vendorDetail, Map<String, String> fieldValues) {
+        DisbursementPayee payee = DisbursementPayee.getPayeeFromVendor(vendorDetail);
+        payee.setPaymentReasonCode(fieldValues.get(KFSPropertyConstants.PAYMENT_REASON_CODE));
+        
+        return payee;
     }
 
     // get the search criteria valid for vendor lookup
@@ -202,7 +208,7 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
     }
 
     // perform person search
-    private List<DisbursementPayee> getPersonAsPayees(Map<String, String> fieldValues) {
+    protected List<DisbursementPayee> getPersonAsPayees(Map<String, String> fieldValues) {
         List<DisbursementPayee> payeeList = new ArrayList<DisbursementPayee>();
 
         Map<String, String> fieldsForLookup = this.getPersonFieldValues(fieldValues);
@@ -213,12 +219,18 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
         List<BusinessObject> personList = kimPersonLookupable.getSearchResults(fieldsForLookup);
         for (BusinessObject person : personList) {
             Person personDetail = (Person) person;
-            DisbursementPayee payee = DisbursementPayee.getPayeeFromPerson(personDetail);
-            payee.setPaymentReasonCode(fieldValues.get(KFSPropertyConstants.PAYMENT_REASON_CODE));
+            DisbursementPayee payee = getPayeeFromPerson(personDetail, fieldValues);
             payeeList.add(payee);
         }
 
         return payeeList;
+    }
+    
+    protected DisbursementPayee getPayeeFromPerson(Person personDetail, Map<String, String> fieldValues) {
+        DisbursementPayee payee = DisbursementPayee.getPayeeFromPerson(personDetail);
+        payee.setPaymentReasonCode(fieldValues.get(KFSPropertyConstants.PAYMENT_REASON_CODE));
+        
+        return payee;
     }
 
     // get the search criteria valid for person lookup
@@ -252,7 +264,7 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
     }
 
     // remove its return URLs if a row is not qualified for returning
-    private void filterReturnUrl(List<ResultRow> resultRowList, List<DisbursementPayee> payeeList, String paymentReasonCode) {
+    protected void filterReturnUrl(List<ResultRow> resultRowList, List<DisbursementPayee> payeeList, String paymentReasonCode) {
         List<String> payeeTypeCodes = disbursementVoucherPaymentReasonService.getPayeeTypesByPaymentReason(paymentReasonCode);
         if (payeeTypeCodes == null || payeeTypeCodes.isEmpty()) {
             return;

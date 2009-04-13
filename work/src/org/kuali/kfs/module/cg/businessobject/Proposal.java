@@ -26,6 +26,7 @@ import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.integration.cg.ContractAndGrantsProposal;
 import org.kuali.kfs.module.cg.CGConstants;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Inactivateable;
@@ -92,8 +93,8 @@ public class Proposal extends PersistableBusinessObjectBase implements Inactivat
     private Award award;
 
 
-    private final String userLookupRoleNamespaceCode = CGConstants.CG_NAMESPACE_CODE;
-    private final String userLookupRoleName = CGConstants.CGKimConstants.PREAWARD_PROJECT_DIRECTOR_KIM_ROLE_NAME;
+    private final String userLookupRoleNamespaceCode = KFSConstants.ParameterNamespaces.KFS;
+    private final String userLookupRoleName = KFSConstants.SysKimConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR;
     
     /**
      * Default constructor.
@@ -770,7 +771,7 @@ public class Proposal extends PersistableBusinessObjectBase implements Inactivat
     public List<ProposalResearchRisk> getProposalResearchRisks() {
         return proposalResearchRisks;
     }
-    
+
     /**
      * @return Returns the active proposalResearchRisks.
      */
@@ -940,8 +941,5 @@ public class Proposal extends PersistableBusinessObjectBase implements Inactivat
 
     public void setUserLookupRoleName(String userLookupRoleName) {
     }
-    
-   
-    
 }
 

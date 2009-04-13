@@ -595,21 +595,14 @@
 	<field-descriptor name="bankAccountNumber" column="BNK_ACCT_NBR" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbKualiEncryptDecryptFieldConversion"/>
 	<field-descriptor name="payeeName" column="PAYEE_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="payeeEmailAddress" column="PAYEE_EMAIL_ADDR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
-	<field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
-	<field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="payeeIdNumber" column="PAYEE_ID_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="payeeIdentifierTypeCode" column="PAYEE_ID_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="achTransactionType" column="ACH_TRANS_TYP" jdbc-type="VARCHAR"/>
-	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="bankAccountTypeCode" column="BNK_ACCT_TYP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 
 	<reference-descriptor name="bankRouting" class-ref="org.kuali.kfs.pdp.businessobject.ACHBank" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="bankRoutingNumber" />
-	</reference-descriptor>
-
-	<reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-		<foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
-		<foreignkey field-ref="vendorDetailAssignedIdentifier" />
 	</reference-descriptor>
 	
     <reference-descriptor name="transactionType" class-ref="org.kuali.kfs.pdp.businessobject.ACHTransactionType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">

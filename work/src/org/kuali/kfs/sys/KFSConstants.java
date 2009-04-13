@@ -1130,6 +1130,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     
     public static class SysKimConstants{
         public static final String ACCOUNT_SUPERVISOR_KIM_ROLE_NAME = "Account Supervisor";
+        public static final String CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR = "Contracts & Grants Project Director";
         public static final String FISCAL_OFFICER_KIM_ROLE_NAME = "Fiscal Officer";
         public static final String FISCAL_OFFICER_PRIMARY_DELEGATE_KIM_ROLE_NAME = "Fiscal Officer Primary Delegate";
         public static final String FISCAL_OFFICER_SECONDARY_DELEGATE_KIM_ROLE_NAME = "Fiscal Officer Secondary Delegate";

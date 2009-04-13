@@ -22,6 +22,7 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.document.RoutingFormDocument;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
@@ -72,6 +73,9 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
     private ContractsAndGrantsRoleCode personRole;
     // private RoutingFormDocument routingFormDocument;
     private Person user;
+    
+    private final String userLookupRoleNamespaceCode = KFSConstants.ParameterNamespaces.KFS;
+    private final String userLookupRoleName = KFSConstants.SysKimConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR;
 
     private transient PersonService personService;
     private transient ParameterService parameterService;
@@ -679,9 +683,7 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
      * @return Returns the user.
      */
     public Person getUser() {
-        if (principalId != null) {
-            user = getKfsUserService().updatePersonIfNecessary(principalId, user);
-        }
+        user = getKfsUserService().updatePersonIfNecessary(principalId, user);
         return user;
     }
 
@@ -786,4 +788,18 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
         return parameterService;
     }
 
+    public String getUserLookupRoleNamespaceCode() {
+        return userLookupRoleNamespaceCode;
+    }
+
+    public void setUserLookupRoleNamespaceCode(String userLookupRoleNamespaceCode) {
+    }
+
+    public String getUserLookupRoleName() {
+        return userLookupRoleName;
+    }
+
+    public void setUserLookupRoleName(String userLookupRoleName) {
+    }
+    
 }

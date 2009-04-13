@@ -72,6 +72,9 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
     private String previousSecondaryAppointmentTypeCode;
     private String secondaryAppointmentTypeCode;
     private boolean delete;
+    
+    private final String userLookupRoleNamespaceCode = KFSConstants.ParameterNamespaces.KFS;
+    private final String userLookupRoleName = KFSConstants.SysKimConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR;    
 
     /**
      * Constructs a BudgetUser.java.

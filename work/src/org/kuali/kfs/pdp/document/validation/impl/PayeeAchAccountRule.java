@@ -68,67 +68,26 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
+        LOG.info("processCustomRouteDocumentBusinessRules called");
+
         boolean validEntry = true;
 
-        String payeeIdTypeCd, payeeUserId, feinNumber, dvPayeeId, ssn;
-        KualiInteger vendorGnrtdId, vendorAsndId;
-
-        LOG.info("processCustomRouteDocumentBusinessRules called");
         setupConvenienceObjects();
 
-        payeeIdTypeCd = newPayeeAchAccount.getPayeeIdentifierTypeCode();
-        if (payeeIdTypeCd == null) {
-            return validEntry;
-        }
-
-        // Create a query to do a lookup on.
-        Map<String, Object> criteria = new HashMap<String, Object>();
-        String identifierField = "";
-
-        if (payeeIdTypeCd.equals(PdpConstants.PayeeIdTypeCodes.EMPLOYEE_ID)) {
-            identifierField = KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER;
-
-            payeeUserId = newPayeeAchAccount.getPrincipalId();
-            if (payeeUserId == null) {
-                validEntry = false;
-            }
-            else
-                criteria.put(identifierField, payeeUserId);
-        }
-        else if (payeeIdTypeCd.equals(PdpConstants.PayeeIdTypeCodes.VENDOR_ID)) {
-            identifierField = KFSPropertyConstants.VENDOR_NUMBER;
-
-            vendorGnrtdId = newPayeeAchAccount.getVendorHeaderGeneratedIdentifier();
-            vendorAsndId = newPayeeAchAccount.getVendorDetailAssignedIdentifier();
-            if ((vendorGnrtdId == null) || (vendorAsndId == null)) {
-                validEntry = false;
-            }
-            if (validEntry) {
-                criteria.put(KFSPropertyConstants.VENDOR_HEADER_GENERATED_ID, vendorGnrtdId);
-                criteria.put(KFSPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID, vendorAsndId);
-            }
-        }
-
-        if (validEntry) {
-            validEntry &= checkForDuplicateRecord(criteria, identifierField);
-        }
-        else {
-            putFieldError(identifierField, KFSKeyConstants.ERROR_REQUIRED, getFieldLabel(identifierField));
-        }
+        validEntry &= checkForDuplicateRecord();
 
         return validEntry;
     }
 
     /**
      * Checks to verify record is not a duplicate for payee id. Do not check for a duplicate record if the following conditions are
-     * true 1. editing an existing record (old primary key = new primary key) 2. new PSD code = old PSD code 3. new payee type code =
-     * old payee type code 4. depending of the value of payee type code, new correspoding PayeeId = old corresponding PayeeId
+     * true 1. editing an existing record (old primary key = new primary key) 2. new PSD code = old PSD code 3. new payee type code
+     * = old payee type code 4. depending of the value of payee type code, new correspoding PayeeId = old corresponding PayeeId
      * 
-     * @param criteria
-     * @param identifierField id field for payee
      * @return true if record is not duplicate, false otherwise
      */
-    protected boolean checkForDuplicateRecord(Map<String, Object> criteria, String identifierField) {
+    protected boolean checkForDuplicateRecord() {
+        String newPayeeIdNumber = newPayeeAchAccount.getPayeeIdNumber();
         String newPayeeIdTypeCd = newPayeeAchAccount.getPayeeIdentifierTypeCode();
         String newAchTransactionType = newPayeeAchAccount.getAchTransactionType();
 
@@ -136,24 +95,22 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
 
         if (newPayeeAchAccount.getAchAccountGeneratedIdentifier() != null && oldPayeeAchAccount.getAchAccountGeneratedIdentifier() != null && newPayeeAchAccount.getAchAccountGeneratedIdentifier().equals(oldPayeeAchAccount.getAchAccountGeneratedIdentifier())) {
             if (newPayeeIdTypeCd.equals(oldPayeeAchAccount.getPayeeIdentifierTypeCode()) && newAchTransactionType.equals(oldPayeeAchAccount.getAchTransactionType())) {
-                if (newPayeeIdTypeCd.equals(PdpConstants.PayeeIdTypeCodes.EMPLOYEE_ID)) {
-                    if (newPayeeAchAccount.getPrincipalId().equals(oldPayeeAchAccount.getPrincipalId()))
-                        return valid;
-                }
-                else if (newPayeeIdTypeCd.equals(PdpConstants.PayeeIdTypeCodes.VENDOR_ID)) {
-                    if (newPayeeAchAccount.getVendorHeaderGeneratedIdentifier().equals(oldPayeeAchAccount.getVendorHeaderGeneratedIdentifier()) && newPayeeAchAccount.getVendorDetailAssignedIdentifier().equals(oldPayeeAchAccount.getVendorDetailAssignedIdentifier()))
-                        return valid;
+                if (newPayeeAchAccount.getPayeeIdNumber().equals(oldPayeeAchAccount.getPayeeIdNumber())) {
+                    return valid;
                 }
             }
         }
 
         // check for a duplicate record if creating a new record or editing an old one and above mentioned conditions are not true
+        Map<String, Object> criteria = new HashMap<String, Object>();
+
         criteria.put(PdpPropertyConstants.ACH_TRANSACTION_TYPE, newAchTransactionType);
         criteria.put(PdpPropertyConstants.PAYEE_IDENTIFIER_TYPE_CODE, newPayeeIdTypeCd);
+        criteria.put(PdpPropertyConstants.PAYEE_ID_NUMBER, newPayeeIdNumber);
 
         int matches = SpringContext.getBean(BusinessObjectService.class).countMatching(PayeeACHAccount.class, criteria);
         if (matches > 0) {
-            putFieldError(identifierField, KFSKeyConstants.ERROR_DOCUMENT_PAYEEACHACCOUNTMAINT_DUPLICATE_RECORD);
+            putFieldError(PdpPropertyConstants.PAYEE_ID_NUMBER, KFSKeyConstants.ERROR_DOCUMENT_PAYEEACHACCOUNTMAINT_DUPLICATE_RECORD);
             valid = false;
         }
 

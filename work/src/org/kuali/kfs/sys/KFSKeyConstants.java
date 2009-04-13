@@ -103,12 +103,6 @@ public class KFSKeyConstants {
     public static final String ERROR_ACCOUNTINGLINE_INACCESSIBLE_ADD = "error.accountingLine.inaccessibleAdd";
     public static final String ERROR_ACCOUNTINGLINE_INACCESSIBLE_DELETE = "error.accountingLine.inaccessibleDelete";
     public static final String ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE = "error.accountingLine.inaccessibleUpdate";
-    public static final String ERROR_ACCOUNTINGLINE_INACCESSIBLE_ADD_NO_SB_CTRL = "error.accountingLine.inaccessibleAdd.noServiceBillingControl";
-    public static final String ERROR_ACCOUNTINGLINE_INACCESSIBLE_DELETE_NO_SB_CTRL = "error.accountingLine.inaccessibleDelete.noServiceBillingControl";
-    public static final String ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE_NO_SB_CTRL = "error.accountingLine.inaccessibleUpdate.noServiceBillingControl";
-    public static final String ERROR_ACCOUNTINGLINE_INACCESSIBLE_ADD_NOT_IN_SB_CTRL_GRP = "error.accountingLine.inaccessibleAdd.notInServiceBillingControlGroup";
-    public static final String ERROR_ACCOUNTINGLINE_INACCESSIBLE_DELETE_NOT_IN_SB_CTRL_GRP = "error.accountingLine.inaccessibleDelete.notInServiceBillingControlGroup";
-    public static final String ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE_NOT_IN_SB_CTRL_GRP = "error.accountingLine.inaccessibleUpdate.notInServiceBillingControlGroup";
     public static final String ERROR_ACCOUNTINGLINE_LASTACCESSIBLE_DELETE = "error.accountingLine.deleteLastAccessible";
     public static final String ERROR_DOCUMENT_ACCOUNTING_LINE_TOTAL_CHANGED = "error.document.accountingLineTotalChanged";
     public static final String ERROR_DOCUMENT_SINGLE_ACCOUNTING_LINE_SECTION_TOTAL_CHANGED = "error.document.singleAccountingLineSectionTotalChanged";

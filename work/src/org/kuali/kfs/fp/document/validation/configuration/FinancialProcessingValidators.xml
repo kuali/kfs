@@ -209,8 +209,6 @@
 
 	<bean id="ServiceBilling-accountingLineAmountNonZeroValidation" class="org.kuali.kfs.fp.document.validation.impl.AccountingLineAmountNonZeroValidation" abstract="true" />
 
-	<bean id="ServiceBilling-accountingLineAccessibilityValidation" class="org.kuali.kfs.fp.document.validation.impl.ServiceBillingAccountingLineAccessibilityValidation" abstract="true" />
-
 	<bean id="YearEndBudgetAdjustment-accountingLineAccountHasRecordingLevelValidation" class="org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentAccountingLineAccountHasRecordingLevelValidation" abstract="true" />
 	
 	<bean id="YearEndBudgetAdjustment-accountingLineAccountIncomeStreamValidation" class="org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentAccountingLineAccountIncomeStreamValidation" abstract="true" />

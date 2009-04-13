@@ -19,11 +19,17 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.report.service.AccountsReceivableReportService;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -31,6 +37,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 
@@ -46,10 +53,17 @@ public class ReportingLoadTest extends KualiTestBase {
     private static final int INVOICES_TO_CREATE = 2;
     private static final String PRINT_SETTING = "U";
     private static final String INITIATOR = "khuntley";
+    private static final int[] INVOICE_AGES = { -5, -18, -35, -65, -95, -125 };
+    
+    private static final String AGING_RPT_OPTION = "PROCESSING ORGANIZATION";
+    private static final String AGING_RPT_CHART = "UA";
+    private static final String AGING_RPT_ORG = "VPIT";
+    private static final String AGING_RPT_ACCOUNT = "1031400";
     
     private DocumentService documentService;
     private AccountsReceivableReportService reportService;
     private KualiConfigurationService kualiConfigService;
+    private DateTimeService dateTimeService;
     
     private List<String> invoicesCreated;
     
@@ -59,18 +73,35 @@ public class ReportingLoadTest extends KualiTestBase {
         documentService = SpringContext.getBean(DocumentService.class);
         reportService = SpringContext.getBean(AccountsReceivableReportService.class);
         kualiConfigService = SpringContext.getBean(KualiConfigurationService.class);
+        dateTimeService = SpringContext.getBean(DateTimeService.class);
         
         invoicesCreated = new ArrayList<String>();
 
-        // this step is required for all the reporting/printing runs 
-        createManyInvoicesReadyForPrinting();
     }
 
     //TODO change this to testCustomer... to make this runnable
+    public void doNotTestCustomerAgingReport() throws Exception {
+        createManyInvoiceReadyForAgingReport();
+        
+        Map<String,String> fieldValues = new HashMap<String,String>();
+        fieldValues.put(KFSConstants.BACK_LOCATION, "");
+        fieldValues.put(KFSConstants.DOC_FORM_KEY, "");
+        fieldValues.put(ArPropertyConstants.CustomerAgingReportFields.REPORT_OPTION, AGING_RPT_OPTION);
+        fieldValues.put(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, AGING_RPT_ACCOUNT);
+        fieldValues.put(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, AGING_RPT_CHART);
+        fieldValues.put(KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME, AGING_RPT_ORG);
+        java.util.Date today = dateTimeService.getCurrentDate();
+        DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+        fieldValues.put(ArPropertyConstants.CustomerAgingReportFields.REPORT_RUN_DATE, format.format(today));
+        
+    }
+    
+    //TODO change this to testCustomer... to make this runnable
     public void doNotTestCustomerInvoiceReportPrinting() throws Exception {
 
-        //  the invoices are created on setUp()
-        
+        // this step is required for all the reporting/printing runs 
+        createManyInvoicesReadyForPrinting();
+
         List<File> reports = reportService.generateInvoicesByInitiator(INITIATOR);
         assertTrue("List of reports should not be empty.", !reports.isEmpty());
         
@@ -140,6 +171,45 @@ public class ReportingLoadTest extends KualiTestBase {
         
         fileOutputStream.flush();
         fileOutputStream.close();
+    }
+    
+    private void createManyInvoiceReadyForAgingReport() throws Exception {
+        
+        int typeOfInvoice = 1;
+        int ageOfInvoice = 0;
+        for (int i = 0; i < INVOICES_TO_CREATE; i++) {
+            
+            //  create a scenario invoice
+            CustomerInvoiceDocument document = createScenarioInvoice(typeOfInvoice);
+            invoicesCreated.add(document.getDocumentNumber());
+            
+            //  age the invoice
+            document.setBillingDate(dateXDaysAgo(ageOfInvoice));
+            
+            //  route it, and wait for it go to final
+            documentService.blanketApproveDocument(document, "BlanketApproved by performance testing script.", null);
+            WorkflowTestUtils.waitForStatusChange(10, document.getDocumentHeader().getWorkflowDocument(), "F");
+
+            //  increement or reset the scenario type
+            if (typeOfInvoice == 5) {
+                typeOfInvoice = 1;
+            }
+            else {
+                typeOfInvoice++;
+            }
+            
+            //  increement or reset the age index
+            if (ageOfInvoice == INVOICE_AGES.length - 1) {
+                ageOfInvoice = 0;
+            }
+            else {
+                ageOfInvoice++;
+            }
+        }
+    }
+    
+    private java.sql.Date dateXDaysAgo(int daysAgo) {
+        return new java.sql.Date(DateUtils.addDays(dateTimeService.getCurrentSqlDate(), INVOICE_AGES[daysAgo]).getTime());
     }
     
     private void createManyInvoicesReadyForPrinting() throws Exception {

@@ -412,10 +412,7 @@
 	<bean id="disbursementPayeeLookupableHelperService" class="org.kuali.kfs.fp.businessobject.lookup.DisbursementPayeeLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
 		<property name="vendorLookupable">
 			<ref bean="vendorLookupable" />
-		</property>	
-		<property name="kimPersonLookupable">
-			<ref bean="kimPersonLookupable" />
-		</property>	
+		</property>		
 		<property name="kualiInquirable">
 			<ref bean="disbursementPayeeInquirable" />
 		</property>			

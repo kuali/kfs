@@ -32,6 +32,8 @@ import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kim.util.KIMPropertyConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.exception.ValidationException;
@@ -49,7 +51,6 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementPayeeLookupableHelperServiceImpl.class);
 
     private Lookupable vendorLookupable;
-    private Lookupable kimPersonLookupable;
     private DisbursementVoucherPaymentReasonService disbursementVoucherPaymentReasonService;
 
     /**
@@ -162,10 +163,10 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
             DisbursementPayee payee = getPayeeFromVendor(vendorDetail, fieldValues);
             payeeList.add(payee);
         }
-
+        
         return payeeList;
     }
-    
+
     protected DisbursementPayee getPayeeFromVendor(VendorDetail vendorDetail, Map<String, String> fieldValues) {
         DisbursementPayee payee = DisbursementPayee.getPayeeFromVendor(vendorDetail);
         payee.setPaymentReasonCode(fieldValues.get(KFSPropertyConstants.PAYMENT_REASON_CODE));
@@ -210,22 +211,19 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
     // perform person search
     protected List<DisbursementPayee> getPersonAsPayees(Map<String, String> fieldValues) {
         List<DisbursementPayee> payeeList = new ArrayList<DisbursementPayee>();
-
-        Map<String, String> fieldsForLookup = this.getPersonFieldValues(fieldValues);
         
-        kimPersonLookupable.setBusinessObjectClass(Person.class);
-        kimPersonLookupable.validateSearchParameters(fieldsForLookup);
+        Map<String, String> fieldsForLookup = this.getPersonFieldValues(fieldValues);        
+        PersonService<Person> personService = KIMServiceLocator.getPersonService();
         
-        List<BusinessObject> personList = kimPersonLookupable.getSearchResults(fieldsForLookup);
-        for (BusinessObject person : personList) {
-            Person personDetail = (Person) person;
-            DisbursementPayee payee = getPayeeFromPerson(personDetail, fieldValues);
+        for (Person personDetail : personService.findPeople(fieldsForLookup)) {
+            DisbursementPayee payee = DisbursementPayee.getPayeeFromPerson(personDetail);
+            payee.setPaymentReasonCode(fieldValues.get(KFSPropertyConstants.PAYMENT_REASON_CODE));
             payeeList.add(payee);
         }
-
+        
         return payeeList;
     }
-    
+
     protected DisbursementPayee getPayeeFromPerson(Person personDetail, Map<String, String> fieldValues) {
         DisbursementPayee payee = DisbursementPayee.getPayeeFromPerson(personDetail);
         payee.setPaymentReasonCode(fieldValues.get(KFSPropertyConstants.PAYMENT_REASON_CODE));
@@ -241,8 +239,8 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
         Map<String, String> fieldConversionMap = DisbursementPayee.getFieldConversionBetweenPayeeAndPerson();
         this.replaceFieldKeys(personFieldValues, fieldConversionMap);
 
-        if (fieldConversionMap.containsKey(KIMPropertyConstants.Person.EXTERNAL_ID)) {
-            personFieldValues.put(KIMPropertyConstants.Person.EXTERNAL_IDENTIFIER_TYPE_CODE, VendorConstants.TAX_TYPE_SSN);
+        if (StringUtils.isNotBlank(personFieldValues.get(KIMPropertyConstants.Person.EXTERNAL_ID))) {
+            personFieldValues.put(KIMPropertyConstants.Person.EXTERNAL_IDENTIFIER_TYPE_CODE, VendorConstants.TAX_TYPE_TAX);
         }
 
         personFieldValues.put(KIMPropertyConstants.Person.EMPLOYEE_STATUS_CODE, KFSConstants.EMPLOYEE_ACTIVE_STATUS);
@@ -296,13 +294,5 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
      */
     public void setDisbursementVoucherPaymentReasonService(DisbursementVoucherPaymentReasonService disbursementVoucherPaymentReasonService) {
         this.disbursementVoucherPaymentReasonService = disbursementVoucherPaymentReasonService;
-    }
-
-    /**
-     * Sets the kimPersonLookupable attribute value.
-     * @param kimPersonLookupable The kimPersonLookupable to set.
-     */
-    public void setKimPersonLookupable(Lookupable kimPersonLookupable) {
-        this.kimPersonLookupable = kimPersonLookupable;
     }
 }

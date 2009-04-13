@@ -45,6 +45,7 @@ public class VendorConstants {
     // Vendor Tax Types
     public static final String TAX_TYPE_FEIN = "FEIN";
     public static final String TAX_TYPE_SSN = "SSN";
+    public static final String TAX_TYPE_TAX = "TAX";
 
     // VENDOR PHONE TYPES
     public static class PhoneTypes {

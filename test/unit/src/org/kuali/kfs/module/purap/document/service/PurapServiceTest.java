@@ -88,6 +88,7 @@ public class PurapServiceTest extends KualiTestBase {
         assertFalse(SpringContext.getBean(PurapService.class).isDateMoreThanANumberOfDaysAway(compareDate, daysAway));
     }
     
+    
     public void testSalesTaxHappyPath() {
 
         TaxRegion taxRegionPostalCode = TaxFixture.TaxRegionFixture.TAX_REGION_NO_USE_TAX.createTaxRegion(new TaxFixture.TaxRegionRateFixture[] { TaxFixture.TaxRegionRateFixture.TAX_REGION_RATE_05 }, new TaxFixture.TaxRegionPostalCodeFixture[] { TaxFixture.TaxRegionPostalCodeFixture.PO_46202 }, null);
@@ -101,6 +102,7 @@ public class PurapServiceTest extends KualiTestBase {
         assertEquals(reqDoc.getItem(0).getTotalAmount(), new KualiDecimal("1.05"));
    }
 
+    @RelatesTo(JiraIssue.KULPURAP3878)
     public void testUseTaxHappyPath() {
 
         TaxRegion taxRegionState = TaxFixture.TaxRegionFixture.TAX_REGION_WITH_USE_TAX.createTaxRegion(new TaxFixture.TaxRegionRateFixture[] { TaxFixture.TaxRegionRateFixture.TAX_REGION_RATE_07 }, null, new TaxFixture.TaxRegionStateFixture[] { TaxFixture.TaxRegionStateFixture.IN });
@@ -147,7 +149,7 @@ public class PurapServiceTest extends KualiTestBase {
         
     }
     
-    @RelatesTo(JiraIssue.KULPURAP3649)
+    @RelatesTo(JiraIssue.KULPURAP3878)
     public void testSalesTaxWithCommodityCodeNull()throws Exception{
         
         TaxRegion taxRegionPostalCode = TaxFixture.TaxRegionFixture.TAX_REGION_NO_USE_TAX.createTaxRegion(new TaxFixture.TaxRegionRateFixture[] { TaxFixture.TaxRegionRateFixture.TAX_REGION_RATE_05 }, new TaxFixture.TaxRegionPostalCodeFixture[] { TaxFixture.TaxRegionPostalCodeFixture.PO_46202 }, null);
@@ -174,6 +176,7 @@ public class PurapServiceTest extends KualiTestBase {
         assertEquals(reqDoc.getItem(0).getTotalAmount(), new KualiDecimal("1.05"));
     }
     
+    @RelatesTo(JiraIssue.KULPURAP3878)
     public void testSalesTaxDeliveryStateExemptWithNonTaxableFund(){
         TaxRegion taxRegionPostalCode = TaxFixture.TaxRegionFixture.TAX_REGION_NO_USE_TAX.createTaxRegion(new TaxFixture.TaxRegionRateFixture[] { TaxFixture.TaxRegionRateFixture.TAX_REGION_RATE_05 }, new TaxFixture.TaxRegionPostalCodeFixture[] { TaxFixture.TaxRegionPostalCodeFixture.PO_46202 }, null);
         businessObjectService.save(taxRegionPostalCode);

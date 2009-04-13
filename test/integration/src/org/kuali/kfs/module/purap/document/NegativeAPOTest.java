@@ -30,6 +30,8 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
+import org.kuali.kfs.sys.suite.RelatesTo;
+import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
@@ -182,6 +184,7 @@ public class NegativeAPOTest extends KualiTestBase {
          }           
      }
      
+     @RelatesTo(JiraIssue.KULPURAP3871)
      // Requisition has failed capital asset rules.
      public void testInvalidAPOCapitalAssetFailure() throws Exception {
          RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_APO_INVALID_FAILS_CAPITAL_ASSET_RULE.createRequisitionDocument();

@@ -233,6 +233,22 @@
     </property>
   </bean>
   
+  <bean id="VendorCreditMemoDocument-paidIndicatorForResult" parent="VendorCreditMemoDocument-paidIndicatorForResult-parentBean"/>
+
+  <bean id="VendorCreditMemoDocument-paidIndicatorForResult-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="paidIndicatorForResult"/>
+    <property name="label" value="Paid"/>
+    <property name="shortLabel" value="Indicator"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+  </bean>
+  
   <bean id="VendorCreditMemoDocument-extractedTimestamp" parent="VendorCreditMemoDocument-extractedTimestamp-parentBean"/>
 
   <bean id="VendorCreditMemoDocument-extractedTimestamp-parentBean" abstract="true" parent="GenericAttributes-genericDate">

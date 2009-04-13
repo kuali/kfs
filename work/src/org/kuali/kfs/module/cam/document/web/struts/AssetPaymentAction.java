@@ -41,7 +41,6 @@ import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
-import org.kuali.kfs.module.cam.document.service.AssetSegmentedLookupResultsService;
 import org.kuali.kfs.module.cam.document.validation.event.AssetPaymentAddAssetEvent;
 import org.kuali.kfs.module.cam.document.validation.event.AssetPaymentPrepareRouteEvent;
 import org.kuali.kfs.sys.KFSConstants;
@@ -50,6 +49,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
+import org.kuali.kfs.sys.service.SegmentedLookupResultsService;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -69,13 +69,6 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetPaymentAction.class);
 
-    private AssetPaymentService getAssetPaymentService() {
-        return SpringContext.getBean(AssetPaymentService.class);
-    }
-
-    private AssetSegmentedLookupResultsService getAssetSegmentedLookupResultsService() {
-        return SpringContext.getBean(AssetSegmentedLookupResultsService.class);
-    }
 
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -119,7 +112,7 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
 
             if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
                 // actually returning from a multiple value lookup
-                Set<String> selectedIds = getAssetSegmentedLookupResultsService().retrieveSetOfSelectedObjectIds(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+                Set<String> selectedIds = SpringContext.getBean(SegmentedLookupResultsService.class).retrieveSetOfSelectedObjectIds(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getPerson().getPrincipalId());
                 for (String selectedId : selectedIds) {
                     String selectedObjId = StringUtils.substringBefore(selectedId, ".");
                     String selectedMonthData = StringUtils.substringAfter(selectedId, ".");
@@ -131,7 +124,7 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
                 }
                 // Retrieving selected data from table.
                 LOG.debug("Asking segmentation service for object ids " + segmentedSelection.keySet());
-                rawValues = getAssetSegmentedLookupResultsService().retrieveSelectedResultBOs(lookupResultsSequenceNumber, segmentedSelection.keySet(), Asset.class, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+                rawValues = SpringContext.getBean(SegmentedLookupResultsService.class).retrieveSelectedResultBOs(lookupResultsSequenceNumber, segmentedSelection.keySet(), Asset.class, GlobalVariables.getUserSession().getPerson().getPrincipalId());
             }
 
             List<AssetPaymentAssetDetail> assetPaymentAssetDetails = assetPaymentForm.getAssetPaymentDocument().getAssetPaymentAssetDetail();
@@ -296,6 +289,10 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
         else {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
+    }
+
+    private AssetPaymentService getAssetPaymentService() {
+        return SpringContext.getBean(AssetPaymentService.class);
     }
 
 }

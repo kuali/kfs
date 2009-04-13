@@ -94,6 +94,7 @@ import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -1601,5 +1602,9 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
      */
     public boolean getPurchaseOrderCurrentIndicatorForSearching() {
         return purchaseOrderCurrentIndicator;
+    }
+    
+    public String getDocumentTitleForResult() throws WorkflowException{
+        return KNSServiceLocator.getWorkflowInfoService().getDocType(this.getDocumentHeader().getWorkflowDocument().getDocumentType()).getDocTypeLabel();
     }
 }

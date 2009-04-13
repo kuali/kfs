@@ -43,7 +43,8 @@ public class OriginEntryLite extends PersistableBusinessObjectBase implements Or
     private static final String DATE_FORMAT = "yyyy-MM-dd";
 
     // 17 characters while it is 19 character in DD. Don't change, it has to be 17.
-    public static final String SPACE_TRANSACTION_LEDGER_ENTRY_AMOUNT = "                 ";
+    // KFSMI-3308 - changed to 20
+    public static final String SPACE_TRANSACTION_LEDGER_ENTRY_AMOUNT = "                    ";
 
     private Integer entryId;
     private Integer entryGroupId;
@@ -224,92 +225,12 @@ public class OriginEntryLite extends PersistableBusinessObjectBase implements Or
      * @param lineNumber used to render an error message by identifying this line
      * @throws LoadException
      */
-    public void setFromTextFile(String line, int lineNumber) throws LoadException {
-
-        // Just in case
-        line = line + GeneralLedgerConstants.getSpaceAllOriginEntryFields();
-
-        if (!GeneralLedgerConstants.getSpaceUniversityFiscalYear().equals(line.substring(0, 4))) {
-            try {
-                setUniversityFiscalYear(new Integer(line.substring(0, 4)));
-            }
-            catch (NumberFormatException e) {
-                GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "University Fiscal Year" });
-                throw new LoadException("Invalid university fiscal year");
-            }
-
-        }
-        else {
-            setUniversityFiscalYear(null);
-        }
-
-        setChartOfAccountsCode(getValue(line, 4, 6));
-        setAccountNumber(getValue(line, 6, 13));
-        setSubAccountNumber(getValue(line, 13, 18));
-        setFinancialObjectCode(getValue(line, 18, 22));
-        setFinancialSubObjectCode(getValue(line, 22, 25));
-        setFinancialBalanceTypeCode(getValue(line, 25, 27));
-        setFinancialObjectTypeCode(getValue(line, 27, 29));
-        setUniversityFiscalPeriodCode(getValue(line, 29, 31));
-        setFinancialDocumentTypeCode(getValue(line, 31, 35));
-        setFinancialSystemOriginationCode(getValue(line, 35, 37));
-        setDocumentNumber(getValue(line, 37, 51));
-        if (!GeneralLedgerConstants.getSpaceTransactionEntrySequenceNumber().equals(line.substring(51, 56)) && !GeneralLedgerConstants.getZeroTransactionEntrySequenceNumber().equals(line.substring(51, 56))) {
-            try {
-                setTransactionLedgerEntrySequenceNumber(new Integer(line.substring(51, 56).trim()));
-            }
-            catch (NumberFormatException e) {
-                GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Sequence Number" });
-                throw new LoadException("Invalid sequence number");
-            }
-        }
-        else {
-            setTransactionLedgerEntrySequenceNumber(null);
-        }
-        setTransactionLedgerEntryDescription(getValue(line, 56, 96));
-
-        try {
-            setTransactionLedgerEntryAmount(new KualiDecimal(line.substring(96, 113).trim()));
-        }
-        catch (NumberFormatException e) {
-            GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Transaction Ledger Entry Amount" });
-            throw new LoadException("Invalid Entry Amount");
-        }
-
-        setTransactionDebitCreditCode(line.substring(113, 114));
-
-        try {
-            setTransactionDate(parseDate(line.substring(114, 124), false));
-        }
-        catch (ParseException e) {
-            GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Transaction Date" });
-            throw new LoadException("Invalid Transaction Date");
-        }
-
-        setOrganizationDocumentNumber(getValue(line, 124, 134));
-        setProjectCode(getValue(line, 134, 144));
-        setOrganizationReferenceId(getValue(line, 144, 152));
-        setReferenceFinancialDocumentTypeCode(getValue(line, 152, 156));
-        setReferenceFinancialSystemOriginationCode(getValue(line, 156, 158));
-        setReferenceFinancialDocumentNumber(getValue(line, 158, 172));
-        try {
-            setFinancialDocumentReversalDate(parseDate(line.substring(172, 182), true));
-        }
-        catch (ParseException e) {
-            GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Financial Document Reversal Date" });
-            throw new LoadException("Invalid Reversal Date");
-        }
-
-        setTransactionEncumbranceUpdateCode(line.substring(182, 183));
-    }
-    
-    
     
     public List<Message> setFromTextFileForBatch(String line, int lineNumber) throws LoadException {
         List<Message> returnList = new ArrayList(); 
         
         // Just in case
-        line = org.apache.commons.lang.StringUtils.rightPad(line, 183, ' ');
+        line = org.apache.commons.lang.StringUtils.rightPad(line, 186, ' ');
         line = line + GeneralLedgerConstants.getSpaceAllOriginEntryFields();
 
         if (!GeneralLedgerConstants.getSpaceUniversityFiscalYear().equals(line.substring(0, 4))) {
@@ -358,7 +279,7 @@ public class OriginEntryLite extends PersistableBusinessObjectBase implements Or
                 setTransactionLedgerEntryAmount(new KualiDecimal(getValue(line, 96, 113).trim()));
             }
             catch (NumberFormatException e) {
-                returnList.add(new Message("Transaction Amount '" + line.substring(96, 113) + "' contains an invalid value." , Message.TYPE_FATAL));
+                returnList.add(new Message("Transaction Amount '" + line.substring(96, 116) + "' contains an invalid value." , Message.TYPE_FATAL));
                 setTransactionLedgerEntryAmount(KualiDecimal.ZERO);
             }
         } else {
@@ -366,11 +287,11 @@ public class OriginEntryLite extends PersistableBusinessObjectBase implements Or
             setTransactionLedgerEntryAmount(KualiDecimal.ZERO);
         }
         
-        setTransactionDebitCreditCode(line.substring(113, 114));
+        setTransactionDebitCreditCode(line.substring(116, 117));
 
         if (!getValue(line, 114, 124).equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
-                setTransactionDate(parseDate(getValue(line, 114, 124), false));
+                setTransactionDate(parseDate(getValue(line, 117, 127), false));
             }
             catch (ParseException e) {
                 setTransactionDate(null);
@@ -379,26 +300,26 @@ public class OriginEntryLite extends PersistableBusinessObjectBase implements Or
             setTransactionDate(null);
         }
         
-        setOrganizationDocumentNumber(getValue(line, 124, 134));
-        setProjectCode(getValue(line, 134, 144));
-        setOrganizationReferenceId(getValue(line, 144, 152));
-        setReferenceFinancialDocumentTypeCode(getValue(line, 152, 156));
-        setReferenceFinancialSystemOriginationCode(getValue(line, 156, 158));
-        setReferenceFinancialDocumentNumber(getValue(line, 158, 172));
-        if (!getValue(line, 172, 182).equals(GeneralLedgerConstants.EMPTY_CODE)){
+        setOrganizationDocumentNumber(getValue(line, 127, 137));
+        setProjectCode(getValue(line, 137, 147));
+        setOrganizationReferenceId(getValue(line, 147, 155));
+        setReferenceFinancialDocumentTypeCode(getValue(line, 155, 159));
+        setReferenceFinancialSystemOriginationCode(getValue(line, 159, 161));
+        setReferenceFinancialDocumentNumber(getValue(line, 161, 175));
+        if (!getValue(line, 175, 185).equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
-                setFinancialDocumentReversalDate(parseDate(getValue(line, 172, 182), true));
+                setFinancialDocumentReversalDate(parseDate(getValue(line, 175, 185), true));
             }
             catch (ParseException e) {
                 setFinancialDocumentReversalDate(null);
-                returnList.add(new Message("Reversal Date '" + line.substring(172, 182) + "' contains an invalid value." , Message.TYPE_FATAL));
+                returnList.add(new Message("Reversal Date '" + line.substring(175, 185) + "' contains an invalid value." , Message.TYPE_FATAL));
                 
             }
         } else {
             setFinancialDocumentReversalDate(null);
         }
         
-        setTransactionEncumbranceUpdateCode(getValue(line, 182, 183));
+        setTransactionEncumbranceUpdateCode(getValue(line, 185, 186));
 
     
     return returnList;
@@ -470,7 +391,7 @@ public class OriginEntryLite extends PersistableBusinessObjectBase implements Or
         }
         else {
             String a = transactionLedgerEntryAmount.toString();
-            sb.append(SPACE_TRANSACTION_LEDGER_ENTRY_AMOUNT.substring(0, 17 - a.length()));
+            sb.append(SPACE_TRANSACTION_LEDGER_ENTRY_AMOUNT.substring(0, 20 - a.length()));
             sb.append(a);
         }
         sb.append(getField(1, transactionDebitCreditCode));
@@ -483,8 +404,8 @@ public class OriginEntryLite extends PersistableBusinessObjectBase implements Or
         sb.append(getField(14, referenceFinancialDocumentNumber));
         sb.append(formatDate(financialDocumentReversalDate));
         sb.append(getField(1, transactionEncumbranceUpdateCode));
-        // pad to full length of 173 chars.
-        while (183 > sb.toString().length()) {
+        // pad to full length of 186 chars.
+        while (186 > sb.toString().length()) {
             sb.append(' ');
         }
         return sb.toString();

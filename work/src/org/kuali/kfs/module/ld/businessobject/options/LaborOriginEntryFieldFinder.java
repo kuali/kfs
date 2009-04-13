@@ -259,7 +259,7 @@ public class LaborOriginEntryFieldFinder extends KeyValuesBase {
             return 5;
         }
         else if (fieldName.equals("transactionLedgerEntryAmount")) {
-            return 19;
+            return 20;
         }
         else if (fieldName.equals("transactionDate")) {
             return 10;

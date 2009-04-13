@@ -200,6 +200,8 @@ public class OriginEntryFieldFinder extends KeyValuesBase {
      */
     public int getFieldLength(String fieldName) {
         // TODO  AUGH!!!!!  BASE THIS ON THE DATA DICTIONARY!!!!!
+        // TODO Shawn - can't use Data Dictionary since we are not using DB for OE, Constant maybe??
+        
         if (fieldName.equals("universityFiscalYear")) {
             return 4;
         }
@@ -207,7 +209,7 @@ public class OriginEntryFieldFinder extends KeyValuesBase {
             return 5;
         }
         else if (fieldName.equals("transactionLedgerEntryAmount")) {
-            return 19;
+            return 20;
         }
         else if (fieldName.equals("transactionDate")) {
             return 10;

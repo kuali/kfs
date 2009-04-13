@@ -1216,4 +1216,35 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         }
         return "";
     } 
+    
+    /**
+     * Overrides the superclass method so that it will also do proration for 
+     * trade in and full order discount when the user clicks on the submit button.
+     * 
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#route(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
+        PurchasingDocument purDoc = (PurchasingDocument) purchasingForm.getDocument();
+        // call prorateDiscountTradeIn
+        SpringContext.getBean(PurchasingService.class).prorateForTradeInAndFullOrderDiscount(purDoc);
+        return super.route(mapping, form, request, response);        
+    }
+
+    /**
+     * Overrides the superclass method so that it will also do proration for 
+     * trade in and full order discount when the user clicks on the approve button.
+     * 
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#approve(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
+        PurchasingDocument purDoc = (PurchasingDocument) purchasingForm.getDocument();
+        // call prorateDiscountTradeIn
+        SpringContext.getBean(PurchasingService.class).prorateForTradeInAndFullOrderDiscount(purDoc);
+        return super.approve(mapping, form, request, response);        
+    }
+    
 }

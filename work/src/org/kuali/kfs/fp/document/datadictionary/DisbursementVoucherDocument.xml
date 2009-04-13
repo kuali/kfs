@@ -498,7 +498,7 @@
     	<property name="routingAttributes">
     		<list>
 		        <bean class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
-			    	<property name="qualificationAttributeName" value="disbVchrPaymentMethodCode"/>
+			    	<property name="qualificationAttributeName" value="disbursementVoucherPaymentMethodCode"/>
 			    </bean>
     		</list>
     	</property>

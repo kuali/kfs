@@ -101,6 +101,7 @@
   <bean id="DisbursementVoucherDocument-disbVchrContactPhoneNumber" parent="DisbursementVoucherDocument-disbVchrContactPhoneNumber-parentBean"/>
   <bean id="DisbursementVoucherDocument-disbVchrContactPhoneNumber-parentBean" abstract="true" parent="PersonImpl-phoneNumber">
     <property name="name" value="disbVchrContactPhoneNumber"/>
+    <property name="required" value="true"/>
     <property name="summary" value="&amp;nbsp;"/>
     <property name="description" value="Phone number of the Contact, expressed as nnn-mmm-pppp."/>
   </bean>

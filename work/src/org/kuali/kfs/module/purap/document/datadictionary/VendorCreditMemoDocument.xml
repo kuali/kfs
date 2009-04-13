@@ -72,6 +72,7 @@
         <ref bean="VendorCreditMemoDocument-extractedIndicatorForSearching"/>
         <ref bean="VendorCreditMemoDocument-holdIndicatorForSearching"/>
         <ref bean="VendorCreditMemoDocument-holdIndicatorForResult"/>
+        <ref bean="VendorCreditMemoDocument-paidIndicatorForResult"/>
       </list>
     </property>
     <property name="validationMap" ref="VendorCreditMemoDocument-validations"/>

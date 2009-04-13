@@ -68,10 +68,8 @@
 
   <bean id="AccountDelegateModelDetail-financialDocumentTypeCode" parent="AccountDelegateModelDetail-financialDocumentTypeCode-parentBean" />
 
-  <bean id="AccountDelegateModelDetail-financialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-name">
-    <property name="name" value="financialDocumentTypeCode" />
-    <property name="label" value="Document Type Name" />
-  </bean>
+  <bean id="AccountDelegateModelDetail-financialDocumentTypeCode-parentBean" abstract="true" parent="AccountDelegate-financialDocumentTypeCode" />
+
   <bean id="AccountDelegateModelDetail-chartOfAccountsCode" parent="AccountDelegateModelDetail-chartOfAccountsCode-parentBean" />
 
   <bean id="AccountDelegateModelDetail-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">

@@ -21,6 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.AccountDelegateGlobal;
 import org.kuali.kfs.coa.businessobject.AccountDelegateGlobalDetail;
 import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
+import org.kuali.kfs.coa.service.AccountDelegateService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -220,6 +221,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
         else {
             // check each delegate
             int i = 0;
+            final AccountDelegateService delegateService = SpringContext.getBean(AccountDelegateService.class);
             for (AccountDelegateGlobalDetail newDelegateGlobalDetail : newDelegateGlobal.getDelegateGlobals()) {
                 KualiDecimal fromAmount = newDelegateGlobalDetail.getApprovalFromThisAmount();
                 KualiDecimal toAmount = newDelegateGlobalDetail.getApprovalToThisAmount();
@@ -231,6 +233,8 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
 
                 // TO amount must be >= FROM amount or Zero
                 success &= checkDelegateToAmtGreaterThanFromAmt(fromAmount, toAmount, i, false);
+                
+                success &= checkDelegateDocumentTypeCode(newDelegateGlobalDetail.getFinancialDocumentTypeCode(), delegateService);
 
                 // increment counter for delegate changes list
                 i++;
@@ -328,6 +332,20 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
             }
         }
         return success;
+    }
+    
+    /**
+     * Validates the document type code for the delegate, to make sure it is a Financial System document type code
+     * @param documentTypeCode the document type code to check
+     * @param delegateService a helpful instance of the delegate service, so new ones don't have to be created all the time
+     * @return true if the document type code is valid, false otherwise
+     */
+    protected boolean checkDelegateDocumentTypeCode(String documentTypeCode, AccountDelegateService delegateService) {
+        if (!delegateService.isFinancialSystemDocumentType(documentTypeCode)) {
+            putFieldError("financialDocumentTypeCode", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_INVALID_DOC_TYPE, new String[] { documentTypeCode, KFSConstants.ROOT_DOCUMENT_TYPE });
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -546,6 +564,9 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
 
             // check the routing
             success &= checkPrimaryRouteRules(newDelegateGlobal.getDelegateGlobals(), detail, null, true);
+            
+            final AccountDelegateService delegateService = SpringContext.getBean(AccountDelegateService.class);
+            success &= checkDelegateDocumentTypeCode(detail.getFinancialDocumentTypeCode(), delegateService);
 
         }
         return success;

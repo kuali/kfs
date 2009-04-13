@@ -307,20 +307,5 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
         m.put("financialDocumentTypeCode", this.financialDocumentTypeCode);
         return m;
     }
-
-    public boolean equals(Object o) {
-        if (o instanceof AccountDelegateModelDetail) {
-            AccountDelegateModelDetail orgRouteModel = (AccountDelegateModelDetail) o;
-            return (((this.getChartOfAccountsCode() == null && orgRouteModel.getChartOfAccountsCode() == null) || this.getChartOfAccountsCode().equals(orgRouteModel.getChartOfAccountsCode())) && ((this.getOrganizationCode() == null && orgRouteModel.getOrganizationCode() == null) || this.getOrganizationCode().equals(orgRouteModel.getOrganizationCode())) && ((this.getAccountDelegateModelName() == null && orgRouteModel.getAccountDelegateModelName() == null) || this.getAccountDelegateModelName().equals(orgRouteModel.getAccountDelegateModelName())) && ((this.getAccountDelegateUniversalId() == null && orgRouteModel.getAccountDelegateUniversalId() == null) || this.getAccountDelegateUniversalId().equals(orgRouteModel.getAccountDelegateUniversalId())) && ((this.getFinancialDocumentTypeCode() == null && orgRouteModel.getFinancialDocumentTypeCode() == null) || this.getFinancialDocumentTypeCode().equals(orgRouteModel.getFinancialDocumentTypeCode())));
-        }
-        else {
-            return false;
-        }
-    }
-
-    public int hashCode() {
-        return ((((this.getChartOfAccountsCode().hashCode() * 29 + this.getOrganizationCode().hashCode()) * 29 + this.getAccountDelegateModelName().hashCode()) * 29 + this.getAccountDelegateUniversalId().hashCode()) * 29 + this.getFinancialDocumentTypeCode().hashCode()) * 29;
-    }
-
 }
 

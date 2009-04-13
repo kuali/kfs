@@ -25,10 +25,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountDelegate;
+import org.kuali.kfs.coa.service.AccountDelegateService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -218,6 +218,13 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
                 putFieldError("accountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_ACCT_NOT_CLOSED);
                 success &= false;
             }
+        }
+        
+        // do we have a good document type?
+        final AccountDelegateService delegateService = SpringContext.getBean(AccountDelegateService.class);
+        if (!delegateService.isFinancialSystemDocumentType(newDelegate.getFinancialDocumentTypeCode())) {
+            putFieldError("financialDocumentTypeCode", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_INVALID_DOC_TYPE, new String[] { newDelegate.getFinancialDocumentTypeCode(), KFSConstants.ROOT_DOCUMENT_TYPE });
+            success = false;
         }
 
         return success;

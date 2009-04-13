@@ -579,5 +579,7 @@
             </bean>
         </property>
     </bean>
+    
+    <bean id="accountDelegateService" class="org.kuali.kfs.coa.service.impl.AccountDelegateServiceImpl" />
 	
 </beans>

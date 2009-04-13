@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.coa.businessobject.AccountDelegateModelDetail;
 import org.kuali.kfs.coa.businessobject.AccountDelegateModel;
+import org.kuali.kfs.coa.service.AccountDelegateService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -114,7 +115,8 @@ public class AccountDelegateModelRule extends MaintenanceDocumentRuleBase {
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
         setupConvenienceObjects();
-        return checkSimpleRulesForOrganizationRoutingModel(document, this.model, (AccountDelegateModelDetail) line);
+        final AccountDelegateService delegateService = SpringContext.getBean(AccountDelegateService.class);
+        return checkSimpleRulesForOrganizationRoutingModel(document, this.model, (AccountDelegateModelDetail) line, delegateService);
     }
 
     /**
@@ -129,9 +131,10 @@ public class AccountDelegateModelRule extends MaintenanceDocumentRuleBase {
         success &= checkModelNameHasAtLeastOneModel(globalDelegateTemplate);
 
         int line = 0;
+        final AccountDelegateService delegateService = SpringContext.getBean(AccountDelegateService.class);
         for (AccountDelegateModelDetail delegateModel : globalDelegateTemplate.getAccountDelegateModelDetails()) {
             GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_ERROR_PATH + ".accountDelegateModelDetails[" + line + "].");
-            success &= checkSimpleRulesForOrganizationRoutingModel(document, globalDelegateTemplate, delegateModel);
+            success &= checkSimpleRulesForOrganizationRoutingModel(document, globalDelegateTemplate, delegateModel, delegateService);
             GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_ERROR_PATH + ".accountDelegateModelDetails[" + line + "].");
             line++;
         }
@@ -143,7 +146,7 @@ public class AccountDelegateModelRule extends MaintenanceDocumentRuleBase {
      * 
      * @return true if model passes all the checks, false if otherwise
      */
-    protected boolean checkSimpleRulesForOrganizationRoutingModel(MaintenanceDocument document, AccountDelegateModel globalDelegateTemplate, AccountDelegateModelDetail delegateModel) {
+    protected boolean checkSimpleRulesForOrganizationRoutingModel(MaintenanceDocument document, AccountDelegateModel globalDelegateTemplate, AccountDelegateModelDetail delegateModel, AccountDelegateService delegateService) {
         boolean success = true;
 
         if (delegateModel.isActive()) {
@@ -151,6 +154,7 @@ public class AccountDelegateModelRule extends MaintenanceDocumentRuleBase {
             success &= checkDelegateToAmountGreaterThanFromAmount(delegateModel);
             success &= checkDelegateUserRules(document, delegateModel);
             success &= checkPrimaryRoutePerDocType(globalDelegateTemplate, delegateModel);
+            success &= checkDelegateDocumentTypeCode(delegateModel.getFinancialDocumentTypeCode(), delegateService);
         }
 
         return success;
@@ -313,6 +317,20 @@ public class AccountDelegateModelRule extends MaintenanceDocumentRuleBase {
         }
 
         return success;
+    }
+    
+    /**
+     * Validates the document type code for the delegate, to make sure it is a Financial System document type code
+     * @param documentTypeCode the document type code to check
+     * @param delegateService a helpful instance of the delegate service, so new ones don't have to be created all the time
+     * @return true if the document type code is valid, false otherwise
+     */
+    protected boolean checkDelegateDocumentTypeCode(String documentTypeCode, AccountDelegateService delegateService) {
+        if (!delegateService.isFinancialSystemDocumentType(documentTypeCode)) {
+            putFieldError("financialDocumentTypeCode", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_INVALID_DOC_TYPE, new String[] { documentTypeCode, KFSConstants.ROOT_DOCUMENT_TYPE });
+            return false;
+        }
+        return true;
     }
 
 }

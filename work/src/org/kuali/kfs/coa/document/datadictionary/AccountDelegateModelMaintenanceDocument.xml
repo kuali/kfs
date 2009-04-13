@@ -110,7 +110,7 @@
 	<bean id="AccountDelegateModelMaintenanceDocument-DocumentValuePathGroup-ChartOrganization" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
     	<property name="documentCollectionPath">
     		<bean parent="AccountDelegateModelMaintenanceDocument-DocumentCollectionPath-chartAndOrganization">
-    			<property name="collectionPath" value="newMaintainableObject.businessObject.accountGlobalDetails"/>
+    			<property name="collectionPath" value="newMaintainableObject.businessObject.accountDelegateModelDetails"/>
     		</bean>
     	</property>
    	</bean>
@@ -119,7 +119,7 @@
 		<property name="documentValues">
 	   		<list>
 	   			<value>chartOfAccountsCode</value>
-	   			<value>account.organizationCode</value>
+	   			<value>organizationCode</value>
 	   		</list>
    		</property>
    	</bean>
@@ -127,7 +127,7 @@
    	<bean id="AccountDelegateModelMaintenanceDocument-DocumentValuePathGroup-Chart" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
     	<property name="documentCollectionPath">
     		<bean parent="AccountDelegateModelMaintenanceDocument-DocumentCollectionPath-chart">
-    			<property name="collectionPath" value="newMaintainableObject.businessObject.accountGlobalDetails"/>
+    			<property name="collectionPath" value="newMaintainableObject.businessObject.accountDelegateModelDetails"/>
     		</bean>
     	</property>
    	</bean>

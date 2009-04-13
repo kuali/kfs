@@ -331,16 +331,6 @@
 	
 <!-- End of Asset Bar Code inventory batch job -->
 
-
-<!--  TODO Delete this service once KFSMI-1869 jira has been completed  KULCAP-782 and KFSMI????-->
-	<bean id="assetSegmentedLookupResultsService" class="org.kuali.kfs.module.cam.document.service.impl.AssetSegmentedLookupResultsServiceImpl">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-        <property name="dateTimeService">
-            <ref bean="dateTimeService"/>
-        </property>
-	</bean>
 	
 	<bean id="assetDerivedRoleTypeService" class="org.kuali.kfs.module.cam.identity.AssetDerivedRoleTypeServiceImpl"/>
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">

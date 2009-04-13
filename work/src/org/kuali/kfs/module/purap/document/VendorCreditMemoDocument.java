@@ -673,5 +673,8 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
     }
     
+    public String getPaidIndicatorForResult(){
+        return getCreditMemoPaidTimestamp() != null ? "Yes" : "No";
+    }
 }
 

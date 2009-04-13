@@ -71,6 +71,7 @@
         <ref bean="VendorCreditMemoDocument-statusCodeForMultiboxSearching"/>
         <ref bean="VendorCreditMemoDocument-extractedIndicatorForSearching"/>
         <ref bean="VendorCreditMemoDocument-holdIndicatorForSearching"/>
+        <ref bean="VendorCreditMemoDocument-holdIndicatorForResult"/>
       </list>
     </property>
     <property name="validationMap" ref="VendorCreditMemoDocument-validations"/>
@@ -214,6 +215,22 @@
       <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorValuesFinder" p:includeKeyInLabel="false"/>
     </property> 	
   </bean>  
+  
+  <bean id="VendorCreditMemoDocument-holdIndicatorForResult" parent="VendorCreditMemoDocument-holdIndicatorForResult-parentBean"/>
+
+  <bean id="VendorCreditMemoDocument-holdIndicatorForResult-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="holdIndicatorForResult"/>
+    <property name="label" value="Hold"/>
+    <property name="shortLabel" value="Indicator"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+  </bean>
   
   <bean id="VendorCreditMemoDocument-extractedTimestamp" parent="VendorCreditMemoDocument-extractedTimestamp-parentBean"/>
 
@@ -633,6 +650,7 @@
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument"/>
     						<property name="attributeName" value="purapDocumentIdentifier"/>
+    						<property name="showAttributeInResultSet" value="true"/>	
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -646,6 +664,7 @@
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument"/>
     						<property name="attributeName" value="creditMemoNumber"/>
+    						<property name="showAttributeInResultSet" value="true"/>	
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -659,6 +678,7 @@
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument"/>
     						<property name="attributeName" value="paymentRequestIdentifier"/>
+    						<property name="showAttributeInResultSet" value="true"/>	
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -672,6 +692,7 @@
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument"/>
     						<property name="attributeName" value="purchaseOrderIdentifier"/>
+    						<property name="showAttributeInResultSet" value="true"/>	
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -680,11 +701,41 @@
     					</list>
     				</property>
     			</bean>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">       		
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.businessobject.CreditMemoStatus"/>
+    						<property name="attributeName" value="statusDescription"/>
+    						<property name="showAttributeInResultSet" value="true"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>status.statusDescription</value>
+    					</list>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">       		
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument"/>
+    						<property name="attributeName" value="holdIndicatorForResult"/>
+    						<property name="showAttributeInSearchCriteria" value="true"/>
+    						<property name="showAttributeInResultSet" value="true"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>holdIndicatorForResult</value>
+    					</list>
+    				</property>
+    			</bean>
     			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument"/>
     						<property name="attributeName" value="vendorName"/>
+    						<property name="showAttributeInResultSet" value="true"/>	
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -724,6 +775,7 @@
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument"/>
     						<property name="attributeName" value="vendorCustomerNumber"/>
+    						<property name="showAttributeInResultSet" value="true"/>	
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -750,11 +802,41 @@
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument"/>
     						<property name="attributeName" value="accountsPayableApprovalTimestamp"/>
+    						<property name="showAttributeInResultSet" value="true"/>	
     					</bean>
     				</property>
     				<property name="documentValues">
     					<list>
     						<value>accountsPayableApprovalTimestamp</value>
+    					</list>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument"/>
+    						<property name="attributeName" value="extractedTimestamp"/>
+    						<property name="showAttributeInResultSet" value="true"/>	
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>extractedTimestamp</value>
+    					</list>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">       		
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument"/>
+    						<property name="attributeName" value="paidIndicatorForResult"/>
+    						<property name="showAttributeInSearchCriteria" value="true"/>
+    						<property name="showAttributeInResultSet" value="true"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>paidIndicatorForResult</value>
     					</list>
     				</property>
     			</bean>

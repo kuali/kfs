@@ -12,8 +12,8 @@
 		 columnSpacing="0"
 		 leftMargin="10"
 		 rightMargin="10"
-		 topMargin="5"
-		 bottomMargin="5"
+		 topMargin="18"
+		 bottomMargin="17"
 		 whenNoDataType="NoPages"
 		 isTitleNewPage="false"
 		 isSummaryNewPage="false">

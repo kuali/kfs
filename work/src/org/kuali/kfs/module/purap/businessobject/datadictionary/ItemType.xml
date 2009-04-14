@@ -116,6 +116,8 @@
               <bean parent="FieldDefinition"
                     p:attributeName="additionalChargeIndicator" />
               <bean parent="FieldDefinition"
+                    p:attributeName="taxableIndicator" />              
+              <bean parent="FieldDefinition"
                     p:attributeName="active" />
             </list>
           </property>
@@ -147,6 +149,8 @@
         <bean parent="FieldDefinition"
               p:attributeName="additionalChargeIndicator" />
         <bean parent="FieldDefinition"
+              p:attributeName="taxableIndicator" /> 
+        <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>
     </property>
@@ -160,6 +164,8 @@
               p:attributeName="quantityBasedGeneralLedgerIndicator" />
         <bean parent="FieldDefinition"
               p:attributeName="additionalChargeIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="taxableIndicator" /> 
         <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>

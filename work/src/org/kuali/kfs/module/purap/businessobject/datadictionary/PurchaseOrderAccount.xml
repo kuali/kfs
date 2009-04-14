@@ -178,22 +178,8 @@
   </bean>
   <bean id="PurchaseOrderAccount-overrideCode" parent="PurchaseOrderAccount-overrideCode-parentBean" />
 
-  <bean id="PurchaseOrderAccount-overrideCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="overrideCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Override Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.AccountingLineOverrideOptionFinder"
-            p:includeKeyInLabel="false" />
-    </property>
-  </bean>
+  <bean id="PurchaseOrderAccount-overrideCode-parentBean" abstract="true" parent="SourceAccountingLine-overrideCode" />
+   
   <bean id="PurchaseOrderAccount-amount" parent="PurchaseOrderAccount-amount-parentBean" />
 
   <bean id="PurchaseOrderAccount-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">

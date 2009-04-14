@@ -445,23 +445,8 @@
   </bean>
   <bean id="BudgetAdjustmentSourceAccountingLine-overrideCode" parent="BudgetAdjustmentSourceAccountingLine-overrideCode-parentBean" />
 
-  <bean id="BudgetAdjustmentSourceAccountingLine-overrideCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="overrideCode" />
-    <property name="label" value="Override Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.AccountingLineOverrideOptionFinder"
-            p:includeKeyInLabel="false" />
-    </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The system code for the type of override in an Accounting Line, selected from a pulldown list." />
-  </bean>
+  <bean id="BudgetAdjustmentSourceAccountingLine-overrideCode-parentBean" abstract="true" parent="SourceAccountingLine-overrideCode"/>
+    
   <bean id="BudgetAdjustmentSourceAccountingLine-amount" parent="BudgetAdjustmentSourceAccountingLine-amount-parentBean" />
 
   <bean id="BudgetAdjustmentSourceAccountingLine-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">

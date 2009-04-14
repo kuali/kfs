@@ -246,24 +246,8 @@
   </bean>
   <bean id="ExpenseTransferTargetAccountingLine-overrideCode" parent="ExpenseTransferTargetAccountingLine-overrideCode-parentBean" />
 
-  <bean id="ExpenseTransferTargetAccountingLine-overrideCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="overrideCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Override Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.AccountingLineOverrideOptionFinder"
-            p:includeKeyInLabel="false" />
-    </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The system code for the type of override in an Accounting Line, selected from a pulldown list." />
-  </bean>
+  <bean id="ExpenseTransferTargetAccountingLine-overrideCode-parentBean" abstract="true" parent="TargetAccountingLine-overrideCode" />
+    
   <bean id="ExpenseTransferTargetAccountingLine-amount" parent="ExpenseTransferTargetAccountingLine-amount-parentBean" />
 
   <bean id="ExpenseTransferTargetAccountingLine-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">

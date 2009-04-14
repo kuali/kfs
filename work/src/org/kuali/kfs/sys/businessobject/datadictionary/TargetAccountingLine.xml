@@ -162,7 +162,7 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Override Code" />
     <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="1" />
+    <property name="maxLength" value="100" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>

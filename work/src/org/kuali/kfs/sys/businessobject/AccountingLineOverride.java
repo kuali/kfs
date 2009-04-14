@@ -39,16 +39,16 @@ public class AccountingLineOverride {
      * These codes are the way the override is persisted in the AccountingLine.
      */
     public static final class CODE { // todo: use JDK 1.5 enum
-        public static final String NONE = "N";
-        public static final String EXPIRED_ACCOUNT = "1";
-        public static final String NON_BUDGETED_OBJECT = "2";
-        public static final String TRANSACTION_EXCEEDS_REMAINING_BUDGET = "3";
-        public static final String EXPIRED_ACCOUNT_AND_NON_BUDGETED_OBJECT = "4";
-        public static final String NON_BUDGETED_OBJECT_AND_TRANSACTION_EXCEEDS_REMAINING_BUDGET = "5";
-        public static final String EXPIRED_ACCOUNT_AND_TRANSACTION_EXCEEDS_REMAINING_BUDGET = "6";
-        public static final String EXPIRED_ACCOUNT_AND_NON_BUDGETED_OBJECT_AND_TRANSACTION_EXCEEDS_REMAINING_BUDGET = "7";
-        public static final String NON_FRINGE_ACCOUNT_USED = "8";
-        public static final String EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED = "9";
+        public static final String NONE = "NONE";
+        public static final String EXPIRED_ACCOUNT = "EXPIRED_ACCOUNT";
+        public static final String NON_BUDGETED_OBJECT = "NON_BUDGETED_OBJECT";
+        public static final String TRANSACTION_EXCEEDS_REMAINING_BUDGET = "TRANSACTION_EXCEEDS_REMAINING_BUDGET";
+        public static final String EXPIRED_ACCOUNT_AND_NON_BUDGETED_OBJECT = "EXPIRED_ACCOUNT_AND_NON_BUDGETED_OBJECT";
+        public static final String NON_BUDGETED_OBJECT_AND_TRANSACTION_EXCEEDS_REMAINING_BUDGET = "NON_BUDGETED_OBJECT_AND_TRANSACTION_EXCEEDS_REMAINING_BUDGET";
+        public static final String EXPIRED_ACCOUNT_AND_TRANSACTION_EXCEEDS_REMAINING_BUDGET = "EXPIRED_ACCOUNT_AND_TRANSACTION_EXCEEDS_REMAINING_BUDGET";
+        public static final String EXPIRED_ACCOUNT_AND_NON_BUDGETED_OBJECT_AND_TRANSACTION_EXCEEDS_REMAINING_BUDGET = "EXPIRED_ACCOUNT_AND_NON_BUDGETED_OBJECT_AND_TRANSACTION_EXCEEDS_REMAINING_BUDGET";
+        public static final String NON_FRINGE_ACCOUNT_USED = "NON_FRINGE_ACCOUNT_USED";
+        public static final String EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED = "EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED";
     }
 
     /**

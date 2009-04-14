@@ -9,12 +9,14 @@
   <bean id="OrgReviewRole-parentBean" abstract="true" parent="BusinessObjectEntry"
         p:businessObjectClass="org.kuali.kfs.coa.identity.OrgReviewRole"
         p:titleAttribute="orgReviewRoleMemberId"
-        p:objectLabel="Org Review Role"
+        p:objectLabel="Organization Review"
         p:lookupDefinition-ref="OrgReviewRole-lookupDefinition" >
     <property name="attributes" >
       <list>
         <ref bean="OrgReviewRole-financialSystemDocumentTypeCode" />
         <ref bean="OrgReviewRole-documentTypeName" />        
+        <ref bean="OrgReviewRole-roleId" />
+        <ref bean="OrgReviewRole-roleName" />
         <ref bean="OrgReviewRole-reviewRolesIndicator" />
         <ref bean="OrgReviewRole-orgReviewRoleMemberId" />
         <ref bean="OrgReviewRole-roleMemberId" />
@@ -124,8 +126,8 @@
     <property name="name" value="financialSystemDocumentTypeCode" />
     <property name="maxLength" value="255" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Type" />
-    <property name="shortLabel" value="Type" />
+    <property name="label" value="Document Type" />
+    <property name="shortLabel" value="Document Type" />
     <property name="control" >
     	<bean parent="LookupReadonlyControlDefinition"
     		p:size="20" />
@@ -137,8 +139,8 @@
     <property name="name" value="documentTypeName" />
     <property name="maxLength" value="255" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Type" />
-    <property name="shortLabel" value="Type" />
+    <property name="label" value="Document Type" />
+    <property name="shortLabel" value="Document Type" />
     <property name="control" >
     	<bean parent="LookupReadonlyControlDefinition"
     		p:size="20" />
@@ -230,20 +232,32 @@
   <bean id="OrgReviewRole-memberPrincipal.principalName-parentBean" parent="PersonImpl-principalName" abstract="true"
         p:name="principalMemberPrincipalName" />
 
+  <bean id="OrgReviewRole-roleId" parent="OrgReviewRole-roleId-parentBean" />
+  <bean id="OrgReviewRole-roleId-parentBean" parent="RoleImpl-roleId" abstract="true"
+        p:name="roleId" />
+        
+  <bean id="OrgReviewRole-namespaceCode" parent="OrgReviewRole-namespaceCode-parentBean" />
+  <bean id="OrgReviewRole-namespaceCode-parentBean" parent="RoleImpl-namespaceCode" abstract="true"
+        p:name="namespaceCode" />
+
+  <bean id="OrgReviewRole-roleName" parent="OrgReviewRole-roleName-parentBean" />
+  <bean id="OrgReviewRole-roleName-parentBean" parent="RoleImpl-roleName" abstract="true"
+        p:name="roleName" />
+
   <bean id="OrgReviewRole-role.roleId" parent="OrgReviewRole-role.roleId-parentBean" />
-  <bean id="OrgReviewRole-role.roleId-parentBean" parent="KimRoleImpl-roleId" abstract="true"
+  <bean id="OrgReviewRole-role.roleId-parentBean" parent="RoleImpl-roleId" abstract="true"
         p:name="role.roleId" />
         
   <bean id="OrgReviewRole-role.namespaceCode" parent="OrgReviewRole-role.namespaceCode-parentBean" />
-  <bean id="OrgReviewRole-role.namespaceCode-parentBean" parent="KimRoleImpl-namespaceCode" abstract="true"
+  <bean id="OrgReviewRole-role.namespaceCode-parentBean" parent="RoleImpl-namespaceCode" abstract="true"
         p:name="role.namespaceCode" />
 
   <bean id="OrgReviewRole-role.roleName" parent="OrgReviewRole-role.roleName-parentBean" />
-  <bean id="OrgReviewRole-role.roleName-parentBean" parent="KimRoleImpl-roleName" abstract="true"
+  <bean id="OrgReviewRole-role.roleName-parentBean" parent="RoleImpl-roleName" abstract="true"
         p:name="role.roleName" />
 
   <bean id="OrgReviewRole-memberRole.memberId" parent="OrgReviewRole-memberRole.memberId-parentBean" />
-  <bean id="OrgReviewRole-memberRole.memberId-parentBean" parent="KimRoleImpl-roleId" abstract="true"
+  <bean id="OrgReviewRole-memberRole.memberId-parentBean" parent="RoleImpl-roleId" abstract="true"
         p:name="roleMemberRoleId" >
 		<property name="control" >
       		<bean parent="HiddenControlDefinition" />
@@ -251,11 +265,11 @@
   </bean>
 
   <bean id="OrgReviewRole-memberRole.namespaceCode" parent="OrgReviewRole-memberRole.namespaceCode-parentBean" />
-  <bean id="OrgReviewRole-memberRole.namespaceCode-parentBean" parent="KimRoleImpl-namespaceCode" abstract="true"
+  <bean id="OrgReviewRole-memberRole.namespaceCode-parentBean" parent="RoleImpl-namespaceCode" abstract="true"
         p:name="roleMemberRoleNamespaceCode" />
         
   <bean id="OrgReviewRole-memberRole.memberName" parent="OrgReviewRole-memberRole.memberName-parentBean" />
-  <bean id="OrgReviewRole-memberRole.memberName-parentBean" parent="KimRoleImpl-roleName" abstract="true"
+  <bean id="OrgReviewRole-memberRole.memberName-parentBean" parent="RoleImpl-roleName" abstract="true"
         p:name="roleMemberRoleName" />
   
   <bean id="OrgReviewRole-group.namespaceCode" parent="OrgReviewRole-group.namespaceCode-parentBean" />
@@ -382,6 +396,8 @@
     </property>
     <property name="resultFields" >
       <list>
+          <bean parent="FieldDefinition" p:attributeName="namespaceCode" />
+          <bean parent="FieldDefinition" p:attributeName="roleName" />
           <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
           <bean parent="FieldDefinition" p:attributeName="organizationCode" />
           <bean parent="FieldDefinition" p:attributeName="documentTypeName" />

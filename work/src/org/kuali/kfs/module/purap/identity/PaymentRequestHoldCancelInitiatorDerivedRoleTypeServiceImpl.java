@@ -22,7 +22,7 @@ import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.role.KimRole;
+import org.kuali.rice.kim.bo.Role;
 import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
@@ -37,7 +37,7 @@ public class PaymentRequestHoldCancelInitiatorDerivedRoleTypeServiceImpl extends
         try {
             PaymentRequestDocument document = (PaymentRequestDocument) getDocumentService().getByDocumentHeaderId(qualification.get(KfsKimAttributes.DOCUMENT_NUMBER));
             if ((document != null) && (document.getLastActionPerformedByUser() != null)) {
-                members.add( new RoleMembershipInfo(null,null,document.getLastActionPerformedByUser().getPrincipalId(),KimRole.PRINCIPAL_MEMBER_TYPE,null) );
+                members.add( new RoleMembershipInfo(null,null,document.getLastActionPerformedByUser().getPrincipalId(),Role.PRINCIPAL_MEMBER_TYPE,null) );
             }
         }
         catch (WorkflowException e) {

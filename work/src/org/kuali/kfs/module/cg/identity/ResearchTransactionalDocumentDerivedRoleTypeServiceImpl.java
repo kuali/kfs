@@ -24,7 +24,6 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cg.CGConstants;
-import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.BudgetUser;
 import org.kuali.kfs.module.cg.businessobject.ProposalProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.RoutingFormPersonnel;
@@ -32,8 +31,8 @@ import org.kuali.kfs.module.cg.document.BudgetDocument;
 import org.kuali.kfs.module.cg.document.RoutingFormDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.bo.Role;
 import org.kuali.rice.kim.bo.impl.KimAttributes;
-import org.kuali.rice.kim.bo.role.KimRole;
 import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
@@ -85,18 +84,18 @@ public class ResearchTransactionalDocumentDerivedRoleTypeServiceImpl extends Kim
                 if(CGConstants.CGKimConstants.ROUTING_FORM_ADHOC_ACKNOWLEDGER_KIM_ROLE_NAME.equals(roleName)){
                     if (document.getAdHocRoutePersons() != null) {
                         for (AdHocRoutePerson adHocRoutePerson : document.getAdHocRoutePersons()) {
-                            members.add( new RoleMembershipInfo(null,null,adHocRoutePerson.getId(),KimRole.PRINCIPAL_MEMBER_TYPE,null) );
+                            members.add( new RoleMembershipInfo(null,null,adHocRoutePerson.getId(),Role.PRINCIPAL_MEMBER_TYPE,null) );
                         }
                     }
                 } else if(CGConstants.CGKimConstants.PREAWARD_PROJECT_DIRECTOR_KIM_ROLE_NAME.equals(roleName)){
                     String documentType = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
                     if(KRA_ROUTING_FORM_DOC_TYPE.equals(documentType)){
                         for ( String principalId : getProjectDirectors((RoutingFormDocument)document) ) {
-                            members.add( new RoleMembershipInfo(null,null,principalId,KimRole.PRINCIPAL_MEMBER_TYPE,null) );
+                            members.add( new RoleMembershipInfo(null,null,principalId,Role.PRINCIPAL_MEMBER_TYPE,null) );
                         }
                     } else if(KRA_BUDGET_DOC_TYPE.equals(documentType)){
                         for ( String principalId : getProjectDirectors((BudgetDocument)document) ) {
-                            members.add( new RoleMembershipInfo(null,null,principalId,KimRole.PRINCIPAL_MEMBER_TYPE,null) );
+                            members.add( new RoleMembershipInfo(null,null,principalId,Role.PRINCIPAL_MEMBER_TYPE,null) );
                         }
                     }
                 }
@@ -105,7 +104,7 @@ public class ResearchTransactionalDocumentDerivedRoleTypeServiceImpl extends Kim
             }
         } else { // no qualification or missing document number - find all project directors
             for ( String principalId : getAllProjectDirectorPrincipalIds() ) {
-                members.add( new RoleMembershipInfo(null,null,principalId,KimRole.PRINCIPAL_MEMBER_TYPE,null) );
+                members.add( new RoleMembershipInfo(null,null,principalId,Role.PRINCIPAL_MEMBER_TYPE,null) );
             }
         }
         return members;

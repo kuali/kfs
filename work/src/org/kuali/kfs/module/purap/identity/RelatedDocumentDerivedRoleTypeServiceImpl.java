@@ -25,7 +25,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.role.service.impl.RouteLogDerivedRoleTypeServiceImpl;
-import org.kuali.rice.kim.bo.role.KimRole;
+import org.kuali.rice.kim.bo.Role;
 import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.RoleManagementService;
@@ -61,7 +61,7 @@ public class RelatedDocumentDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
                     if (sourceDocument != null && StringUtils.isNotBlank(sourceDocument.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId()) ) {
                         AttributeSet roleQualifier = new AttributeSet(1);
                         roleQualifier.put(KfsKimAttributes.DOCUMENT_NUMBER, sourceDocument.getDocumentNumber() );
-                        members.add( new RoleMembershipInfo(null,null,sourceDocument.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId(),KimRole.PRINCIPAL_MEMBER_TYPE,roleQualifier) );
+                        members.add( new RoleMembershipInfo(null,null,sourceDocument.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId(),Role.PRINCIPAL_MEMBER_TYPE,roleQualifier) );
                     }
                 }
             }
@@ -74,7 +74,7 @@ public class RelatedDocumentDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
                 AttributeSet tempQualification = new AttributeSet(1);
                 tempQualification.put(PurapKimAttributes.DOCUMENT_NUMBER, documentId);
                 for ( String principalId : getRoleManagementService().getRoleMemberPrincipalIds(KNSConstants.KUALI_RICE_WORKFLOW_NAMESPACE, RouteLogDerivedRoleTypeServiceImpl.INITIATOR_OR_REVIEWER_ROLE_NAME, tempQualification) ) {
-                    members.add( new RoleMembershipInfo(null,null,principalId,KimRole.PRINCIPAL_MEMBER_TYPE,tempQualification) );
+                    members.add( new RoleMembershipInfo(null,null,principalId,Role.PRINCIPAL_MEMBER_TYPE,tempQualification) );
                 }
             }
         }

@@ -22,8 +22,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.bo.Role;
 import org.kuali.rice.kim.bo.impl.KimAttributes;
-import org.kuali.rice.kim.bo.role.KimRole;
 import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
@@ -61,7 +61,7 @@ public class AssetDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBa
         if ( StringUtils.isNotBlank( documentNumber ) ) {
             EquipmentLoanOrReturnDocument document = getEquipmentLoanOrReturnDocument(documentNumber);
             if(document!=null){
-                members.add( new RoleMembershipInfo(null,null,document.getBorrowerUniversalIdentifier(),KimRole.PRINCIPAL_MEMBER_TYPE,null) );
+                members.add( new RoleMembershipInfo(null,null,document.getBorrowerUniversalIdentifier(),Role.PRINCIPAL_MEMBER_TYPE,null) );
             }
         }
         return members;

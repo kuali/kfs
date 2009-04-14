@@ -63,7 +63,6 @@
         <dd:maintField attributeName="fromAmount" />
         <dd:maintField attributeName="toAmount" />
         <dd:maintField attributeName="overrideCode" />
-        <dd:maintField attributeName="delegate" />
         <dd:maintField attributeName="delegationTypeCode" />
         <dd:maintField attributeName="roleMemberId" />
         <dd:maintField attributeName="delegationMemberId" />

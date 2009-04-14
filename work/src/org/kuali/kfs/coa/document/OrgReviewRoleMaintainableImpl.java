@@ -32,7 +32,6 @@ import org.kuali.rice.kim.bo.role.dto.KimRoleInfo;
 import org.kuali.rice.kim.bo.role.impl.KimDelegationImpl;
 import org.kuali.rice.kim.bo.role.impl.KimDelegationMemberAttributeDataImpl;
 import org.kuali.rice.kim.bo.role.impl.KimDelegationMemberImpl;
-import org.kuali.rice.kim.bo.role.impl.KimRoleImpl;
 import org.kuali.rice.kim.bo.role.impl.RoleMemberAttributeDataImpl;
 import org.kuali.rice.kim.bo.role.impl.RoleMemberImpl;
 import org.kuali.rice.kim.bo.role.impl.RoleResponsibilityActionImpl;
@@ -93,7 +92,7 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
                 KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL.equals(orr.getMethodToCall())) &&
                 (StringUtils.isNotEmpty(orr.getODelMId()) || StringUtils.isNotEmpty(orr.getORMId()))){
             Map<String, String> criteria;
-            if(StringUtils.isNotEmpty(orr.getODelMId())){
+            if(StringUtils.isNotEmpty(orr.getODelMId()) && !orr.isCreateDelegation()){
                 criteria = new HashMap<String, String>();
                 criteria.put("delegationMemberId", orr.getODelMId());
                 KimDelegationMemberImpl delegationMember = (KimDelegationMemberImpl)
@@ -117,8 +116,9 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
                 orr.setAttributes(attributes);
                 orr.setRoleId(delegation.getRoleId());
                 orr.setDelegationTypeCode(delegation.getDelegationTypeCode());
-
                 orr.setRoleDocumentDelegationMember(member, delegationMember.getMemberTypeCode());
+                orr.setActiveFromDate(delegationMember.getActiveFromDate());
+                orr.setActiveToDate(delegationMember.getActiveToDate());
                 orr.setDelegate(true);
                 orr.setODelMId("");
             } else if(StringUtils.isNotEmpty(orr.getORMId())){
@@ -144,7 +144,12 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
                 orr.setRoleRspActions(getRoleRspActions(roleMember));
                 orr.setRoleId(roleMember.getRoleId());
                 orr.setKimDocumentRoleMember(member, roleMember.getMemberTypeCode());
-                orr.setDelegate(false);
+                orr.setActiveFromDate(roleMember.getActiveFromDate());
+                orr.setActiveToDate(roleMember.getActiveToDate());
+                if(KNSConstants.DOC_HANDLER_METHOD.equals(orr.getMethodToCall()))
+                    orr.setDelegate(true);
+                else
+                    orr.setDelegate(false);
                 orr.setORMId("");
             }
             orr.getChart().setChartOfAccountsCode(orr.getChartOfAccountsCode());
@@ -191,8 +196,12 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
 
     @Override
     public void processAfterCopy(MaintenanceDocument document, Map<String,String[]> parameters){
-        super.processAfterCopy(document, parameters);
+        //super.processAfterCopy(document, parameters);
         OrgReviewRole orr = (OrgReviewRole)document.getOldMaintainableObject().getBusinessObject();
+        if(orr.isDelegate() || orr.isCreateDelegation())
+            orr.setDelegationMemberId("");
+        else
+            orr.setRoleMemberId("");
         orr.setCopy(true);
     }
 
@@ -221,37 +230,86 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
         for (Section section : sections) {
             for (Row row : section.getRows()) {
                 for (Field field : row.getFields()) {
-                    if(orr.isEdit()){
-                        if(OrgReviewRole.CHART_CODE_FIELD_NAME.equals(field.getPropertyName()) ||
-                                OrgReviewRole.ORG_CODE_FIELD_NAME.equals(field.getPropertyName()) ||
-                                OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME.equals(field.getPropertyName()) ||
-                                OrgReviewRole.DELEGATE_FIELD_NAME.equals(field.getPropertyName()) ||
-                                OrgReviewRole.PRINCIPAL_NAME_FIELD_NAME.equals(field.getPropertyName()) ||
-                                OrgReviewRole.ROLE_NAME_FIELD_NAME.equals(field.getPropertyName()) ||
-                                OrgReviewRole.ROLE_NAME_FIELD_NAMESPACE_CODE.equals(field.getPropertyName()) ||
-                                OrgReviewRole.GROUP_NAME_FIELD_NAME.equals(field.getPropertyName()) ||
-                                OrgReviewRole.GROUP_NAME_FIELD_NAMESPACE_CODE.equals(field.getPropertyName())){
-                            field.setReadOnly(true);    
-                        }
+                    if(orr.isCreateRoleMember() || orr.isCopyRoleMember()){
+                        prepareFieldsForCreateRoleMemberMode(field);
+                    } else if(orr.isCreateDelegation() || orr.isCopyDelegation()){
+                        prepareFieldsForCreateDelegationMode(field);
+                    } else if(orr.isEditRoleMember()){
+                        prepareFieldsForEditRoleMember(field, orr);
+                    } else if(orr.isEditDelegation()){
+                        prepareFieldsForEditDelegation(field, orr);
                     }
-                    if (OrgReviewRole.REVIEW_ROLES_INDICATOR_FIELD_NAME.equals(field.getPropertyName())) {
-                        if(shouldReviewTypesFieldBeReadOnly!=null && shouldReviewTypesFieldBeReadOnly)
-                            field.setReadOnly(true);
-                        //field.setFieldType(Field.DROPDOWN_REFRESH);
-                    }
-                    if(OrgReviewRole.FROM_AMOUNT_FIELD_NAME.equals(field.getPropertyName()) ||
-                            OrgReviewRole.TO_AMOUNT_FIELD_NAME.equals(field.getPropertyName()) ||
-                            OrgReviewRole.OVERRIDE_CODE_FIELD_NAME.equals(field.getPropertyName())) {
-                        if(hasAccountingOrganizationHierarchy!=null && hasAccountingOrganizationHierarchy && shouldReviewTypesFieldBeReadOnly!=null && shouldReviewTypesFieldBeReadOnly){
-                            field.setReadOnly(true);
-                        }
-                    }
+                    prepareFieldsCommon(field);
                 }
             }
         }
         return sections;
     }
 
+    private void prepareFieldsCommon(Field field){
+        if(OrgReviewRole.REVIEW_ROLES_INDICATOR_FIELD_NAME.equals(field.getPropertyName())) {
+            if((shouldReviewTypesFieldBeReadOnly!=null && shouldReviewTypesFieldBeReadOnly))
+                field.setReadOnly(true);
+        } else if(OrgReviewRole.FROM_AMOUNT_FIELD_NAME.equals(field.getPropertyName()) ||
+                OrgReviewRole.TO_AMOUNT_FIELD_NAME.equals(field.getPropertyName()) ||
+                OrgReviewRole.OVERRIDE_CODE_FIELD_NAME.equals(field.getPropertyName())) {
+            if((hasAccountingOrganizationHierarchy!=null && hasAccountingOrganizationHierarchy &&  
+                    shouldReviewTypesFieldBeReadOnly!=null && shouldReviewTypesFieldBeReadOnly) ||
+                    ((hasOrganizationHierarchy!=null && hasOrganizationHierarchy) && 
+                    (hasAccountingOrganizationHierarchy!=null && ! hasAccountingOrganizationHierarchy))){
+                field.setReadOnly(true);
+            }
+        }
+    }
+
+    private void prepareFieldsForEditRoleMember(Field field, OrgReviewRole orr){
+        if(OrgReviewRole.CHART_CODE_FIELD_NAME.equals(field.getPropertyName()) ||
+                OrgReviewRole.ORG_CODE_FIELD_NAME.equals(field.getPropertyName()) ||
+                OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME.equals(field.getPropertyName()) ||
+                OrgReviewRole.PRINCIPAL_NAME_FIELD_NAME.equals(field.getPropertyName()) ||
+                OrgReviewRole.ROLE_NAME_FIELD_NAME.equals(field.getPropertyName()) ||
+                OrgReviewRole.ROLE_NAME_FIELD_NAMESPACE_CODE.equals(field.getPropertyName()) ||
+                OrgReviewRole.GROUP_NAME_FIELD_NAME.equals(field.getPropertyName()) ||
+                OrgReviewRole.GROUP_NAME_FIELD_NAMESPACE_CODE.equals(field.getPropertyName())){
+            field.setReadOnly(true);
+        }
+        //If the member being edited is not a delegate, do not show the delegation type code
+        if(OrgReviewRole.DELEGATION_TYPE_CODE.equals(field.getPropertyName())){
+            field.setFieldType(Field.HIDDEN);
+        }
+    }
+
+    private void prepareFieldsForEditDelegation(Field field, OrgReviewRole orr){
+        if(OrgReviewRole.CHART_CODE_FIELD_NAME.equals(field.getPropertyName()) ||
+                OrgReviewRole.ORG_CODE_FIELD_NAME.equals(field.getPropertyName()) ||
+                OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME.equals(field.getPropertyName()) ||
+                OrgReviewRole.REVIEW_ROLES_INDICATOR_FIELD_NAME.equals(field.getPropertyName()) ||
+                OrgReviewRole.PRINCIPAL_NAME_FIELD_NAME.equals(field.getPropertyName()) ||
+                OrgReviewRole.ROLE_NAME_FIELD_NAME.equals(field.getPropertyName()) ||
+                OrgReviewRole.ROLE_NAME_FIELD_NAMESPACE_CODE.equals(field.getPropertyName()) ||
+                OrgReviewRole.GROUP_NAME_FIELD_NAME.equals(field.getPropertyName()) ||
+                OrgReviewRole.GROUP_NAME_FIELD_NAMESPACE_CODE.equals(field.getPropertyName())){
+            field.setReadOnly(true);
+        }
+    }
+    
+    private void prepareFieldsForCreateRoleMemberMode(Field field){
+        //If a role member (i.e. not a delegate) is being created, do not show the delegation type code
+        if(OrgReviewRole.DELEGATION_TYPE_CODE.equals(field.getPropertyName())){
+            field.setFieldType(Field.HIDDEN);
+        }
+    }
+
+    private void prepareFieldsForCreateDelegationMode(Field field){
+        //TODO: in prepareBusinessObject, populate these fields for create delegation
+        if(OrgReviewRole.CHART_CODE_FIELD_NAME.equals(field.getPropertyName()) ||
+                OrgReviewRole.ORG_CODE_FIELD_NAME.equals(field.getPropertyName()) ||
+                OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME.equals(field.getPropertyName()) || 
+                OrgReviewRole.REVIEW_ROLES_INDICATOR_FIELD_NAME.equals(field.getPropertyName())){
+            field.setReadOnly(true);    
+        }
+    }
+    
     private boolean shouldReviewTypesFieldBeReadOnly(MaintenanceDocument document){
         OrgReviewRole orr = (OrgReviewRole)document.getNewMaintainableObject().getBusinessObject();
         if(StringUtils.isEmpty(orr.getFinancialSystemDocumentTypeCode()))
@@ -283,7 +341,7 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
     public void saveBusinessObject() {
         OrgReviewRole orr = (OrgReviewRole)getBusinessObject();
         List<PersistableBusinessObject> objectsToSave = new ArrayList<PersistableBusinessObject>();
-        if(orr.isDelegate()){
+        if(orr.isDelegate() || orr.isCreateDelegation()){
             // Save delegation(s)
             objectsToSave = getDelegations(orr);
         } else{
@@ -302,17 +360,21 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
         KimDelegationImpl delegation = null;
         KimDelegationMemberImpl delegationMember;
         List<KimDelegationImpl> roleDelegations;
+        KimRoleInfo roleInfo;
         for(String roleName: roleNamesToConsider){
             roleId = getRoleService().getRoleIdByName(
                     KFSConstants.SysKimConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);
+            roleInfo = getRoleService().getRole(roleId);
             roleDelegations = KIMServiceLocator.getUiDocumentService().getRoleDelegations(roleId);
             for(KimDelegationImpl delegationTemp: roleDelegations){
                 if(delegationTemp.getDelegationTypeCode().equals(orr.getDelegationTypeCode()))
                     delegation = delegationTemp;
             }
-            if(StringUtils.isEmpty(delegation.getDelegationId())){
+            if(delegation==null || StringUtils.isEmpty(delegation.getDelegationId())){
                 // Create a new delegation for this delegation type code
                 delegation = getDelegationOfType(roleDelegations, orr.getDelegationTypeCode());
+                delegation.setKimTypeId(roleInfo.getKimTypeId());
+                delegation.setRoleId(roleId);
                 objectsToSave.add(delegation);
                 // Save this delegation also
             }
@@ -326,9 +388,9 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
         String memberId;
         KimDelegationMemberImpl delegationMember = null;
         Map<String, Object> criteria;
-        if(StringUtils.isNotEmpty(orr.getRoleMemberId())){
+        if(!orr.isCopy() && !orr.isCreateDelegation() && StringUtils.isNotEmpty(orr.getDelegationMemberId())){
             criteria = new HashMap<String, Object>();
-            criteria.put(KimConstants.PrimaryKeyConstants.DELEGATION_MEMBER_ID, orr.getRoleMemberId());
+            criteria.put(KimConstants.PrimaryKeyConstants.DELEGATION_MEMBER_ID, orr.getDelegationMemberId());
             delegationMember = (KimDelegationMemberImpl)getBusinessObjectService().findByPrimaryKey(KimDelegationMemberImpl.class, criteria);
         }
         if(StringUtils.isNotEmpty(orr.getRoleMemberRoleNamespaceCode()) && StringUtils.isNotEmpty(orr.getRoleMemberRoleName())){
@@ -336,7 +398,7 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
                 memberId = getRoleService().getRoleIdByName(orr.getRoleMemberRoleNamespaceCode(), orr.getRoleMemberRoleName());
                 delegationMember = new KimDelegationMemberImpl();
                 delegationMember.setMemberId(memberId);
-            }                
+            }
             delegationMember.setMemberTypeCode(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE);
             delegationMember.setDelegationId(delegation.getDelegationId());
             if(StringUtils.isEmpty(delegationMember.getDelegationMemberId()))
@@ -345,6 +407,7 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
             delegationMember.setAttributes(getAttributes(orr, delegation.getKimTypeId()));
             delegationMember.setActiveFromDate(orr.getActiveFromDate());
             delegationMember.setActiveToDate(orr.getActiveToDate());
+            delegationMember.setRoleMemberId(orr.getRoleMemberId());
             objectsToSave.add(delegationMember);
         }
         if(StringUtils.isNotEmpty(orr.getGroupMemberGroupNamespaceCode()) && StringUtils.isNotEmpty(orr.getGroupMemberGroupName())){
@@ -362,6 +425,7 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
             delegationMember.setAttributes(getAttributes(orr, delegation.getKimTypeId()));
             delegationMember.setActiveFromDate(orr.getActiveFromDate());
             delegationMember.setActiveToDate(orr.getActiveToDate());
+            delegationMember.setRoleMemberId(orr.getRoleMemberId());
             objectsToSave.add(delegationMember);
         }
         if(StringUtils.isNotEmpty(orr.getPrincipalMemberPrincipalName())){
@@ -378,6 +442,7 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
             delegationMember.setAttributes(getAttributes(orr, delegation.getKimTypeId()));
             delegationMember.setActiveFromDate(orr.getActiveFromDate());
             delegationMember.setActiveToDate(orr.getActiveToDate());
+            delegationMember.setRoleMemberId(orr.getRoleMemberId());
             objectsToSave.add(delegationMember);
         }
         return objectsToSave;
@@ -388,7 +453,7 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
         String memberId;
         RoleMemberImpl roleMember = null;
         Map<String, Object> criteria;
-        if(StringUtils.isNotEmpty(orr.getRoleMemberId())){
+        if(!orr.isCopy() && StringUtils.isNotEmpty(orr.getRoleMemberId())){
             criteria = new HashMap<String, Object>();
             criteria.put(KimConstants.PrimaryKeyConstants.ROLE_MEMBER_ID, orr.getRoleMemberId());
             roleMember = (RoleMemberImpl)getBusinessObjectService().findByPrimaryKey(RoleMemberImpl.class, criteria);
@@ -615,6 +680,8 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
     }
     
     protected List<KimDelegationMemberAttributeDataImpl> getAttributes(OrgReviewRole orr, String kimTypeId){
+        if(StringUtils.isEmpty(kimTypeId)) return null;
+        
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("kimTypeId", kimTypeId);
         KimTypeImpl kimTypeImpl = (KimTypeImpl)getBusinessObjectService().findByPrimaryKey(KimTypeImpl.class, criteria);

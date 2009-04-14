@@ -18,9 +18,6 @@ package org.kuali.kfs.fp.identity;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.bo.role.KimRole;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;

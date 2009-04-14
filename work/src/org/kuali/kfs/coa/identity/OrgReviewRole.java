@@ -37,7 +37,6 @@ import org.kuali.rice.kim.bo.impl.PersonImpl;
 import org.kuali.rice.kim.bo.impl.RoleImpl;
 import org.kuali.rice.kim.bo.role.impl.KimDelegationImpl;
 import org.kuali.rice.kim.bo.role.impl.KimDelegationMemberImpl;
-import org.kuali.rice.kim.bo.role.impl.KimRoleImpl;
 import org.kuali.rice.kim.bo.role.impl.RoleMemberImpl;
 import org.kuali.rice.kim.bo.role.impl.RoleResponsibilityActionImpl;
 import org.kuali.rice.kim.bo.types.impl.KimAttributeDataImpl;
@@ -46,12 +45,13 @@ import org.kuali.rice.kim.bo.ui.KimDocumentRoleMember;
 import org.kuali.rice.kim.bo.ui.RoleDocumentDelegation;
 import org.kuali.rice.kim.bo.ui.RoleDocumentDelegationMember;
 import org.kuali.rice.kim.util.KimConstants;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
-public class OrgReviewRole extends KimRoleImpl {
+public class OrgReviewRole extends RoleImpl {
 
     //Dummy variable
     private String organizationTypeCode = "99";
@@ -67,14 +67,16 @@ public class OrgReviewRole extends KimRoleImpl {
     public static final String ORG_CODE_FIELD_NAME = "organization.organizationCode";
     public static final String DOC_TYPE_NAME_FIELD_NAME = "financialSystemDocumentTypeCode";
     public static final String DELEGATE_FIELD_NAME = "delegate";
+    public static final String DELEGATION_TYPE_CODE = "delegationTypeCode";
     public static final String FROM_AMOUNT_FIELD_NAME = "fromAmount";
     public static final String TO_AMOUNT_FIELD_NAME = "toAmount";
     public static final String OVERRIDE_CODE_FIELD_NAME = "overrideCode";
 
     public static final String ORIGINAL_DELEGATION_MEMBER_ID_TO_MODIFY = "ODelMId";
     public static final String ORIGINAL_ROLE_MEMBER_ID_TO_MODIFY = "ORMId";
-
     
+    public static final String NEW_DELEGATION_ID_KEY_VALUE = "New";
+
     String methodToCall;
     
     protected String orgReviewRoleMemberId;
@@ -115,6 +117,8 @@ public class OrgReviewRole extends KimRoleImpl {
 
     //The role id this object corresponds to
     protected String roleId;
+    protected String roleNamespaceCode;
+    protected String roleName;
     
     //Identifying information for a single member (of any type)
     protected String memberId;
@@ -221,6 +225,7 @@ public class OrgReviewRole extends KimRoleImpl {
     public void setGroupMemberGroupId(String groupMemberGroupId) {
         this.groupMemberGroupId = groupMemberGroupId;
         memberGroup.setMemberId(groupMemberGroupId);
+        delegationMemberGroup.setMemberId(groupMemberGroupId);
     }
     /**
      * Gets the groupMemberGroupName attribute. 
@@ -236,6 +241,7 @@ public class OrgReviewRole extends KimRoleImpl {
     public void setGroupMemberGroupName(String groupMemberGroupName) {
         this.groupMemberGroupName = groupMemberGroupName;
         memberGroup.setMemberName(groupMemberGroupName);
+        delegationMemberGroup.setMemberName(groupMemberGroupName);
     }
     /**
      * Gets the groupMemberGroupNamespaceCode attribute. 
@@ -251,6 +257,7 @@ public class OrgReviewRole extends KimRoleImpl {
     public void setGroupMemberGroupNamespaceCode(String groupMemberGroupNamespaceCode) {
         this.groupMemberGroupNamespaceCode = groupMemberGroupNamespaceCode;
         memberGroup.setMemberNamespaceCode(groupMemberGroupNamespaceCode);
+        delegationMemberGroup.setMemberNamespaceCode(groupMemberGroupNamespaceCode);
     }
     /**
      * Gets the principalMemberPrincipalId attribute. 
@@ -266,6 +273,7 @@ public class OrgReviewRole extends KimRoleImpl {
     public void setPrincipalMemberPrincipalId(String principalMemberPrincipalId) {
         this.principalMemberPrincipalId = principalMemberPrincipalId;
         memberPerson.setMemberId(principalMemberPrincipalId);
+        delegationMemberPerson.setMemberId(principalMemberPrincipalId);
     }
     /**
      * Gets the principalMemberPrincipalName attribute. 
@@ -281,6 +289,7 @@ public class OrgReviewRole extends KimRoleImpl {
     public void setPrincipalMemberPrincipalName(String principalMemberPrincipalName) {
         this.principalMemberPrincipalName = principalMemberPrincipalName;
         memberPerson.setMemberName(principalMemberPrincipalName);
+        delegationMemberPerson.setMemberName(principalMemberPrincipalName);
     }
     /**
      * Gets the roleMemberRoleId attribute. 
@@ -296,6 +305,7 @@ public class OrgReviewRole extends KimRoleImpl {
     public void setRoleMemberRoleId(String roleMemberRoleId) {
         this.roleMemberRoleId = roleMemberRoleId;
         memberRole.setMemberId(roleMemberRoleId);
+        delegationMemberRole.setMemberId(roleMemberRoleId);
     }
     /**
      * Gets the roleMemberRoleName attribute. 
@@ -311,6 +321,7 @@ public class OrgReviewRole extends KimRoleImpl {
     public void setRoleMemberRoleName(String roleMemberRoleName) {
         this.roleMemberRoleName = roleMemberRoleName;
         memberRole.setMemberName(roleMemberRoleName);
+        delegationMemberRole.setMemberName(roleMemberRoleName);
     }
     /**
      * Gets the roleMemberRoleNamespaceCode attribute. 
@@ -326,6 +337,7 @@ public class OrgReviewRole extends KimRoleImpl {
     public void setRoleMemberRoleNamespaceCode(String roleMemberRoleNamespaceCode) {
         this.roleMemberRoleNamespaceCode = roleMemberRoleNamespaceCode;
         memberRole.setMemberNamespaceCode(roleMemberRoleNamespaceCode);
+        delegationMemberRole.setMemberNamespaceCode(roleMemberRoleNamespaceCode);
     }
     /**
      * Gets the organization attribute. 
@@ -836,30 +848,80 @@ public class OrgReviewRole extends KimRoleImpl {
         return hasRole() || hasGroup() || hasPrincipal();
     }
     
-    public KimDocumentRoleMember getMemberOfType(String memberTypeCode){
-        if(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE.equals(memberTypeCode))
-            return memberRole;
-        else if(KimConstants.KimUIConstants.MEMBER_TYPE_GROUP_CODE.equals(memberTypeCode))
-            return memberGroup;
-        else if(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL_CODE.equals(memberTypeCode))
-            return memberPerson;
+    public RoleDocumentDelegationMember getDelegationMemberOfType(String memberTypeCode){
+        if(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE.equals(memberTypeCode)){
+            delegationMemberRole.setMemberId(roleMemberRoleId);
+            delegationMemberRole.setMemberName(roleMemberRoleName);
+            delegationMemberRole.setMemberNamespaceCode(roleMemberRoleNamespaceCode);
+            delegationMemberRole.setRoleMemberId(roleMemberId);
+            return delegationMemberRole;
+        } else if(KimConstants.KimUIConstants.MEMBER_TYPE_GROUP_CODE.equals(memberTypeCode)){
+            delegationMemberGroup.setMemberId(groupMemberGroupId);
+            delegationMemberGroup.setMemberName(groupMemberGroupName);
+            delegationMemberGroup.setMemberNamespaceCode(groupMemberGroupNamespaceCode);
+            delegationMemberRole.setRoleMemberId(roleMemberId);
+            return delegationMemberGroup;
+        } else if(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL_CODE.equals(memberTypeCode)){
+            delegationMemberPerson.setMemberId(principalMemberPrincipalId);
+            delegationMemberPerson.setMemberName(principalMemberPrincipalName);
+            delegationMemberRole.setRoleMemberId(roleMemberId);
+            return delegationMemberPerson;
+        }
         return null;
     }
     
-    public String getMemberId(String memberTypeCode){
-        KimDocumentRoleMember member = getMemberOfType(memberTypeCode);
+    public KimDocumentRoleMember getRoleMemberOfType(String memberTypeCode){
+        if(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE.equals(memberTypeCode)){
+            memberRole.setMemberId(roleMemberRoleId);
+            memberRole.setMemberName(roleMemberRoleName);
+            memberRole.setMemberNamespaceCode(roleMemberRoleNamespaceCode);
+            return memberRole;
+        } else if(KimConstants.KimUIConstants.MEMBER_TYPE_GROUP_CODE.equals(memberTypeCode)){
+            memberGroup.setMemberId(groupMemberGroupId);
+            memberGroup.setMemberName(groupMemberGroupName);
+            memberGroup.setMemberNamespaceCode(groupMemberGroupNamespaceCode);
+            return memberGroup;
+        } else if(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL_CODE.equals(memberTypeCode)){
+            memberPerson.setMemberId(principalMemberPrincipalId);
+            memberPerson.setMemberName(principalMemberPrincipalName);
+            return memberPerson;
+        }
+        return null;
+    }
+    
+    public String getMemberIdForDelegationMember(String memberTypeCode){
+        RoleDocumentDelegationMember member = getDelegationMemberOfType(memberTypeCode);
+        return member!=null?member.getMemberId():null;
+    }
+    
+    public String getMemberIdForRoleMember(String memberTypeCode){
+        KimDocumentRoleMember member = getRoleMemberOfType(memberTypeCode);
         return member!=null?member.getMemberId():null;
     }
 
+    public String getDelegationMemberFieldName(RoleDocumentDelegationMember member){
+        String memberFieldName = "";
+        if(member!=null){
+            if(member.isRole())
+                memberFieldName = OrgReviewRole.ROLE_NAME_FIELD_NAME;
+            else if(member.isGroup())
+                memberFieldName = OrgReviewRole.GROUP_NAME_FIELD_NAME;
+            else if(member.isPrincipal()){
+                memberFieldName = OrgReviewRole.PRINCIPAL_NAME_FIELD_NAME;
+            }
+        }
+        return memberFieldName;
+    }
+    
     public String getMemberFieldName(KimDocumentRoleMember member){
         String memberFieldName = "";
         if(member!=null){
             if(member.isRole())
-                memberFieldName = "role.roleName";
+                memberFieldName = OrgReviewRole.ROLE_NAME_FIELD_NAME;
             else if(member.isGroup())
-                memberFieldName = "group.groupName";
+                memberFieldName = OrgReviewRole.GROUP_NAME_FIELD_NAME;
             else if(member.isPrincipal()){
-                memberFieldName = "principal.principalName";
+                memberFieldName = OrgReviewRole.PRINCIPAL_NAME_FIELD_NAME;
             }
         }
         return memberFieldName;
@@ -1128,7 +1190,7 @@ public class OrgReviewRole extends KimRoleImpl {
      * @return Returns the copy.
      */
     public boolean isCopy() {
-        return copy;
+        return copy || "Copy".equalsIgnoreCase(methodToCall);
     }
     /**
      * Sets the copy attribute value.
@@ -1142,7 +1204,7 @@ public class OrgReviewRole extends KimRoleImpl {
      * @return Returns the edit.
      */
     public boolean isEdit() {
-        return edit;
+        return edit || "Edit".equalsIgnoreCase(methodToCall);
     }
     /**
      * Sets the edit attribute value.
@@ -1221,12 +1283,37 @@ public class OrgReviewRole extends KimRoleImpl {
     public void setMethodToCall(String methodToCall) {
         this.methodToCall = methodToCall;
     }
+
+    public boolean isEditDelegation(){
+        return isEdit() && isDelegate();
+    }
+    
+    public boolean isEditRoleMember(){
+        return isEdit() && !isDelegate();
+    }
+
+    public boolean isCopyDelegation(){
+        return isCopy() && isDelegate();
+    }
+    
+    public boolean isCopyRoleMember(){
+        return isCopy() && !isDelegate();
+    }
+
+    public boolean isCreateDelegation(){
+        return NEW_DELEGATION_ID_KEY_VALUE.equals(getODelMId());
+    }
+    
+    public boolean isCreateRoleMember(){
+        return StringUtils.isEmpty(methodToCall);
+    }
+
     /**
      * Gets the organizationTypeCode attribute. 
      * @return Returns the organizationTypeCode.
      */
     public String getOrganizationTypeCode() {
-        return organizationTypeCode;
+        return "99";
     }
     /**
      * Sets the organizationTypeCode attribute value.
@@ -1234,4 +1321,33 @@ public class OrgReviewRole extends KimRoleImpl {
      */
     public void setOrganizationTypeCode(String organizationTypeCode) {
     }
+    /**
+     * Gets the roleName attribute. 
+     * @return Returns the roleName.
+     */
+    public String getRoleName() {
+        return roleName;
+    }
+    /**
+     * Sets the roleName attribute value.
+     * @param roleName The roleName to set.
+     */
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+    /**
+     * Gets the roleNamespaceCode attribute. 
+     * @return Returns the roleNamespaceCode.
+     */
+    public String getRoleNamespaceCode() {
+        return roleNamespaceCode;
+    }
+    /**
+     * Sets the roleNamespaceCode attribute value.
+     * @param roleNamespaceCode The roleNamespaceCode to set.
+     */
+    public void setRoleNamespaceCode(String roleNamespaceCode) {
+        this.roleNamespaceCode = roleNamespaceCode;
+    }
+
 }

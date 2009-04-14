@@ -15,39 +15,38 @@
  */
 package org.kuali.kfs.coa.identity;
 
-import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.kfs.sys.service.impl.KfsParameterConstants.FINANCIAL_SYSTEM_DOCUMENT;
 import org.kuali.rice.core.util.RiceUtilities;
 import org.kuali.rice.kew.doctype.service.DocumentTypeService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.service.WorkflowInfo;
-import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.entity.impl.KimPrincipalImpl;
 import org.kuali.rice.kim.bo.group.impl.KimGroupImpl;
 import org.kuali.rice.kim.bo.impl.KimAbstractMemberImpl;
+import org.kuali.rice.kim.bo.impl.RoleImpl;
+import org.kuali.rice.kim.bo.role.dto.KimRoleInfo;
 import org.kuali.rice.kim.bo.role.impl.KimDelegationImpl;
 import org.kuali.rice.kim.bo.role.impl.KimDelegationMemberAttributeDataImpl;
 import org.kuali.rice.kim.bo.role.impl.KimDelegationMemberImpl;
-import org.kuali.rice.kim.bo.role.impl.KimRoleImpl;
 import org.kuali.rice.kim.bo.role.impl.RoleMemberAttributeDataImpl;
 import org.kuali.rice.kim.bo.role.impl.RoleMemberImpl;
 import org.kuali.rice.kim.bo.role.impl.RoleResponsibilityImpl;
 import org.kuali.rice.kim.bo.types.impl.KimAttributeDataImpl;
-import org.kuali.rice.kim.lookup.KimTypeLookupableHelperServiceImpl;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kim.service.UiDocumentService;
@@ -62,9 +61,7 @@ import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.LookupService;
 import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.UrlFactory;
-import org.kuali.rice.kns.web.format.Formatter;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 
 public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
@@ -96,8 +93,43 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
         lookupForm.setShowMaintenanceLinks(true);
+        lookupForm.setSuppressActions(false);
         lookupForm.setHideReturnLink(true);
         return super.performLookup(lookupForm, resultTable, bounded);
+    }
+
+    @Override
+    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames){
+        OrgReviewRole orr = (OrgReviewRole)businessObject;
+        List<HtmlData> htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
+        if(StringUtils.isNotBlank(getMaintenanceDocumentTypeName()) && allowsMaintenanceEditAction(businessObject) && !orr.isDelegate()) {
+            HtmlData createDelegationUrl = getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, KFSConstants.COAConstants.ORG_REVIEW_ROLE_CREATE_DELEGATION_DISPLAY_TEXT, pkNames);
+            //createDelegationUrl.setDisplayText(KFSConstants.COAConstants.ORG_REVIEW_ROLE_CREATE_DELEGATION_DISPLAY_TEXT);
+            htmlDataList.add(createDelegationUrl);
+        }
+        return htmlDataList;
+    }
+
+    @Override
+    protected AnchorHtmlData getUrlData(BusinessObject businessObject, String methodToCall, String displayText, List pkNames){
+        if(KFSConstants.COAConstants.ORG_REVIEW_ROLE_CREATE_DELEGATION_DISPLAY_TEXT.equals(displayText)){
+            return getCreateDelegationUrl(businessObject, pkNames);
+        } else
+            return super.getUrlData(businessObject, methodToCall, displayText, pkNames);
+    }
+    
+    private AnchorHtmlData getCreateDelegationUrl(BusinessObject businessObject, List pkNames){
+        OrgReviewRole orr = (OrgReviewRole)businessObject;
+        Properties parameters = new Properties();
+        parameters.put(OrgReviewRole.ORIGINAL_DELEGATION_MEMBER_ID_TO_MODIFY, OrgReviewRole.NEW_DELEGATION_ID_KEY_VALUE);
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL);
+        parameters.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, businessObject.getClass().getName());
+        parameters.put(KNSConstants.COPY_KEYS, OrgReviewRole.ORIGINAL_DELEGATION_MEMBER_ID_TO_MODIFY+","+OrgReviewRole.ORIGINAL_ROLE_MEMBER_ID_TO_MODIFY+","+KNSConstants.DISPATCH_REQUEST_PARAMETER);
+        parameters.put(OrgReviewRole.ORIGINAL_ROLE_MEMBER_ID_TO_MODIFY, orr.getRoleMemberId());
+        //parameters.putAll(getParametersFromPrimaryKey(businessObject, pkNames));
+        String href = UrlFactory.parameterizeUrl(KNSConstants.MAINTENANCE_ACTION, parameters);
+
+        return new AnchorHtmlData(href, KNSConstants.DOC_HANDLER_METHOD, KFSConstants.COAConstants.ORG_REVIEW_ROLE_CREATE_DELEGATION_DISPLAY_TEXT);
     }
 
     protected String getActionUrlHref(BusinessObject businessObject, String methodToCall, List pkNames){
@@ -107,23 +139,27 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         parameters.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, OrgReviewRole.class.getName());
 
         if(orr.isDelegate()){
-            parameters.put(KNSConstants.COPY_KEYS, OrgReviewRole.ORIGINAL_DELEGATION_MEMBER_ID_TO_MODIFY);
+            parameters.put(KNSConstants.COPY_KEYS, OrgReviewRole.ORIGINAL_DELEGATION_MEMBER_ID_TO_MODIFY+","+KNSConstants.DISPATCH_REQUEST_PARAMETER);
             parameters.put(OrgReviewRole.ORIGINAL_DELEGATION_MEMBER_ID_TO_MODIFY, orr.getDelegationMemberId());
         } else {
-            parameters.put(KNSConstants.COPY_KEYS, OrgReviewRole.ORIGINAL_ROLE_MEMBER_ID_TO_MODIFY);
+            parameters.put(KNSConstants.COPY_KEYS, OrgReviewRole.ORIGINAL_DELEGATION_MEMBER_ID_TO_MODIFY+","+OrgReviewRole.ORIGINAL_ROLE_MEMBER_ID_TO_MODIFY+","+KNSConstants.DISPATCH_REQUEST_PARAMETER);
             parameters.put(OrgReviewRole.ORIGINAL_ROLE_MEMBER_ID_TO_MODIFY, orr.getRoleMemberId());
         }
         return UrlFactory.parameterizeUrl(KNSConstants.MAINTENANCE_ACTION, parameters);
     }
 
-    protected String getActionUrlTitleText(BusinessObject businessObject, String displayText, List pkNames, BusinessObjectRestrictions businessObjectRestrictions){
-        OrgReviewRole orr = (OrgReviewRole)businessObject;
+    private List<String> getOverridePKNames(OrgReviewRole orr){
         List overridePKNames = new ArrayList<String>();
         if(orr.isDelegate())
             overridePKNames.add(KimConstants.PrimaryKeyConstants.DELEGATION_MEMBER_ID);
         else
             overridePKNames.add(KimConstants.PrimaryKeyConstants.ROLE_MEMBER_ID);
-        return super.getActionUrlTitleText(businessObject, displayText, overridePKNames, businessObjectRestrictions);
+        return overridePKNames;
+    }
+    
+    protected String getActionUrlTitleText(BusinessObject businessObject, String displayText, List pkNames, BusinessObjectRestrictions businessObjectRestrictions){
+        OrgReviewRole orr = (OrgReviewRole)businessObject;
+        return super.getActionUrlTitleText(businessObject, displayText, getOverridePKNames(orr), businessObjectRestrictions);
     }
     
     @Override
@@ -254,6 +290,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         OrgReviewRole orgReviewRole;
         String memberType;
         KimAbstractMemberImpl absMember;
+        KimRoleInfo roleInfo;
         BusinessObject memberImpl;
         Boolean activeInd = null;
         if(StringUtils.isNotEmpty(active)){
@@ -282,6 +319,9 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
                     orgReviewRole.setRoleRspActions(getRoleRspActions((RoleMemberImpl)member));
                     orgReviewRole.setRoleMemberId(((RoleMemberImpl)member).getRoleMemberId());
                     orgReviewRole.setRoleId(((RoleMemberImpl)member).getRoleId());
+                    roleInfo = getRoleService().getRole(((RoleMemberImpl)member).getRoleId());
+                    orgReviewRole.setRoleNamespaceCode(roleInfo.getNamespaceCode());
+                    orgReviewRole.setRoleName(roleInfo.getRoleName());
                     orgReviewRole.setDelegate(false);
                 } else if(member instanceof KimDelegationMemberImpl){
                     for(KimDelegationMemberAttributeDataImpl delegationMemberAttribute: ((KimDelegationMemberImpl)member).getAttributes()){
@@ -292,6 +332,9 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
                     KimDelegationImpl delegation = getDelegation((KimDelegationMemberImpl)member);
                     orgReviewRole.setDelegationMemberId(((KimDelegationMemberImpl)member).getDelegationMemberId());
                     orgReviewRole.setRoleId(delegation.getRoleId());
+                    roleInfo = getRoleService().getRole(delegation.getRoleId());
+                    orgReviewRole.setRoleNamespaceCode(roleInfo.getNamespaceCode());
+                    orgReviewRole.setRoleName(roleInfo.getRoleName());
                     orgReviewRole.setDelegationTypeCode(delegation.getDelegationTypeCode());
                     orgReviewRole.setDelegate(true);
                 }
@@ -371,7 +414,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
             searchCriteria.put(MEMBER_ROLE_NAMESPACE, WILDCARD+assignedToRoleNamespaceCode+WILDCARD);
         if(StringUtils.isNotEmpty(assignedToRoleName))
             searchCriteria.put(MEMBER_ROLE_NAME, WILDCARD+assignedToRoleName+WILDCARD);
-        List<KimRoleImpl> roleImpls = null;
+        List<RoleImpl> roleImpls = null;
         if(StringUtils.isNotEmpty(assignedToRoleNamespaceCode) && StringUtils.isEmpty(assignedToRoleName) ||
                 StringUtils.isEmpty(assignedToRoleNamespaceCode) && StringUtils.isNotEmpty(assignedToRoleName) ||
                 StringUtils.isNotEmpty(assignedToRoleNamespaceCode) && StringUtils.isNotEmpty(assignedToRoleName)){
@@ -379,7 +422,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
             searchCriteria.put(KimConstants.UniqueKeyConstants.NAMESPACE_CODE, getQueryString(assignedToRoleNamespaceCode));
             searchCriteria.put(KimConstants.UniqueKeyConstants.ROLE_NAME, getQueryString(assignedToRoleName));
             roleImpls = 
-                (List<KimRoleImpl>)KNSServiceLocator.getLookupService().findCollectionBySearchUnbounded(KimRoleImpl.class, searchCriteria);
+                (List<RoleImpl>)KNSServiceLocator.getLookupService().findCollectionBySearchUnbounded(RoleImpl.class, searchCriteria);
             if(roleImpls==null || roleImpls.size()==0)
                 return null;
         }
@@ -421,7 +464,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
                 memberQueryString = new StringBuffer();
             else if(StringUtils.isNotEmpty(memberQueryString.toString()))
                 memberQueryString.append(KimConstants.KimUIConstants.OR_OPERATOR);
-            for(KimRoleImpl role: roleImpls){
+            for(RoleImpl role: roleImpls){
                 memberQueryString.append(role.getRoleId()+KimConstants.KimUIConstants.OR_OPERATOR);
             }
             if(memberQueryString.toString().endsWith(KimConstants.KimUIConstants.OR_OPERATOR))

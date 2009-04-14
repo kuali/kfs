@@ -16,14 +16,11 @@
 package org.kuali.kfs.module.ar.identity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.businessobject.InvoiceRecurrence;
-import org.kuali.rice.kim.bo.role.KimRole;
+import org.kuali.rice.kim.bo.Role;
 import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
@@ -34,7 +31,7 @@ public class InvoiceRecurrenceDerivedRoleTypeServiceImpl extends KimDerivedRoleT
     public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
         List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>(1);
         if ((qualification != null) && StringUtils.isNotBlank(qualification.get(ArPropertyConstants.InvoiceRecurrenceFields.INVOICE_RECURRENCE_INITIATOR_USER_ID))) {
-            members.add(new RoleMembershipInfo(null, null, ArPropertyConstants.InvoiceRecurrenceFields.INVOICE_RECURRENCE_INITIATOR_USER_ID, KimRole.PRINCIPAL_MEMBER_TYPE, null));
+            members.add(new RoleMembershipInfo(null, null, ArPropertyConstants.InvoiceRecurrenceFields.INVOICE_RECURRENCE_INITIATOR_USER_ID, Role.PRINCIPAL_MEMBER_TYPE, null));
         }
         return members;
     }

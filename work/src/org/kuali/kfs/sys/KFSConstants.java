@@ -1206,6 +1206,9 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String ORG_REVIEW_ROLE_ORG_ONLY_TEXT = "Organization Only";
         public static final String ORG_REVIEW_ROLE_ORG_ACC_BOTH_CODE = "B";
         public static final String ORG_REVIEW_ROLE_ORG_ACC_BOTH_TEXT = "Both";
+        public static final String ORG_REVIEW_ROLE_DOCUMENT_TYPE_NAME = "ORR";
+        public static final String ORG_REVIEW_ROLE_CREATE_DELEGATION_DISPLAY_TEXT = "create delegation";
+
     }
     
 }

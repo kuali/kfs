@@ -52,16 +52,13 @@
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition"
-								p:sourceName="componentClass" p:targetName="componentClass" />
+								p:sourceName="functionalFieldDescription.businessObjectProperty.businessObjectComponent.componentLabel" p:targetName="componentLabel" />
 						</list>
 					</property>
 					<property name="supportAttributes">
 						<list>
 							<bean parent="SupportAttributeDefinition"
 								p:sourceName="namespaceCode" p:targetName="namespaceCode" />
-							<bean parent="SupportAttributeDefinition"
-								p:sourceName="functionalFieldDescription.businessObjectProperty.businessObjectComponent.componentLabel"
-								p:targetName="componentLabel" />
 						</list>
 					</property>
 				</bean>
@@ -71,9 +68,7 @@
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition"
-								p:sourceName="componentClass" p:targetName="componentClass" />
-							<bean parent="PrimitiveAttributeDefinition"
-								p:sourceName="propertyName" p:targetName="propertyName" />
+								p:sourceName="functionalFieldDescription.businessObjectProperty.propertyLabel" p:targetName="propertyLabel" />
 						</list>
 					</property>
 					<property name="supportAttributes">
@@ -83,9 +78,6 @@
 							<bean parent="SupportAttributeDefinition"
 								p:sourceName="functionalFieldDescription.businessObjectProperty.businessObjectComponent.componentLabel"
 								p:targetName="businessObjectComponent.componentLabel" />
-							<bean parent="SupportAttributeDefinition"
-								p:sourceName="functionalFieldDescription.businessObjectProperty.propertyLabel"
-								p:targetName="propertyLabel" />
 						</list>
 					</property>
 				</bean>
@@ -95,18 +87,14 @@
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition"
-								p:sourceName="componentClass" p:targetName="componentClass" />
-							<bean parent="PrimitiveAttributeDefinition"
-								p:sourceName="propertyName" p:targetName="propertyName" />
+								p:sourceName="functionalFieldDescription.businessObjectProperty.businessObjectComponent.componentLabel" 
+								p:targetName="businessObjectProperty.businessObjectComponent.componentLabel" />
 						</list>
 					</property>
 					<property name="supportAttributes">
 						<list>
 							<bean parent="SupportAttributeDefinition"
 								p:sourceName="namespaceCode" p:targetName="namespaceCode" />
-							<bean parent="SupportAttributeDefinition"
-								p:sourceName="functionalFieldDescription.businessObjectProperty.businessObjectComponent.componentLabel"
-								p:targetName="businessObjectProperty.businessObjectComponent.componentLabel" />
 							<bean parent="SupportAttributeDefinition"
 								p:sourceName="functionalFieldDescription.businessObjectProperty.propertyLabel"
 								p:targetName="businessObjectProperty.propertyLabel" />

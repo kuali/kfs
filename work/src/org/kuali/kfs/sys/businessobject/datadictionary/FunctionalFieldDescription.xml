@@ -9,58 +9,46 @@
 
 	<bean id="FunctionalFieldDescription-parentBean" abstract="true"
 		parent="BusinessObjectEntry">
-		<property name="businessObjectClass"
-			value="org.kuali.kfs.sys.businessobject.FunctionalFieldDescription" />
+		<property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.FunctionalFieldDescription" />
 
 		<property name="lookupDefinition">
 			<ref bean="FunctionalFieldDescription-lookupDefinition" />
 		</property>
-		<property name="objectLabel"
-			value="Functional Field Description" />
+		<property name="objectLabel" value="Functional Field Description" />
 		<property name="attributes">
 			<list>
 				<ref bean="FunctionalFieldDescription-namespaceCode" />
 				<ref bean="FunctionalFieldDescription-componentClass" />
-				<ref
-					bean="FunctionalFieldDescription-businessObjectProperty.businessObjectComponent.componentLabel" />
+				<ref bean="FunctionalFieldDescription-businessObjectProperty.businessObjectComponent.componentLabel" />
 				<ref bean="FunctionalFieldDescription-propertyName" />
-				<ref
-					bean="FunctionalFieldDescription-businessObjectProperty.propertyLabel" />
-				<ref
-					bean="FunctionalFieldDescription-description" />
+				<ref bean="FunctionalFieldDescription-businessObjectProperty.propertyLabel" />
+				<ref bean="FunctionalFieldDescription-description" />
 				<ref bean="FunctionalFieldDescription-active" />
 			</list>
 		</property>
-		<property name="relationships">
+	  	<property name="relationships">
 			<list>
 				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName"
-						value="businessObjectProperty.businessObjectComponent" />
+					<property name="objectAttributeName" value="businessObjectProperty.businessObjectComponent" />
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition"
-								p:sourceName="componentClass" p:targetName="componentClass" />
+								p:sourceName="businessObjectProperty.businessObjectComponent.componentLabel" p:targetName="componentLabel" />
 						</list>
 					</property>
 					<property name="supportAttributes">
 						<list>
 							<bean parent="SupportAttributeDefinition"
 								p:sourceName="namespaceCode" p:targetName="namespaceCode" />
-							<bean parent="SupportAttributeDefinition"
-								p:sourceName="businessObjectProperty.businessObjectComponent.componentLabel"
-								p:targetName="componentLabel" />
 						</list>
 					</property>
 				</bean>
 				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName"
-						value="businessObjectProperty" />
+					<property name="objectAttributeName" value="businessObjectProperty" />
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition"
-								p:sourceName="componentClass" p:targetName="componentClass" />
-							<bean parent="PrimitiveAttributeDefinition"
-								p:sourceName="propertyName" p:targetName="propertyName" />
+								p:sourceName="businessObjectProperty.propertyLabel" p:targetName="propertyLabel" />
 						</list>
 					</property>
 					<property name="supportAttributes">
@@ -70,9 +58,6 @@
 							<bean parent="SupportAttributeDefinition"
 								p:sourceName="businessObjectProperty.businessObjectComponent.componentLabel"
 								p:targetName="businessObjectComponent.componentLabel" />
-							<bean parent="SupportAttributeDefinition"
-								p:sourceName="businessObjectProperty.propertyLabel"
-								p:targetName="propertyLabel" />
 						</list>
 					</property>
 				</bean>
@@ -81,87 +66,65 @@
 	</bean>
 
 	<!-- Attribute Definitions -->
-	<bean id="FunctionalFieldDescription-namespaceCode"
-		parent="FunctionalFieldDescription-namespaceCode-parentBean" />
+	<bean id="FunctionalFieldDescription-namespaceCode" parent="FunctionalFieldDescription-namespaceCode-parentBean" />
 
-	<bean id="FunctionalFieldDescription-namespaceCode-parentBean"
-		abstract="true" parent="BusinessObjectComponent-namespaceCode" />
+	<bean id="FunctionalFieldDescription-namespaceCode-parentBean" abstract="true" parent="BusinessObjectComponent-namespaceCode" />
 
-	<bean id="FunctionalFieldDescription-componentClass"
-		parent="FunctionalFieldDescription-componentClass-parentBean" />
+	<bean id="FunctionalFieldDescription-componentClass" parent="FunctionalFieldDescription-componentClass-parentBean" />
 
-	<bean id="FunctionalFieldDescription-componentClass-parentBean"
-		abstract="true" parent="BusinessObjectComponent-componentClass">
-		<property name="control">
+	<bean id="FunctionalFieldDescription-componentClass-parentBean" abstract="true" parent="BusinessObjectComponent-componentClass">
+	  	<property name="control">
 			<bean parent="HiddenControlDefinition" />
-		</property>
+		</property> 
 	</bean>
 
-	<bean
-		id="FunctionalFieldDescription-businessObjectProperty.businessObjectComponent.componentLabel"
+	<bean id="FunctionalFieldDescription-businessObjectProperty.businessObjectComponent.componentLabel"
 		parent="FunctionalFieldDescription-businessObjectProperty.businessObjectComponent.componentLabel-parentBean" />
-
-	<bean
-		id="FunctionalFieldDescription-businessObjectProperty.businessObjectComponent.componentLabel-parentBean"
+	
+	<bean id="FunctionalFieldDescription-businessObjectProperty.businessObjectComponent.componentLabel-parentBean"
 		abstract="true" parent="BusinessObjectComponent-componentLabel">
-		<property name="name"
-			value="businessObjectProperty.businessObjectComponent.componentLabel" />
+		<property name="name" value="businessObjectProperty.businessObjectComponent.componentLabel" />
 	</bean>
 
-	<bean id="FunctionalFieldDescription-propertyName"
-		parent="FunctionalFieldDescription-propertyName-parentBean" />
+	<bean id="FunctionalFieldDescription-propertyName" parent="FunctionalFieldDescription-propertyName-parentBean" />
 
-	<bean id="FunctionalFieldDescription-propertyName-parentBean"
-		abstract="true" parent="BusinessObjectProperty-propertyName">
+	<bean id="FunctionalFieldDescription-propertyName-parentBean" abstract="true" parent="BusinessObjectProperty-propertyName">
 		<property name="control">
 			<bean parent="HiddenControlDefinition" />
-		</property>
+		</property> 	
 	</bean>
 
-	<bean
-		id="FunctionalFieldDescription-businessObjectProperty.propertyLabel"
+	<bean id="FunctionalFieldDescription-businessObjectProperty.propertyLabel"
 		parent="FunctionalFieldDescription-businessObjectProperty.propertyLabel-parentBean" />
 
-	<bean
-		id="FunctionalFieldDescription-businessObjectProperty.propertyLabel-parentBean"
+	<bean id="FunctionalFieldDescription-businessObjectProperty.propertyLabel-parentBean"
 		abstract="true" parent="BusinessObjectProperty-propertyLabel">
-		<property name="name"
-			value="businessObjectProperty.propertyLabel" />
+		<property name="name" value="businessObjectProperty.propertyLabel" />
 		<property name="required" value="true" />
 	</bean>
 
-	<bean id="FunctionalFieldDescription-description"
-		parent="FunctionalFieldDescription-description-parentBean" />
+	<bean id="FunctionalFieldDescription-description" parent="FunctionalFieldDescription-description-parentBean" />
 
-	<bean
-		id="FunctionalFieldDescription-description-parentBean"
-		abstract="true" parent="GenericAttributes-genericBigText">
+	<bean id="FunctionalFieldDescription-description-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
 		<property name="name" value="description" />
 		<property name="label" value="Description" />
 		<property name="maxLength" value="500" />
 		<property name="required" value="true" />
 	</bean>
 
-	<bean id="FunctionalFieldDescription-active"
-		parent="FunctionalFieldDescription-active-parentBean" />
+	<bean id="FunctionalFieldDescription-active" parent="FunctionalFieldDescription-active-parentBean" />
 
-	<bean id="FunctionalFieldDescription-active-parentBean"
-		abstract="true" parent="GenericAttributes-activeIndicator">
+	<bean id="FunctionalFieldDescription-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
 		<property name="name" value="active" />
 	</bean>
 
 	<!-- Business Object Lookup Definition -->
-	<bean id="FunctionalFieldDescription-lookupDefinition"
-		parent="FunctionalFieldDescription-lookupDefinition-parentBean" />
+	<bean id="FunctionalFieldDescription-lookupDefinition" parent="FunctionalFieldDescription-lookupDefinition-parentBean" />
 
-	<bean id="FunctionalFieldDescription-lookupDefinition-parentBean"
-		abstract="true" parent="LookupDefinition">
-		<property name="lookupableID"
-			value="functionalFieldDescriptionLookupable" />
-		<property name="title"
-			value="Functional Field Description Lookup" />
-		<property name="instructions"
-			value="Lookup a Functional Field Description" />
+	<bean id="FunctionalFieldDescription-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="lookupableID" value="functionalFieldDescriptionLookupable" />
+		<property name="title" value="Functional Field Description Lookup" />
+		<property name="instructions" value="Lookup a Functional Field Description" />
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition"

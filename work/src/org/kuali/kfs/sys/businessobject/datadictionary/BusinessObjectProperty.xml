@@ -34,18 +34,18 @@
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition"
-								p:sourceName="componentClass" p:targetName="componentClass" />
+								p:sourceName="businessObjectComponent.componentLabel" p:targetName="componentLabel" />
 						</list>
 					</property>
-					<property name="supportAttributes">
-						<list>
-							<bean parent="SupportAttributeDefinition"
-								p:sourceName="namespaceCode" p:targetName="namespaceCode" />
-							<bean parent="SupportAttributeDefinition"
-								p:sourceName="businessObjectComponent.componentLabel"
-								p:targetName="componentLabel" />
-						</list>
-					</property>
+<!--					<property name="supportAttributes">-->
+<!--						<list>-->
+<!--							<bean parent="SupportAttributeDefinition"-->
+<!--								p:sourceName="namespaceCode" p:targetName="namespaceCode" />-->
+<!--							<bean parent="SupportAttributeDefinition"-->
+<!--								p:sourceName="businessObjectComponent.componentLabel"-->
+<!--								p:targetName="componentLabel" />-->
+<!--						</list>-->
+<!--					</property>-->
 				</bean>
 			</list>
 		</property>

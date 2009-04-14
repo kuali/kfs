@@ -17,6 +17,7 @@ package org.kuali.kfs.gl.batch;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,12 +30,15 @@ import org.apache.commons.io.filefilter.OrFileFilter;
 import org.apache.commons.io.filefilter.PrefixFileFilter;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.batch.service.BatchFileService;
 import org.kuali.kfs.gl.batch.service.EnterpriseFeederService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileSetType;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.service.DateTimeService;
 
 /**
  * This class provides metadata for the batch upload screen to work for files associated with the enterprise feeder.
@@ -75,7 +79,7 @@ public class EnterpriseFeederFileSetType implements BatchInputFileSetType {
      * @param fileType the file type (returned in {@link #getFileTypes()})
      * @return the file extension
      */
-    protected String getFileExtension(String fileType) {
+    public String getFileExtension(String fileType) {
         if (KFSConstants.DATA_FILE_TYPE.equals(fileType)) {
             return EnterpriseFeederService.DATA_FILE_SUFFIX;
         }
@@ -168,7 +172,7 @@ public class EnterpriseFeederFileSetType implements BatchInputFileSetType {
     /**
      * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#getDoneFileExtension()
      */
-    protected String getDoneFileExtension() {
+    public String getDoneFileExtension() {
         return EnterpriseFeederService.DONE_FILE_SUFFIX;
     }
 
@@ -184,8 +188,8 @@ public class EnterpriseFeederFileSetType implements BatchInputFileSetType {
         StringBuilder buf = new StringBuilder();
         fileUserIdentifer = StringUtils.deleteWhitespace(fileUserIdentifer);
         fileUserIdentifer = StringUtils.remove(fileUserIdentifer, FILE_NAME_PART_DELIMITER);
-        buf.append(FILE_NAME_PREFIX).append(FILE_NAME_PART_DELIMITER).append(user.getPrincipalName()).append(FILE_NAME_PART_DELIMITER).append(fileUserIdentifer).append(getDoneFileExtension());
-        return buf.toString();
+        buf.append(FILE_NAME_PREFIX).append(FILE_NAME_PART_DELIMITER).append(user.getPrincipalName()).append(FILE_NAME_PART_DELIMITER).append(fileUserIdentifer);
+        return addTimeInfoAndExtension(buf.toString(), getDoneFileExtension());
     }
 
     /**
@@ -200,7 +204,8 @@ public class EnterpriseFeederFileSetType implements BatchInputFileSetType {
         Set<String> extractedFileUserIdentifiers = new TreeSet<String>();
 
         StringBuilder buf = new StringBuilder();
-        buf.append(FILE_NAME_PREFIX).append(FILE_NAME_PART_DELIMITER).append(user.getPrincipalName()).append(FILE_NAME_PART_DELIMITER);
+        //buf.append(FILE_NAME_PREFIX).append(FILE_NAME_PART_DELIMITER).append(user.getPrincipalName()).append(FILE_NAME_PART_DELIMITER);
+        buf.append(FILE_NAME_PREFIX);
         String prefixString = buf.toString();
         IOFileFilter prefixFilter = new PrefixFileFilter(prefixString);
 
@@ -212,10 +217,12 @@ public class EnterpriseFeederFileSetType implements BatchInputFileSetType {
             if (combinedFilter.accept(file)) {
                 String fileName = file.getName();
                 if (fileName.endsWith(EnterpriseFeederService.DATA_FILE_SUFFIX)) {
-                    extractedFileUserIdentifiers.add(StringUtils.substringBetween(fileName, prefixString, EnterpriseFeederService.DATA_FILE_SUFFIX));
+                    //extractedFileUserIdentifiers.add(StringUtils.substringBetween(fileName, prefixString, EnterpriseFeederService.DATA_FILE_SUFFIX));
+                    extractedFileUserIdentifiers.add(StringUtils.substringBefore(fileName, EnterpriseFeederService.DATA_FILE_SUFFIX));
                 }
                 else if (fileName.endsWith(EnterpriseFeederService.RECON_FILE_SUFFIX)) {
-                    extractedFileUserIdentifiers.add(StringUtils.substringBetween(fileName, prefixString, EnterpriseFeederService.RECON_FILE_SUFFIX));
+                    //extractedFileUserIdentifiers.add(StringUtils.substringBetween(fileName, prefixString, EnterpriseFeederService.RECON_FILE_SUFFIX));
+                    extractedFileUserIdentifiers.add(StringUtils.substringBefore(fileName, EnterpriseFeederService.RECON_FILE_SUFFIX));
                 }
                 else {
                     LOG.error("Unable to determine file user identifier for file name: " + fileName);
@@ -232,5 +239,35 @@ public class EnterpriseFeederFileSetType implements BatchInputFileSetType {
 
     public boolean validate(Map<String, File> typeToFiles) {
         return true;
+    }
+
+    public String generateFileName(String fileType, String principalName, String fileUserIdentifer) {
+        StringBuilder buf = new StringBuilder();
+        fileUserIdentifer = StringUtils.deleteWhitespace(fileUserIdentifer);
+        fileUserIdentifer = StringUtils.remove(fileUserIdentifer, FILE_NAME_PART_DELIMITER);
+        buf.append(FILE_NAME_PREFIX).append(FILE_NAME_PART_DELIMITER).append(principalName).append(FILE_NAME_PART_DELIMITER).append(fileUserIdentifer); 
+     
+        return addTimeInfoAndExtension(buf.toString(), getFileExtension(fileType));
+    }
+    
+    public String generateDoneFileName(Person user, String fileUserIdentifer) {
+        StringBuilder buf = new StringBuilder();
+        fileUserIdentifer = StringUtils.deleteWhitespace(fileUserIdentifer);
+        fileUserIdentifer = StringUtils.remove(fileUserIdentifer, FILE_NAME_PART_DELIMITER);
+        buf.append(FILE_NAME_PREFIX).append(FILE_NAME_PART_DELIMITER).append(user.getPrincipalName()).append(FILE_NAME_PART_DELIMITER).append(fileUserIdentifer);
+        
+        return addTimeInfoAndExtension(buf.toString(), getDoneFileExtension());
+    }
+
+    protected String addTimeInfoAndExtension(String fileName, String extension) {
+        BatchFileService batchFileService = SpringContext.getBean(BatchFileService.class);
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+        Date runTime = dateTimeService.getCurrentDate();
+
+        return batchFileService.addTimeInfoToFilename(fileName, runTime) + extension;
+    }
+    
+    public String generageDoneFileWithDataFile(String fileUserIdentifer){
+        return fileUserIdentifer.replace(EnterpriseFeederService.DATA_FILE_SUFFIX, getDoneFileExtension());
     }
 }

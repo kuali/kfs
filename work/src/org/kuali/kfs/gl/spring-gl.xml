@@ -1822,4 +1822,7 @@
 			<ref bean="dateTimeService" />
 		</property>
 	</bean>
+	
+	<bean id="batchFileService" class="org.kuali.kfs.gl.batch.service.impl.BatchFileServiceImpl" singleton="false">
+	</bean>
 </beans>

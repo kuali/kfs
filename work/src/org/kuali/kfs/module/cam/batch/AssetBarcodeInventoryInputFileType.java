@@ -164,7 +164,7 @@ public class AssetBarcodeInventoryInputFileType implements BatchInputFileSetType
     /**
      * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#getDoneFileExtension()
      */
-    protected String getDoneFileExtension() {
+    public String getDoneFileExtension() {
         return CamsConstants.BarCodeInventory.DONE_FILE_EXTENSION;
     }
 
@@ -244,6 +244,30 @@ public class AssetBarcodeInventoryInputFileType implements BatchInputFileSetType
             isValid=false;
         }
         return isValid;
+    }
+
+
+    public String generageDoneFileWithDataFile(String fileUserIdentifer) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    public String generateDoneFileName(Person user, String fileUserIdentifer) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    public String generateFileName(String fileType, String principalName, String fileUserIdentifer) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    public String getFileExtension(String fileType) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }
 

@@ -995,8 +995,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <dd:field attributeName="organizationCode"  />
         <dd:field attributeName="accountTypeCode"  />
         <dd:field attributeName="subFundGroupCode"  />
-        <dd:field attributeName="accountState.codeAndDescription" inquiry="force" />
-        <dd:field attributeName="financialHigherEdFunction.codeAndDescription" inquiry="force"/>
         <dd:field attributeName="accountFiscalOfficerUser.principalName" inquiry="force" />
         <dd:field attributeName="closed"  />
         <dd:field attributeName="accountManagerUser.name" inquiry="force" />

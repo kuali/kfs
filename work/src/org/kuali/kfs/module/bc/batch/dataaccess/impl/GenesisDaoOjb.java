@@ -1393,6 +1393,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     private Integer nCurrentPBGLRows = new Integer(0);
     private Integer nGLBBRowsZeroNet = new Integer(0);
     private Integer nGLBBRowsRead = new Integer(0);
+    private Integer nGLRowsMatchingPBGL = new Integer(0);
     private Integer nGLBBKeysRead = new Integer(0);
     private Integer nGLBBRowsSkipped = new Integer(0);
 
@@ -1437,7 +1438,8 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
 
     public void initialLoadToPBGL(Integer BaseYear) {
         readBCHeaderForDocNumber(BaseYear);
-        readGLForPBGL(BaseYear);
+        // exclude rows with a new GL balance of 0 from the initial pending GL
+        readGLForPBGL(BaseYear,true);
         addNewGLRowsToPBGL(BaseYear);
         writeFinalDiagnosticCounts();
         pBGLCleanUp();
@@ -1445,7 +1447,8 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
 
     public void updateToPBGL(Integer BaseYear) {
         readBCHeaderForDocNumber(BaseYear);
-        readGLForPBGL(BaseYear);
+        // allow rows with a net GL balance of 0 to update the pending GL
+        readGLForPBGL(BaseYear,false);
         updateCurrentPBGL(BaseYear);
         addNewGLRowsToPBGL(BaseYear);
         writeFinalDiagnosticCounts();
@@ -1526,8 +1529,16 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         // this method adds the GL rows not yet in PBGL to PBGL
         for (Map.Entry<String, PendingBudgetConstructionGeneralLedger> newPBGLRows : pBGLFromGL.entrySet()) {
             PendingBudgetConstructionGeneralLedger rowToAdd = newPBGLRows.getValue();
-            nGLRowsAdded = nGLRowsAdded + 1;
-            getPersistenceBrokerTemplate().store(rowToAdd);
+            // no rows with zero base are added to the budget construction pending general ledger
+            if (rowToAdd.getFinancialBeginningBalanceLineAmount().isZero())
+            {
+              nGLBBRowsZeroNet = nGLBBRowsZeroNet + 1;
+            }
+            else
+            {
+              nGLRowsAdded = nGLRowsAdded + 1;
+              getPersistenceBrokerTemplate().store(rowToAdd);
+            }
         }
     }
 
@@ -1610,7 +1621,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         LOG.info(String.format("\nBC Headers read = %d", documentsRead));
     }
 
-    private void readGLForPBGL(Integer BaseYear) {
+    private void readGLForPBGL(Integer BaseYear, boolean excludeZeroNetAmounts) {
         Integer RequestYear = BaseYear + 1;
         //
         //  set up a report query to fetch all the GL rows we are going to need
@@ -1636,14 +1647,36 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
             LOG.debug(String.format("\nfields returned = %d\n", ReturnList.length));
             LOG.debug(String.format("\nvalue in last field = %s\n", ReturnList[sqlBeginningBalanceLineAmount].toString()));
             //
-            //  exclude any rows where the amounts add to 0
-            //  (we don't do it in the WHERE clause to be certain we are ANSI standard)
+            // we never load a new pending budget construction row from a general ledger row which has a net zero balance
+            // but we allow for the fact that the general ledger counterpart of a pending row already loaded could be netted to zero by a budget transfer. in this case, we need to update the pending amount.
             KualiDecimal BaseAmount = (KualiDecimal) ReturnList[sqlBeginningBalanceLineAmount];
             BaseAmount = BaseAmount.add((KualiDecimal) ReturnList[sqlAccountLineAnnualBalanceAmount]);
-            if (BaseAmount.isZero()) {
-                nGLBBRowsRead = nGLBBRowsRead + 1;
-                nGLBBRowsZeroNet = nGLBBRowsZeroNet + 1;
+            // even when we are updating, it could be that the entire key is not in the pending general ledger because the amounts in all GL rows for that key have always netted to zero.
+            // in this case, there will be no document number, and we should skip the row.
+            String HeaderTestKey = buildHeaderTestKeyFromSQLResults(ReturnList);
+            String documentNumberForKey = documentNumberFromBCHdr.get(HeaderTestKey);
+            if (documentNumberForKey == null)
+            {
+                if (BaseAmount.isZero())
+                {
+                  // keys in which all rows have base amounts of zero need not have a key   
+                  nGLBBRowsRead = nGLBBRowsRead + 1;
+                  nGLBBRowsZeroNet = nGLBBRowsZeroNet + 1;
+                }
+                else
+                {
+                    // the amounts are *not* zero--the row should *not* be skipped, and we need to log an error
+                    recordSkippedKeys(HeaderTestKey);
+                }
                 continue;
+            }
+            if ((excludeZeroNetAmounts) && BaseAmount.isZero())
+            {    
+              //  exclude any rows where the amounts add to 0
+              //  (we don't do it in the WHERE clause to be certain we are ANSI standard)
+                  nGLBBRowsRead = nGLBBRowsRead + 1;
+                  nGLBBRowsZeroNet = nGLBBRowsZeroNet + 1;
+                  continue;
             }
             //  
             //  we always need to build a new PGBL object
@@ -1651,13 +1684,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
             String GLTestKey = buildGLTestKeyFromSQLResults(ReturnList);
             pBGLFromGL.put(GLTestKey, newPBGLBusinessObject(RequestYear, ReturnList));
             //  we need to add a document number to the PBGL object
-            String HeaderTestKey = buildHeaderTestKeyFromSQLResults(ReturnList);
-            if (documentNumberFromBCHdr.get(HeaderTestKey) == null) {
-                recordSkippedKeys(HeaderTestKey);
-            }
-            else {
-                pBGLFromGL.get(GLTestKey).setDocumentNumber(documentNumberFromBCHdr.get(HeaderTestKey));
-            }
+            pBGLFromGL.get(GLTestKey).setDocumentNumber(documentNumberForKey);
         }
         LOG.info("\nHash maps built: " + String.format("%tT", dateTimeService.getCurrentDate()));
         info();
@@ -1690,6 +1717,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         pBGLFromGL.remove(TestKey);
         if (baseFromCurrentGL.equals(baseFromPBGL)) {
             // no need to update--false alarm
+            nGLRowsMatchingPBGL = nGLRowsMatchingPBGL+1;
             return;
         }
         // update the base amount and store the updated PBGL row
@@ -1733,6 +1761,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         LOG.info(String.format("\nof these..."));
         LOG.info(String.format("\nnew PBGL rows written: %d", nGLRowsAdded));
         LOG.info(String.format("\ncurrent PBGL amounts updated: %d", nGLRowsUpdated));
+        LOG.info(String.format("\ncurrent PBGL rows already matching a GL row: %d",nGLRowsMatchingPBGL));
         LOG.info(String.format("\nGL rows with zero net amounts (skipped) %d\n", nGLBBRowsZeroNet));
         LOG.info(String.format("\nGL account/subaccount keys skipped: %d", nGLBBRowsSkipped));
         if (!skippedPBGLKeys.isEmpty()) {

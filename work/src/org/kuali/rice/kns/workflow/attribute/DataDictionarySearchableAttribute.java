@@ -64,7 +64,7 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
 
     private static final Logger LOG = Logger.getLogger(DataDictionarySearchableAttribute.class);
     public static final String DATA_TYPE_BOOLEAN = "boolean";
-    
+
     /**
      * @see org.kuali.rice.kew.docsearch.SearchableAttribute#getSearchContent(org.kuali.rice.kew.docsearch.DocumentSearchContext)
      */
@@ -77,10 +77,10 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
      * @see org.kuali.rice.kew.docsearch.SearchableAttribute#getSearchStorageValues(org.kuali.rice.kew.docsearch.DocumentSearchContext)
      */
     public List<SearchableAttributeValue> getSearchStorageValues(DocumentSearchContext documentSearchContext) {
-        
+
         List<SearchableAttributeValue> saValues = new ArrayList<SearchableAttributeValue>();
-        
-       
+
+
         String docId = documentSearchContext.getDocumentId();
         DocumentEntry docEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(documentSearchContext.getDocumentTypeName());
 
@@ -89,19 +89,19 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
         try  {
             doc = docService.getByDocumentHeaderIdSessionless(docId);
         } catch (WorkflowException we) {
-            
+
         }
-        
+
         SearchableAttributeStringValue searchableAttributeValue = new SearchableAttributeStringValue();
         searchableAttributeValue.setSearchableAttributeKey("documentDescription");
         searchableAttributeValue.setSearchableAttributeValue(doc.getDocumentHeader().getDocumentDescription());
         saValues.add(searchableAttributeValue);
-        
+
         searchableAttributeValue = new SearchableAttributeStringValue();
         searchableAttributeValue.setSearchableAttributeKey("organizationDocumentNumber");
         searchableAttributeValue.setSearchableAttributeValue(doc.getDocumentHeader().getOrganizationDocumentNumber());
         saValues.add(searchableAttributeValue);
-    
+
         if (doc instanceof FinancialSystemMaintenanceDocument) {
             final Class<? extends BusinessObject> businessObjectClass = getBusinessObjectClass(documentSearchContext.getDocumentTypeName());
             if (businessObjectClass != null) {
@@ -115,10 +115,10 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
                 } else {
                     saValues.addAll(parsePrimaryKeyValuesFromDocument(businessObjectClass, (FinancialSystemMaintenanceDocument)doc));
                 }
-                
+
             }
         }
-        
+
         WorkflowAttributes workflowAttributes = docEntry.getWorkflowAttributes();
         WorkflowAttributePropertyResolutionService waprs = SpringContext.getBean(WorkflowAttributePropertyResolutionService.class);
         saValues.addAll(waprs.resolveSearchableAttributeValues(doc, workflowAttributes));
@@ -129,57 +129,57 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
      * @see org.kuali.rice.kew.docsearch.SearchableAttribute#getSearchingRows(org.kuali.rice.kew.docsearch.DocumentSearchContext)
      */
     public List<Row> getSearchingRows(DocumentSearchContext documentSearchContext) {
-        
-       List<Row> docSearchRows = new ArrayList<Row>();
-        
-           final DataDictionaryEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDictionaryObjectEntry("FinancialSystemDocumentHeader");
-           String businessObjectClassName = boEntry.getFullClassName();
-           Class boClass = null;
-           try {
-               boClass = Class.forName(businessObjectClassName);
-           } catch (ClassNotFoundException cnfe) {
-               throw new RuntimeException(cnfe);
-           }
-           
-           Field descriptionField = FieldUtils.getPropertyField(boClass, "documentDescription", true);
-           descriptionField.setFieldDataType(SearchableAttribute.DATA_TYPE_STRING);
-           
-           Field orgDocNumberField = FieldUtils.getPropertyField(boClass, "organizationDocumentNumber", true);
-           orgDocNumberField.setFieldDataType(SearchableAttribute.DATA_TYPE_STRING);
 
-           List<Field> fieldList = new ArrayList<Field>();
-           fieldList.add(descriptionField);
-           docSearchRows.add(new Row(fieldList));
+        List<Row> docSearchRows = new ArrayList<Row>();
 
-           fieldList = new ArrayList<Field>();
-           fieldList.add(orgDocNumberField);
-           docSearchRows.add(new Row(fieldList));
-           
-       
-       DocumentEntry entry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(documentSearchContext.getDocumentTypeName());
-       if (entry  == null)
-           return docSearchRows;
-       if (entry instanceof FinancialSystemMaintenanceDocumentEntry) {
-           Class<? extends BusinessObject> businessObjectClass = getBusinessObjectClass(documentSearchContext.getDocumentTypeName());
-           Class<? extends Maintainable> maintainableClass = getMaintainableClass(documentSearchContext.getDocumentTypeName());
+        final DataDictionaryEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDictionaryObjectEntry("FinancialSystemDocumentHeader");
+        String businessObjectClassName = boEntry.getFullClassName();
+        Class boClass = null;
+        try {
+            boClass = Class.forName(businessObjectClassName);
+        } catch (ClassNotFoundException cnfe) {
+            throw new RuntimeException(cnfe);
+        }
 
-           KualiGlobalMaintainableImpl globalMaintainable = null;
-           try {
-               globalMaintainable = (KualiGlobalMaintainableImpl)maintainableClass.newInstance();
-               businessObjectClass = globalMaintainable.getPrimaryEditedBusinessObjectClass();
-           } catch (Exception ie) {
-               //was not a globalMaintainable.
-           }
-      
-           if (businessObjectClass != null)
-               docSearchRows.addAll(createFieldRowsForBusinessObject(businessObjectClass));
-       }
-       
-       WorkflowAttributes workflowAttributes = entry.getWorkflowAttributes();
-       if (workflowAttributes != null)
-           docSearchRows.addAll(createFieldRowsForWorkflowAttributes(workflowAttributes));
-        
-       return docSearchRows;
+        Field descriptionField = FieldUtils.getPropertyField(boClass, "documentDescription", true);
+        descriptionField.setFieldDataType(SearchableAttribute.DATA_TYPE_STRING);
+
+        Field orgDocNumberField = FieldUtils.getPropertyField(boClass, "organizationDocumentNumber", true);
+        orgDocNumberField.setFieldDataType(SearchableAttribute.DATA_TYPE_STRING);
+
+        List<Field> fieldList = new ArrayList<Field>();
+        fieldList.add(descriptionField);
+        docSearchRows.add(new Row(fieldList));
+
+        fieldList = new ArrayList<Field>();
+        fieldList.add(orgDocNumberField);
+        docSearchRows.add(new Row(fieldList));
+
+
+        DocumentEntry entry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(documentSearchContext.getDocumentTypeName());
+        if (entry  == null)
+            return docSearchRows;
+        if (entry instanceof FinancialSystemMaintenanceDocumentEntry) {
+            Class<? extends BusinessObject> businessObjectClass = getBusinessObjectClass(documentSearchContext.getDocumentTypeName());
+            Class<? extends Maintainable> maintainableClass = getMaintainableClass(documentSearchContext.getDocumentTypeName());
+
+            KualiGlobalMaintainableImpl globalMaintainable = null;
+            try {
+                globalMaintainable = (KualiGlobalMaintainableImpl)maintainableClass.newInstance();
+                businessObjectClass = globalMaintainable.getPrimaryEditedBusinessObjectClass();
+            } catch (Exception ie) {
+                //was not a globalMaintainable.
+            }
+
+            if (businessObjectClass != null)
+                docSearchRows.addAll(createFieldRowsForBusinessObject(businessObjectClass));
+        }
+
+        WorkflowAttributes workflowAttributes = entry.getWorkflowAttributes();
+        if (workflowAttributes != null)
+            docSearchRows.addAll(createFieldRowsForWorkflowAttributes(workflowAttributes));
+
+        return docSearchRows;
     }
 
     /**
@@ -197,45 +197,55 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
      */
     protected List<Row> createFieldRowsForWorkflowAttributes(WorkflowAttributes attrs) {
         List<Row> searchFields = new ArrayList<Row>();
-        
-      List<SearchingTypeDefinition> searchingTypeDefinitions = attrs.getSearchingTypeDefinitions();
-      final WorkflowAttributePropertyResolutionService propertyResolutionService = SpringContext.getBean(WorkflowAttributePropertyResolutionService.class);
-      for (SearchingTypeDefinition definition: searchingTypeDefinitions) {
-          SearchingAttribute attr = definition.getSearchingAttribute();
-          if (attr.isShowAttributeInSearchCriteria()) {
-              final String attributeName = attr.getAttributeName();
-              final String businessObjectClassName = attr.getBusinessObjectClassName();
-              Class boClass = null;
-              BusinessObject businessObject  = null;
-              try {
-                  boClass = Class.forName(businessObjectClassName);
-                  businessObject = (BusinessObject)boClass.newInstance();
-              } catch (Exception e) {
-                  throw new RuntimeException(e);
-              }
-              
-              Field searchField = FieldUtils.getPropertyField(boClass, attributeName, false);
-              searchField.setColumnVisible(attr.isShowAttributeInResultSet());
-              String fieldDataType = propertyResolutionService.determineFieldDataType(boClass, attributeName);
-              if (fieldDataType.equals(DataDictionarySearchableAttribute.DATA_TYPE_BOOLEAN)) {
-                  fieldDataType = SearchableAttribute.DATA_TYPE_STRING;
-              }
-              searchField.setFieldDataType(fieldDataType);
-              List displayedFieldNames = new ArrayList();
-              displayedFieldNames.add(attributeName);
-              LookupUtils.setFieldQuickfinder(businessObject, attributeName, searchField, displayedFieldNames);
 
-              List<Field> fieldList = new ArrayList<Field>();
-              fieldList.add(searchField);
+        List<SearchingTypeDefinition> searchingTypeDefinitions = attrs.getSearchingTypeDefinitions();
+        final WorkflowAttributePropertyResolutionService propertyResolutionService = SpringContext.getBean(WorkflowAttributePropertyResolutionService.class);
+        for (SearchingTypeDefinition definition: searchingTypeDefinitions) {
+            SearchingAttribute attr = definition.getSearchingAttribute();
 
-              searchFields.add(new Row(fieldList));
-          } 
-      }
-        
+            final String attributeName = attr.getAttributeName();
+            final String businessObjectClassName = attr.getBusinessObjectClassName();
+            Class boClass = null;
+            BusinessObject businessObject  = null;
+            try {
+                boClass = Class.forName(businessObjectClassName);
+                businessObject = (BusinessObject)boClass.newInstance();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+            Field searchField = FieldUtils.getPropertyField(boClass, attributeName, false);
+            searchField.setColumnVisible(attr.isShowAttributeInResultSet());
+            
+            //TODO this is a workaround to hide the Field from the search criteria.
+            //This should be removed once hiding the entire Row is working
+            if (!attr.isShowAttributeInSearchCriteria()){
+                searchField.setHidden(true);
+                searchField.setFieldType(Field.HIDDEN);
+            }
+            String fieldDataType = propertyResolutionService.determineFieldDataType(boClass, attributeName);
+            if (fieldDataType.equals(DataDictionarySearchableAttribute.DATA_TYPE_BOOLEAN)) {
+                fieldDataType = SearchableAttribute.DATA_TYPE_STRING;
+            }
+            searchField.setFieldDataType(fieldDataType);
+            List displayedFieldNames = new ArrayList();
+            displayedFieldNames.add(attributeName);
+            LookupUtils.setFieldQuickfinder(businessObject, attributeName, searchField, displayedFieldNames);
+
+            List<Field> fieldList = new ArrayList<Field>();
+            fieldList.add(searchField);
+
+            Row row = new Row(fieldList);
+            if (!attr.isShowAttributeInSearchCriteria()) {
+                row.setHidden(true);   
+            }
+            searchFields.add(row);
+        }
+
         return searchFields;
     }
 
-    
+
     /**
      * 
      * @param businessObjectClass
@@ -265,10 +275,10 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
      * @return a generated SearchableAttributeValue, or null if a value could not be created
      */
     protected SearchableAttributeValue parseSearchableAttributeValueForPrimaryKey(String propertyName, Class<? extends BusinessObject> businessObjectClass, FinancialSystemMaintenanceDocument document) {
-        
+
         Maintainable maintainable  = document.getNewMaintainableObject();
         PersistableBusinessObject bo = maintainable.getBusinessObject();
-        
+
         final Object propertyValue = ObjectUtils.getPropertyValue(bo, propertyName);
         if (propertyValue == null) return null;
 
@@ -286,7 +296,7 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
         MaintenanceDocumentEntry entry = retrieveMaintenanceDocumentEntry(documentTypeName);
         return (entry == null ? null : entry.getBusinessObjectClass());
     }
-    
+
     /**
      * Returns the maintainable of the object being maintained by the given maintenance document type name
      * @param documentTypeName the name of the document type to look up the maintained business object for
@@ -297,7 +307,7 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
         return (entry == null ? null : entry.getMaintainableClass());
     }
 
-    
+
     /**
      * Retrieves the maintenance document entry for the given document type name
      * @param documentTypeName the document type name to look up the data dictionary document entry for
@@ -306,7 +316,7 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
     protected MaintenanceDocumentEntry retrieveMaintenanceDocumentEntry(String documentTypeName) {
         return (MaintenanceDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(documentTypeName);
     }
-    
+
     /**
      * 
      * @param documentNumber
@@ -327,7 +337,7 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
 
         return globalBO;
     }
- 
+
     /**
      * 
      * @param globalBO
@@ -359,11 +369,11 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
             Object value = ObjectUtils.getPropertyValue(changeToPersist, primaryKeyName);
 
             if (value != null) {
-                
+
                 final WorkflowAttributePropertyResolutionService propertyResolutionService = SpringContext.getBean(WorkflowAttributePropertyResolutionService.class);
                 SearchableAttributeValue saValue = propertyResolutionService.buildSearchableAttribute(changeToPersist.getClass(), primaryKeyName, value);
                 return saValue;
-               
+
             }
         }
         return null;
@@ -381,7 +391,7 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
         final BusinessObjectEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(businessObjectClass.getName());
         final WorkflowAttributePropertyResolutionService propertyResolutionService = SpringContext.getBean(WorkflowAttributePropertyResolutionService.class);
         for (Object primaryKeyNameAsObject : primaryKeyNamesAsObjects) {
-            
+
             String attributeName =  (String)primaryKeyNameAsObject;
             BusinessObject businessObject = null;
             try {
@@ -389,12 +399,12 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-            
+
             Field searchField = FieldUtils.getPropertyField(businessObjectClass, attributeName, false);
             String dataType = propertyResolutionService.determineFieldDataType(businessObjectClass, attributeName);
             searchField.setFieldDataType(dataType);
             List<Field> fieldList = new ArrayList<Field>();
-            
+
             List displayedFieldNames = new ArrayList();
             displayedFieldNames.add(attributeName);
             LookupUtils.setFieldQuickfinder(businessObject, attributeName, searchField, displayedFieldNames);
@@ -405,5 +415,5 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
 
         return searchFields;
     }
-    
+
 }

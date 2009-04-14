@@ -274,9 +274,9 @@ public class OriginEntryLite extends PersistableBusinessObjectBase implements Or
         
         setTransactionLedgerEntryDescription(getValue(line, 56, 96));
         
-        if (!getValue(line, 96, 113).equals(GeneralLedgerConstants.EMPTY_CODE)){
+        if (!getValue(line, 96, 116).equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
-                setTransactionLedgerEntryAmount(new KualiDecimal(getValue(line, 96, 113).trim()));
+                setTransactionLedgerEntryAmount(new KualiDecimal(getValue(line, 96, 116).trim()));
             }
             catch (NumberFormatException e) {
                 returnList.add(new Message("Transaction Amount '" + line.substring(96, 116) + "' contains an invalid value." , Message.TYPE_FATAL));

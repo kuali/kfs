@@ -60,8 +60,8 @@ public class ScrubberSortStep extends AbstractStep {
         public int compare(Object object1, Object object2) {
             String string1 = (String) object1;
             String string2 = (String) object2;
-            string1 = org.apache.commons.lang.StringUtils.rightPad(string1, 183, ' ');
-            string2 = org.apache.commons.lang.StringUtils.rightPad(string2, 183, ' ');
+            string1 = org.apache.commons.lang.StringUtils.rightPad(string1, 186, ' ');
+            string2 = org.apache.commons.lang.StringUtils.rightPad(string2, 186, ' ');
             StringBuffer sb1 = new StringBuffer();
             
             sb1.append(string1.substring(31, 51));
@@ -74,7 +74,7 @@ public class ScrubberSortStep extends AbstractStep {
             sb2.append(string2.substring(31, 51));
             sb2.append(string2.substring(4, 18));
             sb2.append(string2.substring(25, 27));
-            sb2.append(string2.substring(172, 182));
+            sb2.append(string2.substring(175, 185));
             sb2.append(string2.substring(29, 31));
             
             return sb1.toString().compareTo(sb2.toString());

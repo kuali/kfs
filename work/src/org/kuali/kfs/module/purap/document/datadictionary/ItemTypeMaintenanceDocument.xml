@@ -39,6 +39,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="itemTypeDescription" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="quantityBasedGeneralLedgerIndicator"/>
         <bean parent="MaintainableFieldDefinition" p:name="additionalChargeIndicator"/>
+        <bean parent="MaintainableFieldDefinition" p:name="taxableIndicator"/>
         <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
     </property>

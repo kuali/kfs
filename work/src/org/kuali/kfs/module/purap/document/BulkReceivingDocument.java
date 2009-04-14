@@ -31,6 +31,7 @@ import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedContinuePurapEvent;
 import org.kuali.kfs.module.purap.service.SensitiveDataService;
 import org.kuali.kfs.module.purap.util.PurApRelatedViews;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.vnd.VendorConstants;
@@ -975,4 +976,19 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
         return m;
     }
     
+    public String getWorkflowStatusForResult(){
+        if (StringUtils.equals(KFSConstants.DocumentStatusCodes.INITIATED,getDocumentHeader().getFinancialDocumentStatusCode())){
+            return "INITIATED";
+        }else if (StringUtils.equals(KFSConstants.DocumentStatusCodes.ENROUTE,getDocumentHeader().getFinancialDocumentStatusCode())){
+            return "ENROUTE";
+        } else if (StringUtils.equals(KFSConstants.DocumentStatusCodes.DISAPPROVED,getDocumentHeader().getFinancialDocumentStatusCode())){
+            return "DISAPPROVED";
+        } else if (StringUtils.equals(KFSConstants.DocumentStatusCodes.CANCELLED,getDocumentHeader().getFinancialDocumentStatusCode())){
+            return "CANCELLED";
+        } else if (StringUtils.equals(KFSConstants.DocumentStatusCodes.APPROVED,getDocumentHeader().getFinancialDocumentStatusCode())){
+            return "APPROVED";
+        }else{
+            return StringUtils.EMPTY;
+        }
+    }
 }

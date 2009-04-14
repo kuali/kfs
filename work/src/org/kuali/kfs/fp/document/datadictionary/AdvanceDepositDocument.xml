@@ -63,6 +63,14 @@
 				<key><value>org.kuali.kfs.sys.document.validation.event.ReviewAccountingLineEvent</value></key>
 				<value>AdvanceDeposit-reviewAccountingLineValidation</value>
 			</entry>
+            <entry>
+                <key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
+                <value>AdvanceDeposit-approveDocumentValidation</value>
+            </entry>
+            <entry>
+                <key><value>org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocumentEvent</value></key>
+                <value>AdvanceDeposit-blanketApproveDocumentValidation</value>
+            </entry>            
     	</map>
     </property>
   </bean>

@@ -251,8 +251,7 @@
 		</property>
 	</bean>
 	
-	<bean id="AdvanceDeposit-reviewAccountingLineValidation" parent="AdvanceDeposit-reviewAccountingLineValidation-parentBean" scope="prototype" />
-	
+	<bean id="AdvanceDeposit-reviewAccountingLineValidation" parent="AdvanceDeposit-reviewAccountingLineValidation-parentBean" scope="prototype" />	
 	<bean id="AdvanceDeposit-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
@@ -296,20 +295,6 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="AccountingDocument-accountingLineAccessibleValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="accountingLine" />
-								<property name="targetValidationProperty" value="accountingLineForValidation" />
-							</bean>
-						</list>
-					</property>
-				</bean>
 			</list>
 		</property>
 	</bean>
@@ -321,5 +306,11 @@
   			<bean parent="AccountingDocument-DeleteAccountingLine-DefaultValidation" scope="prototype" />
   		</property>
 	</bean>
+    
+    <bean id="AdvanceDeposit-approveDocumentValidation" parent="AdvanceDeposit-approveDocumentValidation-parentBean" />   
+    <bean id="AdvanceDeposit-approveDocumentValidation-parentBean" parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype" abstract="true" /> 
+    
+    <bean id="AdvanceDeposit-blanketApproveDocumentValidation" parent="AdvanceDeposit-blanketApproveDocumentValidation-parentBean" /> 
+    <bean id="AdvanceDeposit-blanketApproveDocumentValidation-parentBean" parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" abstract="true" />    
 
 </beans>

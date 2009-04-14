@@ -30,7 +30,6 @@ import java.util.Map;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.businessobject.lookup.CustomerAgingReportLookupableHelperServiceImpl;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.report.service.AccountsReceivableReportService;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -54,7 +53,7 @@ import com.lowagie.text.pdf.SimpleBookmark;
 @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
 public class ReportingLoadTest extends KualiTestBase {
 
-    private static final int INVOICES_TO_CREATE = 30;
+    private static final int INVOICES_TO_CREATE = 2;
     private static final String PRINT_SETTING = "U";
     private static final String INITIATOR = "khuntley";
     private static final int[] INVOICE_AGES = { -5, -18, -35, -65, -95, -125 };
@@ -90,8 +89,37 @@ public class ReportingLoadTest extends KualiTestBase {
         assertTrue(true);
     }
     
-    //TODO change this to testCustomer... to make this runnable
-    public void doNotTestCustomerAgingReport() throws Exception {
+    /**
+     * 
+     * Use this method to setup a bunch of invoices that are ready to print.
+     * 
+     * This method doesnt actually print anything, though, so use this if you're perf 
+     * testing against the web app and just need some test data.
+     * 
+     * You'll have to re-run this after each print, as it clears the print flag 
+     * when you print the invoices.
+     * 
+     * NOTE - add 'test' to the method name to make it junit-able
+     * 
+     * @throws Exception
+     */
+    public void createManyInvoicesForPrintTesting() throws Exception {
+        createManyInvoiceReadyForAgingReport();
+    }
+    
+    /**
+     * 
+     * Use this method to actually seed a bunch of test data, and then run the aging 
+     * report queries.  
+     * 
+     * Use this when you dont want to test against the GUI, and just want to profile the 
+     * app directly, via a unit test.  
+     * 
+     * NOTE - add 'test' to the method name to make it junit-able
+     * 
+     * @throws Exception
+     */
+    public void customerAgingReport() throws Exception {
         createManyInvoiceReadyForAgingReport();
         
         Map<String,String> fieldValues = new HashMap<String,String>();
@@ -107,27 +135,40 @@ public class ReportingLoadTest extends KualiTestBase {
         
         LookupableHelperService lookupableHelperService = LookupableSpringContext.getLookupable(AGING_RPT_LOOKUPABLE_SERVICE).getLookupableHelperService();
         
-        CustomerAgingReportLookupableHelperServiceImpl arLookupableHelperService = 
-            (CustomerAgingReportLookupableHelperServiceImpl) lookupableHelperService;
+        //CustomerAgingReportLookupableHelperServiceImpl arLookupableHelperService = 
+        //    (CustomerAgingReportLookupableHelperServiceImpl) lookupableHelperService;
         
         //TODO Performance test this method call
-        List<? extends BusinessObject> searchResults = arLookupableHelperService.getSearchResults(fieldValues);
+        List<? extends BusinessObject> searchResults = lookupableHelperService.getSearchResults(fieldValues);
         
         assertTrue("Search results should not be null.", searchResults != null);
         assertTrue("Search results should not be empty.", !searchResults.isEmpty());
         
     }
     
-    //TODO change this to testCustomer... to make this runnable
-    public void doNotTestCustomerInvoiceReportPrinting() throws Exception {
+    /**
+     * 
+     * Use this method to actually seed a bunch of test data, and then run the customer 
+     * invoices.  It will generate the PDFs using Jasper, and save the resulting concatenated 
+     * PDF to the ar reports directory.  It is a very close simulation to what the web-app 
+     * does, except when the web-app concatenates the PDF's, it buffers and streams them 
+     * to the client.  
+     * 
+     * Use this when you dont want to test against the GUI, and just want to profile the 
+     * app directly, via a unit test.  
+     * 
+     * NOTE - add 'test' to the method name to make it junit-able
+     * 
+     * @throws Exception
+     */
+    public void customerInvoiceReportPrinting() throws Exception {
 
         // this step is required for all the reporting/printing runs 
         createManyInvoicesReadyForPrinting();
 
+        //TODO Performance test these three lines
         List<File> reports = reportService.generateInvoicesByInitiator(INITIATOR);
         assertTrue("List of reports should not be empty.", !reports.isEmpty());
-        
-        //TODO Performance test this method call
         concatenateReportsIntoOnePdf(reports);
         
     }

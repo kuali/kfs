@@ -50,6 +50,8 @@
         <ref bean="CorrectionReceivingDocument-vendorStateCode"/>
         <ref bean="CorrectionReceivingDocument-vendorPostalCode"/>
         <ref bean="CorrectionReceivingDocument-versionNumber"/>
+        <ref bean="CorrectionReceivingDocument-workflowStatusForResult"/> 
+        <ref bean="CorrectionReceivingDocument-purchaseOrderIdentifier"/>
       </list>
     </property>
     <property name="relationships">
@@ -106,7 +108,7 @@
       <bean parent="AnyCharacterValidationPattern"/>
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="6"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.CarrierValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   <bean id="CorrectionReceivingDocument-deliveryBuildingCode" parent="CorrectionReceivingDocument-deliveryBuildingCode-parentBean"/>
@@ -392,6 +394,39 @@
   <bean id="CorrectionReceivingDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
+  <bean id="CorrectionReceivingDocument-workflowStatusForResult" parent="CorrectionReceivingDocument-workflowStatusForResult-parentBean"/>
+
+  <bean id="CorrectionReceivingDocument-workflowStatusForResult-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="workflowStatusForResult" />
+    <property name="label" value="Document Status" />
+    <property name="shortLabel" value="Status" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+   	
+  <bean id="CorrectionReceivingDocument-purchaseOrderIdentifier" parent="CorrectionReceivingDocument-purchaseOrderIdentifier-parentBean"/>
+
+  <bean id="CorrectionReceivingDocument-purchaseOrderIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchaseOrderIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="PO #"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="11"/>
+    </property>
+  </bean>
+   	
   <!-- workflow attributes -->
   <bean id="CorrectionReceivingDocument-workflowAttributes" parent="CorrectionReceivingDocument-workflowAttributes-parentBean"/>
   
@@ -438,6 +473,21 @@
     			  <property name="documentValues">
     			      <list>
     					  <value>vendorNumber</value>
+    				  </list>
+    			  </property>
+    		  </bean>
+    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		      <property name="searchingAttribute">
+    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.BulkReceivingDocument"/>
+    					  <property name="attributeName" value="purchaseOrderIdentifier"/>
+    					  <property name="showAttributeInSearchCriteria" value="true"/>
+                          <property name="showAttributeInResultSet" value="true"/>     				  
+    				  </bean>
+    			  </property>
+    			  <property name="documentValues">
+    			      <list>
+    					  <value>purchaseOrderIdentifier</value>
     				  </list>
     			  </property>
     		  </bean>
@@ -505,7 +555,22 @@
     					  <value>carrierCode</value>
     				  </list>
     			  </property>
-    		  </bean>               
+    		  </bean>  
+    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		      <property name="searchingAttribute">
+    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.BulkReceivingDocument"/>
+    					  <property name="attributeName" value="workflowStatusForResult"/>
+    					  <property name="showAttributeInSearchCriteria" value="true"/>
+    					  <property name="showAttributeInResultSet" value="true"/>
+    				  </bean>
+    			  </property>
+    			  <property name="documentValues">
+    			      <list>
+    					  <value>workflowStatusForResult</value>
+    				  </list>
+    			  </property>
+    		  </bean>                      
           </list>  
       </property>
   </bean>

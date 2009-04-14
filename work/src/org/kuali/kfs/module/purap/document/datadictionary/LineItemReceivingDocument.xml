@@ -51,7 +51,8 @@
         <ref bean="LineItemReceivingDocument-vendorStateCode"/>
         <ref bean="LineItemReceivingDocument-vendorPostalCode"/>
         <ref bean="LineItemReceivingDocument-versionNumber"/>
-        <ref bean="LineItemReceivingDocument-lineItemReceivingStatusCode"/>        
+        <ref bean="LineItemReceivingDocument-lineItemReceivingStatusCode"/>      
+        <ref bean="LineItemReceivingDocument-workflowStatusForResult"/>   
       </list>
     </property>
 	<property name="relationships">
@@ -418,6 +419,23 @@
     </property>
 </bean>
   
+  <bean id="LineItemReceivingDocument-workflowStatusForResult" parent="LineItemReceivingDocument-workflowStatusForResult-parentBean"/>
+
+  <bean id="LineItemReceivingDocument-workflowStatusForResult-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="workflowStatusForResult" />
+    <property name="label" value="Document Status" />
+    <property name="shortLabel" value="Status" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  
   <!-- workflow attributes -->
   <bean id="LineItemReceivingDocument-workflowAttributes" parent="LineItemReceivingDocument-workflowAttributes-parentBean"/>
   
@@ -544,6 +562,21 @@
     			  <property name="documentValues">
     			      <list>
     					  <value>carrierCode</value>
+    				  </list>
+    			  </property>
+    		  </bean>
+    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		      <property name="searchingAttribute">
+    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.BulkReceivingDocument"/>
+    					  <property name="attributeName" value="workflowStatusForResult"/>
+    					  <property name="showAttributeInSearchCriteria" value="true"/>
+    					  <property name="showAttributeInResultSet" value="true"/>
+    				  </bean>
+    			  </property>
+    			  <property name="documentValues">
+    			      <list>
+    					  <value>workflowStatusForResult</value>
     				  </list>
     			  </property>
     		  </bean>

@@ -94,7 +94,7 @@
 
   <bean id="SubFundGroup-subFundGroupTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="subFundGroupTypeCode" />
-    <property name="label" value="Sub-Fund Type Code" />
+    <property name="label" value="Sub-Fund Group Type Code" />
     <property name="shortLabel" value="Sub-Fund Type Code" />
     <property name="maxLength" value="1" />
     <property name="required" value="true" />

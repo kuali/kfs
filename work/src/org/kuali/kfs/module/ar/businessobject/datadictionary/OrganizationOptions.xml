@@ -306,6 +306,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
 	p:sourceAttributeName="postalStateCode">
     <property name="name" value="organizationRemitToStateCode" />
+    <property name="control">
+        <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.StateCodeValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
   </bean>
   <bean id="OrganizationOptions-organizationRemitToZipCode" parent="OrganizationOptions-organizationRemitToZipCode-parentBean" />
 

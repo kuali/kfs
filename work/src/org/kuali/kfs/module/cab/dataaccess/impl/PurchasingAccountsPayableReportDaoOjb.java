@@ -32,6 +32,7 @@ import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.cab.dataaccess.PurchasingAccountsPayableReportDao;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 public class PurchasingAccountsPayableReportDaoOjb extends PlatformAwareDaoBaseOjb implements PurchasingAccountsPayableReportDao {
@@ -66,10 +67,19 @@ public class PurchasingAccountsPayableReportDaoOjb extends PlatformAwareDaoBaseO
      * @return
      */
     private ReportQueryByCriteria getGeneralLedgerReportQuery(Map fieldValues) {
-        // set document type code criteria
         Collection docTypeCodes = getDocumentType(fieldValues);
+        Collection activityStatusCodes = getActivityStatusCode(fieldValues);
+
         Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new GeneralLedgerEntry());
-        criteria.addIn(CabPropertyConstants.GeneralLedgerEntry.FINANCIAL_DOCUMENT_TYPE_CODE, docTypeCodes);
+
+        // set document type code criteria
+        if (!docTypeCodes.isEmpty()) {
+            criteria.addIn(CabPropertyConstants.GeneralLedgerEntry.FINANCIAL_DOCUMENT_TYPE_CODE, docTypeCodes);
+        }
+        // set activity status code criteria
+        if (!activityStatusCodes.isEmpty()) {
+            criteria.addIn(CabPropertyConstants.GeneralLedgerEntry.ACTIVITY_STATUS_CODE, activityStatusCodes);
+        }
         ReportQueryByCriteria query = QueryFactory.newReportQuery(GeneralLedgerEntry.class, criteria);
 
         List attributeList = buildAttributeList(false);
@@ -78,6 +88,28 @@ public class PurchasingAccountsPayableReportDaoOjb extends PlatformAwareDaoBaseO
         String[] attributes = (String[]) attributeList.toArray(new String[attributeList.size()]);
         query.setAttributes(attributes);
         return query;
+    }
+
+
+    /**
+     * Get activity_statu_code
+     * 
+     * @param fieldValues
+     * @return
+     */
+    private Collection getActivityStatusCode(Map fieldValues) {
+        Collection activityStatusCodes = new ArrayList<String>();
+
+        if (fieldValues.containsKey(CabPropertyConstants.GeneralLedgerEntry.ACTIVITY_STATUS_CODE)) {
+            String fieldValue = (String) fieldValues.get(CabPropertyConstants.GeneralLedgerEntry.ACTIVITY_STATUS_CODE);
+            if (KFSConstants.NON_ACTIVE_INDICATOR.equalsIgnoreCase(fieldValue)) {
+                // when selected as 'N', search for active lines as 'M'-modified by CAB user,'N'- new
+                activityStatusCodes.add(CabConstants.ActivityStatusCode.NEW);
+                activityStatusCodes.add(CabConstants.ActivityStatusCode.MODIFIED);
+            }
+            fieldValues.remove(CabPropertyConstants.GeneralLedgerEntry.ACTIVITY_STATUS_CODE);
+        }
+        return activityStatusCodes;
     }
 
 
@@ -128,7 +160,7 @@ public class PurchasingAccountsPayableReportDaoOjb extends PlatformAwareDaoBaseO
         attributeList.add(CabPropertyConstants.GeneralLedgerEntry.REFERENCE_FINANCIAL_DOCUMENT_NUMBER);
         attributeList.add(CabPropertyConstants.GeneralLedgerEntry.TRANSACTION_DATE);
         attributeList.add(CabPropertyConstants.GeneralLedgerEntry.TRANSACTION_LEDGER_SUBMIT_AMOUNT);
-        attributeList.add(CabPropertyConstants.GeneralLedgerEntry.ACTIVE);
+        attributeList.add(CabPropertyConstants.GeneralLedgerEntry.ACTIVITY_STATUS_CODE);
         return attributeList;
     }
 

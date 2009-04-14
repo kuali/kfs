@@ -48,10 +48,10 @@ public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupab
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GeneralLedgerEntryLookupableHelperServiceImpl.class);
     private BusinessObjectService businessObjectService;
 
-/**
- * 
- * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
- */
+    /**
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject,
+     *      java.util.List)
+     */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject bo, List pkNames) {
         AttributeSet permissionDetails = new AttributeSet();
@@ -90,6 +90,9 @@ public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupab
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        // update status code from user input value to DB value.
+        updateStatusCodeCriteria(fieldValues);
+        
         List<? extends BusinessObject> searchResults = super.getSearchResults(fieldValues);
         if (searchResults == null || searchResults.isEmpty()) {
             return searchResults;
@@ -121,6 +124,29 @@ public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupab
         return new CollectionIncomplete(newList, matchingResultsCount);
     }
 
+
+    /**
+     * Update activity status code to the value used in DB. The reason is the value from user input will be 'Y' or 'N'. However,
+     * these two status code are now replaced by 'N','E' and 'P'.
+     * 
+     * @param fieldValues
+     */
+    protected void updateStatusCodeCriteria(Map<String, String> fieldValues) {
+        String activityStatusCode = null;
+        if (fieldValues.containsKey(CabPropertyConstants.GeneralLedgerEntry.ACTIVITY_STATUS_CODE)) {
+            activityStatusCode = (String) fieldValues.get(CabPropertyConstants.GeneralLedgerEntry.ACTIVITY_STATUS_CODE);
+        }
+
+        if (KFSConstants.NON_ACTIVE_INDICATOR.equalsIgnoreCase(activityStatusCode)) {
+            // not processed in CAMs: 'N'
+            fieldValues.put(CabPropertyConstants.GeneralLedgerEntry.ACTIVITY_STATUS_CODE, CabConstants.ActivityStatusCode.NEW);
+        }
+        else if (KFSConstants.ACTIVE_INDICATOR.equalsIgnoreCase(activityStatusCode)) {
+            // processed in CAMs: 'E' or 'P'
+            fieldValues.put(CabPropertyConstants.GeneralLedgerEntry.ACTIVITY_STATUS_CODE, CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS + KNSConstants.OR_LOGICAL_OPERATOR + CabConstants.ActivityStatusCode.ENROUTE);
+        }
+
+    }
 
     /**
      * Gets the businessObjectService attribute.

@@ -18,6 +18,7 @@ package org.kuali.kfs.module.cab.fixture;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -36,7 +37,7 @@ public enum GeneralLedgerEntryFixture {
             glEntry.setTransactionLedgerEntryAmount(new KualiDecimal(11800));
             glEntry.setReferenceFinancialDocumentNumber("22");
             glEntry.setTransactionDebitCreditCode("D");
-            glEntry.setActive(true);
+            glEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.NEW);
             glEntry.refreshReferenceObject("financialObject");
             return glEntry;
         }
@@ -56,7 +57,7 @@ public enum GeneralLedgerEntryFixture {
             glEntry.setTransactionLedgerEntryAmount(new KualiDecimal(500));
             glEntry.setReferenceFinancialDocumentNumber("22");
             glEntry.setTransactionDebitCreditCode("D");
-            glEntry.setActive(true);
+            glEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.NEW);
             glEntry.refreshReferenceObject("financialObject");
             return glEntry;
         }
@@ -76,7 +77,7 @@ public enum GeneralLedgerEntryFixture {
             glEntry.setTransactionLedgerEntryAmount(new KualiDecimal(1500));
             glEntry.setReferenceFinancialDocumentNumber("22");
             glEntry.setTransactionDebitCreditCode("D");
-            glEntry.setActive(true);
+            glEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.NEW);
             glEntry.refreshReferenceObject("financialObject");
             return glEntry;
         }
@@ -96,7 +97,7 @@ public enum GeneralLedgerEntryFixture {
             glEntry.setTransactionLedgerEntryAmount(new KualiDecimal(1000));
             glEntry.setReferenceFinancialDocumentNumber("22");
             glEntry.setTransactionDebitCreditCode("C");
-            glEntry.setActive(true);
+            glEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.NEW);
             glEntry.refreshReferenceObject("financialObject");
             return glEntry;
         }
@@ -115,7 +116,7 @@ public enum GeneralLedgerEntryFixture {
             glEntry.setTransactionLedgerEntryAmount(new KualiDecimal(500));
             glEntry.setReferenceFinancialDocumentNumber("22");
             glEntry.setTransactionDebitCreditCode("C");
-            glEntry.setActive(true);
+            glEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.NEW);
             glEntry.refreshReferenceObject("financialObject");
             return glEntry;
         }
@@ -132,6 +133,5 @@ public enum GeneralLedgerEntryFixture {
         glEntries.add(REC5.newRecord());
         return glEntries;
     }
-
 
 }

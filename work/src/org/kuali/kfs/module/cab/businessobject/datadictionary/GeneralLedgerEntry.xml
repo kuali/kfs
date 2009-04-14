@@ -42,7 +42,7 @@
         <ref bean="GeneralLedgerEntry-transactionPostingDate" />
         <ref bean="GeneralLedgerEntry-transactionDate" />
         <ref bean="GeneralLedgerEntry-transactionDateTimeStamp" />
-        <ref bean="GeneralLedgerEntry-active" />
+        <ref bean="GeneralLedgerEntry-activityStatusCode" />
         <ref bean="GeneralLedgerEntry-amount" />
       </list>
     </property>
@@ -192,10 +192,10 @@
     <property name="label" value="Financial Posting Date" />
   </bean>
   
-  <bean id="GeneralLedgerEntry-active" parent="GeneralLedgerEntry-active-parentBean" />
-  <bean id="GeneralLedgerEntry-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
-    <property name="label" value="Active" />
+  <bean id="GeneralLedgerEntry-activityStatusCode" parent="GeneralLedgerEntry-activityStatusCode-parentBean" />
+  <bean id="GeneralLedgerEntry-activityStatusCode-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+    <property name="name" value="activityStatusCode" />
+    <property name="label" value="Submit to CAMS" />
   </bean>
   
 <!-- Business Object Inquiry Definition -->
@@ -321,7 +321,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="transactionDate" />
         <bean parent="FieldDefinition"
-              p:attributeName="active" p:defaultValue="Y" />       
+              p:attributeName="activityStatusCode" p:defaultValue="N" />       
       </list>
     </property>
     <property name="resultFields" >

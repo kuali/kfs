@@ -292,13 +292,13 @@ public class BatchExtractServiceImpl implements BatchExtractService {
             GeneralLedgerEntry generalLedgerEntry = new GeneralLedgerEntry(entry);
             KualiDecimal transactionLedgerEntryAmount = generalLedgerEntry.getTransactionLedgerEntryAmount();
             if (transactionLedgerEntryAmount != null && transactionLedgerEntryAmount.isNonZero()) {
-                businessObjectService.save(generalLedgerEntry);
+            businessObjectService.save(generalLedgerEntry);
             }
 
             PurchasingAccountsPayableDocument cabPurapDoc = findPurchasingAccountsPayableDocument(entry);
             // if document is found already, update the active flag
             if (ObjectUtils.isNotNull(cabPurapDoc) && !cabPurapDoc.isActive()) {
-                cabPurapDoc.setActive(true);
+                cabPurapDoc.setActivityStatusCode(CabConstants.ActivityStatusCode.MODIFIED);
             }
             else if (ObjectUtils.isNull(cabPurapDoc)) {
                 cabPurapDoc = createPurchasingAccountsPayableDocument(entry);
@@ -322,10 +322,10 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                         cabPurapDoc.getPurchasingAccountsPayableItemAssets().add(itemAsset);
                         assetItems.put(itemAssetKey, itemAsset);
                     }
-                    PurchasingAccountsPayableLineAssetAccount assetAccount = createPurchasingAccountsPayableLineAssetAccount(generalLedgerEntry, cabPurapDoc, purApAccountingLine, itemAsset);
+                    PurchasingAccountsPayableLineAssetAccount assetAccount = null;
                     String acctLineKey = cabPurapDoc.getDocumentNumber() + "-" + itemAsset.getAccountsPayableLineItemIdentifier() + "-" + itemAsset.getCapitalAssetBuilderLineNumber() + "-" + generalLedgerEntry.getGeneralLedgerAccountIdentifier();
 
-
+                   
                     if ((assetAccount = assetAcctLines.get(acctLineKey)) == null && transactionLedgerEntryAmount.isNonZero()) {
                         // if new unique account line within GL, then create a new account line
                         assetAccount = createPurchasingAccountsPayableLineAssetAccount(generalLedgerEntry, cabPurapDoc, purApAccountingLine, itemAsset);
@@ -415,7 +415,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         else {
             assetAccount.setItemAccountTotalAmount(purApAccountingLine.getAmount());
         }
-        assetAccount.setActive(true);
+        assetAccount.setActivityStatusCode(CabConstants.ActivityStatusCode.NEW);
         assetAccount.setVersionNumber(0L);
         return assetAccount;
     }
@@ -463,7 +463,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         itemAsset.setCapitalAssetBuilderLineNumber(purchasingAccountsPayableItemAssetDao.findMaxCabLineNumber(cabPurapDoc.getDocumentNumber(), apItem.getItemIdentifier()) + 1);
         itemAsset.setAccountsPayableLineItemDescription(apItem.getItemDescription());
         itemAsset.setAccountsPayableItemQuantity(apItem.getItemQuantity() == null ? new KualiDecimal(1) : apItem.getItemQuantity());
-        itemAsset.setActive(true);
+        itemAsset.setActivityStatusCode(CabConstants.ActivityStatusCode.NEW);
         itemAsset.setVersionNumber(0L);
         return itemAsset;
     }
@@ -496,7 +496,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
             cabPurapDoc.setPurapDocumentIdentifier(apDoc.getPurapDocumentIdentifier());
             cabPurapDoc.setPurchaseOrderIdentifier(apDoc.getPurchaseOrderIdentifier());
             cabPurapDoc.setDocumentTypeCode(entry.getFinancialDocumentTypeCode());
-            cabPurapDoc.setActive(true);
+            cabPurapDoc.setActivityStatusCode(CabConstants.ActivityStatusCode.NEW);
             cabPurapDoc.setVersionNumber(0L);
         }
         return cabPurapDoc;
@@ -519,7 +519,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
             // if still active and never split or submitted to CAMS
             KualiDecimal cabQty = itmAsset.getAccountsPayableItemQuantity();
             KualiDecimal purapQty = apItem.getItemQuantity();
-            if (itmAsset.isActive() && cabQty != null && purapQty != null && cabQty.equals(purapQty)) {
+            if (CabConstants.ActivityStatusCode.NEW.equalsIgnoreCase(itmAsset.getActivityStatusCode())) {
                 return itmAsset;
             }
         }

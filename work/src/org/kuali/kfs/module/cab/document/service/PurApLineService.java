@@ -178,7 +178,7 @@ public interface PurApLineService {
      * 
      * @param selectedDoc
      */
-    void inActivateDocument(PurchasingAccountsPayableDocument selectedDoc);
+    void conditionalyUpdateDocumentStatusAsProcessed(PurchasingAccountsPayableDocument selectedDoc);
 
     /**
      * Check if more than one pre-tagging exists for given itemLineNumber and PO_ID.

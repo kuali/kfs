@@ -17,7 +17,8 @@
 <%@ attribute name="chkcount" required="true" description="The total check number"%>
 <%@ attribute name="docPos" required="true" description="The index of the CAB PurAp Document"%>
 <%@ attribute name="linePos" required="true" description="The index of CAB PurAp item asset"%>
-<%@ attribute name="itemLine" required="true" type="org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset" description="determine row span number for additional charge"%>
+<%@ attribute name="itemLine" required="true" type="org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset" %>
+<%@ attribute name="purApDocLine" required="true" type="org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument" %>
 <script language="JavaScript" type="text/javascript" src="scripts/module/cab/selectCheckBox.js"></script>
 
 <c:set var="purApDocumentAttributes" value="${DataDictionary.PurchasingAccountsPayableDocument.attributes}" />
@@ -43,20 +44,7 @@
 		</c:choose>
 	</c:otherwise>
 </c:choose>
-<c:set var="assetItemStr" value="purApDocs[${docPos-1}].purchasingAccountsPayableItemAssets[${linePos-1}]" />
-<html:hidden property="${assetItemStr}.versionNumber" />
-<html:hidden property="${assetItemStr}.active" />
-<html:hidden property="${assetItemStr}.documentNumber" />
-<html:hidden property="${assetItemStr}.accountsPayableLineItemIdentifier" />
-<html:hidden property="${assetItemStr}.capitalAssetBuilderLineNumber" />
-<html:hidden property="${assetItemStr}.itemAssignedToTradeInIndicator" />
-<html:hidden property="${assetItemStr}.tradeInAllowance" />
-<html:hidden property="${assetItemStr}.additionalChargeNonTradeInIndicator" />
-<html:hidden property="${assetItemStr}.capitalAssetManagementDocumentNumber" />
-<html:hidden property="${assetItemStr}.createAssetIndicator" />
-<html:hidden property="${assetItemStr}.applyPaymentIndicator" />
-<html:hidden property="${assetItemStr}.purchaseOrderItemIdentifier" />
-<html:hidden property="${assetItemStr}.capitalAssetSystemIdentifier" />
+<c:set var="assetItemStr" value="purApDoc[${docPos-1}].purchasingAccountsPayableItemAsset[${linePos-1}]" />
 <tr style="color:${color}">
 	<c:choose>
 	<c:when test="${itemLine.active && !itemLine.additionalChargeNonTradeInIndicator && !itemLine.tradeInAllowance}">
@@ -66,54 +54,51 @@
 		<td rowspan="2">&nbsp;</td>
 	</c:otherwise>
 	</c:choose>
-	<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].purapDocumentIdentifier" attributeEntry="${purApDocumentAttributes.purapDocumentIdentifier}" readOnly="true"/></td>
-	<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].documentTypeCode" attributeEntry="${purApDocumentAttributes.documentTypeCode}" readOnly="true"/></td>
-	<td class="infoline">
-		<kul:htmlControlAttribute property="purApDocs[${docPos-1}].statusDescription" attributeEntry="${purApDocumentAttributes.statusDescription}" readOnly="true"/>
-	</td>
+	<td class="infoline">${purApDocLine.purapDocumentIdentifier} </td>
+	<td class="infoline">${purApDocLine.documentTypeCode}</td>
+	<td class="infoline">${purApDocLine.statusDescription}</td>
 	<c:choose>
-		<c:when test="${itemLine.itemLineNumber != null}">
+		<c:when test="${!empty itemLine.itemLineNumber}">
 		<td class="infoline">
 		<c:set var="preTagUrl" value="${itemLine.preTagInquiryUrl}" />
-		<c:if test="${preTagUrl != ''}" >
-		<a href="${ConfigProperties.application.url}/${preTagUrl }" target="_blank"> 
-		</c:if>
-			<kul:htmlControlAttribute property="${assetItemStr}.itemLineNumber" attributeEntry="${purApItemAssetAttributes.itemLineNumber}" readOnly="true"/>
-		<c:if test="${preTagUrl != ''}" >
-			&nbsp;
-		</a>
-		</c:if>
+		<c:choose>
+		<c:when test="${!empty preTagUrl}" >
+		<a href="${ConfigProperties.application.url}/${preTagUrl }" target="_blank">${itemLine.itemLineNumber}</a>
+		</c:when>
+		<c:otherwise>
+			${itemLine.itemLineNumber}&nbsp;
+		</c:otherwise>
+		</c:choose>		
 		</td>
 		</c:when>
 		<c:otherwise>
-		<td class="infoline"><kul:htmlControlAttribute property="${assetItemStr}.itemTypeCode" attributeEntry="${purApItemAssetAttributes.itemTypeCode}" readOnly="true"/></td>
+		<td class="infoline">${itemLine.itemTypeCode}</td>
 		</c:otherwise>
 	</c:choose>
-	<td class="infoline"><kul:htmlControlAttribute property="${assetItemStr}.accountsPayableItemQuantity" attributeEntry="${purApItemAssetAttributes.accountsPayableItemQuantity}" readOnly="true"/></td>
+	<td class="infoline">${itemLine.accountsPayableItemQuantity }</td>
 	<td class="infoline">
 		<c:if test="${itemLine.active }">
 			<kul:htmlControlAttribute property="${assetItemStr}.splitQty" attributeEntry="${purApItemAssetAttributes.accountsPayableItemQuantity}"/>
 		</c:if>
 		&nbsp;
 	</td>
-	<td class="infoline"><kul:htmlControlAttribute property="${assetItemStr}.unitCost" attributeEntry="${genericAttributes.genericAmount}" readOnly="true"/></td>
-	<td class="infoline"><kul:htmlControlAttribute property="${assetItemStr}.firstFincialObjectCode" attributeEntry="${generalLedgerAttributes.financialObjectCode}" readOnly="true"/></td>
+	<td class="infoline">${itemLine.unitCost}</td>
+	<td class="infoline">${itemLine.firstFincialObjectCode }</td>
 	<td class="infoline">
 		<c:choose>
 		<c:when test="${itemLine.active }">
 			<kul:htmlControlAttribute property="${assetItemStr}.accountsPayableLineItemDescription" attributeEntry="${purApItemAssetAttributes.accountsPayableLineItemDescription}"/>
 		</c:when>
 		<c:otherwise>
-			<kul:htmlControlAttribute property="${assetItemStr}.accountsPayableLineItemDescription" attributeEntry="${purApItemAssetAttributes.accountsPayableLineItemDescription}" readOnly="true"/>
+			${itemLine.accountsPayableLineItemDescription }
 		</c:otherwise>
 		</c:choose>
 	</td>
-	<td class="infoline"><kul:htmlControlAttribute property="${assetItemStr}.capitalAssetTransactionTypeCode" attributeEntry="${purApItemAssetAttributes.capitalAssetTransactionTypeCode}" readOnly="true"/>
+	<td class="infoline">${itemLine.capitalAssetTransactionTypeCode }
 		<br></br>
 		<c:forEach items="${itemLine.purApItemAssets}" var="purApItemAsset">
 		<c:set var="i" value="${i+1}" />
 			${purApItemAsset.capitalAssetNumber}&nbsp;
-			<html:hidden property="purApDocs[${docPos-1}].purchasingAccountsPayableItemAssets[${linePos-1}].purApItemAsset[${i-1}].capitalAssetNumber" />
 		</c:forEach>
 	</td>
 	<c:choose>
@@ -149,8 +134,7 @@
 	<c:otherwise>
 	    <td class="infoline" align="center">
 			<a href="${ConfigProperties.application.url}/en/DocHandler.do?command=displayDocSearchView&docId=${itemLine.capitalAssetManagementDocumentNumber}"  target="_blank">
-				<kul:htmlControlAttribute property="${assetItemStr}.capitalAssetManagementDocumentNumber" attributeEntry="${purApItemAssetAttributes.capitalAssetManagementDocumentNumber}" readOnly="true">
-				</kul:htmlControlAttribute>
+				${itemLine.capitalAssetManagementDocumentNumber }
 			</a>&nbsp;
 		</td>
 		<td class="infoline" align="center">
@@ -200,44 +184,37 @@
 		    <kul:htmlAttributeHeaderCell attributeEntry="${generalLedgerAttributes.universityFiscalPeriodCode}" hideRequiredAsterisk="true"/>
 		    <kul:htmlAttributeHeaderCell attributeEntry="${purApLineAssetAccountsAttributes.itemAccountTotalAmount}" hideRequiredAsterisk="true"/>
 		</tr>
+		<c:set var="acctId" value="0" />
 		<c:forEach items="${itemLine.purchasingAccountsPayableLineAssetAccounts}" var="payment" >
 		<tr>
 			<c:set var="acctId" value="${acctId+1}"/>
-			<c:set var="pmtStr" value="purApDocs[${docPos-1}].purchasingAccountsPayableItemAssets[${linePos-1}].purchasingAccountsPayableLineAssetAccounts[${acctId-1}]" />
-			<html:hidden property="${pmtStr}.versionNumber" />
-			<html:hidden property="${pmtStr}.active" />
-			<html:hidden property="${pmtStr}.documentNumber" />
-			<html:hidden property="${pmtStr}.accountsPayableLineItemIdentifier" />
-			<html:hidden property="${pmtStr}.capitalAssetBuilderLineNumber" />
-			<html:hidden property="${pmtStr}.generalLedgerAccountIdentifier" />
 			<td class="infoline">&nbsp;</td>
-			<td class="infoline"><kul:htmlControlAttribute property="${pmtStr}.generalLedgerEntry.chartOfAccountsCode" attributeEntry="${generalLedgerAttributes.chartOfAccountsCode}" readOnly="true"/></td>
-			<td class="infoline"><kul:htmlControlAttribute property="${pmtStr}.generalLedgerEntry.accountNumber" attributeEntry="${generalLedgerAttributes.accountNumber}" readOnly="true"/></td>
-			<td class="infoline"><kul:htmlControlAttribute property="${pmtStr}.generalLedgerEntry.subAccountNumber" attributeEntry="${generalLedgerAttributes.subAccountNumber}" readOnly="true"/></td>
-			<td class="infoline"><kul:htmlControlAttribute property="${pmtStr}.generalLedgerEntry.financialObjectCode" attributeEntry="${generalLedgerAttributes.financialObjectCode}" readOnly="true"/></td>
-			<td class="infoline"><kul:htmlControlAttribute property="${pmtStr}.generalLedgerEntry.financialSubObjectCode" attributeEntry="${generalLedgerAttributes.financialSubObjectCode}" readOnly="true"/></td>
-			<td class="infoline"><kul:htmlControlAttribute property="${pmtStr}.generalLedgerEntry.projectCode" attributeEntry="${generalLedgerAttributes.projectCode}" readOnly="true"/></td>
+			<td class="infoline">${payment.generalLedgerEntry.chartOfAccountsCode}&nbsp;</td>
+			<td class="infoline">${payment.generalLedgerEntry.accountNumber}&nbsp;</td>
+			<td class="infoline">${payment.generalLedgerEntry.subAccountNumber}&nbsp;</td>
+			<td class="infoline">${payment.generalLedgerEntry.financialObjectCode}&nbsp;</td>
+			<td class="infoline">${payment.generalLedgerEntry.financialSubObjectCode}&nbsp;</td>
+			<td class="infoline">${payment.generalLedgerEntry.projectCode}&nbsp;</td>
 			<td class="infoline">
-			<c:set var="poUrl" value="${payment.purchaseOrderInquiryUrl}" />
-			<c:if test="${poUrl != ''}" >
-				<a href="${ConfigProperties.application.url}/${poUrl}" target="_blank"> 
-			</c:if>
-				<kul:htmlControlAttribute property="${pmtStr}.generalLedgerEntry.referenceFinancialDocumentNumber" attributeEntry="${generalLedgerAttributes.referenceFinancialDocumentNumber}" readOnly="true"/>
-			<c:if test="${poUrl != ''}" >
-				&nbsp;
-				</a>
-			</c:if>
+				<c:choose>
+				<c:when test="${!empty KualiForm.purchaseOrderInquiryUrl }">
+					<a href="${ConfigProperties.application.url}/${KualiForm.purchaseOrderInquiryUrl }" target="_blank">${KualiForm.purchaseOrderIdentifier}</a>							
+				</c:when>
+				<c:otherwise>
+					${KualiForm.purchaseOrderIdentifier}&nbsp;
+				</c:otherwise>
+				</c:choose>
 			</td>
-			<td class="infoline"><kul:htmlControlAttribute property="${pmtStr}.generalLedgerEntry.documentNumber" attributeEntry="${generalLedgerAttributes.documentNumber}" readOnly="true"/></td>
-			<td class="infoline"><kul:htmlControlAttribute property="${pmtStr}.generalLedgerEntry.financialDocumentTypeCode" attributeEntry="${generalLedgerAttributes.financialDocumentTypeCode}" readOnly="true"/></td>
-			<td class="infoline"><kul:htmlControlAttribute property="${pmtStr}.generalLedgerEntry.transactionDate" attributeEntry="${generalLedgerAttributes.transactionDate}" readOnly="true"/></td>
-			<td class="infoline"><kul:htmlControlAttribute property="${pmtStr}.generalLedgerEntry.universityFiscalYear" attributeEntry="${generalLedgerAttributes.universityFiscalYear}" readOnly="true"/></td>
-			<td class="infoline"><kul:htmlControlAttribute property="${pmtStr}.generalLedgerEntry.universityFiscalPeriodCode" attributeEntry="${generalLedgerAttributes.universityFiscalPeriodCode}" readOnly="true"/></td>
-			<td class="infoline"><kul:htmlControlAttribute property="${pmtStr}.itemAccountTotalAmount" attributeEntry="${purApLineAssetAccountsAttributes.itemAccountTotalAmount}" readOnly="true"/></td>
+			<td class="infoline">${payment.generalLedgerEntry.documentNumber}&nbsp;</td>
+			<td class="infoline">${payment.generalLedgerEntry.financialDocumentTypeCode}&nbsp;</td>
+			<td class="infoline">${payment.generalLedgerEntry.transactionDate}&nbsp;</td>
+			<td class="infoline">${payment.generalLedgerEntry.universityFiscalYear}&nbsp;</td>
+			<td class="infoline">${payment.generalLedgerEntry.universityFiscalPeriodCode}&nbsp;</td>
+			<td class="infoline">${payment.itemAccountTotalAmount}&nbsp;</td>
 		</tr>
 		</c:forEach>
 		<th colspan="13" style="text-align: right;">Total:</th>
-		<th><kul:htmlControlAttribute property="${assetItemStr}.totalCost" attributeEntry="${purApLineAssetAccountsAttributes.itemAccountTotalAmount}" readOnly="true"/></th>
+		<th>${itemLine.totalCost}</th>
 		</tbody>
 	</table>
 	</td>

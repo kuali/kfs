@@ -196,8 +196,9 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
 
         // in-activate document if all the associated items are inactive.
         if (ObjectUtils.isNotNull(selectedItem.getPurchasingAccountsPayableDocument())) {
-            // link reference from item to document should be set in PurApLineAction.getSelectedLineItem().
-            purApLineService.inActivateDocument(selectedItem.getPurchasingAccountsPayableDocument());
+            // update document status code as 'Enroute' when all its items are in CAMs. Link reference from item to document should
+            // be set in PurApLineAction.getSelectedLineItem().
+            conditionalyUpdateDocumentStatusAsEnroute(selectedItem.getPurchasingAccountsPayableDocument());
         }
 
         // persistent to the table
@@ -208,6 +209,22 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         if (glEntryUpdatesList != null && !glEntryUpdatesList.isEmpty()) {
             businessObjectService.save(glEntryUpdatesList);
         }
+    }
+
+
+    /**
+     * set doc status as enroute when all its items are in CAMs
+     * 
+     * @param selectedDoc
+     */
+    protected void conditionalyUpdateDocumentStatusAsEnroute(PurchasingAccountsPayableDocument selectedDoc) {
+        for (PurchasingAccountsPayableItemAsset item : selectedDoc.getPurchasingAccountsPayableItemAssets()) {
+            if (item.isActive()) {
+                return;
+            }
+        }
+
+        selectedDoc.setActivityStatusCode(CabConstants.ActivityStatusCode.ENROUTE);
     }
 
 
@@ -483,7 +500,8 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         int seq = 1;
 
         for (PurchasingAccountsPayableLineAssetAccount account : selectedItem.getPurchasingAccountsPayableLineAssetAccounts()) {
-            account.refreshReferenceObject(CabPropertyConstants.PurchasingAccountsPayableLineAssetAccount.GENERAL_LEDGER_ENTRY);
+            //TODO
+//            account.refreshReferenceObject(CabPropertyConstants.PurchasingAccountsPayableLineAssetAccount.GENERAL_LEDGER_ENTRY);
             GeneralLedgerEntry glEntry = account.getGeneralLedgerEntry();
 
             if (ObjectUtils.isNotNull(glEntry)) {
@@ -525,14 +543,14 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
     protected void inActivateItem(PurchasingAccountsPayableItemAsset selectedItem) {
         // in-active each account.
         for (PurchasingAccountsPayableLineAssetAccount selectedAccount : selectedItem.getPurchasingAccountsPayableLineAssetAccounts()) {
-            selectedAccount.setActive(false);
+            selectedAccount.setActivityStatusCode(CabConstants.ActivityStatusCode.ENROUTE);
         }
         // in-activate selected Item
-        selectedItem.setActive(false);
+        selectedItem.setActivityStatusCode(CabConstants.ActivityStatusCode.ENROUTE);
     }
 
     /**
-     * Update GL Entry active indicator to false if all its amount are consumed by submit CAMs document.Return the general ledger
+     * Update GL Entry status as "enroute" if all its amount are consumed by submit CAMs document.Return the general ledger
      * entry changes as a list.
      * 
      * @param glEntryList
@@ -556,7 +574,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
 
             // if one account shows active, won't in-activate this general ledger entry.
             if (relatedAccountAmount.compareTo(glEntry.getAmount()) == 0) {
-                glEntry.setActive(false);
+                glEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.ENROUTE);
                 glEntryUpdateList.add(glEntry);
             }
         }
@@ -600,7 +618,8 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
                 setAssetGlobalFromPurAp(assetGlobal, capitalAssetSystem);
             }
         }
-        // feeding data from pre-asset tagging table into assetGlboal. Here, if there are data overlap in pretag and PurAp, we respect data in Pretagging.
+        // feeding data from pre-asset tagging table into assetGlboal. Here, if there are data overlap in pretag and PurAp, we
+        // respect data in Pretagging.
         if (isItemPretagged(preTag)) {
             setAssetGlobalFromPreTag(preTag, assetGlobal);
         }
@@ -712,7 +731,8 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
 
 
     /**
-     * Feeding data from preTag and set into asset global for shared information. PreTag data may override PurAp asset data since the strategy choose to respect Pretagging
+     * Feeding data from preTag and set into asset global for shared information. PreTag data may override PurAp asset data since
+     * the strategy choose to respect Pretagging
      * 
      * @param preTag
      * @param assetGlobal

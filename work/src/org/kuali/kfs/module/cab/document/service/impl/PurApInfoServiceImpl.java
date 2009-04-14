@@ -16,15 +16,17 @@
 package org.kuali.kfs.module.cab.document.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
 import org.kuali.kfs.module.cab.CabConstants;
+import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
 import org.kuali.kfs.module.cab.document.exception.PurApDocumentUnavailableException;
@@ -36,8 +38,8 @@ import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
-import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.exception.PurError;
@@ -53,13 +55,33 @@ public class PurApInfoServiceImpl implements PurApInfoService {
     private static final Logger LOG = Logger.getLogger(PurApInfoServiceImpl.class);
     private BusinessObjectService businessObjectService;
 
+    private static final String PURCHASE_ORDER_CURRENT_INDICATOR = "purchaseOrderCurrentIndicator";
+
+    /**
+     * @see org.kuali.kfs.module.cab.document.service.PurApInfoService#getDocumentNumberForPurchaseOrderIdentifier(java.lang.Integer)
+     */
+    public PurchaseOrderDocument getCurrentDocumentForPurchaseOrderIdentifier(Integer poId) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+
+        fieldValues.put(CabPropertyConstants.PurchasingAccountsPayableDocument.PURAP_DOCUMENT_IDENTIFIER, poId);
+        fieldValues.put(PURCHASE_ORDER_CURRENT_INDICATOR, "Y");
+        Collection<PurchaseOrderDocument> poDocs = getBusinessObjectService().findMatching(PurchaseOrderDocument.class, fieldValues);
+        if (poDocs != null && !poDocs.isEmpty()) {
+            Iterator<PurchaseOrderDocument> poIterator = poDocs.iterator();
+            if (poIterator.hasNext()) {
+                return poIterator.next();
+            }
+        }
+
+        return null;
+    }
 
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#setPurchaseOrderInfo(org.kuali.kfs.module.cab.document.web.struts.PurApLineForm)
      */
     public void setPurchaseOrderFromPurAp(PurApLineForm purApLineForm) {
         PurchaseOrderDocument purchaseOrderDocument = this.getPurchaseOrderService().getCurrentPurchaseOrder(purApLineForm.getPurchaseOrderIdentifier());
-        
+
         if (ObjectUtils.isNull(purchaseOrderDocument)) {
             return;
         }
@@ -127,7 +149,7 @@ public class PurApInfoServiceImpl implements PurApInfoService {
     protected void setMultipleSystemFromPurAp(Integer poId, List<PurchasingAccountsPayableDocument> purApDocs, String capitalAssetSystemStateCode) {
         List<CapitalAssetSystem> capitalAssetSystems = this.getPurchaseOrderService().retrieveCapitalAssetSystemsForMultipleSystem(poId);
         if (ObjectUtils.isNotNull(capitalAssetSystems) && !capitalAssetSystems.isEmpty()) {
-            //PurAp doesn't support multiple system asset information for KFS3.0
+            // PurAp doesn't support multiple system asset information for KFS3.0
             CapitalAssetSystem capitalAssetSystem = capitalAssetSystems.get(0);
             if (ObjectUtils.isNotNull(capitalAssetSystem)) {
                 String capitalAssetTransactionType = getCapitalAssetTransTypeForOneSystem(poId);
@@ -303,7 +325,7 @@ public class PurApInfoServiceImpl implements PurApInfoService {
             if (ObjectUtils.isNull(item)) {
                 throw new PurApDocumentUnavailableException("PaymentRequestItem with id = " + purchasingAccountsPayableItemAsset.getAccountsPayableLineItemIdentifier() + " doesn't exist in table.");
             }
-            
+
             purchasingAccountsPayableItemAsset.setItemLineNumber(item.getItemLineNumber());
             if (item.getItemType() != null) {
                 purchasingAccountsPayableItemAsset.setAdditionalChargeNonTradeInIndicator(item.getItemType().isAdditionalChargeIndicator() & !CabConstants.TRADE_IN_TYPE_CODE.equalsIgnoreCase(item.getItemTypeCode()));
@@ -323,7 +345,7 @@ public class PurApInfoServiceImpl implements PurApInfoService {
             if (ObjectUtils.isNull(item)) {
                 throw new PurApDocumentUnavailableException("CreditMemoItem with id = " + purchasingAccountsPayableItemAsset.getAccountsPayableLineItemIdentifier() + " doesn't exist in table.");
             }
-            
+
             purchasingAccountsPayableItemAsset.setItemLineNumber(item.getItemLineNumber());
             if (item.getItemType() != null) {
                 purchasingAccountsPayableItemAsset.setAdditionalChargeNonTradeInIndicator(item.getItemType().isAdditionalChargeIndicator() & !CabConstants.TRADE_IN_TYPE_CODE.equalsIgnoreCase(item.getItemTypeCode()));
@@ -408,5 +430,6 @@ public class PurApInfoServiceImpl implements PurApInfoService {
     public PurchaseOrderService getPurchaseOrderService() {
         return SpringContext.getBean(PurchaseOrderService.class);
     }
+
 
 }

@@ -14,7 +14,6 @@ import org.kuali.kfs.module.purap.businessobject.CreditMemoStatus;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestStatus;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
-import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
@@ -33,7 +32,7 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
     private Integer purapDocumentIdentifier;
     private Integer purchaseOrderIdentifier;
     private String documentTypeCode;
-    private boolean active;
+    private String activityStatusCode;
 
     // References
     private DocumentTypeEBO financialSystemDocumentTypeCode;
@@ -41,6 +40,7 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
     private List<PurchasingAccountsPayableItemAsset> purchasingAccountsPayableItemAssets;
 
     // non-persistent
+    private boolean active;
     private String purApContactEmailAddress;
     private String purApContactPhoneNumber;
     private String statusDescription;
@@ -136,17 +136,27 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
      * @return Returns the active.
      */
     public boolean isActive() {
-        return active;
+        return CabConstants.ActivityStatusCode.NEW.equalsIgnoreCase(this.getActivityStatusCode()) || CabConstants.ActivityStatusCode.MODIFIED.equalsIgnoreCase(this.getActivityStatusCode());
     }
 
 
     /**
-     * Sets the active attribute value.
+     * Gets the activityStatusCode attribute.
      * 
-     * @param active The active to set.
+     * @return Returns the activityStatusCode.
      */
-    public void setActive(boolean active) {
-        this.active = active;
+    public String getActivityStatusCode() {
+        return activityStatusCode;
+    }
+
+
+    /**
+     * Sets the activityStatusCode attribute value.
+     * 
+     * @param activityStatusCode The activityStatusCode to set.
+     */
+    public void setActivityStatusCode(String activityStatusCode) {
+        this.activityStatusCode = activityStatusCode;
     }
 
 
@@ -317,6 +327,15 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
         LinkedHashMap m = new LinkedHashMap();
         m.put("documentNumber", this.documentNumber);
         return m;
+    }
+
+    public PurchasingAccountsPayableItemAsset getPurchasingAccountsPayableItemAsset(int index) {
+        int size = getPurchasingAccountsPayableItemAssets().size();
+        while (size <= index || getPurchasingAccountsPayableItemAssets().get(index) == null) {
+            getPurchasingAccountsPayableItemAssets().add(size++, new PurchasingAccountsPayableItemAsset());
+        }
+        return (PurchasingAccountsPayableItemAsset) getPurchasingAccountsPayableItemAssets().get(index);
+
     }
 
 }

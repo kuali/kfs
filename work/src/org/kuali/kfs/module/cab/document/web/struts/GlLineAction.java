@@ -288,7 +288,7 @@ public class GlLineAction extends CabActionBase {
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
         Map<String, Object> pkeys = new HashMap<String, Object>();
         pkeys.put(CabPropertyConstants.GeneralLedgerEntry.GENERAL_LEDGER_ACCOUNT_IDENTIFIER, generalLedgerEntryId);
-        pkeys.put(CabPropertyConstants.GeneralLedgerEntry.ACTIVE, true);
+        pkeys.put(CabPropertyConstants.GeneralLedgerEntry.ACTIVITY_STATUS_CODE, CabConstants.ActivityStatusCode.NEW);
         GeneralLedgerEntry entry = (GeneralLedgerEntry) boService.findByPrimaryKey(GeneralLedgerEntry.class, pkeys);
         return entry;
     }

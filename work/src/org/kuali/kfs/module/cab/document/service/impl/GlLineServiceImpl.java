@@ -89,7 +89,7 @@ public class GlLineServiceImpl implements GlLineService {
     protected void deactivateGLEntries(List<GeneralLedgerEntry> entries, Document document) {
         for (GeneralLedgerEntry generalLedgerEntry : entries) {
             generalLedgerEntry.setTransactionLedgerSubmitAmount(generalLedgerEntry.getTransactionLedgerEntryAmount());
-            generalLedgerEntry.setActive(false);
+            generalLedgerEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.ENROUTE);
             createGeneralLedgerEntryAsset(generalLedgerEntry, document);
             getBusinessObjectService().save(generalLedgerEntry);
         }

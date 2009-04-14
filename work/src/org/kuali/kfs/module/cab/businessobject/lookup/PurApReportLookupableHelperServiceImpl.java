@@ -83,7 +83,7 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
 
         String href = UrlFactory.parameterizeUrl(CabConstants.CB_INVOICE_LINE_ACTION_URL, parameters);
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
-        AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, CabConstants.Actions.START, CabConstants.Actions.PROCESS);
+        AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, CabConstants.Actions.START, CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS.equalsIgnoreCase(glEntry.getActivityStatusCode()) ? CabConstants.Actions.VIEW : CabConstants.Actions.PROCESS);
         anchorHtmlData.setTarget(KFSConstants.NEW_WINDOW_URL_TARGET);
         anchorHtmlDataList.add(anchorHtmlData);
         return anchorHtmlDataList;
@@ -100,12 +100,12 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
         // purapDocumentIdentifier should query PurchasingAccountsPayableDocument
         String purapDocumentIdentifier = getSelectedField(fieldValues, CabPropertyConstants.PurchasingAccountsPayableProcessingReport.PURAP_DOCUMENT_IDENTIFIER);
 
-        // Get the user active/inactive selection and ignore other selections except "active". This is because of the partial
-        // submitted GL
-        // lines.i.e for "inactive", we should check active GL lines as well.
-        String active = getSelectedField(fieldValues, CabPropertyConstants.GeneralLedgerEntry.ACTIVE);
-        if (!KFSConstants.ACTIVE_INDICATOR.equalsIgnoreCase(active)) {
-            fieldValues.remove(CabPropertyConstants.GeneralLedgerEntry.ACTIVE);
+        // Get the user selects 'Y' for "processed by CAMs". We will search for all status GL lines. This is because of the partial
+        // submitted GL lines when GL is 'N'(new) or 'M'(modified), partial GL lines could submit to CAMs. we should include these
+        // lines into the search result.
+        String active = getSelectedField(fieldValues, CabPropertyConstants.GeneralLedgerEntry.ACTIVITY_STATUS_CODE);
+        if (KFSConstants.ACTIVE_INDICATOR.equalsIgnoreCase(active)) {
+            fieldValues.remove(CabPropertyConstants.GeneralLedgerEntry.ACTIVITY_STATUS_CODE);
         }
         // search for GeneralLedgerEntry BO.
         Iterator searchResultIterator = purApReportService.findGeneralLedgers(fieldValues);
@@ -257,14 +257,19 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
                 i++;
                 newReport.setTransactionLedgerSubmitAmount(columnValues[i] == null ? null : new KualiDecimal(columnValues[i].toString()));
                 i++;
-                newReport.setActive("true".equalsIgnoreCase(columnValues[i].toString()) ? true : false);
-                // check if the current line should exclude from the search results
-                if (!excludeFromSearchResults(newReport, activeSelection)) {
-                    // set report amount
-                    if (newReport.getTransactionLedgerEntryAmount() != null) {
-                        setReportAmount(activeSelection, newReport);
-                    }
+                newReport.setActivityStatusCode(columnValues[i] == null ? null : columnValues[i].toString());
 
+                if (!excludeFromSearchResults(newReport, activeSelection)) {
+                    if (newReport.getActivityStatusCode() != null && newReport.isActive()) {
+                        // adjust amount if the activity_status_code is 'N' or 'M'
+                        if (newReport.getTransactionLedgerEntryAmount() != null) {
+                            setReportAmount(activeSelection, newReport);
+                        }
+                    }
+                    else {
+                        // set report amount by transactional Amount
+                        newReport.setReportAmount(newReport.getAmount());
+                    }
                     purApReportCollection.add(newReport);
                 }
             }
@@ -300,23 +305,26 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
      * @return
      */
     private boolean excludeFromSearchResults(PurchasingAccountsPayableProcessingReport newReport, String activeSelection) {
-        // If the user selects active and the generalLedgerEntry is inactive, we should exclude it from search result.
-        // Or if the user selects inactive and the generalLedgerEntry has no submit amount, exclude it from search result.
-        if ((KFSConstants.NON_ACTIVE_INDICATOR.equalsIgnoreCase(activeSelection) && (newReport.getTransactionLedgerSubmitAmount() == null || newReport.getTransactionLedgerSubmitAmount().isZero()))) {
+        // If the user selects processed by CAMs, we should exclude the GL lines which have no submit amount as the search result
+        if ((KFSConstants.ACTIVE_INDICATOR.equalsIgnoreCase(activeSelection) && (newReport.getTransactionLedgerSubmitAmount() == null || newReport.getTransactionLedgerSubmitAmount().isZero()))) {
             return true;
         }
         return false;
     }
 
     /**
-     * set report amount
+     * set partial commit report amount
      * 
      * @param active
      * @param newReport
      */
     private void setReportAmount(String active, PurchasingAccountsPayableProcessingReport newReport) {
         if (KFSConstants.ACTIVE_INDICATOR.equalsIgnoreCase(active)) {
-            // Active: set report amount by transactionLedgerEntryAmount excluding submitted amount
+            // Processed in CAMS: set report amount as submitted amount
+            newReport.setReportAmount(newReport.getTransactionLedgerSubmitAmount());
+        }
+        else if ((KFSConstants.NON_ACTIVE_INDICATOR.equalsIgnoreCase(active))) {
+            // Not Processed in CAMS: set report amount by transactionLedgerEntryAmount excluding submitted amount
             KualiDecimal reportAmount = newReport.getAmount();
             if (reportAmount != null && newReport.getTransactionLedgerSubmitAmount() != null) {
                 newReport.setReportAmount(reportAmount.subtract(newReport.getTransactionLedgerSubmitAmount()));
@@ -325,15 +333,12 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
                 newReport.setReportAmount(reportAmount);
             }
         }
-        else if ((KFSConstants.NON_ACTIVE_INDICATOR.equalsIgnoreCase(active))) {
-            // Inactive: set report amount as submitted amount
-            newReport.setReportAmount(newReport.getTransactionLedgerSubmitAmount());
-        }
         else {
-            // both active and inactive: set report amount by transactional Amount
-            newReport.setReportAmount(newReport.getAmount());
+        	// both processed/non processed: set report amount by transactional amount
+        	newReport.setReportAmount(newReport.getAmount());
         }
     }
+
 
     /**
      * Return and remove the selected field from the user input.

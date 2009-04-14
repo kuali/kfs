@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAssetAccount;
 
@@ -27,7 +28,7 @@ public enum PurchasingAccountsPayableLineAssetAccountFixture {
     REC1 {
         public PurchasingAccountsPayableLineAssetAccount newRecord() {
             PurchasingAccountsPayableLineAssetAccount account = new PurchasingAccountsPayableLineAssetAccount();
-            account.setActive(true);
+            account.setActivityStatusCode(CabConstants.ActivityStatusCode.NEW);
             return account;
         }
     },
@@ -35,14 +36,14 @@ public enum PurchasingAccountsPayableLineAssetAccountFixture {
     REC2 {
         public PurchasingAccountsPayableLineAssetAccount newRecord() {
             PurchasingAccountsPayableLineAssetAccount account = new PurchasingAccountsPayableLineAssetAccount();
-            account.setActive(true);
+            account.setActivityStatusCode(CabConstants.ActivityStatusCode.NEW);
             return account;
         }
     },
     REC3 {
         public PurchasingAccountsPayableLineAssetAccount newRecord() {
             PurchasingAccountsPayableLineAssetAccount account = new PurchasingAccountsPayableLineAssetAccount();
-            account.setActive(true);
+            account.setActivityStatusCode(CabConstants.ActivityStatusCode.NEW);
             return account;
         }
         
@@ -50,14 +51,14 @@ public enum PurchasingAccountsPayableLineAssetAccountFixture {
     REC4 {
         public PurchasingAccountsPayableLineAssetAccount newRecord() {
             PurchasingAccountsPayableLineAssetAccount account = new PurchasingAccountsPayableLineAssetAccount();
-            account.setActive(true);
+            account.setActivityStatusCode(CabConstants.ActivityStatusCode.NEW);
             return account;
         }
     },
     REC5 {
         public PurchasingAccountsPayableLineAssetAccount newRecord() {
             PurchasingAccountsPayableLineAssetAccount account = new PurchasingAccountsPayableLineAssetAccount();
-            account.setActive(true);
+            account.setActivityStatusCode(CabConstants.ActivityStatusCode.NEW);
             return account;
         }
     };

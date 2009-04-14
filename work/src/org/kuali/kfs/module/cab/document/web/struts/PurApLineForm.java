@@ -15,15 +15,27 @@
  */
 package org.kuali.kfs.module.cab.document.web.struts;
 
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
 import org.kuali.kfs.module.cab.CabConstants;
+import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
+import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAssetAccount;
+import org.kuali.kfs.module.cab.document.service.PurApInfoService;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.dto.DocumentTypeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -50,20 +62,21 @@ public class PurApLineForm extends KualiForm {
     private String mergeDesc;
 
     private Integer requisitionIdentifier;
-    
-    private String PurchaseOrderInquiryUrl;
+
+    private String purchaseOrderInquiryUrl;
 
     private boolean selectAll;
-    
+
     private String documentNumber;
-    
+
     public PurApLineForm() {
         this.purApDocs = new TypedArrayList(PurchasingAccountsPayableDocument.class);
     }
 
 
     /**
-     * Gets the documentNumber attribute. 
+     * Gets the documentNumber attribute.
+     * 
      * @return Returns the documentNumber.
      */
     public String getDocumentNumber() {
@@ -73,6 +86,7 @@ public class PurApLineForm extends KualiForm {
 
     /**
      * Sets the documentNumber attribute value.
+     * 
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -220,7 +234,8 @@ public class PurApLineForm extends KualiForm {
 
 
     /**
-     * Gets the purchaseOrderIdentifier attribute. 
+     * Gets the purchaseOrderIdentifier attribute.
+     * 
      * @return Returns the purchaseOrderIdentifier.
      */
     public Integer getPurchaseOrderIdentifier() {
@@ -230,6 +245,7 @@ public class PurApLineForm extends KualiForm {
 
     /**
      * Sets the purchaseOrderIdentifier attribute value.
+     * 
      * @param purchaseOrderIdentifier The purchaseOrderIdentifier to set.
      */
     public void setPurchaseOrderIdentifier(Integer purchaseOrderIdentifier) {
@@ -256,16 +272,14 @@ public class PurApLineForm extends KualiForm {
         this.purApDocs = purApDocs;
     }
 
-    public String getPurchaseOrderInquiryUrl() {
-        return PurchaseOrderInquiryUrl;
-    }
-    
+
     /**
-     * Sets the purchaseOrderInquiryUrl attribute value.
-     * @param purchaseOrderInquiryUrl The purchaseOrderInquiryUrl to set.
+     * Gets the purchaseOrderInquiryUrl attribute.
+     * 
+     * @return Returns the purchaseOrderInquiryUrl.
      */
-    public void setPurchaseOrderInquiryUrl(String purchaseOrderInquiryUrl) {
-        PurchaseOrderInquiryUrl = purchaseOrderInquiryUrl;
+    public String getPurchaseOrderInquiryUrl() {
+        return purchaseOrderInquiryUrl;
     }
 
 
@@ -285,11 +299,22 @@ public class PurApLineForm extends KualiForm {
                 this.setActionItemAssetIndex(Integer.parseInt(itemAssetIndex));
             }
         }
-        
+
         if (this.purchaseOrderIdentifier != null) {
-            this.setPurchaseOrderInquiryUrl(SpringContext.getBean(PurchasingAccountsPayableModuleService.class).getPurchaseOrderInquiryUrl(purchaseOrderIdentifier));
+            PurchaseOrderDocument poDoc = this.getPurApInfoService().getCurrentDocumentForPurchaseOrderIdentifier(this.purchaseOrderIdentifier);
+            if (ObjectUtils.isNotNull(poDoc) && StringUtils.isNotBlank(poDoc.getDocumentNumber())) {
+                this.purchaseOrderInquiryUrl = "purapPurchaseOrder.do?methodToCall=docHandler&docId=" + poDoc.getDocumentNumber() + "&command=displayDocSearchView";
+            }
         }
+        
+        // clear up the documentNumber saved when submit CAMS doc
+        this.setDocumentNumber(null);
     }
+
+    private PurApInfoService getPurApInfoService() {
+        return SpringContext.getBean(PurApInfoService.class);
+    }
+
 
     public boolean isSelectAll() {
         return selectAll;
@@ -326,5 +351,14 @@ public class PurApLineForm extends KualiForm {
         catch (WorkflowException e) {
             throw new RuntimeException("Caught WorkflowException trying to get document handler URL from Workflow", e);
         }
+    }
+
+    public PurchasingAccountsPayableDocument getPurApDoc(int index) {
+        int size = getPurApDocs().size();
+        while (size <= index || getPurApDocs().get(index) == null) {
+            getPurApDocs().add(size++, new PurchasingAccountsPayableDocument());
+        }
+        return (PurchasingAccountsPayableDocument) getPurApDocs().get(index);
+
     }
 }

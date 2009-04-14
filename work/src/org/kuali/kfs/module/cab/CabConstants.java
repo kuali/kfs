@@ -61,6 +61,7 @@ public class CabConstants extends JSTLConstants {
 
     public static class Actions {
         public static final String PROCESS = "process";
+        public static final String VIEW = "view";
         public static final String START = "start";
         public static final String SPLIT = "split";
         public static final String MERGE = "merge";
@@ -76,5 +77,12 @@ public class CabConstants extends JSTLConstants {
         public static final String EXPENSE = "Expense";
         public static final String RECURRING = "Recurring";
         public static final String NON_RECURRING = "Non-recurring";
+    }
+    
+    public static class ActivityStatusCode {
+        public static final String NEW = "N";
+        public static final String MODIFIED = "M";
+        public static final String ENROUTE = "E";
+        public static final String PROCESSED_IN_CAMS = "P";
     }
 }

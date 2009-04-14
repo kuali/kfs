@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
@@ -16,28 +17,22 @@ import org.kuali.kfs.module.cab.document.service.PurApLineService;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
-import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItemCapitalAsset;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.routeheader.service.impl.WorkflowDocumentServiceImpl;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.UnknownDocumentIdException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.util.UrlFactory;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjectBase implements Comparable<PurchasingAccountsPayableItemAsset> {
+    private static final Logger LOG = Logger.getLogger(PurchasingAccountsPayableItemAsset.class);
 
     private String documentNumber;
     private Integer accountsPayableLineItemIdentifier;
@@ -45,12 +40,13 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     private String accountsPayableLineItemDescription;
     private KualiDecimal accountsPayableItemQuantity;
     private String capitalAssetManagementDocumentNumber;
-    private boolean active;
+    private String activityStatusCode;
 
     private PurchasingAccountsPayableDocument purchasingAccountsPayableDocument;
     private List<PurchasingAccountsPayableLineAssetAccount> purchasingAccountsPayableLineAssetAccounts;
 
     // non persistent fields
+    private boolean active;
     private Integer itemLineNumber;
     private boolean additionalChargeNonTradeInIndicator;
     private boolean tradeInAllowance;
@@ -71,6 +67,9 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     private boolean createAssetIndicator;
     private boolean applyPaymentIndicator;
 
+    private String preTagInquiryUrl;
+    private List<Long> approvedAssetNumbers;
+
     public PurchasingAccountsPayableItemAsset() {
         this.purchasingAccountsPayableLineAssetAccounts = new TypedArrayList(PurchasingAccountsPayableLineAssetAccount.class);
         this.selectedValue = false;
@@ -86,7 +85,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
         this.accountsPayableLineItemDescription = initialItemAsset.getAccountsPayableLineItemDescription();
         this.itemLineNumber = initialItemAsset.getItemLineNumber();
         this.firstFincialObjectCode = initialItemAsset.getFirstFincialObjectCode();
-        this.active = true;
+        this.activityStatusCode = initialItemAsset.getActivityStatusCode();
         this.tradeInAllowance = initialItemAsset.isTradeInAllowance();
         this.itemAssignedToTradeInIndicator = initialItemAsset.isItemAssignedToTradeInIndicator();
         this.purchasingAccountsPayableLineAssetAccounts = new TypedArrayList(PurchasingAccountsPayableLineAssetAccount.class);
@@ -97,6 +96,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
         this.capitalAssetTransactionTypeCode = initialItemAsset.getCapitalAssetTransactionTypeCode();
         this.purApItemAssets = new ArrayList<ItemCapitalAsset>(initialItemAsset.getPurApItemAssets());
         this.capitalAssetSystemIdentifier = initialItemAsset.getCapitalAssetSystemIdentifier();
+        this.purchasingAccountsPayableDocument = initialItemAsset.getPurchasingAccountsPayableDocument();
     }
 
 
@@ -465,18 +465,26 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
      * @return Returns the active.
      */
     public boolean isActive() {
-        return active;
+        return CabConstants.ActivityStatusCode.NEW.equalsIgnoreCase(this.getActivityStatusCode()) || CabConstants.ActivityStatusCode.MODIFIED.equalsIgnoreCase(this.getActivityStatusCode());
     }
 
     /**
-     * Sets the active attribute value.
+     * Gets the activityStatusCode attribute.
      * 
-     * @param active The active to set.
+     * @return Returns the activityStatusCode.
      */
-    public void setActive(boolean active) {
-        this.active = active;
+    public String getActivityStatusCode() {
+        return activityStatusCode;
     }
 
+    /**
+     * Sets the activityStatusCode attribute value.
+     * 
+     * @param activityStatusCode The activityStatusCode to set.
+     */
+    public void setActivityStatusCode(String activityStatusCode) {
+        this.activityStatusCode = activityStatusCode;
+    }
 
     /**
      * Gets the purchasingAccountsPayableDocument attribute.
@@ -569,29 +577,28 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     }
 
     public String getPreTagInquiryUrl() {
-        Integer purchaseOrderIdentifier = null;
-
-        if (ObjectUtils.isNull(this.getPurchasingAccountsPayableDocument())) {
-            this.refreshReferenceObject(CabPropertyConstants.PurchasingAccountsPayableItemAsset.PURCHASING_ACCOUNTS_PAYABLE_DOCUMENT);
+        if (StringUtils.isNotBlank(this.preTagInquiryUrl)) {
+            return preTagInquiryUrl;
         }
-        purchaseOrderIdentifier = this.getPurchasingAccountsPayableDocument().getPurchaseOrderIdentifier();
 
-        PurApLineService purApLineService = SpringContext.getBean(PurApLineService.class);
-        if (purApLineService.isPretaggingExisting(purApLineService.getPreTagLineItem(purchaseOrderIdentifier, this.getItemLineNumber()))) {
-            String baseUrl = KFSConstants.INQUIRY_ACTION;
-            Properties parameters = new Properties();
-            parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
-            parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, Pretag.class.getName());
-            parameters.put(CabPropertyConstants.Pretag.PURCHASE_ORDER_NUMBER, purchaseOrderIdentifier.toString());
-            parameters.put(CabPropertyConstants.Pretag.ITEM_LINE_NUMBER, this.getItemLineNumber().toString());
+        if (ObjectUtils.isNotNull(this.getPurchasingAccountsPayableDocument())) {
+            Integer purchaseOrderIdentifier = this.getPurchasingAccountsPayableDocument().getPurchaseOrderIdentifier();
 
-            String href = UrlFactory.parameterizeUrl(baseUrl, parameters);
+            PurApLineService purApLineService = SpringContext.getBean(PurApLineService.class);
+            if (purApLineService.isPretaggingExisting(purApLineService.getPreTagLineItem(purchaseOrderIdentifier, this.getItemLineNumber()))) {
+                String baseUrl = KFSConstants.INQUIRY_ACTION;
+                Properties parameters = new Properties();
+                parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
+                parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, Pretag.class.getName());
+                parameters.put(CabPropertyConstants.Pretag.PURCHASE_ORDER_NUMBER, purchaseOrderIdentifier.toString());
+                parameters.put(CabPropertyConstants.Pretag.ITEM_LINE_NUMBER, this.getItemLineNumber().toString());
 
-            return href;
+                this.preTagInquiryUrl = UrlFactory.parameterizeUrl(baseUrl, parameters);
+
+                return this.preTagInquiryUrl;
+            }
         }
-        else {
-            return "";
-        }
+        return "";
     }
 
     /**
@@ -615,41 +622,45 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
      * @return Returns the approvedAssetNumbers.
      */
     public List<Long> getApprovedAssetNumbers() {
-        List<Long> assetNumbers = new ArrayList<Long>();
-        if (!StringUtils.isEmpty(this.getCapitalAssetManagementDocumentNumber())) {
-            try {
-                Document doc = (Document) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(this.getCapitalAssetManagementDocumentNumber());
-                KualiWorkflowDocument workflowDocument = doc.getDocumentHeader().getWorkflowDocument();
+        if (this.approvedAssetNumbers != null && !this.approvedAssetNumbers.isEmpty()) {
+            return this.approvedAssetNumbers;
+        }
+        else {
+            this.approvedAssetNumbers = new ArrayList<Long>();
+            if (!StringUtils.isEmpty(this.getCapitalAssetManagementDocumentNumber())) {
                 Map<String, String> fieldValues = new HashMap<String, String>();
-                if (workflowDocument.stateIsProcessed() || workflowDocument.stateIsFinal()) {
-                    if (CabConstants.ASSET_GLOBAL_MAINTENANCE_DOCUMENT.equalsIgnoreCase(workflowDocument.getDocumentType())) {
-                        fieldValues.put(CamsPropertyConstants.AssetGlobalDetail.DOCUMENT_NUMBER, this.getCapitalAssetManagementDocumentNumber());
-                        Collection<AssetGlobalDetail> assetGlobalDetails = SpringContext.getBean(BusinessObjectService.class).findMatching(AssetGlobalDetail.class, fieldValues);
-                        for (AssetGlobalDetail detail : assetGlobalDetails) {
-                            assetNumbers.add(detail.getCapitalAssetNumber());
-                        }
+                if (CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS.equalsIgnoreCase(this.getActivityStatusCode())) {
+                    // get asset number from asset global add doc
+                    fieldValues.put(CamsPropertyConstants.AssetGlobalDetail.DOCUMENT_NUMBER, this.getCapitalAssetManagementDocumentNumber());
+                    Collection<AssetGlobalDetail> assetGlobalDetails = SpringContext.getBean(BusinessObjectService.class).findMatching(AssetGlobalDetail.class, fieldValues);
+                    for (AssetGlobalDetail detail : assetGlobalDetails) {
+                        this.approvedAssetNumbers.add(detail.getCapitalAssetNumber());
                     }
-                    else if (this.getDataDictionaryService().getDocumentTypeNameByClass(AssetPaymentDocument.class).equalsIgnoreCase(workflowDocument.getDocumentType())) {
+                    if (assetGlobalDetails.isEmpty()) {
+                        // get asset number from asset payment doc
+                        fieldValues.clear();
                         fieldValues.put(CamsPropertyConstants.DOCUMENT_NUMBER, this.getCapitalAssetManagementDocumentNumber());
                         Collection<AssetPaymentAssetDetail> paymentAssetDetails = SpringContext.getBean(BusinessObjectService.class).findMatching(AssetPaymentAssetDetail.class, fieldValues);
                         for (AssetPaymentAssetDetail detail : paymentAssetDetails) {
-                            assetNumbers.add(detail.getCapitalAssetNumber());
+                            this.approvedAssetNumbers.add(detail.getCapitalAssetNumber());
                         }
                     }
                 }
             }
-            catch (WorkflowException e) {
-                e.printStackTrace();
-            }
-            catch (UnknownDocumentIdException unknownIdE) {
-            }
+            return this.approvedAssetNumbers;
         }
-        return assetNumbers;
     }
-
 
     private DataDictionaryService getDataDictionaryService() {
         return SpringContext.getBean(DataDictionaryService.class);
     }
 
+    public PurchasingAccountsPayableLineAssetAccount getPurchasingAccountsPayableLineAssetAccount(int index) {
+        int size = getPurchasingAccountsPayableLineAssetAccounts().size();
+        while (size <= index || getPurchasingAccountsPayableLineAssetAccounts().get(index) == null) {
+            getPurchasingAccountsPayableLineAssetAccounts().add(size++, new PurchasingAccountsPayableLineAssetAccount());
+        }
+        return (PurchasingAccountsPayableLineAssetAccount) getPurchasingAccountsPayableLineAssetAccounts().get(index);
+
+    }
 }

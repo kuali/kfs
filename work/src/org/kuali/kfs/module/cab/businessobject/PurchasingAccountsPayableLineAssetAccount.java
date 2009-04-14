@@ -2,24 +2,26 @@ package org.kuali.kfs.module.cab.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
-import org.kuali.kfs.module.cab.CabPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class PurchasingAccountsPayableLineAssetAccount extends PersistableBusinessObjectBase {
-
+    private static final Logger LOG = Logger.getLogger(PurchasingAccountsPayableLineAssetAccount.class);
 
     private String documentNumber;
     private Integer accountsPayableLineItemIdentifier;
     private Integer capitalAssetBuilderLineNumber;
     private Long generalLedgerAccountIdentifier;
     private KualiDecimal itemAccountTotalAmount;
+    private String activityStatusCode;
+
+    // non-persistent field
     private boolean active;
 
     // References
@@ -36,7 +38,7 @@ public class PurchasingAccountsPayableLineAssetAccount extends PersistableBusine
         this.capitalAssetBuilderLineNumber = itemAsset.getCapitalAssetBuilderLineNumber();
         this.generalLedgerAccountIdentifier = generalLedgerAccountIdentifier;
         this.purchasingAccountsPayableItemAsset = itemAsset;
-        this.setActive(true);
+        this.setActivityStatusCode(StringUtils.isBlank(itemAsset.getActivityStatusCode()) ? CabConstants.ActivityStatusCode.MODIFIED : itemAsset.getActivityStatusCode());
     }
 
     public String getDocumentNumber() {
@@ -88,13 +90,27 @@ public class PurchasingAccountsPayableLineAssetAccount extends PersistableBusine
     }
 
     public boolean isActive() {
-        return active;
+        return CabConstants.ActivityStatusCode.NEW.equalsIgnoreCase(this.getActivityStatusCode()) || CabConstants.ActivityStatusCode.MODIFIED.equalsIgnoreCase(this.getActivityStatusCode());
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+
+    /**
+     * Gets the activityStatusCode attribute.
+     * 
+     * @return Returns the activityStatusCode.
+     */
+    public String getActivityStatusCode() {
+        return activityStatusCode;
     }
 
+    /**
+     * Sets the activityStatusCode attribute value.
+     * 
+     * @param activityStatusCode The activityStatusCode to set.
+     */
+    public void setActivityStatusCode(String activityStatusCode) {
+        this.activityStatusCode = activityStatusCode;
+    }
 
     public PurchasingAccountsPayableItemAsset getPurchasingAccountsPayableItemAsset() {
         return purchasingAccountsPayableItemAsset;
@@ -102,20 +118,6 @@ public class PurchasingAccountsPayableLineAssetAccount extends PersistableBusine
 
     public void setPurchasingAccountsPayableItemAsset(PurchasingAccountsPayableItemAsset purchasingAccountsPayableItemAsset) {
         this.purchasingAccountsPayableItemAsset = purchasingAccountsPayableItemAsset;
-    }
-
-    public String getPurchaseOrderInquiryUrl() {
-        Integer purchaseOrderIdentifier = null;
-
-        if (ObjectUtils.isNull(this.getGeneralLedgerEntry())) {
-            this.refreshReferenceObject(CabPropertyConstants.PurchasingAccountsPayableLineAssetAccount.GENERAL_LEDGER_ENTRY);
-        }
-        purchaseOrderIdentifier = new Integer(this.getGeneralLedgerEntry().getReferenceFinancialDocumentNumber());
-
-        if (purchaseOrderIdentifier != null) {
-            return SpringContext.getBean(PurchasingAccountsPayableModuleService.class).getPurchaseOrderInquiryUrl(purchaseOrderIdentifier);
-        }
-        return "";
     }
 
     /**

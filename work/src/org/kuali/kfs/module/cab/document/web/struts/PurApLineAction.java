@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.cab.document.web.struts;
 
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +29,6 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabKeyConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
@@ -43,9 +41,7 @@ import org.kuali.kfs.module.cab.document.service.PurApLineService;
 import org.kuali.kfs.module.cab.document.web.PurApLineSession;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
-import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
-import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -138,14 +134,30 @@ public class PurApLineAction extends CabActionBase {
                     break;
                 }
             }
+            purApLineForm.getPurApDocs().clear();
             purApLineForm.getPurApDocs().addAll(purApDocs);
+            setupObjectRelationship(purApLineForm.getPurApDocs());
             // If no active item exists or no exist document, display a message.
             if (!existActiveDoc) {
                 GlobalVariables.getMessageList().add(CabKeyConstants.MESSAGE_NO_ACTIVE_PURAP_DOC);
             }
         }
     }
-
+    /**
+     * Setup relationship from account to item and item to doc. In this way, we keep all working objects in the same view as form.
+     * 
+     * @param purApDocs
+     */
+    protected void setupObjectRelationship(List<PurchasingAccountsPayableDocument> purApDocs) {
+        for (PurchasingAccountsPayableDocument purApDoc : purApDocs) {
+            for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
+                item.setPurchasingAccountsPayableDocument(purApDoc);
+                for (PurchasingAccountsPayableLineAssetAccount account : item.getPurchasingAccountsPayableLineAssetAccounts()) {
+                    account.setPurchasingAccountsPayableItemAsset(item);
+                }
+            }
+        }
+    }
     /**
      * Cancels the action and returns to portal main page
      * 
@@ -210,7 +222,7 @@ public class PurApLineAction extends CabActionBase {
         GlobalVariables.getUserSession().removeObject(CabConstants.CAB_PURAP_SESSION.concat(purchaseOrderIdentifier.toString()));
     }
 
-
+    
     /**
      * This method handles split action. Create one item with split quantity
      * 
@@ -223,7 +235,6 @@ public class PurApLineAction extends CabActionBase {
      */
     public ActionForward split(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurApLineForm purApLineForm = (PurApLineForm) form;
-
         // Get the line item for applying split action.
         PurchasingAccountsPayableItemAsset selectedLineItem = getSelectedLineItem((PurApLineForm) form);
 
@@ -243,6 +254,7 @@ public class PurApLineAction extends CabActionBase {
             // create a new item with split quantity from selected item
             purApLineService.processSplit(selectedLineItem, purApLineSession.getActionsTakenHistory());
         }
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -398,6 +410,7 @@ public class PurApLineAction extends CabActionBase {
         purApLineService.resetSelectedValue(purApForm.getPurApDocs());
         purApForm.setMergeQty(null);
         purApForm.setMergeDesc(null);
+        purApForm.setSelectAll(false);
     }
 
     /**
@@ -603,6 +616,7 @@ public class PurApLineAction extends CabActionBase {
         else {
             // clear select check box
             purApLineService.resetSelectedValue(purApForm.getPurApDocs());
+            purApForm.setSelectAll(false);
         }
     }
 
@@ -649,11 +663,7 @@ public class PurApLineAction extends CabActionBase {
     private PurchasingAccountsPayableItemAsset getSelectedLineItem(PurApLineForm purApLineForm) {
         PurchasingAccountsPayableDocument purApDoc = purApLineForm.getPurApDocs().get(purApLineForm.getActionPurApDocIndex());
         PurchasingAccountsPayableItemAsset selectedItem = purApDoc.getPurchasingAccountsPayableItemAssets().get(purApLineForm.getActionItemAssetIndex());
-        // Set non-persistent object relationship from item to document. This is important for split and percent payment.
-        if (selectedItem.isActive()) {
-            selectedItem.setPurchasingAccountsPayableDocument(purApDoc);
-        }
-        else {
+        if (!selectedItem.isActive()) {
             selectedItem = null;
         }
         return selectedItem;

@@ -20,12 +20,21 @@ import java.util.List;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
 import org.kuali.kfs.module.cab.document.web.struts.PurApLineForm;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 
 
 /**
  * This class declares methods used by CAB PurAp Line process
  */
 public interface PurApInfoService {
+
+    /**
+     * Get the workflow document number for given poId
+     * 
+     * @param poId
+     * @return
+     */
+    PurchaseOrderDocument getCurrentDocumentForPurchaseOrderIdentifier(Integer poId);
 
     /**
      * Set Purchasing order email address and contact phone from PurAp.

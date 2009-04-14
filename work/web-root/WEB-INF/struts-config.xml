@@ -386,7 +386,7 @@
 		<action path="/cab*" name="{1}Form"
 			input="/jsp/module/cab/{1}.jsp"
 			type="org.kuali.kfs.module.cab.document.web.struts.{1}Action"
-			scope="request" parameter="methodToCall" validate="true"
+			scope="session" parameter="methodToCall" validate="true"
 			attribute="KualiForm">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/module/cab/{1}.jsp" />

@@ -19,7 +19,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       	<ref bean="PurchasingAccountsPayableDocument-documentNumber" />
         <ref bean="PurchasingAccountsPayableDocument-purapDocumentIdentifier" />
         <ref bean="PurchasingAccountsPayableDocument-purchaseOrderIdentifier" />
-        <ref bean="PurchasingAccountsPayableDocument-active" />
+        <ref bean="PurchasingAccountsPayableDocument-activityStatusCode" />
         <ref bean="PurchasingAccountsPayableDocument-documentTypeCode" />
         <ref bean="PurchasingAccountsPayableDocument-purApContactEmailAddress" />
         <ref bean="PurchasingAccountsPayableDocument-purApContactPhoneNumber" />
@@ -64,9 +64,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="shortLabel" value="PO Identifier" />
   </bean>
   
-  <bean id="PurchasingAccountsPayableDocument-active" parent="PurchasingAccountsPayableDocument-active-parentBean" />
-  <bean id="PurchasingAccountsPayableDocument-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-  	<property name="name" value="active" />
+  <bean id="PurchasingAccountsPayableDocument-activityStatusCode" parent="PurchasingAccountsPayableDocument-activityStatusCode-parentBean" />
+  <bean id="PurchasingAccountsPayableDocument-activityStatusCode-parentBean" abstract="true" parent="GenericAttributes-oneDigitTextCode">
+  	<property name="name" value="activityStatusCode" />
   </bean>
   
   <bean id="PurchasingAccountsPayableDocument-documentTypeCode" parent="PurchasingAccountsPayableDocument-documentTypeCode-parentBean" />
@@ -113,7 +113,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
               <bean parent="FieldDefinition"
                     p:attributeName="purchaseOrderIdentifier" />
               <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+                    p:attributeName="activityStatusCode" />
             </list>
           </property>
         </bean>

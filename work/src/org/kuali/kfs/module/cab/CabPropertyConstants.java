@@ -33,7 +33,7 @@ public class CabPropertyConstants {
         public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
         public static final String UNIVERSITY_FISCAL_YEAR = "universityFiscalYear";
         public static final String GENERAL_LEDGER_ACCOUNT_IDENTIFIER = "generalLedgerAccountIdentifier";
-        public static final String ACTIVE = "active";
+        public static final String ACTIVITY_STATUS_CODE = "activityStatusCode";
         public static final String TRANSACTION_DATE = "transactionDate";
         public static final String REFERENCE_FINANCIAL_DOCUMENT_NUMBER = "referenceFinancialDocumentNumber";
         public static final String TRANSACTION_LEDGER_ENTRY_AMOUNT = "transactionLedgerEntryAmount";

@@ -25,7 +25,6 @@
 	showTabButtons="true" docTitle="Purchasing / Accounts Payable Transactions" 
 	transactionalDocument="false" headerDispatch="true" headerTabActive="true"
 	sessionDocument="false" headerMenuBar="" feedbackKey="true" defaultMethodToCall="refresh" >
-	<html:hidden property="requisitionIdentifier" />
 	<kul:tabTop tabTitle="Purchase Order Processing" defaultOpen="true">
 		<div class="tab-container" align=center>
 			<c:set var="cabPurApDocumentAttributes"	value="${DataDictionary.PurchasingAccountsPayableDocument.attributes}" />
@@ -36,21 +35,25 @@
    				<tr>
    					<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${cabPurApDocumentAttributes.purchaseOrderIdentifier}" readOnly="true" /></th>
         			<td class="grid" width="75%">
-        				<c:if test="${!empty KualiForm.purchaseOrderInquiryUrl }">
+        				<c:choose>
+        				<c:when test="${!empty KualiForm.purchaseOrderInquiryUrl }">
 							<a href="${ConfigProperties.application.url}/${KualiForm.purchaseOrderInquiryUrl }" target="_blank"> 
-        					<kul:htmlControlAttribute property="purchaseOrderIdentifier" attributeEntry="${cabPurApDocumentAttributes.purchaseOrderIdentifier}" readOnly="true"/>
-							&nbsp;
+							${KualiForm.purchaseOrderIdentifier}							
 							</a>
-						</c:if>
+						</c:when>
+						<c:otherwise>
+							${KualiForm.purchaseOrderIdentifier}&nbsp;
+						</c:otherwise>
+						</c:choose>
         			</td>								
     			</tr>
     			<tr>
    					<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${cabPurApDocumentAttributes.purApContactEmailAddress}" readOnly="true" /></th>
-        			<td class="grid" width="75%"><kul:htmlControlAttribute property="purApContactEmailAddress" attributeEntry="${cabPurApDocumentAttributes.purApContactEmailAddress}" readOnly="true"/></td>								
+        			<td class="grid" width="75%">${KualiForm.purApContactEmailAddress}</td>								
     			</tr>
     			<tr>
    					<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${cabPurApDocumentAttributes.purApContactPhoneNumber}" readOnly="true" /></th>
-        			<td class="grid" width="75%"><kul:htmlControlAttribute property="purApContactPhoneNumber" attributeEntry="${cabPurApDocumentAttributes.purApContactPhoneNumber}" readOnly="true" /></td>
+        			<td class="grid" width="75%">${KualiForm.purApContactPhoneNumber}</td>
         		</tr>
     		</table>
 		</div>

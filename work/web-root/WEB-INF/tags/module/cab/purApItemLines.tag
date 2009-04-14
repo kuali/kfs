@@ -57,19 +57,14 @@
 	    </c:choose>
 	</tr>
    	<c:set var="chkcount" value="0" />
+   	<c:set var="docPos" value="0" />
     <c:forEach items="${KualiForm.purApDocs}" var="purApDoc" >
     	<c:set var="docPos" value="${docPos+1}" />
     	<c:set var="linePos" value="0" />
-    	<html:hidden property="purApDocs[${docPos-1}].versionNumber" />
-    	<html:hidden property="purApDocs[${docPos-1}].active" />
-    	<html:hidden property="purApDocs[${docPos-1}].documentNumber" />
-    	<html:hidden property="purApDocs[${docPos-1}].purapDocumentIdentifier" />
-    	<html:hidden property="purApDocs[${docPos-1}].purchaseOrderIdentifier" />
-    	<html:hidden property="purApDocs[${docPos-1}].documentTypeCode" />
     	<c:forEach items="${purApDoc.purchasingAccountsPayableItemAssets}" var="assetLine" >
 	    	<c:set var="linePos" value="${linePos+1}" />
 	    	<c:if test="${(assetLine.active && activeIndicator=='true') || (!assetLine.active && activeIndicator == 'false')}">
-	    		<cab:purApLineDetail chkcount="${chkcount}" docPos="${docPos}" linePos="${linePos}" itemLine="${assetLine}" >
+	    		<cab:purApLineDetail chkcount="${chkcount}" docPos="${docPos}" linePos="${linePos}" itemLine="${assetLine}" purApDocLine="${purApDoc}" >
 	    		</cab:purApLineDetail>
 		    	<c:if test="${!assetLine.additionalChargeNonTradeInIndicator}">
 					<c:set var="chkcount" value="${chkcount+1}" />

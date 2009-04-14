@@ -37,7 +37,7 @@
         <ref bean="PurchasingAccountsPayableProcessingReport-transactionPostingDate" />
         <ref bean="PurchasingAccountsPayableProcessingReport-transactionDate" />
         <ref bean="PurchasingAccountsPayableProcessingReport-transactionDateTimeStamp" />
-        <ref bean="PurchasingAccountsPayableProcessingReport-active" />
+        <ref bean="PurchasingAccountsPayableProcessingReport-activityStatusCode" />
         <ref bean="PurchasingAccountsPayableProcessingReport-purapDocumentIdentifier" />
         <ref bean="PurchasingAccountsPayableProcessingReport-reportAmount" />
       </list>
@@ -156,9 +156,9 @@
   <bean id="PurchasingAccountsPayableProcessingReport-transactionDateTimeStamp-parentBean" abstract="true" parent="GeneralLedgerEntry-transactionDateTimeStamp">
   </bean>
   
-   <bean id="PurchasingAccountsPayableProcessingReport-active" parent="PurchasingAccountsPayableProcessingReport-active-parentBean" />
+   <bean id="PurchasingAccountsPayableProcessingReport-activityStatusCode" parent="PurchasingAccountsPayableProcessingReport-activityStatusCode-parentBean" />
 
-  <bean id="PurchasingAccountsPayableProcessingReport-active-parentBean" abstract="true" parent="GeneralLedgerEntry-active">
+  <bean id="PurchasingAccountsPayableProcessingReport-activityStatusCode-parentBean" abstract="true" parent="GeneralLedgerEntry-activityStatusCode">
   </bean>
   
   <bean id="PurchasingAccountsPayableProcessingReport-purapDocumentIdentifier" parent="PurchasingAccountsPayableProcessingReport-purapDocumentIdentifier-parentBean" />
@@ -225,7 +225,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="transactionDate" />
         <bean parent="FieldDefinition"
-              p:attributeName="active" p:defaultValue="Y" />       
+              p:attributeName="activityStatusCode" p:defaultValue="N" />       
       </list>
     </property>
     <property name="resultFields" >

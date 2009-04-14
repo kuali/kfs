@@ -56,7 +56,7 @@
     <field-descriptor name="transactionDate" column="TRANSACTION_DT" jdbc-type="DATE" />
     <field-descriptor name="projectCode" column="PROJECT_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="transactionDateTimeStamp" column="TIMESTAMP" jdbc-type="TIMESTAMP"/>
-    <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="activityStatusCode" column="ACTV_IND" jdbc-type="VARCHAR"/>
     
     <reference-descriptor name="account" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="chartOfAccountsCode" />
@@ -105,7 +105,7 @@
 	<field-descriptor name="purapDocumentIdentifier" column="PO_ITM_ID" jdbc-type="INTEGER"/>
 	<field-descriptor name="purchaseOrderIdentifier" column="PO_ID" jdbc-type="INTEGER"/>
 	<field-descriptor name="documentTypeCode" column="DOC_TYP_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="activityStatusCode" column="ACTV_IND" jdbc-type="VARCHAR"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -122,16 +122,11 @@
 	<field-descriptor name="capitalAssetBuilderLineNumber" column="CB_LN_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="generalLedgerAccountIdentifier" column="CB_GL_ACCT_ID" jdbc-type="BIGINT" primarykey="true" index="true"/>
 	<field-descriptor name="itemAccountTotalAmount" column="ITM_ACCT_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="activityStatusCode" column="ACTV_IND" jdbc-type="VARCHAR"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<reference-descriptor name="generalLedgerEntry" class-ref="org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true"> 
 		<foreignkey field-ref="generalLedgerAccountIdentifier"/>
-	</reference-descriptor>
-	<reference-descriptor name="purchasingAccountsPayableItemAsset" class-ref="org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-		<foreignkey field-ref="documentNumber"/>
-		<foreignkey field-ref="accountsPayableLineItemIdentifier"/>
-		<foreignkey field-ref="capitalAssetBuilderLineNumber"/>
 	</reference-descriptor>
 </class-descriptor>
 
@@ -139,7 +134,7 @@
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="accountsPayableLineItemIdentifier" column="PUR_ITM_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="capitalAssetBuilderLineNumber" column="CB_LN_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
-	<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="activityStatusCode" column="ACTV_IND" jdbc-type="VARCHAR"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="accountsPayableLineItemDescription" column="PUR_ITM_DESC" jdbc-type="VARCHAR"/>

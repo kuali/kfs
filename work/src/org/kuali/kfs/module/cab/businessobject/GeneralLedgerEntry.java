@@ -27,6 +27,7 @@ import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.gl.businessobject.Entry;
+import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -63,7 +64,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
     private Date transactionPostingDate;
     private Date transactionDate;
     private Timestamp transactionDateTimeStamp;
-    private boolean active;
+    private String activityStatusCode;
 
     // References
     private Account account;
@@ -79,6 +80,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
     // non-db fields
     private boolean selected;
     private KualiDecimal amount;
+    private boolean active;
 
     public GeneralLedgerEntry() {
         this.generalLedgerEntryAssets = new TypedArrayList(GeneralLedgerEntryAsset.class);
@@ -116,7 +118,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
         this.setTransactionDate(entry.getTransactionDate());
         this.setTransactionPostingDate(entry.getTransactionPostingDate());
         this.setTransactionDateTimeStamp(entry.getTransactionDateTimeStamp());
-        this.setActive(true);
+        this.setActivityStatusCode(CabConstants.ActivityStatusCode.NEW);
     }
 
     @Override
@@ -699,16 +701,26 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
      * @return Returns the active
      */
     public boolean isActive() {
-        return active;
+        return CabConstants.ActivityStatusCode.NEW.equalsIgnoreCase(this.getActivityStatusCode()) || CabConstants.ActivityStatusCode.MODIFIED.equalsIgnoreCase(this.getActivityStatusCode());
+    }
+
+
+    /**
+     * Gets the activityStatusCode attribute.
+     * 
+     * @return Returns the activityStatusCode.
+     */
+    public String getActivityStatusCode() {
+        return activityStatusCode;
     }
 
     /**
-     * Sets the active attribute.
+     * Sets the activityStatusCode attribute value.
      * 
-     * @param active The active to set.
+     * @param activityStatusCode The activityStatusCode to set.
      */
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setActivityStatusCode(String activityStatusCode) {
+        this.activityStatusCode = activityStatusCode;
     }
 
     /**

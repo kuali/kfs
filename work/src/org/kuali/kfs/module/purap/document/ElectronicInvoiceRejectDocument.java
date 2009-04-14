@@ -1784,6 +1784,11 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
         }
         else if (ObjectUtils.isNotNull(vendorDetail)) {
             return vendorDetail.getVendorNumber();
+        } else if (getVendorHeaderGeneratedIdentifier() != null && getVendorDetailAssignedIdentifier() != null){
+            VendorDetail vendorDetail = new VendorDetail();
+            vendorDetail.setVendorHeaderGeneratedIdentifier(getVendorHeaderGeneratedIdentifier());
+            vendorDetail.setVendorDetailAssignedIdentifier(getVendorDetailAssignedIdentifier());
+            return vendorDetail.getVendorNumber();
         }
         else
             return "";
@@ -1829,6 +1834,13 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
         return invoiceResearchIndicator;
     }
     
+    public String getInvoiceResearchIndicatorForResult(){
+        if (isInvoiceResearchIndicator()){
+            return "Yes";
+        }else{
+            return "No";
+        }
+    }
 
 }
 /*

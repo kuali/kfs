@@ -96,7 +96,9 @@ public abstract class AccountsPayableItemBase extends PurApItemBase implements A
     @Override
     public KualiDecimal getExtendedPrice() {
         if (ObjectUtils.isNotNull(this.getItemUnitPrice()) && this.getItemType().isAmountBasedGeneralLedgerIndicator()) {
-            extendedPrice = new KualiDecimal(this.getItemUnitPrice().toString());
+            if (ObjectUtils.isNull(extendedPrice)) {
+                extendedPrice = new KualiDecimal(this.getItemUnitPrice().toString());
+            }
         }else if (ObjectUtils.isNull(this.getItemUnitPrice()) && 
                   this.getItemType().isAmountBasedGeneralLedgerIndicator() &&
                   this.getItemType().isAdditionalChargeIndicator()){ // This additional charges check is needed since non qty items also dont have unit price - KULPURAP-3430

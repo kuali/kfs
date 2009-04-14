@@ -47,6 +47,11 @@ public class BatchSortUtil {
             throw new RuntimeException(e);
         }
 
+//        String lineLengh = GeneralLedgerConstants.getSpaceAllOriginEntryFields();
+//        File inputFile = new File(inputFileName);
+//        Long lineNumber = inputFile.length() / (lineLengh.length()+1);
+
+        
         List<String> lineList = new ArrayList();
         BufferedReader inputBufferedReader = new BufferedReader(inputFile);
         

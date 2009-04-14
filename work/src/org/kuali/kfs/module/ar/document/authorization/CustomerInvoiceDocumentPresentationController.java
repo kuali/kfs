@@ -17,6 +17,7 @@ package org.kuali.kfs.module.ar.document.authorization;
 
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArAuthorizationConstants;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
@@ -63,6 +64,11 @@ public class CustomerInvoiceDocumentPresentationController extends FinancialSyst
 
     @Override
     public boolean canErrorCorrect(FinancialSystemTransactionalDocument document) {
+        // check if this document has been error corrected
+        if (StringUtils.isNotBlank(document.getDocumentHeader().getCorrectedByDocumentId())) {
+            return false;
+        }
+        
         if(((CustomerInvoiceDocument)document).isInvoiceReversal()){
             return false;
         } else {

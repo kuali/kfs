@@ -854,7 +854,7 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntry, La
         setProjectCode(getValue(line, 64, 74));
         setTransactionLedgerEntryDescription(getValue(line, 74, 114));
         
-        if (!line.substring(114, 133).trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
+        if (!line.substring(114, 134).trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
                 setTransactionLedgerEntryAmount(new KualiDecimal(line.substring(114, 134).trim()));
             }

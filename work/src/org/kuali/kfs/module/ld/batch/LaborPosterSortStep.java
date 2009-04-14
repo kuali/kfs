@@ -69,22 +69,22 @@ public class LaborPosterSortStep extends AbstractStep {
     
             sb1.append(string1.substring(1, 25));
             sb1.append(string1.substring(64, 74));
-            sb1.append(string1.substring(154, 162));
+            sb1.append(string1.substring(155, 163));
             sb1.append(string1.substring(25, 51));
-            sb1.append(string1.substring(144, 154));
+            sb1.append(string1.substring(145, 155));
             sb1.append(string1.substring(51, 56));
             sb1.append(string1.substring(56, 64));
-            sb1.append(string1.substring(228, 242));
+            sb1.append(string1.substring(229, 243));
             
             StringBuffer sb2 = new StringBuffer();
             sb2.append(string1.substring(1, 25));
             sb2.append(string1.substring(64, 74));
-            sb2.append(string1.substring(154, 162));
+            sb2.append(string1.substring(155, 163));
             sb2.append(string1.substring(25, 51));
-            sb2.append(string1.substring(144, 154));
+            sb2.append(string1.substring(145, 155));
             sb2.append(string1.substring(51, 56));
             sb2.append(string1.substring(56, 64));
-            sb2.append(string1.substring(228, 242));
+            sb2.append(string1.substring(229, 243));
             return sb1.toString().compareTo(sb2.toString());
         }
     }

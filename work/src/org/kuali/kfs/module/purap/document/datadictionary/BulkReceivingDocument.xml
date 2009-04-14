@@ -146,13 +146,6 @@
     </property>
   </bean>
   
-  <bean id="BulkReceivingDocument-carrierNameForSearch" parent="BulkReceivingDocument-carrierNameForSearch-parentBean"/>
-
-  <bean id="BulkReceivingDocument-carrierNameForSearch-parentBean" abstract="true" parent="Carrier-carrierDescription">
-    <property name="name" value="carrierNameForSearch"/>
-    <property name="label" value="Carrier" />
-  </bean>
-  
   <bean id="BulkReceivingDocument-deliveryBuildingLine1Address" parent="BulkReceivingDocument-deliveryBuildingLine1Address-parentBean"/>
 
   <bean id="BulkReceivingDocument-deliveryBuildingLine1Address-parentBean" abstract="true" parent="VendorGenericAttributes-line1Address">

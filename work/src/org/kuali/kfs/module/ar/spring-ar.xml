@@ -618,7 +618,7 @@
 	<bean id="customerCreditMemoReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder" >
 		<property name="reportTitle" value="Customer Credit Memo Report" />
 		<property name="reportFileName" value="customer_credit_memo" />
-		<property name="reportsDirectory" value="${reports.directory}/" />
+		<property name="reportsDirectory" value="${reports.directory}/ar/" />
 		<property name="resourceBundleBaseName" value="org/kuali/kfs/module/ar/report/messages" />
 		<property name="reportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
 		<property name="reportTemplateName" value="CreditMemo" />
@@ -642,7 +642,7 @@
 	<bean id="customerInvoiceReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder" >
 		<property name="reportTitle" value="Customer Invoice Report" />
 		<property name="reportFileName" value="customer_invoice" />
-		<property name="reportsDirectory" value="${reports.directory}/" />
+		<property name="reportsDirectory" value="${reports.directory}/ar/" />
 		<property name="resourceBundleBaseName" value="org/kuali/kfs/module/ar/report/messages" />
 		<property name="reportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
 		<property name="reportTemplateName" value="Invoice" />
@@ -666,7 +666,7 @@
 	<bean id="customerStatementReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder" >
 		<property name="reportTitle" value="Customer Statement Report" />
 		<property name="reportFileName" value="customer_statement" />
-		<property name="reportsDirectory" value="${reports.directory}/" />
+		<property name="reportsDirectory" value="${reports.directory}/ar/" />
 		<property name="resourceBundleBaseName" value="org/kuali/kfs/module/ar/report/messages" />
 		<property name="reportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
 		<property name="reportTemplateName" value="Statement" />

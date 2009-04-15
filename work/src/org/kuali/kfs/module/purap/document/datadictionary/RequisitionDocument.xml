@@ -137,6 +137,7 @@
         <ref bean="RequisitionDocument-documentChartOfAccountsCodeForSearching"/>
         <ref bean="RequisitionDocument-documentOrganizationCodeForSearching"/> 
         <ref bean="RequisitionDocument-chartAndOrgCodeForResult"/>
+        <ref bean="RequisitionDocument-deliveryCampusCodeForSearch"/>
       </list>
     </property>
     <property name="validationMap" ref="RequisitionDocument-validations"/>
@@ -159,6 +160,36 @@
                   <bean parent="PrimitiveAttributeDefinition"
                         p:sourceName="documentOrganizationCodeForSearching"
                         p:targetName="organizationCode" />
+                </list>
+              </property>
+    		</bean>
+    		<bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="chartOfAccounts" />
+              <property name="primitiveAttributes" >
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition"
+                        p:sourceName="documentChartOfAccountsCodeForSearching"
+                        p:targetName="chartOfAccountsCode" />
+                </list>
+              </property>
+    		</bean>
+    		<bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="deliveryCampus" />
+              <property name="primitiveAttributes" >
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition"
+                        p:sourceName="deliveryCampusCodeForSearch"
+                        p:targetName="campusCode" />
+                </list>
+              </property>
+    		</bean>
+    		<bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="vendorDetail" />
+              <property name="primitiveAttributes" >
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition"
+                        p:sourceName="vendorNumber"
+                        p:targetName="vendorNumber" />
                 </list>
               </property>
     		</bean>
@@ -442,6 +473,23 @@
     <property name="label" value="Delivery Campus"/>
     <property name="shortLabel" value="Delivery Campus"/>
     <property name="required" value="true"/>
+  </bean>
+  
+  <bean id="RequisitionDocument-deliveryCampusCodeForSearch" parent="RequisitionDocument-deliveryCampusCodeForSearch-parentBean" />
+
+  <bean id="RequisitionDocument-deliveryCampusCodeForSearch-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="deliveryCampusCodeForSearch" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Delivery Campus" />
+    <property name="shortLabel" value="Delivery Campus" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
   </bean>
   
   <bean id="RequisitionDocument-deliveryBuildingOtherIndicator" parent="RequisitionDocument-deliveryBuildingOtherIndicator-parentBean"/>
@@ -1223,12 +1271,12 @@
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.RequisitionDocument"/>
-    						<property name="attributeName" value="deliveryCampusCode"/>
+    						<property name="attributeName" value="deliveryCampusCodeForSearch"/>
     					</bean>
     				</property>
     				<property name="documentValues">
     					<list>
-    						<value>deliveryCampusCode</value>
+    						<value>deliveryCampusCodeForSearch</value>
     					</list>
     				</property>
     			</bean>

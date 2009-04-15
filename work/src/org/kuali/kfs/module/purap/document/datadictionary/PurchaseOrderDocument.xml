@@ -164,6 +164,7 @@
         <ref bean="PurchaseOrderDocument-documentOrganizationCodeForSearching"/> 
         <ref bean="PurchaseOrderDocument-chartAndOrgCodeForResult"/>
         <ref bean="PurchaseOrderDocument-documentTitleForResult"/>
+        <ref bean="PurchaseOrderDocument-deliveryCampusCodeForSearch"/>
       </list>
     </property>
     <property name="validationMap" ref="PurchaseOrderDocument-validations"/>
@@ -176,6 +177,46 @@
                   <bean parent="PrimitiveAttributeDefinition"
                         p:sourceName="deliveryCampusCode"
                         p:targetName="campusCode" />
+                </list>
+              </property>
+    		</bean>
+    		<bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="organization" />
+              <property name="primitiveAttributes" >
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition"
+                        p:sourceName="documentOrganizationCodeForSearching"
+                        p:targetName="organizationCode" />
+                </list>
+              </property>
+    		</bean>
+    		<bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="chartOfAccounts" />
+              <property name="primitiveAttributes" >
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition"
+                        p:sourceName="documentChartOfAccountsCodeForSearching"
+                        p:targetName="chartOfAccountsCode" />
+                </list>
+              </property>
+    		</bean>
+    		<bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="deliveryCampus" />
+              <property name="primitiveAttributes" >
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition"
+                        p:sourceName="deliveryCampusCodeForSearch"
+                        p:targetName="campusCode" />
+                </list>
+              </property>
+    		</bean>
+    		<bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="vendorDetail" />
+              <property name="primitiveAttributes" >
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition"
+                        p:sourceName="vendorNumber"
+                        p:targetName="vendorNumber" />
                 </list>
               </property>
     		</bean>
@@ -518,6 +559,23 @@
     <property name="label" value="Delivery Campus"/>
     <property name="shortLabel" value="Delivery Campus"/>
     <property name="required" value="true"/>
+  </bean>
+  
+  <bean id="PurchaseOrderDocument-deliveryCampusCodeForSearch" parent="PurchaseOrderDocument-deliveryCampusCodeForSearch-parentBean" />
+
+  <bean id="PurchaseOrderDocument-deliveryCampusCodeForSearch-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="deliveryCampusCodeForSearch" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Delivery Campus" />
+    <property name="shortLabel" value="Delivery Campus" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
   </bean>
   
   <bean id="PurchaseOrderDocument-deliveryBuildingOtherIndicator" parent="PurchaseOrderDocument-deliveryBuildingOtherIndicator-parentBean"/>
@@ -1038,7 +1096,7 @@
   <bean id="PurchaseOrderDocument-purchaseOrderPreviousIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="purchaseOrderPreviousIdentifier"/>
     <property name="forceUppercase" value="true"/>
-    <property name="label" value="Purchase Order Previous Identifier"/>
+    <property name="label" value="Previous Purchase Order #"/>
     <property name="shortLabel" value="Identifier"/>
     <property name="maxLength" value="9"/>
     <property name="validationPattern">

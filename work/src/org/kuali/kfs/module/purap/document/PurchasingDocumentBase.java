@@ -1277,7 +1277,8 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         return getChartOfAccountsCode() + "-" + getOrganizationCode();
     }
     
-    public KualiDecimal getFinancialDocumentTotalAmountForResult1(){
-           return getDocumentHeader().getFinancialDocumentTotalAmount();
-       }
+    public String getDeliveryCampusCodeForSearch(){
+        return getDeliveryCampusCode();
+    }
+    
 }

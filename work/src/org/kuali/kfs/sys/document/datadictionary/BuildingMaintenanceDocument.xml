@@ -24,11 +24,7 @@
         <value>buildingCode</value>
       </list>
     </property>
-    
-    
-    
-    
-    
+
     <property name="documentTypeName" value="BLDG"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
@@ -36,11 +32,8 @@
     </property>
   </bean>
 
-<!-- Maintenance Section Definitions -->
-
-
+  <!-- Maintenance Section Definitions -->
   <bean id="BuildingMaintenanceDocument-EditBuilding" parent="BuildingMaintenanceDocument-EditBuilding-parentBean"/>
-
   <bean id="BuildingMaintenanceDocument-EditBuilding-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Edit Building"/>
     <property name="title" value="Edit Building"/>
@@ -49,11 +42,11 @@
         <bean parent="MaintainableFieldDefinition" p:name="campusCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="buildingCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="buildingName" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="buildingStreetAddress"/>
-        <bean parent="MaintainableFieldDefinition" p:name="buildingAddressCityName"/>
-        <bean parent="MaintainableFieldDefinition" p:name="buildingAddressStateCode"/>
-        <bean parent="MaintainableFieldDefinition" p:name="buildingAddressZipCode"/>
-         <bean parent="MaintainableFieldDefinition" p:name="buildingAddressCountryCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="buildingStreetAddress" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="buildingAddressCityName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="buildingAddressStateCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="buildingAddressZipCode" p:required="true"/>
+         <bean parent="MaintainableFieldDefinition" p:name="buildingAddressCountryCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="alternateBuildingCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
@@ -61,8 +54,6 @@
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="BuildingMaintenanceDocument-workflowAttributes" parent="BuildingMaintenanceDocument-workflowAttributes-parentBean"/>
-  
-  <bean id="BuildingMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
-  </bean>
+  <bean id="BuildingMaintenanceDocument-workflowAttributes" parent="BuildingMaintenanceDocument-workflowAttributes-parentBean"/>  
+  <bean id="BuildingMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

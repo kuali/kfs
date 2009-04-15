@@ -561,7 +561,7 @@
     			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.BulkReceivingDocument"/>
     					  <property name="attributeName" value="workflowStatusForResult"/>
-    					  <property name="showAttributeInSearchCriteria" value="true"/>
+    					  <property name="showAttributeInSearchCriteria" value="false"/>
     					  <property name="showAttributeInResultSet" value="true"/>
     				  </bean>
     			  </property>

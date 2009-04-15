@@ -1124,7 +1124,7 @@
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.businessobject.RequisitionStatus"/>
     						<property name="attributeName" value="statusDescription"/>
-    						<property name="showAttributeInSearchCriteria" value="true"/>
+    						<property name="showAttributeInSearchCriteria" value="false"/>
     						<property name="showAttributeInResultSet" value="true"/>
     					</bean>
     				</property>
@@ -1139,7 +1139,7 @@
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.RequisitionDocument"/>
     						<property name="attributeName" value="chartAndOrgCodeForResult"/>
-    						<property name="showAttributeInSearchCriteria" value="true"/>
+    						<property name="showAttributeInSearchCriteria" value="false"/>
     						<property name="showAttributeInResultSet" value="true"/>
     					</bean>
     				</property>
@@ -1154,6 +1154,7 @@
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.RequisitionDocument"/>
     						<property name="attributeName" value="vendorName"/>
+    						<property name="showAttributeInSearchCriteria" value="false"/>
     						<property name="showAttributeInResultSet" value="true"/>
     					</bean>
     				</property>

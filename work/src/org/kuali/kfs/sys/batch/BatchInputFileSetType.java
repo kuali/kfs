@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.kfs.gl.batch.service.EnterpriseFeederService;
 import org.kuali.rice.kim.bo.Person;
 
 /**
@@ -128,16 +127,5 @@ public interface BatchInputFileSetType extends BatchInputType {
      *        if it was created 
      */
     public void process(Map<String, File> typeToFiles);
-    
-    public String generateFileName(String fileType, String principalName, String fileUserIdentifer);
-    
-    public String generateDoneFileName(Person user, String fileUserIdentifer);
-    
-    public String getFileExtension(String fileType);
-    
-    public String generageDoneFileWithDataFile(String fileUserIdentifer);
-    
-    public String getDoneFileExtension();
-
 }
 

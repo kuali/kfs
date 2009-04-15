@@ -108,6 +108,7 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
                 RoleDocumentDelegationMember member = getUIDocumentService().getRoleDocumentDelegationMember(
                         delegationMember.getMemberTypeCode(), delegationMember.getMemberId(), delegation.getRoleId(), delegation.getDelegationTypeCode());
                 orr.setDelegationMemberId(delegationMember.getDelegationMemberId());
+                orr.setRoleMemberId(delegationMember.getRoleMemberId());
                 for(KimDelegationMemberAttributeDataImpl delegationMemberAttribute: (delegationMember).getAttributes()){
                     attribute = new KimAttributeDataImpl();
                     KimCommonUtils.copyProperties(attribute, delegationMemberAttribute);
@@ -387,11 +388,17 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
         List<PersistableBusinessObject> objectsToSave = new ArrayList<PersistableBusinessObject>();
         String memberId;
         KimDelegationMemberImpl delegationMember = null;
+        KimDelegationMemberImpl origDelegationMember = null;
         Map<String, Object> criteria;
-        if(!orr.isCopy() && !orr.isCreateDelegation() && StringUtils.isNotEmpty(orr.getDelegationMemberId())){
+        /*if(!orr.isCopy() && !orr.isCreateDelegation() && StringUtils.isNotEmpty(orr.getDelegationMemberId())){
             criteria = new HashMap<String, Object>();
             criteria.put(KimConstants.PrimaryKeyConstants.DELEGATION_MEMBER_ID, orr.getDelegationMemberId());
             delegationMember = (KimDelegationMemberImpl)getBusinessObjectService().findByPrimaryKey(KimDelegationMemberImpl.class, criteria);
+        }*/
+        if(orr.isEdit() && !orr.isCreateDelegation()){
+            criteria = new HashMap<String, Object>();
+            criteria.put(KimConstants.PrimaryKeyConstants.DELEGATION_MEMBER_ID, orr.getDelegationMemberId());
+            origDelegationMember = (KimDelegationMemberImpl)getBusinessObjectService().findByPrimaryKey(KimDelegationMemberImpl.class, criteria);
         }
         if(StringUtils.isNotEmpty(orr.getRoleMemberRoleNamespaceCode()) && StringUtils.isNotEmpty(orr.getRoleMemberRoleName())){
             if(delegationMember==null){
@@ -401,6 +408,10 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
             }
             delegationMember.setMemberTypeCode(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE);
             delegationMember.setDelegationId(delegation.getDelegationId());
+            if(orr.isEdit() && !orr.isCreateDelegation()){
+                delegationMember.setDelegationMemberId(orr.getDelegationMemberId());
+                delegationMember.setVersionNumber(origDelegationMember.getVersionNumber());
+            }
             if(StringUtils.isEmpty(delegationMember.getDelegationMemberId()))
                 delegationMember.setDelegationMemberId(getDelegationMemberId());
             //objectsToSave.addAll(getRoleRspActions(orr, delegationMember));
@@ -409,6 +420,7 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
             delegationMember.setActiveToDate(orr.getActiveToDate());
             delegationMember.setRoleMemberId(orr.getRoleMemberId());
             objectsToSave.add(delegationMember);
+            delegationMember = null;
         }
         if(StringUtils.isNotEmpty(orr.getGroupMemberGroupNamespaceCode()) && StringUtils.isNotEmpty(orr.getGroupMemberGroupName())){
             if(delegationMember==null){
@@ -419,6 +431,10 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
             }
             delegationMember.setMemberTypeCode(KimConstants.KimUIConstants.MEMBER_TYPE_GROUP_CODE);
             delegationMember.setDelegationId(delegation.getDelegationId());
+            if(orr.isEdit() && !orr.isCreateDelegation()){
+                delegationMember.setDelegationMemberId(orr.getDelegationMemberId());
+                delegationMember.setVersionNumber(origDelegationMember.getVersionNumber());
+            }
             if(StringUtils.isEmpty(delegationMember.getDelegationMemberId()))
                 delegationMember.setDelegationMemberId(getDelegationMemberId());
             //objectsToSave.addAll(getRoleRspActions(orr, delegationMember));
@@ -427,6 +443,7 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
             delegationMember.setActiveToDate(orr.getActiveToDate());
             delegationMember.setRoleMemberId(orr.getRoleMemberId());
             objectsToSave.add(delegationMember);
+            delegationMember = null;
         }
         if(StringUtils.isNotEmpty(orr.getPrincipalMemberPrincipalName())){
             if(delegationMember==null){
@@ -436,6 +453,10 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
             }
             delegationMember.setMemberTypeCode(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL_CODE);
             delegationMember.setDelegationId(delegation.getDelegationId());
+            if(orr.isEdit() && !orr.isCreateDelegation()){
+                delegationMember.setDelegationMemberId(orr.getDelegationMemberId());
+                delegationMember.setVersionNumber(origDelegationMember.getVersionNumber());
+            }
             if(StringUtils.isEmpty(delegationMember.getDelegationMemberId()))
                 delegationMember.setDelegationMemberId(getDelegationMemberId());
             //objectsToSave.addAll(getRoleRspActions(orr, delegationMember));
@@ -444,6 +465,7 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
             delegationMember.setActiveToDate(orr.getActiveToDate());
             delegationMember.setRoleMemberId(orr.getRoleMemberId());
             objectsToSave.add(delegationMember);
+            delegationMember = null;
         }
         return objectsToSave;
     }
@@ -452,11 +474,17 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
         List<PersistableBusinessObject> objectsToSave = new ArrayList<PersistableBusinessObject>();
         String memberId;
         RoleMemberImpl roleMember = null;
+        RoleMemberImpl origRoleMember = null;
         Map<String, Object> criteria;
-        if(!orr.isCopy() && StringUtils.isNotEmpty(orr.getRoleMemberId())){
+        /*if(!orr.isCopy() && StringUtils.isNotEmpty(orr.getRoleMemberId())){
             criteria = new HashMap<String, Object>();
             criteria.put(KimConstants.PrimaryKeyConstants.ROLE_MEMBER_ID, orr.getRoleMemberId());
             roleMember = (RoleMemberImpl)getBusinessObjectService().findByPrimaryKey(RoleMemberImpl.class, criteria);
+        }*/
+        if(orr.isEdit()){
+            criteria = new HashMap<String, Object>();
+            criteria.put(KimConstants.PrimaryKeyConstants.ROLE_MEMBER_ID, orr.getRoleMemberId());
+            origRoleMember = (RoleMemberImpl)getBusinessObjectService().findByPrimaryKey(RoleMemberImpl.class, criteria);
         }
         if(StringUtils.isNotEmpty(orr.getRoleMemberRoleNamespaceCode()) && StringUtils.isNotEmpty(orr.getRoleMemberRoleName())){
             if(roleMember==null){
@@ -466,6 +494,10 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
             }                
             roleMember.setMemberTypeCode(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE);
             roleMember.setRoleId(roleInfo.getRoleId());
+            if(orr.isEdit()){
+                roleMember.setRoleMemberId(orr.getRoleMemberId());
+                roleMember.setVersionNumber(origRoleMember.getVersionNumber());
+            }
             if(StringUtils.isEmpty(roleMember.getRoleMemberId()))
                 roleMember.setRoleMemberId(getRoleMemberId());
             objectsToSave.addAll(getRoleRspActions(orr, roleMember));
@@ -473,6 +505,7 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
             roleMember.setActiveFromDate(orr.getActiveFromDate());
             roleMember.setActiveToDate(orr.getActiveToDate());
             objectsToSave.add(roleMember);
+            roleMember = null;
         }
         if(StringUtils.isNotEmpty(orr.getGroupMemberGroupNamespaceCode()) && StringUtils.isNotEmpty(orr.getGroupMemberGroupName())){
             if(roleMember==null){
@@ -483,6 +516,10 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
             }
             roleMember.setMemberTypeCode(KimConstants.KimUIConstants.MEMBER_TYPE_GROUP_CODE);
             roleMember.setRoleId(roleInfo.getRoleId());
+            if(orr.isEdit()){
+                roleMember.setRoleMemberId(orr.getRoleMemberId());
+                roleMember.setVersionNumber(origRoleMember.getVersionNumber());
+            }
             if(StringUtils.isEmpty(roleMember.getRoleMemberId()))
                 roleMember.setRoleMemberId(getRoleMemberId());
             objectsToSave.addAll(getRoleRspActions(orr, roleMember));
@@ -490,6 +527,7 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
             roleMember.setActiveFromDate(orr.getActiveFromDate());
             roleMember.setActiveToDate(orr.getActiveToDate());
             objectsToSave.add(roleMember);
+            roleMember = null;
         }
         if(StringUtils.isNotEmpty(orr.getPrincipalMemberPrincipalName())){
             if(roleMember==null){
@@ -499,6 +537,10 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
             }
             roleMember.setMemberTypeCode(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL_CODE);
             roleMember.setRoleId(roleInfo.getRoleId());
+            if(orr.isEdit()){
+                roleMember.setRoleMemberId(orr.getRoleMemberId());
+                roleMember.setVersionNumber(origRoleMember.getVersionNumber());
+            }
             if(StringUtils.isEmpty(roleMember.getRoleMemberId()))
                 roleMember.setRoleMemberId(getRoleMemberId());
             objectsToSave.addAll(getRoleRspActions(orr, roleMember));
@@ -506,6 +548,7 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
             roleMember.setActiveFromDate(orr.getActiveFromDate());
             roleMember.setActiveToDate(orr.getActiveToDate());
             objectsToSave.add(roleMember);
+            roleMember = null;
         }
         return objectsToSave;
     }

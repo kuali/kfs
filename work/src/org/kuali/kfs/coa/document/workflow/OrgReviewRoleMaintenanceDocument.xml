@@ -6,9 +6,9 @@
       <parent>KFS</parent>
       <routePaths>
         <routePath>
-          <start name="AdHoc" />
+          <start name="AdHoc" nextNode="OrganizationHierarchy"/>
           <requests name="OrganizationHierarchy" nextNode="Chart"/>
-          <requests name="Chart" />
+          <requests name="Chart"/>
         </routePath>
       </routePaths>
       <routeNodes>

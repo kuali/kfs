@@ -82,14 +82,16 @@
   </bean>
 
 	<!-- workflow attributes -->
-  <bean id="OrgReviewRoleMaintenanceDocument-workflowAttributes" parent="OrgReviewRoleMaintenanceDocument-workflowAttributes-parentBean"/>
+  	<bean id="OrgReviewRoleMaintenanceDocument-workflowAttributes" parent="OrgReviewRoleMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="OrgReviewRoleMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
-		<property name="routingTypeDefinitions">
+	<bean id="OrgReviewRoleMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+	<property name="routingTypeDefinitions">
+    		
     		<map>
+    			<entry key="Chart" value-ref="OrgReviewRoleMaintenanceDocument-RoutingType-Chart"/>
     			<entry key="OrganizationHierarchy" value-ref="OrgReviewRoleMaintenanceDocument-RoutingType-OrganizationHierarchy"/>
-    			<entry key="Chart" value-ref="OrgReviewRoleMaintenanceDocument-RoutingType-OrganizationHierarchy"/>
     		</map>
+    	
 		</property>
 	</bean>
 	
@@ -101,21 +103,22 @@
     	<property name="qualificationAttributeName" value="organizationCode"/>
 	</bean>
 	
-   	<bean id="OrgReviewRoleMaintenanceDocument-DocumentValuePathGroup-ChartOrganization" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
-		<property name="documentValues">
-	   		<list>
-	   			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
-	   			<value>newMaintainableObject.businessObject.organizationCode</value>
-	   		</list>
-   		</property>
+	
+	<bean id="OrgReviewRoleMaintenanceDocument-DocumentValuePathGroup-ChartOrganization" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+    	<property name="documentValues">
+    		<list>
+    			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
+    			<value>newMaintainableObject.businessObject.organizationCode</value>
+    		</list>
+    	</property>
    	</bean>
-
-	<bean id="OrgReviewRoleMaintenanceDocument-DocumentValuePathGroup-Chart" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
-		<property name="documentValues">
-	   		<list>
-	   			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
-	   		</list>
-   		</property>
+   	
+   	<bean id="OrgReviewRoleMaintenanceDocument-DocumentValuePathGroup-Chart" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+    	<property name="documentValues">
+    		<list>
+    			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
+    		</list>
+    	</property>
    	</bean>
    	
    	<bean id="OrgReviewRoleMaintenanceDocument-RoutingType-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
@@ -131,7 +134,7 @@
     		</list>
     	</property>
     </bean>
-   	 
+
 	<bean id="OrgReviewRoleMaintenanceDocument-RoutingType-Chart" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>

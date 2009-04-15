@@ -17,6 +17,7 @@
         <ref bean="OrgReviewRole-documentTypeName" />        
         <ref bean="OrgReviewRole-roleId" />
         <ref bean="OrgReviewRole-roleName" />
+        <ref bean="OrgReviewRole-namespaceCode" />
         <ref bean="OrgReviewRole-reviewRolesIndicator" />
         <ref bean="OrgReviewRole-orgReviewRoleMemberId" />
         <ref bean="OrgReviewRole-roleMemberId" />
@@ -364,8 +365,8 @@
 
   <bean id="OrgReviewRole-lookupDefinition" parent="OrgReviewRole-lookupDefinition-parentBean" />
   <bean id="OrgReviewRole-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition"
-        p:title="Org Review Role Lookup" 
-        p:instructions="Lookup a Org Review Role" >
+        p:title="Organization Review Lookup" 
+        p:instructions="Lookup an Organization Review Role" >
     <property name="lookupableID" value="orgReviewRoleLookupable" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">

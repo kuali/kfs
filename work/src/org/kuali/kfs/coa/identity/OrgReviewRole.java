@@ -117,7 +117,7 @@ public class OrgReviewRole extends RoleImpl {
 
     //The role id this object corresponds to
     protected String roleId;
-    protected String roleNamespaceCode;
+    protected String namespaceCode;
     protected String roleName;
     
     //Identifying information for a single member (of any type)
@@ -1339,15 +1339,15 @@ public class OrgReviewRole extends RoleImpl {
      * Gets the roleNamespaceCode attribute. 
      * @return Returns the roleNamespaceCode.
      */
-    public String getRoleNamespaceCode() {
-        return roleNamespaceCode;
+    public String getNamespaceCode() {
+        return namespaceCode;
     }
     /**
      * Sets the roleNamespaceCode attribute value.
      * @param roleNamespaceCode The roleNamespaceCode to set.
      */
-    public void setRoleNamespaceCode(String roleNamespaceCode) {
-        this.roleNamespaceCode = roleNamespaceCode;
+    public void setNamespaceCode(String namespaceCode) {
+        this.namespaceCode = namespaceCode;
     }
 
 }

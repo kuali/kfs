@@ -101,10 +101,14 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
                 for(KimDelegationImpl delegation: roleDelegations){
                     for(KimDelegationMemberImpl delegationMember: delegation.getMembers()){
                         member = orr.getDelegationMemberOfType(delegationMember.getMemberTypeCode());
-                        memberId = getUiDocumentService().getMemberIdByName(member.getMemberTypeCode(), member.getMemberNamespaceCode(), member.getMemberName());
-                        if(member!=null && StringUtils.isNotEmpty(memberId) && memberId.equals(delegationMember.getMemberId())){
-                           putFieldError(orr.getDelegationMemberFieldName(member), KFSKeyConstants.ALREADY_ASSIGNED_MEMBER);
-                           valid = false;
+                        if(member!=null && StringUtils.isNotEmpty(member.getMemberName())){
+                            memberId = getUiDocumentService().getMemberIdByName(member.getMemberTypeCode(), member.getMemberNamespaceCode(), member.getMemberName());
+                            if(member!=null && StringUtils.isNotEmpty(memberId) && memberId.equals(delegationMember.getMemberId())
+                                    && (StringUtils.isNotEmpty(orr.getRoleMemberId()) && StringUtils.isNotEmpty(delegationMember.getRoleMemberId()) 
+                                            && orr.getRoleMemberId().equals(delegationMember.getRoleMemberId()))){
+                               putFieldError(orr.getDelegationMemberFieldName(member), KFSKeyConstants.ALREADY_ASSIGNED_MEMBER);
+                               valid = false;
+                            }
                         }
                     }
                 }
@@ -164,10 +168,12 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
                 String memberId;
                 for(RoleMembershipInfo roleMembershipInfo: roleMembershipInfoList){
                     member = orr.getRoleMemberOfType(roleMembershipInfo.getMemberTypeCode());
-                    memberId = getUiDocumentService().getMemberIdByName(member.getMemberTypeCode(), member.getMemberNamespaceCode(), member.getMemberName());
-                    if(member!=null && StringUtils.isNotEmpty(memberId) && memberId.equals(roleMembershipInfo.getMemberId())){
-                       putFieldError(orr.getMemberFieldName(member), KFSKeyConstants.ALREADY_ASSIGNED_MEMBER);
-                       valid = false;
+                    if(member!=null && StringUtils.isNotEmpty(member.getMemberName())){
+                        memberId = getUiDocumentService().getMemberIdByName(member.getMemberTypeCode(), member.getMemberNamespaceCode(), member.getMemberName());
+                        if(member!=null && StringUtils.isNotEmpty(memberId) && memberId.equals(roleMembershipInfo.getMemberId())){
+                           putFieldError(orr.getMemberFieldName(member), KFSKeyConstants.ALREADY_ASSIGNED_MEMBER);
+                           valid = false;
+                        }
                     }
                 }
             }

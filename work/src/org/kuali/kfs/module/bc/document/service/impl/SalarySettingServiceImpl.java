@@ -61,6 +61,7 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -165,7 +166,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
         // appointmentFunding.refreshReferenceObject(BCPropertyConstants.BUDGET_CONSTRUCTION_POSITION);
         BudgetConstructionPosition position = appointmentFunding.getBudgetConstructionPosition();
-        if (position == null) {
+        if (ObjectUtils.isNull(position)) {
             return BigDecimal.ZERO;
         }
 

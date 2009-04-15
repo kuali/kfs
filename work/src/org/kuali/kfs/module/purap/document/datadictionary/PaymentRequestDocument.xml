@@ -116,6 +116,9 @@
         <ref bean="PaymentRequestDocument-requestCancelIndicatorForResult"/>
         <ref bean="PaymentRequestDocument-holdIndicatorForResult"/>
         <ref bean="PaymentRequestDocument-paidIndicatorForResult"/>
+        <ref bean="PaymentRequestDocument-documentChartOfAccountsCodeForSearching"/>
+        <ref bean="PaymentRequestDocument-documentOrganizationCodeForSearching"/> 
+        <ref bean="PaymentRequestDocument-processingCampusCodeForSearch"/>
       </list>
     </property>
     <property name="validationMap" ref="PaymentRequestDocument-validations"/>    
@@ -128,6 +131,46 @@
                   <bean parent="PrimitiveAttributeDefinition"
                         p:sourceName="processingCampusCode"
                         p:targetName="campusCode" />
+                </list>
+              </property>
+    		</bean>
+    		<bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="processingCampus" />
+              <property name="primitiveAttributes" >
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition"
+                        p:sourceName="processingCampusCodeForSearch"
+                        p:targetName="campusCode" />
+                </list>
+              </property>
+    		</bean>
+    		<bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="vendorDetail" />
+              <property name="primitiveAttributes" >
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition"
+                        p:sourceName="vendorNumber"
+                        p:targetName="vendorNumber" />
+                </list>
+              </property>
+    		</bean>
+    		<bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="purchaseOrderDocument.organization" />
+              <property name="primitiveAttributes" >
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition"
+                        p:sourceName="documentOrganizationCodeForSearching"
+                        p:targetName="organizationCode" />
+                </list>
+              </property>
+    		</bean>
+    		<bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="purchaseOrderDocument.chartOfAccounts" />
+              <property name="primitiveAttributes" >
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition"
+                        p:sourceName="documentChartOfAccountsCodeForSearching"
+                        p:targetName="chartOfAccountsCode" />
                 </list>
               </property>
     		</bean>
@@ -290,6 +333,24 @@
     <property name="shortLabel" value="Process Campus"/>
     <property name="required" value="true"/>
   </bean>
+  
+  <bean id="PaymentRequestDocument-processingCampusCodeForSearch" parent="PaymentRequestDocument-processingCampusCodeForSearch-parentBean" />
+
+  <bean id="PaymentRequestDocument-processingCampusCodeForSearch-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="processingCampusCodeForSearch" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Process Campus" />
+    <property name="shortLabel" value="Process Campus" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  
   <bean id="PaymentRequestDocument-noteLine1Text" parent="PaymentRequestDocument-noteLine1Text-parentBean"/>
 
   <bean id="PaymentRequestDocument-noteLine1Text-parentBean" abstract="true" parent="AttributeDefinition">
@@ -918,6 +979,22 @@
     </property> 
   </bean>    
 
+  <bean id="PaymentRequestDocument-documentChartOfAccountsCodeForSearching" parent="PaymentRequestDocument-documentChartOfAccountsCodeForSearching-parentBean"/>
+
+  <bean id="PaymentRequestDocument-documentChartOfAccountsCodeForSearching-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="name" value="documentChartOfAccountsCodeForSearching"/>
+    <property name="label" value="PO Chart Code"/>
+    <property name="shortLabel" value="Chart Code"/>
+  </bean>
+  
+  <bean id="PaymentRequestDocument-documentOrganizationCodeForSearching" parent="PaymentRequestDocument-documentOrganizationCodeForSearching-parentBean"/>
+
+  <bean id="PaymentRequestDocument-documentOrganizationCodeForSearching-parentBean" abstract="true" parent="PurApGenericAttributes-organizationCode">
+    <property name="name" value="documentOrganizationCodeForSearching"/>
+    <property name="label" value="PO Organization Code"/>
+    <property name="shortLabel" value="Organization Code"/>
+  </bean>
+  
   <!--Payment Request accountingInformation -->
     <bean id="paymentRequestAccountingInformation" parent="paymentRequestAccountingInformation-parent"/>
 
@@ -1216,17 +1293,45 @@
     						<value>vendorNumber</value>
     					</list>
     				</property>
-    			</bean>   			
+    			</bean>   
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    	      		<property name="searchingAttribute">
+    	      			<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    	      				<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument"/>
+    	      				<property name="attributeName" value="documentChartOfAccountsCodeForSearching" />
+    	      				<property name="showAttributeInResultSet" value="false"/>
+    	      			</bean>
+    	      		</property>
+    	      		<property name="documentValues">
+    	      			<list>
+    	      				<value>documentChartOfAccountsCodeForSearching</value>
+    	      			</list>
+    	      		</property>
+    	      	</bean>
+    	      	<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    	      		<property name="searchingAttribute">
+    	      			<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    	      				<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument"/>
+    	      				<property name="attributeName" value="documentOrganizationCodeForSearching" />
+    	      				<property name="showAttributeInResultSet" value="false"/>
+    	      			</bean>
+    	      		</property>
+    	      		<property name="documentValues">
+    	      			<list>
+    	      				<value>documentOrganizationCodeForSearching</value>
+    	      			</list>
+    	      		</property>
+    	      	</bean>			
      			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
   					<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument"/>
-    						<property name="attributeName" value="processingCampusCode"/>
+    						<property name="attributeName" value="processingCampusCodeForSearch"/>
     					</bean>
     				</property>
     				<property name="documentValues">
     					<list>
-    						<value>processingCampusCode</value>
+    						<value>processingCampusCodeForSearch</value>
     					</list>
     				</property>
     			</bean>
@@ -1276,6 +1381,7 @@
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument"/>
     						<property name="attributeName" value="extractedTimestamp"/>
+    						<property name="showAttributeInSearchCriteria" value="false"/>
     						<property name="showAttributeInResultSet" value="true"/>	
     					</bean>
     				</property>

@@ -73,6 +73,9 @@
         <ref bean="VendorCreditMemoDocument-holdIndicatorForSearching"/>
         <ref bean="VendorCreditMemoDocument-holdIndicatorForResult"/>
         <ref bean="VendorCreditMemoDocument-paidIndicatorForResult"/>
+        <ref bean="VendorCreditMemoDocument-documentChartOfAccountsCodeForSearching"/>
+        <ref bean="VendorCreditMemoDocument-documentOrganizationCodeForSearching"/> 
+        <ref bean="VendorCreditMemoDocument-processingCampusCodeForSearch"/>
       </list>
     </property>
     <property name="validationMap" ref="VendorCreditMemoDocument-validations"/>
@@ -85,6 +88,46 @@
                   <bean parent="PrimitiveAttributeDefinition"
                         p:sourceName="processingCampusCode"
                         p:targetName="campusCode" />
+                </list>
+              </property>
+    		</bean>
+    		<bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="processingCampus" />
+              <property name="primitiveAttributes" >
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition"
+                        p:sourceName="processingCampusCodeForSearch"
+                        p:targetName="campusCode" />
+                </list>
+              </property>
+    		</bean>
+    		<bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="vendorDetail" />
+              <property name="primitiveAttributes" >
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition"
+                        p:sourceName="vendorNumber"
+                        p:targetName="vendorNumber" />
+                </list>
+              </property>
+    		</bean>
+    		<bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="purchaseOrderDocument.organization" />
+              <property name="primitiveAttributes" >
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition"
+                        p:sourceName="documentOrganizationCodeForSearching"
+                        p:targetName="organizationCode" />
+                </list>
+              </property>
+    		</bean>
+    		<bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="purchaseOrderDocument.chartOfAccounts" />
+              <property name="primitiveAttributes" >
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition"
+                        p:sourceName="documentChartOfAccountsCodeForSearching"
+                        p:targetName="chartOfAccountsCode" />
                 </list>
               </property>
     		</bean>
@@ -515,7 +558,40 @@
 	  </bean>
     </property> 
   </bean>
-    
+  
+  <bean id="VendorCreditMemoDocument-documentChartOfAccountsCodeForSearching" parent="VendorCreditMemoDocument-documentChartOfAccountsCodeForSearching-parentBean"/>
+
+  <bean id="VendorCreditMemoDocument-documentChartOfAccountsCodeForSearching-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="name" value="documentChartOfAccountsCodeForSearching"/>
+    <property name="label" value="PO Chart Code"/>
+    <property name="shortLabel" value="Chart Code"/>
+  </bean>
+  
+  <bean id="VendorCreditMemoDocument-documentOrganizationCodeForSearching" parent="VendorCreditMemoDocument-documentOrganizationCodeForSearching-parentBean"/>
+
+  <bean id="VendorCreditMemoDocument-documentOrganizationCodeForSearching-parentBean" abstract="true" parent="PurApGenericAttributes-organizationCode">
+    <property name="name" value="documentOrganizationCodeForSearching"/>
+    <property name="label" value="PO Organization Code"/>
+    <property name="shortLabel" value="Organization Code"/>
+  </bean>
+  
+  <bean id="VendorCreditMemoDocument-processingCampusCodeForSearch" parent="VendorCreditMemoDocument-processingCampusCodeForSearch-parentBean" />
+
+  <bean id="VendorCreditMemoDocument-processingCampusCodeForSearch-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="processingCampusCodeForSearch" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Process Campus" />
+    <property name="shortLabel" value="Process Campus" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  	    
   <!-- Credit Memo accountingInformation -->
     <bean id="creditMemoAccountingInformation" parent="creditMemoAccountingInformation-parent"/>
 
@@ -546,7 +622,7 @@
 			</list>
 		</property>
 	</bean>  
-	  
+	
     <!-- accounting line groups -->
     <bean id="VendorCreditMemoDocument-sourceAccountingLineGroup" parent="VendorCreditMemoDocument-sourceAccountingLineGroup-parentBean"/>  
     <bean id="VendorCreditMemoDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
@@ -776,16 +852,44 @@
     					</list>
     				</property>
     			</bean>
-      			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-   					<property name="searchingAttribute">
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    	      		<property name="searchingAttribute">
+    	      			<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    	      				<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument"/>
+    	      				<property name="attributeName" value="documentChartOfAccountsCodeForSearching" />
+    	      				<property name="showAttributeInResultSet" value="false"/>
+    	      			</bean>
+    	      		</property>
+    	      		<property name="documentValues">
+    	      			<list>
+    	      				<value>documentChartOfAccountsCodeForSearching</value>
+    	      			</list>
+    	      		</property>
+    	      	</bean>
+    	      	<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    	      		<property name="searchingAttribute">
+    	      			<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    	      				<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument"/>
+    	      				<property name="attributeName" value="documentOrganizationCodeForSearching" />
+    	      				<property name="showAttributeInResultSet" value="false"/>
+    	      			</bean>
+    	      		</property>
+    	      		<property name="documentValues">
+    	      			<list>
+    	      				<value>documentOrganizationCodeForSearching</value>
+    	      			</list>
+    	      		</property>
+    	      	</bean>			
+     			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+  					<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument"/>
-    						<property name="attributeName" value="processingCampusCode"/>
+    						<property name="attributeName" value="processingCampusCodeForSearch"/>
     					</bean>
     				</property>
     				<property name="documentValues">
     					<list>
-    						<value>processingCampusCode</value>
+    						<value>processingCampusCodeForSearch</value>
     					</list>
     				</property>
     			</bean>
@@ -835,6 +939,7 @@
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument"/>
     						<property name="attributeName" value="extractedTimestamp"/>
+    						<property name="showAttributeInSearchCriteria" value="false"/>
     						<property name="showAttributeInResultSet" value="true"/>	
     					</bean>
     				</property>

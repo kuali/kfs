@@ -582,5 +582,16 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         return isHoldIndicator() ? "Yes" : "No";
     }
     
+    public String getProcessingCampusCodeForSearch(){
+        return getProcessingCampusCode();
+    }
+    
+    public String getDocumentChartOfAccountsCodeForSearching(){
+        return getPurchaseOrderDocument().getChartOfAccountsCode();
+    }
+    
+    public String getDocumentOrganizationCodeForSearching(){
+        return getPurchaseOrderDocument().getOrganizationCode();
+    }
 }
 

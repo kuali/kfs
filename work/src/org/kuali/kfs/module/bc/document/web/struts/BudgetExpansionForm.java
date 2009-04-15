@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.rice.kns.util.ErrorMap;
@@ -39,13 +39,13 @@ public class BudgetExpansionForm extends KualiForm {
 
     // form messages
     private MessageList messages;
-    
+
     private MessageList callBackMessages = new MessageList();
     private ErrorMap callBackErrors = new ErrorMap();
-    
+
     private Map<String, String> editingMode;
     private Map<String, String> documentActions;
-    
+
     private boolean lostSession = false;
     private boolean mainWindow = true;
 
@@ -130,7 +130,7 @@ public class BudgetExpansionForm extends KualiForm {
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
     }
-    
+
     /**
      * Gets the messages attribute.
      * 
@@ -163,7 +163,8 @@ public class BudgetExpansionForm extends KualiForm {
     }
 
     /**
-     * Gets the callBackMessages attribute. 
+     * Gets the callBackMessages attribute.
+     * 
      * @return Returns the callBackMessages.
      */
     public MessageList getCallBackMessages() {
@@ -171,7 +172,8 @@ public class BudgetExpansionForm extends KualiForm {
     }
 
     /**
-     * Gets the callBackErrors attribute. 
+     * Gets the callBackErrors attribute.
+     * 
      * @return Returns the callBackErrors.
      */
     public ErrorMap getCallBackErrors() {
@@ -213,7 +215,7 @@ public class BudgetExpansionForm extends KualiForm {
     public void setDocumentActions(Map<String, String> documentActions) {
         this.documentActions = documentActions;
     }
-    
+
     /**
      * Helper method to check edit mode Map for system view only entry
      */
@@ -229,7 +231,8 @@ public class BudgetExpansionForm extends KualiForm {
     }
 
     /**
-     * Gets the lostSession attribute. 
+     * Gets the lostSession attribute.
+     * 
      * @return Returns the lostSession.
      */
     public boolean isLostSession() {
@@ -238,6 +241,7 @@ public class BudgetExpansionForm extends KualiForm {
 
     /**
      * Sets the lostSession attribute value.
+     * 
      * @param lostSession The lostSession to set.
      */
     public void setLostSession(boolean lostSession) {
@@ -245,7 +249,8 @@ public class BudgetExpansionForm extends KualiForm {
     }
 
     /**
-     * Gets the mainWindow attribute. 
+     * Gets the mainWindow attribute.
+     * 
      * @return Returns the mainWindow.
      */
     public boolean isMainWindow() {
@@ -254,10 +259,22 @@ public class BudgetExpansionForm extends KualiForm {
 
     /**
      * Sets the mainWindow attribute value.
+     * 
      * @param mainWindow The mainWindow to set.
      */
     public void setMainWindow(boolean mainWindow) {
         this.mainWindow = mainWindow;
     }
-    
+
+    /**
+     * @see org.kuali.rice.kns.web.struts.form.KualiForm#shouldPropertyBePopulatedInForm(java.lang.String,
+     *      javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    public boolean shouldPropertyBePopulatedInForm(String requestParameterName, HttpServletRequest request) {
+        // TODO remove this override when we get field security figured out for this form when scoped as session
+        // return super.shouldPropertyBePopulatedInForm(requestParameterName, request);
+        return true;
+    }
+
 }

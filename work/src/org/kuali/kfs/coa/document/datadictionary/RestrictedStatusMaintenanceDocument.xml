@@ -38,6 +38,7 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="accountRestrictedStatusCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="accountRestrictedStatusName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>        
       </list>
     </property>
   </bean>

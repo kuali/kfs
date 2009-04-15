@@ -22,19 +22,21 @@ import org.kuali.kfs.sys.batch.service.CacheService;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.RoleManagementService;
+import org.kuali.rice.kns.service.ParameterService;
 
 import com.opensymphony.oscache.general.GeneralCacheAdministrator;
 
 /**
  * @see com.rsmart.kuali.kfs.sys.batch.service.CacheService
- */ 
+ */
 @NonTransactional
 public class CacheServiceImpl implements CacheService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CacheServiceImpl.class);
-    
+
     private List<GeneralCacheAdministrator> cacheAdminstrators;
     private RoleManagementService roleManagementService;
     private IdentityManagementService identityManagementService;
+    private ParameterService parameterService;
     private CachingDao cachingDao;
 
     /**
@@ -44,6 +46,7 @@ public class CacheServiceImpl implements CacheService {
         clearMethodCache();
         clearKIMCache();
         clearCachingDaoCache();
+        clearParameterCache();
     }
 
     /**
@@ -51,7 +54,7 @@ public class CacheServiceImpl implements CacheService {
      */
     protected void clearMethodCache() {
         LOG.info("clearing spring method cache ...");
-        
+
         if (cacheAdminstrators != null) {
             for (GeneralCacheAdministrator cache : cacheAdminstrators) {
                 cache.flushAll();
@@ -64,7 +67,7 @@ public class CacheServiceImpl implements CacheService {
      */
     protected void clearKIMCache() {
         LOG.info("clearing KIM role & identity service cache ...");
-        
+
         roleManagementService.flushRoleCaches();
         identityManagementService.flushAllCaches();
     }
@@ -74,8 +77,17 @@ public class CacheServiceImpl implements CacheService {
      */
     protected void clearCachingDaoCache() {
         LOG.info("clearing caching dao jdbc cache ...");
-        
+
         cachingDao.flushCache();
+    }
+
+    /**
+     * Clears out parameter cache by calling flush method on parameter service
+     */
+    protected void clearParameterCache() {
+        LOG.info("clearing parameter cache ...");
+
+        parameterService.clearCache();
     }
 
     /**
@@ -149,4 +161,23 @@ public class CacheServiceImpl implements CacheService {
     public void setCachingDao(CachingDao cachingDao) {
         this.cachingDao = cachingDao;
     }
+
+    /**
+     * Gets the parameterService attribute.
+     * 
+     * @return Returns the parameterService.
+     */
+    protected ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    /**
+     * Sets the parameterService attribute value.
+     * 
+     * @param parameterService The parameterService to set.
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
 }

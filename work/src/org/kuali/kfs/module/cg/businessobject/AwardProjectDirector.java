@@ -18,6 +18,7 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.impl.PersonImpl;
@@ -37,6 +38,9 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
     private boolean active = true;
 
     private Person projectDirector;
+    
+    private final String userLookupRoleNamespaceCode = KFSConstants.ParameterNamespaces.KFS;
+    private final String userLookupRoleName = KFSConstants.SysKimConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR;
 
     /**
      * Default no-args constructor.
@@ -146,6 +150,20 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
      */
     public void setActive(boolean active) {
         this.active = active;
+    }
+    
+    public String getUserLookupRoleNamespaceCode() {
+        return userLookupRoleNamespaceCode;
+    }
+
+    public void setUserLookupRoleNamespaceCode(String userLookupRoleNamespaceCode) {
+    }
+
+    public String getUserLookupRoleName() {
+        return userLookupRoleName;
+    }
+
+    public void setUserLookupRoleName(String userLookupRoleName) {
     }
 
     /**

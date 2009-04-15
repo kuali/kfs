@@ -41,12 +41,17 @@
           <property name="supportAttributes" >
             <list>
               <bean parent="SupportAttributeDefinition"
-                    p:identifier="true"
                     p:sourceName="projectDirector.principalName"
                     p:targetName="principalName" />
               <bean parent="SupportAttributeDefinition"
                     p:sourceName="projectDirector.name"
                     p:targetName="name" />
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="userLookupRoleNamespaceCode"
+                    p:targetName="lookupRoleNamespaceCode" />
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="userLookupRoleName"
+                    p:targetName="lookupRoleName" />                    
             </list>
           </property>
         </bean>

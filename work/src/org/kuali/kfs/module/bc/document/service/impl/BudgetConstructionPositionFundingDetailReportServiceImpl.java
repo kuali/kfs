@@ -34,6 +34,7 @@ import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointme
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionPositionFundingDetailReportDao;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionPositionFundingDetailReportService;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper;
+import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -49,6 +50,7 @@ public class BudgetConstructionPositionFundingDetailReportServiceImpl implements
     private BudgetConstructionPositionFundingDetailReportDao budgetConstructionPositionFundingDetailReportDao;
     private KualiConfigurationService kualiConfigurationService;
     private BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
+    private SalarySettingService salarySettingService;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionPositionFundingDetailReportService#updatePositionFundingDetailReport(java.lang.String,
@@ -163,7 +165,7 @@ public class BudgetConstructionPositionFundingDetailReportServiceImpl implements
         if (budgetConstructionPosition != null) {
             detailReportEntry.setPositionNumber(budgetConstructionPosition.getPositionNumber());
             detailReportEntry.setNormalWorkMonthsAndiuPayMonths(budgetConstructionPosition.getIuNormalWorkMonths() + "/" + budgetConstructionPosition.getIuPayMonths());
-            detailReportEntry.setPositionFte(budgetConstructionPosition.getPositionFullTimeEquivalency().setScale(5, 5).toString());
+            detailReportEntry.setPositionFte(BudgetConstructionReportHelper.setDecimalDigit(budgetConstructionPosition.getPositionFullTimeEquivalency(), 2, false));
             detailReportEntry.setPositionSalaryPlanDefault(budgetConstructionPosition.getPositionSalaryPlanDefault());
             detailReportEntry.setPositionGradeDefault(budgetConstructionPosition.getPositionGradeDefault());
             detailReportEntry.setPositionStandardHoursDefault(budgetConstructionPosition.getPositionStandardHoursDefault());
@@ -174,9 +176,9 @@ public class BudgetConstructionPositionFundingDetailReportServiceImpl implements
         detailReportEntry.setPercentChange(BigDecimal.ZERO);
         if (csfTracker != null) {
             detailReportEntry.setCsfFundingStatusCode(csfTracker.getCsfFundingStatusCode());
-            detailReportEntry.setCsfTimePercent(csfTracker.getCsfTimePercent().setScale(2, 2));
+            detailReportEntry.setCsfTimePercent(BudgetConstructionReportHelper.setDecimalDigit(csfTracker.getCsfTimePercent(), 2, false));
             detailReportEntry.setCsfAmount(new Integer(csfTracker.getCsfAmount().intValue()));
-            detailReportEntry.setCsfFullTimeEmploymentQuantity(csfTracker.getCsfFullTimeEmploymentQuantity().setScale(5, 5).toString());
+            detailReportEntry.setCsfFullTimeEmploymentQuantity(BudgetConstructionReportHelper.setDecimalDigit(csfTracker.getCsfFullTimeEmploymentQuantity(), 5, false));
 
             // calculate amountChange and percentChange
             Integer amountChange = new Integer(0);
@@ -196,16 +198,19 @@ public class BudgetConstructionPositionFundingDetailReportServiceImpl implements
 
             detailReportEntry.setAppointmentFundingMonth(appointmentFundingEntry.getAppointmentFundingMonth());
             detailReportEntry.setAppointmentRequestedAmount(new Integer(appointmentFundingEntry.getAppointmentRequestedAmount().intValue()));
-            detailReportEntry.setAppointmentRequestedTimePercent(appointmentFundingEntry.getAppointmentRequestedTimePercent().setScale(2, 2));
-            detailReportEntry.setAppointmentRequestedFteQuantity(appointmentFundingEntry.getAppointmentRequestedFteQuantity().setScale(5, 5).toString());
-            detailReportEntry.setAppointmentFundingDurationCode(appointmentFundingEntry.getAppointmentFundingDurationCode());
+            detailReportEntry.setAppointmentRequestedTimePercent(BudgetConstructionReportHelper.setDecimalDigit(appointmentFundingEntry.getAppointmentRequestedTimePercent(), 2, false));
+            detailReportEntry.setAppointmentRequestedFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(appointmentFundingEntry.getAppointmentRequestedFteQuantity(), 5, false));
+            if (salarySettingService.isHourlyPaidObject(appointmentFundingEntry.getUniversityFiscalYear(), appointmentFundingEntry.getChartOfAccountsCode(), appointmentFundingEntry.getFinancialObjectCode())){
+                detailReportEntry.setAppointmentRequestedPayRate(appointmentFundingEntry.getAppointmentRequestedPayRate());
+            }
 
+            detailReportEntry.setAppointmentFundingDurationCode(appointmentFundingEntry.getAppointmentFundingDurationCode());
             detailReportEntry.setAppointmentRequestedCsfAmount(BudgetConstructionReportHelper.convertKualiInteger(appointmentFundingEntry.getAppointmentRequestedCsfAmount()));
-            detailReportEntry.setAppointmentRequestedCsfTimePercent(appointmentFundingEntry.getAppointmentRequestedCsfTimePercent());
-            detailReportEntry.setAppointmentRequestedCsfFteQuantity(appointmentFundingEntry.getAppointmentRequestedCsfFteQuantity().setScale(5, 5).toString());
+            detailReportEntry.setAppointmentRequestedCsfTimePercent(BudgetConstructionReportHelper.setDecimalDigit(appointmentFundingEntry.getAppointmentRequestedCsfTimePercent(), 2, false));
+            detailReportEntry.setAppointmentRequestedCsfFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(appointmentFundingEntry.getAppointmentRequestedCsfFteQuantity(), 5, false));
 
             detailReportEntry.setAppointmentTotalIntendedAmount(BudgetConstructionReportHelper.convertKualiInteger(appointmentFundingEntry.getAppointmentTotalIntendedAmount()));
-            detailReportEntry.setAppointmentTotalIntendedFteQuantity(appointmentFundingEntry.getAppointmentTotalIntendedFteQuantity().setScale(5, 5).toString());
+            detailReportEntry.setAppointmentTotalIntendedFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(appointmentFundingEntry.getAppointmentTotalIntendedFteQuantity(), 5, false));
 
             detailReportEntry.setEmplid(appointmentFundingEntry.getEmplid());
         }
@@ -233,8 +238,8 @@ public class BudgetConstructionPositionFundingDetailReportServiceImpl implements
             if (BudgetConstructionReportHelper.isSameEntry(fundingDetailTotalPersonEntry.getBudgetConstructionPositionFunding(), positionFundingDetail, fieldsForPerson())) {
                 orgPositionFundingDetailReportEntry.setTotalPersonPositionCsfAmount(fundingDetailTotalPersonEntry.getTotalPersonPositionCsfAmount());
                 orgPositionFundingDetailReportEntry.setTotalPersonAppointmentRequestedAmount(fundingDetailTotalPersonEntry.getTotalPersonAppointmentRequestedAmount());
-                orgPositionFundingDetailReportEntry.setTotalPersonPositionCsfFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(fundingDetailTotalPersonEntry.getTotalPersonPositionCsfFteQuantity(), 5, false).toString());
-                orgPositionFundingDetailReportEntry.setTotalPersonAppointmentRequestedFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(fundingDetailTotalPersonEntry.getTotalPersonAppointmentRequestedFteQuantity(), 5, false).toString());
+                orgPositionFundingDetailReportEntry.setTotalPersonPositionCsfFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(fundingDetailTotalPersonEntry.getTotalPersonPositionCsfFteQuantity(), 5, false));
+                orgPositionFundingDetailReportEntry.setTotalPersonAppointmentRequestedFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(fundingDetailTotalPersonEntry.getTotalPersonAppointmentRequestedFteQuantity(), 5, false));
 
                 // calculate amountChange and percentChange
                 orgPositionFundingDetailReportEntry.setTotalPersonAmountChange(new Integer(0));
@@ -259,8 +264,8 @@ public class BudgetConstructionPositionFundingDetailReportServiceImpl implements
             if (BudgetConstructionReportHelper.isSameEntry(fundingDetailTotalOrgEntry.getBudgetConstructionPositionFunding(), positionFundingDetail, fieldsForOrg())) {
                 orgPositionFundingDetailReportEntry.setTotalOrgPositionCsfAmount(fundingDetailTotalOrgEntry.getTotalOrgPositionCsfAmount());
                 orgPositionFundingDetailReportEntry.setTotalOrgAppointmentRequestedAmount(fundingDetailTotalOrgEntry.getTotalOrgAppointmentRequestedAmount());
-                orgPositionFundingDetailReportEntry.setTotalOrgPositionCsfFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(fundingDetailTotalOrgEntry.getTotalOrgPositionCsfFteQuantity(), 5, false).toString());
-                orgPositionFundingDetailReportEntry.setTotalOrgAppointmentRequestedFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(fundingDetailTotalOrgEntry.getTotalOrgAppointmentRequestedFteQuantity(), 5, false).toString());
+                orgPositionFundingDetailReportEntry.setTotalOrgPositionCsfFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(fundingDetailTotalOrgEntry.getTotalOrgPositionCsfFteQuantity(), 5, false));
+                orgPositionFundingDetailReportEntry.setTotalOrgAppointmentRequestedFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(fundingDetailTotalOrgEntry.getTotalOrgAppointmentRequestedFteQuantity(), 5, false));
                 Integer amountChange = fundingDetailTotalOrgEntry.getTotalOrgAppointmentRequestedAmount() - fundingDetailTotalOrgEntry.getTotalOrgPositionCsfAmount();
                 orgPositionFundingDetailReportEntry.setTotalOrgAmountChange(amountChange);
                 orgPositionFundingDetailReportEntry.setTotalOrgPercentChange(BudgetConstructionReportHelper.calculatePercent(new BigDecimal(amountChange.intValue()), new BigDecimal(fundingDetailTotalOrgEntry.getTotalOrgPositionCsfAmount().intValue())));
@@ -423,5 +428,13 @@ public class BudgetConstructionPositionFundingDetailReportServiceImpl implements
 
     public void setBudgetConstructionReportsServiceHelper(BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper) {
         this.budgetConstructionReportsServiceHelper = budgetConstructionReportsServiceHelper;
+    }
+
+    /**
+     * Sets the salarySettingService attribute value.
+     * @param salarySettingService The salarySettingService to set.
+     */
+    public void setSalarySettingService(SalarySettingService salarySettingService) {
+        this.salarySettingService = salarySettingService;
     }
 }

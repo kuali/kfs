@@ -53,7 +53,7 @@ import com.lowagie.text.pdf.SimpleBookmark;
 @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
 public class ReportingLoadTest extends KualiTestBase {
 
-    private static final int INVOICES_TO_CREATE = 2;
+    private static final int INVOICES_TO_CREATE = 30;
     private static final String PRINT_SETTING = "U";
     private static final String INITIATOR = "khuntley";
     private static final int[] INVOICE_AGES = { -5, -18, -35, -65, -95, -125 };
@@ -105,6 +105,22 @@ public class ReportingLoadTest extends KualiTestBase {
      */
     public void createManyInvoicesForPrintTesting() throws Exception {
         createManyInvoiceReadyForAgingReport();
+    }
+    
+    /**
+     * 
+     * Use this method to test the performance of the Customer Report, 
+     * which creates a multi-page PDF.
+     * 
+     * @throws Exception
+     */
+    public void runCustomerOpenReport() throws Exception {
+        createManyInvoiceReadyForAgingReport();
+        
+        //  test the following line for perf
+        List<File> reports = reportService.generateStatementByBillingOrg(AGING_RPT_CHART, AGING_RPT_ORG);
+        assertNotNull("Reports list should not be null.", reports);
+        assertFalse("Reports should not be empty.", reports.isEmpty());
     }
     
     /**

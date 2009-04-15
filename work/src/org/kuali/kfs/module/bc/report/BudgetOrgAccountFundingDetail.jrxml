@@ -6,14 +6,14 @@
 		 columnCount="1"
 		 printOrder="Vertical"
 		 orientation="Landscape"
-		 pageWidth="791"
-		 pageHeight="611"
-		 columnWidth="771"
+		 pageWidth="792"
+		 pageHeight="612"
+		 columnWidth="768"
 		 columnSpacing="0"
-		 leftMargin="10"
-		 rightMargin="10"
-		 topMargin="5"
-		 bottomMargin="5"
+		 leftMargin="12"
+		 rightMargin="12"
+		 topMargin="12"
+		 bottomMargin="12"
 		 whenNoDataType="NoPages"
 		 isTitleNewPage="false"
 		 isSummaryNewPage="false">
@@ -148,7 +148,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="###0.0;-###0.0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="716"
+						x="714"
 						y="2"
 						width="39"
 						height="12"
@@ -161,7 +161,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="756"
+						x="754"
 						y="2"
 						width="14"
 						height="12"
@@ -196,7 +196,7 @@
 				</line>
 				<textField isStretchWithOverflow="false" pattern="#,##0;-#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="660"
+						x="658"
 						y="2"
 						width="54"
 						height="12"
@@ -346,7 +346,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="###0.0;-###0.0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="716"
+						x="714"
 						y="2"
 						width="39"
 						height="12"
@@ -359,7 +359,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="756"
+						x="754"
 						y="2"
 						width="14"
 						height="12"
@@ -394,7 +394,7 @@
 				</line>
 				<textField isStretchWithOverflow="false" pattern="#,##0;-#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="660"
+						x="658"
 						y="2"
 						width="54"
 						height="12"
@@ -739,7 +739,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="660"
+						x="658"
 						y="174"
 						width="54"
 						height="12"
@@ -752,7 +752,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="716"
+						x="714"
 						y="174"
 						width="54"
 						height="12"
@@ -765,7 +765,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="660"
+						x="658"
 						y="160"
 						width="109"
 						height="12"
@@ -796,7 +796,7 @@
 				</line>
 				<line direction="TopDown">
 					<reportElement
-						x="660"
+						x="658"
 						y="187"
 						width="54"
 						height="0"
@@ -805,7 +805,7 @@
 				</line>
 				<line direction="TopDown">
 					<reportElement
-						x="716"
+						x="714"
 						y="187"
 						width="54"
 						height="0"
@@ -1550,7 +1550,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0;-#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="660"
+						x="658"
 						y="0"
 						width="54"
 						height="12"
@@ -1563,7 +1563,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="###0.0;-###0.0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="716"
+						x="714"
 						y="0"
 						width="39"
 						height="12"
@@ -1862,7 +1862,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="756"
+						x="754"
 						y="0"
 						width="14"
 						height="12"

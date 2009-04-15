@@ -65,7 +65,7 @@ public class DisbursementVoucherNonResidentAlienInformationValidation extends Ge
             return true;
         }
 
-        ErrorMap errors = GlobalVariables.getErrorMap();
+        ErrorMap errors = GlobalVariables.getErrorMap();        
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
         errors.addToErrorPath(KFSPropertyConstants.DV_NON_RESIDENT_ALIEN_TAX);
 

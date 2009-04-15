@@ -30,6 +30,7 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kim.util.KimConstants.PersonExternalIdentifierTypes;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.ParameterEvaluator;
 import org.kuali.rice.kns.service.ParameterService;
@@ -70,14 +71,14 @@ public class DisbursementVoucherVendorInformationValidation extends GenericValid
         /* Retrieve Vendor */
         if (vendor == null) {
             errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_EXISTENCE, SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(DisbursementVoucherPayeeDetail.class, KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER));
-            errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
+            errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
             return false;
         }
 
         /* DV Vendor Detail must be active */
         if (!vendor.isActiveIndicator()) {
             errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_INACTIVE, SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(DisbursementVoucherPayeeDetail.class, KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER));
-            errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
+            errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
             return false;
         }
 
@@ -134,7 +135,7 @@ public class DisbursementVoucherVendorInformationValidation extends GenericValid
      * @return <code>Person</code>
      */
     private Person retrieveEmployeeBySSN(String ssnNumber) {
-        Person person = (Person) SpringContext.getBean(PersonService.class).getPersonByExternalIdentifier(org.kuali.rice.kim.util.KimConstants.PersonExternalIdentifierTypes.TAX, ssnNumber).get(0);
+        Person person = (Person) SpringContext.getBean(PersonService.class).getPersonByExternalIdentifier(PersonExternalIdentifierTypes.TAX, ssnNumber).get(0);
         if (person == null) {
             LOG.error("User Not Found");
         }

@@ -59,6 +59,16 @@
         <dd:relationship objectAttribute="vendorCountry">
             <dd:primitiveAttribute source="vendorCountryCode" target="postalCountryCode"/>
         </dd:relationship>
+        <bean parent="RelationshipDefinition">
+             <property name="objectAttributeName" value="vendorDetail" />
+             <property name="primitiveAttributes" >
+               <list>
+                 <bean parent="PrimitiveAttributeDefinition"
+                       p:sourceName="vendorNumber"
+                       p:targetName="vendorNumber" />
+               </list>
+             </property>
+   		</bean>
       </list>
     </property>    
   </bean>
@@ -453,7 +463,7 @@
     			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.CorrectionReceivingDocument"/>
     					  <property name="attributeName" value="vendorName"/>
-    					  <property name="showAttributeInSearchCriteria" value="true"/>
+    					  <property name="showAttributeInSearchCriteria" value="false"/>
                           <property name="showAttributeInResultSet" value="true"/>     					  
     				  </bean>
     			  </property>

@@ -389,11 +389,6 @@
               <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
             </list>
           </property>
-          <property name="duplicateIdentificationFields">
-          	<list>
-          		<bean parent="MaintainableFieldDefinition" p:name="vendorPhoneNumber"/>
-          	</list>
-          </property>
         </bean>
       </list>
     </property>
@@ -424,11 +419,6 @@
               <bean parent="MaintainableFieldDefinition" p:name="vendorHeaderGeneratedIdentifier" p:unconditionallyReadOnly="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
             </list>
-          </property>
-          <property name="duplicateIdentificationFields">
-          	<list>
-          		<bean parent="MaintainableFieldDefinition" p:name="vendorCustomerNumber"/>
-          	</list>
           </property>
         </bean>
       </list>

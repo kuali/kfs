@@ -117,6 +117,30 @@
         <ref bean="ElectronicInvoiceRejectDocument-invoiceResearchIndicatorForResult"/>
       </list>
     </property>
+    <property name="relationships">
+    	<list>
+			<bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="purchaseOrderDeliveryCampus" />
+              <property name="primitiveAttributes" >
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition"
+                        p:sourceName="purchaseOrderDeliveryCampusCode"
+                        p:targetName="campusCode" />
+                </list>
+              </property>
+    		</bean>
+    		<bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="vendorDetail" />
+              <property name="primitiveAttributes" >
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition"
+                        p:sourceName="vendorNumber"
+                        p:targetName="vendorNumber" />
+                </list>
+              </property>
+    		</bean>
+    	</list>
+    </property>	
   </bean>
 
 <!-- Attribute Definitions -->

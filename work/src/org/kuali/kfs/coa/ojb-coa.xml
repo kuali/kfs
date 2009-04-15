@@ -1194,6 +1194,7 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="organizationReversionCode" column="ORG_RVRSN_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="organizationReversionObjectCode" column="ORG_RVRSN_OBJ_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 
     <reference-descriptor name="organizationReversionObject" class-ref="org.kuali.kfs.coa.businessobject.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="universityFiscalYear" />

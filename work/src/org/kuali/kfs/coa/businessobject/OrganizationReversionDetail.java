@@ -32,6 +32,7 @@ public class OrganizationReversionDetail extends PersistableBusinessObjectBase {
     private String organizationReversionCategoryCode;
     private String organizationReversionCode;
     private String organizationReversionObjectCode;
+    private boolean active;
 
     private ObjectCode organizationReversionObject;
     private Organization organization;
@@ -270,6 +271,22 @@ public class OrganizationReversionDetail extends PersistableBusinessObjectBase {
      */
     public void setOrganizationReversion(OrganizationReversion organizationReversion) {
         this.organizationReversion = organizationReversion;
+    }
+
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**

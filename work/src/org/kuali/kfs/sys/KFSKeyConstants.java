@@ -775,6 +775,12 @@ public class KFSKeyConstants {
     public static final String SUB_OBJECT_TRICKLE_DOWN_INACTIVATION_ERROR_DURING_PERSISTENCE = "note.trickleDownInactivation.inactivatedSubObjects.errorDuringPersistence";
     public static final String SUB_OBJECT_TRICKLE_DOWN_INACTIVATION_RECORD_ALREADY_MAINTENANCE_LOCKED = "note.trickleDownInactivation.inactivatedSubObjects.recordAlreadyMaintenanceLocked";
     
+    public static final String ORGANIZATION_REVERSION_DETAIL_TRICKLE_DOWN_INACTIVATION = "note.trickleDownInactivation.inactivatedOrganizationReversionDetail";
+    public static final String ORGANIZATION_REVERSION_DETAIL_TRICKLE_DOWN_INACTIVATION_ERROR_DURING_PERSISTENCE = "note.trickleDownInactivation.inactivatedOrganizationReversionDetail.errorDuringPersistence";
+    public static final String ORGANIZATION_REVERSION_DETAIL_TRICKLE_DOWN_ACTIVATION = "note.trickleDownActivation.activatedOrganizationReversionDetail";
+    public static final String ORGANIZATION_REVERSION_DETAIL_TRICKLE_DOWN_ACTIVATION_ERROR_DURING_PERSISTENCE = "note.trickleDownActivation.activatedOrganizationReversionDetail.errorDuringPersistence";
+
+    
     public static final class AccountingLineViewRendering {
         public static final String ACCOUNTING_LINE_ACTIONS_LABEL = "accounting.line.actions.header.label";
         public static final String ACCOUNTING_LINE_BALANCE_INQUIRY_ACTION_LABEL = "accounting.line.actions.balanceInquiry.label";

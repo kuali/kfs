@@ -24,11 +24,14 @@ import java.util.Map;
 import org.kuali.kfs.coa.businessobject.OrganizationReversion;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionCategory;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionDetail;
+import org.kuali.kfs.coa.service.OrganizationReversionDetailTrickleDownInactivationService;
 import org.kuali.kfs.coa.service.OrganizationReversionService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
+import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
@@ -117,5 +120,69 @@ public class OrganizationReversionMaintainableImpl extends KualiMaintainableImpl
             return super.isRelationshipRefreshable(boClass, relationshipName);
         }
     }
+    
+    /**
+     * Determines if this maint doc is inactivating an organization reversion
+     * @return true if the document is inactivating an active organization reversion, false otherwise
+     */
+    protected boolean isInactivatingOrganizationReversion() {
+        // the account has to be closed on the new side when editing in order for it to be possible that we are closing the account
+        if (KNSConstants.MAINTENANCE_EDIT_ACTION.equals(getMaintenanceAction()) && !((OrganizationReversion) getBusinessObject()).isActive()) {
+            OrganizationReversion existingOrganizationReversionFromDB = retrieveExistingOrganizationReversion();
+            if (ObjectUtils.isNotNull(existingOrganizationReversionFromDB)) {
+                // now see if the original account was not closed, in which case, we are closing the account
+                if (existingOrganizationReversionFromDB.isActive()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Determines if this maint doc is activating an organization reversion
+     * @return true if the document is activating an inactive organization reversion, false otherwise
+     */
+    protected boolean isActivatingOrganizationReversion() {
+        // the account has to be closed on the new side when editing in order for it to be possible that we are closing the account
+        if (KNSConstants.MAINTENANCE_EDIT_ACTION.equals(getMaintenanceAction()) && ((OrganizationReversion) getBusinessObject()).isActive()) {
+            OrganizationReversion existingOrganizationReversionFromDB = retrieveExistingOrganizationReversion();
+            if (ObjectUtils.isNotNull(existingOrganizationReversionFromDB)) {
+                // now see if the original account was not closed, in which case, we are closing the account
+                if (!existingOrganizationReversionFromDB.isActive()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Grabs the old version of this org reversion from the database
+     * @return the old version of this organization reversion
+     */
+    protected OrganizationReversion retrieveExistingOrganizationReversion() {
+        final OrganizationReversion orgRev = (OrganizationReversion)getBusinessObject();
+        final OrganizationReversion oldOrgRev = SpringContext.getBean(OrganizationReversionService.class).getByPrimaryId(orgRev.getUniversityFiscalYear(), orgRev.getChartOfAccountsCode(), orgRev.getOrganizationCode());
+        return oldOrgRev;
+    }
 
+    /**
+     * Overridden to trickle down inactivation or activation to details
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#saveBusinessObject()
+     */
+    @Override
+    public void saveBusinessObject() {
+        final boolean isActivatingOrgReversion = isActivatingOrganizationReversion();
+        final boolean isInactivatingOrgReversion = isInactivatingOrganizationReversion();
+        
+        super.saveBusinessObject();
+        
+        if (isActivatingOrgReversion) {
+            SpringContext.getBean(OrganizationReversionDetailTrickleDownInactivationService.class).trickleDownActiveOrganizationReversionDetails((OrganizationReversion)getBusinessObject(), documentNumber);
+        } else if (isInactivatingOrgReversion) {
+            SpringContext.getBean(OrganizationReversionDetailTrickleDownInactivationService.class).trickleDownInactiveOrganizationReversionDetails((OrganizationReversion)getBusinessObject(), documentNumber);
+        }
+    }
+    
 }

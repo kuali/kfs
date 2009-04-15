@@ -382,6 +382,22 @@
     	</property>
     </bean>
     
+    <bean name="organizationReversionDetailTrickleDownInactivationService"
+		class="org.kuali.kfs.coa.service.impl.OrganizationReversionDetailTrickleDownInactivationServiceImpl">
+    	<property name="businessObjectService">
+    		<ref bean="businessObjectService"/>
+    	</property>
+    	<property name="noteService">
+    		<ref bean="noteService"/>
+    	</property>
+		<property name="documentHeaderService">
+			<ref bean="documentHeaderService" />
+		</property>
+    	<property name="kualiConfigurationService">
+    		<ref bean="kualiConfigurationService"/>
+    	</property>
+    </bean>
+    
 	<bean
 		name="indirectCostRecoveryRateDetailInactivationBlockingDetectionService"
 		class="org.kuali.kfs.coa.service.impl.IndirectCostRecoveryRateDetailInactivationBlockingDetectionServiceImpl">

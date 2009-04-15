@@ -70,10 +70,13 @@ public class OrganizationReversion extends PersistableBusinessObjectBase impleme
     }
 
     public OrganizationReversionDetail getOrganizationReversionDetail(String categoryCode) {
-        for (Iterator iter = organizationReversionDetail.iterator(); iter.hasNext();) {
-            OrganizationReversionDetail element = (OrganizationReversionDetail) iter.next();
+        for (OrganizationReversionDetail element : organizationReversionDetail) {
             if (element.getOrganizationReversionCategoryCode().equals(categoryCode)) {
-                return element;
+                if (!element.isActive()) {
+                    return null; // don't send back inactive details
+                } else {
+                    return element;
+                }
             }
         }
         return null;

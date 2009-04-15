@@ -27,12 +27,6 @@
         <ref bean="OrganizationReversionDetail-newCollectionRecord" />
       </list>
     </property>
-    <property name="inactivationBlockingDefinitions">
-      <list>
-        <bean parent="InactivationBlockingDefinition"
-          p:blockedReferencePropertyName="organizationReversionCategory"/>
-      </list>
-    </property>
   </bean>
 
 <!-- Attribute Definitions -->

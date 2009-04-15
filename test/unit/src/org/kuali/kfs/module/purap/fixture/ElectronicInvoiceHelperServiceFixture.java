@@ -182,9 +182,13 @@ public class ElectronicInvoiceHelperServiceFixture {
         summary.append("<TaxAmount><Money currency=\"USD\">0.0</Money></TaxAmount>");
         summary.append("<Description xml:lang=\"en\">Item State and Local Tax</Description>");
         summary.append("</TaxDetail></Tax>");
+        summary.append("<SpecialHandlingAmount><Money currency=\"USD\">0.00</Money></SpecialHandlingAmount>\n");
+        summary.append("<ShippingAmount><Money currency=\"USD\">0.00</Money></ShippingAmount>");
+        summary.append("<InvoiceDetailDiscount><Money currency=\"USD\">0.00</Money></InvoiceDetailDiscount>");
+
         summary.append("<NetAmount><Money currency=\"USD\">10.00</Money></NetAmount>");
-        summary.append("<DepositAmount><Money currency=\"USD\">5.00</Money></DepositAmount>");
-        summary.append("<DueAmount><Money currency=\"USD\">5.00</Money></DueAmount>");
+        summary.append("<DepositAmount><Money currency=\"USD\">2.00</Money></DepositAmount>");
+        summary.append("<DueAmount><Money currency=\"USD\">10.00</Money></DueAmount>");
         summary.append("</InvoiceDetailSummary>");
         
         return summary;

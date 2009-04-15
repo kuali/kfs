@@ -23,12 +23,15 @@ import java.io.FileWriter;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.RandomUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.batch.ElectronicInvoiceInputFileType;
 import org.kuali.kfs.module.purap.batch.ElectronicInvoiceStep;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoice;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceLoad;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
@@ -44,6 +47,8 @@ import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.kfs.sys.suite.RelatesTo;
 import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.Guid;
@@ -68,7 +73,7 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
         super.tearDown();
     }
 
-    @RelatesTo(JiraIssue.KULPURAP3047)
+	@RelatesTo(JiraIssue.KULPURAP3047)
     @ConfigureContext(session = kfs, shouldCommitTransactions=true)
     public void testRejectDocumentCreationInvalidData()
     throws Exception{
@@ -124,7 +129,7 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
         
     }
 
-    @RelatesTo(JiraIssue.KULPURAP3706)
+    @RelatesTo(JiraIssue.KULPURAP3047)
     @ConfigureContext(session = kfs, shouldCommitTransactions=false)
     public void testPaymentRequestDocumentCreation()
     throws Exception{
@@ -138,11 +143,18 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
 
         changeCurrentUser(kfs);
         PurchaseOrderDocument poDocument = createPODoc(reqId);
-       
-        String vendorDUNS = poDocument.getVendorDetail().getVendorDunsNumber();
-        String poNumber = poDocument.getPurapDocumentIdentifier().toString();
         
-        createItemMappingsRecords("1001", "0");
+        String vendorDUNS = RandomUtils.nextInt() + "";
+        if (StringUtils.isEmpty(poDocument.getVendorDetail().getVendorDunsNumber())){
+            VendorDetail vd = SpringContext.getBean(VendorService.class).getByVendorNumber(poDocument.getVendorNumber());
+            vd.setVendorDunsNumber(vendorDUNS);
+            SpringContext.getBean(VendorService.class).saveVendorHeader(vd);
+        }else{
+            vendorDUNS = poDocument.getVendorDetail().getVendorDunsNumber();
+        }
+        
+        String poNumber = poDocument.getPurapDocumentIdentifier().toString();
+        createItemMappingsRecords(poDocument.getVendorHeaderGeneratedIdentifier()+"", poDocument.getVendorDetailAssignedIdentifier()+"");
         updateUnitPriceVariance();
         
         String xmlChunk = ElectronicInvoiceHelperServiceFixture.getCXMLForPaymentDocCreation(vendorDUNS,poNumber);

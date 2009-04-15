@@ -50,7 +50,7 @@
                     	    <tr>
                         	    <th>Application Document #</th>
                         	    <c:if test="${readOnly ne true}">
-                        	    	<th>Unapplied Amount</th>
+                        	    	<th>Original Unapplied Amount</th>
                         	    </c:if>
                                 <th>Applied Amount</th>
                   		    </tr>

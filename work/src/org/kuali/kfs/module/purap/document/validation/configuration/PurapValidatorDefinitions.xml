@@ -22,6 +22,10 @@
 
 <!-- PURAP Definitions -->
 
+	<bean id="PurchasingAccountsPayable-accountingLineDataDictionaryValidation" class="org.kuali.kfs.sys.document.validation.impl.AccountingLineDataDictionaryValidation" abstract="true">
+		<property name="accountingLineRuleHelperService"><ref bean="purapAccountingLineRuleHelperService" /></property>
+	</bean>
+
 	<bean id="PurchasingAccountsPayable-accountPercentBetween0And100Validation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableAccountPercentBetween0And100Validation" abstract="true"/>
 
 	<bean id="PurchasingAccountsPayable-belowTheLineValuesValidation" parent="PurchasingAccountsPayable-belowTheLineValuesValidation-parentBean" scope="prototype" />
@@ -92,6 +96,10 @@
 	</bean>
 
 <!-- Purchasing Definitions -->
+	<bean id="Purchasing-accountingLineDataDictionaryValidation" class="org.kuali.kfs.sys.document.validation.impl.AccountingLineDataDictionaryValidation" abstract="true">
+		<property name="accountingLineRuleHelperService"><ref bean="purchasingAccountingLineRuleHelperService" /></property>
+	</bean>
+
 	<bean id="Purchasing-belowTheLineItemNoUnitCostValidation" parent="Purchasing-belowTheLineItemNoUnitCostValidation-parentBean" scope="prototype"/>
 	<bean id="Purchasing-belowTheLineItemNoUnitCostValidation-parentBean" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingBelowTheLineItemNoUnitCostValidation" abstract="true"/>
 
@@ -169,8 +177,6 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 
-    <bean id="Purchasing-processAccountValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingProcessAccountValidation" abstract="true"/>
-
     <bean id="Purchasing-processTotalCostValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingProcessTotalCostValidation" abstract="true"/>
 
     <bean id="Purchasing-processContainsAtLeastOneItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingProcessContainsAtLeastOneItemValidation" abstract="true"/>
@@ -196,8 +202,6 @@
 
 	<bean id="Purchasing-updateAccountingLineValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingUpdateAccountingLineValidation" abstract="true"/>
 	
-	<bean id="Purchasing-accountNotExpiredValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountNotExpiredValidation" abstract="true"/>
-
 	<bean id="Purchasing-accountingLinePercentValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountingLinePercentValidation" abstract="true"/>
 
     <!-- New Process Item Validation Definitions -->
@@ -287,16 +291,6 @@
 								<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype"> 								        				
         						<property name="validations">
             					<list>						        
-	                                <bean parent="Purchasing-processAccountValidation" scope="prototype">
-	                                    <property name="parameterProperties">
-	                                        <list>
-	                                            <bean parent="validationFieldConversion">
-	                                                <property name="sourceEventProperty" value="iterationSubject" />
-	                                                <property name="targetValidationProperty" value="itemForValidation" />
-	                                            </bean>
-	                                        </list>
-	                                    </property>
-	                                </bean>
 	                                <bean parent="PurchasingAccountsPayable-processAccountValidation-parentBean" scope="prototype">
 										<property name="parameterProperties">
 								            <list>
@@ -483,16 +477,6 @@
 								<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype"> 								        				
         						<property name="validations">
             					<list>						        						        
-	                                <bean parent="Purchasing-processAccountValidation" scope="prototype">
-	                                    <property name="parameterProperties">
-	                                        <list>
-	                                            <bean parent="validationFieldConversion">
-	                                                <property name="sourceEventProperty" value="iterationSubject" />
-	                                                <property name="targetValidationProperty" value="itemForValidation" />
-	                                            </bean>
-	                                        </list>
-	                                    </property>
-	                                </bean>
 	                                <bean parent="PurchasingAccountsPayable-processAccountValidation-parentBean" scope="prototype">
 										<property name="parameterProperties">
 								            <list>
@@ -566,6 +550,10 @@
 	</bean>
 	
 <!-- Accounts Payable Definitions  -->
+	<bean id="AccountsPayable-accountingLineDataDictionaryValidation" class="org.kuali.kfs.sys.document.validation.impl.AccountingLineDataDictionaryValidation" abstract="true">
+		<property name="accountingLineRuleHelperService"><ref bean="accountsPayableAccountingLineRuleHelperService" /></property>
+	</bean>
+
     <bean id="AccountsPayable-processApprovalAtAccountsPayableReviewAllowedValidation" class="org.kuali.kfs.module.purap.document.validation.impl.AccountsPayableProcessApprovalAtAccountsPayableReviewAllowedValidation" abstract="true"/>        
 	
 	<bean id="AccountsPayable-validateAccountsPayableItemsValidation" class="org.kuali.kfs.module.purap.document.validation.impl.AccountsPayableValidateAccountsPayableItemsValidation" abstract="true">

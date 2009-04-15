@@ -149,6 +149,16 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
 
             GlobalVariables.getMessageList().add(PurapKeyConstants.MESSAGE_CLOSED_OR_EXPIRED_ACCOUNTS_REPLACED);
         }
+
+        // document is past full entry and
+        // user is an AP User and a system parameter is set to allow viewing
+        // and if the continuation account indicator is set
+        if (purapService.isFullDocumentEntryCompleted(document) &&
+            (isAPUser(document, user) && "Y".equals(showContinuationAccountWaringAP)) && (document.isContinuationAccountIndicator())) {
+
+            GlobalVariables.getMessageList().add(PurapKeyConstants.MESSAGE_CLOSED_OR_EXPIRED_ACCOUNTS_REPLACED);
+        }
+
     }
 
     /**
@@ -422,6 +432,23 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
         return isFiscalUser;
     }
 
+    /**
+     * Determines if the user is an AP user.  Currently this only checks the doc and workflow status for approval requested
+     * 
+     * @param document  The document to be used to check the status code and whether the workflow approval is requested.
+     * @param user      The current user.
+     * @return          boolean true if the user is an AP User.
+     */
+    private boolean isAPUser(AccountsPayableDocument document, Person user) {
+        boolean isFiscalUser = false;
+
+        if (PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(document.getStatusCode()) && document.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) {
+            isFiscalUser = true;
+        }
+
+        return isFiscalUser;
+    }    
+    
     /**
      * @see org.kuali.kfs.module.purap.document.service.AccountsPayableService#cancelAccountsPayableDocument(org.kuali.kfs.module.purap.document.AccountsPayableDocument, java.lang.String)
      */

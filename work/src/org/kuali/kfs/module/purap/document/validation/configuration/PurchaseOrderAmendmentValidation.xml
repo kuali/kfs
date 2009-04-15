@@ -107,15 +107,6 @@
 	<bean id="PurchaseOrderAmendment-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
-				<bean parent="Purchasing-accountNotExpiredValidation" scope="prototype">
-					<property name="parameterProperties">
-						<bean parent="validationFieldConversion">
-							<property name="sourceEventProperty" value="accountingLine" />
-							<property name="targetValidationProperty" value="updatedAccountingLine" />
-						</bean>
-					</property>
-				</bean>				
-
 				<bean parent="PurchaseOrderAmendment-addAccountingLineDefaultValidation-parentBean" scope="prototype">
 					<property name="quitOnFail" value="true" />
 				</bean>
@@ -150,7 +141,7 @@
 									</bean>
 								</property>
 							</bean>
-							<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
+							<bean parent="Purchasing-accountingLineDataDictionaryValidation" scope="prototype">
 								<property name="parameterProperties">
 									<list>
 										<bean parent="validationFieldConversion">
@@ -204,7 +195,7 @@
 								</property>
 								<property name="quitOnFail" value="false" />
 							</bean>
-							<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
+							<bean parent="Purchasing-accountingLineDataDictionaryValidation" scope="prototype">
 								<property name="parameterProperties">
 									<list>
 										<bean parent="validationFieldConversion">
@@ -501,16 +492,6 @@
 										        <property name="quitOnFail" value="false" />
 										        <property name="validations">
 										            <list>    
-						                                <bean parent="Purchasing-processAccountValidation" scope="prototype">
-						                                    <property name="parameterProperties">
-						                                        <list>
-						                                            <bean parent="validationFieldConversion">
-						                                                <property name="sourceEventProperty" value="iterationSubject" />
-						                                                <property name="targetValidationProperty" value="itemForValidation" />
-						                                            </bean>
-						                                        </list>
-						                                    </property>
-						                                </bean>
 						                                <bean parent="PurchasingAccountsPayable-processAccountValidation-parentBean" scope="prototype">
 															<property name="parameterProperties">
 													            <list>

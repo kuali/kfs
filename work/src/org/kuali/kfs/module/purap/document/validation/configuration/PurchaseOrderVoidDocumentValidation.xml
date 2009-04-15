@@ -93,14 +93,6 @@
 	<bean id="PurchaseOrderVoid-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
-  				<bean parent="Purchasing-accountNotExpiredValidation" scope="prototype">
-					<property name="parameterProperties">
-						<bean parent="validationFieldConversion">
-							<property name="sourceEventProperty" value="accountingLine" />
-							<property name="targetValidationProperty" value="updatedAccountingLine" />
-						</bean>
-					</property>
-  				</bean>								
 				<bean parent="AccountingDocument-AddAccountingLine-DefaultValidation" scope="prototype">
 					<property name="quitOnFail" value="true" />
 				</bean>

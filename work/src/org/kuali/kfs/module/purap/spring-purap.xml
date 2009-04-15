@@ -106,6 +106,12 @@
     <bean id="purapAccountingLineRuleHelperService" class="org.kuali.kfs.module.purap.service.impl.PurapAccountingLineRuleHelperServiceImpl">
     	<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
     </bean>
+    <bean id="purchasingAccountingLineRuleHelperService" class="org.kuali.kfs.module.purap.service.impl.PurchasingAccountingLineRuleHelperServiceImpl">
+    	<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
+    </bean>        
+    <bean id="accountsPayableAccountingLineRuleHelperService" class="org.kuali.kfs.module.purap.service.impl.AccountsPayableAccountingLineRuleHelperServiceImpl">
+    	<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
+    </bean>        
 	<!--  end override -->
     
 	<bean id="pdpExtractService" class="org.kuali.kfs.module.purap.service.impl.PdpExtractServiceImpl">

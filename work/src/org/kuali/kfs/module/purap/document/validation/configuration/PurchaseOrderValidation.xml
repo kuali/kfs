@@ -101,19 +101,9 @@
 	<bean id="PurchaseOrder-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
-				<bean parent="Purchasing-accountNotExpiredValidation" scope="prototype">
-					<property name="parameterProperties">
-						<bean parent="validationFieldConversion">
-							<property name="sourceEventProperty" value="accountingLine" />
-							<property name="targetValidationProperty" value="updatedAccountingLine" />
-						</bean>
-					</property>
-				</bean>				
-
 				<bean parent="PurchaseOrder-addAccountingLineDefaultValidation-parentBean" scope="prototype">
 					<property name="quitOnFail" value="true" />
 				</bean>
-
 
 				<bean parent="Purchasing-accountingLinePercentValidation" scope="prototype">
 					<property name="parameterProperties">
@@ -144,7 +134,7 @@
 									</bean>
 								</property>
 							</bean>
-							<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
+							<bean parent="Purchasing-accountingLineDataDictionaryValidation" scope="prototype">
 								<property name="parameterProperties">
 									<list>
 										<bean parent="validationFieldConversion">
@@ -195,7 +185,7 @@
 								</property>
 								<property name="quitOnFail" value="false" />
 							</bean>
-							<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
+							<bean parent="Purchasing-accountingLineDataDictionaryValidation" scope="prototype">
 								<property name="parameterProperties">
 									<list>
 										<bean parent="validationFieldConversion">

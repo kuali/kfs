@@ -401,7 +401,7 @@
 									</bean>
 								</property>
 							</bean>
-							<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
+							<bean parent="AccountsPayable-accountingLineDataDictionaryValidation" scope="prototype">
 								<property name="parameterProperties">
 									<list>
 										<bean parent="validationFieldConversion">
@@ -447,7 +447,7 @@
 									</bean>
 								</property>
 							</bean>
-							<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
+							<bean parent="AccountsPayable-accountingLineDataDictionaryValidation" scope="prototype">
 								<property name="parameterProperties">
 									<list>
 										<bean parent="validationFieldConversion">
@@ -481,7 +481,7 @@
 						</bean>
 					</property>
 				</bean>
-				<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
+				<bean parent="AccountsPayable-accountingLineDataDictionaryValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
 							<bean parent="validationFieldConversion">

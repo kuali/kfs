@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.cam.document.authorization;
 
 import org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryLoadService;
+import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kns.document.Document;
@@ -29,14 +30,8 @@ public class BarcodeInventoryErrorDocumentPresentationController extends Financi
     public BarcodeInventoryErrorDocumentPresentationController() {
         assetBarcodeInventoryLoadService = SpringContext.getBean(AssetBarcodeInventoryLoadService.class); 
     }    
-    
     @Override
     protected boolean canSave(Document document) {
-        return false;
-    }
-
-    @Override
-    protected boolean canApprove(Document document) {
         return false;
     }
 
@@ -44,20 +39,24 @@ public class BarcodeInventoryErrorDocumentPresentationController extends Financi
     protected boolean canRoute(Document document) {
         return false;
     }
-    
-    @Override
-    protected boolean canBlanketApprove(Document document) {
-        return (assetBarcodeInventoryLoadService.isCurrentUserInitiator(document) && assetBarcodeInventoryLoadService.isFullyProcessed(document));        
-        
-    }
 
     @Override
+    protected boolean canBlanketApprove(Document document) {
+        return false;
+    }
+    
+    @Override
     protected boolean canAdHocRoute(Document document) {
-        return assetBarcodeInventoryLoadService.isCurrentUserInitiator(document);        
+        return SpringContext.getBean(AssetService.class).isDocumentEnrouting(document);        
     }
 
     @Override
     protected boolean canCancel(Document document) {
+        return assetBarcodeInventoryLoadService.isCurrentUserInitiator(document);
+    }
+    
+    @Override
+    protected boolean canDisapprove(Document document) {
         return assetBarcodeInventoryLoadService.isCurrentUserInitiator(document);
     }
 }

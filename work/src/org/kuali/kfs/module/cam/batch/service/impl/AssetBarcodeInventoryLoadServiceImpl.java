@@ -529,7 +529,6 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
 
             // add document initiator as adhoc user
             List<AdHocRouteRecipient> adHocRouteRecipients = new ArrayList<AdHocRouteRecipient>();
-            adHocRouteRecipients.add(buildApprovePersonRecipient(GlobalVariables.getUserSession().getPerson().getPrincipalName()));
             documentService.routeDocument(document, "Routed Update Barcode Inventory Document", adHocRouteRecipients);
         }
         catch (Exception e) {

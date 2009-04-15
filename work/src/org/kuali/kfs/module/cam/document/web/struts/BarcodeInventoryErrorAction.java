@@ -48,31 +48,36 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BarcodeInventoryErrorAction.class);
 
     /**
-     * 
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#sendAdHocRequests(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#sendAdHocRequests(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    @Override 
+    @Override
     public ActionForward sendAdHocRequests(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BarcodeInventoryErrorForm bcieForm = (BarcodeInventoryErrorForm) form;
         BarcodeInventoryErrorDocument document = bcieForm.getBarcodeInventoryErrorDocument();
 
-        //Saving data
-        getBusinessObjectService().save(document.getBarcodeInventoryErrorDetail());        
-        
+        // Saving data
+        getBusinessObjectService().save(document.getBarcodeInventoryErrorDetail());
+
         return super.sendAdHocRequests(mapping, bcieForm, request, response);
     }
 
     /**
-     * 
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#blanketApprove(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#approve(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
-    public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BarcodeInventoryErrorForm bcieForm = (BarcodeInventoryErrorForm) form;
         BarcodeInventoryErrorDocument document = bcieForm.getBarcodeInventoryErrorDocument();
 
-        this.invokeRules(document, false);
-        return super.blanketApprove(mapping, form, request, response);
+        getBusinessObjectService().save(document.getBarcodeInventoryErrorDetail());
+
+        if (this.getAssetBarcodeInventoryLoadService().isCurrentUserInitiator(document)) {
+            this.invokeRules(document, false);
+        }
+
+        return super.approve(mapping, form, request, response);
     }
 
     /**
@@ -120,13 +125,13 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
         BarcodeInventoryErrorDocument document = barcodeInventoryErrorForm.getBarcodeInventoryErrorDocument();
         List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails = document.getBarcodeInventoryErrorDetail();
 
-        //Validating search criteria
+        // Validating search criteria
         if (validateGlobalReplaceFields(document)) {
             BarcodeInventoryErrorDetailPredicate predicatedClosure = new BarcodeInventoryErrorDetailPredicate(barcodeInventoryErrorForm.getBarcodeInventoryErrorDocument());
 
             // searches and replaces
             CollectionUtils.forAllDo(barcodeInventoryErrorDetails, predicatedClosure);
-    
+
             document.setBarcodeInventoryErrorDetail(barcodeInventoryErrorDetails);
             barcodeInventoryErrorForm.setDocument(document);
         }
@@ -136,7 +141,7 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
         // Search fields initialization.
         barcodeInventoryErrorForm.getBarcodeInventoryErrorDocument().resetSearchFields();
 
-        //Reseting the checkboxes
+        // Reseting the checkboxes
         barcodeInventoryErrorForm.resetCheckBoxes();
 
         // Displaying JSP
@@ -177,21 +182,18 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
                             detail.setInventoryCorrectionTimestamp(getDateTimeService().getCurrentTimestamp());
                             detail.setCorrectorUniversalIdentifier(currentUserID);
 
-                            getAssetBarcodeInventoryLoadService().updateAssetInformation(detail,false);
+                            getAssetBarcodeInventoryLoadService().updateAssetInformation(detail, false);
                         }
                     }
                 }
             }
 
-            if (getAssetBarcodeInventoryLoadService().isFullyProcessed(document) && this.getAssetBarcodeInventoryLoadService().isCurrentUserInitiator(document)) {
-                // If the same person that uploaded the bcie is the one processing it, then....
-                return this.blanketApprove(mapping, form, request, response);
-            }
-        } else {
-            GlobalVariables.getErrorMap().putErrorForSectionId(CamsPropertyConstants.COMMON_ERROR_SECTION_ID,CamsKeyConstants.BarcodeInventory.ERROR_CHECKBOX_MUST_BE_CHECKED);
+        }
+        else {
+            GlobalVariables.getErrorMap().putErrorForSectionId(CamsPropertyConstants.COMMON_ERROR_SECTION_ID, CamsKeyConstants.BarcodeInventory.ERROR_CHECKBOX_MUST_BE_CHECKED);
         }
 
-        //Saving data
+        // Saving data
         getBusinessObjectService().save(document.getBarcodeInventoryErrorDetail());
 
         // Loading changes on page
@@ -235,42 +237,31 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
                     }
                 }
             }
-
-            if (getAssetBarcodeInventoryLoadService().isFullyProcessed(document) && this.getAssetBarcodeInventoryLoadService().isCurrentUserInitiator(document)) {
-                // If the same person that uploaded the bcie is the one processing it, then blanket approve and surpress other adhoc
-                // recipients.
-                return this.blanketApprove(mapping, barcodeInventoryErrorForm, request, response);
-            }
-        } else {
-            GlobalVariables.getErrorMap().putErrorForSectionId(CamsPropertyConstants.COMMON_ERROR_SECTION_ID,CamsKeyConstants.BarcodeInventory.ERROR_CHECKBOX_MUST_BE_CHECKED);
+        }
+        else {
+            GlobalVariables.getErrorMap().putErrorForSectionId(CamsPropertyConstants.COMMON_ERROR_SECTION_ID, CamsKeyConstants.BarcodeInventory.ERROR_CHECKBOX_MUST_BE_CHECKED);
         }
 
-        //Saving data
+        // Saving data
         getBusinessObjectService().save(document.getBarcodeInventoryErrorDetail());
 
-        //Clearing the checkboxes
+        // Clearing the checkboxes
         barcodeInventoryErrorForm.resetCheckBoxes();
 
         this.loadDocument((KualiDocumentFormBase) form);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    
+
     private boolean validateGlobalReplaceFields(BarcodeInventoryErrorDocument document) {
-        if (StringUtils.isBlank(document.getCurrentScanCode()) && 
-            StringUtils.isBlank(document.getCurrentCampusCode()) &&
-            StringUtils.isBlank(document.getCurrentBuildingNumber()) &&       
-            StringUtils.isBlank(document.getCurrentRoom()) &&
-            StringUtils.isBlank(document.getCurrentSubroom()) &&
-            StringUtils.isBlank(document.getCurrentConditionCode()) &&
-            StringUtils.isBlank(document.getCurrentTagNumber()) ) {
-            
-            GlobalVariables.getErrorMap().putErrorForSectionId(CamsPropertyConstants.BCIE_GLOBAL_REPLACE_ERROR_SECTION_ID,CamsKeyConstants.BarcodeInventory.ERROR_GLOBAL_REPLACE_SEARCH_CRITERIA);
+        if (StringUtils.isBlank(document.getCurrentScanCode()) && StringUtils.isBlank(document.getCurrentCampusCode()) && StringUtils.isBlank(document.getCurrentBuildingNumber()) && StringUtils.isBlank(document.getCurrentRoom()) && StringUtils.isBlank(document.getCurrentSubroom()) && StringUtils.isBlank(document.getCurrentConditionCode()) && StringUtils.isBlank(document.getCurrentTagNumber())) {
+
+            GlobalVariables.getErrorMap().putErrorForSectionId(CamsPropertyConstants.BCIE_GLOBAL_REPLACE_ERROR_SECTION_ID, CamsKeyConstants.BarcodeInventory.ERROR_GLOBAL_REPLACE_SEARCH_CRITERIA);
             return false;
         }
-       return true;
+        return true;
     }
-    
+
     /**
      * Invokes the method that validates the bar code inventory error records and that resides in the rule class
      * BarcodeInventoryErrorDocumentRule

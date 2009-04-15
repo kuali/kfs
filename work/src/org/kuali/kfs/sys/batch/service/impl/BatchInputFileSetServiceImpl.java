@@ -31,7 +31,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
@@ -69,7 +68,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
         if (!isFileUserIdentifierProperlyFormatted(fileUserIdentifier)) {
             throw new IllegalArgumentException("The file set identifier is not properly formatted: " + fileUserIdentifier);
         }
-        return inputType.getDirectoryPath(fileType) + File.separator + inputType.generateFileName(fileType, user.getPrincipalName(), fileUserIdentifier);
+        return inputType.getDirectoryPath(fileType) + File.separator + inputType.getFileName(fileType, user.getPrincipalName(), fileUserIdentifier);
     }
 
     /**
@@ -85,8 +84,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
         if (!isFileUserIdentifierProperlyFormatted(fileUserIdentifier)) {
             throw new IllegalArgumentException("The file set identifier is not properly formatted: " + fileUserIdentifier);
         }
-        
-        return getTempDirectoryName() + File.separator + inputType.generateFileName(fileType, user.getPrincipalName(), fileUserIdentifier);
+        return getTempDirectoryName() + File.separator + inputType.getFileName(fileType, user.getPrincipalName(), fileUserIdentifier);
     }
     /**
      * Generates the file name of the done file, if supported by the underlying input type
@@ -101,7 +99,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
         if (!isFileUserIdentifierProperlyFormatted(fileUserIdentifier)) {
             throw new IllegalArgumentException("The file set identifier is not properly formatted: " + fileUserIdentifier);
         }
-        return inputType.getDoneFileDirectoryPath() + File.separator + inputType.generateDoneFileName(user, fileUserIdentifier);
+        return inputType.getDoneFileDirectoryPath() + File.separator + inputType.getDoneFileName(user, fileUserIdentifier);
     }
 
     /**
@@ -119,15 +117,13 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
         }
 
         for (String fileType : inputType.getFileTypes()) {
-            //String fileName = generateFileName(user, inputType, fileUserIdentifier, fileType);
-            String fileName = inputType.getDirectoryPath(fileType) + File.separator + fileUserIdentifier + inputType.getFileExtension(fileType);
+            String fileName = generateFileName(user, inputType, fileUserIdentifier, fileType);
             File file = new File(fileName);
             if (file.exists()) {
                 file.delete();
             }
         }
-        String doneFileName = inputType.getDoneFileDirectoryPath() + File.separator + fileUserIdentifier + inputType.getDoneFileExtension();
-        File doneFile = new File(doneFileName);
+        File doneFile = new File(generateDoneFileName(user, inputType, fileUserIdentifier));
         if (doneFile.exists()) {
             doneFile.delete();
         }
@@ -148,8 +144,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
     protected boolean canDelete(Person user, BatchInputFileSetType inputType, String fileUserIdentifier) throws AuthorizationException, FileNotFoundException {
         // we can only delete if we're authorized on each of the files of the file set
         for (String fileType : inputType.getFileTypes()) {
-            //String fileName = generateFileName(user, inputType, fileUserIdentifier, fileType);
-            String fileName = inputType.getDirectoryPath(fileType) + File.separator + fileUserIdentifier + inputType.getFileExtension(fileType);
+            String fileName = generateFileName(user, inputType, fileUserIdentifier, fileType);
             File file = new File(fileName);
             if (file.exists()) {
                 if (!user.getPrincipalName().equals(inputType.getAuthorPrincipalName(file))) {
@@ -173,9 +168,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
      */
     public boolean hasBeenProcessed(Person user, BatchInputFileSetType inputType, String fileUserIdentifier) {
         // if the done file exists, then that means that the file set has not been processed
-        String fileType = KFSConstants.DATA_FILE_TYPE;
-        String fileName = inputType.getDirectoryPath(fileType) + File.separator + fileUserIdentifier + inputType.getFileExtension(fileType);
-        File doneFile = new File(inputType.generageDoneFileWithDataFile(fileName));
+        File doneFile = new File(generateDoneFileName(user, inputType, fileUserIdentifier));
         return !doneFile.exists();
     }
 
@@ -184,9 +177,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
      *      org.kuali.kfs.sys.batch.BatchInputFileSetType, java.lang.String)
      */
     public File download(Person user, BatchInputFileSetType inputType, String fileType, String fileUserIdentifier) throws AuthorizationException, FileNotFoundException {
-        //String fileName = generateFileName(user, inputType, fileUserIdentifier, fileType);
-        String fileName = inputType.getDirectoryPath(fileType) + File.separator + fileUserIdentifier + inputType.getFileExtension(fileType);
-        
+        String fileName = generateFileName(user, inputType, fileUserIdentifier, fileType);
         File file = new File(fileName);
         if (!user.getPrincipalName().equals(inputType.getAuthorPrincipalName(file))) {
             LOG.error("User " + user.getPrincipalName() + " is not authorized to download the following file: " + file.getName());
@@ -379,15 +370,13 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
         if (fileUserIdentifier == null) {
             return false;
         }
-
-        // KFSMI-167
-        // this test can not pass because fileNames are added time information  
-//        for (int i = 0; i < fileUserIdentifier.length(); i++) {
-//            char c = fileUserIdentifier.charAt(i);
-//            if (!(Character.isLetterOrDigit(c))) {
-//                return false;
-//            }
-//        }
+        
+        for (int i = 0; i < fileUserIdentifier.length(); i++) {
+            char c = fileUserIdentifier.charAt(i);
+            if (!(Character.isLetterOrDigit(c))) {
+                return false;
+            }
+        }
         return true;
     }
 

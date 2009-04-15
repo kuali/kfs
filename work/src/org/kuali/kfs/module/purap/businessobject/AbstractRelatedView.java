@@ -52,14 +52,6 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
         return purapDocumentIdentifier;
     }
 
-    public String getDocumentIdentifierString() {
-        if (purapDocumentIdentifier != null) {
-            return purapDocumentIdentifier.toString();
-        } else {
-            return documentNumber;
-        }
-    }
-    
     public void setPurapDocumentIdentifier(Integer purapDocumentIdentifier) {
         this.purapDocumentIdentifier = purapDocumentIdentifier;
     }
@@ -76,7 +68,6 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
         if (notes == null) {
             notes = new TypedArrayList(Note.class);
             List<Note> tmpNotes = SpringContext.getBean(NoteService.class).getByRemoteObjectId(this.getObjectId());
-
             //FIXME if NoteService returns notes in descending order (newer ones first) then remove the following
             // reverse the order of notes retrieved so that newest note is in the front
             for (int i = tmpNotes.size()-1; i>=0; i--) {
@@ -92,6 +83,14 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
         return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + getDocumentNumber() + "&command=displayDocSearchView";
     }
 
+    public String getDocumentIdentifierString() {
+        if (purapDocumentIdentifier != null) {
+            return purapDocumentIdentifier.toString();
+        } else {
+            return documentNumber;
+        }
+    }
+    
     /**
      * Returns the document label according to the label specified in the data dictionary.
      * 

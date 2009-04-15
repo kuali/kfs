@@ -20,13 +20,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.businessobject.AbstractRelatedView;
 import org.kuali.kfs.module.purap.businessobject.BulkReceivingView;
+import org.kuali.kfs.module.purap.businessobject.CorrectionReceivingView;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoView;
+import org.kuali.kfs.module.purap.businessobject.LineItemReceivingView;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderView;
-import org.kuali.kfs.module.purap.businessobject.CorrectionReceivingView;
-import org.kuali.kfs.module.purap.businessobject.LineItemReceivingView;
 import org.kuali.kfs.module.purap.businessobject.RequisitionView;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -45,6 +46,7 @@ public class PurApRelatedViews {
     private transient List<CorrectionReceivingView> relatedCorrectionReceivingViews;
     private transient List<BulkReceivingView> relatedBulkReceivingViews;    
     private transient List<PurchaseOrderViewGroup> groupedRelatedPurchaseOrderViews;
+    private transient List<ReceivingViewGroup> groupedRelatedReceivingViews;
     
     public PurApRelatedViews(String documentNumber, Integer accountsPayablePurchasingDocumentLinkIdentifier) {
         super();
@@ -124,8 +126,7 @@ public class PurApRelatedViews {
          * related POChange documents (which should have identical POID) after that group, 
          * and before any other related groups which may result from PO splitting (with different POIDs).  
          * With direct use of relatedPurchaseOrderViews, location of the end of the group is problematic.
-         */
-        
+         */        
         groupedRelatedPurchaseOrderViews = new ArrayList<PurchaseOrderViewGroup>();
         PurchaseOrderViewGroup group = new PurchaseOrderViewGroup();
         int previousPOID = 0;
@@ -150,25 +151,6 @@ public class PurApRelatedViews {
         }
         return groupedRelatedPurchaseOrderViews;    
     }    
-    
-    /**
-     * A container for a List<PurchaseOrderView>, to be used by a nested c:forEach tag
-     * in relatedPurchaseOrderDocumentsDetail.tag.
-     */
-    protected class PurchaseOrderViewGroup {
-        private List<PurchaseOrderView> views = new ArrayList<PurchaseOrderView>();
-        
-        protected PurchaseOrderViewGroup() {
-        }
-
-        public List<PurchaseOrderView> getViews() {
-            return views;
-        }
-
-        public void setViews(List<PurchaseOrderView> views) {
-            this.views = views;
-        }
-    }
     
     /**
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getRelatedPaymentRequestViews()
@@ -226,6 +208,75 @@ public class PurApRelatedViews {
         relatedBulkReceivingViews = updateRelatedView(BulkReceivingView.class, relatedBulkReceivingViews, true);
         return relatedBulkReceivingViews;
     }
+    
+    /**
+     * Groups related LineItemReceivingView and its CorrectionReceivingViews, with more recent receiving groups in the front;
+     * and within each group, with more recent corrections in the front. 
+     * 
+     * @return  A list of ReceivingCorrectionViewGroups.
+     */
+    public List<ReceivingViewGroup> getGroupedRelatedReceivingViews() {
+        groupedRelatedReceivingViews = new ArrayList<ReceivingViewGroup>();
+        PurapService purapService = SpringContext.getBean(PurapService.class);
+        List<LineItemReceivingView> liviews = purapService.getRelatedViews(LineItemReceivingView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+        List<CorrectionReceivingView> crviews = purapService.getRelatedViews(CorrectionReceivingView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+        
+        // both LineItemReceivingViews and CorrectionReceivingViews are already in order with most recent first, so no need to sort
+        for (LineItemReceivingView liview : liviews) {
+            ReceivingViewGroup group = new ReceivingViewGroup(); 
+            group.lineItemView = liview; // could be current document
+            for (CorrectionReceivingView crview : crviews) {
+                if (StringUtils.equals(crview.getLineItemReceivingDocumentNumber(), liview.getDocumentNumber()) && 
+                        !documentNumber.equals(crview.getDocumentNumber())) {// exclude current document                
+                    group.addCorrectionView(crview);
+                }
+            }
+            groupedRelatedReceivingViews.add(group);
+        }
+                
+        return groupedRelatedReceivingViews;    
+    }        
 
+    /**
+     * A container for a List<PurchaseOrderView>, to be used by a nested c:forEach tag
+     * in relatedPurchaseOrderDocumentsDetail.tag.
+     */
+    protected class PurchaseOrderViewGroup {
+        private List<PurchaseOrderView> views = new ArrayList<PurchaseOrderView>();
+        
+        protected PurchaseOrderViewGroup() {
+        }
 
+        public List<PurchaseOrderView> getViews() {
+            return views;
+        }
+    }
+    
+    /**
+     * A container for a LineItemReceivingView and a list of its associated CorrectionReceivingViews.
+     */
+    protected class ReceivingViewGroup {
+        private LineItemReceivingView lineItemView;
+        private List<CorrectionReceivingView> correctionViews = new ArrayList<CorrectionReceivingView>();
+        
+        protected ReceivingViewGroup() {
+        }
+
+        public LineItemReceivingView getLineItemView() {
+            return lineItemView;
+        }
+
+        public List<CorrectionReceivingView> getCorrectionViews() {
+            return correctionViews;
+        }
+
+        public void addCorrectionView(CorrectionReceivingView correctionView) {
+            correctionViews.add(correctionView);
+        }
+        
+        public boolean getIsLineItemViewCurrentDocument() {
+            return (lineItemView != null && documentNumber.equals(lineItemView.getDocumentNumber()));
+        }
+    }
+    
 }

@@ -30,13 +30,13 @@ import org.kuali.rice.kns.util.TypedArrayList;
 public class PurchaseOrderView extends AbstractRelatedView {
 
     private Boolean purchaseOrderCurrentIndicator;
-    private List<Note> notes;
-
     private String purchaseOrderStatusCode;
     private String recurringPaymentTypeCode;
     private String vendorChoiceCode;
     private Timestamp recurringPaymentEndDate;
     
+    private List<Note> notes;
+
     public boolean isPurchaseOrderCurrentIndicator() {
         return purchaseOrderCurrentIndicator;
     }
@@ -82,6 +82,29 @@ public class PurchaseOrderView extends AbstractRelatedView {
     }
 
     /**
+     * @see org.kuali.kfs.module.purap.businessobject.AbstractRelatedView#getNotes()
+     */
+    @Override
+    public List<Note> getNotes() {
+        if (this.isPurchaseOrderCurrentIndicator()) {
+            if (notes == null) {
+                notes = new TypedArrayList(Note.class);
+                List<Note> tmpNotes = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderNotes(this.getPurapDocumentIdentifier());
+                //FIXME if NoteService returns notes in descending order (newer ones first) then remove the following
+                // reverse the order of notes retrieved so that newest note is in the front
+                for (int i = tmpNotes.size()-1; i>=0; i--) {
+                    Note note = tmpNotes.get(i);
+                    notes.add(note);
+                }
+            }
+        }
+        else {
+            notes = null;
+        }
+        return notes;
+    }
+
+    /**
      * The next four methods are overridden but shouldn't be! If they aren't overridden, they don't show up in the tag, not sure why at
      * this point! (AAP)
      * 
@@ -106,31 +129,11 @@ public class PurchaseOrderView extends AbstractRelatedView {
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.businessobject.AbstractRelatedView#getNotes()
-     */
-    @Override
-    public List<Note> getNotes() {
-        if (this.isPurchaseOrderCurrentIndicator()) {
-            if (notes == null) {
-                notes = new TypedArrayList(Note.class);
-                List<Note> tmpNotes = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderNotes(this.getPurapDocumentIdentifier());
-                for (Note note : tmpNotes) {
-                    notes.add(note);
-                }
-            }
-        }
-        else {
-            notes = null;
-        }
-        return notes;
-    }
-
-    /**
      * @see org.kuali.kfs.module.purap.businessobject.AbstractRelatedView#getUrl()
      */
     @Override
     public String getUrl() {
         return super.getUrl();
     }
-    
+        
 }

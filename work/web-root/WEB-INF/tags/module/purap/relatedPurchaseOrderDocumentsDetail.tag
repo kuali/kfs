@@ -16,18 +16,18 @@
 
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
-<%@ attribute name="viewList" required="true" %>
+<%@ attribute name="groupList" required="true" %>
 <%@ attribute name="limitByPoId" required="true" %>
 
 <c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
 <c:set var="isATypeOfPODoc" value="${KualiForm.document.isATypeOfPODoc}" />
 
-<logic:notEmpty name="KualiForm" property="${viewList}">	   		
-	<logic:iterate id="group" name="KualiForm" property="${viewList}" indexId="groupCtr">
+<logic:notEmpty name="KualiForm" property="${groupList}">	   		
+	<logic:iterate id="group" name="KualiForm" property="${groupList}" indexId="groupCtr">
 		<c:forEach items="${group.views}" var="view" varStatus="viewCtr">					
 			<c:if test="${(empty limitByPoId) or (limitByPoId eq view.purapDocumentIdentifier)}">
 			    <c:choose>
-			        <c:when test= "${view.purchaseOrderCurrentIndicator}">
+			        <c:when test="${view.purchaseOrderCurrentIndicator}">
         	            <h3> ${view.documentLabel} - <a href="<c:out value="${view.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${view.purapDocumentIdentifier}" /></a></h3>
 				    	<c:if test="${not empty view.notes}">
 				    		<c:set var="notes" value="${view.notes}"/>
@@ -74,11 +74,11 @@
 		</c:if>
 	</logic:iterate>
 	
-	<c:if test="${isATypeOfPODoc}">
-		<br/>
-		<h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<c:out value="Please refer to the Notes and Attachments Tab for the Purchase Order Notes"/></h3>
-	</c:if>
     <c:if test="${(empty limitByPoId) or viewShown}">
+		<c:if test="${isATypeOfPODoc}">
+			<br/>
+			<h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<c:out value="Please refer to the Notes and Attachments Tab for the Purchase Order Notes"/></h3>
+		</c:if>
 		<br />
 	   	<br />
 	</c:if>

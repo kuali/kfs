@@ -23,11 +23,11 @@
 <c:set var="isRequisition" value="${KualiForm.document.isReqsDoc}" />
 
 <c:choose>
+    <c:when test="${isRequisition}">
+    </c:when>   
     <c:when test="${isATypeOfPODoc}">
         <c:set var="limitByPoId" value="${KualiForm.document.purapDocumentIdentifier}" />
     </c:when>
-    <c:when test="${isRequisition}">
-    </c:when>   
     <c:otherwise>
         <c:set var="limitByPoId" value="${KualiForm.document.purchaseOrderIdentifier}" />
 	</c:otherwise>
@@ -35,14 +35,22 @@
 
 <kul:tab tabTitle="View Related Documents" defaultOpen="false" tabErrorKey="${PurapConstants.RELATED_DOCS_TAB_ERRORS}">
     <div class="tab-container" align=center>
-            <h3>Related Documents</h3>
+        <h3>Related Documents</h3>
 		<br />
 	
 		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"
 			viewList="document.relatedViews.relatedRequisitionViews" /> 
 		
 		<purap:relatedPurchaseOrderDocumentsDetail documentAttributes="${documentAttributes}"
-			viewList="document.relatedViews.groupedRelatedPurchaseOrderViews"
+			groupList="document.relatedViews.groupedRelatedPurchaseOrderViews"
+			limitByPoId="${limitByPoId}" /> 
+
+		<purap:relatedReceivingDocumentsDetail documentAttributes="${documentAttributes}"
+			groupList="document.relatedViews.groupedRelatedReceivingViews" 
+			limitByPoId="${limitByPoId}" /> 
+			 
+		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"
+			viewList="document.relatedViews.relatedBulkReceivingViews" 
 			limitByPoId="${limitByPoId}" /> 
 
 		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"
@@ -52,14 +60,5 @@
 		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"
 			viewList="document.relatedViews.relatedCreditMemoViews"
 			limitByPoId="${limitByPoId}" /> 
-
-		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"
-			viewList="document.relatedViews.relatedLineItemReceivingViews" /> 
-
-		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"
-			viewList="document.relatedViews.relatedCorrectionReceivingViews" /> 
-			
-		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"
-			viewList="document.relatedViews.relatedBulkReceivingViews" /> 
     </div>
 </kul:tab>

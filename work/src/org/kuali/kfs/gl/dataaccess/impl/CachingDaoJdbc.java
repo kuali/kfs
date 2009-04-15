@@ -935,7 +935,9 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
                 accountBalancePreparedSelect = connection.prepareStatement("select CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT from GL_ACCT_BALANCES_T where UNIV_FISCAL_YR = ? and FIN_COA_CD = ? and ACCOUNT_NBR = ? and SUB_ACCT_NBR = ? and FIN_OBJECT_CD = ? and FIN_SUB_OBJ_CD = ?");
                 accountBalanceInsert = connection.prepareStatement("insert into GL_ACCT_BALANCES_T values (?,?,?,?,?,?,?,?,?,?)");
                 accountBalanceUpdate = connection.prepareStatement("update GL_ACCT_BALANCES_T set CURR_BDLN_BAL_AMT = ?, ACLN_ACTLS_BAL_AMT = ?, ACLN_ENCUM_BAL_AMT = ?, TIMESTAMP = ? where UNIV_FISCAL_YR = ? and FIN_COA_CD = ? and ACCOUNT_NBR = ? and SUB_ACCT_NBR = ? and FIN_OBJECT_CD = ? and FIN_SUB_OBJ_CD = ?"); //NOTE: not updating u_version, but shouldn't cause a problem since Uniface never updated this table
-
+                encumbrancePreparedSelect = connection.prepareStatement("select TRN_ENCUM_DESC, TRN_ENCUM_DT, ACLN_ENCUM_AMT, ACLN_ENCUM_CLS_AMT, ACLN_ENCUM_PRG_CD from GL_ENCUMBRANCE_T where univ_fiscal_yr = ? and fin_coa_cd = ? and account_nbr = ? and sub_acct_nbr = ? and fin_object_cd = ? and fin_sub_obj_cd = ? and fin_balance_typ_cd = ? and fdoc_typ_cd = ? and fs_origin_cd = ? and fdoc_nbr = ?");
+                encumbranceInsert = connection.prepareStatement("insert into GL_ENCUMBRANCE_T values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                encumbranceUpdate = connection.prepareStatement("update GL_ENCUMBRANCE_T set TRN_ENCUM_DESC = ?, TRN_ENCUM_DT = ?, ACLN_ENCUM_AMT = ?, ACLN_ENCUM_CLS_AMT = ?, ACLN_ENCUM_PRG_CD = ?, TIMESTAMP = ? where univ_fiscal_yr = ? and fin_coa_cd = ? and account_nbr = ? and sub_acct_nbr = ? and fin_object_cd = ? and fin_sub_obj_cd = ? and fin_balance_typ_cd = ? and fdoc_typ_cd = ? and fs_origin_cd = ? and fdoc_nbr = ?");
                 
             } catch (SQLException e) {
                 LOG.info(e.getErrorCode() + e.getMessage());

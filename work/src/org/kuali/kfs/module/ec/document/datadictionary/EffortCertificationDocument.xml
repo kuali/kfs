@@ -107,54 +107,67 @@
   <bean id="EffortCertificationDocument-workflowAttributes" parent="EffortCertificationDocument-workflowAttributes-parentBean"/>
   <bean id="EffortCertificationDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
 	  <property name="searchingTypeDefinitions">
-	  		<list>
-			    <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-			        <property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode" />
-			        <property name="documentValues">
-			        	<list>
-			        		<value>effortCertificationDetailLines.chartOfAccountsCode</value>
-			        	</list>
-			        </property>
-			    </bean>
-    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+	  		<list>  		
+  				<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
+    						<property name="attributeName" value="chartOfAccountsCode" />					        
+    						<property name="showAttributeInSearchCriteria" value="true"/>
+					        <property name="showAttributeInResultSet" value="true"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>effortCertificationDetailLines.chartOfAccountsCode</value>
+                        </list>
+                    </property>
+                </bean>	  		
+  				<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.ec.document.EffortCertificationDocument"/>
-    						<property name="attributeName" value="emplid"/>
-    					</bean>
-    				</property>
-    				<property name="documentValues">
-    					<list>
-    						<value>emplid</value>
-    					</list>
-    				</property>
-    			</bean>	 
-    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+                            <property name="attributeName" value="emplid"/>
+					        <property name="showAttributeInSearchCriteria" value="true"/>
+					        <property name="showAttributeInResultSet" value="true"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>emplid</value>
+                        </list>
+                    </property>
+                </bean>
+  				<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.ec.document.EffortCertificationDocument"/>
-    						<property name="attributeName" value="universityFiscalYear"/>
-    					</bean>
-    				</property>
-    				<property name="documentValues">
-    					<list>
-    						<value>universityFiscalYear</value>
-    					</list>
-    				</property>
-    			</bean>	  		
-    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+                            <property name="attributeName" value="universityFiscalYear"/>
+					        <property name="showAttributeInSearchCriteria" value="true"/>
+					        <property name="showAttributeInResultSet" value="true"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>universityFiscalYear</value>
+                        </list>
+                    </property>
+                </bean>
+  				<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.ec.document.EffortCertificationDocument"/>
-    						<property name="attributeName" value="effortCertificationReportNumber"/>
-    					</bean>
-    				</property>
-    				<property name="documentValues">
-    					<list>
-    						<value>effortCertificationReportNumber</value>
-    					</list>
-    				</property>
-    			</bean>	 
+                            <property name="attributeName" value="effortCertificationReportNumber"/>
+					        <property name="showAttributeInSearchCriteria" value="true"/>
+					        <property name="showAttributeInResultSet" value="true"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>effortCertificationReportNumber</value>
+                        </list>
+                    </property>
+                </bean>
 	  		</list>
   	  </property>
   	  <property name="routingTypeDefinitions">
@@ -167,7 +180,7 @@
   	  		</map>
   	  </property>	
   </bean>
-
+  
   <!-- define the routing types -->  
   <bean id="RoutingType-EffortCertificationDocument-ProjectManagement" parent="RoutingType-EffortCertificationDocument-ProjectManagement-parentBean"/>
   <bean id="RoutingType-EffortCertificationDocument-ProjectManagement-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">

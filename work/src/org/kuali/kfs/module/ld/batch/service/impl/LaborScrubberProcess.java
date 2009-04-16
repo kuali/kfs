@@ -246,7 +246,7 @@ public class LaborScrubberProcess {
         scrubberReport = new ScrubberReportData();
         processGroup();
 
-        laborReportService.generateBatchScrubberStatisticsReport(scrubberReport, scrubberReportErrors, reportsDirectory, runDate);
+        //laborReportService.generateBatchScrubberStatisticsReport(scrubberReport, scrubberReportErrors, reportsDirectory, runDate);
 
         // Run the reports
         if (reportOnlyMode) {

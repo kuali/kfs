@@ -324,7 +324,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
         setDescriptions();
         scrubberReport = new ScrubberReportData();
         processGroup(reportOnlyMode);
-        reportService.generateBatchScrubberStatisticsReport(runDate, scrubberReport, scrubberReportErrors);
+        //reportService.generateBatchScrubberStatisticsReport(runDate, scrubberReport, scrubberReportErrors);
     }
 
     /**

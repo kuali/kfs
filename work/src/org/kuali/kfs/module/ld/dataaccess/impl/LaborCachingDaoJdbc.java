@@ -34,21 +34,16 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class LaborCachingDaoJdbc extends CachingDaoJdbc implements LaborAccountingCycleCachingService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborCachingDaoJdbc.class);
 
-    private HashMap<String, Object> dataCache = new HashMap<String, Object>();
-
     private PreparedStatement ledgerEntryInsert;
     private PreparedStatement laborObjectPreparedSelect;
     private PreparedStatement ledgerEntryPreparedSelect;
     private PreparedStatement ledgerBalancePreparedSelect;
     private PreparedStatement ledgerBalanceInsert;
     private PreparedStatement ledgerBalanceUpdate;
-    private DateTimeService dateTimeService;
 
     private String previousLedgerBalanceKey = "";
     private LedgerBalance previousLedgerBalance = new LedgerBalance();
     
-    private Connection connection;
-
     public void insertLedgerEntry(LedgerEntry ledgerEntry) {
         try {
             ledgerEntryInsert.setInt(1, ledgerEntry.getUniversityFiscalYear());
@@ -365,7 +360,8 @@ public class LaborCachingDaoJdbc extends CachingDaoJdbc implements LaborAccounti
     public void init() {
         if (connection == null) {
             try {
-                connection = getDataSource().getConnection();
+                super.init();
+                
                 laborObjectPreparedSelect = connection.prepareStatement("select finobj_frngslry_cd from LD_LABOR_OBJ_T where univ_fiscal_yr = ? and fin_coa_cd = ? and fin_object_cd = ?");
                 ledgerEntryInsert = connection.prepareStatement("INSERT INTO LD_LDGR_ENTR_T VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
                 ledgerEntryPreparedSelect = connection.prepareStatement("select max(trn_entr_seq_nbr) from ld_ldgr_entr_t where univ_fiscal_yr = ? and fin_coa_cd = ? and account_nbr = ? and sub_acct_nbr = ? and fin_object_cd = ? and fin_sub_obj_cd = ? and fin_balance_typ_cd = ? and fin_obj_typ_cd = ? and univ_fiscal_prd_cd = ? and fdoc_typ_cd = ? and fs_origin_cd = ? and fdoc_nbr = ?");

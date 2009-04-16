@@ -64,7 +64,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements AccountingCycleCachingService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CachingDaoJdbc.class);
 
-    private Map<String,Object> dataCache = new HashMap<String,Object>();
+    protected Map<String,Object> dataCache = new HashMap<String,Object>();
     private PreparedStatement accountPreparedSelect;
     private PreparedStatement subFundGroupPreparedSelect;
     private PreparedStatement objectCodePreparedSelect;
@@ -112,9 +112,9 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements Accounti
     
     private WorkflowInfo workflowInfo = new WorkflowInfo();
     
-    private Connection connection;
+    protected Connection connection;
     private UniversityDateService universityDateService;
-    private DateTimeService dateTimeService;
+    protected DateTimeService dateTimeService;
     
     private String previousBalanceKey = "";
     private Balance previousBalance = new Balance();
@@ -122,6 +122,7 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements Accounti
     private Encumbrance previousEncumbrance = new Encumbrance();
 
     public CachingDaoJdbc() {
+        
     }
 
     public OffsetDefinition getOffsetDefinition(Integer universityFiscalYear, String chartOfAccountsCode, String financialDocumentTypeCode, String financialBalanceTypeCode) {

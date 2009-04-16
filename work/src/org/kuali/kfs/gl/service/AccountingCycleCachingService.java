@@ -123,4 +123,6 @@ public interface AccountingCycleCachingService {
     public void insertAccountBalance(AccountBalance accountBalance);
 
     public void updateAccountBalance(AccountBalance accountBalance);
+    
+    public void init();
 }

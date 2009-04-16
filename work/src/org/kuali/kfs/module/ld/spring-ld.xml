@@ -271,6 +271,9 @@
 		<property name="scrubberValidator">
 			<ref bean="laborScrubberValidator" />
 		</property>
+        <property name="accountingCycleCachingService">
+		  	<ref bean="laborAccountingCycleCachingService" />
+		</property>
 		<property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
 		<property name="reportDirectoryName" value="${reports.directory}"/>
 	</bean>
@@ -306,7 +309,7 @@
 		
     </bean>
     
-	<bean id="laborAccountingCycleCachingService" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborCachingDaoJdbc" init-method="init" >
+	<bean id="laborAccountingCycleCachingService" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborCachingDaoJdbc" init-method="init" singleton="true">
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>

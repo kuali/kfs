@@ -147,6 +147,8 @@ public interface OriginEntryLookupService {
      * @return the related AccountingPeriod record, or null if not found
      */
     public AccountingPeriod getAccountingPeriod(OriginEntry entry);
+    
+    public AccountingPeriod getAccountingPeriod(Integer universityFiscalYear, String universityFiscalPeriodCode);
 
     /**
      * Retrieves the origination code for the given origin entryable

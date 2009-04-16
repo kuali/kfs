@@ -17,7 +17,6 @@ package org.kuali.kfs.module.ld.batch.service.impl;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -101,10 +100,11 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
         Message err = null;
 
-        err = this.validateClosedPeriodCode(laborOriginEntry, laborScrubbedEntry);
-        if (err != null) {
-            errors.add(err);
-        }
+        //this validation is duplicated.  This is in ScrubberValidatorImpl under GL
+//        err = this.validateClosedPeriodCode(laborOriginEntry, laborScrubbedEntry);
+//        if (err != null) {
+//            errors.add(err);
+//        }
 
         err = validatePayrollEndFiscalYear(laborOriginEntry, laborScrubbedEntry, universityRunDate);
         if (err != null) {
@@ -167,41 +167,43 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      * @param workingEntry the scrubbed version of the origin entry
      * @return a Message if an error was encountered, otherwise null
      */
-    private Message validateClosedPeriodCode(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry) {
-        LOG.debug("validateClosedPeriodCode() started");
-
-        String periodCode = laborOriginEntry.getUniversityFiscalPeriodCode();
-        if (StringUtils.isBlank(periodCode)) {
-            return null;
-        }
-
-        // Scrubber accepts closed fiscal periods for A21 Balance
-        AccountingPeriod accountingPeriod = referenceLookup.get().getAccountingPeriod(laborOriginEntry);
-        if (ObjectUtils.isNotNull(accountingPeriod) && !accountingPeriod.isActive()) {
-            String bypassBalanceType = parameterService.getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.CLOSED_FISCAL_PERIOD_BYPASS_BALANCE_TYPES);
-
-            if (!laborWorkingEntry.getFinancialBalanceTypeCode().equals(bypassBalanceType)) {
-                return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_FISCAL_PERIOD_CLOSED, periodCode, Message.TYPE_FATAL);
-            }
-
-            laborWorkingEntry.setUniversityFiscalPeriodCode(periodCode);
-        }
-
-        return null;
-    }
+    //this validation is duplicated.  This is in ScrubberValidatorImpl under GL
+//    private Message validateClosedPeriodCode(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry) {
+//        LOG.debug("validateClosedPeriodCode() started");
+//
+//        String periodCode = laborOriginEntry.getUniversityFiscalPeriodCode();
+//        if (StringUtils.isBlank(periodCode)) {
+//            return null;
+//        }
+//
+//        // Scrubber accepts closed fiscal periods for A21 Balance
+//        AccountingPeriod accountingPeriod = referenceLookup.get().getAccountingPeriod(laborOriginEntry);
+//        if (ObjectUtils.isNotNull(accountingPeriod) && !accountingPeriod.isActive()) {
+//            String bypassBalanceType = parameterService.getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.CLOSED_FISCAL_PERIOD_BYPASS_BALANCE_TYPES);
+//
+//            if (!laborWorkingEntry.getFinancialBalanceTypeCode().equals(bypassBalanceType)) {
+//                return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_FISCAL_PERIOD_CLOSED, periodCode, Message.TYPE_FATAL);
+//            }
+//
+//            laborWorkingEntry.setUniversityFiscalPeriodCode(periodCode);
+//        }
+//
+//        return null;
+//    }
 
     /**
      * This method is for validation of payrollEndFiscalYear
      */
     private Message validatePayrollEndFiscalYear(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate) {
-        LOG.debug("validateFiscalYear() started");
-
-        Integer payrollEndDateFiscalYear = laborOriginEntry.getPayrollEndDateFiscalYear();
-        if (ObjectUtils.isNull(payrollEndDateFiscalYear) || payrollEndDateFiscalYear == 0) {
-            laborWorkingEntry.setPayrollEndDateFiscalYear(universityRunDate.getUniversityFiscalYear());
-        }
-        else {
-            laborWorkingEntry.setPayrollEndDateFiscalYear(payrollEndDateFiscalYear);
+        LOG.debug("validatePayrollEndFiscalYear() started");
+        SystemOptions scrubbedEntryOption = null;
+        if (laborOriginEntry.getPayrollEndDateFiscalYear() != null){
+            scrubbedEntryOption = referenceLookup.get().getSystemOptions(laborOriginEntry.getPayrollEndDateFiscalYear());
+            
+            if (scrubbedEntryOption == null) {
+                return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_PAYROLL_END_DATE_FISCAL_YEAR, "" + laborOriginEntry.getPayrollEndDateFiscalYear(), Message.TYPE_FATAL);
+            }
+            
         }
 
         return null;
@@ -213,13 +215,21 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private Message validatePayrollEndFiscalPeriodCode(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate) {
         LOG.debug("validateUniversityFiscalPeriodCode() started");
 
-        String payrollEndDateFiscalPeriodCode = laborOriginEntry.getPayrollEndDateFiscalPeriodCode();
-        if (StringUtils.isNotBlank(payrollEndDateFiscalPeriodCode)) {
-            laborWorkingEntry.setPayrollEndDateFiscalPeriodCode(payrollEndDateFiscalPeriodCode);
+        AccountingPeriod accountingPeriod = null;
+        Integer tempPayrollFiscalYear = 0;
+        if (laborOriginEntry.getPayrollEndDateFiscalYear()== null ){
+            tempPayrollFiscalYear = universityRunDate.getUniversityFiscalYear();
+        } else {
+            tempPayrollFiscalYear = laborOriginEntry.getPayrollEndDateFiscalYear();
         }
-        else {
-            laborWorkingEntry.setPayrollEndDateFiscalPeriodCode(laborOriginEntry.getUniversityFiscalPeriodCode());
+        
+        if (!laborOriginEntry.getPayrollEndDateFiscalPeriodCode().equals("")  ){
+            accountingPeriod = referenceLookup.get().getAccountingPeriod(tempPayrollFiscalYear, laborOriginEntry.getPayrollEndDateFiscalPeriodCode());
+            if (accountingPeriod == null) {
+                return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_PAYROLL_END_DATE_FISCAL_PERIOD, laborOriginEntry.getPayrollEndDateFiscalPeriodCode(), Message.TYPE_FATAL);
+            }
         }
+
 
         return null;
     }
@@ -368,11 +378,6 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      */
     private Message checkAccountFringeIndicator(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, Account account, UniversityDate universityRunDate) {
         // check for fringe tranaction type
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, laborOriginEntry.getUniversityFiscalYear());
-        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, laborOriginEntry.getChartOfAccountsCode());
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, laborOriginEntry.getFinancialObjectCode());
-
         //LaborObject laborObject = (LaborObject) businessObjectService.findByPrimaryKey(LaborObject.class, fieldValues);
         LaborObject laborObject = ((LaborOriginEntryLookupService) referenceLookup.get()).getLaborObject(laborOriginEntry);
         boolean isFringeTransaction = laborObject != null && org.apache.commons.lang.StringUtils.equals(LaborConstants.BenefitExpenseTransfer.LABOR_LEDGER_BENEFIT_CODE, laborObject.getFinancialObjectFringeOrSalaryCode());

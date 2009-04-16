@@ -454,7 +454,9 @@ public class KFSKeyConstants {
     public static final String ERROR_SEQUENCE_NUMBER_NOT_BE_NULL = "error.gl.NullSequenceNumber";
     public static final String ERROR_NO_ORIGIN_ENTRY_GROUPS = "error.gl.NoOriginEntryGroups";
     public static final String ERROR_ENCUMBRANCE_UPDATE_CODE_CANNOT_BE_BLANK_FOR_BALANCE_TYPE = "error.gl.EncumbranceUpdateCodeCannotBeBlankForBalanceType";
-
+    public static final String ERROR_PAYROLL_END_DATE_FISCAL_PERIOD = "error.labor.PayrollEndDateFiscalPeriodCodeNotFound";
+    public static final String ERROR_PAYROLL_END_DATE_FISCAL_YEAR = "error.labor.PayrollEndDateFiscalYearNotFound";
+    
     public static final String WARNING_ICR_GENERATION_PROBLEM_WITH_A21SUBACCOUNT_FIELD_BLANK_INVALID = "warning.gl.IndirectCostRecoveryGeneration.A21SubAccount.icrField.blankInvalid";
     
     public static final String MSG_DEDIT_CREDIT_CODE_MUST_BE = "message.gl.DebitCreditCodeMustBe";

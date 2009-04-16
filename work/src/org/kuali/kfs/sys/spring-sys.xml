@@ -651,9 +651,6 @@
 		<property name="parameterService">
 			<ref bean="parameterService" />
 		</property>		
-		<property name="cachingDao">
-			<ref bean="cachingDao" />
-		</property>
 	</bean>
  
 </beans>

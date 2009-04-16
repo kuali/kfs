@@ -24,7 +24,7 @@ import org.kuali.kfs.gl.batch.service.PostTransaction;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.dataaccess.BalanceDao;
-import org.kuali.kfs.gl.dataaccess.CachingDao;
+import org.kuali.kfs.gl.service.AccountingCycleCachingService;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -38,7 +38,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostBalance implements PostTransaction, BalanceCalculator {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostBalance.class);
     
-    private CachingDao cachingDao;
+    private AccountingCycleCachingService accountingCycleCachingService;
     private static final KualiDecimal NEGATIVE_ONE = new KualiDecimal(-1);
     /**
      * Constructs a PostBalance instance
@@ -71,21 +71,18 @@ public class PostBalance implements PostTransaction, BalanceCalculator {
             }
         }
 
-        Balance b = cachingDao.getBalance(t);
+        Balance b = accountingCycleCachingService.getBalance(t);
         if (b == null) {
             postType = "I";
             b = new Balance(t);
         }
-        //no need to set timeStamp since cachingDao has the setter 
-        //b.setTimestamp(new java.sql.Date(postDate.getTime()));
-
         String period = t.getUniversityFiscalPeriodCode();
         b.addAmount(period, amount);
 
         if (postType.equals("I")) {
-            cachingDao.insertBalance(b);
+            accountingCycleCachingService.insertBalance(b);
         } else {
-            cachingDao.updateBalance(b);
+            accountingCycleCachingService.updateBalance(b);
         }
         
         return postType;
@@ -165,7 +162,7 @@ public class PostBalance implements PostTransaction, BalanceCalculator {
         return "GL_BALANCE_T";
     }
 
-    public void setCachingDao(CachingDao cachingDao) {
-        this.cachingDao = cachingDao;
+    public void setAccountingCycleCachingService(AccountingCycleCachingService accountingCycleCachingService) {
+        this.accountingCycleCachingService = accountingCycleCachingService;
     }
 }

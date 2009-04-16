@@ -22,7 +22,7 @@ import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.businessobject.LaborTransaction;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
-import org.kuali.kfs.module.ld.dataaccess.LaborCachingDao;
+import org.kuali.kfs.module.ld.service.LaborAccountingCycleCachingService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -35,7 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class LaborLedgerBalancePoster implements PostTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerBalancePoster.class);
 
-    private LaborCachingDao laborCachingDao;
+    private LaborAccountingCycleCachingService accountingCycleCachingService;
     /**
      * @see org.kuali.kfs.gl.batch.service.PostTransaction#post(org.kuali.kfs.gl.businessobject.Transaction, int, java.util.Date)
      */
@@ -44,7 +44,7 @@ public class LaborLedgerBalancePoster implements PostTransaction {
         LedgerBalance ledgerBalance = new LedgerBalance((LaborTransaction) transaction);
         // ObjectUtil.buildObject(ledgerBalance, transaction);
 
-        LedgerBalance tempLedgerBalance = laborCachingDao.getLedgerBalance(ledgerBalance);
+        LedgerBalance tempLedgerBalance = accountingCycleCachingService.getLedgerBalance(ledgerBalance);
         if (ObjectUtils.isNotNull(tempLedgerBalance)) {
             ledgerBalance = tempLedgerBalance;
             operationType = KFSConstants.OperationType.UPDATE;
@@ -56,9 +56,9 @@ public class LaborLedgerBalancePoster implements PostTransaction {
         ledgerBalance.addAmount(transaction.getUniversityFiscalPeriodCode(), amount);
 
         if (operationType.equals(KFSConstants.OperationType.INSERT)) {
-            laborCachingDao.insertLedgerBalance(ledgerBalance);
+            accountingCycleCachingService.insertLedgerBalance(ledgerBalance);
         } else {
-            laborCachingDao.updateLedgerBalance(ledgerBalance);
+            accountingCycleCachingService.updateLedgerBalance(ledgerBalance);
         }
         return operationType;
     }
@@ -70,7 +70,7 @@ public class LaborLedgerBalancePoster implements PostTransaction {
         return LaborConstants.DestinationNames.LEDGER_BALANCE;
     }
 
-    public void setLaborCachingDao(LaborCachingDao laborCachingDao) {
-        this.laborCachingDao = laborCachingDao;
+    public void setAccountingCycleCachingService(LaborAccountingCycleCachingService accountingCycleCachingService) {
+        this.accountingCycleCachingService = accountingCycleCachingService;
     }
 }

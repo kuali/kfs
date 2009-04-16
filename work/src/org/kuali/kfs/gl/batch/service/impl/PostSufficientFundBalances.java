@@ -23,8 +23,8 @@ import org.kuali.kfs.gl.batch.service.PostTransaction;
 import org.kuali.kfs.gl.businessobject.Reversal;
 import org.kuali.kfs.gl.businessobject.SufficientFundBalances;
 import org.kuali.kfs.gl.businessobject.Transaction;
-import org.kuali.kfs.gl.dataaccess.CachingDao;
 import org.kuali.kfs.gl.dataaccess.SufficientFundBalancesDao;
+import org.kuali.kfs.gl.service.AccountingCycleCachingService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -38,7 +38,7 @@ public class PostSufficientFundBalances implements PostTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostSufficientFundBalances.class);
 
     private SufficientFundBalancesDao sufficientFundBalancesDao;
-    private CachingDao cachingDao;
+    private AccountingCycleCachingService accountingCycleCachingService;
     private PersistenceStructureService persistenceStructureService;
     
     /**
@@ -82,7 +82,7 @@ public class PostSufficientFundBalances implements PostTransaction {
         }
         else if (KFSConstants.SF_TYPE_CONSOLIDATION.equals(t.getAccount().getAccountSufficientFundsCode())) {
             //sufficientFundsObjectCode = t.getFinancialObject().getFinancialObjectLevel().getFinancialConsolidationObjectCode();
-            sufficientFundsObjectCode = cachingDao.getObjectLevel(t.getFinancialObject().getChartOfAccountsCode(), t.getFinancialObject().getFinancialObjectLevelCode()).getFinancialConsolidationObjectCode();
+            sufficientFundsObjectCode = accountingCycleCachingService.getObjectLevel(t.getFinancialObject().getChartOfAccountsCode(), t.getFinancialObject().getFinancialObjectLevelCode()).getFinancialConsolidationObjectCode();
         }
         else if (KFSConstants.SF_TYPE_CASH_AT_ACCOUNT.equals(t.getAccount().getAccountSufficientFundsCode()) || KFSConstants.SF_TYPE_ACCOUNT.equals(t.getAccount().getAccountSufficientFundsCode())) {
             sufficientFundsObjectCode = GeneralLedgerConstants.getSpaceFinancialObjectCode();
@@ -92,7 +92,7 @@ public class PostSufficientFundBalances implements PostTransaction {
         }
 
         // Look to see if there is a sufficient funds record for this
-        SufficientFundBalances sfBalance = cachingDao.getSufficientFundBalances(t.getUniversityFiscalYear(), t.getChartOfAccountsCode(), t.getAccountNumber(), sufficientFundsObjectCode);
+        SufficientFundBalances sfBalance = accountingCycleCachingService.getSufficientFundBalances(t.getUniversityFiscalYear(), t.getChartOfAccountsCode(), t.getAccountNumber(), sufficientFundsObjectCode);
         if (sfBalance == null) {
             returnCode = GeneralLedgerConstants.INSERT_CODE;
             sfBalance = new SufficientFundBalances();
@@ -160,9 +160,9 @@ public class PostSufficientFundBalances implements PostTransaction {
 
         // If we get here, we need to save the balance entry
         if (returnCode.equals(GeneralLedgerConstants.INSERT_CODE)) {
-            cachingDao.insertSufficientFundBalances(sfBalance);
+            accountingCycleCachingService.insertSufficientFundBalances(sfBalance);
         } else {
-            cachingDao.updateSufficientFundBalances(sfBalance);
+            accountingCycleCachingService.updateSufficientFundBalances(sfBalance);
         }
 
 
@@ -224,8 +224,8 @@ public class PostSufficientFundBalances implements PostTransaction {
         return persistenceStructureService.getTableName(SufficientFundBalances.class);
     }
     
-    public void setCachingDao(CachingDao cachingDao) {
-        this.cachingDao = cachingDao;
+    public void setAccountingCycleCachingService(AccountingCycleCachingService accountingCycleCachingService) {
+        this.accountingCycleCachingService = accountingCycleCachingService;
     }
 
     public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {

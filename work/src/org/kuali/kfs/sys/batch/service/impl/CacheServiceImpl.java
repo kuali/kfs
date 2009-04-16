@@ -17,7 +17,6 @@ package org.kuali.kfs.sys.batch.service.impl;
 
 import java.util.List;
 
-import org.kuali.kfs.gl.dataaccess.CachingDao;
 import org.kuali.kfs.sys.batch.service.CacheService;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kim.service.IdentityManagementService;
@@ -37,7 +36,6 @@ public class CacheServiceImpl implements CacheService {
     private RoleManagementService roleManagementService;
     private IdentityManagementService identityManagementService;
     private ParameterService parameterService;
-    private CachingDao cachingDao;
 
     /**
      * @see com.rsmart.kuali.kfs.sys.batch.service.CacheService#clearSystemCache()
@@ -45,7 +43,6 @@ public class CacheServiceImpl implements CacheService {
     public void clearSystemCache() {
         clearMethodCache();
         clearKIMCache();
-        clearCachingDaoCache();
         clearParameterCache();
     }
 
@@ -70,15 +67,6 @@ public class CacheServiceImpl implements CacheService {
 
         roleManagementService.flushRoleCaches();
         identityManagementService.flushAllCaches();
-    }
-
-    /**
-     * Clears out GL batch job cache by calling flush method on caching DAO
-     */
-    protected void clearCachingDaoCache() {
-        LOG.info("clearing caching dao jdbc cache ...");
-
-        cachingDao.flushCache();
     }
 
     /**
@@ -145,24 +133,6 @@ public class CacheServiceImpl implements CacheService {
     }
 
     /**
-     * Gets the cachingDao attribute.
-     * 
-     * @return Returns the cachingDao.
-     */
-    protected CachingDao getCachingDao() {
-        return cachingDao;
-    }
-
-    /**
-     * Sets the cachingDao attribute value.
-     * 
-     * @param cachingDao The cachingDao to set.
-     */
-    public void setCachingDao(CachingDao cachingDao) {
-        this.cachingDao = cachingDao;
-    }
-
-    /**
      * Gets the parameterService attribute.
      * 
      * @return Returns the parameterService.
@@ -179,5 +149,4 @@ public class CacheServiceImpl implements CacheService {
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
-
 }

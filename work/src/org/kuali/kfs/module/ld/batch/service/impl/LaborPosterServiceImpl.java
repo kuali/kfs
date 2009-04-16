@@ -74,7 +74,6 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     private DateTimeService dateTimeService;
     private VerifyTransaction laborPosterTransactionValidator;
     private ParameterService parameterService;
-    // private CachingDao cachingDao;
 
     private PostTransaction laborLedgerEntryPoster;
     private PostTransaction laborLedgerBalancePoster;
@@ -212,7 +211,6 @@ public class LaborPosterServiceImpl implements LaborPosterService {
             INPUT_GLE_FILE.close();
             POSTER_OUTPUT_GLE_FILE_ps.close();
             POSTER_OUTPUT_ERR_FILE_ps.close();
-            // cachingDao.commit();
 
             textReportHelper.writeStatisticsHeader();
             reportPrintStream.printf("                                  SEQUENTIAL RECORDS READ                    %,9d\n", lineNumber);
@@ -682,15 +680,10 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         return descriptionMap;
     }
 
-    // public void setCachingDao(CachingDao cachingDao) {
-    // this.cachingDao = cachingDao;
-    // }
-
     public void setBatchFileDirectoryName(String batchFileDirectoryName) {
         this.batchFileDirectoryName = batchFileDirectoryName;
     }
-    
-   
+       
     /**
      * summary the valid origin entries for the General Ledger
      * 

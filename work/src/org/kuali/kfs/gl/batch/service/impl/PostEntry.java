@@ -28,8 +28,8 @@ import org.kuali.kfs.gl.batch.service.PosterService;
 import org.kuali.kfs.gl.businessobject.AccountBalance;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.Transaction;
-import org.kuali.kfs.gl.dataaccess.CachingDao;
 import org.kuali.kfs.gl.dataaccess.EntryDao;
+import org.kuali.kfs.gl.service.AccountingCycleCachingService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,7 +40,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostEntry implements PostTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostEntry.class);
 
-    private CachingDao cachingDao;
+    private AccountingCycleCachingService accountingCycleCachingService;
     private PersistenceStructureService persistenceStructureService;
 
     /**
@@ -70,10 +70,10 @@ public class PostEntry implements PostTransaction {
 
         // Make sure the row will be unique when adding to the entries table by
         // adjusting the transaction sequence id
-        int maxSequenceId = cachingDao.getMaxSequenceNumber(t);
+        int maxSequenceId = accountingCycleCachingService.getMaxSequenceNumber(t);
         e.setTransactionLedgerEntrySequenceNumber(new Integer(maxSequenceId + 1));
         
-        cachingDao.insertEntry(e);
+        accountingCycleCachingService.insertEntry(e);
 
         return GeneralLedgerConstants.INSERT_CODE;
     }
@@ -85,8 +85,8 @@ public class PostEntry implements PostTransaction {
         return persistenceStructureService.getTableName(Entry.class);
     }
 
-    public void setCachingDao(CachingDao cachingDao) {
-        this.cachingDao = cachingDao;
+    public void setAccountingCycleCachingService(AccountingCycleCachingService accountingCycleCachingService) {
+        this.accountingCycleCachingService = accountingCycleCachingService;
     }
 
     public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {

@@ -764,8 +764,8 @@
 		</property>
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 		<property name="reportDirectoryName" value="${reports.directory}"/>
-		<property name="cachingDao">
-		  	<ref bean="cachingDao" />
+		<property name="accountingCycleCachingService">
+		  	<ref bean="accountingCycleCachingService" />
 		</property>
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
@@ -865,31 +865,6 @@
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 	</bean>
 	
-	<bean id="originEntryLiteCachingLookup" class="org.kuali.kfs.gl.service.impl.CachingLookup" singleton="false">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-		<property name="cacheSize" value="6000" />
-	</bean>
-	
-	<bean id="originEntryLookupService" class="org.kuali.kfs.gl.batch.service.impl.OriginEntryLookupServiceImpl" singleton="false">
-		<property name="persistenceStructureService">
-			<ref bean="persistenceStructureService" />
-		</property>
-		<property name="cachingDao">
-		  	<ref bean="cachingDao" />
-		</property>
-	</bean>
-	
-	<bean id="originEntryLiteService" class="org.kuali.kfs.gl.service.impl.OriginEntryLiteServiceImpl">
-<!-- 
-		<property name="originEntryDao">
-			<ref bean="originEntryLiteDao" />
-		</property>
-		
-		-->
-	</bean>
-
 	<bean id="reversalService" class="org.kuali.kfs.gl.service.impl.ReversalServiceImpl">
 		<property name="reversalDao">
 			<ref bean="glReversalDao" />
@@ -948,8 +923,8 @@
 	</bean>
 
 	<bean id="glPostGlEntry" class="org.kuali.kfs.gl.batch.service.impl.PostEntry">
-		<property name="cachingDao">
-		  	<ref bean="cachingDao" />
+		<property name="accountingCycleCachingService">
+		  	<ref bean="accountingCycleCachingService" />
 		</property>
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
@@ -957,14 +932,14 @@
 	</bean>
 
 	<bean id="glPostBalance" class="org.kuali.kfs.gl.batch.service.impl.PostBalance">
-		<property name="cachingDao">
-		  	<ref bean="cachingDao" />
+		<property name="accountingCycleCachingService">
+		  	<ref bean="accountingCycleCachingService" />
 		</property>
 	</bean>
 
 	<bean id="glPostGlAccountBalance" class="org.kuali.kfs.gl.batch.service.impl.PostAccountBalance">
-		<property name="cachingDao">
-		  	<ref bean="cachingDao" />
+		<property name="accountingCycleCachingService">
+		  	<ref bean="accountingCycleCachingService" />
 		</property>
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
@@ -975,8 +950,8 @@
 		<property name="sufficientFundBalancesDao">
 			<ref bean="glSufficientFundBalancesDao" />
 		</property>
-		<property name="cachingDao">
-		  	<ref bean="cachingDao" />
+		<property name="accountingCycleCachingService">
+		  	<ref bean="accountingCycleCachingService" />
 		</property>
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
@@ -984,8 +959,8 @@
 	</bean>
 
 	<bean id="glPostReversal" class="org.kuali.kfs.gl.batch.service.impl.PostReversal">
-		<property name="cachingDao">
-		  	<ref bean="cachingDao" />
+		<property name="accountingCycleCachingService">
+		  	<ref bean="accountingCycleCachingService" />
 		</property>
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
@@ -993,8 +968,8 @@
 	</bean>
 
 	<bean id="glPostEncumbrance" class="org.kuali.kfs.gl.batch.service.impl.PostEncumbrance">
-		<property name="cachingDao">
-		  	<ref bean="cachingDao" />
+		<property name="accountingCycleCachingService">
+		  	<ref bean="accountingCycleCachingService" />
 		</property>
         <property name="dateTimeService">
         	<ref bean="dateTimeService"/>
@@ -1011,8 +986,8 @@
 		<property name="indirectCostRecoveryExclusionTypeDao">
 			<ref bean="indirectCostRecoveryExclusionTypeDao" />
 		</property>
-		<property name="cachingDao">
-		  	<ref bean="cachingDao" />
+		<property name="accountingCycleCachingService">
+		  	<ref bean="accountingCycleCachingService" />
 		</property>
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
@@ -1813,7 +1788,7 @@
 		</property>
 	</bean>
 	
-	<bean id="cachingDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.gl.dataaccess.impl.CachingDaoJdbc" init-method="init" >
+	<bean id="accountingCycleCachingService" parent="platformAwareDaoJdbc" class="org.kuali.kfs.gl.dataaccess.impl.CachingDaoJdbc" init-method="init" >
 		<property name="dataSource" ref="dataSource" />
 		<property name="universityDateService">
 			<ref bean="universityDateService" />

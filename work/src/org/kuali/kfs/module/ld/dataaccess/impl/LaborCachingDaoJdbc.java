@@ -26,12 +26,12 @@ import org.kuali.kfs.gl.dataaccess.impl.CachingDaoJdbc;
 import org.kuali.kfs.module.ld.businessobject.LaborObject;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
-import org.kuali.kfs.module.ld.dataaccess.LaborCachingDao;
+import org.kuali.kfs.module.ld.service.LaborAccountingCycleCachingService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.Guid;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public class LaborCachingDaoJdbc extends CachingDaoJdbc implements LaborCachingDao {
+public class LaborCachingDaoJdbc extends CachingDaoJdbc implements LaborAccountingCycleCachingService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborCachingDaoJdbc.class);
 
     private HashMap<String, Object> dataCache = new HashMap<String, Object>();

@@ -26,7 +26,7 @@ import org.kuali.kfs.gl.batch.service.PostTransaction;
 import org.kuali.kfs.gl.businessobject.AccountBalance;
 import org.kuali.kfs.gl.businessobject.ExpenditureTransaction;
 import org.kuali.kfs.gl.businessobject.Transaction;
-import org.kuali.kfs.gl.dataaccess.CachingDao;
+import org.kuali.kfs.gl.service.AccountingCycleCachingService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostAccountBalance implements PostTransaction, AccountBalanceCalculator {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostAccountBalance.class);
 
-    private CachingDao cachingDao;
+    private AccountingCycleCachingService accountingCycleCachingService;
     private PersistenceStructureService persistenceStructureService;
 
     /**
@@ -65,7 +65,7 @@ public class PostAccountBalance implements PostTransaction, AccountBalanceCalcul
             String returnCode = GeneralLedgerConstants.UPDATE_CODE;
 
             // Load it
-            AccountBalance ab = cachingDao.getAccountBalance(t);
+            AccountBalance ab = accountingCycleCachingService.getAccountBalance(t);
 
             if (ab == null) {
                 returnCode = GeneralLedgerConstants.INSERT_CODE;
@@ -79,9 +79,9 @@ public class PostAccountBalance implements PostTransaction, AccountBalanceCalcul
             }
 
             if (returnCode.equals(GeneralLedgerConstants.INSERT_CODE)) {
-                cachingDao.insertAccountBalance(ab);
+                accountingCycleCachingService.insertAccountBalance(ab);
             } else {
-                cachingDao.updateAccountBalance(ab);
+                accountingCycleCachingService.updateAccountBalance(ab);
             }
 
             return returnCode;
@@ -147,8 +147,8 @@ public class PostAccountBalance implements PostTransaction, AccountBalanceCalcul
         return persistenceStructureService.getTableName(AccountBalance.class);
     }
 
-    public void setCachingDao(CachingDao cachingDao) {
-        this.cachingDao = cachingDao;
+    public void setAccountingCycleCachingService(AccountingCycleCachingService accountingCycleCachingService) {
+        this.accountingCycleCachingService = accountingCycleCachingService;
     }
 
     public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {

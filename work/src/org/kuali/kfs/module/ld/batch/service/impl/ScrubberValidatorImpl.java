@@ -26,7 +26,6 @@ import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.BalanceTypService;
 import org.kuali.kfs.gl.batch.ScrubberStep;
-import org.kuali.kfs.gl.batch.service.OriginEntryLookupService;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.service.ScrubberValidator;
@@ -35,7 +34,7 @@ import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.batch.LaborScrubberStep;
 import org.kuali.kfs.module.ld.businessobject.LaborObject;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
-import org.kuali.kfs.module.ld.service.LaborOriginEntryLookupService;
+import org.kuali.kfs.module.ld.service.LaborAccountingCycleCachingService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -44,6 +43,7 @@ import org.kuali.kfs.sys.MessageBuilder;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -69,7 +69,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private PersistenceService persistenceService;
     private ScrubberValidator scrubberValidator;
     private PersistenceStructureService persistenceStructureService;
-    private ThreadLocal<OriginEntryLookupService> referenceLookup = new ThreadLocal<OriginEntryLookupService>();
+    private LaborAccountingCycleCachingService accountingCycleCachingService;
 
     /**
      * @see org.kuali.module.labor.service.LaborScrubberValidator#validateTransaction(owrg.kuali.module.labor.bo.LaborOriginEntry,
@@ -81,8 +81,6 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
         LaborOriginEntry laborOriginEntry = (LaborOriginEntry) originEntry;
         LaborOriginEntry laborScrubbedEntry = (LaborOriginEntry) scrubbedEntry;
-
-        scrubberValidator.setReferenceLookup(referenceLookup.get());
 
         // gl scrubber validation
         errors = scrubberValidator.validateTransaction(laborOriginEntry, laborScrubbedEntry, universityRunDate, laborIndicator);
@@ -198,7 +196,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         LOG.debug("validatePayrollEndFiscalYear() started");
         SystemOptions scrubbedEntryOption = null;
         if (laborOriginEntry.getPayrollEndDateFiscalYear() != null){
-            scrubbedEntryOption = referenceLookup.get().getSystemOptions(laborOriginEntry.getPayrollEndDateFiscalYear());
+            scrubbedEntryOption = getAccountingCycleCachingService().getSystemOptions(laborOriginEntry.getPayrollEndDateFiscalYear());
             
             if (scrubbedEntryOption == null) {
                 return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_PAYROLL_END_DATE_FISCAL_YEAR, "" + laborOriginEntry.getPayrollEndDateFiscalYear(), Message.TYPE_FATAL);
@@ -224,7 +222,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
         
         if (!laborOriginEntry.getPayrollEndDateFiscalPeriodCode().equals("")  ){
-            accountingPeriod = referenceLookup.get().getAccountingPeriod(tempPayrollFiscalYear, laborOriginEntry.getPayrollEndDateFiscalPeriodCode());
+            accountingPeriod = getAccountingCycleCachingService().getAccountingPeriod(tempPayrollFiscalYear, laborOriginEntry.getPayrollEndDateFiscalPeriodCode());
             if (accountingPeriod == null) {
                 return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_PAYROLL_END_DATE_FISCAL_PERIOD, laborOriginEntry.getPayrollEndDateFiscalPeriodCode(), Message.TYPE_FATAL);
             }
@@ -379,7 +377,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private Message checkAccountFringeIndicator(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, Account account, UniversityDate universityRunDate) {
         // check for fringe tranaction type
         //LaborObject laborObject = (LaborObject) businessObjectService.findByPrimaryKey(LaborObject.class, fieldValues);
-        LaborObject laborObject = ((LaborOriginEntryLookupService) referenceLookup.get()).getLaborObject(laborOriginEntry);
+        LaborObject laborObject = getAccountingCycleCachingService().getLaborObject(laborOriginEntry);
         boolean isFringeTransaction = laborObject != null && org.apache.commons.lang.StringUtils.equals(LaborConstants.BenefitExpenseTransfer.LABOR_LEDGER_BENEFIT_CODE, laborObject.getFinancialObjectFringeOrSalaryCode());
 
         // alternative account handling for non fringe accounts
@@ -469,15 +467,6 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         return MessageBuilder.buildMessageWithPlaceHolder(LaborKeyConstants.MESSAGE_SUSPENSE_ACCOUNT_APPLIED, Message.TYPE_WARNING, suspenseCOAcode, suspenseAccountNumber, suspenseSubAccountNumber);
     }
 
-    /**
-     * Sets the referenceLookup attribute value.
-     * 
-     * @param referenceLookup The referenceLookup to set.
-     */
-    public void setReferenceLookup(OriginEntryLookupService originEntryLookupService) {
-        this.referenceLookup.set(originEntryLookupService);
-    }
-
     public void validateForInquiry(GeneralLedgerPendingEntry entry) {
     }
 
@@ -560,5 +549,12 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      */
     public void setOptionsService(OptionsService optionsService) {
         this.optionsService = optionsService;
+    }
+    
+    LaborAccountingCycleCachingService getAccountingCycleCachingService() {
+        if (accountingCycleCachingService == null) {
+            accountingCycleCachingService = SpringContext.getBean(LaborAccountingCycleCachingService.class);
+        }
+        return accountingCycleCachingService;
     }
 }

@@ -23,10 +23,8 @@ import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.businessobject.LaborTransaction;
 import org.kuali.kfs.module.ld.document.validation.impl.TransactionFieldValidator;
-import org.kuali.kfs.module.ld.service.LaborOriginEntryLookupService;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.MessageBuilder;
-import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * This class is a validator for the transactions processed by Labor Poster.
@@ -39,7 +37,6 @@ public class LaborPosterTransactionValidator implements VerifyTransaction {
     public List<Message> verifyTransaction(Transaction transaction) {
         List<Message> messageList = new ArrayList<Message>();
         TransactionFieldValidator transactionFieldValidator = new TransactionFieldValidator();
-        transactionFieldValidator.setReferenceLookup(SpringContext.getBean(LaborOriginEntryLookupService.class));
         LaborTransaction laborTransaction = (LaborTransaction) transaction;
         
         MessageBuilder.addMessageIntoList(messageList, TransactionFieldValidator.checkUniversityFiscalYear(laborTransaction));

@@ -48,7 +48,7 @@ import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.Reversal;
 import org.kuali.kfs.gl.businessobject.SufficientFundBalances;
 import org.kuali.kfs.gl.businessobject.Transaction;
-import org.kuali.kfs.gl.dataaccess.CachingDao;
+import org.kuali.kfs.gl.service.AccountingCycleCachingService;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
@@ -61,7 +61,7 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 //TODO is it right to extend this
-public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingDao {
+public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements AccountingCycleCachingService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CachingDaoJdbc.class);
 
     private Map<String,Object> dataCache = new HashMap<String,Object>();
@@ -239,36 +239,31 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
         return originEntryChart;
     }
     
-    public DocumentTypeDTO getReferenceFinancialSystemDocumentTypeCode(OriginEntry originEntry) {
-        return getFinancialSystemDocumentTypeCode(originEntry.getReferenceFinancialDocumentTypeCode());
-    }
-    public DocumentTypeDTO getFinancialSystemDocumentTypeCode(OriginEntry originEntry) {
-        return getFinancialSystemDocumentTypeCode(originEntry.getFinancialDocumentTypeCode());
-    }
-    public DocumentTypeDTO getFinancialSystemDocumentTypeCode(String financialSystemDocumentTypeCodeCode) {
-        DocumentTypeDTO financialSystemDocumentTypeCode = null;
-        String key = "KREW_DOC_TYP_T:" + financialSystemDocumentTypeCodeCode;
+    public boolean isCurrentActiveDocumentType(String documentTypeCode) {
+        String key = "KREW_DOC_TYP_T:" + documentTypeCode;
         Object value = dataCache.get(key);
         if (value != null) {
             if (!value.equals(" ")) {
-                financialSystemDocumentTypeCode = (DocumentTypeDTO) value;
+                return true;
+            }
+            else {
+                return false;
             }
         } else {
             try {
-                financialSystemDocumentTypeCode = workflowInfo.getDocType(financialSystemDocumentTypeCodeCode);
+                if (workflowInfo.isCurrentActiveDocumentType(documentTypeCode)) {
+                    dataCache.put(key, documentTypeCode);
+                    return true;
+                }
+                else {
+                    dataCache.put(key, " ");
+                    return false;
+                }
             }
             catch (WorkflowException we) {
-                LOG.warn("Could not find document type code named: "+financialSystemDocumentTypeCodeCode, we);
-                financialSystemDocumentTypeCode = null;
-            }
-            
-            if (financialSystemDocumentTypeCode != null) {
-                dataCache.put(key, financialSystemDocumentTypeCode);
-            } else {
-                LOG.debug("DocumentType not found: " + key); dataCache.put(key, " "); 
+                throw new RuntimeException("Unable to communicate with workflow", we);
             }
         }
-        return financialSystemDocumentTypeCode;
     }
     
     public SystemOptions getSystemOptions(OriginEntry originEntry) {
@@ -617,10 +612,7 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements CachingD
         }
         return objectType;
     }
-    public SubObjectCode getFinancialSubObject(OriginEntry originEntry) {
-        return getFinancialSubObject(originEntry.getUniversityFiscalYear(), originEntry.getChartOfAccountsCode(), originEntry.getAccountNumber(), originEntry.getFinancialObjectCode(), originEntry.getFinancialSubObjectCode());
-    }
-    public SubObjectCode getFinancialSubObject(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode, String financialSubObjectCode) {
+    public SubObjectCode getSubObjectCode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode, String financialSubObjectCode) {
         SubObjectCode subObject = null;
         String key = "CA_SUB_OBJECT_CD_T:" + universityFiscalYear.toString() + "/" + chartOfAccountsCode + "/" + accountNumber + "/" + financialObjectCode + "/" + financialSubObjectCode;
         Object value = dataCache.get(key);

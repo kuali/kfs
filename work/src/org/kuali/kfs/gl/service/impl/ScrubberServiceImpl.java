@@ -18,19 +18,16 @@ package org.kuali.kfs.gl.service.impl;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.OffsetDefinitionService;
 import org.kuali.kfs.gl.batch.CollectorBatch;
-import org.kuali.kfs.gl.batch.service.OriginEntryLookupService;
 import org.kuali.kfs.gl.batch.service.RunDateService;
 import org.kuali.kfs.gl.batch.service.ScrubberProcessObjectCodeOverride;
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.ScrubberProcess;
 import org.kuali.kfs.gl.report.CollectorReportData;
+import org.kuali.kfs.gl.service.AccountingCycleCachingService;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
-import org.kuali.kfs.gl.service.OriginEntryLiteService;
 import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.gl.service.ReportService;
 import org.kuali.kfs.gl.service.ScrubberService;
 import org.kuali.kfs.gl.service.ScrubberValidator;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -58,7 +55,7 @@ public class ScrubberServiceImpl implements ScrubberService {
     private ScrubberValidator scrubberValidator;
     private ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride;
     private RunDateService runDateService;
-    //private OriginEntryLiteService originEntryLiteService;
+    private AccountingCycleCachingService accountingCycleCachingService;
     
     private String batchFileDirectoryName;
     private String reportDirectoryName;
@@ -76,10 +73,8 @@ public class ScrubberServiceImpl implements ScrubberService {
         // The logic for this was moved into another object because the process was written using
         // many instance variables which shouldn't be used for Spring services
 
-        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, batchFileDirectoryName, reportDirectoryName);
-        sp.setReferenceLookup(SpringContext.getBean(OriginEntryLookupService.class));
+        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, accountingCycleCachingService, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, batchFileDirectoryName, reportDirectoryName);
         sp.scrubGroupReportOnly(fileName, documentNumber);
-        sp.setReferenceLookup(null);
     }
 
     /**
@@ -92,10 +87,8 @@ public class ScrubberServiceImpl implements ScrubberService {
         // The logic for this was moved into another object because the process was written using
         // many instance variables which shouldn't be used for Spring services
 
-        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, batchFileDirectoryName, reportDirectoryName);
-        sp.setReferenceLookup(SpringContext.getBean(OriginEntryLookupService.class));
+        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, accountingCycleCachingService, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, batchFileDirectoryName, reportDirectoryName);
         sp.scrubEntries();
-        sp.setReferenceLookup(null);
     }
 
     /**
@@ -114,16 +107,14 @@ public class ScrubberServiceImpl implements ScrubberService {
         }
 
         // this service is especially developed to support collector scrubbing, demerger, and report generation
-        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, overrideOriginEntryService, overrideOriginEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, collectorFileDirectoryName, reportDirectoryName);
-        sp.setReferenceLookup(SpringContext.getBean(OriginEntryLookupService.class));
+        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, accountingCycleCachingService, overrideOriginEntryService, overrideOriginEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, collectorFileDirectoryName, reportDirectoryName);
         ScrubberStatus result = sp.scrubCollectorBatch(batch, collectorReportData);
-        sp.setReferenceLookup(null);
         return result;
     }
     
     public void performDemerger() {
         LOG.debug("performDemerger() started");
-        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, batchFileDirectoryName, reportDirectoryName);
+        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, accountingCycleCachingService, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, batchFileDirectoryName, reportDirectoryName);
         sp.performDemerger();
         
     }
@@ -264,6 +255,10 @@ public class ScrubberServiceImpl implements ScrubberService {
 
     public void setReportDirectoryName(String reportDirectoryName) {
         this.reportDirectoryName = reportDirectoryName;
+    }
+
+    public void setAccountingCycleCachingService(AccountingCycleCachingService accountingCycleCachingService) {
+        this.accountingCycleCachingService = accountingCycleCachingService;
     }
 
 

@@ -58,10 +58,10 @@ import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.Reversal;
 import org.kuali.kfs.gl.businessobject.Transaction;
-import org.kuali.kfs.gl.dataaccess.CachingDao;
 import org.kuali.kfs.gl.dataaccess.ExpenditureTransactionDao;
 import org.kuali.kfs.gl.dataaccess.ReversalDao;
 import org.kuali.kfs.gl.report.TextReportHelper;
+import org.kuali.kfs.gl.service.AccountingCycleCachingService;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.gl.service.ReportService;
@@ -127,7 +127,7 @@ public class PosterServiceImpl implements PosterService {
     private String reportDirectoryName;
     private BufferedReader INPUT_GLE_FILE_br = null;
     private FileReader INPUT_GLE_FILE = null;
-    private CachingDao cachingDao;
+    private AccountingCycleCachingService accountingCycleCachingService;
 
     /**
      * Post scrubbed GL entries to GL tables.
@@ -371,7 +371,7 @@ public class PosterServiceImpl implements PosterService {
                     errors.add(new Message (configurationService.getPropertyString(KFSKeyConstants.ERROR_REVERSAL_DATE_NOT_IN_UNIV_DATE_TABLE) , Message.TYPE_WARNING));
                 }
                 // Make sure the row will be unique when adding to the entries table by adjusting the transaction sequence id
-                int maxSequenceId = cachingDao.getMaxSequenceNumber(reversal);
+                int maxSequenceId = accountingCycleCachingService.getMaxSequenceNumber(reversal);
                 reversal.setTransactionLedgerEntrySequenceNumber(new Integer(maxSequenceId + 1));
 
                 PersistenceService ps = SpringContext.getBean(PersistenceService.class);
@@ -379,14 +379,14 @@ public class PosterServiceImpl implements PosterService {
                 tran = reversal;
             }
             else {
-                tran.setChart(cachingDao.getChart(tran.getChartOfAccountsCode()));
-                tran.setAccount(cachingDao.getAccount(tran.getChartOfAccountsCode(), tran.getAccountNumber()));
-                tran.setObjectType(cachingDao.getObjectType(tran.getFinancialObjectTypeCode()));
-                tran.setBalanceType(cachingDao.getBalanceType(tran.getFinancialBalanceTypeCode()));
-                tran.setOption(cachingDao.getSystemOptions(tran.getUniversityFiscalYear()));
-                tran.setFinancialObject(cachingDao.getObjectCode(tran.getUniversityFiscalYear(), tran.getChartOfAccountsCode(), tran.getFinancialObjectCode()));
+                tran.setChart(accountingCycleCachingService.getChart(tran.getChartOfAccountsCode()));
+                tran.setAccount(accountingCycleCachingService.getAccount(tran.getChartOfAccountsCode(), tran.getAccountNumber()));
+                tran.setObjectType(accountingCycleCachingService.getObjectType(tran.getFinancialObjectTypeCode()));
+                tran.setBalanceType(accountingCycleCachingService.getBalanceType(tran.getFinancialBalanceTypeCode()));
+                tran.setOption(accountingCycleCachingService.getSystemOptions(tran.getUniversityFiscalYear()));
+                tran.setFinancialObject(accountingCycleCachingService.getObjectCode(tran.getUniversityFiscalYear(), tran.getChartOfAccountsCode(), tran.getFinancialObjectCode()));
                 // Make sure the row will be unique when adding to the entries table by adjusting the transaction sequence id
-                int maxSequenceId = cachingDao.getMaxSequenceNumber(tran);
+                int maxSequenceId = accountingCycleCachingService.getMaxSequenceNumber(tran);
                 ((OriginEntryFull) tran).setTransactionLedgerEntrySequenceNumber(new Integer(maxSequenceId + 1));
             }
 
@@ -745,14 +745,13 @@ public class PosterServiceImpl implements PosterService {
     protected IndirectCostRecoveryGenerationMetadata retrieveSubAccountIndirectCostRecoveryMetadata(ExpenditureTransaction et, Map<ExpenditureTransaction, List<Message>> reportErrors) {
         // SubAccount subAccount = subAccountService.getByPrimaryId(et.getChartOfAccountsCode(), et.getAccountNumber(),
         // et.getSubAccountNumber());
-        SubAccount subAccount = cachingDao.getSubAccount(et.getChartOfAccountsCode(), et.getAccountNumber(), et.getSubAccountNumber());
+        SubAccount subAccount = accountingCycleCachingService.getSubAccount(et.getChartOfAccountsCode(), et.getAccountNumber(), et.getSubAccountNumber());
         if (ObjectUtils.isNotNull(subAccount)) {
-            subAccount.setA21SubAccount(cachingDao.getA21SubAccount(et.getChartOfAccountsCode(), et.getAccountNumber(), et.getSubAccountNumber()));
+            subAccount.setA21SubAccount(accountingCycleCachingService.getA21SubAccount(et.getChartOfAccountsCode(), et.getAccountNumber(), et.getSubAccountNumber()));
         }
 
         if (ObjectUtils.isNotNull(subAccount) && ObjectUtils.isNotNull(subAccount.getA21SubAccount())) {
             A21SubAccount a21SubAccount = subAccount.getA21SubAccount();
-            // TODO - Shawn: need to modify a method getA21SubAccount in cachingDaoJdbc????? below fields are always blank
             if (StringUtils.isBlank(a21SubAccount.getIndirectCostRecoveryTypeCode()) && StringUtils.isBlank(a21SubAccount.getFinancialIcrSeriesIdentifier()) && StringUtils.isBlank(a21SubAccount.getIndirectCostRecoveryChartOfAccountsCode()) && StringUtils.isBlank(a21SubAccount.getIndirectCostRecoveryAccountNumber())) {
                 // all ICR fields were blank, therefore, this sub account was not set up for ICR
                 return null;
@@ -768,7 +767,7 @@ public class PosterServiceImpl implements PosterService {
             boolean subAccountOK = true;
 
             // there were some ICR fields that were filled in, make sure they're all filled in and are valid values
-            a21SubAccount.setIndirectCostRecoveryType(cachingDao.getIndirectCostRecoveryType(a21SubAccount.getIndirectCostRecoveryTypeCode()));
+            a21SubAccount.setIndirectCostRecoveryType(accountingCycleCachingService.getIndirectCostRecoveryType(a21SubAccount.getIndirectCostRecoveryTypeCode()));
             if (StringUtils.isBlank(a21SubAccount.getIndirectCostRecoveryTypeCode()) || ObjectUtils.isNull(a21SubAccount.getIndirectCostRecoveryType())) {
                 String errorFieldName = dataDictionaryService.getAttributeShortLabel(A21SubAccount.class, KFSPropertyConstants.INDIRECT_COST_RECOVERY_TYPE_CODE);
                 String warningMessage = MessageFormat.format(warningMessagePattern, errorFieldName, subAccountBOLabel, subAccountValue, accountBOLabel, accountValue);
@@ -1024,12 +1023,12 @@ public class PosterServiceImpl implements PosterService {
         }
     }
     
-    public CachingDao getCachingDao() {
-        return cachingDao;
+    public AccountingCycleCachingService getAccountingCycleCachingService() {
+        return accountingCycleCachingService;
     }
 
-    public void setCachingDao(CachingDao cachingDao) {
-        this.cachingDao = cachingDao;
+    public void setAccountingCycleCachingService(AccountingCycleCachingService accountingCycleCachingService) {
+        this.accountingCycleCachingService = accountingCycleCachingService;
     }
 
     public void setSubAccountService(SubAccountService subAccountService) {

@@ -27,8 +27,8 @@ import org.kuali.kfs.gl.batch.service.PostTransaction;
 import org.kuali.kfs.gl.businessobject.ExpenditureTransaction;
 import org.kuali.kfs.gl.businessobject.Reversal;
 import org.kuali.kfs.gl.businessobject.Transaction;
-import org.kuali.kfs.gl.dataaccess.CachingDao;
 import org.kuali.kfs.gl.dataaccess.ReversalDao;
+import org.kuali.kfs.gl.service.AccountingCycleCachingService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,7 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostReversal implements PostTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostReversal.class);
 
-    private CachingDao cachingDao;
+    private AccountingCycleCachingService accountingCycleCachingService;
     private PersistenceStructureService persistenceStructureService;
 
     /**
@@ -68,7 +68,7 @@ public class PostReversal implements PostTransaction {
 
         Reversal re = new Reversal(t);
 
-        cachingDao.insertReversal(re);
+        accountingCycleCachingService.insertReversal(re);
 
         return GeneralLedgerConstants.INSERT_CODE;
     }
@@ -80,8 +80,8 @@ public class PostReversal implements PostTransaction {
         return persistenceStructureService.getTableName(Reversal.class);
     }
 
-    public void setCachingDao(CachingDao cachingDao) {
-        this.cachingDao = cachingDao;
+    public void setAccountingCycleCachingService(AccountingCycleCachingService accountingCycleCachingService) {
+        this.accountingCycleCachingService = accountingCycleCachingService;
     }
 
     public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {

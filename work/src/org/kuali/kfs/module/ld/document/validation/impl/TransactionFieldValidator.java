@@ -27,15 +27,16 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
-import org.kuali.kfs.gl.batch.service.OriginEntryLookupService;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.businessobject.LaborTransaction;
+import org.kuali.kfs.module.ld.service.LaborAccountingCycleCachingService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.MessageBuilder;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.dto.DocumentTypeDTO;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -44,9 +45,8 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * This class provides a set of utilities that can be used to validate a transaction in the field level.
  */
 public class TransactionFieldValidator {
-
-    private static ThreadLocal<OriginEntryLookupService> referenceLookup = new ThreadLocal<OriginEntryLookupService>();
-
+    private static LaborAccountingCycleCachingService accountingCycleCachingService;
+    
     /**
      * Checks if the given transaction contains valid university fiscal year
      * 
@@ -61,7 +61,7 @@ public class TransactionFieldValidator {
         }
 
         else {
-            SystemOptions option = referenceLookup.get().getSystemOptions((LaborOriginEntry) transaction);
+            SystemOptions option = getAccountingCycleCachingService().getSystemOptions(((LaborOriginEntry) transaction).getUniversityFiscalYear());
             if (ObjectUtils.isNull(option)) {
                 return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_UNIV_FISCAL_YR_NOT_FOUND, fiscalYear.toString(), Message.TYPE_FATAL);
             }
@@ -77,7 +77,7 @@ public class TransactionFieldValidator {
      */
     public static Message checkChartOfAccountsCode(LaborTransaction transaction) {
         String chartOfAccountsCode = transaction.getChartOfAccountsCode();
-        Chart chart = referenceLookup.get().getChart((LaborOriginEntry) transaction);
+        Chart chart = getAccountingCycleCachingService().getChart(((LaborOriginEntry) transaction).getChartOfAccountsCode());
         if (StringUtils.isBlank(chartOfAccountsCode) || ObjectUtils.isNull(chart)) {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_CHART_NOT_FOUND, chartOfAccountsCode, Message.TYPE_FATAL);
         }
@@ -96,7 +96,7 @@ public class TransactionFieldValidator {
      */
     public static Message checkAccountNumber(LaborTransaction transaction) {
         String accountNumber = transaction.getAccountNumber();
-        Account account = referenceLookup.get().getAccount((LaborOriginEntry) transaction);
+        Account account = getAccountingCycleCachingService().getAccount(((LaborOriginEntry) transaction).getChartOfAccountsCode(), ((LaborOriginEntry) transaction).getAccountNumber());
         if (StringUtils.isBlank(accountNumber) || ObjectUtils.isNull(account)) {
             String chartOfAccountsCode = transaction.getChartOfAccountsCode();
             String accountKey = chartOfAccountsCode + "-" + accountNumber;
@@ -129,7 +129,7 @@ public class TransactionFieldValidator {
         String accountNumber = transaction.getAccountNumber();
         String documentTypeCode = transaction.getFinancialDocumentTypeCode();
         String subAccountKey = chartOfAccountsCode + "-" + accountNumber + "-" + subAccountNumber;
-        SubAccount subAccount = referenceLookup.get().getSubAccount((LaborOriginEntry) transaction);
+        SubAccount subAccount = getAccountingCycleCachingService().getSubAccount(((LaborOriginEntry) transaction).getChartOfAccountsCode(), ((LaborOriginEntry) transaction).getAccountNumber(), ((LaborOriginEntry) transaction).getSubAccountNumber());
 
         if (StringUtils.isBlank(subAccountNumber)) {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_SUB_ACCOUNT_NOT_FOUND, subAccountKey, Message.TYPE_FATAL);
@@ -164,7 +164,7 @@ public class TransactionFieldValidator {
         Integer fiscalYear = transaction.getUniversityFiscalYear();
         String chartOfAccountsCode = transaction.getChartOfAccountsCode();
         String objectCodeKey = fiscalYear + "-" + chartOfAccountsCode + "-" + objectCode;
-        ObjectCode financialObject = referenceLookup.get().getFinancialObject((LaborOriginEntry) transaction);
+        ObjectCode financialObject = getAccountingCycleCachingService().getObjectCode(((LaborOriginEntry) transaction).getUniversityFiscalYear(), ((LaborOriginEntry) transaction).getChartOfAccountsCode(), ((LaborOriginEntry) transaction).getFinancialObjectCode());
         
         //do we need it?
         transaction.refreshNonUpdateableReferences();
@@ -191,7 +191,7 @@ public class TransactionFieldValidator {
         if (StringUtils.isBlank(subObjectCode)) {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_SUB_OBJECT_CODE_NOT_BE_NULL, subObjectCodeKey, Message.TYPE_FATAL);
         }
-        SubObjectCode financialSubObject = referenceLookup.get().getFinancialSubObject((LaborOriginEntry) transaction);
+        SubObjectCode financialSubObject = getAccountingCycleCachingService().getSubObjectCode(((LaborOriginEntry) transaction).getUniversityFiscalYear(), ((LaborOriginEntry) transaction).getChartOfAccountsCode(), ((LaborOriginEntry) transaction).getAccountNumber(), ((LaborOriginEntry) transaction).getFinancialObjectCode(), ((LaborOriginEntry) transaction).getFinancialSubObjectCode());
         if (!KFSConstants.getDashFinancialSubObjectCode().equals(subObjectCode)) {
             if (ObjectUtils.isNull(financialSubObject)) {
                 return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_SUB_OBJECT_CODE_NOT_BE_NULL, subObjectCodeKey, Message.TYPE_FATAL);
@@ -208,7 +208,7 @@ public class TransactionFieldValidator {
      */
     public static Message checkFinancialBalanceTypeCode(LaborTransaction transaction) {
         String balanceTypeCode = transaction.getFinancialBalanceTypeCode();
-        BalanceType balanceType = referenceLookup.get().getBalanceType((LaborOriginEntry) transaction);
+        BalanceType balanceType = getAccountingCycleCachingService().getBalanceType(((LaborOriginEntry) transaction).getFinancialBalanceTypeCode());
         if (StringUtils.isBlank(balanceTypeCode) || ObjectUtils.isNull(balanceType)) {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_BALANCE_TYPE_NOT_FOUND, balanceTypeCode, Message.TYPE_FATAL);
         }
@@ -223,7 +223,7 @@ public class TransactionFieldValidator {
      */
     public static Message checkFinancialObjectTypeCode(LaborTransaction transaction) {
         String objectTypeCode = transaction.getFinancialObjectTypeCode();
-        ObjectType objectType = referenceLookup.get().getObjectType((LaborOriginEntry) transaction);
+        ObjectType objectType = getAccountingCycleCachingService().getObjectType(((LaborOriginEntry) transaction).getFinancialObjectTypeCode());
         if (StringUtils.isBlank(objectTypeCode) || ObjectUtils.isNull(objectType)) {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_OBJECT_TYPE_NOT_FOUND, objectTypeCode, Message.TYPE_FATAL);
         }
@@ -251,10 +251,8 @@ public class TransactionFieldValidator {
      * @return null if the document type code is valid; otherwise, return error message
      */
     public static Message checkFinancialDocumentTypeCode(LaborTransaction transaction) {
-        String documentTypeCode = transaction.getFinancialDocumentTypeCode();
-        DocumentTypeDTO  financialSystemDocumentTypeCode = referenceLookup.get().getFinancialSystemDocumentTypeCode((LaborOriginEntry) transaction);
-        if (StringUtils.isBlank(documentTypeCode) || ObjectUtils.isNull(financialSystemDocumentTypeCode)) {
-            return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_DOCUMENT_TYPE_NOT_FOUND, documentTypeCode, Message.TYPE_FATAL);
+        if (StringUtils.isBlank(transaction.getFinancialDocumentTypeCode()) || !getAccountingCycleCachingService().isCurrentActiveDocumentType(transaction.getFinancialDocumentTypeCode())) {
+            return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_DOCUMENT_TYPE_NOT_FOUND, transaction.getFinancialDocumentTypeCode(), Message.TYPE_FATAL);
         }
         return null;
     }
@@ -390,13 +388,11 @@ public class TransactionFieldValidator {
         }
         return null;
     }
-
-    /**
-     * Sets the referenceLookup attribute value.
-     * 
-     * @param referenceLookup The referenceLookup to set.
-     */
-    public void setReferenceLookup(OriginEntryLookupService originEntryLookupService) {
-        referenceLookup.set(originEntryLookupService);
+    
+    static LaborAccountingCycleCachingService getAccountingCycleCachingService() {
+        if (accountingCycleCachingService == null) {
+            accountingCycleCachingService = SpringContext.getBean(LaborAccountingCycleCachingService.class);
+        }
+        return accountingCycleCachingService;        
     }
 }

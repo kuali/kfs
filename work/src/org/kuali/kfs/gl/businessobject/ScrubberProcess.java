@@ -46,18 +46,16 @@ import org.kuali.kfs.gl.batch.CollectorBatch;
 import org.kuali.kfs.gl.batch.ScrubberStep;
 import org.kuali.kfs.gl.batch.DemergerSortStep.DemergerSortComparator;
 import org.kuali.kfs.gl.batch.ScrubberSortStep.ScrubberSortComparator;
-import org.kuali.kfs.gl.batch.service.OriginEntryLookupService;
 import org.kuali.kfs.gl.batch.service.RunDateService;
 import org.kuali.kfs.gl.batch.service.ScrubberProcessObjectCodeOverride;
 import org.kuali.kfs.gl.report.CollectorReportData;
 import org.kuali.kfs.gl.report.TextReportHelper;
+import org.kuali.kfs.gl.service.AccountingCycleCachingService;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
-import org.kuali.kfs.gl.service.OriginEntryLiteService;
 import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.gl.service.ReportService;
 import org.kuali.kfs.gl.service.ScrubberReportData;
 import org.kuali.kfs.gl.service.ScrubberValidator;
-import org.kuali.kfs.gl.service.impl.CachingLookup;
 import org.kuali.kfs.gl.service.impl.ScrubberStatus;
 import org.kuali.kfs.gl.service.impl.ScrubberValidatorImpl;
 import org.kuali.kfs.gl.service.impl.StringHelper;
@@ -120,7 +118,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
     private ScrubberValidatorImpl scrubberValidator;
     private ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride;
     private RunDateService runDateService;
-    private ThreadLocal<OriginEntryLookupService> referenceLookup = new ThreadLocal<OriginEntryLookupService>();
+    private AccountingCycleCachingService accountingCycleCachingService;
 
     // this will only be populated when in collector mode, otherwise the memory requirements will be huge
     private Map<OriginEntry, OriginEntry> unscrubbedToUnscrubbedEntries;
@@ -177,9 +175,10 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
     /**
      * These parameters are all the dependencies.
      */
-    public ScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, OriginEntryService originEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService configurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, ReportService reportService, ScrubberValidator scrubberValidator, ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride, RunDateService runDateService, String batchFileDirectoryName, String reportDirectoryName) {
+    public ScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, AccountingCycleCachingService accountingCycleCachingService, OriginEntryService originEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService configurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, ReportService reportService, ScrubberValidator scrubberValidator, ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride, RunDateService runDateService, String batchFileDirectoryName, String reportDirectoryName) {
         super();
         this.flexibleOffsetAccountService = flexibleOffsetAccountService;
+        this.accountingCycleCachingService = accountingCycleCachingService;
         this.originEntryService = originEntryService;
         //this.originEntryLiteService = originEntryLiteService;
         this.originEntryGroupService = originEntryGroupService;
@@ -315,7 +314,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
         runCal = Calendar.getInstance();
         runCal.setTime(runDate);
 
-        universityRunDate = referenceLookup.get().getUniversityDate(runDate);
+        universityRunDate = accountingCycleCachingService.getUniversityDate(runDate);
         if (universityRunDate == null) {
             throw new IllegalStateException(configurationService.getPropertyString(KFSKeyConstants.ERROR_UNIV_DATE_NOT_FOUND));
         }
@@ -601,8 +600,6 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
      * @param originEntryGroup Group to process
      */
     private void processGroup(boolean reportOnlyMode) {
-        this.referenceLookup.get().setLookupService(SpringContext.getBean(CachingLookup.class));
-
         OriginEntryFull lastEntry = null;
         scrubCostShareAmount = KualiDecimal.ZERO;
         unitOfWork = new UnitOfWorkInfo();
@@ -666,7 +663,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
                 transactionErrors.addAll(tmperrors);
                 
                 
-                Account unscrubbedEntryAccount = referenceLookup.get().getAccount(unscrubbedEntry);
+                Account unscrubbedEntryAccount = accountingCycleCachingService.getAccount(unscrubbedEntry.getChartOfAccountsCode(), unscrubbedEntry.getAccountNumber());
                 if ((unscrubbedEntryAccount != null) && (!unscrubbedEntryAccount.isActive())) {
                     // Make a copy of it so OJB doesn't just update the row in the original
                     // group. It needs to make a new one in the expired group
@@ -701,7 +698,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
     
                         ParameterEvaluator offsetFiscalPeriods = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.OFFSET_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode());
     
-                        BalanceType scrubbedEntryBalanceType = referenceLookup.get().getBalanceType(scrubbedEntry);
+                        BalanceType scrubbedEntryBalanceType = accountingCycleCachingService.getBalanceType(scrubbedEntry.getFinancialBalanceTypeCode());
                         if (scrubbedEntryBalanceType.isFinancialOffsetGenerationIndicator() && offsetFiscalPeriods.evaluationSucceeds()) {
                             if (scrubbedEntry.isDebit()) {
                                 unitOfWork.offsetAmount = unitOfWork.offsetAmount.add(transactionAmount);
@@ -716,7 +713,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
                         // major assumption: the a21 subaccount is proxied, so we don't want to query the database if the subacct
                         // number is dashes
                         if (!KFSConstants.getDashSubAccountNumber().equals(scrubbedEntry.getSubAccountNumber())) {
-                            A21SubAccount scrubbedEntryA21SubAccount = referenceLookup.get().getA21SubAccount(scrubbedEntry);
+                            A21SubAccount scrubbedEntryA21SubAccount = accountingCycleCachingService.getA21SubAccount(scrubbedEntry.getChartOfAccountsCode(), scrubbedEntry.getAccountNumber(), scrubbedEntry.getSubAccountNumber());
                             if (ObjectUtils.isNotNull(scrubbedEntryA21SubAccount)) {
                                 subAccountTypeCode = scrubbedEntryA21SubAccount.getSubAccountTypeCode();
                             }
@@ -727,7 +724,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
                         ParameterEvaluator costShareEncFiscalPeriodCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.COST_SHARE_ENC_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode());
                         ParameterEvaluator costShareEncDocTypeCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.COST_SHARE_ENC_DOC_TYPE_CODES, scrubbedEntry.getFinancialDocumentTypeCode().trim());
                         ParameterEvaluator costShareFiscalPeriodCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.COST_SHARE_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode());
-                        Account scrubbedEntryAccount = referenceLookup.get().getAccount(scrubbedEntry);
+                        Account scrubbedEntryAccount = accountingCycleCachingService.getAccount(scrubbedEntry.getChartOfAccountsCode(), scrubbedEntry.getAccountNumber());
 
                         if (costShareObjectTypeCodes.evaluationSucceeds() && costShareEncBalanceTypeCodes.evaluationSucceeds() && scrubbedEntryAccount.isForContractsAndGrants() && KFSConstants.SubAccountType.COST_SHARE.equals(subAccountTypeCode) && costShareEncFiscalPeriodCodes.evaluationSucceeds() && costShareEncDocTypeCodes.evaluationSucceeds()) {
                             TransactionError te1 = generateCostShareEncumbranceEntries(scrubbedEntry);
@@ -741,7 +738,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
                             }
                         }
     
-                        SystemOptions scrubbedEntryOption = referenceLookup.get().getSystemOptions(scrubbedEntry);
+                        SystemOptions scrubbedEntryOption = accountingCycleCachingService.getSystemOptions(scrubbedEntry.getUniversityFiscalYear());
                         if (costShareObjectTypeCodes.evaluationSucceeds() && scrubbedEntryOption.getActualFinancialBalanceTypeCd().equals(scrubbedEntry.getFinancialBalanceTypeCode()) && scrubbedEntryAccount.isForContractsAndGrants() && KFSConstants.SubAccountType.COST_SHARE.equals(subAccountTypeCode) && costShareFiscalPeriodCodes.evaluationSucceeds() && costShareEncDocTypeCodes.evaluationSucceeds()) {
                             if (scrubbedEntry.isDebit()) {
                                 scrubCostShareAmount = scrubCostShareAmount.subtract(transactionAmount);
@@ -890,8 +887,8 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
         try {
             OriginEntryFull costShareEntry = OriginEntryFull.copyFromOriginEntryable(scrubbedEntry);
 
-            SystemOptions scrubbedEntryOption = referenceLookup.get().getSystemOptions(scrubbedEntry);
-            A21SubAccount scrubbedEntryA21SubAccount = referenceLookup.get().getA21SubAccount(scrubbedEntry);
+            SystemOptions scrubbedEntryOption = accountingCycleCachingService.getSystemOptions(scrubbedEntry.getUniversityFiscalYear());
+            A21SubAccount scrubbedEntryA21SubAccount = accountingCycleCachingService.getA21SubAccount(scrubbedEntry.getChartOfAccountsCode(), scrubbedEntry.getAccountNumber(), scrubbedEntry.getSubAccountNumber());
 
             costShareEntry.setFinancialObjectCode(parameterService.getParameterValue(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.COST_SHARE_OBJECT_CODE_PARM_NM));
             costShareEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
@@ -928,7 +925,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
 
             OriginEntryFull costShareOffsetEntry = new OriginEntryFull(costShareEntry);
             costShareOffsetEntry.setTransactionLedgerEntryDescription(getOffsetMessage());
-            OffsetDefinition offsetDefinition = referenceLookup.get().getOffsetDefinition(scrubbedEntry.getUniversityFiscalYear(), scrubbedEntry.getChartOfAccountsCode(), KFSConstants.TRANSFER_FUNDS, scrubbedEntry.getFinancialBalanceTypeCode());
+            OffsetDefinition offsetDefinition = accountingCycleCachingService.getOffsetDefinition(scrubbedEntry.getUniversityFiscalYear(), scrubbedEntry.getChartOfAccountsCode(), KFSConstants.TRANSFER_FUNDS, scrubbedEntry.getFinancialBalanceTypeCode());
             if (offsetDefinition != null) {
                 if (offsetDefinition.getFinancialObject() == null) {
                     StringBuffer objectCodeKey = new StringBuffer();
@@ -1030,7 +1027,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
             costShareSourceAccountOffsetEntry.setTransactionLedgerEntryDescription(getOffsetMessage());
 
             // Lookup the new offset definition.
-            offsetDefinition = referenceLookup.get().getOffsetDefinition(scrubbedEntry.getUniversityFiscalYear(), scrubbedEntry.getChartOfAccountsCode(), KFSConstants.TRANSFER_FUNDS, scrubbedEntry.getFinancialBalanceTypeCode());
+            offsetDefinition = accountingCycleCachingService.getOffsetDefinition(scrubbedEntry.getUniversityFiscalYear(), scrubbedEntry.getChartOfAccountsCode(), KFSConstants.TRANSFER_FUNDS, scrubbedEntry.getFinancialBalanceTypeCode());
             if (offsetDefinition != null) {
                 if (offsetDefinition.getFinancialObject() == null) {
                     Map<Transaction, List<Message>> errors = new HashMap<Transaction, List<Message>>();
@@ -1148,10 +1145,10 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
             }
 
             OriginEntryFull capitalizationEntry = OriginEntryFull.copyFromOriginEntryable(scrubbedEntry);
-            SystemOptions scrubbedEntryOption = referenceLookup.get().getSystemOptions(scrubbedEntry);
-            ObjectCode scrubbedEntryObjectCode = referenceLookup.get().getFinancialObject(scrubbedEntry);
-            Chart scrubbedEntryChart = referenceLookup.get().getChart(scrubbedEntry);
-            Account scrubbedEntryAccount = referenceLookup.get().getAccount(scrubbedEntry);
+            SystemOptions scrubbedEntryOption = accountingCycleCachingService.getSystemOptions(scrubbedEntry.getUniversityFiscalYear());
+            ObjectCode scrubbedEntryObjectCode = accountingCycleCachingService.getObjectCode(scrubbedEntry.getUniversityFiscalYear(), scrubbedEntry.getChartOfAccountsCode(), scrubbedEntry.getFinancialObjectCode());
+            Chart scrubbedEntryChart = accountingCycleCachingService.getChart(scrubbedEntry.getChartOfAccountsCode());
+            Account scrubbedEntryAccount = accountingCycleCachingService.getAccount(scrubbedEntry.getChartOfAccountsCode(), scrubbedEntry.getAccountNumber());
 
             ParameterEvaluator documentTypeCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.CAPITALIZATION_DOC_TYPE_CODES, scrubbedEntry.getFinancialDocumentTypeCode());
             ParameterEvaluator fiscalPeriodCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.CAPITALIZATION_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode());
@@ -1166,7 +1163,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
                 String capitalizationObjectCode = parameterService.getParameterValue(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.CAPITALIZATION_SUBTYPE_OBJECT, objectSubTypeCode);
                 if (capitalizationObjectCode != null) {
                     capitalizationEntry.setFinancialObjectCode(capitalizationObjectCode);
-                    capitalizationEntry.setFinancialObject(referenceLookup.get().getObjectCode(capitalizationEntry.getUniversityFiscalYear(), capitalizationEntry.getChartOfAccountsCode(), capitalizationEntry.getFinancialObjectCode()));
+                    capitalizationEntry.setFinancialObject(accountingCycleCachingService.getObjectCode(capitalizationEntry.getUniversityFiscalYear(), capitalizationEntry.getChartOfAccountsCode(), capitalizationEntry.getFinancialObjectCode()));
                 }
 
                 capitalizationEntry.setFinancialObjectTypeCode(scrubbedEntryOption.getFinancialObjectTypeAssetsCd());
@@ -1232,11 +1229,11 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
 
             OriginEntryFull plantIndebtednessEntry = OriginEntryFull.copyFromOriginEntryable(scrubbedEntry);
 
-            SystemOptions scrubbedEntryOption = referenceLookup.get().getSystemOptions(scrubbedEntry);
-            ObjectCode scrubbedEntryObjectCode = referenceLookup.get().getFinancialObject(scrubbedEntry);
-            Account scrubbedEntryAccount = referenceLookup.get().getAccount(scrubbedEntry);
-            Chart scrubbedEntryChart = referenceLookup.get().getChart(scrubbedEntry);
-            scrubbedEntryAccount.setOrganization(referenceLookup.get().getOrg(scrubbedEntryAccount.getChartOfAccountsCode(), scrubbedEntryAccount.getOrganizationCode()));
+            SystemOptions scrubbedEntryOption = accountingCycleCachingService.getSystemOptions(scrubbedEntry.getUniversityFiscalYear());
+            ObjectCode scrubbedEntryObjectCode = accountingCycleCachingService.getObjectCode(scrubbedEntry.getUniversityFiscalYear(), scrubbedEntry.getChartOfAccountsCode(), scrubbedEntry.getFinancialObjectCode());
+            Account scrubbedEntryAccount = accountingCycleCachingService.getAccount(scrubbedEntry.getChartOfAccountsCode(), scrubbedEntry.getAccountNumber());
+            Chart scrubbedEntryChart = accountingCycleCachingService.getChart(scrubbedEntry.getChartOfAccountsCode());
+            scrubbedEntryAccount.setOrganization(accountingCycleCachingService.getOrg(scrubbedEntryAccount.getChartOfAccountsCode(), scrubbedEntryAccount.getOrganizationCode()));
             
             ParameterEvaluator objectSubTypeCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.PLANT_INDEBTEDNESS_OBJ_SUB_TYPE_CODES, scrubbedEntryObjectCode.getFinancialObjectSubTypeCode());
             ParameterEvaluator subFundGroupCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.PLANT_INDEBTEDNESS_SUB_FUND_GROUP_CODES, scrubbedEntryAccount.getSubFundGroupCode());
@@ -1354,10 +1351,10 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
                 return null;
             }
             OriginEntryFull liabilityEntry = OriginEntryFull.copyFromOriginEntryable(scrubbedEntry);
-            Chart scrubbedEntryChart = referenceLookup.get().getChart(scrubbedEntry);
-            SystemOptions scrubbedEntryOption = referenceLookup.get().getSystemOptions(scrubbedEntry);
-            ObjectCode scrubbedEntryFinancialObject = referenceLookup.get().getFinancialObject(scrubbedEntry);
-            Account scrubbedEntryAccount = referenceLookup.get().getAccount(scrubbedEntry);
+            Chart scrubbedEntryChart = accountingCycleCachingService.getChart(scrubbedEntry.getChartOfAccountsCode());
+            SystemOptions scrubbedEntryOption = accountingCycleCachingService.getSystemOptions(scrubbedEntry.getUniversityFiscalYear());
+            ObjectCode scrubbedEntryFinancialObject = accountingCycleCachingService.getObjectCode(scrubbedEntry.getUniversityFiscalYear(), scrubbedEntry.getChartOfAccountsCode(), scrubbedEntry.getFinancialObjectCode());
+            Account scrubbedEntryAccount = accountingCycleCachingService.getAccount(scrubbedEntry.getChartOfAccountsCode(), scrubbedEntry.getAccountNumber());
 
             ParameterEvaluator chartCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.LIABILITY_CHART_CODES, scrubbedEntry.getChartOfAccountsCode());
             ParameterEvaluator docTypeCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.LIABILITY_DOC_TYPE_CODES, scrubbedEntry.getFinancialDocumentTypeCode());
@@ -1425,9 +1422,9 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
         // 4000-PLANT-FUND-ACCT to 4000-PLANT-FUND-ACCT-EXIT in cobol
         
         liabilityEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
-        ObjectCode scrubbedEntryObjectCode = referenceLookup.get().getFinancialObject(scrubbedEntry);
-        Account scrubbedEntryAccount = referenceLookup.get().getAccount(scrubbedEntry);
-        scrubbedEntryAccount.setOrganization(referenceLookup.get().getOrg(scrubbedEntryAccount.getChartOfAccountsCode(), scrubbedEntryAccount.getOrganizationCode()));
+        ObjectCode scrubbedEntryObjectCode = accountingCycleCachingService.getObjectCode(scrubbedEntry.getUniversityFiscalYear(), scrubbedEntry.getChartOfAccountsCode(), scrubbedEntry.getFinancialObjectCode());
+        Account scrubbedEntryAccount = accountingCycleCachingService.getAccount(scrubbedEntry.getChartOfAccountsCode(), scrubbedEntry.getAccountNumber());
+        scrubbedEntryAccount.setOrganization(accountingCycleCachingService.getOrg(scrubbedEntryAccount.getChartOfAccountsCode(), scrubbedEntryAccount.getOrganizationCode()));
 
             String objectSubTypeCode = scrubbedEntryObjectCode.getFinancialObjectSubTypeCode();
             ParameterEvaluator campusObjSubTypeCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.PLANT_FUND_CAMPUS_OBJECT_SUB_TYPE_CODES, objectSubTypeCode);
@@ -1471,8 +1468,8 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
 
             costShareEncumbranceEntry.setTransactionLedgerEntryDescription(buffer.toString());
 
-            A21SubAccount scrubbedEntryA21SubAccount = referenceLookup.get().getA21SubAccount(scrubbedEntry);
-            SystemOptions scrubbedEntryOption = referenceLookup.get().getSystemOptions(scrubbedEntry);
+            A21SubAccount scrubbedEntryA21SubAccount = accountingCycleCachingService.getA21SubAccount(scrubbedEntry.getChartOfAccountsCode(), scrubbedEntry.getAccountNumber(), scrubbedEntry.getSubAccountNumber());
+            SystemOptions scrubbedEntryOption = accountingCycleCachingService.getSystemOptions(scrubbedEntry.getUniversityFiscalYear());
 
             costShareEncumbranceEntry.setChartOfAccountsCode(scrubbedEntryA21SubAccount.getCostShareChartOfAccountCode());
             costShareEncumbranceEntry.setAccountNumber(scrubbedEntryA21SubAccount.getCostShareSourceAccountNumber());
@@ -1505,7 +1502,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
 
             OriginEntryFull costShareEncumbranceOffsetEntry = new OriginEntryFull(costShareEncumbranceEntry);
             costShareEncumbranceOffsetEntry.setTransactionLedgerEntryDescription(offsetDescription);
-            OffsetDefinition offset = referenceLookup.get().getOffsetDefinition(costShareEncumbranceEntry.getUniversityFiscalYear(), costShareEncumbranceEntry.getChartOfAccountsCode(), costShareEncumbranceEntry.getFinancialDocumentTypeCode(), costShareEncumbranceEntry.getFinancialBalanceTypeCode());
+            OffsetDefinition offset = accountingCycleCachingService.getOffsetDefinition(costShareEncumbranceEntry.getUniversityFiscalYear(), costShareEncumbranceEntry.getChartOfAccountsCode(), costShareEncumbranceEntry.getFinancialDocumentTypeCode(), costShareEncumbranceEntry.getFinancialBalanceTypeCode());
 
             if (offset != null) {
                 if (offset.getFinancialObject() == null) {
@@ -1585,7 +1582,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
      */
     private void setCostShareObjectCode(OriginEntryFull costShareEntry, OriginEntry originEntry) {
         // This code is SET-OBJECT-2004 to 2520-INIT-SCRB-AREA in the Cobol
-        ObjectCode originEntryFinancialObject = referenceLookup.get().getFinancialObject(originEntry);
+        ObjectCode originEntryFinancialObject = accountingCycleCachingService.getObjectCode(originEntry.getUniversityFiscalYear(), originEntry.getChartOfAccountsCode(), originEntry.getFinancialObjectCode());
 
         if (originEntryFinancialObject == null) {
             addTransactionError(configurationService.getPropertyString(KFSKeyConstants.ERROR_OBJECT_CODE_NOT_FOUND), originEntry.getFinancialObjectCode(), Message.TYPE_FATAL);
@@ -1609,7 +1606,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
         }
 
         // Lookup the new object code
-        ObjectCode objectCode = referenceLookup.get().getObjectCode(costShareEntry.getUniversityFiscalYear(), costShareEntry.getChartOfAccountsCode(), originEntryObjectCode);
+        ObjectCode objectCode = accountingCycleCachingService.getObjectCode(costShareEntry.getUniversityFiscalYear(), costShareEntry.getChartOfAccountsCode(), originEntryObjectCode);
         if (objectCode != null) {
             costShareEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
             costShareEntry.setFinancialObjectCode(originEntryObjectCode);
@@ -1665,7 +1662,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
             offsetEntry.setTransactionLedgerEntryDescription(offsetDescription);
 
             //of course this method should go elsewhere, not in ScrubberValidator!
-            OffsetDefinition offsetDefinition = referenceLookup.get().getOffsetDefinition(scrubbedEntry.getUniversityFiscalYear(), scrubbedEntry.getChartOfAccountsCode(), scrubbedEntry.getFinancialDocumentTypeCode(), scrubbedEntry.getFinancialBalanceTypeCode());
+            OffsetDefinition offsetDefinition = accountingCycleCachingService.getOffsetDefinition(scrubbedEntry.getUniversityFiscalYear(), scrubbedEntry.getChartOfAccountsCode(), scrubbedEntry.getFinancialDocumentTypeCode(), scrubbedEntry.getFinancialBalanceTypeCode());
             if (offsetDefinition != null) {
                 if (offsetDefinition.getFinancialObject() == null) {
                     StringBuffer offsetKey = new StringBuffer(offsetDefinition.getUniversityFiscalYear());
@@ -1934,16 +1931,6 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
         return new Date(runDateService.calculateRunDate(currentDate).getTime());
     }
 
-    /**
-     * Sets the referenceLookup attribute value.
-     * 
-     * @param referenceLookup The referenceLookup to set.
-     */
-    public void setReferenceLookup(OriginEntryLookupService referenceLookup) {
-        this.referenceLookup.set(referenceLookup);
-        this.scrubberValidator.setReferenceLookup(referenceLookup);
-    }
-    
     private boolean checkingBypassEntry (String financialBalanceTypeCode, String desc, DemergerReportData demergerReport){
         String transactionType = getTransactionType(financialBalanceTypeCode, desc);
         

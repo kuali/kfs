@@ -112,8 +112,8 @@
         <property name="laborLedgerEntryDao">
             <ref bean="laborLedgerEntryDao" />
         </property>
-        <property name="laborCachingDao">
-		  	<ref bean="laborCachingDao" />
+        <property name="accountingCycleCachingService">
+		  	<ref bean="laborAccountingCycleCachingService" />
 		</property>
     </bean>
     
@@ -306,22 +306,11 @@
 		
     </bean>
     
-    <bean id="laborOriginEntryLookupService" class="org.kuali.kfs.module.ld.service.impl.LaborOriginEntryLookupServiceImpl" singleton="false">
-		<property name="laborCachingDao">
-		  	<ref bean="laborCachingDao" />
-		</property>
-		<property name="cachingDao">
-		  	<ref bean="cachingDao" />
-		</property>
-	</bean>
-	
-	
-	<bean id="laborCachingDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborCachingDaoJdbc" init-method="init" >
+	<bean id="laborAccountingCycleCachingService" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborCachingDaoJdbc" init-method="init" >
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
 	</bean>
-	
 	
     <bean id="laborPosterService" class="org.kuali.kfs.module.ld.batch.service.impl.LaborPosterServiceImpl">
         <property name="laborOriginEntryService">
@@ -431,8 +420,8 @@
     </bean>
 
     <bean id="laborLedgerBalancePoster" class="org.kuali.kfs.module.ld.batch.service.impl.LaborLedgerBalancePoster">
-		<property name="laborCachingDao">
-		  	<ref bean="laborCachingDao" />
+		<property name="accountingCycleCachingService">
+		  	<ref bean="laborAccountingCycleCachingService" />
 		</property>
     </bean>
 

@@ -15,17 +15,19 @@
  */
 package org.kuali.kfs.module.ld.service;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import org.kuali.kfs.gl.batch.service.OriginEntryLookupService;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
+import org.kuali.kfs.gl.service.AccountingCycleCachingService;
 import org.kuali.kfs.module.ld.businessobject.LaborObject;
+import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
 
-public interface LaborOriginEntryLookupService extends OriginEntryLookupService {
-    public void insertLedgerEntry(LedgerEntry ledgerEntry);
-    public LaborObject getLaborObject(OriginEntry originEntry);
-    //public int getMaxLaborSequenceNumber(LedgerEntry t);
+public interface LaborAccountingCycleCachingService extends AccountingCycleCachingService {
 
+    public void insertLedgerEntry(LedgerEntry ledgerEntry);
+    public LaborObject getLaborObject(OriginEntry originEntry);   
+    public int getMaxLaborSequenceNumber(LedgerEntry t);
+    public LedgerBalance getLedgerBalance(LedgerBalance ledgerBalance);
+    public void insertLedgerBalance(LedgerBalance ledgerBalance);
+    public void updateLedgerBalance(LedgerBalance ledgerBalance);
+    public void init();
 }

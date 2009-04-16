@@ -43,7 +43,6 @@ import org.kuali.kfs.coa.service.OffsetDefinitionService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.ObjectHelper;
 import org.kuali.kfs.gl.batch.ScrubberStep;
-import org.kuali.kfs.gl.batch.service.OriginEntryLookupService;
 import org.kuali.kfs.gl.businessobject.DemergerReportData;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntryStatistics;
@@ -53,10 +52,10 @@ import org.kuali.kfs.gl.report.TextReportHelper;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.ScrubberReportData;
 import org.kuali.kfs.gl.service.ScrubberValidator;
-import org.kuali.kfs.gl.service.impl.CachingLookup;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.batch.service.LaborReportService;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
+import org.kuali.kfs.module.ld.service.LaborAccountingCycleCachingService;
 import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
 import org.kuali.kfs.module.ld.util.ReportRegistry;
 import org.kuali.kfs.sys.KFSConstants;
@@ -101,6 +100,7 @@ public class LaborScrubberProcess {
     private LaborReportService laborReportService;
     private TextReportHelper<Transaction> textReportHelper;
     private ScrubberValidator scrubberValidator;
+    private LaborAccountingCycleCachingService accountingCycleCachingService;
     
     private String batchFileDirectoryName;
     private String reportDirectoryName;
@@ -144,8 +144,6 @@ public class LaborScrubberProcess {
     private String transferDescription;
     private String costShareDescription;
 
-    /* Misc stuff */
-    private ThreadLocal<OriginEntryLookupService> referenceLookup = new ThreadLocal<OriginEntryLookupService>();
     private String inputFile;
     private String validFile;
     private String errorFile; 
@@ -155,9 +153,10 @@ public class LaborScrubberProcess {
     /**
      * These parameters are all the dependencies.
      */
-    public LaborScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, LaborOriginEntryService laborOriginEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService kualiConfigurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, LaborReportService laborReportService, ScrubberValidator scrubberValidator, String batchFileDirectoryName, String reportDirectoryName) {
+    public LaborScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, LaborAccountingCycleCachingService accountingCycleCachingService, LaborOriginEntryService laborOriginEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService kualiConfigurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, LaborReportService laborReportService, ScrubberValidator scrubberValidator, String batchFileDirectoryName, String reportDirectoryName) {
         super();
         this.flexibleOffsetAccountService = flexibleOffsetAccountService;
+        this.accountingCycleCachingService = accountingCycleCachingService;
         this.laborOriginEntryService = laborOriginEntryService;
         this.originEntryGroupService = originEntryGroupService;
         this.dateTimeService = dateTimeService;
@@ -237,7 +236,7 @@ public class LaborScrubberProcess {
 
         // FOR FIS batch
         // universityRunDate = universityDateDao.getByPrimaryKey(runDate);
-        universityRunDate = referenceLookup.get().getUniversityDate(runDate);
+        universityRunDate = accountingCycleCachingService.getUniversityDate(runDate);
         if (universityRunDate == null) {
             throw new IllegalStateException(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_UNIV_DATE_NOT_FOUND));
         }
@@ -307,7 +306,6 @@ public class LaborScrubberProcess {
      * @param originEntryGroup Group to process
      */
     private void processGroup() {
-        this.referenceLookup.get().setLookupService(SpringContext.getBean(CachingLookup.class));
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         LaborOriginEntry lastEntry = null;
         scrubCostShareAmount = KualiDecimal.ZERO;
@@ -395,7 +393,7 @@ public class LaborScrubberProcess {
                     transactionErrors.addAll(tmperrors);
 
                     // Expired account?
-                    Account unscrubbedEntryAccount = referenceLookup.get().getAccount(unscrubbedEntry);
+                    Account unscrubbedEntryAccount = accountingCycleCachingService.getAccount(unscrubbedEntry.getChartOfAccountsCode(), unscrubbedEntry.getAccountNumber());
                     if (ObjectUtils.isNotNull(unscrubbedEntry.getAccount()) && !unscrubbedEntry.getAccount().isActive()) {
                         // Make a copy of it so OJB doesn't just update the row in the original
                         // group. It needs to make a new one in the expired group
@@ -415,7 +413,7 @@ public class LaborScrubberProcess {
                         }
                         KualiDecimal transactionAmount = scrubbedEntry.getTransactionLedgerEntryAmount();
                         ParameterEvaluator offsetFiscalPeriods = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.OFFSET_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode());
-                        BalanceType scrubbedEntryBalanceType = referenceLookup.get().getBalanceType(scrubbedEntry);
+                        BalanceType scrubbedEntryBalanceType = accountingCycleCachingService.getBalanceType(scrubbedEntry.getFinancialBalanceTypeCode());
                         if (scrubbedEntryBalanceType.isFinancialOffsetGenerationIndicator() && offsetFiscalPeriods.evaluationSucceeds()) {
                             if (scrubbedEntry.isDebit()) {
                                 unitOfWork.offsetAmount = unitOfWork.offsetAmount.add(transactionAmount);
@@ -429,7 +427,7 @@ public class LaborScrubberProcess {
                         // TODO: GLConstants.getSpaceSubAccountTypeCode();
                         String subAccountTypeCode = "  ";
 
-                        A21SubAccount scrubbedEntryA21SubAccount = referenceLookup.get().getA21SubAccount(scrubbedEntry);
+                        A21SubAccount scrubbedEntryA21SubAccount = accountingCycleCachingService.getA21SubAccount(scrubbedEntry.getChartOfAccountsCode(), scrubbedEntry.getAccountNumber(), scrubbedEntry.getSubAccountNumber());
                         if (ObjectUtils.isNotNull(scrubbedEntryA21SubAccount)) {
                             subAccountTypeCode = scrubbedEntryA21SubAccount.getSubAccountTypeCode();
                         }
@@ -440,9 +438,9 @@ public class LaborScrubberProcess {
                         ParameterEvaluator costShareEncDocTypeCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.COST_SHARE_ENC_DOC_TYPE_CODES, scrubbedEntry.getFinancialDocumentTypeCode().trim());
                         ParameterEvaluator costShareFiscalPeriodCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.COST_SHARE_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode());
 
-                        Account scrubbedEntryAccount = referenceLookup.get().getAccount(scrubbedEntry);
+                        Account scrubbedEntryAccount = accountingCycleCachingService.getAccount(scrubbedEntry.getChartOfAccountsCode(), scrubbedEntry.getAccountNumber());
                         if (scrubbedEntryAccount != null) {
-                            SystemOptions scrubbedEntryOption = referenceLookup.get().getSystemOptions(scrubbedEntry);
+                            SystemOptions scrubbedEntryOption = accountingCycleCachingService.getSystemOptions(scrubbedEntry.getUniversityFiscalYear());
                             if (costShareObjectTypeCodes.evaluationSucceeds() && scrubbedEntryOption.getActualFinancialBalanceTypeCd().equals(scrubbedEntry.getFinancialBalanceTypeCode()) && scrubbedEntryAccount.isForContractsAndGrants() && KFSConstants.SubAccountType.COST_SHARE.equals(subAccountTypeCode) && costShareFiscalPeriodCodes.evaluationSucceeds() && costShareEncDocTypeCodes.evaluationSucceeds()) {
                                 if (scrubbedEntry.isDebit()) {
                                     scrubCostShareAmount = scrubCostShareAmount.subtract(transactionAmount);
@@ -991,13 +989,6 @@ public class LaborScrubberProcess {
             throw new IOException(e.toString());
         }
     }
-
-    public void setReferenceLookup(OriginEntryLookupService referenceLookup) {
-        this.referenceLookup.set(referenceLookup);
-        this.scrubberValidator.setReferenceLookup(referenceLookup);
-    }
-    
-    
         
     private boolean checkEntry(LaborOriginEntry validEntry, LaborOriginEntry errorEntry, String documentTypeCode){
         String documentNumber = errorEntry.getDocumentNumber();
@@ -1128,6 +1119,5 @@ public class LaborScrubberProcess {
         Collections.sort((List) returnCollection, new BeanPropertyComparator(sortColumns, true));
         return returnCollection;
     }
-
 }
 

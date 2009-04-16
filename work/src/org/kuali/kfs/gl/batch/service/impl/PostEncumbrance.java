@@ -26,7 +26,7 @@ import org.kuali.kfs.gl.batch.service.PostTransaction;
 import org.kuali.kfs.gl.businessobject.Encumbrance;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.Transaction;
-import org.kuali.kfs.gl.dataaccess.CachingDao;
+import org.kuali.kfs.gl.service.AccountingCycleCachingService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
@@ -39,7 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostEncumbrance implements PostTransaction, EncumbranceCalculator {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostEncumbrance.class);
 
-    private CachingDao cachingDao;
+    private AccountingCycleCachingService accountingCycleCachingService;
     private DateTimeService dateTimeService;
     private PersistenceStructureService persistenceStructureService;
 
@@ -78,7 +78,7 @@ public class PostEncumbrance implements PostTransaction, EncumbranceCalculator {
             e.setFinancialDocumentTypeCode(t.getReferenceFinancialDocumentTypeCode());
         }
         
-        Encumbrance enc = cachingDao.getEncumbrance(e);
+        Encumbrance enc = accountingCycleCachingService.getEncumbrance(e);
         if (enc == null) {
             // Build a new encumbrance record
             enc = new Encumbrance(e);
@@ -97,9 +97,9 @@ public class PostEncumbrance implements PostTransaction, EncumbranceCalculator {
         updateEncumbrance(t, enc);
 
         if (returnCode.equals(GeneralLedgerConstants.INSERT_CODE)) {
-            cachingDao.insertEncumbrance(enc);
+            accountingCycleCachingService.insertEncumbrance(enc);
         } else {
-            cachingDao.updateEncumbrance(enc);
+            accountingCycleCachingService.updateEncumbrance(enc);
         }
 
         return returnCode;
@@ -188,8 +188,8 @@ public class PostEncumbrance implements PostTransaction, EncumbranceCalculator {
         this.dateTimeService = dateTimeService;
     }
 
-    public void setCachingDao(CachingDao cachingDao) {
-        this.cachingDao = cachingDao;
+    public void setAccountingCycleCachingService(AccountingCycleCachingService accountingCycleCachingService) {
+        this.accountingCycleCachingService = accountingCycleCachingService;
     }
 
     public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {

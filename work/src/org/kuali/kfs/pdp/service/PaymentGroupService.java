@@ -102,4 +102,11 @@ public interface PaymentGroupService {
      * @param dataDictionaryService
      */
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService);
+    
+    /**
+     * Gets list of ach payments in which an advice notification has not been sent
+     * 
+     * @return List<PaymentGroup>
+     */
+    public List<PaymentGroup> getAchPaymentsNeedingAdviceNotification();
 }

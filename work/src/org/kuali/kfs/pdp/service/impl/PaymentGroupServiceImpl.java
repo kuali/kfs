@@ -154,7 +154,6 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
     }
     
     /**
-     * 
      * @see org.kuali.kfs.pdp.service.PaymentGroupService#setParameterService(org.kuali.kfs.sys.service.ParameterService)
      */
     public void setParameterService(ParameterService parameterService) {
@@ -162,7 +161,6 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
     }
     
     /**
-     * 
      * @see org.kuali.kfs.pdp.service.PaymentGroupService#getSortGroupId(org.kuali.kfs.pdp.businessobject.PaymentGroup)
      */
     public int getSortGroupId(PaymentGroup paymentGroup) {      
@@ -181,7 +179,6 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
     }       
        
     /**
-     * 
      * @see org.kuali.kfs.pdp.service.PaymentGroupService#getSortGroupName(int)
      */
     public String getSortGroupName(int sortGroupId) {      
@@ -192,7 +189,14 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
         }       
         
         return dataDictionaryService.getAttributeLabel(PaymentGroup.class, StringUtils.substringBefore(getSortGroupSelectionParameters().get(sortGroupId).getValue(), "="));         
-    }   
+    } 
+    
+    /**
+     * @see org.kuali.kfs.pdp.service.PaymentGroupService#getAchPaymentsNeedingAdviceNotification()
+     */
+    public List<PaymentGroup> getAchPaymentsNeedingAdviceNotification() {
+        return this.paymentGroupDao.getAchPaymentsNeedingAdviceNotification();
+    }
     
     /**
      * Gets the sort group parameters

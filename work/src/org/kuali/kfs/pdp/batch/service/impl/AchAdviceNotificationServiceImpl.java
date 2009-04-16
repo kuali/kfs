@@ -22,6 +22,7 @@ import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.dataaccess.PaymentGroupDao;
+import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.pdp.service.PdpEmailService;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -32,7 +33,8 @@ import org.kuali.rice.kns.service.DateTimeService;
  */
 public class AchAdviceNotificationServiceImpl implements AchAdviceNotificationService {
     private PdpEmailService pdpEmailService;
-    private PaymentGroupDao paymentGroupDao;
+    private PaymentGroupService paymentGroupService;
+
     private DateTimeService dateTimeService;
     private BusinessObjectService businessObjectService;
 
@@ -44,7 +46,7 @@ public class AchAdviceNotificationServiceImpl implements AchAdviceNotificationSe
     @NonTransactional
     public void sendAdviceNotifications() {
         // get list of payments to send notification for
-        List<PaymentGroup> paymentGroups = paymentGroupDao.getAchPaymentsNeedingAdviceNotification();
+        List<PaymentGroup> paymentGroups = paymentGroupService.getAchPaymentsNeedingAdviceNotification();
         for (PaymentGroup paymentGroup : paymentGroups) {
             CustomerProfile customer = paymentGroup.getBatch().getCustomerProfile();
 
@@ -72,16 +74,6 @@ public class AchAdviceNotificationServiceImpl implements AchAdviceNotificationSe
     }
 
     /**
-     * Sets the paymentGroupDao attribute value.
-     * 
-     * @param paymentGroupDao The paymentGroupDao to set.
-     */
-    @NonTransactional
-    public void setPaymentGroupDao(PaymentGroupDao paymentGroupDao) {
-        this.paymentGroupDao = paymentGroupDao;
-    }
-
-    /**
      * Sets the dateTimeService attribute value.
      * 
      * @param dateTimeService The dateTimeService to set.
@@ -101,4 +93,13 @@ public class AchAdviceNotificationServiceImpl implements AchAdviceNotificationSe
         this.businessObjectService = businessObjectService;
     }
 
+    /**
+     * Sets the paymentGroupService attribute value.
+     * 
+     * @param paymentGroupService The paymentGroupService to set.
+     */
+    @NonTransactional
+    public void setPaymentGroupService(PaymentGroupService paymentGroupService) {
+        this.paymentGroupService = paymentGroupService;
+    }
 }

@@ -427,7 +427,7 @@
 	
 	<bean id="pdpAchAdviceNotificationService" class="org.kuali.kfs.pdp.batch.service.impl.AchAdviceNotificationServiceImpl">
 		<property name="pdpEmailService" ref="pdpEmailService"/>
-		<property name="paymentGroupDao" ref="pdpPaymentGroupDao"/>
+		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
 		<property name="dateTimeService" ref="dateTimeService"/>
 		<property name="businessObjectService" ref="businessObjectService"/>
 	</bean>

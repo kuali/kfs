@@ -22,12 +22,5 @@ import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 
 public class KualiNonResidentAlienTaxPercentLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-    /**
-     * @returns links to edit and copy maintenance action for the current maintenance record.
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
-     */
-    @Override
-    public List<HtmlData> getCustomActionUrls(BusinessObject bo, List pkNames) {
-        return super.getEmptyActionUrls();
-    }
+
 }

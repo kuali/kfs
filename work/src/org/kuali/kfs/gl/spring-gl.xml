@@ -617,8 +617,11 @@
 		<property name="originEntryLiteService">
 			<ref bean="originEntryLiteService" />
 		</property>
-		
 -->
+		<property name="accountingCycleCachingService">
+		  	<ref bean="accountingCycleCachingService" />
+		</property>
+		
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 		<property name="reportDirectoryName" value="${reports.directory}"/>
 	</bean>

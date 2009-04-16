@@ -24,12 +24,27 @@
 	        <c:set var="percentage" value="${previousCost / totalHistoricalAmount }"/>
 		</c:if>
 		<c:if test="${totalHistoricalAmount == 0 }">
-	        <c:set var="percentage" value="${ 1 / numberOfAssets}"/>
+	        <c:set var="percentage" value="${ 1 / numberOfAssets }"/>
 		</c:if>
+		
+		<c:choose>
+			<c:when test="${numberOfAssets == 1}">
+			    <c:set var="totalAllocated" value="${documentTotal - globalTotalAllocated}" />
+			</c:when>
+			<c:otherwise>
+				<c:set var="numberOfAssets" value="${numberOfAssets - 1}"/>
+			    <c:set var="totalAllocated" value="${documentTotal * percentage}"/>
+			</c:otherwise>
+		</c:choose>
+		
+		<c:if test="${totalAllocated != 0.00 }">
+	    	<fmt:formatNumber var="sTotlaAllocated" value="${totalAllocated }" maxFractionDigits="2" minFractionDigits="2" type="number"/>			 		 	
+			<fmt:parseNumber value="${sTotlaAllocated}" type="number" var="totalAllocated"/>
+		</c:if>
+		
 
-        <c:set var="totalAllocated" value="${documentTotal * percentage}"/>
+		
 	 	<fmt:formatNumber var="newTotal" value="${totalAllocated + previousCost }" maxFractionDigits="2" minFractionDigits="2"/>			 		 	
-
 
 		<table borders="0" cellpadding="0" cellspacing="0">
 		<tr>
@@ -137,8 +152,10 @@
 						  </td>
 						<tr/>
 				</table>				
-				<cams:viewPayments	defaultTabHide="true" assetPayments="${assetPayments}"	assetValueObj="${assetObject}" assetValue="${assetValue}"/>				
-				<cams:viewPaymentInProcess defaultTabHide="true" assetPaymentDetails="${KualiForm.document.sourceAccountingLines}" assetPaymentAssetDetail="${assetPaymentsAssetDetail}"/>
+				<cams:viewPayments	defaultTabHide="true" assetPayments="${assetPayments}"	assetValueObj="${assetObject}" assetValue="${assetValue}"/>	
+	            ${fn:replace(sTotlaAllocated, "{,}", "" )}
+				
+				<cams:viewPaymentInProcess defaultTabHide="true" assetPaymentDetails="${KualiForm.document.sourceAccountingLines}" assetPaymentAssetDetail="${assetPaymentsAssetDetail}" assetPaymentsTotal="${sTotlaAllocated}"/>
 			</div>
 		</kul:tab>
 		</td>

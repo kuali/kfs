@@ -99,9 +99,13 @@
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorNumber}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute 
-                    	attributeEntry="${documentAttributes.vendorNumber}" property="document.vendorDetail.vendorNumber" 
-                    	readOnly="true" tabindexOverride="${tabindexOverrideBase + 0}"/>
+	                <c:if test="${not empty KualiForm.document.vendorHeaderGeneratedIdentifier}">
+		                <kul:inquiry boClassName="org.kuali.kfs.vnd.businessobject.VendorDetail" keyValues="vendorHeaderGeneratedIdentifier=${KualiForm.document.vendorHeaderGeneratedIdentifier}&vendorDetailAssignedIdentifier=${KualiForm.document.vendorDetailAssignedIdentifier}" render="true">
+		                    <kul:htmlControlAttribute 
+		                    	attributeEntry="${documentAttributes.vendorNumber}" property="document.vendorDetail.vendorNumber" 
+		                    	readOnly="true" tabindexOverride="${tabindexOverrideBase + 0}"/>
+		                </kul:inquiry>
+	                </c:if>
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorStateCode}" />

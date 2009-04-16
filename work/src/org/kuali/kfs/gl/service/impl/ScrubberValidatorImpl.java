@@ -36,8 +36,8 @@ import org.kuali.kfs.coa.service.BalanceTypService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.ObjectHelper;
 import org.kuali.kfs.gl.batch.ScrubberStep;
-import org.kuali.kfs.gl.batch.service.AccountingCycleCachingService;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
+import org.kuali.kfs.gl.service.AccountingCycleCachingService;
 import org.kuali.kfs.gl.service.ScrubberValidator;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -398,7 +398,8 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                     continuationAccountIndicator = true;
                     //workingEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
                     //workingEntry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_AUTO_FORWARD) + " " + originEntry.getChartOfAccountsCode() + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription());
-                    workingEntry.setTransactionLedgerEntryDescription(KFSKeyConstants.MSG_AUTO_FORWARD + " " + originEntry.getChartOfAccountsCode() + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription());
+                    // TODO: Shawn - use messageBuilder and KeyConstant - also, length issue!?!??
+                    workingEntry.setTransactionLedgerEntryDescription(("AUTO FR " + " " + originEntry.getChartOfAccountsCode() + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription()).substring(0, 39));
                     return MessageBuilder.buildMessage(KFSKeyConstants.MSG_ACCOUNT_CLOSED_TO, workingEntry.getChartOfAccountsCode() + workingEntry.getAccountNumber(), Message.TYPE_WARNING);
                 }
                 else {
@@ -425,7 +426,8 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                         continuationAccountIndicator = true;
                         //workingEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
                         //workingEntry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_AUTO_FORWARD) + originEntry.getChartOfAccountsCode() + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription());
-                        workingEntry.setTransactionLedgerEntryDescription("AUTO FR " + originEntry.getChartOfAccountsCode() + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription());
+                        // TODO: Shawn - use messageBuilder and KeyConstant - also, length issue!?!??
+                        workingEntry.setTransactionLedgerEntryDescription(("AUTO FR " + originEntry.getChartOfAccountsCode() + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription()).substring(0, 39));
                         return MessageBuilder.buildMessage(KFSKeyConstants.MSG_ACCOUNT_CLOSED_TO, workingEntry.getChartOfAccountsCode() + workingEntry.getAccountNumber(), Message.TYPE_WARNING);
                     }
                 }

@@ -51,7 +51,8 @@ public class DisbursementVoucherWireTransferValidation extends GenericValidation
             return isValid;
         }
 
-        ErrorMap errors = GlobalVariables.getErrorMap();        
+        ErrorMap errors = GlobalVariables.getErrorMap(); 
+        errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
         errors.addToErrorPath(KFSPropertyConstants.DV_WIRE_TRANSFER);
         
         SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(wireTransfer);
@@ -73,6 +74,7 @@ public class DisbursementVoucherWireTransferValidation extends GenericValidation
         }
 
         errors.removeFromErrorPath(KFSPropertyConstants.DV_WIRE_TRANSFER);
+        errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
         
         return isValid;
     }
@@ -85,13 +87,4 @@ public class DisbursementVoucherWireTransferValidation extends GenericValidation
     public void setAccountingDocumentForValidation(AccountingDocument accountingDocumentForValidation) {
         this.accountingDocumentForValidation = accountingDocumentForValidation;
     }
-
-    /**
-     * Gets the accountingDocumentForValidation attribute. 
-     * @return Returns the accountingDocumentForValidation.
-     */
-    public AccountingDocument getAccountingDocumentForValidation() {
-        return accountingDocumentForValidation;
-    }
-
 }

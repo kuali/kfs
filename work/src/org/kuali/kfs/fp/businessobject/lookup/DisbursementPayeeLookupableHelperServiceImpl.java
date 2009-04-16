@@ -212,10 +212,10 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
     protected List<DisbursementPayee> getPersonAsPayees(Map<String, String> fieldValues) {
         List<DisbursementPayee> payeeList = new ArrayList<DisbursementPayee>();
         
-        Map<String, String> fieldsForLookup = this.getPersonFieldValues(fieldValues);        
-        PersonService<Person> personService = KIMServiceLocator.getPersonService();
+        Map<String, String> fieldsForLookup = this.getPersonFieldValues(fieldValues);                
+        List<? extends Person> persons = KIMServiceLocator.getPersonService().findPeople(fieldsForLookup);   
         
-        for (Person personDetail : personService.findPeople(fieldsForLookup)) {
+        for (Person personDetail : persons) {            
             DisbursementPayee payee = DisbursementPayee.getPayeeFromPerson(personDetail);
             payee.setPaymentReasonCode(fieldValues.get(KFSPropertyConstants.PAYMENT_REASON_CODE));
             payeeList.add(payee);

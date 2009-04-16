@@ -46,7 +46,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="buildingAddressCityName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="buildingAddressStateCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="buildingAddressZipCode" p:required="true"/>
-         <bean parent="MaintainableFieldDefinition" p:name="buildingAddressCountryCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="buildingAddressCountryCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="alternateBuildingCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>

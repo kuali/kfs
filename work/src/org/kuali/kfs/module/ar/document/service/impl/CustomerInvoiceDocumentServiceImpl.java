@@ -233,13 +233,15 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     }
 
     public KualiDecimal getOpenAmountForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument) {
-        Collection<CustomerInvoiceDetail> customerInvoiceDetails = customerInvoiceDocument.getCustomerInvoiceDetailsWithoutDiscounts();
         KualiDecimal total = new KualiDecimal(0);
-        for (CustomerInvoiceDetail detail : customerInvoiceDetails) {
-            //  note that we're now dealing with conditionally applying discounts 
-            // depending on whether the doc is saved or approved one level down, 
-            // in the CustomerInvoiceDetail.getAmountOpen()
-            total = total.add(detail.getAmountOpen());
+        if (customerInvoiceDocument.isOpenInvoiceIndicator()) {
+            Collection<CustomerInvoiceDetail> customerInvoiceDetails = customerInvoiceDocument.getCustomerInvoiceDetailsWithoutDiscounts();
+            for (CustomerInvoiceDetail detail : customerInvoiceDetails) {
+                //  note that we're now dealing with conditionally applying discounts 
+                // depending on whether the doc is saved or approved one level down, 
+                // in the CustomerInvoiceDetail.getAmountOpen()
+                total = total.add(detail.getAmountOpen());
+            }
         }
         return total;
     }

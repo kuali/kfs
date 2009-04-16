@@ -1231,7 +1231,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         super.toCopy();
         CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
         customerInvoiceDocumentService.setupDefaultValuesForCopiedCustomerInvoiceDocument(this);
-        this.getDocumentHeader().setFinancialDocumentTotalAmount(customerInvoiceDocumentService.getOriginalTotalAmountForCustomerInvoiceDocument(this));
+        this.getDocumentHeader().setFinancialDocumentTotalAmount(getTotalDollarAmount());
     }
 
     /**
@@ -1242,6 +1242,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         super.toErrorCorrection();
         negateCustomerInvoiceDetailUnitPrices();
         this.setOpenInvoiceIndicator(false);
+        this.getDocumentHeader().setFinancialDocumentTotalAmount(getTotalDollarAmount());
         
         //  if we dont force this on the error correction, the recurrence will 
         // have the old doc number, and will revert the main doc due to OJB fun, 

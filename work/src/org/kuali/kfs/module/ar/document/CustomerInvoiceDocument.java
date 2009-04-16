@@ -85,6 +85,9 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     private String shippingEmailAddress;
     private String shippingAddressTypeCode;
     private boolean recurredInvoiceIndicator;
+    
+//    private String parentInvoiceNumber;
+//    private String documentStatus;
 
     private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
     private Chart billByChartOfAccount;
@@ -635,6 +638,15 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         this.accountsReceivableDocumentHeader = accountsReceivableDocumentHeader;
     }
 
+    /**
+     * 
+     * This method...
+     * @return
+     */
+    public String getParentInvoiceNumber() {
+        return getAccountsReceivableDocumentHeader().getDocumentHeader().getDocumentTemplateNumber();
+    }
+    
     /**
      * Gets the billByChartOfAccount attribute.
      * 
@@ -1868,8 +1880,21 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         throw new UnsupportedOperationException("answerSplitNode('" + nodeName + "') was called but no handler for nodeName specified.");
     }
 
+    /**
+     * 
+     * This method...
+     * @return
+     */
     private boolean hasRecurrence() {
         return (ObjectUtils.isNotNull(getCustomerInvoiceRecurrenceDetails()) && getCustomerInvoiceRecurrenceDetails().isActive());
+    }
+
+    /**
+     * Gets the documentStatus attribute. 
+     * @return Returns the documentStatus.
+     */
+    public String getDocumentStatus() {
+        return getAccountsReceivableDocumentHeader().getDocumentHeader().getWorkflowDocument().getStatusDisplayValue();
     }
 
 }

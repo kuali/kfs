@@ -131,10 +131,18 @@
 	<bean id="SearchingAttribute-parentInvoiceNumber-criteriaOnly"
 		class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
 		<property name="businessObjectClassName"
-			value="org.kuali.rice.kns.bo.DocumentHeader" />
-		<property name="attributeName" value="documentTemplateNumber" />
+			value="org.kuali.kfs.module.ar.document.CustomerInvoiceDocument" />
+		<property name="attributeName" value="parentInvoiceNumber" />
 		<property name="showAttributeInSearchCriteria" value="true" />
 		<property name="showAttributeInResultSet" value="false" />
+	</bean>
+	<bean id="SearchingAttribute-documentStatus-criteriaOnly"
+		class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+		<property name="businessObjectClassName"
+			value="org.kuali.kfs.module.ar.document.CustomerInvoiceDocument" />
+		<property name="attributeName" value="documentStatus" />
+		<property name="showAttributeInSearchCriteria" value="false" />
+		<property name="showAttributeInResultSet" value="true" />
 	</bean>
 	<bean
 		id="SearchingAttribute-financialDocumentReferenceInvoiceNumber"
@@ -550,14 +558,23 @@
 			</list>
 		</property>
 	</bean>
-	<bean
-		id="SearchingType-CustomerInvoiceDocument-parentInvoiceNumber-criteriaOnly"
+	<bean id="SearchingType-CustomerInvoiceDocument-parentInvoiceNumber-criteriaOnly"
 		class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
 		<property name="searchingAttribute"
 			ref="SearchingAttribute-parentInvoiceNumber-criteriaOnly" />
 		<property name="documentValues">
 			<list>
-				<value>documentHeader.documentTemplateNumber</value>
+				<value>parentInvoiceNumber</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="SearchingType-CustomerInvoiceDocument-documentStatus-criteriaOnly"
+		class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+		<property name="searchingAttribute"
+			ref="SearchingAttribute-documentStatus-criteriaOnly" />
+		<property name="documentValues">
+			<list>
+				<value>documentStatus</value>
 			</list>
 		</property>
 	</bean>

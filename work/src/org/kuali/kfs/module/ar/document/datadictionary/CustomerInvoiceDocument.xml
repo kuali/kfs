@@ -35,7 +35,8 @@
         <ref bean="CustomerInvoiceDocument-printDate"/>
         <ref bean="CustomerInvoiceDocument-invoiceTermsText"/>
         <ref bean="CustomerInvoiceDocument-organizationInvoiceNumber"/>
-        <ref bean="CustomerInvoiceDocument-documentHeader.documentTemplateNumber"/>
+        <ref bean="CustomerInvoiceDocument-parentInvoiceNumber"/>
+        <ref bean="CustomerInvoiceDocument-documentStatus"/>
         <ref bean="CustomerInvoiceDocument-customerPurchaseOrderNumber"/>
         <ref bean="CustomerInvoiceDocument-printInvoiceIndicator"/>
         <ref bean="CustomerInvoiceDocument-customerPurchaseOrderDate"/>
@@ -206,12 +207,29 @@
     </property>
   </bean>
 
-  <bean id="CustomerInvoiceDocument-documentHeader.documentTemplateNumber" parent="CustomerInvoiceDocument-documentHeader.documentTemplateNumber-parentBean"/>
+  <bean id="CustomerInvoiceDocument-parentInvoiceNumber" parent="CustomerInvoiceDocument-parentInvoiceNumber-parentBean"/>
   
-  <bean id="CustomerInvoiceDocument-documentHeader.documentTemplateNumber-parentBean" abstract="true" parent="DocumentHeader-documentTemplateNumber">
-    <property name="name" value="documentHeader.documentTemplateNumber"/>
-    <property name="label" value="Parent Invoice"/>
-    <property name="shortLabel" value="Parent Invoice"/>
+  <bean id="CustomerInvoiceDocument-parentInvoiceNumber-parentBean" abstract="true" parent="DocumentHeader-documentTemplateNumber">
+    <property name="name" value="parentInvoiceNumber"/>
+    <property name="label" value="Parent Invoice Number"/>
+    <property name="shortLabel" value="Parent Invoice Number"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="14"/>
+    </property>
+  </bean>
+
+  <bean id="CustomerInvoiceDocument-documentStatus" parent="CustomerInvoiceDocument-documentStatus-parentBean"/>
+  
+  <bean id="CustomerInvoiceDocument-documentStatus-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentStatus"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Document Status"/>
+    <property name="shortLabel" value="Status"/>
+    <property name="maxLength" value="15"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="15"/>
+    </property>
   </bean>
 
   <bean id="CustomerInvoiceDocument-customerPurchaseOrderNumber" parent="CustomerInvoiceDocument-customerPurchaseOrderNumber-parentBean"/>
@@ -671,6 +689,7 @@
    			<ref bean="SearchingType-CustomerInvoiceDocument-billingOrganizationCode"/>
    			<ref bean="SearchingType-CustomerInvoiceDocument-invoiceItemCode-criteriaOnly"/>
    			<ref bean="SearchingType-CustomerInvoiceDocument-parentInvoiceNumber-criteriaOnly"/>
+   			<ref bean="SearchingType-CustomerInvoiceDocument-documentStatus-criteriaOnly"/>
    		</list>
    	</property>
    	<property name="routingTypeDefinitions">

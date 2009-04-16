@@ -52,19 +52,14 @@ public class DisbursementVoucherNonEmployeeTravelValidation extends GenericValid
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
         DisbursementVoucherNonEmployeeTravel nonEmployeeTravel = document.getDvNonEmployeeTravel();
         
-        if (!isTravelNonEmplPaymentReason(document)) {
+        // skip the validation if the payment reason is not noneployee travel or the payee is an employee
+        if (!isTravelNonEmplPaymentReason(document) || document.getDvPayeeDetail().isEmployee()) {
             return true;
         }
         
         ErrorMap errors = GlobalVariables.getErrorMap();
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
         errors.addToErrorPath(KFSPropertyConstants.DV_NON_EMPLOYEE_TRAVEL);
-
-        /* check that vendor is no an employee, and if they are, then report error and stop validation */
-        if(document.getDvPayeeDetail().isEmployee()) {
-            errors.putError(KFSConstants.GENERAL_NONEMPLOYEE_TAB_ERRORS, "");
-            return false;
-        }
         
         SpringContext.getBean(DictionaryValidationService.class).validateBusinessObjectsRecursively(document.getDvNonEmployeeTravel(), 1);
 

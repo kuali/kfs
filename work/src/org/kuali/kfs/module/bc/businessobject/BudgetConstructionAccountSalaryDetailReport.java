@@ -58,6 +58,7 @@ public class BudgetConstructionAccountSalaryDetailReport{
     
     // from BudgetConstructionCalculatedSalaryFoundationTracker
     private Integer positionCsfAmount;
+    private BigDecimal csfTimePercent;
     private BigDecimal positionCsfFullTimeEmploymentQuantity;
     private String positionCsfFundingStatusCode;
 
@@ -65,8 +66,11 @@ public class BudgetConstructionAccountSalaryDetailReport{
     private Integer appointmentFundingMonth;
     private BigDecimal appointmentRequestedPayRate;
     private Integer appointmentRequestedAmount;
+    private BigDecimal appointmentRequestedTimePercent;
     private BigDecimal appointmentRequestedFteQuantity;
     private Integer appointmentRequestedCsfAmount;
+    private BigDecimal appointmentRequestedCsfTimePercent;
+    private BigDecimal appointmentRequestedCsfFteQuantity;
     private String appointmentFundingDurationCode;
     private Integer appointmentTotalIntendedAmount;
     private BigDecimal appointmentTotalIntendedFteQuantity;
@@ -679,6 +683,94 @@ public class BudgetConstructionAccountSalaryDetailReport{
 
     public void setTotalPercentChange(BigDecimal totalPercentChange) {
         this.totalPercentChange = totalPercentChange;
+    }
+
+
+
+
+    /**
+     * Gets the csfTimePercent attribute. 
+     * @return Returns the csfTimePercent.
+     */
+    public BigDecimal getCsfTimePercent() {
+        return csfTimePercent;
+    }
+
+
+
+
+    /**
+     * Sets the csfTimePercent attribute value.
+     * @param csfTimePercent The csfTimePercent to set.
+     */
+    public void setCsfTimePercent(BigDecimal csfTimePercent) {
+        this.csfTimePercent = csfTimePercent;
+    }
+
+
+
+
+    /**
+     * Gets the appointmentRequestedTimePercent attribute. 
+     * @return Returns the appointmentRequestedTimePercent.
+     */
+    public BigDecimal getAppointmentRequestedTimePercent() {
+        return appointmentRequestedTimePercent;
+    }
+
+
+
+
+    /**
+     * Sets the appointmentRequestedTimePercent attribute value.
+     * @param appointmentRequestedTimePercent The appointmentRequestedTimePercent to set.
+     */
+    public void setAppointmentRequestedTimePercent(BigDecimal appointmentRequestedTimePercent) {
+        this.appointmentRequestedTimePercent = appointmentRequestedTimePercent;
+    }
+
+
+
+
+    /**
+     * Gets the appointmentRequestedCsfTimePercent attribute. 
+     * @return Returns the appointmentRequestedCsfTimePercent.
+     */
+    public BigDecimal getAppointmentRequestedCsfTimePercent() {
+        return appointmentRequestedCsfTimePercent;
+    }
+
+
+
+
+    /**
+     * Sets the appointmentRequestedCsfTimePercent attribute value.
+     * @param appointmentRequestedCsfTimePercent The appointmentRequestedCsfTimePercent to set.
+     */
+    public void setAppointmentRequestedCsfTimePercent(BigDecimal appointmentRequestedCsfTimePercent) {
+        this.appointmentRequestedCsfTimePercent = appointmentRequestedCsfTimePercent;
+    }
+
+
+
+
+    /**
+     * Gets the appointmentRequestedCsfFteQuantity attribute. 
+     * @return Returns the appointmentRequestedCsfFteQuantity.
+     */
+    public BigDecimal getAppointmentRequestedCsfFteQuantity() {
+        return appointmentRequestedCsfFteQuantity;
+    }
+
+
+
+
+    /**
+     * Sets the appointmentRequestedCsfFteQuantity attribute value.
+     * @param appointmentRequestedCsfFteQuantity The appointmentRequestedCsfFteQuantity to set.
+     */
+    public void setAppointmentRequestedCsfFteQuantity(BigDecimal appointmentRequestedCsfFteQuantity) {
+        this.appointmentRequestedCsfFteQuantity = appointmentRequestedCsfFteQuantity;
     }
 }
 

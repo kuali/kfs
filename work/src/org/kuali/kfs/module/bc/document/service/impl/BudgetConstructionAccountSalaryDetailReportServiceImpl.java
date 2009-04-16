@@ -35,6 +35,7 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionAccountSalaryDetailReportService;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper;
+import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -49,6 +50,7 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
 
     private KualiConfigurationService kualiConfigurationService;
     private BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
+    private SalarySettingService salarySettingService;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionLevelSummaryReportService#buildReports(java.lang.Integer,
@@ -199,6 +201,7 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
         // from BudgetConstructionCalculatedSalaryFoundationTracker
         if (csfTracker != null) {
             accountMonthlyDetailReport.setPositionCsfAmount(csfTracker.getCsfAmount().intValue());
+            accountMonthlyDetailReport.setCsfTimePercent(BudgetConstructionReportHelper.setDecimalDigit(csfTracker.getCsfTimePercent(), 2, false));
             accountMonthlyDetailReport.setPositionCsfFullTimeEmploymentQuantity(BudgetConstructionReportHelper.setDecimalDigit(csfTracker.getCsfFullTimeEmploymentQuantity(), 5, false));
             accountMonthlyDetailReport.setPositionCsfFundingStatusCode(csfTracker.getCsfFundingStatusCode());
             
@@ -215,10 +218,16 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
 
         // from PendingBudgetConstructionAppointmentFunding
         accountMonthlyDetailReport.setAppointmentFundingMonth(pendingAppointmentFunding.getAppointmentFundingMonth());
-        accountMonthlyDetailReport.setAppointmentRequestedPayRate(pendingAppointmentFunding.getAppointmentRequestedPayRate());
+        if (salarySettingService.isHourlyPaidObject(pendingAppointmentFunding.getUniversityFiscalYear(), pendingAppointmentFunding.getChartOfAccountsCode(), pendingAppointmentFunding.getFinancialObjectCode())){
+            accountMonthlyDetailReport.setAppointmentRequestedPayRate(pendingAppointmentFunding.getAppointmentRequestedPayRate());
+        }
+
         accountMonthlyDetailReport.setAppointmentRequestedAmount(pendingAppointmentFunding.getAppointmentRequestedAmount().intValue());
+        accountMonthlyDetailReport.setAppointmentRequestedTimePercent(BudgetConstructionReportHelper.setDecimalDigit(pendingAppointmentFunding.getAppointmentRequestedTimePercent(), 2, false));
         accountMonthlyDetailReport.setAppointmentRequestedFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(pendingAppointmentFunding.getAppointmentRequestedFteQuantity(), 5, false));
         accountMonthlyDetailReport.setAppointmentRequestedCsfAmount(pendingAppointmentFunding.getAppointmentRequestedCsfAmount().intValue());
+        accountMonthlyDetailReport.setAppointmentRequestedCsfTimePercent(BudgetConstructionReportHelper.setDecimalDigit(pendingAppointmentFunding.getAppointmentRequestedCsfTimePercent(), 2, false));
+        accountMonthlyDetailReport.setAppointmentRequestedCsfFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(pendingAppointmentFunding.getAppointmentRequestedCsfFteQuantity(), 5, false));
         accountMonthlyDetailReport.setAppointmentFundingDurationCode(pendingAppointmentFunding.getAppointmentFundingDurationCode());
         accountMonthlyDetailReport.setAppointmentTotalIntendedAmount(pendingAppointmentFunding.getAppointmentTotalIntendedAmount().intValue());
         accountMonthlyDetailReport.setAppointmentTotalIntendedFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(pendingAppointmentFunding.getAppointmentTotalIntendedFteQuantity(), 5, false));
@@ -352,5 +361,13 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
      */
     public void setBudgetConstructionReportsServiceHelper(BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper) {
         this.budgetConstructionReportsServiceHelper = budgetConstructionReportsServiceHelper;
+    }
+
+    /**
+     * Sets the salarySettingService attribute value.
+     * @param salarySettingService The salarySettingService to set.
+     */
+    public void setSalarySettingService(SalarySettingService salarySettingService) {
+        this.salarySettingService = salarySettingService;
     }
 }

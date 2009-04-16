@@ -654,6 +654,9 @@
 	<property name="kualiConfigurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
+	<property name="salarySettingService">
+		<ref bean="salarySettingService" />
+	</property>
 	</bean>
 	
     <bean id="BudgetConstructionAccountMonthlyDetailReportService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionAccountMonthlyDetailReportServiceImpl">

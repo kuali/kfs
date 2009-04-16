@@ -49,7 +49,6 @@ import org.kuali.kfs.coa.service.OffsetDefinitionService;
 import org.kuali.kfs.coa.service.SubAccountService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.PosterIndirectCostRecoveryEntriesStep;
-import org.kuali.kfs.gl.batch.service.AccountingCycleCachingService;
 import org.kuali.kfs.gl.batch.service.PostTransaction;
 import org.kuali.kfs.gl.batch.service.PosterService;
 import org.kuali.kfs.gl.batch.service.RunDateService;
@@ -62,6 +61,7 @@ import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.dataaccess.ExpenditureTransactionDao;
 import org.kuali.kfs.gl.dataaccess.ReversalDao;
 import org.kuali.kfs.gl.report.TextReportHelper;
+import org.kuali.kfs.gl.service.AccountingCycleCachingService;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.gl.service.ReportService;
@@ -398,6 +398,9 @@ public class PosterServiceImpl implements PosterService {
                     errors.add(new Message(e.toString() + " occurred for this record.", Message.TYPE_FATAL));
                 }
             }
+
+            //init warning entry number
+            reportSummary.put("WARNING" + "," + GeneralLedgerConstants.INSERT_CODE, new Integer(0));
 
             if (errors.size() > 0) {
                 // Error on this transaction

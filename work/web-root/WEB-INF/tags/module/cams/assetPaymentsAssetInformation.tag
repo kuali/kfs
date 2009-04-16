@@ -153,9 +153,8 @@
 						<tr/>
 				</table>				
 				<cams:viewPayments	defaultTabHide="true" assetPayments="${assetPayments}"	assetValueObj="${assetObject}" assetValue="${assetValue}"/>	
-	            ${fn:replace(sTotlaAllocated, "{,}", "" )}
 				
-				<cams:viewPaymentInProcess defaultTabHide="true" assetPaymentDetails="${KualiForm.document.sourceAccountingLines}" assetPaymentAssetDetail="${assetPaymentsAssetDetail}" assetPaymentsTotal="${sTotlaAllocated}"/>
+				<cams:viewPaymentInProcess defaultTabHide="true" assetPaymentDetails="${KualiForm.document.sourceAccountingLines}" assetPaymentAssetDetail="${assetPaymentsAssetDetail}" assetPaymentsTotal="${totalAllocated}"/>
 			</div>
 		</kul:tab>
 		</td>

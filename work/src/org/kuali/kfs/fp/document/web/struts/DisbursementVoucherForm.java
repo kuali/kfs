@@ -15,14 +15,15 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeExpense;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceRegistrant;
 import org.kuali.kfs.fp.businessobject.TravelPerDiem;
@@ -42,6 +43,8 @@ import org.kuali.rice.kns.web.format.SimpleBooleanFormatter;
  * This class is the action form for the Disbursement Voucher.
  */
 public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherForm.class);
+    
     private static final long serialVersionUID = 1L;
     
     private String payeeIdNumber;
@@ -54,6 +57,34 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
     private DisbursementVoucherNonEmployeeExpense newPrePaidNonEmployeeExpenseLine;
     private DisbursementVoucherPreConferenceRegistrant newPreConferenceRegistrantLine;
     private String wireChargeMessage;
+    
+    /**
+     * Override reset to reset checkboxes if they are present on the requesting page
+     * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#reset(org.apache.struts.action.ActionMapping, javax.servlet.http.HttpServletRequest)
+     */
+    public void reset(ActionMapping mapping, HttpServletRequest request) {
+        // TODO: remove the method after identifying the problem happening on CNV
+        this.setMethodToCall(null);
+        this.setRefreshCaller(null);
+        this.setAnchor(null);
+        this.setCurrentTabIndex(0);
+
+        if (request.getParameter("checkboxToReset") != null) {
+            String[] checkboxesToReset = request.getParameterValues("checkboxToReset");
+            if(checkboxesToReset != null && checkboxesToReset.length > 0) {
+                for (int i = 0; i < checkboxesToReset.length; i++) {
+                    String propertyName = (String) checkboxesToReset[i];
+                    try {
+                        LOG.info("=============" + propertyName);
+                        PropertyUtils.setNestedProperty(this, propertyName, false);
+                    } catch (Exception e1) {
+                        LOG.info("=============" + propertyName + ":" + e1.getStackTrace());
+                        throw new RuntimeException(e1.getMessage(), e1);
+                    }
+                }
+            }
+        }
+    }
 
     /**
      * Constructs a DisbursementVoucherForm.java.

@@ -27,7 +27,7 @@
 			<c:choose>
 				<c:when test="${isRequisition}">
 		    		<h3>${view.documentLabel} - <a href="<c:out value="${view.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${view.documentIdentifierString}" /></a>
-		    			&nbsp;(Purchase Order - ${view.documentLabel} - <a href="<c:out value="${view.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${view.purchaseOrderIdentifier}" /></a>)</h3>
+		    			&nbsp;(Purchase Order - ${view.purchaseOrderIdentifier})</h3>
 		    	</c:when>
 		    	<c:otherwise>
 		    		<h3>${view.documentLabel} - <a href="<c:out value="${view.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${view.documentIdentifierString}" /></a></h3>

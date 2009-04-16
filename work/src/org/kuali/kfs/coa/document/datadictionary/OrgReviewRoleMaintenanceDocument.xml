@@ -107,8 +107,8 @@
 	<bean id="OrgReviewRoleMaintenanceDocument-DocumentValuePathGroup-ChartOrganization" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
     	<property name="documentValues">
     		<list>
-    			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
-    			<value>newMaintainableObject.businessObject.organizationCode</value>
+    			<value>newMaintainableObject.businessObject.chart.chartOfAccountsCode</value>
+    			<value>newMaintainableObject.businessObject.organization.organizationCode</value>
     		</list>
     	</property>
    	</bean>
@@ -116,7 +116,7 @@
    	<bean id="OrgReviewRoleMaintenanceDocument-DocumentValuePathGroup-Chart" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
     	<property name="documentValues">
     		<list>
-    			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
+    			<value>newMaintainableObject.businessObject.chart.chartOfAccountsCode</value>
     		</list>
     	</property>
    	</bean>

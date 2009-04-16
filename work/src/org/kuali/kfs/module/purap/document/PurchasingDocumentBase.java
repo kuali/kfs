@@ -570,8 +570,6 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
 
     public String getDeliveryCountryName() {
         Country country = SpringContext.getBean(CountryService.class).getByPrimaryId(getDeliveryCountryCode());
-        //if (country == null)
-        //    country = SpringContext.getBean(CountryService.class).getDefaultCountry();
         if (country != null)
             return country.getPostalCountryName();
         return null;

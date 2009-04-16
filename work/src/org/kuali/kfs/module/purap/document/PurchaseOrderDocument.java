@@ -431,6 +431,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         this.setPurchaseOrderCreateTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
         this.getDocumentHeader().setOrganizationDocumentNumber(requisitionDocument.getDocumentHeader().getOrganizationDocumentNumber());
         this.getDocumentHeader().setDocumentDescription(requisitionDocument.getDocumentHeader().getDocumentDescription());
+        this.getDocumentHeader().setExplanation(requisitionDocument.getDocumentHeader().getExplanation());
 
         this.setBillingName(requisitionDocument.getBillingName());
         this.setBillingLine1Address(requisitionDocument.getBillingLine1Address());

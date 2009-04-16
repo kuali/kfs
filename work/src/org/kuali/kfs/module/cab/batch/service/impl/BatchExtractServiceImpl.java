@@ -115,6 +115,8 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                     // get the allocate additional charge target lines.
                     allocateTargetLines = purApLineService.getAllocateTargetLines(allocateSourceLine, candidateDocs);
                     if (allocateTargetLines != null && !allocateTargetLines.isEmpty()) {
+                        // setup the bidirectional relationship between objects.
+                        setupObjectRelationship(candidateDocs);
                         purApLineService.processAllocate(allocateSourceLine, allocateTargetLines, actionsTakenHistory, candidateDocs);
                         documentUpdated = true;
                     }
@@ -129,6 +131,21 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         }
     }
 
+    /**
+     * Setup relationship from account to item and item to doc. In this way, we keep all working objects in the same view as form.
+     * 
+     * @param purApDocs
+     */
+    protected void setupObjectRelationship(List<PurchasingAccountsPayableDocument> purApDocs) {
+        for (PurchasingAccountsPayableDocument purApDoc : purApDocs) {
+            for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
+                item.setPurchasingAccountsPayableDocument(purApDoc);
+                for (PurchasingAccountsPayableLineAssetAccount account : item.getPurchasingAccountsPayableLineAssetAccounts()) {
+                    account.setPurchasingAccountsPayableItemAsset(item);
+                }
+            }
+        }
+    }
     /**
      * Creates a batch parameters object reading values from configured system parameters for CAB Extract
      * 

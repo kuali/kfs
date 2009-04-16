@@ -524,10 +524,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
             // The errors are being deleted because, when the document services finds any error then, changes are not saved.
             GlobalVariables.clear();
 
-            // Saving....
-            documentService.saveDocument(document, DocumentSystemSaveEvent.class);
-
-            // add document initiator as adhoc user
+            // no adhoc recipient need to add when submit doc. doc will route to the doc uploader, i.e. initiator automtically.
             List<AdHocRouteRecipient> adHocRouteRecipients = new ArrayList<AdHocRouteRecipient>();
             documentService.routeDocument(document, "Routed Update Barcode Inventory Document", adHocRouteRecipients);
         }

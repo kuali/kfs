@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.gl.batch.service;
 
+import java.io.File;
+
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.LedgerBalanceHistory;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
@@ -41,14 +43,14 @@ public interface BalancingService {
     public abstract String getReportTitle();
     
     /**
-     * @return input filename to the poster
+     * @return input poster file. Returns null if no file found.
      */
-    public abstract String getPosterInputFilename();
+    public abstract File getPosterInputFile();
 
     /**
-     * @return output error filename from the poster
+     * @return output poster error file. Returns null if no file found.
      */
-    public abstract String getPosterErrorOutputFilename();
+    public abstract File getPosterErrorOutputFile();
     
     /**
      * @return system parameter for NUMBER_OF_PAST_FISCAL_YEARS_TO_CONSIDER

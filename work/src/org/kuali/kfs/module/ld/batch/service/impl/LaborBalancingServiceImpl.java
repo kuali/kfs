@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.ld.batch.service.impl;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,6 +47,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class LaborBalancingServiceImpl extends BalancingServiceBaseImpl<LaborEntryHistory, LaborBalanceHistory> implements BalancingService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborBalancingServiceImpl.class);
     
+    private File laborPosterInputFile = null;
+    private File laborPosterErrorOutputFile = null;
+    
     /**
      * @see org.kuali.kfs.gl.batch.service.BalancingService#getReportFilename()
      */
@@ -60,17 +65,45 @@ public class LaborBalancingServiceImpl extends BalancingServiceBaseImpl<LaborEnt
     }
     
     /**
-     * @see org.kuali.kfs.gl.batch.service.BalancingService#getPosterInputFilename()
+     * @see org.kuali.kfs.gl.batch.service.BalancingService#getPosterInputFile()
      */
-    public String getPosterInputFilename() {
-        return LaborConstants.BatchFileSystem.POSTER_INPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+    public File getPosterInputFile() {
+        // avoid running scanning logic on file system
+        if (laborPosterInputFile != null) {
+            return laborPosterInputFile;
+        }
+        
+        FilenameFilter filenameFilter = new FilenameFilter() {
+            public boolean accept(File dir, String name) {
+                return (name.startsWith(LaborConstants.BatchFileSystem.POSTER_INPUT_FILE) &&
+                        name.endsWith(GeneralLedgerConstants.BatchFileSystem.EXTENSION));
+            }
+        };
+        
+        laborPosterInputFile = this.getNewestDataFile(filenameFilter);
+        
+        return laborPosterInputFile;
     }
 
     /**
-     * @see org.kuali.kfs.gl.batch.service.BalancingService#getPosterErrorOutputFilename()
+     * @see org.kuali.kfs.gl.batch.service.BalancingService#getPosterErrorOutputFile()
      */
-    public String getPosterErrorOutputFilename() {
-        return LaborConstants.BatchFileSystem.POSTER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+    public File getPosterErrorOutputFile() {
+        // avoid running scanning logic on file system
+        if (laborPosterErrorOutputFile != null) {
+            return laborPosterErrorOutputFile;
+        }
+        
+        FilenameFilter filenameFilter = new FilenameFilter() {
+            public boolean accept(File dir, String name) {
+                return (name.startsWith(LaborConstants.BatchFileSystem.POSTER_ERROR_OUTPUT_FILE) &&
+                        name.endsWith(GeneralLedgerConstants.BatchFileSystem.EXTENSION));
+            }
+        };
+        
+        laborPosterErrorOutputFile = this.getNewestDataFile(filenameFilter);
+        
+        return laborPosterErrorOutputFile;
     }
     
     

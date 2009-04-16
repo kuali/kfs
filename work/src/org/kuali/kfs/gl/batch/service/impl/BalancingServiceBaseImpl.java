@@ -18,6 +18,7 @@ package org.kuali.kfs.gl.batch.service.impl;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FilenameFilter;
 import java.io.PrintStream;
 import java.lang.reflect.ParameterizedType;
 import java.text.SimpleDateFormat;
@@ -118,6 +119,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
             textReportHelper.writeTitle();
             
             textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.ERROR_BATCH_BALANCING_FILES));
+            
             return false;
         }
         
@@ -199,13 +201,41 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
     }
     
     /**
+     * In batchFileDirectoryName looks for a pattern matching filenameFilter and returns the filename with the highest lastModified()
+     * @param filenameFilter to filter filenames in batchFileDirectoryName for
+     * @return File with highest lastModified()
+     */
+    protected File getNewestDataFile(FilenameFilter filenameFilter) {
+        File newestFile = null;
+        
+        File directory = new File(batchFileDirectoryName);
+        File[] directoryListing = directory.listFiles(filenameFilter);
+        if (directoryListing == null || directoryListing.length == 0) {
+            return null;
+        } else {
+            for (int i = 0; i < directoryListing.length; i++) {
+                File file = directoryListing[i];
+                if (newestFile == null) {
+                    newestFile = file;
+                } else {
+                    if (newestFile.lastModified() < file.lastModified()){
+                        newestFile = file;                        
+                    }
+                }
+            }
+        }
+        
+        return newestFile;
+    }
+    
+    /**
      * @return if the files required for processing of this job are present and readable.
      */
     protected boolean isFilesReady() {
-        File inputFile = new File(batchFileDirectoryName + File.separator + this.getPosterInputFilename());
-        File errorFile = new File(batchFileDirectoryName + File.separator + this.getPosterErrorOutputFilename());
+        File inputFile = this.getPosterInputFile();
+        File errorFile = this.getPosterErrorOutputFile();
         
-        return inputFile.exists() && errorFile.exists() && inputFile.canRead() && errorFile.canRead();
+        return inputFile != null && errorFile != null && inputFile.exists() && errorFile.exists() && inputFile.canRead() && errorFile.canRead();
     }
     
     /**
@@ -247,9 +277,9 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
         int lineNumber = 0;
 
         try {
-            FileReader posterInputFileReader = new FileReader(batchFileDirectoryName + File.separator + this.getPosterInputFilename());
+            FileReader posterInputFileReader = new FileReader(this.getPosterInputFile());
             BufferedReader posterInputBufferedReader = new BufferedReader(posterInputFileReader);
-            FileReader posterErrorFileReader = new FileReader(batchFileDirectoryName + File.separator + this.getPosterErrorOutputFilename());
+            FileReader posterErrorFileReader = new FileReader(this.getPosterErrorOutputFile());
             BufferedReader posterErrorBufferedReader = new BufferedReader(posterErrorFileReader);
             
             // Reading input and error lines in tandem. Eliminating input lines if they were a line in error.

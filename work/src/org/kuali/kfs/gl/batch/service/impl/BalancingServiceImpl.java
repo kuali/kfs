@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.gl.batch.service.impl;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -58,6 +60,9 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
     protected AccountBalanceDao accountBalanceDao;
     protected EncumbranceDao encumbranceDao;
     
+    private File posterInputFile = null;
+    private File posterErrorOutputFile = null;
+    
     /**
      * @see org.kuali.kfs.gl.batch.service.BalancingService#getReportFilename()
      */
@@ -73,17 +78,45 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
     }
     
     /**
-     * @see org.kuali.kfs.gl.batch.service.BalancingService#getPosterInputFilename()
+     * @see org.kuali.kfs.gl.batch.service.BalancingService#getPosterInputFile()
      */
-    public String getPosterInputFilename() {
-        return GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+    public File getPosterInputFile() {
+        // avoid running scanning logic on file system
+        if (posterInputFile != null) {
+            return posterInputFile;
+        }
+        
+        FilenameFilter filenameFilter = new FilenameFilter() {
+            public boolean accept(File dir, String name) {
+                return (name.startsWith(GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE) &&
+                        name.endsWith(GeneralLedgerConstants.BatchFileSystem.EXTENSION));
+            }
+        };
+        
+        posterInputFile = this.getNewestDataFile(filenameFilter);
+        
+        return posterInputFile;
     }
 
     /**
-     * @see org.kuali.kfs.gl.batch.service.BalancingService#getPosterErrorOutputFilename()
+     * @see org.kuali.kfs.gl.batch.service.BalancingService#getPosterErrorOutputFile()
      */
-    public String getPosterErrorOutputFilename() {
-        return GeneralLedgerConstants.BatchFileSystem.POSTER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+    public File getPosterErrorOutputFile() {
+        // avoid running scanning logic on file system
+        if (posterErrorOutputFile != null) {
+            return posterErrorOutputFile;
+        }
+        
+        FilenameFilter filenameFilter = new FilenameFilter() {
+            public boolean accept(File dir, String name) {
+                return (name.startsWith(GeneralLedgerConstants.BatchFileSystem.POSTER_ERROR_OUTPUT_FILE) &&
+                        name.endsWith(GeneralLedgerConstants.BatchFileSystem.EXTENSION));
+            }
+        };
+        
+        posterErrorOutputFile = this.getNewestDataFile(filenameFilter);
+        
+        return posterErrorOutputFile;
     }
     
     /**

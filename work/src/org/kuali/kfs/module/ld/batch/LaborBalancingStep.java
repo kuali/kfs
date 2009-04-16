@@ -24,8 +24,9 @@ import org.kuali.kfs.sys.batch.AbstractStep;
  * Generates a balancing report if data is present in the history tables. Instructions on how to test this process for Labor:<br>
  * 1) Place an acceptable LD_SORTPOST.data / LD_POSTERRS.data into batchFileDirectoryName (see spring-ld.xml)<br>
  * 2) Run BatchStepRunner for laborPosterStep<br>
- * 3) Run BatchStepRunner for laborBalancingStep<br>
- * 4) Evaluate LaborConstants.BatchFileSystem.BALANCING_REPORT_FILENAME_PREFIX in KFSConstants.REPORTS_DIRECTORY_KEY for results<br>
+ * 3) Run BatchStepRunner for laborFileRenameStep<br>
+ * 4) Run BatchStepRunner for laborBalancingStep<br>
+ * 5) Evaluate LaborConstants.BatchFileSystem.BALANCING_REPORT_FILENAME_PREFIX in KFSConstants.REPORTS_DIRECTORY_KEY for results<br>
  */
 public class LaborBalancingStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborBalancingStep.class);

@@ -313,6 +313,9 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
+		<property name="universityDateService">
+			<ref bean="universityDateService" />
+		</property>
 	</bean>
 	
     <bean id="laborPosterService" class="org.kuali.kfs.module.ld.batch.service.impl.LaborPosterServiceImpl">

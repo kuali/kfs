@@ -39,7 +39,6 @@ import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
-import org.kuali.kfs.gl.batch.service.AccountingCycleCachingService;
 import org.kuali.kfs.gl.businessobject.AccountBalance;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.Encumbrance;
@@ -49,11 +48,11 @@ import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.Reversal;
 import org.kuali.kfs.gl.businessobject.SufficientFundBalances;
 import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.gl.service.AccountingCycleCachingService;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kew.dto.DocumentTypeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
@@ -113,7 +112,7 @@ public class CachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements Accounti
     private WorkflowInfo workflowInfo = new WorkflowInfo();
     
     protected Connection connection;
-    private UniversityDateService universityDateService;
+    protected UniversityDateService universityDateService;
     protected DateTimeService dateTimeService;
     
     private String previousBalanceKey = "";

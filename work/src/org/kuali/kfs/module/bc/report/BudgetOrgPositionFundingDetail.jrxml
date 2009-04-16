@@ -85,7 +85,7 @@
 			</band>
 			</groupHeader>
 			<groupFooter>
-			<band height="36"  isSplitAllowed="true" >
+			<band height="28"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="5"
@@ -257,7 +257,7 @@
 			</band>
 			</groupHeader>
 			<groupFooter>
-			<band height="36"  isSplitAllowed="true" >
+			<band height="28"  isSplitAllowed="true" >
 				<printWhenExpression><![CDATA[new Boolean($F{personSortCode}.intValue() > 0)]]></printWhenExpression>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement

@@ -119,7 +119,7 @@
 			</band>
 			</groupHeader>
 			<groupFooter>
-			<band height="27"  isSplitAllowed="true" >
+			<band height="28"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="32"
@@ -317,7 +317,7 @@
 			</band>
 			</groupHeader>
 			<groupFooter>
-			<band height="36"  isSplitAllowed="true" >
+			<band height="28"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="32"

@@ -121,8 +121,10 @@ public class AssetPaymentLookupableHelperServiceImpl extends AssetLookupableHelp
 
     
     protected HtmlData getSeparateUrl(AssetPayment assetPayment) {
-        FinancialSystemMaintenanceDocumentAuthorizerBase documentAuthorizer = (FinancialSystemMaintenanceDocumentAuthorizerBase) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(CamsConstants.DocumentTypeName.RETIREMENT);
-        boolean isAuthorized = documentAuthorizer.isAuthorized(new Asset(), CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.SEPARATE, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+        Asset asset = assetPayment.getAsset();
+        
+        FinancialSystemMaintenanceDocumentAuthorizerBase documentAuthorizer = (FinancialSystemMaintenanceDocumentAuthorizerBase) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(CamsConstants.DocumentTypeName.CREATE);
+        boolean isAuthorized = documentAuthorizer.isAuthorized(asset, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.SEPARATE, GlobalVariables.getUserSession().getPerson().getPrincipalId());
 
         if (isAuthorized) {
             Properties parameters = getSeparateParameters(assetPayment.getAsset());

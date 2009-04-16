@@ -28,10 +28,12 @@ import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.coa.service.AccountDelegateService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -94,21 +96,19 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
      * @return fails if sub-rules fail
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-
-        boolean success = true;
-
         LOG.info("Entering processCustomRouteDocumentBusinessRules()");
+
         setupConvenienceObjects(document);
 
         // check simple rules
-        success &= checkSimpleRules();
-
+        boolean success = checkSimpleRules();
+        
         // disallow more than one PrimaryRoute for a given Chart/Account/Doctype
         success &= checkOnlyOnePrimaryRoute(document);
 
         // delegate user must be Active and Professional
         success &= checkDelegateUserRules(document);
-
+        
         return success;
     }
 
@@ -170,7 +170,6 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
      * @return
      */
     protected boolean checkSimpleRules() {
-
         boolean success = true;
         boolean newActive;
         KualiDecimal fromAmount = newDelegate.getFinDocApprovalFromThisAmt();
@@ -182,7 +181,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
             Timestamp today = getDateTimeService().getCurrentTimestamp();
             today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime());
             if (newDelegate.getAccountDelegateStartDate().before(today)) {
-                putFieldError("accountDelegateStartDate", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_STARTDATE_IN_PAST);
+                putFieldError(KFSPropertyConstants.ACCOUNT_DELEGATE_START_DATE, KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_STARTDATE_IN_PAST);
                 success &= false;
             }
         }
@@ -190,7 +189,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         // FROM amount must be >= 0 (may not be negative)
         if (ObjectUtils.isNotNull(fromAmount)) {
             if (fromAmount.isLessThan(KualiDecimal.ZERO)) {
-                putFieldError("finDocApprovalFromThisAmt", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_FROM_AMOUNT_NONNEGATIVE);
+                putFieldError(KFSPropertyConstants.FIN_DOC_APPROVAL_FROM_THIS_AMT, KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_FROM_AMOUNT_NONNEGATIVE);
                 success &= false;
             }
         }
@@ -199,31 +198,22 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         if (ObjectUtils.isNotNull(toAmount) && !toAmount.equals(KualiDecimal.ZERO)) {
 
             if (ObjectUtils.isNull(fromAmount)) {
-                putFieldError("finDocApprovalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
+                putFieldError(KFSPropertyConstants.FIN_DOC_APPROVAL_TO_THIS_AMOUNT, KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
                 success &= false;
             }
             else {
                 // case if FROM amount is non-null and positive, disallow TO amount being less
                 if (toAmount.isLessThan(fromAmount)) {
-                    putFieldError("finDocApprovalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
+                    putFieldError(KFSPropertyConstants.FIN_DOC_APPROVAL_TO_THIS_AMOUNT, KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
                     success &= false;
                 }
-            }
-        }
-
-        // the account that has been chosen cannot be closed
-        Account account = newDelegate.getAccount();
-        if (ObjectUtils.isNotNull(account)) {
-            if (!account.isActive()) {
-                putFieldError("accountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_ACCT_NOT_CLOSED);
-                success &= false;
             }
         }
         
         // do we have a good document type?
         final AccountDelegateService delegateService = SpringContext.getBean(AccountDelegateService.class);
         if (!delegateService.isFinancialSystemDocumentType(newDelegate.getFinancialDocumentTypeCode())) {
-            putFieldError("financialDocumentTypeCode", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_INVALID_DOC_TYPE, new String[] { newDelegate.getFinancialDocumentTypeCode(), KFSConstants.ROOT_DOCUMENT_TYPE });
+            putFieldError(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_INVALID_DOC_TYPE, new String[] { newDelegate.getFinancialDocumentTypeCode(), KFSConstants.ROOT_DOCUMENT_TYPE });
             success = false;
         }
 

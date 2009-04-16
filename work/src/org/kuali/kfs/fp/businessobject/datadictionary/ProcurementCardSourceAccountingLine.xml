@@ -36,7 +36,6 @@
         <ref bean="ProcurementCardSourceAccountingLine-documentNumber" />
         <ref bean="ProcurementCardSourceAccountingLine-debitCreditCode" />
         <ref bean="ProcurementCardSourceAccountingLine-encumbranceUpdateCode" />
-        <ref bean="ProcurementCardSourceAccountingLine-objectTypeCode" />
         <ref bean="ProcurementCardSourceAccountingLine-accountExpiredOverride" />
         <ref bean="ProcurementCardSourceAccountingLine-nonFringeAccountOverride" />
         <ref bean="ProcurementCardSourceAccountingLine-objectBudgetOverride" />
@@ -277,12 +276,6 @@
     </property>
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="The system code for the type of encumbrance update in an Accounting Line, selected from a pulldown list." />
-  </bean>
-  <bean id="ProcurementCardSourceAccountingLine-objectTypeCode" parent="ProcurementCardSourceAccountingLine-objectTypeCode-parentBean" />
-
-  <bean id="ProcurementCardSourceAccountingLine-objectTypeCode-parentBean" abstract="true" parent="ObjectType-code">
-    <property name="name" value="objectTypeCode" />
-    <property name="required" value="false" />
   </bean>
   <bean id="ProcurementCardSourceAccountingLine-accountExpiredOverride" parent="ProcurementCardSourceAccountingLine-accountExpiredOverride-parentBean" />
 

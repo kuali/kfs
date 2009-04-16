@@ -267,8 +267,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         explicitEntry.setFinancialSystemOriginationCode(SpringContext.getBean(HomeOriginationService.class).getHomeOrigination().getFinSystemHomeOriginationCode());
         explicitEntry.setDocumentNumber(glpeSourceDetail.getDocumentNumber());
         explicitEntry.setFinancialObjectCode(glpeSourceDetail.getFinancialObjectCode());
-        ObjectCode objectCode = glpeSourceDetail.getObjectCode();
-        if (ObjectUtils.isNull(objectCode)) {
+        if (ObjectUtils.isNull(glpeSourceDetail.getObjectCode()) || StringUtils.isBlank(glpeSourceDetail.getObjectCode().getFinancialObjectTypeCode())) {
             glpeSourceDetail.refreshReferenceObject("objectCode");
         }
         explicitEntry.setFinancialObjectTypeCode(glpeSourceDetail.getObjectCode().getFinancialObjectTypeCode());

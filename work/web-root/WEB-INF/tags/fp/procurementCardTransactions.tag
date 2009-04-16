@@ -42,10 +42,19 @@
 	        <td>
 	          <kul:inquiry boClassName="org.kuali.kfs.fp.businessobject.ProcurementCardHolder" 
                keyValues="documentNumber=${currentTransaction.documentNumber}" render="true">
-	            <kul:htmlControlAttribute attributeEntry="${cardAttributes.transactionCreditCardNumber}" property="document.procurementCardHolder.transactionCreditCardNumber"
-	             readOnly="true" encryptValue="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" displayMaskValue="****************" />
+				<c:choose>
+					<c:when test="${KualiForm.transactionCreditCardNumbersViewStatus[ctr]}">
+						<bean:write name="KualiForm" property="document.procurementCardHolder.transactionCreditCardNumber" />
+					</c:when>
+					<c:otherwise>
+						<kul:htmlControlAttribute attributeEntry="${cardAttributes.transactionCreditCardNumber}" property="document.procurementCardHolder.transactionCreditCardNumber"
+						 readOnly="true" encryptValue="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" displayMaskValue="****************" />
+					</c:otherwise>
+				</c:choose>
 	          </kul:inquiry>
 	        </td>
+			<th>&nbsp;</th>
+			<td>&nbsp;</td>
 	      </tr>
 	      <tr>
 	        <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${cardAttributes.cardHolderName}" readOnly="true"/></div></th>
@@ -55,13 +64,13 @@
 	     </tr>
        <tr>
           <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${transactionAttributes.transactionDate}"/></div></th>
-          <td valign=top></td>
+          <td valign=top><bean:write name="KualiForm" property="document.transactionEntries[${ctr}].transactionDate" /></td>
           <th> <div align="right"><kul:htmlAttributeLabel attributeEntry="${transactionAttributes.transactionReferenceNumber}"/></div></th>
           <td valign=top>
             <kul:inquiry boClassName="org.kuali.kfs.fp.businessobject.ProcurementCardTransactionDetail" 
                keyValues="documentNumber=${currentTransaction.documentNumber}&financialDocumentTransactionLineNumber=${currentTransaction.financialDocumentTransactionLineNumber}" 
                render="true">
-              
+				<bean:write name="KualiForm" property="document.transactionEntries[${ctr}].transactionReferenceNumber" />
             </kul:inquiry>
           </td>
        </tr>   
@@ -71,13 +80,16 @@
             <kul:inquiry boClassName="org.kuali.kfs.fp.businessobject.ProcurementCardVendor" 
                keyValues="documentNumber=${currentTransaction.documentNumber}&financialDocumentTransactionLineNumber=${currentTransaction.financialDocumentTransactionLineNumber}" 
                render="true">
-              
+				<bean:write name="KualiForm" property="document.transactionEntries[${ctr}].procurementCardVendor.vendorName" />
             </kul:inquiry>  
           </td>
           <th colspan="2"> <div align="left">
-          <c:if test="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}">
-            <a href="${KualiForm.disputeURL}" target="_blank"><img src="${ConfigProperties.externalizable.images.url}buttonsmall_dispute.gif"/></a>
-          </c:if>
+		  <c:choose>
+			<c:when test="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}">
+				<a href="${KualiForm.disputeURL}" target="_blank"><img src="${ConfigProperties.externalizable.images.url}buttonsmall_dispute.gif"/></a>
+			</c:when>
+			<c:otherwise>&nbsp;</c:otherwise>
+		  </c:choose>
           </div></th>
        </tr>   
     </table>   

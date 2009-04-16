@@ -18,8 +18,6 @@ package org.kuali.kfs.module.bc.document.web.struts;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -265,16 +263,4 @@ public class BudgetExpansionForm extends KualiForm {
     public void setMainWindow(boolean mainWindow) {
         this.mainWindow = mainWindow;
     }
-
-    /**
-     * @see org.kuali.rice.kns.web.struts.form.KualiForm#shouldPropertyBePopulatedInForm(java.lang.String,
-     *      javax.servlet.http.HttpServletRequest)
-     */
-    @Override
-    public boolean shouldPropertyBePopulatedInForm(String requestParameterName, HttpServletRequest request) {
-        // TODO remove this override when we get field security figured out for this form when scoped as session
-        // return super.shouldPropertyBePopulatedInForm(requestParameterName, request);
-        return true;
-    }
-
 }

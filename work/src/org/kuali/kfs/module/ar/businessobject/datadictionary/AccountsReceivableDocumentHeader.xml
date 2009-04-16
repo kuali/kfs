@@ -84,8 +84,7 @@
       <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   <bean id="AccountsReceivableDocumentHeader-processingOrganizationCode" parent="AccountsReceivableDocumentHeader-processingOrganizationCode-parentBean" />

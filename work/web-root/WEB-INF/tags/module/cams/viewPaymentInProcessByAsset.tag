@@ -26,7 +26,35 @@
 	<c:set var="totalHistoricalAmount" value="${KualiForm.document.assetsTotalHistoricalCost}"/>
 
 	<c:set var="numberOfAssets" value="${fn:length(KualiForm.document.assetPaymentAssetDetail)}"/>
+	
+	<c:set var="numberOfUnallocatedAssets" value="${numberOfAssets}"/>
+	<c:set var="semicolon" value=";"/>
+	<c:set var="unallocateAssetPayments" value="" />
+	<c:set var="globalTotalAllocated" value="${0.00}"/>
+	<c:forEach var="assetDetail" items="${assetPaymentAssetDetail}">
+		<c:set var="previousTotalCost" value="${assetDetail.previousTotalCostAmount}" />
 
+		<c:if test="${totalHistoricalAmount != 0 }">
+			<c:set var="percentage" value="${previousTotalCost / totalHistoricalAmount }"/>
+		</c:if>
+		<c:if test="${totalHistoricalAmount == 0 }">
+			<c:set var="percentage" value="${ 1 / numberOfAssets}"/>
+		</c:if>
+		<c:choose>
+			<c:when test="${numberOfUnallocatedAssets == 1}">
+	    	 	<fmt:formatNumber var="allocatedAssetAmount" value="${documentTotal - globalTotalAllocated }" maxFractionDigits="2" minFractionDigits="2" type="number"/>			 		 	
+			</c:when>
+			<c:otherwise>
+				<c:set var="numberOfUnallocatedAssets" value="${numberOfUnallocatedAssets - 1}"/>
+	    	 	<fmt:formatNumber var="allocatedAssetAmount" value="${documentTotal * percentage }" maxFractionDigits="2" minFractionDigits="2" type="number"/>			 		 	
+				<fmt:parseNumber value="${allocatedAssetAmount}" type="number" var="nAllocatedAssetAmount"/>
+				<c:set var="globalTotalAllocated" value="${globalTotalAllocated + nAllocatedAssetAmount}"/>
+			</c:otherwise>
+		</c:choose>
+		<c:set var="unallocateAssetPayments" value="${unallocateAssetPayments}${semicolon}${allocatedAssetAmount}" />
+	</c:forEach>
+	<c:set var="unallocateAssetPayments" value="${fn:substringAfter(unallocateAssetPayments, semicolon)}" />
+			
 	<c:set var="dateFormatPattern" value="MM/dd/yyyy"/>
 	
 	<kul:tab tabTitle="In Process Payments by Asset" defaultOpen="${!defaultTabHide}" useCurrentTabIndexAsKey="false">
@@ -45,12 +73,24 @@
 				<th class="grid" align="center"><kul:htmlAttributeLabel noColon="true"  attributeEntry="${assetPaymentAttributes.postingPeriodCode}" readOnly="true" /></th>
 				<th class="grid" align="center"><kul:htmlAttributeLabel noColon="true"  attributeEntry="${assetPaymentAttributes.amount}" readOnly="true" /></th>
 			</tr>
+			
 
 			<c:set var="pos" value="${-1}"/>			
 			<c:forEach var="assetDetail" items="${assetPaymentAssetDetail}">
 				<c:set var="pos" value="${pos + 1}"/>	
-						 		 			
+
 				<c:set var="line" value="${-1}"/>
+
+				<c:set var="numberOfUnallocatedPayments" value="${fn:length(assetPaymentDetail)}"/>
+	            <c:if test="${!fn:contains(unallocateAssetPayments, ';')}">
+					<c:set var="oneAssetPayment" value="${unallocateAssetPayments }"/>
+				</c:if>
+		        <c:if test="${fn:contains(unallocateAssetPayments, ';')}">
+					<c:set var="oneAssetPayment" value="${fn:substringBefore(unallocateAssetPayments, semicolon)}" />
+					<c:set var="unallocateAssetPayments" value="${fn:substringAfter(unallocateAssetPayments, semicolon)}" />
+	            </c:if>
+				<fmt:parseNumber value="${oneAssetPayment}" type="number" var="nOneAssetPayment"  />
+
 				<c:forEach var="payment" items="${assetPaymentDetail}">
 					<c:set var="line" value="${line + 1}"/>
 
@@ -67,7 +107,19 @@
 					</c:if>
 					
 				 	<c:set var="paymentAmount" value="${payment.amount}" />			 										 																 	
-			 		<fmt:formatNumber var="allocatedAmount" value="${paymentAmount * percentage }" maxFractionDigits="2" minFractionDigits="2"/>			 		 				 		 					
+
+					<c:choose>
+						<c:when test="${numberOfUnallocatedPayments == 1}">
+						    <fmt:formatNumber var="allocatedAmount" value="${nOneAssetPayment}" maxFractionDigits="2" minFractionDigits="2"/>
+						</c:when>
+						<c:otherwise>			
+						 	<fmt:formatNumber var="allocatedAmount" value="${paymentAmount * percentage }" maxFractionDigits="2" minFractionDigits="2" type="number"/>			 		 				 		 					
+							<fmt:parseNumber value="${allocatedAmount}" type="number" var="roundAllocatedAmount" />
+							<c:set var="nOneAssetPayment" value="${nOneAssetPayment - roundAllocatedAmount}" />
+				
+							<c:set var="numberOfUnallocatedPayments" value="${numberOfUnallocatedPayments - 1}"/>
+						</c:otherwise>
+					</c:choose>
 
 					<tr>
 						<td class="grid">

@@ -305,20 +305,34 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
             throw new RuntimeException("A WorkflowException was thrown when trying to load Invoice Writeoff doc #" + writeoffDocNumber + ".", e);
         }
         
-        //  blanket approve the doc, bypassing all rules
-        try {
-            writeoff.getDocumentHeader().getWorkflowDocument().blanketApprove("BlanketApproved by CustomerInvoiceDocumentBatch process.");
-        }
-        catch (WorkflowException e) {
-            throw new RuntimeException("A WorkflowException was thrown when trying to blanketApprove Invoice Writeoff doc #" + writeoffDocNumber + ".", e);
-        }
-        
         boolean wentToFinal = false;
         try {
-            wentToFinal = waitForStatusChange(60, writeoff.getDocumentHeader().getWorkflowDocument(), "F");
+            wentToFinal = waitForStatusChange(60, writeoff.getDocumentHeader().getWorkflowDocument(), new String[] {"F", "P"});
         }
         catch (Exception e) {
             throw new RuntimeException("An Exception was thrown when trying to monitor writeoff doc #" + writeoffDocNumber +" going to FINAL.", e);
+        }
+
+        //  if the doc didnt go to final, then blanket approve the doc, bypassing all rules
+        if (!wentToFinal) {
+            try {
+                if (writeoff.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+                    
+                }
+                writeoff.getDocumentHeader().getWorkflowDocument().blanketApprove("BlanketApproved by CustomerInvoiceDocumentBatch process.");
+            }
+            catch (WorkflowException e) {
+                throw new RuntimeException("A WorkflowException was thrown when trying to blanketApprove Invoice Writeoff doc #" + writeoffDocNumber + ".", e);
+            }
+
+            //  wait for it to go to final
+            wentToFinal = false;
+            try {
+                wentToFinal = waitForStatusChange(60, writeoff.getDocumentHeader().getWorkflowDocument(), new String[] {"F", "P"});
+            }
+            catch (Exception e) {
+                throw new RuntimeException("An Exception was thrown when trying to monitor writeoff doc #" + writeoffDocNumber +" going to FINAL.", e);
+            }
         }
         
         if (!wentToFinal) {
@@ -326,7 +340,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         }
     }
 
-    public boolean waitForStatusChange(int numSeconds, KualiWorkflowDocument document, String desiredStatus) throws Exception {
+    public boolean waitForStatusChange(int numSeconds, KualiWorkflowDocument document, String[] desiredStatus) throws Exception {
         DocWorkflowStatusMonitor monitor = new DocWorkflowStatusMonitor(SpringContext.getBean(DocumentService.class), "" + document.getRouteHeaderId(), desiredStatus);
         return waitUntilChange(monitor, numSeconds, 5);
     }

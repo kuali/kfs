@@ -221,24 +221,14 @@
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingLine2Address}" 
 	                    	property="document.deliveryBuildingLine2Address" readOnly="${not (fullEntryMode)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
 	                </td>			
-	                <th align=right valign=middle class="bord-l-b" rowspan="3">
+	                <th align=right valign=middle class="bord-l-b" rowspan="4">
 	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryInstructionText}"/></div>
 	                </th>
-	                <td align=left valign=middle class="datacell"  rowspan="3">
+	                <td align=left valign=middle class="datacell"  rowspan="4">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryInstructionText}" 
 	                    	property="document.deliveryInstructionText" readOnly="${not (fullEntryMode)}" tabindexOverride="${tabindexOverrideBase + 5}"/>
 	                </td>
 				</tr>
-				<tr>
-					<th align=right valign=middle class="bord-l-b">
-	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryBuildingRoomNumber}"/></div>
-	                </th>
-	                <td align=left valign=middle class="datacell">
-	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingRoomNumber}" 
-	                    	property="document.deliveryBuildingRoomNumber" readOnly="${not (fullEntryMode)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
-	                </td>	
-				</tr>
-				
 				<tr>
 					<th align=right valign=middle class="bord-l-b">
 	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryCityName}"/></div>
@@ -256,8 +246,6 @@
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryStateCode}" 
 	                    	property="document.deliveryStateCode" readOnly="${notOtherDeliveryBuilding or not fullEntryMode}" tabindexOverride="${tabindexOverrideBase + 0}"/>
 	                </td>
-	                <th align=right valign=middle class="bord-l-b">&nbsp;</th>
-					<td align=left valign=middle class="datacell">&nbsp;</td>
 				</tr>
 				<tr>
 					<th align=right valign=middle class="bord-l-b">
@@ -267,8 +255,6 @@
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryPostalCode}" 
 	                    	property="document.deliveryPostalCode" readOnly="${notOtherDeliveryBuilding or not fullEntryMode}" tabindexOverride="${tabindexOverrideBase + 0}"/>
 	                </td>
-                    <th align=right valign=middle class="bord-l-b">&nbsp;</th>
-                    <td align=left valign=middle class="datacell">&nbsp;</td>
 				</tr>
                 <tr>
                     <th align=right valign=middle class="bord-l-b">

@@ -347,10 +347,16 @@ public class BulkReceivingPdf extends PurapPdf {
         
         String deliveryBuildingName = blkRecDoc.getDeliveryBuildingName();
 
-        if (StringUtils.isBlank(deliveryBuildingName)){
-            shipToInfo.append("     Room #" + blkRecDoc.getDeliveryBuildingRoomNumber() + "\n");
-        }else{
-            shipToInfo.append("     " + deliveryBuildingName + " Room #" + blkRecDoc.getDeliveryBuildingRoomNumber() + "\n");    
+        if (blkRecDoc.getPurchaseOrderIdentifier() != null){
+            if (StringUtils.isBlank(deliveryBuildingName)){
+                shipToInfo.append("     Room #" + blkRecDoc.getDeliveryBuildingRoomNumber() + "\n");
+            }else{
+                shipToInfo.append("     " + deliveryBuildingName + " Room #" + blkRecDoc.getDeliveryBuildingRoomNumber() + "\n");    
+            }
+        }else{ // Room number not available for non-PO doc
+            if (StringUtils.isNotBlank(deliveryBuildingName)){
+                shipToInfo.append("     " + deliveryBuildingName + "\n");
+            }
         }
         
         shipToInfo.append("     " + blkRecDoc.getDeliveryBuildingLine1Address() + "\n");
@@ -423,53 +429,10 @@ public class BulkReceivingPdf extends PurapPdf {
         cell.setHorizontalAlignment(Element.ALIGN_LEFT);
         additionalInfoTable.addCell(cell);
         
-        /**
-         * Requestor Name
-         */
-        p = new Paragraph();
-        p.add(new Chunk("  Requestor Name  ", ver_5_normal));
-        cell = new PdfPCell(p);
-        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-        additionalInfoTable.addCell(cell);
+        if (blkRecDoc.getPurchaseOrderIdentifier() != null){
+            updateRequestorInfo(blkRecDoc,additionalInfoTable);
+        }
         
-        p = new Paragraph();
-        p.add(new Chunk("  " + StringUtils.defaultString(blkRecDoc.getRequestorPersonName()), cour_10_normal));
-        
-        cell = new PdfPCell(p);
-        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-        additionalInfoTable.addCell(cell);
-        
-        /**
-         * Requestor Phone
-         */
-        p = new Paragraph();
-        p.add(new Chunk("  Requestor Phone  ", ver_5_normal));
-        cell = new PdfPCell(p);
-        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-        additionalInfoTable.addCell(cell);
-        
-        p = new Paragraph();
-        p.add(new Chunk("  " + StringUtils.defaultString(blkRecDoc.getRequestorPersonPhoneNumber()), cour_10_normal));
-        
-        cell = new PdfPCell(p);
-        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-        additionalInfoTable.addCell(cell);
-        
-        /**
-         * Requestor Email
-         */
-        p = new Paragraph();
-        p.add(new Chunk("  Requestor Email  ", ver_5_normal));
-        cell = new PdfPCell(p);
-        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-        additionalInfoTable.addCell(cell);
-        
-        p = new Paragraph();
-        p.add(new Chunk("  " + StringUtils.defaultString(blkRecDoc.getRequestorPersonEmailAddress()), cour_10_normal));
-        
-        cell = new PdfPCell(p);
-        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-        additionalInfoTable.addCell(cell);
         
         String campusCode = blkRecDoc.getDeliveryCampusCode();
         
@@ -555,5 +518,55 @@ public class BulkReceivingPdf extends PurapPdf {
         additionalInfoTable.addCell(cell);
         
         return additionalInfoTable;
+    }
+    
+    private void updateRequestorInfo(BulkReceivingDocument blkRecDoc,
+                                     PdfPTable additionalInfoTable){
+        /**
+         * Requestor Name
+         */
+        Paragraph p = new Paragraph();
+        p.add(new Chunk("  Requestor Name  ", ver_5_normal));
+        PdfPCell cell = new PdfPCell(p);
+        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        additionalInfoTable.addCell(cell);
+        
+        p = new Paragraph();
+        p.add(new Chunk("  " + StringUtils.defaultString(blkRecDoc.getRequestorPersonName()), cour_10_normal));
+        
+        cell = new PdfPCell(p);
+        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        additionalInfoTable.addCell(cell);
+        
+        /**
+         * Requestor Phone
+         */
+        p = new Paragraph();
+        p.add(new Chunk("  Requestor Phone  ", ver_5_normal));
+        cell = new PdfPCell(p);
+        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        additionalInfoTable.addCell(cell);
+        
+        p = new Paragraph();
+        p.add(new Chunk("  " + StringUtils.defaultString(blkRecDoc.getRequestorPersonPhoneNumber()), cour_10_normal));
+        
+        cell = new PdfPCell(p);
+        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        additionalInfoTable.addCell(cell);
+        
+        /**
+         * Requestor Email
+         */
+        p = new Paragraph();
+        p.add(new Chunk("  Requestor Email  ", ver_5_normal));
+        cell = new PdfPCell(p);
+        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        additionalInfoTable.addCell(cell);
+        
+        p = new Paragraph();
+        p.add(new Chunk("  " + StringUtils.defaultString(blkRecDoc.getRequestorPersonEmailAddress()), cour_10_normal));
+        cell = new PdfPCell(p);
+        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        additionalInfoTable.addCell(cell);
     }
 }

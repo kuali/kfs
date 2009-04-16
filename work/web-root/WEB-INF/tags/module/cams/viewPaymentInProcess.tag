@@ -17,6 +17,11 @@
 <%@ attribute name="assetPaymentDetails" type="java.util.List" required="true" description="In process asset payments list" %>
 <%@ attribute name="assetPaymentAssetDetail" type="org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail" required="true" description="Asset payment in process list" %>
 <%@ attribute name="defaultTabHide" type="java.lang.Boolean" required="false" description="Show tab contents indicator" %>
+<%@ attribute name="assetPaymentsTotal" type="java.lang.Number" required="true" description="Show tab contents indicator" %>
+
+
+<c:set var="numberOfUnallocatedPayments" value="${fn:length(assetPaymentDetails)}"/>
+
 
 <c:if test="${ (fn:length(assetPaymentDetails) > 0) }">
 	<c:set var="assetPaymentAttributes" value="${DataDictionary.AssetPaymentDetail.attributes}" />
@@ -54,13 +59,24 @@
 				<c:forEach var="payment" items="${assetPaymentDetails}">
 					<c:set var="line" value="${line + 1}"/>
 					<c:set var="object" value="document.sourceAccountingLine[${line}]"/>
-				
-					<c:set var="allocatedAmount" value="${0.00}"/>		
 					<c:if test="${totalHistoricalAmount > 0 }">
-						<c:set var="previousTotalCost" value="${assetPaymentAssetDetail.previousTotalCostAmount}" />
-			    	    <c:set var="percentage" value="${previousTotalCost / totalHistoricalAmount }"/>
-			    	    <c:set var="allocatedAmount" value="${payment.amount * percentage}"/>
+						
+						<c:choose>
+							<c:when test="${numberOfUnallocatedPayments == 1}">
+					    	    <c:set var="allocatedAmount" value="${assetPaymentsTotal}"/>
+							</c:when>
+							<c:otherwise>			
+								<c:set var="previousTotalCost" value="${assetPaymentAssetDetail.previousTotalCostAmount}" />
+					    	    <c:set var="percentage" value="${previousTotalCost / totalHistoricalAmount }"/>
+					    	    <c:set var="allocatedAmount" value="${payment.amount * percentage}"/>
+							 	<fmt:formatNumber var="roundAllocatedAmount" value="${payment.amount * percentage }" maxFractionDigits="2" minFractionDigits="2" type="number"/>			 		 				 		 					
+								<fmt:parseNumber value="${roundAllocatedAmount}" type="number" var="allocatedAmount" />
+								<c:set var="assetPaymentsTotal" value="${assetPaymentsTotal - allocatedAmount}"/>
+								<c:set var="numberOfUnallocatedPayments" value="${numberOfUnallocatedPayments - 1}"/>
+							</c:otherwise>
+						</c:choose>
 					</c:if>
+					
 					<c:set var="totalPayments" value="${allocatedAmount + totalPayments}"/>									 	
 					<tr>
 		 				<td class="grid"><kul:htmlControlAttribute property="${object}.chartOfAccountsCode" attributeEntry="${assetPaymentAttributes.chartOfAccountsCode}" readOnly="true"/></td>								

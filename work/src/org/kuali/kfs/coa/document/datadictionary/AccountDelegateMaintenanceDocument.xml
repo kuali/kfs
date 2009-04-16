@@ -12,7 +12,6 @@
     </property>
     <property name="defaultExistenceChecks">
       <list>
-        <bean parent="ReferenceDefinition" p:attributeName="account" p:attributeToHighlightOnFail="accountNumber"/>
         <bean parent="ReferenceDefinition" p:attributeName="accountDelegate" p:attributeToHighlightOnFail="accountDelegate.principalName"/>
         <bean parent="ReferenceDefinition" p:attributeName="financialSystemDocumentTypeCode" p:attributeToHighlightOnFail="financialDocumentTypeCode"/>
       </list>

@@ -171,12 +171,19 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
      */
     protected boolean checkSimpleRules() {
         boolean success = true;
-        boolean newActive;
-        KualiDecimal fromAmount = newDelegate.getFinDocApprovalFromThisAmt();
-        KualiDecimal toAmount = newDelegate.getFinDocApprovalToThisAmount();
-        newActive = newDelegate.isAccountDelegateActiveIndicator();
+
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, newDelegate.getChartOfAccountsCode());
+        fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, newDelegate.getAccountNumber());
+        
+        int accountExist = getBoService().countMatching(Account.class, fieldValues);
+        if (accountExist<=0) {
+            putFieldError(KFSPropertyConstants.ACCOUNT_NUMBER, KFSKeyConstants.ERROR_EXISTENCE, newDelegate.getAccountNumber());
+            success &= false;
+        }
 
         // start date must be greater than or equal to today if active
+        boolean newActive = newDelegate.isAccountDelegateActiveIndicator();
         if ((ObjectUtils.isNotNull(newDelegate.getAccountDelegateStartDate())) && newActive) {
             Timestamp today = getDateTimeService().getCurrentTimestamp();
             today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime());
@@ -187,6 +194,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         }
 
         // FROM amount must be >= 0 (may not be negative)
+        KualiDecimal fromAmount = newDelegate.getFinDocApprovalFromThisAmt();
         if (ObjectUtils.isNotNull(fromAmount)) {
             if (fromAmount.isLessThan(KualiDecimal.ZERO)) {
                 putFieldError(KFSPropertyConstants.FIN_DOC_APPROVAL_FROM_THIS_AMT, KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_FROM_AMOUNT_NONNEGATIVE);
@@ -195,6 +203,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         }
 
         // TO amount must be >= FROM amount or Zero
+        KualiDecimal toAmount = newDelegate.getFinDocApprovalToThisAmount();
         if (ObjectUtils.isNotNull(toAmount) && !toAmount.equals(KualiDecimal.ZERO)) {
 
             if (ObjectUtils.isNull(fromAmount)) {

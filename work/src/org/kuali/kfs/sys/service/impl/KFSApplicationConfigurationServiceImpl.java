@@ -26,18 +26,20 @@ import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.ParameterDetailType;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.document.TransactionalDocument;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
-import org.kuali.rice.kns.service.impl.ParameterServiceImpl;
+import org.kuali.rice.kns.service.impl.RiceApplicationConfigurationServiceImpl;
 import org.kuali.rice.kns.util.KNSUtils;
 
-public class KfsParameterServiceImpl extends ParameterServiceImpl {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KfsParameterServiceImpl.class);
-    private static List<ParameterDetailType> components = new ArrayList<ParameterDetailType>();
+public class KFSApplicationConfigurationServiceImpl extends RiceApplicationConfigurationServiceImpl {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KFSApplicationConfigurationServiceImpl.class);
+    
+    private List<ParameterDetailType> components = new ArrayList<ParameterDetailType>();
+    private DataDictionaryService dataDictionaryService;
 
-    @Override
-    public List<ParameterDetailType> getNonDatabaseDetailTypes() {
-        if ( components.isEmpty() ) {
-            List<ParameterDetailType> baseClassTypes = super.getNonDatabaseDetailTypes();
+    public List<ParameterDetailType> getNonDatabaseComponents() {
+        if (components.isEmpty()) {
+            List<ParameterDetailType> baseClassTypes = super.getNonDatabaseComponents();
             Map<String, ParameterDetailType> uniqueParameterDetailTypeMap = new HashMap<String, ParameterDetailType>();
             components.addAll(baseClassTypes);
             for (Step step : SpringContext.getBeansOfType(Step.class).values()) {
@@ -53,7 +55,7 @@ public class KfsParameterServiceImpl extends ParameterServiceImpl {
         }
         return components;
     }
-    
+
     public String getDetailType(Class documentOrStepClass) {
         if (documentOrStepClass.isAnnotationPresent(COMPONENT.class)) {
             return ((COMPONENT) documentOrStepClass.getAnnotation(COMPONENT.class)).component();
@@ -91,5 +93,8 @@ public class KfsParameterServiceImpl extends ParameterServiceImpl {
         }
         throw new IllegalArgumentException("The getDetailTypeName method of ParameterServiceImpl requires a TransactionalDocument, BusinessObject, or Step class.");
     }
-    
+
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
+    }
 }

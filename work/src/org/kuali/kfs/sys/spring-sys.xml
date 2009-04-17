@@ -230,12 +230,19 @@
 	
 	<bean id="financialSystemUserService" class="org.kuali.kfs.sys.service.impl.FinancialSystemUserServiceImpl" />
 	
+	<!--
 	<bean id="parameterService" class="org.kuali.kfs.sys.service.impl.KfsParameterServiceImpl">
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 		<property name="kualiModuleService" ref="kualiModuleService" />
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
+	-->
 	
+    <bean id="riceApplicationConfigurationService" class="org.kuali.kfs.sys.service.impl.KFSApplicationConfigurationServiceImpl">
+      <property name="parameterService" ref="parameterService"/>   
+      <property name="dataDictionaryService" ref="dataDictionaryService" />
+    </bean>
+
 	<bean id="kualiCodeService" class="org.kuali.kfs.sys.service.impl.KualiCodeServiceImpl">
 		<property name="kualiCodeDao">
 			<ref bean="kualiCodeDao" />
@@ -385,9 +392,10 @@
 		</property>
 	</bean>
 
+    <!-- 
     <bean id="parameterLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
         <property name="lookupableHelperService">
-            <bean id="parameterLookupableHelperService" class="org.kuali.kfs.sys.businessobject.lookup.ParameterLookupableHelperServiceImpl" parent="lookupableHelperService">
+            <bean id="parameterLookupableHelperService" class="org.kuali.rice.kns.lookup.ParameterLookupableHelperServiceImpl" parent="lookupableHelperService">
                 <property name="parameterService" ref="parameterService" />
             </bean>
         </property>
@@ -395,12 +403,13 @@
 
     <bean id="parameterDetailTypeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
         <property name="lookupableHelperService">
-            <bean id="parameterDetailTypeLookupableHelperService" class="org.kuali.kfs.sys.businessobject.lookup.ParameterDetailTypeLookupableHelperServiceImpl" parent="lookupableHelperService">
+            <bean id="parameterDetailTypeLookupableHelperService" class="org.kuali.rice.kns.lookup.ParameterDetailTypeLookupableHelperServiceImpl" parent="lookupableHelperService">
 				<property name="parameterService" ref="parameterService" />
             </bean>
         </property>
     </bean>
-
+    -->
+    
     <bean id="businessObjectMetaDataDao" class="org.kuali.kfs.sys.dataaccess.impl.BusinessObjectMetaDataDaoJdbc" parent="platformAwareDaoJdbc" />
 
     <bean id="kfsBusinessObjectMetaDataService" class="org.kuali.kfs.sys.service.impl.KfsBusinessObjectMetaDataServiceImpl">

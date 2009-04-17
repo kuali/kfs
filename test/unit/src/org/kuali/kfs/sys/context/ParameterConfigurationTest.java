@@ -15,28 +15,19 @@
  */
 package org.kuali.kfs.sys.context;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.kfs.sys.document.validation.impl.ParameterRule;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.PreCommitSuite;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.bo.ParameterDetailType;
-import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
-import org.kuali.rice.kns.datadictionary.DocumentEntry;
-import org.kuali.rice.kns.datadictionary.HeaderNavigation;
+import org.kuali.rice.kns.rules.ParameterRule;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.service.ParameterServerService;
 
 @ConfigureContext(shouldCommitTransactions=true)
 @AnnotationTestSuite(PreCommitSuite.class)
@@ -70,7 +61,7 @@ public class ParameterConfigurationTest extends KualiTestBase {
         badComponents.insert(0, "The following " + failCount + " parameters have invalid components:");
         if (failCount > 0) {
             Set<String> components = new TreeSet<String>();
-            for (ParameterDetailType pdt : SpringContext.getBean(ParameterService.class).getNonDatabaseDetailTypes()) {
+            for (ParameterDetailType pdt : SpringContext.getBean(ParameterServerService.class).getNonDatabaseComponents()) {
                 components.add(pdt.getParameterNamespaceCode() + "/" + pdt.getParameterDetailTypeCode());
             }
             for (ParameterDetailType pdt : (Collection<ParameterDetailType>) SpringContext.getBean(BusinessObjectService.class).findAll(ParameterDetailType.class)) {

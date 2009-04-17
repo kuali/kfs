@@ -27,8 +27,8 @@ import org.kuali.kfs.module.cam.fixture.PaymentSummaryFixture;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.kfs.sys.service.impl.KfsParameterServiceImpl;
 import org.kuali.kfs.sys.service.impl.UniversityDateServiceImpl;
+import org.kuali.rice.kns.service.impl.ParameterServiceImpl;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public class PaymentSummaryServiceTest extends KualiTestBase {
@@ -46,7 +46,7 @@ public class PaymentSummaryServiceTest extends KualiTestBase {
         assetPayments.add(PaymentSummaryFixture.PAYMENT4.newAssetPayment());
         asset.setAssetPayments(assetPayments);
         paymentSummaryService = new PaymentSummaryServiceImpl();
-        paymentSummaryService.setParameterService(new KfsParameterServiceImpl() {
+        paymentSummaryService.setParameterService(new ParameterServiceImpl() {
             @SuppressWarnings("unchecked")
             @Override
             public List<String> getParameterValues(Class componentClass, String parameterName) {

@@ -144,7 +144,7 @@ public abstract class BalancingServiceImplTestBase extends KualiTestBase {
         
         File newestFile = balancingService.getNewestDataFile(filenameFilter);
         assertNotNull("We just created a few files but none was found, filename=" + testFilename, newestFile);
-        assertTrue("Was expecting last file created. Not the case.", newestFile.getName().contains("FileC"));
+        assertTrue("Was expecting last file created. Not the case, found: " + newestFile.getName(), newestFile.getName().contains("FileC"));
         
         LOG.debug("Cleanup files after ourselves." + testFilename);
         File directory = new File(balancingService.batchFileDirectoryName);

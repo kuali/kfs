@@ -640,22 +640,13 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
             try {
                 NodeDetails newNodeDetails = NodeDetailEnum.getNodeDetailEnumByName(newNodeName);
                 if (ObjectUtils.isNotNull(newNodeDetails)) {
-                    if (PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum.DOCUMENT_TRANSMISSION.equals(newNodeDetails)) {
-                        // in the document transmission node... we do special processing to set the status and update the PO
-                        boolean willHaveRequest = SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(reportCriteriaDTO, null, true);
-                        PurchaseOrderService poService = SpringContext.getBean(PurchaseOrderService.class);
-                        poService.setupDocumentForPendingFirstTransmission(this, willHaveRequest);
-                        SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
-                    }
-                    else {
-                        String newStatusCode = newNodeDetails.getAwaitingStatusCode();
-                        if (StringUtils.isNotBlank(newStatusCode)) {
-                            if (SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(reportCriteriaDTO, new String[] { KEWConstants.ACTION_REQUEST_APPROVE_REQ, KEWConstants.ACTION_REQUEST_COMPLETE_REQ }, false)) {
-                                // if an approve or complete request will be created then we need to set the status as awaiting for
-                                // the new node
-                                SpringContext.getBean(PurapService.class).updateStatus(this, newStatusCode);
-                                SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
-                            }
+                    String newStatusCode = newNodeDetails.getAwaitingStatusCode();
+                    if (StringUtils.isNotBlank(newStatusCode)) {
+                        if (SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(reportCriteriaDTO, new String[] { KEWConstants.ACTION_REQUEST_APPROVE_REQ, KEWConstants.ACTION_REQUEST_COMPLETE_REQ }, false)) {
+                            // if an approve or complete request will be created then we need to set the status as awaiting for
+                            // the new node
+                            SpringContext.getBean(PurapService.class).updateStatus(this, newStatusCode);
+                            SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
                         }
                     }
                 }
@@ -1459,7 +1450,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         if (nodeName.equals(PurapWorkflowConstants.AWARD_REVIEW_REQUIRED)) return isAwardReviewRequired();
         if (nodeName.equals(PurapWorkflowConstants.BUDGET_REVIEW_REQUIRED)) return isBudgetReviewRequired();
         if (nodeName.equals(PurapWorkflowConstants.VENDOR_IS_EMPLOYEE_OR_NON_RESIDENT_ALIEN)) return isVendorEmployeeOrNonResidentAlien();
-        if (nodeName.equals(PurapWorkflowConstants.TRANSMISSION_METHOD_IS_PRINT)) return isTransmissionMethodPrint();
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
     }
     
@@ -1542,17 +1532,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         }
 
         return true;
-    }
-    
-    private boolean isTransmissionMethodPrint() {
-        if (this.getPurchaseOrderTransmissionMethodCode().equals(PurapConstants.POTransmissionMethods.PRINT) ||
-            this.getPurchaseOrderTransmissionMethodCode().equals(PurapConstants.POTransmissionMethods.FAX) ||
-            this.getPurchaseOrderTransmissionMethodCode().equals(PurapConstants.POTransmissionMethods.ELECTRONIC)) {
-            return true;
-        }
-        else {
-            return false;
-        }
     }
     
     public List<Account> getAccountsForAwardRouting() {

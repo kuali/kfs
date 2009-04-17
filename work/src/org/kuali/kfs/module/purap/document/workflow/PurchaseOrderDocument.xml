@@ -59,7 +59,7 @@
             </branch>
             <join name="JoinRequiresBudgetReview"/>
           </split>
-          <split name="VendorIsEmployeeOrNonResidentAlien" nextNode="TransmissionMethodIsPrint">
+          <split name="VendorIsEmployeeOrNonResidentAlien">
             <branch name="True">
               <requests name="Tax" nextNode="JoinVendorIsEmployeeOrNonResidentAlien"/>
             </branch>
@@ -67,15 +67,6 @@
               <simple name="NoOpVendorIsEmployeeOrNonResidentAlien" nextNode="JoinVendorIsEmployeeOrNonResidentAlien"/>
             </branch>
             <join name="JoinVendorIsEmployeeOrNonResidentAlien"/>
-          </split>
-          <split name="TransmissionMethodIsPrint">
-            <branch name="True">
-              <requests name="PrintTransmission" nextNode="JoinTransmissionMethodIsPrint"/>
-            </branch>
-            <branch name="False">
-              <simple name="NoOpPrint" nextNode="JoinTransmissionMethodIsPrint"/>
-            </branch>
-            <join name="JoinTransmissionMethodIsPrint"/>
           </split>
         </routePath>
       </routePaths>
@@ -101,9 +92,6 @@
           <qualifierResolverClass> org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver </qualifierResolverClass>
           <activationType>P</activationType>
         </role>
-        <requests name="PrintTransmission">
-          <routeModule> org.kuali.kfs.module.purap.document.workflow.PrintRoleRouteModule </routeModule>
-        </requests>
         <split name="RequiresContractManagementReview">
           <type> org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode </type>
         </split>
@@ -111,9 +99,6 @@
           <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
         </split>
         <split name="RequiresBudgetReview">
-          <type> org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode </type>
-        </split>
-        <split name="TransmissionMethodIsPrint">
           <type> org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode </type>
         </split>
         <split name="VendorIsEmployeeOrNonResidentAlien">
@@ -131,13 +116,9 @@
         <simple name="NoOpBudget">
           <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
         </simple>
-        <simple name="NoOpPrint">
-          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-        </simple>
         <join name="JoinRequiresAwardReview"/>
         <join name="JoinRequiresBudgetReview"/>
         <join name="JoinVendorIsEmployeeOrNonResidentAlien"/>
-        <join name="JoinTransmissionMethodIsPrint"/>
         <join name="JoinRequiresContractManagementReview"/>
       </routeNodes>
     </documentType>

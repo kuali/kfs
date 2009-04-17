@@ -85,6 +85,7 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorPhoneNumber;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.AdHocRoutePerson;
 import org.kuali.rice.kns.bo.AdHocRouteRecipient;
@@ -544,52 +545,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     /**
-     * Invokes the documentService to perform the appropriate workflow actions depending on the boolean flags on the
-     * workflowDocument of the documentHeader of the purchase order.
-     * 
-     * @param po The purchase order document upon which the workflow actions would be taken
-     * @param annotation The annotation String that we'll pass to workflow when we invoke superUserActionRequestApprove.
-     */
-//TODO hjs: cleanup don't think this method is being used
-    //    private void takeWorkflowActionsForDocumentTransmission(PurchaseOrderDocument po, String annotation) {
-//        try {
-//            List<ActionRequestDTO> docTransRequests = new ArrayList<ActionRequestDTO>();
-//            ActionRequestDTO[] actionRequests = workflowInfoService.getActionRequests(Long.valueOf(po.getDocumentNumber()));
-//            for (ActionRequestDTO actionRequestDTO : actionRequests) {
-//                if (actionRequestDTO.isActivated()) {
-//                    if (StringUtils.equals(actionRequestDTO.getNodeName(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName())) {
-//                        docTransRequests.add(actionRequestDTO);
-//                    }
-//                }
-//            }
-//            if (!docTransRequests.isEmpty()) {
-//                for (ActionRequestDTO actionRequest : docTransRequests) {
-//                    po.getDocumentHeader().getWorkflowDocument().superUserActionRequestApprove(actionRequest.getActionRequestId(), annotation);
-//                }
-//            }
-//            if (po.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) {
-//                documentService.approveDocument(po, null, new ArrayList());
-//            }
-//            else if (po.getDocumentHeader().getWorkflowDocument().isAcknowledgeRequested()) {
-//                documentService.acknowledgeDocument(po, null, new ArrayList());
-//            }
-//            else if (po.getDocumentHeader().getWorkflowDocument().isFYIRequested()) {
-//                documentService.clearDocumentFyi(po, new ArrayList());
-//            }
-//        }
-//        catch (NumberFormatException nfe) {
-//            String errorMsg = "Exception trying to convert '" + po.getDocumentNumber() + "' into a number (Long)";
-//            LOG.error(errorMsg, nfe);
-//            throw new RuntimeException(errorMsg, nfe);
-//        }
-//        catch (WorkflowException we) {
-//            String errorMsg = "Workflow Exception caught trying to take actions for document transmission node: " + we.getLocalizedMessage();
-//            LOG.error(errorMsg, we);
-//            throw new RuntimeException(errorMsg, we);
-//        }
-//    }
-
-    /**
      * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#retransmitPurchaseOrderPDF(org.kuali.kfs.module.purap.document.PurchaseOrderDocument,
      *      java.io.ByteArrayOutputStream)
      */
@@ -902,12 +857,34 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public void completePurchaseOrder(PurchaseOrderDocument po) {
         LOG.debug("completePurchaseOrder() started");
         setCurrentAndPendingIndicatorsForApprovedPODocuments(po);
+        setupDocumentForPendingFirstTransmission(po);
+        
         // if the document is set in a Pending Transmission status then don't OPEN the PO just leave it as is
         if (!PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.values().contains(po.getStatusCode())) {
             attemptSetupOfInitialOpenOfDocument(po);
         }
         else if (PurchaseOrderStatuses.PENDING_CXML.equals(po.getStatusCode())) {
             completeB2BPurchaseOrder(po);
+        }
+        else if (PurchaseOrderStatuses.PENDING_PRINT.equals(po.getStatusCode())) {
+            KualiWorkflowDocument workflowDocument = po.getDocumentHeader().getWorkflowDocument();
+            
+            String userToRouteFyi = "";
+            if (po.getPurchaseOrderAutomaticIndicator()) {
+                RequisitionDocument req = SpringContext.getBean(RequisitionService.class).getRequisitionById(po.getRequisitionIdentifier());
+                userToRouteFyi = req.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
+            }
+            else {
+                userToRouteFyi = po.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
+            }
+            
+            try {
+                workflowDocument.adHocRouteDocumentToPrincipal(KEWConstants.ACTION_REQUEST_FYI_REQ, workflowDocument.getCurrentRouteNodeNames(), "This PO is ready for printing and distribution.", userToRouteFyi, "", true, "PRINT");
+            }
+            catch (WorkflowException e) {
+                LOG.error("Error sending FYI to user to print PO.", e);
+                throw new RuntimeException("Error sending FYI to user to print PO.", e);
+            }
         }
 
         // check thresholds to see if receiving is required for purchase order
@@ -1149,28 +1126,15 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
     
     /**
-     * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#setupDocumentForPendingFirstTransmission(org.kuali.kfs.module.purap.document.PurchaseOrderDocument,
-     *      boolean)
+     * Update the purchase order document with the appropriate status for pending first transmission based on the transmission type.
+     * 
+     * @param po The purchase order document whose status to be updated.
      */
-    public void setupDocumentForPendingFirstTransmission(PurchaseOrderDocument po, boolean hasActionRequestForDocumentTransmission) {
+    private void setupDocumentForPendingFirstTransmission(PurchaseOrderDocument po) {
         if (POTransmissionMethods.PRINT.equals(po.getPurchaseOrderTransmissionMethodCode()) || POTransmissionMethods.FAX.equals(po.getPurchaseOrderTransmissionMethodCode()) || POTransmissionMethods.ELECTRONIC.equals(po.getPurchaseOrderTransmissionMethodCode())) {
             String newStatusCode = PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.get(po.getPurchaseOrderTransmissionMethodCode());
             LOG.debug("setupDocumentForPendingFirstTransmission() Purchase Order Transmission Type is '" + po.getPurchaseOrderTransmissionMethodCode() + "' setting status to '" + newStatusCode + "'");
             purapService.updateStatus(po, newStatusCode);
-        }
-        else {
-            if (hasActionRequestForDocumentTransmission) {
-                /*
-                 * here we error out because the document generated a request for the doc transmission route level but the default
-                 * status to set is open... this prevents Open purchase orders that could be awaiting transmission by a valid method
-                 * (via the generated request)
-                 */
-                String errorMessage = "An action request was generated for document id " + po.getDocumentNumber() + " with an unhandled transmission type '" + po.getPurchaseOrderTransmissionMethodCode() + "'";
-                LOG.error(errorMessage);
-                throw new RuntimeException(errorMessage);
-            }
-            LOG.info("setupDocumentForPendingFirstTransmission() Unhandled Transmission Status: " + po.getPurchaseOrderTransmissionMethodCode() + " -- Defaulting Status to '" + PurchaseOrderStatuses.OPEN + "'");
-            attemptSetupOfInitialOpenOfDocument(po);
         }
     }
 

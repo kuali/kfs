@@ -259,17 +259,6 @@ public interface PurchaseOrderService extends PurchasingDocumentSpecificService 
     public ArrayList<PurchaseOrderQuoteStatus> getPurchaseOrderQuoteStatusCodes();
 
     /**
-     * Update the purchase order document with the appropriate status for pending first transmission if the transmission method code
-     * is PRINT, or set the purchase order status to OPEN, set the initial open date and save the purchase order if the transmission
-     * method code is not PRINT and the hasActionRequestForDocumentTransmission is false.
-     * 
-     * @param po The purchase order document whose status to be updated.
-     * @param hasActionRequestForDocumentTransmission boolean true if this purchase order has action request for document
-     *        transmission.
-     */
-    public void setupDocumentForPendingFirstTransmission(PurchaseOrderDocument po, boolean hasActionRequestForDocumentTransmission);
-
-    /**
      * Performs a threshold check on the purchase order to determine if any attribute on the purchase order
      * falls within a defined threshold. This check is only perfromed if the receiving required flag is set to N.
      * 

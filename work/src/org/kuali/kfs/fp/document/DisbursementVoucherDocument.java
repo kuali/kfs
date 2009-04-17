@@ -1288,9 +1288,6 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      */
     private GeneralLedgerPendingEntry processWireChargeDebitEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, WireCharge wireCharge) {
 
-        // increment the sequence counter
-        sequenceHelper.increment();
-
         // grab the explicit entry for the first accounting line and adjust for wire charge entry
         GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry(getGeneralLedgerPendingEntry(0));
         explicitEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
@@ -1308,9 +1305,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
 
         explicitEntry.setTransactionLedgerEntryDescription("Automatic debit for wire transfer fee");
 
-        getGeneralLedgerPendingEntries().add(explicitEntry);
-
-        // create offset
+        addPendingEntry(explicitEntry);
         sequenceHelper.increment();
 
         // handle the offset entry
@@ -1318,7 +1313,8 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
         glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), explicitEntry, sequenceHelper, offsetEntry);
 
-        getGeneralLedgerPendingEntries().add(offsetEntry);
+        addPendingEntry(offsetEntry);
+        sequenceHelper.increment();
 
         return explicitEntry;
     }
@@ -1333,10 +1329,6 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * @param wireCharge wireCharge object from current fiscal year
      */
     private void processWireChargeCreditEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, WireCharge wireCharge, GeneralLedgerPendingEntry chargeEntry) {
-
-        // increment the sequence counter
-        sequenceHelper.increment();
-
         // copy the charge entry and adjust for credit
         GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry(chargeEntry);
         explicitEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
@@ -1361,16 +1353,15 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         explicitEntry.setTransactionLedgerEntryDescription("Automatic credit for wire transfer fee");
 
         addPendingEntry(explicitEntry);
-
-        // create offset
         sequenceHelper.increment();
-
+        
         // handle the offset entry
         GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(explicitEntry);
         GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
         glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), explicitEntry, sequenceHelper, offsetEntry);
 
         addPendingEntry(offsetEntry);
+        sequenceHelper.increment();
     }
 
     /**
@@ -1395,12 +1386,12 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         if (success) {
             AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
             bankOffsetEntry.setTransactionLedgerEntryDescription(accountingDocumentRuleUtil.formatProperty(KFSKeyConstants.Bank.DESCRIPTION_GLPE_BANK_OFFSET));
-            getGeneralLedgerPendingEntries().add(bankOffsetEntry);
+            addPendingEntry(bankOffsetEntry);
             sequenceHelper.increment();
 
             GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(bankOffsetEntry);
             success &= glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), bankOffsetEntry, sequenceHelper, offsetEntry);
-            getGeneralLedgerPendingEntries().add(offsetEntry);
+            addPendingEntry(offsetEntry);
             sequenceHelper.increment();
         }
 

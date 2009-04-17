@@ -17,6 +17,12 @@
 
 <%@ attribute name="resultsList" required="true" type="java.util.List" description="The rows of fields that we'll iterate to display." %>
 
+<c:set var="imageSelectAll" value="${empty image ? 'buttonsmall_selectall.gif' : image}"/>
+<c:set var="imageUnselectAll" value="${empty image ? 'buttonsmall_unselall.gif' : image}"/>
+<c:set var="imageReturnNoValue" value="${empty image ? 'buttonsmall_retnovalue.gif' : image}"/>
+<c:set var="imageReturnSelected" value="${empty image ? 'buttonsmall_retselected.gif' : image}"/>
+<c:set var="imageSort" value="${empty image ? 'sort.gif' : image}"/>
+
 <c:if test="${empty resultsList && KualiForm.methodToCall != 'start' && KualiForm.methodToCall != 'refresh'}">
 	There were no results found.
 </c:if>
@@ -34,13 +40,26 @@
 				buttonExtraParams=".${Constants.METHOD_TO_CALL_PARM12_LEFT_DEL}${KualiForm.searchUsingOnlyPrimaryKeyValues}${Constants.METHOD_TO_CALL_PARM12_RIGHT_DEL}"/>
 			<input type="hidden" name="${Constants.MULTIPLE_VALUE_LOOKUP_PREVIOUSLY_SELECTED_OBJ_IDS_PARAM}" value="${KualiForm.compositeSelectedObjectIds}"/>
 			<input type="hidden" name="${Constants.TableRenderConstants.PREVIOUSLY_SORTED_COLUMN_INDEX_PARAM}" value="${KualiForm.columnToSortIndex}"/>
-			
+
 			<p>
-				<input type="image" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_selectall.gif" alt="Select all rows" title="Select all rows" class="tinybutton" name="methodToCall.selectAll.${Constants.METHOD_TO_CALL_PARM12_LEFT_DEL}${KualiForm.searchUsingOnlyPrimaryKeyValues}${Constants.METHOD_TO_CALL_PARM12_RIGHT_DEL}.x" value="Select All Rows"/>
-				<input type="image" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_unselall.gif" alt="Unselect all rows" title="Unselect all rows" class="tinybutton" name="methodToCall.unselectAll.${Constants.METHOD_TO_CALL_PARM12_LEFT_DEL}${KualiForm.searchUsingOnlyPrimaryKeyValues}${Constants.METHOD_TO_CALL_PARM12_RIGHT_DEL}.x" value="Unselect All Rows"/>
+				<c:set var="balanceInquirySelectAllButtonName" value="methodToCall.selectAll.${Constants.METHOD_TO_CALL_PARM12_LEFT_DEL}${KualiForm.searchUsingOnlyPrimaryKeyValues}${Constants.METHOD_TO_CALL_PARM12_RIGHT_DEL}.x" />
+					${kfunc:registerEditableProperty(KualiForm, balanceInquirySelectAllButtonName)}
+					<input type="image" tabindex="${tabindex}" name="${balanceInquirySelectAllButtonName}"
+   						src="${ConfigProperties.kr.externalizable.images.url}${imageSelectAll}" alt="Select all rows" title="Select all rows" border="0" class="tinybutton" valign="middle"/>
+				<c:set var="balanceInquiryUnselectAllButtonName" value="methodToCall.unselectAll.${Constants.METHOD_TO_CALL_PARM12_LEFT_DEL}${KualiForm.searchUsingOnlyPrimaryKeyValues}${Constants.METHOD_TO_CALL_PARM12_RIGHT_DEL}.x" />
+					${kfunc:registerEditableProperty(KualiForm, balanceInquiryUnselectAllButtonName)}
+					<input type="image" tabindex="${tabindex}" name="${balanceInquiryUnselectAllButtonName}"
+   						src="${ConfigProperties.kr.externalizable.images.url}${imageUnselectAll}" alt="Unselect all rows" title="Unselect all rows" border="0" class="tinybutton" valign="middle"/>
 			
-				<input type="image" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_retnovalue.gif" class="tinybutton" name="methodToCall.prepareToReturnNone.x" alt="Return no results" title="Return no results"/>
-				<input type="image" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_retselected.gif" class="tinybutton" name="methodToCall.prepareToReturnSelectedResults.x" alt="Return selected results" title="Return selected results"/>
+
+				<c:set var="balanceInquiryReturnNoValueButtonName" value="methodToCall.prepareToReturnNone.x" />
+					${kfunc:registerEditableProperty(KualiForm, balanceInquiryReturnNoValueButtonName)}
+					<input type="image" tabindex="${tabindex}" name="${balanceInquiryReturnNoValueButtonName}"
+   						src="${ConfigProperties.kr.externalizable.images.url}${imageReturnNoValue}" alt="Return no results" title="Return no results" border="0" class="tinybutton" valign="middle"/>
+				<c:set var="balanceInquiryReturnSelectedButtonName" value="methodToCall.prepareToReturnSelectedResults.x" />
+					${kfunc:registerEditableProperty(KualiForm, balanceInquiryReturnSelectedButtonName)}
+					<input type="image" tabindex="${tabindex}" name="${balanceInquiryReturnSelectedButtonName}"
+   						src="${ConfigProperties.kr.externalizable.images.url}${imageReturnSelected}" alt="Return selected results" title="Return selected results" border="0" class="tinybutton" valign="middle"/>
 			</p>
 			
             <c:set var="numOfMonthField" value="14" scope="request" />            
@@ -58,7 +77,11 @@
 					<tr>
 						<c:forEach items="${resultsList[0].columns}" var="column" begin="0" end="${numOfNonMonthField}" varStatus="columnLoopStatus">
 							<th class="sortable" align="center">
-								<input name="methodToCall.sort.<c:out value="${columnLoopStatus.index}"/>.${Constants.METHOD_TO_CALL_PARM12_LEFT_DEL}${KualiForm.searchUsingOnlyPrimaryKeyValues}${Constants.METHOD_TO_CALL_PARM12_RIGHT_DEL}.x" type="image" src="${ConfigProperties.kr.externalizable.images.url}sort.gif" alt="Sort column ${column.columnTitle}" valign="bottom" title="Sort column ${column.columnTitle}">
+							<c:set var="sortButtonName" value="methodToCall.sort.${columnLoopStatus.index}.${Constants.METHOD_TO_CALL_PARM12_LEFT_DEL}${KualiForm.searchUsingOnlyPrimaryKeyValues}${Constants.METHOD_TO_CALL_PARM12_RIGHT_DEL}.x" />
+								   ${kfunc:registerEditableProperty(KualiForm, sortButtonName)}
+								   <input type="image" tabindex="${tabindex}" name="${sortButtonName}"
+										  src="${ConfigProperties.kr.externalizable.images.url}${imageSort}" alt="Sort column ${column.columnTitle}" 
+										  title="Sort column ${column.columnTitle}" border="0" valign="middle"/>
 							</th>
 						</c:forEach>
 					</tr>
@@ -112,9 +135,11 @@
                                     	<c:set var="checked" value="${empty KualiForm.compositeObjectIdMap[objectId] ? '' : 'checked=checked'}" />
                                     	<c:set var="disabled" value="${amount != 0.0 ? '' : 'disabled=disabled'}" />
                                     	
-										<input type="checkbox" title="${column.columnTitle}" name="${Constants.MULTIPLE_VALUE_LOOKUP_SELECTED_OBJ_ID_PARAM_PREFIX}${objectId}" value="checked" ${disabled} ${checked}>
-											${column.columnTitle}
-										</input>
+						                <c:set var="checkBoxObjectIdName" value="${Constants.MULTIPLE_VALUE_LOOKUP_SELECTED_OBJ_ID_PARAM_PREFIX}${objectId}" />                    	
+											${kfunc:registerEditableProperty(KualiForm, checkBoxObjectIdName)}
+											<input type="checkbox" name="${checkBoxObjectIdName}" title="${column.columnTitle}" value="checked" ${disabled} ${checked}>
+												${column.columnTitle}
+											 </input>
                                     	<input type="hidden" name="${Constants.MULTIPLE_VALUE_LOOKUP_DISPLAYED_OBJ_ID_PARAM_PREFIX}${objectId}" value="onscreen"/>
                                    	</th>
                                     
@@ -134,10 +159,31 @@
 			</table>
 			
 			<p>
+				<c:set var="balanceInquirySelectAllButtonName" value="methodToCall.selectAll.${Constants.METHOD_TO_CALL_PARM12_LEFT_DEL}${KualiForm.searchUsingOnlyPrimaryKeyValues}${Constants.METHOD_TO_CALL_PARM12_RIGHT_DEL}.x" />
+					${kfunc:registerEditableProperty(KualiForm, balanceInquirySelectAllButtonName)}
+					<input type="image" tabindex="${tabindex}" name="${balanceInquirySelectAllButtonName}"
+   						src="${ConfigProperties.kr.externalizable.images.url}${imageSelectAll}" alt="Select all rows" title="Select all rows" border="0" class="tinybutton" valign="middle"/>
+				<c:set var="balanceInquiryUnselectAllButtonName" value="methodToCall.unselectAll.${Constants.METHOD_TO_CALL_PARM12_LEFT_DEL}${KualiForm.searchUsingOnlyPrimaryKeyValues}${Constants.METHOD_TO_CALL_PARM12_RIGHT_DEL}.x" />
+					${kfunc:registerEditableProperty(KualiForm, balanceInquiryUnselectAllButtonName)}
+					<input type="image" tabindex="${tabindex}" name="${balanceInquiryUnselectAllButtonName}"
+   						src="${ConfigProperties.kr.externalizable.images.url}${imageUnselectAll}" alt="Unselect all rows" title="Unselect all rows" border="0" class="tinybutton" valign="middle"/>
+			
+
+				<c:set var="balanceInquiryReturnNoValueButtonName" value="methodToCall.prepareToReturnNone.x" />
+					${kfunc:registerEditableProperty(KualiForm, balanceInquiryReturnNoValueButtonName)}
+					<input type="image" tabindex="${tabindex}" name="${balanceInquiryReturnNoValueButtonName}"
+   						src="${ConfigProperties.kr.externalizable.images.url}${imageReturnNoValue}" alt="Return no results" title="Return no results" border="0" class="tinybutton" valign="middle"/>
+				<c:set var="balanceInquiryReturnSelectedButtonName" value="methodToCall.prepareToReturnSelectedResults.x" />
+					${kfunc:registerEditableProperty(KualiForm, balanceInquiryReturnSelectedButtonName)}
+					<input type="image" tabindex="${tabindex}" name="${balanceInquiryReturnSelectedButtonName}"
+   						src="${ConfigProperties.kr.externalizable.images.url}${imageReturnSelected}" alt="Return selected results" title="Return selected results" border="0" class="tinybutton" valign="middle"/>
+
+<!--  			
 				<input type="image" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_selectall.gif" alt="Select all rows" title="Select all rows" class="tinybutton" name="methodToCall.selectAll.${Constants.METHOD_TO_CALL_PARM12_LEFT_DEL}${KualiForm.searchUsingOnlyPrimaryKeyValues}${Constants.METHOD_TO_CALL_PARM12_RIGHT_DEL}.x" value="Select All Rows"/>
 				<input type="image" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_unselall.gif" alt="Unselect all rows" title="Unselect all rows" class="tinybutton" name="methodToCall.unselectAll.${Constants.METHOD_TO_CALL_PARM12_LEFT_DEL}${KualiForm.searchUsingOnlyPrimaryKeyValues}${Constants.METHOD_TO_CALL_PARM12_RIGHT_DEL}.x" value="Unselect All Rows"/>
 				<input type="image" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_retnovalue.gif" class="tinybutton" name="methodToCall.prepareToReturnNone.x" alt="Return no results" title="Return no results"/>
 				<input type="image" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_retselected.gif" class="tinybutton" name="methodToCall.prepareToReturnSelectedResults.x" alt="Return selected results" title="Return selected results"/>
+-->				
 			</p>
 			<kul:multipleValueLookupExportBanner/>
 		</c:when>

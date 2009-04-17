@@ -116,7 +116,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         // this is only used to indicate to the rules the user has clicked save or close save-yes
         // which forces tighter checks (nonZeroRequest amount) when access is cleanup mode
-        if (budgetConstructionForm.getBudgetConstructionDocument().isCleanupModeActionForceCheck()) {
+        if (budgetConstructionForm.getBudgetConstructionDocument() != null && budgetConstructionForm.getBudgetConstructionDocument().isCleanupModeActionForceCheck()) {
             budgetConstructionForm.getBudgetConstructionDocument().setCleanupModeActionForceCheck(Boolean.FALSE);
         }
 

@@ -60,8 +60,8 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
     protected AccountBalanceDao accountBalanceDao;
     protected EncumbranceDao encumbranceDao;
     
-    private File posterInputFile = null;
-    private File posterErrorOutputFile = null;
+    protected File posterInputFile = null;
+    protected File posterErrorOutputFile = null;
     
     /**
      * @see org.kuali.kfs.gl.batch.service.BalancingService#getReportFilename()
@@ -216,7 +216,15 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
         Balance balance = new Balance((BalanceHistory) ledgerBalanceHistory);
         return (Balance) businessObjectService.retrieve(balance);
     }
-
+    
+    /**
+     * @see org.kuali.kfs.gl.batch.service.BalancingService#clearPosterFileCache()
+     */
+    public void clearPosterFileCache() {
+        this.posterInputFile = null;
+        this.posterErrorOutputFile = null;
+    }
+    
     /**
      * @see org.kuali.kfs.gl.batch.service.impl.BalancingServiceBaseImpl#customPopulateHistoryTables(java.lang.Integer)
      */

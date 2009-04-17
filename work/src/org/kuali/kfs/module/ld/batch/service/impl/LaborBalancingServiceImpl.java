@@ -47,8 +47,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class LaborBalancingServiceImpl extends BalancingServiceBaseImpl<LaborEntryHistory, LaborBalanceHistory> implements BalancingService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborBalancingServiceImpl.class);
     
-    private File laborPosterInputFile = null;
-    private File laborPosterErrorOutputFile = null;
+    protected File laborPosterInputFile = null;
+    protected File laborPosterErrorOutputFile = null;
     
     /**
      * @see org.kuali.kfs.gl.batch.service.BalancingService#getReportFilename()
@@ -193,5 +193,13 @@ public class LaborBalancingServiceImpl extends BalancingServiceBaseImpl<LaborEnt
     public Balance getBalance(LedgerBalanceHistory ledgerBalanceHistory) {
         LedgerBalance ledgerBalance = new LedgerBalance((LaborBalanceHistory) ledgerBalanceHistory);
         return (LedgerBalance) businessObjectService.retrieve(ledgerBalance);
+    }
+    
+    /**
+     * @see org.kuali.kfs.gl.batch.service.BalancingService#clearPosterFileCache()
+     */
+    public void clearPosterFileCache() {
+        this.laborPosterInputFile = null;
+        this.laborPosterErrorOutputFile = null;
     }
 }

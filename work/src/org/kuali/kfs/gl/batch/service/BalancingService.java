@@ -97,4 +97,9 @@ public interface BalancingService {
      * @return balance object adhereing to the Balance interface
      */
     public abstract Balance getBalance(LedgerBalanceHistory ledgerBalanceHistory);
+    
+    /**
+     * In order to avoid file system scans this class caches poster input and poster error filenames. In rare cases they may want to be reset.
+     */
+    public abstract void clearPosterFileCache();
 }

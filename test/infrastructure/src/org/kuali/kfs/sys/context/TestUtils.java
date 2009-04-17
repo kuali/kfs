@@ -18,6 +18,7 @@ package org.kuali.kfs.sys.context;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -50,6 +51,8 @@ import org.springframework.aop.framework.ProxyFactory;
 public class TestUtils {
     private static final Log LOG = LogFactory.getLog(TestUtils.class);
 
+    private static final String PLACEHOLDER_FILENAME = "placeholder.txt";
+    
     private static ParameterService parameterService;
 
     public static ParameterService getParameterService() {
@@ -404,17 +407,28 @@ public class TestUtils {
     }
     
     /**
-     * Deletes a file. Useful for GL / LD poster file handling.
-     * @param pathname file and path to delete
+     * Deletes all files from a directory except PLACEHOLDER_FILENAME.
+     * @param path of the directory to empty
      */
-    public static boolean deleteFile(String pathname) {
-        File file = new File(pathname);
+    public static void deleteFilesInDirectory(String pathname) {
+        FilenameFilter filenameFilter = new FilenameFilter() {
+            public boolean accept(File dir, String name) {
+                return (!name.equals(PLACEHOLDER_FILENAME));
+            }
+        };
         
-        if (!file.exists()) {
-            LOG.debug("File doesn't exist, returning.");
-            return false;
+        File directory = new File(pathname);
+        File[] directoryListing = directory.listFiles(filenameFilter);
+        
+        if (directoryListing == null) {
+            throw new IllegalArgumentException("Directory doesn't exist: " + pathname);
+        } else {
+            for (int i = 0; i < directoryListing.length; i++) {
+                File file = directoryListing[i];
+                if(!file.delete()) {
+                    throw new RuntimeException("Delete of " + file.getName() + " failed.");
+                }
+            }
         }
-        
-        return file.delete();
     }
 }

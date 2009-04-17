@@ -432,25 +432,6 @@ public class LaborScrubberProcess {
                             subAccountTypeCode = scrubbedEntryA21SubAccount.getSubAccountTypeCode();
                         }
 
-                        ParameterEvaluator costShareObjectTypeCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.COST_SHARE_OBJ_TYPE_CODES, scrubbedEntry.getFinancialObjectTypeCode());
-                        ParameterEvaluator costShareEncBalanceTypeCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.COST_SHARE_ENC_BAL_TYP_CODES, scrubbedEntry.getFinancialBalanceTypeCode());
-                        ParameterEvaluator costShareEncFiscalPeriodCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.COST_SHARE_ENC_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode());
-                        ParameterEvaluator costShareEncDocTypeCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.COST_SHARE_ENC_DOC_TYPE_CODES, scrubbedEntry.getFinancialDocumentTypeCode().trim());
-                        ParameterEvaluator costShareFiscalPeriodCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.COST_SHARE_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode());
-
-                        Account scrubbedEntryAccount = accountingCycleCachingService.getAccount(scrubbedEntry.getChartOfAccountsCode(), scrubbedEntry.getAccountNumber());
-                        if (scrubbedEntryAccount != null) {
-                            SystemOptions scrubbedEntryOption = accountingCycleCachingService.getSystemOptions(scrubbedEntry.getUniversityFiscalYear());
-                            if (costShareObjectTypeCodes.evaluationSucceeds() && scrubbedEntryOption.getActualFinancialBalanceTypeCd().equals(scrubbedEntry.getFinancialBalanceTypeCode()) && scrubbedEntryAccount.isForContractsAndGrants() && KFSConstants.SubAccountType.COST_SHARE.equals(subAccountTypeCode) && costShareFiscalPeriodCodes.evaluationSucceeds() && costShareEncDocTypeCodes.evaluationSucceeds()) {
-                                if (scrubbedEntry.isDebit()) {
-                                    scrubCostShareAmount = scrubCostShareAmount.subtract(transactionAmount);
-                                }
-                                else {
-                                    scrubCostShareAmount = scrubCostShareAmount.add(transactionAmount);
-                                }
-                            }
-                        }
-
                         if (transactionErrors.size() > 0) {
                             //scrubberReportErrors.put(unscrubbedEntry, transactionErrors);
                             textReportHelper.writeErrors(unscrubbedEntry, transactionErrors);

@@ -26,6 +26,20 @@ import org.kuali.rice.kns.util.KualiDecimal;
 
 public interface CustomerInvoiceDocumentService {
     
+    /**
+     * 
+     * Converts discount lines on the customer invoice document to paidapplieds.
+     * 
+     * This method is only intended to be used once the document is at least in 
+     * the Processed state, and will throw an error if used on a document in an 
+     * earlier state.
+     * 
+     * This method is intended to be called from the CustomerInvoiceDocument.handleRouteStatusChange
+     * 
+     * @param invoice A populated Invoice document that is at least PROCESSED. 
+     */
+    public void convertDiscountsToPaidApplieds(CustomerInvoiceDocument invoice);
+    
     public Collection<CustomerInvoiceDocument> getAllCustomerInvoiceDocuments(); 
     
     public Collection<CustomerInvoiceDocument> getAllCustomerInvoiceDocumentsWithoutWorkflowInfo();
@@ -213,12 +227,6 @@ public interface CustomerInvoiceDocumentService {
      * @return
      */
     public KualiDecimal getPaidAppliedTotalForInvoice(CustomerInvoiceDocument invoice);
-    
-   /**
-     * This method updates the open invoice indicator if amounts have been completely paid off
-     * @param invoice
-     */
-    public void closeCustomerInvoiceDocumentIfFullyPaidOff(CustomerInvoiceDocument customerInvoiceDocument, KualiDecimal totalAmountAppliedByDocument);
     
     /**
      * This method updates the open invoice indicator if amounts have been completely paid off

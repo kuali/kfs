@@ -66,9 +66,6 @@ public class ArCoreTestUtils extends Assert {
             assertEquals("AmountOpen wrong.", expecteds.get(x).getAmountOpen(), detail.getAmountOpen());
             assertEquals("WriteoffAmount wrong.", expecteds.get(x).getAmountOpen(), detail.getWriteoffAmount());
             
-            //  should always return zero, since we're only looking at NON discount lines
-            assertEquals("AmountToApply should always be zero.", KualiDecimal.ZERO, detail.getAmountToApply());
-            
             assertEquals("Details tested here should never be discount lines.", false, detail.isDiscountLine());
             assertEquals("Details tested here should never be discount lines.", expecteds.get(x).isDiscounted(), detail.isDiscountLineParent());
             assertEquals("Should be non-null when discounted lines.", expecteds.get(x).isDiscounted(), (detail.getDiscountCustomerInvoiceDetail() != null));

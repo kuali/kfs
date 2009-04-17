@@ -48,6 +48,7 @@ import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.dao.DocumentDao;
 import org.kuali.rice.kns.exception.InfrastructureException;
@@ -71,12 +72,56 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     private CustomerInvoiceDocumentDao customerInvoiceDocumentDao;
     private DocumentService documentService;
     private DocumentDao documentDao;
-    private InvoicePaidAppliedService invoicePaidAppliedService;
+    private InvoicePaidAppliedService<CustomerInvoiceDetail> invoicePaidAppliedService;
     private NonInvoicedDistributionService nonInvoicedDistributionService;
     private CustomerInvoiceDetailService customerInvoiceDetailService;
     private CustomerInvoiceRecurrenceDetails customerInvoiceRecurrenceDetails;
-
+    private UniversityDateService universityDateService;
+    
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentServiceImpl.class);
+
+    public void convertDiscountsToPaidApplieds(CustomerInvoiceDocument invoice) {
+
+        // this needs a little explanation.  we have to calculate manually 
+        // whether we've written off the whole thing, because the regular 
+        // code uses the invoice paid applieds to discount, but since those 
+        // are added but not committed in this transaction, they're also not 
+        // visible in this transaction, so we do it manually.
+        KualiDecimal openAmount = invoice.getOpenAmount();
+
+        String invoiceNumber = invoice.getDocumentNumber();
+        List<CustomerInvoiceDetail> discounts = invoice.getDiscounts();
+        for (CustomerInvoiceDetail discount : discounts) {
+            
+            //   if credit amount is zero, do nothing
+            if (KualiDecimal.ZERO.equals(discount.getAmount())) {
+                continue;
+            }
+            
+            //  retrieve the number of current paid applieds, so we dont have item number overlap
+            Integer paidAppliedItemNumber = invoicePaidAppliedService.getNumberOfInvoicePaidAppliedsForInvoiceDetail(invoiceNumber, 
+                    discount.getInvoiceItemNumber());
+            
+            //  create and save the paidApplied
+            InvoicePaidApplied invoicePaidApplied = new InvoicePaidApplied();
+            invoicePaidApplied.setDocumentNumber(invoiceNumber);
+            invoicePaidApplied.setPaidAppliedItemNumber(paidAppliedItemNumber++);
+            invoicePaidApplied.setFinancialDocumentReferenceInvoiceNumber(invoiceNumber);
+            invoicePaidApplied.setInvoiceItemNumber(discount.getInvoiceItemNumber());
+            invoicePaidApplied.setUniversityFiscalYear(universityDateService.getCurrentFiscalYear());
+            invoicePaidApplied.setUniversityFiscalPeriodCode(universityDateService.getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
+            invoicePaidApplied.setInvoiceItemAppliedAmount(discount.getAmount().abs());
+            openAmount = openAmount.subtract(discount.getAmount().abs());
+            businessObjectService.save(invoicePaidApplied);
+       }
+        
+       //   if its open, but now with a zero openamount, then close it
+       if (KualiDecimal.ZERO.equals(openAmount)) {
+           invoice.setOpenInvoiceIndicator(false);
+           invoice.setClosedDate(dateTimeService.getCurrentSqlDate());
+           documentService.updateDocument(invoice);
+       }
+    }
 
     public Collection<CustomerInvoiceDocument> getAllCustomerInvoiceDocuments() {
         Collection<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
@@ -576,15 +621,6 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         return sqlDueDate;
     }
 
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#updateOpenInvoiceIndicator(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
-     */
-    public void closeCustomerInvoiceDocumentIfFullyPaidOff(CustomerInvoiceDocument customerInvoiceDocument, KualiDecimal totalAmountAppliedByDocument) {
-        if (customerInvoiceDocument.wouldPayOff(totalAmountAppliedByDocument)) {
-            closeCustomerInvoiceDocument(customerInvoiceDocument);
-        }
-    }
-
     public void closeCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument) {
         customerInvoiceDocument.setOpenInvoiceIndicator(false);
         customerInvoiceDocument.setClosedDate(dateTimeService.getCurrentSqlDate());
@@ -662,5 +698,10 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     public void setCustomerInvoiceDetailService(CustomerInvoiceDetailService customerInvoiceDetailService) {
         this.customerInvoiceDetailService = customerInvoiceDetailService;
     }
+
+    public void setUniversityDateService(UniversityDateService universityDateService) {
+        this.universityDateService = universityDateService;
+    }
+    
 }
 

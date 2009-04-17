@@ -377,10 +377,6 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
         this.financialDocumentReferenceInvoiceNumber = financialDocumentReferenceInvoiceNumber;
     }
 
-    public KualiDecimal getAmountToApply() {
-        return getCreditMemoLineTotalAmount();
-    }
-
     public Integer getInvoiceItemNumber() {
         return referenceInvoiceItemNumber;
     }

@@ -61,39 +61,6 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     private KualiDecimal writeoffAmount;
     private String customerInvoiceWriteoffDocumentNumber;
 
-    // field for check box control
-    //TODO Andrew
-    //private boolean fullApply;
-
-    // This bit with the special applied amount and setAppliedAmount/getSpecialAppliedAmount
-    // is a bit of a hack. It let's the form send information back to the action
-    // and get handled properly. It can properly take the payment application document into
-    // context and figure out amounts properly.
-    // {
-    //TODO Andrew
-//    transient private PaymentApplicationDocument currentPaymentApplicationDocument;
-//    public void setCurrentPaymentApplicationDocument(PaymentApplicationDocument paymentApplicationDocument) { currentPaymentApplicationDocument = paymentApplicationDocument; }
-//    public PaymentApplicationDocument getCurrentPaymentApplicationDocument() { return currentPaymentApplicationDocument; }
-//    transient private KualiDecimal specialAppliedAmount;
-//    public void setAmountApplied(KualiDecimal a) { specialAppliedAmount = a; }
-
-    /**
-     * @see org.kuali.kfs.module.ar.businessobject.AppliedPayment#getAmountToApply()
-     */
-    //public KualiDecimal getAmountToApply() { return getAmountAppliedBy(currentPaymentApplicationDocument); }
-    public KualiDecimal getAmountToApply() {
-        KualiDecimal amount = this.isDiscountLine() ? this.getAmount().abs() : new KualiDecimal(0);
-        if (getCustomerInvoiceDocument().isInvoiceReversal()) {
-            amount = amount.negated();
-        }
-        return amount;
-    }
-    
-    //TODO andrew
-    //public KualiDecimal getSpecialAppliedAmount() { return specialAppliedAmount; }
-    
-    // }
-    
     /**
      * Default constructor.
      */

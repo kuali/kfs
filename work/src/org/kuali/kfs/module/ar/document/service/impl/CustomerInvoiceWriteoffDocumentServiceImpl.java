@@ -18,16 +18,18 @@ package org.kuali.kfs.module.ar.document.service.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.batch.service.CustomerInvoiceWriteoffBatchService;
 import org.kuali.kfs.module.ar.batch.vo.CustomerInvoiceWriteoffBatchVO;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
+import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
 import org.kuali.kfs.module.ar.businessobject.lookup.CustomerInvoiceWriteoffLookupUtil;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
@@ -37,6 +39,7 @@ import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeader
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
+import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -61,7 +64,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
 
     private ParameterService parameterService;
     private UniversityDateService universityDateService;
-    private PersonService personService;
+    private PersonService<Person> personService;
     private BusinessObjectService businessObjectService;
     private AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
     private CustomerInvoiceDocumentService customerInvoiceDocumentService;
@@ -69,6 +72,58 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
     private DocumentService documentService;
     private CustomerInvoiceWriteoffBatchService invoiceWriteoffBatchService;
     private DateTimeService dateTimeService;
+    private InvoicePaidAppliedService<CustomerInvoiceDetail> paidAppliedService;
+    
+    /**
+     * 
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService#completeWriteoffProcess(org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument)
+     */
+    public void completeWriteoffProcess(CustomerInvoiceWriteoffDocument writeoff) {
+        
+        //  retrieve the document and make sure its not already closed, crash if so 
+        String invoiceNumber = writeoff.getFinancialDocumentReferenceInvoiceNumber();
+        CustomerInvoiceDocument invoice;
+        try {
+             invoice = (CustomerInvoiceDocument) documentService.getByDocumentHeaderId(invoiceNumber);
+        }
+        catch (WorkflowException e) {
+            throw new RuntimeException("A WorkflowException was generated when trying to load Customer Invoice #" + invoiceNumber + ".", e);
+        }
+        if (!invoice.isOpenInvoiceIndicator()) {
+            throw new UnsupportedOperationException("The Invoice Writeoff Document #" + writeoff.getDocumentNumber() + " attempted to writeoff " + 
+                    "an Invoice [#" + invoiceNumber + "] that was already closed.  This is not supported.");
+        }
+        
+        //  retrieve the customer invoice details, and generate paid applieds for each 
+        List<CustomerInvoiceDetail> invoiceDetails = invoice.getCustomerInvoiceDetailsWithoutDiscounts();
+        for (CustomerInvoiceDetail invoiceDetail : invoiceDetails) {
+
+            //   if no open amount on the detail, then do nothing
+            if (invoiceDetail.getAmountOpen().isZero()) {
+                continue;
+            }
+            
+            //  retrieve the number of current paid applieds, so we dont have item number overlap
+            Integer paidAppliedItemNumber = paidAppliedService.getNumberOfInvoicePaidAppliedsForInvoiceDetail(invoiceNumber, 
+                    invoiceDetail.getInvoiceItemNumber());
+            
+            //  create and save the paidApplied
+            InvoicePaidApplied invoicePaidApplied = new InvoicePaidApplied();
+            invoicePaidApplied.setDocumentNumber(writeoff.getDocumentNumber());
+            invoicePaidApplied.setPaidAppliedItemNumber(paidAppliedItemNumber++);
+            invoicePaidApplied.setFinancialDocumentReferenceInvoiceNumber(invoiceNumber);
+            invoicePaidApplied.setInvoiceItemNumber(invoiceDetail.getInvoiceItemNumber());
+            invoicePaidApplied.setUniversityFiscalYear(universityDateService.getCurrentFiscalYear());
+            invoicePaidApplied.setUniversityFiscalPeriodCode(universityDateService.getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
+            invoicePaidApplied.setInvoiceItemAppliedAmount(invoiceDetail.getAmountOpen());
+            businessObjectService.save(invoicePaidApplied);
+        }
+        
+        //  close the document
+        invoice.setOpenInvoiceIndicator(false);
+        invoice.setClosedDate(dateTimeService.getCurrentSqlDate());
+        documentService.updateDocument(invoice);
+    }
     
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService#setupDefaultValuesForNewCustomerInvoiceWriteoffDocument(org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument)
@@ -337,21 +392,6 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         return invoiceWriteoffBatchService.createBatchDrop(person, batch);
     }
     
-    @Deprecated 
-    public void createCustomerInvoiceWriteoffDocuments(String personId, Collection<CustomerInvoiceWriteoffLookupResult> customerInvoiceWriteoffLookupResults) throws WorkflowException {
-        
-        //create customer writeoff documents
-        for( CustomerInvoiceWriteoffLookupResult customerInvoiceWriteoffLookupResult : customerInvoiceWriteoffLookupResults ){
-            
-            //TODO this needs to go in the batch service
-            customerService.createCustomerNote(customerInvoiceWriteoffLookupResult.getCustomerNumber(), customerInvoiceWriteoffLookupResult.getCustomerNote());
-            
-            for( CustomerInvoiceDocument customerInvoiceDocument : customerInvoiceWriteoffLookupResult.getCustomerInvoiceDocuments() ){
-                //createCustomerInvoiceWriteoffDocument(customerInvoiceDocument);
-            }
-        }
-    }    
-    
     public String createCustomerInvoiceWriteoffDocument(Person initiator, String invoiceNumber, String note) throws WorkflowException {
 
         //  force the initiating user into the header
@@ -464,6 +504,9 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         this.dateTimeService = dateTimeService;
     }
 
+    public void setPaidAppliedService(InvoicePaidAppliedService<CustomerInvoiceDetail> paidAppliedService) {
+        this.paidAppliedService = paidAppliedService;
+    }
 
 }
 

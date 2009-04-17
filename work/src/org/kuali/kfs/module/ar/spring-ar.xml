@@ -176,7 +176,23 @@
 	
 	<bean id="customerCreditMemoDetailService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerCreditMemoDetailServiceImpl"/>
 	
-	<bean id="customerCreditMemoDocumentService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerCreditMemoDocumentServiceImpl"/>
+	<bean id="customerCreditMemoDocumentService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerCreditMemoDocumentServiceImpl">
+		<property name="universityDateService">
+			<ref bean="universityDateService" />
+		</property>			
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>		
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>			
+		<property name="paidAppliedService">
+			<ref bean="invoicePaidAppliedService" />
+		</property>		
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>		
+	</bean>
 	
 	<bean id="ocrLineService" class="org.kuali.kfs.module.ar.report.service.impl.OCRLineServiceImpl"/>
 	
@@ -266,6 +282,9 @@
 		<property name="customerInvoiceDetailService">
 			<ref bean="customerInvoiceDetailService" />
 		</property>
+		<property name="universityDateService">
+			<ref bean="universityDateService" />
+		</property>
 	</bean>	
 	
 	<bean id="customerInvoiceWriteoffDocumentService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceWriteoffDocumentServiceImpl">		
@@ -298,6 +317,9 @@
 		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
+		</property>
+		<property name="paidAppliedService">
+			<ref bean="invoicePaidAppliedService" />
 		</property>
 	</bean>		
 	

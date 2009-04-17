@@ -34,9 +34,8 @@ import org.kuali.kfs.module.ar.businessobject.SalesTaxCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.WriteoffCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.WriteoffTaxCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableTaxService;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceGLPEService;
-import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.TaxDetail;
@@ -274,11 +273,8 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
     public void handleRouteStatusChange() {
         super.handleRouteStatusChange();
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-
-            // apply writeoff amounts by only retrieving only the invoice details that ARE NOT discounts
-            SpringContext.getBean(InvoicePaidAppliedService.class).saveInvoicePaidApplieds(this.customerInvoiceDocument.getCustomerInvoiceDetailsWithoutDiscounts(), documentNumber);
-            KualiDecimal totalAppliedByCustomerInvoiceWriteoffDocument = SpringContext.getBean(InvoicePaidAppliedService.class).getTotalAmountApplied(this.customerInvoiceDocument.getCustomerInvoiceDetailsWithoutDiscounts());
-            SpringContext.getBean(CustomerInvoiceDocumentService.class).closeCustomerInvoiceDocumentIfFullyPaidOff(customerInvoiceDocument, totalAppliedByCustomerInvoiceWriteoffDocument);
+            CustomerInvoiceWriteoffDocumentService writeoffService = SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class);
+            writeoffService.completeWriteoffProcess(this);
         }
     }
 

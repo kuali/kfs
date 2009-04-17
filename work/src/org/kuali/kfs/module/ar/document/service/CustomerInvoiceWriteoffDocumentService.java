@@ -28,6 +28,16 @@ import org.kuali.rice.kim.bo.Person;
 public interface CustomerInvoiceWriteoffDocumentService {
     
     /**
+     * 
+     * Finalizes the actions of a Writeoff document, once its been completely approved.
+     * 
+     * Generates paid applieds for the source invoice, and closes the source invoice.
+     * 
+     * @param writeoff The approved Writeoff document to complete.
+     */
+    public void completeWriteoffProcess(CustomerInvoiceWriteoffDocument writeoff);
+    
+    /**
      * This method setups any default values for a new customer invoice document 
      * @param customerInvoiceWriteoffDocument
      */
@@ -71,12 +81,6 @@ public interface CustomerInvoiceWriteoffDocumentService {
      */
     public boolean checkIfThereIsNoAnotherWriteoffInRouteForTheInvoice(String invoiceDocumentNumber);
     
-    /**
-     * This method initiates customer invoice writeoff documents based on a collection of customer invoice writeoff lookup results
-     * @param customerInvoiceWriteoffLookupResults
-     */
-    public void createCustomerInvoiceWriteoffDocuments(String personId, Collection<CustomerInvoiceWriteoffLookupResult> customerInvoiceWriteoffLookupResults ) throws WorkflowException;
-
     /**
      * 
      * Accepts a lookup result and creates a batch file dropped into the batch system for later asynchronous 

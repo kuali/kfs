@@ -22,16 +22,94 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableTaxService;
 import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDocumentService;
+import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class CustomerCreditMemoDocumentServiceImpl implements CustomerCreditMemoDocumentService {
 
+    DocumentService documentService;
+    InvoicePaidAppliedService<CustomerInvoiceDetail> paidAppliedService;
+    UniversityDateService universityDateService;
+    BusinessObjectService businessObjectService;
+    DateTimeService dateTimeService;
+    
+    public void completeCustomerCreditMemo(CustomerCreditMemoDocument creditMemo) {
+        
+        //  retrieve the document and make sure its not already closed, crash if so 
+        String invoiceNumber = creditMemo.getFinancialDocumentReferenceInvoiceNumber();
+        CustomerInvoiceDocument invoice;
+        try {
+             invoice = (CustomerInvoiceDocument) documentService.getByDocumentHeaderId(invoiceNumber);
+        }
+        catch (WorkflowException e) {
+            throw new RuntimeException("A WorkflowException was generated when trying to load Customer Invoice #" + invoiceNumber + ".", e);
+        }
+        if (!invoice.isOpenInvoiceIndicator()) {
+            throw new UnsupportedOperationException("The CreditMemo Document #" + creditMemo.getDocumentNumber() + " attempted to credit " + 
+                    "an Invoice [#" + invoiceNumber + "] that was already closed.  This is not supported.");
+        }
+        
+        // this needs a little explanation.  we have to calculate manually 
+        // whether we've written off the whole thing, because the regular 
+        // code uses the invoice paid applieds to discount, but since those 
+        // are added but not committed in this transaction, they're also not 
+        // visible in this transaction, so we do it manually.
+        KualiDecimal openAmount = invoice.getOpenAmount();
+
+        //  retrieve the customer invoice details, and generate paid applieds for each 
+        List<CustomerCreditMemoDetail> details = creditMemo.getCreditMemoDetails();
+        for (CustomerCreditMemoDetail detail : details) {
+            CustomerInvoiceDetail invoiceDetail = detail.getCustomerInvoiceDetail();
+            
+            //   if credit amount is zero, do nothing
+            if (detail.getCreditMemoLineTotalAmount().isZero()) {
+                continue;
+            }
+            
+            //  if credit amount is greater than the open amount, crash and complain
+            if (detail.getCreditMemoLineTotalAmount().abs().isGreaterThan(invoiceDetail.getAmountOpen())) {
+                throw new UnsupportedOperationException("The credit detail for CreditMemo Document #" + creditMemo.getDocumentNumber() + " attempted " +
+                        "to credit more than the Open Amount on the Invoice Detail.  This is not supported.");
+            }
+            
+            //  retrieve the number of current paid applieds, so we dont have item number overlap
+            Integer paidAppliedItemNumber = paidAppliedService.getNumberOfInvoicePaidAppliedsForInvoiceDetail(invoiceNumber, 
+                    invoiceDetail.getInvoiceItemNumber());
+            
+            //  create and save the paidApplied
+            InvoicePaidApplied invoicePaidApplied = new InvoicePaidApplied();
+            invoicePaidApplied.setDocumentNumber(creditMemo.getDocumentNumber());
+            invoicePaidApplied.setPaidAppliedItemNumber(paidAppliedItemNumber++);
+            invoicePaidApplied.setFinancialDocumentReferenceInvoiceNumber(invoiceNumber);
+            invoicePaidApplied.setInvoiceItemNumber(invoiceDetail.getInvoiceItemNumber());
+            invoicePaidApplied.setUniversityFiscalYear(universityDateService.getCurrentFiscalYear());
+            invoicePaidApplied.setUniversityFiscalPeriodCode(universityDateService.getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
+            invoicePaidApplied.setInvoiceItemAppliedAmount(detail.getCreditMemoLineTotalAmount().abs());
+            openAmount = openAmount.subtract(detail.getCreditMemoLineTotalAmount().abs());
+            businessObjectService.save(invoicePaidApplied);
+       }
+        
+       //   if its open, but now with a zero openamount, then close it
+       if (invoice.isOpenInvoiceIndicator() && KualiDecimal.ZERO.equals(openAmount)) {
+           invoice.setOpenInvoiceIndicator(false);
+           invoice.setClosedDate(dateTimeService.getCurrentSqlDate());
+           documentService.updateDocument(invoice);
+       }
+    }
+    
     public void recalculateCustomerCreditMemoDocument(CustomerCreditMemoDocument customerCreditMemoDocument, boolean blanketApproveDocumentEventFlag) {
         KualiDecimal customerCreditMemoDetailItemAmount;
         BigDecimal itemQuantity;
@@ -98,4 +176,25 @@ public class CustomerCreditMemoDocumentServiceImpl implements CustomerCreditMemo
         }
         return success;
     }
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+
+    public void setPaidAppliedService(InvoicePaidAppliedService<CustomerInvoiceDetail> paidAppliedService) {
+        this.paidAppliedService = paidAppliedService;
+    }
+
+    public void setUniversityDateService(UniversityDateService universityDateService) {
+        this.universityDateService = universityDateService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+    
 }

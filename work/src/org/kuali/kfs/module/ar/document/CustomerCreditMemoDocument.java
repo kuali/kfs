@@ -19,9 +19,7 @@ import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeader
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableTaxService;
 import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceGLPEService;
-import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
@@ -508,9 +506,8 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
             populateCustomerCreditMemoDetailsAfterLoad();
             
             // apply writeoff amounts by only retrieving only the invoice details that ARE NOT discounts
-            SpringContext.getBean(InvoicePaidAppliedService.class).saveInvoicePaidApplieds(getCreditMemoDetails(), documentNumber);
-            KualiDecimal totalAppliedByCustomerCreditMemoDocument = SpringContext.getBean(InvoicePaidAppliedService.class).getTotalAmountApplied(getCreditMemoDetails());
-            SpringContext.getBean(CustomerInvoiceDocumentService.class).closeCustomerInvoiceDocumentIfFullyPaidOff(getInvoice(), totalAppliedByCustomerCreditMemoDocument);
+            CustomerCreditMemoDocumentService service = SpringContext.getBean(CustomerCreditMemoDocumentService.class);
+            service.completeCustomerCreditMemo(this);
         }
     }        
 

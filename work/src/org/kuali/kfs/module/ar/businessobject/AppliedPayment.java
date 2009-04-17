@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ar.businessobject;
 
-import org.kuali.rice.kns.util.KualiDecimal;
 
 public interface AppliedPayment {
     
@@ -31,9 +30,4 @@ public interface AppliedPayment {
      */
     public Integer getInvoiceItemNumber();
     
-    /**
-     * This method returns the amount that is actually being applied to the specific invoice item detail 
-     * @return
-     */
-    public KualiDecimal getAmountToApply();
 }

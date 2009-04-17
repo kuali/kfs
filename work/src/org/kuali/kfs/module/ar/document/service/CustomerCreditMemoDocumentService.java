@@ -18,9 +18,17 @@ package org.kuali.kfs.module.ar.document.service;
 import java.util.Collection;
 
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
-import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 
 public interface CustomerCreditMemoDocumentService {
+    
+    /**
+     * 
+     * Completes the work that needs to be done once a CreditMemo is fully approved, 
+     * such as generating invoicepaidapplieds, and closing the invoice if appropriate.
+     * 
+     * @param creditMemo
+     */
+    public void completeCustomerCreditMemo(CustomerCreditMemoDocument creditMemo);
     
     /**
      * This method recalculates customer credit memo document based on the user input

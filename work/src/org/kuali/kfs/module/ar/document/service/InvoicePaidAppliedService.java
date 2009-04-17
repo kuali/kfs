@@ -16,14 +16,14 @@
 package org.kuali.kfs.module.ar.document.service;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.kuali.kfs.module.ar.businessobject.AppliedPayment;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.rice.kns.util.KualiDecimal;
 
 public interface InvoicePaidAppliedService<T extends AppliedPayment> {
+    
+    public Integer getNumberOfInvoicePaidAppliedsForInvoiceDetail(String financialDocumentReferenceInvoiceNumber, Integer invoiceItemNumber);
     
     /**
      * 
@@ -46,25 +46,6 @@ public interface InvoicePaidAppliedService<T extends AppliedPayment> {
      * @return
      */
 //    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, PaymentApplicationDocument paymentApplicationDocument);
-    
-    /**
-     * This method takes a list of applied payments and uses them to save invoice paid applieds
-     * @param appliedPayments
-     * @param documentNumberForDocumentApplyingPayments
-     */
-    public void saveInvoicePaidApplieds(List<T> appliedPayments, String documentNumberForDocumentApplyingPayments);
-    
-    /**
-     * This method saves one paid applied
-     * @param appliedPayment
-     */
-    public void saveInvoicePaidApplied(T appliedPayment, Integer paidAppliedItemNumber, String documentNumberForDocumentApplyingPayments);
-    
-    /**
-     * This method returns the total amount applied to a document
-     * @param appliedPayments
-     */
-    public KualiDecimal getTotalAmountApplied(List<T> appliedPayments);
     
     /**
      * This method returns true if invoice has applied amounts (i.e. from application, credit memo, etc), not including

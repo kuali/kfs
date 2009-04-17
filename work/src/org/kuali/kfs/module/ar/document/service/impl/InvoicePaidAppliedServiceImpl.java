@@ -17,7 +17,6 @@ package org.kuali.kfs.module.ar.document.service.impl;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.ar.businessobject.AppliedPayment;
@@ -26,7 +25,6 @@ import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -43,35 +41,6 @@ public class InvoicePaidAppliedServiceImpl implements InvoicePaidAppliedService<
         fields.put("documentNumber", documentNumber);
         businessObjectService.deleteMatching(InvoicePaidApplied.class, fields);
     }
-
-    public void saveInvoicePaidApplied(AppliedPayment appliedPayment, Integer paidAppliedItemNumber, String documentNumber) {
-        InvoicePaidApplied invoicePaidApplied = new InvoicePaidApplied();
-        invoicePaidApplied.setDocumentNumber(documentNumber);
-        invoicePaidApplied.setPaidAppliedItemNumber(paidAppliedItemNumber);
-        invoicePaidApplied.setFinancialDocumentReferenceInvoiceNumber(appliedPayment.getInvoiceReferenceNumber());
-        invoicePaidApplied.setInvoiceItemNumber(appliedPayment.getInvoiceItemNumber());
-        invoicePaidApplied.setUniversityFiscalYear(universityDateService.getCurrentFiscalYear());
-        invoicePaidApplied.setUniversityFiscalPeriodCode(universityDateService.getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
-        invoicePaidApplied.setInvoiceItemAppliedAmount(appliedPayment.getAmountToApply());
-        //TODO should we even bother to save here if amountToApply == 0?
-        businessObjectService.save(invoicePaidApplied);
-    }
-
-    public void saveInvoicePaidApplieds(List<AppliedPayment> appliedPayments, String documentNumber) {
-        int i = 1;
-        for( AppliedPayment appliedPayment : appliedPayments ){
-            saveInvoicePaidApplied(appliedPayment, i, documentNumber);
-            i++;
-        }
-    }    
-   
-    public KualiDecimal getTotalAmountApplied(List<AppliedPayment> appliedPayments) {
-        KualiDecimal totalAmountApplied = KualiDecimal.ZERO;
-        for( AppliedPayment appliedPayment : appliedPayments ){
-            totalAmountApplied = totalAmountApplied.add(appliedPayment.getAmountToApply());
-        }
-        return totalAmountApplied;
-    }    
 
 //    /**
 //     * @see org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService#getInvoicePaidAppliedsForCustomerInvoiceDetail(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail, org.kuali.kfs.module.ar.document.PaymentApplicationDocument)
@@ -118,11 +87,6 @@ public class InvoicePaidAppliedServiceImpl implements InvoicePaidAppliedService<
 //        return businessObjectService.findMatching(InvoicePaidApplied.class, criteria);
 //    }
 
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService#saveInvoicePaidAppliedForDiscounts(java.util.List)
-     */
-        
     public Integer getNumberOfInvoicePaidAppliedsForInvoiceDetail(String financialDocumentReferenceInvoiceNumber, Integer invoiceItemNumber){
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put("financialDocumentReferenceInvoiceNumber", financialDocumentReferenceInvoiceNumber);

@@ -1,10 +1,38 @@
 package org.kuali.kfs.module.ar.document;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.*;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.Organization;
+import org.kuali.kfs.coa.businessobject.ProjectCode;
+import org.kuali.kfs.coa.businessobject.SubAccount;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.businessobject.*;
-import org.kuali.kfs.module.ar.document.service.*;
+import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
+import org.kuali.kfs.module.ar.businessobject.Customer;
+import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceRecurrenceDetails;
+import org.kuali.kfs.module.ar.businessobject.CustomerProcessingType;
+import org.kuali.kfs.module.ar.businessobject.InvoiceRecurrence;
+import org.kuali.kfs.module.ar.businessobject.PrintInvoiceOptions;
+import org.kuali.kfs.module.ar.businessobject.ReceivableCustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.businessobject.SalesTaxCustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.document.service.AccountsReceivableTaxService;
+import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceGLPEService;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.TaxDetail;
@@ -22,11 +50,11 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.*;
-
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.*;
+import org.kuali.rice.kns.util.DateUtils;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -85,7 +113,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     private String shippingEmailAddress;
     private String shippingAddressTypeCode;
     private boolean recurredInvoiceIndicator;
-
+    
 //    private String parentInvoiceNumber;
 //    private String documentStatus;
 
@@ -1041,11 +1069,10 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
             setBillingDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight());
         }
         
-        // apply amounts
-        InvoicePaidAppliedService paidAppliedService = SpringContext.getBean(InvoicePaidAppliedService.class);
-        List<CustomerInvoiceDetail> discounts = this.getDiscounts();
-        paidAppliedService.saveInvoicePaidApplieds(discounts, documentNumber);
-
+        // apply discounts
+        CustomerInvoiceDocumentService invoiceService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
+        invoiceService.convertDiscountsToPaidApplieds(this);
+        
         //  handle a Correction/Reversal document
         if (this.isInvoiceReversal()) {
             try {
@@ -1122,7 +1149,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
             if (ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getCustomerNumber())) {
                 this.getCustomerInvoiceRecurrenceDetails().setCustomerNumber(this.getAccountsReceivableDocumentHeader().getCustomerNumber());
             }
-            
+
             customerInvoiceRecurrenceDetails.setInvoiceNumber(getDocumentNumber());
 
             // calc recurrence number if only end-date specified
@@ -1199,12 +1226,12 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
             setCustomerShipToAddress(null);
             setCustomerShipToAddressOnInvoice(null);
         }
-
+        
     }
     
     // returns true only when there is all the required recurrence info
     public boolean getProcessRecurrenceFlag() {
-        CustomerInvoiceRecurrenceDetails rec = this.getCustomerInvoiceRecurrenceDetails();
+            CustomerInvoiceRecurrenceDetails rec = this.getCustomerInvoiceRecurrenceDetails();
         
         boolean processRecurrenceFlag = (null != rec.getDocumentRecurrenceIntervalCode());
         processRecurrenceFlag &= (null != rec.getDocumentRecurrenceBeginDate());
@@ -1213,8 +1240,8 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         processRecurrenceFlag &= (null != rec.getDocumentInitiatorUserIdentifier());
         
         return processRecurrenceFlag;
-    }
-    
+            }
+
     // returns true only if there is no recurrence data at all in recurrence tab 
     public boolean getNoRecurrenceDataFlag() {
         CustomerInvoiceRecurrenceDetails rec = this.getCustomerInvoiceRecurrenceDetails();
@@ -1225,7 +1252,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         noRecurrenceDataFlag &= !rec.isActive();
         noRecurrenceDataFlag &= ObjectUtils.isNull(rec.getDocumentTotalRecurrenceNumber());
         noRecurrenceDataFlag &= ObjectUtils.isNull(rec.getDocumentInitiatorUserIdentifier());
-        
+
         return noRecurrenceDataFlag;
     }
 

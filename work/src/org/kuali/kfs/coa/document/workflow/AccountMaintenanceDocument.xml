@@ -8,10 +8,10 @@
         <routePath>
           <start name="AdHoc" nextNode="Account"/>
           <requests name="Account" nextNode="OrganizationHierarchy"/>
-          <requests name="OrganizationHierarchy" nextNode="Chart"/>
-          <requests name="Chart" nextNode="SubFund"/>
+          <requests name="OrganizationHierarchy" nextNode="SubFund"/>
           <requests name="SubFund" nextNode="Award"/>
-          <requests name="Award"/>
+          <requests name="Award" nextNode="Chart"/>
+          <requests name="Chart"/>
         </routePath>
       </routePaths>
       <routeNodes>
@@ -24,15 +24,15 @@
           <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
           <activationType>P</activationType>
         </role>
-        <role name="Chart">
-          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-          <activationType>P</activationType>
-        </role>
         <role name="SubFund">
           <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
           <activationType>P</activationType>
         </role>
         <role name="Award">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="Chart">
           <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
           <activationType>P</activationType>
         </role>

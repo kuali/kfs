@@ -127,7 +127,8 @@ It's followed by 0 or more rows for the accounting lines that have already been 
 	<!-- KULEDOCS-1631: Removed Current & Base total as requested. -->
 	<c:set var="hideTotalLine" value="true" />
 </c:if>
-<c:set var="hasActionsColumn" value="${empty editingMode['viewOnly']}"/>
+
+<c:set var="hasActionsColumn" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
 <c:set var="displayHidden" value="false" />
 

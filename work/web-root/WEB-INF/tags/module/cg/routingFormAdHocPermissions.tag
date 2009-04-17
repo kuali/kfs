@@ -23,9 +23,7 @@
 <c:set var="routingFormAdHocOrgAttributes" value="${DataDictionary.RoutingFormAdHocOrg.attributes}" />
 <c:set var="routingFormAdHocWorkgroupAttributes" value="${DataDictionary.RoutingFormAdHocWorkgroup.attributes}" />
 
-<c:if test="${!empty editingMode['viewOnly']}" >
-    <c:set var="displayReadOnly" value="true" />
-</c:if>
+<c:set var="displayReadOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
 <kul:tabTop tabTitle="Ad Hoc Permissions" defaultOpen="false" tabErrorKey="${Constants.AD_HOC_ROUTE_ERRORS}">
    	<div class="tab-container" align=center>     

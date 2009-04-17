@@ -29,7 +29,7 @@
 </c:if>
 
 <c:set var="pbglExpenditureAttributes" value="${DataDictionary.PendingBudgetConstructionGeneralLedger.attributes}" />
-<c:set var="readOnly" value="${KualiForm.editingMode['systemViewOnly'] || !KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
+<c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 <c:set var="salsetDisabled" value="${KualiForm.salarySettingDisabled}" />
 <c:set var="benecalcDisabled" value="${KualiForm.benefitsCalculationDisabled}" />
 <c:set var="salarySettingOnly" value="${KualiForm.document.salarySettingOnly}" />

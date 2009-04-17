@@ -85,7 +85,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     private String shippingEmailAddress;
     private String shippingAddressTypeCode;
     private boolean recurredInvoiceIndicator;
-    
+
 //    private String parentInvoiceNumber;
 //    private String documentStatus;
 
@@ -1116,12 +1116,14 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         }
         
         //  invoice recurrence stuff, if there is a recurrence object
-        if (ObjectUtils.isNotNull(this.getCustomerInvoiceRecurrenceDetails())) {
+        if (ObjectUtils.isNotNull(this.getCustomerInvoiceRecurrenceDetails()) && getProcessRecurrenceFlag()) {
 
             //  wire up the recurrence customer number if one exists
             if (ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getCustomerNumber())) {
                 this.getCustomerInvoiceRecurrenceDetails().setCustomerNumber(this.getAccountsReceivableDocumentHeader().getCustomerNumber());
             }
+            
+            customerInvoiceRecurrenceDetails.setInvoiceNumber(getDocumentNumber());
 
             // calc recurrence number if only end-date specified
             if (ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentTotalRecurrenceNumber()) && ObjectUtils.isNotNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceEndDate())) {
@@ -1197,42 +1199,34 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
             setCustomerShipToAddress(null);
             setCustomerShipToAddressOnInvoice(null);
         }
-        
-        //  get rid of the child object if there's not enough information there to make a recurrence
-        if (ObjectUtils.isNotNull(this.getCustomerInvoiceRecurrenceDetails())) {
-            boolean removeRecurrence = false;
-            CustomerInvoiceRecurrenceDetails rec = this.getCustomerInvoiceRecurrenceDetails();
-            removeRecurrence |= (null == rec.getDocumentRecurrenceBeginDate());
-            removeRecurrence |= (null == rec.getCustomerNumber());
-            removeRecurrence |= (null == rec.getDocumentInitiatorUserIdentifier());
-            removeRecurrence |= (null == rec.getDocumentRecurrenceIntervalCode());
-            removeRecurrence |= (!rec.isActive());
-            if (removeRecurrence) {
-                deleteChildRecurrenceObject();
-                this.setCustomerInvoiceRecurrenceDetails(null);
-            }
-            else {
-                //   need to make sure the fk/pk for the recurrence is wired up, this is 
-                // necessary if the person repeatedly adds a recurrence, saves, deletes a 
-                // recurrence, saves, and then adds one again.
-                if (ObjectUtils.isNotNull(customerInvoiceRecurrenceDetails)) {
-                    customerInvoiceRecurrenceDetails.setInvoiceNumber(getDocumentNumber());
-                }
-            }
-        }
 
     }
-
-    //  since the fk for this child object is also the pk of the parent object, we cant do the normal way of doing this,
-    // and just clear the fk primitive field on the parent object, and we have to get all explicit about it.
-    private void deleteChildRecurrenceObject() {
-        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-        Map<String,String> pks = new HashMap<String,String>();
-        pks.put("invoiceNumber", getDocumentNumber());
-        CustomerInvoiceRecurrenceDetails dbRecurrence = (CustomerInvoiceRecurrenceDetails) boService.findByPrimaryKey(CustomerInvoiceRecurrenceDetails.class, pks);
-        if (dbRecurrence != null) {
-            boService.delete(dbRecurrence);
-        }
+    
+    // returns true only when there is all the required recurrence info
+    public boolean getProcessRecurrenceFlag() {
+        CustomerInvoiceRecurrenceDetails rec = this.getCustomerInvoiceRecurrenceDetails();
+        
+        boolean processRecurrenceFlag = (null != rec.getDocumentRecurrenceIntervalCode());
+        processRecurrenceFlag &= (null != rec.getDocumentRecurrenceBeginDate());
+        processRecurrenceFlag &= ( (null != rec.getDocumentRecurrenceEndDate()) || (null != rec.getDocumentTotalRecurrenceNumber()));
+        processRecurrenceFlag &= (rec.isActive());
+        processRecurrenceFlag &= (null != rec.getDocumentInitiatorUserIdentifier());
+        
+        return processRecurrenceFlag;
+    }
+    
+    // returns true only if there is no recurrence data at all in recurrence tab 
+    public boolean getNoRecurrenceDataFlag() {
+        CustomerInvoiceRecurrenceDetails rec = this.getCustomerInvoiceRecurrenceDetails();
+        
+        boolean noRecurrenceDataFlag = ObjectUtils.isNull(rec.getDocumentRecurrenceIntervalCode());
+        noRecurrenceDataFlag &= ObjectUtils.isNull(rec.getDocumentRecurrenceBeginDate());
+        noRecurrenceDataFlag &= ObjectUtils.isNull(rec.getDocumentRecurrenceEndDate());
+        noRecurrenceDataFlag &= !rec.isActive();
+        noRecurrenceDataFlag &= ObjectUtils.isNull(rec.getDocumentTotalRecurrenceNumber());
+        noRecurrenceDataFlag &= ObjectUtils.isNull(rec.getDocumentInitiatorUserIdentifier());
+        
+        return noRecurrenceDataFlag;
     }
 
     /**

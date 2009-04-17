@@ -16,6 +16,7 @@
 package org.kuali.kfs.coa.identity;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -498,16 +499,30 @@ public class OrgReviewRole extends RoleImpl {
             isChanged = true;
         }
         this.financialSystemDocumentTypeCode = financialSystemDocumentTypeCode;
-        if(isChanged){
-            setRoleNamesToConsider();
+        setRoleNamesAndReviewIndicator(isChanged);
+    }
+    
+    private void setRoleNamesAndReviewIndicator(boolean hasFinancialSystemDocumentTypeCodeChanged){
+        if(hasFinancialSystemDocumentTypeCodeChanged){
+            //If role id is populated role names to consider have already been narrowed down 
+            if(StringUtils.isNotEmpty(getRoleId()) && StringUtils.isNotEmpty(getRoleName())){
+                List<String> narrowedDownRoleNames = new ArrayList<String>();
+                narrowedDownRoleNames.add(getRoleName());
+                setRoleNamesToConsider(roleNamesToConsider);
+            } else{
+                setRoleNamesToConsider();
+            }
             if(isBothReviewRolesIndicator())
                 setReviewRolesIndicatorOnDocTypeChange(KFSConstants.COAConstants.ORG_REVIEW_ROLE_ORG_ACC_BOTH_CODE);
             else if(isAccountingOrgReviewRoleIndicator())
                 setReviewRolesIndicatorOnDocTypeChange(KFSConstants.COAConstants.ORG_REVIEW_ROLE_ORG_ACC_ONLY_CODE);
             else if(isOrgReviewRoleIndicator())
                 setReviewRolesIndicatorOnDocTypeChange(KFSConstants.COAConstants.ORG_REVIEW_ROLE_ORG_ONLY_CODE);
+
         }
+        
     }
+    
     /**
      * Sets the financialSystemDocumentTypeCode attribute value.
      * @param financialSystemDocumentTypeCode The financialSystemDocumentTypeCode to set.
@@ -655,6 +670,10 @@ public class OrgReviewRole extends RoleImpl {
         if(roleNamesToConsider==null && getFinancialSystemDocumentTypeCode()!=null)
             setRoleNamesToConsider();
         return roleNamesToConsider;
+    }
+    public void setRoleNamesToConsider(List<String> narrowedDownRoleNames) {
+        roleNamesToConsider = new ArrayList<String>();
+        roleNamesToConsider.addAll(narrowedDownRoleNames);
     }
     /**
      * Sets the roleNamesToConsider attribute value.
@@ -1331,6 +1350,9 @@ public class OrgReviewRole extends RoleImpl {
      */
     public void setRoleName(String roleName) {
         this.roleName = roleName;
+        List<String> narrowedDownRoleNames = new ArrayList<String>();
+        narrowedDownRoleNames.add(getRoleName());
+        setRoleNamesToConsider(narrowedDownRoleNames);
     }
     /**
      * Gets the roleNamespaceCode attribute. 

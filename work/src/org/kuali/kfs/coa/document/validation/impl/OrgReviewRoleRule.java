@@ -131,7 +131,7 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
                         if(StringUtils.isNotEmpty(orr.getFromAmount())){
                             int inputFromAmount = Integer.parseInt(orr.getFromAmount());
                             if(inputFromAmount<roleMemberFromAmount){
-                                putFieldError("fromAmount", KFSKeyConstants.TO_AMOUNT_OUT_OF_RANGE);
+                                putFieldError("fromAmount", KFSKeyConstants.FROM_AMOUNT_OUT_OF_RANGE);
                                 valid = false;
                             }
                         }
@@ -141,7 +141,7 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
                         if(StringUtils.isNotEmpty(orr.getToAmount())){
                             int inputToAmount = Integer.parseInt(orr.getToAmount());
                             if(inputToAmount>roleMemberToAmount){
-                                putFieldError("toAmount", KFSKeyConstants.FROM_AMOUNT_OUT_OF_RANGE);
+                                putFieldError("toAmount", KFSKeyConstants.TO_AMOUNT_OUT_OF_RANGE);
                                 valid = false;
                             }
                         }

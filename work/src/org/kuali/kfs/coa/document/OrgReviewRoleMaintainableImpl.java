@@ -20,8 +20,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.management.relation.RoleInfo;
+
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.options.OrgReviewRolesValuesFinder;
 import org.kuali.kfs.coa.identity.OrgReviewRole;
 import org.kuali.kfs.coa.identity.OrgReviewRoleLookupableHelperServiceImpl;
 import org.kuali.kfs.sys.KFSConstants;
@@ -154,15 +155,20 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
                     orr.setDelegate(false);
                 orr.setORMId("");
             }
+            KimRoleInfo roleInfo = getRoleService().getRole(orr.getRoleId());
+            //Set the role details
+            orr.setRoleName(roleInfo.getRoleName());
+            orr.setNamespaceCode(roleInfo.getNamespaceCode());
+            
             orr.setChartOfAccountsCode(orr.getAttributeValue(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE));
             orr.setOrganizationCode(orr.getAttributeValue(KfsKimAttributes.ORGANIZATION_CODE));
             orr.setOverrideCode(orr.getAttributeValue(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE));
             orr.setFromAmount(orr.getAttributeValue(KfsKimAttributes.FROM_AMOUNT));
             orr.setToAmount(orr.getAttributeValue(KfsKimAttributes.TO_AMOUNT));
-
+            orr.setFinancialSystemDocumentTypeCode(orr.getAttributeValue(KfsKimAttributes.DOCUMENT_TYPE_NAME));
+            
             orr.getChart().setChartOfAccountsCode(orr.getChartOfAccountsCode());
             orr.getOrganization().setOrganizationCode(orr.getOrganizationCode());
-            orr.setFinancialSystemDocumentTypeCode(orr.getFinancialSystemDocumentTypeCode());
             //orr.setReviewRolesIndicator
             //orr.setFromAmount()
             //toAmount
@@ -252,6 +258,20 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
                             prepareFieldsForEditDelegation(field, orr);
                         }
                         prepareFieldsCommon(field);
+                    }
+                }
+            }
+        } else{
+            for (Section section : sections) {
+                for (Row row : section.getRows()) {
+                    for (Field field : row.getFields()) {
+                        OrgReviewRole orr = (OrgReviewRole)document.getNewMaintainableObject().getBusinessObject();
+                        if(orr.isCreateRoleMember() || orr.isCopyRoleMember() || orr.isEditRoleMember()){
+                            //If the member being edited is not a delegate, do not show the delegation type code
+                            if(OrgReviewRole.DELEGATION_TYPE_CODE.equals(field.getPropertyName())){
+                                field.setFieldType(Field.HIDDEN);
+                            }
+                        }
                     }
                 }
             }
@@ -762,7 +782,7 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
         //chart code
         attributeData.setAttributeDataId(getRoleMemberAttributeDataId());
         attributeData.setKimTypeId(kimTypeImpl.getKimTypeId());
-        attributeData.setAttributeValue(orr.getChart().getChartOfAccountsCode());
+        attributeData.setAttributeValue(orr.getChartOfAccountsCode());
         attributeData.setKimAttributeId(getKimAttributeDefnId(attributeDefinitions, KfsKimAttributes.CHART_OF_ACCOUNTS_CODE));
         attributeDataList.add(attributeData);
         
@@ -770,7 +790,7 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
         attributeData = new KimDelegationMemberAttributeDataImpl();
         attributeData.setKimTypeId(kimTypeImpl.getKimTypeId());
         attributeData.setAttributeDataId(getRoleMemberAttributeDataId());
-        attributeData.setAttributeValue(orr.getOrganization().getOrganizationCode());
+        attributeData.setAttributeValue(orr.getOrganizationCode());
         attributeData.setKimAttributeId(getKimAttributeDefnId(attributeDefinitions, KfsKimAttributes.ORGANIZATION_CODE));
         attributeDataList.add(attributeData);
 

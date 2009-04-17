@@ -31,18 +31,13 @@ public class CustomerInvoiceRecurrenceIntervalCodeValidation extends GenericVali
 
     public boolean validate(AttributedDocumentEvent event) {
 
-        //  if there is no recurrence, then short circuit and dont validate
+        // short circuit if no recurrence object at all
         if (ObjectUtils.isNull(customerInvoiceDocument.getCustomerInvoiceRecurrenceDetails())) {
             return true;
         }
         
-        if (ObjectUtils.isNull(customerInvoiceDocument.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate()) &&
-            ObjectUtils.isNull(customerInvoiceDocument.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceEndDate()) &&
-            ObjectUtils.isNull(customerInvoiceDocument.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceIntervalCode()) &&
-            ObjectUtils.isNull(customerInvoiceDocument.getCustomerInvoiceRecurrenceDetails().getDocumentTotalRecurrenceNumber()) &&
-            ObjectUtils.isNull(customerInvoiceDocument.getCustomerInvoiceRecurrenceDetails().getDocumentInitiatorUserIdentifier())) {
+        if (customerInvoiceDocument.getNoRecurrenceDataFlag())
             return true;
-        }
         
         if (ObjectUtils.isNull(customerInvoiceDocument.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceIntervalCode())) {
             GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DOCUMENT_RECURRENCE_INTERVAL_CODE, ArKeyConstants.ERROR_INVOICE_RECURRENCE_INTERVAL_CODE_IS_REQUIRED);

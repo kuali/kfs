@@ -558,6 +558,16 @@
 						</map>
 					</property>
 				</bean>
+				<bean parent="CustomerInvoice-recurrenceDataSufficiencyValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="customerInvoiceDocument" />
+							</bean>											
+						</list>
+					</property>					
+				</bean>
 				<bean parent="CustomerInvoice-recurrenceIntervalCodeValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
@@ -579,6 +589,16 @@
 					</property>					
 				</bean>				
 				<bean parent="CustomerInvoice-recurrenceEndDateValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="customerInvoiceDocument" />
+							</bean>											
+						</list>
+					</property>					
+				</bean>
+				<bean parent="CustomerInvoice-recurrenceActiveIndicatorValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
 							<bean parent="validationFieldConversion">

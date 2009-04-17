@@ -55,6 +55,7 @@ public class ArKeyConstants {
     // Invoice Recurrence errors/warnings:
     public static final String ERROR_RECURRING_INVOICE_NUMBER_MUST_BE_APPROVED = "error.document.invoiceRecurrenceMaintenance.invoiceMustBeApproved";
     public static final String ERROR_MAINTENANCE_DOCUMENT_ALREADY_EXISTS = "error.document.invoiceRecurrenceMaintenance.maintenanceDocumentsExists";
+    public static final String ERROR_INVOICE_RECURRENCE_BEGIN_DATE_IS_REQUIRED = "error.document.invoiceRecurrenceMaintenance.beginDateIsRequired";
     public static final String ERROR_INVOICE_RECURRENCE_BEGIN_DATE_EARLIER_THAN_TODAY = "error.document.invoiceRecurrenceMaintenance.beginDateMustBeEarlierThanToday";
     public static final String ERROR_INVOICE_DOES_NOT_EXIST = "error.document.invoiceRecurrenceMaintenance.invoiceDoesNotExist";
     public static final String ERROR_END_DATE_EARLIER_THAN_BEGIN_DATE = "error.document.invoiceRecurrenceMaintenance.endDateEarlierThanBeginDate";
@@ -63,6 +64,8 @@ public class ArKeyConstants {
     public static final String ERROR_END_DATE_AND_TOTAL_NUMBER_OF_RECURRENCES_NOT_VALID = "error.document.invoiceRecurrenceMaintenance.endDateAndTotalNumberOfRecurrencesNotValid";
     public static final String ERROR_INVOICE_RECURRENCE_INTERVAL_CODE_IS_REQUIRED = "error.document.invoiceRecurrenceMaintenance.intervalCodeIsRequired";
     public static final String ERROR_INVOICE_RECURRENCE_INITIATOR_IS_REQUIRED = "error.document.invoiceRecurrenceMaintenance.initiatorIsRequired";
+    public static final String ERROR_INVOICE_RECURRENCE_DATA_SUFFICIENCY = "error.document.invoiceRecurrenceMaintenance.notEnoughDataToGenerateRecurrence";
+    public static final String ERROR_INVOICE_RECURRENCE_ACTIVE_MUST_BE_TRUE = "error.document.invoiceRecurrenceMaintenance.activeIndicatorMustBeTrue";
 
     // Organization Accounting Defaults errors
     public static final class OrganizationAccountingDefaultErrors {

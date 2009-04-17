@@ -977,7 +977,9 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String CUSTOMER_INVOICE_DOCUMENT_ADDRESS = "document.customerBillToAddressIdentifier,document.customerShipToAddressIdentifier"; 
     public static final String CUSTOMER_INVOICE_DOCUMENT_RECEIVABLE_ACCOUNTING_LINE = "document.payment*";
     public static final String CUSTOMER_INVOICE_DETAIL_ERRORS = "newCustomerInvoiceDetail*,document.sourceAccountingLine*";
-    public static final String CUSTOMER_INVOICE_DOCUMENT_RECURRENCE_DETAILS_ERRORS = "document.customerInvoiceRecurrenceDetails.workgroupName,document.customerInvoiceRecurrenceDetails.document*";
+    //public static final String CUSTOMER_INVOICE_DOCUMENT_RECURRENCE_DETAILS_ERRORS = "document.customerInvoiceRecurrenceDetails,document.customerInvoiceRecurrenceDetails.active,document.customerInvoiceRecurrenceDetails.workgroup,document.customerInvoiceRecurrenceDetails.document*,document.customerInvoiceRecurrenceDetails.documentInitiatorUser.principalName";
+    public static final String CUSTOMER_INVOICE_DOCUMENT_RECURRENCE_DETAILS_ERRORS = "document.customerInvoiceRecurrenceDetails,document.customerInvoiceRecurrenceDetails.*,document.customerInvoiceRecurrenceDetails.document*";
+
     
     //Cash Control Document
     public static final String CASH_CONTROL_DOCUMENT_ERRORS = "document.accountsReceivableDocumentHeader.processingChartOfAccountCode,document.referenceFinancialDocumentNumber,document.customerPaymentMediumCode,document.organizationCode,document.bankCode";

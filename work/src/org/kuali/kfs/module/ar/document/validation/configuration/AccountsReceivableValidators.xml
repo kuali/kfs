@@ -109,11 +109,13 @@
    		<property name="universityDateService" >
    			<ref bean="universityDateService"/>
    		</property>   		
-   	</bean>   	
-   	
+   	</bean>
+   	   	
+   	<bean id="CustomerInvoice-recurrenceDataSufficiencyValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceRecurrenceDataSufficiencyValidation" abstract="true"/>
    	<bean id="CustomerInvoice-recurrenceIntervalCodeValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceRecurrenceIntervalCodeValidation" abstract="true"/>
    	<bean id="CustomerInvoice-recurrenceBeginDateValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceRecurrenceBeginDateValidation" abstract="true"/>
    	<bean id="CustomerInvoice-recurrenceEndDateValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceRecurrenceEndDateValidation" abstract="true"/>
+   	<bean id="CustomerInvoice-recurrenceActiveIndicatorValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceRecurrenceActiveIndicatorValidation" abstract="true"/>
    	<bean id="CustomerInvoice-maximumNumberOfRecurrencesValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceMaximumNumberOfRecurrencesValidation" abstract="true"/>
    	<bean id="CustomerInvoice-bothEndDateAndTotalRecurrenceNumberValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceBothEndDateAndTotalRecurrenceNumberValidation" abstract="true"/>
    	<bean id="CustomerInvoice-recurrenceEndDateOrNumberOfRecurrencesValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceRecurrenceEndDateOrNumberOfRecurrencesValidation" abstract="true"/>

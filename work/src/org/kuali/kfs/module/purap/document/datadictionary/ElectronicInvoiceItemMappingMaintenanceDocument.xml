@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:p="http://www.springframework.org/schema/p" 
+       xmlns:dd="http://rice.kuali.org/dd" 
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         
+       		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         
+       		http://rice.kuali.org/dd         
+       		http://rice.kuali.org/dd/dd.xsd">
+
+  <bean id="ElectronicInvoiceItemMappingMaintenanceDocument" parent="ElectronicInvoiceItemMappingMaintenanceDocument-parentBean"/>
+
+  <bean id="ElectronicInvoiceItemMappingMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceItemMapping"/>
+    <!-- 
+    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.ElectronicInvoiceItemMappingRule"/>
+    -->
+    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableSections">
+      <list>
+        <ref bean="ElectronicInvoiceItemMappingMaintenanceDocument-EditInvoiceItemType"/>
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>invoiceItemTypeCode</value>
+      </list>
+    </property>
+    
+    
+    
+    <property name="documentTypeName" value="EIIM"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+    <property name="workflowAttributes">
+    	<ref bean="ElectronicInvoiceItemMappingMaintenanceDocument-workflowAttributes"/>
+    </property>
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+  <bean id="ElectronicInvoiceItemMappingMaintenanceDocument-EditInvoiceItemType" parent="ElectronicInvoiceItemMappingMaintenanceDocument-EditInvoiceItemType-parentBean"/>
+
+  <bean id="ElectronicInvoiceItemMappingMaintenanceDocument-EditInvoiceItemType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Electronic Invoice Item Mapping"/>
+    <property name="title" value="Edit Electronic Invoice Item Mapping"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="invoiceItemTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="itemTypeCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="invoiceMapIdentifier"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorHeaderGeneratedIdentifier"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorDetailAssignedIdentifier"/>
+      </list>
+    </property>
+  </bean>
+  
+  <!-- workflow attributes -->
+  <bean id="ElectronicInvoiceItemMappingMaintenanceDocument-workflowAttributes" parent="ElectronicInvoiceItemMappingMaintenanceDocument-workflowAttributes-parentBean"/>
+  
+  <bean id="ElectronicInvoiceItemMappingMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+</beans>

@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2009 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,24 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.ld.batch.service;
+package org.kuali.kfs.module.ld.batch.dataaccess;
 
-import org.kuali.kfs.gl.batch.service.AccountingCycleCachingService;
-import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.module.ld.businessobject.LaborObject;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
+import org.kuali.kfs.sys.batch.dataaccess.PreparedStatementCachingDao;
 
-public interface LaborAccountingCycleCachingService extends AccountingCycleCachingService {
-    public void insertLedgerEntry(LedgerEntry ledgerEntry);
-
+public interface LedgerPreparedStatementCachingDao extends PreparedStatementCachingDao {
     public LaborObject getLaborObject(Integer fiscalYear, String chartCode, String objectCode);
 
+
     public int getMaxLaborSequenceNumber(LedgerEntry t);
+
 
     public LedgerBalance getLedgerBalance(LedgerBalance ledgerBalance);
 
     public void insertLedgerBalance(LedgerBalance ledgerBalance);
 
     public void updateLedgerBalance(LedgerBalance ledgerBalance);
+
+
+    public void insertLedgerEntry(LedgerEntry ledgerEntry);
 }

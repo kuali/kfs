@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2009 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,9 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.gl.batch.service;
-
-import java.sql.Date;
+package org.kuali.kfs.coa.batch.dataaccess;
 
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -32,27 +30,9 @@ import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
-import org.kuali.kfs.gl.businessobject.AccountBalance;
-import org.kuali.kfs.gl.businessobject.Balance;
-import org.kuali.kfs.gl.businessobject.Encumbrance;
-import org.kuali.kfs.gl.businessobject.Entry;
-import org.kuali.kfs.gl.businessobject.ExpenditureTransaction;
-import org.kuali.kfs.gl.businessobject.Reversal;
-import org.kuali.kfs.gl.businessobject.SufficientFundBalances;
-import org.kuali.kfs.gl.businessobject.Transaction;
-import org.kuali.kfs.sys.batch.service.BatchTransactionalCachingService;
-import org.kuali.kfs.sys.businessobject.OriginationCode;
-import org.kuali.kfs.sys.businessobject.SystemOptions;
-import org.kuali.kfs.sys.businessobject.UniversityDate;
+import org.kuali.kfs.sys.batch.dataaccess.PreparedStatementCachingDao;
 
-public interface AccountingCycleCachingService extends BatchTransactionalCachingService {
-    public boolean isCurrentActiveDocumentType(String documentTypeCode);
-
-    public SystemOptions getSystemOptions(Integer fiscalYear);
-
-    public OriginationCode getOriginationCode(String financialSystemOriginationCode);
-
-
+public interface LedgerReferenceValuePreparedStatementCachingDao extends PreparedStatementCachingDao {
     public Chart getChart(String chartOfAccountsCode);
 
     public Account getAccount(String chartCode, String accountNumber);
@@ -69,58 +49,17 @@ public interface AccountingCycleCachingService extends BatchTransactionalCaching
 
     public SubObjectCode getSubObjectCode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode, String financialSubObjectCode);
 
-    public IndirectCostRecoveryType getIndirectCostRecoveryType(String accountIcrTypeCode);
-
     public ProjectCode getProjectCode(String projectCode);
 
     public AccountingPeriod getAccountingPeriod(Integer fiscalYear, String fiscalPeriodCode);
 
-    public SubFundGroup getSubFundGroup(String subFundGroupCode);
+    public IndirectCostRecoveryType getIndirectCostRecoveryType(String accountIcrTypeCode);
 
-    public UniversityDate getUniversityDate(Date date);
+    public SubFundGroup getSubFundGroup(String subFundGroupCode);
 
     public OffsetDefinition getOffsetDefinition(Integer universityFiscalYear, String chartOfAccountsCode, String financialDocumentTypeCode, String financialBalanceTypeCode);
 
     public Organization getOrganization(String chartOfAccountsCode, String organizationCode);
 
     public ObjectLevel getObjectLevel(String chartOfAccountsCode, String financialObjectLevelCode);
-
-
-    public int getMaxSequenceNumber(Transaction t);
-
-
-    public Balance getBalance(Transaction t);
-
-    public Encumbrance getEncumbrance(Entry entry);
-
-    public ExpenditureTransaction getExpenditureTransaction(Transaction t);
-
-    public SufficientFundBalances getSufficientFundBalances(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode);
-
-    public AccountBalance getAccountBalance(Transaction t);
-
-
-    public void insertReversal(Reversal reversal);
-
-    public void insertEntry(Entry entry);
-
-    public void insertBalance(Balance balance);
-
-    public void updateBalance(Balance balance);
-
-    public void insertEncumbrance(Encumbrance encumbrance);
-
-    public void updateEncumbrance(Encumbrance encumbrance);
-
-    public void insertExpenditureTransaction(ExpenditureTransaction expenditureTransaction);
-
-    public void updateExpenditureTransaction(ExpenditureTransaction expenditureTransaction);
-
-    public void insertSufficientFundBalances(SufficientFundBalances sufficientFundBalances);
-
-    public void updateSufficientFundBalances(SufficientFundBalances sufficientFundBalances);
-
-    public void insertAccountBalance(AccountBalance accountBalance);
-
-    public void updateAccountBalance(AccountBalance accountBalance);
 }

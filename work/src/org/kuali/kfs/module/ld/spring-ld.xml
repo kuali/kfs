@@ -309,15 +309,12 @@
 		
     </bean>
     
-	<bean id="laborAccountingCycleCachingService" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborCachingDaoJdbc" init-method="init" singleton="true">
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
-		<property name="universityDateService">
-			<ref bean="universityDateService" />
-		</property>
-	</bean>
+	<bean id="laborLedgerPreparedStatementCachingDao" parent="preparedStatementCachingDao" class="org.kuali.kfs.module.ld.batch.dataaccess.impl.LedgerPreparedStatementCachingDaoJdbc" /> 
 	
+	<bean id="laborAccountingCycleCachingService" parent="accountingCycleCachingService" class="org.kuali.kfs.module.ld.batch.service.impl.LaborAccountingCycleCachingServiceImpl">
+		<property name="ledgerDao" ref="laborLedgerPreparedStatementCachingDao" />
+	</bean>
+
     <bean id="laborPosterService" class="org.kuali.kfs.module.ld.batch.service.impl.LaborPosterServiceImpl">
         <property name="laborOriginEntryService">
             <ref bean="laborOriginEntryService" />
@@ -497,15 +494,13 @@
 	<bean id="createLaborBackupGroupStep" class="org.kuali.kfs.module.ld.batch.CreateLaborBackupGroupStep" parent="step" />         
            
 	<bean id="laborScrubberStep" class="org.kuali.kfs.module.ld.batch.LaborScrubberStep" parent="step">
-		<property name="laborScrubberService">
-			<ref bean="laborScrubberService" />
-		</property>
+		<property name="laborScrubberService" ref="laborScrubberService" />
+		<property name="batchTransactionalCachingService" ref="laborAccountingCycleCachingService" />
 	</bean>
 	
 	<bean id="laborPosterStep" class="org.kuali.kfs.module.ld.batch.LaborPosterStep" parent="step">
-		<property name="laborPosterService">
-			<ref bean="laborPosterService" />
-		</property>
+		<property name="laborPosterService" ref="laborPosterService" />
+		<property name="batchTransactionalCachingService" ref="laborAccountingCycleCachingService" />
 	</bean>
 		           
 	<bean id="laborBalanceSummaryStep" class="org.kuali.kfs.module.ld.batch.LaborBalanceSummaryStep" parent="step">

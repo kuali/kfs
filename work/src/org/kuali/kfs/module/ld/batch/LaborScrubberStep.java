@@ -15,47 +15,26 @@
  */
 package org.kuali.kfs.module.ld.batch;
 
-import java.util.Date;
-
-import org.kuali.kfs.gl.batch.ScrubberStep;
 import org.kuali.kfs.module.ld.batch.service.LaborScrubberService;
-import org.kuali.kfs.sys.batch.AbstractStep;
-import org.springframework.util.StopWatch;
+import org.kuali.kfs.sys.batch.AbstractBatchTransactionalCachingStep;
+import org.kuali.kfs.sys.batch.service.BatchTransactionalCachingService.BatchTransactionExecutor;
 
 /**
  * Labor scrubber Batch Step.
  */
-public class LaborScrubberStep extends AbstractStep {
+public class LaborScrubberStep extends AbstractBatchTransactionalCachingStep {
     private LaborScrubberService laborScrubberService;
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborScrubberStep.class);
 
-    /**
-     * @param jobName
-     * @param jobRunDate
-     * @return boolean when success
-     * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
-     */
-    public boolean execute(String jobName, Date jobRunDate) {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start(jobName);
-        
-        laborScrubberService.scrubEntries();
-
-        stopWatch.stop();
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("scrubber step of " + jobName + " took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");
-        }
-
-        return true;
+    @Override
+    protected BatchTransactionExecutor getBatchTransactionExecutor() {
+        return new BatchTransactionExecutor() {
+            public void executeCustom() {
+                laborScrubberService.scrubEntries();
+            }
+        };
     }
 
-    /**
-     * Sets the labor scrubber service
-     * 
-     * @param laborScrubberService
-     */
     public void setLaborScrubberService(LaborScrubberService laborScrubberService) {
         this.laborScrubberService = laborScrubberService;
     }
-
 }

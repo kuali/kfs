@@ -602,4 +602,5 @@
     
     <bean id="accountDelegateService" class="org.kuali.kfs.coa.service.impl.AccountDelegateServiceImpl" />
 	
+	<bean id="chartLedgerReferenceValuePreparedStatementCachingDao" parent="preparedStatementCachingDao" class="org.kuali.kfs.coa.batch.dataaccess.impl.LedgerReferenceValuePreparedStatementCachingDaoJdbc" /> 
 </beans>

@@ -377,7 +377,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private Message checkAccountFringeIndicator(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, Account account, UniversityDate universityRunDate) {
         // check for fringe tranaction type
         //LaborObject laborObject = (LaborObject) businessObjectService.findByPrimaryKey(LaborObject.class, fieldValues);
-        LaborObject laborObject = getAccountingCycleCachingService().getLaborObject(laborOriginEntry);
+        LaborObject laborObject = getAccountingCycleCachingService().getLaborObject(laborOriginEntry.getUniversityFiscalYear(), laborOriginEntry.getChartOfAccountsCode(), laborOriginEntry.getFinancialObjectCode());
         boolean isFringeTransaction = laborObject != null && org.apache.commons.lang.StringUtils.equals(LaborConstants.BenefitExpenseTransfer.LABOR_LEDGER_BENEFIT_CODE, laborObject.getFinancialObjectFringeOrSalaryCode());
 
         // alternative account handling for non fringe accounts

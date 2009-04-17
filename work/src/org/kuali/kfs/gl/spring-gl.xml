@@ -1490,33 +1490,28 @@
 	</bean>
 	
 	<bean id="scrubberStep" class="org.kuali.kfs.gl.batch.ScrubberStep" parent="step">
-		<property name="scrubberService">
-			<ref bean="glScrubberService" />
-		</property>
+		<property name="scrubberService" ref="glScrubberService" />
+		<property name="batchTransactionalCachingService" ref="accountingCycleCachingService" />
 	</bean>
 
 	<bean id="posterEntriesStep" class="org.kuali.kfs.gl.batch.PosterEntriesStep" parent="step">
-		<property name="posterService">
-			<ref bean="glPosterService" />
-		</property>
+		<property name="posterService" ref="glPosterService" />
+		<property name="batchTransactionalCachingService" ref="accountingCycleCachingService" />
 	</bean>
 
 	<bean id="posterIndirectCostRecoveryEntriesStep" class="org.kuali.kfs.gl.batch.PosterIndirectCostRecoveryEntriesStep" parent="step">
-		<property name="posterService">
-			<ref bean="glPosterService" />
-		</property>
+		<property name="posterService" ref="glPosterService" />
+		<property name="batchTransactionalCachingService" ref="accountingCycleCachingService" />
 	</bean>
 
 	<bean id="posterReversalStep" class="org.kuali.kfs.gl.batch.PosterReversalStep" parent="step">
-		<property name="posterService">
-			<ref bean="glPosterService" />
-		</property>
+		<property name="posterService" ref="glPosterService" />
+		<property name="batchTransactionalCachingService" ref="accountingCycleCachingService" />
 	</bean>
 
 	<bean id="posterIndirectCostRecoveryGenerationStep" class="org.kuali.kfs.gl.batch.PosterIcrGenerationStep" parent="step">
-		<property name="posterService">
-			<ref bean="glPosterService" />
-		</property>
+		<property name="posterService" ref="glPosterService" />
+		<property name="batchTransactionalCachingService" ref="accountingCycleCachingService" />
 	</bean>
 
 	<bean id="nightlyOutStep" class="org.kuali.kfs.gl.batch.NightlyOutStep" parent="step">
@@ -1791,14 +1786,13 @@
 		</property>
 	</bean>
 	
-	<bean id="accountingCycleCachingService" parent="platformAwareDaoJdbc" class="org.kuali.kfs.gl.dataaccess.impl.CachingDaoJdbc" init-method="init" singleton="true">
-		<property name="dataSource" ref="dataSource" />
-		<property name="universityDateService">
-			<ref bean="universityDateService" />
-		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
+	<bean id="generalLedgerPreparedStatementCachingDao" parent="preparedStatementCachingDao" class="org.kuali.kfs.gl.batch.dataaccess.impl.LedgerPreparedStatementCachingDaoJdbc" /> 
+	
+	<bean id="accountingCycleCachingService" class="org.kuali.kfs.gl.batch.service.impl.AccountingCycleCachingServiceImpl">
+		<property name="universityDateService" ref="universityDateService" />
+		<property name="systemReferenceValueDao" ref="systemLedgerReferenceValuePreparedStatementCachingDao" />
+		<property name="chartReferenceValueDao" ref="chartLedgerReferenceValuePreparedStatementCachingDao" />
+		<property name="ledgerDao" ref="generalLedgerPreparedStatementCachingDao" />
 	</bean>
 	
 	<bean id="batchFileService" class="org.kuali.kfs.gl.batch.service.impl.BatchFileServiceImpl" singleton="false">

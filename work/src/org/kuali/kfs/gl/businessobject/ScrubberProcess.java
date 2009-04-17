@@ -1233,7 +1233,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
             ObjectCode scrubbedEntryObjectCode = accountingCycleCachingService.getObjectCode(scrubbedEntry.getUniversityFiscalYear(), scrubbedEntry.getChartOfAccountsCode(), scrubbedEntry.getFinancialObjectCode());
             Account scrubbedEntryAccount = accountingCycleCachingService.getAccount(scrubbedEntry.getChartOfAccountsCode(), scrubbedEntry.getAccountNumber());
             Chart scrubbedEntryChart = accountingCycleCachingService.getChart(scrubbedEntry.getChartOfAccountsCode());
-            scrubbedEntryAccount.setOrganization(accountingCycleCachingService.getOrg(scrubbedEntryAccount.getChartOfAccountsCode(), scrubbedEntryAccount.getOrganizationCode()));
+            scrubbedEntryAccount.setOrganization(accountingCycleCachingService.getOrganization(scrubbedEntryAccount.getChartOfAccountsCode(), scrubbedEntryAccount.getOrganizationCode()));
             
             ParameterEvaluator objectSubTypeCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.PLANT_INDEBTEDNESS_OBJ_SUB_TYPE_CODES, scrubbedEntryObjectCode.getFinancialObjectSubTypeCode());
             ParameterEvaluator subFundGroupCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.PLANT_INDEBTEDNESS_SUB_FUND_GROUP_CODES, scrubbedEntryAccount.getSubFundGroupCode());
@@ -1424,7 +1424,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
         liabilityEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
         ObjectCode scrubbedEntryObjectCode = accountingCycleCachingService.getObjectCode(scrubbedEntry.getUniversityFiscalYear(), scrubbedEntry.getChartOfAccountsCode(), scrubbedEntry.getFinancialObjectCode());
         Account scrubbedEntryAccount = accountingCycleCachingService.getAccount(scrubbedEntry.getChartOfAccountsCode(), scrubbedEntry.getAccountNumber());
-        scrubbedEntryAccount.setOrganization(accountingCycleCachingService.getOrg(scrubbedEntryAccount.getChartOfAccountsCode(), scrubbedEntryAccount.getOrganizationCode()));
+        scrubbedEntryAccount.setOrganization(accountingCycleCachingService.getOrganization(scrubbedEntryAccount.getChartOfAccountsCode(), scrubbedEntryAccount.getOrganizationCode()));
 
             String objectSubTypeCode = scrubbedEntryObjectCode.getFinancialObjectSubTypeCode();
             ParameterEvaluator campusObjSubTypeCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.PLANT_FUND_CAMPUS_OBJECT_SUB_TYPE_CODES, objectSubTypeCode);

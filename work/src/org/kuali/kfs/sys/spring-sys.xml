@@ -409,7 +409,7 @@
         </property>
     </bean>
     -->
-    
+
     <bean id="businessObjectMetaDataDao" class="org.kuali.kfs.sys.dataaccess.impl.BusinessObjectMetaDataDaoJdbc" parent="platformAwareDaoJdbc" />
 
     <bean id="kfsBusinessObjectMetaDataService" class="org.kuali.kfs.sys.service.impl.KfsBusinessObjectMetaDataServiceImpl">
@@ -661,5 +661,10 @@
 			<ref bean="parameterService" />
 		</property>		
 	</bean>
- 
+	
+	<bean id="preparedStatementCachingDao" parent="platformAwareDaoJdbc" abstract="true">
+		<property name="dateTimeService" ref="dateTimeService" />
+	</bean>
+	
+	<bean id="systemLedgerReferenceValuePreparedStatementCachingDao" parent="preparedStatementCachingDao" class="org.kuali.kfs.sys.batch.dataaccess.impl.LedgerReferenceValuePreparedStatementCachingDaoJdbc" /> 
 </beans>

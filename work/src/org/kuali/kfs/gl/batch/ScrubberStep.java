@@ -15,48 +15,26 @@
  */
 package org.kuali.kfs.gl.batch;
 
-import java.util.Date;
-
 import org.kuali.kfs.gl.service.ScrubberService;
-import org.kuali.kfs.sys.batch.AbstractStep;
-import org.springframework.util.StopWatch;
+import org.kuali.kfs.sys.batch.AbstractBatchTransactionalCachingStep;
+import org.kuali.kfs.sys.batch.service.BatchTransactionalCachingService.BatchTransactionExecutor;
 
 /**
  * A step to run the scrubber process.
  */
-public class ScrubberStep extends AbstractStep {
+public class ScrubberStep extends AbstractBatchTransactionalCachingStep {
     private ScrubberService scrubberService;
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberStep.class);
 
-    /**
-     * Runs the scrubber process.
-     * 
-     * @param jobName the name of the job this step is being run as part of
-     * @param jobRunDate the time/date the job was started
-     * @return true if the job completed successfully, false if otherwise
-     * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String)
-     */
-    public boolean execute(String jobName, Date jobRunDate) {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start(jobName);
-
-        scrubberService.scrubEntries();
-
-
-        stopWatch.stop();
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("scrubber step of " + jobName + " took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");
-        }
-        return true;
+    @Override
+    protected BatchTransactionExecutor getBatchTransactionExecutor() {
+        return new BatchTransactionExecutor() {
+            public void executeCustom() {
+                scrubberService.scrubEntries();                
+            }
+        };
     }
-
-    /**
-     * Sets the scrubberSerivce, allowing the injection of an implementation of that service
-     * 
-     * @param scrubberService the scrubberServiceService implementation to set
-     * @see org.kuali.kfs.gl.service.ScrubberService
-     */
-    public void setScrubberService(ScrubberService ss) {
-        scrubberService = ss;
+    
+    public void setScrubberService(ScrubberService scrubberService) {
+        this.scrubberService = scrubberService;
     }
 }

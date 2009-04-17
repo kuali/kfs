@@ -15,38 +15,26 @@
  */
 package org.kuali.kfs.gl.batch;
 
-import java.util.Date;
-
 import org.kuali.kfs.gl.batch.service.PosterService;
-import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.batch.AbstractBatchTransactionalCachingStep;
+import org.kuali.kfs.sys.batch.service.BatchTransactionalCachingService.BatchTransactionExecutor;
 
 /**
  * A step to run the process that creates indirect cost recover transactions, that the poster can then post
  */
-public class PosterIcrGenerationStep extends AbstractStep {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterIcrGenerationStep.class);
+public class PosterIcrGenerationStep extends AbstractBatchTransactionalCachingStep {
     private PosterService posterService;
 
-    /**
-     * Runs the process that generates Indirect Cost Recory transactions
-     * 
-     * @param jobName the name of the job this step is being run as part of
-     * @param jobRunDate the time/date the job was started
-     * @return true if the job completed successfully, false if otherwise
-     * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
-     */
-    public boolean execute(String jobName, Date jobRunDate) {
-        posterService.generateIcrTransactions();
-        return true;
+    @Override
+    protected BatchTransactionExecutor getBatchTransactionExecutor() {
+        return new BatchTransactionExecutor() {
+            public void executeCustom() {
+                posterService.generateIcrTransactions();
+            }
+        };
     }
 
-    /**
-     * Sets the posterService attribute, allowing the injection of an implementation of the service
-     * 
-     * @param ps the implementation of the posterService to set
-     * @see org.kuali.kfs.gl.batch.service.PosterService
-     */
-    public void setPosterService(PosterService ps) {
-        posterService = ps;
+    public void setPosterService(PosterService posterService) {
+        this.posterService = posterService;
     }
 }

@@ -217,6 +217,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String INSERT_METHOD = "insert";
     public static final String SOURCE_ACCOUNTING_LINES_GROUP_NAME = "source";
     public static final String TARGET_ACCOUNTING_LINES_GROUP_NAME = "target";
+    public static final String SUB_ACCOUNT_EDIT_CG_ICR_SECTION_ID = "Edit CG ICR";
 
     /**
      * This value denotes that a max length has not been defined for a given lookup results field

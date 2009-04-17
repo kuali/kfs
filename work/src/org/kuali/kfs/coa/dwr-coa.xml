@@ -89,5 +89,12 @@
 	    	<param name="beanName" value="organizationService" />
 	    	<include method="getByPrimaryIdWithCaching" />
 	    </create>
+        <convert converter="bean" match="org.kuali.kfs.coa.businessobject.A21SubAccount">
+            <param name="include" value="chartOfAccountCode,accountNumber,indirectCostRecoveryTypeCode,financialIcrSeriesIdentifier,indirectCostRecoveryChartOfAccountsCode,indirectCostRecoveryAccountNumber,offCampusCode" />
+        </convert>
+        <create creator="spring" javascript="A21SubAccountService">
+            <param name="beanName" value="a21SubAccountService" />
+            <include method="buildCgIcrAccount" />
+        </create>        
 	</allow>
 </dwr>

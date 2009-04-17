@@ -4,7 +4,7 @@
 
   <bean id="SubAccountMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.SubAccount"/>
-    <property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemMaintainable"/>
+    <property name="maintainableClass" value="org.kuali.kfs.coa.document.SubAccountMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
         <ref bean="SubAccountMaintenanceDocument-EditSub-AccountCode"/>
@@ -35,7 +35,8 @@
     <property name="webScriptFiles">
       <list>
         <value>../dwr/interface/AccountService.js</value>
-        <value>../scripts/coa/subAccountDocument.js</value>
+        <value>../dwr/interface/A21SubAccountService.js</value>         
+        <value>../scripts/coa/subAccountDocument.js</value>       
       </list>
     </property>
     <property name="workflowAttributes">
@@ -43,9 +44,7 @@
     </property>
   </bean>
 
-<!-- Maintenance Section Definitions -->
-
-
+  <!-- Maintenance Section Definitions -->
   <bean id="SubAccountMaintenanceDocument-EditSub-AccountCode" parent="SubAccountMaintenanceDocument-EditSub-AccountCode-parentBean"/>
 
   <bean id="SubAccountMaintenanceDocument-EditSub-AccountCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
@@ -54,7 +53,8 @@
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true" p:webUILeaveFieldCallbackFunction="updateICR_Callback" p:webUILeaveFieldFunction="updateICR"/>
+        <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true" p:webUILeaveFieldFunction="updateICRAccount"/>
+        
         <bean parent="MaintainableFieldDefinition" p:name="subAccountNumber" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="subAccountName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>

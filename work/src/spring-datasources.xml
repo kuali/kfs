@@ -27,19 +27,11 @@
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
 	<bean id="abstractDataSourceBase" abstract="true">
+        <property name="driverClassName" value="${datasource.driver.class}"/>
         <property name="validationQuery" value="${datasource.validating.query}"/>
+        <property name="url" value="${datasource.url}"/>    
         <property name="username" value="${datasource.username}" />
         <property name="password" value="${datasource.password}" />
-        <property name="driverClassName" value="${datasource.driver.class}"/>
-        <property name="url" value="${datasource.url}"/>	
-	</bean>
-
-	<bean id="dataSource" parent="abstractDataSourceBase" class="org.kuali.rice.core.database.XAPoolDataSource">
-		<property name="transactionManager" ref="jotm" />
-		<property name="maxSize" value="${datasource.pool.size}" />
-		<property name="minSize" value="5" />
-		<property name="maxWait" value="${datasource.connection.timeout}" />
-		<property name="preparedStmtCacheSize" value="${datasource.maximum.cached.preparedstatements}" />
 	</bean>
 
     <bean id="nonTransactionalDataSource" parent="abstractDataSourceBase" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
@@ -49,6 +41,20 @@
         <property name="accessToUnderlyingConnectionAllowed" value="true"/>
     </bean>
 
-    <alias name="dataSource" alias="serverDatasource"/>
+	<bean id="dataSource" parent="abstractDataSourceBase" class="org.kuali.rice.core.database.XAPoolDataSource">
+		<property name="transactionManager" ref="jotm" />
+		<property name="maxSize" value="${datasource.pool.size}" />
+		<property name="minSize" value="5" />
+		<property name="maxWait" value="${datasource.connection.timeout}" />
+		<property name="preparedStmtCacheSize" value="${datasource.maximum.cached.preparedstatements}" />
+	</bean>
+
+    <bean id="serverDatasource" parent="dataSource">
+	    <property name="driverClassName" value="${rice.server.datasource.driver.class}" />
+	    <property name="validationQuery" value="${rice.server.datasource.validating.query}" />
+	    <property name="url"             value="${rice.server.datasource.url}" />
+	    <property name="username"        value="${rice.server.datasource.username}" />
+	    <property name="password"        value="${rice.server.datasource.password}" />
+    </bean>
                            
 </beans>

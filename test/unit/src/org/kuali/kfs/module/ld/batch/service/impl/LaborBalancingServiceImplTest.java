@@ -119,6 +119,7 @@ public class LaborBalancingServiceImplTest extends BalancingServiceImplTestBase 
     }
     
     @Override
+    @RelatesTo(JiraIssue.KFSMI3345)
     public void testRunBalancingDeleteObsoleteUniversityFiscalYearData() {
         // Generate some data
         this.postTestCaseEntries(INPUT_TRANSACTIONS);

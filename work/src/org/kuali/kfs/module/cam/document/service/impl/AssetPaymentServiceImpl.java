@@ -152,8 +152,12 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
         List<PersistableBusinessObject> assetPayments = new ArrayList<PersistableBusinessObject>();
         Integer maxSequenceNo = new Integer(0);
 
+        // Calculating the total payments for each individual asset on the list
+        List<KualiDecimal> assetPaymentsTotal = calculateAssetPaymentTotal(document);
+
         try {
             Double totalHistoricalCost = new Double(document.getAssetsTotalHistoricalCost().toString());
+            int assetIndex = 0;
             // Creating a new payment record for each asset that has payments.
             for (AssetPaymentAssetDetail assetPaymentAssetDetail : assetPaymentAssetDetails) {
                 
@@ -172,10 +176,19 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
                 else
                     percentage = (1 / (new Double(assetPaymentAssetDetails.size())));
 
+                KualiDecimal unallocatedAmount = assetPaymentsTotal.get(assetIndex++);
+                int paymentCount = assetPaymentDetailLines.size();
                 KualiDecimal totalAmount = KualiDecimal.ZERO;
+                KualiDecimal amount = KualiDecimal.ZERO;
                 for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetailLines) {
-                    Double paymentAmount = new Double(assetPaymentDetail.getAmount().toString());
-                    KualiDecimal amount = new KualiDecimal(paymentAmount.doubleValue() * percentage.doubleValue());
+                    
+                    if (paymentCount == 1) {
+                        amount = unallocatedAmount;
+                    }
+                    else {
+                        Double paymentAmount = new Double(assetPaymentDetail.getAmount().toString());
+                        amount = new KualiDecimal(paymentAmount.doubleValue() * percentage.doubleValue());
+                    }
                     totalAmount = totalAmount.add(amount);
 
                     AssetPayment assetPayment = new AssetPayment(assetPaymentDetail);
@@ -226,6 +239,54 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
         }
         // Finally, saving all the asset payment records.
         this.getBusinessObjectService().save(assetPayments);
+    }
+
+    /**
+     * Creates a list of total payment for each Asset
+     * 
+     * @param document
+     */
+    private List<KualiDecimal> calculateAssetPaymentTotal(AssetPaymentDocument document) {
+        List<AssetPaymentDetail> assetPaymentDetailLines = document.getSourceAccountingLines();
+        List<KualiDecimal> assetPaymentTotalList = new ArrayList<KualiDecimal>();
+        List<AssetPaymentAssetDetail> assetPaymentAssetDetails = document.getAssetPaymentAssetDetail();
+        int assetCount = assetPaymentAssetDetails.size();
+        KualiDecimal totalAmount = KualiDecimal.ZERO;
+        //Get the grand total amount
+        for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetailLines) {
+            totalAmount = totalAmount.add(assetPaymentDetail.getAmount());
+        }
+
+        //Distribute the grand total amount for each asset and save it in the list
+        try {
+            Double totalHistoricalCost = new Double(document.getAssetsTotalHistoricalCost().toString());
+            KualiDecimal unallocatedTotal = totalAmount;
+            for (AssetPaymentAssetDetail assetPaymentAssetDetail : assetPaymentAssetDetails) {
+
+                Double previousTotalCostAmount = new Double(assetPaymentAssetDetail.getPreviousTotalCostAmount().toString());
+                Double percentage = new Double(0);
+                if (totalHistoricalCost.compareTo(new Double(0)) != 0)
+                    percentage = (previousTotalCostAmount / totalHistoricalCost);
+                else
+                    percentage = (1 / (new Double(assetPaymentAssetDetails.size())));
+
+                KualiDecimal amount = KualiDecimal.ZERO;
+                if (assetCount == 1) {
+                    amount = unallocatedTotal;
+                }
+                else {
+                    assetCount--;
+                    amount = new KualiDecimal(totalAmount.doubleValue() * percentage.doubleValue());                    
+                    unallocatedTotal = unallocatedTotal.subtract(amount);
+                }
+                assetPaymentTotalList.add(amount);
+            }
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        
+        return assetPaymentTotalList;
     }
 
     /**

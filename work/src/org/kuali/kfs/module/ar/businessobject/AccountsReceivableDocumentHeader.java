@@ -263,11 +263,18 @@ public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectB
      * Get a string representation for processing organization
      * @return
      */
-    public String getProcessingChartOfAccCodeAndOrgCode()
-    {
+    public String getProcessingChartOfAccCodeAndOrgCode() {
         String returnVal = getProcessingChartOfAccountCode() + "/" +getProcessingOrganizationCode();
         
         return returnVal;
     }
  
+    /**
+     * Gets the documentStatus attribute. 
+     * @return Returns the documentStatus.
+     */
+    public String getDocumentStatus() {
+        return getDocumentHeader().getWorkflowDocument().getStatusDisplayValue();
+    }
+
 }

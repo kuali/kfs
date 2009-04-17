@@ -24,6 +24,7 @@
         <ref bean="AccountsReceivableDocumentHeader-processingChartOfAccountCode" />
         <ref bean="AccountsReceivableDocumentHeader-processingOrganizationCode" />
         <ref bean="AccountsReceivableDocumentHeader-processingChartOfAccCodeAndOrgCode" />
+        <ref bean="AccountsReceivableDocumentHeader-documentStatus" />
       </list>
     </property>
   </bean>
@@ -114,6 +115,20 @@
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="11" />
+    </property>
+  </bean>
+
+  <bean id="AccountsReceivableDocumentHeader-documentStatus" parent="AccountsReceivableDocumentHeader-documentStatus-parentBean"/>
+  
+  <bean id="AccountsReceivableDocumentHeader-documentStatus-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentStatus"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Document Status"/>
+    <property name="shortLabel" value="Status"/>
+    <property name="maxLength" value="15"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="15"/>
     </property>
   </bean>
 

@@ -139,7 +139,7 @@
 	<bean id="SearchingAttribute-documentStatus-criteriaOnly"
 		class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
 		<property name="businessObjectClassName"
-			value="org.kuali.kfs.module.ar.document.CustomerInvoiceDocument" />
+			value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
 		<property name="attributeName" value="documentStatus" />
 		<property name="showAttributeInSearchCriteria" value="false" />
 		<property name="showAttributeInResultSet" value="true" />
@@ -322,6 +322,16 @@
 				<value>
 					accountsReceivableDocumentHeader.processingOrganizationCode
 				</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="SearchingType-AccountsReceivableDocument-documentStatus-criteriaOnly"
+		class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+		<property name="searchingAttribute"
+			ref="SearchingAttribute-documentStatus-criteriaOnly" />
+		<property name="documentValues">
+			<list>
+				<value>documentStatus</value>
 			</list>
 		</property>
 	</bean>
@@ -565,16 +575,6 @@
 		<property name="documentValues">
 			<list>
 				<value>parentInvoiceNumber</value>
-			</list>
-		</property>
-	</bean>
-	<bean id="SearchingType-CustomerInvoiceDocument-documentStatus-criteriaOnly"
-		class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-		<property name="searchingAttribute"
-			ref="SearchingAttribute-documentStatus-criteriaOnly" />
-		<property name="documentValues">
-			<list>
-				<value>documentStatus</value>
 			</list>
 		</property>
 	</bean>

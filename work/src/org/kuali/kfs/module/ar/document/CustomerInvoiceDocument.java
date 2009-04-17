@@ -114,9 +114,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     private String shippingAddressTypeCode;
     private boolean recurredInvoiceIndicator;
     
-//    private String parentInvoiceNumber;
-//    private String documentStatus;
-
     private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
     private Chart billByChartOfAccount;
     private Organization billedByOrganization;
@@ -1908,14 +1905,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      */
     private boolean hasRecurrence() {
         return (ObjectUtils.isNotNull(getCustomerInvoiceRecurrenceDetails()) && getCustomerInvoiceRecurrenceDetails().isActive());
-    }
-
-    /**
-     * Gets the documentStatus attribute. 
-     * @return Returns the documentStatus.
-     */
-    public String getDocumentStatus() {
-        return getAccountsReceivableDocumentHeader().getDocumentHeader().getWorkflowDocument().getStatusDisplayValue();
     }
 
 }

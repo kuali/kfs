@@ -36,7 +36,6 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 
@@ -146,7 +145,7 @@ public class OrganizationOptionsRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
 
         // check if sales tax is enabled && if org postal code is empty
-        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(KfsParameterConstants.ACCOUNTS_RECEIVABLE_DOCUMENT.class, ArConstants.ENABLE_SALES_TAX_IND) && StringUtils.isEmpty(organizationOptions.getOrganizationPostalZipCode())) {
+        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(KfsParameterConstants.ACCOUNTS_RECEIVABLE_DOCUMENT.class, ArConstants.ENABLE_SALES_TAX_IND) && StringUtils.isBlank(organizationOptions.getOrganizationPostalZipCode())) {
             putFieldError(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_POSTAL_ZIP_CODE, ArKeyConstants.OrganizationOptionsErrors.ERROR_ORG_OPTIONS_ZIP_CODE_REQUIRED);
             success = false;
         }

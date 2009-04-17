@@ -132,8 +132,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="40" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-        p:allowWhitespace="true" />
+      <bean parent="PhoneNumberValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -167,8 +166,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="40" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-        p:allowWhitespace="true" />
+      <bean parent="PhoneNumberValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -220,8 +218,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="40" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-        p:allowWhitespace="true" />
+      <bean parent="PhoneNumberValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -357,7 +354,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
 	p:sourceAttributeName="postalCode">
     <property name="name" value="organizationPostalZipCode" />
-    <property name="label" value="Organization Postal Zip Code" />
+    <property name="label" value="Organization Postal Code" />
+    <property name="shortLabel" value="Org Postal Cd" />
     <property name="required" value="false" />
   </bean>
 

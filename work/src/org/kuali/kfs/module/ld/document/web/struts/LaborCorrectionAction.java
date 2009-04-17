@@ -67,6 +67,7 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
@@ -207,6 +208,95 @@ public class LaborCorrectionAction extends CorrectionAction {
         ActionForward af = super.superSave(mapping, form, request, response);
         return af;
     }
+    
+    
+    /**
+     * Called when the document is loaded from action list or doc search or a new document is created.
+     * 
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("docHandler() started");
+
+        LaborCorrectionForm laborCorrectionForm = (LaborCorrectionForm) form;
+        String command = laborCorrectionForm.getCommand();
+
+        if (KEWConstants.INITIATE_COMMAND.equals(command)) {
+            laborCorrectionForm.clearForm();
+            createDocument(laborCorrectionForm);
+        }
+        else {
+            loadDocument(laborCorrectionForm);
+
+            LaborCorrectionDocument laborDocument = laborCorrectionForm.getLaborCorrectionDocument();
+            laborCorrectionForm.setInputGroupIdFromLastDocumentLoad(laborDocument.getCorrectionInputFileName());
+            populateAuthorizationFields(laborCorrectionForm);
+            Map<String, String> documentActions = laborCorrectionForm.getDocumentActions();
+            if (documentActions.containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT)) {
+                // They have saved the document and they are retreiving it to be completed
+                laborCorrectionForm.setProcessInBatch(!laborDocument.getCorrectionFileDelete());
+                laborCorrectionForm.setMatchCriteriaOnly(laborDocument.getCorrectionSelection());
+                laborCorrectionForm.setEditMethod(laborDocument.getCorrectionTypeCode());
+                
+                if (laborDocument.getCorrectionInputFileName() != null) {
+                    if (CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(laborDocument.getCorrectionTypeCode())) {
+                        loadPersistedInputGroup(laborCorrectionForm);
+                        laborCorrectionForm.setDeleteFileFlag(false);
+                    }
+                    else if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(laborDocument.getCorrectionTypeCode())) {
+                        // for the "true" param below, when the origin entries are persisted in the CorrectionDocumentService, they
+                        // // are likely
+                        // // not to have origin entry IDs assigned to them. So, we create pseudo entry IDs that are
+                        // // unique within the allEntries list, but not necessarily within the DB. The persistence layer
+                        // // is responsible for auto-incrementing entry IDs in the DB.
+                        loadPersistedOutputGroup(laborCorrectionForm, true);
+
+                        laborCorrectionForm.setManualEditFlag(true);
+                        laborCorrectionForm.setEditableFlag(false);
+                        laborCorrectionForm.setDeleteFileFlag(false);
+                    }
+                    else if (CorrectionDocumentService.CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING.equals(laborDocument.getCorrectionTypeCode())) {
+                        loadPersistedInputGroup(laborCorrectionForm);
+                        laborCorrectionForm.setDeleteFileFlag(true);
+                    }
+                    else {
+                        throw new RuntimeException("Unknown edit method " + laborDocument.getCorrectionTypeCode());
+                    }
+                    laborCorrectionForm.setDataLoadedFlag(true);
+                }
+                else {
+                    laborCorrectionForm.setDataLoadedFlag(false);
+                }
+                laborCorrectionForm.setShowOutputFlag(false);
+                laborCorrectionForm.setInputFileName(laborDocument.getCorrectionInputFileName());
+                if (laborDocument.getCorrectionInputFileName() != null) {
+                    laborCorrectionForm.setChooseSystem(CorrectionDocumentService.SYSTEM_UPLOAD);
+                }
+                else {
+                    laborCorrectionForm.setChooseSystem(CorrectionDocumentService.SYSTEM_DATABASE);
+                }
+
+                laborCorrectionForm.setPreviousChooseSystem(laborCorrectionForm.getChooseSystem());
+                laborCorrectionForm.setPreviousEditMethod(laborCorrectionForm.getEditMethod());
+                laborCorrectionForm.setPreviousInputGroupId(laborCorrectionForm.getInputGroupId());
+            }
+            else {
+                // They are calling this from their action list to look at it or approve it
+                laborCorrectionForm.setProcessInBatch(!laborDocument.getCorrectionFileDelete());
+                laborCorrectionForm.setMatchCriteriaOnly(laborDocument.getCorrectionSelection());
+
+                // we don't care about setting entry IDs for the records below, so the param is false below
+                loadPersistedOutputGroup(laborCorrectionForm, false);
+                laborCorrectionForm.setShowOutputFlag(true);
+            }
+            laborCorrectionForm.setInputGroupIdFromLastDocumentLoadIsMissing(!originEntryGroupService.getGroupExists(laborDocument.getCorrectionInputFileName()));
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
 
 
     /**

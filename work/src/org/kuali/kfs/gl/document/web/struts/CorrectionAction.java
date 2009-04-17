@@ -400,9 +400,9 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
             GeneralLedgerCorrectionProcessDocument document = correctionForm.getCorrectionDocument();
             correctionForm.setInputGroupIdFromLastDocumentLoad(document.getCorrectionInputFileName());
-
+            populateAuthorizationFields(correctionForm);
             Map<String, String> documentActions = correctionForm.getDocumentActions();
-            if (documentActions.containsKey(KfsAuthorizationConstants.TransactionalEditMode.FULL_ENTRY)) {
+            if (documentActions.containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT)) {
                 // They have saved the document and they are retreiving it to be completed
                 correctionForm.setProcessInBatch(!document.getCorrectionFileDelete());
                 correctionForm.setMatchCriteriaOnly(document.getCorrectionSelection());
@@ -1905,4 +1905,5 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
     public ActionForward superSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return super.save(mapping, form, request, response);
     }
+    
 }

@@ -304,8 +304,6 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
     }
 
     /**
-     * TODO is this needed?
-     * 
      * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#getAssetPaymentDetailQuantity(org.kuali.kfs.module.cam.businessobject.AssetGlobal)
      */
     public Integer getAssetPaymentDetailQuantity(AssetGlobal assetGlobal) {

@@ -22,7 +22,6 @@ import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Utility class that divides currency into equal targets with remainder to cents in some buckets.<br>
- * TODO: Would be nice to change this so that it doesn't use a constructor
  */
 public class KualiDecimalUtils {
 

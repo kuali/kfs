@@ -81,10 +81,8 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
             for (String propertyName : checkboxesToReset) {
                 try {
                     LOG.info("=============" + propertyName);
-                    
-                    if(StringUtils.isNotBlank(propertyName)) {                    
-                        PropertyUtils.setNestedProperty(this, propertyName, false);
-                    }
+                   
+                    PropertyUtils.setNestedProperty(this, propertyName, false);
                 }
                 catch (Exception e1) {
                     LOG.info("=============", e1);

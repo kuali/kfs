@@ -270,7 +270,9 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         if (ObjectUtils.isNull(glpeSourceDetail.getObjectCode()) || StringUtils.isBlank(glpeSourceDetail.getObjectCode().getFinancialObjectTypeCode())) {
             glpeSourceDetail.refreshReferenceObject("objectCode");
         }
-        explicitEntry.setFinancialObjectTypeCode(glpeSourceDetail.getObjectCode().getFinancialObjectTypeCode());
+        if (!ObjectUtils.isNull(glpeSourceDetail.getObjectCode())) {
+            explicitEntry.setFinancialObjectTypeCode(glpeSourceDetail.getObjectCode().getFinancialObjectTypeCode());
+        }
         explicitEntry.setOrganizationDocumentNumber(glpeSource.getDocumentHeader().getOrganizationDocumentNumber());
         explicitEntry.setOrganizationReferenceId(glpeSourceDetail.getOrganizationReferenceId());
         explicitEntry.setProjectCode(getEntryValue(glpeSourceDetail.getProjectCode(), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankProjectCode()));

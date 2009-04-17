@@ -512,18 +512,6 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         };
     }
     
-    //changes between
-    public ActionForward changeUseTaxIndicator(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument) ((PurchasingAccountsPayableFormBase) form).getDocument();
-        
-        //clear/recalculate tax and recreate GL entries        
-        SpringContext.getBean(PurapService.class).updateUseTaxIndicator(document, !document.isUseTaxIndicator());
-        SpringContext.getBean(PurapService.class).calculateTax(document);
-        
-        //TODO: add recalculate GL entries hook here
-        
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
 
 }
 

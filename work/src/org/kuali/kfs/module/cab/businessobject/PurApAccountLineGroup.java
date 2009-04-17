@@ -65,6 +65,8 @@ public class PurApAccountLineGroup extends AccountLineGroup {
         setSubAccountNumber(entry.getSubAccountNumber());
         setFinancialObjectCode(entry.getFinancialObjectCode());
         setFinancialSubObjectCode(entry.getFinancialSubObjectCode());
+        setOrganizationReferenceId(entry.getOrganizationReferenceId());
+        setProjectCode(entry.getProjectCode());
         this.sourceEntries.add(entry);
         if (CreditMemoAccountRevision.class.isAssignableFrom(entry.getClass())) {
             setAmount(entry.getAmount().negated());

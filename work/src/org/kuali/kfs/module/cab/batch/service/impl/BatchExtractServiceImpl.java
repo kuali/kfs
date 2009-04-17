@@ -146,6 +146,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
             }
         }
     }
+
     /**
      * Creates a batch parameters object reading values from configured system parameters for CAB Extract
      * 
@@ -307,9 +308,17 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         for (GlAccountLineGroup group : matchedGroups) {
             Entry entry = group.getTargetEntry();
             GeneralLedgerEntry generalLedgerEntry = new GeneralLedgerEntry(entry);
+            GeneralLedgerEntry positiveEntry = null;
+            GeneralLedgerEntry negativeEntry = null;
             KualiDecimal transactionLedgerEntryAmount = generalLedgerEntry.getTransactionLedgerEntryAmount();
             if (transactionLedgerEntryAmount != null && transactionLedgerEntryAmount.isNonZero()) {
-            businessObjectService.save(generalLedgerEntry);
+                businessObjectService.save(generalLedgerEntry);
+            }
+            else {
+                positiveEntry = createPositiveGlEntry(entry);
+                businessObjectService.save(positiveEntry);
+                negativeEntry = createNegativeGlEntry(entry);
+                businessObjectService.save(negativeEntry);
             }
 
             PurchasingAccountsPayableDocument cabPurapDoc = findPurchasingAccountsPayableDocument(entry);
@@ -342,7 +351,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                     PurchasingAccountsPayableLineAssetAccount assetAccount = null;
                     String acctLineKey = cabPurapDoc.getDocumentNumber() + "-" + itemAsset.getAccountsPayableLineItemIdentifier() + "-" + itemAsset.getCapitalAssetBuilderLineNumber() + "-" + generalLedgerEntry.getGeneralLedgerAccountIdentifier();
 
-                   
+
                     if ((assetAccount = assetAcctLines.get(acctLineKey)) == null && transactionLedgerEntryAmount.isNonZero()) {
                         // if new unique account line within GL, then create a new account line
                         assetAccount = createPurchasingAccountsPayableLineAssetAccount(generalLedgerEntry, cabPurapDoc, purApAccountingLine, itemAsset);
@@ -350,10 +359,20 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                         itemAsset.getPurchasingAccountsPayableLineAssetAccounts().add(assetAccount);
                     }
                     else if (transactionLedgerEntryAmount.isZero()) {
+                        GeneralLedgerEntry currentEntry = null;
                         // if amount is zero, means canceled doc, then create a copy and retain the account line
-                        GeneralLedgerEntry copyEntry = createCancelledGlEntry(entry, purApAccountingLine);
-                        businessObjectService.save(copyEntry);
-                        assetAccount = createPurchasingAccountsPayableLineAssetAccount(copyEntry, cabPurapDoc, purApAccountingLine, itemAsset);
+                        KualiDecimal purapAmount = purApAccountingLine.getAmount();
+                        if (CabConstants.CM.equals(entry.getFinancialDocumentTypeCode())) {
+                            purapAmount = purapAmount.negated();
+                        }
+                        if (purapAmount.isPositive()) {
+                            currentEntry = positiveEntry;
+                        }
+                        else {
+                            currentEntry = negativeEntry;
+                        }
+                        currentEntry.setTransactionLedgerEntryAmount(currentEntry.getTransactionLedgerEntryAmount().add(purapAmount.abs()));
+                        assetAccount = createPurchasingAccountsPayableLineAssetAccount(currentEntry, cabPurapDoc, purApAccountingLine, itemAsset);
                         itemAsset.getPurchasingAccountsPayableLineAssetAccounts().add(assetAccount);
                     }
                     else if ((assetAccount = assetAcctLines.get(acctLineKey)) != null) {
@@ -363,6 +382,9 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                 }
                 businessObjectService.save(cabPurapDoc);
                 purApDocuments.add(cabPurapDoc);
+                // update negative and positive GL entry once again
+                businessObjectService.save(positiveEntry);
+                businessObjectService.save(negativeEntry);
             }
             else {
                 LOG.error("Could not create a valid PurchasingAccountsPayableDocument object for document number " + entry.getDocumentNumber());
@@ -372,24 +394,15 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         return purApDocuments;
     }
 
-    /**
-     * Creates a entry for a canceled accounting line
-     * 
-     * @param entry Original Entry
-     * @param generalLedgerEntry
-     * @param purApAccountingLine
-     * @return
-     */
-    private GeneralLedgerEntry createCancelledGlEntry(Entry entry, PurApAccountingLineBase purApAccountingLine) {
+    private GeneralLedgerEntry createPositiveGlEntry(Entry entry) {
         GeneralLedgerEntry copyEntry = new GeneralLedgerEntry(entry);
-        KualiDecimal purapAmount = purApAccountingLine.getAmount();
-        if (CabConstants.CM.equals(entry.getFinancialDocumentTypeCode())) {
-            purapAmount = purapAmount.negated();
-        }
-        copyEntry.setOrganizationReferenceId(purApAccountingLine.getOrganizationReferenceId());
-        copyEntry.setProjectCode(purApAccountingLine.getProjectCode());
-        copyEntry.setTransactionLedgerEntryAmount(purapAmount.abs());
-        copyEntry.setTransactionDebitCreditCode(purapAmount.isNegative() ? KFSConstants.GL_CREDIT_CODE : KFSConstants.GL_DEBIT_CODE);
+        copyEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
+        return copyEntry;
+    }
+
+    private GeneralLedgerEntry createNegativeGlEntry(Entry entry) {
+        GeneralLedgerEntry copyEntry = new GeneralLedgerEntry(entry);
+        copyEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
         return copyEntry;
     }
 

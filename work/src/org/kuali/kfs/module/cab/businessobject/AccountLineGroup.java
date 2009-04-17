@@ -33,6 +33,8 @@ public abstract class AccountLineGroup {
     protected String universityFiscalPeriodCode;
     protected String documentNumber;
     protected String referenceFinancialDocumentNumber;
+    protected String projectCode;
+    protected String organizationReferenceId;
     protected KualiDecimal amount;
 
 
@@ -200,6 +202,42 @@ public abstract class AccountLineGroup {
 
 
     /**
+     * Gets the projectCode attribute.
+     * 
+     * @return Returns the projectCode.
+     */
+    public String getProjectCode() {
+        return projectCode;
+    }
+
+    /**
+     * Sets the projectCode attribute value.
+     * 
+     * @param projectCode The projectCode to set.
+     */
+    public void setProjectCode(String projectCode) {
+        this.projectCode = projectCode;
+    }
+
+    /**
+     * Gets the organizationReferenceId attribute.
+     * 
+     * @return Returns the organizationReferenceId.
+     */
+    public String getOrganizationReferenceId() {
+        return organizationReferenceId;
+    }
+
+    /**
+     * Sets the organizationReferenceId attribute value.
+     * 
+     * @param organizationReferenceId The organizationReferenceId to set.
+     */
+    public void setOrganizationReferenceId(String organizationReferenceId) {
+        this.organizationReferenceId = organizationReferenceId;
+    }
+
+    /**
      * Overridden so that group by statement can be easily implemented.
      * <li>DO NOT REMOVE this method, it is critical to reconciliation process</li>
      * 
@@ -224,6 +262,8 @@ public abstract class AccountLineGroup {
         equalsBuilder.append(replaceFiller(universityFiscalPeriodCode), replaceFiller(test.getUniversityFiscalPeriodCode()));
         equalsBuilder.append(replaceFiller(documentNumber), replaceFiller(test.getDocumentNumber()));
         equalsBuilder.append(replaceFiller(referenceFinancialDocumentNumber), replaceFiller(test.getReferenceFinancialDocumentNumber()));
+        equalsBuilder.append(replaceFiller(organizationReferenceId), replaceFiller(test.getOrganizationReferenceId()));
+        equalsBuilder.append(replaceFiller(projectCode), replaceFiller(test.getProjectCode()));
         return equalsBuilder.isEquals();
     }
 
@@ -258,6 +298,8 @@ public abstract class AccountLineGroup {
         hashCodeBuilder.append(replaceFiller(universityFiscalPeriodCode));
         hashCodeBuilder.append(replaceFiller(documentNumber));
         hashCodeBuilder.append(replaceFiller(referenceFinancialDocumentNumber));
+        hashCodeBuilder.append(replaceFiller(organizationReferenceId));
+        hashCodeBuilder.append(replaceFiller(projectCode));
         return hashCodeBuilder.toHashCode();
     }
 

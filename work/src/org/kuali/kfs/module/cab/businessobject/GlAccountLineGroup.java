@@ -47,6 +47,8 @@ public class GlAccountLineGroup extends AccountLineGroup {
         setUniversityFiscalPeriodCode(entry.getUniversityFiscalPeriodCode());
         setDocumentNumber(entry.getDocumentNumber());
         setReferenceFinancialDocumentNumber(entry.getReferenceFinancialDocumentNumber());
+        setOrganizationReferenceId(entry.getOrganizationReferenceId());
+        setProjectCode(entry.getProjectCode());
         this.sourceEntries.add(entry);
         this.targetEntry = (Entry) ObjectUtils.deepCopy(entry);
 

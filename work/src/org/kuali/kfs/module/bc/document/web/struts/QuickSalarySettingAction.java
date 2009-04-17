@@ -310,6 +310,9 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
             return false;
         }
 
+        // get budget allowed flag which is used to deny any updates other than delete
+        boolean isBudgetAllowed = budgetDocumentService.isBudgetableDocument(document);
+
         List<PendingBudgetConstructionAppointmentFunding> savableAppointmentFundings = salarySettingForm.getAppointmentFundings();
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingForm.getAppointmentFundings();
 
@@ -323,6 +326,13 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
             }
 
             salarySettingService.recalculateDerivedInformation(savableFunding);
+
+            // any other update must be against a budget allowed document
+            if (!isBudgetAllowed) {
+                GlobalVariables.getErrorMap().addToErrorPath(errorKeyPrefix);
+                GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_BUDGETABLE, salarySettingExpansion.getSalarySettingExpansionString());
+                return false;
+            }
 
             // validate the savable appointment funding lines
             boolean isValid = this.invokeRules(new QuickSaveSalarySettingEvent(KFSConstants.EMPTY_STRING, errorKeyPrefix, document, savableFunding));

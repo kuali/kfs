@@ -48,14 +48,6 @@ public class SalarySettingRules implements SalarySettingRule {
             return hasValidFormat;
         }
 
-        // added 12/3/2008 - gwp
-        // quickSS should check for budgetable when not deleted line
-        // this allows user to do cleanup - using request amount as property to light up on error
-        boolean isAssociatedWithBudgetableDocument = budgetConstructionRuleHelperService.isAssociatedWithValidDocument(appointmentFunding, errorMap, BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT);
-        if (!isAssociatedWithBudgetableDocument) {
-            return isAssociatedWithBudgetableDocument;
-        }
-
         boolean hasValidAmounts = this.hasValidAmounts(appointmentFunding, errorMap);
         if (!hasValidAmounts) {
             return hasValidAmounts;

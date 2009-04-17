@@ -177,13 +177,15 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
             editModes.add(PaymentRequestEditMode.PURAP_TAX_ENABLED);
         }
 
-        // tax area tab editable while waiting for tax review
+        // tax area tab is editable while waiting for tax review
         if (PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals(paymentRequestDocument.getStatusCode())) {
             editModes.add(PaymentRequestEditMode.TAX_AREA_EDITABLE);
         }
 
-        // after tax is approved, the tax tab is viewable to everyone
-        if (PaymentRequestStatuses.DEPARTMENT_APPROVED.equals(paymentRequestDocument.getStatusCode())) {
+        // the tax tab is viewable to everyone after tax is approved
+        if (PaymentRequestStatuses.DEPARTMENT_APPROVED.equals(paymentRequestDocument.getStatusCode()) &&
+                // if and only if the preq has gone through tax review would TaxClassificationCode be non-empty
+                !StringUtils.isEmpty(paymentRequestDocument.getTaxClassificationCode())) {
             editModes.add(PaymentRequestEditMode.TAX_INFO_VIEWABLE);
         }
 

@@ -56,7 +56,7 @@ public class PaymentApplicationDocumentRuleUtil {
         
         invoicePaidApplied.refreshReferenceObject("invoiceDetail");
         if(ObjectUtils.isNull(invoicePaidApplied) || ObjectUtils.isNull(invoicePaidApplied.getInvoiceDetail())) { return true; }
-        KualiDecimal amountOwed = invoicePaidApplied.getInvoiceDetail().getAmount();
+        KualiDecimal amountOwed = invoicePaidApplied.getInvoiceDetail().getAmountOpen();
         KualiDecimal amountPaid = invoicePaidApplied.getInvoiceItemAppliedAmount();
         
         if(ObjectUtils.isNull(amountOwed)) {

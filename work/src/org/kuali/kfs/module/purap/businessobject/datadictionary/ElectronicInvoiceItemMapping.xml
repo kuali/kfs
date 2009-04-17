@@ -137,7 +137,7 @@
   <bean id="ElectronicInvoiceItemMapping-inquiryDefinition" parent="ElectronicInvoiceItemMapping-inquiryDefinition-parentBean" />
 
   <bean id="ElectronicInvoiceItemMapping-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Electronic Invoice Reject Type Code Inquiry" />
+    <property name="title" value="Electronic Invoice Item Mapping Code Inquiry" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
@@ -172,8 +172,8 @@
   <bean id="ElectronicInvoiceItemMapping-lookupDefinition" parent="ElectronicInvoiceItemMapping-lookupDefinition-parentBean" />
 
   <bean id="ElectronicInvoiceItemMapping-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Electronic Invoice Reject Type Code Lookup" />
-    <property name="instructions" value="Lookup an Electronic Invoice Reject Type Code" />
+    <property name="title" value="Electronic Invoice Item Mapping Code Lookup" />
+    <property name="instructions" value="Lookup an Electronic Invoice Item Mapping Code" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

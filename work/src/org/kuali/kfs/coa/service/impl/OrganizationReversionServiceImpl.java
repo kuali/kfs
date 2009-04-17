@@ -29,6 +29,7 @@ import org.kuali.kfs.gl.batch.service.OrganizationReversionCategoryLogic;
 import org.kuali.kfs.gl.batch.service.impl.GenericOrganizationReversionCategory;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * 
@@ -40,6 +41,7 @@ public class OrganizationReversionServiceImpl implements OrganizationReversionSe
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionServiceImpl.class);
 
     private OrganizationReversionDao organizationReversionDao;
+    private BusinessObjectService businessObjectService;
 
     /**
      * @see org.kuali.kfs.coa.service.OrganizationReversionService#getByPrimaryId(java.lang.Integer, java.lang.String,
@@ -92,11 +94,46 @@ public class OrganizationReversionServiceImpl implements OrganizationReversionSe
     }
 
     /**
+     * @see org.kuali.kfs.coa.service.OrganizationReversionService#isCategoryActive(java.lang.String)
+     */
+    public boolean isCategoryActive(String categoryCode) {
+        Map<String, Object> pkMap = new HashMap<String, Object>();
+        pkMap.put("organizationReversionCategoryCode", categoryCode);
+        final OrganizationReversionCategory category = (OrganizationReversionCategory)businessObjectService.findByPrimaryKey(OrganizationReversionCategory.class, pkMap);
+        if (category == null) return false;
+        return category.isActive();
+    }
+
+    /**
+     * @see org.kuali.kfs.coa.service.OrganizationReversionService#isCategoryActiveByName(java.lang.String)
+     */
+    public boolean isCategoryActiveByName(String categoryName) {
+        Map<String, Object> fieldMap = new HashMap<String, Object>();
+        fieldMap.put("organizationReversionCategoryName", categoryName);
+        final Collection categories = businessObjectService.findMatching(OrganizationReversionCategory.class, fieldMap);
+        final Iterator categoriesIterator = categories.iterator();
+        OrganizationReversionCategory category = null;
+        while (categoriesIterator.hasNext()) {
+            category = (OrganizationReversionCategory)categoriesIterator.next();
+        }
+        if (category == null) return false;
+        return category.isActive();
+    }
+
+    /**
      * 
      * This method injects the OrganizationReversionDao
      * @param orgDao
      */
     public void setOrganizationReversionDao(OrganizationReversionDao orgDao) {
         organizationReversionDao = orgDao;
+    }
+    
+    /**
+     * Sets an implementation of the business object service
+     * @param boService the implementation of the BusinessObjectService to set
+     */
+    public void setBusinessObjectService(BusinessObjectService boService) {
+        this.businessObjectService = boService;
     }
 }

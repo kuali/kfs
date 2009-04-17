@@ -168,6 +168,7 @@
         </bean>
       </list>
     </property>
+    <property name="inquirableClass" value="org.kuali.kfs.coa.businessobject.inquiry.OrganizationReversionInquirable" />
   </bean>
 
 <!-- Business Object Lookup Definition -->

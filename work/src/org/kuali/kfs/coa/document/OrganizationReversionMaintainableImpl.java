@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.coa.document;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -30,9 +31,13 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
+import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
+import org.kuali.rice.kns.web.ui.Section;
 
 /**
  * This class provides some specific functionality for the {@link OrganizationReversion} maintenance document inner class for doing
@@ -41,6 +46,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * accidentally
  */
 public class OrganizationReversionMaintainableImpl extends KualiMaintainableImpl {
+    private transient OrganizationReversionService organizationReversionService;
 
     /**
      * This comparator is used internally for sorting the list of categories
@@ -183,6 +189,49 @@ public class OrganizationReversionMaintainableImpl extends KualiMaintainableImpl
         } else if (isInactivatingOrgReversion) {
             SpringContext.getBean(OrganizationReversionDetailTrickleDownInactivationService.class).trickleDownInactiveOrganizationReversionDetails((OrganizationReversion)getBusinessObject(), documentNumber);
         }
+    }
+
+    /**
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getSections(org.kuali.rice.kns.document.MaintenanceDocument, org.kuali.rice.kns.maintenance.Maintainable)
+     */
+    @Override
+    public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
+        List<Section> sections = super.getSections(document, oldMaintainable);
+        if (organizationReversionService == null) {
+            organizationReversionService = SpringContext.getBean(OrganizationReversionService.class);
+        }
+        for (Section section : sections) {
+            for (Row row : section.getRows()) {
+                List<Field> updatedFields = new ArrayList<Field>();
+                for (Field field : row.getFields()) {
+                    if (shouldIncludeField(field)) {
+                        updatedFields.add(field);
+                    }
+                }
+                row.setFields(updatedFields);
+            }
+        }
+        return sections;
+    }
+    
+    /**
+     * Determines if the given field should be included in the updated row, once we take out inactive categories
+     * @param field the field to check
+     * @return true if the field should be included (ie, it doesn't describe an organization reversion with an inactive category); false otherwise
+     */
+    protected boolean shouldIncludeField(Field field) {
+        boolean includeField = true;
+        if (field.getContainerRows() != null) {
+            for (Row containerRow : field.getContainerRows()) {
+                for (Field containedField : containerRow.getFields()) {
+                    if (containedField.getPropertyName().matches("organizationReversionDetail\\[\\d+\\]\\.organizationReversionCategory\\.organizationReversionCategoryName")) {
+                        final String categoryValue = containedField.getPropertyValue();
+                        includeField = organizationReversionService.isCategoryActiveByName(categoryValue);
+                    }
+                }
+            }
+        }
+        return includeField;
     }
     
 }

@@ -24,6 +24,7 @@
         <ref bean="OrganizationReversionDetail-organizationReversionObject.financialObjectCodeName" />
         <ref bean="OrganizationReversionDetail-organizationReversionObjectCode" />
         <ref bean="OrganizationReversionDetail-organizationReversionCode" />
+        <ref bean="OrganizationReversionDetail-active" />
         <ref bean="OrganizationReversionDetail-newCollectionRecord" />
       </list>
     </property>
@@ -84,6 +85,14 @@
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.OrganizationReversionCodeValuesFinder"
             p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="OrganizationReversionDetail-active" parent="OrganizationReversionDetail-active-parentBean" />
+
+  <bean id="OrganizationReversionDetail-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
     </property>
   </bean>
   <bean id="OrganizationReversionDetail-newCollectionRecord" parent="OrganizationReversionDetail-newCollectionRecord-parentBean" />

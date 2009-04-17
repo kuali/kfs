@@ -219,6 +219,7 @@
 		<property name="organizationReversionDao">
 			<ref bean="organizationReversionDao" />
 		</property>
+		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 
 	<bean id="accountDao" parent="platformAwareDao"

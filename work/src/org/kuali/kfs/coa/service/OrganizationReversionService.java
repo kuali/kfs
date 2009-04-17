@@ -51,4 +51,18 @@ public interface OrganizationReversionService {
      * @return list of org reversion category codes
      */
     public List<OrganizationReversionCategory> getCategoryList();
+    
+    /**
+     * Determines if the given category code represents an active category
+     * @param categoryCode the category code to check
+     * @return true if the given category code represents an active category; false otherwise
+     */
+    public boolean isCategoryActive(String categoryCode);
+    
+    /**
+     * Determines if the given category name represents an active category
+     * @param categoryName the category name to check
+     * @return true if the given category name represents an active category; false otherwise
+     */
+    public boolean isCategoryActiveByName(String categoryName);
 }

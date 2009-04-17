@@ -44,9 +44,9 @@ import org.kuali.rice.kns.web.format.SimpleBooleanFormatter;
  */
 public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherForm.class);
-    
+
     private static final long serialVersionUID = 1L;
-    
+
     private String payeeIdNumber;
     private String vendorHeaderGeneratedIdentifier = StringUtils.EMPTY;
     private String vendorDetailAssignedIdentifier = StringUtils.EMPTY;
@@ -57,10 +57,12 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
     private DisbursementVoucherNonEmployeeExpense newPrePaidNonEmployeeExpenseLine;
     private DisbursementVoucherPreConferenceRegistrant newPreConferenceRegistrantLine;
     private String wireChargeMessage;
-    
+
     /**
      * Override reset to reset checkboxes if they are present on the requesting page
-     * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#reset(org.apache.struts.action.ActionMapping, javax.servlet.http.HttpServletRequest)
+     * 
+     * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#reset(org.apache.struts.action.ActionMapping,
+     *      javax.servlet.http.HttpServletRequest)
      */
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         // TODO: remove the method after identifying the problem happening on CNV
@@ -71,16 +73,21 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
 
         if (request.getParameter("checkboxToReset") != null) {
             String[] checkboxesToReset = request.getParameterValues("checkboxToReset");
-            if(checkboxesToReset != null && checkboxesToReset.length > 0) {
-                for (int i = 0; i < checkboxesToReset.length; i++) {
-                    String propertyName = (String) checkboxesToReset[i];
-                    try {
-                        LOG.info("=============" + propertyName);
+            
+            for (String propertyName : checkboxesToReset) {
+                LOG.info("=============" + propertyName);
+            }
+            
+            for (String propertyName : checkboxesToReset) {
+                try {
+                    LOG.info("=============" + propertyName);
+                    
+                    if(StringUtils.isNotBlank(propertyName)) {                    
                         PropertyUtils.setNestedProperty(this, propertyName, false);
-                    } catch (Exception e1) {
-                        LOG.info("=============" + propertyName + ":" + e1.getStackTrace());
-                        throw new RuntimeException(e1.getMessage(), e1);
                     }
+                }
+                catch (Exception e1) {
+                    LOG.info("=============", e1);
                 }
             }
         }
@@ -161,7 +168,7 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
         return SpringContext.getBean(DisbursementVoucherCoverSheetService.class).isCoverSheetPrintable(disbursementVoucherDocument);
     }
 
-    /** 
+    /**
      * @return a list of available travel expense type codes for rendering per diem link page.
      */
     public List<TravelPerDiem> getTravelPerDiemCategoryCodes() {
@@ -287,7 +294,7 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
      * determine whether the selected payee is an employee
      */
     public boolean isEmployee() {
-        DisbursementVoucherDocument disbursementVoucherDocument = (DisbursementVoucherDocument) this.getDocument();       
+        DisbursementVoucherDocument disbursementVoucherDocument = (DisbursementVoucherDocument) this.getDocument();
         return disbursementVoucherDocument.getDvPayeeDetail().isEmployee();
     }
 
@@ -295,17 +302,18 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
      * determine whether the selected payee is a vendor
      */
     public boolean isVendor() {
-        DisbursementVoucherDocument disbursementVoucherDocument = (DisbursementVoucherDocument) this.getDocument();       
+        DisbursementVoucherDocument disbursementVoucherDocument = (DisbursementVoucherDocument) this.getDocument();
         return disbursementVoucherDocument.getDvPayeeDetail().isVendor();
     }
 
     /**
-     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#shouldMethodToCallParameterBeUsed(java.lang.String, java.lang.String, javax.servlet.http.HttpServletRequest)
+     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#shouldMethodToCallParameterBeUsed(java.lang.String,
+     *      java.lang.String, javax.servlet.http.HttpServletRequest)
      */
     @Override
-    public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {                
-        if(StringUtils.equals(methodToCallParameterName, KNSConstants.DISPATCH_REQUEST_PARAMETER)) {
-            if(this.getExcludedmethodToCall().contains(methodToCallParameterValue)) {
+    public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
+        if (StringUtils.equals(methodToCallParameterName, KNSConstants.DISPATCH_REQUEST_PARAMETER)) {
+            if (this.getExcludedmethodToCall().contains(methodToCallParameterValue)) {
                 return true;
             }
         }
@@ -319,7 +327,7 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
         List<String> execludedMethodToCall = super.getExcludedmethodToCall();
         execludedMethodToCall.add("printDisbursementVoucherCoverSheet");
         execludedMethodToCall.add("showTravelPerDiemLinks");
-        
+
         return execludedMethodToCall;
     }
 }

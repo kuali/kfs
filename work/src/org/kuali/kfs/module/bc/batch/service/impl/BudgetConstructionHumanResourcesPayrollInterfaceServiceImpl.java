@@ -74,10 +74,13 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceServiceImpl impleme
                 budgetConstructionHumanResourcesPayrollInterfaceDao.buildBudgetConstructionIntendedIncumbent(requestYear);
             }
         }
-       // the name is always updated if the budget is in update mode
-        if (BCUpdatesAllowed)
+        else
         {
-            budgetConstructionHumanResourcesPayrollInterfaceDao.updateNamesInBudgetConstructionIntendedIncumbent();
+           // the name is always updated if the budget is in update mode, even if intended incumbent was not rebuilt because position synchronization was off.
+            if (BCUpdatesAllowed)
+            {
+               budgetConstructionHumanResourcesPayrollInterfaceDao.updateNamesInBudgetConstructionIntendedIncumbent();
+            }
         }
     }
 

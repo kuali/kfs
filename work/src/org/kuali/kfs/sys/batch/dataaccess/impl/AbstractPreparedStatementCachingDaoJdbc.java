@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.sys.batch.dataaccess.impl;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -81,18 +80,16 @@ public abstract class AbstractPreparedStatementCachingDaoJdbc extends PlatformAw
         }
     }
 
-    protected Connection connectionCache;
     protected Map<String, PreparedStatement> preparedStatementCache;
     protected DateTimeService dateTimeService;
 
     protected abstract Map<String, String> getSql();
 
     public void initialize() {
-        connectionCache = getConnection();
         preparedStatementCache = new HashMap<String, PreparedStatement>();
         try {
             for (String statementKey : getSql().keySet()) {
-                preparedStatementCache.put(statementKey, connectionCache.prepareStatement(getSql().get(statementKey)));
+                preparedStatementCache.put(statementKey, getConnection().prepareStatement(getSql().get(statementKey)));
             }
         }
         catch (SQLException e) {
@@ -101,7 +98,6 @@ public abstract class AbstractPreparedStatementCachingDaoJdbc extends PlatformAw
     }
 
     public void destroy() {
-        connectionCache = null;
         try {
             for (PreparedStatement preparedStatement : preparedStatementCache.values()) {
                 preparedStatement.close();

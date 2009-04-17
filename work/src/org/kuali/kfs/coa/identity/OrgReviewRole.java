@@ -19,13 +19,11 @@ import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kew.service.impl.KEWModuleService;
 import org.kuali.rice.kew.util.CodeTranslator;
@@ -45,8 +43,8 @@ import org.kuali.rice.kim.bo.ui.KimDocumentRoleMember;
 import org.kuali.rice.kim.bo.ui.RoleDocumentDelegation;
 import org.kuali.rice.kim.bo.ui.RoleDocumentDelegationMember;
 import org.kuali.rice.kim.util.KimConstants;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kns.web.comparator.StringValueComparator;
 
 /**
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
@@ -63,8 +61,8 @@ public class OrgReviewRole extends RoleImpl {
     public static final String GROUP_NAME_FIELD_NAMESPACE_CODE = "groupMemberGroupNamespaceCode";
     public static final String GROUP_NAME_FIELD_NAME = "groupMemberGroupName";
     public static final String PRINCIPAL_NAME_FIELD_NAME = "principalMemberPrincipalName";
-    public static final String CHART_CODE_FIELD_NAME = "chart.chartOfAccountsCode";
-    public static final String ORG_CODE_FIELD_NAME = "organization.organizationCode";
+    public static final String CHART_CODE_FIELD_NAME = "chartOfAccountsCode";
+    public static final String ORG_CODE_FIELD_NAME = "organizationCode";
     public static final String DOC_TYPE_NAME_FIELD_NAME = "financialSystemDocumentTypeCode";
     public static final String DELEGATE_FIELD_NAME = "delegate";
     public static final String DELEGATION_TYPE_CODE = "delegationTypeCode";
@@ -138,7 +136,7 @@ public class OrgReviewRole extends RoleImpl {
     protected String financialSystemDocumentTypeCode;
     protected DocumentTypeEBO financialSystemDocumentType;
     protected List<String> roleNamesToConsider;
-    protected String reviewRolesIndicator;
+    private String reviewRolesIndicator;
     
 	protected String actionTypeCode;
 	protected String priorityNumber;
@@ -358,14 +356,14 @@ public class OrgReviewRole extends RoleImpl {
      * @return Returns the fromAmount.
      */
     public String getFromAmount() {
-        return getAttributeValue(KfsKimAttributes.FROM_AMOUNT);
+        return this.fromAmount;
     }
     /**
      * Sets the fromAmount attribute value.
      * @param fromAmount The fromAmount to set.
      */
     public void setFromAmount(String fromAmount) {
-        updateAttributeValue(KfsKimAttributes.FROM_AMOUNT, fromAmount);
+        //updateAttributeValue(KfsKimAttributes.FROM_AMOUNT, fromAmount);
         this.fromAmount = fromAmount;
     }
 
@@ -377,9 +375,10 @@ public class OrgReviewRole extends RoleImpl {
                 KimAttributeImpl attribute = new KimAttributeImpl();
                 attribute.setAttributeName(attributeName);
                 attributeData.setKimAttribute(attribute);
-            }
-            attributeData.setAttributeValue(attributeValue);
-            attributes.add(attributeData);
+                attributeData.setAttributeValue(attributeValue);
+                attributes.add(attributeData);
+            } else
+                attributeData.setAttributeValue(attributeValue);
         }
     }
     /**
@@ -387,14 +386,14 @@ public class OrgReviewRole extends RoleImpl {
      * @return Returns the overrideCode.
      */
     public String getOverrideCode() {
-        return getAttributeValue(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE);
+        return this.overrideCode;
     }
     /**
      * Sets the overrideCode attribute value.
      * @param overrideCode The overrideCode to set.
      */
     public void setOverrideCode(String overrideCode) {
-        updateAttributeValue(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE, overrideCode);
+        //updateAttributeValue(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE, overrideCode);
         this.overrideCode = overrideCode;
     }
     /**
@@ -402,14 +401,14 @@ public class OrgReviewRole extends RoleImpl {
      * @return Returns the toAmount.
      */
     public String getToAmount() {
-        return getAttributeValue(KfsKimAttributes.TO_AMOUNT);
+        return this.toAmount;
     }
     /**
      * Sets the toAmount attribute value.
      * @param toAmount The toAmount to set.
      */
     public void setToAmount(String toAmount) {
-        updateAttributeValue(KfsKimAttributes.TO_AMOUNT, toAmount);
+        //updateAttributeValue(KfsKimAttributes.TO_AMOUNT, toAmount);
         this.toAmount = toAmount;
     }
     /**
@@ -493,7 +492,21 @@ public class OrgReviewRole extends RoleImpl {
      * @param financialDocumentTypeCode The financialDocumentTypeCode to set.
      */
     public void setFinancialSystemDocumentTypeCode(String financialSystemDocumentTypeCode) {
+        String oldFinancialSystemDocumentTypeCode = this.financialSystemDocumentTypeCode;
+        boolean isChanged = false;
+        if(StringValueComparator.getInstance().compare(this.financialSystemDocumentTypeCode, financialSystemDocumentTypeCode)!=0){
+            isChanged = true;
+        }
         this.financialSystemDocumentTypeCode = financialSystemDocumentTypeCode;
+        if(isChanged){
+            setRoleNamesToConsider();
+            if(isBothReviewRolesIndicator())
+                setReviewRolesIndicatorOnDocTypeChange(KFSConstants.COAConstants.ORG_REVIEW_ROLE_ORG_ACC_BOTH_CODE);
+            else if(isAccountingOrgReviewRoleIndicator())
+                setReviewRolesIndicatorOnDocTypeChange(KFSConstants.COAConstants.ORG_REVIEW_ROLE_ORG_ACC_ONLY_CODE);
+            else if(isOrgReviewRoleIndicator())
+                setReviewRolesIndicatorOnDocTypeChange(KFSConstants.COAConstants.ORG_REVIEW_ROLE_ORG_ONLY_CODE);
+        }
     }
     /**
      * Sets the financialSystemDocumentTypeCode attribute value.
@@ -571,16 +584,12 @@ public class OrgReviewRole extends RoleImpl {
         this.attributes = attributes;
     }
     
-    private String getAttributeValue(String attributeName){
+    public String getAttributeValue(String attributeName){
         String attributeValue = "";
         if(StringUtils.isEmpty(attributeName)) 
             attributeValue = "";
-        for(KimAttributeDataImpl attribute: attributes){
-            if(attribute.getKimAttribute()!=null && attribute.getKimAttribute().getAttributeName()!=null && 
-                    attribute.getKimAttribute().getAttributeName().equals(attributeName))
-                attributeValue = attribute.getAttributeValue();
-        }
-        return attributeValue;
+        KimAttributeDataImpl attributeData = getAttribute(attributeName);
+        return attributeData==null?"":attributeData.getAttributeValue();
     }
 
     private KimAttributeDataImpl getAttribute(String attributeName){
@@ -588,8 +597,10 @@ public class OrgReviewRole extends RoleImpl {
         if(StringUtils.isNotEmpty(attributeName)) 
             for(KimAttributeDataImpl attribute: attributes){
                 if(attribute.getKimAttribute()!=null && attribute.getKimAttribute().getAttributeName()!=null && 
-                        attribute.getKimAttribute().getAttributeName().equals(attributeName))
+                        attribute.getKimAttribute().getAttributeName().equals(attributeName)){
                     attributeData = attribute;
+                    break;
+                }
             }
         return attributeData;
     }
@@ -599,14 +610,14 @@ public class OrgReviewRole extends RoleImpl {
      * @return Returns the chartCode.
      */
     public String getChartOfAccountsCode() {
-        return getAttributeValue(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+        return this.chartOfAccountsCode;
     }
     /**
      * Gets the organizationCode attribute. 
      * @return Returns the organizationCode.
      */
     public String getOrganizationCode() {
-        return getAttributeValue(KfsKimAttributes.ORGANIZATION_CODE);
+        return this.organizationCode;
     }
     /**
      * Sets the organizationCode attribute value.
@@ -614,13 +625,6 @@ public class OrgReviewRole extends RoleImpl {
      */
     public void setOrganizationCode(String organizationCode) {
         this.organizationCode = organizationCode;
-    }
-    /**
-     * Gets the organizationCode attribute. 
-     * @return Returns the organizationCode.
-     */
-    public String getDocumentTypeName() {
-        return getAttributeValue(KfsKimAttributes.DOCUMENT_TYPE_NAME);
     }
     /**
      * Gets the roleRspActions attribute. 
@@ -648,18 +652,17 @@ public class OrgReviewRole extends RoleImpl {
      * @return Returns the roleNamesToConsider.
      */
     public List<String> getRoleNamesToConsider() {
-        if(roleNamesToConsider==null){
-            OrgReviewRoleLookupableHelperServiceImpl orrLHSI = new OrgReviewRoleLookupableHelperServiceImpl();
-            roleNamesToConsider = orrLHSI.getRolesToConsider(getFinancialSystemDocumentTypeCode());
-        }
+        if(roleNamesToConsider==null && getFinancialSystemDocumentTypeCode()!=null)
+            setRoleNamesToConsider();
         return roleNamesToConsider;
     }
     /**
      * Sets the roleNamesToConsider attribute value.
      * @param roleNamesToConsider The roleNamesToConsider to set.
      */
-    public void setRoleNamesToConsider(List<String> roleNamesToConsider) {
-        this.roleNamesToConsider = roleNamesToConsider;
+    public void setRoleNamesToConsider() {
+        OrgReviewRoleLookupableHelperServiceImpl orrLHSI = new OrgReviewRoleLookupableHelperServiceImpl();
+        roleNamesToConsider = orrLHSI.getRolesToConsider(getFinancialSystemDocumentTypeCode());
     }
     /**
      * Gets the accountingOrgReviewRoleIndicator attribute. 
@@ -815,12 +818,6 @@ public class OrgReviewRole extends RoleImpl {
      * @return Returns the reviewRolesIndicator.
      */
     public String getReviewRolesIndicator() {
-        if(isBothReviewRolesIndicator())
-            reviewRolesIndicator = KFSConstants.COAConstants.ORG_REVIEW_ROLE_ORG_ACC_BOTH_CODE;
-        else if(isAccountingOrgReviewRoleIndicator())
-            reviewRolesIndicator = KFSConstants.COAConstants.ORG_REVIEW_ROLE_ORG_ACC_ONLY_CODE;
-        else if(isOrgReviewRoleIndicator())
-            reviewRolesIndicator = KFSConstants.COAConstants.ORG_REVIEW_ROLE_ORG_ONLY_CODE;
         return reviewRolesIndicator;
     }
     /**
@@ -830,18 +827,25 @@ public class OrgReviewRole extends RoleImpl {
     public void setReviewRolesIndicator(String reviewRolesIndicator) {
         this.reviewRolesIndicator = reviewRolesIndicator;
     }
+    /**
+     * Sets the reviewRolesIndicator attribute value.
+     * @param reviewRolesIndicator The reviewRolesIndicator to set.
+     */
+    private void setReviewRolesIndicatorOnDocTypeChange(String reviewRolesIndicator) {
+        this.reviewRolesIndicator = reviewRolesIndicator;
+    }
 
 
     public boolean hasRole(){
-        return memberRole!=null && StringUtils.isNotEmpty(memberRole.getMemberNamespaceCode()) && StringUtils.isNotEmpty(memberRole.getMemberName());
+        return StringUtils.isNotEmpty(roleMemberRoleNamespaceCode) && StringUtils.isNotEmpty(roleMemberRoleName);
     }
 
     public boolean hasGroup(){
-        return memberGroup!=null && StringUtils.isNotEmpty(memberGroup.getMemberNamespaceCode()) && StringUtils.isNotEmpty(memberGroup.getMemberName());
+        return StringUtils.isNotEmpty(groupMemberGroupNamespaceCode) && StringUtils.isNotEmpty(groupMemberGroupName);
     }
     
     public boolean hasPrincipal(){
-        return memberPerson!=null && StringUtils.isNotEmpty(memberPerson.getMemberName());
+        return StringUtils.isNotEmpty(principalMemberPrincipalName);
     }
     
     public boolean hasAnyMember(){
@@ -1178,13 +1182,6 @@ public class OrgReviewRole extends RoleImpl {
         return null;
     }
     
-    public static void main(String[] args){
-        System.out.println("is writeable: "+PropertyUtils.isWriteable(new OrgReviewRole(), "members.memberId"));
-        System.out.println("is writeable: "+PropertyUtils.isWriteable(new OrgReviewRole(), "oRMId"));
-        System.out.println("is writeable ORMId: "+PropertyUtils.isWriteable(new OrgReviewRole(), "ORMId"));
-        System.out.println("is writeable: "+PropertyUtils.isWriteable(new OrgReviewRole(), "methodToCall"));
-        System.out.println("is writeable: "+PropertyUtils.isWriteable(new OrgReviewRole(), "orgReviewRoleMemberId"));
-    }
     /**
      * Gets the copy attribute. 
      * @return Returns the copy.

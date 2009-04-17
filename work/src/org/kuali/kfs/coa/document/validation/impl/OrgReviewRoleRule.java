@@ -23,6 +23,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.identity.OrgReviewRole;
+import org.kuali.kfs.coa.identity.OrgReviewRoleLookupableHelperServiceImpl;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
@@ -54,9 +55,29 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
     public boolean processRouteDocument(Document document) {
         boolean valid = super.processRouteDocument(document);
         OrgReviewRole orr = (OrgReviewRole)((MaintenanceDocument)document).getNewMaintainableObject().getBusinessObject();
+        OrgReviewRoleLookupableHelperServiceImpl lookupableHelperService = new OrgReviewRoleLookupableHelperServiceImpl();
+        lookupableHelperService.validateDocumentType(orr.getFinancialSystemDocumentTypeCode());
         if(!orr.hasAnyMember()){
             valid = false;
-            putFieldError("principal.principalName", KFSKeyConstants.NO_MEMBER_SELECTED);
+            putFieldError("principalMemberPrincipalName", KFSKeyConstants.NO_MEMBER_SELECTED);
+        } else if(orr.isDelegate()){
+            // Save delegation(s)
+            valid = validateDelegation(document);
+        } else{
+            // Save role member(s)
+            valid = validateRoleMember(document);
+        }
+        return valid;
+    }
+    
+    protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
+        boolean valid = super.processRouteDocument(document);
+        OrgReviewRole orr = (OrgReviewRole)((MaintenanceDocument)document).getNewMaintainableObject().getBusinessObject();
+        OrgReviewRoleLookupableHelperServiceImpl lookupableHelperService = new OrgReviewRoleLookupableHelperServiceImpl();
+        lookupableHelperService.validateDocumentType(orr.getFinancialSystemDocumentTypeCode());
+        if(!orr.hasAnyMember()){
+            valid = false;
+            putFieldError("principalMemberPrincipalName", KFSKeyConstants.NO_MEMBER_SELECTED);
         } else if(orr.isDelegate()){
             // Save delegation(s)
             validateDelegation(document);
@@ -64,24 +85,6 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
             // Save role member(s)
             validateRoleMember(document);
         }
-
-        return valid;
-    }
-    
-    protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
-        boolean valid = super.processCustomSaveDocumentBusinessRules(document);
-        OrgReviewRole orr = (OrgReviewRole)document.getNewMaintainableObject().getBusinessObject();
-        if(!orr.hasAnyMember()){
-            valid = false;
-            putFieldError("principal.principalName", KFSKeyConstants.NO_MEMBER_SELECTED);
-        } else if(orr.isDelegate() || orr.isCreateDelegation()){
-            // Save delegation(s)
-            validateDelegation(document);
-        } else{
-            // Save role member(s)
-            validateRoleMember(document);
-        }
-
         return valid;
     }
 
@@ -114,7 +117,7 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
                 }
             }
         }
-        if(orr.isCreateDelegation()){
+        if(StringUtils.isNotEmpty(orr.getRoleMemberId())){
             //TODO: put from and to amounts validation here
             Map<String, String> criteria = new HashMap<String, String>();
             criteria.put("roleMemberId", orr.getRoleMemberId());
@@ -155,6 +158,8 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
         String roleId;
         OrgReviewRole orr = (OrgReviewRole)((MaintenanceDocument)document).getNewMaintainableObject().getBusinessObject();
         if(!((MaintenanceDocument)document).isEdit()){
+            if(orr.getRoleNamesToConsider()==null)
+                orr.setRoleNamesToConsider();
             for(String roleName: orr.getRoleNamesToConsider()){
                 roleId = KIMServiceLocator.getRoleService().getRoleIdByName(
                         KFSConstants.SysKimConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);

@@ -1195,9 +1195,9 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     
     public static class COAConstants{
         public static final String FINANCIAL_SYSTEM_DOCUMENT = "KFS";
-        public static final String FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT = "FinancialSystemTransactionalDocument";
-        public static final String FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT = "FinancialSystemComplexMaintenanceDocument";
-        public static final String FINANCIAL_SYSTEM_SIMPLE_MAINTENANCE_DOCUMENT = "FinancialSystemSimpleMaintenanceDocument";
+        public static final String FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT = "KFST";
+        public static final String FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT = "KFSM";
+        public static final String FINANCIAL_SYSTEM_SIMPLE_MAINTENANCE_DOCUMENT = "FSSM";
         
         public static final String NODE_NAME_ORGANIZATION_HIERARCHY = "OrganizationHierarchy";
         public static final String NODE_NAME_ACCOUNTING_ORGANIZATION_HIERARCHY = "AccountingOrganizationHierarchy";

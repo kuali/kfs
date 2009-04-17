@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.options.OrgReviewRolesValuesFinder;
 import org.kuali.kfs.coa.identity.OrgReviewRole;
 import org.kuali.kfs.coa.identity.OrgReviewRoleLookupableHelperServiceImpl;
 import org.kuali.kfs.sys.KFSConstants;
@@ -131,9 +132,9 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
                 KimDocumentRoleMember member = getUIDocumentService().getKimDocumentRoleMember(
                         roleMember.getMemberTypeCode(), roleMember.getMemberId(), roleMember.getRoleId());
                 orr.setRoleMemberId(roleMember.getRoleMemberId());
-                orr.setRoleMemberRoleId(member.getMemberId());
+                /*orr.setRoleMemberRoleId(member.getMemberId());
                 orr.setRoleMemberRoleName(member.getMemberName());
-                orr.setRoleMemberRoleNamespaceCode(member.getMemberNamespaceCode());
+                orr.setRoleMemberRoleNamespaceCode(member.getMemberNamespaceCode());*/
                 List<KimAttributeDataImpl> attributes = new ArrayList<KimAttributeDataImpl>();
                 KimAttributeDataImpl attribute;
                 for(RoleMemberAttributeDataImpl roleMemberAttribute: roleMember.getAttributes()){
@@ -147,15 +148,21 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
                 orr.setKimDocumentRoleMember(member, roleMember.getMemberTypeCode());
                 orr.setActiveFromDate(roleMember.getActiveFromDate());
                 orr.setActiveToDate(roleMember.getActiveToDate());
-                if(KNSConstants.DOC_HANDLER_METHOD.equals(orr.getMethodToCall()))
+                if(orr.isCreateDelegation())
                     orr.setDelegate(true);
                 else
                     orr.setDelegate(false);
                 orr.setORMId("");
             }
+            orr.setChartOfAccountsCode(orr.getAttributeValue(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE));
+            orr.setOrganizationCode(orr.getAttributeValue(KfsKimAttributes.ORGANIZATION_CODE));
+            orr.setOverrideCode(orr.getAttributeValue(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE));
+            orr.setFromAmount(orr.getAttributeValue(KfsKimAttributes.FROM_AMOUNT));
+            orr.setToAmount(orr.getAttributeValue(KfsKimAttributes.TO_AMOUNT));
+
             orr.getChart().setChartOfAccountsCode(orr.getChartOfAccountsCode());
             orr.getOrganization().setOrganizationCode(orr.getOrganizationCode());
-            orr.setFinancialSystemDocumentTypeCode(orr.getDocumentTypeName());
+            orr.setFinancialSystemDocumentTypeCode(orr.getFinancialSystemDocumentTypeCode());
             //orr.setReviewRolesIndicator
             //orr.setFromAmount()
             //toAmount
@@ -172,7 +179,7 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
             orr.setPriorityNumber(orr.getRoleRspActions().get(0).getPriorityNumber()==null?"":orr.getRoleRspActions().get(0).getPriorityNumber()+"");
             orr.setActionPolicyCode(orr.getRoleRspActions().get(0).getActionPolicyCode());
             orr.setIgnorePrevious(orr.getRoleRspActions().get(0).isIgnorePrevious());
-            orr.setReviewRolesIndicator(orr.getReviewRolesIndicator());
+            //orr.setReviewRolesIndicator(orr.getReviewRolesIndicator());
         }
         //super.setBusinessObject(orr);
     }
@@ -226,21 +233,26 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
     @Override
     public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
         List<Section> sections = super.getSections(document, oldMaintainable);
-        OrgReviewRole orr = (OrgReviewRole)document.getOldMaintainableObject().getBusinessObject();
-        shouldReviewTypesFieldBeReadOnly(document);
-        for (Section section : sections) {
-            for (Row row : section.getRows()) {
-                for (Field field : row.getFields()) {
-                    if(orr.isCreateRoleMember() || orr.isCopyRoleMember()){
-                        prepareFieldsForCreateRoleMemberMode(field);
-                    } else if(orr.isCreateDelegation() || orr.isCopyDelegation()){
-                        prepareFieldsForCreateDelegationMode(field);
-                    } else if(orr.isEditRoleMember()){
-                        prepareFieldsForEditRoleMember(field, orr);
-                    } else if(orr.isEditDelegation()){
-                        prepareFieldsForEditDelegation(field, orr);
+        //If oldMaintainable is null, it means we are trying to get sections for the old part
+        //If oldMaintainable is not null, it means we are trying to get sections for the new part
+        //Refer to KualiMaintenanceForm lines 288-294
+        if(oldMaintainable!=null){
+            OrgReviewRole orr = (OrgReviewRole)document.getNewMaintainableObject().getBusinessObject();
+            shouldReviewTypesFieldBeReadOnly(document);
+            for (Section section : sections) {
+                for (Row row : section.getRows()) {
+                    for (Field field : row.getFields()) {
+                        if(orr.isCreateRoleMember() || orr.isCopyRoleMember()){
+                            prepareFieldsForCreateRoleMemberMode(field);
+                        } else if(orr.isCreateDelegation() || orr.isCopyDelegation()){
+                            prepareFieldsForCreateDelegationMode(field);
+                        } else if(orr.isEditRoleMember()){
+                            prepareFieldsForEditRoleMember(field, orr);
+                        } else if(orr.isEditDelegation()){
+                            prepareFieldsForEditDelegation(field, orr);
+                        }
+                        prepareFieldsCommon(field);
                     }
-                    prepareFieldsCommon(field);
                 }
             }
         }
@@ -267,6 +279,7 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
         if(OrgReviewRole.CHART_CODE_FIELD_NAME.equals(field.getPropertyName()) ||
                 OrgReviewRole.ORG_CODE_FIELD_NAME.equals(field.getPropertyName()) ||
                 OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME.equals(field.getPropertyName()) ||
+                OrgReviewRole.REVIEW_ROLES_INDICATOR_FIELD_NAME.equals(field.getPropertyName()) ||
                 OrgReviewRole.PRINCIPAL_NAME_FIELD_NAME.equals(field.getPropertyName()) ||
                 OrgReviewRole.ROLE_NAME_FIELD_NAME.equals(field.getPropertyName()) ||
                 OrgReviewRole.ROLE_NAME_FIELD_NAMESPACE_CODE.equals(field.getPropertyName()) ||
@@ -329,9 +342,9 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
     @Override
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document){
         super.refresh(refreshCaller, fieldValues, document);
-        OrgReviewRole orr = (OrgReviewRole)document.getNewMaintainableObject().getBusinessObject();
+        /*OrgReviewRole orr = (OrgReviewRole)document.getNewMaintainableObject().getBusinessObject();
         OrgReviewRoleLookupableHelperServiceImpl orrLHSI = new OrgReviewRoleLookupableHelperServiceImpl();
-        orr.setRoleNamesToConsider(orrLHSI.getRolesToConsider(orr.getFinancialSystemDocumentTypeCode()));
+        orr.setRoleNamesToConsider(orrLHSI.getRolesToConsider(orr.getFinancialSystemDocumentTypeCode()));*/
     }
     
     /**
@@ -356,13 +369,13 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
     
     protected List<PersistableBusinessObject> getDelegations(OrgReviewRole orr){
         List<PersistableBusinessObject> objectsToSave = new ArrayList<PersistableBusinessObject>();
-        List<String> roleNamesToConsider = orr.getRoleNamesToConsider();
+        List<String> roleNamesToSaveFor = getRolesToSaveFor(orr.getRoleNamesToConsider(), orr.getReviewRolesIndicator());
         String roleId;
         KimDelegationImpl delegation = null;
         KimDelegationMemberImpl delegationMember;
         List<KimDelegationImpl> roleDelegations;
         KimRoleInfo roleInfo;
-        for(String roleName: roleNamesToConsider){
+        for(String roleName: roleNamesToSaveFor){
             roleId = getRoleService().getRoleIdByName(
                     KFSConstants.SysKimConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);
             roleInfo = getRoleService().getRole(roleId);
@@ -617,15 +630,29 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
         return getSequenceAccessorService().getNextAvailableSequenceNumber(KimConstants.SequenceNames.KRIM_ATTR_DATA_ID_S).toString();
     }
 
+    private List<String> getRolesToSaveFor(List<String> roleNamesToConsider, String reviewRolesIndicator){
+        List<String> roleToSaveFor = new ArrayList<String>();
+        if(roleNamesToConsider!=null){
+            if(KFSConstants.COAConstants.ORG_REVIEW_ROLE_ORG_ACC_ONLY_CODE.equals(reviewRolesIndicator)){
+                roleToSaveFor.add(KFSConstants.SysKimConstants.ACCOUNTING_REVIEWER_ROLE_NAME);
+            } else if(KFSConstants.COAConstants.ORG_REVIEW_ROLE_ORG_ONLY_CODE.equals(reviewRolesIndicator)){
+                roleToSaveFor.add(KFSConstants.SysKimConstants.ORGANIZATION_REVIEWER_ROLE_NAME);
+            } else{
+                roleToSaveFor.addAll(roleNamesToConsider);
+            }
+        }
+        return roleToSaveFor;
+    }
+    
     protected List<PersistableBusinessObject> getRoleMembers(OrgReviewRole orr){
         List<PersistableBusinessObject> objectsToSave = new ArrayList<PersistableBusinessObject>();
-        List<String> roleNamesToConsider = orr.getRoleNamesToConsider();
+        List<String> roleNamesToSaveFor = getRolesToSaveFor(orr.getRoleNamesToConsider(), orr.getReviewRolesIndicator());
         String roleId;
         String memberId;
         RoleMemberImpl roleMember = null;
         KimRoleInfo roleInfo;
         Map<String, Object> criteria;
-        for(String roleName: roleNamesToConsider){
+        for(String roleName: roleNamesToSaveFor){
             roleId = getRoleService().getRoleIdByName(
                     KFSConstants.SysKimConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);
             roleInfo = getRoleService().getRole(roleId);
@@ -663,7 +690,7 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
         //chart code
         attributeData.setAttributeDataId(getRoleMemberAttributeDataId());
         attributeData.setKimTypeId(kimTypeImpl.getKimTypeId());
-        attributeData.setAttributeValue(orr.getChart().getChartOfAccountsCode());
+        attributeData.setAttributeValue(orr.getChartOfAccountsCode());
         attributeData.setKimAttributeId(getKimAttributeDefnId(attributeDefinitions, KfsKimAttributes.CHART_OF_ACCOUNTS_CODE));
         attributeDataList.add(attributeData);
         
@@ -671,7 +698,7 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
         attributeData = new RoleMemberAttributeDataImpl();
         attributeData.setKimTypeId(kimTypeImpl.getKimTypeId());
         attributeData.setAttributeDataId(getRoleMemberAttributeDataId());
-        attributeData.setAttributeValue(orr.getOrganization().getOrganizationCode());
+        attributeData.setAttributeValue(orr.getOrganizationCode());
         attributeData.setKimAttributeId(getKimAttributeDefnId(attributeDefinitions, KfsKimAttributes.ORGANIZATION_CODE));
         attributeDataList.add(attributeData);
 

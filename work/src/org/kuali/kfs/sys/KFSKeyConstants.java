@@ -852,5 +852,5 @@ public class KFSKeyConstants {
     public static final String ALREADY_ASSIGNED_MEMBER = "error.member.already.assigned";
     public static final String TO_AMOUNT_OUT_OF_RANGE = "error.member.toamount.outofrange";
     public static final String FROM_AMOUNT_OUT_OF_RANGE = "error.member.fromamount.outofrange";
-
+    public static final String INVALID_DOCTYPE_SELECTED = "error.invalid.doctype.selected";
 }

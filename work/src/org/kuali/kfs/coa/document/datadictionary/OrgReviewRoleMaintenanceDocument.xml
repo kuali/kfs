@@ -47,10 +47,10 @@
     <property name="title" value="Organization Review"/>
     <property name="maintainableItems">
       <list>
-        <dd:maintField attributeName="chart.chartOfAccountsCode" required="true"/>
-        <dd:maintField attributeName="organization.organizationCode" required="true"/>
+        <dd:maintField attributeName="chartOfAccountsCode" required="true"/>
+        <dd:maintField attributeName="organizationCode" required="true"/>
         <dd:maintField attributeName="financialSystemDocumentTypeCode" required="true"/>
-        <dd:maintField attributeName="reviewRolesIndicator"/>
+        <dd:maintField attributeName="reviewRolesIndicator" required="true"/>
       </list>
     </property>
   </bean>
@@ -107,8 +107,8 @@
 	<bean id="OrgReviewRoleMaintenanceDocument-DocumentValuePathGroup-ChartOrganization" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
     	<property name="documentValues">
     		<list>
-    			<value>newMaintainableObject.businessObject.chart.chartOfAccountsCode</value>
-    			<value>newMaintainableObject.businessObject.organization.organizationCode</value>
+    			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
+    			<value>newMaintainableObject.businessObject.organizationCode</value>
     		</list>
     	</property>
    	</bean>
@@ -116,7 +116,7 @@
    	<bean id="OrgReviewRoleMaintenanceDocument-DocumentValuePathGroup-Chart" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
     	<property name="documentValues">
     		<list>
-    			<value>newMaintainableObject.businessObject.chart.chartOfAccountsCode</value>
+    			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
     		</list>
     	</property>
    	</bean>

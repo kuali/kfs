@@ -14,7 +14,6 @@
     <property name="attributes" >
       <list>
         <ref bean="OrgReviewRole-financialSystemDocumentTypeCode" />
-        <ref bean="OrgReviewRole-documentTypeName" />        
         <ref bean="OrgReviewRole-roleId" />
         <ref bean="OrgReviewRole-roleName" />
         <ref bean="OrgReviewRole-namespaceCode" />
@@ -135,25 +134,12 @@
     </property>
   </bean>
 
-  <bean id="OrgReviewRole-documentTypeName" parent="OrgReviewRole-documentTypeName-parentBean" />
-  <bean id="OrgReviewRole-documentTypeName-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
-    <property name="name" value="documentTypeName" />
-    <property name="maxLength" value="255" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Document Type" />
-    <property name="shortLabel" value="Document Type" />
-    <property name="control" >
-    	<bean parent="LookupReadonlyControlDefinition"
-    		p:size="20" />
-    </property>
-  </bean>
-
   <bean id="OrgReviewRole-reviewRolesIndicator" parent="OrgReviewRole-reviewRolesIndicator-parentBean" />
-  <bean id="OrgReviewRole-reviewRolesIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+  <bean id="OrgReviewRole-reviewRolesIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="reviewRolesIndicator" />
     <property name="label" value="Review Types" />
     <property name="shortLabel" value="Review Types" />
-    <property name="required" value="false" />
+    <property name="required" value="true" />
     <property name="control" >
       <bean parent="RadioControlDefinition"
         p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.OrgReviewRolesValuesFinder"
@@ -401,7 +387,7 @@
           <bean parent="FieldDefinition" p:attributeName="roleName" />
           <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
           <bean parent="FieldDefinition" p:attributeName="organizationCode" />
-          <bean parent="FieldDefinition" p:attributeName="documentTypeName" />
+          <bean parent="FieldDefinition" p:attributeName="financialSystemDocumentTypeCode" />
           <bean parent="FieldDefinition" p:attributeName="memberTypeCodeDescription" />
        	  <bean parent="FieldDefinition" p:attributeName="memberNamespaceCode" />
        	  <bean parent="FieldDefinition" p:attributeName="memberName" />

@@ -164,6 +164,7 @@ public class BCKeyConstants {
     public static final String ERROR_ADJUSTMENT_AMOUNT_REQUIRED = "error.budget.adjustmentAmountRequired";
     public static final String ERROR_ADJUSTMENT_PERCENT_REQUIRED = "error.budget.adjustmentPercentRequired";
     public static final String ERROR_REQUESTED_AMOUNT_NONNEGATIVE_REQUIRED = "error.budget.requestedSalaryIsNonnegative";
+    public static final String ERROR_REQUESTED_AMOUNT_NEEDS_FTE_FIRST = "error.budget.requestedSalaryNeedsFteFirst";
     public static final String ERROR_FTE_GREATER_THAN_ZERO_REQUIRED = "error.budget.fteAmountGreaterThanZero";
     public static final String ERROR_BUDGET_DOCUMENT_NOT_FOUND = "error.budget.budgetDocumentNotFound";
     public static final String ERROR_EMPTY_PAY_RATE_ANNUAL_AMOUNT = "error.budget.emptyPayRateAnnualAmount";

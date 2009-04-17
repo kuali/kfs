@@ -15,31 +15,25 @@
  */
 package org.kuali.kfs.module.bc.document.service;
 
-import java.math.BigDecimal;
 import java.util.List;
 
-import org.apache.commons.lang.ObjectUtils;
-import org.kuali.kfs.module.bc.BCKeyConstants;
-import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.KualiInteger;
-import org.kuali.rice.kns.util.spring.Logged;
 
 /**
  * define a set of validations methods for salary setting
  */
 public interface SalarySettingRuleHelperService {
-    
+
     /**
-     * determine whether the salary amount of the given appointment funding can be adjusted 
+     * determine whether the salary amount of the given appointment funding can be adjusted
      * 
      * @param appointmentFunding the given appointment funding
      * @param errorMap the given error map that can hold the error message if any
      * @return true if the salary amount of the given appointment funding can be adjusted; otherwise, false
      */
     public boolean canBeAdjusted(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap);
-    
+
     /**
      * determine whether the given appointment funding is associated with an active job
      * 
@@ -95,6 +89,15 @@ public interface SalarySettingRuleHelperService {
      * @return true if the requested salary amount of the given appointment funding is valid; otherwise, false
      */
     public boolean hasValidRequestedAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap);
+
+    /**
+     * determine whether the requested salary amount of the given appointment funding is valid for the quick salary setting screen
+     * 
+     * @param appointmentFunding
+     * @param errorMap
+     * @return
+     */
+    public boolean hasValidRequestedAmountQuickSalarySetting(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap);
 
     /**
      * determine whether the requested leave csf amount of the given appointment funding is valid

@@ -48,7 +48,7 @@ public class SalarySettingRules implements SalarySettingRule {
             return hasValidFormat;
         }
 
-        boolean hasValidAmounts = this.hasValidAmounts(appointmentFunding, errorMap);
+        boolean hasValidAmounts = this.hasValidAmountsQuickSalarySetting(appointmentFunding, errorMap);
         if (!hasValidAmounts) {
             return hasValidAmounts;
         }
@@ -191,6 +191,13 @@ public class SalarySettingRules implements SalarySettingRule {
         hasValidAmounts &= salarySettingRuleHelperService.hasRequestedFteQuantityZeroWhenFullYearLeave(appointmentFunding, errorMap);
         hasValidAmounts &= salarySettingRuleHelperService.hasValidRequestedCsfAmount(appointmentFunding, errorMap);
         hasValidAmounts &= salarySettingRuleHelperService.hasValidRequestedCsfTimePercent(appointmentFunding, errorMap);
+
+        return hasValidAmounts;
+    }
+
+    // test if request amount and FTE interaction is legal
+    private boolean hasValidAmountsQuickSalarySetting(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
+        boolean hasValidAmounts = salarySettingRuleHelperService.hasValidRequestedAmountQuickSalarySetting(appointmentFunding, errorMap);
 
         return hasValidAmounts;
     }

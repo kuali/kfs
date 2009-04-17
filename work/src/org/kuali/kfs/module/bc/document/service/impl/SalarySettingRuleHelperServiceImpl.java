@@ -169,6 +169,20 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
         return true;
     }
 
+    public boolean hasValidRequestedAmountQuickSalarySetting(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
+
+        if (this.hasValidRequestedAmount(appointmentFunding, errorMap)){
+            KualiInteger requestedAmount = appointmentFunding.getAppointmentRequestedAmount();
+            BigDecimal requestedFteQuantity = appointmentFunding.getAppointmentRequestedFteQuantity();
+            if (requestedAmount.isPositive() && (requestedFteQuantity != null && requestedFteQuantity.compareTo(BigDecimal.ZERO) == 0)) {
+                errorMap.putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_REQUESTED_AMOUNT_NEEDS_FTE_FIRST);
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     /**
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService#hasValidRequestedCsfAmount(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
      *      org.kuali.core.util.ErrorMap)

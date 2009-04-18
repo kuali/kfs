@@ -84,7 +84,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
             protected Integer extractResult(ResultSet resultSet) throws SQLException {
                 return resultSet.getInt(1);
             }
-        }.get();
+        }.get(Integer.class);
     }
     
     public AccountBalance getAccountBalance(final Transaction t) {
@@ -112,7 +112,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 accountBalance.setAccountLineEncumbranceBalanceAmount(new KualiDecimal(resultSet.getBigDecimal(3)));
                 return accountBalance;
             }
-        }.get();
+        }.get(AccountBalance.class);
     }
 
     public void insertAccountBalance(final AccountBalance accountBalance) {
@@ -130,7 +130,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                preparedStatement.setBigDecimal(9, accountBalance.getAccountLineEncumbranceBalanceAmount().bigDecimalValue());
                preparedStatement.setTimestamp(10, dateTimeService.getCurrentTimestamp());               
            }
-        }.execute();
+        }.execute(AccountBalance.class);
     }
 
     public void updateAccountBalance(final AccountBalance accountBalance) {
@@ -148,7 +148,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setString(9, accountBalance.getObjectCode());
                 preparedStatement.setString(10, accountBalance.getSubObjectCode());
             }
-         }.execute();
+         }.execute(AccountBalance.class);
     }
 
     public Balance getBalance(final Transaction t) {
@@ -193,7 +193,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 balance.setMonth13Amount(new KualiDecimal(resultSet.getBigDecimal(16)));
                 return balance;
             }
-        }.get();
+        }.get(Balance.class);
     }
 
     public void insertBalance(final Balance balance) {
@@ -226,7 +226,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setBigDecimal(24, balance.getMonth13Amount().bigDecimalValue());
                 preparedStatement.setTimestamp(25, dateTimeService.getCurrentTimestamp());
             }
-         }.execute();
+         }.execute(Balance.class);
     }
 
     public void updateBalance(final Balance balance) {
@@ -259,7 +259,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setString(24, balance.getBalanceTypeCode());
                 preparedStatement.setString(25, balance.getObjectTypeCode());
             }
-         }.execute();
+         }.execute(Balance.class);
     }
 
     public Encumbrance getEncumbrance(final Entry entry) {
@@ -297,7 +297,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 encumbrance.setAccountLineEncumbrancePurgeCode(resultSet.getString(5));
                 return encumbrance;
             }
-        }.get();
+        }.get(Encumbrance.class);
     }
 
     public void insertEncumbrance(final Encumbrance encumbrance) {
@@ -321,7 +321,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setString(15, encumbrance.getAccountLineEncumbrancePurgeCode());
                 preparedStatement.setTimestamp(16, dateTimeService.getCurrentTimestamp());
             }
-         }.execute();
+         }.execute(Encumbrance.class);
     }
 
     public void updateEncumbrance(final Encumbrance encumbrance) {
@@ -345,7 +345,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setString(15, encumbrance.getOriginCode());
                 preparedStatement.setString(16, encumbrance.getDocumentNumber());
             }
-         }.execute();
+         }.execute(Encumbrance.class);
     }
 
     public ExpenditureTransaction getExpenditureTransaction(final Transaction t) {
@@ -381,7 +381,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 expenditureTransaction.setAccountObjectDirectCostAmount(new KualiDecimal(resultSet.getBigDecimal(1)));
                 return expenditureTransaction;
             }
-        }.get();
+        }.get(ExpenditureTransaction.class);
     }
 
     public void insertExpenditureTransaction(final ExpenditureTransaction expenditureTransaction) {
@@ -401,7 +401,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setString(11, expenditureTransaction.getOrganizationReferenceId());
                 preparedStatement.setBigDecimal(12, expenditureTransaction.getAccountObjectDirectCostAmount().bigDecimalValue());
             }
-         }.execute();
+         }.execute(ExpenditureTransaction.class);
     }
 
     public void updateExpenditureTransaction(final ExpenditureTransaction expenditureTransaction) {
@@ -421,7 +421,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setString(11, expenditureTransaction.getProjectCode());
                 preparedStatement.setString(12, expenditureTransaction.getOrganizationReferenceId());
             }
-         }.execute();
+         }.execute(ExpenditureTransaction.class);
     }
 
     public SufficientFundBalances getSufficientFundBalances(final Integer universityFiscalYear, final String chartOfAccountsCode, final String accountNumber, final String financialObjectCode) {
@@ -446,7 +446,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 sufficientFundBalances.setAccountEncumbranceAmount(new KualiDecimal(resultSet.getBigDecimal(4)));
                 return sufficientFundBalances;
             }
-        }.get();
+        }.get(SufficientFundBalances.class);
     }
 
     public void insertSufficientFundBalances(final SufficientFundBalances sufficientFundBalances) {
@@ -463,7 +463,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setBigDecimal(8, sufficientFundBalances.getAccountEncumbranceAmount().bigDecimalValue());
                 preparedStatement.setTimestamp(9, dateTimeService.getCurrentTimestamp());
             }
-         }.execute();
+         }.execute(SufficientFundBalances.class);
     }
 
     public void updateSufficientFundBalances(final SufficientFundBalances sufficientFundBalances) {
@@ -480,7 +480,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setString(8, sufficientFundBalances.getAccountNumber());
                 preparedStatement.setString(9, sufficientFundBalances.getFinancialObjectCode());
             }
-         }.execute();
+         }.execute(SufficientFundBalances.class);
     }
     
     public void insertEntry(final Entry entry) {
@@ -515,7 +515,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setDate(26, entry.getTransactionPostingDate());
                 preparedStatement.setTimestamp(27, dateTimeService.getCurrentTimestamp());
             }
-         }.execute();
+         }.execute(Entry.class);
     }
     public void insertReversal(final Reversal reversal) {
         new InsertingJdbcWrapper<Reversal>() {
@@ -548,6 +548,6 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setString(25, reversal.getTransactionEncumbranceUpdateCode());
                 preparedStatement.setDate(26, reversal.getTransactionPostingDate());
             }
-         }.execute();
+         }.execute(Reversal.class);
     }
 }

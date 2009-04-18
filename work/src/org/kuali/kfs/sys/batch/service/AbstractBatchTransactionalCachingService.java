@@ -60,8 +60,8 @@ public abstract class AbstractBatchTransactionalCachingService implements BatchT
         return cacheKey.toString();
     }
     protected abstract class ReferenceValueRetriever<T extends BusinessObject> {
-        public T get(Object...keys) {
-            String cacheKey = getCacheKey(getClass().getTypeParameters()[0].getClass(), keys);
+        public T get(Class<T> type, Object...keys) {
+            String cacheKey = getCacheKey(type, keys);
             BusinessObject businessObject = referenceValueCache.get(cacheKey);
             if (businessObject == null) {
                 try {
@@ -97,16 +97,16 @@ public abstract class AbstractBatchTransactionalCachingService implements BatchT
             this.value = value;            
         }
         public void update(T value, Object...keys) {
-            update (value, getCacheKey(getClass().getTypeParameters()[0].getClass(), keys));
+            update (value, getCacheKey(value.getClass(), keys));
         }
     }
     protected abstract class PreviousValueRetriever<T extends BusinessObject> {
-        public T get(Object...keys) {
-            String cacheKey = getCacheKey(getClass().getTypeParameters()[0].getClass(), keys);
+        public T get(Class<T> type, Object...keys) {
+            String cacheKey = getCacheKey(type, keys);
             if (!cacheKey.equals(previousValueCache.get(AccountBalance.class).key.equals(cacheKey))) {
-                previousValueCache.get(getClass().getTypeParameters()[0].getClass()).update(useDao(), cacheKey);
+                previousValueCache.get(type).update(useDao(), cacheKey);
             }
-            return (T)previousValueCache.get(getClass().getTypeParameters()[0].getClass()).getValue();
+            return (T)previousValueCache.get(type).getValue();
         }
         protected abstract T useDao();
     }

@@ -31,9 +31,9 @@ import org.kuali.kfs.sys.businessobject.UniversityDate;
 public class LedgerReferenceValuePreparedStatementCachingDaoJdbc extends AbstractPreparedStatementCachingDaoJdbc implements LedgerReferenceValuePreparedStatementCachingDao {
     static final Map<String,String> sql = new HashMap<String,String>();
     static {    
-        sql.put(UniversityDate.class.getName(), "select univ_fiscal_yr, univ_fiscal_prd_cd from sh_univ_date_t where univ_dt = ?");
-        sql.put(SystemOptions.class.getName(), "select act_fin_bal_typ_cd, fobj_typ_asset_cd, fobj_typ_fndbal_cd, fobj_typ_lblty_cd, ext_enc_fbaltyp_cd, int_enc_fbaltyp_cd, pre_enc_fbaltyp_cd, fobjtp_xpnd_exp_cd, fobjtp_xpndnexp_cd, fobjtp_expnxpnd_cd, bdgt_chk_baltyp_cd, CSTSHR_ENCUM_FIN_BAL_TYP_CD, FIN_OBJECT_TYP_TRNFR_EXP_CD from fs_option_t where univ_fiscal_yr = ?");
-        sql.put(OriginationCode.class.getName(), "select ROW_ACTV_IND from fs_origin_code_t where fs_origin_cd = ?");
+        sql.put(RETRIEVE_PREFIX + UniversityDate.class, "select univ_fiscal_yr, univ_fiscal_prd_cd from sh_univ_date_t where univ_dt = ?");
+        sql.put(RETRIEVE_PREFIX + SystemOptions.class, "select act_fin_bal_typ_cd, fobj_typ_asset_cd, fobj_typ_fndbal_cd, fobj_typ_lblty_cd, ext_enc_fbaltyp_cd, int_enc_fbaltyp_cd, pre_enc_fbaltyp_cd, fobjtp_xpnd_exp_cd, fobjtp_xpndnexp_cd, fobjtp_expnxpnd_cd, bdgt_chk_baltyp_cd, CSTSHR_ENCUM_FIN_BAL_TYP_CD, FIN_OBJECT_TYP_TRNFR_EXP_CD from fs_option_t where univ_fiscal_yr = ?");
+        sql.put(RETRIEVE_PREFIX + OriginationCode.class, "select ROW_ACTV_IND from fs_origin_code_t where fs_origin_cd = ?");
     }
 
     @Override
@@ -54,7 +54,7 @@ public class LedgerReferenceValuePreparedStatementCachingDaoJdbc extends Abstrac
                 originationCode.setActive(KFSConstants.ParameterValues.YES.equals(resultSet.getString(1)) ? true : false);
                 return originationCode;
             }
-        }.get();
+        }.get(OriginationCode.class);
     }
 
     public SystemOptions getSystemOptions(final Integer fiscalYear) {
@@ -82,7 +82,7 @@ public class LedgerReferenceValuePreparedStatementCachingDaoJdbc extends Abstrac
                 systemOptions.setBudgetCheckingBalanceTypeCd(resultSet.getString(11));
                 return systemOptions;
             }
-        }.get();
+        }.get(SystemOptions.class);
     }
 
     public UniversityDate getUniversityDate(final Date date) {
@@ -99,6 +99,6 @@ public class LedgerReferenceValuePreparedStatementCachingDaoJdbc extends Abstrac
                 universityDate.setUniversityFiscalAccountingPeriod(resultSet.getString(2));
                 return universityDate;
             }
-        }.get();
+        }.get(UniversityDate.class);
     }
 }

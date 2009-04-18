@@ -43,21 +43,21 @@ import org.kuali.kfs.sys.batch.dataaccess.impl.AbstractPreparedStatementCachingD
 public class LedgerReferenceValuePreparedStatementCachingDaoJdbc extends AbstractPreparedStatementCachingDaoJdbc implements LedgerReferenceValuePreparedStatementCachingDao {
     static final Map<String,String> sql = new HashMap<String,String>();
     static {
-        sql.put(Chart.class.getName(), "select fin_coa_active_cd, fin_cash_obj_cd, fin_ap_obj_cd, FND_BAL_OBJ_CD from ca_chart_t where fin_coa_cd = ?");
-        sql.put(Account.class.getName(), "select acct_expiration_dt, acct_closed_ind, sub_fund_grp_cd, org_cd, cont_fin_coa_cd, cont_account_nbr, fin_series_id, acct_icr_typ_cd, acct_sf_cd from ca_account_t where fin_coa_cd = ? and account_nbr = ?");
-        sql.put(SubAccount.class.getName(), "select sub_acct_actv_cd from ca_sub_acct_t where fin_coa_cd = ? and account_nbr = ? and sub_acct_nbr = ?");
-        sql.put(ObjectCode.class.getName(), "select fin_obj_typ_cd, fin_obj_sub_typ_cd, fin_obj_level_cd, fin_obj_active_cd, rpts_to_fin_coa_cd, rpts_to_fin_obj_cd from ca_object_code_t where univ_fiscal_yr = ? and fin_coa_cd = ? and fin_object_cd = ?");
-        sql.put(SubObjectCode.class.getName(), "select fin_subobj_actv_cd from ca_sub_object_cd_t where univ_fiscal_yr = ? and fin_coa_cd = ? and account_nbr = ? and fin_object_cd = ? and fin_sub_obj_cd = ?");
-        sql.put(ProjectCode.class.getName(), "select proj_active_cd from ca_project_t where project_cd = ?");
-        sql.put(Organization.class.getName(), "select org_plnt_coa_cd, org_plnt_acct_nbr, cmp_plnt_coa_cd, cmp_plnt_acct_nbr from ca_org_t where fin_coa_cd = ? and org_cd = ?");
-        sql.put(SubFundGroup.class.getName(), "select fund_grp_cd from ca_sub_fund_grp_t where sub_fund_grp_cd = ?");
-        sql.put(OffsetDefinition.class.getName(), "select fin_object_cd from gl_offset_defn_t where univ_fiscal_yr = ? and fin_coa_cd = ? and fdoc_typ_cd = ? and fin_balance_typ_cd = ?");
-        sql.put(A21SubAccount.class.getName(), "select sub_acct_typ_cd, cst_shr_coa_cd, cst_shrsrcacct_nbr, cst_srcsubacct_nbr, icr_typ_cd, fin_series_id, icr_fin_coa_cd, icr_account_nbr from ca_a21_sub_acct_t where fin_coa_cd = ? and account_nbr = ? and sub_acct_nbr = ?");
-        sql.put(ObjectType.class.getName(), "select fund_balance_cd, fin_objtyp_dbcr_cd, fin_obj_typ_icr_cd, ROW_ACTV_IND from ca_obj_type_t where fin_obj_typ_cd = ?");
-        sql.put(ObjectLevel.class.getName(), "select fin_cons_obj_cd from ca_obj_level_t where fin_coa_cd = ? and fin_obj_level_cd = ?");
-        sql.put(BalanceType.class.getName(), "select fin_offst_gnrtn_cd, fin_baltyp_enc_cd, ROW_ACTV_IND from ca_balance_type_t where fin_balance_typ_cd = ?");
-        sql.put(AccountingPeriod.class.getName(), "select row_actv_ind from sh_acct_period_t where univ_fiscal_yr = ? and univ_fiscal_prd_cd = ?");
-        sql.put(IndirectCostRecoveryType.class.getName(), "select ACCT_ICR_TYP_ACTV_IND from CA_ICR_TYPE_T");
+        sql.put(RETRIEVE_PREFIX + Chart.class, "select fin_coa_active_cd, fin_cash_obj_cd, fin_ap_obj_cd, FND_BAL_OBJ_CD from ca_chart_t where fin_coa_cd = ?");
+        sql.put(RETRIEVE_PREFIX + Account.class, "select acct_expiration_dt, acct_closed_ind, sub_fund_grp_cd, org_cd, cont_fin_coa_cd, cont_account_nbr, fin_series_id, acct_icr_typ_cd, acct_sf_cd from ca_account_t where fin_coa_cd = ? and account_nbr = ?");
+        sql.put(RETRIEVE_PREFIX + SubAccount.class, "select sub_acct_actv_cd from ca_sub_acct_t where fin_coa_cd = ? and account_nbr = ? and sub_acct_nbr = ?");
+        sql.put(RETRIEVE_PREFIX + ObjectCode.class, "select fin_obj_typ_cd, fin_obj_sub_typ_cd, fin_obj_level_cd, fin_obj_active_cd, rpts_to_fin_coa_cd, rpts_to_fin_obj_cd from ca_object_code_t where univ_fiscal_yr = ? and fin_coa_cd = ? and fin_object_cd = ?");
+        sql.put(RETRIEVE_PREFIX + SubObjectCode.class, "select fin_subobj_actv_cd from ca_sub_object_cd_t where univ_fiscal_yr = ? and fin_coa_cd = ? and account_nbr = ? and fin_object_cd = ? and fin_sub_obj_cd = ?");
+        sql.put(RETRIEVE_PREFIX + ProjectCode.class, "select proj_active_cd from ca_project_t where project_cd = ?");
+        sql.put(RETRIEVE_PREFIX + Organization.class, "select org_plnt_coa_cd, org_plnt_acct_nbr, cmp_plnt_coa_cd, cmp_plnt_acct_nbr from ca_org_t where fin_coa_cd = ? and org_cd = ?");
+        sql.put(RETRIEVE_PREFIX + SubFundGroup.class, "select fund_grp_cd from ca_sub_fund_grp_t where sub_fund_grp_cd = ?");
+        sql.put(RETRIEVE_PREFIX + OffsetDefinition.class, "select fin_object_cd from gl_offset_defn_t where univ_fiscal_yr = ? and fin_coa_cd = ? and fdoc_typ_cd = ? and fin_balance_typ_cd = ?");
+        sql.put(RETRIEVE_PREFIX + A21SubAccount.class, "select sub_acct_typ_cd, cst_shr_coa_cd, cst_shrsrcacct_nbr, cst_srcsubacct_nbr, icr_typ_cd, fin_series_id, icr_fin_coa_cd, icr_account_nbr from ca_a21_sub_acct_t where fin_coa_cd = ? and account_nbr = ? and sub_acct_nbr = ?");
+        sql.put(RETRIEVE_PREFIX + ObjectType.class, "select fund_balance_cd, fin_objtyp_dbcr_cd, fin_obj_typ_icr_cd, ROW_ACTV_IND from ca_obj_type_t where fin_obj_typ_cd = ?");
+        sql.put(RETRIEVE_PREFIX + ObjectLevel.class, "select fin_cons_obj_cd from ca_obj_level_t where fin_coa_cd = ? and fin_obj_level_cd = ?");
+        sql.put(RETRIEVE_PREFIX + BalanceType.class, "select fin_offst_gnrtn_cd, fin_baltyp_enc_cd, ROW_ACTV_IND from ca_balance_type_t where fin_balance_typ_cd = ?");
+        sql.put(RETRIEVE_PREFIX + AccountingPeriod.class, "select row_actv_ind from sh_acct_period_t where univ_fiscal_yr = ? and univ_fiscal_prd_cd = ?");
+        sql.put(RETRIEVE_PREFIX + IndirectCostRecoveryType.class, "select ACCT_ICR_TYP_ACTV_IND from CA_ICR_TYPE_T");
     }
 
     @Override
@@ -89,7 +89,7 @@ public class LedgerReferenceValuePreparedStatementCachingDaoJdbc extends Abstrac
                 a21SubAccount.setIndirectCostRecoveryAccountNumber(resultSet.getString(8));
                 return a21SubAccount;
             }
-        }.get();
+        }.get(A21SubAccount.class);
     }
 
     public Account getAccount(final String chartCode, final String accountNumber) {
@@ -115,7 +115,7 @@ public class LedgerReferenceValuePreparedStatementCachingDaoJdbc extends Abstrac
                 account.setAccountSufficientFundsCode(resultSet.getString(9));
                 return account;
             }
-        }.get();
+        }.get(Account.class);
     }
 
     public AccountingPeriod getAccountingPeriod(final Integer fiscalYear, final String fiscalPeriodCode) {
@@ -133,7 +133,7 @@ public class LedgerReferenceValuePreparedStatementCachingDaoJdbc extends Abstrac
                 accountingPeriod.setActive(KFSConstants.ParameterValues.YES.equals(resultSet.getString(1)) ? true : false);
                 return accountingPeriod;
             }
-        }.get();
+        }.get(AccountingPeriod.class);
     }
 
     public BalanceType getBalanceType(final String financialBalanceTypeCode) {
@@ -151,7 +151,7 @@ public class LedgerReferenceValuePreparedStatementCachingDaoJdbc extends Abstrac
                 balanceType.setActive(KFSConstants.ParameterValues.YES.equals(resultSet.getString(3)) ? true : false);
                 return balanceType;
             }
-        }.get();
+        }.get(BalanceType.class);
     }
 
     public Chart getChart(final String chartOfAccountsCode) {
@@ -170,7 +170,7 @@ public class LedgerReferenceValuePreparedStatementCachingDaoJdbc extends Abstrac
                 chart.setFinAccountsPayableObjectCode(resultSet.getString(3));
                 return chart;
             }
-        }.get();
+        }.get(Chart.class);
     }
 
     public IndirectCostRecoveryType getIndirectCostRecoveryType(final String accountIcrTypeCode) {
@@ -185,7 +185,7 @@ public class LedgerReferenceValuePreparedStatementCachingDaoJdbc extends Abstrac
                 indirectCostRecoveryType.setActive(KFSConstants.ParameterValues.YES.equals(resultSet.getString(1)) ? true : false);
                 return indirectCostRecoveryType;
             }
-        }.get();
+        }.get(IndirectCostRecoveryType.class);
     }
 
     public ObjectCode getObjectCode(final Integer universityFiscalYear, final String chartOfAccountsCode, final String financialObjectCode) {
@@ -210,7 +210,7 @@ public class LedgerReferenceValuePreparedStatementCachingDaoJdbc extends Abstrac
                 objectCode.setReportsToFinancialObjectCode(resultSet.getString(6));
                 return objectCode;
             }
-        }.get();
+        }.get(ObjectCode.class);
     }
 
     public ObjectLevel getObjectLevel(final String chartOfAccountsCode, final String financialObjectLevelCode) {
@@ -228,7 +228,7 @@ public class LedgerReferenceValuePreparedStatementCachingDaoJdbc extends Abstrac
                 objectLevel.setFinancialConsolidationObjectCode(resultSet.getString(1));
                 return objectLevel;
             }
-        }.get();
+        }.get(ObjectLevel.class);
     }
 
     public ObjectType getObjectType(final String financialObjectTypeCode) {
@@ -247,7 +247,7 @@ public class LedgerReferenceValuePreparedStatementCachingDaoJdbc extends Abstrac
                 objectType.setActive(KFSConstants.ParameterValues.YES.equals(resultSet.getString(4)) ? true : false);
                 return objectType;
             }
-        }.get();
+        }.get(ObjectType.class);
     }
 
     public OffsetDefinition getOffsetDefinition(final Integer universityFiscalYear, final String chartOfAccountsCode, final String financialDocumentTypeCode, final String financialBalanceTypeCode) {
@@ -269,7 +269,7 @@ public class LedgerReferenceValuePreparedStatementCachingDaoJdbc extends Abstrac
                 offsetDefinition.setFinancialObjectCode(resultSet.getString(1));
                 return offsetDefinition;
             }
-        }.get();
+        }.get(OffsetDefinition.class);
     }
 
     public Organization getOrganization(final String chartOfAccountsCode, final String organizationCode) {
@@ -290,7 +290,7 @@ public class LedgerReferenceValuePreparedStatementCachingDaoJdbc extends Abstrac
                 organization.setCampusPlantAccountNumber(resultSet.getString(4));
                 return organization;
             }
-        }.get();
+        }.get(Organization.class);
     }
 
     public ProjectCode getProjectCode(final String financialSystemProjectCode) {
@@ -306,7 +306,7 @@ public class LedgerReferenceValuePreparedStatementCachingDaoJdbc extends Abstrac
                 projectCode.setActive(KFSConstants.ParameterValues.YES.equals(resultSet.getString(1)) ? true : false);
                 return projectCode;
             }
-        }.get();
+        }.get(ProjectCode.class);
     }
 
     public SubAccount getSubAccount(final String chartOfAccountsCode, final String accountNumber, final String subAccountNumber) {
@@ -326,7 +326,7 @@ public class LedgerReferenceValuePreparedStatementCachingDaoJdbc extends Abstrac
                 subAccount.setActive(KFSConstants.ParameterValues.YES.equals(resultSet.getString(1)) ? true : false);
                 return subAccount;
             }
-        }.get();
+        }.get(SubAccount.class);
     }
 
     public SubFundGroup getSubFundGroup(final String subFundGroupCode) {
@@ -342,7 +342,7 @@ public class LedgerReferenceValuePreparedStatementCachingDaoJdbc extends Abstrac
                 subFundGroup.setFundGroupCode(resultSet.getString(1));
                 return subFundGroup;
             }
-        }.get();
+        }.get(SubFundGroup.class);
     }
 
     public SubObjectCode getSubObjectCode(final Integer universityFiscalYear, final String chartOfAccountsCode, final String accountNumber, final String financialObjectCode, final String financialSubObjectCode) {
@@ -366,6 +366,6 @@ public class LedgerReferenceValuePreparedStatementCachingDaoJdbc extends Abstrac
                 subObjectCode.setActive(KFSConstants.ParameterValues.YES.equals(resultSet.getString(1)) ? true : false);
                 return subObjectCode;
             }
-        }.get();
+        }.get(SubObjectCode.class);
     }
 }

@@ -33,13 +33,13 @@ public abstract class AbstractPreparedStatementCachingDaoJdbc extends PlatformAw
     protected abstract class JdbcWrapper<T> {
         protected abstract void populateStatement(PreparedStatement preparedStatement) throws SQLException;
 
-        void update(PreparedStatement preparedStatement) {
+        void update(Class<T> type, PreparedStatement preparedStatement) {
             try {
                 populateStatement(preparedStatement);
                 preparedStatement.executeUpdate();
             }
             catch (SQLException e) {
-                throw new RuntimeException("AbstractUpdatingPreparedStatementCachingDaoJdbc.UpdatingJdbcWrapper encountered exception during getObject method for type: " + getClass().getTypeParameters()[0].getClass(), e);
+                throw new RuntimeException("AbstractUpdatingPreparedStatementCachingDaoJdbc.UpdatingJdbcWrapper encountered exception during getObject method for type: " + type, e);
             }
         }
     }
@@ -47,36 +47,36 @@ public abstract class AbstractPreparedStatementCachingDaoJdbc extends PlatformAw
     protected abstract class RetrievingJdbcWrapper<T> extends JdbcWrapper {
         protected abstract T extractResult(ResultSet resultSet) throws SQLException;
 
-        public T get() {
+        public T get(Class<T> type) {
             T value = null;
-            PreparedStatement statement = preparedStatementCache.get(RETRIEVE_PREFIX + getClass().getTypeParameters()[0].getClass());
+            PreparedStatement statement = preparedStatementCache.get(RETRIEVE_PREFIX + type);
             try {
                 populateStatement(statement);
                 ResultSet resultSet = statement.executeQuery();
                 if (resultSet.next()) {
                     value = extractResult(resultSet);
                     if (resultSet.next()) {
-                        throw new RuntimeException("More that one row returned when selecting by primary key in AbstractRetrievingPreparedStatementCachingDaoJdbc.RetrievingJdbcWrapper for: " + getClass().getTypeParameters()[0].getClass());
+                        throw new RuntimeException("More that one row returned when selecting by primary key in AbstractRetrievingPreparedStatementCachingDaoJdbc.RetrievingJdbcWrapper for: " + type);
                     }
                 }
                 resultSet.close();
             }
             catch (SQLException e) {
-                throw new RuntimeException("AbstractRetrievingPreparedStatementCachingDaoJdbc.RetrievingJdbcWrapper encountered exception during getObject method for type: " + getClass().getTypeParameters()[0].getClass(), e);
+                throw new RuntimeException("AbstractRetrievingPreparedStatementCachingDaoJdbc.RetrievingJdbcWrapper encountered exception during getObject method for type: " + type, e);
             }
             return (T) value;
         }
     }
 
     protected abstract class InsertingJdbcWrapper<T> extends JdbcWrapper {
-        public void execute() {
-            update(preparedStatementCache.get(INSERT_PREFIX + getClass().getTypeParameters()[0].getClass()));
+        public void execute(Class<T> type) {
+            update(type, preparedStatementCache.get(INSERT_PREFIX + type));
         }
     }
 
     protected abstract class UpdatingJdbcWrapper<T> extends JdbcWrapper {
-        public void execute() {
-            update(preparedStatementCache.get(UPDATE_PREFIX + getClass().getTypeParameters()[0].getClass()));
+        public void execute(Class<T> type) {
+            update(type, preparedStatementCache.get(UPDATE_PREFIX + type));
         }
     }
 

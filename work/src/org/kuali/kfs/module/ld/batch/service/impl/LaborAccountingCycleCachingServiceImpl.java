@@ -38,7 +38,7 @@ public class LaborAccountingCycleCachingServiceImpl extends AccountingCycleCachi
             }
             @Override
             protected void retrieveReferences(LaborObject laborObject) {}
-        }.get(fiscalYear, chartCode, objectCode);
+        }.get(LaborObject.class, fiscalYear, chartCode, objectCode);
     }
 
     public int getMaxLaborSequenceNumber(LedgerEntry t) {
@@ -51,7 +51,7 @@ public class LaborAccountingCycleCachingServiceImpl extends AccountingCycleCachi
             protected LedgerBalance useDao() {
                 return ledgerDao.getLedgerBalance(ledgerBalance);
             }            
-        }.get(ledgerBalance.getUniversityFiscalYear(), ledgerBalance.getChartOfAccountsCode(), ledgerBalance.getAccountNumber(), ledgerBalance.getSubAccountNumber(), ledgerBalance.getFinancialObjectCode(), ledgerBalance.getFinancialSubObjectCode(), ledgerBalance.getFinancialBalanceTypeCode(), ledgerBalance.getFinancialObjectTypeCode(), ledgerBalance.getPositionNumber(), ledgerBalance.getEmplid());
+        }.get(LedgerBalance.class, ledgerBalance.getUniversityFiscalYear(), ledgerBalance.getChartOfAccountsCode(), ledgerBalance.getAccountNumber(), ledgerBalance.getSubAccountNumber(), ledgerBalance.getFinancialObjectCode(), ledgerBalance.getFinancialSubObjectCode(), ledgerBalance.getFinancialBalanceTypeCode(), ledgerBalance.getFinancialObjectTypeCode(), ledgerBalance.getPositionNumber(), ledgerBalance.getEmplid());
     }
 
     public void insertLedgerBalance(LedgerBalance ledgerBalance) {

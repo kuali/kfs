@@ -61,7 +61,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 laborObject.setFinancialObjectCode(objectCode);
                 return laborObject;
             }
-        }.get();
+        }.get(LaborObject.class);
     }
 
     public int getMaxLaborSequenceNumber(final LedgerEntry t) {
@@ -85,7 +85,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
             protected Integer extractResult(ResultSet resultSet) throws SQLException {
                 return resultSet.getInt(1);
             }
-        }.get();
+        }.get(Integer.class);
     }
     
     public LedgerBalance getLedgerBalance(final LedgerBalance ledgerBalance) {
@@ -134,7 +134,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 ledgerBalance.setMonth13Amount(new KualiDecimal(resultSet.getBigDecimal(16)));
                 return ledgerBalance;
             }
-        }.get();
+        }.get(LedgerBalance.class);
     }
 
     public void insertLedgerBalance(final LedgerBalance ledgerBalance) {
@@ -181,7 +181,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setBigDecimal(28, ledgerBalance.getMonth13Amount().bigDecimalValue());
                 preparedStatement.setTimestamp(29, dateTimeService.getCurrentTimestamp());
            }
-        }.execute();
+        }.execute(LedgerBalance.class);
     }
 
     public void updateLedgerBalance(final LedgerBalance ledgerBalance) {
@@ -216,7 +216,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setString(26, ledgerBalance.getPositionNumber());
                 preparedStatement.setString(27, ledgerBalance.getEmplid());
            }
-        }.execute();
+        }.execute(LedgerBalance.class);
     }
     
     public void insertLedgerEntry(final LedgerEntry ledgerEntry) {
@@ -294,6 +294,6 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setString(47, ledgerEntry.getSetid());
                 preparedStatement.setTimestamp(48, ledgerEntry.getTransactionDateTimeStamp());
            }
-        }.execute();
+        }.execute(LedgerEntry.class);
     }
 }

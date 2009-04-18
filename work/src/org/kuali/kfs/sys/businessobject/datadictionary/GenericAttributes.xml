@@ -11,7 +11,7 @@
       <property name="objectLabel" value="Generic Attributes" />
 	  <property name="attributes">
 		<list>
-		  <ref bean="GenericAttributes-moduleCode"/>
+		  <ref bean="GenericAttributes-namespaceCode"/>
 		  <ref bean="GenericAttributes-oneDigitTextCode"/>
 		  <ref bean="GenericAttributes-twoDigitTextCode"/>
 		  <ref bean="GenericAttributes-genericSystemId"/>
@@ -47,10 +47,10 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="GenericAttributes-moduleCode" parent="GenericAttributes-moduleCode-parentBean" />
+  <bean id="GenericAttributes-namespaceCode" parent="GenericAttributes-namespaceCode-parentBean" />
 
-  <bean id="GenericAttributes-moduleCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="moduleCode" />
+  <bean id="GenericAttributes-namespaceCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="namespaceCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Module Codes" />
     <property name="shortLabel" value="TextCode1" />
@@ -59,9 +59,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="BO to provide labels for Module Codes that appear in ChangedModuleCodes on Universal User." />
   </bean>
+
  <bean id="GenericAttributes-oneDigitTextCode" parent="GenericAttributes-oneDigitTextCode-parentBean" />
  
  <bean id="GenericAttributes-oneDigitTextCode-parentBean" abstract="true" parent="AttributeDefinition">

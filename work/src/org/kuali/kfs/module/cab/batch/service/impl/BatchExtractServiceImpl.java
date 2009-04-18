@@ -383,8 +383,10 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                 businessObjectService.save(cabPurapDoc);
                 purApDocuments.add(cabPurapDoc);
                 // update negative and positive GL entry once again
-                businessObjectService.save(positiveEntry);
-                businessObjectService.save(negativeEntry);
+                if (positiveEntry != null && negativeEntry != null) {
+                    businessObjectService.save(positiveEntry);
+                    businessObjectService.save(negativeEntry);
+                }
             }
             else {
                 LOG.error("Could not create a valid PurchasingAccountsPayableDocument object for document number " + entry.getDocumentNumber());

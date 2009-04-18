@@ -184,7 +184,7 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
             orr.setActionTypeCode(orr.getRoleRspActions().get(0).getActionTypeCode());
             orr.setPriorityNumber(orr.getRoleRspActions().get(0).getPriorityNumber()==null?"":orr.getRoleRspActions().get(0).getPriorityNumber()+"");
             orr.setActionPolicyCode(orr.getRoleRspActions().get(0).getActionPolicyCode());
-            orr.setIgnorePrevious(orr.getRoleRspActions().get(0).isIgnorePrevious());
+            orr.setForceAction(orr.getRoleRspActions().get(0).isForceAction());
             //orr.setReviewRolesIndicator(orr.getReviewRolesIndicator());
         }
         //super.setBusinessObject(orr);
@@ -870,7 +870,7 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
                 //ignore
             }
         }
-        roleRspAction.setIgnorePrevious(orr.isIgnorePrevious());
+        roleRspAction.setForceAction(orr.isForceAction());
         roleRspActions.add(roleRspAction);
         return roleRspActions;
     }

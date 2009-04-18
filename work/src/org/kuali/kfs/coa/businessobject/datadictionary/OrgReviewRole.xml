@@ -49,7 +49,7 @@
         <ref bean="OrgReviewRole-priorityNumber" />
         <ref bean="OrgReviewRole-priorityNumberToDisplay" />
         <ref bean="OrgReviewRole-actionPolicyCode" />
-        <ref bean="OrgReviewRole-ignorePrevious" />
+        <ref bean="OrgReviewRole-forceAction" />
         <ref bean="OrgReviewRole-chartOfAccountsCode" />
         <ref bean="OrgReviewRole-organizationCode" />
         <ref bean="OrgReviewRole-fromAmount" />
@@ -325,9 +325,9 @@
   <bean id="OrgReviewRole-actionPolicyCode-parentBean" parent="DocRoleResponsibilityAction-actionPolicyCode" abstract="true" 
 	  	p:name="actionPolicyCode" />
 
-  <bean id="OrgReviewRole-ignorePrevious" parent="OrgReviewRole-ignorePrevious-parentBean" />
-  <bean id="OrgReviewRole-ignorePrevious-parentBean" parent="DocRoleResponsibilityAction-ignorePrevious" abstract="true" 
-	  	p:name="ignorePrevious" />
+  <bean id="OrgReviewRole-forceAction" parent="OrgReviewRole-forceAction-parentBean" />
+  <bean id="OrgReviewRole-forceAction-parentBean" parent="DocRoleResponsibilityAction-forceAction" abstract="true" 
+	  	p:name="forceAction" />
 
   <bean id="OrgReviewRole-priorityNumber" parent="OrgReviewRole-priorityNumber-parentBean" />
   <bean id="OrgReviewRole-priorityNumber-parentBean" parent="DocRoleResponsibilityAction-priorityNumber" abstract="true" 

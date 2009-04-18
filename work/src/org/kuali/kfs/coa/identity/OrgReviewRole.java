@@ -142,7 +142,7 @@ public class OrgReviewRole extends RoleImpl {
 	protected String actionTypeCode;
 	protected String priorityNumber;
     protected String actionPolicyCode;
-    protected boolean ignorePrevious;
+    protected boolean forceAction;
     protected String chartOfAccountsCode;
     protected String organizationCode;
 	protected String fromAmount;
@@ -796,15 +796,15 @@ public class OrgReviewRole extends RoleImpl {
      * Gets the ignorePrevious attribute. 
      * @return Returns the ignorePrevious.
      */
-    public boolean isIgnorePrevious() {
-        return ignorePrevious;
+    public boolean isForceAction() {
+        return forceAction;
     }
     /**
      * Sets the ignorePrevious attribute value.
      * @param ignorePrevious The ignorePrevious to set.
      */
-    public void setIgnorePrevious(boolean ignorePrevious) {
-        this.ignorePrevious = ignorePrevious;
+    public void setForceAction(boolean forceAction) {
+        this.forceAction = forceAction;
     }
 
     /**

@@ -74,7 +74,7 @@
         <dd:maintField attributeName="actionTypeCode" required="true"/>
         <dd:maintField attributeName="priorityNumber" />
         <dd:maintField attributeName="actionPolicyCode" required="true" />
-        <dd:maintField attributeName="ignorePrevious" />
+        <dd:maintField attributeName="forceAction" />
         <dd:maintField attributeName="activeFromDate" />
         <dd:maintField attributeName="activeToDate" />
       </list>

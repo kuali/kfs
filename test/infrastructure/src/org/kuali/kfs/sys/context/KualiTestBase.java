@@ -17,8 +17,8 @@ package org.kuali.kfs.sys.context;
 
 import static org.kuali.kfs.sys.suite.JiraRelatedSuite.State.OPEN_OR_IN_PROGRESS_OR_REOPENED;
 
+import java.io.File;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -35,7 +35,6 @@ import org.kuali.kfs.sys.suite.JiraRelatedSuite;
 import org.kuali.kfs.sys.suite.RelatesTo;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
@@ -61,6 +60,7 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
     private static TransactionStatus transactionStatus;
     private static UserNameFixture userSessionUsername;
     protected static UserSession userSession;
+    private static Set<String> generatedFiles = new HashSet<String>();
 
     /**
      * Determines whether to actually run the test using the RelatesTo annotation, onfigures the appropriate context using the
@@ -143,6 +143,18 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
             if (contextConfiguration != null) {
                 endTestTransaction();
             }
+            for (String filePath : generatedFiles) {
+                try {
+                    File file = new File(filePath);
+                    if (file.exists()) {
+                        file.delete();
+                    }
+                }
+                catch (Exception e) {
+                    LOG.info("Unable to delete file: " + filePath, e);
+                }
+            }
+            generatedFiles.clear();
             GlobalVariables.setUserSession(null);
             GlobalVariables.clear();
             if ( LOG.isInfoEnabled() ) {
@@ -165,7 +177,11 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
     protected void changeCurrentUser(UserNameFixture sessionUser) throws Exception {
         GlobalVariables.setUserSession(new UserSession(sessionUser.toString()));
     }
-
+    
+    protected void addGeneratedFile(String filePath) {
+        generatedFiles.add(filePath);
+    }
+    
     private void configure(ConfigureContext contextConfiguration) throws Exception {
         if (configurationFailure != null) {
             throw configurationFailure;

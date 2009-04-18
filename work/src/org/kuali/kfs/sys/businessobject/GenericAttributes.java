@@ -19,7 +19,7 @@ import org.kuali.rice.kns.bo.AttributeReferenceDummy;
 
 public class GenericAttributes extends AttributeReferenceDummy {
 
-    private String moduleCode;
+    private String namespaceCode;
     private String searchType;
     private String displayType;
     private String documentTotalAmount;
@@ -62,12 +62,12 @@ public class GenericAttributes extends AttributeReferenceDummy {
         this.searchType = searchType;
     }
 
-    public String getModuleCode() {
-        return moduleCode;
+    public String getNamespaceCode() {
+        return namespaceCode;
     }
 
-    public void setModuleCode(String changedModuleCodes) {
-        this.moduleCode = changedModuleCodes;
+    public void setNamespaceCode(String changedNamespaceCodes) {
+        this.namespaceCode = changedNamespaceCodes;
     }
 
     public String getDisplayType() {

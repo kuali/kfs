@@ -33,7 +33,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kim.bo.entity.impl.KimPrincipalImpl;
-import org.kuali.rice.kim.bo.group.impl.KimGroupImpl;
+import org.kuali.rice.kim.bo.impl.GroupImpl;
 import org.kuali.rice.kim.bo.impl.KimAbstractMemberImpl;
 import org.kuali.rice.kim.bo.impl.RoleImpl;
 import org.kuali.rice.kim.bo.role.dto.KimRoleInfo;
@@ -431,7 +431,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         }
         String assignedToGroupNamespaceCode = fieldValues.get(MEMBER_GROUP_NAMESPACE_CODE);
         String assignedToGroupName = fieldValues.get(MEMBER_GROUP_NAME);
-        List<KimGroupImpl> groupImpls = null;
+        List<GroupImpl> groupImpls = null;
         if(StringUtils.isNotEmpty(assignedToGroupNamespaceCode) && StringUtils.isEmpty(assignedToGroupName) ||
                 StringUtils.isEmpty(assignedToGroupNamespaceCode) && StringUtils.isNotEmpty(assignedToGroupName) ||
                 StringUtils.isNotEmpty(assignedToGroupNamespaceCode) && StringUtils.isNotEmpty(assignedToGroupName)){
@@ -439,7 +439,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
             searchCriteria.put(KimConstants.UniqueKeyConstants.NAMESPACE_CODE, getQueryString(assignedToGroupNamespaceCode));
             searchCriteria.put(KimConstants.UniqueKeyConstants.GROUP_NAME, getQueryString(assignedToGroupName));
             groupImpls = 
-                (List<KimGroupImpl>)KNSServiceLocator.getLookupService().findCollectionBySearchUnbounded(KimGroupImpl.class, searchCriteria);
+                (List<GroupImpl>)KNSServiceLocator.getLookupService().findCollectionBySearchUnbounded(GroupImpl.class, searchCriteria);
             if(groupImpls==null || groupImpls.size()==0)
                 return null;
         }
@@ -490,7 +490,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
                 memberQueryString = new StringBuffer();
             else if(StringUtils.isNotEmpty(memberQueryString.toString()))
                 memberQueryString.append(KimConstants.KimUIConstants.OR_OPERATOR);
-            for(KimGroupImpl group: groupImpls){
+            for(GroupImpl group: groupImpls){
                 memberQueryString.append(group.getGroupId()+KimConstants.KimUIConstants.OR_OPERATOR);
             }
             if(memberQueryString.toString().endsWith(KimConstants.KimUIConstants.OR_OPERATOR))
@@ -527,7 +527,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         }
         String assignedToGroupNamespaceCode = fieldValues.get(MEMBER_GROUP_NAMESPACE_CODE);
         String assignedToGroupName = fieldValues.get(MEMBER_GROUP_NAME);
-        List<KimGroupImpl> groupImpls = null;
+        List<GroupImpl> groupImpls = null;
         if(StringUtils.isNotEmpty(assignedToGroupNamespaceCode) && StringUtils.isEmpty(assignedToGroupName) ||
                 StringUtils.isEmpty(assignedToGroupNamespaceCode) && StringUtils.isNotEmpty(assignedToGroupName) ||
                 StringUtils.isNotEmpty(assignedToGroupNamespaceCode) && StringUtils.isNotEmpty(assignedToGroupName)){
@@ -535,7 +535,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
             searchCriteriaTemp.put(KimConstants.UniqueKeyConstants.NAMESPACE_CODE, getQueryString(assignedToGroupNamespaceCode));
             searchCriteriaTemp.put(KimConstants.UniqueKeyConstants.GROUP_NAME, getQueryString(assignedToGroupName));
             groupImpls = 
-                (List<KimGroupImpl>)KNSServiceLocator.getLookupService().findCollectionBySearchUnbounded(KimGroupImpl.class, searchCriteriaTemp);
+                (List<GroupImpl>)KNSServiceLocator.getLookupService().findCollectionBySearchUnbounded(GroupImpl.class, searchCriteriaTemp);
             if(groupImpls==null || groupImpls.size()==0)
                 return null;
         }
@@ -586,7 +586,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
                 memberQueryString = new StringBuffer();
             else if(StringUtils.isNotEmpty(memberQueryString.toString()))
                 memberQueryString.append(KimConstants.KimUIConstants.OR_OPERATOR);
-            for(KimGroupImpl group: groupImpls){
+            for(GroupImpl group: groupImpls){
                 memberQueryString.append(group.getGroupId()+KimConstants.KimUIConstants.OR_OPERATOR);
             }
             if(memberQueryString.toString().endsWith(KimConstants.KimUIConstants.OR_OPERATOR))

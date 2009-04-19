@@ -1,8 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="OrgReviewRole" parent="OrgReviewRole-parentBean" />
 
@@ -10,7 +12,8 @@
         p:businessObjectClass="org.kuali.kfs.coa.identity.OrgReviewRole"
         p:titleAttribute="orgReviewRoleMemberId"
         p:objectLabel="Organization Review"
-        p:lookupDefinition-ref="OrgReviewRole-lookupDefinition" >
+        p:lookupDefinition-ref="OrgReviewRole-lookupDefinition" 
+        p:inquiryDefinition-ref="OrgReviewRole-inquiryDefinition" >
     <property name="attributes" >
       <list>
         <ref bean="OrgReviewRole-financialSystemDocumentTypeCode" />
@@ -260,15 +263,15 @@
         p:name="roleMemberRoleName" />
   
   <bean id="OrgReviewRole-group.namespaceCode" parent="OrgReviewRole-group.namespaceCode-parentBean" />
-  <bean id="OrgReviewRole-group.namespaceCode-parentBean" parent="KimGroupImpl-namespaceCode" abstract="true"
+  <bean id="OrgReviewRole-group.namespaceCode-parentBean" parent="GroupImpl-namespaceCode" abstract="true"
         p:name="group.namespaceCode" />
         
   <bean id="OrgReviewRole-group.groupName" parent="OrgReviewRole-group.groupName-parentBean" />
-  <bean id="OrgReviewRole-group.groupName-parentBean" parent="KimGroupImpl-groupName" abstract="true"
+  <bean id="OrgReviewRole-group.groupName-parentBean" parent="GroupImpl-groupName" abstract="true"
         p:name="group.groupName" />
 
   <bean id="OrgReviewRole-memberGroup.memberId" parent="OrgReviewRole-memberGroup.memberId-parentBean" />
-  <bean id="OrgReviewRole-memberGroup.memberId-parentBean" parent="KimGroupImpl-groupId" abstract="true"
+  <bean id="OrgReviewRole-memberGroup.memberId-parentBean" parent="GroupImpl-groupId" abstract="true"
         p:name="groupMemberGroupId" >
 		<property name="control" >
       		<bean parent="HiddenControlDefinition" />
@@ -276,11 +279,11 @@
   </bean>
         
   <bean id="OrgReviewRole-memberGroup.memberNamespaceCode" parent="OrgReviewRole-memberGroup.memberNamespaceCode-parentBean" />
-  <bean id="OrgReviewRole-memberGroup.memberNamespaceCode-parentBean" parent="KimGroupImpl-namespaceCode" abstract="true"
+  <bean id="OrgReviewRole-memberGroup.memberNamespaceCode-parentBean" parent="GroupImpl-namespaceCode" abstract="true"
         p:name="groupMemberGroupNamespaceCode" />
 
   <bean id="OrgReviewRole-memberGroup.memberName" parent="OrgReviewRole-memberGroup.memberName-parentBean" />
-  <bean id="OrgReviewRole-memberGroup.memberName-parentBean" parent="KimGroupImpl-groupName" abstract="true"
+  <bean id="OrgReviewRole-memberGroup.memberName-parentBean" parent="GroupImpl-groupName" abstract="true"
         p:name="groupMemberGroupName" />
 
   <bean id="OrgReviewRole-memberNamespaceCode" parent="OrgReviewRole-memberNamespaceCode-parentBean" />
@@ -403,4 +406,46 @@
     </property>
   </bean>
 
+  <bean id="OrgReviewRole-inquiryDefinition" parent="OrgReviewRole-inquiryDefinition-parentBean" />
+
+  <bean id="OrgReviewRole-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Organization Review Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition" p:title="Organization Review Details">
+          <property name="inquiryFields" >
+            <list>
+              <dd:field attributeName="chartOfAccountsCode" />
+              <dd:field attributeName="organizationCode" />
+              <dd:field attributeName="financialSystemDocumentTypeCode" />
+              <dd:field attributeName="reviewRolesIndicator" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition" p:title="Assignee / Delegation">
+          <property name="inquiryFields" >
+            <list>
+		        <dd:field attributeName="fromAmount" />
+		        <dd:field attributeName="toAmount" />
+		        <dd:field attributeName="overrideCode" />
+		        <dd:field attributeName="delegationTypeCode" />
+		        <dd:field attributeName="roleMemberId" />
+		        <dd:field attributeName="delegationMemberId" />
+		        <dd:field attributeName="principalMemberPrincipalName" />
+		        <dd:field attributeName="roleMemberRoleNamespaceCode" />
+		        <dd:field attributeName="roleMemberRoleName" />
+		        <dd:field attributeName="groupMemberGroupNamespaceCode" />
+		        <dd:field attributeName="groupMemberGroupName" />
+		        <dd:field attributeName="actionTypeCode" />
+		        <dd:field attributeName="priorityNumber" />
+		        <dd:field attributeName="actionPolicyCode" />
+		        <dd:field attributeName="forceAction" />
+		        <dd:field attributeName="activeFromDate" />
+		        <dd:field attributeName="activeToDate" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 </beans>

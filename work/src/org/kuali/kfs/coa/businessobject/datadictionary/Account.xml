@@ -961,9 +961,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="Account-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Account Lookup" />
     <property name="lookupableID" value="accountLookupable" />
-    <property name="menubar">
-      <value>&lt;a href=&quot;maintenance.do?methodToCall=start&amp;businessObjectClassName=org.kuali.kfs.coa.businessobject.AccountGlobal&quot;&gt;&lt;img src=&quot;${kr.externalizable.images.url}tinybutton-createnewglobal.gif&quot; alt=&quot;create new global&quot; width=&quot;98&quot; height=&quot;15&quot;/&gt;&lt;/a&gt;</value>
-    </property>  
     <property name="instructions" value="Lookup an Account" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">

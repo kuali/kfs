@@ -456,7 +456,6 @@
   <bean id="GeneralLedgerPendingEntry-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="General Ledger Pending Entry Lookup" />
     <property name="lookupableID" value="glPendingEntryLookupable" />
-    <property name="menubar" value="&amp;nbsp;" />
     <property name="instructions" value="Lookup General Ledger Pending Entries" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">

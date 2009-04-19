@@ -117,7 +117,6 @@
   <bean id="IndirectCostRecoveryRate-lookupDefinition" parent="IndirectCostRecoveryRate-lookupDefinition-parentBean" />
   <bean id="IndirectCostRecoveryRate-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Indirect Cost Recovery Rate Lookup" />
-	<property name="menubar" value="&lt;a href=&quot;lookup.do?methodToCall=start&amp;businessObjectClassName=org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail&amp;docFormKey=88888888&amp;returnLocation=${application.url}/portal.do&amp;hideReturnLink=true&quot;&gt;&lt;img src=&quot;${externalizable.images.url}tinybutton-icrratedet.gif&quot; alt=&quot;Search Indirect Cost Recovery Rate Detail&quot; width=&quot;98&quot; height=&quot;15&quot;/&gt;&lt;/a&gt;" />
 
     <property name="instructions" value="Lookup an Indirect Cost Recovery Rate" />
     <property name="defaultSort" >

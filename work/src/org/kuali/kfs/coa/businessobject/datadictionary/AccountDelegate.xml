@@ -218,7 +218,6 @@
 
   <bean id="AccountDelegate-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Account Delegate Lookup" />
-    <property name="menubar" value="&lt;a href=&quot;maintenance.do?methodToCall=start&amp;businessObjectClassName=org.kuali.kfs.coa.businessobject.AccountDelegateGlobal&quot;&gt;&lt;img src=&quot;${kr.externalizable.images.url}tinybutton-createnewglobal.gif&quot; alt=&quot;create new global&quot; width=&quot;98&quot; height=&quot;15&quot;/&gt;&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;lookup.do?businessObjectClassName=org.kuali.kfs.coa.businessobject.AccountDelegateModel&amp;conversionFields=chartOfAccountsCode%3AmodelChartOfAccountsCode%2CorganizationCode%3AmodelOrganizationCode%2CorganizationRoutingModelName%3AmodelName&amp;returnLocation=portal.do&amp;docFormKey=88888888&quot;&gt;&lt;img src=&quot;${externalizable.images.url}tinybutton-crtnewglob.gif&quot; alt=&quot;create new global from model&quot; width=&quot;144&quot; height=&quot;15&quot;/&gt;&lt;/a&gt;" />
     <property name="instructions" value="Lookup an Account Delegate" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">

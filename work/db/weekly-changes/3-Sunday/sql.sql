@@ -134,3 +134,24 @@ INSERT INTO KRIM_PERM_ATTR_DATA_T(ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TY
 INSERT INTO KRIM_PERM_ATTR_DATA_T(ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL) 
     VALUES('549', sys_guid(), 1, '294', '14', '13', 'PRAP')
 /
+
+update krim_perm_t set nmspc_cd = 'KUALI' where perm_id = '146'
+/
+update krim_perm_attr_data_t set attr_val = 'Kuali Document' where perm_id = '146'
+/
+update krim_role_perm_t set role_id = '83' where perm_id = '146'
+/
+delete from krim_role_perm_t where perm_id in ('109', '111', '112', '336', '337', '338', '339', '340', '341')
+/
+delete from krim_perm_rqrd_attr_t where perm_id in ('109', '111', '112', '336', '337', '338', '339', '340', '341')
+/
+delete from krim_perm_attr_data_t where perm_id in ('109', '111', '112', '336', '337', '338', '339', '340', '341')
+/
+delete from krim_perm_t where perm_id in ('109', '111', '112', '336', '337', '338', '339', '340', '341')
+/
+
+INSERT INTO KRIM_ROLE_T(ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT) 
+    VALUES('97', sys_guid(), 1, 'Non-Ad Hoc Approve Request Recipient', 'KR-WKFLW', null, '42', 'Y', SYSDATE)
+/
+update krim_role_perm_t set role_id = '97' where perm_id = '181'
+/

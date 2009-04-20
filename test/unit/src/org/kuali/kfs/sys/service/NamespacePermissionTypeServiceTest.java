@@ -23,7 +23,7 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.role.dto.KimPermissionInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.support.impl.NamespacePermissionTypeServiceImpl;
+import org.kuali.rice.kns.service.impl.NamespacePermissionTypeServiceImpl;
 
 @ConfigureContext
 public class NamespacePermissionTypeServiceTest extends KualiTestBase {

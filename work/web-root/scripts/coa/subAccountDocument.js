@@ -13,102 +13,59 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- function clearICR( subAccountTypeCodeField ) {
-	var subAccountTypeCode = getElementValue( subAccountTypeCodeField.name );
+function clearICR( subAccountTypeCodeField ) {
+	var subAccountTypeCodeFieldPrefix = findElPrefix( subAccountTypeCodeField.name );
+	var accountFieldPrefix = findElPrefix(subAccountTypeCodeFieldPrefix);
+	var acctFieldName = accountFieldPrefix + ".accountNumber";
 
-    // clear Edit CG ICR data if subAccountTypeCode is CS 
-	if( subAccountTypeCode == "CS" )
-	{
-		// check if the current user has permissions to the ICR fields
-		if ( kualiElements["document.newMaintainableObject.a21SubAccount.financialIcrSeriesIdentifier"].type.toLowerCase() != "hidden" ) {
-			setElementValue( "document.newMaintainableObject.a21SubAccount.financialIcrSeriesIdentifier", "" );
-			setElementValue( "document.newMaintainableObject.a21SubAccount.indirectCostRecoveryChartOfAccountsCode", "" );
-			setElementValue( "document.newMaintainableObject.a21SubAccount.indirectCostRecoveryAccountNumber", "" );
-			setElementValue( "document.newMaintainableObject.a21SubAccount.indirectCostRecoveryTypeCode", "" );
-		}
-	}
+	updateCgIcrAccount(acctFieldName);
 }
  
 function updateICRAccount(acctField) {
-	var chartCode = getElementValue( findElPrefix( acctField.name ) + ".chartOfAccountsCode" );
-	var accountCode = getElementValue( acctField.name );
-	var subAccountTypeCode = getElementValue( findElPrefix( acctField.name ) + ".a21SubAccount.subAccountTypeCode" );
+	var acctFieldName = acctField.name;	
+	if(acctFieldName != ""){
+		updateCgIcrAccount(acctFieldName);
+	}
+}
+
+function updateCgIcrAccount(acctFieldName) {
+	var fieldPrefix = findElPrefix( acctFieldName );
 	
-	if ( accountCode != "" && chartCode != "") {
+	var accountNumber = getElementValue( acctFieldName );
+	var chartCode = getElementValue( fieldPrefix + ".chartOfAccountsCode" );
+	var subAccountTypeCode = getElementValue( fieldPrefix + ".a21SubAccount.subAccountTypeCode" );
+	
+	if ( accountNumber != "" && chartCode != "") {
 		var dwrReply = {
-			callback:updateICRAccount_Callback,
+			callback:updateCgIcrAccount_Callback,
 			errorHandler:function( errorMessage ) { 
 				window.status = errorMessage;
 			}
 		};
 		
-		A21SubAccountService.buildCgIcrAccount( chartCode, accountCode, null, subAccountTypeCode, dwrReply );
-	}
-} 
-
-function updateICRAccount_Callback( data ) {
-	// check if the current user has permissions to the ICR fields
-	if ( kualiElements["document.newMaintainableObject.a21SubAccount.financialIcrSeriesIdentifier"].type.toLowerCase() != "hidden" ) {
-		alert("test" + data.indirectCostRecoveryAccountNumber);
-		if (data) {
-			setElementValue( "document.newMaintainableObject.a21SubAccount.financialIcrSeriesIdentifier", data.financialIcrSeriesIdentifier );
-			setElementValue( "document.newMaintainableObject.a21SubAccount.indirectCostRecoveryChartOfAccountsCode", data.indirectCostRecoveryChartOfAccountsCode );
-			setElementValue( "document.newMaintainableObject.a21SubAccount.indirectCostRecoveryAccountNumber", data.indirectCostRecoveryAccountNumber );
-			setElementValue( "document.newMaintainableObject.a21SubAccount.offCampusCode", data.offCampusCode );
-			setElementValue( "document.newMaintainableObject.a21SubAccount.indirectCostRecoveryTypeCode", data.indirectCostRecoveryTypeCode );
-		}
+		A21SubAccountService.buildCgIcrAccount( chartCode, accountNumber, null, subAccountTypeCode, dwrReply );
 	}
 }
 
-function updateICR( acctField) {
-	var chartCode = getElementValue( findElPrefix( acctField.name ) + ".chartOfAccountsCode" );
-	var accountCode = getElementValue( acctField.name );
-	var subAccountTypeCode = getElementValue( findElPrefix( acctField.name ) + ".a21SubAccount.subAccountTypeCode" );
+function updateCgIcrAccount_Callback( data ) {
+	// check if the current user has permissions to the ICR fields
+	if ( kualiElements["document.newMaintainableObject.a21SubAccount.financialIcrSeriesIdentifier"].type.toLowerCase() == "hidden" ) {
+		return;
+	}
 	
-	if ( accountCode != "" && chartCode != "" && subAccountTypeCode != "CS" ) {
-		var dwrReply = {
-			callback:updateICR_Callback,
-			errorHandler:function( errorMessage ) { 
-				window.status = errorMessage;
-			}
-		};
-		AccountService.getByPrimaryIdWithCaching( chartCode, accountCode, dwrReply );
+	var prefix = "document.newMaintainableObject.a21SubAccount";
+	if (data != null) {
+		setElementValue( prefix + ".financialIcrSeriesIdentifier", data.financialIcrSeriesIdentifier );
+		setElementValue( prefix + ".indirectCostRecoveryChartOfAccountsCode", data.indirectCostRecoveryChartOfAccountsCode );
+		setElementValue( prefix + ".indirectCostRecoveryAccountNumber", data.indirectCostRecoveryAccountNumber );
+		setElementValue( prefix + ".offCampusCode", data.offCampusCode );
+		setElementValue( prefix + ".indirectCostRecoveryTypeCode", data.indirectCostRecoveryTypeCode );
 	}
-}
-
-function updateICR_Callback( data ) {
-	// check if the current user has permissions to the ICR fields
-	if ( kualiElements["document.newMaintainableObject.a21SubAccount.financialIcrSeriesIdentifier"].type.toLowerCase() != "hidden" ) {
-		if (data.financialIcrSeriesIdentifier) {
-			setElementValue( "document.newMaintainableObject.a21SubAccount.financialIcrSeriesIdentifier", data.financialIcrSeriesIdentifier );
-		}
-		if (data.indirectCostRcvyFinCoaCode) {
-			setElementValue( "document.newMaintainableObject.a21SubAccount.indirectCostRecoveryChartOfAccountsCode", data.indirectCostRcvyFinCoaCode );
-		}
-		if (data.indirectCostRecoveryAcctNbr) {
-			setElementValue( "document.newMaintainableObject.a21SubAccount.indirectCostRecoveryAccountNumber", data.indirectCostRecoveryAcctNbr );
-		}
-		if (data.accountOffCampusIndicator) {
-			setElementValue( "document.newMaintainableObject.a21SubAccount.offCampusCode", data.accountOffCampusIndicator );
-		}
-		if (data.acctIndirectCostRcvyTypeCd) {
-			setElementValue( "document.newMaintainableObject.a21SubAccount.indirectCostRecoveryTypeCode", data.acctIndirectCostRcvyTypeCd );
-		}
-	}
-}
-
-function clearICR2( subAccountTypeCodeField ) {
-	var subAccountTypeCode = getElementValue( subAccountTypeCodeField.name );
-
-    // clear Edit CG ICR data if subAccountTypeCode is CS 
-	if( subAccountTypeCode == "CS" )
-	{
-		// check if the current user has permissions to the ICR fields
-		if ( kualiElements["document.newMaintainableObject.a21SubAccount.financialIcrSeriesIdentifier"].type.toLowerCase() != "hidden" ) {
-			setElementValue( "document.newMaintainableObject.a21SubAccount.financialIcrSeriesIdentifier", "" );
-			setElementValue( "document.newMaintainableObject.a21SubAccount.indirectCostRecoveryChartOfAccountsCode", "" );
-			setElementValue( "document.newMaintainableObject.a21SubAccount.indirectCostRecoveryAccountNumber", "" );
-			setElementValue( "document.newMaintainableObject.a21SubAccount.indirectCostRecoveryTypeCode", "" );
-		}
+	else{
+		setElementValue( prefix + ".financialIcrSeriesIdentifier", "" );
+		setElementValue( prefix + ".indirectCostRecoveryChartOfAccountsCode", "" );
+		setElementValue( prefix + ".indirectCostRecoveryAccountNumber", "" );
+		setElementValue( prefix + ".offCampusCode", "" );
+		setElementValue( prefix + ".indirectCostRecoveryTypeCode", "" );
 	}
 }

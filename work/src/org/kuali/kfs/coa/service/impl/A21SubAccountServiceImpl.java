@@ -47,6 +47,10 @@ public class A21SubAccountServiceImpl implements A21SubAccountService {
      * @see org.kuali.kfs.coa.service.A21SubAccountService#buildCgIcrAccount(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
     public A21SubAccount buildCgIcrAccount(String chartOfAccountsCode, String accountNumber, String subAccountNumber, String subAccountTypeCode) {
+        if (StringUtils.isEmpty(chartOfAccountsCode) || StringUtils.isEmpty(accountNumber) || StringUtils.equals(subAccountTypeCode, KFSConstants.SubAccountType.COST_SHARE)) {
+            return null;
+        }
+        
         A21SubAccount a21SubAccount = new A21SubAccount();
         a21SubAccount.setSubAccountNumber(subAccountNumber);
         a21SubAccount.setSubAccountTypeCode(subAccountTypeCode);
@@ -63,6 +67,7 @@ public class A21SubAccountServiceImpl implements A21SubAccountService {
         Account account = accountService.getByPrimaryIdWithCaching(chartOfAccountsCode, accountNumber);
 
         if (ObjectUtils.isNotNull(account) && ObjectUtils.isNotNull(a21SubAccount) && !StringUtils.equals(a21SubAccount.getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
+            a21SubAccount.setChartOfAccountsCode(account.getChartOfAccountsCode());
             a21SubAccount.setAccountNumber(account.getAccountNumber());           
             a21SubAccount.setFinancialIcrSeriesIdentifier(account.getFinancialIcrSeriesIdentifier());
             

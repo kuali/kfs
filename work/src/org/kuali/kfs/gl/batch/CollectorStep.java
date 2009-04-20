@@ -15,12 +15,11 @@
  */
 package org.kuali.kfs.gl.batch;
 
-import java.util.Date;
-
 import org.kuali.kfs.gl.batch.service.CollectorReportService;
 import org.kuali.kfs.gl.batch.service.CollectorService;
 import org.kuali.kfs.gl.report.CollectorReportData;
-import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.batch.AbstractBatchTransactionalCachingStep;
+import org.kuali.kfs.sys.batch.service.BatchTransactionalCachingService.BatchTransactionExecutor;
 
 /**
  * Batch step that controls the collector process. The basic steps in the collector process are the following: 1) Retrieves files
@@ -28,58 +27,25 @@ import org.kuali.kfs.sys.batch.AbstractStep;
  * in CollectorService 4) Stores origin group, gl entries, and id billings for each batch 5) Sends email to workgroup listed in the
  * batch file header with process results 6) Cleans up .done files
  */
-public class CollectorStep extends AbstractStep {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectorStep.class);
+public class CollectorStep extends AbstractBatchTransactionalCachingStep {
 
     private CollectorService collectorService;
     private CollectorReportService collectorReportService;
 
-    /**
-     * Controls the collector process.
-     * @param jobName the job running this step
-     * @param jobRunDate the time/date when the job was started
-     * @return whether the job should continue executing other steps
-     * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
-     */
-    public boolean execute(String jobName, Date jobRunDate) {
-        CollectorReportData collectorReportData = collectorService.performCollection();
-        collectorReportService.sendEmails(collectorReportData);
-        collectorReportService.generateCollectorRunReports(collectorReportData);
-        return true;
+    @Override
+    protected BatchTransactionExecutor getBatchTransactionExecutor() {
+        return new BatchTransactionExecutor() {
+            public void executeCustom() {
+                CollectorReportData collectorReportData = collectorService.performCollection();
+                collectorReportService.sendEmails(collectorReportData);
+                collectorReportService.generateCollectorRunReports(collectorReportData);
+            }
+        };
     }
-
-    /**
-     * Gets the collectorService attribute.
-     * 
-     * @return Returns the collectorService.
-     */
-    public CollectorService getCollectorService() {
-        return collectorService;
-    }
-
-    /**
-     * Sets the collectorService attribute value.
-     * 
-     * @param collectorService The collectorService to set.
-     */
     public void setCollectorService(CollectorService collectorService) {
         this.collectorService = collectorService;
     }
 
-    /**
-     * Gets the collectorReportService attribute.
-     * 
-     * @return Returns the collectorReportService.
-     */
-    public CollectorReportService getCollectorReportService() {
-        return collectorReportService;
-    }
-
-    /**
-     * Sets the collectorReportService attribute value.
-     * 
-     * @param collectorReportService The collectorReportService to set.
-     */
     public void setCollectorReportService(CollectorReportService collectorReportService) {
         this.collectorReportService = collectorReportService;
     }

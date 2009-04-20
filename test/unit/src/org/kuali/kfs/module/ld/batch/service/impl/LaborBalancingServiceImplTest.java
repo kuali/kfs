@@ -28,7 +28,7 @@ import org.kuali.kfs.gl.dataaccess.LedgerBalancingDao;
 import org.kuali.kfs.gl.dataaccess.LedgerEntryHistoryBalancingDao;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.batch.LaborFileRenameStep;
-import org.kuali.kfs.module.ld.batch.service.LaborPosterService;
+import org.kuali.kfs.module.ld.batch.LaborPosterStep;
 import org.kuali.kfs.module.ld.businessobject.LaborBalanceHistory;
 import org.kuali.kfs.module.ld.businessobject.LaborEntryHistory;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
@@ -47,16 +47,12 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 public class LaborBalancingServiceImplTest extends BalancingServiceImplTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborBalancingServiceImplTest.class);
     
-    protected LaborPosterService laborPosterService;
-    
     @Override
     protected void setUp() throws Exception {
         balancingService = (BalancingServiceBaseImpl<Entry, Balance>) TestUtils.getUnproxiedService("laborBalancingService");
         ledgerEntryHistoryBalancingDao =  (LedgerEntryHistoryBalancingDao) SpringContext.getService("laborLedgerEntryHistoryDao");
         ledgerBalancingDao = (LedgerBalancingDao) SpringContext.getService("laborBalancingDao");
 
-        laborPosterService = SpringContext.getBean(LaborPosterService.class);
-        
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         businessObjectService.deleteMatching(LedgerEntry.class, fieldValues);
@@ -167,17 +163,18 @@ public class LaborBalancingServiceImplTest extends BalancingServiceImplTestBase 
     protected void postTestCaseEntries(String[] inputTransactions) {
         // Write test file
         TestUtils.writeFile(this.getBatchFileDirectoryName() + File.separator + LaborConstants.BatchFileSystem.POSTER_INPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION, inputTransactions);
-
-        // Run the poster
-        laborPosterService.postMainEntries();
         
-        // Rename the file because that's what happens before the balancing job runs
-        Step laborFileRenameStep = SpringContext.getBean(LaborFileRenameStep.class);
         try {
-            assertTrue("Should return true", laborFileRenameStep.execute(getClass().getName(), dateTimeService.getCurrentDate()));
+            // Run the poster
+            Step laborPosterStep = SpringContext.getBean(LaborPosterStep.class);
+            assertTrue("laborPosterStep should have succeeded", laborPosterStep.execute(getClass().getName(), dateTimeService.getCurrentDate()));
+            
+            // Rename the file because that's what happens before the balancing job runs
+            Step laborFileRenameStep = SpringContext.getBean(LaborFileRenameStep.class);
+            assertTrue("laborFileRenameStep should have succeeded", laborFileRenameStep.execute(getClass().getName(), dateTimeService.getCurrentDate()));
         }
         catch (InterruptedException e) {
-            throw new RuntimeException("fileRenameStep failed", e);
+            assertTrue("laborPosterStep or laborFileRenameStep failed: " + e.getMessage(), true);
         }
     }
     

@@ -19,7 +19,7 @@ import java.io.File;
 
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.FileRenameStep;
-import org.kuali.kfs.gl.batch.service.PosterService;
+import org.kuali.kfs.gl.batch.PosterEntriesStep;
 import org.kuali.kfs.gl.businessobject.AccountBalanceHistory;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.BalanceHistory;
@@ -33,7 +33,6 @@ import org.kuali.kfs.gl.dataaccess.LedgerBalancingDao;
 import org.kuali.kfs.gl.dataaccess.LedgerEntryHistoryBalancingDao;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.batch.Step;
-import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 
@@ -45,7 +44,6 @@ import org.kuali.kfs.sys.context.TestUtils;
 public class BalancingServiceImplTest extends BalancingServiceImplTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalancingServiceImplTest.class);
     
-    protected PosterService posterService;
     protected BalancingDao balancingDao;
     protected AccountBalanceDao accountBalanceDao;
     protected EncumbranceDao encumbranceDao;
@@ -56,7 +54,6 @@ public class BalancingServiceImplTest extends BalancingServiceImplTestBase {
         ledgerEntryHistoryBalancingDao =  (LedgerEntryHistoryBalancingDao) SpringContext.getService("glEntryHistoryDao");
         ledgerBalancingDao = (LedgerBalancingDao) SpringContext.getService("glLedgerBalancingDao");
 
-        posterService = SpringContext.getBean(PosterService.class);
         balancingDao = (BalancingDao) SpringContext.getService("glBalancingDao");
         accountBalanceDao = SpringContext.getBean(AccountBalanceDao.class);
         encumbranceDao = SpringContext.getBean(EncumbranceDao.class);
@@ -185,16 +182,17 @@ public class BalancingServiceImplTest extends BalancingServiceImplTestBase {
         // Write test file
         TestUtils.writeFile(this.getBatchFileDirectoryName() + File.separator + GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION, inputTransactions);
         
-        // Run the poster
-        posterService.postMainEntries();
-        
-        // Rename the file because that's what happens before the balancing job runs
-        Step fileRenameStep = SpringContext.getBean(FileRenameStep.class);
         try {
-            assertTrue("Should return true", fileRenameStep.execute(getClass().getName(), dateTimeService.getCurrentDate()));
+            // Run the poster
+            Step posterEntriesStep = SpringContext.getBean(PosterEntriesStep.class);
+            assertTrue("posterEntriesStep should have succeeded", posterEntriesStep.execute(getClass().getName(), dateTimeService.getCurrentDate()));
+            
+            // Rename the file because that's what happens before the balancing job runs
+            Step fileRenameStep = SpringContext.getBean(FileRenameStep.class);
+            assertTrue("fileRenameStep should have succeeded", fileRenameStep.execute(getClass().getName(), dateTimeService.getCurrentDate()));
         }
         catch (InterruptedException e) {
-            assertTrue("fileRenameStep failed: " + e.getMessage(), true);
+            assertTrue("posterEntriesStep or fileRenameStep failed: " + e.getMessage(), true);
         }
     }
     

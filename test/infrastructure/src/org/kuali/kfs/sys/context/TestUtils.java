@@ -389,7 +389,9 @@ public class TestUtils {
         File file = new File(filePath);
         
         if (file.exists()) {
-            throw new IllegalArgumentException("File already exists: " + filePath);
+            if(!file.delete()) {
+                throw new RuntimeException("Attempt to overwrite " + file.getName() + " failed.");
+            }
         }
         
         PrintStream outputFileStream = null;

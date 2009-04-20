@@ -37,8 +37,6 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.batch.Step;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
-import org.kuali.kfs.sys.suite.RelatesTo;
-import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 
@@ -91,7 +89,6 @@ public class LaborBalancingServiceImplTest extends BalancingServiceImplTestBase 
     }
     
     @Override
-    @RelatesTo(JiraIssue.KFSMI3345)
     public void testRunBalancingPopulateData() {
         LOG.debug("No data present scenario, hence process should populate data");
                 
@@ -119,7 +116,6 @@ public class LaborBalancingServiceImplTest extends BalancingServiceImplTestBase 
     }
     
     @Override
-    @RelatesTo(JiraIssue.KFSMI3345)
     public void testRunBalancingDeleteObsoleteUniversityFiscalYearData() {
         // Generate some data
         this.postTestCaseEntries(INPUT_TRANSACTIONS);
@@ -143,7 +139,6 @@ public class LaborBalancingServiceImplTest extends BalancingServiceImplTestBase 
     }
     
     @Override
-    @RelatesTo(JiraIssue.KFSMI3345)
     public void testRunBalancingHistoryUpdate() {
         // First pass is exactly the same as testRunBalancingPopulateData. This serves to populate the tables
         this.testRunBalancingPopulateData();
@@ -170,7 +165,7 @@ public class LaborBalancingServiceImplTest extends BalancingServiceImplTestBase 
      */
     @Override
     protected void postTestCaseEntries(String[] inputTransactions) {
-        // Write our test file
+        // Write test file
         TestUtils.writeFile(this.getBatchFileDirectoryName() + File.separator + LaborConstants.BatchFileSystem.POSTER_INPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION, inputTransactions);
 
         // Run the poster

@@ -381,15 +381,15 @@ public class TestUtils {
     
     /**
      * Writes an array to a file.  Useful for GL / LD poster file handling.
-     * @param pathname file and path to write
+     * @param filePath file and path to write
      * @param inputTransactions data to write to pathname
      * @throws IllegalArgumentException if file already exists
      */
-    public static void writeFile(String pathname, String[] inputTransactions) {
-        File file = new File(pathname);
+    public static void writeFile(String filePath, String[] inputTransactions) {
+        File file = new File(filePath);
         
         if (file.exists()) {
-            throw new IllegalArgumentException("File already exists: " + pathname);
+            throw new IllegalArgumentException("File already exists: " + filePath);
         }
         
         PrintStream outputFileStream = null;

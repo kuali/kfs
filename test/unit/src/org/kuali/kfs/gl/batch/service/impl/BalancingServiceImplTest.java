@@ -33,10 +33,9 @@ import org.kuali.kfs.gl.dataaccess.LedgerBalancingDao;
 import org.kuali.kfs.gl.dataaccess.LedgerEntryHistoryBalancingDao;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.batch.Step;
+import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
-import org.kuali.kfs.sys.suite.RelatesTo;
-import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 
 
 /**
@@ -88,7 +87,6 @@ public class BalancingServiceImplTest extends BalancingServiceImplTestBase {
     }
     
     @Override
-    @RelatesTo(JiraIssue.KFSMI3345)
     public void testRunBalancingPopulateData() {
         LOG.debug("No data present scenario, hence process should populate data");
         
@@ -154,7 +152,6 @@ public class BalancingServiceImplTest extends BalancingServiceImplTestBase {
     }
     
     @Override
-    @RelatesTo(JiraIssue.KFSMI3345)
     public void testRunBalancingHistoryUpdate() {
         // First pass is exactly the same as testRunBalancingPopulateData. This serves to populate the tables
         this.testRunBalancingPopulateData();
@@ -185,7 +182,7 @@ public class BalancingServiceImplTest extends BalancingServiceImplTestBase {
      */
     @Override
     protected void postTestCaseEntries(String[] inputTransactions) {
-        // Write our test file
+        // Write test file
         TestUtils.writeFile(this.getBatchFileDirectoryName() + File.separator + GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION, inputTransactions);
         
         // Run the poster

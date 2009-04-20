@@ -537,6 +537,15 @@
 		</property>
 	</bean>
     	
+	<bean id="organizationGroupTypeService"
+		class="org.kuali.kfs.coa.identity.OrganizationGroupTypeServiceImpl" />
+	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+		<property name="serviceDefinition">
+			<bean parent="kfsService" p:service-ref="organizationGroupTypeService"
+				p:localServiceName="organizationGroupTypeService" />
+		</property>
+	</bean>
+
 	<bean id="organizationReversionFiscalYearMaker" parent="FiscalYearMaker">
 		<property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.OrganizationReversion" /> 
 		<property name="fiscalYearOneBehind" value="true" />

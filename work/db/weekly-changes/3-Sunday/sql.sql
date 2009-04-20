@@ -155,3 +155,18 @@ INSERT INTO KRIM_ROLE_T(ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, K
 /
 update krim_role_perm_t set role_id = '97' where perm_id = '181'
 /
+
+update krim_perm_t a set a.NM = (select b.nm from krim_perm_tmpl_t b where a.perm_tmpl_id = b.perm_tmpl_id) where a.nm is null
+/
+
+INSERT INTO KRIM_TYP_T(KIM_TYP_ID, OBJ_ID, VER_NBR, NM, SRVC_NM, ACTV_IND, NMSPC_CD) 
+    VALUES('68', sys_guid(), 1, 'Organization Group', 'organizationGroupTypeService', 'Y', 'KFS-COA')
+/
+INSERT INTO KRIM_TYP_ATTR_T(KIM_TYP_ATTR_ID, OBJ_ID, VER_NBR, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ACTV_IND, SORT_CD) 
+    VALUES('113', sys_guid(), 1, '68', '22', 'Y', 'a')
+/
+INSERT INTO KRIM_TYP_ATTR_T(KIM_TYP_ATTR_ID, OBJ_ID, VER_NBR, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ACTV_IND, SORT_CD) 
+    VALUES('114', sys_guid(), 1, '68', '24', 'Y', 'b')
+/
+update krew_doc_typ_t set lbl = 'Organization Group Type' where doc_typ_nm = 'ORGG'
+/

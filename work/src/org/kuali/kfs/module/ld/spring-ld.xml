@@ -1159,11 +1159,16 @@
 		</property>		
 	</bean>
 			
-			
 	<bean id="clearOldLaborOriginEntryStep" class="org.kuali.kfs.module.ld.batch.ClearOldLaborOriginEntryStep" parent="step">
 		<property name="originEntryGroupService">
 			<ref bean="originEntryGroupService" />
 		</property>
+	</bean>
+			
+	<bean id="laborCorrectionProcessScrubberStep" class="org.kuali.kfs.module.ld.batch.LaborCorrectionProcessScrubberStep" parent="step">
+		<property name="laborCorrectionDocumentService" ref="laborCorrectionDocumentService" />
+		<property name="laborScrubberService" ref="laborScrubberService" />
+		<property name="batchTransactionalCachingService" ref="laborAccountingCycleCachingService" />
 	</bean>
 			
 </beans>

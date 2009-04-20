@@ -1402,15 +1402,16 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward initiateQuote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
-        if (!PurapConstants.PurchaseOrderStatuses.IN_PROCESS.equals(document.getStatusCode())) {
+        if (!PurchaseOrderStatuses.IN_PROCESS.equals(document.getStatusCode())) {
             // PO must be "in process" in order to initiate a quote
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_NOT_IN_PROCESS);
-
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         Date currentSqlDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
         document.setPurchaseOrderQuoteInitializationDate(currentSqlDate);
-        document.setStatusCode(PurapConstants.PurchaseOrderStatuses.QUOTE);
+        document.setStatusCode(PurchaseOrderStatuses.QUOTE);
+        document.setStatusChange(PurchaseOrderStatuses.QUOTE);
+        document.refreshReferenceObject(PurapPropertyConstants.STATUS);
         Date expDate = new Date(currentSqlDate.getTime() + (10 * 24 * 60 * 60 * 1000)); // add 10 days - TODO: make this a parameter!!!
         document.setPurchaseOrderQuoteDueDate(expDate);
         document.getPurchaseOrderVendorQuotes().clear();

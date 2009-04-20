@@ -164,7 +164,7 @@
     	<property name="attributeName" value="overrideCode" />
     </bean>
     <bean id="RoutingAttribute-overrideCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" >
-    	<property name="qualificationAttributeName" value="overrideCode" />
+    	<property name="qualificationAttributeName" value="accountingLineOverrideCode" />
     </bean>
    
     <bean id="SearchingAttribute-subFundGroupCode" class="org.kuali.rice.kns.datadictionary.SearchingAttribute" >

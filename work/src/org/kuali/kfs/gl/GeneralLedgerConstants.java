@@ -156,7 +156,7 @@ public class GeneralLedgerConstants {
         static final public String COST_SHARE_FISCAL_PERIOD_CODES = "COST_SHARE_FISCAL_PERIODS";
 
         static final public String COST_SHARE_ENC_BAL_TYP_CODES = "COST_SHARE_ENCUMBRANCE_BALANCE_TYPES";
-        static final public String COST_SHARE_ENC_DOC_TYPE_CODES = "COST_SHARE_ENCUMBRANCE_DOCUMENT_TYPES";
+        static final public String COST_SHARE_ENC_DOC_TYPE_CODES = "COST_SHARE_DOCUMENT_TYPES";
         static final public String COST_SHARE_ENC_FISCAL_PERIOD_CODES = "COST_SHARE_ENCUMBRANCE_FISCAL_PERIODS";
 
         static final public String LIABILITY_CHART_CODES = "LIABILITY_CHARTS";

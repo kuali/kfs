@@ -138,7 +138,7 @@ public class CustomerCreditMemoDocumentRuleTest extends KualiTestBase {
         detail.setInvoiceOpenItemAmount(new KualiDecimal(2));
         detail.setCreditMemoItemTotalAmount(new KualiDecimal(2));
         
-        assertTrue(rule.isCustomerCreditMemoItemAmountLessThanEqualToInvoiceOpenItemAmount(detail));   
+        assertTrue(rule.isCustomerCreditMemoItemAmountLessThanEqualToInvoiceOpenItemAmount(document, detail));   
     }
     
     /*
@@ -149,7 +149,7 @@ public class CustomerCreditMemoDocumentRuleTest extends KualiTestBase {
         detail.setInvoiceOpenItemAmount(new KualiDecimal(2));
         detail.setCreditMemoItemTotalAmount(new KualiDecimal(1));
         
-        assertTrue(rule.isCustomerCreditMemoItemAmountLessThanEqualToInvoiceOpenItemAmount(detail));   
+        assertTrue(rule.isCustomerCreditMemoItemAmountLessThanEqualToInvoiceOpenItemAmount(document, detail));   
     }
     
     /*
@@ -160,7 +160,7 @@ public class CustomerCreditMemoDocumentRuleTest extends KualiTestBase {
         detail.setInvoiceOpenItemAmount(new KualiDecimal(1));
         detail.setCreditMemoItemTotalAmount(new KualiDecimal(2));
         
-        assertFalse(rule.isCustomerCreditMemoItemAmountLessThanEqualToInvoiceOpenItemAmount(detail));   
+        assertFalse(rule.isCustomerCreditMemoItemAmountLessThanEqualToInvoiceOpenItemAmount(document, detail));   
     }
     
     /*

@@ -218,7 +218,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             detail.setDocumentPaymentAmount(paymentApplication.getTotalApplied().negated());
 
             // populate Unpaid/Unapplied Amount
-            detail.setUnpaidUnappliedAmount(paymentApplication.getUnallocatedBalance().negated());
+            detail.setUnpaidUnappliedAmount(paymentApplication.getNonAppliedHoldingAmount().negated());
 
             results.add(detail);
         }

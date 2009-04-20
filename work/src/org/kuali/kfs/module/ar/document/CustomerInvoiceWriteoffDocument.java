@@ -232,9 +232,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
      * @return
      */
     public KualiDecimal getInvoiceWriteoffAmount() {
-        if (ObjectUtils.isNull(invoiceWriteoffAmount) && ObjectUtils.isNotNull(customerInvoiceDocument)) {
-            invoiceWriteoffAmount = customerInvoiceDocument.getOpenAmount();
-        }
+        invoiceWriteoffAmount = customerInvoiceDocument.getOpenAmount();
         return invoiceWriteoffAmount;
     }
 

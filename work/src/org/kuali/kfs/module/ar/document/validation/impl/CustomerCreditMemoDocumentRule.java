@@ -32,10 +32,14 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.validation.ContinueCustomerCreditMemoDocumentRule;
 import org.kuali.kfs.module.ar.document.validation.RecalculateCustomerCreditMemoDetailRule;
 import org.kuali.kfs.module.ar.document.validation.RecalculateCustomerCreditMemoDocumentRule;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
+import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.TransactionalDocument;
 import org.kuali.rice.kns.exception.UnknownDocumentIdException;
@@ -81,6 +85,7 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
         boolean success = true;
  
         CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument)document;
+        customerCreditMemoDocument.refreshReferenceObject("invoice");
         String inputKey = isQtyOrItemAmountEntered(customerCreditMemoDetail);
         
         // 'Qty' was entered
@@ -91,12 +96,12 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
         // 'Item Amount' was entered
         else if (StringUtils.equals(ArConstants.CustomerCreditMemoConstants.CUSTOMER_CREDIT_MEMO_ITEM_TOTAL_AMOUNT,inputKey)) { 
             success &= isValueGreaterThanZero(customerCreditMemoDetail.getCreditMemoItemTotalAmount());
-            success &= isCustomerCreditMemoItemAmountLessThanEqualToInvoiceOpenItemAmount(customerCreditMemoDetail);
+            success &= isCustomerCreditMemoItemAmountLessThanEqualToInvoiceOpenItemAmount(customerCreditMemoDocument, customerCreditMemoDetail);
         }
         // both 'Qty' and 'Item Amount' were entered -> validate
         else if (StringUtils.equals(ArConstants.CustomerCreditMemoConstants.BOTH_QUANTITY_AND_ITEM_TOTAL_AMOUNT_ENTERED,inputKey)){
             success &= isValueGreaterThanZero(customerCreditMemoDetail.getCreditMemoItemTotalAmount());
-            success &= isCustomerCreditMemoItemAmountLessThanEqualToInvoiceOpenItemAmount(customerCreditMemoDetail);
+            success &= isCustomerCreditMemoItemAmountLessThanEqualToInvoiceOpenItemAmount(customerCreditMemoDocument, customerCreditMemoDetail);
             success &= isValueGreaterThanZero(customerCreditMemoDetail.getCreditMemoItemQuantity());
             success &= isCustomerCreditMemoQtyLessThanEqualToInvoiceOpenQty(customerCreditMemoDetail);
             success &= checkIfCustomerCreditMemoQtyAndCustomerCreditMemoItemAmountValid(customerCreditMemoDetail,customerCreditMemoDetail.getCustomerInvoiceDetail().getInvoiceItemUnitPrice());
@@ -138,7 +143,11 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
         return validValue;
     }
 
-    public boolean isCustomerCreditMemoItemAmountLessThanEqualToInvoiceOpenItemAmount(CustomerCreditMemoDetail customerCreditMemoDetail){
+    public boolean isCustomerCreditMemoItemAmountLessThanEqualToInvoiceOpenItemAmount(CustomerCreditMemoDocument customerCreditMemoDocument, CustomerCreditMemoDetail customerCreditMemoDetail){
+        // refresh InvoiceOpenItemAmount and InvoiceOpenAmountQuantity if changed by any other transaction
+        customerCreditMemoDetail.setInvoiceOpenItemAmount(customerCreditMemoDetail.getCustomerInvoiceDetail().getAmountOpen());
+        customerCreditMemoDetail.setInvoiceOpenItemQuantity(customerCreditMemoDocument.getInvoiceOpenItemQuantity(customerCreditMemoDetail, customerCreditMemoDetail.getCustomerInvoiceDetail()));
+        
         KualiDecimal invoiceOpenItemAmount = customerCreditMemoDetail.getInvoiceOpenItemAmount();
         KualiDecimal creditMemoItemAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount();
         
@@ -224,6 +233,8 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
         success = checkIfInvoiceNumberIsValid(customerCreditMemoDocument.getFinancialDocumentReferenceInvoiceNumber());
         if (success)
             success = checkIfThereIsNoAnotherCRMInRouteForTheInvoice(customerCreditMemoDocument.getFinancialDocumentReferenceInvoiceNumber());
+        if (success)
+            success = checkInvoiceForErrorCorrection(customerCreditMemoDocument.getFinancialDocumentReferenceInvoiceNumber());
         
         return success;
     }
@@ -287,5 +298,32 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
         return success;  
     }
     
-}
+    /**
+     * 
+     * This method checks if the Invoice has been error corrected
+     * or is an error correcting invoice
+     * @param invoice
+     * @return
+     */
+    public boolean checkInvoiceForErrorCorrection(String invoiceDocumentNumber) {
+        CustomerInvoiceDocumentService service = SpringContext.getBean(CustomerInvoiceDocumentService.class);
+        CustomerInvoiceDocument customerInvoiceDocument = service.getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
 
+        DocumentHeader documentHeader = SpringContext.getBean(FinancialSystemDocumentHeaderDao.class).getCorrectingDocumentHeader(invoiceDocumentNumber);
+        
+        // invoice has been corrected
+        if (ObjectUtils.isNotNull(documentHeader)) {
+            if (StringUtils.isNotBlank(documentHeader.getDocumentNumber())) {
+                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_CORRECTED_INVOICE);
+                return false;
+            }
+        }
+        // this is a correcting invoice
+        if (customerInvoiceDocument.isInvoiceReversal()) {
+            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_CORRECTING_INVOICE);
+            return false;
+        }
+        return true;  
+    }
+
+}

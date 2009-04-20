@@ -138,6 +138,8 @@ public class ArKeyConstants {
     public static final String ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT__INVOICE_DOCUMENT_NUMBER_IS_REQUIRED = "error.document.customerCreditMemoDocument.invRefNumberIsRequired";
     public static final String WARNING_CUSTOMER_CREDIT_MEMO_DOCUMENT_INVOICE_HAS_DISCOUNT = "warning.documnet.customerCreditMemoDocument.invoiceHasAppliedDiscount";
     public static final String ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_NO_DATA_TO_SUBMIT = "error.document.customerCreditMemoDocument.noDataToSubmit";
+    public static final String ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_CORRECTED_INVOICE = "error.document.customerCreditMemoDocument.invoiceHasBeenCorrected";
+    public static final String ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_CORRECTING_INVOICE = "error.document.customerCreditMemoDocument.invoiceCorrectsAnotherInvoice";
 
     // Cash Control Document errors
     public static final String ERROR_REFERENCE_DOC_NUMBER_CANNOT_BE_NULL_FOR_PAYMENT_MEDIUM_CASH = "error.ar.ReferenceDocNumberCannotBeNullforPaymentMediumCash";

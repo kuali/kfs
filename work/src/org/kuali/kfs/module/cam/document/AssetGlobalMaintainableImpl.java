@@ -83,6 +83,7 @@ public class AssetGlobalMaintainableImpl extends FinancialSystemGlobalMaintainab
      */
     @Override
     public void processAfterNew(MaintenanceDocument document, Map<String, String[]> parameters) {
+                
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
 
         // set "asset number" and "type code" from URL
@@ -95,7 +96,7 @@ public class AssetGlobalMaintainableImpl extends FinancialSystemGlobalMaintainab
             AssetOrganization assetOrganization = getAssetOrganization(assetGlobal);
             populateAssetSeparateAssetDetails(assetGlobal, asset, assetOrganization);
             populateAssetSeparatePaymentDetails(assetGlobal, asset);
-
+            populateAssetLocationTabInformation(asset);
             AssetGlobalRule.validateAssetTotalCostMatchesPaymentTotalCost(assetGlobal);
 
             if (getAssetGlobalService().isAssetSeparateByPayment(assetGlobal)) {
@@ -666,5 +667,17 @@ public class AssetGlobalMaintainableImpl extends FinancialSystemGlobalMaintainab
      */
     private AssetGlobalService getAssetGlobalService() {
         return SpringContext.getBean(AssetGlobalService.class);
+    }
+
+    /**
+     * 
+     * populates the asset location information (add new section)
+     * @param asset
+     */
+    private void populateAssetLocationTabInformation(Asset asset) {
+        AssetGlobalDetail assetSharedDetail = (AssetGlobalDetail)this.getNewCollectionLine(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS);
+        assetSharedDetail.setCampusCode(asset.getCampusCode());
+        assetSharedDetail.setBuildingCode(asset.getBuildingCode());
+        assetSharedDetail.setBuildingRoomNumber(asset.getBuildingRoomNumber());
     }
 }

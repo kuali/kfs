@@ -28,6 +28,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.batch.CorrectionProcessScrubberStep;
 import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
@@ -36,9 +37,9 @@ import org.kuali.kfs.gl.document.service.CorrectionDocumentService;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.gl.service.ReportService;
-import org.kuali.kfs.gl.service.ScrubberService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.batch.BatchSpringContext;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
@@ -48,10 +49,8 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
- * 
- * The General Ledger Correction Document, a document that allows editing and processing of 
- * origin entry groups and the origin entries within them.
- * 
+ * The General Ledger Correction Document, a document that allows editing and processing of origin entry groups and the origin
+ * entries within them.
  */
 public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTransactionalDocumentBase implements AmountTotaling {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GeneralLedgerCorrectionProcessDocument.class);
@@ -65,7 +64,7 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
     private KualiDecimal correctionDebitTotalAmount; // Debit amount total in output group
     private KualiDecimal correctionCreditTotalAmount; // Credit amount total in output group
     private KualiDecimal correctionBudgetTotalAmount; // Budget amount total in output group
-    private String correctionInputFileName; // input file name 
+    private String correctionInputFileName; // input file name
     private String correctionOutputFileName; // output file name
     private String correctionScriptText; // Not used
     private Integer correctionChangeGroupNextLineNumber;
@@ -73,7 +72,7 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
     private List<CorrectionChangeGroup> correctionChangeGroup;
 
     public static final String AUTO_APPROVE_ROUTE_LEVEL_NAME = "autoApproveForAsynchronousProcessing";
-    
+
     public GeneralLedgerCorrectionProcessDocument() {
         super();
         correctionChangeGroupNextLineNumber = new Integer(0);
@@ -95,8 +94,8 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
     }
 
     /**
-     * Returns the editing method to use on the origin entries in the document, either "Manual Edit,"
-     * "Using Criteria," "Remove Group from Processing," or "Not Available"
+     * Returns the editing method to use on the origin entries in the document, either "Manual Edit," "Using Criteria,"
+     * "Remove Group from Processing," or "Not Available"
      * 
      * @return the String representation of the method this document is using
      */
@@ -116,8 +115,7 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
     }
 
     /**
-     * Returns the source of the origin entries this document uses: either an uploaded file of origin entries
-     * or the database  
+     * Returns the source of the origin entries this document uses: either an uploaded file of origin entries or the database
      * 
      * @return a String with the name of the system in use
      */
@@ -131,8 +129,8 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
     }
 
     /**
-     * 
      * This method...
+     * 
      * @param ccg
      */
     public void addCorrectionChangeGroup(CorrectionChangeGroup ccg) {
@@ -142,8 +140,8 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
     }
 
     /**
-     * 
      * This method...
+     * 
      * @param changeNumber
      */
     public void removeCorrectionChangeGroup(int changeNumber) {
@@ -156,8 +154,8 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
     }
 
     /**
-     * 
      * This method...
+     * 
      * @param groupNumber
      * @return
      */
@@ -176,101 +174,53 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
     }
 
     /**
-     * If the document final, change the process flag on the output origin entry group (if necessary)
-     * 
-     * @see org.kuali.rice.kns.document.DocumentBase#handleRouteStatusChange()
-     */
-    @Override
-    public void handleRouteStatusChange() {
-        if ( LOG.isDebugEnabled() ) {
-            LOG.debug( "GLCP Route Status Change: " + getDocumentHeader().getWorkflowDocument().getStatusDisplayValue() );
-        }
-        super.handleRouteStatusChange();
-
-        CorrectionDocumentService correctionDocumentService = SpringContext.getBean(CorrectionDocumentService.class);
-        OriginEntryGroupService originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
-
-        String docId = getDocumentHeader().getDocumentNumber();
-        GeneralLedgerCorrectionProcessDocument doc = correctionDocumentService.findByCorrectionDocumentHeaderId(docId);
-
-        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-            String correctionType = doc.getCorrectionTypeCode();
-            if (CorrectionDocumentService.CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING.equals(correctionType)) {
-                
-                String dataFileName = doc.getCorrectionInputFileName();
-                String doneFileName = dataFileName.replace(GeneralLedgerConstants.BatchFileSystem.EXTENSION, GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION);
-                originEntryGroupService.deleteFile(doneFileName);
-                
-            }
-            else if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType) || CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionType)) {
-                // save the output file to originEntry directory when correctionFileDelete is false
-                DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-                Date today = dateTimeService.getCurrentDate();
-                
-                //generate output file and set file name
-                String outputFileName = "";
-                if (!correctionFileDelete){
-                    outputFileName = correctionDocumentService.createOutputFileForProcessing(doc.getDocumentNumber(), today);
-                }
-                doc.setCorrectionOutputFileName(outputFileName);
-                // should call scrubber here
-                String fileNameWithPath = correctionDocumentService.generateOutputOriginEntryFileName(docId);
-                ScrubberService scrubberService = SpringContext.getBean(ScrubberService.class);
-                scrubberService.scrubGroupReportOnly(fileNameWithPath, docId);
-            }
-            else {
-                LOG.error("GLCP doc " + doc.getDocumentNumber() + " has an unknown correction type code: " + correctionType);
-            }
-        }
-    }
-
-
-    /**
-     * Waits for the event of the route level changing to "Approve" and at that point, saving all the entries as origin entries in a newly created
-     * origin entry group, then scrubbing those entries
+     * Waits for the event of the route level changing to "Approve" and at that point, saving all the entries as origin entries in a
+     * newly created origin entry group, then scrubbing those entries
      * 
      * @param cahnge a representation of the route level changed that just occurred
      * @see org.kuali.rice.kns.document.DocumentBase#handleRouteLevelChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteLevelChangeDTO)
      */
     @Override
     public void handleRouteLevelChange(DocumentRouteLevelChangeDTO change) {
-        if ( LOG.isDebugEnabled() ) {
-            LOG.debug( "GLCP Route Level Change: " + change );
-        }
         super.handleRouteLevelChange(change);
-        String routeLevel = change.getNewNodeName();
-        if (StringUtils.equals(routeLevel, AUTO_APPROVE_ROUTE_LEVEL_NAME)) {
-            String correctionType = getCorrectionTypeCode();
-            if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType) || CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionType)) {
-                String docId = getDocumentHeader().getDocumentNumber();
-                // this code is performed asynchronously
+        if (StringUtils.equals(change.getNewNodeName(), AUTO_APPROVE_ROUTE_LEVEL_NAME)) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("GLCP Route Level Change: " + change);
+            }
+            CorrectionDocumentService correctionDocumentService = SpringContext.getBean(CorrectionDocumentService.class);
+            OriginEntryGroupService originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
 
-                DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-                CorrectionDocumentService correctionDocumentService = SpringContext.getBean(CorrectionDocumentService.class);
+            String docId = getDocumentHeader().getDocumentNumber();
+            GeneralLedgerCorrectionProcessDocument doc = correctionDocumentService.findByCorrectionDocumentHeaderId(docId);
 
-                java.sql.Date today = dateTimeService.getCurrentSqlDate();
-                // Scrub is set to false when the document is initiated. When the document is final, it will be changed to true
-                
-                String fileNameWithPath = correctionDocumentService.generateOutputOriginEntryFileName(docId);
-                // Now, run the reports
-                ReportService reportService = SpringContext.getBean(ReportService.class);
-                ScrubberService scrubberService = SpringContext.getBean(ScrubberService.class);
-                
-                String outputFileName = OriginEntrySource.GL_CORRECTION_PROCESS_EDOC + "_uploaded_file";
-                //build file name with time information
-                outputFileName += buildFileExtensionWithDate(today);
-                
-                setCorrectionOutputFileName(outputFileName);
-                // not using the document service to save because it touches workflow, just save the doc BO as a regular BO
-                SpringContext.getBean(BusinessObjectService.class).save(this);
+            if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+                String correctionType = doc.getCorrectionTypeCode();
+                if (CorrectionDocumentService.CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING.equals(correctionType)) {
 
-                LOG.debug("handleRouteStatusChange() Run reports");
+                    String dataFileName = doc.getCorrectionInputFileName();
+                    String doneFileName = dataFileName.replace(GeneralLedgerConstants.BatchFileSystem.EXTENSION, GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION);
+                    originEntryGroupService.deleteFile(doneFileName);
 
-                reportService.correctionOnlineReport(this, today);
+                }
+                else if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType) || CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionType)) {
+                    // save the output file to originEntry directory when correctionFileDelete is false
+                    DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+                    Date today = dateTimeService.getCurrentDate();
 
-                // Run the scrubber on this group to generate a bunch of reports. The scrubber won't save anything when running it
-                // this way.
-                scrubberService.scrubGroupReportOnly(fileNameWithPath, docId);
+                    // generate output file and set file name
+                    String outputFileName = "";
+                    if (!correctionFileDelete) {
+                        outputFileName = correctionDocumentService.createOutputFileForProcessing(doc.getDocumentNumber(), today);
+                    }
+                    doc.setCorrectionOutputFileName(outputFileName);
+                    CorrectionProcessScrubberStep step = (CorrectionProcessScrubberStep) BatchSpringContext.getStep(CorrectionProcessScrubberStep.STEP_NAME);
+                    step.setDocumentId(docId);
+                    step.execute(getClass().getName(), dateTimeService.getCurrentDate());
+                    step.setDocumentId(null);
+                }
+                else {
+                    LOG.error("GLCP doc " + doc.getDocumentNumber() + " has an unknown correction type code: " + correctionType);
+                }
             }
         }
     }
@@ -285,7 +235,7 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
     }
 
     /**
-     * Sets this document's document number, but also sets the document number on all children objects 
+     * Sets this document's document number, but also sets the document number on all children objects
      * 
      * @param documentNumber the document number for this document
      * @see org.kuali.rice.kns.document.DocumentBase#setDocumentNumber(java.lang.String)
@@ -389,14 +339,12 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
         this.correctionChangeGroup = correctionChangeGroup;
     }
 
-    protected String buildFileExtensionWithDate(Date date){
+    protected String buildFileExtensionWithDate(Date date) {
         String dateFormatStr = ".yyyy-MMM-dd.HH-mm-ss";
         DateFormat dateFormat = new SimpleDateFormat(dateFormatStr);
-        
+
         return dateFormat.format(date) + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-        
-        
+
+
     }
 }
-
-

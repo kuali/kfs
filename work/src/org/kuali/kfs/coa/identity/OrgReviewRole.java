@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.coa.identity;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -151,8 +151,8 @@ public class OrgReviewRole extends RoleImpl {
 	protected boolean active;
 	protected boolean delegate;
     
-    protected Timestamp activeFromDate;
-    protected Timestamp activeToDate;
+    protected Date activeFromDate;
+    protected Date activeToDate;
 
 	/**
      * Gets the active attribute. 
@@ -430,28 +430,28 @@ public class OrgReviewRole extends RoleImpl {
      * Gets the activeFromDate attribute. 
      * @return Returns the activeFromDate.
      */
-    public Timestamp getActiveFromDate() {
+    public Date getActiveFromDate() {
         return activeFromDate;
     }
     /**
      * Sets the activeFromDate attribute value.
      * @param activeFromDate The activeFromDate to set.
      */
-    public void setActiveFromDate(Timestamp activeFromDate) {
+    public void setActiveFromDate(Date activeFromDate) {
         this.activeFromDate = activeFromDate;
     }
     /**
      * Gets the activeToDate attribute. 
      * @return Returns the activeToDate.
      */
-    public Timestamp getActiveToDate() {
+    public Date getActiveToDate() {
         return activeToDate;
     }
     /**
      * Sets the activeToDate attribute value.
      * @param activeToDate The activeToDate to set.
      */
-    public void setActiveToDate(Timestamp activeToDate) {
+    public void setActiveToDate(Date activeToDate) {
         this.activeToDate = activeToDate;
     }
     /**

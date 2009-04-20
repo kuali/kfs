@@ -35,15 +35,16 @@
 	</c:when>
 	<c:otherwise>
 		<c:choose>
-		<c:when test="${itemLine.additionalChargeNonTradeInIndicator}">
-			<c:set var="color" value="blue" />
-		</c:when>
+			<c:when test="${itemLine.additionalChargeNonTradeInIndicator}">
+				<c:set var="color" value="blue" />
+			</c:when>
 		<c:otherwise>
 			<c:set var="color" value="black" />
 		</c:otherwise>
 		</c:choose>
 	</c:otherwise>
 </c:choose>
+
 <c:set var="assetItemStr" value="purApDoc[${docPos-1}].purchasingAccountsPayableItemAsset[${linePos-1}]" />
 <tr style="color:${color}">
 	<c:choose>
@@ -54,6 +55,24 @@
 		<td rowspan="2">&nbsp;</td>
 	</c:otherwise>
 	</c:choose>
+	
+	<c:if test="${!itemLine.active}">	
+	    <td class="infoline" align="center">
+			<a href="${ConfigProperties.application.url}/en/DocHandler.do?command=displayDocSearchView&docId=${itemLine.capitalAssetManagementDocumentNumber}"  target="_blank">
+				${itemLine.capitalAssetManagementDocumentNumber }
+			</a>&nbsp;
+		</td>
+		<td class="infoline" align="center">
+			<c:forEach items="${itemLine.approvedAssetNumbers }" var="assetNumber" >
+				<kul:inquiry boClassName="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset" keyValues="capitalAssetNumber=${assetNumber}" render="true">
+					${assetNumber }
+				</kul:inquiry>
+				&nbsp;
+			</c:forEach>
+			&nbsp;
+		</td>
+	</c:if>	
+			
 	<td class="infoline">${purApDocLine.purapDocumentIdentifier} </td>
 	<td class="infoline">${purApDocLine.documentTypeCode}</td>
 	<td class="infoline">${purApDocLine.statusDescription}</td>
@@ -109,6 +128,8 @@
 		<td class="infoline">N
 	</c:otherwise>
 	</c:choose>
+	
+	
 	<c:choose>
 	<c:when test="${itemLine.active }">
 		<td class="infoline" align="center">
@@ -130,24 +151,11 @@
 		<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-applypayment.gif" styleClass="tinybutton" property="methodToCall.applyPayment.doc${docPos-1}.line${linePos-1}" title="applyPayment" alt="applyPayment"/>
 		</c:if>
 		</td>
-	</c:when>
-	<c:otherwise>
-	    <td class="infoline" align="center">
-			<a href="${ConfigProperties.application.url}/en/DocHandler.do?command=displayDocSearchView&docId=${itemLine.capitalAssetManagementDocumentNumber}"  target="_blank">
-				${itemLine.capitalAssetManagementDocumentNumber }
-			</a>&nbsp;
-		</td>
-		<td class="infoline" align="center">
-			<c:forEach items="${itemLine.approvedAssetNumbers }" var="assetNumber" >
-				<kul:inquiry boClassName="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset" keyValues="capitalAssetNumber=${assetNumber}" render="true">
-					${assetNumber }
-				</kul:inquiry>
-				&nbsp;
-			</c:forEach>
-			&nbsp;
-		</td>
-	</c:otherwise>
-	</c:choose>
+	</c:when>	
+	</c:choose>	
+	
+	
+	
 </tr>
 <tr>
 	<c:set var="tabKey" value="payment-${docPos}-${linePos}"/>

@@ -35,25 +35,29 @@
 		</c:if>
 		&nbsp;
 		</th>
-  		<kul:htmlAttributeHeaderCell attributeEntry="${purApDocumentAttributes.purapDocumentIdentifier}"/>
-  		<th class="grid" align="center">Doc Type
-  		<th class="grid" align="center">Invoice Status
-  		<th class="grid" align="center">Line #
+  		<!-- kul:htmlAttributeHeaderCell attributeEntry="${purApDocumentAttributes.purapDocumentIdentifier}"/ -->
+
+		<c:if test="${activeIndicator=='false'}">
+	    	<th class="grid" align="center">Document</th>
+	    	<th class="grid" align="center">Asset</th>
+		</c:if>
+  		
+  		<th class="grid" align="center">PREQ</th>
+  		<th class="grid" align="center">Doc Type</th>
+  		<th class="grid" align="center">Invoice Status</th>
+  		<th class="grid" align="center">Line #</th>
   		<kul:htmlAttributeHeaderCell attributeEntry="${purApItemAssetAttributes.accountsPayableItemQuantity}"/>
-  		<th class="grid" align="center">Split Qty
-  		<th class="grid" align="center">Unit Cost
-  		<th class="grid" align="center">Object Code
+  		<th class="grid" align="center">Split Qty</th>
+  		<th class="grid" align="center">Unit Cost</th>
+  		<th class="grid" align="center">Object Code</th>
   		<kul:htmlAttributeHeaderCell attributeEntry="${purApItemAssetAttributes.accountsPayableLineItemDescription}"/>
   		<kul:htmlAttributeHeaderCell attributeEntry="${purApItemAssetAttributes.capitalAssetTransactionTypeCode}"/>
 	    <th class="grid" align="center">TI</th>
+
 	    <c:choose >
 		    <c:when test="${activeIndicator=='true'}">
 		    	<th class="grid" align="center">Action</th>
 		    </c:when>
-		    <c:otherwise>
-		    	<th class="grid" align="center">Document</th>
-		    	<th class="grid" align="center">Asset</th>
-		    </c:otherwise>
 	    </c:choose>
 	</tr>
    	<c:set var="chkcount" value="0" />
@@ -64,8 +68,9 @@
     	<c:forEach items="${purApDoc.purchasingAccountsPayableItemAssets}" var="assetLine" >
 	    	<c:set var="linePos" value="${linePos+1}" />
 	    	<c:if test="${(assetLine.active && activeIndicator=='true') || (!assetLine.active && activeIndicator == 'false')}">
-	    		<cab:purApLineDetail chkcount="${chkcount}" docPos="${docPos}" linePos="${linePos}" itemLine="${assetLine}" purApDocLine="${purApDoc}" >
-	    		</cab:purApLineDetail>
+
+	    		<cab:purApLineDetail chkcount="${chkcount}" docPos="${docPos}" linePos="${linePos}" itemLine="${assetLine}" purApDocLine="${purApDoc}" />
+
 		    	<c:if test="${!assetLine.additionalChargeNonTradeInIndicator}">
 					<c:set var="chkcount" value="${chkcount+1}" />
 				</c:if>
@@ -74,14 +79,14 @@
 	</c:forEach>
 	<c:if test="${activeIndicator == 'true' && !readOnly}">
 	<tr>
-		<th class="grid" align="right" colspan="6">Merge Qty</th>
+		<th class="grid" align="right" colspan="6">How Many Assets</th>
 		<td class="infoline" colspan="2"><kul:htmlControlAttribute property="mergeQty" attributeEntry="${purApItemAssetAttributes.accountsPayableItemQuantity}"/></td>
 		<td class="grid" colspan="5" rowspan="2">&nbsp;&nbsp;
 			<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-merge.gif" styleClass="tinybutton" property="methodToCall.merge" title="merge" alt="merge"/>&nbsp;&nbsp;&nbsp;
 		</td>
 	</tr>
 	<tr>
-		<th class="grid" align="right" colspan="6">Merge Description</th>
+		<th class="grid" align="right" colspan="6">System Description</th>
 		<td class="infoline" colspan="2"><kul:htmlControlAttribute property="mergeDesc" attributeEntry="${purApItemAssetAttributes.accountsPayableLineItemDescription}"/></td>
 	</tr>
 	</c:if>

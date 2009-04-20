@@ -30,6 +30,12 @@ public class AccountingLineOverrideOptionFinder extends KeyValuesBase implements
         List labels = new ArrayList();
         labels.add(new KeyLabelPair(AccountingLineOverride.CODE.NONE, "NONE"));
         labels.add(new KeyLabelPair(AccountingLineOverride.CODE.EXPIRED_ACCOUNT, "EXPIRED_ACCOUNT"));
+        labels.add(new KeyLabelPair(AccountingLineOverride.CODE.NON_BUDGETED_OBJECT, "NON_BUDGETED_OBJECT"));
+        labels.add(new KeyLabelPair(AccountingLineOverride.CODE.TRANSACTION_EXCEEDS_REMAINING_BUDGET, "TRANSACTION_EXCEEDS_REMAINING_BUDGET"));
+        labels.add(new KeyLabelPair(AccountingLineOverride.CODE.EXPIRED_ACCOUNT_AND_NON_BUDGETED_OBJECT, "EXPIRED_ACCOUNT_AND_NON_BUDGETED_OBJECT"));
+        labels.add(new KeyLabelPair(AccountingLineOverride.CODE.NON_BUDGETED_OBJECT_AND_TRANSACTION_EXCEEDS_REMAINING_BUDGET, "NON_BUDGETED_OBJECT_AND_TRANSACTION_EXCEEDS_REMAINING_BUDGET"));
+        labels.add(new KeyLabelPair(AccountingLineOverride.CODE.EXPIRED_ACCOUNT_AND_TRANSACTION_EXCEEDS_REMAINING_BUDGET, "EXPIRED_ACCOUNT_AND_TRANSACTION_EXCEEDS_REMAINING_BUDGET"));
+        labels.add(new KeyLabelPair(AccountingLineOverride.CODE.EXPIRED_ACCOUNT_AND_NON_BUDGETED_OBJECT_AND_TRANSACTION_EXCEEDS_REMAINING_BUDGET, "EXPIRED_ACCOUNT_AND_NON_BUDGETED_OBJECT_AND_TRANSACTION_EXCEEDS_REMAINING_BUDGET"));
         labels.add(new KeyLabelPair(AccountingLineOverride.CODE.NON_FRINGE_ACCOUNT_USED, "NON_FRINGE_ACCOUNT_USED"));
         labels.add(new KeyLabelPair(AccountingLineOverride.CODE.EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED, "EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED"));
 

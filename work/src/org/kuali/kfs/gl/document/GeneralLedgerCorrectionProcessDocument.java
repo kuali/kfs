@@ -94,8 +94,8 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
     }
 
     /**
-     * Returns the editing method to use on the origin entries in the document, either "Manual Edit," "Using Criteria,"
-     * "Remove Group from Processing," or "Not Available"
+     * Returns the editing method to use on the origin entries in the document, either "Manual Edit," "Using Criteria," "Remove
+     * Group from Processing," or "Not Available"
      * 
      * @return the String representation of the method this document is using
      */
@@ -193,34 +193,32 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
             String docId = getDocumentHeader().getDocumentNumber();
             GeneralLedgerCorrectionProcessDocument doc = correctionDocumentService.findByCorrectionDocumentHeaderId(docId);
 
-            if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-                String correctionType = doc.getCorrectionTypeCode();
-                if (CorrectionDocumentService.CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING.equals(correctionType)) {
+            String correctionType = doc.getCorrectionTypeCode();
+            if (CorrectionDocumentService.CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING.equals(correctionType)) {
 
-                    String dataFileName = doc.getCorrectionInputFileName();
-                    String doneFileName = dataFileName.replace(GeneralLedgerConstants.BatchFileSystem.EXTENSION, GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION);
-                    originEntryGroupService.deleteFile(doneFileName);
+                String dataFileName = doc.getCorrectionInputFileName();
+                String doneFileName = dataFileName.replace(GeneralLedgerConstants.BatchFileSystem.EXTENSION, GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION);
+                originEntryGroupService.deleteFile(doneFileName);
 
-                }
-                else if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType) || CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionType)) {
-                    // save the output file to originEntry directory when correctionFileDelete is false
-                    DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-                    Date today = dateTimeService.getCurrentDate();
+            }
+            else if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType) || CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionType)) {
+                // save the output file to originEntry directory when correctionFileDelete is false
+                DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+                Date today = dateTimeService.getCurrentDate();
 
-                    // generate output file and set file name
-                    String outputFileName = "";
-                    if (!correctionFileDelete) {
-                        outputFileName = correctionDocumentService.createOutputFileForProcessing(doc.getDocumentNumber(), today);
-                    }
-                    doc.setCorrectionOutputFileName(outputFileName);
-                    CorrectionProcessScrubberStep step = (CorrectionProcessScrubberStep) BatchSpringContext.getStep(CorrectionProcessScrubberStep.STEP_NAME);
-                    step.setDocumentId(docId);
-                    step.execute(getClass().getName(), dateTimeService.getCurrentDate());
-                    step.setDocumentId(null);
+                // generate output file and set file name
+                String outputFileName = "";
+                if (!correctionFileDelete) {
+                    outputFileName = correctionDocumentService.createOutputFileForProcessing(doc.getDocumentNumber(), today);
                 }
-                else {
-                    LOG.error("GLCP doc " + doc.getDocumentNumber() + " has an unknown correction type code: " + correctionType);
-                }
+                doc.setCorrectionOutputFileName(outputFileName);
+                CorrectionProcessScrubberStep step = (CorrectionProcessScrubberStep) BatchSpringContext.getStep(CorrectionProcessScrubberStep.STEP_NAME);
+                step.setDocumentId(docId);
+                step.execute(getClass().getName(), dateTimeService.getCurrentDate());
+                step.setDocumentId(null);
+            }
+            else {
+                LOG.error("GLCP doc " + doc.getDocumentNumber() + " has an unknown correction type code: " + correctionType);
             }
         }
     }

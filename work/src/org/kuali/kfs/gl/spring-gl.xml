@@ -1600,6 +1600,13 @@
 		<property name="collectorReportService" ref="glCollectorReportService" />
 		<property name="batchTransactionalCachingService" ref="accountingCycleCachingService" />
 	</bean>
+	
+	<bean id="correctionProcessScrubberStep" class="org.kuali.kfs.gl.batch.CorrectionProcessScrubberStep" parent="step">
+		<property name="correctionDocumentService" ref="correctionDocumentService" />
+		<property name="scrubberService" ref="glScrubberService" />
+		<property name="batchTransactionalCachingService" ref="accountingCycleCachingService" />
+	</bean>
+	
 
 	<bean id="purgeCorrectionProcessFilesStep" class="org.kuali.kfs.gl.batch.PurgeCorrectionProcessFilesStep" parent="step">
 		<property name="correctionDocumentService">

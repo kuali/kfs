@@ -18,10 +18,22 @@
 <channel:portalChannelTop channelTitle="Custom Document Searches" />
 <div class="body">
 	<portal:portalLink displayTitle="true" title="Financial Transactions" url="${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=KFST" /><br /><br />
+ 	<strong>Accounts Receivable</strong><br/>
+    <ul class="chan">
+        <li><portal:portalLink displayTitle="true" title='Customer Invoices' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=INV'/></li>
+        <li><portal:portalLink displayTitle="true" title='Customer Credit Memos' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=CRM'/></li>
+        <li><portal:portalLink displayTitle="true" title='Customer Invoice Writeoffs' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=INVW'/></li>
+        <li><portal:portalLink displayTitle="true" title='Cash Controls' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=CTRL'/></li>
+        <li><portal:portalLink displayTitle="true" title='Payment Applications' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=APP'/></li>
+    </ul>
 	<strong>Contracts & Grants</strong><br/>
     <ul class="chan">
 		<li><portal:portalLink displayTitle="true" title='Proposals' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=PRPL'/></li>
 	</ul>
+ 	<strong>Effort Certification</strong><br/>
+    <ul class="chan">
+        <li><portal:portalLink displayTitle="true" title='Effort Certification' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=ECD'/></li>
+    </ul>    
 	<strong>Financial Processing</strong><br/>
     <ul class="chan">
 		<li><portal:portalLink displayTitle="true" title="Disbursement Vouchers" url="${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=DV" /></li>
@@ -37,17 +49,5 @@
         <li><portal:portalLink displayTitle="true" title='Requisitions' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=REQS'/></li>
         <li><portal:portalLink displayTitle="true" title='Vendor Credit Memos' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=CM'/></li>
      </ul>
- 	<strong>Accounts Receivable</strong><br/>
-    <ul class="chan">
-        <li><portal:portalLink displayTitle="true" title='Customer Invoices' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=INV'/></li>
-        <li><portal:portalLink displayTitle="true" title='Customer Credit Memos' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=CRM'/></li>
-        <li><portal:portalLink displayTitle="true" title='Customer Invoice Writeoffs' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=INVW'/></li>
-        <li><portal:portalLink displayTitle="true" title='Cash Controls' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=CTRL'/></li>
-        <li><portal:portalLink displayTitle="true" title='Payment Applications' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=APP'/></li>
-    </ul>
- 	<strong>Effort Certification</strong><br/>
-    <ul class="chan">
-        <li><portal:portalLink displayTitle="true" title='Effort Certification' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=ECD'/></li>
-    </ul>    
     </div>
 <channel:portalChannelBottom />

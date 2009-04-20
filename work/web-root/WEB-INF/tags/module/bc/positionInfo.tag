@@ -22,6 +22,7 @@
 
 <%-- FIXME: hidden for JS FTE calc to work remove when fix is in place --%>
 <html:hidden property="${objectName}.iuPayMonths" />
+<html:hidden property="${objectName}.iuNormalWorkMonths" />
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
 	<tr>

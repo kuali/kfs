@@ -98,7 +98,7 @@ public class KualiAccountMaintainableImpl extends KualiMaintainableImpl {
             Account existingAccountFromDB = retrieveExistingAccountFromDB();
             if (ObjectUtils.isNotNull(existingAccountFromDB)) {
                 // now see if the original account was not closed, in which case, we are closing the account
-                if (!existingAccountFromDB.isActive()) {
+                if (existingAccountFromDB.isActive()) {
                     return true;
                 }
             }

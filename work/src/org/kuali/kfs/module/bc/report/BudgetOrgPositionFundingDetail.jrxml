@@ -88,7 +88,7 @@
 			<band height="28"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" pattern="###0.0;-###0.0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="713"
+						x="711"
 						y="2"
 						width="39"
 						height="12"
@@ -101,7 +101,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="753"
+						x="751"
 						y="2"
 						width="14"
 						height="12"
@@ -136,7 +136,7 @@
 				</line>
 				<textField isStretchWithOverflow="false" pattern="#,##0;-#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="627"
+						x="625"
 						y="2"
 						width="85"
 						height="12"
@@ -250,7 +250,7 @@
 					<reportElement
 						x="17"
 						y="2"
-						width="288"
+						width="283"
 						height="12"
 						key="textField-180"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -261,7 +261,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="###0.0;-###0.0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="713"
+						x="711"
 						y="2"
 						width="39"
 						height="12"
@@ -274,7 +274,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="753"
+						x="751"
 						y="2"
 						width="14"
 						height="12"
@@ -309,7 +309,7 @@
 				</line>
 				<textField isStretchWithOverflow="false" pattern="#,##0;-#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="627"
+						x="625"
 						y="2"
 						width="85"
 						height="12"
@@ -524,7 +524,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="656"
+						x="654"
 						y="133"
 						width="56"
 						height="12"
@@ -537,7 +537,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="713"
+						x="711"
 						y="133"
 						width="54"
 						height="12"
@@ -550,7 +550,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="656"
+						x="654"
 						y="119"
 						width="111"
 						height="12"
@@ -581,7 +581,7 @@
 				</line>
 				<line direction="TopDown">
 					<reportElement
-						x="656"
+						x="654"
 						y="146"
 						width="55"
 						height="0"
@@ -590,7 +590,7 @@
 				</line>
 				<line direction="TopDown">
 					<reportElement
-						x="713"
+						x="711"
 						y="146"
 						width="54"
 						height="0"
@@ -1362,7 +1362,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0;-#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="656"
+						x="654"
 						y="0"
 						width="56"
 						height="12"
@@ -1375,7 +1375,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="###0.0;-###0.0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="713"
+						x="711"
 						y="0"
 						width="39"
 						height="12"
@@ -1661,7 +1661,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="753"
+						x="751"
 						y="0"
 						width="14"
 						height="12"

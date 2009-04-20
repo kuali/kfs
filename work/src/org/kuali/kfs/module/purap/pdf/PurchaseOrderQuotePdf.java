@@ -220,8 +220,6 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
 
         CampusParameter campusParameter = getCampusParameter(contractManagerCampusCode);
         String purchasingAddressFull = getPurchasingAddressFull(campusParameter);
-        // Used at the bottom - "All material to be shipped to"
-        String purchasingAddressPartial = getPurchasingAddressPartial(campusParameter);
 
         // Turn on the page events that handle the header and page numbers.
         PurchaseOrderQuotePdf events = new PurchaseOrderQuotePdf().getPageEvents();
@@ -484,7 +482,11 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
         // New row
         p = new Paragraph();
         p.add(new Chunk(" Unless otherwise stated, all material to be shipped to ", ver_8_normal));
-        purchasingAddressPartial = po.getDeliveryCityName() + ", " + po.getDeliveryStateCode() + " " + po.getDeliveryPostalCode();
+        String purchasingAddressPartial;
+        if (po.getAddressToVendorIndicator())  // use receiving address
+            purchasingAddressPartial = po.getReceivingCityName() + ", " + po.getReceivingStateCode() + " " + po.getReceivingPostalCode();
+        else  // use final delivery address
+            purchasingAddressPartial = po.getDeliveryCityName() + ", " + po.getDeliveryStateCode() + " " + po.getDeliveryPostalCode();
         p.add(new Chunk(purchasingAddressPartial + "\n", cour_10_normal));
         cell = new PdfPCell(p);
         cell.setColspan(2);

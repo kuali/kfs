@@ -71,7 +71,7 @@ public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
         if (getMaintenanceAction().equalsIgnoreCase(KNSConstants.MAINTENANCE_NEW_ACTION))
             return;
         
-        if (documentHeader.getWorkflowDocument().stateIsApproved()) {
+        if (documentHeader.getWorkflowDocument().stateIsProcessed()) {
             DocumentService documentService = SpringContext.getBean(DocumentService.class);
             try {
                 MaintenanceDocument document = (MaintenanceDocument) documentService.getByDocumentHeaderId(documentHeader.getDocumentNumber());

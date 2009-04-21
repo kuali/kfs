@@ -34,6 +34,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
+import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.HomeOriginationService;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kew.service.impl.KEWModuleService;
@@ -184,6 +185,9 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
 
             // populate the explicit entry
             ObjectUtil.buildObject(pendingLedgerEntry, accountingLine);
+            
+            GeneralLedgerPendingEntryService pendingEntryService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
+            pendingEntryService.populateExplicitGeneralLedgerPendingEntry(this, accountingLine, sequenceHelper, pendingLedgerEntry);
 
             // apply the labor JV specific information
             this.customizeExplicitGeneralLedgerPendingEntry(accountingLine, pendingLedgerEntry);

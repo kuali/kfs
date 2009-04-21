@@ -107,9 +107,9 @@ public class ObjectUtil {
             if (PropertyUtils.isWriteable(targetObject, propertyName) && indexOfArray < sourceObject.length) {
                 try {
                     Object value = sourceObject[indexOfArray];
-                    String propertyValue = value != null ? value.toString() : "";
+                    String propertyValue = value != null ? value.toString() : StringUtils.EMPTY;
 
-                    String type = PropertyUtils.getPropertyType(targetObject, propertyName).getSimpleName();
+                    String type = getSimpleTypeName(targetObject, propertyName);
                     Object realPropertyValue = valueOf(type, propertyValue);
 
                     if (realPropertyValue != null && !StringUtils.isEmpty(realPropertyValue.toString())) {
@@ -125,6 +125,18 @@ public class ObjectUtil {
             }
             indexOfArray++;
         }
+    }
+    
+    public static String getSimpleTypeName(Object targetObject, String propertyName) {
+        String simpleTypeName = StringUtils.EMPTY;
+        try {
+            simpleTypeName = PropertyUtils.getPropertyType(targetObject, propertyName).getSimpleName();
+        }
+        catch (Exception e) {
+            LOG.debug(e);
+        }
+        
+        return simpleTypeName;
     }
 
     /**

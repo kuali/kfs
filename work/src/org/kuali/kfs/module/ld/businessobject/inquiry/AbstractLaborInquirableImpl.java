@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ld.businessobject.inquiry;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -26,6 +27,7 @@ import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -33,6 +35,7 @@ import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.UrlFactory;
@@ -143,6 +146,13 @@ public abstract class AbstractLaborInquirableImpl extends KfsInquirableImpl {
                 }
 
                 Object keyValue = ObjectUtils.getPropertyValue(businessObject, keyConversion);
+                if(ObjectUtil.getSimpleTypeName(businessObject, keyConversion).equals(Date.class.getSimpleName())) {
+                    Date date = (Date)ObjectUtil.valueOf(Date.class.getSimpleName(), keyValue.toString());
+                    
+                    DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+                    keyValue = dateTimeService.toDateString(new java.util.Date(date.getTime()));
+                }
+                
                 keyValue = (keyValue == null) ? Constant.EMPTY_STRING : keyValue.toString();
 
                 // convert the key value and name into the given ones

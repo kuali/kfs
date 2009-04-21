@@ -312,7 +312,7 @@
 	<bean id="laborLedgerPreparedStatementCachingDao" parent="preparedStatementCachingDao" class="org.kuali.kfs.module.ld.batch.dataaccess.impl.LedgerPreparedStatementCachingDaoJdbc" /> 
 	
 	<bean id="laborAccountingCycleCachingService" parent="accountingCycleCachingService" class="org.kuali.kfs.module.ld.batch.service.impl.LaborAccountingCycleCachingServiceImpl">
-		<property name="ledgerDao" ref="laborLedgerPreparedStatementCachingDao" />
+		<property name="laborLedgerDao" ref="laborLedgerPreparedStatementCachingDao" />
 	</bean>
 
     <bean id="laborPosterService" class="org.kuali.kfs.module.ld.batch.service.impl.LaborPosterServiceImpl">

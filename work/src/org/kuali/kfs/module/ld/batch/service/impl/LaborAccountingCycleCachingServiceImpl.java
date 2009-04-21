@@ -23,10 +23,11 @@ import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
 
 public class LaborAccountingCycleCachingServiceImpl extends AccountingCycleCachingServiceImpl implements LaborAccountingCycleCachingService {
-    protected LedgerPreparedStatementCachingDao ledgerDao;
+    protected LedgerPreparedStatementCachingDao laborLedgerDao;
     
     protected void initialize() {
         super.initialize();
+        laborLedgerDao.initialize();
         previousValueCache.put(LedgerBalance.class, new PreviousValueReference<LedgerBalance>());
     }
 
@@ -34,7 +35,7 @@ public class LaborAccountingCycleCachingServiceImpl extends AccountingCycleCachi
         return new ReferenceValueRetriever<LaborObject>() {
             @Override
             protected LaborObject useDao() {
-                return ledgerDao.getLaborObject(fiscalYear, chartCode, objectCode);
+                return laborLedgerDao.getLaborObject(fiscalYear, chartCode, objectCode);
             }
             @Override
             protected void retrieveReferences(LaborObject laborObject) {}
@@ -42,33 +43,33 @@ public class LaborAccountingCycleCachingServiceImpl extends AccountingCycleCachi
     }
 
     public int getMaxLaborSequenceNumber(LedgerEntry t) {
-        return ledgerDao.getMaxLaborSequenceNumber(t);
+        return laborLedgerDao.getMaxLaborSequenceNumber(t);
     }
 
     public LedgerBalance getLedgerBalance(final LedgerBalance ledgerBalance) {
         return new PreviousValueRetriever<LedgerBalance>() {
             @Override
             protected LedgerBalance useDao() {
-                return ledgerDao.getLedgerBalance(ledgerBalance);
+                return laborLedgerDao.getLedgerBalance(ledgerBalance);
             }            
         }.get(LedgerBalance.class, ledgerBalance.getUniversityFiscalYear(), ledgerBalance.getChartOfAccountsCode(), ledgerBalance.getAccountNumber(), ledgerBalance.getSubAccountNumber(), ledgerBalance.getFinancialObjectCode(), ledgerBalance.getFinancialSubObjectCode(), ledgerBalance.getFinancialBalanceTypeCode(), ledgerBalance.getFinancialObjectTypeCode(), ledgerBalance.getPositionNumber(), ledgerBalance.getEmplid());
     }
 
     public void insertLedgerBalance(LedgerBalance ledgerBalance) {
-        ledgerDao.insertLedgerBalance(ledgerBalance);
+        laborLedgerDao.insertLedgerBalance(ledgerBalance);
         previousValueCache.get(LedgerBalance.class).update(ledgerBalance, ledgerBalance.getUniversityFiscalYear(), ledgerBalance.getChartOfAccountsCode(), ledgerBalance.getAccountNumber(), ledgerBalance.getSubAccountNumber(), ledgerBalance.getFinancialObjectCode(), ledgerBalance.getFinancialSubObjectCode(), ledgerBalance.getFinancialBalanceTypeCode(), ledgerBalance.getFinancialObjectTypeCode(), ledgerBalance.getPositionNumber(), ledgerBalance.getEmplid());
     }
 
     public void updateLedgerBalance(LedgerBalance ledgerBalance) {
-        ledgerDao.updateLedgerBalance(ledgerBalance);
+        laborLedgerDao.updateLedgerBalance(ledgerBalance);
         previousValueCache.get(LedgerBalance.class).update(ledgerBalance, ledgerBalance.getUniversityFiscalYear(), ledgerBalance.getChartOfAccountsCode(), ledgerBalance.getAccountNumber(), ledgerBalance.getSubAccountNumber(), ledgerBalance.getFinancialObjectCode(), ledgerBalance.getFinancialSubObjectCode(), ledgerBalance.getFinancialBalanceTypeCode(), ledgerBalance.getFinancialObjectTypeCode(), ledgerBalance.getPositionNumber(), ledgerBalance.getEmplid());
     }
 
     public void insertLedgerEntry(LedgerEntry ledgerEntry) {
-        ledgerDao.insertLedgerEntry(ledgerEntry);
+        laborLedgerDao.insertLedgerEntry(ledgerEntry);
     }
 
-    public void setLedgerDao(LedgerPreparedStatementCachingDao ledgerDao) {
-        this.ledgerDao = ledgerDao;
+    public void setLaborLedgerDao(LedgerPreparedStatementCachingDao laborLedgerDao) {
+        this.laborLedgerDao = laborLedgerDao;
     }
 }

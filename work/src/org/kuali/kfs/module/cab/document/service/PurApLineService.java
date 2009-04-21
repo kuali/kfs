@@ -87,7 +87,7 @@ public interface PurApLineService {
      * @param purApDocs
      * @return
      */
-    boolean processAllocate(PurchasingAccountsPayableItemAsset selectedLineItem, List<PurchasingAccountsPayableItemAsset> allocateTargetLines, List<PurchasingAccountsPayableActionHistory> actionsTakeHistory, List<PurchasingAccountsPayableDocument> purApDocs);
+    boolean processAllocate(PurchasingAccountsPayableItemAsset selectedLineItem, List<PurchasingAccountsPayableItemAsset> allocateTargetLines, List<PurchasingAccountsPayableActionHistory> actionsTakeHistory, List<PurchasingAccountsPayableDocument> purApDocs, boolean initiateFromBatch);
 
     /**
      * Get the target lines based on allocation line type

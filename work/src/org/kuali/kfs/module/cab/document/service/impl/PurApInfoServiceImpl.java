@@ -80,7 +80,7 @@ public class PurApInfoServiceImpl implements PurApInfoService {
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#setPurchaseOrderInfo(org.kuali.kfs.module.cab.document.web.struts.PurApLineForm)
      */
     public void setPurchaseOrderFromPurAp(PurApLineForm purApLineForm) {
-        PurchaseOrderDocument purchaseOrderDocument = this.getPurchaseOrderService().getCurrentPurchaseOrder(purApLineForm.getPurchaseOrderIdentifier());
+        PurchaseOrderDocument purchaseOrderDocument = getCurrentDocumentForPurchaseOrderIdentifier(purApLineForm.getPurchaseOrderIdentifier());
 
         if (ObjectUtils.isNull(purchaseOrderDocument)) {
             return;
@@ -117,7 +117,7 @@ public class PurApInfoServiceImpl implements PurApInfoService {
             return;
         }
         Integer poId = purApDocs.get(0).getPurchaseOrderIdentifier();
-        PurchaseOrderDocument purApdocument = (PurchaseOrderDocument) this.getPurchaseOrderService().getCurrentPurchaseOrder(poId);
+        PurchaseOrderDocument purApdocument = getCurrentDocumentForPurchaseOrderIdentifier(poId);
         if (ObjectUtils.isNull(purApdocument)) {
             return;
         }
@@ -215,7 +215,7 @@ public class PurApInfoServiceImpl implements PurApInfoService {
      * @return
      */
     protected String getCapitalAssetTransTypeForOneSystem(Integer poId) {
-        PurchaseOrderDocument poDoc = this.getPurchaseOrderService().getCurrentPurchaseOrder(poId);
+        PurchaseOrderDocument poDoc = getCurrentDocumentForPurchaseOrderIdentifier(poId);
         if (ObjectUtils.isNotNull(poDoc)) {
             List<PurchasingCapitalAssetItem> capitalAssetItems = poDoc.getPurchasingCapitalAssetItems();
 

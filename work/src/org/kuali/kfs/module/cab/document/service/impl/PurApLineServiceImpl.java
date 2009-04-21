@@ -147,7 +147,7 @@ public class PurApLineServiceImpl implements PurApLineService {
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#processAllocate(org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset,
      *      java.util.List, org.kuali.kfs.module.cab.document.web.PurApLineSession, java.util.List)
      */
-    public boolean processAllocate(PurchasingAccountsPayableItemAsset allocateSourceLine, List<PurchasingAccountsPayableItemAsset> allocateTargetLines, List<PurchasingAccountsPayableActionHistory> actionsTakeHistory, List<PurchasingAccountsPayableDocument> purApDocs) {
+    public boolean processAllocate(PurchasingAccountsPayableItemAsset allocateSourceLine, List<PurchasingAccountsPayableItemAsset> allocateTargetLines, List<PurchasingAccountsPayableActionHistory> actionsTakeHistory, List<PurchasingAccountsPayableDocument> purApDocs, boolean initiateFromBatch) {
         boolean allocatedIndicator = true;
         // indicator of additional charge allocation
         boolean allocateAddlChrgIndicator = allocateSourceLine.isAdditionalChargeNonTradeInIndicator() | allocateSourceLine.isTradeInAllowance();
@@ -169,7 +169,7 @@ public class PurApLineServiceImpl implements PurApLineService {
         }
 
         if (allocatedIndicator) {
-            postAllocateProcess(allocateSourceLine, allocateTargetLines, purApDocs, newAccountList);
+            postAllocateProcess(allocateSourceLine, allocateTargetLines, purApDocs, newAccountList, initiateFromBatch);
         }
 
         return allocatedIndicator;
@@ -184,7 +184,7 @@ public class PurApLineServiceImpl implements PurApLineService {
      * @param purApDocs
      * @param newAccountList
      */
-    protected void postAllocateProcess(PurchasingAccountsPayableItemAsset selectedLineItem, List<PurchasingAccountsPayableItemAsset> allocateTargetLines, List<PurchasingAccountsPayableDocument> purApDocs, List<PurchasingAccountsPayableLineAssetAccount> newAccountList) {
+    protected void postAllocateProcess(PurchasingAccountsPayableItemAsset selectedLineItem, List<PurchasingAccountsPayableItemAsset> allocateTargetLines, List<PurchasingAccountsPayableDocument> purApDocs, List<PurchasingAccountsPayableLineAssetAccount> newAccountList, boolean initiateFromBatch) {
         // add new account into each item list
         addNewAccountToItemList(newAccountList);
 
@@ -205,8 +205,10 @@ public class PurApLineServiceImpl implements PurApLineService {
         }
 
         // update status code as user modified for allocate target lines
-        for (PurchasingAccountsPayableItemAsset allocateTargetItem : allocateTargetLines) {
-            updateItemStatusAsUserModified(allocateTargetItem);
+        if (!initiateFromBatch) {
+            for (PurchasingAccountsPayableItemAsset allocateTargetItem : allocateTargetLines) {
+                updateItemStatusAsUserModified(allocateTargetItem);
+            }
         }
     }
 
@@ -750,7 +752,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
 
     /**
-     * Update activity status code when percent payment action taken.
+     * Update activity status code when percent payment/split/allocate/merge action taken.
      * 
      * @param itemAsset
      */
@@ -759,6 +761,9 @@ public class PurApLineServiceImpl implements PurApLineService {
         for (PurchasingAccountsPayableLineAssetAccount account : itemAsset.getPurchasingAccountsPayableLineAssetAccounts()) {
             account.setActivityStatusCode(CabConstants.ActivityStatusCode.MODIFIED);
         }
+
+        itemAsset.getPurchasingAccountsPayableDocument().setActivityStatusCode(CabConstants.ActivityStatusCode.MODIFIED);
+
     }
 
     /**
@@ -986,14 +991,13 @@ public class PurApLineServiceImpl implements PurApLineService {
     /**
      * Set create asset and apply payment indicator. These two indicators are referenced by jsp to control display of these two
      * buttons. How to set these two indicators is based on the business rules. We need to put the following situations into
-     * consideration.
+     * consideration. Since we move allocate additional charge allocation to CAB batch, we bring over addl charge lines only when
+     * they are the only items in the document or they are from the FO changes. To accommodate this, we relax the rules and defined
+     * as:
      * <p>
-     * 1. These two buttons only can not work with additional charges, but if the lines are nothing but additional charges or
-     * trade-in allowance without trade-in indicator items, we open these two buttons.
+     * 1. If the line is trade-in allowance and without trade-in indicator items, we open these two buttons.
      * <p>
-     * 2. For line items, there must be no additional charges from the same document pending for allocation.
-     * <p>
-     * 3. For line items, if it has trade-in indicator set, there must be no trade-in allowance pending for allocation. Trade-in
+     * 2. For line items, if it has trade-in indicator set, there must be no trade-in allowance pending for allocation. Trade-in
      * allowance could from other document but share the same po_id.
      * 
      * @param purApDocs
@@ -1009,7 +1013,7 @@ public class PurApLineServiceImpl implements PurApLineService {
             // check if within the same document, exist both additional charge lines and normal line items.
             for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
                 existAdditionalCharge |= item.isAdditionalChargeNonTradeInIndicator();
-                existItemAsset |= !item.isAdditionalChargeNonTradeInIndicator() & !item.isTradeInAllowance();
+                // existItemAsset |= !item.isAdditionalChargeNonTradeInIndicator() & !item.isTradeInAllowance();
             }
 
             for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
@@ -1017,7 +1021,7 @@ public class PurApLineServiceImpl implements PurApLineService {
                 if (!item.isCreateAssetIndicator() || !item.isApplyPaymentIndicator()) {
                     // If the lines on the purchase order are all additional charge lines, or trade-in allowance then we can apply
                     // payment, or create asset.
-                    if ((item.isAdditionalChargeNonTradeInIndicator() && !existItemAsset) || (item.isTradeInAllowance() && !existTradeInIndicator)) {
+                    if (item.isAdditionalChargeNonTradeInIndicator() || (item.isTradeInAllowance() && !existTradeInIndicator)) {
                         item.setCreateAssetIndicator(true);
                         item.setApplyPaymentIndicator(true);
                     }

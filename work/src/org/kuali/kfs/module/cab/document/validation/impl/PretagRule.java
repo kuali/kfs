@@ -26,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.Pretag;
 import org.kuali.kfs.module.cab.businessobject.PretagDetail;
+import org.kuali.kfs.module.cab.document.service.PurApInfoService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
@@ -125,7 +126,7 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
     protected boolean checkPurchaseOrderItemExists() {
         boolean valid = true;
         if (StringUtils.isNotBlank(newPretag.getPurchaseOrderNumber()) && newPretag.getItemLineNumber() != null) {
-            PurchaseOrderDocument purchaseOrderDoc = getPurchaseOrderService().getCurrentPurchaseOrder(Integer.valueOf(newPretag.getPurchaseOrderNumber()));
+            PurchaseOrderDocument purchaseOrderDoc = getPurApInfoService().getCurrentDocumentForPurchaseOrderIdentifier(Integer.valueOf(newPretag.getPurchaseOrderNumber()));
             if (purchaseOrderDoc == null) {
                 String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(Pretag.class.getName()).getAttributeDefinition(CabPropertyConstants.Pretag.PURCHASE_ORDER_NUMBER).getLabel();
                 putFieldError(CabPropertyConstants.Pretag.PURCHASE_ORDER_NUMBER, RiceKeyConstants.ERROR_EXISTENCE, label);
@@ -385,7 +386,7 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
      * 
      * @return Returns the purchaseOrderService.
      */
-    protected PurchaseOrderService getPurchaseOrderService() {
-        return SpringContext.getBean(PurchaseOrderService.class);
+    protected PurApInfoService getPurApInfoService() {
+        return SpringContext.getBean(PurApInfoService.class);
     }
 }

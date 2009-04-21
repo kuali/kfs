@@ -35,16 +35,15 @@
 	</c:when>
 	<c:otherwise>
 		<c:choose>
-			<c:when test="${itemLine.additionalChargeNonTradeInIndicator}">
-				<c:set var="color" value="blue" />
-			</c:when>
+		<c:when test="${itemLine.additionalChargeNonTradeInIndicator}">
+			<c:set var="color" value="blue" />
+		</c:when>
 		<c:otherwise>
 			<c:set var="color" value="black" />
 		</c:otherwise>
 		</c:choose>
 	</c:otherwise>
 </c:choose>
-
 <c:set var="assetItemStr" value="purApDoc[${docPos-1}].purchasingAccountsPayableItemAsset[${linePos-1}]" />
 <tr style="color:${color}">
 	<c:choose>
@@ -58,7 +57,7 @@
 	
 	<c:if test="${!itemLine.active}">	
 	    <td class="infoline" align="center">
-			<a href="${ConfigProperties.application.url}/en/DocHandler.do?command=displayDocSearchView&docId=${itemLine.capitalAssetManagementDocumentNumber}"  target="_blank">
+			<a href="${ConfigProperties.application.url}/kew/DocHandler.do?command=displayDocSearchView&docId=${itemLine.capitalAssetManagementDocumentNumber}"  target="_blank">
 				${itemLine.capitalAssetManagementDocumentNumber }
 			</a>&nbsp;
 		</td>
@@ -128,12 +127,11 @@
 		<td class="infoline">N
 	</c:otherwise>
 	</c:choose>
-	
-	
 	<c:choose>
 	<c:when test="${itemLine.active }">
 		<td class="infoline" align="center">
-		<c:if test="${!itemLine.additionalChargeNonTradeInIndicator && !itemLine.tradeInAllowance}">
+		<!-- c:if test="${!itemLine.additionalChargeNonTradeInIndicator && !itemLine.tradeInAllowance}" -->
+		<c:if test="${!itemLine.tradeInAllowance}">
 			<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-split.gif" styleClass="tinybutton" property="methodToCall.split.doc${docPos-1}.line${linePos-1}" title="Split" alt="Split" />
 			<br></br>
 			<c:if test="${itemLine.accountsPayableItemQuantity < 1 }">
@@ -151,11 +149,8 @@
 		<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-applypayment.gif" styleClass="tinybutton" property="methodToCall.applyPayment.doc${docPos-1}.line${linePos-1}" title="applyPayment" alt="applyPayment"/>
 		</c:if>
 		</td>
-	</c:when>	
-	</c:choose>	
-	
-	
-	
+	</c:when>
+	</c:choose>
 </tr>
 <tr>
 	<c:set var="tabKey" value="payment-${docPos}-${linePos}"/>

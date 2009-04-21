@@ -33,6 +33,7 @@ import org.kuali.kfs.module.cab.businessobject.PretagDetail;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAssetAccount;
+import org.kuali.kfs.module.cab.document.service.PurApInfoService;
 import org.kuali.kfs.module.cab.document.service.PurApLineDocumentService;
 import org.kuali.kfs.module.cab.document.service.PurApLineService;
 import org.kuali.kfs.module.cab.document.web.PurApLineSession;
@@ -50,7 +51,6 @@ import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetSystem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
-import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -73,6 +73,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
     private PurApLineService purApLineService;
+    private PurApInfoService purApInfoService;
 
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineDocumentService#processApplyPayment(PurchasingAccountsPayableItemAsset,
@@ -500,8 +501,6 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         int seq = 1;
 
         for (PurchasingAccountsPayableLineAssetAccount account : selectedItem.getPurchasingAccountsPayableLineAssetAccounts()) {
-            //TODO
-//            account.refreshReferenceObject(CabPropertyConstants.PurchasingAccountsPayableLineAssetAccount.GENERAL_LEDGER_ENTRY);
             GeneralLedgerEntry glEntry = account.getGeneralLedgerEntry();
 
             if (ObjectUtils.isNotNull(glEntry)) {
@@ -603,7 +602,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         assetGlobal.setAcquisitionTypeCode(CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE);
         assetGlobal.setInventoryStatusCode(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_IDENTIFIABLE);
         // set vendor name from Purchase Order Document
-        PurchaseOrderDocument purApdocument = (PurchaseOrderDocument) this.getPurchaseOrderService().getCurrentPurchaseOrder(selectedItem.getPurchasingAccountsPayableDocument().getPurchaseOrderIdentifier());
+        PurchaseOrderDocument purApdocument = this.getPurApInfoService().getCurrentDocumentForPurchaseOrderIdentifier(selectedItem.getPurchasingAccountsPayableDocument().getPurchaseOrderIdentifier());
         if (purApdocument != null) {
             assetGlobal.setVendorName(purApdocument.getVendorName());
         }
@@ -812,12 +811,21 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         this.purApLineService = purApLineService;
     }
 
+
     /**
-     * Gets the purchaseOrderService attribute.
-     * 
-     * @return Returns the purchaseOrderService.
+     * Gets the purApInfoService attribute. 
+     * @return Returns the purApInfoService.
      */
-    public PurchaseOrderService getPurchaseOrderService() {
-        return SpringContext.getBean(PurchaseOrderService.class);
+    public PurApInfoService getPurApInfoService() {
+        return purApInfoService;
+    }
+
+
+    /**
+     * Sets the purApInfoService attribute value.
+     * @param purApInfoService The purApInfoService to set.
+     */
+    public void setPurApInfoService(PurApInfoService purApInfoService) {
+        this.purApInfoService = purApInfoService;
     }
 }

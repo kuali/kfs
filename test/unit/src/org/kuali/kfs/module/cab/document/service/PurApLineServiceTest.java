@@ -247,7 +247,7 @@ public class PurApLineServiceTest extends KualiTestBase {
             oldTotalCost = oldTotalCost.add(getTotalCost(item));
         }
 
-        purApLineService.processAllocate(sourceLineItem, allocateTargetLines, actionsTakeHistory, purApDocuments);
+        purApLineService.processAllocate(sourceLineItem, allocateTargetLines, actionsTakeHistory, purApDocuments, false);
 
         // check the source item is removed from the document
         assertTrue(ERROR_PROCESS_ALLOCATE, preqDocumentWithSingleItemSingleAccount.getPurchasingAccountsPayableItemAssets().isEmpty());

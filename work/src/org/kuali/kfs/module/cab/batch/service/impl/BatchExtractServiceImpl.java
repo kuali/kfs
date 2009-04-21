@@ -117,7 +117,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                     if (allocateTargetLines != null && !allocateTargetLines.isEmpty()) {
                         // setup the bidirectional relationship between objects.
                         setupObjectRelationship(candidateDocs);
-                        purApLineService.processAllocate(allocateSourceLine, allocateTargetLines, actionsTakenHistory, candidateDocs);
+                        purApLineService.processAllocate(allocateSourceLine, allocateTargetLines, actionsTakenHistory, candidateDocs, true);
                         documentUpdated = true;
                     }
                 }
@@ -305,6 +305,12 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         // for each valid GL entry there is a collection of valid PO Doc and Account Lines
         Collection<GlAccountLineGroup> matchedGroups = reconciliationService.getMatchedGroups();
 
+        // Keep track of unique item lines
+        HashMap<String, PurchasingAccountsPayableItemAsset> assetItems = new HashMap<String, PurchasingAccountsPayableItemAsset>();
+
+        // Keep track of unique account lines
+        HashMap<String, PurchasingAccountsPayableLineAssetAccount> assetAcctLines = new HashMap<String, PurchasingAccountsPayableLineAssetAccount>();
+
         for (GlAccountLineGroup group : matchedGroups) {
             Entry entry = group.getTargetEntry();
             GeneralLedgerEntry generalLedgerEntry = new GeneralLedgerEntry(entry);
@@ -323,18 +329,11 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
             PurchasingAccountsPayableDocument cabPurapDoc = findPurchasingAccountsPayableDocument(entry);
             // if document is found already, update the active flag
-            if (ObjectUtils.isNotNull(cabPurapDoc) && !cabPurapDoc.isActive()) {
-                cabPurapDoc.setActivityStatusCode(CabConstants.ActivityStatusCode.MODIFIED);
-            }
-            else if (ObjectUtils.isNull(cabPurapDoc)) {
+            if (ObjectUtils.isNull(cabPurapDoc)) {
                 cabPurapDoc = createPurchasingAccountsPayableDocument(entry);
             }
             if (cabPurapDoc != null) {
-                // Keep track of unique item lines
-                HashMap<String, PurchasingAccountsPayableItemAsset> assetItems = new HashMap<String, PurchasingAccountsPayableItemAsset>();
 
-                // Keep track of unique account lines
-                HashMap<String, PurchasingAccountsPayableLineAssetAccount> assetAcctLines = new HashMap<String, PurchasingAccountsPayableLineAssetAccount>();
 
                 List<PurApAccountingLineBase> matchedPurApAcctLines = group.getMatchedPurApAcctLines();
 
@@ -342,6 +341,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                     PurApItem purapItem = purApAccountingLine.getPurapItem();
                     PurchasingAccountsPayableItemAsset itemAsset = findMatchingPurapAssetItem(cabPurapDoc, purapItem);
                     String itemAssetKey = cabPurapDoc.getDocumentNumber() + "-" + purapItem.getItemIdentifier();
+
                     // if new item, create and add to the list
                     if (itemAsset == null && (itemAsset = assetItems.get(itemAssetKey)) == null) {
                         itemAsset = createPurchasingAccountsPayableItemAsset(cabPurapDoc, purapItem);
@@ -381,11 +381,17 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                     }
                 }
                 businessObjectService.save(cabPurapDoc);
-                purApDocuments.add(cabPurapDoc);
+
                 // update negative and positive GL entry once again
                 if (positiveEntry != null && negativeEntry != null) {
                     businessObjectService.save(positiveEntry);
                     businessObjectService.save(negativeEntry);
+                }
+
+                // Add to the doc collection which will be used for additional charge allocating. This will be the next step during
+                // batch.
+                if (CabConstants.ActivityStatusCode.NEW.equals(cabPurapDoc.getActivityStatusCode())) {
+                    purApDocuments.add(cabPurapDoc);
                 }
             }
             else {
@@ -407,6 +413,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         copyEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
         return copyEntry;
     }
+
 
     /**
      * Retrieves Payment Request Account History and Credit Memo account history, combines them into a single list

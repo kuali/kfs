@@ -249,7 +249,7 @@ public class PurApLineAction extends CabActionBase {
         GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
 
         // apply split when error free
-        if (GlobalVariables.getErrorMap().isEmpty() && selectedLineItem != null) {
+        if (GlobalVariables.getErrorMap().hasNoErrors() && selectedLineItem != null) {
             PurApLineSession purApLineSession = retrievePurApLineSession(purApLineForm);
             // create a new item with split quantity from selected item
             purApLineService.processSplit(selectedLineItem, purApLineSession.getActionsTakenHistory());
@@ -339,7 +339,7 @@ public class PurApLineAction extends CabActionBase {
         // validating...
         validateMergeAction(purApForm, mergeLines, isMergeAll, tradeInAllowanceInAllLines, tradeInIndicatorInSelectedLines);
 
-        if (GlobalVariables.getErrorMap().isEmpty()) {
+        if (GlobalVariables.getErrorMap().hasNoErrors()) {
             // Display a warning message without blocking the action if TI indicator exists but TI allowance not exist.
             if (tradeInIndicatorInSelectedLines && !tradeInAllowanceInAllLines) {
                 return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.TRADE_IN_INDICATOR_QUESTION, SpringContext.getBean(KualiConfigurationService.class).getPropertyString(CabKeyConstants.QUESTION_TRADE_IN_INDICATOR_EXISTING), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.MERGE, "");
@@ -582,7 +582,7 @@ public class PurApLineAction extends CabActionBase {
         boolean hasTradeInAllowance = purApLineService.isTradeInAllowanceExist(purApForm.getPurApDocs());
         // Check if this allocate is valid.
         validateAllocateAction(allocateSourceLine, allocateTargetLines, targetLineHasTradeIn, hasTradeInAllowance, purApForm.getPurApDocs());
-        if (GlobalVariables.getErrorMap().isEmpty()) {
+        if (GlobalVariables.getErrorMap().hasNoErrors()) {
             // TI indicator exists in either source or target lines, but TI allowance not found, bring up a warning message
             // to confirm this action.
             if (!allocateSourceLine.isAdditionalChargeNonTradeInIndicator() && !allocateSourceLine.isTradeInAllowance() && (allocateSourceLine.isItemAssignedToTradeInIndicator() || targetLineHasTradeIn) && hasTradeInAllowance) {
@@ -610,7 +610,7 @@ public class PurApLineAction extends CabActionBase {
      */
     protected void performAllocate(PurApLineForm purApForm, PurchasingAccountsPayableItemAsset allocateSourceLine, List<PurchasingAccountsPayableItemAsset> allocateTargetLines) {
         PurApLineSession purApLineSession = retrievePurApLineSession(purApForm);
-        if (!purApLineService.processAllocate(allocateSourceLine, allocateTargetLines, purApLineSession.getActionsTakenHistory(), purApForm.getPurApDocs())) {
+        if (!purApLineService.processAllocate(allocateSourceLine, allocateTargetLines, purApLineSession.getActionsTakenHistory(), purApForm.getPurApDocs(), false)) {
             GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_ALLOCATE_NO_TARGET_ACCOUNT);
         }
         else {
@@ -780,7 +780,7 @@ public class PurApLineAction extends CabActionBase {
         // validate selected line item
         validateCreateAssetAction(selectedLine);
 
-        if (GlobalVariables.getErrorMap().isEmpty()) {
+        if (GlobalVariables.getErrorMap().hasNoErrors()) {
             // TI indicator exists, bring up a warning message to confirm this action.
             if (selectedLine.isItemAssignedToTradeInIndicator()) {
                 return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.TRADE_IN_INDICATOR_QUESTION, SpringContext.getBean(KualiConfigurationService.class).getPropertyString(CabKeyConstants.QUESTION_TRADE_IN_INDICATOR_EXISTING), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.CREATE_ASSET, "");

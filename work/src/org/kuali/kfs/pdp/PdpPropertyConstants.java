@@ -90,7 +90,7 @@ public class PdpPropertyConstants {
             public static final String PAYMENT_DISBURSEMENT_NUMBER = "paymentGroup.disbursementNbr";
             public static final String PAYMENT_PAYEE_NAME = "paymentGroup.payeeName";
             public static final String PAYMENT_CHART_CODE = "paymentGroup.batch.customerProfile.chartCode";
-            public static final String PAYMENT_ORG_CODE = "paymentGroup.batch.customerProfile.unitCode";
+            public static final String PAYMENT_UNIT_CODE = "paymentGroup.batch.customerProfile.unitCode";
             public static final String PAYMENT_CUSTOMER_DOC_NUMBER = "custPaymentDocNbr";
             public static final String PAYMENT_PAYEE_ID_TYPE_CODE = "paymentGroup.payeeIdTypeCd";
             public static final String PAYMENT_PURCHASE_ORDER_NUMBER = "purchaseOrderNbr";

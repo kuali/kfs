@@ -490,6 +490,14 @@
 		</property>
 	</bean>	
 	
+	<bean id="purchasingPaymentDetailLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.PurchasingPaymentDetailLookupableHelperService" parent="paymentDetailLookupableHelperService" />
+	
+	<bean id="purchasingPaymentDetailLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="purchasingPaymentDetailLookupableHelperService" />
+		</property>
+	</bean>	
+	
 	<bean id="formatProcessLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.FormatProcessLookupableHelperService" parent="lookupableHelperService" scope="prototype">
         <property name="configurationService" ref="kualiConfigurationService" />
         <property name="pdpAuthorizationService" ref="pdpAuthorizationService" />

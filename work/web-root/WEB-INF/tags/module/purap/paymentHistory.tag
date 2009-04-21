@@ -96,10 +96,7 @@
 			        		<td align="left" valign="middle" class="datacell">
 			        		<c:out value="${preqHistory.paymentExtractedTimestamp}" />
 		        			<c:if test="${not empty preqHistory.paymentExtractedTimestamp}">
-		        			  <c:url var="page" value="${KualiForm.disbursementInfoUrl}">
-		        			  </c:url>
-		        			  <c:url var="image" value="${ConfigProperties.externalizable.images.url}tinybutton-disbursinfo.gif"/>
-							  &nbsp;<a href="${page}" target="_pdp"><img src="${image}" border="0"/></a>
+		        			  <purap:disbursementInfo sourceDocumentNumber="${preqHistory.documentNumber}" sourceDocumentType="${preqHistory.documentType}" />
 		        			</c:if>
 			        		</td>
 			        		<td align="left" valign="middle" class="datacell">
@@ -177,12 +174,7 @@
 			        		<td align="left" valign="middle" class="datacell">
 		        				<c:out value="${cmHistory.creditMemoExtractedTimestamp}" />
 	                			<c:if test="${not empty cmHistory.creditMemoExtractedTimestamp}">
-		                          <c:url var="page" value="/pdp/epicpaymentdetail.do">
-		        			        <c:param name="sourceDocNbr" value="${cmHistory.documentNumber}"/>
-		        			        <c:param name="docTypeCode" value="CM"/>
-	                 			  </c:url>
-		        			      <c:url var="image" value="${ConfigProperties.externalizable.images.url}tinybutton-disbursinfo.gif"/>
-						          &nbsp;<a href="${page}" target="_pdp"><img src="${image}" border="0"/></a>
+	                			  <purap:disbursementInfo sourceDocumentNumber="${cmHistory.documentNumber}" sourceDocumentType="${cmHistory.documentType}" />
 		        			    </c:if>
 			        		</td>
 			        		<td align="left" valign="middle" class="datacell">

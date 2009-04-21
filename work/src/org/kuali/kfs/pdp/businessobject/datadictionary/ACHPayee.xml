@@ -12,11 +12,38 @@
       <ref bean="ACHPayee-lookupDefinition" />
     </property>
     <property name="attributes" >
-      <list merge="true">  
+      <list>  
+        <ref bean="DisbursementPayee-payeeIdNumber" />
+        <ref bean="ACHPayee-payeeTypeCode" />
+        <ref bean="DisbursementPayee-payeeTypeDescription" />
+        <ref bean="DisbursementPayee-payeeName" />
+        <ref bean="DisbursementPayee-paymentReasonCode" />        
+        <ref bean="DisbursementPayee-taxNumber" />
+        <ref bean="DisbursementPayee-vendorName" />
+        <ref bean="DisbursementPayee-employeeId" />
+        <ref bean="DisbursementPayee-vendorNumber" />
+        <ref bean="DisbursementPayee-firstName" />   
+        <ref bean="DisbursementPayee-lastName" /> 
+        <ref bean="DisbursementPayee-address" />
+        <ref bean="DisbursementPayee-active" />    
         <ref bean="ACHPayee-entityId" />    
       </list>
     </property>          
   </bean>
+  
+  <bean id="ACHPayee-payeeTypeCode" parent="ACHPayee-payeeTypeCode-parentBean" />
+  <bean id="ACHPayee-payeeTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="payeeTypeCode" />
+    <property name="label" value="Payee Type Code" />
+    <property name="shortLabel" value="Payee Type Code" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.PayeeAchIdTypeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>  
   
   <bean id="ACHPayee-entityId" parent="ACHPayee-entityId-parentBean" />
   <bean id="ACHPayee-entityId-parentBean" parent="PersonImpl-entityId" abstract="true"/>
@@ -38,12 +65,13 @@
     </property>
     <property name="lookupFields" >
       <list>
+        <bean parent="FieldDefinition" p:attributeName="payeeTypeCode"/>
         <bean parent="FieldDefinition" p:attributeName="taxNumber" />
         <bean parent="FieldDefinition" p:attributeName="firstName" />
-        <bean parent="FieldDefinition" p:attributeName="lastName" />
+        <bean parent="FieldDefinition" p:attributeName="lastName" />          
+        <bean parent="FieldDefinition" p:attributeName="vendorNumber" />
         <bean parent="FieldDefinition" p:attributeName="vendorName" />
         <bean parent="FieldDefinition" p:attributeName="employeeId" />
-        <bean parent="FieldDefinition" p:attributeName="vendorNumber" />
         <bean parent="FieldDefinition" p:attributeName="entityId" />        
         <bean parent="FieldDefinition" p:attributeName="active"/>  
       </list>

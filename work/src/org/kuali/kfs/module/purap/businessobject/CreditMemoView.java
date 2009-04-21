@@ -20,8 +20,11 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.format.CurrencyFormatter;
 import org.kuali.rice.kns.web.format.DateFormatter;
@@ -141,6 +144,13 @@ public class CreditMemoView extends AbstractRelatedView {
 
     public void setVendorName(String vendorName) {
         this.vendorName = vendorName;
+    }
+    
+    /**
+     * @return workflow document type for the VendorCreditMemoDocument
+     */
+    public String getDocumentType() {
+        return SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(VendorCreditMemoDocument.class);
     }
 
     /**

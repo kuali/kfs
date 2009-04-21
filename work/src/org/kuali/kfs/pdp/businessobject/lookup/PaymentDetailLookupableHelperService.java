@@ -138,7 +138,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
         String paymentDateValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_DATE);
         String disbursementNbrValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_DISBURSEMENT_NUMBER);
         String chartCodeValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_CHART_CODE);
-        String orgCodeValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_ORG_CODE);
+        String orgCodeValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_UNIT_CODE);
         String subUnitCodeValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_SUBUNIT_CODE);
         String requisitionNbrValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_REQUISITION_NUMBER);
         String customerInstitutionNumberValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_CUSTOMER_INSTITUTION_NUMBER);
@@ -191,7 +191,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
             }
         }
 
-        if (!GlobalVariables.getErrorMap().isEmpty()) {
+        if (GlobalVariables.getErrorMap().hasErrors()) {
             throw new ValidationException("errors in search criteria");
         }
 
@@ -415,8 +415,8 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
             resultMap.put(PdpPropertyConstants.PaymentGroupHistory.PAYMENT_GROUP_CHART_CODE, fieldValue);
         }
 
-        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.PAYMENT_ORG_CODE)) {
-            fieldValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_ORG_CODE);
+        if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.PAYMENT_UNIT_CODE)) {
+            fieldValue = fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_UNIT_CODE);
             resultMap.put(PdpPropertyConstants.PaymentGroupHistory.PAYMENT_GROUP_ORG_CODE, fieldValue);
         }
 

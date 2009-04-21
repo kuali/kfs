@@ -1,0 +1,51 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="PurchasingPaymentDetail" parent="PurchasingPaymentDetail-parentBean" />
+
+  <bean id="PurchasingPaymentDetail-parentBean" abstract="true" parent="PaymentDetail-parentBean">
+    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.PurchasingPaymentDetail" />
+    <property name="inquiryDefinition" >
+      <ref bean="PurchasingPaymentDetail-inquiryDefinition" />
+    </property>    
+    <property name="lookupDefinition" >
+      <ref bean="PurchasingPaymentDetail-lookupDefinition" />
+    </property>   
+  </bean>  
+
+  <bean id="PurchasingPaymentDetail-inquiryDefinition" parent="PurchasingPaymentDetail-inquiryDefinition-parentBean" />
+  <bean id="PurchasingPaymentDetail-inquiryDefinition-parentBean" abstract="true" parent="PaymentDetail-inquiryDefinition">  
+      <property name="inquirableClass" value="org.kuali.kfs.pdp.businessobject.inquiry.PurchasingPaymentDetailInquirable" />
+  </bean>
+  
+  <bean id="PurchasingPaymentDetail-lookupDefinition" parent="PurchasingPaymentDetail-lookupDefinition-parentBean" />
+  <bean id="PurchasingPaymentDetail-lookupDefinition-parentBean" abstract="true" parent="PaymentDetail-lookupDefinition">
+    <property name="lookupableID" value="purchasingPaymentDetailLookupable" />
+    <property name="lookupFields" >
+      <list>     
+              <bean parent="FieldDefinition"
+                    p:attributeName="paymentGroup.batch.customerProfile.unitCode"
+                    p:readOnly="true" />                                                                                           
+              <bean parent="FieldDefinition"
+                    p:attributeName="paymentGroup.batch.customerProfile.subUnitCode" 
+                    p:readOnly="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="custPaymentDocNbr"
+                    p:readOnly="true" />
+              <bean parent="FieldDefinition" 
+                    p:attributeName="financialDocumentTypeCode"
+                    p:readOnly="true" /> 
+              <bean parent="FieldDefinition"
+                    p:attributeName="paymentGroupId"
+                    p:readOnly="true" />
+              <bean parent="FieldDefinition" 
+                    p:attributeName="paymentGroup.disbursementNbr"
+                    p:readOnly="true" />                     
+      </list>
+    </property>
+  </bean> 
+  
+</beans>    

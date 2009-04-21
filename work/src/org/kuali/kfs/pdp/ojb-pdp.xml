@@ -406,7 +406,44 @@
     </collection-descriptor>
   </class-descriptor>
   
+  <!-- NOTE: WHEN MAKING CHANGES TO PaymentDetail MAPPING ALSO CHANGE PurchasingPaymentDetail MAPPING BELOW -->
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.PaymentDetail" table="PDP_PMT_DTL_T">
+    <field-descriptor name="id" column="PMT_DTL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="PDP_PMT_DTL_ID_SEQ" autoincrement="true" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
+    <field-descriptor name="custPaymentDocNbr" column="CUST_PMT_DOC_NBR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="financialSystemOriginCode" column="FS_ORIGIN_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="invoiceNbr" column="INV_NBR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="invoiceDate" column="INV_DT" jdbc-type="DATE"/>
+    <field-descriptor name="invTotDiscountAmount" column="INV_TOT_DSCT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="invTotOtherCreditAmount" column="INV_TOT_OTHR_CRDT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="invTotOtherDebitAmount" column="INV_TOT_OTHR_DEBIT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="invTotShipAmount" column="INV_TOT_SHP_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="netPaymentAmount" column="NET_PMT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="organizationDocNbr" column="ORG_DOC_NBR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="origInvoiceAmount" column="ORIG_INV_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="purchaseOrderNbr" column="PO_NBR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="requisitionNbr" column="REQS_NBR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="primaryCancelledPayment" column="PDP_PRM_PMT_CNCL_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="paymentGroupId" column="PMT_GRP_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
+    
+    <reference-descriptor name="paymentGroup" class-ref="org.kuali.kfs.pdp.businessobject.PaymentGroup" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true" >
+      <foreignkey field-ref="paymentGroupId"/>
+    </reference-descriptor>
+
+    <collection-descriptor name="accountDetail" proxy="true" element-class-ref="org.kuali.kfs.pdp.businessobject.PaymentAccountDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+       <inverse-foreignkey field-ref="paymentDetailId"/>
+    </collection-descriptor>
+
+    <collection-descriptor name="notes" proxy="true" element-class-ref="org.kuali.kfs.pdp.businessobject.PaymentNoteText" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+       <orderby name="customerNoteLineNbr" sort="ASC"/>
+       <inverse-foreignkey field-ref="paymentDetailId"/>
+    </collection-descriptor>
+  </class-descriptor>
+  
+  <class-descriptor class="org.kuali.kfs.pdp.businessobject.PurchasingPaymentDetail" table="PDP_PMT_DTL_T">
     <field-descriptor name="id" column="PMT_DTL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="PDP_PMT_DTL_ID_SEQ" autoincrement="true" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="custPaymentDocNbr" column="CUST_PMT_DOC_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="financialSystemOriginCode" column="FS_ORIGIN_CD" jdbc-type="VARCHAR" />

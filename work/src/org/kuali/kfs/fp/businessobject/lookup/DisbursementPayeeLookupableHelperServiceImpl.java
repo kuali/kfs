@@ -216,8 +216,7 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
         List<? extends Person> persons = KIMServiceLocator.getPersonService().findPeople(fieldsForLookup);   
         
         for (Person personDetail : persons) {            
-            DisbursementPayee payee = DisbursementPayee.getPayeeFromPerson(personDetail);
-            payee.setPaymentReasonCode(fieldValues.get(KFSPropertyConstants.PAYMENT_REASON_CODE));
+            DisbursementPayee payee = getPayeeFromPerson(personDetail, fieldValues);
             payeeList.add(payee);
         }
         

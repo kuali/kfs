@@ -160,17 +160,9 @@
   </bean>
   
   <bean id="PayeeACHAccount-payeeIdentifierTypeCode" parent="PayeeACHAccount-payeeIdentifierTypeCode-parentBean" />
-  <bean id="PayeeACHAccount-payeeIdentifierTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="PayeeACHAccount-payeeIdentifierTypeCode-parentBean" abstract="true" parent="ACHPayee-payeeTypeCode">
     <property name="name" value="payeeIdentifierTypeCode" />
-    <property name="label" value="Payee Type Code" />
-    <property name="shortLabel" value="Payee Type Code" />
-    <property name="maxLength" value="1" />
     <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.PayeeAchIdTypeValuesFinder"
-            p:includeKeyInLabel="false" />
-    </property>
   </bean>
 
   <bean id="PayeeACHAccount-achTransactionType" parent="PayeeACHAccount-achTransactionType-parentBean" />

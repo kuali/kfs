@@ -148,10 +148,7 @@
                     <td align=left valign=middle class="datacell">
                         <kul:htmlControlAttribute attributeEntry="${documentAttributes.extractedTimestamp}" property="document.extractedTimestamp" readOnly="${true}" />
                         <c:if test="${not empty KualiForm.document.extractedTimestamp}">
- 	        			   <c:url var="page" value="${KualiForm.disbursementInfoUrl }">
-	        			   </c:url>
-	        			   <c:url var="image" value="${ConfigProperties.externalizable.images.url}tinybutton-disbursinfo.gif"/>
-						   &nbsp;<a href="${page}" target="_pdp"><img src="${image}" border="0"/></a>
+                           <purap:disbursementInfo sourceDocumentNumber="${KualiForm.document.documentNumber}" sourceDocumentType="${KualiForm.document.documentType}" />                        
 						</c:if>
                     </td>
                     <th align=right valign=middle class="bord-l-b">

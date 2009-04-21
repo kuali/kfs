@@ -40,6 +40,7 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -592,6 +593,13 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     
     public String getDocumentOrganizationCodeForSearching(){
         return getPurchaseOrderDocument().getOrganizationCode();
+    }
+    
+    /**
+     * @return workflow document type for the purap document
+     */
+    public String getDocumentType() {
+        return SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(this.getClass());
     }
 }
 

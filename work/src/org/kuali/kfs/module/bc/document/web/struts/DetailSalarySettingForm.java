@@ -47,6 +47,7 @@ import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * the base struts form for the detail salary setting: by position or by incumbent
@@ -570,4 +571,24 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
         this.name = name;
     }
 
+    /**
+     * @see org.kuali.rice.kns.web.struts.form.KualiForm#shouldPropertyBePopulatedInForm(java.lang.String,
+     *      javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    public boolean shouldPropertyBePopulatedInForm(String requestParameterName, HttpServletRequest request) {
+
+        if (super.shouldPropertyBePopulatedInForm(requestParameterName, request)) {
+            return true;
+        }
+        else {
+            // make sure special disabled fields are allowed to be populated
+            if (requestParameterName.endsWith(BCPropertyConstants.APPOINTMENT_REQUESTED_CSF_AMOUNT) || requestParameterName.endsWith(BCPropertyConstants.APPOINTMENT_REQUESTED_CSF_TIME_PERCENT) || requestParameterName.endsWith(BCPropertyConstants.APPOINTMENT_FUNDING_REASON_AMOUNT)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
 }

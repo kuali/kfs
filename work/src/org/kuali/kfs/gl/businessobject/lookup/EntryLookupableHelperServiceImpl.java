@@ -72,6 +72,35 @@ public class EntryLookupableHelperServiceImpl extends AbstractGeneralLedgerLooku
                 throw new ValidationException("errors in search criteria");
             }
         }
+        
+        if (!allRequiredsForAccountSearch(fieldValues) && !allRequiredsForDocumentSearch(fieldValues)) {
+            GlobalVariables.getErrorMap().putError("universityFiscalYear", KFSKeyConstants.ERROR_GL_LOOKUP_ENTRY_NON_MATCHING_REQUIRED_FIELDS, new String[] {});
+            throw new ValidationException("errors in search criteria");
+        }
+    }
+
+    /**
+     * Determines if all the required values for an account based search are present - fiscal year, chart, account number, and fiscal period code
+     * @param fieldValues field values to check
+     * @return true if all the account-based required search fields are present; false otherwise
+     */
+    protected boolean allRequiredsForAccountSearch(Map fieldValues) {
+        final String fiscalYearAsString = (String)fieldValues.get("universityFiscalYear");
+        final String chartOfAccountsCode = (String)fieldValues.get("chartOfAccountsCode");
+        final String accountNumber = (String)fieldValues.get("accountNumber");
+        final String fiscalPeriodCode = (String)fieldValues.get("universityFiscalPeriodCode");
+        return !StringUtils.isBlank(fiscalYearAsString) && !StringUtils.isBlank(chartOfAccountsCode) && !StringUtils.isBlank(accountNumber) && !StringUtils.isBlank(fiscalPeriodCode);
+    }
+    
+    /**
+     * Determines if all the required values for an document based search are present - fiscal year and document number
+     * @param fieldValues field values to check
+     * @return true if all the document-based required search fields are present; false otherwise
+     */
+    protected boolean allRequiredsForDocumentSearch(Map fieldValues) {
+        final String fiscalYearAsString = (String)fieldValues.get("universityFiscalYear");
+        final String documentNumber = (String)fieldValues.get("documentNumber");
+        return !StringUtils.isBlank(fiscalYearAsString) && !StringUtils.isBlank(documentNumber);
     }
 
     /**

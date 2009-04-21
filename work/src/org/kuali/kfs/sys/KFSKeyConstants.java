@@ -503,6 +503,10 @@ public class KFSKeyConstants {
     public static final String ERROR_GL_ERROR_CORRECTION_REMOVE_GROUP_REQUIRES_DATABASE = "error.gl.correction.remove.group.requires.database";
 
     public static final String ERROR_GL_ERROR_GROUP_ALREADY_MARKED_NO_PROCESS = "error.gl.correction.already.marked.no.process";
+    
+    public static final String ERROR_GL_LOOKUP_ENTRY_NON_MATCHING_REQUIRED_FIELDS = "error.gl.lookup.entry.nonMatchingRequiredFields";
+    public static final String ERROR_GL_LOOKUP_PENDING_ENTRY_NON_MATCHING_REQUIRED_FIELDS = "error.gl.lookup.pendingEntry.nonMatchingRequiredFields";
+    public static final String ERROR_GL_LOOKUP_ENCUMBRANCE_NON_MATCHING_REQUIRED_FIELDS = "error.gl.lookup.encumbrance.nonMatchingRequiredFields";
 
     public static final String ERROR_DOCUMENT_CHART_MANAGER_MUST_EXIST = "error.document.chart.chartManagerMustExist";
     public static final String ERROR_DOCUMENT_CHART_MANAGER_MUST_BE_KUALI_USER = "error.document.chart.chartManagerMustBeKualiUser";

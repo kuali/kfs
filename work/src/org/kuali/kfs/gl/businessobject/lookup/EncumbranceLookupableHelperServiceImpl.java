@@ -21,15 +21,20 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.gl.batch.service.EncumbranceCalculator;
 import org.kuali.kfs.gl.businessobject.Encumbrance;
 import org.kuali.kfs.gl.businessobject.inquiry.EncumbranceInquirableImpl;
 import org.kuali.kfs.gl.service.EncumbranceService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * An extension of KualiLookupableImpl to support encumbrance lookups
@@ -49,6 +54,55 @@ public class EncumbranceLookupableHelperServiceImpl extends AbstractGeneralLedge
     @Override
     public HtmlData getInquiryUrl(BusinessObject businessObject, String propertyName) {
         return (new EncumbranceInquirableImpl()).getInquiryUrl(businessObject, propertyName);
+    }
+    
+    /**
+     * Validates the fiscal year searched for in the inquiry
+     * @param fieldValues the values of the query
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#validateSearchParameters(java.util.Map)
+     */
+    @Override
+    public void validateSearchParameters(Map fieldValues) {
+        super.validateSearchParameters(fieldValues);
+
+        String valueFiscalYear = (String) fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        if (!StringUtils.isEmpty(valueFiscalYear)) {
+            try {
+                int year = Integer.parseInt(valueFiscalYear);
+            }
+            catch (NumberFormatException e) {
+                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, KFSKeyConstants.ERROR_CUSTOM, new String[] { KFSKeyConstants.PendingEntryLookupableImpl.FISCAL_YEAR_FOUR_DIGIT });
+                throw new ValidationException("errors in search criteria");
+            }
+        }
+        
+        if (!allRequiredsForAccountSearch(fieldValues) && !allRequiredsForDocumentSearch(fieldValues)) {
+            GlobalVariables.getErrorMap().putError("universityFiscalYear", KFSKeyConstants.ERROR_GL_LOOKUP_ENCUMBRANCE_NON_MATCHING_REQUIRED_FIELDS, new String[] {});
+            throw new ValidationException("errors in search criteria");
+        }
+    }
+    
+    /**
+     * Determines if all the required values for an account based search are present - fiscal year, chart, account number, and fiscal period code
+     * @param fieldValues field values to check
+     * @return true if all the account-based required search fields are present; false otherwise
+     */
+    protected boolean allRequiredsForAccountSearch(Map fieldValues) {
+        final String fiscalYearAsString = (String)fieldValues.get("universityFiscalYear");
+        final String chartOfAccountsCode = (String)fieldValues.get("chartOfAccountsCode");
+        final String accountNumber = (String)fieldValues.get("accountNumber");
+        return !StringUtils.isBlank(fiscalYearAsString) && !StringUtils.isBlank(chartOfAccountsCode) && !StringUtils.isBlank(accountNumber);
+    }
+    
+    /**
+     * Determines if all the required values for an document based search are present - fiscal year and document number
+     * @param fieldValues field values to check
+     * @return true if all the document-based required search fields are present; false otherwise
+     */
+    protected boolean allRequiredsForDocumentSearch(Map fieldValues) {
+        final String fiscalYearAsString = (String)fieldValues.get("universityFiscalYear");
+        final String documentNumber = (String)fieldValues.get("documentNumber");
+        return !StringUtils.isBlank(fiscalYearAsString) && !StringUtils.isBlank(documentNumber);
     }
 
     /**

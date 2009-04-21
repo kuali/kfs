@@ -30,9 +30,13 @@ public abstract class AbstractBatchTransactionalCachingService implements BatchT
 
     @Transactional
     public void execute(BatchTransactionExecutor batchTransactionExecutor) {
-        initialize();
-        batchTransactionExecutor.executeCustom();
-        destroy();
+        try {
+            initialize();
+            batchTransactionExecutor.executeCustom();
+        }
+        finally {
+            destroy();
+        }
     }
     
     protected void initialize() {

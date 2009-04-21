@@ -169,7 +169,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         PaymentStatus extractedStatus = (PaymentStatus) this.kualiCodeService.getByCode(PaymentStatus.class, PdpConstants.PaymentStatusCodes.EXTRACTED);
 
-        String achFilePrefix = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.ExtractPayment.CHECK_FILENAME);
+        String achFilePrefix = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.ExtractPayment.ACH_FILENAME);
         achFilePrefix = MessageFormat.format(achFilePrefix, new Object[]{ null });
         
         String filename = getOutputFile(achFilePrefix, processDate);

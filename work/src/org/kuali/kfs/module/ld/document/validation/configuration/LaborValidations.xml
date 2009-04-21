@@ -28,7 +28,7 @@
 	
 	<bean id="SalaryExpenseTransferDocument-salaryObjectCodeValidation" abstract="true" class="org.kuali.kfs.module.ld.document.validation.impl.SalaryExpenseTransferSalaryObjectCodeValidation" />
 	
-	<bean id="SalaryExpenseTransferDocument-unbalancedObjectCodesValidation" abstract="true" class="org.kuali.kfs.module.ld.document.validation.impl.SalaryExpenseTransferUnbalancedObjectCodesValidation" ></bean>
+	<bean id="SalaryExpenseTransferDocument-validAmountTransferredByObjectCodeValidation" abstract="true" class="org.kuali.kfs.module.ld.document.validation.impl.SalaryExpenseTransferValidAmountTransferredByObjectCodeValidation" ></bean>
 
 	<bean id="BenefitExpenseTransferDocument-fringeBenefitObjectCodeValidation" abstract="true" class="org.kuali.kfs.module.ld.document.validation.impl.BenefitExpenseTransferFringeBenefitObjectCodeValidation" ></bean>
 

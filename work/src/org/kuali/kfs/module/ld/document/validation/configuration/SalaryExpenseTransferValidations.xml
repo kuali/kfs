@@ -228,7 +228,7 @@
 					</property>
 					<property name="quitOnFail" value="true" />				
 				</bean>
-				<bean parent="LaborExpenseTransferDocument-validAmountTransferredByObjectCodeValidationForRouting" scope="prototype">
+				<bean parent="SalaryExpenseTransferDocument-validAmountTransferredByObjectCodeValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
 							<bean parent="validationFieldConversion">

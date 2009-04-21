@@ -327,10 +327,14 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                 businessObjectService.save(negativeEntry);
             }
 
+            boolean newApDoc = true;
             PurchasingAccountsPayableDocument cabPurapDoc = findPurchasingAccountsPayableDocument(entry);
             // if document is found already, update the active flag
             if (ObjectUtils.isNull(cabPurapDoc)) {
                 cabPurapDoc = createPurchasingAccountsPayableDocument(entry);
+            }
+            else {
+                newApDoc = false;
             }
             if (cabPurapDoc != null) {
 
@@ -390,7 +394,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
                 // Add to the doc collection which will be used for additional charge allocating. This will be the next step during
                 // batch.
-                if (CabConstants.ActivityStatusCode.NEW.equals(cabPurapDoc.getActivityStatusCode())) {
+                if (newApDoc) {
                     purApDocuments.add(cabPurapDoc);
                 }
             }

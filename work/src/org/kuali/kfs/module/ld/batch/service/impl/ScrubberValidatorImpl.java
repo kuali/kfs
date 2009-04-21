@@ -26,6 +26,7 @@ import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.BalanceTypService;
 import org.kuali.kfs.gl.batch.ScrubberStep;
+import org.kuali.kfs.gl.batch.service.AccountingCycleCachingService;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.service.ScrubberValidator;
@@ -69,13 +70,13 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private PersistenceService persistenceService;
     private ScrubberValidator scrubberValidator;
     private PersistenceStructureService persistenceStructureService;
-    private LaborAccountingCycleCachingService accountingCycleCachingService;
+    
 
     /**
      * @see org.kuali.module.labor.service.LaborScrubberValidator#validateTransaction(owrg.kuali.module.labor.bo.LaborOriginEntry,
      *      org.kuali.kfs.module.ld.businessobject.LaborOriginEntry, org.kuali.kfs.gl.businessobject.UniversityDate)
      */
-    public List<Message> validateTransaction(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate, boolean laborIndicator) {
+    public List<Message> validateTransaction(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate, boolean laborIndicator, AccountingCycleCachingService laborAccountingCycleCachingService) {
         LOG.debug("validateTransaction() started");
         List<Message> errors = new ArrayList<Message>();
 
@@ -83,7 +84,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         LaborOriginEntry laborScrubbedEntry = (LaborOriginEntry) scrubbedEntry;
 
         // gl scrubber validation
-        errors = scrubberValidator.validateTransaction(laborOriginEntry, laborScrubbedEntry, universityRunDate, laborIndicator);
+        errors = scrubberValidator.validateTransaction(laborOriginEntry, laborScrubbedEntry, universityRunDate, laborIndicator, laborAccountingCycleCachingService);
 
         refreshOriginEntryReferences(laborOriginEntry);
         refreshOriginEntryReferences(laborScrubbedEntry);
@@ -104,17 +105,17 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 //            errors.add(err);
 //        }
 
-        err = validatePayrollEndFiscalYear(laborOriginEntry, laborScrubbedEntry, universityRunDate);
+        err = validatePayrollEndFiscalYear(laborOriginEntry, laborScrubbedEntry, universityRunDate, (LaborAccountingCycleCachingService) laborAccountingCycleCachingService);
         if (err != null) {
             errors.add(err);
         }
 
-        err = validatePayrollEndFiscalPeriodCode(laborOriginEntry, laborScrubbedEntry, universityRunDate);
+        err = validatePayrollEndFiscalPeriodCode(laborOriginEntry, laborScrubbedEntry, universityRunDate, (LaborAccountingCycleCachingService) laborAccountingCycleCachingService);
         if (err != null) {
             errors.add(err);
         }
 
-        err = validateAccount(laborOriginEntry, laborScrubbedEntry, universityRunDate);
+        err = validateAccount(laborOriginEntry, laborScrubbedEntry, universityRunDate, (LaborAccountingCycleCachingService) laborAccountingCycleCachingService);
         if (err != null) {
             errors.add(err);
         }
@@ -192,11 +193,11 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     /**
      * This method is for validation of payrollEndFiscalYear
      */
-    private Message validatePayrollEndFiscalYear(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate) {
+    private Message validatePayrollEndFiscalYear(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate, LaborAccountingCycleCachingService laborAccountingCycleCachingService) {
         LOG.debug("validatePayrollEndFiscalYear() started");
         SystemOptions scrubbedEntryOption = null;
         if (laborOriginEntry.getPayrollEndDateFiscalYear() != null){
-            scrubbedEntryOption = getAccountingCycleCachingService().getSystemOptions(laborOriginEntry.getPayrollEndDateFiscalYear());
+            scrubbedEntryOption = laborAccountingCycleCachingService.getSystemOptions(laborOriginEntry.getPayrollEndDateFiscalYear());
             
             if (scrubbedEntryOption == null) {
                 return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_PAYROLL_END_DATE_FISCAL_YEAR, "" + laborOriginEntry.getPayrollEndDateFiscalYear(), Message.TYPE_FATAL);
@@ -210,7 +211,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     /**
      * This method is for validation of PayrollEndFiscalPeriodCode
      */
-    private Message validatePayrollEndFiscalPeriodCode(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate) {
+    private Message validatePayrollEndFiscalPeriodCode(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate, LaborAccountingCycleCachingService laborAccountingCycleCachingService) {
         LOG.debug("validateUniversityFiscalPeriodCode() started");
 
         AccountingPeriod accountingPeriod = null;
@@ -222,7 +223,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
         
         if (!laborOriginEntry.getPayrollEndDateFiscalPeriodCode().equals("")  ){
-            accountingPeriod = getAccountingCycleCachingService().getAccountingPeriod(tempPayrollFiscalYear, laborOriginEntry.getPayrollEndDateFiscalPeriodCode());
+            accountingPeriod = laborAccountingCycleCachingService.getAccountingPeriod(tempPayrollFiscalYear, laborOriginEntry.getPayrollEndDateFiscalPeriodCode());
             if (accountingPeriod == null) {
                 return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_PAYROLL_END_DATE_FISCAL_PERIOD, laborOriginEntry.getPayrollEndDateFiscalPeriodCode(), Message.TYPE_FATAL);
             }
@@ -235,7 +236,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     /**
      * Performs Account Validation.
      */
-    private Message validateAccount(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate) {
+    private Message validateAccount(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate, LaborAccountingCycleCachingService laborAccountingCycleCachingService) {
         LOG.debug("validateAccount() started");
 
         Account account = laborOriginEntry.getAccount();
@@ -276,7 +277,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         boolean accountFringeExclusionInd = parameterService.getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.ACCOUNT_FRINGE_EXCLUSION_PARAMETER);
 
         if (accountFringeExclusionInd && !nonFringeAccountBypassOriginationCodes.contains(orginationCode)) {
-            return checkAccountFringeIndicator(laborOriginEntry, laborWorkingEntry, account, universityRunDate);
+            return checkAccountFringeIndicator(laborOriginEntry, laborWorkingEntry, account, universityRunDate, laborAccountingCycleCachingService);
         }
 
         // Expired/Closed Validation
@@ -374,10 +375,10 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      * For fringe transaction types checks if the account accepts fringe benefits. If not, retrieves the alternative account, then
      * calls expiration checking on either the alternative account or the account passed in.
      */
-    private Message checkAccountFringeIndicator(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, Account account, UniversityDate universityRunDate) {
+    private Message checkAccountFringeIndicator(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, Account account, UniversityDate universityRunDate, LaborAccountingCycleCachingService laborAccountingCycleCachingService) {
         // check for fringe tranaction type
         //LaborObject laborObject = (LaborObject) businessObjectService.findByPrimaryKey(LaborObject.class, fieldValues);
-        LaborObject laborObject = getAccountingCycleCachingService().getLaborObject(laborOriginEntry.getUniversityFiscalYear(), laborOriginEntry.getChartOfAccountsCode(), laborOriginEntry.getFinancialObjectCode());
+        LaborObject laborObject = laborAccountingCycleCachingService.getLaborObject(laborOriginEntry.getUniversityFiscalYear(), laborOriginEntry.getChartOfAccountsCode(), laborOriginEntry.getFinancialObjectCode());
         boolean isFringeTransaction = laborObject != null && org.apache.commons.lang.StringUtils.equals(LaborConstants.BenefitExpenseTransfer.LABOR_LEDGER_BENEFIT_CODE, laborObject.getFinancialObjectFringeOrSalaryCode());
 
         // alternative account handling for non fringe accounts
@@ -551,10 +552,5 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         this.optionsService = optionsService;
     }
     
-    LaborAccountingCycleCachingService getAccountingCycleCachingService() {
-        if (accountingCycleCachingService == null) {
-            accountingCycleCachingService = SpringContext.getBean(LaborAccountingCycleCachingService.class);
-        }
-        return accountingCycleCachingService;
-    }
+    
 }

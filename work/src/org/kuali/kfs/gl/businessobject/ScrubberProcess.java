@@ -59,6 +59,7 @@ import org.kuali.kfs.gl.service.ScrubberValidator;
 import org.kuali.kfs.gl.service.impl.ScrubberStatus;
 import org.kuali.kfs.gl.service.impl.ScrubberValidatorImpl;
 import org.kuali.kfs.gl.service.impl.StringHelper;
+import org.kuali.kfs.module.ld.batch.service.LaborAccountingCycleCachingService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.Message;
@@ -659,7 +660,7 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
     
                 // For Labor Scrubber
                 boolean laborIndicator = false;
-                tmperrors.addAll(scrubberValidator.validateTransaction(unscrubbedEntry, scrubbedEntry, universityRunDate, laborIndicator));
+                tmperrors.addAll(scrubberValidator.validateTransaction(unscrubbedEntry, scrubbedEntry, universityRunDate, laborIndicator, accountingCycleCachingService));
                 transactionErrors.addAll(tmperrors);
                 
                 

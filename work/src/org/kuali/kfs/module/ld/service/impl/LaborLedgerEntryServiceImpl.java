@@ -35,19 +35,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class LaborLedgerEntryServiceImpl implements LaborLedgerEntryService {
 
     private LaborLedgerEntryDao laborLedgerEntryDao;
-    private LaborAccountingCycleCachingService accountingCycleCachingService;
+    private LaborAccountingCycleCachingService laborAccountingCycleCachingService;
     /**
      * @see org.kuali.kfs.module.ld.service.LaborLedgerEntryService#save(org.kuali.kfs.module.ld.businessobject.LedgerEntry)
      */
     public void save(LedgerEntry ledgerEntry) {
-        accountingCycleCachingService.insertLedgerEntry(ledgerEntry);
+        laborAccountingCycleCachingService.insertLedgerEntry(ledgerEntry);
     }
 
     /**
      * @see org.kuali.kfs.module.ld.service.LaborLedgerEntryService#getMaxSquenceNumber(org.kuali.kfs.module.ld.businessobject.LedgerEntry)
      */
     public Integer getMaxSequenceNumber(LedgerEntry ledgerEntry) {
-        return accountingCycleCachingService.getMaxLaborSequenceNumber(ledgerEntry);
+        return laborAccountingCycleCachingService.getMaxLaborSequenceNumber(ledgerEntry);
     }
 
     /**
@@ -87,7 +87,7 @@ public class LaborLedgerEntryServiceImpl implements LaborLedgerEntryService {
         this.laborLedgerEntryDao = laborLedgerEntryDao;
     }
 
-    public void setAccountingCycleCachingService(LaborAccountingCycleCachingService accountingCycleCachingService) {
-        this.accountingCycleCachingService = accountingCycleCachingService;
+    public void setLaborAccountingCycleCachingService(LaborAccountingCycleCachingService laborAccountingCycleCachingService) {
+        this.laborAccountingCycleCachingService = laborAccountingCycleCachingService;
     }
 }

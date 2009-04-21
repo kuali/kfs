@@ -17,6 +17,7 @@ package org.kuali.kfs.gl.service;
 
 import java.util.List;
 
+import org.kuali.kfs.gl.batch.service.AccountingCycleCachingService;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
@@ -34,7 +35,7 @@ public interface ScrubberValidator {
      * @param universityRunDate Date of scrubber run
      * @return List of Message objects based for warnings or errors that happened when validating the transaction
      */
-    public List<Message> validateTransaction(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate, boolean laborIndicator);
+    public List<Message> validateTransaction(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate, boolean laborIndicator, AccountingCycleCachingService accountingCycleCachingService);
 
     /**
      * Validate a transaction for use in balance inquiry

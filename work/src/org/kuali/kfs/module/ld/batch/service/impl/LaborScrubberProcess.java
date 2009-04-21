@@ -100,7 +100,7 @@ public class LaborScrubberProcess {
     private LaborReportService laborReportService;
     private TextReportHelper<Transaction> textReportHelper;
     private ScrubberValidator scrubberValidator;
-    private LaborAccountingCycleCachingService accountingCycleCachingService;
+    private LaborAccountingCycleCachingService laborAccountingCycleCachingService;
     
     private String batchFileDirectoryName;
     private String reportDirectoryName;
@@ -153,10 +153,10 @@ public class LaborScrubberProcess {
     /**
      * These parameters are all the dependencies.
      */
-    public LaborScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, LaborAccountingCycleCachingService accountingCycleCachingService, LaborOriginEntryService laborOriginEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService kualiConfigurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, LaborReportService laborReportService, ScrubberValidator scrubberValidator, String batchFileDirectoryName, String reportDirectoryName) {
+    public LaborScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, LaborAccountingCycleCachingService laborAccountingCycleCachingService, LaborOriginEntryService laborOriginEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService kualiConfigurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, LaborReportService laborReportService, ScrubberValidator scrubberValidator, String batchFileDirectoryName, String reportDirectoryName) {
         super();
         this.flexibleOffsetAccountService = flexibleOffsetAccountService;
-        this.accountingCycleCachingService = accountingCycleCachingService;
+        this.laborAccountingCycleCachingService = laborAccountingCycleCachingService;
         this.laborOriginEntryService = laborOriginEntryService;
         this.originEntryGroupService = originEntryGroupService;
         this.dateTimeService = dateTimeService;
@@ -236,7 +236,7 @@ public class LaborScrubberProcess {
 
         // FOR FIS batch
         // universityRunDate = universityDateDao.getByPrimaryKey(runDate);
-        universityRunDate = accountingCycleCachingService.getUniversityDate(runDate);
+        universityRunDate = laborAccountingCycleCachingService.getUniversityDate(runDate);
         if (universityRunDate == null) {
             throw new IllegalStateException(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_UNIV_DATE_NOT_FOUND));
         }
@@ -385,7 +385,7 @@ public class LaborScrubberProcess {
                     boolean laborIndicator = true;
 
                     try {
-                        tmperrors.addAll(scrubberValidator.validateTransaction(unscrubbedEntry, scrubbedEntry, universityRunDate, laborIndicator));
+                        tmperrors.addAll(scrubberValidator.validateTransaction(unscrubbedEntry, scrubbedEntry, universityRunDate, laborIndicator, laborAccountingCycleCachingService));
                     } catch (Exception e){ 
                         transactionErrors.add(new Message(e.toString() + " occurred for this record.", Message.TYPE_FATAL));
                         saveValidTransaction = false;
@@ -393,7 +393,7 @@ public class LaborScrubberProcess {
                     transactionErrors.addAll(tmperrors);
 
                     // Expired account?
-                    Account unscrubbedEntryAccount = accountingCycleCachingService.getAccount(unscrubbedEntry.getChartOfAccountsCode(), unscrubbedEntry.getAccountNumber());
+                    Account unscrubbedEntryAccount = laborAccountingCycleCachingService.getAccount(unscrubbedEntry.getChartOfAccountsCode(), unscrubbedEntry.getAccountNumber());
                     if (ObjectUtils.isNotNull(unscrubbedEntry.getAccount()) && !unscrubbedEntry.getAccount().isActive()) {
                         // Make a copy of it so OJB doesn't just update the row in the original
                         // group. It needs to make a new one in the expired group
@@ -413,7 +413,7 @@ public class LaborScrubberProcess {
                         }
                         KualiDecimal transactionAmount = scrubbedEntry.getTransactionLedgerEntryAmount();
                         ParameterEvaluator offsetFiscalPeriods = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.OFFSET_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode());
-                        BalanceType scrubbedEntryBalanceType = accountingCycleCachingService.getBalanceType(scrubbedEntry.getFinancialBalanceTypeCode());
+                        BalanceType scrubbedEntryBalanceType = laborAccountingCycleCachingService.getBalanceType(scrubbedEntry.getFinancialBalanceTypeCode());
                         if (scrubbedEntryBalanceType.isFinancialOffsetGenerationIndicator() && offsetFiscalPeriods.evaluationSucceeds()) {
                             if (scrubbedEntry.isDebit()) {
                                 unitOfWork.offsetAmount = unitOfWork.offsetAmount.add(transactionAmount);
@@ -427,7 +427,7 @@ public class LaborScrubberProcess {
                         // TODO: GLConstants.getSpaceSubAccountTypeCode();
                         String subAccountTypeCode = "  ";
 
-                        A21SubAccount scrubbedEntryA21SubAccount = accountingCycleCachingService.getA21SubAccount(scrubbedEntry.getChartOfAccountsCode(), scrubbedEntry.getAccountNumber(), scrubbedEntry.getSubAccountNumber());
+                        A21SubAccount scrubbedEntryA21SubAccount = laborAccountingCycleCachingService.getA21SubAccount(scrubbedEntry.getChartOfAccountsCode(), scrubbedEntry.getAccountNumber(), scrubbedEntry.getSubAccountNumber());
                         if (ObjectUtils.isNotNull(scrubbedEntryA21SubAccount)) {
                             subAccountTypeCode = scrubbedEntryA21SubAccount.getSubAccountTypeCode();
                         }

@@ -49,7 +49,7 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
     private PersistenceService persistenceService;
     private LaborReportService laborReportService;
     private ScrubberValidator scrubberValidator;
-    private LaborAccountingCycleCachingService accountingCycleCachingService;
+    private LaborAccountingCycleCachingService laborAccountingCycleCachingService;
     
     private String batchFileDirectoryName;
     private String reportDirectoryName;
@@ -63,7 +63,7 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
         // The logic for this was moved into another object because the process was written using
         // many instance variables which shouldn't be used for Spring services
 
-        LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, accountingCycleCachingService, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, laborReportService, scrubberValidator, batchFileDirectoryName, reportDirectoryName);
+        LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, laborAccountingCycleCachingService, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, laborReportService, scrubberValidator, batchFileDirectoryName, reportDirectoryName);
         sp.scrubGroupReportOnly(fileName, documentNumber);
     }
 
@@ -76,13 +76,13 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
         // The logic for this was moved into another object because the process was written using
         // many instance variables which shouldn't be used for Spring services
 
-        LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, accountingCycleCachingService, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, laborReportService, scrubberValidator, batchFileDirectoryName, reportDirectoryName);
+        LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, laborAccountingCycleCachingService, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, laborReportService, scrubberValidator, batchFileDirectoryName, reportDirectoryName);
         sp.scrubEntries();
     }
     
     public void performDemerger() {
         LOG.debug("performDemerger() started");
-        LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, accountingCycleCachingService, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, laborReportService, scrubberValidator, batchFileDirectoryName, reportDirectoryName);
+        LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, laborAccountingCycleCachingService, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, laborReportService, scrubberValidator, batchFileDirectoryName, reportDirectoryName);
         sp.performDemerger();
                 
     }
@@ -193,7 +193,7 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
         this.reportDirectoryName = reportDirectoryName;
     }
 
-    public void setAccountingCycleCachingService(LaborAccountingCycleCachingService accountingCycleCachingService) {
-        this.accountingCycleCachingService = accountingCycleCachingService;
+    public void setLaborAccountingCycleCachingService(LaborAccountingCycleCachingService laborAccountingCycleCachingService) {
+        this.laborAccountingCycleCachingService = laborAccountingCycleCachingService;
     }
 }

@@ -112,7 +112,7 @@
         <property name="laborLedgerEntryDao">
             <ref bean="laborLedgerEntryDao" />
         </property>
-        <property name="accountingCycleCachingService">
+        <property name="laborAccountingCycleCachingService">
 		  	<ref bean="laborAccountingCycleCachingService" />
 		</property>
     </bean>
@@ -271,7 +271,7 @@
 		<property name="scrubberValidator">
 			<ref bean="laborScrubberValidator" />
 		</property>
-        <property name="accountingCycleCachingService">
+        <property name="laborAccountingCycleCachingService">
 		  	<ref bean="laborAccountingCycleCachingService" />
 		</property>
 		<property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
@@ -423,7 +423,7 @@
     </bean>
 
     <bean id="laborLedgerBalancePoster" class="org.kuali.kfs.module.ld.batch.service.impl.LaborLedgerBalancePoster">
-		<property name="accountingCycleCachingService">
+		<property name="laborAccountingCycleCachingService">
 		  	<ref bean="laborAccountingCycleCachingService" />
 		</property>
     </bean>

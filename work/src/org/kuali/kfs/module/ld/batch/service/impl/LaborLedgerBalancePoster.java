@@ -35,7 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class LaborLedgerBalancePoster implements PostTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerBalancePoster.class);
 
-    private LaborAccountingCycleCachingService accountingCycleCachingService;
+    private LaborAccountingCycleCachingService laborAccountingCycleCachingService;
     /**
      * @see org.kuali.kfs.gl.batch.service.PostTransaction#post(org.kuali.kfs.gl.businessobject.Transaction, int, java.util.Date)
      */
@@ -44,7 +44,7 @@ public class LaborLedgerBalancePoster implements PostTransaction {
         LedgerBalance ledgerBalance = new LedgerBalance((LaborTransaction) transaction);
         // ObjectUtil.buildObject(ledgerBalance, transaction);
 
-        LedgerBalance tempLedgerBalance = accountingCycleCachingService.getLedgerBalance(ledgerBalance);
+        LedgerBalance tempLedgerBalance = laborAccountingCycleCachingService.getLedgerBalance(ledgerBalance);
         if (ObjectUtils.isNotNull(tempLedgerBalance)) {
             ledgerBalance = tempLedgerBalance;
             operationType = KFSConstants.OperationType.UPDATE;
@@ -56,9 +56,9 @@ public class LaborLedgerBalancePoster implements PostTransaction {
         ledgerBalance.addAmount(transaction.getUniversityFiscalPeriodCode(), amount);
 
         if (operationType.equals(KFSConstants.OperationType.INSERT)) {
-            accountingCycleCachingService.insertLedgerBalance(ledgerBalance);
+            laborAccountingCycleCachingService.insertLedgerBalance(ledgerBalance);
         } else {
-            accountingCycleCachingService.updateLedgerBalance(ledgerBalance);
+            laborAccountingCycleCachingService.updateLedgerBalance(ledgerBalance);
         }
         return operationType;
     }
@@ -70,7 +70,7 @@ public class LaborLedgerBalancePoster implements PostTransaction {
         return LaborConstants.DestinationNames.LEDGER_BALANCE;
     }
 
-    public void setAccountingCycleCachingService(LaborAccountingCycleCachingService accountingCycleCachingService) {
-        this.accountingCycleCachingService = accountingCycleCachingService;
+    public void setLaborAccountingCycleCachingService(LaborAccountingCycleCachingService laborAccountingCycleCachingService) {
+        this.laborAccountingCycleCachingService = laborAccountingCycleCachingService;
     }
 }

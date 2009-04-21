@@ -37,6 +37,8 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.batch.Step;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
+import org.kuali.kfs.sys.suite.RelatesTo;
+import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 
@@ -135,6 +137,7 @@ public class LaborBalancingServiceImplTest extends BalancingServiceImplTestBase 
     }
     
     @Override
+    @RelatesTo(JiraIssue.KFSMI3345)
     public void testRunBalancingHistoryUpdate() {
         // First pass is exactly the same as testRunBalancingPopulateData. This serves to populate the tables
         this.testRunBalancingPopulateData();

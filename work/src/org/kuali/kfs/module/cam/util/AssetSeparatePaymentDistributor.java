@@ -46,6 +46,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * <li>Adjust the last payment to round against the source from which split is done</li>
  * <li>Adjust the account charge amount of each asset by rounding the last payment with reference to user input separate amount</li>
  * <li>Create offset payments for the source asset</li>
+ * <li>Compute accumulated depreciation amount for each payment, including offsets</li>
  */
 public class AssetSeparatePaymentDistributor {
     private Asset sourceAsset;
@@ -337,13 +338,19 @@ public class AssetSeparatePaymentDistributor {
             for (AssetPayment currPayment : assetPayments) {
                 previousYearAmount = currPayment.getPreviousYearPrimaryDepreciationAmount();
                 previousYearAmount = previousYearAmount == null ? KualiDecimal.ZERO : previousYearAmount;
-                currPayment.setAccumulatedPrimaryDepreciationAmount(previousYearAmount.add(sumPeriodicDepreciationAmounts(currPayment)));
+                KualiDecimal computedAmount = previousYearAmount.add(sumPeriodicDepreciationAmounts(currPayment));
+                if (computedAmount.isNonZero()) {
+                    currPayment.setAccumulatedPrimaryDepreciationAmount(computedAmount);
+                }
             }
         }
         for (AssetPayment currPayment : this.offsetPayments) {
             previousYearAmount = currPayment.getPreviousYearPrimaryDepreciationAmount();
             previousYearAmount = previousYearAmount == null ? KualiDecimal.ZERO : previousYearAmount;
-            currPayment.setAccumulatedPrimaryDepreciationAmount(previousYearAmount.add(sumPeriodicDepreciationAmounts(currPayment)));
+            KualiDecimal computedAmount = previousYearAmount.add(sumPeriodicDepreciationAmounts(currPayment));
+            if (computedAmount.isNonZero()) {
+                currPayment.setAccumulatedPrimaryDepreciationAmount(computedAmount);
+            }
         }
     }
 

@@ -50,12 +50,21 @@ public class EffortCertificationParameterFinder {
     }
 
     /**
-     * get the fedeal only balance indicatior
+     * get the federal only balance indicator
      * 
-     * @return the fedeal only balance indicatior
+     * @return the federal only balance indicator
      */
     public static boolean getFederalOnlyBalanceIndicator() {
         return parameterService.getIndicatorParameter(EffortCertificationExtractStep.class, SystemParameters.FEDERAL_ONLY_BALANCE_IND);
+    }
+    
+    /**
+     * get the federal only route indicator
+     * 
+     * @return the federal only balance indicator
+     */
+    public static boolean getFederalOnlyRouteIndicator() {
+        return parameterService.getIndicatorParameter(EffortCertificationDocument.class, SystemParameters.FEDERAL_ONLY_ROUTE_IND);
     }
 
     /**

@@ -189,15 +189,23 @@
                 <ref bean="RoutingAttribute-financialDocumentTotalAmount"/>
                 <ref bean="RoutingAttribute-chartOfAccountsCode"/>
                 <ref bean="RoutingAttribute-accountNumber"/>
-                <ref bean="RoutingAttribute-contractsAndGrantsAccountResponsibilityId"/>
             </list>
         </property>     
         <property name="documentValuePathGroups">
             <list>
-                <ref bean="DocumentValuePathGroup-EffortCertificationDocument-Account-detailLines"/>
+                <ref bean="DocumentValuePathGroup-EffortCertificationDocument-Project-detailLines"/>
             </list>
         </property>     
   </bean>
+  
+  <bean id="DocumentValuePathGroup-EffortCertificationDocument-Project-detailLines" parent="DocumentValuePathGroup-EffortCertificationDocument-Project-detailLines-parentBean"/>  
+  <bean id="DocumentValuePathGroup-EffortCertificationDocument-Project-detailLines-parentBean" parent="DocumentValuePathGroup-AccountingDocument-financialDocumentTotalAmount" abstract="true">
+    	<property name="documentCollectionPath">
+    		<bean parent="DocumentCollectionPath-AccountingLine-chartAndAccountNumber">
+    			<property name="collectionPath" value="detailLinesForPDRouting"/>
+    		</bean>
+    	</property>
+  </bean>	
     
   <bean id="RoutingType-EffortCertificationDocument-Account" parent="RoutingType-EffortCertificationDocument-Account-parentBean"/>
   <bean id="RoutingType-EffortCertificationDocument-Account-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
@@ -206,7 +214,6 @@
     			<ref bean="RoutingAttribute-financialDocumentTotalAmount"/>
 		        <ref bean="RoutingAttribute-chartOfAccountsCode"/>
 		        <ref bean="RoutingAttribute-accountNumber"/>
-                <ref bean="RoutingAttribute-contractsAndGrantsAccountResponsibilityId"/>
     		</list>
     	</property>    	
     	<property name="documentValuePathGroups">

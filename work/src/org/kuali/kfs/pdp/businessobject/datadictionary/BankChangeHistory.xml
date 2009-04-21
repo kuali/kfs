@@ -11,7 +11,7 @@
     <property name="lookupDefinition" >
       <ref bean="BankChangeHistory-lookupDefinition" />
     </property>
-    <property name="objectLabel" value="Bank Change History" />
+    <property name="objectLabel" value="Payment Bank History" />
     <property name="attributes" >
       <list>
         <ref bean="BankChangeHistory-paymentGroup.disbursementTypeCode" />

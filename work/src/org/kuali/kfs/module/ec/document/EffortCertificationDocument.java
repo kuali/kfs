@@ -23,6 +23,7 @@ import java.util.List;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 import org.kuali.kfs.module.ec.service.EffortCertificationDocumentService;
+import org.kuali.kfs.module.ec.util.EffortCertificationParameterFinder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
@@ -719,6 +720,28 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
         if (nodeName.equals(EffortCertificationDocument.DO_AWARD_SPLIT)) return isDoAwardSplit();
         if (nodeName.equals(EffortCertificationDocument.DO_RECREATE_SPLIT)) return isDoRecreateSplit();
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
+    }
+    
+    /**
+     * Checks system parameter that indicates whether routing to project directors should occur only on
+     * lines with federal accounts or all lines. 
+     * 
+     * @return detail lines with federal accounts if parameter is true, otherwise all detail lines
+     */
+    public List<EffortCertificationDetail> getDetailLinesForPDRouting() {
+        boolean federalOnlyRouting = EffortCertificationParameterFinder.getFederalOnlyRouteIndicator();
+        if (!federalOnlyRouting) {
+            return this.effortCertificationDetailLines;
+        }
+        
+        List<EffortCertificationDetail> federalDetailLines = new ArrayList<EffortCertificationDetail>();
+        for (EffortCertificationDetail detail : this.effortCertificationDetailLines) {
+            if (detail.isFederalOrFederalPassThroughIndicator()) {
+                federalDetailLines.add(detail);
+            }
+        }
+        
+        return federalDetailLines;
     }
     
     /**

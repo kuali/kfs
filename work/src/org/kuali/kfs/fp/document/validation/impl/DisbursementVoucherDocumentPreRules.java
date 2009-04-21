@@ -98,14 +98,14 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
         
         String paymentReasonCode = dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode();
         ParameterEvaluator travelNonEmplPaymentReasonEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class, NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM, paymentReasonCode);
+        
         if(!travelNonEmplPaymentReasonEvaluator.evaluationSucceeds() || dvDocument.getDvPayeeDetail().isEmployee()){
             String nonEmplTravReasonStr = StringUtils.EMPTY;
             
-            List<String> travelNonEmplPaymentReasonCodes = SpringContext.getBean(ParameterService.class).getParameterValues(DisbursementVoucherDocument.class, NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM, paymentReasonCode);            
             List<KeyLabelPair> reasons = new PaymentReasonValuesFinder().getKeyValues();
-            for (KeyLabelPair r : reasons) {
-                if (!travelNonEmplPaymentReasonCodes.isEmpty() && r.getKey().equals(travelNonEmplPaymentReasonCodes.get(0))) {
-                    nonEmplTravReasonStr = r.getLabel();
+            for (KeyLabelPair reason : reasons) {
+                if (paymentReasonCode!= null && paymentReasonCode.equals(reason.getKey())) {
+                    nonEmplTravReasonStr = reason.getLabel();
                 }
             }
 

@@ -91,7 +91,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
         Date processDate = dateTimeService.getCurrentDate();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         
-        String checkCancelledFilePrefix = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.ExtractPayment.CHECK_FILENAME);
+        String checkCancelledFilePrefix = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.ExtractPayment.CHECK_CANCEL_FILENAME);
         checkCancelledFilePrefix = MessageFormat.format(checkCancelledFilePrefix, new Object[]{ null });
         
         String filename = getOutputFile(checkCancelledFilePrefix, processDate);

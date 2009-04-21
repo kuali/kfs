@@ -32,6 +32,7 @@ import org.kuali.kfs.sys.document.FinancialSystemMaintenanceDocument;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
@@ -52,31 +53,51 @@ public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
     public void processAfterPost(MaintenanceDocument document, Map<String, String[]> parameters) {
         super.processAfterPost(document, parameters);
 
-        Maintainable oldMaintainable = document.getOldMaintainableObject();
-        Maintainable newMaintainable = document.getNewMaintainableObject();
-
-        Customer oldCustomer = (Customer) oldMaintainable.getBusinessObject();
-        Customer newCustomer = (Customer) newMaintainable.getBusinessObject();
-
-        Date currentDate = getDateTimeService().getCurrentSqlDate();
-        if(!oldCustomer.equals(newCustomer)) {
-            newCustomer.setCustomerLastActivityDate(currentDate);
-        }
-
         // when we create new customer set the customerRecordAddDate to current date
         if (getMaintenanceAction().equalsIgnoreCase(KNSConstants.MAINTENANCE_NEW_ACTION)) {
+            Customer oldCustomer = (Customer) document.getOldMaintainableObject().getBusinessObject();
+            Customer newCustomer = (Customer) document.getNewMaintainableObject().getBusinessObject();
+            Date currentDate = getDateTimeService().getCurrentSqlDate();
             newCustomer.setCustomerRecordAddDate(currentDate);
             newCustomer.setCustomerLastActivityDate(currentDate);
         }
+    }
+    
+    @Override
+    public void handleRouteStatusChange(DocumentHeader documentHeader) {
+        super.handleRouteStatusChange(documentHeader);
+        
+        // if new customer was created => dates have been already updated
+        if (getMaintenanceAction().equalsIgnoreCase(KNSConstants.MAINTENANCE_NEW_ACTION))
+            return;
+        
+        if (documentHeader.getWorkflowDocument().stateIsApproved()) {
+            DocumentService documentService = SpringContext.getBean(DocumentService.class);
+            try {
+                MaintenanceDocument document = (MaintenanceDocument) documentService.getByDocumentHeaderId(documentHeader.getDocumentNumber());
+                Customer newCustomer = (Customer) document.getNewMaintainableObject().getBusinessObject();
+                Customer oldCustomer = (Customer) document.getOldMaintainableObject().getBusinessObject();
+                updateDates(oldCustomer, newCustomer);
+            } catch (WorkflowException e) {
+                LOG.error("caught exception while handling handleRouteStatusChange -> documentService.getByDocumentHeaderId(" + documentHeader.getDocumentNumber() + "). ", e);
 
+            }
+        }
+    }
+    
+    // Update dates (last activity date and address change date)
+    private void updateDates(Customer oldCustomer, Customer newCustomer) {
+        Date currentDate = getDateTimeService().getCurrentSqlDate();
         List oldAddresses = oldCustomer.getCustomerAddresses();
         List newAddresses = newCustomer.getCustomerAddresses();
+        boolean addressChangeFlag = false;
 
-        // if new address was added or one of the old addresses was changes set customerAddressChangeDate to the current date
+        // if new address was added or one of the old addresses was changed/deleted, set customerAddressChangeDate to the current date
         if (oldAddresses != null && newAddresses != null) {
             if (oldAddresses.size() != newAddresses.size()) {
                 newCustomer.setCustomerAddressChangeDate(currentDate);
                 newCustomer.setCustomerLastActivityDate(currentDate);
+                addressChangeFlag = true;
             }
             else {
                 for (int i = 0; i < oldAddresses.size(); i++) {
@@ -85,12 +106,17 @@ public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
                     if (oldAddress.compareTo(newAddress) != 0) {
                         newCustomer.setCustomerAddressChangeDate(currentDate);
                         newCustomer.setCustomerLastActivityDate(currentDate);
+                        addressChangeFlag = true;
                         break;
                     }
                 }
             }
         }
+        // if non address related change
+        if (!addressChangeFlag && !oldCustomer.equals(newCustomer))
+                newCustomer.setCustomerLastActivityDate(currentDate);
     }
+
 
     @Override
     public PersistableBusinessObject initNewCollectionLine(String collectionName) {

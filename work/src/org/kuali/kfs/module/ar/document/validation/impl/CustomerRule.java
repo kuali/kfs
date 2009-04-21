@@ -1,6 +1,7 @@
 package org.kuali.kfs.module.ar.document.validation.impl;
 
 import java.sql.Date;
+import java.util.List;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
@@ -60,7 +61,7 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
             if (isValid) {
                 isValid &= validateAddresses(newCustomer);
             }
-            
+
             if (isValid) {
                 isValid &= checkAddresses(newCustomer);
             }
@@ -68,13 +69,13 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
             if (isValid) {
                 isValid &= checkTaxNumber(newCustomer);
             }
-            
+
             if (isValid) {
                 isValid &= checkNameIsValidLength(newCustomer.getCustomerName());
             }
 
-            //TODO This should probably be done in a BO 'before insert' hook, rather than in the business rule validation, 
-            //     unless there's some reason not clear why it needs to happen here.
+            // TODO This should probably be done in a BO 'before insert' hook, rather than in the business rule validation,
+            // unless there's some reason not clear why it needs to happen here.
             if (isValid && document.isNew() && StringUtils.isBlank(newCustomer.getCustomerNumber())) {
                 isValid &= setCustomerNumber();
             }
@@ -85,11 +86,12 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
 
     /**
      * This method sets the new customer number
+     * 
      * @return Returns true if the customer number is set successfully, false otherwise.
      */
     private boolean setCustomerNumber() {
-        //TODO This should probably be done in a BO 'before insert' hook, rather than in the business rule validation, 
-        //     unless there's some reason not clear why it needs to happen here.
+        // TODO This should probably be done in a BO 'before insert' hook, rather than in the business rule validation,
+        // unless there's some reason not clear why it needs to happen here.
         boolean success = true;
         try {
             String customerNumber = SpringContext.getBean(CustomerService.class).getNextCustomerNumber(newCustomer);
@@ -97,8 +99,10 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
             if (oldCustomer != null) {
                 oldCustomer.setCustomerNumber(customerNumber);
             }
-        } catch(StringIndexOutOfBoundsException sibe) {
-            // It is expected that if a StringIndexOutOfBoundsException occurs, it is due to the customer name being less than three characters
+        }
+        catch (StringIndexOutOfBoundsException sibe) {
+            // It is expected that if a StringIndexOutOfBoundsException occurs, it is due to the customer name being less than three
+            // characters
             GlobalVariables.getErrorMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.CustomerFields.CUSTOMER_NAME, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_NAME_LESS_THAN_THREE_CHARACTERS);
             success = false;
         }
@@ -122,7 +126,8 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument, java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
+     *      java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
      */
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
@@ -133,12 +138,12 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
 
         if (collectionName.equals(ArPropertyConstants.CustomerFields.CUSTOMER_TAB_ADDRESSES)) {
             CustomerAddress customerAddress = (CustomerAddress) line;
-            
+
             if (isValid) {
                 isValid &= checkAddressIsValid(customerAddress);
                 isValid &= validateEndDateForNewAddressLine(customerAddress.getCustomerAddressEndDate());
             }
-            
+
             if (isValid) {
                 Customer customer = (Customer) document.getNewMaintainableObject().getBusinessObject();
                 if (customerAddress.getCustomerAddressTypeCode().equalsIgnoreCase(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY)) {
@@ -147,11 +152,12 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
                         if (customer.getCustomerAddresses().get(i).getCustomerAddressTypeCode().equalsIgnoreCase(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY)) {
                             customer.getCustomerAddresses().get(i).setCustomerAddressTypeCode(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_ALTERNATE);
                             // OK
-                            //break;
+                            // break;
                         }
                     }
                 }
-                // if new address is not Primary, check if there is an active primary address for this customer. If not, make a new address primary
+                // if new address is not Primary, check if there is an active primary address for this customer. If not, make a new
+                // address primary
                 else {
                     boolean isActivePrimaryAddress = false;
                     Date endDate;
@@ -159,15 +165,16 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
                     for (int i = 0; i < customer.getCustomerAddresses().size(); i++) {
                         if (customer.getCustomerAddresses().get(i).getCustomerAddressTypeCode().equalsIgnoreCase(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY)) {
                             endDate = customer.getCustomerAddresses().get(i).getCustomerAddressEndDate();
-                            // check if endDate qualifies this customer address as inactive (if endDate is a passed date or present date)
-                            if (!checkEndDateIsValid(endDate,false))
+                            // check if endDate qualifies this customer address as inactive (if endDate is a passed date or present
+                            // date)
+                            if (!checkEndDateIsValid(endDate, false))
                                 customer.getCustomerAddresses().get(i).setCustomerAddressTypeCode(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_ALTERNATE);
                             else
                                 isActivePrimaryAddress = true;
                         }
                     }
                     if (!isActivePrimaryAddress)
-                        customerAddress.setCustomerAddressTypeCode(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY);      
+                        customerAddress.setCustomerAddressTypeCode(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY);
                 }
             }
         }
@@ -175,11 +182,9 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
         return isValid;
 
     }
- 
+
     /**
-     * 
-     * This method checks if customer end date is valid:
-     * 1. if a new address is being added, customer end date must be a future date
+     * This method checks if customer end date is valid: 1. if a new address is being added, customer end date must be a future date
      * 2. if inactivating an address, customer end date must be current or future date
      * 
      * @param endDate
@@ -188,10 +193,10 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
      */
     public boolean checkEndDateIsValid(Date endDate, boolean canBeTodaysDateFlag) {
         boolean isValid = true;
-        
+
         if (ObjectUtils.isNull(endDate))
             return isValid;
-        
+
         Timestamp today = dateTimeService.getCurrentTimestamp();
         today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime());
 
@@ -206,23 +211,23 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
                 isValid = false;
             }
         }
-        
+
         return isValid;
     }
-    
+
     public boolean validateEndDateForNewAddressLine(Date endDate) {
-        boolean isValid = checkEndDateIsValid(endDate,false);
+        boolean isValid = checkEndDateIsValid(endDate, false);
         if (!isValid) {
             String propertyName = ArPropertyConstants.CustomerFields.CUSTOMER_TAB_ADDRESSES_ADD_NEW_ADDRESS + "." + ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS_END_DATE;
             putFieldError(propertyName, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_END_DATE_MUST_BE_FUTURE_DATE);
         }
-        
-        return isValid;  
+
+        return isValid;
     }
-    
+
     public boolean validateEndDateForExistingCustomerAddress(Date newEndDate, int ind) {
-        boolean isValid = checkEndDateIsValid(newEndDate,true);
-        
+        boolean isValid = checkEndDateIsValid(newEndDate, true);
+
         // valid end date for an existing customer address;
         // 1. blank <=> no date entered
         // 2. todays date -> makes address inactive
@@ -234,7 +239,7 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
         if (!isValid) {
             Date oldEndDate = oldCustomer.getCustomerAddresses().get(ind).getCustomerAddressEndDate();
             // passed end date has been entered
-            if (ObjectUtils.isNull(oldEndDate) || ObjectUtils.isNotNull(oldEndDate) && !oldEndDate.toString().equals(newEndDate.toString()) ) {
+            if (ObjectUtils.isNull(oldEndDate) || ObjectUtils.isNotNull(oldEndDate) && !oldEndDate.toString().equals(newEndDate.toString())) {
                 String propertyName = ArPropertyConstants.CustomerFields.CUSTOMER_TAB_ADDRESSES + "[" + ind + "]." + ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS_END_DATE;
                 putFieldError(propertyName, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_END_DATE_MUST_BE_CURRENT_OR_FUTURE_DATE);
             }
@@ -244,11 +249,10 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
         }
         return isValid;
     }
-    
+
     /**
-     * 
-     * This method checks if the customer name entered is greater than or equal to three (3) characters long.
-     * This rule was implemented to ensure that there are three characters available from the name to be used as a the customer code.
+     * This method checks if the customer name entered is greater than or equal to three (3) characters long. This rule was
+     * implemented to ensure that there are three characters available from the name to be used as a the customer code.
      * 
      * @param customerName The name of the customer.
      * @return True if the name is greater than or equal to 3 characters long.
@@ -259,14 +263,14 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
             success = false;
             GlobalVariables.getErrorMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.CustomerFields.CUSTOMER_NAME, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_NAME_LESS_THAN_THREE_CHARACTERS);
         }
-        
-        if(customerName.indexOf(' ')>-1 && customerName.indexOf(' ')<3) {
+
+        if (customerName.indexOf(' ') > -1 && customerName.indexOf(' ') < 3) {
             success = false;
             GlobalVariables.getErrorMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.CustomerFields.CUSTOMER_NAME, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_NAME_NO_SPACES_IN_FIRST_THREE_CHARACTERS);
         }
         return success;
     }
-    
+
     /**
      * This method checks if the address is valid
      * 
@@ -291,18 +295,20 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
         else {
             if (customerAddress.getCustomerInternationalMailCode() == null || "".equalsIgnoreCase(customerAddress.getCustomerInternationalMailCode())) {
                 isValid = false;
-                //GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS_INTERNATIONAL_MAIL_CODE, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_INTERNATIONAL_MAIL_CODE_REQUIRED_WHEN_COUNTTRY_NON_US);
+                // GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS_INTERNATIONAL_MAIL_CODE,
+                // ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_INTERNATIONAL_MAIL_CODE_REQUIRED_WHEN_COUNTTRY_NON_US);
                 putFieldError(propertyName + ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS_INTERNATIONAL_MAIL_CODE, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_INTERNATIONAL_MAIL_CODE_REQUIRED_WHEN_COUNTTRY_NON_US);
             }
             if (customerAddress.getCustomerAddressInternationalProvinceName() == null || "".equalsIgnoreCase(customerAddress.getCustomerAddressInternationalProvinceName())) {
                 isValid = false;
-                //GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS_INTERNATIONAL_PROVINCE_NAME, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_INTERNATIONAL_PROVINCE_NAME_REQUIRED_WHEN_COUNTTRY_NON_US);
+                // GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS_INTERNATIONAL_PROVINCE_NAME,
+                // ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_INTERNATIONAL_PROVINCE_NAME_REQUIRED_WHEN_COUNTTRY_NON_US);
                 putFieldError(propertyName + ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS_INTERNATIONAL_PROVINCE_NAME, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_INTERNATIONAL_PROVINCE_NAME_REQUIRED_WHEN_COUNTTRY_NON_US);
             }
         }
         return isValid;
     }
-    
+
     public boolean checkAddressIsValid(CustomerAddress customerAddress) {
         boolean isValid = true;
 
@@ -329,7 +335,7 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
         }
         return isValid;
     }
-    
+
     /**
      * This method checks if the customer addresses are valid: has one and only one primary address
      * 
@@ -358,17 +364,17 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
         }
         return isValid;
     }
-    
+
     public boolean validateAddresses(Customer customer) {
         boolean isValid = true;
         int i = 0;
         for (CustomerAddress customerAddress : customer.getCustomerAddresses()) {
-            isValid &= checkAddressIsValid(customerAddress,i);
-            isValid &= validateEndDateForExistingCustomerAddress(customerAddress.getCustomerAddressEndDate(),i);
+            isValid &= checkAddressIsValid(customerAddress, i);
+            isValid &= validateEndDateForExistingCustomerAddress(customerAddress.getCustomerAddressEndDate(), i);
             i++;
         }
-        
-        
+
+
         if (isValid) {
             i = 0;
             for (CustomerAddress customerAddress : customer.getCustomerAddresses()) {
@@ -380,19 +386,19 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
 
         return isValid;
     }
-    
+
     public boolean checkIfPrimaryAddressActive(Date newEndDate, int ind) {
         // if here -> this is a Primary Address, customer end date is not null
         boolean isActiveAddressFlag = checkEndDateIsValid(newEndDate, false);
-        
+
         if (!isActiveAddressFlag) {
             String propertyName = ArPropertyConstants.CustomerFields.CUSTOMER_TAB_ADDRESSES + "[" + ind + "]." + ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS_END_DATE;
-            putFieldError(propertyName,ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_PRIMARY_ADDRESS_MUST_HAVE_FUTURE_END_DATE);
-        } 
+            putFieldError(propertyName, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_PRIMARY_ADDRESS_MUST_HAVE_FUTURE_END_DATE);
+        }
 
         return isActiveAddressFlag;
     }
-    
+
     /**
      * This method checks if tax number is entered when tax number is required
      * 

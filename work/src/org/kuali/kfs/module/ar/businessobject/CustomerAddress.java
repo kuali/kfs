@@ -379,46 +379,47 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     public int compareTo(CustomerAddress address) {
-
         if (this.getCustomerNumber() != null && address.getCustomerNumber() != null && !this.getCustomerNumber().equalsIgnoreCase(address.getCustomerNumber())) {
             return -1;
         }
-
         if (this.getCustomerAddressName() != null && address.getCustomerAddressName() != null && !this.getCustomerAddressName().equalsIgnoreCase(address.getCustomerAddressName())) {
             return -1;
         }
-
         if (this.getCustomerLine1StreetAddress() != null && address.getCustomerLine1StreetAddress() != null && !this.getCustomerLine1StreetAddress().equalsIgnoreCase(address.getCustomerLine1StreetAddress())) {
             return -1;
         }
-
-        if (this.getCustomerLine2StreetAddress() != null && address.getCustomerLine2StreetAddress() != null && !this.getCustomerLine2StreetAddress().equalsIgnoreCase(address.getCustomerLine2StreetAddress())) {
+        if (this.getCustomerLine2StreetAddress() != null && address.getCustomerLine2StreetAddress() != null && !this.getCustomerLine2StreetAddress().equalsIgnoreCase(address.getCustomerLine2StreetAddress())
+            || (this.getCustomerLine2StreetAddress() == null && address.getCustomerLine2StreetAddress() != null) || (this.getCustomerLine2StreetAddress() != null && address.getCustomerLine2StreetAddress() == null)) {
             return -1;
         }
-
         if (this.getCustomerCityName() != null && address.getCustomerCityName() != null && !this.getCustomerCityName().equalsIgnoreCase(address.getCustomerCityName())) {
             return -1;
         }
-        if (this.getCustomerStateCode() != null && address.getCustomerStateCode() != null && !this.getCustomerStateCode().equalsIgnoreCase(address.getCustomerStateCode())) {
+        if (this.getCustomerStateCode() != null && address.getCustomerStateCode() != null && !this.getCustomerStateCode().equalsIgnoreCase(address.getCustomerStateCode())
+            || (this.getCustomerStateCode() == null && address.getCustomerStateCode() != null) || (this.getCustomerStateCode() != null && address.getCustomerStateCode() == null)) {
             return -1;
         }
-        if (this.getCustomerZipCode() != null && address.getCustomerZipCode() != null && !this.getCustomerZipCode().equalsIgnoreCase(address.getCustomerZipCode())) {
+        if (this.getCustomerZipCode() != null && address.getCustomerZipCode() != null && !this.getCustomerZipCode().equalsIgnoreCase(address.getCustomerZipCode())
+            || (this.getCustomerZipCode() == null && address.getCustomerZipCode() != null) || (this.getCustomerZipCode() != null && address.getCustomerZipCode() == null)) {
             return -1;
         }
         if (this.getCustomerCountryCode() != null && address.getCustomerCountryCode() != null && !this.getCustomerCountryCode().equalsIgnoreCase(address.getCustomerCountryCode())) {
             return -1;
         }
-        if (this.getCustomerAddressInternationalProvinceName() != null && address.getCustomerAddressInternationalProvinceName() != null && !this.getCustomerAddressInternationalProvinceName().equalsIgnoreCase(address.getCustomerAddressInternationalProvinceName())) {
+        if (this.getCustomerAddressInternationalProvinceName() != null && address.getCustomerAddressInternationalProvinceName() != null && !this.getCustomerAddressInternationalProvinceName().equalsIgnoreCase(address.getCustomerAddressInternationalProvinceName())
+            || (this.getCustomerAddressInternationalProvinceName() == null && address.getCustomerAddressInternationalProvinceName() != null) || (this.getCustomerAddressInternationalProvinceName() != null && address.getCustomerAddressInternationalProvinceName() == null)) {
             return -1;
         }
-        if (this.getCustomerEmailAddress() != null && address.getCustomerEmailAddress() != null && !this.getCustomerEmailAddress().equalsIgnoreCase(address.getCustomerZipCode())) {
+        if (this.getCustomerEmailAddress() != null && address.getCustomerEmailAddress() != null && !this.getCustomerEmailAddress().equalsIgnoreCase(address.getCustomerEmailAddress())
+            || (this.getCustomerEmailAddress() == null && address.getCustomerEmailAddress() != null) || (this.getCustomerEmailAddress() != null && address.getCustomerEmailAddress() == null)) {
             return -1;
         }
-        if (this.getCustomerAddressTypeCode() != null && address.getCustomerAddressTypeCode() != null && !this.getCustomerAddressTypeCode().equalsIgnoreCase(address.getCustomerAddressTypeCode())) {
+        if (this.getCustomerAddressTypeCode() != null && address.getCustomerAddressTypeCode() != null && !this.getCustomerAddressTypeCode().equalsIgnoreCase(address.getCustomerAddressTypeCode())
+            || (this.getCustomerAddressTypeCode() == null && address.getCustomerAddressTypeCode() != null) || (this.getCustomerAddressTypeCode() != null && address.getCustomerAddressTypeCode() == null)) {
             return -1;
         }
-
-        if (this.getCustomerAddressIdentifier() != null && address.getCustomerAddressIdentifier() != null && this.getCustomerAddressIdentifier().compareTo(address.getCustomerAddressIdentifier())!= 0) {
+        if (this.getCustomerAddressIdentifier() != null && address.getCustomerAddressIdentifier() != null && this.getCustomerAddressIdentifier().compareTo(address.getCustomerAddressIdentifier())!= 0
+            || (this.getCustomerAddressIdentifier() == null && address.getCustomerAddressIdentifier() != null) || (this.getCustomerAddressIdentifier() != null && address.getCustomerAddressIdentifier() == null)) {
             return -1;
         }
         return 0;

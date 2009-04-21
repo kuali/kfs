@@ -259,8 +259,6 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
         Map valuesMap = super.getValuesMap();
         // remove document number
         valuesMap.remove(KFSPropertyConstants.DOCUMENT_NUMBER);
-        // put purap identifier
-        valuesMap.put("purapDocumentIdentifier", ((PurApItem)getPurapItem()).getPurapDocumentIdentifier());
         return valuesMap;
     }
 

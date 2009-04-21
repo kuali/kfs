@@ -20,7 +20,7 @@ import org.kuali.rice.core.util.JSTLConstants;
 public class CabConstants extends JSTLConstants {
     public static final String ASSET_PAYMENT_DOCUMENT = "MPAY";
     public static final String ASSET_GLOBAL_MAINTENANCE_DOCUMENT = "AA";
-    
+
     public static final String PREQ = "PREQ";
     public static final String CM = "CM";
 
@@ -43,7 +43,7 @@ public class CabConstants extends JSTLConstants {
         public static final String MONTH_DAY_YEAR = "MM/dd/yyyy";
         public static final String MILITARY_TIME = "HH:mm:ss";
     }
-    
+
     public static class Parameters {
         public static final String LAST_EXTRACT_TIME = "LAST_EXTRACT_TIME";
         public static final String SUB_FUND_GROUPS = "SUB_FUND_GROUPS";
@@ -70,6 +70,7 @@ public class CabConstants extends JSTLConstants {
         public static final String CREATE_ASSET = "createAsset";
         public static final String APPLY_PAYMENT = "applyPayment";
         public static final String PERCENT_PAYMENT = "percent payment";
+        public static final String VIEW_DOC = "viewDoc";
     }
 
     public static class ValidationStrings {
@@ -78,7 +79,7 @@ public class CabConstants extends JSTLConstants {
         public static final String RECURRING = "Recurring";
         public static final String NON_RECURRING = "Non-recurring";
     }
-    
+
     public static class ActivityStatusCode {
         public static final String NEW = "N";
         public static final String MODIFIED = "M";

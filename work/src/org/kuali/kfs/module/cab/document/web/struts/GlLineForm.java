@@ -38,19 +38,18 @@ public class GlLineForm extends KualiForm {
 
     @Override
     public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
-        if (StringUtils.equals(methodToCallParameterName, KNSConstants.DISPATCH_REQUEST_PARAMETER) &&
-                StringUtils.equals(methodToCallParameterValue, CabConstants.Actions.PROCESS)) {
+        if (StringUtils.equals(methodToCallParameterName, KNSConstants.DISPATCH_REQUEST_PARAMETER) && (StringUtils.equals(methodToCallParameterValue, CabConstants.Actions.PROCESS) || StringUtils.equals(methodToCallParameterValue, CabConstants.Actions.VIEW_DOC))) {
             return true;
         }
         return super.shouldMethodToCallParameterBeUsed(methodToCallParameterName, methodToCallParameterValue, request);
     }
-    
+
     @Override
     public void addRequiredNonEditableProperties() {
         super.addRequiredNonEditableProperties();
         registerRequiredNonEditableProperty(CabPropertyConstants.GeneralLedgerEntry.GENERAL_LEDGER_ACCOUNT_IDENTIFIER);
     }
-    
+
     public GlLineForm() {
         this.relatedGlEntries = new ArrayList<GeneralLedgerEntry>();
     }

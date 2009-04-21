@@ -110,8 +110,8 @@
             <stringProp name="-265713450">username</stringProp>
           </collectionProp>
           <collectionProp name="UserParameters.thread_values">
-            <collectionProp name="934845763">
-              <stringProp name="-1231992094">bomiddle</stringProp>
+            <collectionProp name="2051813379">
+              <stringProp name="-1231992094">khuntley</stringProp>
             </collectionProp>
           </collectionProp>
           <boolProp name="UserParameters.per_iteration">true</boolProp>
@@ -859,6 +859,15 @@
               </collectionProp>
             </HeaderManager>
             <hashTree/>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract Document Number" enabled="true">
+              <stringProp name="RegexExtractor.default"></stringProp>
+              <stringProp name="RegexExtractor.regex">&lt;input type=&quot;hidden&quot; name=&quot;document.documentHeader.documentNumber&quot; value=&quot;([^&quot;]*)&quot;</stringProp>
+              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.match_number"></stringProp>
+              <stringProp name="RegexExtractor.refname">documentNumber</stringProp>
+            </RegexExtractor>
+            <hashTree/>
           </hashTree>
           <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/dwr/engine.js" enabled="true">
             <stringProp name="HTTPSampler.path">${context}/dwr/engine.js</stringProp>
@@ -1559,7 +1568,8 @@
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
-                  <stringProp name="Argument.value">321355</stringProp>
+                  <stringProp name="Argument.value">${documentNumber}</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">routeHeaderId</stringProp>
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 </elementProp>
@@ -1636,7 +1646,7 @@
                   <stringProp name="Header.name">Accept-Encoding</stringProp>
                 </elementProp>
                 <elementProp name="" elementType="Header">
-                  <stringProp name="Header.value">${protocol}://${host}:${port}${context}/kew/RouteLog.do?routeHeaderId=321355</stringProp>
+                  <stringProp name="Header.value">${protocol}://${host}:${port}${context}/kew/RouteLog.do?routeHeaderId=${documentNumber}</stringProp>
                   <stringProp name="Header.name">Referer</stringProp>
                 </elementProp>
                 <elementProp name="" elementType="Header">
@@ -1679,6 +1689,7 @@
                 <elementProp name="" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">main</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">selectedTab</stringProp>
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 </elementProp>
@@ -1827,18 +1838,21 @@
                 <elementProp name="" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">docHandler</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">methodToCall</stringProp>
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 </elementProp>
                 <elementProp name="" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">initiate</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">command</stringProp>
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 </elementProp>
                 <elementProp name="" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">ST</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">docTypeName</stringProp>
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 </elementProp>
@@ -1888,6 +1902,15 @@
                 </elementProp>
               </collectionProp>
             </HeaderManager>
+            <hashTree/>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract Document Number" enabled="true">
+              <stringProp name="RegexExtractor.default"></stringProp>
+              <stringProp name="RegexExtractor.regex">&lt;input type=&quot;hidden&quot; name=&quot;document.documentHeader.documentNumber&quot; value=&quot;([^&quot;]*)&quot;</stringProp>
+              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.match_number"></stringProp>
+              <stringProp name="RegexExtractor.refname">documentNumber</stringProp>
+            </RegexExtractor>
             <hashTree/>
           </hashTree>
           <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/dwr/engine.js" enabled="true">
@@ -2492,7 +2515,7 @@
                 <stringProp name="Header.name">Accept-Encoding</stringProp>
               </elementProp>
               <elementProp name="" elementType="Header">
-                <stringProp name="Header.value">${protocol}://${host}:${port}${context}/kew/RouteLog.do?routeHeaderId=321356</stringProp>
+                <stringProp name="Header.value">${protocol}://${host}:${port}${context}/kew/RouteLog.do?routeHeaderId=${documentNumber}</stringProp>
                 <stringProp name="Header.name">Referer</stringProp>
               </elementProp>
               <elementProp name="" elementType="Header">
@@ -2534,7 +2557,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <stringProp name="Argument.metadata">=</stringProp>
-                <stringProp name="Argument.value">321356</stringProp>
+                <stringProp name="Argument.value">${documentNumber}</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">routeHeaderId</stringProp>
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
@@ -2736,6 +2759,15 @@
               </elementProp>
             </collectionProp>
           </HeaderManager>
+          <hashTree/>
+          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract Document Number" enabled="true">
+            <stringProp name="RegexExtractor.default"></stringProp>
+            <stringProp name="RegexExtractor.regex">&lt;input type=&quot;hidden&quot; name=&quot;document.documentHeader.documentNumber&quot; value=&quot;([^&quot;]*)&quot;</stringProp>
+            <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+            <stringProp name="RegexExtractor.template">$1$</stringProp>
+            <stringProp name="RegexExtractor.match_number"></stringProp>
+            <stringProp name="RegexExtractor.refname">documentNumber</stringProp>
+          </RegexExtractor>
           <hashTree/>
         </hashTree>
         <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/laborBenefitExpenseTransfer.do" enabled="true">
@@ -3331,7 +3363,8 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <stringProp name="Argument.metadata">=</stringProp>
-                <stringProp name="Argument.value">321357</stringProp>
+                <stringProp name="Argument.value">${documentNumber}</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">routeHeaderId</stringProp>
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
               </elementProp>
@@ -3408,7 +3441,7 @@
                 <stringProp name="Header.name">Accept-Encoding</stringProp>
               </elementProp>
               <elementProp name="" elementType="Header">
-                <stringProp name="Header.value">${protocol}://${host}:${port}${context}/kew/RouteLog.do?routeHeaderId=321357</stringProp>
+                <stringProp name="Header.value">${protocol}://${host}:${port}${context}/kew/RouteLog.do?routeHeaderId=${documentNumber}</stringProp>
                 <stringProp name="Header.name">Referer</stringProp>
               </elementProp>
               <elementProp name="" elementType="Header">
@@ -3929,30 +3962,35 @@
               <elementProp name="" elementType="HTTPArgument">
                 <stringProp name="Argument.metadata">=</stringProp>
                 <stringProp name="Argument.value">start</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">methodToCall</stringProp>
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
               </elementProp>
               <elementProp name="" elementType="HTTPArgument">
                 <stringProp name="Argument.metadata">=</stringProp>
                 <stringProp name="Argument.value">org.kuali.kfs.module.ld.businessobject.AccountStatusCurrentFunds</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">businessObjectClassName</stringProp>
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
               </elementProp>
               <elementProp name="" elementType="HTTPArgument">
                 <stringProp name="Argument.metadata">=</stringProp>
                 <stringProp name="Argument.value">88888888</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">docFormKey</stringProp>
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
               </elementProp>
               <elementProp name="" elementType="HTTPArgument">
                 <stringProp name="Argument.metadata">=</stringProp>
                 <stringProp name="Argument.value">portal.do</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">returnLocation</stringProp>
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
               </elementProp>
               <elementProp name="" elementType="HTTPArgument">
                 <stringProp name="Argument.metadata">=</stringProp>
                 <stringProp name="Argument.value">true</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">hideReturnLink</stringProp>
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
               </elementProp>
@@ -4237,30 +4275,35 @@
               <elementProp name="" elementType="HTTPArgument">
                 <stringProp name="Argument.metadata">=</stringProp>
                 <stringProp name="Argument.value">start</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">methodToCall</stringProp>
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
               </elementProp>
               <elementProp name="" elementType="HTTPArgument">
                 <stringProp name="Argument.metadata">=</stringProp>
                 <stringProp name="Argument.value">org.kuali.kfs.module.ld.businessobject.LaborCalculatedSalaryFoundationTracker</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">businessObjectClassName</stringProp>
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
               </elementProp>
               <elementProp name="" elementType="HTTPArgument">
                 <stringProp name="Argument.metadata">=</stringProp>
                 <stringProp name="Argument.value">88888888</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">docFormKey</stringProp>
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
               </elementProp>
               <elementProp name="" elementType="HTTPArgument">
                 <stringProp name="Argument.metadata">=</stringProp>
                 <stringProp name="Argument.value">portal.do</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">returnLocation</stringProp>
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
               </elementProp>
               <elementProp name="" elementType="HTTPArgument">
                 <stringProp name="Argument.metadata">=</stringProp>
                 <stringProp name="Argument.value">true</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">hideReturnLink</stringProp>
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
               </elementProp>

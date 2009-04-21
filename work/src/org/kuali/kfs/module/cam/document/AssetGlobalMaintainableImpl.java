@@ -345,6 +345,7 @@ public class AssetGlobalMaintainableImpl extends FinancialSystemGlobalMaintainab
                 newAssetUnique.setCapitalAssetTypeCode(assetGlobal.getCapitalAssetTypeCode());
                 newAssetUnique.setCapitalAssetDescription(assetGlobal.getCapitalAssetDescription());
                 newAssetUnique.setManufacturerName(assetGlobal.getManufacturerName());
+                newAssetUnique.setOrganizationInventoryName(this.getAsset(assetGlobal).getOrganizationInventoryName());
                 newAssetUnique.setSeparateSourceAmount(KualiDecimal.ZERO);
             }
             assetGlobalDetail.getAssetGlobalUniqueDetails().add(newAssetUnique);

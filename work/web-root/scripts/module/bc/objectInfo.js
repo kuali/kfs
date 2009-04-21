@@ -77,40 +77,47 @@ BudgetObjectInfoUpdator.prototype.loadDurationInfo = function(durationCodeFieldN
     var requestedCsfTimePercentField = document.getElementById(fieldNamePrefix + requestedCsfTimePercentSuffix);
     var requestedCsfFteQuantityField = document.getElementById(fieldNamePrefix + requestedCsfFteQuantitySuffix);
 
-	if (durationCode==emptyString) {
-		setRecipientValue(durationDescriptionFieldName, emptyString);
-	}
-	else {
-		var isDefualtCode = (durationCode == "NONE");								
-		if(isDefualtCode){
-			requestedCsfAmountField.setAttribute('disabled', 'disabled');
-			requestedCsfAmountField.setAttribute('value', emptyString);
-			
-			requestedCsfTimePercentField.setAttribute('disabled', 'disabled');
-			requestedCsfTimePercentField.setAttribute('value', emptyString);
-			
-			requestedCsfFteQuantityField.setAttribute('value', emptyString);
+    var durationCodeField = document.getElementById(durationCodeFieldName);
+
+	if (durationCodeField.defaultValue != durationCode){
+		durationCodeField.defaultValue = durationCode;
+		
+		if (durationCode==emptyString) {
+			setRecipientValue(durationDescriptionFieldName, emptyString);
 		}
-		else{
-			requestedCsfAmountField.removeAttribute('disabled');
-			requestedCsfTimePercentField.removeAttribute('disabled');
-		} 
-		
-		var dwrReply = {
-			callback:function(data) {
-			if ( data != null && typeof data == 'object' ) {								
-				setRecipientValue( durationDescriptionFieldName, data.appointmentDurationDescription);
-			} else {
-				setRecipientValue( durationDescriptionFieldName, wrapError( "duration not found" ), true );	
-				requestedCsfAmountField.setAttribute('disabled', 'disabled');
-				requestedCsfTimePercentField.setAttribute('disabled', 'disabled');		
-			} },
-			errorHandler:function( errorMessage ) { 
-				setRecipientValue( durationDescriptionFieldName, wrapError( "duration not found" ), true );
+		else {
+			var isDefualtCode = (durationCode == "NONE");								
+			if(isDefualtCode){
+				requestedCsfAmountField.setAttribute('disabled', true);
+				requestedCsfAmountField.setAttribute('value', emptyString);
+			
+				requestedCsfTimePercentField.setAttribute('disabled', true);
+				requestedCsfTimePercentField.setAttribute('value', emptyString);
+	
+				setRecipientValue( fieldNamePrefix + requestedCsfFteQuantitySuffix , emptyString );			
 			}
-		};
-		
-		BudgetConstructionDurationService.getByPrimaryId( durationCode, dwrReply );
+			else{
+				requestedCsfAmountField.setAttribute('disabled', false);
+				requestedCsfTimePercentField.setAttribute('disabled', false);
+				requestedCsfAmountField.focus();
+			} 
+
+			var dwrReply = {
+				callback:function(data) {
+				if ( data != null && typeof data == 'object' ) {								
+					setRecipientValue( durationDescriptionFieldName, data.appointmentDurationDescription);
+				} else {
+					setRecipientValue( durationDescriptionFieldName, wrapError( "duration not found" ), true );	
+					requestedCsfAmountField.setAttribute('disabled', true);
+					requestedCsfTimePercentField.setAttribute('disabled', true);		
+				} },
+				errorHandler:function( errorMessage ) { 
+					setRecipientValue( durationDescriptionFieldName, wrapError( "duration not found" ), true );
+				}
+			};
+
+			BudgetConstructionDurationService.getByPrimaryId( durationCode, dwrReply );
+		}
 	}
 }
 
@@ -121,26 +128,35 @@ BudgetObjectInfoUpdator.prototype.loadReasonCodeInfo = function(reasonAmountFiel
     var reasonCode = DWRUtil.getValue( reasonCodeFieldName ).trim();
     var reasonAmountField = document.getElementById(reasonAmountFieldName);
 
-	if (reasonCode=='') {
-		setRecipientValue(reasonDescriptionFieldName, emptyString);
-		reasonAmountField.setAttribute('disabled', 'disabled');
-	} else {
-		reasonAmountField.removeAttribute('disabled');
-		
-		var dwrReply = {
-			callback:function(data) {
-			if ( data != null && typeof data == 'object' ) {
-				setRecipientValue( reasonDescriptionFieldName, data.appointmentFundingReasonDescription);
-			} else {
-				setRecipientValue( reasonDescriptionFieldName, wrapError( "reason not found" ), true );			
-			} },
-			errorHandler:function( errorMessage ) { 
-				setRecipientValue( reasonDescriptionFieldName, wrapError( "reason not found" ), true );
-			}
-		};
-		
-		BudgetConstructionAppointmentFundingReasonCodeService.getByPrimaryId( reasonCode, dwrReply );
-	}
+    var reasonCodeField = document.getElementById(reasonCodeFieldName);
+
+	if (reasonCodeField.defaultValue != reasonCode){
+		reasonCodeField.defaultValue = reasonCode;
+
+		if (reasonCode=='') {
+			setRecipientValue(reasonDescriptionFieldName, emptyString);
+			reasonAmountField.setAttribute('disabled', true);
+			reasonAmountField.setAttribute('value', emptyString);
+		} else {
+			reasonAmountField.setAttribute('disabled', false);
+			reasonAmountField.focus();
+	
+			var dwrReply = {
+				callback:function(data) {
+				if ( data != null && typeof data == 'object' ) {
+					setRecipientValue( reasonDescriptionFieldName, data.appointmentFundingReasonDescription);
+				} else {
+					setRecipientValue( reasonDescriptionFieldName, wrapError( "reason not found" ), true );			
+					reasonAmountField.setAttribute('disabled', true);
+				} },
+				errorHandler:function( errorMessage ) { 
+					setRecipientValue( reasonDescriptionFieldName, wrapError( "reason not found" ), true );
+				}
+			};
+	
+			BudgetConstructionAppointmentFundingReasonCodeService.getByPrimaryId( reasonCode, dwrReply );
+		}
+	} 
 }
 
 /**
@@ -263,10 +279,10 @@ BudgetObjectInfoUpdator.prototype.recalculateFTE = function(payMonthsFieldName, 
 				var formattedFTE = new Number(data).toFixed(5);
 				setRecipientValue( fteQuantityFieldName, formattedFTE );
 			} else {
-				setRecipientValue( fteQuantityFieldName, null );			
+				setRecipientValue( fteQuantityFieldName, emptyString );			
 			} },
 			errorHandler:function( errorMessage ) { 
-				setRecipientValue( fteQuantityFieldName, null );
+				setRecipientValue( fteQuantityFieldName, emptyString );
 			}
 		};
 		

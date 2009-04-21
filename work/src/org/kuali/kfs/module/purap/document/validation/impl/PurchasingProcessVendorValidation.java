@@ -45,6 +45,8 @@ public class PurchasingProcessVendorValidation extends PurchasingAccountsPayable
         boolean valid = true;
         PurchasingDocument purDocument = (PurchasingDocument) event.getDocument();
         ErrorMap errorMap = GlobalVariables.getErrorMap();
+        errorMap.clearErrorPath();
+        errorMap.addToErrorPath(PurapConstants.VENDOR_ERRORS);
         
         valid &= super.validate(event);        
         
@@ -96,6 +98,7 @@ public class PurchasingProcessVendorValidation extends PurchasingAccountsPayable
             errorMap.putError(VendorPropertyConstants.VENDOR_NAME, PurapKeyConstants.ERROR_INACTIVE_VENDOR);
         }
 
+        errorMap.clearErrorPath();
         return valid;
 
     }

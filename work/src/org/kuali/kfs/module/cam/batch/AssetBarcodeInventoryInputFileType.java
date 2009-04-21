@@ -246,27 +246,20 @@ public class AssetBarcodeInventoryInputFileType implements BatchInputFileSetType
         return isValid;
     }
 
-
     public String generageDoneFileWithDataFile(String fileUserIdentifer) {
-        // TODO Auto-generated method stub
         return null;
     }
-
 
     public String generateDoneFileName(Person user, String fileUserIdentifer) {
-        // TODO Auto-generated method stub
         return null;
     }
 
-
     public String generateFileName(String fileType, String principalName, String fileUserIdentifer) {
-        // TODO Auto-generated method stub
         return null;
     }
 
 
     public String getFileExtension(String fileType) {
-        // TODO Auto-generated method stub
         return null;
     }
 }

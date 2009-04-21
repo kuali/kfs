@@ -80,7 +80,7 @@
 						<td class="datacell center">
 						    <c:choose>
   						        <c:when test="${KualiForm.document.inquiryRendered}">
-							        <kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.ObjectCode" keyValues="financialObjectCode=${summaryAccount.account.financialObjectCode}&chartOfAccountsCode=${summaryAccount.account.chartOfAccountsCode}&postingYear=${summaryAccount.account.postingYear}" render="true">
+							        <kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.ObjectCode" keyValues="financialObjectCode=${summaryAccount.account.financialObjectCode}&chartOfAccountsCode=${summaryAccount.account.chartOfAccountsCode}&universityFiscalYear=${KualiForm.document.postingYear}" render="true">
 								        <bean:write name="KualiForm" property="summaryAccounts[${ctr}].account.financialObjectCode"/>
 							        </kul:inquiry>
 							        &nbsp;
@@ -93,7 +93,7 @@
 						<td class="datacell center">
 						    <c:choose>
   						        <c:when test="${KualiForm.document.inquiryRendered}">
-							        <kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.SubObjCd" keyValues="financialSubObjectCode=${summaryAccount.account.financialSubObjectCode}&financialObjectCode=${summaryAccount.account.financialObjectCode}&chartOfAccountsCode=${summaryAccount.account.chartOfAccountsCode}&postingYear=${summaryAccount.account.postingYear}" render="true">
+							        <kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.SubObjectCode" keyValues="accountNumber=${summaryAccount.account.accountNumber}&financialSubObjectCode=${summaryAccount.account.financialSubObjectCode}&financialObjectCode=${summaryAccount.account.financialObjectCode}&chartOfAccountsCode=${summaryAccount.account.chartOfAccountsCode}&universityFiscalYear=${KualiForm.document.postingYear}" render="true">
 								        <bean:write name="KualiForm" property="summaryAccounts[${ctr}].account.financialSubObjectCode"/>
 							        </kul:inquiry>
 							        &nbsp;

@@ -482,7 +482,7 @@
     <property name="name" value="creditMemoType"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Credit Memo Type"/>
-    <property name="shortLabel" value="CM Type"/>
+    <property name="shortLabel" value="Credit Memo Type"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>

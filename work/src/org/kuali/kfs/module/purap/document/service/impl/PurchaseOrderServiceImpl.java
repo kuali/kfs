@@ -33,6 +33,7 @@ import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.CreditMemoStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PODocumentsStrings;
 import org.kuali.kfs.module.purap.PurapConstants.POTransmissionMethods;
@@ -406,6 +407,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public KualiDecimal getInternalPurchasingDollarLimit(PurchaseOrderDocument document) {
         if ((document.getVendorContract() != null) && (document.getContractManager() != null)) {
             KualiDecimal contractDollarLimit = vendorService.getApoLimitFromContract(document.getVendorContract().getVendorContractGeneratedIdentifier(), document.getChartOfAccountsCode(), document.getOrganizationCode());
+            //FIXME somehow data fields such as contractManagerDelegationDollarLimit in reference object contractManager didn't get retrieved 
+            // (are null) as supposed to be (this happens whether or not proxy is set to true), even though contractManager is not null;
+            // so here we have to manually refresh the contractManager to retrieve the fields 
+            document.refreshReferenceObject(PurapPropertyConstants.CONTRACT_MANAGER);
             KualiDecimal contractManagerLimit = document.getContractManager().getContractManagerDelegationDollarLimit();
             if ((contractDollarLimit != null) && (contractManagerLimit != null)) {
                 if (contractDollarLimit.compareTo(contractManagerLimit) > 0) {
@@ -423,6 +428,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             }
         }
         else if ((document.getVendorContract() == null) && (document.getContractManager() != null)) {
+            //FIXME As above, here we have to manually refresh the contractManager to retrieve its field
+            document.refreshReferenceObject(PurapPropertyConstants.CONTRACT_MANAGER);
             return document.getContractManager().getContractManagerDelegationDollarLimit();
         }
         else if ((document.getVendorContract() != null) && (document.getContractManager() == null)) {

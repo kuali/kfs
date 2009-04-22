@@ -524,11 +524,9 @@ public class PurapServiceImpl implements PurapService {
         LOG.debug("getApoLimit() started");
 
         KualiDecimal purchaseOrderTotalLimit = vendorService.getApoLimitFromContract(vendorContractGeneratedIdentifier, chart, org);
-        if (ObjectUtils.isNull(purchaseOrderTotalLimit)) {
-            // We didn't find the limit on the vendor contract, get it from the org parameter table.
-            if (ObjectUtils.isNull(chart) || ObjectUtils.isNull(org)) {
-                return null;
-            }
+        
+        // We didn't find the limit on the vendor contract, get it from the org parameter table.
+        if (ObjectUtils.isNull(purchaseOrderTotalLimit) && !ObjectUtils.isNull(chart) && !ObjectUtils.isNull(org)) {
             OrganizationParameter organizationParameter = new OrganizationParameter();
             organizationParameter.setChartOfAccountsCode(chart);
             organizationParameter.setOrganizationCode(org);
@@ -538,8 +536,8 @@ public class PurapServiceImpl implements PurapService {
             purchaseOrderTotalLimit = (organizationParameter == null) ? null : organizationParameter.getOrganizationAutomaticPurchaseOrderLimit();
         }
         
-        String defaultLimit = parameterService.getParameterValue(RequisitionDocument.class, PurapParameterConstants.AUTOMATIC_PURCHASE_ORDER_DEFAULT_LIMIT_AMOUNT);
         if (ObjectUtils.isNull(purchaseOrderTotalLimit)) {
+            String defaultLimit = parameterService.getParameterValue(RequisitionDocument.class, PurapParameterConstants.AUTOMATIC_PURCHASE_ORDER_DEFAULT_LIMIT_AMOUNT);
             purchaseOrderTotalLimit = new KualiDecimal(defaultLimit);
         }
 

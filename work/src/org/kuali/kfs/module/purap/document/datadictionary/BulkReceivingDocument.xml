@@ -308,7 +308,7 @@
     <property name="name" value="deliveryToName"/>
     <property name="label" value="Delivery To"/>
     <property name="shortLabel" value="To"/>
-    <property name="required" value="true"/>
+    <property name="required" value="false"/>
   </bean>
   
   <bean id="BulkReceivingDocument-deliveryToPhoneNumber" parent="BulkReceivingDocument-deliveryToPhoneNumber-parentBean"/>

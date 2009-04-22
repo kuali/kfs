@@ -343,19 +343,18 @@ public class BulkReceivingPdf extends PurapPdf {
         StringBuffer shipToInfo = new StringBuffer();
         
         shipToInfo.append("\n");
-        shipToInfo.append("     " + StringUtils.defaultString(blkRecDoc.getDeliveryToName()) + "\n");
+        
+        if (StringUtils.isNotBlank(blkRecDoc.getDeliveryToName())){
+            shipToInfo.append("     " + StringUtils.defaultString(blkRecDoc.getDeliveryToName()) + "\n");    
+        }
         
         String deliveryBuildingName = blkRecDoc.getDeliveryBuildingName();
 
-        if (blkRecDoc.getPurchaseOrderIdentifier() != null){
+        if(StringUtils.isNotBlank(blkRecDoc.getDeliveryBuildingRoomNumber())){
             if (StringUtils.isBlank(deliveryBuildingName)){
                 shipToInfo.append("     Room #" + blkRecDoc.getDeliveryBuildingRoomNumber() + "\n");
             }else{
                 shipToInfo.append("     " + deliveryBuildingName + " Room #" + blkRecDoc.getDeliveryBuildingRoomNumber() + "\n");    
-            }
-        }else{ // Room number not available for non-PO doc
-            if (StringUtils.isNotBlank(deliveryBuildingName)){
-                shipToInfo.append("     " + deliveryBuildingName + "\n");
             }
         }
         

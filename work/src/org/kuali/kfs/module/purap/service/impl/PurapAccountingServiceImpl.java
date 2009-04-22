@@ -17,6 +17,8 @@ package org.kuali.kfs.module.purap.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -34,6 +36,7 @@ import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
 import org.kuali.kfs.module.purap.businessobject.PurApSummaryItem;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderView;
 import org.kuali.kfs.module.purap.dataaccess.PurApAccountingDao;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
@@ -491,7 +494,6 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     }
 
     /**
-     * 
      * Generates an account summary, that is it creates a list of source accounts
      * by rounding up the purap accounts off of the purap items.
      * @param items the items to determ
@@ -501,7 +503,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      * @param useAlternateAmount an alternate amount used in certain cases for GL entry
      * @return a list of source accounts
      */
-    private List<SourceAccountingLine> generateAccountSummary(List<PurApItem> items, Set itemTypeCodes, Boolean itemTypeCodesAreIncluded, 
+    private List<SourceAccountingLine> generateAccountSummary(List<PurApItem> items, Set<String> itemTypeCodes, Boolean itemTypeCodesAreIncluded, 
             Boolean useZeroTotals, Boolean useAlternateAmount, Boolean useTaxIncluded) {
         List<PurApItem> itemsToProcess = getProcessablePurapItems(items, itemTypeCodes, itemTypeCodesAreIncluded, useZeroTotals);
         Map<PurApAccountingLine,KualiDecimal> accountMap = new HashMap<PurApAccountingLine,KualiDecimal>();
@@ -512,7 +514,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                 if(!useTaxIncluded) {
                     //if no use tax set the source accounting lines to a clone so we can update
                     //them to be based on the non tax amount
-                    //TODO: do we still need the clone with the totalling stuff
+                    //TODO: do we still need the clone with the totaling stuff
                     PurApItem cloneItem = (PurApItem)ObjectUtils.deepCopy(currentItem);
                     sourceAccountingLines = cloneItem.getSourceAccountingLines();
                     updateAccountAmountsWithTotal(sourceAccountingLines, currentItem.getTotalRemitAmount());
@@ -573,6 +575,26 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
 //            }
             sourceAccounts.add(sourceLine);
         }
+        
+        // sort the sourceAccounts list first by account number, then by object code, ignoring chart code
+        Collections.sort(sourceAccounts, 
+                new Comparator<SourceAccountingLine>() {
+                    public int compare(SourceAccountingLine sal1, SourceAccountingLine sal2) {
+                        int compare = 0;
+                        if (sal1 != null && sal2 != null) {
+                            if (sal1.getAccountNumber() != null && sal2.getAccountNumber() != null) {                        
+                                compare = sal1.getAccountNumber().compareTo(sal2.getAccountNumber());    
+                                if (compare == 0) {
+                                    if (sal1.getFinancialObjectCode() != null && sal2.getFinancialObjectCode() != null)
+                                        compare =  sal1.getFinancialObjectCode().compareTo(sal2.getFinancialObjectCode());
+                                }
+                            }
+                        }
+                        return compare;
+                    }
+                }
+        );
+        
         return sourceAccounts;
     }
 

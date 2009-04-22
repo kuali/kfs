@@ -1182,12 +1182,20 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         this.taxClassificationCode = taxClassificationCode;
     }
 
+    public KualiDecimal getTaxFederalPercentShort() {
+        return new KualiDecimal(taxFederalPercent);
+    }
+
     public BigDecimal getTaxFederalPercent() {
         return taxFederalPercent;
     }
 
     public void setTaxFederalPercent(BigDecimal taxFederalPercent) {
         this.taxFederalPercent = taxFederalPercent;
+    }
+
+    public KualiDecimal getTaxStatePercentShort() {
+        return new KualiDecimal(taxStatePercent);
     }
 
     public BigDecimal getTaxStatePercent() {

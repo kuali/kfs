@@ -681,6 +681,10 @@
               p:attributeName="financialDocumentPostingPeriodCode" 
               p:useShortLabel="true" />
         <bean parent="FieldDefinition"
+              p:attributeName="asset.inventoryStatusCode"
+              p:noInquiry="true" 
+              p:useShortLabel="true" />
+        <bean parent="FieldDefinition"
               p:attributeName="asset.capitalAssetDescription"
               p:noInquiry="true" 
               p:useShortLabel="true" />

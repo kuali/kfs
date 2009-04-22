@@ -723,7 +723,6 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         String fullFileName = sourceFile.getFileName();
         
         BufferedReader br = new BufferedReader(new InputStreamReader(sourceFile.getInputStream()));
-        OriginEntryFileIterator originIterator = new OriginEntryFileIterator(br);
         //create a group
         File uploadedFile = originEntryGroupService.createGroup(fullFileName);
         PrintStream uploadedFilePrintStream;
@@ -735,10 +734,10 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         
         //write entries to file
         int loadedCount = 0;
-        while(originIterator.hasNext()){
-            OriginEntryFull entry = originIterator.next();
+        String stringLine;
+        while ((stringLine= br.readLine()) != null){
             try {
-                uploadedFilePrintStream.printf("%s\n", entry.getLine());
+                uploadedFilePrintStream.printf("%s\n", stringLine);
                 loadedCount++;
             } catch (Exception e) {
                 throw new IOException(e.toString());

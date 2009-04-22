@@ -875,6 +875,7 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntry, La
             }
             catch (ParseException e) {
                 setTransactionDate(null);
+                returnList.add(new Message("Transaction Date '" + line.substring(135, 145) + "' contains an invalid value." , Message.TYPE_FATAL));
             }
         } else {
             setTransactionDate(null);

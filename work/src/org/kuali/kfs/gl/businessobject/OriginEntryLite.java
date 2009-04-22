@@ -295,6 +295,7 @@ public class OriginEntryLite extends PersistableBusinessObjectBase implements Or
             }
             catch (ParseException e) {
                 setTransactionDate(null);
+                returnList.add(new Message("Transaction Date '" + line.substring(117, 127) + "' contains an invalid value." , Message.TYPE_FATAL));
             }
         } else {
             setTransactionDate(null);
@@ -308,7 +309,7 @@ public class OriginEntryLite extends PersistableBusinessObjectBase implements Or
         setReferenceFinancialDocumentNumber(getValue(line, 161, 175));
         if (!getValue(line, 175, 185).equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
-                setFinancialDocumentReversalDate(parseDate(getValue(line, 175, 185), true));
+                setFinancialDocumentReversalDate(parseDate(getValue(line, 175, 185), false));
             }
             catch (ParseException e) {
                 setFinancialDocumentReversalDate(null);

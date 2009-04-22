@@ -56,9 +56,12 @@ public class EffortCertificationReportDefinitionMaintenanceDocumentPreRules exte
      * @return boolean true to continue, false to correct the report definition
      */
     private boolean checkOverlappingReportPeriods(EffortCertificationReportDefinition reportDefinition) {
-        boolean isOverlapping = SpringContext.getBean(EffortCertificationAutomaticReportPeriodUpdateService.class).isAnOverlappingReportDefinition(reportDefinition);
-        String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(EffortKeyConstants.QUESTION_OVERLAPPING_REPORT_DEFINITION);
+        EffortCertificationAutomaticReportPeriodUpdateService reportPeriodUpdateService = SpringContext.getBean(EffortCertificationAutomaticReportPeriodUpdateService.class);
+        
+        boolean isOverlapping = reportPeriodUpdateService.isAnOverlappingReportDefinition(reportDefinition);
         if (isOverlapping) {
+            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(EffortKeyConstants.QUESTION_OVERLAPPING_REPORT_DEFINITION);
+
             boolean correctOverlappingReportDefinition = super.askOrAnalyzeYesNoQuestion(EffortConstants.GENERATE_EFFORT_CERTIFICATION_REPORT_DEFINITION_QUESTION_ID, questionText);
             if (correctOverlappingReportDefinition) {
                 super.event.setActionForwardName(KFSConstants.MAPPING_BASIC);
@@ -68,5 +71,4 @@ public class EffortCertificationReportDefinitionMaintenanceDocumentPreRules exte
 
         return true;
     }
-
 }

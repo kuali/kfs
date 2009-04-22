@@ -17,6 +17,7 @@ package org.kuali.kfs.module.ec.document.service.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 import org.kuali.kfs.module.ec.dataaccess.EffortCertificationReportDefinitionDao;
 import org.kuali.kfs.module.ec.document.service.EffortCertificationAutomaticReportPeriodUpdateService;
@@ -42,10 +43,11 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceImpl implement
      */
     public boolean isAnOverlappingReportDefinition(EffortCertificationReportDefinition reportDefinition) {
         List<EffortCertificationReportDefinition> potentialOverlappingRecords = reportDefinitionDao.getAllOtherActiveByType(reportDefinition);
-        
+
         for (EffortCertificationReportDefinition potentialOverlappingRecord : potentialOverlappingRecords) {
-            if (isOverlapping(potentialOverlappingRecord, reportDefinition))
+            if (isOverlapping(potentialOverlappingRecord, reportDefinition)) {
                 return true;
+            }
         }
 
         return false;
@@ -53,6 +55,7 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceImpl implement
 
     /**
      * get's spring managed effortCertificationReportDefinitionDao
+     * 
      * @return
      */
     public EffortCertificationReportDefinitionDao getEffortCertificationReportDefinitionDao() {
@@ -61,6 +64,7 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceImpl implement
 
     /**
      * set's spring managed effortCertificationReportDefinitionDao
+     * 
      * @param effortCertificationReportDefinitionDao
      */
     public void setEffortCertificationReportDefinitionDao(EffortCertificationReportDefinitionDao effortCertificationReportDefinitionDao) {
@@ -68,113 +72,60 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceImpl implement
     }
 
     /**
-     * Compares existingRecord and newRecord to see if they are overlapping (dates and periods).
-     * In order to find out if the definitions overlap, the method first checks if the start and/or end dates of the new record and the existing records are equal. This is the easiest way to find and compare boundry cases.
-     * Next, the method checks the various cases that arise if the dates overlap (to confirm that the records overlap by more than one period).
+     * Compares existingRecord and newRecord to see if they are overlapping (years and periods).
      * 
      * @param existingRecord
      * @param newRecord
      * @return boolean representing whether or not the two report defintions overlap.
      */
-    private boolean isOverlapping(EffortCertificationReportDefinition existingRecord, EffortCertificationReportDefinition newRecord) {
-        // check if old record has null values (and therefore is not overlapping) - this check is required because prerules run
-        // before framework null checks happen
-        if (existingRecord.getEffortCertificationReportBeginFiscalYear() == null || existingRecord.getEffortCertificationReportEndFiscalYear() == null || existingRecord.getEffortCertificationReportBeginPeriodCode() == null || existingRecord.getEffortCertificationReportEndPeriodCode() == null)
-            return false;
+    private boolean isOverlapping(EffortCertificationReportDefinition existingReportDefinition, EffortCertificationReportDefinition newReportDefiniton) {
+        Integer existingStartYear = existingReportDefinition.getEffortCertificationReportBeginFiscalYear();
+        String existingStartPeriod = existingReportDefinition.getEffortCertificationReportBeginPeriodCode();
 
-        // format non-numeric period codes
-        Integer newStartPeriod = Integer.parseInt(newRecord.getEffortCertificationReportBeginPeriodCode());
-        Integer newEndPeriod = Integer.parseInt(newRecord.getEffortCertificationReportEndPeriodCode());
-        Integer existingStartPeriod = Integer.parseInt(existingRecord.getEffortCertificationReportBeginPeriodCode());
-        Integer existingEndPeriod = Integer.parseInt(existingRecord.getEffortCertificationReportEndPeriodCode());
-        Integer existingStartYear = existingRecord.getEffortCertificationReportBeginFiscalYear();
-        Integer existingEndYear = existingRecord.getEffortCertificationReportEndFiscalYear();
-        Integer newStartYear = newRecord.getEffortCertificationReportBeginFiscalYear();
-        Integer newEndYear = newRecord.getEffortCertificationReportEndFiscalYear();
+        Integer existingEndYear = existingReportDefinition.getEffortCertificationReportEndFiscalYear();
+        String existingEndPeriod = existingReportDefinition.getEffortCertificationReportEndPeriodCode();
 
-        // check if new record has invalid values (will be caught by rules engine)
-        if (newStartYear > newEndYear)
+        if (existingStartYear == null || existingStartPeriod == null || existingEndYear == null || existingEndPeriod == null) {
             return false;
-        if (newStartYear.equals(newEndYear) && newStartPeriod > newEndPeriod)
-            return false;
+        }
 
-        // check if start and or end date are equal (easiest way to find boundry cases)
-        if (existingStartYear.equals(newStartYear) && existingEndYear.equals(newEndYear)) {
-            // start and end dates are equal
-            if (existingStartYear < existingEndYear) {
-                // reports overlap by more than one period (at least one year)
-                return true;
-            }
-            else { // reports start and end in same year
-                if ((existingEndPeriod - existingStartPeriod) <= 1 || (newEndPeriod - newStartPeriod) <= 1) {
-                    // at least one report is only one period long so they cannot overlap for more than one period
-                    return false;
-                }
-                else if ((existingEndPeriod <= newStartPeriod) || (newEndPeriod <= existingStartPeriod)) {
-                    // reports do not overlap (one reports starts and ends before the other starts)
-                    return false;
-                }
-                else
-                    return true;
-            }
+        Integer newStartYear = newReportDefiniton.getEffortCertificationReportBeginFiscalYear();
+        String newStartPeriod = newReportDefiniton.getEffortCertificationReportBeginPeriodCode();
+
+        Integer newEndYear = newReportDefiniton.getEffortCertificationReportEndFiscalYear();
+        String newEndPeriod = newReportDefiniton.getEffortCertificationReportEndPeriodCode();
+
+        boolean isNewStartPeriodWithin = isPeriodWithinRange(existingStartYear, existingStartPeriod, existingEndYear, existingEndPeriod, newStartYear, newStartPeriod);
+        if (isNewStartPeriodWithin) {
+            return true;
         }
-        else if (existingStartYear.equals(newStartYear) || existingEndYear.equals(newEndYear)) {
-            // start or end dates are equal
-            // if neither report starts and ends in the same fiscal year, then they must overlap by at least one year
-            if (existingStartYear < existingEndYear && newStartYear < newEndYear) {
-                // reports overlap by more than one period
-                return true;
-            }
-            else if (existingStartYear.equals(existingEndYear)) {
-                // old record starts and ends in same year
-                // if old record spans more than one period, then records overlap more than one period
-                if ((existingEndPeriod - existingStartPeriod) > 1) {
-                    // records overlap by more than one period
-                    return true;
-                }
-            }
-            else {
-                // new record starts and ends in same year
-                // if new record spans more than one period, then records overlap more than one period
-                if ((newEndPeriod - newStartPeriod) > 1) {
-                    // records overlap by more than one period
-                    return true;
-                }
-            }
+
+        boolean isNewEndPeriodWithin = isPeriodWithinRange(existingStartYear, existingStartPeriod, existingEndYear, existingEndPeriod, newEndYear, newEndPeriod);
+        if (isNewEndPeriodWithin) {
+            return true;
         }
-        else if (existingStartYear < newStartYear && existingEndYear >= newStartYear) {
-            // dates overlap - determine if periods overlap
-            // check for boundry case
-            if (!existingEndYear.equals(newStartYear)) {
-                // records overlap by more than one period
-                return true;
-            }
-            else { // boundry case
-                if (existingEndPeriod <= newStartPeriod) {
-                    // records do not overlap by more than one period
-                    return false;
-                }
-                else
-                    return true;
-            }
+
+        boolean isExistingStartPeriodWithin = isPeriodWithinRange(newStartYear, newStartPeriod, newEndYear, newEndPeriod, existingStartYear, existingStartPeriod);
+        if (isExistingStartPeriodWithin) {
+            return true;
         }
-        else if (existingStartYear <= newEndYear && existingStartYear > newStartYear) {
-            // dates overlap - determine if periods overlap
-            // check for boundry case
-            if (existingStartYear != newEndYear) {
-                // records overlap by more than one period
-                return true;
-            }
-            else { // boundry case
-                if (newEndPeriod <= existingStartPeriod) {
-                    // records do not overlap by more than one period
-                    return false;
-                }
-                else
-                    return true;
-            }
+
+        boolean isExistingEndPeriodWithin = isPeriodWithinRange(newStartYear, newStartPeriod, newEndYear, newEndPeriod, existingEndYear, existingEndPeriod);
+        if (isExistingEndPeriodWithin) {
+            return true;
         }
 
         return false;
+    }
+
+    private boolean isPeriodWithinRange(Integer startYear, String startPeriod, Integer endYear, String endPeriod, Integer year, String period) {
+        return comparePeriod(startYear, startPeriod, year, period) <= 0 && comparePeriod(endYear, endPeriod, year, period) >= 0;
+    }
+
+    private int comparePeriod(Integer year, String periodCode, Integer anotherYear, String anotherPeriodCode) {
+        String period = year + periodCode;
+        String anotherPeriod = anotherYear + anotherPeriodCode;
+
+        return period.compareTo(anotherPeriod);
     }
 }

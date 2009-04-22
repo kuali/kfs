@@ -15,6 +15,19 @@
  */
 package org.kuali.kfs.sys.fixture;
 
+import static org.kuali.kfs.module.ec.EffortCertificationTestConstants.EffortCertificationFiscalPeriod.ONE;
+import static org.kuali.kfs.module.ec.EffortCertificationTestConstants.EffortCertificationFiscalPeriod.TWO;
+import static org.kuali.kfs.module.ec.EffortCertificationTestConstants.EffortCertificationFiscalPeriod.THREE;
+import static org.kuali.kfs.module.ec.EffortCertificationTestConstants.EffortCertificationFiscalPeriod.FOUR;
+import static org.kuali.kfs.module.ec.EffortCertificationTestConstants.EffortCertificationFiscalPeriod.FIVE;
+import static org.kuali.kfs.module.ec.EffortCertificationTestConstants.EffortCertificationFiscalPeriod.SIX;
+import static org.kuali.kfs.module.ec.EffortCertificationTestConstants.EffortCertificationFiscalPeriod.SEVEN;
+import static org.kuali.kfs.module.ec.EffortCertificationTestConstants.EffortCertificationFiscalPeriod.EIGHT;
+import static org.kuali.kfs.module.ec.EffortCertificationTestConstants.EffortCertificationFiscalPeriod.NINE;
+import static org.kuali.kfs.module.ec.EffortCertificationTestConstants.EffortCertificationFiscalPeriod.TEN;
+import static org.kuali.kfs.module.ec.EffortCertificationTestConstants.EffortCertificationFiscalPeriod.ELEVEN;
+import static org.kuali.kfs.module.ec.EffortCertificationTestConstants.EffortCertificationFiscalPeriod.TWELVE;
+
 import org.kuali.kfs.module.ec.EffortCertificationTestConstants;
 import org.kuali.kfs.module.ec.EffortCertificationTestConstants.EffortCertificationFiscalPeriod;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
@@ -24,23 +37,25 @@ import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinitio
  */
 public enum EffortCertificationReportDefinitionFixture {
 
-    CONTROL_1(2008, 2008, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.ONE, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.TWELVE), TEST_1_OVERLAP(2008, 2008, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.TWO, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.FOUR),
+    CONTROL_1(2008, 2008, ONE, TWELVE), TEST_1_OVERLAP(2008, 2008, TWO, FOUR),
+    
+    CONTROL_2(2002, 2003, ONE, TWELVE), TEST_2_NO_OVERLAP(2000, 2001, ONE, TWELVE),
 
-    CONTROL_2(2002, 2003, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.ONE, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.TWELVE), TEST_2_NO_OVERLAP(2000, 2001, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.ONE, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.TWELVE),
+    CONTROL_3(2000, 2001, ONE, TWELVE), TEST_3_NO_OVERLAP(2002, 2003, ONE, TWELVE),
 
-    CONTROL_3(2008, 2008, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.FOUR, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.SEVEN), TEST_3_NO_OVERLAP(2008, 2008, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.TWO, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.FOUR),
+    CONTROL_4(2008, 2008, FOUR, SEVEN), TEST_4_NO_OVERLAP(2008, 2008, ONE, THREE),
 
-    CONTROL_4(2008, 2008, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.FOUR, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.SEVEN), TEST_4_NO_OVERLAP(2008, 2008, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.ONE, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.THREE),
+    CONTROL_5(2008, 2008, FOUR, SEVEN), TEST_5_NO_OVERLAP(2008, 2008, EIGHT, NINE),
 
-    CONTROL_5(2008, 2008, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.FOUR, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.SEVEN), TEST_5_NO_OVERLAP(2008, 2008, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.SEVEN, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.NINE),
+    CONTROL_6(2008, 2008, FOUR, SEVEN), TEST_6_NO_OVERLAP(2008, 2008, EIGHT, TEN),
 
-    CONTROL_6(2008, 2008, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.FOUR, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.SEVEN), TEST_6_NO_OVERLAP(2008, 2008, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.EIGHT, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.TEN),
+    CONTROL_7(2002, 2004, ONE, TWO), TEST_7_OVERLAP(2001, 2003, ONE, TWO),
 
-    CONTROL_7(2002, 2004, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.ONE, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.TWO), TEST_7_OVERLAP(2001, 2003, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.ONE, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.TWO),
+    CONTROL_8(2002, 2004, TWO, TWO), TEST_8_NO_OVERLAP(2002, 2002, ONE, ONE),
 
-    CONTROL_8(2002, 2004, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.ONE, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.TWO), TEST_8_NO_OVERLAP(2002, 2002, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.ONE, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.ONE),
-
-    CONTROL_9_1(2002, 2003, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.ONE, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.TWELVE), CONTROL_9_2(2003, 2004, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.ONE, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.TWELVE), CONTROL_9_3(2004, 2005, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.ONE, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.TWELVE), TEST_9_OVERLAP(2002, 2005, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.ONE, EffortCertificationTestConstants.EffortCertificationFiscalPeriod.TWELVE);
+    CONTROL_9_1(2002, 2003, ONE, TWELVE), 
+    CONTROL_9_2(2003, 2004, ONE, TWELVE), 
+    CONTROL_9_3(2004, 2005, ONE, TWELVE), TEST_9_OVERLAP(2002, 2005, ONE, TWELVE);
 
     private Integer startDate;
     private Integer endDate;

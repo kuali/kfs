@@ -40,10 +40,6 @@ public interface CustomerInvoiceDocumentService {
      */
     public void convertDiscountsToPaidApplieds(CustomerInvoiceDocument invoice);
     
-    public Collection<CustomerInvoiceDocument> getAllCustomerInvoiceDocuments(); 
-    
-    public Collection<CustomerInvoiceDocument> getAllCustomerInvoiceDocumentsWithoutWorkflowInfo();
-    
     /**
      * 
      * Retrieves all invoice documents that are Open with outstanding balances, including workflow
@@ -149,6 +145,12 @@ public interface CustomerInvoiceDocumentService {
      * @return
      */
     public Collection<CustomerInvoiceDocument> getCustomerInvoiceDocumentsByCustomerNumber(String customerNumber);
+    
+    /**
+     * @param customerNumber
+     * @return
+     */
+    public Collection<CustomerInvoiceDocument> getPrintableCustomerInvoiceDocumentsByInitiatorPrincipalName(String initiatorPrincipalName);
     
     /**
      * @param customerInvoiceDocumentNumber

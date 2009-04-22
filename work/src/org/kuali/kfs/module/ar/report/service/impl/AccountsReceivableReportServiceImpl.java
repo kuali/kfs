@@ -505,13 +505,9 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
     public List<File> generateInvoicesByInitiator(String initiator) {
         List<File> reports = new ArrayList<File>();
         CustomerInvoiceDocumentService invoiceDocService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
-        Collection<CustomerInvoiceDocument> invoices = invoiceDocService.getAllCustomerInvoiceDocuments();
+        Collection<CustomerInvoiceDocument> invoices = invoiceDocService.getPrintableCustomerInvoiceDocumentsByInitiatorPrincipalName(initiator);
         for (CustomerInvoiceDocument invoice : invoices) {
-            if (ArConstants.PrintInvoiceOptions.PRINT_BY_USER.equalsIgnoreCase(invoice.getPrintInvoiceIndicator())) {
-                if (invoice.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId().equalsIgnoreCase(initiator)) {
-                    reports.add(generateInvoice(invoice));
-                }
-            }
+            reports.add(generateInvoice(invoice));
         }
         return reports;
     }

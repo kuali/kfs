@@ -91,6 +91,10 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
 
         String invoiceNumber = invoice.getDocumentNumber();
         List<CustomerInvoiceDetail> discounts = invoice.getDiscounts();
+
+        //  retrieve the number of current paid applieds, so we dont have item number overlap
+        Integer paidAppliedItemNumber = 0;
+        
         for (CustomerInvoiceDetail discount : discounts) {
             
             //   if credit amount is zero, do nothing
@@ -98,9 +102,10 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
                 continue;
             }
             
-            //  retrieve the number of current paid applieds, so we dont have item number overlap
-            Integer paidAppliedItemNumber = invoicePaidAppliedService.getNumberOfInvoicePaidAppliedsForInvoiceDetail(invoiceNumber, 
-                    discount.getInvoiceItemNumber());
+            if (paidAppliedItemNumber == 0) {
+                paidAppliedItemNumber = invoicePaidAppliedService.getNumberOfInvoicePaidAppliedsForInvoiceDetail(invoiceNumber, 
+                        discount.getInvoiceItemNumber());
+            }
             
             //  create and save the paidApplied
             InvoicePaidApplied invoicePaidApplied = new InvoicePaidApplied();
@@ -121,31 +126,6 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
            invoice.setClosedDate(dateTimeService.getCurrentSqlDate());
            documentService.updateDocument(invoice);
        }
-    }
-
-    public Collection<CustomerInvoiceDocument> getAllCustomerInvoiceDocuments() {
-        Collection<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
-        invoices = customerInvoiceDocumentDao.getAll();
-        // return invoices;
-        List<String> documentHeaderIds = new ArrayList<String>();
-        for (CustomerInvoiceDocument invoice : invoices) {
-            documentHeaderIds.add(invoice.getDocumentNumber());
-
-        }
-        List docs = new ArrayList();
-        try {
-            docs = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds);
-        }
-        catch (WorkflowException e) {
-            throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
-        }
-
-        return docs;
-    }
-    
-
-    public Collection<CustomerInvoiceDocument> getAllCustomerInvoiceDocumentsWithoutWorkflowInfo() {
-        return customerInvoiceDocumentDao.getAll();
     }
 
     public Collection<CustomerInvoiceDocument> getAllOpenCustomerInvoiceDocuments() {
@@ -376,7 +356,12 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         return customerInvoiceDocumentDao.getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
     }
 
-
+    public Collection<CustomerInvoiceDocument> getPrintableCustomerInvoiceDocumentsByInitiatorPrincipalName(String initiatorPrincipalName) {
+        Collection<CustomerInvoiceDocument> customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
+        
+        return customerInvoiceDocuments;
+    }
+    
     public Collection<CustomerInvoiceDocument> getCustomerInvoiceDocumentsByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode) {
         Collection<CustomerInvoiceDocument> customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
 
@@ -408,19 +393,11 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
      */
     public List<CustomerInvoiceDocument> getCustomerInvoiceDocumentsByProcessingChartAndOrg(String chartOfAccountsCode, String organizationCode) {
 
+        List<String> documentHeaderIds = customerInvoiceDocumentDao.getCustomerInvoiceDocumentsByProcessingChartAndOrg(
+                chartOfAccountsCode, organizationCode);
+        
         List<CustomerInvoiceDocument> customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
-
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("processingChartOfAccountCode", chartOfAccountsCode);
-        fieldValues.put("processingOrganizationCode", organizationCode);
-
-        Collection<AccountsReceivableDocumentHeader> arDocHeaders = businessObjectService.findMatchingOrderBy(AccountsReceivableDocumentHeader.class, fieldValues, "customerNumber", true);
-
-        List<String> documentHeaderIds = new ArrayList<String>();
-        for (AccountsReceivableDocumentHeader arDocHeader : arDocHeaders) {
-            documentHeaderIds.add(arDocHeader.getDocumentNumber());
-        }
-        if (documentHeaderIds.size() != 0) {
+        if (documentHeaderIds != null && !documentHeaderIds.isEmpty()) {
             try {
                 customerInvoiceDocuments = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds);
             }

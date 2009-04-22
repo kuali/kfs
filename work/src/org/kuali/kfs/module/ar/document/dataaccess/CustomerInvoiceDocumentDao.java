@@ -16,17 +16,35 @@
 package org.kuali.kfs.module.ar.document.dataaccess;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 
 public interface CustomerInvoiceDocumentDao {
     
     /**
-     * This method retrieves all CustomerInvoiceDocument objects in the system
      * 
-     * @return all CustomerInvoiceDocument objects
+     * Retrieves all Invoice documents that meet the following criteria: 
+     * 1) PrintIndicator = BY_USER
+     * 2) PrintDate = null 
+     * 3) ArDoc 
+     * @param initiatorPrincipalName
+     * @return
      */
-    public Collection getAll();   
+    public Collection<CustomerInvoiceDocument> getPrintableCustomerInvoiceDocumentsFromUserQueue();
+
+    /**
+     * 
+     * Retrieves all Invoice documents in the system associated with the given 
+     * Processing Chart and Org.
+     * 
+     * WARNING that all the returned documents lack any workflow wiring.
+     * 
+     * @param chartOfAccountsCode
+     * @param organizationCode
+     * @return
+     */
+    public List<String> getCustomerInvoiceDocumentsByProcessingChartAndOrg(String chartOfAccountsCode, String organizationCode);
     
     /**
      * 

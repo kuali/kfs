@@ -102,6 +102,14 @@
     <property name="name" value="expenditureFinancialDocumentTypeCode" />
     <property name="label" value="Document Type Code" />
     <property name="required" value="true" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>    
   </bean>
   
   <bean id="AssetPaymentDetail-expenditureFinancialSystemOriginationCode" parent="AssetPaymentDetail-expenditureFinancialSystemOriginationCode-parentBean" />

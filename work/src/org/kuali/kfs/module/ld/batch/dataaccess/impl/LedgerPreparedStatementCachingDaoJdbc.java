@@ -88,34 +88,34 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
         }.get(Integer.class);
     }
     
-    public LedgerBalance getLedgerBalance(final LedgerBalance ledgerBalance) {
+    public LedgerBalance getLedgerBalance(final LedgerBalance lb) {
         return new RetrievingJdbcWrapper<LedgerBalance>() {
             @Override
             protected void populateStatement(PreparedStatement preparedStatement) throws SQLException {
-                preparedStatement.setInt(1, ledgerBalance.getUniversityFiscalYear());
-                preparedStatement.setString(2, ledgerBalance.getChartOfAccountsCode());
-                preparedStatement.setString(3, ledgerBalance.getAccountNumber());
-                preparedStatement.setString(4, ledgerBalance.getSubAccountNumber());
-                preparedStatement.setString(5, ledgerBalance.getFinancialObjectCode());
-                preparedStatement.setString(6, ledgerBalance.getFinancialSubObjectCode());
-                preparedStatement.setString(7, ledgerBalance.getFinancialBalanceTypeCode());
-                preparedStatement.setString(8, ledgerBalance.getFinancialObjectTypeCode());
-                preparedStatement.setString(9, ledgerBalance.getPositionNumber());
-                preparedStatement.setString(10, ledgerBalance.getEmplid());
+                preparedStatement.setInt(1, lb.getUniversityFiscalYear());
+                preparedStatement.setString(2, lb.getChartOfAccountsCode());
+                preparedStatement.setString(3, lb.getAccountNumber());
+                preparedStatement.setString(4, lb.getSubAccountNumber());
+                preparedStatement.setString(5, lb.getFinancialObjectCode());
+                preparedStatement.setString(6, lb.getFinancialSubObjectCode());
+                preparedStatement.setString(7, lb.getFinancialBalanceTypeCode());
+                preparedStatement.setString(8, lb.getFinancialObjectTypeCode());
+                preparedStatement.setString(9, lb.getPositionNumber());
+                preparedStatement.setString(10, lb.getEmplid());
             }
             @Override
             protected LedgerBalance extractResult(ResultSet resultSet) throws SQLException {
                 LedgerBalance ledgerBalance = new LedgerBalance();
-                ledgerBalance.setUniversityFiscalYear(ledgerBalance.getUniversityFiscalYear());
-                ledgerBalance.setChartOfAccountsCode(ledgerBalance.getChartOfAccountsCode());
-                ledgerBalance.setAccountNumber(ledgerBalance.getAccountNumber());
-                ledgerBalance.setSubAccountNumber(ledgerBalance.getSubAccountNumber());
-                ledgerBalance.setFinancialObjectCode(ledgerBalance.getFinancialObjectCode());
-                ledgerBalance.setFinancialSubObjectCode(ledgerBalance.getFinancialSubObjectCode());
-                ledgerBalance.setFinancialBalanceTypeCode(ledgerBalance.getFinancialBalanceTypeCode());
-                ledgerBalance.setFinancialObjectTypeCode(ledgerBalance.getFinancialObjectTypeCode());
-                ledgerBalance.setPositionNumber(ledgerBalance.getPositionNumber());
-                ledgerBalance.setEmplid(ledgerBalance.getEmplid());
+                ledgerBalance.setUniversityFiscalYear(lb.getUniversityFiscalYear());
+                ledgerBalance.setChartOfAccountsCode(lb.getChartOfAccountsCode());
+                ledgerBalance.setAccountNumber(lb.getAccountNumber());
+                ledgerBalance.setSubAccountNumber(lb.getSubAccountNumber());
+                ledgerBalance.setFinancialObjectCode(lb.getFinancialObjectCode());
+                ledgerBalance.setFinancialSubObjectCode(lb.getFinancialSubObjectCode());
+                ledgerBalance.setFinancialBalanceTypeCode(lb.getFinancialBalanceTypeCode());
+                ledgerBalance.setFinancialObjectTypeCode(lb.getFinancialObjectTypeCode());
+                ledgerBalance.setPositionNumber(lb.getPositionNumber());
+                ledgerBalance.setEmplid(lb.getEmplid());
                 ledgerBalance.setAccountLineAnnualBalanceAmount(new KualiDecimal(resultSet.getBigDecimal(1)));
                 ledgerBalance.setBeginningBalanceLineAmount(new KualiDecimal(resultSet.getBigDecimal(2)));
                 ledgerBalance.setContractsGrantsBeginningBalanceAmount(new KualiDecimal(resultSet.getBigDecimal(3)));

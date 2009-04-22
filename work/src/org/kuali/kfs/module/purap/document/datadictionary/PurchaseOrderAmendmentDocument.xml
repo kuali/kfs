@@ -21,6 +21,10 @@
     			<key><value>source</value></key>
 	    		<ref bean="PurchaseOrderDocument-sourceAccountingLineGroup" parent="AccountingLineGroup"/>
 	    	</entry>
+	        <entry>
+    			<key><value>distributeSource</value></key>
+	    		<ref bean="PurchaseOrderDocument-distributeSourceAccountingLineGroup" parent="AccountingLineGroup"/>
+	    	</entry>	    	
     	</map>
     </property>
     <property name="attributes">

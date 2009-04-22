@@ -172,13 +172,13 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      * @return
      * @throws WorkflowException
      */
-    private InvoicePaidApplied generateAndValidateNewPaidApplied(PaymentApplicationInvoiceDetailApply detailApplication, String fieldName) {
+    private InvoicePaidApplied generateAndValidateNewPaidApplied(PaymentApplicationInvoiceDetailApply detailApplication, String fieldName, KualiDecimal totalFromControl) {
         
         //  generate the paidApplied
         InvoicePaidApplied paidApplied = detailApplication.generatePaidApplied();
         
         //  validate the paidApplied, but ignore any failures (other than the error message)
-        PaymentApplicationDocumentRuleUtil.validateInvoicePaidApplied(paidApplied, fieldName);
+        PaymentApplicationDocumentRuleUtil.validateInvoicePaidApplied(paidApplied, fieldName, totalFromControl);
 
         //  return the generated paidApplied
         return paidApplied;
@@ -306,7 +306,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
                 //  generate and validate the paidApplied, and always add it to the list, even if 
                 // it fails validation.  Validation failures will stop routing.
                 GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB);
-                InvoicePaidApplied invoicePaidApplied = generateAndValidateNewPaidApplied(detailApplication, fieldName);
+                InvoicePaidApplied invoicePaidApplied = generateAndValidateNewPaidApplied(detailApplication, fieldName, paymentApplicationDocument.getTotalFromControl());
                 GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB);
                 invoicePaidApplieds.add(invoicePaidApplied);
                 paidAppliedsGenerated++;
@@ -367,7 +367,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
             for (PaymentApplicationInvoiceDetailApply detailApplication : invoiceApplication.getDetailApplications()) {
                 detailApplication.setAmountApplied(detailApplication.getAmountOpen());
                 detailApplication.setFullApply(true);
-                InvoicePaidApplied paidApplied = generateAndValidateNewPaidApplied(detailApplication, fieldName);
+                InvoicePaidApplied paidApplied = generateAndValidateNewPaidApplied(detailApplication, fieldName, applicationDocument.getTotalFromControl());
                 if (paidApplied != null) {
                     invoicePaidApplieds.add(paidApplied);
                 }

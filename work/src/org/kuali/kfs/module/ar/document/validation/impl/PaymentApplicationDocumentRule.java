@@ -44,7 +44,7 @@ public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocument
         for(InvoicePaidApplied invoicePaidApplied : paymentApplicationDocument.getInvoicePaidApplieds()) {
             String fieldName = ArPropertyConstants.PaymentApplicationDocumentFields.AMOUNT_TO_BE_APPLIED_LINE_N;
             fieldName = StringUtils.replace(fieldName, "{0}", new Integer(appliedAmountIndex).toString());
-            if(!PaymentApplicationDocumentRuleUtil.validateInvoicePaidApplied(invoicePaidApplied, fieldName)) {
+            if(!PaymentApplicationDocumentRuleUtil.validateInvoicePaidApplied(invoicePaidApplied, fieldName, paymentApplicationDocument.getTotalFromControl())) {
                 isValid = false;
                 LOG.info("One of the invoice paid applieds for the payment application document is not valid.");
             }

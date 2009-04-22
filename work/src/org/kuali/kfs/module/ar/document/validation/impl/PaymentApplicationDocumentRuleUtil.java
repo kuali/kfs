@@ -30,7 +30,6 @@ import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -51,7 +50,7 @@ public class PaymentApplicationDocumentRuleUtil {
      * @param invoicePaidApplied
      * @return
      */
-    public static boolean validateInvoicePaidApplied(InvoicePaidApplied invoicePaidApplied, String fieldName) {
+    public static boolean validateInvoicePaidApplied(InvoicePaidApplied invoicePaidApplied, String fieldName, KualiDecimal totalFromControl) {
         boolean isValid = true;
         
         invoicePaidApplied.refreshReferenceObject("invoiceDetail");
@@ -73,32 +72,12 @@ public class PaymentApplicationDocumentRuleUtil {
                 fieldName, ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_EXCEEDS_AMOUNT_OUTSTANDING);
         }
         
-        // Paying zero means nothing.
-//        if(!amountPaid.isGreaterThan(KualiDecimal.ZERO)) {
-//            isValid = false;
-//            GlobalVariables.getErrorMap().putError(
-//                fieldName, ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_MUST_BE_GREATER_THAN_ZERO);
-//        }
-        
         // Can't apply more than the amount received via the related CashControlDocument
-        String docNumber = invoicePaidApplied.getDocumentNumber();
-        DocumentService docService = SpringContext.getBean(DocumentService.class);
-        PaymentApplicationDocument paymentApplicationDocument;
-        try {
-            paymentApplicationDocument = (PaymentApplicationDocument) docService.getByDocumentHeaderId(docNumber);
+        if (amountPaid.isGreaterThan(totalFromControl)) {
+            isValid = false;
+            GlobalVariables.getErrorMap().putError(
+                fieldName,ArKeyConstants.PaymentApplicationDocumentErrors.CANNOT_APPLY_MORE_THAN_CASH_CONTROL_TOTAL_AMOUNT);
         }
-        catch (WorkflowException e) {
-            throw new RuntimeException("A WorkflowException was thrown while trying to retrieve PayApp doc #" + docNumber + ".", e);
-        }
-        if (null != paymentApplicationDocument) {
-            KualiDecimal totalFromControl = paymentApplicationDocument.getTotalFromControl();
-            if (amountPaid.isGreaterThan(totalFromControl)) {
-                isValid = false;
-                GlobalVariables.getErrorMap().putError(
-                    fieldName,ArKeyConstants.PaymentApplicationDocumentErrors.CANNOT_APPLY_MORE_THAN_CASH_CONTROL_TOTAL_AMOUNT);
-            }
-        }
-        
         return isValid;
     }
     

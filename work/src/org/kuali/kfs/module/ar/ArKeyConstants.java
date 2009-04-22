@@ -159,6 +159,7 @@ public class ArKeyConstants {
     public static final String ERROR_CUSTOMER_IS_INACTIVE = "error.ar.CustomerIsInactive";
     public static final String ERROR_CANT_CANCEL_CASH_CONTROL_DOC_WITH_ASSOCIATED_APPROVED_PAYMENT_APPLICATION = "error.ar.CantCancelCashControlDocWithAssociatedApprovedPaymentApplicationDoc";
     public static final String ERROR_INVALID_BANK_CODE = "error.ar.invalidBankCode";
+    public static final String ERROR_BANK_NOT_ELIGIBLE_FOR_DEPOSIT_ACTIVITY = "error.ar.bankNotEligibleForDepositActivity";
     public static final String ERROR_BANK_CODE_REQUIRED = "error.ar.bankCodeRequired";
 
     public static final String CREATED_BY_CASH_CTRL_DOC = "message.ar.createdByCashControlDocument";

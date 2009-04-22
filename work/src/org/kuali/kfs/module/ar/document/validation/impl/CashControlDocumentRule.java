@@ -457,6 +457,12 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
             if (ObjectUtils.isNull(bank)) {
                 isValid = false;
                 GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.BANK_CODE,ArKeyConstants.ERROR_INVALID_BANK_CODE);
+            } else {
+                // make sure the bank is eligible for deposit activity
+                if (!bank.isBankDepositIndicator()) {
+                    isValid = false;
+                    GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.BANK_CODE,ArKeyConstants.ERROR_BANK_NOT_ELIGIBLE_FOR_DEPOSIT_ACTIVITY);
+                }
             }
         } else {
             isValid = false;

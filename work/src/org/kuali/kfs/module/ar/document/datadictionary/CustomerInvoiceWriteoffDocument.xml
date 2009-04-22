@@ -80,7 +80,7 @@
    				<ref bean="SearchingType-AccountsReceivableDocument-customerName"/>
 	   			<ref bean="SearchingType-AccountsReceivableDocument-processingChartOfAccountsCode-criteriaOnly"/>
    				<ref bean="SearchingType-AccountsReceivableDocument-processingOrganizationCode-criteriaOnly"/>
-   				<ref bean="SearchingType-AccountsReceivableDocument-documentStatus"/>
+   				<ref bean="SearchingType-AccountsReceivableDocument-documentStatus-resultsOnly"/>
    				<ref bean="SearchingType-CustomerInvoiceWriteoffDocument-billingChartOfAccountsCode-criteriaOnly"/>
    				<ref bean="SearchingType-CustomerInvoiceWriteoffDocument-billingOrganizationCode-criteriaOnly"/>
     			<ref bean="SearchingType-CustomerInvoiceWriteoffDocument-chartOfAccountsCode-sourceOnly"/>

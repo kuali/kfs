@@ -368,5 +368,11 @@ public class CorrectionReceivingDocument extends ReceivingDocumentBase {
     public String getVendorStateCode() {
         return getLineItemReceivingDocument().getVendorStateCode();
     }
+    
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add(this.getItems());
+        return managedLists;
+    }
 
 }

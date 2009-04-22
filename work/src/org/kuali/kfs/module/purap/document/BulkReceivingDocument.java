@@ -53,69 +53,24 @@ import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
-public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentBase implements ReceivingDocument{
+public class BulkReceivingDocument extends ReceivingDocumentBase{
 
     private static final Logger LOG = Logger.getLogger(BulkReceivingDocument.class);
     
-    private Integer purchaseOrderIdentifier;
-    private Date shipmentReceivedDate;
-    private String shipmentPackingSlipNumber;
-    private String carrierCode;
-    private String shipmentBillOfLadingNumber;
-    
-    private String shipmentReferenceNumber;
     private String shipmentWeight;
     private Integer noOfCartons;
     private String trackingNumber;
-    /**
-     * Primary Vendor
-     */
-    private Integer vendorHeaderGeneratedIdentifier;
-    private Integer vendorDetailAssignedIdentifier;
-    private String vendorName;
-    private String vendorLine1Address;
-    private String vendorLine2Address;
-    private String vendorCityName;
-    private String vendorStateCode;
-    private String vendorPostalCode;
-    private String vendorCountryCode;
     private String vendorAddressInternationalProvinceName;
     private String vendorNoteText;
-    
-    /**
-     * Alternate Vendor
-     */
-    private Integer alternateVendorHeaderGeneratedIdentifier;
-    private Integer alternateVendorDetailAssignedIdentifier;
-    private String alternateVendorName;
-    
+
     /**
      * Goods delivered vendor
      */
     private Integer goodsDeliveredVendorHeaderGeneratedIdentifier;
     private Integer goodsDeliveredVendorDetailAssignedIdentifier;
     private String goodsDeliveredVendorNumber;
-    
-    /**
-     * Delivery Information
-     */
-    private boolean deliveryBuildingOtherIndicator;
-    private String deliveryBuildingCode;
-    private String deliveryBuildingName;
-    private String deliveryBuildingRoomNumber;
-    private String deliveryBuildingLine1Address;
-    private String deliveryBuildingLine2Address;
-    private String deliveryCityName;
-    private String deliveryStateCode;
-    private String deliveryPostalCode;
-    private String deliveryCountryCode;
-    private String deliveryCampusCode;
-    private String deliveryInstructionText;
     private String deliveryAdditionalInstructionText;
-    private String deliveryToName;
-    private String deliveryToEmailAddress;
-    private String deliveryToPhoneNumber;
-    
+
     private String requestorPersonName;
     private String requestorPersonPhoneNumber;
     private String requestorPersonEmailAddress;
@@ -127,38 +82,17 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
     private String institutionContactName;
     private String institutionContactPhoneNumber;
     private String institutionContactEmailAddress;
-    
-    private Campus deliveryCampus;
-    private Country vendorCountry;
-    private Carrier carrier;
-    private VendorDetail vendorDetail;
-    private VendorDetail alternateVendorDetail;
-    
-    private Integer accountsPayablePurchasingDocumentLinkIdentifier;
 
-    private transient PurApRelatedViews relatedViews;
+    private VendorDetail alternateVendorDetail;
     
     /**
      * Not persisted in DB
      */
-    private String vendorNumber;
-    private String alternateVendorNumber;
     private String goodsDeliveredVendorName;
     private String vendorContact;
-    private Integer vendorAddressGeneratedIdentifier;
-    private boolean sensitive;
-    
     
     public BulkReceivingDocument() {
         super();
-    }
-
-    public boolean isSensitive() {
-        List<SensitiveData> sensitiveData = SpringContext.getBean(SensitiveDataService.class).getSensitiveDatasAssignedByRelatedDocId(getAccountsPayablePurchasingDocumentLinkIdentifier());
-        if (ObjectUtils.isNotNull(sensitiveData) && !sensitiveData.isEmpty()) {
-            return true;
-        }
-        return false;
     }
 
     public void initiateDocument(){
@@ -352,179 +286,11 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
         getDocumentHeader().setDocumentDescription(description);
     }
 
-    public Integer getAccountsPayablePurchasingDocumentLinkIdentifier() {
-        return accountsPayablePurchasingDocumentLinkIdentifier;
-    }
-
-    public void setAccountsPayablePurchasingDocumentLinkIdentifier(Integer accountsPayablePurchasingDocumentLinkIdentifier) {
-        this.accountsPayablePurchasingDocumentLinkIdentifier = accountsPayablePurchasingDocumentLinkIdentifier;
-    }
-
-    public Integer getAlternateVendorDetailAssignedIdentifier() {
-        return alternateVendorDetailAssignedIdentifier;
-    }
-
-    public void setAlternateVendorDetailAssignedIdentifier(Integer alternateVendorDetailAssignedIdentifier) {
-        this.alternateVendorDetailAssignedIdentifier = alternateVendorDetailAssignedIdentifier;
-    }
-
-    public Integer getAlternateVendorHeaderGeneratedIdentifier() {
-        return alternateVendorHeaderGeneratedIdentifier;
-    }
-
-    public void setAlternateVendorHeaderGeneratedIdentifier(Integer alternateVendorHeaderGeneratedIdentifier) {
-        this.alternateVendorHeaderGeneratedIdentifier = alternateVendorHeaderGeneratedIdentifier;
-    }
-
-    public String getAlternateVendorName() {
-        return alternateVendorName;
-    }
-
-    public void setAlternateVendorName(String alternateVendorName) {
-        this.alternateVendorName = alternateVendorName;
-    }
-
-    public Carrier getCarrier() {
-        return carrier;
-    }
-
-    public void setCarrier(Carrier carrier) {
-        this.carrier = carrier;
-    }
-
-    public String getCarrierCode() {
-        return carrierCode;
-    }
-
-    public void setCarrierCode(String carrierCode) {
-        this.carrierCode = carrierCode;
-    }
-
-    public String getDeliveryBuildingCode() {
-        return deliveryBuildingCode;
-    }
-
-    public void setDeliveryBuildingCode(String deliveryBuildingCode) {
-        this.deliveryBuildingCode = deliveryBuildingCode;
-    }
-
-    public String getDeliveryBuildingLine1Address() {
-        return deliveryBuildingLine1Address;
-    }
-
-    public void setDeliveryBuildingLine1Address(String deliveryBuildingLine1Address) {
-        this.deliveryBuildingLine1Address = deliveryBuildingLine1Address;
-    }
-
-    public String getDeliveryBuildingLine2Address() {
-        return deliveryBuildingLine2Address;
-    }
-
-    public void setDeliveryBuildingLine2Address(String deliveryBuildingLine2Address) {
-        this.deliveryBuildingLine2Address = deliveryBuildingLine2Address;
-    }
-
-    public String getDeliveryBuildingName() {
-        return deliveryBuildingName;
-    }
-
-    public void setDeliveryBuildingName(String deliveryBuildingName) {
-        this.deliveryBuildingName = deliveryBuildingName;
-    }
-
-    public String getDeliveryBuildingRoomNumber() {
-        return deliveryBuildingRoomNumber;
-    }
-
-    public void setDeliveryBuildingRoomNumber(String deliveryBuildingRoomNumber) {
-        this.deliveryBuildingRoomNumber = deliveryBuildingRoomNumber;
-    }
-
-    public Campus getDeliveryCampus() {
-        return deliveryCampus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, deliveryCampus, "deliveryCampus");
-    }
-
-    public void setDeliveryCampus(Campus deliveryCampus) {
-        this.deliveryCampus = deliveryCampus;
-    }
-
-    public String getDeliveryCampusCode() {
-        return deliveryCampusCode;
-    }
-
-    public void setDeliveryCampusCode(String deliveryCampusCode) {
-        this.deliveryCampusCode = deliveryCampusCode;
-    }
-
-    public String getDeliveryCityName() {
-        return deliveryCityName;
-    }
-
-    public void setDeliveryCityName(String deliveryCityName) {
-        this.deliveryCityName = deliveryCityName;
-    }
-
-    public String getDeliveryCountryCode() {
-        return deliveryCountryCode;
-    }
-
-    public void setDeliveryCountryCode(String deliveryCountryCode) {
-        this.deliveryCountryCode = deliveryCountryCode;
-    }
-
     public String getDeliveryCountryName() {
         Country country = SpringContext.getBean(CountryService.class).getByPrimaryId(getDeliveryCountryCode());
         if (country != null)
             return country.getPostalCountryName();
         return null;
-    }
-
-    public String getDeliveryInstructionText() {
-        return deliveryInstructionText;
-    }
-
-    public void setDeliveryInstructionText(String deliveryInstructionText) {
-        this.deliveryInstructionText = deliveryInstructionText;
-    }
-
-    public String getDeliveryPostalCode() {
-        return deliveryPostalCode;
-    }
-
-    public void setDeliveryPostalCode(String deliveryPostalCode) {
-        this.deliveryPostalCode = deliveryPostalCode;
-    }
-
-    public String getDeliveryStateCode() {
-        return deliveryStateCode;
-    }
-
-    public void setDeliveryStateCode(String deliveryStateCode) {
-        this.deliveryStateCode = deliveryStateCode;
-    }
-
-    public String getDeliveryToEmailAddress() {
-        return deliveryToEmailAddress;
-    }
-
-    public void setDeliveryToEmailAddress(String deliveryToEmailAddress) {
-        this.deliveryToEmailAddress = deliveryToEmailAddress;
-    }
-
-    public String getDeliveryToName() {
-        return deliveryToName;
-    }
-
-    public void setDeliveryToName(String deliveryToName) {
-        this.deliveryToName = deliveryToName;
-    }
-
-    public String getDeliveryToPhoneNumber() {
-        return deliveryToPhoneNumber;
-    }
-
-    public void setDeliveryToPhoneNumber(String deliveryToPhoneNumber) {
-        this.deliveryToPhoneNumber = deliveryToPhoneNumber;
     }
 
     public String getGoodsDeliveredVendorNumber() {
@@ -541,151 +307,6 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
 
     public void setNoOfCartons(Integer noOfCartons) {
         this.noOfCartons = noOfCartons;
-    }
-
-    public Integer getPurchaseOrderIdentifier() {
-        return purchaseOrderIdentifier;
-    }
-
-    public void setPurchaseOrderIdentifier(Integer purchaseOrderIdentifier) {
-        this.purchaseOrderIdentifier = purchaseOrderIdentifier;
-    }
-
-    public String getShipmentBillOfLadingNumber() {
-        return shipmentBillOfLadingNumber;
-    }
-
-    public void setShipmentBillOfLadingNumber(String shipmentBillOfLadingNumber) {
-        this.shipmentBillOfLadingNumber = shipmentBillOfLadingNumber;
-    }
-
-    public String getShipmentPackingSlipNumber() {
-        return shipmentPackingSlipNumber;
-    }
-
-    public void setShipmentPackingSlipNumber(String shipmentPackingSlipNumber) {
-        this.shipmentPackingSlipNumber = shipmentPackingSlipNumber;
-    }
-
-    public Date getShipmentReceivedDate() {
-        return shipmentReceivedDate;
-    }
-
-    public void setShipmentReceivedDate(Date shipmentReceivedDate) {
-        this.shipmentReceivedDate = shipmentReceivedDate;
-    }
-
-    public String getShipmentReferenceNumber() {
-        return shipmentReferenceNumber;
-    }
-
-    public void setShipmentReferenceNumber(String shipmentReferenceNumber) {
-        this.shipmentReferenceNumber = shipmentReferenceNumber;
-    }
-
-    public String getVendorCityName() {
-        return vendorCityName;
-    }
-
-    public void setVendorCityName(String vendorCityName) {
-        this.vendorCityName = vendorCityName;
-    }
-
-    public Country getVendorCountry() {
-        vendorCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(this, vendorCountryCode, vendorCountry);
-        return vendorCountry;
-    }
-
-    public void setVendorCountry(Country vendorCountry) {
-        this.vendorCountry = vendorCountry;
-    }
-
-    public String getVendorCountryCode() {
-        return vendorCountryCode;
-    }
-
-    public void setVendorCountryCode(String vendorCountryCode) {
-        this.vendorCountryCode = vendorCountryCode;
-    }
-
-    public VendorDetail getVendorDetail() {
-        return vendorDetail;
-    }
-
-    public void setVendorDetail(VendorDetail vendorDetail) {
-        this.vendorDetail = vendorDetail;
-    }
-
-    public Integer getVendorDetailAssignedIdentifier() {
-        return vendorDetailAssignedIdentifier;
-    }
-
-    public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
-        this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
-    }
-
-    public Integer getVendorHeaderGeneratedIdentifier() {
-        return vendorHeaderGeneratedIdentifier;
-    }
-
-    public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
-        this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
-    }
-
-    public String getVendorLine1Address() {
-        return vendorLine1Address;
-    }
-
-    public void setVendorLine1Address(String vendorLine1Address) {
-        this.vendorLine1Address = vendorLine1Address;
-    }
-
-    public String getVendorLine2Address() {
-        return vendorLine2Address;
-    }
-
-    public void setVendorLine2Address(String vendorLine2Address) {
-        this.vendorLine2Address = vendorLine2Address;
-    }
-
-    public String getVendorName() {
-        return vendorName;
-    }
-
-    public void setVendorName(String vendorName) {
-        this.vendorName = vendorName;
-    }
-
-    public String getVendorPostalCode() {
-        return vendorPostalCode;
-    }
-
-    public void setVendorPostalCode(String vendorPostalCode) {
-        this.vendorPostalCode = vendorPostalCode;
-    }
-
-    public String getVendorStateCode() {
-        return vendorStateCode;
-    }
-
-    public void setVendorStateCode(String vendorStateCode) {
-        this.vendorStateCode = vendorStateCode;
-    }
-
-    public String getVendorNumber() {
-        return vendorNumber;
-    }
-
-    public void setVendorNumber(String vendorNumber) {
-        this.vendorNumber = vendorNumber;
-    }
-
-    public String getAlternateVendorNumber() {
-        return alternateVendorNumber;
-    }
-
-    public void setAlternateVendorNumber(String alternateVendorNumber) {
-        this.alternateVendorNumber = alternateVendorNumber;
     }
 
     public String getVendorContact() {
@@ -840,25 +461,6 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
         this.goodsDeliveredVendorHeaderGeneratedIdentifier = goodsDeliveredVendorHeaderGeneratedIdentifier;
     }
 
-    public Integer getVendorAddressGeneratedIdentifier() {
-        return vendorAddressGeneratedIdentifier;
-    }
-
-    public void setVendorAddressGeneratedIdentifier(Integer vendorAddressGeneratedIdentifier) {
-        this.vendorAddressGeneratedIdentifier = vendorAddressGeneratedIdentifier;
-    }
-    
-    public void setRelatedViews(PurApRelatedViews relatedViews) {
-        this.relatedViews = relatedViews;
-    }
-    
-    public PurApRelatedViews getRelatedViews() {
-        if (relatedViews == null) {
-            relatedViews = new PurApRelatedViews(this.documentNumber, this.accountsPayablePurchasingDocumentLinkIdentifier);
-        }
-        return relatedViews;
-    }
-    
     public void appSpecificRouteDocumentToUser(KualiWorkflowDocument workflowDocument, String userNetworkId, String annotation, String responsibility) throws WorkflowException {
         // TODO Auto-generated method stub
         
@@ -889,18 +491,6 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
         return null;
     }
 
-    public boolean isDeliveryBuildingOtherIndicator() {
-        return deliveryBuildingOtherIndicator;
-    }
-
-    public void setDeliveryBuildingOtherIndicator(boolean deliveryBuildingOtherIndicator) {
-        this.deliveryBuildingOtherIndicator = deliveryBuildingOtherIndicator;
-    }
-
-    /**
-     * TODO: Have to discuss with Chris/Dan to move all these methods to somewhere else in the Receiving class hierarchy
-     * @see org.kuali.kfs.module.purap.document.ReceivingDocument#setDeliveryRequiredDate(java.sql.Date)
-     */
     public void setDeliveryRequiredDate(Date deliveryRequiredDate) {
         // TODO Auto-generated method stub
     }

@@ -229,4 +229,9 @@ public class LineItemReceivingDocument extends ReceivingDocumentBase {
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
     }
     
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add(this.getItems());
+        return managedLists;
+    }
 }

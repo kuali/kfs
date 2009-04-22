@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.module.purap.businessobject.Carrier;
 import org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason;
 import org.kuali.kfs.module.purap.businessobject.LineItemReceivingStatus;
@@ -480,18 +481,14 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     @Override
     public void handleRouteStatusChange() {
         super.handleRouteStatusChange();
-        if(this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-            //delete unentered items and update po totals and save po
-            SpringContext.getBean(ReceivingService.class).completeReceivingDocument(this);
+        if(!(this instanceof BulkReceivingDocument)){
+            if(this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+                //delete unentered items and update po totals and save po
+                SpringContext.getBean(ReceivingService.class).completeReceivingDocument(this);
+            }
         }
     }
     
-    public List buildListOfDeletionAwareLists() {
-        List managedLists = super.buildListOfDeletionAwareLists();
-        managedLists.add(this.getItems());
-        return managedLists;
-    }
-
     public abstract Class getItemClass();
 
     public Integer getPurchaseOrderIdentifier() { 

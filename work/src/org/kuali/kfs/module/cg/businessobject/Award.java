@@ -24,12 +24,12 @@ import java.util.List;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
-import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -38,6 +38,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * Defines a financial award object.
  */
 public class Award extends PersistableBusinessObjectBase implements Inactivateable, ContractsAndGrantsAward {
+    private static final String AWARD_INQUIRY_TITLE_PROPERTY = "message.inquiry.award.title";
 
     private Long proposalNumber;
     private Date awardBeginningDate;
@@ -1192,6 +1193,20 @@ public class Award extends PersistableBusinessObjectBase implements Inactivateab
     }
 
     public void setUserLookupRoleName(String userLookupRoleName) {
+    }
+    
+    /**
+     * @return a String to represent this field on the inquiry
+     */
+    public String getAwardInquiryTitle() {
+        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(AWARD_INQUIRY_TITLE_PROPERTY);
+    }
+    
+    /**
+     * Pretends to set the inquiry title
+     */
+    public void setAwardInquiryTitle() {
+        // ain't nothing to do
     }
 
 }

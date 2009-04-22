@@ -27,6 +27,7 @@
         <ref bean="AwardAccount-account.accountName" />
         <ref bean="AwardAccount-award.proposal.federalPassThroughAgencyNumber" />
         <ref bean="AwardAccount-award.proposal.proposalFederalPassThroughIndicator" />
+        <ref bean="AwardAccount-award.proposal.grantNumber" />
         <ref bean="AwardAccount-newCollectionRecord" />
         <ref bean="AwardAccount-active" />
       </list>
@@ -136,6 +137,12 @@
 
   <bean id="AwardAccount-award.proposal.proposalFederalPassThroughIndicator-parentBean" abstract="true" parent="Proposal-proposalFederalPassThroughIndicator">
     <property name="name" value="award.proposal.proposalFederalPassThroughIndicator" />
+  </bean>
+  
+  <bean id="AwardAccount-award.proposal.grantNumber" parent="AwardAccount-award.proposal.grantNumber-parentBean" />
+
+  <bean id="AwardAccount-award.proposal.grantNumber-parentBean" abstract="true" parent="Proposal-grantNumber">
+    <property name="name" value="award.proposal.grantNumber" />
   </bean>
 
   <bean id="AwardAccount-newCollectionRecord" parent="AwardAccount-newCollectionRecord-parentBean" />

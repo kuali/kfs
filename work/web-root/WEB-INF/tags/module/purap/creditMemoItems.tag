@@ -214,7 +214,7 @@
 			        <kul:htmlControlAttribute
 				        attributeEntry="${itemAttributes.extendedPrice}"
 				        property="document.item[${ctr}].extendedPrice"
-				        readOnly="${not (fullEntryMode)}" styleClass="amount" 
+				        readOnly="${not fullEntryMode}" styleClass="amount" 
 				        tabindexOverride="${tabindexOverrideBase + 0}"/>
 			    </div>
 			</td>
@@ -225,7 +225,7 @@
 			        <kul:htmlControlAttribute
 				        attributeEntry="${itemAttributes.itemTaxAmount}"
 				        property="document.item[${ctr}].itemTaxAmount"
-				        readOnly="${lockTaxAmountEntry}" styleClass="amount" 
+				        readOnly="${not fullEntryMode or lockTaxAmountEntry}" styleClass="amount" 
 				        tabindexOverride="${tabindexOverrideBase + 0}"/>
 			    </div>
 			</td>			

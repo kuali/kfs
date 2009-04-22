@@ -365,7 +365,7 @@
 
   <bean id="VendorCreditMemoDocument-purapDocumentIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-purapDocumentIdentifier">
     <property name="label" value="Vendor Credit Memo #"/>
-    <property name="shortLabel" value="Credit Memo #"/>
+    <property name="shortLabel" value="Vendor Credit Memo #"/>
   </bean>
   <bean id="VendorCreditMemoDocument-vendorHeaderGeneratedIdentifier" parent="VendorCreditMemoDocument-vendorHeaderGeneratedIdentifier-parentBean"/>
 

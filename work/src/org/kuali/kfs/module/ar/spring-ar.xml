@@ -825,6 +825,9 @@
 		<property name="customerInvoiceDetailDao">
 			<ref bean="customerInvoiceDetailDao" />
 		</property>	
+		<property name="nonAppliedHoldingDao">
+			<ref bean="nonAppliedHoldingDao" />
+		</property>	
 	</bean>
 	
 	<bean id="accountsReceivableTaxService" class="org.kuali.kfs.module.ar.document.service.impl.AccountsReceivableTaxServiceImpl">

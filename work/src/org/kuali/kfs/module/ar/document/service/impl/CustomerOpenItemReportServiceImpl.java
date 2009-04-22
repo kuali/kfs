@@ -33,10 +33,12 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerOpenItemReportDetail;
+import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.dataaccess.AccountsReceivableDocumentHeaderDao;
 import org.kuali.kfs.module.ar.document.dataaccess.CustomerInvoiceDetailDao;
+import org.kuali.kfs.module.ar.document.dataaccess.NonAppliedHoldingDao;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerOpenItemReportService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -68,6 +70,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
     private DocumentService documentService;
     private DateTimeService dateTimeService;
     private CustomerInvoiceDetailDao customerInvoiceDetailDao;
+    private NonAppliedHoldingDao nonAppliedHoldingDao;
 
     /**
      * This method populates CustomerOpenItemReportDetails (Customer History Report).
@@ -86,6 +89,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         List finSysDocHeaderIds = new ArrayList();
         List invoiceIds = new ArrayList();
         List paymentApplicationIds = new ArrayList();
+        List unappliedHoldingIds = new ArrayList();
 
         Hashtable details = new Hashtable();
         KualiWorkflowDocument workflowDocument;
@@ -131,19 +135,48 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             details.put(documentNumber, detail);
         }
 
+        // add Unapplied Payment Applications
+        Collection<NonAppliedHolding> arNonAppliedHoldings = nonAppliedHoldingDao.getNonAppliedHoldingsForCustomer(customerNumber);
+        for (NonAppliedHolding nonAppliedHolding : arNonAppliedHoldings) {
+            // populate workflow document
+            try {
+                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(nonAppliedHolding.getReferenceFinancialDocumentNumber()), user);
+            }
+            catch (WorkflowException e) {
+                throw new UnknownDocumentIdException("No document found for documentHeaderId '" + nonAppliedHolding.getReferenceFinancialDocumentNumber() + "'", e);
+            }
+
+            CustomerOpenItemReportDetail detail = new CustomerOpenItemReportDetail();
+            detail.setDocumentType("APP");
+            detail.setDocumentNumber(nonAppliedHolding.getReferenceFinancialDocumentNumber());
+            Date documentApprovedDate = getSqlDate(workflowDocument.getRouteHeader().getDateApproved());
+            detail.setDueApprovedDate(documentApprovedDate);
+            details.put(nonAppliedHolding.getReferenceFinancialDocumentNumber(), detail);
+            unappliedHoldingIds.add(nonAppliedHolding.getReferenceFinancialDocumentNumber());
+        }
+        
         // for invoices
         if (invoiceIds.size() > 0)
             populateReportDetailsForInvoices(invoiceIds, results, details);
 
-            // for payment applications
-            if (paymentApplicationIds.size() > 0) {
-                try {
-                    populateReportDetailsForPaymentApplications(paymentApplicationIds, results, details);
-                } catch(WorkflowException w) {
-                    LOG.error("WorkflowException while populating report details for PaymentApplicationDocument", w);
-                }
+        // for payment applications
+        if (paymentApplicationIds.size() > 0) {
+            try {
+                populateReportDetailsForPaymentApplications(paymentApplicationIds, results, details);
+            } catch(WorkflowException w) {
+                LOG.error("WorkflowException while populating report details for PaymentApplicationDocument", w);
             }
+        }
         
+        // for unapplied payment applications
+        if (unappliedHoldingIds.size() > 0) {
+            try {
+                populateReportDetailsForUnappliedPaymentApplications(unappliedHoldingIds, results, details);
+            } catch(WorkflowException w) {
+                LOG.error("WorkflowException while populating report details for PaymentApplicationDocument", w);
+            }
+        }
+
         // for all other documents
         if (finSysDocHeaderIds.size() > 0)
             populateReportDetails(finSysDocHeaderIds, results, details);
@@ -217,8 +250,45 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             // populate Document Payment Amount
             detail.setDocumentPaymentAmount(paymentApplication.getTotalApplied().negated());
 
-            // populate Unpaid/Unapplied Amount
-            detail.setUnpaidUnappliedAmount(paymentApplication.getNonAppliedHoldingAmount().negated());
+            // populate Unpaid/Unapplied Amount if the customer number is the same
+            if (paymentApplication.getNonAppliedHolding().getCustomerNumber().equals(paymentApplication.getAccountsReceivableDocumentHeader().getCustomerNumber())) {
+                detail.setUnpaidUnappliedAmount(paymentApplication.getNonAppliedHoldingAmount().negated());
+            }
+            
+            results.add(detail);
+        }
+    }
+
+    /**
+     * This method populates CustomerOpenItemReportDetails for UnappliedPaymentApplicationDocuments (Customer History Report).
+     * 
+     * @param unappliedHoldingIds <=> documentNumbers of UnappliedPaymentApplicationDocuments
+     * @param results <=> CustomerOpenItemReportDetails to display in the report
+     * @param details <=> <key = documentNumber, value = customerOpenItemReportDetail>
+     */
+    private void populateReportDetailsForUnappliedPaymentApplications(List unappliedHoldingIds, List results, Hashtable details) throws WorkflowException {
+        Collection paymentApplications = getDocuments(PaymentApplicationDocument.class, unappliedHoldingIds);
+
+        for (Iterator itr = paymentApplications.iterator(); itr.hasNext();) {
+            PaymentApplicationDocument paymentApplication = (PaymentApplicationDocument) itr.next();
+            String documentNumber = paymentApplication.getDocumentNumber();
+
+            CustomerOpenItemReportDetail detail = (CustomerOpenItemReportDetail) details.get(documentNumber);
+
+            // populate Document Description
+            String documentDescription = paymentApplication.getDocumentHeader().getDocumentDescription();
+            if (ObjectUtils.isNotNull(documentDescription))
+                detail.setDocumentDescription(documentDescription);
+            else
+                detail.setDocumentDescription("");
+
+            // populate Document Payment Amount
+            detail.setDocumentPaymentAmount(KualiDecimal.ZERO);
+
+            // populate Unpaid/Unapplied Amount if the customer number is not the same
+            if (!(paymentApplication.getNonAppliedHolding().getCustomerNumber().equals(paymentApplication.getAccountsReceivableDocumentHeader().getCustomerNumber()))) {
+                detail.setUnpaidUnappliedAmount(paymentApplication.getNonAppliedHoldingAmount().negated());
+            }
 
             results.add(detail);
         }
@@ -570,6 +640,10 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
 
     public void setCustomerInvoiceDetailDao(CustomerInvoiceDetailDao customerInvoiceDetailDao) {
         this.customerInvoiceDetailDao = customerInvoiceDetailDao;
+    }
+
+    public void setNonAppliedHoldingDao(NonAppliedHoldingDao nonAppliedHoldingDao) {
+        this.nonAppliedHoldingDao = nonAppliedHoldingDao;
     }
 }
 

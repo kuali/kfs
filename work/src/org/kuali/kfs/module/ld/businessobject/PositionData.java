@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.ld.businessobject;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 import org.kuali.kfs.gl.Constant;
@@ -370,9 +369,7 @@ public class PositionData extends PersistableBusinessObjectBase {
         LinkedHashMap m = new LinkedHashMap();
         m.put("positionNumber", this.positionNumber);
         if (this.effectiveDate != null) {
-             SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-             String eD = df.format(this.effectiveDate);
-            m.put("effectiveDate", eD);
+            m.put("effectiveDate", this.effectiveDate.toString());
         }
 
         return m;

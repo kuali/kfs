@@ -44,7 +44,7 @@ public class BenefitExpenseTransferSameFringeBenefitObjectCodeValidation extends
     public boolean validate(AttributedDocumentEvent event) {
         boolean result = true;
         
-        Document documentForValidation = getdocumentForValidation();
+        Document documentForValidation = getDocumentForValidation();
         
         AccountingDocument accountingDocument = (AccountingDocument) documentForValidation;
         
@@ -84,13 +84,13 @@ public class BenefitExpenseTransferSameFringeBenefitObjectCodeValidation extends
         }
 
         return objectCodesFromSourceLine.containsAll(objectCodesFromTargetLine);
-}
+    }
 
     /**
      * Gets the accountingDocumentForValidation attribute. 
      * @return Returns the accountingDocumentForValidation.
      */
-    public Document getdocumentForValidation() {
+    public Document getDocumentForValidation() {
         return documentForValidation;
     }
 
@@ -98,7 +98,7 @@ public class BenefitExpenseTransferSameFringeBenefitObjectCodeValidation extends
      * Sets the accountingDocumentForValidation attribute value.
      * @param accountingDocumentForValidation The accountingDocumentForValidation to set.
      */
-    public void setdocumentForValidation(Document documentForValidation) {
+    public void setDocumentForValidation(Document documentForValidation) {
         this.documentForValidation = documentForValidation;
     } 
 }

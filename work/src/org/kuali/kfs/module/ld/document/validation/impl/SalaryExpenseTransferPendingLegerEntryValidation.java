@@ -51,7 +51,7 @@ public class SalaryExpenseTransferPendingLegerEntryValidation extends GenericVal
     public boolean validate(AttributedDocumentEvent event) {
         boolean result = true;
         
-        Document documentForValidation = getdocumentForValidation();
+        Document documentForValidation = getDocumentForValidation();
         AccountingDocument accountingDocument = (AccountingDocument) documentForValidation;
         
         result = !hasPendingLedgerEntry(accountingDocument);
@@ -96,7 +96,7 @@ public class SalaryExpenseTransferPendingLegerEntryValidation extends GenericVal
      * Gets the documentForValidation attribute. 
      * @return Returns the documentForValidation.
      */
-    public Document getdocumentForValidation() {
+    public Document getDocumentForValidation() {
         return documentForValidation;
     }
 
@@ -104,7 +104,7 @@ public class SalaryExpenseTransferPendingLegerEntryValidation extends GenericVal
      * Sets the accountingDocumentForValidation attribute value.
      * @param documentForValidation The documentForValidation to set.
      */
-    public void setdocumentForValidation(Document documentForValidation) {
+    public void setDocumentForValidation(Document documentForValidation) {
         this.documentForValidation = documentForValidation;
     }    
 }

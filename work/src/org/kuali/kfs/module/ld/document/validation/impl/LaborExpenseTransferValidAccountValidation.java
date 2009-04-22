@@ -58,7 +58,7 @@ public class LaborExpenseTransferValidAccountValidation extends GenericValidatio
     public boolean validate(AttributedDocumentEvent event) {
         boolean result = true;
                
-        Document documentForValidation = getdocumentForValidation();
+        Document documentForValidation = getDocumentForValidation();
         
         LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) documentForValidation;
         
@@ -100,7 +100,7 @@ public class LaborExpenseTransferValidAccountValidation extends GenericValidatio
      * Gets the documentForValidation attribute. 
      * @return Returns the documentForValidation.
      */
-    public Document getdocumentForValidation() {
+    public Document getDocumentForValidation() {
         return documentForValidation;
     }
 
@@ -108,7 +108,7 @@ public class LaborExpenseTransferValidAccountValidation extends GenericValidatio
      * Sets the accountingDocumentForValidation attribute value.
      * @param documentForValidation The documentForValidation to set.
      */
-    public void setdocumentForValidation(Document documentForValidation) {
+    public void setDocumentForValidation(Document documentForValidation) {
         this.documentForValidation = documentForValidation;
     }    
 }

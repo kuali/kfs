@@ -92,7 +92,7 @@ public class BenefitExpenseTransferSameAccountValidation extends GenericValidati
      * Sets the accountingDocumentForValidation attribute value.
      * @param accountingDocumentForValidation The accountingDocumentForValidation to set.
      */
-    public void setdocumentForValidation(Document documentForValidation) {
+    public void setDocumentForValidation(Document documentForValidation) {
         this.documentForValidation = documentForValidation;
     }
     

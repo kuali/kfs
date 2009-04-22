@@ -66,7 +66,7 @@ public class LaborExpenseTransferNegtiveAmountBeTransferredValidation extends Ge
     public boolean validate(AttributedDocumentEvent event) {
         boolean result = true;
                
-        Document documentForValidation = getdocumentForValidation();
+        Document documentForValidation = getDocumentForValidation();
         
         LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) documentForValidation;
         
@@ -241,7 +241,7 @@ public class LaborExpenseTransferNegtiveAmountBeTransferredValidation extends Ge
      * Gets the documentForValidation attribute. 
      * @return Returns the documentForValidation.
      */
-    public Document getdocumentForValidation() {
+    public Document getDocumentForValidation() {
         return documentForValidation;
     }
 
@@ -249,7 +249,7 @@ public class LaborExpenseTransferNegtiveAmountBeTransferredValidation extends Ge
      * Sets the accountingDocumentForValidation attribute value.
      * @param documentForValidation The documentForValidation to set.
      */
-    public void setdocumentForValidation(Document documentForValidation) {
+    public void setDocumentForValidation(Document documentForValidation) {
         this.documentForValidation = documentForValidation;
     }    
 }

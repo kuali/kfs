@@ -25,6 +25,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -43,6 +44,7 @@ public class SalaryExpenseTransferObjectCodeBalancesUnchangedValidation extends 
     public boolean validate(AttributedDocumentEvent event) {
         boolean result = true;
 
+        AccountingDocument accountingDocumentForValidation = getAccountingDocumentForValidation();        
         SalaryExpenseTransferDocument salaryExpenseTransferDocument = (SalaryExpenseTransferDocument) accountingDocumentForValidation;
         
         Map<String, KualiDecimal> approvalObjectCodeBalances = salaryExpenseTransferDocument.getApprovalObjectCodeBalances();
@@ -82,11 +84,19 @@ public class SalaryExpenseTransferObjectCodeBalancesUnchangedValidation extends 
     }
 
     /**
+     * Gets the accountingDocumentForValidation attribute. 
+     * @return Returns the accountingDocumentForValidation.
+     */
+    public AccountingDocument getAccountingDocumentForValidation() {
+        return accountingDocumentForValidation;
+    }
+
+    /**
      * Sets the accountingDocumentForValidation attribute value.
      * 
      * @param accountingDocumentForValidation The accountingDocumentForValidation to set.
      */
-    public void setAccountingLineForValidation(AccountingDocument accountingDocumentForValidation) {
+    public void setAccountingDocumentForValidation(AccountingDocument accountingDocumentForValidation) {
         this.accountingDocumentForValidation = accountingDocumentForValidation;
     }
 }

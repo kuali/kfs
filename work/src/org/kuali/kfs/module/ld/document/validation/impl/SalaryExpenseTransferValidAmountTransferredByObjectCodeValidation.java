@@ -31,6 +31,7 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -50,6 +51,9 @@ public class SalaryExpenseTransferValidAmountTransferredByObjectCodeValidation e
      * @see org.kuali.kfs.validation.Validation#validate(java.lang.Object[])
      */
     public boolean validate(AttributedDocumentEvent event) {
+        
+        AccountingDocument documentForValidation = getAccountingDocumentForValidation();
+        
         SalaryExpenseTransferDocument expenseTransferDocument = (SalaryExpenseTransferDocument) documentForValidation;
         KualiWorkflowDocument workflowDocument = expenseTransferDocument.getDocumentHeader().getWorkflowDocument();
         
@@ -120,11 +124,19 @@ public class SalaryExpenseTransferValidAmountTransferredByObjectCodeValidation e
     }
 
     /**
+     * Gets the documentForValidation attribute. 
+     * @return Returns the documentForValidation.
+     */
+    public AccountingDocument getAccountingDocumentForValidation() {
+        return documentForValidation;
+    }
+
+    /**
      * Sets the documentForValidation attribute value.
      * 
      * @param documentForValidation The documentForValidation to set.
      */
-    public void setDocumentForValidation(AccountingDocument documentForValidation) {
+    public void setAccountingDocumentForValidation(AccountingDocument documentForValidation) {
         this.documentForValidation = documentForValidation;
     }
 }

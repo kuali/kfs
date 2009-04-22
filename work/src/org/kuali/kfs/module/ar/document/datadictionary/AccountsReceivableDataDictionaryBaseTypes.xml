@@ -144,13 +144,13 @@
 		<property name="showAttributeInSearchCriteria" value="true" />
 		<property name="showAttributeInResultSet" value="true" />
 	</bean>
-	<bean id="SearchingAttribute-documentStatus-criteriaOnly"
+	<bean id="SearchingAttribute-documentStatus-resultsOnly"
 		class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
 		<property name="businessObjectClassName"
 			value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
 		<property name="attributeName" value="documentStatus" />
-		<property name="showAttributeInSearchCriteria" value="true" />
-		<property name="showAttributeInResultSet" value="false" />
+		<property name="showAttributeInSearchCriteria" value="false" />
+		<property name="showAttributeInResultSet" value="true" />
 	</bean>
 	<bean id="SearchingAttribute-createDate-resultsOnly"
 		class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
@@ -383,10 +383,10 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="SearchingType-AccountsReceivableDocument-documentStatus-criteriaOnly"
+	<bean id="SearchingType-AccountsReceivableDocument-documentStatus-resultsOnly"
 		class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
 		<property name="searchingAttribute"
-			ref="SearchingAttribute-documentStatus-criteriaOnly" />
+			ref="SearchingAttribute-documentStatus-resultsOnly" />
 		<property name="documentValues">
 			<list>
 				<value>accountsReceivableDocumentHeader.documentStatus</value>

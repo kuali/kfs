@@ -32,10 +32,8 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.validation.ContinueCustomerCreditMemoDocumentRule;
 import org.kuali.kfs.module.ar.document.validation.RecalculateCustomerCreditMemoDetailRule;
 import org.kuali.kfs.module.ar.document.validation.RecalculateCustomerCreditMemoDocumentRule;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
@@ -88,6 +86,10 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
         customerCreditMemoDocument.refreshReferenceObject("invoice");
         String inputKey = isQtyOrItemAmountEntered(customerCreditMemoDetail);
         
+        // refresh InvoiceOpenItemAmount and InvoiceOpenAmountQuantity if changed by any other transaction
+        customerCreditMemoDetail.setInvoiceOpenItemAmount(customerCreditMemoDetail.getCustomerInvoiceDetail().getAmountOpen());
+        customerCreditMemoDetail.setInvoiceOpenItemQuantity(customerCreditMemoDocument.getInvoiceOpenItemQuantity(customerCreditMemoDetail, customerCreditMemoDetail.getCustomerInvoiceDetail()));
+
         // 'Qty' was entered
         if (StringUtils.equals(ArConstants.CustomerCreditMemoConstants.CUSTOMER_CREDIT_MEMO_ITEM_QUANTITY,inputKey)) {
             success &= isValueGreaterThanZero(customerCreditMemoDetail.getCreditMemoItemQuantity());
@@ -144,9 +146,6 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
     }
 
     public boolean isCustomerCreditMemoItemAmountLessThanEqualToInvoiceOpenItemAmount(CustomerCreditMemoDocument customerCreditMemoDocument, CustomerCreditMemoDetail customerCreditMemoDetail){
-        // refresh InvoiceOpenItemAmount and InvoiceOpenAmountQuantity if changed by any other transaction
-        customerCreditMemoDetail.setInvoiceOpenItemAmount(customerCreditMemoDetail.getCustomerInvoiceDetail().getAmountOpen());
-        customerCreditMemoDetail.setInvoiceOpenItemQuantity(customerCreditMemoDocument.getInvoiceOpenItemQuantity(customerCreditMemoDetail, customerCreditMemoDetail.getCustomerInvoiceDetail()));
         
         KualiDecimal invoiceOpenItemAmount = customerCreditMemoDetail.getInvoiceOpenItemAmount();
         KualiDecimal creditMemoItemAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount();

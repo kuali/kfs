@@ -136,11 +136,35 @@
 		<property name="showAttributeInSearchCriteria" value="true" />
 		<property name="showAttributeInResultSet" value="false" />
 	</bean>
+	<bean id="SearchingAttribute-documentStatus"
+		class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+		<property name="businessObjectClassName"
+			value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
+		<property name="attributeName" value="documentStatus" />
+		<property name="showAttributeInSearchCriteria" value="true" />
+		<property name="showAttributeInResultSet" value="true" />
+	</bean>
 	<bean id="SearchingAttribute-documentStatus-criteriaOnly"
 		class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
 		<property name="businessObjectClassName"
 			value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
 		<property name="attributeName" value="documentStatus" />
+		<property name="showAttributeInSearchCriteria" value="true" />
+		<property name="showAttributeInResultSet" value="false" />
+	</bean>
+	<bean id="SearchingAttribute-createDate-resultsOnly"
+		class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+		<property name="businessObjectClassName"
+			value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
+		<property name="attributeName" value="createDate" />
+		<property name="showAttributeInSearchCriteria" value="false" />
+		<property name="showAttributeInResultSet" value="true" />
+	</bean>
+	<bean id="SearchingAttribute-initiatorId-resultsOnly"
+		class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+		<property name="businessObjectClassName"
+			value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
+		<property name="attributeName" value="initiatorId" />
 		<property name="showAttributeInSearchCriteria" value="false" />
 		<property name="showAttributeInResultSet" value="true" />
 	</bean>
@@ -237,6 +261,19 @@
 			</list>
 		</property>
 	</bean>
+	<bean
+		id="SearchingType-PaymentApplicationDocument-customerNumber-criteriaOnly"
+		class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+		<property name="searchingAttribute"
+			ref="SearchingAttribute-customerNumber-criteriaOnly" />
+		<property name="documentValues">
+			<list>
+				<value>
+					accountsReceivableDocumentHeader.customer.customerNumber
+				</value>
+			</list>
+		</property>
+	</bean>
 	<bean id="SearchingType-AccountsReceivableDocument-customerName"
 		class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
 		<property name="searchingAttribute"
@@ -270,6 +307,17 @@
 		<property name="documentValues">
 			<list>
 				<value>cashControlDetails.customer.customerName</value>
+			</list>
+		</property>
+	</bean>
+	<bean
+		id="SearchingType-PaymentApplicationDocument-customerName-criteriaOnly"
+		class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+		<property name="searchingAttribute"
+			ref="SearchingAttribute-customerName-criteriaOnly" />
+		<property name="documentValues">
+			<list>
+				<value>invoicePaidApplieds.invoiceDetail.customerInvoiceDocument.customerName</value>
 			</list>
 		</property>
 	</bean>
@@ -325,6 +373,16 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="SearchingType-AccountsReceivableDocument-documentStatus"
+		class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+		<property name="searchingAttribute"
+			ref="SearchingAttribute-documentStatus" />
+		<property name="documentValues">
+			<list>
+				<value>accountsReceivableDocumentHeader.documentStatus</value>
+			</list>
+		</property>
+	</bean>
 	<bean id="SearchingType-AccountsReceivableDocument-documentStatus-criteriaOnly"
 		class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
 		<property name="searchingAttribute"
@@ -332,6 +390,26 @@
 		<property name="documentValues">
 			<list>
 				<value>accountsReceivableDocumentHeader.documentStatus</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="SearchingType-AccountsReceivableDocument-createDate-resultsOnly"
+		class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+		<property name="searchingAttribute"
+			ref="SearchingAttribute-createDate-resultsOnly" />
+		<property name="documentValues">
+			<list>
+				<value>accountsReceivableDocumentHeader.createDate</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="SearchingType-AccountsReceivableDocument-initiatorId-resultsOnly"
+		class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+		<property name="searchingAttribute"
+			ref="SearchingAttribute-initiatorId-resultsOnly" />
+		<property name="documentValues">
+			<list>
+				<value>accountsReceivableDocumentHeader.initiatorId</value>
 			</list>
 		</property>
 	</bean>
@@ -545,10 +623,10 @@
 		</property>
 	</bean>
 	<bean
-		id="SearchingType-CustomerInvoiceWriteoffDocument-financialDocumentReferenceInvoiceNumber-criteriaOnly"
+		id="SearchingType-CustomerInvoiceWriteoffDocument-financialDocumentReferenceInvoiceNumber"
 		class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
 		<property name="searchingAttribute"
-			ref="SearchingAttribute-financialDocumentReferenceInvoiceNumber-criteriaOnly" />
+			ref="SearchingAttribute-financialDocumentReferenceInvoiceNumber" />
 		<property name="documentValues">
 			<list>
 				<value>financialDocumentReferenceInvoiceNumber</value>

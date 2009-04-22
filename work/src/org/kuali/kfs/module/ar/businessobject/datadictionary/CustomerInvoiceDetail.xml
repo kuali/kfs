@@ -131,14 +131,14 @@
   <bean id="CustomerInvoiceDetail-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
     <property name="label" value="Sub-Account Code" />
     <property name="required" value="false" />
-    <property name="summary" value="&amp;nbsp;" />
+    
   </bean>
   <bean id="CustomerInvoiceDetail-projectCode" parent="CustomerInvoiceDetail-projectCode-parentBean" />
 
   <bean id="CustomerInvoiceDetail-projectCode-parentBean" abstract="true" parent="ProjectCode-code">
     <property name="name" value="projectCode" />
     <property name="required" value="false" />
-    <property name="summary" value="&amp;nbsp;" />
+    
   </bean>
   <bean id="CustomerInvoiceDetail-financialSubObjectCode" parent="CustomerInvoiceDetail-financialSubObjectCode-parentBean" />
 

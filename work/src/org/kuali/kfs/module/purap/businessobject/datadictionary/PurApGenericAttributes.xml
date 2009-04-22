@@ -287,8 +287,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The sequential entry Id for the transaction." />
+    
+    
   </bean>
   
 </beans>

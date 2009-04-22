@@ -44,8 +44,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="Appointment Duration Code" />
-    <property name="description" value="Leave of absence duration code for an appointment." />
+    
+    
   </bean>
   <bean id="BudgetConstructionDuration-appointmentDurationDescription" parent="BudgetConstructionDuration-appointmentDurationDescription-parentBean" />
 
@@ -63,8 +63,8 @@
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="Appointment Duration Description" />
-    <property name="description" value="Appointment Duration Description" />
+    
+    
   </bean>
   
   <bean id="BudgetConstructionDuration-active" parent="BudgetConstructionDuration-active-parentBean" />

@@ -49,8 +49,8 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="questionTypeCode" />
-    <property name="description" value="questionTypeCode description..." />
+    
+    
   </bean>
   <bean id="QuestionType-questionTypeDescription" parent="QuestionType-questionTypeDescription-parentBean" />
 
@@ -63,8 +63,8 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="questionTypeDescription" />
-    <property name="description" value="questionTypeDescription description..." />
+    
+    
   </bean>
   <bean id="QuestionType-questionTypeSortNumber" parent="QuestionType-questionTypeSortNumber-parentBean" />
 
@@ -80,8 +80,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="sortNumber" />
-    <property name="description" value="sortNumber description..." />
+    
+    
   </bean>
   <bean id="QuestionType-questionTypeNotificationValue" parent="QuestionType-questionTypeNotificationValue-parentBean" />
 
@@ -94,8 +94,8 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="questionTypeNotificationValue" />
-    <property name="description" value="Value on which to route to the notification group.  Valid options are Y (yes), N (no), A (all), X (never)." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

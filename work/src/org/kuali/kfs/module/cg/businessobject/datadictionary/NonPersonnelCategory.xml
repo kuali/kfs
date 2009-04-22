@@ -46,8 +46,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="Nonpersonnel Category Code" />
-    <property name="description" value="Nonpersonnel Category Code" />
+    
+    
   </bean>
   <bean id="NonPersonnelCategory-active" parent="NonPersonnelCategory-active-parentBean" />
 
@@ -70,8 +70,8 @@
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="Nonpersonnel Category Name" />
-    <property name="description" value="The name of the Nonpersonnel Category." />
+    
+    
   </bean>
   <bean id="NonPersonnelCategory-sortNumber" parent="NonPersonnelCategory-sortNumber-parentBean" />
 
@@ -87,8 +87,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Nonpersonnel Category Sort Number" />
-    <property name="description" value="The order in which Nonpersonnel Categories will be displayed within the application." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

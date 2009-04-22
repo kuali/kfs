@@ -49,8 +49,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="routingFormResearchRiskStudySequenceNumber" />
-    <property name="description" value="routingFormResearchRiskStudySequenceNumber description..." />
+    
+    
   </bean>
   <bean id="RoutingFormResearchRiskStudy-researchRiskStudyApprovalStatusCode" parent="RoutingFormResearchRiskStudy-researchRiskStudyApprovalStatusCode-parentBean" />
 
@@ -64,8 +64,8 @@
             p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.RoutingFormApprovalStatusValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="researchRiskStudyApprovalStatusCode" />
-    <property name="description" value="researchRiskStudyApprovalStatusCode description..." />
+    
+    
   </bean>
   <bean id="RoutingFormResearchRiskStudy-researchRiskExemptionNumber" parent="RoutingFormResearchRiskStudy-researchRiskExemptionNumber-parentBean" />
 
@@ -81,8 +81,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="researchRiskExemptionNumber" />
-    <property name="description" value="researchRiskExemptionNumber description..." />
+    
+    
   </bean>
   <bean id="RoutingFormResearchRiskStudy-researchRiskStudyApprovalDate" parent="RoutingFormResearchRiskStudy-researchRiskStudyApprovalDate-parentBean" />
 
@@ -98,8 +98,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="researchRiskStudyApprovalDate" />
-    <property name="description" value="researchRiskStudyApprovalDate description..." />
+    
+    
   </bean>
   <bean id="RoutingFormResearchRiskStudy-researchRiskStudyExpirationDate" parent="RoutingFormResearchRiskStudy-researchRiskStudyExpirationDate-parentBean" />
 
@@ -115,8 +115,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="researchRiskStudyExpirationDate" />
-    <property name="description" value="researchRiskStudyExpirationDate description..." />
+    
+    
   </bean>
   <bean id="RoutingFormResearchRiskStudy-researchRiskStudyName" parent="RoutingFormResearchRiskStudy-researchRiskStudyName-parentBean" />
 
@@ -133,8 +133,8 @@
             p:rows="5"
             p:cols="80" />
     </property>
-    <property name="summary" value="researchRiskStudyName" />
-    <property name="description" value="researchRiskStudyName description..." />
+    
+    
   </bean>
   <bean id="RoutingFormResearchRiskStudy-researchRiskStudyNumber" parent="RoutingFormResearchRiskStudy-researchRiskStudyNumber-parentBean" />
 
@@ -150,8 +150,8 @@
       <bean parent="TextControlDefinition"
             p:size="17" />
     </property>
-    <property name="summary" value="researchRiskStudyNumber" />
-    <property name="description" value="researchRiskStudyNumber description..." />
+    
+    
   </bean>
   <bean id="RoutingFormResearchRiskStudy-researchRiskStudyReviewCode" parent="RoutingFormResearchRiskStudy-researchRiskStudyReviewCode-parentBean" />
 
@@ -168,8 +168,8 @@
             p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.RoutingFormStudyReviewCodeValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="researchRiskStudyReviewCode" />
-    <property name="description" value="researchRiskStudyReviewCode description..." />
+    
+    
   </bean>
   <bean id="RoutingFormResearchRiskStudy-researchRiskTypeCode" parent="RoutingFormResearchRiskStudy-researchRiskTypeCode-parentBean" />
 
@@ -186,8 +186,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="researchRiskTypeCode" />
-    <property name="description" value="researchRiskTypeCode description..." />
+    
+    
   </bean>
   <bean id="RoutingFormResearchRiskStudy-documentNumber" parent="RoutingFormResearchRiskStudy-documentNumber-parentBean" />
 
@@ -204,8 +204,8 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="documentNumber" />
-    <property name="description" value="documentNumber description..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

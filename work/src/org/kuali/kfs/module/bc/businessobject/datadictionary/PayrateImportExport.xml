@@ -35,8 +35,8 @@
       <bean parent="TextControlDefinition"
             p:size="50" />
     </property>
-    <property name="summary" value="File" />
-    <property name="description" value="File" />
+    
+    
   </bean>
 
   <bean id="PayrateImportExport-positionUnionCode" parent="PayrateImportExport-positionUnionCode-parentBean" />
@@ -51,8 +51,8 @@
       <bean parent="TextControlDefinition"
             p:size="50" />
     </property>
-    <property name="summary" value="Position Union Code" />
-    <property name="description" value="Position Union Code" />
+    
+    
   </bean>
   <bean id="PayrateImportExport-csfFreezeDate" parent="PayrateImportExport-csfFreezeDate-parentBean" />
 
@@ -60,8 +60,8 @@
     <property name="name" value="csfFreezeDate" />
     <property name="label" value="CSF Freeze Date(MM/DD/YYYY)" />
     <property name="shortLabel" value="CSF Freeze Date" />
-    <property name="summary" value="CSF Freeze Date" />
-    <property name="description" value="CSF Freeze Date" />
+    
+    
     <property name="validationPattern" >
       <bean parent="DateValidationPattern" />
     </property>
@@ -79,8 +79,8 @@
       <bean parent="TextControlDefinition"
             p:size="1" />
     </property>
-    <property name="summary" value="Export Count" />
-    <property name="description" value="Export Count" />
+    
+    
   </bean>
   
   <bean id="PayrateImportExport-importCount" parent="PayrateImportExport-importCount-parentBean" />
@@ -95,8 +95,8 @@
       <bean parent="TextControlDefinition"
             p:size="1" />
     </property>
-    <property name="summary" value="Import Count" />
-    <property name="description" value="Import Count" />
+    
+    
   </bean>
   <bean id="PayrateImportExport-updateCount" parent="PayrateImportExport-updateCount-parentBean" />
 
@@ -110,8 +110,8 @@
       <bean parent="TextControlDefinition"
             p:size="1" />
     </property>
-    <property name="summary" value="Update Count" />
-    <property name="description" value="Update Count" />
+    
+    
   </bean>
   
 <!-- Business Object Lookup Definition -->

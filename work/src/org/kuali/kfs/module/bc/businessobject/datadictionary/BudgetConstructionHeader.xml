@@ -50,8 +50,8 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="accountNumber" />
-    <property name="description" value="accountNumber description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionHeader-budgetLockUserIdentifier" parent="BudgetConstructionHeader-budgetLockUserIdentifier-parentBean" />
 
@@ -68,8 +68,8 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="budgetLockUserIdentifier" />
-    <property name="description" value="budgetLockUserIdentifier description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionHeader-budgetTransactionLockUserIdentifier" parent="BudgetConstructionHeader-budgetTransactionLockUserIdentifier-parentBean" />
 
@@ -86,8 +86,8 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="budgetTransactionLockUserIdentifier" />
-    <property name="description" value="budgetTransactionLockUserIdentifier description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionHeader-chartOfAccountsCode" parent="BudgetConstructionHeader-chartOfAccountsCode-parentBean" />
 
@@ -106,8 +106,8 @@
             p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SimpleChartValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="chartOfAccountsCode" />
-    <property name="description" value="chartOfAccountsCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionHeader-documentNumber" parent="BudgetConstructionHeader-documentNumber-parentBean" />
 
@@ -125,8 +125,8 @@
       <bean parent="TextControlDefinition"
             p:size="15" />
     </property>
-    <property name="summary" value="documentNumber" />
-    <property name="description" value="documentNumber description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionHeader-organizationLevelChartOfAccountsCode" parent="BudgetConstructionHeader-organizationLevelChartOfAccountsCode-parentBean" />
 
@@ -143,8 +143,8 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="organizationLevelChartOfAccountsCode" />
-    <property name="description" value="organizationLevelChartOfAccountsCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionHeader-organizationLevelCode" parent="BudgetConstructionHeader-organizationLevelCode-parentBean" />
 
@@ -161,8 +161,8 @@
       <bean parent="TextControlDefinition"
             p:size="8" />
     </property>
-    <property name="summary" value="organizationLevelCode" />
-    <property name="description" value="organizationLevelCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionHeader-organizationLevelOrganizationCode" parent="BudgetConstructionHeader-organizationLevelOrganizationCode-parentBean" />
 
@@ -179,8 +179,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="organizationLevelOrganizationCode" />
-    <property name="description" value="organizationLevelOrganizationCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionHeader-subAccountNumber" parent="BudgetConstructionHeader-subAccountNumber-parentBean" />
 
@@ -197,8 +197,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="subAccountNumber" />
-    <property name="description" value="subAccountNumber description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionHeader-universityFiscalYear" parent="BudgetConstructionHeader-universityFiscalYear-parentBean" />
 
@@ -216,8 +216,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="universityFiscalYear" />
-    <property name="description" value="universityFiscalYear description..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -49,8 +49,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="Tax Region Code" />
-    <property name="description" value="The code uniquely identifies a tax region" />
+    
+    
   </bean>
   
   <bean id="TaxRegion-taxRegionName" parent="TaxRegion-taxRegionName-parentBean" />
@@ -69,8 +69,8 @@
       <bean parent="TextControlDefinition"
             p:size="40" />
     </property>
-    <property name="summary" value="Tax Region Name" />
-    <property name="description" value="Name of the tax district." />
+    
+    
   </bean>
   
   <bean id="TaxRegion-taxRegionTypeCode" parent="TaxRegion-taxRegionTypeCode-parentBean" />
@@ -84,8 +84,8 @@
     <property name="label" value="Tax Region Use Tax Indicator" />
     <property name="shortLabel" value="Use Tax Indicator" />
     <property name="required" value="false" />
-    <property name="summary" value="Tax Region Use Tax Indicator" />
-    <property name="description" value="Indicator for Use Tax" />
+    
+    
   </bean>
 
   <bean id="TaxRegion-chartOfAccountsCode" parent="TaxRegion-chartOfAccountsCode-parentBean" />

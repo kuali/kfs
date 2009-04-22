@@ -43,8 +43,8 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="personRoleCode" />
-    <property name="description" value="personRoleCode description..." />
+    
+    
   </bean>
   <bean id="ContractsAndGrantsRoleCode-personRoleDescription" parent="ContractsAndGrantsRoleCode-personRoleDescription-parentBean" />
 
@@ -61,8 +61,8 @@
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="personRoleDescription" />
-    <property name="description" value="personRoleDescription description..." />
+    
+    
   </bean>
   <bean id="ContractsAndGrantsRoleCode-personRoleSortNumber" parent="ContractsAndGrantsRoleCode-personRoleSortNumber-parentBean" />
 
@@ -78,8 +78,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="personRoleSortNumber" />
-    <property name="description" value="personRoleSortNumber description..." />
+    
+    
   </bean>
   <bean id="ContractsAndGrantsRoleCode-active" parent="ContractsAndGrantsRoleCode-active-parentBean" />
 

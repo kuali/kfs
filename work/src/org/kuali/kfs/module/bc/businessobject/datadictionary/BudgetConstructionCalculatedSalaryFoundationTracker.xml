@@ -51,8 +51,8 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="accountNumber" />
-    <property name="description" value="accountNumber description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-chartOfAccountsCode" parent="BudgetConstructionCalculatedSalaryFoundationTracker-chartOfAccountsCode-parentBean" />
 
@@ -69,8 +69,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="chartOfAccountsCode" />
-    <property name="description" value="chartOfAccountsCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-csfAmount" parent="BudgetConstructionCalculatedSalaryFoundationTracker-csfAmount-parentBean" />
 
@@ -87,8 +87,8 @@
       <bean parent="TextControlDefinition"
             p:size="17" />
     </property>
-    <property name="summary" value="csfAmount" />
-    <property name="description" value="csfAmount description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-csfFullTimeEmploymentQuantity" parent="BudgetConstructionCalculatedSalaryFoundationTracker-csfFullTimeEmploymentQuantity-parentBean" />
 
@@ -105,8 +105,8 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="csfFullTimeEmploymentQuantity" />
-    <property name="description" value="csfFullTimeEmploymentQuantity description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-csfFundingStatusCode" parent="BudgetConstructionCalculatedSalaryFoundationTracker-csfFundingStatusCode-parentBean" />
 
@@ -123,8 +123,8 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="csfFundingStatusCode" />
-    <property name="description" value="csfFundingStatusCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-csfTimePercent" parent="BudgetConstructionCalculatedSalaryFoundationTracker-csfTimePercent-parentBean" />
 
@@ -141,8 +141,8 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="csfTimePercent" />
-    <property name="description" value="csfTimePercent description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-emplid" parent="BudgetConstructionCalculatedSalaryFoundationTracker-emplid-parentBean" />
 
@@ -159,8 +159,8 @@
       <bean parent="TextControlDefinition"
             p:size="13" />
     </property>
-    <property name="summary" value="emplid" />
-    <property name="description" value="emplid description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-financialObjectCode" parent="BudgetConstructionCalculatedSalaryFoundationTracker-financialObjectCode-parentBean" />
 
@@ -177,8 +177,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="financialObjectCode" />
-    <property name="description" value="financialObjectCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-financialSubObjectCode" parent="BudgetConstructionCalculatedSalaryFoundationTracker-financialSubObjectCode-parentBean" />
 
@@ -195,8 +195,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="financialSubObjectCode" />
-    <property name="description" value="financialSubObjectCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-positionNumber" parent="BudgetConstructionCalculatedSalaryFoundationTracker-positionNumber-parentBean" />
 
@@ -213,8 +213,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="positionNumber" />
-    <property name="description" value="positionNumber description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-subAccountNumber" parent="BudgetConstructionCalculatedSalaryFoundationTracker-subAccountNumber-parentBean" />
 
@@ -231,8 +231,8 @@
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-    <property name="summary" value="subAccountNumber" />
-    <property name="description" value="subAccountNumber description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-universityFiscalYear" parent="BudgetConstructionCalculatedSalaryFoundationTracker-universityFiscalYear-parentBean" />
 
@@ -249,8 +249,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="universityFiscalYear" />
-    <property name="description" value="universityFiscalYear description..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

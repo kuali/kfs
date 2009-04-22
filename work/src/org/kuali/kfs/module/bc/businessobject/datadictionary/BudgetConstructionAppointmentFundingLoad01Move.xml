@@ -61,8 +61,8 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="accountNumber" />
-    <property name="description" value="accountNumber description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAppointmentFundingLoad01Move-appointmentFundingDeleteIndicator" parent="BudgetConstructionAppointmentFundingLoad01Move-appointmentFundingDeleteIndicator-parentBean" />
 
@@ -75,8 +75,8 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="appointmentFundingDeleteIndicator" />
-    <property name="description" value="appointmentFundingDeleteIndicator description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAppointmentFundingLoad01Move-appointmentFundingDurationCode" parent="BudgetConstructionAppointmentFundingLoad01Move-appointmentFundingDurationCode-parentBean" />
 
@@ -93,8 +93,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="appointmentFundingDurationCode" />
-    <property name="description" value="appointmentFundingDurationCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAppointmentFundingLoad01Move-appointmentFundingMonth" parent="BudgetConstructionAppointmentFundingLoad01Move-appointmentFundingMonth-parentBean" />
 
@@ -111,8 +111,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="appointmentFundingMonth" />
-    <property name="description" value="appointmentFundingMonth description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAppointmentFundingLoad01Move-appointmentRequestedAmount" parent="BudgetConstructionAppointmentFundingLoad01Move-appointmentRequestedAmount-parentBean" />
 
@@ -129,8 +129,8 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="appointmentRequestedAmount" />
-    <property name="description" value="appointmentRequestedAmount description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAppointmentFundingLoad01Move-appointmentRequestedCsfAmount" parent="BudgetConstructionAppointmentFundingLoad01Move-appointmentRequestedCsfAmount-parentBean" />
 
@@ -147,8 +147,8 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="appointmentRequestedCsfAmount" />
-    <property name="description" value="appointmentRequestedCsfAmount description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAppointmentFundingLoad01Move-appointmentRequestedCsfFteQuantity" parent="BudgetConstructionAppointmentFundingLoad01Move-appointmentRequestedCsfFteQuantity-parentBean" />
 
@@ -165,8 +165,8 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="appointmentRequestedCsfFteQuantity" />
-    <property name="description" value="appointmentRequestedCsfFteQuantity description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAppointmentFundingLoad01Move-appointmentRequestedCsfTimePercent" parent="BudgetConstructionAppointmentFundingLoad01Move-appointmentRequestedCsfTimePercent-parentBean" />
 
@@ -183,8 +183,8 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="appointmentRequestedCsfTimePercent" />
-    <property name="description" value="appointmentRequestedCsfTimePercent description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAppointmentFundingLoad01Move-appointmentRequestedFteQuantity" parent="BudgetConstructionAppointmentFundingLoad01Move-appointmentRequestedFteQuantity-parentBean" />
 
@@ -201,8 +201,8 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="appointmentRequestedFteQuantity" />
-    <property name="description" value="appointmentRequestedFteQuantity description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAppointmentFundingLoad01Move-appointmentRequestedPayRate" parent="BudgetConstructionAppointmentFundingLoad01Move-appointmentRequestedPayRate-parentBean" />
 
@@ -219,8 +219,8 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="appointmentRequestedPayRate" />
-    <property name="description" value="appointmentRequestedPayRate description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAppointmentFundingLoad01Move-appointmentRequestedTimePercent" parent="BudgetConstructionAppointmentFundingLoad01Move-appointmentRequestedTimePercent-parentBean" />
 
@@ -237,8 +237,8 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="appointmentRequestedTimePercent" />
-    <property name="description" value="appointmentRequestedTimePercent description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAppointmentFundingLoad01Move-appointmentTotalIntendedAmount" parent="BudgetConstructionAppointmentFundingLoad01Move-appointmentTotalIntendedAmount-parentBean" />
 
@@ -255,8 +255,8 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="appointmentTotalIntendedAmount" />
-    <property name="description" value="appointmentTotalIntendedAmount description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAppointmentFundingLoad01Move-appointmentTotalIntendedFteQuantity" parent="BudgetConstructionAppointmentFundingLoad01Move-appointmentTotalIntendedFteQuantity-parentBean" />
 
@@ -273,8 +273,8 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="appointmentTotalIntendedFteQuantity" />
-    <property name="description" value="appointmentTotalIntendedFteQuantity description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAppointmentFundingLoad01Move-chartOfAccountsCode" parent="BudgetConstructionAppointmentFundingLoad01Move-chartOfAccountsCode-parentBean" />
 
@@ -291,8 +291,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="chartOfAccountsCode" />
-    <property name="description" value="chartOfAccountsCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAppointmentFundingLoad01Move-emplid" parent="BudgetConstructionAppointmentFundingLoad01Move-emplid-parentBean" />
 
@@ -309,8 +309,8 @@
       <bean parent="TextControlDefinition"
             p:size="13" />
     </property>
-    <property name="summary" value="emplid" />
-    <property name="description" value="emplid description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAppointmentFundingLoad01Move-financialObjectCode" parent="BudgetConstructionAppointmentFundingLoad01Move-financialObjectCode-parentBean" />
 
@@ -327,8 +327,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="financialObjectCode" />
-    <property name="description" value="financialObjectCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAppointmentFundingLoad01Move-financialSubObjectCode" parent="BudgetConstructionAppointmentFundingLoad01Move-financialSubObjectCode-parentBean" />
 
@@ -345,8 +345,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="financialSubObjectCode" />
-    <property name="description" value="financialSubObjectCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAppointmentFundingLoad01Move-newAccountNumber" parent="BudgetConstructionAppointmentFundingLoad01Move-newAccountNumber-parentBean" />
 
@@ -363,8 +363,8 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="newAccountNumber" />
-    <property name="description" value="newAccountNumber description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAppointmentFundingLoad01Move-newChartOfAccountsCode" parent="BudgetConstructionAppointmentFundingLoad01Move-newChartOfAccountsCode-parentBean" />
 
@@ -381,8 +381,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="newChartOfAccountsCode" />
-    <property name="description" value="newChartOfAccountsCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAppointmentFundingLoad01Move-positionNumber" parent="BudgetConstructionAppointmentFundingLoad01Move-positionNumber-parentBean" />
 
@@ -399,8 +399,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="positionNumber" />
-    <property name="description" value="positionNumber description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAppointmentFundingLoad01Move-subAccountNumber" parent="BudgetConstructionAppointmentFundingLoad01Move-subAccountNumber-parentBean" />
 
@@ -417,8 +417,8 @@
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-    <property name="summary" value="subAccountNumber" />
-    <property name="description" value="subAccountNumber description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAppointmentFundingLoad01Move-universityFiscalYear" parent="BudgetConstructionAppointmentFundingLoad01Move-universityFiscalYear-parentBean" />
 
@@ -435,8 +435,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="universityFiscalYear" />
-    <property name="description" value="universityFiscalYear description..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

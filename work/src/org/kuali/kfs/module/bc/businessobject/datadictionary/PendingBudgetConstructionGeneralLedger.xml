@@ -70,8 +70,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="accountLineAnnualBalanceAmount" />
-    <property name="description" value="accountLineAnnualBalanceAmount description..." />
+    
+    
   </bean>
   <bean id="PendingBudgetConstructionGeneralLedger-accountNumber" parent="PendingBudgetConstructionGeneralLedger-accountNumber-parentBean" />
 
@@ -89,8 +89,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="accountNumber" />
-    <property name="description" value="accountNumber description..." />
+    
+    
   </bean>
   <bean id="PendingBudgetConstructionGeneralLedger-chartOfAccountsCode" parent="PendingBudgetConstructionGeneralLedger-chartOfAccountsCode-parentBean" />
 
@@ -108,8 +108,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="chartOfAccountsCode" />
-    <property name="description" value="chartOfAccountsCode description..." />
+    
+    
   </bean>
   <bean id="PendingBudgetConstructionGeneralLedger-financialBalanceTypeCode" parent="PendingBudgetConstructionGeneralLedger-financialBalanceTypeCode-parentBean" />
 
@@ -127,8 +127,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="financialBalanceTypeCode" />
-    <property name="description" value="financialBalanceTypeCode description..." />
+    
+    
   </bean>
   <bean id="PendingBudgetConstructionGeneralLedger-financialBeginningBalanceLineAmount" parent="PendingBudgetConstructionGeneralLedger-financialBeginningBalanceLineAmount-parentBean" />
 
@@ -147,8 +147,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="financialBeginningBalanceLineAmount" />
-    <property name="description" value="financialBeginningBalanceLineAmount description..." />
+    
+    
   </bean>
   <bean id="PendingBudgetConstructionGeneralLedger-percentChange" parent="PendingBudgetConstructionGeneralLedger-percentChange-parentBean" />
 
@@ -162,8 +162,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="percentChange" />
-    <property name="description" value="percentChange description..." />
+    
+    
   </bean>
   <bean id="PendingBudgetConstructionGeneralLedger-documentNumber" parent="PendingBudgetConstructionGeneralLedger-documentNumber-parentBean" />
 
@@ -181,8 +181,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="documentNumber" />
-    <property name="description" value="documentNumber description..." />
+    
+    
   </bean>
   <bean id="PendingBudgetConstructionGeneralLedger-financialObjectCode" parent="PendingBudgetConstructionGeneralLedger-financialObjectCode-parentBean" />
 
@@ -200,8 +200,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="financialObjectCode" />
-    <property name="description" value="financialObjectCode description..." />
+    
+    
   </bean>
   <bean id="PendingBudgetConstructionGeneralLedger-financialObjectTypeCode" parent="PendingBudgetConstructionGeneralLedger-financialObjectTypeCode-parentBean" />
 
@@ -219,8 +219,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="financialObjectTypeCode" />
-    <property name="description" value="financialObjectTypeCode description..." />
+    
+    
   </bean>
   <bean id="PendingBudgetConstructionGeneralLedger-financialSubObjectCode" parent="PendingBudgetConstructionGeneralLedger-financialSubObjectCode-parentBean" />
 
@@ -237,8 +237,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="financialSubObjectCode" />
-    <property name="description" value="financialSubObjectCode description..." />
+    
+    
   </bean>
   <bean id="PendingBudgetConstructionGeneralLedger-subAccountNumber" parent="PendingBudgetConstructionGeneralLedger-subAccountNumber-parentBean" />
 
@@ -256,8 +256,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-    <property name="summary" value="subAccountNumber" />
-    <property name="description" value="subAccountNumber description..." />
+    
+    
   </bean>
   <bean id="PendingBudgetConstructionGeneralLedger-universityFiscalYear" parent="PendingBudgetConstructionGeneralLedger-universityFiscalYear-parentBean" />
 
@@ -275,8 +275,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="universityFiscalYear" />
-    <property name="description" value="universityFiscalYear description..." />
+    
+    
   </bean>
 
   <bean id="PendingBudgetConstructionGeneralLedger-adjustmentAmount" parent="PendingBudgetConstructionGeneralLedger-adjustmentAmount-parentBean" />
@@ -295,8 +295,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="adjustmentAmount" />
-    <property name="description" value="adjustmentAmount description..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

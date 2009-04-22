@@ -48,8 +48,8 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="accountLineAnnualBalanceAmount" />
-    <property name="description" value="accountLineAnnualBalanceAmount description..." />
+    
+    
   </bean>
   <bean id="RequestBenefits-universityFiscalYear" parent="RequestBenefits-universityFiscalYear-parentBean" />
 
@@ -128,8 +128,8 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="Benefit Detail Amount" />
-    <property name="description" value="fringeDetailAmount description..." />
+    
+    
   </bean>
 
 <!-- Business Object Lookup Definition -->

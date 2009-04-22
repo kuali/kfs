@@ -139,8 +139,8 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The transaction number on the deposit slip assigned by the bank." />
+    
+    
   </bean>
   <bean id="LaborJournalVoucherDetail-sequenceNumber" parent="LaborJournalVoucherDetail-sequenceNumber-parentBean" />
 
@@ -151,7 +151,7 @@
   <bean id="LaborJournalVoucherDetail-financialObjectCode" parent="LaborJournalVoucherDetail-financialObjectCode-parentBean" />
 
   <bean id="LaborJournalVoucherDetail-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
-    <property name="description" value="The code that identifies the &quot;object&quot; of accounting for a transaction, expressed as a 4-digit numeric text, including leading zeros. For Search Criteria, select the Help for the Object Code search." />
+    
   </bean>
   <bean id="LaborJournalVoucherDetail-accountNumber" parent="LaborJournalVoucherDetail-accountNumber-parentBean" />
 
@@ -173,8 +173,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The identifier of an Organization which has been associated with the Account Line." />
+    
+    
   </bean>
   <bean id="LaborJournalVoucherDetail-chartOfAccountsCode" parent="LaborJournalVoucherDetail-chartOfAccountsCode-parentBean" />
 
@@ -184,7 +184,7 @@
             p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SimpleChartValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="description" value="The code that identifies the Chart of Accounts for an Account. Kuali accommodates more than one Chart of Accounts." />
+    
   </bean>
   <bean id="LaborJournalVoucherDetail-postingYear" parent="LaborJournalVoucherDetail-postingYear-parentBean" />
 
@@ -208,8 +208,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The system code for that identifies the system from which the original encumbering transaction came, selected from a pulldown list." />
+    
+    
   </bean>
   <bean id="LaborJournalVoucherDetail-overrideCode" parent="LaborJournalVoucherDetail-overrideCode-parentBean" />
 
@@ -220,7 +220,7 @@
   <bean id="LaborJournalVoucherDetail-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="amount" />
     <property name="required" value="true" />
-    <property name="description" value="The total dollar amount of check or batch of checks." />
+    
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   
@@ -233,8 +233,8 @@
     <property name="label" value="Reference Type Code" />
     <property name="shortLabel" value="Ref Type Code" />
     <property name="required" value="false" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The system code for the type of the system from which the original encumbering transaction came, selected from a pulldown list." />
+    
+    
   </bean>
   
   <bean id="LaborJournalVoucherDetail-projectCode" parent="LaborJournalVoucherDetail-projectCode-parentBean" />
@@ -264,8 +264,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="If it&apos;s a &quot;C&quot; then this accounting line is a credit, if it&apos;s a &quot;D&quot;, then it&apos;s a debit." />
+    
+    
   </bean>
   
   <bean id="LaborJournalVoucherDetail-encumbranceUpdateCode" parent="LaborJournalVoucherDetail-encumbranceUpdateCode-parentBean" />
@@ -283,8 +283,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The system code for the type of encumbrance update in an Accounting Line, selected from a pulldown list." />
+    
+    
   </bean>
   
   <bean id="LaborJournalVoucherDetail-objectTypeCode" parent="LaborJournalVoucherDetail-objectTypeCode-parentBean" />
@@ -304,8 +304,8 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="This override indicates that the user has explicitly decided to use an account even though it has expired." />
+    
+    
   </bean>
   <bean id="LaborJournalVoucherDetail-nonFringeAccountOverride" parent="LaborJournalVoucherDetail-nonFringeAccountOverride-parentBean" />
 
@@ -319,8 +319,8 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="This override indicates that the user has explicitly decided to use an account even though it does not accept fringe benefit." />
+    
+    
   </bean>
   <bean id="LaborJournalVoucherDetail-objectBudgetOverride" parent="LaborJournalVoucherDetail-objectBudgetOverride-parentBean" />
 
@@ -334,8 +334,8 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="This override indicates that the user has explicitly decided to use a non budgeted object code even though presence control is on for the account." />
+    
+    
   </bean>
   <bean id="LaborJournalVoucherDetail-financialDocumentLineDescription" parent="LaborJournalVoucherDetail-financialDocumentLineDescription-parentBean" />
 
@@ -350,8 +350,8 @@
       <bean parent="TextControlDefinition"
             p:size="40" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="A free-form text field that describes the purpose or function of the Accounting Line." />
+    
+    
   </bean>
   <bean id="LaborJournalVoucherDetail-salesTaxRequired" parent="LaborJournalVoucherDetail-salesTaxRequired-parentBean" />
 
@@ -365,8 +365,8 @@
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="Added in specifically so that I can override the formatter for booleans" />
+    
+    
   </bean>
   <bean id="LaborJournalVoucherDetail-salesTax.chartOfAccountsCode" parent="LaborJournalVoucherDetail-salesTax.chartOfAccountsCode-parentBean" />
 
@@ -374,8 +374,8 @@
     <property name="name" value="salesTax.chartOfAccountsCode" />
     <property name="label" value="Sales Tax Chart of Accounts Code" />
     <property name="shortLabel" value="Sales Tax Chart" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="Chart of Accounts Code that Sales Tax is collected against" />
+    
+    
   </bean>
   <bean id="LaborJournalVoucherDetail-salesTax.accountNumber" parent="LaborJournalVoucherDetail-salesTax.accountNumber-parentBean" />
 
@@ -383,8 +383,8 @@
     <property name="name" value="salesTax.accountNumber" />
     <property name="label" value="Sales Tax Account Number" />
     <property name="shortLabel" value="Sales Tax Account" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="Account Number that Sales Tax is collected against" />
+    
+    
   </bean>
   <bean id="LaborJournalVoucherDetail-salesTax.financialDocumentGrossSalesAmount" parent="LaborJournalVoucherDetail-salesTax.financialDocumentGrossSalesAmount-parentBean" />
 
@@ -392,7 +392,7 @@
     <property name="name" value="salesTax.financialDocumentGrossSalesAmount" />
     <property name="label" value="Gross Sales Amount" />
     <property name="shortLabel" value="Gross Sales Amt." />
-    <property name="description" value="Gross Sales Amount to be taxed" />
+    
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="LaborJournalVoucherDetail-salesTax.financialDocumentTaxableSalesAmount" parent="LaborJournalVoucherDetail-salesTax.financialDocumentTaxableSalesAmount-parentBean" />
@@ -401,7 +401,7 @@
     <property name="name" value="salesTax.financialDocumentTaxableSalesAmount" />
     <property name="label" value="Taxable Sales Amount" />
     <property name="shortLabel" value="Taxable Sales Amt." />
-    <property name="description" value="Taxable Sales Amount to be taxed" />
+    
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="LaborJournalVoucherDetail-salesTax.financialDocumentSaleDate" parent="LaborJournalVoucherDetail-salesTax.financialDocumentSaleDate-parentBean" />
@@ -409,7 +409,7 @@
   <bean id="LaborJournalVoucherDetail-salesTax.financialDocumentSaleDate-parentBean" abstract="true" parent="SalesTax-financialDocumentSaleDate">
     <property name="name" value="salesTax.financialDocumentSaleDate" />
     <property name="label" value="Sale Date" />
-    <property name="description" value="Date of Sale" />
+    
   </bean>
   <bean id="LaborJournalVoucherDetail-earnCode" parent="LaborJournalVoucherDetail-earnCode-parentBean" />
 

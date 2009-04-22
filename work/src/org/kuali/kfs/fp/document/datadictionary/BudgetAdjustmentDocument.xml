@@ -60,8 +60,8 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="10"/>
     </property>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="&amp;nbsp;"/>
+    
+    
   </bean>
   <bean id="BudgetAdjustmentDocument-nextPositionTargetLineNumber" parent="BudgetAdjustmentDocument-nextPositionTargetLineNumber-parentBean"/>
 
@@ -78,8 +78,8 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="10"/>
     </property>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="&amp;nbsp;"/>
+    
+    
   </bean>
   <bean id="BudgetAdjustmentDocument-postingYear" parent="BudgetAdjustmentDocument-postingYear-parentBean"/>
 

@@ -41,8 +41,8 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="documentNumber" />
-    <property name="description" value="documentNumber description..." />
+    
+    
   </bean>
   <bean id="RoutingFormDueDateType-dueDateTypeCode" parent="RoutingFormDueDateType-dueDateTypeCode-parentBean" />
 
@@ -59,8 +59,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="dueDateTypeCode" />
-    <property name="description" value="dueDateTypeCode description..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -61,8 +61,8 @@
     <property name="name" value="financialDocumentPostingPeriodCode" />
     <property name="label" value="Financial Document Fiscal Period" />
     <property name="shortLabel" value="Fiscal Period" />
-    <property name="summary" value="Financial Document Posting Fiscal Accounting Period" />
-    <property name="description" value="One of a prescribed list of Accounting Periods when the document that generated this electronic payment claim was posted." />
+    
+    
   </bean>
   <bean id="ElectronicPaymentClaim-financialDocumentPostingYear" parent="ElectronicPaymentClaim-financialDocumentPostingYear-parentBean" />
 
@@ -70,7 +70,7 @@
     <property name="name" value="financialDocumentPostingYear" />
     <property name="label" value="Financial Document Fiscal Year" />
     <property name="shortLabel" value="Fiscal Year" />
-    <property name="description" value="The fiscal year when the document that generated this electronic payment claim was generated." />
+    
   </bean>
   <bean id="ElectronicPaymentClaim-paymentClaimStatusCode" parent="ElectronicPaymentClaim-paymentClaimStatusCode-parentBean" />
 
@@ -84,8 +84,8 @@
             p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.ElectronicPaymentClaimClaimingStatusValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="Whether this electronic payment record is claimed or unclaimed." />
-    <property name="description" value="Whether this electronic payment record is claimed or unclaimed." />
+    
+    
   </bean>
   <bean id="ElectronicPaymentClaim-paymentClaimStatus" parent="ElectronicPaymentClaim-paymentClaimStatus-parentBean" />
 
@@ -98,8 +98,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="Descriptive text about whether this electronic payment record is claimed or unclaimed." />
-    <property name="description" value="Descriptive text about whether this electronic payment record is claimed or unclaimed." />
+    
+    
   </bean>
   <bean id="ElectronicPaymentClaim-generatingAccountingLine.financialDocumentLineDescription" parent="ElectronicPaymentClaim-generatingAccountingLine.financialDocumentLineDescription-parentBean" />
 

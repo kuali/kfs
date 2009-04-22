@@ -42,8 +42,8 @@
       <bean parent="TextControlDefinition"
             p:size="17" />
     </property>
-    <property name="summary" value="administrativePost" />
-    <property name="description" value="administrativePost description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAdministrativePost-emplid" parent="BudgetConstructionAdministrativePost-emplid-parentBean" />
 
@@ -60,8 +60,8 @@
       <bean parent="TextControlDefinition"
             p:size="13" />
     </property>
-    <property name="summary" value="emplid" />
-    <property name="description" value="emplid description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAdministrativePost-positionNumber" parent="BudgetConstructionAdministrativePost-positionNumber-parentBean" />
 
@@ -78,8 +78,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="positionNumber" />
-    <property name="description" value="positionNumber description..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

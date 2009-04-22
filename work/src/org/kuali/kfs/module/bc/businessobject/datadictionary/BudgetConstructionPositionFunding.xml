@@ -51,8 +51,8 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="accountNumber" />
-    <property name="description" value="accountNumber description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionFunding-chartOfAccountsCode" parent="BudgetConstructionPositionFunding-chartOfAccountsCode-parentBean" />
 
@@ -69,8 +69,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="chartOfAccountsCode" />
-    <property name="description" value="chartOfAccountsCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionFunding-emplid" parent="BudgetConstructionPositionFunding-emplid-parentBean" />
 
@@ -87,8 +87,8 @@
       <bean parent="TextControlDefinition"
             p:size="13" />
     </property>
-    <property name="summary" value="emplid" />
-    <property name="description" value="emplid description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionFunding-financialObjectCode" parent="BudgetConstructionPositionFunding-financialObjectCode-parentBean" />
 
@@ -105,8 +105,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="financialObjectCode" />
-    <property name="description" value="financialObjectCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionFunding-financialSubObjectCode" parent="BudgetConstructionPositionFunding-financialSubObjectCode-parentBean" />
 
@@ -123,8 +123,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="financialSubObjectCode" />
-    <property name="description" value="financialSubObjectCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionFunding-name" parent="BudgetConstructionPositionFunding-name-parentBean" />
 
@@ -141,8 +141,8 @@
       <bean parent="TextControlDefinition"
             p:size="52" />
     </property>
-    <property name="summary" value="name" />
-    <property name="description" value="name description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionFunding-principalId" parent="BudgetConstructionPositionFunding-principalId-parentBean" />
 
@@ -159,8 +159,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="principalId" />
-    <property name="description" value="principalId description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionFunding-positionNumber" parent="BudgetConstructionPositionFunding-positionNumber-parentBean" />
 
@@ -177,8 +177,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="positionNumber" />
-    <property name="description" value="positionNumber description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionFunding-selectedOrganizationChartOfAccountsCode" parent="BudgetConstructionPositionFunding-selectedOrganizationChartOfAccountsCode-parentBean" />
 
@@ -195,8 +195,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="selectedOrganizationChartOfAccountsCode" />
-    <property name="description" value="selectedOrganizationChartOfAccountsCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionFunding-selectedOrganizationCode" parent="BudgetConstructionPositionFunding-selectedOrganizationCode-parentBean" />
 
@@ -213,8 +213,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="selectedOrganizationCode" />
-    <property name="description" value="selectedOrganizationCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionFunding-subAccountNumber" parent="BudgetConstructionPositionFunding-subAccountNumber-parentBean" />
 
@@ -231,8 +231,8 @@
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-    <property name="summary" value="subAccountNumber" />
-    <property name="description" value="subAccountNumber description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionFunding-universityFiscalYear" parent="BudgetConstructionPositionFunding-universityFiscalYear-parentBean" />
 
@@ -249,8 +249,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="universityFiscalYear" />
-    <property name="description" value="universityFiscalYear description..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

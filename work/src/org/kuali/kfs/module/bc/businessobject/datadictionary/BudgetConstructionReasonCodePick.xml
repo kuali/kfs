@@ -43,8 +43,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="appointmentFundingReasonCode" />
-    <property name="description" value="appointmentFundingReasonCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionReasonCodePick-principalId" parent="BudgetConstructionReasonCodePick-principalId-parentBean" />
 
@@ -61,8 +61,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="principalId" />
-    <property name="description" value="principalId description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionReasonCodePick-selectFlag" parent="BudgetConstructionReasonCodePick-selectFlag-parentBean" />
 
@@ -79,8 +79,8 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="selectFlag" />
-    <property name="description" value="selectFlag description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionReasonCodePick-appointmentFundingReason.appointmentFundingReasonDescription" parent="BudgetConstructionReasonCodePick-appointmentFundingReason.appointmentFundingReasonDescription-parentBean" />
 

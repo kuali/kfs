@@ -74,8 +74,8 @@
       <bean parent="TextControlDefinition"
             p:size="8" />
     </property>
-    <property name="summary" value="Building Room Number" />
-    <property name="description" value="The number uniquely identifying a particular room." />
+    
+    
   </bean>
   <bean id="Room-buildingRoomDepartment" parent="Room-buildingRoomDepartment-parentBean" />
 
@@ -92,8 +92,8 @@
       <bean parent="TextControlDefinition"
             p:size="40" />
     </property>
-    <property name="summary" value="buildingRoomDepartment" />
-    <property name="description" value="buildingRoomDepartment description..." />
+    
+    
   </bean>
   <bean id="Room-buildingRoomType" parent="Room-buildingRoomType-parentBean" />
 
@@ -110,8 +110,8 @@
       <bean parent="TextControlDefinition"
             p:size="50" />
     </property>
-    <property name="summary" value="buildingRoomType" />
-    <property name="description" value="buildingRoomType description..." />
+    
+    
   </bean>
   <bean id="Room-buildingRoomDescription" parent="Room-buildingRoomDescription-parentBean" />
 
@@ -128,8 +128,8 @@
       <bean parent="TextControlDefinition"
             p:size="25" />
     </property>
-    <property name="summary" value="buildingRoomDescription" />
-    <property name="description" value="buildingRoomDescription description..." />
+    
+    
   </bean>
   <bean id="Room-active" parent="Room-active-parentBean" />
 

@@ -47,8 +47,8 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="9"/>
     </property>
-    <property name="summary" value="accountNumber"/>
-    <property name="description" value="accountNumber description..."/>
+    
+    
   </bean>
   <bean id="BudgetConstructionDocument-budgetLockUserIdentifier" parent="BudgetConstructionDocument-budgetLockUserIdentifier-parentBean"/>
 
@@ -64,8 +64,8 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="12"/>
     </property>
-    <property name="summary" value="budgetLockUserIdentifier"/>
-    <property name="description" value="budgetLockUserIdentifier description..."/>
+    
+    
   </bean>
   <bean id="BudgetConstructionDocument-budgetTransactionLockUserIdentifier" parent="BudgetConstructionDocument-budgetTransactionLockUserIdentifier-parentBean"/>
 
@@ -81,8 +81,8 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="12"/>
     </property>
-    <property name="summary" value="budgetTransactionLockUserIdentifier"/>
-    <property name="description" value="budgetTransactionLockUserIdentifier description..."/>
+    
+    
   </bean>
   <bean id="BudgetConstructionDocument-chartOfAccountsCode" parent="BudgetConstructionDocument-chartOfAccountsCode-parentBean"/>
 
@@ -99,8 +99,8 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="4"/>
     </property>
-    <property name="summary" value="chartOfAccountsCode"/>
-    <property name="description" value="chartOfAccountsCode description..."/>
+    
+    
   </bean>
   <bean id="BudgetConstructionDocument-documentNumber" parent="BudgetConstructionDocument-documentNumber-parentBean"/>
 
@@ -116,8 +116,8 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="16"/>
     </property>
-    <property name="summary" value="documentNumber"/>
-    <property name="description" value="documentNumber description..."/>
+    
+    
   </bean>
   <bean id="BudgetConstructionDocument-organizationLevelChartOfAccountsCode" parent="BudgetConstructionDocument-organizationLevelChartOfAccountsCode-parentBean"/>
 
@@ -133,8 +133,8 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="4"/>
     </property>
-    <property name="summary" value="organizationLevelChartOfAccountsCode"/>
-    <property name="description" value="organizationLevelChartOfAccountsCode description..."/>
+    
+    
   </bean>
   <bean id="BudgetConstructionDocument-organizationLevelCode" parent="BudgetConstructionDocument-organizationLevelCode-parentBean"/>
 
@@ -150,8 +150,8 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="9"/>
     </property>
-    <property name="summary" value="organizationLevelCode"/>
-    <property name="description" value="organizationLevelCode description..."/>
+    
+    
   </bean>
   <bean id="BudgetConstructionDocument-organizationLevelOrganizationCode" parent="BudgetConstructionDocument-organizationLevelOrganizationCode-parentBean"/>
 
@@ -167,8 +167,8 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="6"/>
     </property>
-    <property name="summary" value="organizationLevelOrganizationCode"/>
-    <property name="description" value="organizationLevelOrganizationCode description..."/>
+    
+    
   </bean>
   <bean id="BudgetConstructionDocument-subAccountNumber" parent="BudgetConstructionDocument-subAccountNumber-parentBean"/>
 
@@ -184,8 +184,8 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="7"/>
     </property>
-    <property name="summary" value="subAccountNumber"/>
-    <property name="description" value="subAccountNumber description..."/>
+    
+    
   </bean>
   <bean id="BudgetConstructionDocument-universityFiscalYear" parent="BudgetConstructionDocument-universityFiscalYear-parentBean"/>
 
@@ -202,8 +202,8 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="6"/>
     </property>
-    <property name="summary" value="universityFiscalYear"/>
-    <property name="description" value="universityFiscalYear description..."/>
+    
+    
   </bean>
   <bean id="BudgetConstructionDocument-versionNumber" parent="BudgetConstructionDocument-versionNumber-parentBean"/>
 

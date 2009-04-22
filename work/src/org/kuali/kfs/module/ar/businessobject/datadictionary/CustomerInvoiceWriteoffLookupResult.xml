@@ -43,7 +43,7 @@
     <property name="name" value="customerInvoiceNumber" />
     <property name="label" value="Invoice Number" />
     <property name="shortLabel" value="Invoice Number" />
-    <property name="description" value="Invoice Number" />
+    
   </bean>
   
   <bean id="CustomerInvoiceWriteoffLookupResult-customerNote" parent="CustomerInvoiceWriteoffLookupResult-customerNote-parentBean" />

@@ -41,8 +41,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="Doc Header ID" />
-    <property name="description" value="Doc Header ID" />
+    
+    
   </bean>
   <bean id="BudgetModular-budgetModularTaskNumber" parent="BudgetModular-budgetModularTaskNumber-parentBean" />
 
@@ -55,8 +55,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Budget Modular Task Number" />
-    <property name="description" value="Budget Modular Task Number..." />
+    
+    
   </bean>
   <bean id="BudgetModular-budgetModularPersonnelDescription" parent="BudgetModular-budgetModularPersonnelDescription-parentBean" />
 
@@ -70,8 +70,8 @@
             p:rows="5"
             p:cols="60" />
     </property>
-    <property name="summary" value="Modular Budget Personnel Description" />
-    <property name="description" value="Modular Budget Personnel Description" />
+    
+    
   </bean>
   <bean id="BudgetModular-budgetModularConsortiumDescription" parent="BudgetModular-budgetModularConsortiumDescription-parentBean" />
 
@@ -85,8 +85,8 @@
             p:rows="5"
             p:cols="60" />
     </property>
-    <property name="summary" value="Modular Budget Consortium Description" />
-    <property name="description" value="Modular Budget Consortium Description" />
+    
+    
   </bean>
   <bean id="BudgetModular-budgetModularVariableAdjustmentDescription" parent="BudgetModular-budgetModularVariableAdjustmentDescription-parentBean" />
 
@@ -100,8 +100,8 @@
             p:rows="5"
             p:cols="60" />
     </property>
-    <property name="summary" value="Modular Budget Variable Adjustment Description" />
-    <property name="description" value="Modular Budget Variable Adjustment Description" />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

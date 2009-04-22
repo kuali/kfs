@@ -41,8 +41,8 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="documentNumber" />
-    <property name="description" value="documentNumber description..." />
+    
+    
   </bean>
   <bean id="RoutingFormPurpose-purposeCode" parent="RoutingFormPurpose-purposeCode-parentBean" />
 
@@ -59,8 +59,8 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="purposeCode" />
-    <property name="description" value="purposeCode description..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

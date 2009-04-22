@@ -49,8 +49,8 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="accountNumber" />
-    <property name="description" value="accountNumber description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionFundingLock-appointmentFundingLockUserId" parent="BudgetConstructionFundingLock-appointmentFundingLockUserId-parentBean" />
 
@@ -67,8 +67,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="appointmentFundingLockUserId" />
-    <property name="description" value="appointmentFundingLockUserId description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionFundingLock-chartOfAccountsCode" parent="BudgetConstructionFundingLock-chartOfAccountsCode-parentBean" />
 
@@ -85,8 +85,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="chartOfAccountsCode" />
-    <property name="description" value="chartOfAccountsCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionFundingLock-fill1" parent="BudgetConstructionFundingLock-fill1-parentBean" />
 
@@ -104,8 +104,8 @@
             p:rows="5"
             p:cols="80" />
     </property>
-    <property name="summary" value="fill1" />
-    <property name="description" value="fill1 description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionFundingLock-fill2" parent="BudgetConstructionFundingLock-fill2-parentBean" />
 
@@ -123,8 +123,8 @@
             p:rows="5"
             p:cols="80" />
     </property>
-    <property name="summary" value="fill2" />
-    <property name="description" value="fill2 description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionFundingLock-fill3" parent="BudgetConstructionFundingLock-fill3-parentBean" />
 
@@ -142,8 +142,8 @@
             p:rows="5"
             p:cols="80" />
     </property>
-    <property name="summary" value="fill3" />
-    <property name="description" value="fill3 description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionFundingLock-fill4" parent="BudgetConstructionFundingLock-fill4-parentBean" />
 
@@ -161,8 +161,8 @@
             p:rows="5"
             p:cols="80" />
     </property>
-    <property name="summary" value="fill4" />
-    <property name="description" value="fill4 description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionFundingLock-fill5" parent="BudgetConstructionFundingLock-fill5-parentBean" />
 
@@ -179,8 +179,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="fill5" />
-    <property name="description" value="fill5 description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionFundingLock-subAccountNumber" parent="BudgetConstructionFundingLock-subAccountNumber-parentBean" />
 
@@ -197,8 +197,8 @@
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-    <property name="summary" value="subAccountNumber" />
-    <property name="description" value="subAccountNumber description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionFundingLock-universityFiscalYear" parent="BudgetConstructionFundingLock-universityFiscalYear-parentBean" />
 
@@ -215,8 +215,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="universityFiscalYear" />
-    <property name="description" value="universityFiscalYear description..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

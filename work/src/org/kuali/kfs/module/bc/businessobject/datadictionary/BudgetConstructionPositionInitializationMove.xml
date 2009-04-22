@@ -65,8 +65,8 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="budgetedPosition" />
-    <property name="description" value="budgetedPosition description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionInitializationMove-confidentialPosition" parent="BudgetConstructionPositionInitializationMove-confidentialPosition-parentBean" />
 
@@ -83,8 +83,8 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="confidentialPosition" />
-    <property name="description" value="confidentialPosition description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionInitializationMove-iuDefaultObjectCode" parent="BudgetConstructionPositionInitializationMove-iuDefaultObjectCode-parentBean" />
 
@@ -101,8 +101,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="iuDefaultObjectCode" />
-    <property name="description" value="iuDefaultObjectCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionInitializationMove-iuNormalWorkMonths" parent="BudgetConstructionPositionInitializationMove-iuNormalWorkMonths-parentBean" />
 
@@ -119,8 +119,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="iuNormalWorkMonths" />
-    <property name="description" value="iuNormalWorkMonths description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionInitializationMove-iuPayMonths" parent="BudgetConstructionPositionInitializationMove-iuPayMonths-parentBean" />
 
@@ -137,8 +137,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="iuPayMonths" />
-    <property name="description" value="iuPayMonths description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionInitializationMove-iuPositionType" parent="BudgetConstructionPositionInitializationMove-iuPositionType-parentBean" />
 
@@ -155,8 +155,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="iuPositionType" />
-    <property name="description" value="iuPositionType description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionInitializationMove-jobCode" parent="BudgetConstructionPositionInitializationMove-jobCode-parentBean" />
 
@@ -173,8 +173,8 @@
       <bean parent="TextControlDefinition"
             p:size="8" />
     </property>
-    <property name="summary" value="jobCode" />
-    <property name="description" value="jobCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionInitializationMove-jobCodeDescription" parent="BudgetConstructionPositionInitializationMove-jobCodeDescription-parentBean" />
 
@@ -191,8 +191,8 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="jobCodeDescription" />
-    <property name="description" value="jobCodeDescription description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionInitializationMove-principalId" parent="BudgetConstructionPositionInitializationMove-principalId-parentBean" />
 
@@ -209,8 +209,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="principalId" />
-    <property name="description" value="principalId description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionInitializationMove-positionDepartmentIdentifier" parent="BudgetConstructionPositionInitializationMove-positionDepartmentIdentifier-parentBean" />
 
@@ -227,8 +227,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="positionDepartmentIdentifier" />
-    <property name="description" value="positionDepartmentIdentifier description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionInitializationMove-positionDescription" parent="BudgetConstructionPositionInitializationMove-positionDescription-parentBean" />
 
@@ -245,8 +245,8 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="positionDescription" />
-    <property name="description" value="positionDescription description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionInitializationMove-positionEffectiveDate" parent="BudgetConstructionPositionInitializationMove-positionEffectiveDate-parentBean" />
 
@@ -263,8 +263,8 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="positionEffectiveDate" />
-    <property name="description" value="positionEffectiveDate description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionInitializationMove-positionEffectiveStatus" parent="BudgetConstructionPositionInitializationMove-positionEffectiveStatus-parentBean" />
 
@@ -281,8 +281,8 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="positionEffectiveStatus" />
-    <property name="description" value="positionEffectiveStatus description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionInitializationMove-positionFullTimeEquivalency" parent="BudgetConstructionPositionInitializationMove-positionFullTimeEquivalency-parentBean" />
 
@@ -299,8 +299,8 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="positionFullTimeEquivalency" />
-    <property name="description" value="positionFullTimeEquivalency description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionInitializationMove-positionGradeDefault" parent="BudgetConstructionPositionInitializationMove-positionGradeDefault-parentBean" />
 
@@ -317,8 +317,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="positionGradeDefault" />
-    <property name="description" value="positionGradeDefault description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionInitializationMove-positionNumber" parent="BudgetConstructionPositionInitializationMove-positionNumber-parentBean" />
 
@@ -335,8 +335,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="positionNumber" />
-    <property name="description" value="positionNumber description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionInitializationMove-positionRegularTemporary" parent="BudgetConstructionPositionInitializationMove-positionRegularTemporary-parentBean" />
 
@@ -353,8 +353,8 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="positionRegularTemporary" />
-    <property name="description" value="positionRegularTemporary description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionInitializationMove-positionSalaryPlanDefault" parent="BudgetConstructionPositionInitializationMove-positionSalaryPlanDefault-parentBean" />
 
@@ -371,8 +371,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="positionSalaryPlanDefault" />
-    <property name="description" value="positionSalaryPlanDefault description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionInitializationMove-positionStandardHoursDefault" parent="BudgetConstructionPositionInitializationMove-positionStandardHoursDefault-parentBean" />
 
@@ -389,8 +389,8 @@
       <bean parent="TextControlDefinition"
             p:size="8" />
     </property>
-    <property name="summary" value="positionStandardHoursDefault" />
-    <property name="description" value="positionStandardHoursDefault description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionInitializationMove-positionStatus" parent="BudgetConstructionPositionInitializationMove-positionStatus-parentBean" />
 
@@ -407,8 +407,8 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="positionStatus" />
-    <property name="description" value="positionStatus description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionInitializationMove-positionUnionCode" parent="BudgetConstructionPositionInitializationMove-positionUnionCode-parentBean" />
 
@@ -425,8 +425,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="positionUnionCode" />
-    <property name="description" value="positionUnionCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionInitializationMove-responsibilityCenterCode" parent="BudgetConstructionPositionInitializationMove-responsibilityCenterCode-parentBean" />
 
@@ -443,8 +443,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="responsibilityCenterCode" />
-    <property name="description" value="responsibilityCenterCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionInitializationMove-setidDepartment" parent="BudgetConstructionPositionInitializationMove-setidDepartment-parentBean" />
 
@@ -461,8 +461,8 @@
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-    <property name="summary" value="setidDepartment" />
-    <property name="description" value="setidDepartment description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionInitializationMove-setidJobCode" parent="BudgetConstructionPositionInitializationMove-setidJobCode-parentBean" />
 
@@ -479,8 +479,8 @@
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-    <property name="summary" value="setidJobCode" />
-    <property name="description" value="setidJobCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionInitializationMove-setidSalary" parent="BudgetConstructionPositionInitializationMove-setidSalary-parentBean" />
 
@@ -497,8 +497,8 @@
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-    <property name="summary" value="setidSalary" />
-    <property name="description" value="setidSalary description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionInitializationMove-universityFiscalYear" parent="BudgetConstructionPositionInitializationMove-universityFiscalYear-parentBean" />
 
@@ -515,8 +515,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="universityFiscalYear" />
-    <property name="description" value="universityFiscalYear description..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

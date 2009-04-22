@@ -50,8 +50,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="researchRiskTypeCode" />
-    <property name="description" value="researchRiskTypeCode description..." />
+    
+    
   </bean>
   <bean id="ResearchRiskType-controlAttributeTypeCode" parent="ResearchRiskType-controlAttributeTypeCode-parentBean" />
 
@@ -68,8 +68,8 @@
             p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.ResearchControlAttributeTypeCodeValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="controlAttributeTypeCode" />
-    <property name="description" value="Specifies how the research risk is displayed. A=all columns; S=some columns; D=description textarea" />
+    
+    
   </bean>
   <bean id="ResearchRiskType-researchRiskTypeDescription" parent="ResearchRiskType-researchRiskTypeDescription-parentBean" />
 
@@ -82,8 +82,8 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="researchRiskTypeDescription" />
-    <property name="description" value="researchRiskTypeDescription description..." />
+    
+    
   </bean>
   <bean id="ResearchRiskType-researchRiskTypeSortNumber" parent="ResearchRiskType-researchRiskTypeSortNumber-parentBean" />
 
@@ -99,8 +99,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="sortNumber" />
-    <property name="description" value="sortNumber description..." />
+    
+    
   </bean>
   
   <bean id="ResearchRiskType-researchRiskTypeNotificationValue" parent="ResearchRiskType-researchRiskTypeNotificationValue-parentBean" />
@@ -116,8 +116,8 @@
             p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.ResearchRiskTypeNotificationValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="Research Risk Type Notification Value" />
-    <property name="description" value="Value on which to route to the notification group.  Valid options are Y (yes), N (no), A (all), X (never)." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

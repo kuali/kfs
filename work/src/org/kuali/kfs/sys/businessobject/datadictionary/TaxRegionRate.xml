@@ -49,8 +49,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="Tax Rate" />
-    <property name="description" value="Tax rate." />
+    
+    
   </bean>
   
 </beans>

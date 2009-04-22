@@ -48,8 +48,8 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="4"/>
     </property>
-    <property name="summary" value="Effort Certification DocumentCode"/>
-    <property name="description" value="Effort Certification LaborDocumentCode description..."/>
+    
+    
   </bean>
   <bean id="EffortCertificationDocument-emplid" parent="EffortCertificationDocument-emplid-parentBean"/>
 

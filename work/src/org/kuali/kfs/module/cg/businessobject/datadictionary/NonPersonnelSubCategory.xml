@@ -46,8 +46,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="Nonpersonnel Sub Category Code" />
-    <property name="description" value="Nonpersonnel Sub Category Code" />
+    
+    
   </bean>
   <bean id="NonPersonnelSubCategory-active" parent="NonPersonnelSubCategory-active-parentBean" />
 
@@ -64,8 +64,8 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="Excluded Indicator indicates whether an Nonpersonnel Sub Category is excluded from Indirect Cost Calculations." />
-    <property name="description" value="This attribute is used to describe whether the associated Nonpersonnel Sub Category is excluded from Indirect Cost Calculations." />
+    
+    
   </bean>
   <bean id="NonPersonnelSubCategory-nonpersonnelModularExcludedIndicator" parent="NonPersonnelSubCategory-nonpersonnelModularExcludedIndicator-parentBean" />
 
@@ -77,8 +77,8 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="Excluded Indicator indicates whether an Nonpersonnel Sub Category is excluded from Direct Cost on Modular Budgets." />
-    <property name="description" value="This attribute is used to describe whether the associated Nonpersonnel Sub Category is excluded from Direct Cost on Modular Budgets." />
+    
+    
   </bean>
   <bean id="NonPersonnelSubCategory-name" parent="NonPersonnelSubCategory-name-parentBean" />
 
@@ -96,8 +96,8 @@
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="Nonpersonnel Sub Category Name" />
-    <property name="description" value="The name of the Nonpersonnel Sub Category." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

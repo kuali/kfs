@@ -43,8 +43,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="financialObjectCode" />
-    <property name="description" value="financialObjectCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionObjectPick-principalId" parent="BudgetConstructionObjectPick-principalId-parentBean" />
 
@@ -61,8 +61,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="principalId" />
-    <property name="description" value="principalId description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionObjectPick-selectFlag" parent="BudgetConstructionObjectPick-selectFlag-parentBean" />
 
@@ -79,8 +79,8 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="selectFlag" />
-    <property name="description" value="selectFlag description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionObjectPick-objectCodeDescription" parent="BudgetConstructionObjectPick-objectCodeDescription-parentBean" />
 

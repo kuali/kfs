@@ -45,8 +45,8 @@
       <bean parent="TextControlDefinition"
             p:size="8" />
     </property>
-    <property name="summary" value="Budget Number..." />
-    <property name="description" value="Budget Number..." />
+    
+    
   </bean>
   <bean id="BudgetFringeRate-institutionAppointmentTypeCode" parent="BudgetFringeRate-institutionAppointmentTypeCode-parentBean" />
 
@@ -63,8 +63,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Appointment Type Code" />
-    <property name="description" value="Appointment Type Code..." />
+    
+    
   </bean>
   <bean id="BudgetFringeRate-contractsAndGrantsFringeRateAmount" parent="BudgetFringeRate-contractsAndGrantsFringeRateAmount-parentBean" />
 
@@ -81,8 +81,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="Cost Share Fringe Rate Amount" />
-    <property name="description" value="Cost Share Fringe Rate Amount..." />
+    
+    
   </bean>
   <bean id="BudgetFringeRate-institutionCostShareFringeRateAmount" parent="BudgetFringeRate-institutionCostShareFringeRateAmount-parentBean" />
 
@@ -99,8 +99,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="Cost Share Fringe Rate Amount" />
-    <property name="description" value="Cost Share Fringe Rate Amount..." />
+    
+    
   </bean>
   <bean id="BudgetFringeRate-budgetLastUpdateTimestamp" parent="BudgetFringeRate-budgetLastUpdateTimestamp-parentBean" />
 
@@ -116,8 +116,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="Budget Last Update Timestamp" />
-    <property name="description" value="Budget Last Update Timestamp..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

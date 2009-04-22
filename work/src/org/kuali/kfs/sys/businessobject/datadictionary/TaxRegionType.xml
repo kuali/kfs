@@ -44,8 +44,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="Tax Region Type Code" />
-    <property name="description" value="The code uniquely identifies the type of tax district." />
+    
+    
   </bean>
   
   <bean id="TaxRegionType-taxRegionTypeName" parent="TaxRegionType-taxRegionTypeName-parentBean" />
@@ -63,8 +63,8 @@
       <bean parent="TextControlDefinition"
             p:size="100" />
     </property>
-    <property name="summary" value="Tax Region Type Name" />
-    <property name="description" value="The name of the type of tax district." />
+    
+    
   </bean>
   
   <bean id="TaxRegionType-active" parent="TaxRegionType-active-parentBean" />

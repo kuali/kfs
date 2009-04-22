@@ -43,8 +43,8 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="Effort Certification Report Period Status Code" />
-    <property name="description" value="Effort Certification Report Period Status Code" />
+    
+    
   </bean>
   <bean id="EffortCertificationPeriodStatusCode-effortCertificationReportPeriodStatusDescription" parent="EffortCertificationPeriodStatusCode-effortCertificationReportPeriodStatusDescription-parentBean" />
 
@@ -62,8 +62,8 @@
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="EffortCertificationReportPeriodStatusDescription" />
-    <property name="description" value="EffortCertificationReportPeriodStatusDescription description..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

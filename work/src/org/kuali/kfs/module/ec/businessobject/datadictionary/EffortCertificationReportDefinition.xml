@@ -67,8 +67,8 @@
             p:valuesFinderClass="org.kuali.kfs.module.ec.businessobject.options.FiscalPeriodNonNumberValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="ExpenseTransferFiscalPeriodCode" />
-    <property name="description" value="ExpenseTransferFiscalPeriodCode description..." />
+    
+    
   </bean>
   <bean id="EffortCertificationReportDefinition-expenseTransferFiscalYear" parent="EffortCertificationReportDefinition-expenseTransferFiscalYear-parentBean" />
 
@@ -76,8 +76,8 @@
     <property name="name" value="expenseTransferFiscalYear" />
     <property name="label" value="Expense Transfer Fiscal Year" />
     <property name="shortLabel" value="Expense Transfer Year" />
-    <property name="summary" value="ExpenseTransferFiscalYear" />
-    <property name="description" value="ExpenseTransferFiscalYear description..." />
+    
+    
   </bean>
   <bean id="EffortCertificationReportDefinition-universityFiscalYear" parent="EffortCertificationReportDefinition-universityFiscalYear-parentBean" />
 
@@ -99,8 +99,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="Effort Certification Report Number" />
-    <property name="description" value="Effort Certification ReportNumber description..." />
+    
+    
   </bean>
   <bean id="EffortCertificationReportDefinition-effortCertificationReportPeriodTitle" parent="EffortCertificationReportDefinition-effortCertificationReportPeriodTitle-parentBean" />
 
@@ -118,8 +118,8 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="Effort Certification ReportPeriodTitle" />
-    <property name="description" value="Effort Certification ReportPeriodTitle description..." />
+    
+    
   </bean>
   <bean id="EffortCertificationReportDefinition-effortCertificationReportReturnDate" parent="EffortCertificationReportDefinition-effortCertificationReportReturnDate-parentBean" />
 
@@ -127,8 +127,8 @@
     <property name="name" value="effortCertificationReportReturnDate" />
     <property name="label" value="Report Return Date" />
     <property name="shortLabel" value="Report Return Date" />
-    <property name="summary" value="Effort Certification ReportReturnDate" />
-    <property name="description" value="Effort Certification ReportReturnDate description..." />
+    
+    
   </bean>
   <bean id="EffortCertificationReportDefinition-effortCertificationReportTypeCode" parent="EffortCertificationReportDefinition-effortCertificationReportTypeCode-parentBean" />
 
@@ -148,8 +148,8 @@
   <bean id="EffortCertificationReportDefinition-effortCertificationReportBeginFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="effortCertificationReportBeginFiscalYear" />
     <property name="label" value="Report Begin Fiscal Year" />
-    <property name="summary" value="Effort Certification ReportBeginFiscalYear" />
-    <property name="description" value="Effort Certification ReportBeginFiscalYear description..." />
+    
+    
   </bean>
   <bean id="EffortCertificationReportDefinition-effortCertificationReportBeginPeriodCode" parent="EffortCertificationReportDefinition-effortCertificationReportBeginPeriodCode-parentBean" />
 
@@ -162,8 +162,8 @@
             p:valuesFinderClass="org.kuali.kfs.module.ec.businessobject.options.FiscalPeriodNonNumberValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="Effort Certification ReportBeginPeriodCode" />
-    <property name="description" value="Effort Certification ReportBeginPeriodCode description..." />
+    
+    
   </bean>
   <bean id="EffortCertificationReportDefinition-effortCertificationReportEndFiscalYear" parent="EffortCertificationReportDefinition-effortCertificationReportEndFiscalYear-parentBean" />
 
@@ -171,8 +171,8 @@
     <property name="name" value="effortCertificationReportEndFiscalYear" />
     <property name="label" value="Report End Fiscal Year" />
     <property name="shortLabel" value="End Fiscal Year" />
-    <property name="summary" value="Effort Certification Report End Fiscal Year" />
-    <property name="description" value="Effort Certification Report End Fiscal Year description..." />
+    
+    
   </bean>
   <bean id="EffortCertificationReportDefinition-effortCertificationReportEndPeriodCode" parent="EffortCertificationReportDefinition-effortCertificationReportEndPeriodCode-parentBean" />
 
@@ -185,8 +185,8 @@
             p:valuesFinderClass="org.kuali.kfs.module.ec.businessobject.options.FiscalPeriodNonNumberValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="Effort Certification ReportEndPeriodCode" />
-    <property name="description" value="Effort Certification ReportEndPeriodCode description..." />
+    
+    
   </bean>
   <bean id="EffortCertificationReportDefinition-effortCertificationReportPositions.effortCertificationReportPositionObjectGroupCode" parent="EffortCertificationReportDefinition-effortCertificationReportPositions.effortCertificationReportPositionObjectGroupCode-parentBean" />
 
@@ -194,8 +194,8 @@
     <property name="name" value="effortCertificationReportPositions.effortCertificationReportPositionObjectGroupCode" />
     <property name="label" value="Position Object Group Code" />
     <property name="shortLabel" value="Pos Obj Grp Cd" />
-    <property name="summary" value="Position Object Group Code" />
-    <property name="description" value="Position Object Group Code" />
+    
+    
   </bean>
   <bean id="EffortCertificationReportDefinition-active" parent="EffortCertificationReportDefinition-active-parentBean" />
 

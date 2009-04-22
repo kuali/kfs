@@ -47,8 +47,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="approvalLeadTime" />
-    <property name="description" value="approvalLeadTime description..." />
+    
+    
   </bean>
   <bean id="DueDateType-dueDateDescription" parent="DueDateType-dueDateDescription-parentBean" />
 
@@ -65,8 +65,8 @@
       <bean parent="TextControlDefinition"
             p:size="22" />
     </property>
-    <property name="summary" value="dueDateDescription" />
-    <property name="description" value="dueDateDescription description..." />
+    
+    
   </bean>
   <bean id="DueDateType-dueDateTypeCode" parent="DueDateType-dueDateTypeCode-parentBean" />
 
@@ -83,8 +83,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="dueDateTypeCode" />
-    <property name="description" value="dueDateTypeCode description..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

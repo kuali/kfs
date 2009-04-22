@@ -41,8 +41,8 @@
             p:rows="5"
             p:cols="80" />
     </property>
-    <property name="summary" value="routingFormConflictOfInterestDescription" />
-    <property name="description" value="routingFormConflictOfInterestDescription description..." />
+    
+    
   </bean>
   <bean id="RoutingFormConflictOfInterest-documentNumber" parent="RoutingFormConflictOfInterest-documentNumber-parentBean" />
 
@@ -59,8 +59,8 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="documentNumber" />
-    <property name="description" value="documentNumber description..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

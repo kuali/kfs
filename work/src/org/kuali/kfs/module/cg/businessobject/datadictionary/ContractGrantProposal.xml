@@ -41,8 +41,8 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="proposalCreateDate" />
-    <property name="description" value="proposalCreateDate description..." />
+    
+    
   </bean>
   <bean id="ContractGrantProposal-proposalNumber" parent="ContractGrantProposal-proposalNumber-parentBean" />
 
@@ -58,8 +58,8 @@
       <bean parent="TextControlDefinition"
             p:size="14" />
     </property>
-    <property name="summary" value="proposalNumber" />
-    <property name="description" value="proposalNumber description..." />
+    
+    
   </bean>
   <bean id="ContractGrantProposal-documentNumber" parent="ContractGrantProposal-documentNumber-parentBean" />
 
@@ -76,8 +76,8 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="documentNumber" />
-    <property name="description" value="documentNumber description..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

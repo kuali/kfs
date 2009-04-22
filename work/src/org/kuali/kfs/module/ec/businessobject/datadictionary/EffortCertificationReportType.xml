@@ -44,8 +44,8 @@
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="Effort Certification Report Description" />
-    <property name="description" value="Effort Certification Report Description" />
+    
+    
   </bean>
   <bean id="EffortCertificationReportType-effortCertificationReportTypeCode" parent="EffortCertificationReportType-effortCertificationReportTypeCode-parentBean" />
 
@@ -62,8 +62,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="Effort Certification Report Type Code" />
-    <property name="description" value="Effort Certification Report Type Code" />
+    
+    
   </bean>
   <bean id="EffortCertificationReportType-active" parent="EffortCertificationReportType-active-parentBean" />
 

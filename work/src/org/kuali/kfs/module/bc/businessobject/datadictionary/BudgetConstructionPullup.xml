@@ -45,8 +45,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="chartOfAccountsCode" />
-    <property name="description" value="chartOfAccountsCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPullup-organizationCode" parent="BudgetConstructionPullup-organizationCode-parentBean" />
 
@@ -63,8 +63,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="organizationCode" />
-    <property name="description" value="organizationCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPullup-principalId" parent="BudgetConstructionPullup-principalId-parentBean" />
 
@@ -81,8 +81,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="principalId" />
-    <property name="description" value="principalId description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPullup-pullFlag" parent="BudgetConstructionPullup-pullFlag-parentBean" />
 
@@ -99,8 +99,8 @@
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-    <property name="summary" value="pullFlag" />
-    <property name="description" value="pullFlag description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPullup-reportsToChartOfAccountsCode" parent="BudgetConstructionPullup-reportsToChartOfAccountsCode-parentBean" />
 
@@ -117,8 +117,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="reportsToChartOfAccountsCode" />
-    <property name="description" value="reportsToChartOfAccountsCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPullup-reportsToOrganizationCode" parent="BudgetConstructionPullup-reportsToOrganizationCode-parentBean" />
 
@@ -135,8 +135,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="reportsToOrganizationCode" />
-    <property name="description" value="reportsToOrganizationCode description..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

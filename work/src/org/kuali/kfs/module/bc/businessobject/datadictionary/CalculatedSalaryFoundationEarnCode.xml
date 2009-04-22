@@ -45,8 +45,8 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="csfEligibleFlag" />
-    <property name="description" value="csfEligibleFlag description..." />
+    
+    
   </bean>
   <bean id="CalculatedSalaryFoundationEarnCode-description" parent="CalculatedSalaryFoundationEarnCode-description-parentBean" />
 
@@ -63,8 +63,8 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="description" />
-    <property name="description" value="description description..." />
+    
+    
   </bean>
   <bean id="CalculatedSalaryFoundationEarnCode-earnCodeRegularEarnings" parent="CalculatedSalaryFoundationEarnCode-earnCodeRegularEarnings-parentBean" />
 
@@ -81,8 +81,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="earnCodeRegularEarnings" />
-    <property name="description" value="earnCodeRegularEarnings description..." />
+    
+    
   </bean>
   <bean id="CalculatedSalaryFoundationEarnCode-effectiveDate" parent="CalculatedSalaryFoundationEarnCode-effectiveDate-parentBean" />
 
@@ -99,8 +99,8 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="effectiveDate" />
-    <property name="description" value="effectiveDate description..." />
+    
+    
   </bean>
   <bean id="CalculatedSalaryFoundationEarnCode-hrmsCompany" parent="CalculatedSalaryFoundationEarnCode-hrmsCompany-parentBean" />
 
@@ -117,8 +117,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="hrmsCompany" />
-    <property name="description" value="hrmsCompany description..." />
+    
+    
   </bean>
   <bean id="CalculatedSalaryFoundationEarnCode-payGroup" parent="CalculatedSalaryFoundationEarnCode-payGroup-parentBean" />
 
@@ -135,8 +135,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="payGroup" />
-    <property name="description" value="payGroup description..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

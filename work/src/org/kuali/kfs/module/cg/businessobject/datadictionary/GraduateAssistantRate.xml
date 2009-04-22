@@ -63,8 +63,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Campus Code..." />
-    <property name="description" value="Campus Code..." />
+    
+    
   </bean>
   <bean id="GraduateAssistantRate-active" parent="GraduateAssistantRate-active-parentBean" />
 
@@ -86,8 +86,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="Period 1 Remission Rate" />
-    <property name="description" value="Period 1 Remission Rate..." />
+    
+    
   </bean>
   <bean id="GraduateAssistantRate-campusMaximumPeriod2Rate" parent="GraduateAssistantRate-campusMaximumPeriod2Rate-parentBean" />
 
@@ -104,8 +104,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="Period 2 Remission Rate" />
-    <property name="description" value="Period 2 Remission Rate..." />
+    
+    
   </bean>
   <bean id="GraduateAssistantRate-campusMaximumPeriod3Rate" parent="GraduateAssistantRate-campusMaximumPeriod3Rate-parentBean" />
 
@@ -121,8 +121,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="Period 3 Remission Rate" />
-    <property name="description" value="Period 3 Remission Rate..." />
+    
+    
   </bean>
   <bean id="GraduateAssistantRate-campusMaximumPeriod4Rate" parent="GraduateAssistantRate-campusMaximumPeriod4Rate-parentBean" />
 
@@ -138,8 +138,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="Period 4 Remission Rate" />
-    <property name="description" value="Period 4 Remission Rate..." />
+    
+    
   </bean>
   <bean id="GraduateAssistantRate-campusMaximumPeriod5Rate" parent="GraduateAssistantRate-campusMaximumPeriod5Rate-parentBean" />
 
@@ -155,8 +155,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="Period 5 Remission Rate" />
-    <property name="description" value="Period 5 Remission Rate..." />
+    
+    
   </bean>
   <bean id="GraduateAssistantRate-campusMaximumPeriod6Rate" parent="GraduateAssistantRate-campusMaximumPeriod6Rate-parentBean" />
 
@@ -172,8 +172,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="Period 6 Remission Rate" />
-    <property name="description" value="Period 6 Remission Rate..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -50,7 +50,7 @@
     <property name="name" value="universityFiscalYear" />
     <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="Fiscal Year" />
-    <property name="description" value="Identifies the Fiscal Year." />
+    
   </bean>
   <bean id="CalculatedSalaryFoundationTracker-chartOfAccountsCode" parent="CalculatedSalaryFoundationTracker-chartOfAccountsCode-parentBean" />
 
@@ -95,8 +95,8 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="csfCreateTimestamp" />
-    <property name="description" value="csfCreateTimestamp description..." />
+    
+    
   </bean>
   <bean id="CalculatedSalaryFoundationTracker-csfDeleteCode" parent="CalculatedSalaryFoundationTracker-csfDeleteCode-parentBean" />
 
@@ -113,8 +113,8 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="csfDeleteCode" />
-    <property name="description" value="csfDeleteCode description..." />
+    
+    
   </bean>
   <bean id="CalculatedSalaryFoundationTracker-csfFullTimeEmploymentQuantity" parent="CalculatedSalaryFoundationTracker-csfFullTimeEmploymentQuantity-parentBean" />
 
@@ -131,8 +131,8 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="csfFullTimeEmploymentQuantity" />
-    <property name="description" value="csfFullTimeEmploymentQuantity description..." />
+    
+    
   </bean>
   <bean id="CalculatedSalaryFoundationTracker-csfFundingStatusCode" parent="CalculatedSalaryFoundationTracker-csfFundingStatusCode-parentBean" />
 
@@ -149,8 +149,8 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="csfFundingStatusCode" />
-    <property name="description" value="csfFundingStatusCode description..." />
+    
+    
   </bean>
   <bean id="CalculatedSalaryFoundationTracker-csfTimePercent" parent="CalculatedSalaryFoundationTracker-csfTimePercent-parentBean" />
 
@@ -167,8 +167,8 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="csfTimePercent" />
-    <property name="description" value="csfTimePercent description" />
+    
+    
   </bean>
   <bean id="CalculatedSalaryFoundationTracker-earnCode" parent="CalculatedSalaryFoundationTracker-earnCode-parentBean" />
 
@@ -185,8 +185,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="earnCode" />
-    <property name="description" value="earnCode description..." />
+    
+    
   </bean>
   <bean id="CalculatedSalaryFoundationTracker-effectiveDate" parent="CalculatedSalaryFoundationTracker-effectiveDate-parentBean" />
 
@@ -203,8 +203,8 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="effectiveDate" />
-    <property name="description" value="effectiveDate description..." />
+    
+    
   </bean>
   <bean id="CalculatedSalaryFoundationTracker-effectiveSequence" parent="CalculatedSalaryFoundationTracker-effectiveSequence-parentBean" />
 
@@ -221,8 +221,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="effectiveSequence" />
-    <property name="description" value="effectiveSequence description..." />
+    
+    
   </bean>
   <bean id="CalculatedSalaryFoundationTracker-emplid" parent="CalculatedSalaryFoundationTracker-emplid-parentBean" />
 
@@ -239,8 +239,8 @@
       <bean parent="TextControlDefinition"
             p:size="13" />
     </property>
-    <property name="summary" value="emplid" />
-    <property name="description" value="emplid description..." />
+    
+    
   </bean>
   <bean id="CalculatedSalaryFoundationTracker-employeeRecord" parent="CalculatedSalaryFoundationTracker-employeeRecord-parentBean" />
 
@@ -257,8 +257,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="employeeRecord" />
-    <property name="description" value="employeeRecord description..." />
+    
+    
   </bean>
   <bean id="CalculatedSalaryFoundationTracker-positionNumber" parent="CalculatedSalaryFoundationTracker-positionNumber-parentBean" />
 
@@ -275,8 +275,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="positionNumber" />
-    <property name="description" value="positionNumber description..." />
+    
+    
   </bean>
   <bean id="CalculatedSalaryFoundationTracker-name" parent="CalculatedSalaryFoundationTracker-name-parentBean" />
 
@@ -289,8 +289,8 @@
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
-    <property name="summary" value="Display Name" />
-    <property name="description" value="Name" />
+    
+    
   </bean>
 
 	<bean id="CalculatedSalaryFoundationTracker-positionLookupOverrideFlag" parent="CalculatedSalaryFoundationTracker-positionLookupOverrideFlag-parentBean" />
@@ -304,8 +304,8 @@
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
-    <property name="summary" value="Override Flag" />
-    <property name="description" value="Override" />
+    
+    
   </bean>
 <!-- Business Object Inquiry Definition -->
 

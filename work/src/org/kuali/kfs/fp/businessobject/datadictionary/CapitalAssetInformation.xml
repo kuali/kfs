@@ -65,8 +65,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 	<property name="name" value="capitalAssetNumber"/>
 	<property name="shortLabel" value="Asset Number" />
     <property name="label" value="Capital Asset Number" />
-    <property name="summary" value="Capital Asset Number" />
-    <property name="description" value="Capital Asset Number" />
+    
+    
   </bean> 
   
   <bean id="CapitalAssetInformation-capitalAssetQuantity" parent="CapitalAssetInformation-capitalAssetQuantity-parentBean" />  

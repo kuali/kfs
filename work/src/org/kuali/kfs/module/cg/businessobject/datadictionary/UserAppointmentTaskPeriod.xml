@@ -131,8 +131,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Agency Percent Effort" />
-    <property name="description" value="The percent of effort that will determine the salary amount being requested of the Agency." />
+    
+    
   </bean>
   <bean id="UserAppointmentTaskPeriod-institutionCostSharePercentEffortAmount" parent="UserAppointmentTaskPeriod-institutionCostSharePercentEffortAmount-parentBean" />
 
@@ -148,8 +148,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Institution Percent Effort" />
-    <property name="description" value="The percent of effort that will determine the salary amount being Cost Shared." />
+    
+    
   </bean>
   <bean id="UserAppointmentTaskPeriod-personWeeksAmount" parent="UserAppointmentTaskPeriod-personWeeksAmount-parentBean" />
 
@@ -165,8 +165,8 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="Number of weeks spent on the project during the summer" />
-    <property name="description" value="The number of weeks that the person has/will spend working on the project during the summer months." />
+    
+    
   </bean>
   <bean id="UserAppointmentTaskPeriod-userAgencyHours" parent="UserAppointmentTaskPeriod-userAgencyHours-parentBean" />
 
@@ -182,8 +182,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="Agency Hours Per Period" />
-    <property name="description" value="The number of hours in the period that will be paid for by the agency." />
+    
+    
   </bean>
   <bean id="UserAppointmentTaskPeriod-userInstitutionHours" parent="UserAppointmentTaskPeriod-userInstitutionHours-parentBean" />
 
@@ -199,8 +199,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="Cost Share Hours Per Period" />
-    <property name="description" value="The number of hours in the period that will be paid for from Cost Share." />
+    
+    
   </bean>
   <bean id="UserAppointmentTaskPeriod-userHourlyRate" parent="UserAppointmentTaskPeriod-userHourlyRate-parentBean" />
 
@@ -216,8 +216,8 @@
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-    <property name="summary" value="Hourly Rate" />
-    <property name="description" value="The amount of money, per hour, that the person will be paid." />
+    
+    
   </bean>
   <bean id="UserAppointmentTaskPeriod-agencyHealthInsuranceAmount" parent="UserAppointmentTaskPeriod-agencyHealthInsuranceAmount-parentBean" />
 
@@ -229,8 +229,8 @@
       <bean parent="TextControlDefinition"
             p:size="8" />
     </property>
-    <property name="summary" value="Agency Health Insurance Amount" />
-    <property name="description" value="Agency Health Insurance Amount..." />
+    
+    
   </bean>
   <bean id="UserAppointmentTaskPeriod-agencyRequestedFeesAmount" parent="UserAppointmentTaskPeriod-agencyRequestedFeesAmount-parentBean" />
 
@@ -242,8 +242,8 @@
       <bean parent="TextControlDefinition"
             p:size="8" />
     </property>
-    <property name="summary" value="Agency Requested Fees" />
-    <property name="description" value="Agency Requested Fees..." />
+    
+    
   </bean>
   <bean id="UserAppointmentTaskPeriod-agencySalaryAmount" parent="UserAppointmentTaskPeriod-agencySalaryAmount-parentBean" />
 
@@ -255,8 +255,8 @@
       <bean parent="TextControlDefinition"
             p:size="8" />
     </property>
-    <property name="summary" value="Agency Salary Amount" />
-    <property name="description" value="Agency Salary Amount..." />
+    
+    
   </bean>
   <bean id="UserAppointmentTaskPeriod-institutionHealthInsuranceAmount" parent="UserAppointmentTaskPeriod-institutionHealthInsuranceAmount-parentBean" />
 
@@ -268,8 +268,8 @@
       <bean parent="TextControlDefinition"
             p:size="8" />
     </property>
-    <property name="summary" value="Institution Health Insurance Amount" />
-    <property name="description" value="Institution Health Insurance Amount..." />
+    
+    
   </bean>
   <bean id="UserAppointmentTaskPeriod-institutionRequestedFeesAmount" parent="UserAppointmentTaskPeriod-institutionRequestedFeesAmount-parentBean" />
 
@@ -281,8 +281,8 @@
       <bean parent="TextControlDefinition"
             p:size="8" />
     </property>
-    <property name="summary" value="Institution Requested Fees" />
-    <property name="description" value="Institution Requested Fees..." />
+    
+    
   </bean>
   <bean id="UserAppointmentTaskPeriod-institutionSalaryAmount" parent="UserAppointmentTaskPeriod-institutionSalaryAmount-parentBean" />
 
@@ -294,8 +294,8 @@
       <bean parent="TextControlDefinition"
             p:size="8" />
     </property>
-    <property name="summary" value="Institution Salary Amount" />
-    <property name="description" value="Institution Salary Amount..." />
+    
+    
   </bean>
   <bean id="UserAppointmentTaskPeriod-userCreditHourAmount" parent="UserAppointmentTaskPeriod-userCreditHourAmount-parentBean" />
 
@@ -307,8 +307,8 @@
       <bean parent="TextControlDefinition"
             p:size="8" />
     </property>
-    <property name="summary" value="Amount Per Credit Hour" />
-    <property name="description" value="Amount Per Credit Hour..." />
+    
+    
   </bean>
   <bean id="UserAppointmentTaskPeriod-userMiscellaneousFeeAmount" parent="UserAppointmentTaskPeriod-userMiscellaneousFeeAmount-parentBean" />
 
@@ -320,8 +320,8 @@
       <bean parent="TextControlDefinition"
             p:size="8" />
     </property>
-    <property name="summary" value="Miscellaneous Fees Amount" />
-    <property name="description" value="Miscellaneous Fees Amount..." />
+    
+    
   </bean>
   <bean id="UserAppointmentTaskPeriod-agencyFullTimeEquivalentPercent" parent="UserAppointmentTaskPeriod-agencyFullTimeEquivalentPercent-parentBean" />
 
@@ -337,8 +337,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="Agency FTE" />
-    <property name="description" value="The percent of FTE." />
+    
+    
   </bean>
   <bean id="UserAppointmentTaskPeriod-institutionFullTimeEquivalentPercent" parent="UserAppointmentTaskPeriod-institutionFullTimeEquivalentPercent-parentBean" />
 
@@ -354,8 +354,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="Institution Cost Share FTE" />
-    <property name="description" value="The percent of FTE." />
+    
+    
   </bean>
   <bean id="UserAppointmentTaskPeriod-userCreditHoursNumber" parent="UserAppointmentTaskPeriod-userCreditHoursNumber-parentBean" />
 
@@ -371,7 +371,7 @@
       <bean parent="TextControlDefinition"
             p:size="8" />
     </property>
-    <property name="summary" value="&gt;Number of Credit Hours" />
-    <property name="description" value="&gt;Number of Credit Hours..." />
+    
+    
   </bean>
 </beans>

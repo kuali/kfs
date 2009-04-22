@@ -43,8 +43,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="Appointment Funding Reason Code" />
-    <property name="description" value="Reason Code for a request salary." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAppointmentFundingReasonCode-appointmentFundingReasonDescription" parent="BudgetConstructionAppointmentFundingReasonCode-appointmentFundingReasonDescription-parentBean" />
 
@@ -62,8 +62,8 @@
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="Appointment Funding Reason Description" />
-    <property name="description" value="Description of Reason Code" />
+    
+    
   </bean>
   
   <bean id="BudgetConstructionAppointmentFundingReasonCode-active" parent="BudgetConstructionAppointmentFundingReasonCode-active-parentBean" />

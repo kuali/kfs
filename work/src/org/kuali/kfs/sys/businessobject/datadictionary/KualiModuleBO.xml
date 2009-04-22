@@ -40,8 +40,8 @@
       <bean parent="TextControlDefinition"
             p:size="20" />
     </property>
-    <property name="summary" value="Module Name" />
-    <property name="description" value="Module Name description..." />
+    
+    
   </bean>
   <bean id="KualiModuleBO-moduleCode" parent="KualiModuleBO-moduleCode-parentBean" />
 
@@ -55,8 +55,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Module Code" />
-    <property name="description" value="Module Code description..." />
+    
+    
   </bean>
   <bean id="KualiModuleBO-moduleId" parent="KualiModuleBO-moduleId-parentBean" />
 
@@ -70,8 +70,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Module Id" />
-    <property name="description" value="Module Id description..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -124,8 +124,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="Effort Certification ReportNumber" />
-    <property name="description" value="Effort Certification ReportNumber description..." />
+    
+    
   </bean>
   <bean id="LedgerBalanceForEffortCertification-emplid" parent="LedgerBalanceForEffortCertification-emplid-parentBean" />
 

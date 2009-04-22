@@ -49,8 +49,8 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="72"/>
     </property>
-    <property name="summary" value="Verification unit associated with this document"/>
-    <property name="description" value="Verification Unit used in selecting cash receipts and making deposits"/>
+    
+    
   </bean>
   <bean id="CashManagementDocument-cashDrawerStatus" parent="CashManagementDocument-cashDrawerStatus-parentBean"/>
 
@@ -63,8 +63,8 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="10"/>
     </property>
-    <property name="summary" value="Current status of cash drawer associated with this document"/>
-    <property name="description" value="..."/>
+    
+    
   </bean>
 
 <!-- workflow attributes for routing -->

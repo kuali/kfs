@@ -36,8 +36,8 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="documentNumber" />
-    <property name="description" value="documentNumber description..." />
+    
+    
   </bean>
   <bean id="RoutingFormQuestion-questionTypeCode" parent="RoutingFormQuestion-questionTypeCode-parentBean" />
 
@@ -54,8 +54,8 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="questionTypeCode" />
-    <property name="description" value="questionTypeCode description..." />
+    
+    
   </bean>
   <bean id="RoutingFormQuestion-yesNoIndicator" parent="RoutingFormQuestion-yesNoIndicator-parentBean" />
 
@@ -69,7 +69,7 @@
             p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNNullValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="yesNoIndicator" />
-    <property name="description" value="yesNoIndicator description..." />
+    
+    
   </bean>
 </beans>

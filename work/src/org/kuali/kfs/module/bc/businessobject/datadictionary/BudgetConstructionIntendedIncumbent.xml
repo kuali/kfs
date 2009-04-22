@@ -47,8 +47,8 @@
       <bean parent="TextControlDefinition"
             p:size="13" />
     </property>
-    <property name="summary" value="Employee Id" />
-    <property name="description" value="Identifies employee" />
+    
+    
   </bean>
   <bean id="BudgetConstructionIntendedIncumbent-grade" parent="BudgetConstructionIntendedIncumbent-grade-parentBean" />
 
@@ -65,8 +65,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="Salary Grade" />
-    <property name="description" value="Salary Grade for the employee." />
+    
+    
   </bean>
   <bean id="BudgetConstructionIntendedIncumbent-iuClassificationLevel" parent="BudgetConstructionIntendedIncumbent-iuClassificationLevel-parentBean" />
 
@@ -83,8 +83,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="Classification Level" />
-    <property name="description" value="Classification Level of the employee." />
+    
+    
   </bean>
   <bean id="BudgetConstructionIntendedIncumbent-name" parent="BudgetConstructionIntendedIncumbent-name-parentBean" />
 
@@ -102,8 +102,8 @@
       <bean parent="TextControlDefinition"
             p:size="52" />
     </property>
-    <property name="summary" value="Person Name" />
-    <property name="description" value="Last and first name of the employee." />
+    
+    
   </bean>
   <bean id="BudgetConstructionIntendedIncumbent-salaryAdministrationPlan" parent="BudgetConstructionIntendedIncumbent-salaryAdministrationPlan-parentBean" />
 
@@ -120,8 +120,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="Salary Administration Plan" />
-    <property name="description" value="Salary Administration Plan for the employee." />
+    
+    
   </bean>
   <bean id="BudgetConstructionIntendedIncumbent-setidSalary" parent="BudgetConstructionIntendedIncumbent-setidSalary-parentBean" />
 
@@ -138,8 +138,8 @@
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-    <property name="summary" value="Salary Setid" />
-    <property name="description" value="Salary admin plan set identifier for the employee." />
+    
+    
   </bean>
   
   <bean id="BudgetConstructionIntendedIncumbent-active" parent="BudgetConstructionIntendedIncumbent-active-parentBean" />

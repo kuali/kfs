@@ -43,8 +43,8 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="projectTypeCode" />
-    <property name="description" value="projectTypeCode description..." />
+    
+    
   </bean>
   <bean id="ProjectType-projectTypeDescription" parent="ProjectType-projectTypeDescription-parentBean" />
 
@@ -61,8 +61,8 @@
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="projectTypeDescription" />
-    <property name="description" value="projectTypeDescription description..." />
+    
+    
   </bean>
   <bean id="ProjectType-sortNumber" parent="ProjectType-sortNumber-parentBean" />
 
@@ -78,8 +78,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="sortNumber" />
-    <property name="description" value="sortNumber description..." />
+    
+    
   </bean>
   <bean id="ProjectType-active" parent="ProjectType-active-parentBean" />
 

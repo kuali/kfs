@@ -59,7 +59,7 @@
     <property name="label" value="Budgeted Position" />
     <property name="shortLabel" value="Budgeted" />
     <property name="required" value="true" />
-    <property name="description" value="Budgeted flag for the position." />
+    
   </bean>
   <bean id="BudgetConstructionPosition-confidentialPosition" parent="BudgetConstructionPosition-confidentialPosition-parentBean" />
 
@@ -68,7 +68,7 @@
     <property name="label" value="Confidential Position" />
     <property name="shortLabel" value="Conf. Pos." />
     <property name="required" value="true" />
-    <property name="description" value="Confidential flag for the position." />
+    
   </bean>
   <bean id="BudgetConstructionPosition-iuDefaultObjectCode" parent="BudgetConstructionPosition-iuDefaultObjectCode-parentBean" />
 
@@ -85,8 +85,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="Default Object Code" />
-    <property name="description" value="Default Object Code for the position." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPosition-iuNormalWorkMonths" parent="BudgetConstructionPosition-iuNormalWorkMonths-parentBean" />
 
@@ -103,8 +103,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="Normal Work Months" />
-    <property name="description" value="Normal Work Months value for the position." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPosition-iuPayMonths" parent="BudgetConstructionPosition-iuPayMonths-parentBean" />
 
@@ -121,8 +121,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="iuPayMonths" />
-    <property name="description" value="iuPayMonths description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPosition-iuPositionType" parent="BudgetConstructionPosition-iuPositionType-parentBean" />
 
@@ -139,8 +139,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="Position Type" />
-    <property name="description" value="Position Type for the position." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPosition-jobCode" parent="BudgetConstructionPosition-jobCode-parentBean" />
 
@@ -157,8 +157,8 @@
       <bean parent="TextControlDefinition"
             p:size="8" />
     </property>
-    <property name="summary" value="Job Code" />
-    <property name="description" value="Job Code for the position." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPosition-jobCodeDescription" parent="BudgetConstructionPosition-jobCodeDescription-parentBean" />
 
@@ -175,8 +175,8 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="Job Code Description" />
-    <property name="description" value="Job Code description for the position." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPosition-positionDepartmentIdentifier" parent="BudgetConstructionPosition-positionDepartmentIdentifier-parentBean" />
 
@@ -193,8 +193,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="Position Department Identifier" />
-    <property name="description" value="Position Department Identifier for the position" />
+    
+    
   </bean>
   <bean id="BudgetConstructionPosition-positionDescription" parent="BudgetConstructionPosition-positionDescription-parentBean" />
 
@@ -212,8 +212,8 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="Position Description" />
-    <property name="description" value="Description for the position." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPosition-positionEffectiveDate" parent="BudgetConstructionPosition-positionEffectiveDate-parentBean" />
 
@@ -221,7 +221,7 @@
     <property name="name" value="positionEffectiveDate" />
     <property name="label" value="Position Effective Date" />
     <property name="shortLabel" value="Pos Eff Date" />
-    <property name="description" value="Effective Date for the position." />
+    
   </bean>
   <bean id="BudgetConstructionPosition-active" parent="BudgetConstructionPosition-active-parentBean" />
 
@@ -246,8 +246,8 @@
             p:valuesFinderClass="org.kuali.kfs.module.bc.businessobject.options.BudgetConstructionPositionEffectiveStatusValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="Position Effective Status" />
-    <property name="description" value="Effective Status for the position." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPosition-positionFullTimeEquivalency" parent="BudgetConstructionPosition-positionFullTimeEquivalency-parentBean" />
 
@@ -266,8 +266,8 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="Position Full Time Equivalency" />
-    <property name="description" value="Full time equivalent value for the position." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPosition-positionGradeDefault" parent="BudgetConstructionPosition-positionGradeDefault-parentBean" />
 
@@ -284,8 +284,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="Position Salary Grade Default" />
-    <property name="description" value="Default salary grade for the position" />
+    
+    
   </bean>
   <bean id="BudgetConstructionPosition-positionLockUserIdentifier" parent="BudgetConstructionPosition-positionLockUserIdentifier-parentBean" />
 
@@ -302,8 +302,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="Position Lock User Identifier" />
-    <property name="description" value="Position Lock User Identifier" />
+    
+    
   </bean>
   <bean id="BudgetConstructionPosition-positionNumber" parent="BudgetConstructionPosition-positionNumber-parentBean" />
 
@@ -320,8 +320,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="Position Number" />
-    <property name="description" value="Position Number for the position" />
+    
+    
   </bean>
   <bean id="BudgetConstructionPosition-positionRegularTemporary" parent="BudgetConstructionPosition-positionRegularTemporary-parentBean" />
 
@@ -339,8 +339,8 @@
             p:valuesFinderClass="org.kuali.kfs.module.bc.businessobject.options.BudgetConstructionPositionRegularTemporaryValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="Position Regular Temporary" />
-    <property name="description" value="Position Regular Temporary flag for the position" />
+    
+    
   </bean>
   <bean id="BudgetConstructionPosition-positionSalaryPlanDefault" parent="BudgetConstructionPosition-positionSalaryPlanDefault-parentBean" />
 
@@ -357,8 +357,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="Position Salary Plan Default" />
-    <property name="description" value="Default Salary Plan for the position" />
+    
+    
   </bean>
   <bean id="BudgetConstructionPosition-positionStandardHoursDefault" parent="BudgetConstructionPosition-positionStandardHoursDefault-parentBean" />
 
@@ -377,8 +377,8 @@
       <bean parent="TextControlDefinition"
             p:size="8" />
     </property>
-    <property name="summary" value="Position Standard Hours Default" />
-    <property name="description" value="Standard Hours Default for the position." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPosition-positionStatus" parent="BudgetConstructionPosition-positionStatus-parentBean" />
 
@@ -396,8 +396,8 @@
             p:valuesFinderClass="org.kuali.kfs.module.bc.businessobject.options.BudgetConstructionPositionStatusValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="Position Status" />
-    <property name="description" value="Status of the position." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPosition-positionUnionCode" parent="BudgetConstructionPosition-positionUnionCode-parentBean" />
 
@@ -414,8 +414,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="Position Union Code" />
-    <property name="description" value="Union Code for the position." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPosition-responsibilityCenterCode" parent="BudgetConstructionPosition-responsibilityCenterCode-parentBean" />
 
@@ -432,8 +432,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="Responsibility Center Code" />
-    <property name="description" value="Responsibility Center Code for the position." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPosition-setidDepartment" parent="BudgetConstructionPosition-setidDepartment-parentBean" />
 
@@ -450,8 +450,8 @@
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-    <property name="summary" value="Department Set Id" />
-    <property name="description" value="Department Set Id for the position." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPosition-setidJobCode" parent="BudgetConstructionPosition-setidJobCode-parentBean" />
 
@@ -468,8 +468,8 @@
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-    <property name="summary" value="Job Code Set Id" />
-    <property name="description" value="Job Code Set Id for the position." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPosition-setidSalary" parent="BudgetConstructionPosition-setidSalary-parentBean" />
 
@@ -486,15 +486,15 @@
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-    <property name="summary" value="Salary Set Id" />
-    <property name="description" value="Salary Set Id for the position." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPosition-universityFiscalYear" parent="BudgetConstructionPosition-universityFiscalYear-parentBean" />
 
   <bean id="BudgetConstructionPosition-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
     <property name="name" value="universityFiscalYear" />
     <property name="required" value="true" />
-    <property name="description" value="This identifies the fiscal year." />
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

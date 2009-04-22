@@ -40,8 +40,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="hrmsCompany" />
-    <property name="description" value="hrmsCompany description..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

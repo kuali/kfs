@@ -55,8 +55,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="earnCode" />
-    <property name="description" value="earnCode description..." />
+    
+    
   </bean>
   <bean id="EffortCertificationReportEarnPaygroup-payGroup" parent="EffortCertificationReportEarnPaygroup-payGroup-parentBean" />
 
@@ -73,8 +73,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="payGroup" />
-    <property name="description" value="payGroup description..." />
+    
+    
   </bean>
   <bean id="EffortCertificationReportEarnPaygroup-universityFiscalYear" parent="EffortCertificationReportEarnPaygroup-universityFiscalYear-parentBean" />
 

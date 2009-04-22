@@ -97,8 +97,8 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="csfCreateTimestamp" />
-    <property name="description" value="csfCreateTimestamp description..." />
+    
+    
   </bean>
   
   <bean id="LaborCalculatedSalaryFoundationTracker-csfDeleteCode" parent="LaborCalculatedSalaryFoundationTracker-csfDeleteCode-parentBean" />
@@ -115,8 +115,8 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="csfDeleteCode" />
-    <property name="description" value="csfDeleteCode description..." />
+    
+    
   </bean>
   
   <bean id="LaborCalculatedSalaryFoundationTracker-csfFullTimeEmploymentQuantity" parent="LaborCalculatedSalaryFoundationTracker-csfFullTimeEmploymentQuantity-parentBean" />
@@ -133,8 +133,8 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="csfFullTimeEmploymentQuantity" />
-    <property name="description" value="csfFullTimeEmploymentQuantity description..." />
+    
+    
   </bean>
   
   <bean id="LaborCalculatedSalaryFoundationTracker-csfFundingStatusCode" parent="LaborCalculatedSalaryFoundationTracker-csfFundingStatusCode-parentBean" />
@@ -151,8 +151,8 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="csfFundingStatusCode" />
-    <property name="description" value="csfFundingStatusCode description..." />
+    
+    
   </bean>
   
   <bean id="LaborCalculatedSalaryFoundationTracker-csfTimePercent" parent="LaborCalculatedSalaryFoundationTracker-csfTimePercent-parentBean" />
@@ -169,8 +169,8 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="csfTimePercent" />
-    <property name="description" value="csfTimePercent description" />
+    
+    
   </bean>
   
   <bean id="LaborCalculatedSalaryFoundationTracker-earnCode" parent="LaborCalculatedSalaryFoundationTracker-earnCode-parentBean" />
@@ -187,8 +187,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="earnCode" />
-    <property name="description" value="earnCode description..." />
+    
+    
   </bean>
   
   <bean id="LaborCalculatedSalaryFoundationTracker-effectiveDate" parent="LaborCalculatedSalaryFoundationTracker-effectiveDate-parentBean" />
@@ -205,8 +205,8 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="effectiveDate" />
-    <property name="description" value="effectiveDate description..." />
+    
+    
   </bean>
   
   <bean id="LaborCalculatedSalaryFoundationTracker-effectiveSequence" parent="LaborCalculatedSalaryFoundationTracker-effectiveSequence-parentBean" />
@@ -223,8 +223,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="effectiveSequence" />
-    <property name="description" value="effectiveSequence description..." />
+    
+    
   </bean>
   
   <bean id="LaborCalculatedSalaryFoundationTracker-emplid" parent="LaborCalculatedSalaryFoundationTracker-emplid-parentBean" />
@@ -241,8 +241,8 @@
       <bean parent="TextControlDefinition"
             p:size="13" />
     </property>
-    <property name="summary" value="emplid" />
-    <property name="description" value="emplid description..." />
+    
+    
   </bean>
   
   <bean id="LaborCalculatedSalaryFoundationTracker-employeeRecord" parent="LaborCalculatedSalaryFoundationTracker-employeeRecord-parentBean" />
@@ -259,8 +259,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="employeeRecord" />
-    <property name="description" value="employeeRecord description..." />
+    
+    
   </bean>
   
   <bean id="LaborCalculatedSalaryFoundationTracker-positionNumber" parent="LaborCalculatedSalaryFoundationTracker-positionNumber-parentBean" />
@@ -277,8 +277,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="positionNumber" />
-    <property name="description" value="positionNumber description..." />
+    
+    
   </bean>
   
   <bean id="LaborCalculatedSalaryFoundationTracker-name" parent="LaborCalculatedSalaryFoundationTracker-name-parentBean" />
@@ -291,8 +291,8 @@
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
-    <property name="summary" value="Display Name" />
-    <property name="description" value="Name" />
+    
+    
   </bean>
 
   <bean id="LaborCalculatedSalaryFoundationTracker-july1BudgetAmount" parent="LaborCalculatedSalaryFoundationTracker-july1BudgetAmount-parentBean" />

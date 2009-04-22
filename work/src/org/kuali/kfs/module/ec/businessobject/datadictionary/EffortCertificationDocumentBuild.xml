@@ -76,8 +76,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="Effort Certification DocumentCode" />
-    <property name="description" value="Effort Certification LaborDocumentCode description..." />
+    
+    
   </bean>
   <bean id="EffortCertificationDocumentBuild-effortCertificationBuildNumber" parent="EffortCertificationDocumentBuild-effortCertificationBuildNumber-parentBean" />
 
@@ -94,8 +94,8 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="effortCertificationBuildNumber" />
-    <property name="description" value="effortCertificationBuildNumber description..." />
+    
+    
   </bean>
   <bean id="EffortCertificationDocumentBuild-emplid" parent="EffortCertificationDocumentBuild-emplid-parentBean" />
 

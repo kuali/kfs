@@ -79,8 +79,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="chartOfAccountsCode" />
-    <property name="description" value="chartOfAccountsCode description..." />
+    
+    
   </bean>
   <bean id="RoutingFormPersonnel-documentNumber" parent="RoutingFormPersonnel-documentNumber-parentBean" />
 
@@ -97,8 +97,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="documentNumber" />
-    <property name="description" value="documentNumber description..." />
+    
+    
   </bean>
   <bean id="RoutingFormPersonnel-organizationCode" parent="RoutingFormPersonnel-organizationCode-parentBean" />
 
@@ -114,8 +114,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="organizationCode" />
-    <property name="description" value="organizationCode description..." />
+    
+    
   </bean>
   <bean id="RoutingFormPersonnel-personCityName" parent="RoutingFormPersonnel-personCityName-parentBean" />
 
@@ -132,8 +132,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="personCityName" />
-    <property name="description" value="personCityName description..." />
+    
+    
   </bean>
   <bean id="RoutingFormPersonnel-personCountryCode" parent="RoutingFormPersonnel-personCountryCode-parentBean" />
 
@@ -149,8 +149,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.CountryValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="personCountryCode" />
-    <property name="description" value="personCountryCode description..." />
+    
+    
   </bean>
   <bean id="RoutingFormPersonnel-personCountyName" parent="RoutingFormPersonnel-personCountyName-parentBean" />
 
@@ -167,8 +167,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="personCountyName" />
-    <property name="description" value="personCountyName description..." />
+    
+    
   </bean>
   <bean id="RoutingFormPersonnel-personCreditPercent" parent="RoutingFormPersonnel-personCreditPercent-parentBean" />
 
@@ -184,8 +184,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="personCreditPercent" />
-    <property name="description" value="personCreditPercent description..." />
+    
+    
   </bean>
   <bean id="RoutingFormPersonnel-personDivisionText" parent="RoutingFormPersonnel-personDivisionText-parentBean" />
 
@@ -202,8 +202,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="personDivisionText" />
-    <property name="description" value="personDivisionText description..." />
+    
+    
   </bean>
   <bean id="RoutingFormPersonnel-personEmailAddress" parent="RoutingFormPersonnel-personEmailAddress-parentBean" />
 
@@ -219,8 +219,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="emailAddress" />
-    <property name="description" value="personEmailAddress description..." />
+    
+    
   </bean>
   <bean id="RoutingFormPersonnel-personFaxNumber" parent="RoutingFormPersonnel-personFaxNumber-parentBean" />
 
@@ -236,8 +236,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="personFaxNumber" />
-    <property name="description" value="personFaxNumber description..." />
+    
+    
   </bean>
   <bean id="RoutingFormPersonnel-personFinancialAidPercent" parent="RoutingFormPersonnel-personFinancialAidPercent-parentBean" />
 
@@ -253,8 +253,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="personFinancialAidPercent" />
-    <property name="description" value="personFinancialAidPercent description..." />
+    
+    
   </bean>
   <bean id="RoutingFormPersonnel-personLine1Address" parent="RoutingFormPersonnel-personLine1Address-parentBean" />
 
@@ -271,8 +271,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="personLine1Address" />
-    <property name="description" value="personLine1Address description..." />
+    
+    
   </bean>
   <bean id="RoutingFormPersonnel-personLine2Address" parent="RoutingFormPersonnel-personLine2Address-parentBean" />
 
@@ -289,8 +289,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="personLine2Address" />
-    <property name="description" value="personLine2Address description..." />
+    
+    
   </bean>
   <bean id="RoutingFormPersonnel-personPhoneNumber" parent="RoutingFormPersonnel-personPhoneNumber-parentBean" />
 
@@ -306,8 +306,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="personPhoneNumber" />
-    <property name="description" value="personPhoneNumber description..." />
+    
+    
   </bean>
   <bean id="RoutingFormPersonnel-personPositionTitle" parent="RoutingFormPersonnel-personPositionTitle-parentBean" />
 
@@ -324,8 +324,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="personPositionTitle" />
-    <property name="description" value="personPositionTitle description..." />
+    
+    
   </bean>
   <bean id="RoutingFormPersonnel-personPrefixText" parent="RoutingFormPersonnel-personPrefixText-parentBean" />
 
@@ -342,8 +342,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="personPrefixText" />
-    <property name="description" value="personPrefixText description..." />
+    
+    
   </bean>
   <bean id="RoutingFormPersonnel-personRoleCode" parent="RoutingFormPersonnel-personRoleCode-parentBean" />
 
@@ -359,8 +359,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="1" />
     </property>
-    <property name="summary" value="personRoleCode" />
-    <property name="description" value="personRoleCode description..." />
+    
+    
   </bean>
   <bean id="RoutingFormPersonnel-personRoleText" parent="RoutingFormPersonnel-personRoleText-parentBean" />
 
@@ -377,8 +377,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="personRoleText" />
-    <property name="description" value="personRoleText description..." />
+    
+    
   </bean>
   <bean id="RoutingFormPersonnel-personToBeNamedIndicator" parent="RoutingFormPersonnel-personToBeNamedIndicator-parentBean" />
 
@@ -390,8 +390,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="personToBeNamedIndicator" />
-    <property name="description" value="personToBeNamedIndicator description..." />
+    
+    
   </bean>
   <bean id="RoutingFormPersonnel-personStateCode" parent="RoutingFormPersonnel-personStateCode-parentBean" />
 
@@ -407,8 +407,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.StateValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="personStateCode" />
-    <property name="description" value="personStateCode description..." />
+    
+    
   </bean>
   <bean id="RoutingFormPersonnel-personSuffixText" parent="RoutingFormPersonnel-personSuffixText-parentBean" />
 
@@ -425,8 +425,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="personSuffixText" />
-    <property name="description" value="personSuffixText description..." />
+    
+    
   </bean>
   <bean id="RoutingFormPersonnel-principalId" parent="RoutingFormPersonnel-principalId-parentBean" />
 
@@ -442,8 +442,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="principalId" />
-    <property name="description" value="principalId description..." />
+    
+    
   </bean>
   
   <bean id="RoutingFormPersonnel-principalName" parent="RoutingFormPersonnel-principalName-parentBean" />
@@ -452,8 +452,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="label" value="Principal Name" />
     <property name="shortLabel" value="Principal Name" />
     <property name="required" value="true" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="description..." />
+    
+    
   </bean>
   
   <bean id="RoutingFormPersonnel-personZipCode" parent="RoutingFormPersonnel-personZipCode-parentBean" />
@@ -464,8 +464,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="label" value="Zip" />
     <property name="shortLabel" value="Code" />
     <property name="required" value="false" />
-    <property name="summary" value="personZipCode" />
-    <property name="description" value="personZipCode description..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

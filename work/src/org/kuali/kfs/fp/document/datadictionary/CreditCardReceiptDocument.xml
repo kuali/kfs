@@ -55,7 +55,7 @@
     <property name="name" value="totalCreditCardAmount"/>
     <property name="label" value="Credit Card Receipt Total"/>
     <property name="shortLabel" value="Credit Card Receipt Total"/>
-    <property name="description" value="The sum of the entered credit card lines."/>
+    
   </bean>
   
     

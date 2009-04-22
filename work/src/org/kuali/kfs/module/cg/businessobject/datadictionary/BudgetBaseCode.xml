@@ -40,8 +40,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Budget Base Code Name" />
-    <property name="description" value="The code assigned to this base." />
+    
+    
   </bean>
   <bean id="BudgetBaseCode-budgetBaseDescription" parent="BudgetBaseCode-budgetBaseDescription-parentBean" />
 
@@ -59,8 +59,8 @@
       <bean parent="TextControlDefinition"
             p:size="40" />
     </property>
-    <property name="summary" value="Budget Base Code Description" />
-    <property name="description" value="The description assigned to this base code." />
+    
+    
   </bean>
   <bean id="BudgetBaseCode-active" parent="BudgetBaseCode-active-parentBean" />
 

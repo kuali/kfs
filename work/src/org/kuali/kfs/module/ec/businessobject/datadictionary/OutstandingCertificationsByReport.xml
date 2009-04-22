@@ -109,8 +109,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="Number of Outstanding Certifications" />
-    <property name="description" value="Number of Outstanding Certifications" />
+    
+    
   </bean>
 
 <!-- Business Object Lookup Definition -->

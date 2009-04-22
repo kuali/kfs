@@ -60,8 +60,8 @@
     <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="FY" />
     <property name="required" value="true" />
-    <property name="summary" value="University Fiscal Year" />
-    <property name="description" value="Indicates what fiscal year this options applies to." />
+    
+    
   </bean>
   <bean id="SystemOptions-universityFiscalYearName" parent="SystemOptions-universityFiscalYearName-parentBean" />
 
@@ -79,8 +79,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="Fiscal Year Name" />
-    <property name="description" value="The name of the fiscal year in format like: 2005-2006" />
+    
+    
   </bean>
   <bean id="SystemOptions-universityFiscalYearStartYr" parent="SystemOptions-universityFiscalYearStartYr-parentBean" />
 
@@ -97,8 +97,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="Fiscal Year Start Year" />
-    <property name="description" value="Fiscal Year Start Year." />
+    
+    
   </bean>
   <bean id="SystemOptions-universityFiscalYearStartMo" parent="SystemOptions-universityFiscalYearStartMo-parentBean" />
 
@@ -115,8 +115,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Fiscal Year Start Month" />
-    <property name="description" value="Fiscal Year Start Month." />
+    
+    
   </bean>
   <bean id="SystemOptions-financialBeginBalanceLoadInd" parent="SystemOptions-financialBeginBalanceLoadInd-parentBean" />
 
@@ -125,8 +125,8 @@
     <property name="label" value="Beginning Balances Loaded Indicator" />
     <property name="shortLabel" value="Begin Bal. Loaded Ind" />
     <property name="required" value="true" />
-    <property name="summary" value="Beginning Balances Loaded Indicator" />
-    <property name="description" value="Beginning Balances Loaded Indicator" />
+    
+    
   </bean>
   <bean id="SystemOptions-budgetCheckingOptionsCode" parent="SystemOptions-budgetCheckingOptionsCode-parentBean" />
 
@@ -135,8 +135,8 @@
     <property name="label" value="Budget Checking Options Code" />
     <property name="shortLabel" value="Budget Option Code" />
     <property name="required" value="true" />
-    <property name="summary" value="Budget Checking Options Code" />
-    <property name="description" value="Budget Checking Options Code" />
+    
+    
   </bean>
   <bean id="SystemOptions-universityFinChartOfAcctCd" parent="SystemOptions-universityFinChartOfAcctCd-parentBean" />
 
@@ -163,8 +163,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Actual Balance Type" />
-    <property name="description" value="Actual Balance Type" />
+    
+    
   </bean>
   <bean id="SystemOptions-extrnlEncumFinBalanceTypCd" parent="SystemOptions-extrnlEncumFinBalanceTypCd-parentBean" />
 
@@ -181,8 +181,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="External Encumbrance Balance Type" />
-    <property name="description" value="External Encumbrance Balance Type" />
+    
+    
   </bean>
   <bean id="SystemOptions-intrnlEncumFinBalanceTypCd" parent="SystemOptions-intrnlEncumFinBalanceTypCd-parentBean" />
 
@@ -199,8 +199,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Internal Encumbrance Balance Type" />
-    <property name="description" value="Internal Encumbrance Balance Type" />
+    
+    
   </bean>
   <bean id="SystemOptions-preencumbranceFinBalTypeCd" parent="SystemOptions-preencumbranceFinBalTypeCd-parentBean" />
 
@@ -217,8 +217,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Pre-Encumbrance Balance Type" />
-    <property name="description" value="Pre-Encumbrance Balance Type" />
+    
+    
   </bean>
   <bean id="SystemOptions-eliminationsFinBalanceTypeCd" parent="SystemOptions-eliminationsFinBalanceTypeCd-parentBean" />
 
@@ -235,8 +235,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Eliminations Balance Type" />
-    <property name="description" value="Eliminations Balance Type" />
+    
+    
   </bean>
   <bean id="SystemOptions-budgetCheckingBalanceTypeCd" parent="SystemOptions-budgetCheckingBalanceTypeCd-parentBean" />
 
@@ -253,8 +253,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Budget Checking Balance Type" />
-    <property name="description" value="Budget Checking Balance Type" />
+    
+    
   </bean>
   <bean id="SystemOptions-finObjTypeExpenditureexpCd" parent="SystemOptions-finObjTypeExpenditureexpCd-parentBean" />
 
@@ -271,8 +271,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Expenditure/Expense Object Type" />
-    <property name="description" value="Expenditure/Expense Object Type" />
+    
+    
   </bean>
   <bean id="SystemOptions-finObjTypeExpendNotExpCode" parent="SystemOptions-finObjTypeExpendNotExpCode-parentBean" />
 
@@ -289,8 +289,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Expenditure Not Expense Object Type" />
-    <property name="description" value="Expenditure Not Expense Object Type" />
+    
+    
   </bean>
   <bean id="SystemOptions-finObjTypeExpNotExpendCode" parent="SystemOptions-finObjTypeExpNotExpendCode-parentBean" />
 
@@ -307,8 +307,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Expense Not Expenditure Object Type" />
-    <property name="description" value="Expense Not Expenditure Object Type" />
+    
+    
   </bean>
   <bean id="SystemOptions-finObjectTypeIncomecashCode" parent="SystemOptions-finObjectTypeIncomecashCode-parentBean" />
 
@@ -325,8 +325,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Income/Cash Object Type" />
-    <property name="description" value="Income/Cash Object Type" />
+    
+    
   </bean>
   <bean id="SystemOptions-finObjTypeIncomeNotCashCd" parent="SystemOptions-finObjTypeIncomeNotCashCd-parentBean" />
 
@@ -343,8 +343,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Income Not Cash Object Type" />
-    <property name="description" value="Income Not Cash Object Type" />
+    
+    
   </bean>
   <bean id="SystemOptions-finObjTypeCshNotIncomeCd" parent="SystemOptions-finObjTypeCshNotIncomeCd-parentBean" />
 
@@ -361,8 +361,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Cash Not Income Object Type" />
-    <property name="description" value="Cash Not Income Object Type" />
+    
+    
   </bean>
   <bean id="SystemOptions-financialObjectTypeAssetsCd" parent="SystemOptions-financialObjectTypeAssetsCd-parentBean" />
 
@@ -379,8 +379,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Assets Object Type" />
-    <property name="description" value="Assets Object Type" />
+    
+    
   </bean>
   <bean id="SystemOptions-finObjectTypeLiabilitiesCode" parent="SystemOptions-finObjectTypeLiabilitiesCode-parentBean" />
 
@@ -397,8 +397,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Liabilities Object Type" />
-    <property name="description" value="Liabilities Object Type" />
+    
+    
   </bean>
   <bean id="SystemOptions-finObjectTypeFundBalanceCd" parent="SystemOptions-finObjectTypeFundBalanceCd-parentBean" />
 
@@ -415,8 +415,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Fund Balance Object Type" />
-    <property name="description" value="Fund Balance Object Type." />
+    
+    
   </bean>
   <bean id="SystemOptions-costShareEncumbranceBalanceTypeCd" parent="SystemOptions-costShareEncumbranceBalanceTypeCd-parentBean" />
 
@@ -433,8 +433,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Cost Share Encumbrance Balance Type" />
-    <property name="description" value="Cost Share Encumbrance Balance Type." />
+    
+    
   </bean>
   <bean id="SystemOptions-baseBudgetFinancialBalanceTypeCd" parent="SystemOptions-baseBudgetFinancialBalanceTypeCd-parentBean" />
 
@@ -451,8 +451,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Base Budget Balance Type" />
-    <property name="description" value="Base Budget Balance Type." />
+    
+    
   </bean>
   <bean id="SystemOptions-monthlyBudgetFinancialBalanceTypeCd" parent="SystemOptions-monthlyBudgetFinancialBalanceTypeCd-parentBean" />
 
@@ -469,8 +469,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Monthly Budget Balance Type" />
-    <property name="description" value="Monthly Budget Balance Type." />
+    
+    
   </bean>
   <bean id="SystemOptions-financialObjectTypeTransferIncomeCd" parent="SystemOptions-financialObjectTypeTransferIncomeCd-parentBean" />
 
@@ -487,8 +487,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Transfer In Object Type" />
-    <property name="description" value="Transfer In Object Type." />
+    
+    
   </bean>
   <bean id="SystemOptions-financialObjectTypeTransferExpenseCd" parent="SystemOptions-financialObjectTypeTransferExpenseCd-parentBean" />
 
@@ -505,8 +505,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Transfer Out Object Type" />
-    <property name="description" value="Transfer Out Object Type." />
+    
+    
   </bean>
   <bean id="SystemOptions-nominalFinancialBalanceTypeCd" parent="SystemOptions-nominalFinancialBalanceTypeCd-parentBean" />
 
@@ -523,8 +523,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Nominal Closing Balances Balance Type" />
-    <property name="description" value="Nominal Closing Balances Balance Type." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

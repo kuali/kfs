@@ -42,8 +42,8 @@
       <bean parent="TextControlDefinition"
             p:size="72" />
     </property>
-    <property name="summary" value="routingFormKeywordDescription" />
-    <property name="description" value="routingFormKeywordDescription description..." />
+    
+    
   </bean>
   <bean id="RoutingFormKeyword-documentNumber" parent="RoutingFormKeyword-documentNumber-parentBean" />
 
@@ -60,8 +60,8 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="documentNumber" />
-    <property name="description" value="documentNumber description..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

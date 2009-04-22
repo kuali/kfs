@@ -118,8 +118,8 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The transaction number on the deposit slip assigned by the bank." />
+    
+    
   </bean>
   <bean id="SourceAccountingLine-sequenceNumber" parent="SourceAccountingLine-sequenceNumber-parentBean" />
 
@@ -131,7 +131,7 @@
   <bean id="SourceAccountingLine-financialObjectCode" parent="SourceAccountingLine-financialObjectCode-parentBean" />
 
   <bean id="SourceAccountingLine-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
-    <property name="description" value="The code that identifies the &quot;object&quot; of accounting for a transaction, expressed as a 4-digit numeric text, including leading zeros. For Search Criteria, select the Help for the Object Code search." />
+    
   </bean>
   <bean id="SourceAccountingLine-accountNumber" parent="SourceAccountingLine-accountNumber-parentBean" />
 
@@ -152,8 +152,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The identifier of an Organization which has been associated with the Account Line." />
+    
+    
   </bean>
   <bean id="SourceAccountingLine-chartOfAccountsCode" parent="SourceAccountingLine-chartOfAccountsCode-parentBean" />
 
@@ -163,7 +163,7 @@
             p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SimpleChartValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="description" value="The code that identifies the Chart of Accounts for an Account. Kuali accommodates more than one Chart of Accounts." />
+    
   </bean>
   <bean id="SourceAccountingLine-postingYear" parent="SourceAccountingLine-postingYear-parentBean" />
 
@@ -186,8 +186,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The system code for that identifies the system from which the original encumbering transaction came, selected from a pulldown list." />
+    
+    
   </bean>
   <bean id="SourceAccountingLine-overrideCode" parent="SourceAccountingLine-overrideCode-parentBean" />
 
@@ -205,15 +205,15 @@
             p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.AccountingLineOverrideOptionFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The system code for the type of override in an Accounting Line, selected from a pulldown list." />
+    
+    
   </bean>
   <bean id="SourceAccountingLine-amount" parent="SourceAccountingLine-amount-parentBean" />
 
   <bean id="SourceAccountingLine-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="amount" />
     <property name="required" value="true" />
-    <property name="description" value="The total dollar amount of check or batch of checks." />
+    
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="SourceAccountingLine-subAccountNumber" parent="SourceAccountingLine-subAccountNumber-parentBean" />
@@ -221,8 +221,8 @@
   <bean id="SourceAccountingLine-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
     <property name="label" value="Sub-Account Code" />
     <property name="required" value="false" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The identifier to further partition the financial activity of an Account, expressed as a 5-character code" />
+    
+    
   </bean>
   <bean id="SourceAccountingLine-referenceTypeCode" parent="SourceAccountingLine-referenceTypeCode-parentBean" />
 
@@ -231,22 +231,22 @@
     <property name="label" value="Reference Type Code" />
     <property name="shortLabel" value="Ref Type Code" />
     <property name="required" value="false" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The system code for the type of the system from which the original encumbering transaction came, selected from a pulldown list." />
+    
+    
   </bean>
   <bean id="SourceAccountingLine-projectCode" parent="SourceAccountingLine-projectCode-parentBean" />
 
   <bean id="SourceAccountingLine-projectCode-parentBean" abstract="true" parent="ProjectCode-code">
     <property name="name" value="projectCode" />
     <property name="required" value="false" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The title of the project." />
+    
+    
   </bean>
   <bean id="SourceAccountingLine-financialSubObjectCode" parent="SourceAccountingLine-financialSubObjectCode-parentBean" />
 
   <bean id="SourceAccountingLine-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
     <property name="required" value="false" />
-    <property name="description" value="The code that partitions the Object Code into a greater amount of detail. Sub-Object Code acquire most of the attributes of the official Object Code to which they report, including Object Type and Object SubType." />
+    
   </bean>
   <bean id="SourceAccountingLine-documentNumber" parent="SourceAccountingLine-documentNumber-parentBean" />
 
@@ -270,8 +270,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="If it&apos;s a &quot;C&quot; then this accounting line is a credit, if it&apos;s a &quot;D&quot;, then it&apos;s a debit." />
+    
+    
   </bean>
   <bean id="SourceAccountingLine-encumbranceUpdateCode" parent="SourceAccountingLine-encumbranceUpdateCode-parentBean" />
 
@@ -288,8 +288,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The system code for the type of encumbrance update in an Accounting Line, selected from a pulldown list." />
+    
+    
   </bean>
   <bean id="SourceAccountingLine-objectTypeCode" parent="SourceAccountingLine-objectTypeCode-parentBean" />
 
@@ -308,8 +308,8 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="This override indicates that the user has explicitly decided to use an account even though it has expired." />
+    
+    
   </bean>
   <bean id="SourceAccountingLine-nonFringeAccountOverride" parent="SourceAccountingLine-nonFringeAccountOverride-parentBean" />
 
@@ -322,8 +322,8 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="This override indicates that the user has explicitly decided to use an account even though it does not accept fringe benefit." />
+    
+    
   </bean>
   <bean id="SourceAccountingLine-objectBudgetOverride" parent="SourceAccountingLine-objectBudgetOverride-parentBean" />
 
@@ -336,8 +336,8 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="This override indicates that the user has explicitly decided to use a non budgeted object code even though presence control is on for the account." />
+    
+    
   </bean>
   <bean id="SourceAccountingLine-financialDocumentLineDescription" parent="SourceAccountingLine-financialDocumentLineDescription-parentBean" />
 
@@ -351,8 +351,8 @@
       <bean parent="TextControlDefinition"
             p:size="40" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="A free-form text field that describes the purpose or function of the Accounting Line." />
+    
+    
   </bean>
   <bean id="SourceAccountingLine-salesTaxRequired" parent="SourceAccountingLine-salesTaxRequired-parentBean" />
 
@@ -365,8 +365,8 @@
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="Added in specifically so that I can override the formatter for booleans" />
+    
+    
   </bean>
   <bean id="SourceAccountingLine-salesTax.chartOfAccountsCode" parent="SourceAccountingLine-salesTax.chartOfAccountsCode-parentBean" />
 
@@ -374,8 +374,8 @@
     <property name="name" value="salesTax.chartOfAccountsCode" />
     <property name="label" value="Sales Tax Chart of Accounts Code" />
     <property name="shortLabel" value="Sales Tax Chart" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="Chart of Accounts Code that Sales Tax is collected against" />
+    
+    
   </bean>
   <bean id="SourceAccountingLine-salesTax.accountNumber" parent="SourceAccountingLine-salesTax.accountNumber-parentBean" />
 
@@ -383,8 +383,8 @@
     <property name="name" value="salesTax.accountNumber" />
     <property name="label" value="Sales Tax Account Number" />
     <property name="shortLabel" value="Sales Tax Account" />
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="Account Number that Sales Tax is collected against" />
+    
+    
   </bean>
   <bean id="SourceAccountingLine-salesTax.financialDocumentGrossSalesAmount" parent="SourceAccountingLine-salesTax.financialDocumentGrossSalesAmount-parentBean" />
 
@@ -392,7 +392,7 @@
     <property name="name" value="salesTax.financialDocumentGrossSalesAmount" />
     <property name="label" value="Gross Sales Amount" />
     <property name="shortLabel" value="Gross Sales Amt." />
-    <property name="description" value="Gross Sales Amount to be taxed" />
+    
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="SourceAccountingLine-salesTax.financialDocumentTaxableSalesAmount" parent="SourceAccountingLine-salesTax.financialDocumentTaxableSalesAmount-parentBean" />
@@ -401,7 +401,7 @@
     <property name="name" value="salesTax.financialDocumentTaxableSalesAmount" />
     <property name="label" value="Taxable Sales Amount" />
     <property name="shortLabel" value="Taxable Sales Amt." />
-    <property name="description" value="Taxable Sales Amount to be taxed" />
+    
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="SourceAccountingLine-salesTax.financialDocumentSaleDate" parent="SourceAccountingLine-salesTax.financialDocumentSaleDate-parentBean" />
@@ -409,6 +409,6 @@
   <bean id="SourceAccountingLine-salesTax.financialDocumentSaleDate-parentBean" abstract="true" parent="SalesTax-financialDocumentSaleDate">
     <property name="name" value="salesTax.financialDocumentSaleDate" />
     <property name="label" value="Sale Date" />
-    <property name="description" value="Date of Sale" />
+    
   </bean>
 </beans>

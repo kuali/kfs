@@ -47,8 +47,8 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-    <property name="summary" value="appointmentRequestedPayRate" />
-    <property name="description" value="appointmentRequestedPayRate description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPayRateHolding-emplid" parent="BudgetConstructionPayRateHolding-emplid-parentBean" />
 
@@ -65,8 +65,8 @@
       <bean parent="TextControlDefinition"
             p:size="13" />
     </property>
-    <property name="summary" value="emplid" />
-    <property name="description" value="emplid description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPayRateHolding-grade" parent="BudgetConstructionPayRateHolding-grade-parentBean" />
 
@@ -83,8 +83,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="grade" />
-    <property name="description" value="grade description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPayRateHolding-name" parent="BudgetConstructionPayRateHolding-name-parentBean" />
 
@@ -101,8 +101,8 @@
       <bean parent="TextControlDefinition"
             p:size="52" />
     </property>
-    <property name="summary" value="name" />
-    <property name="description" value="name description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPayRateHolding-positionNumber" parent="BudgetConstructionPayRateHolding-positionNumber-parentBean" />
 
@@ -119,8 +119,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="positionNumber" />
-    <property name="description" value="positionNumber description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPayRateHolding-salaryAdministrationPlan" parent="BudgetConstructionPayRateHolding-salaryAdministrationPlan-parentBean" />
 
@@ -137,8 +137,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="salaryAdministrationPlan" />
-    <property name="description" value="salaryAdministrationPlan description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPayRateHolding-setidSalary" parent="BudgetConstructionPayRateHolding-setidSalary-parentBean" />
 
@@ -155,8 +155,8 @@
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-    <property name="summary" value="setidSalary" />
-    <property name="description" value="setidSalary description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPayRateHolding-unionCode" parent="BudgetConstructionPayRateHolding-unionCode-parentBean" />
 
@@ -173,8 +173,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="unionCode" />
-    <property name="description" value="unionCode description..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

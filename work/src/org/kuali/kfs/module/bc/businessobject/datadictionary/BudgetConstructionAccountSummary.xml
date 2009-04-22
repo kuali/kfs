@@ -51,8 +51,8 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="accountLineAnnualBalanceAmount" />
-    <property name="description" value="accountLineAnnualBalanceAmount description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAccountSummary-accountNumber" parent="BudgetConstructionAccountSummary-accountNumber-parentBean" />
 
@@ -69,8 +69,8 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="accountNumber" />
-    <property name="description" value="accountNumber description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAccountSummary-chartOfAccountsCode" parent="BudgetConstructionAccountSummary-chartOfAccountsCode-parentBean" />
 
@@ -87,8 +87,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="chartOfAccountsCode" />
-    <property name="description" value="chartOfAccountsCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAccountSummary-financialBeginningBalanceLineAmount" parent="BudgetConstructionAccountSummary-financialBeginningBalanceLineAmount-parentBean" />
 
@@ -105,8 +105,8 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="financialBeginningBalanceLineAmount" />
-    <property name="description" value="financialBeginningBalanceLineAmount description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAccountSummary-fundGroupCode" parent="BudgetConstructionAccountSummary-fundGroupCode-parentBean" />
 
@@ -123,8 +123,8 @@
       <bean parent="TextControlDefinition"
             p:size="8" />
     </property>
-    <property name="summary" value="fundGroupCode" />
-    <property name="description" value="fundGroupCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAccountSummary-incomeExpenseCode" parent="BudgetConstructionAccountSummary-incomeExpenseCode-parentBean" />
 
@@ -141,8 +141,8 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="incomeExpenseCode" />
-    <property name="description" value="incomeExpenseCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAccountSummary-organizationChartOfAccountsCode" parent="BudgetConstructionAccountSummary-organizationChartOfAccountsCode-parentBean" />
 
@@ -159,8 +159,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="organizationChartOfAccountsCode" />
-    <property name="description" value="organizationChartOfAccountsCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAccountSummary-organizationCode" parent="BudgetConstructionAccountSummary-organizationCode-parentBean" />
 
@@ -177,8 +177,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="organizationCode" />
-    <property name="description" value="organizationCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAccountSummary-principalId" parent="BudgetConstructionAccountSummary-principalId-parentBean" />
 
@@ -195,8 +195,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="principalId" />
-    <property name="description" value="principalId description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAccountSummary-subAccountNumber" parent="BudgetConstructionAccountSummary-subAccountNumber-parentBean" />
 
@@ -213,8 +213,8 @@
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-    <property name="summary" value="subAccountNumber" />
-    <property name="description" value="subAccountNumber description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAccountSummary-subFundGroupCode" parent="BudgetConstructionAccountSummary-subFundGroupCode-parentBean" />
 
@@ -231,8 +231,8 @@
       <bean parent="TextControlDefinition"
             p:size="8" />
     </property>
-    <property name="summary" value="subFundGroupCode" />
-    <property name="description" value="subFundGroupCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAccountSummary-subFundSortCode" parent="BudgetConstructionAccountSummary-subFundSortCode-parentBean" />
 
@@ -249,8 +249,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="subFundSortCode" />
-    <property name="description" value="subFundSortCode description..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

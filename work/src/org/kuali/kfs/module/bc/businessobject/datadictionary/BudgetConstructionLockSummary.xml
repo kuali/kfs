@@ -56,8 +56,8 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="lockType" />
-    <property name="description" value="lockType description..." />
+    
+    
   </bean>
   
   <bean id="BudgetConstructionLockSummary-lockUserId" parent="BudgetConstructionLockSummary-lockUserId-parentBean" />
@@ -75,8 +75,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="lockUserId" />
-    <property name="description" value="lockUserId description..." />
+    
+    
   </bean>
   
   <bean id="BudgetConstructionLockSummary-universityFiscalYear" parent="BudgetConstructionHeader-universityFiscalYear-parentBean" />  

@@ -43,8 +43,8 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="purposeCode" />
-    <property name="description" value="purposeCode description..." />
+    
+    
   </bean>
   <bean id="Purpose-purposeDescription" parent="Purpose-purposeDescription-parentBean" />
 
@@ -61,8 +61,8 @@
       <bean parent="TextControlDefinition"
             p:size="28" />
     </property>
-    <property name="summary" value="purposeDescription" />
-    <property name="description" value="purposeDescription description..." />
+    
+    
   </bean>
   <bean id="Purpose-userSortNumber" parent="Purpose-userSortNumber-parentBean" />
 
@@ -78,8 +78,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="userSortNumber" />
-    <property name="description" value="userSortNumber description..." />
+    
+    
   </bean>
   <bean id="Purpose-active" parent="Purpose-active-parentBean" />
 

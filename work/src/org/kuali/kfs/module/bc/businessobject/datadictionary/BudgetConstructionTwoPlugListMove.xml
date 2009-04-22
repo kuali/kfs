@@ -46,8 +46,8 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="accountLineAnnualBalanceAmount" />
-    <property name="description" value="accountLineAnnualBalanceAmount description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionTwoPlugListMove-accountNumber" parent="BudgetConstructionTwoPlugListMove-accountNumber-parentBean" />
 
@@ -64,8 +64,8 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="accountNumber" />
-    <property name="description" value="accountNumber description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionTwoPlugListMove-chartOfAccountsCode" parent="BudgetConstructionTwoPlugListMove-chartOfAccountsCode-parentBean" />
 
@@ -82,8 +82,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="chartOfAccountsCode" />
-    <property name="description" value="chartOfAccountsCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionTwoPlugListMove-organizationChartOfAccountsCode" parent="BudgetConstructionTwoPlugListMove-organizationChartOfAccountsCode-parentBean" />
 
@@ -100,8 +100,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="organizationChartOfAccountsCode" />
-    <property name="description" value="organizationChartOfAccountsCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionTwoPlugListMove-organizationCode" parent="BudgetConstructionTwoPlugListMove-organizationCode-parentBean" />
 
@@ -118,8 +118,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="organizationCode" />
-    <property name="description" value="organizationCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionTwoPlugListMove-principalId" parent="BudgetConstructionTwoPlugListMove-principalId-parentBean" />
 
@@ -136,8 +136,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="principalId" />
-    <property name="description" value="principalId description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionTwoPlugListMove-subAccountNumber" parent="BudgetConstructionTwoPlugListMove-subAccountNumber-parentBean" />
 
@@ -154,8 +154,8 @@
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-    <property name="summary" value="subAccountNumber" />
-    <property name="description" value="subAccountNumber description..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

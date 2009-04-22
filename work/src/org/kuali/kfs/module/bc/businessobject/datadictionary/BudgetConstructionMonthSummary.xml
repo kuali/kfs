@@ -64,8 +64,8 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="accountLineAnnualBalanceAmount" />
-    <property name="description" value="accountLineAnnualBalanceAmount description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionMonthSummary-chartOfAccountsCode" parent="BudgetConstructionMonthSummary-chartOfAccountsCode-parentBean" />
 
@@ -82,8 +82,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="chartOfAccountsCode" />
-    <property name="description" value="chartOfAccountsCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionMonthSummary-financialConsolidationObjectCode" parent="BudgetConstructionMonthSummary-financialConsolidationObjectCode-parentBean" />
 
@@ -100,8 +100,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="financialConsolidationObjectCode" />
-    <property name="description" value="financialConsolidationObjectCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionMonthSummary-financialConsolidationSortCode" parent="BudgetConstructionMonthSummary-financialConsolidationSortCode-parentBean" />
 
@@ -118,8 +118,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="financialConsolidationSortCode" />
-    <property name="description" value="financialConsolidationSortCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionMonthSummary-financialDocumentMonth10LineAmount" parent="BudgetConstructionMonthSummary-financialDocumentMonth10LineAmount-parentBean" />
 
@@ -136,8 +136,8 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="financialDocumentMonth10LineAmount" />
-    <property name="description" value="financialDocumentMonth10LineAmount description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionMonthSummary-financialDocumentMonth11LineAmount" parent="BudgetConstructionMonthSummary-financialDocumentMonth11LineAmount-parentBean" />
 
@@ -154,8 +154,8 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="financialDocumentMonth11LineAmount" />
-    <property name="description" value="financialDocumentMonth11LineAmount description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionMonthSummary-financialDocumentMonth12LineAmount" parent="BudgetConstructionMonthSummary-financialDocumentMonth12LineAmount-parentBean" />
 
@@ -172,8 +172,8 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="financialDocumentMonth12LineAmount" />
-    <property name="description" value="financialDocumentMonth12LineAmount description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionMonthSummary-financialDocumentMonth1LineAmount" parent="BudgetConstructionMonthSummary-financialDocumentMonth1LineAmount-parentBean" />
 
@@ -190,8 +190,8 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="financialDocumentMonth1LineAmount" />
-    <property name="description" value="financialDocumentMonth1LineAmount description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionMonthSummary-financialDocumentMonth2LineAmount" parent="BudgetConstructionMonthSummary-financialDocumentMonth2LineAmount-parentBean" />
 
@@ -208,8 +208,8 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="financialDocumentMonth2LineAmount" />
-    <property name="description" value="financialDocumentMonth2LineAmount description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionMonthSummary-financialDocumentMonth3LineAmount" parent="BudgetConstructionMonthSummary-financialDocumentMonth3LineAmount-parentBean" />
 
@@ -226,8 +226,8 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="financialDocumentMonth3LineAmount" />
-    <property name="description" value="financialDocumentMonth3LineAmount description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionMonthSummary-financialDocumentMonth4LineAmount" parent="BudgetConstructionMonthSummary-financialDocumentMonth4LineAmount-parentBean" />
 
@@ -244,8 +244,8 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="financialDocumentMonth4LineAmount" />
-    <property name="description" value="financialDocumentMonth4LineAmount description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionMonthSummary-financialDocumentMonth5LineAmount" parent="BudgetConstructionMonthSummary-financialDocumentMonth5LineAmount-parentBean" />
 
@@ -262,8 +262,8 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="financialDocumentMonth5LineAmount" />
-    <property name="description" value="financialDocumentMonth5LineAmount description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionMonthSummary-financialDocumentMonth6LineAmount" parent="BudgetConstructionMonthSummary-financialDocumentMonth6LineAmount-parentBean" />
 
@@ -280,8 +280,8 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="financialDocumentMonth6LineAmount" />
-    <property name="description" value="financialDocumentMonth6LineAmount description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionMonthSummary-financialDocumentMonth7LineAmount" parent="BudgetConstructionMonthSummary-financialDocumentMonth7LineAmount-parentBean" />
 
@@ -298,8 +298,8 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="financialDocumentMonth7LineAmount" />
-    <property name="description" value="financialDocumentMonth7LineAmount description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionMonthSummary-financialDocumentMonth8LineAmount" parent="BudgetConstructionMonthSummary-financialDocumentMonth8LineAmount-parentBean" />
 
@@ -316,8 +316,8 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="financialDocumentMonth8LineAmount" />
-    <property name="description" value="financialDocumentMonth8LineAmount description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionMonthSummary-financialDocumentMonth9LineAmount" parent="BudgetConstructionMonthSummary-financialDocumentMonth9LineAmount-parentBean" />
 
@@ -334,8 +334,8 @@
       <bean parent="TextControlDefinition"
             p:size="21" />
     </property>
-    <property name="summary" value="financialDocumentMonth9LineAmount" />
-    <property name="description" value="financialDocumentMonth9LineAmount description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionMonthSummary-financialLevelSortCode" parent="BudgetConstructionMonthSummary-financialLevelSortCode-parentBean" />
 
@@ -352,8 +352,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="financialLevelSortCode" />
-    <property name="description" value="financialLevelSortCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionMonthSummary-financialObjectCode" parent="BudgetConstructionMonthSummary-financialObjectCode-parentBean" />
 
@@ -370,8 +370,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="financialObjectCode" />
-    <property name="description" value="financialObjectCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionMonthSummary-financialObjectLevelCode" parent="BudgetConstructionMonthSummary-financialObjectLevelCode-parentBean" />
 
@@ -388,8 +388,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="financialObjectLevelCode" />
-    <property name="description" value="financialObjectLevelCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionMonthSummary-financialSubObjectCode" parent="BudgetConstructionMonthSummary-financialSubObjectCode-parentBean" />
 
@@ -406,8 +406,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="financialSubObjectCode" />
-    <property name="description" value="financialSubObjectCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionMonthSummary-incomeExpenseCode" parent="BudgetConstructionMonthSummary-incomeExpenseCode-parentBean" />
 
@@ -424,8 +424,8 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="incomeExpenseCode" />
-    <property name="description" value="incomeExpenseCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionMonthSummary-organizationChartOfAccountsCode" parent="BudgetConstructionMonthSummary-organizationChartOfAccountsCode-parentBean" />
 
@@ -442,8 +442,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="organizationChartOfAccountsCode" />
-    <property name="description" value="organizationChartOfAccountsCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionMonthSummary-organizationCode" parent="BudgetConstructionMonthSummary-organizationCode-parentBean" />
 
@@ -460,8 +460,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="organizationCode" />
-    <property name="description" value="organizationCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionMonthSummary-principalId" parent="BudgetConstructionMonthSummary-principalId-parentBean" />
 
@@ -478,8 +478,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="principalId" />
-    <property name="description" value="principalId description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionMonthSummary-subFundGroupCode" parent="BudgetConstructionMonthSummary-subFundGroupCode-parentBean" />
 
@@ -496,8 +496,8 @@
       <bean parent="TextControlDefinition"
             p:size="8" />
     </property>
-    <property name="summary" value="subFundGroupCode" />
-    <property name="description" value="subFundGroupCode description..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

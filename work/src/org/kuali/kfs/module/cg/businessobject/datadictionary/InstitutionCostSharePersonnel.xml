@@ -40,8 +40,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="Budget Number..." />
-    <property name="description" value="Budget Number..." />
+    
+    
   </bean>
   <bean id="InstitutionCostSharePersonnel-chartOfAccountsCode" parent="InstitutionCostSharePersonnel-chartOfAccountsCode-parentBean" />
 
@@ -59,8 +59,8 @@
             p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="Chart of Accounts Code" />
-    <property name="description" value="Financial Chart of Accounts Code" />
+    
+    
   </bean>
   <bean id="InstitutionCostSharePersonnel-organizationCode" parent="InstitutionCostSharePersonnel-organizationCode-parentBean" />
 
@@ -77,8 +77,8 @@
        <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="Organization Code" />
-    <property name="description" value="Organization Code" />
+    
+    
   </bean>
   <bean id="InstitutionCostSharePersonnel-budgetInstitutionCostSharePersonnelDescription" parent="InstitutionCostSharePersonnel-budgetInstitutionCostSharePersonnelDescription-parentBean" />
 
@@ -95,8 +95,8 @@
       <bean parent="TextControlDefinition"
             p:size="40" />
     </property>
-    <property name="summary" value="Description" />
-    <property name="description" value="Description" />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

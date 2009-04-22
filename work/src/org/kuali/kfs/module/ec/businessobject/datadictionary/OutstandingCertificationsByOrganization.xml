@@ -69,8 +69,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="Effort Certification DocumentCode" />
-    <property name="description" value="Effort Certification LaborDocumentCode description..." />
+    
+    
   </bean>
   <bean id="OutstandingCertificationsByOrganization-certificationOrganizations" parent="OutstandingCertificationsByOrganization-certificationOrganizations-parentBean" />
 
@@ -87,8 +87,8 @@
       <bean parent="TextControlDefinition"
             p:size="50" />
     </property>
-    <property name="summary" value="Certification Organizations" />
-    <property name="description" value="Certification Organizations" />
+    
+    
   </bean>
   
   <bean id="OutstandingCertificationsByOrganization-nextApprovers" parent="OutstandingCertificationsByOrganization-nextApprovers-parentBean" />
@@ -105,8 +105,8 @@
       <bean parent="TextControlDefinition"
             p:size="50" />
     </property>
-    <property name="summary" value="Next Approvers" />
-    <property name="description" value="Next Approvers" />
+    
+    
   </bean>
   <bean id="OutstandingCertificationsByOrganization-effortCertificationDetailLines.account.organizationCode" parent="OutstandingCertificationsByOrganization-effortCertificationDetailLines.account.organizationCode-parentBean" />
 

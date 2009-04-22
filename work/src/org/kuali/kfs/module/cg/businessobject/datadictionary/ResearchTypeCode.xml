@@ -42,8 +42,8 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="researchTypeCode" />
-    <property name="description" value="researchTypeCode description..." />
+    
+    
   </bean>
   <bean id="ResearchTypeCode-researchTypeDescription" parent="ResearchTypeCode-researchTypeDescription-parentBean" />
 
@@ -60,8 +60,8 @@
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-    <property name="summary" value="researchTypeDescription" />
-    <property name="description" value="researchTypeDescription description..." />
+    
+    
   </bean>
   <bean id="ResearchTypeCode-active" parent="ResearchTypeCode-active-parentBean" />
 

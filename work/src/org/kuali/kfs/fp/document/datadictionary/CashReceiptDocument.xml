@@ -49,7 +49,7 @@
     <property name="name" value="totalCheckAmount"/>
     <property name="label" value="Total Check Amount"/>
     <property name="shortLabel" value="Total Check Amount"/>
-    <property name="description" value="The total dollar amount of the check(s) involved. If adjoining pulldown is set to &quot;Individual Checks/Batches&quot;, then the Check Detail tab is displayed below this tab."/>
+    
   </bean>
 
   <bean id="CashReceiptDocument-checkEntryMode" parent="CashReceiptDocument-checkEntryMode-parentBean"/>
@@ -58,11 +58,11 @@
     <property name="label" value="Check Entry Mode"/>
     <property name="shortLabel" value="Check Entry Mode"/>
     <property name="maxLength" value="200"/>
-    <property name="description" value="The check Entry Mode."/>
+    
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.CashReceiptCheckEntryModeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
-    <property name="summary" value="Check Entry Mode"/>
+    
   </bean>
     
   <bean id="CashReceiptDocument-totalCashAmount" parent="CashReceiptDocument-totalCashAmount-parentBean"/>
@@ -71,7 +71,7 @@
     <property name="name" value="totalCashAmount"/>
     <property name="label" value="Total Currency Amount"/>
     <property name="shortLabel" value="Total Currency Amount"/>
-    <property name="description" value="The total dollar amount of the currency involved."/>
+    
   </bean>
   <bean id="CashReceiptDocument-totalCoinAmount" parent="CashReceiptDocument-totalCoinAmount-parentBean"/>
 
@@ -79,7 +79,7 @@
     <property name="name" value="totalCoinAmount"/>
     <property name="label" value="Total Coin Amount"/>
     <property name="shortLabel" value="Total Coin Amount"/>
-    <property name="description" value="The total dollar amount of the coins involved."/>
+    
   </bean>
   <bean id="CashReceiptDocument-totalDollarAmount" parent="CashReceiptDocument-totalDollarAmount-parentBean"/>
 
@@ -87,7 +87,7 @@
     <property name="name" value="totalDollarAmount"/>
     <property name="label" value="Cash Reconciliation Total"/>
     <property name="shortLabel" value="Cash Reconciliation Total"/>
-    <property name="description" value="The sum of Total Check, Currency, and Coin Amounts. Use the &quot;recalculate&quot; button to recalculate the Sum."/>
+    
   </bean>
   <bean id="CashReceiptDocument-documentNumber" parent="CashReceiptDocument-documentNumber-parentBean"/>
 

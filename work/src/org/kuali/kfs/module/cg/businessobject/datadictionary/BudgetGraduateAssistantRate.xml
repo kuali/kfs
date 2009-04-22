@@ -42,8 +42,8 @@
       <bean parent="TextControlDefinition"
             p:size="8" />
     </property>
-    <property name="summary" value="Budget Number..." />
-    <property name="description" value="Budget Number..." />
+    
+    
   </bean>
   <bean id="BudgetGraduateAssistantRate-campusCode" parent="BudgetGraduateAssistantRate-campusCode-parentBean" />
 
@@ -60,8 +60,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Campus Code" />
-    <property name="description" value="Campus Code..." />
+    
+    
   </bean>
   <bean id="BudgetGraduateAssistantRate-campusMaximumPeriod1Rate" parent="BudgetGraduateAssistantRate-campusMaximumPeriod1Rate-parentBean" />
 
@@ -77,8 +77,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="Period 1 Remission Rate" />
-    <property name="description" value="Period 1 Remission Rate..." />
+    
+    
   </bean>
   <bean id="BudgetGraduateAssistantRate-campusMaximumPeriod2Rate" parent="BudgetGraduateAssistantRate-campusMaximumPeriod2Rate-parentBean" />
 
@@ -94,8 +94,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="Period 2 Remission Rate" />
-    <property name="description" value="Period 2 Remission Rate..." />
+    
+    
   </bean>
   <bean id="BudgetGraduateAssistantRate-campusMaximumPeriod3Rate" parent="BudgetGraduateAssistantRate-campusMaximumPeriod3Rate-parentBean" />
 
@@ -111,8 +111,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="Period 3 Remission Rate" />
-    <property name="description" value="Period 3 Remission Rate..." />
+    
+    
   </bean>
   <bean id="BudgetGraduateAssistantRate-campusMaximumPeriod4Rate" parent="BudgetGraduateAssistantRate-campusMaximumPeriod4Rate-parentBean" />
 
@@ -128,8 +128,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="Period 4 Remission Rate" />
-    <property name="description" value="Period 4 Remission Rate..." />
+    
+    
   </bean>
   <bean id="BudgetGraduateAssistantRate-campusMaximumPeriod5Rate" parent="BudgetGraduateAssistantRate-campusMaximumPeriod5Rate-parentBean" />
 
@@ -145,8 +145,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="Period 5 Remission Rate" />
-    <property name="description" value="Period 5 Remission Rate..." />
+    
+    
   </bean>
   <bean id="BudgetGraduateAssistantRate-campusMaximumPeriod6Rate" parent="BudgetGraduateAssistantRate-campusMaximumPeriod6Rate-parentBean" />
 
@@ -162,8 +162,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="Period 6 Remission Rate" />
-    <property name="description" value="Period 6 Remission Rate..." />
+    
+    
   </bean>
   <bean id="BudgetGraduateAssistantRate-lastUpdateTimestamp" parent="BudgetGraduateAssistantRate-lastUpdateTimestamp-parentBean" />
 
@@ -179,7 +179,7 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="Budget Last Update Timestamp" />
-    <property name="description" value="Budget Last Update Timestamp..." />
+    
+    
   </bean>
 </beans>

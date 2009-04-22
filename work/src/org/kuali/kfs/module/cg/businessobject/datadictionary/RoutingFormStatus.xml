@@ -37,8 +37,8 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="dataObjectMaintenanceCodeActiveIndicator" />
-    <property name="description" value="dataObjectMaintenanceCodeActiveIndicator description..." />
+    
+    
   </bean>
   <bean id="RoutingFormStatus-routingFormStatusCode" parent="RoutingFormStatus-routingFormStatusCode-parentBean" />
 
@@ -55,8 +55,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="routingFormStatusCode" />
-    <property name="description" value="routingFormStatusCode description..." />
+    
+    
   </bean>
   <bean id="RoutingFormStatus-routingFormStatusDescription" parent="RoutingFormStatus-routingFormStatusDescription-parentBean" />
 
@@ -72,8 +72,8 @@
       <bean parent="TextControlDefinition"
             p:size="17" />
     </property>
-    <property name="summary" value="routingFormStatusDescription" />
-    <property name="description" value="routingFormStatusDescription description..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

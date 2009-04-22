@@ -71,8 +71,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Campus Code" />
-    <property name="description" value="The code uniquely identifying a particular campus." />
+    
+    
   </bean>
   <bean id="Building-buildingCode" parent="Building-buildingCode-parentBean" />
 
@@ -90,8 +90,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="Building Code" />
-    <property name="description" value="The code uniquely identifying a particular building." />
+    
+    
   </bean>
   <bean id="Building-buildingName" parent="Building-buildingName-parentBean" />
 
@@ -109,8 +109,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="40" />
     </property>
-    <property name="summary" value="Building Name" />
-    <property name="description" value="Building Name" />
+    
+    
   </bean>
   <bean id="Building-buildingStreetAddress" parent="Building-buildingStreetAddress-parentBean" />
 
@@ -127,8 +127,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="40" />
     </property>
-    <property name="summary" value="buildingStreetAddress" />
-    <property name="description" value="buildingStreetAddress description..." />
+    
+    
   </bean>
   <bean id="Building-buildingAddressCityName" parent="Building-buildingAddressCityName-parentBean" />
 
@@ -145,8 +145,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="37" />
     </property>
-    <property name="summary" value="buildingAddressCityName" />
-    <property name="description" value="buildingAddressCityName description..." />
+    
+    
   </bean>
   <bean id="Building-buildingAddressStateCode" parent="Building-buildingAddressStateCode-parentBean" />
 
@@ -166,8 +166,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.StateValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="buildingAddressStateCode" />
-    <property name="description" value="buildingAddressStateCode description..." />
+    
+    
   </bean>
   <bean id="Building-buildingAddressZipCode" parent="Building-buildingAddressZipCode-parentBean" />
 
@@ -177,8 +177,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="name" value="buildingAddressZipCode" />
     <property name="label" value="Building Address Postal Code" />
     <property name="shortLabel" value="Bldg. Postal Code" />
-    <property name="summary" value="buildingAddressZipCode" />
-    <property name="description" value="buildingAddressZipCode description..." />
+    
+    
   </bean>
   
    <bean id="Building-buildingAddressCountryCode" parent="Building-buildingAddressCountryCode-parentBean" />
@@ -199,8 +199,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.CountryValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="buildingAddressCountryCode" />
-    <property name="description" value="buildingAddressCountryCode description..." />
+    
+    
   </bean>
   
   <bean id="Building-alternateBuildingCode" parent="Building-alternateBuildingCode-parentBean" />
@@ -218,8 +218,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="alternateBuildingCode" />
-    <property name="description" value="alternateBuildingCode description..." />
+    
+    
   </bean>
   <bean id="Building-active" parent="Building-active-parentBean" />
 

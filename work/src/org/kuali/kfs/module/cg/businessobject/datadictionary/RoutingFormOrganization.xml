@@ -39,8 +39,8 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="budgetIndicator" />
-    <property name="description" value="budgetIndicator description..." />
+    
+    
   </bean>
   <bean id="RoutingFormOrganization-chartOfAccountsCode" parent="RoutingFormOrganization-chartOfAccountsCode-parentBean" />
 
@@ -58,8 +58,8 @@
             p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SimpleChartValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="chartOfAccountsCode" />
-    <property name="description" value="chartOfAccountsCode description..." />
+    
+    
   </bean>
   <bean id="RoutingFormOrganization-organizationCode" parent="RoutingFormOrganization-organizationCode-parentBean" />
 
@@ -76,8 +76,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="organizationCode" />
-    <property name="description" value="organizationCode description..." />
+    
+    
   </bean>
   <bean id="RoutingFormOrganization-routingFormPrimaryOrganizationIndicator" parent="RoutingFormOrganization-routingFormPrimaryOrganizationIndicator-parentBean" />
 
@@ -89,8 +89,8 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="routingFormPrimaryOrganizationIndicator" />
-    <property name="description" value="routingFormPrimaryOrganizationIndicator description..." />
+    
+    
   </bean>
   <bean id="RoutingFormOrganization-documentNumber" parent="RoutingFormOrganization-documentNumber-parentBean" />
 
@@ -107,8 +107,8 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="documentNumber" />
-    <property name="description" value="documentNumber description..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

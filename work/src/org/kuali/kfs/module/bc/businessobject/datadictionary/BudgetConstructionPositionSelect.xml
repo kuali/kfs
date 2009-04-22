@@ -50,8 +50,8 @@
       <bean parent="TextControlDefinition"
             p:size="13" />
     </property>
-    <property name="summary" value="emplid" />
-    <property name="description" value="emplid description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionSelect-grade" parent="BudgetConstructionPositionSelect-grade-parentBean" />
 
@@ -68,8 +68,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="grade" />
-    <property name="description" value="grade description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionSelect-iuPositionType" parent="BudgetConstructionPositionSelect-iuPositionType-parentBean" />
 
@@ -86,8 +86,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="iuPositionType" />
-    <property name="description" value="iuPositionType description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionSelect-name" parent="BudgetConstructionPositionSelect-name-parentBean" />
 
@@ -104,8 +104,8 @@
       <bean parent="TextControlDefinition"
             p:size="52" />
     </property>
-    <property name="summary" value="name" />
-    <property name="description" value="name description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionSelect-principalId" parent="BudgetConstructionPositionSelect-principalId-parentBean" />
 
@@ -121,8 +121,8 @@
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
-    <property name="summary" value="principalId" />
-    <property name="description" value="principalId description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionSelect-positionDepartmentIdentifier" parent="BudgetConstructionPositionSelect-positionDepartmentIdentifier-parentBean" />
 
@@ -139,8 +139,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="positionDepartmentIdentifier" />
-    <property name="description" value="positionDepartmentIdentifier description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionSelect-positionDescription" parent="BudgetConstructionPositionSelect-positionDescription-parentBean" />
 
@@ -157,8 +157,8 @@
       <bean parent="TextControlDefinition"
             p:size="32" />
     </property>
-    <property name="summary" value="positionDescription" />
-    <property name="description" value="positionDescription description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionSelect-positionNumber" parent="BudgetConstructionPositionSelect-positionNumber-parentBean" />
 
@@ -175,8 +175,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="positionNumber" />
-    <property name="description" value="positionNumber description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionSelect-salaryAdministrationPlan" parent="BudgetConstructionPositionSelect-salaryAdministrationPlan-parentBean" />
 
@@ -193,8 +193,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="salaryAdministrationPlan" />
-    <property name="description" value="salaryAdministrationPlan description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionSelect-setidSalary" parent="BudgetConstructionPositionSelect-setidSalary-parentBean" />
 
@@ -211,8 +211,8 @@
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-    <property name="summary" value="setidSalary" />
-    <property name="description" value="setidSalary description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionPositionSelect-universityFiscalYear" parent="BudgetConstructionPositionSelect-universityFiscalYear-parentBean" />
 
@@ -229,8 +229,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="universityFiscalYear" />
-    <property name="description" value="universityFiscalYear description..." />
+    
+    
   </bean>
   
 

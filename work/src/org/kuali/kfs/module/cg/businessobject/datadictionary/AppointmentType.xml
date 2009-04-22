@@ -49,8 +49,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Appointment Type Code" />
-    <property name="description" value="The type of appointment for a given user." />
+    
+    
   </bean>
   <bean id="AppointmentType-appointmentTypeDescription" parent="AppointmentType-appointmentTypeDescription-parentBean" />
 
@@ -67,8 +67,8 @@
       <bean parent="TextControlDefinition"
             p:size="40" />
     </property>
-    <property name="summary" value="Appointment Type Description" />
-    <property name="description" value="A description of the appointment type." />
+    
+    
   </bean>
   <bean id="AppointmentType-appointmentTypeAbbrieviation" parent="AppointmentType-appointmentTypeAbbrieviation-parentBean" />
 
@@ -85,8 +85,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="Appointment Type Abbrieviation" />
-    <property name="description" value="An abbreviation of the appointment type." />
+    
+    
   </bean>
   <bean id="AppointmentType-fringeRateAmount" parent="AppointmentType-fringeRateAmount-parentBean" />
 
@@ -103,8 +103,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="Fringe Rate" />
-    <property name="description" value="This is the fringe benefits rate that is charged on salaries that are booked to the project. The fringe rate is dependent on the employee classification." />
+    
+    
   </bean>
   <bean id="AppointmentType-costShareFringeRateAmount" parent="AppointmentType-costShareFringeRateAmount-parentBean" />
 
@@ -121,8 +121,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="Cost Share Fringe Rate" />
-    <property name="description" value="This is the fringe benefits rate that is charged on cost-shared salaries. The fringe rate is dependent on the employee classification." />
+    
+    
   </bean>
   <bean id="AppointmentType-lastUpdate" parent="AppointmentType-lastUpdate-parentBean" />
 
@@ -130,8 +130,8 @@
     <property name="name" value="lastUpdate" />
     <property name="label" value="Last Update Timestamp" />
     <property name="shortLabel" value="Last Update" />
-    <property name="summary" value="Last Update" />
-    <property name="description" value="The date of the most recent change to the fringe benefits rates." />
+    
+    
   </bean>
   <bean id="AppointmentType-relatedAppointmentTypeCode" parent="AppointmentType-relatedAppointmentTypeCode-parentBean" />
 
@@ -139,8 +139,8 @@
     <property name="name" value="relatedAppointmentTypeCode" />
     <property name="label" value="Related Appointment Type Code" />
     <property name="shortLabel" value="Related Appt Type" />
-    <property name="summary" value="Related Appointment Type Code" />
-    <property name="description" value="The Appointment Type Code of a related Appointment Type, used for creating entries for dual appointment types.  For example, an Academic 12- Month appointment could be combined with an Hourly appointment." />
+    
+    
   </bean>
   <bean id="AppointmentType-active" parent="AppointmentType-active-parentBean" />
 

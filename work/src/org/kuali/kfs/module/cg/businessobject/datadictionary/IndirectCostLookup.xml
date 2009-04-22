@@ -40,8 +40,8 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="Budget On Campus Indicator." />
-    <property name="description" value="Budget On Campus Indicator." />
+    
+    
   </bean>
   <bean id="IndirectCostLookup-budgetPurposeCode" parent="IndirectCostLookup-budgetPurposeCode-parentBean" />
 
@@ -50,8 +50,8 @@
     <property name="name" value="budgetPurposeCode" />
     <property name="label" value="Budget Purpose Code" />
     <property name="shortLabel" value="BdgtPrpsCd" />
-    <property name="summary" value="Budget Purpose Code" />
-    <property name="description" value="Budget Purpose Code entered has to correspond to an existing Purpose. See Purpose lookup for details." />
+    
+    
   </bean>
   <bean id="IndirectCostLookup-budgetIndirectCostRate" parent="IndirectCostLookup-budgetIndirectCostRate-parentBean" />
 
@@ -67,8 +67,8 @@
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-    <property name="summary" value="Budget Indirect Cost Rate." />
-    <property name="description" value="Budget Indirect Cost Rate." />
+    
+    
   </bean>
   <bean id="IndirectCostLookup-active" parent="IndirectCostLookup-active-parentBean" />
 

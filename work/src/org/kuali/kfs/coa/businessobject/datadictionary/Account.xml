@@ -832,8 +832,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.AccountResponsibilityIdFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The Contracts &amp; Grants Responsibility Id on a Contracts &amp; Grants Account" />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

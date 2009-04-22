@@ -48,8 +48,8 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="accountNumber" />
-    <property name="description" value="accountNumber description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionSalaryFunding-chartOfAccountsCode" parent="BudgetConstructionSalaryFunding-chartOfAccountsCode-parentBean" />
 
@@ -66,8 +66,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="chartOfAccountsCode" />
-    <property name="description" value="chartOfAccountsCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionSalaryFunding-emplid" parent="BudgetConstructionSalaryFunding-emplid-parentBean" />
 
@@ -84,8 +84,8 @@
       <bean parent="TextControlDefinition"
             p:size="13" />
     </property>
-    <property name="summary" value="emplid" />
-    <property name="description" value="emplid description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionSalaryFunding-financialObjectCode" parent="BudgetConstructionSalaryFunding-financialObjectCode-parentBean" />
 
@@ -102,8 +102,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="financialObjectCode" />
-    <property name="description" value="financialObjectCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionSalaryFunding-financialSubObjectCode" parent="BudgetConstructionSalaryFunding-financialSubObjectCode-parentBean" />
 
@@ -120,8 +120,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="financialSubObjectCode" />
-    <property name="description" value="financialSubObjectCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionSalaryFunding-principalId" parent="BudgetConstructionSalaryFunding-principalId-parentBean" />
 
@@ -138,8 +138,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="principalId" />
-    <property name="description" value="principalId description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionSalaryFunding-positionNumber" parent="BudgetConstructionSalaryFunding-positionNumber-parentBean" />
 
@@ -156,8 +156,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="positionNumber" />
-    <property name="description" value="positionNumber description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionSalaryFunding-subAccountNumber" parent="BudgetConstructionSalaryFunding-subAccountNumber-parentBean" />
 
@@ -174,8 +174,8 @@
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-    <property name="summary" value="subAccountNumber" />
-    <property name="description" value="subAccountNumber description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionSalaryFunding-universityFiscalYear" parent="BudgetConstructionSalaryFunding-universityFiscalYear-parentBean" />
 
@@ -192,8 +192,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="universityFiscalYear" />
-    <property name="description" value="universityFiscalYear description..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

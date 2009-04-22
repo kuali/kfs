@@ -69,8 +69,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="Object Code" />
-    <property name="description" value="The assigned object code." />
+    
+    
   </bean>
   <bean id="NonPersonnelObjectCode-active" parent="NonPersonnelObjectCode-active-parentBean" />
 

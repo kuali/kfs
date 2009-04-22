@@ -45,8 +45,8 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="accountNumber" />
-    <property name="description" value="accountNumber description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAccountOrganizationHierarchy-chartOfAccountsCode" parent="BudgetConstructionAccountOrganizationHierarchy-chartOfAccountsCode-parentBean" />
 
@@ -63,8 +63,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="chartOfAccountsCode" />
-    <property name="description" value="chartOfAccountsCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAccountOrganizationHierarchy-organizationChartOfAccountsCode" parent="BudgetConstructionAccountOrganizationHierarchy-organizationChartOfAccountsCode-parentBean" />
 
@@ -81,8 +81,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="organizationChartOfAccountsCode" />
-    <property name="description" value="organizationChartOfAccountsCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAccountOrganizationHierarchy-organizationCode" parent="BudgetConstructionAccountOrganizationHierarchy-organizationCode-parentBean" />
 
@@ -99,8 +99,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="organizationCode" />
-    <property name="description" value="organizationCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAccountOrganizationHierarchy-organizationLevelCode" parent="BudgetConstructionAccountOrganizationHierarchy-organizationLevelCode-parentBean" />
 
@@ -117,8 +117,8 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="organizationLevelCode" />
-    <property name="description" value="organizationLevelCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionAccountOrganizationHierarchy-universityFiscalYear" parent="BudgetConstructionAccountOrganizationHierarchy-universityFiscalYear-parentBean" />
 
@@ -135,8 +135,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="universityFiscalYear" />
-    <property name="description" value="universityFiscalYear description..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -43,8 +43,8 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="controlAttributeTypeCode" />
-    <property name="description" value="controlAttributeTypeCode description..." />
+    
+    
   </bean>
   <bean id="ControlAttributeType-controlAttributeTypeDescription" parent="ControlAttributeType-controlAttributeTypeDescription-parentBean" />
 
@@ -61,8 +61,8 @@
       <bean parent="TextControlDefinition"
             p:size="20" />
     </property>
-    <property name="summary" value="controlAttributeTypeDescription" />
-    <property name="description" value="controlAttributeTypeDescription description..." />
+    
+    
   </bean>
   <bean id="ControlAttributeType-active" parent="ControlAttributeType-active-parentBean" />
 
@@ -79,8 +79,8 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="requiredIndicator" />
-    <property name="description" value="requiredIndicator description..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

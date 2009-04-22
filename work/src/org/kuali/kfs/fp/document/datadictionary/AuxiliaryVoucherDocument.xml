@@ -50,8 +50,8 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="50"/>
     </property>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="The calendar accounting periods during which the Auxiliary Voucher applies.  Select one from the pulldown list."/>
+    
+    
   </bean>
   <bean id="AuxiliaryVoucherDocument-typeCode" parent="AuxiliaryVoucherDocument-typeCode-parentBean"/>
 
@@ -68,8 +68,8 @@
     <property name="control">
       <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.AuxiliaryVoucherTypeCodeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="Voucher type is a 4 character value that is used to state the type of the Auxiliary Voucher. It is represented as a radio button selection."/>
+    
+    
   </bean>
   <bean id="AuxiliaryVoucherDocument-reversalDate" parent="AuxiliaryVoucherDocument-reversalDate-parentBean"/>
 
@@ -78,7 +78,7 @@
     <property name="label" value="Reversal Date"/>
     <property name="shortLabel" value="Reversal Date"/>
     <property name="required" value="false"/>
-    <property name="description" value="The date when the Kuali Financial System (KFS) will automatically reverse the General Ledger entries entered on the document. The reversal date entered must be greater than or equal to today's date. Use the calendar icon to select and format the Reversal Date."/>
+    
   </bean>
  
   <!-- validations -->

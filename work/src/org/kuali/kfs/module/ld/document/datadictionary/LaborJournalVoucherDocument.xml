@@ -78,8 +78,8 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="50"/>
     </property>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="The calendar accounting periods during which the Labor Journal Voucher applies. Select one from the pulldown list."/>
+    
+    
   </bean>
   <bean id="LaborJournalVoucherDocument-reversalDate" parent="LaborJournalVoucherDocument-reversalDate-parentBean"/>
 
@@ -88,14 +88,14 @@
     <property name="label" value="Reversal Date"/>
     <property name="shortLabel" value="Reversal Date"/>
     <property name="required" value="false"/>
-    <property name="description" value="The date when the Kuali Financial System (KFS) will automatically reverse the Labor Ledger entries entered on the document's date. Use the calendar icon to select and format the Reversal Date."/>
+    
   </bean>
   <bean id="LaborJournalVoucherDocument-balanceTypeCode" parent="LaborJournalVoucherDocument-balanceTypeCode-parentBean"/>
 
   <bean id="LaborJournalVoucherDocument-balanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
     <property name="name" value="balanceTypeCode"/>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="The 2-character code and text describing the type of balance involved in the Journal Voucher. Select one from the pulldown list."/>
+    
+    
   </bean>
   <bean id="LaborJournalVoucherDocument-offsetTypeCode" parent="LaborJournalVoucherDocument-offsetTypeCode-parentBean"/>
 

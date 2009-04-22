@@ -33,8 +33,8 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="lockThreshold" />
-    <property name="description" value="lockThreshold description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionReportThresholdSettings-useThreshold" parent="BudgetConstructionReportThresholdSettings-useThreshold-parentBean" />
 
@@ -47,8 +47,8 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="useThreshold" />
-    <property name="description" value="useThreshold description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionReportThresholdSettings-thresholdPercent" parent="BudgetConstructionReportThresholdSettings-thresholdPercent-parentBean" />
 
@@ -68,8 +68,8 @@
       <bean parent="TextControlDefinition"
             p:size="26" />
     </property>
-    <property name="summary" value="thresholdPercent" />
-    <property name="description" value="thresholdPercent description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionReportThresholdSettings-useGreaterThanOperator" parent="BudgetConstructionReportThresholdSettings-useGreaterThanOperator-parentBean" />
 
@@ -84,7 +84,7 @@
             p:valuesFinderClass="org.kuali.kfs.module.bc.businessobject.options.ThresholdSettingsOperatorValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="useGreaterThanOperator" />
-    <property name="description" value="useGreaterThanOperator description..." />
+    
+    
   </bean>
 </beans>

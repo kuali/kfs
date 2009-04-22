@@ -47,8 +47,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="departmentIdentifier" />
-    <property name="description" value="departmentIdentifier description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionActiveJobMove-effectiveDate" parent="BudgetConstructionActiveJobMove-effectiveDate-parentBean" />
 
@@ -65,8 +65,8 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="effectiveDate" />
-    <property name="description" value="effectiveDate description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionActiveJobMove-effectiveSequence" parent="BudgetConstructionActiveJobMove-effectiveSequence-parentBean" />
 
@@ -83,8 +83,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="effectiveSequence" />
-    <property name="description" value="effectiveSequence description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionActiveJobMove-emplid" parent="BudgetConstructionActiveJobMove-emplid-parentBean" />
 
@@ -101,8 +101,8 @@
       <bean parent="TextControlDefinition"
             p:size="13" />
     </property>
-    <property name="summary" value="emplid" />
-    <property name="description" value="emplid description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionActiveJobMove-employeeRecord" parent="BudgetConstructionActiveJobMove-employeeRecord-parentBean" />
 
@@ -119,8 +119,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="employeeRecord" />
-    <property name="description" value="employeeRecord description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionActiveJobMove-employeeStatus" parent="BudgetConstructionActiveJobMove-employeeStatus-parentBean" />
 
@@ -137,8 +137,8 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="employeeStatus" />
-    <property name="description" value="employeeStatus description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionActiveJobMove-principalId" parent="BudgetConstructionActiveJobMove-principalId-parentBean" />
 
@@ -155,8 +155,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="principalId" />
-    <property name="description" value="principalId description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionActiveJobMove-positionNumber" parent="BudgetConstructionActiveJobMove-positionNumber-parentBean" />
 
@@ -173,8 +173,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="positionNumber" />
-    <property name="description" value="positionNumber description..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

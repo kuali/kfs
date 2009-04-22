@@ -43,8 +43,8 @@
             p:rows="5"
             p:cols="80" />
     </property>
-    <property name="summary" value="researchRiskDescription" />
-    <property name="description" value="researchRiskDescription description..." />
+    
+    
   </bean>
   <bean id="RoutingFormResearchRisk-documentNumber" parent="RoutingFormResearchRisk-documentNumber-parentBean" />
 
@@ -61,8 +61,8 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="documentNumber" />
-    <property name="description" value="documentNumber description..." />
+    
+    
   </bean>
   <bean id="RoutingFormResearchRisk-researchRiskTypeCode" parent="RoutingFormResearchRisk-researchRiskTypeCode-parentBean" />
 
@@ -79,8 +79,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="researchRiskTypeCode" />
-    <property name="description" value="researchRiskTypeCode description..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

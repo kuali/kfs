@@ -33,8 +33,8 @@
     <property name="name" value="finSystemHomeOriginationCode" />
     <property name="label" value="Home Origination Code" />
     <property name="shortLabel" value="Home Orig Code" />
-    <property name="summary" value="Home Origination Code" />
-    <property name="description" value="The code uniquely identify a Home Origination." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

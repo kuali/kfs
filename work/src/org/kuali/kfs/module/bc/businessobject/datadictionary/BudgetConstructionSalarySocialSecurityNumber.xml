@@ -44,8 +44,8 @@
       <bean parent="TextControlDefinition"
             p:size="13" />
     </property>
-    <property name="summary" value="emplid" />
-    <property name="description" value="emplid description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionSalarySocialSecurityNumber-organizationChartOfAccountsCode" parent="BudgetConstructionSalarySocialSecurityNumber-organizationChartOfAccountsCode-parentBean" />
 
@@ -62,8 +62,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="organizationChartOfAccountsCode" />
-    <property name="description" value="organizationChartOfAccountsCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionSalarySocialSecurityNumber-organizationCode" parent="BudgetConstructionSalarySocialSecurityNumber-organizationCode-parentBean" />
 
@@ -80,8 +80,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="organizationCode" />
-    <property name="description" value="organizationCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionSalarySocialSecurityNumber-name" parent="BudgetConstructionSalarySocialSecurityNumber-name-parentBean" />
 
@@ -98,8 +98,8 @@
       <bean parent="TextControlDefinition"
             p:size="52" />
     </property>
-    <property name="summary" value="name" />
-    <property name="description" value="name description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionSalarySocialSecurityNumber-principalId" parent="BudgetConstructionSalarySocialSecurityNumber-principalId-parentBean" />
 
@@ -116,8 +116,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="principalId" />
-    <property name="description" value="principalId description..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

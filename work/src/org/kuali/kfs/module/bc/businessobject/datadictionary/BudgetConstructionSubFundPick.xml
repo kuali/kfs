@@ -43,8 +43,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="principalId" />
-    <property name="description" value="principalId description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionSubFundPick-reportFlag" parent="BudgetConstructionSubFundPick-reportFlag-parentBean" />
 
@@ -61,8 +61,8 @@
       <bean parent="TextControlDefinition"
             p:size="9" />
     </property>
-    <property name="summary" value="reportFlag" />
-    <property name="description" value="reportFlag description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionSubFundPick-subFundGroupCode" parent="BudgetConstructionSubFundPick-subFundGroupCode-parentBean" />
 
@@ -79,8 +79,8 @@
       <bean parent="TextControlDefinition"
             p:size="8" />
     </property>
-    <property name="summary" value="subFundGroupCode" />
-    <property name="description" value="subFundGroupCode description..." />
+    
+    
   </bean>
   <bean id="BudgetConstructionSubFundPick-subFundGroup.subFundGroupDescription" parent="BudgetConstructionSubFundPick-subFundGroup.subFundGroupDescription-parentBean" />
 

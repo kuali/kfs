@@ -47,7 +47,7 @@
 
   <bean id="ProposalSubcontractor-proposalSubcontractorAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="proposalSubcontractorAmount" />
-    <property name="description" value="Proposal Subcontractor Amount" />
+    
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="ProposalSubcontractor-proposalSubcontractorNumber" parent="ProposalSubcontractor-proposalSubcontractorNumber-parentBean" />

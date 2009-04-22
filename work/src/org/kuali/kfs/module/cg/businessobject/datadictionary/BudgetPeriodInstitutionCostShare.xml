@@ -40,8 +40,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="Budget Number..." />
-    <property name="description" value="Budget Number..." />
+    
+    
   </bean>
   <bean id="BudgetPeriodInstitutionCostShare-budgetPeriodSequenceNumber" parent="BudgetPeriodInstitutionCostShare-budgetPeriodSequenceNumber-parentBean" />
 
@@ -55,8 +55,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="The budget period sequence number." />
-    <property name="description" value="Sequence number of the budget period." />
+    
+    
   </bean>
   <bean id="BudgetPeriodInstitutionCostShare-budgetCostShareSequenceNumber" parent="BudgetPeriodInstitutionCostShare-budgetCostShareSequenceNumber-parentBean" />
 
@@ -73,8 +73,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="Sequence Number" />
-    <property name="description" value="Sequence Number" />
+    
+    
   </bean>
   <bean id="BudgetPeriodInstitutionCostShare-budgetCostShareAmount" parent="BudgetPeriodInstitutionCostShare-budgetCostShareAmount-parentBean" />
 
@@ -91,8 +91,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="Amount" />
-    <property name="description" value="Amount" />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

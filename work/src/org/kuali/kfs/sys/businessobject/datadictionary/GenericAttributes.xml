@@ -77,8 +77,8 @@
       <bean parent="TextControlDefinition"
             p:size="1" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="This should always be overriden on all of the descriptive elements." />
+    
+    
   </bean>
   <bean id="GenericAttributes-twoDigitTextCode" parent="GenericAttributes-twoDigitTextCode-parentBean" />
 
@@ -96,8 +96,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="This should always be overriden on all of the descriptive elements." />
+    
+    
   </bean>
   <bean id="GenericAttributes-genericSystemId" parent="GenericAttributes-genericSystemId-parentBean" />
 
@@ -114,8 +114,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="This is a generic implementation of a &apos;SystemId&apos; attribute. It should always be overriden on the label, shortLabel, summary, and description, as these are only generic placeholders." />
+    
+    
   </bean>
   <bean id="GenericAttributes-genericDate" parent="GenericAttributes-genericDate-parentBean" />
 
@@ -133,8 +133,8 @@
             p:size="10"
             p:datePicker="true" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="This attribute should always be overriden on the descriptive elements." />
+    
+    
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
   </bean>
   <bean id="GenericAttributes-genericTimestamp" parent="GenericAttributes-genericTimestamp-parentBean" />
@@ -150,8 +150,8 @@
             p:size="10"
             p:datePicker="true" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="This attribute should always be overriden on the descriptive elements." />
+    
+    
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
   </bean>
   <bean id="GenericAttributes-genericBoolean" parent="GenericAttributes-genericBoolean-parentBean" />
@@ -165,8 +165,8 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="This attribute should always be overriden on the descriptive elements." />
+    
+    
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter" />
   </bean>
   <bean id="GenericAttributes-activeIndicator" parent="GenericAttributes-activeIndicator-parentBean" />
@@ -183,8 +183,8 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="Active Indicator" />
-    <property name="description" value="This attribute is used to describe whether the associated object is active or inactive." />
+    
+    
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter" />
   </bean>
   <bean id="GenericAttributes-genericAmount" parent="GenericAttributes-genericAmount-parentBean" />
@@ -206,8 +206,8 @@
             p:formattedMaxLength="26"
             p:size="10" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="This attribute should always be overriden on the descriptive elements." />
+    
+    
   </bean>
   <bean id="GenericAttributes-genericBigText" parent="GenericAttributes-genericBigText-parentBean" />
 
@@ -226,8 +226,8 @@
             p:rows="5"
             p:cols="40" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="This attribute should always be overriden on the descriptive elements." />
+    
+    
   </bean>
   <bean id="GenericAttributes-emailAddress" parent="GenericAttributes-emailAddress-parentBean" />
 
@@ -244,8 +244,8 @@
       <bean parent="TextControlDefinition"
             p:size="40" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The email address of the university user." />
+    
+    
   </bean>
   <bean id="GenericAttributes-universityFiscalAccountingPeriod" parent="GenericAttributes-universityFiscalAccountingPeriod-parentBean" />
 
@@ -263,8 +263,8 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="University Fiscal Accounting Period" />
+    
+    
   </bean>
   <bean id="GenericAttributes-transactionEntrySequenceId" parent="GenericAttributes-transactionEntrySequenceId-parentBean" />
 
@@ -281,8 +281,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The sequential entry Id for the transaction." />
+    
+    
   </bean>
   <bean id="GenericAttributes-genericFiscalYear" parent="GenericAttributes-genericFiscalYear-parentBean" />
 
@@ -299,8 +299,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The institutional Fiscal Year." />
+    
+    
   </bean>
   <bean id="GenericAttributes-versionNumber" parent="GenericAttributes-versionNumber-parentBean" />
 
@@ -316,8 +316,8 @@
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The assigned version number" />
+    
+    
   </bean>
   <bean id="GenericAttributes-objectId" parent="GenericAttributes-objectId-parentBean" />
 
@@ -331,8 +331,8 @@
       <bean parent="TextControlDefinition"
             p:size="36" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The assigned Id of the object." />
+    
+    
   </bean>
   <bean id="GenericAttributes-createDate" parent="GenericAttributes-createDate-parentBean" />
 
@@ -346,8 +346,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The time when the document was created." />
+    
+    
   </bean>
   <bean id="GenericAttributes-initiatorNetworkId" parent="GenericAttributes-initiatorNetworkId-parentBean" />
 
@@ -361,8 +361,8 @@
       <bean parent="TextControlDefinition"
             p:size="36" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="The user name of the person who created the document." />
+    
+    
   </bean>
   <bean id="GenericAttributes-percent" parent="GenericAttributes-percent-parentBean" />
 
@@ -376,8 +376,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="Percent for ICR percent." />
+    
+    
   </bean>
   <bean id="GenericAttributes-maxDollarAmount" parent="GenericAttributes-maxDollarAmount-parentBean" />
 
@@ -391,8 +391,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="Maximum amount for dollar range." />
+    
+    
   </bean>
   <bean id="GenericAttributes-minDollarAmount" parent="GenericAttributes-minDollarAmount-parentBean" />
 
@@ -406,8 +406,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="Minimum amount for dollar range." />
+    
+    
   </bean>
   <bean id="GenericAttributes-totalDollarAmount" parent="GenericAttributes-totalDollarAmount-parentBean" />
 
@@ -421,8 +421,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="Total dollar amount." />
+    
+    
   </bean>
   <bean id="GenericAttributes-newCollectionRecord" parent="GenericAttributes-newCollectionRecord-parentBean" />
 
@@ -435,8 +435,8 @@
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="This attribute indicates whether the object is a new record for a collection." />
+    
+    
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter" />
   </bean>
   <bean id="GenericAttributes-searchType" parent="GenericAttributes-searchType-parentBean" />
@@ -450,8 +450,8 @@
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="Search Type" />
+    
+    
   </bean>
   <bean id="GenericAttributes-displayType" parent="GenericAttributes-displayType-parentBean" />
 
@@ -464,8 +464,8 @@
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="Search Result Type" />
+    
+    
   </bean>
   <bean id="GenericAttributes-documentTotalAmount" parent="GenericAttributes-documentTotalAmount-parentBean" />
 
@@ -478,8 +478,8 @@
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="Total Amount" />
+    
+    
   </bean>
   <bean id="GenericAttributes-routingAttributeTitle" parent="GenericAttributes-routingAttributeTitle-parentBean" />
 
@@ -492,8 +492,8 @@
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
-    <property name="summary" value="&amp;nbsp;" />
-    <property name="description" value="Title is not used" />
+    
+    
   </bean>
   <bean id="GenericAttributes-financialDocumentStatusName" parent="GenericAttributes-financialDocumentStatusName-parentBean" />
 
@@ -510,8 +510,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="financialDocumentStatusName" />
-    <property name="description" value="financialDocumentStatusName description..." />
+    
+    
   </bean>
   
   <bean id="GenericAttributes-financialSystemDocumentTypeCode" parent="GenericAttributes-financialSystemDocumentTypeCode-parentBean" />

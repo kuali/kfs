@@ -46,8 +46,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="chartOfAccountsCode" />
-    <property name="description" value="chartOfAccountsCode description..." />
+    
+    
   </bean>
   <bean id="RoutingFormOrganizationCreditPercent-documentNumber" parent="RoutingFormOrganizationCreditPercent-documentNumber-parentBean" />
 
@@ -64,8 +64,8 @@
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="documentNumber" />
-    <property name="description" value="documentNumber description..." />
+    
+    
   </bean>
   <bean id="RoutingFormOrganizationCreditPercent-organizationCode" parent="RoutingFormOrganizationCreditPercent-organizationCode-parentBean" />
 
@@ -83,8 +83,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="organizationCode" />
-    <property name="description" value="organizationCode description..." />
+    
+    
   </bean>
   <bean id="RoutingFormOrganizationCreditPercent-organizationCreditPercent" parent="RoutingFormOrganizationCreditPercent-organizationCreditPercent-parentBean" />
 
@@ -100,8 +100,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="organizationCreditPercent" />
-    <property name="description" value="organizationCreditPercent description..." />
+    
+    
   </bean>
   <bean id="RoutingFormOrganizationCreditPercent-organizationCreditRoleText" parent="RoutingFormOrganizationCreditPercent-organizationCreditRoleText-parentBean" />
 
@@ -118,8 +118,8 @@
       <bean parent="TextControlDefinition"
             p:size="50" />
     </property>
-    <property name="summary" value="organizationCreditRoleText" />
-    <property name="description" value="organizationCreditRoleText description..." />
+    
+    
   </bean>
   <bean id="RoutingFormOrganizationCreditPercent-organizationFinancialAidPercent" parent="RoutingFormOrganizationCreditPercent-organizationFinancialAidPercent-parentBean" />
 
@@ -135,8 +135,8 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    <property name="summary" value="organizationFinancialAidPercent" />
-    <property name="description" value="organizationFinancialAidPercent description..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -44,8 +44,8 @@
       <bean parent="TextControlDefinition"
             p:size="8" />
     </property>
-    <property name="summary" value="Budget Number..." />
-    <property name="description" value="Budget Number..." />
+    
+    
   </bean>
   <bean id="BudgetTask-budgetTaskSequenceNumber" parent="BudgetTask-budgetTaskSequenceNumber-parentBean" />
 
@@ -62,8 +62,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="Sequence Number" />
-    <property name="description" value="Sequence Number..." />
+    
+    
   </bean>
   <bean id="BudgetTask-budgetTaskOnCampus" parent="BudgetTask-budgetTaskOnCampus-parentBean" />
 
@@ -78,8 +78,8 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    <property name="summary" value="Budget Task On Campus?" />
-    <property name="description" value="Budget Task On Campus?" />
+    
+    
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter" />
   </bean>
   <bean id="BudgetTask-budgetTaskName" parent="BudgetTask-budgetTaskName-parentBean" />
@@ -98,8 +98,8 @@
       <bean parent="TextControlDefinition"
             p:size="50" />
     </property>
-    <property name="summary" value="Budget Task Name" />
-    <property name="description" value="Budget Task Name..." />
+    
+    
   </bean>
 
 <!-- Business Object Inquiry Definition -->

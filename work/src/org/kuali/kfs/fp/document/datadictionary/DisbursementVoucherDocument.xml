@@ -94,16 +94,16 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="40"/>
     </property>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="Full name of the Contact, expressed as &quot;Lastname, Firstname Initial&quot;"/>
+    
+    
   </bean>
   
   <bean id="DisbursementVoucherDocument-disbVchrContactPhoneNumber" parent="DisbursementVoucherDocument-disbVchrContactPhoneNumber-parentBean"/>
   <bean id="DisbursementVoucherDocument-disbVchrContactPhoneNumber-parentBean" abstract="true" parent="PersonImpl-phoneNumber">
     <property name="name" value="disbVchrContactPhoneNumber"/>
     <property name="required" value="true"/>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="Phone number of the Contact, expressed as nnn-mmm-pppp."/>
+    
+    
   </bean>
   
   <bean id="DisbursementVoucherDocument-disbVchrContactEmailId" parent="DisbursementVoucherDocument-disbVchrContactEmailId-parentBean"/>
@@ -120,8 +120,8 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="50"/>
     </property>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="Email address of the Contact."/>
+    
+    
   </bean>
   <bean id="DisbursementVoucherDocument-disbursementVoucherDueDate" parent="DisbursementVoucherDocument-disbursementVoucherDueDate-parentBean"/>
 
@@ -135,8 +135,8 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="11"/>
     </property>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="The date on which the Payment is due."/>
+    
+    
   </bean>
   <bean id="DisbursementVoucherDocument-disbVchrAttachmentCode" parent="DisbursementVoucherDocument-disbVchrAttachmentCode-parentBean"/>
 
@@ -150,8 +150,8 @@
     <property name="control">
       <bean parent="CheckboxControlDefinition"/>
     </property>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="Check the box for Check Enclosure if you have something that must be sent to the vendor/payee                      along with the check because the reason for the payment cannot be adequately described in the                      check stub detail field. Examples of Check Enclosures would include a payment stub, a duplicate                      invoice copy, a letter or note to the payee, a completed registration form, a subscription renewal, etc."/>
+    
+    
   </bean>
   <bean id="DisbursementVoucherDocument-disbVchrSpecialHandlingCode" parent="DisbursementVoucherDocument-disbVchrSpecialHandlingCode-parentBean"/>
 
@@ -165,8 +165,8 @@
     <property name="control">
       <bean parent="CheckboxControlDefinition"/>
     </property>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="&amp;nbsp;"/>
+    
+    
   </bean>
   <bean id="DisbursementVoucherDocument-disbVchrCheckTotalAmount" parent="DisbursementVoucherDocument-disbVchrCheckTotalAmount-parentBean"/>
 
@@ -183,8 +183,8 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="8"/>
     </property>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="The dollar amount of the check for the document Payment."/>
+    
+    
   </bean>
   <bean id="DisbursementVoucherDocument-disbursementVoucherDocumentationLocationCode" parent="DisbursementVoucherDocument-disbursementVoucherDocumentationLocationCode-parentBean"/>
 
@@ -193,7 +193,7 @@
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.DisbursementVoucherDocumentationLocationValuesFinder" p:includeKeyInLabel="false"/>
     </property>
-    <property name="description" value="The description of the organization involved in the document Payment. Select one from the pulldown list."/>
+    
   </bean>
   <bean id="DisbursementVoucherDocument-dvCheckStubOverflowCode" parent="DisbursementVoucherDocument-dvCheckStubOverflowCode-parentBean"/>
 
@@ -207,8 +207,8 @@
     <property name="control">
       <bean parent="HiddenControlDefinition"/>
     </property>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="&amp;nbsp;"/>
+    
+    
   </bean>
   <bean id="DisbursementVoucherDocument-disbVchrPayeeTaxControlCode" parent="DisbursementVoucherDocument-disbVchrPayeeTaxControlCode-parentBean"/>
 
@@ -222,8 +222,8 @@
     <property name="control">
       <bean parent="HiddenControlDefinition"/>
     </property>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="&amp;nbsp;"/>
+    
+    
   </bean>
   <bean id="DisbursementVoucherDocument-disbVchrPayeeChangedInd" parent="DisbursementVoucherDocument-disbVchrPayeeChangedInd-parentBean"/>
 
@@ -237,8 +237,8 @@
     <property name="control">
       <bean parent="HiddenControlDefinition"/>
     </property>
-    <property name="summary" value="Payee Changed Indicator"/>
-    <property name="description" value="..."/>
+    
+    
   </bean>
   <bean id="DisbursementVoucherDocument-disbursementVoucherCheckNbr" parent="DisbursementVoucherDocument-disbursementVoucherCheckNbr-parentBean"/>
 
@@ -251,8 +251,8 @@
     <property name="control">
       <bean parent="HiddenControlDefinition"/>
     </property>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="&amp;nbsp;"/>
+    
+    
   </bean>
   <bean id="DisbursementVoucherDocument-disbursementVoucherCheckDate" parent="DisbursementVoucherDocument-disbursementVoucherCheckDate-parentBean"/>
 
@@ -265,8 +265,8 @@
     <property name="control">
       <bean parent="HiddenControlDefinition"/>
     </property>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="&amp;nbsp;"/>
+    
+    
   </bean>
   <bean id="DisbursementVoucherDocument-disbVchrPayeeW9CompleteCode" parent="DisbursementVoucherDocument-disbVchrPayeeW9CompleteCode-parentBean"/>
 
@@ -280,8 +280,8 @@
     <property name="control">
       <bean parent="CheckboxControlDefinition"/>
     </property>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="&amp;nbsp;"/>
+    
+    
   </bean>
   <bean id="DisbursementVoucherDocument-disbVchrPaymentMethodCode" parent="DisbursementVoucherDocument-disbVchrPaymentMethodCode-parentBean"/>
 
@@ -295,8 +295,8 @@
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.PaymentMethodValuesFinder" p:includeKeyInLabel="false"/>
     </property>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="The description of the method of the document Payment. Select one from the pulldown list."/>
+    
+    
   </bean>
   <bean id="DisbursementVoucherDocument-campusCode" parent="DisbursementVoucherDocument-campusCode-parentBean"/>
 
@@ -305,7 +305,7 @@
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder" p:includeKeyInLabel="false"/>
     </property>
-    <property name="description" value="The code for the Campus of the Contact."/>
+    
   </bean>
   <bean id="DisbursementVoucherDocument-disbVchrCheckStubText" parent="DisbursementVoucherDocument-disbVchrCheckStubText-parentBean"/>
 
@@ -319,8 +319,8 @@
     <property name="control">
       <bean parent="TextareaControlDefinition" p:rows="5" p:cols="100"/>
     </property>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="A free-form text field which the Contact may add to the check stub."/>
+    
+    
   </bean>
   <bean id="DisbursementVoucherDocument-extractDate" parent="DisbursementVoucherDocument-extractDate-parentBean"/>
 
@@ -334,8 +334,8 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="11"/>
     </property>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="The date on which the Payment was extracted by the Pre-Disbursement Processor."/>
+    
+    
   </bean>
   <bean id="DisbursementVoucherDocument-paidDate" parent="DisbursementVoucherDocument-paidDate-parentBean"/>
 
@@ -349,8 +349,8 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="11"/>
     </property>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="The date on which the Payment was paid by the Pre-Disbursement Processor."/>
+    
+    
   </bean>
   <bean id="DisbursementVoucherDocument-cancelDate" parent="DisbursementVoucherDocument-cancelDate-parentBean"/>
 
@@ -364,8 +364,8 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="11"/>
     </property>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="The date on which the Payment was canceled by the Pre-Disbursement Processor."/>
+    
+    
   </bean>
   <bean id="DisbursementVoucherDocument-disbursementVoucherPdpStatus" parent="DisbursementVoucherDocument-disbursementVoucherPdpStatus-parentBean"/>
 
@@ -379,8 +379,8 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="15"/>
     </property>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="description" value="Current status of this document in relation to the Pre-Disbursement Processor."/>
+    
+    
   </bean>
   
   <bean id="DisbursementVoucherDocument-disbVchrBankCode" parent="DisbursementVoucherDocument-disbVchrBankCode-parentBean"/>

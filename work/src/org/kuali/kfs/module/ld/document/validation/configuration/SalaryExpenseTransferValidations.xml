@@ -234,7 +234,7 @@
 							<bean parent="validationFieldConversion">
 								<property name="sourceEventProperty" value="document" />
 								<property name="targetValidationProperty" value="documentForValidation" />
-							</bean>
+							</bean>                          
 						</list>					
 					</property>
 					<property name="quitOnFail" value="true" />				

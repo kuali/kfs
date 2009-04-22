@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ld.document.validation.impl;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
@@ -22,15 +23,19 @@ import java.util.Map.Entry;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Validates that an accounting document's balances by object codes are unchanged
@@ -46,17 +51,16 @@ public class SalaryExpenseTransferValidAmountTransferredByObjectCodeValidation e
      */
     public boolean validate(AttributedDocumentEvent event) {
         SalaryExpenseTransferDocument expenseTransferDocument = (SalaryExpenseTransferDocument) documentForValidation;
-
-        TransactionalDocumentAuthorizer documentAuthorizer = (TransactionalDocumentAuthorizer) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(expenseTransferDocument);
-        String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
-        boolean isAdmin = documentAuthorizer.isAuthorized(expenseTransferDocument, LaborConstants.LABOR_MODULE_CODE, LaborConstants.PermissionNames.OVERRIDE_TRANSFER_IMPACTING_EFFORT_CERTIFICATION, principalId);
-        if (isAdmin) {
+        KualiWorkflowDocument workflowDocument = expenseTransferDocument.getDocumentHeader().getWorkflowDocument();
+        
+        // check if user is allowed to edit the object code.
+        if(this.hasEditPermissionOnObjectCode(expenseTransferDocument, workflowDocument)) {
             return true;
         }
 
         // if approving document, check the object code balances match when document was inititated, else check the balance
         boolean isValid = true;
-        if (expenseTransferDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) {
+        if (workflowDocument.isApprovalRequested()) {
             if (!isObjectCodeBalancesUnchanged(expenseTransferDocument)) {
                 GlobalVariables.getErrorMap().putError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.ERROR_TRANSFER_AMOUNT_BY_OBJECT_APPROVAL_CHANGE);
                 isValid = false;
@@ -70,6 +74,19 @@ public class SalaryExpenseTransferValidAmountTransferredByObjectCodeValidation e
         }
 
         return isValid;
+    }
+
+    // check if user is allowed to edit the object code.
+    private boolean hasEditPermissionOnObjectCode(SalaryExpenseTransferDocument expenseTransferDocument, KualiWorkflowDocument workflowDocument) {
+        String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
+        DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(expenseTransferDocument);
+        String templateName = KFSConstants.PermissionTemplate.MODIFY_ACCOUNTING_LINES.name;
+        
+        Map<String, String> additionalPermissionDetails = new HashMap<String, String>();
+        additionalPermissionDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, workflowDocument.getDocumentType());
+        additionalPermissionDetails.put(KfsKimAttributes.PROPERTY_NAME, "targetAccountingLines.financialObjectCode");
+
+        return documentAuthorizer.isAuthorizedByTemplate(expenseTransferDocument, KFSConstants.ParameterNamespaces.KFS, templateName, principalId, additionalPermissionDetails, null);
     }
 
     /**

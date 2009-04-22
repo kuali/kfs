@@ -25,9 +25,14 @@ import org.kuali.kfs.module.ld.LaborConstants.SalaryExpenseTransfer;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.module.ld.util.ConsolidationUtil;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Service implementation of LedgerBalanceForSalaryExpenseTransferLookupableHelperService. The class is the front-end for the
@@ -39,7 +44,7 @@ public class LedgerBalanceForSalaryExpenseTransferLookupableHelperServiceImpl ex
     private OptionsService optionsService;
 
     /**
-     * @see org.kuali.rice.kns.lookup.Lookupable#getSearchResults(java.util.Map)
+     * @see org.kuali.kfs.module.ld.businessobject.lookup.LedgerBalanceForExpenseTransferLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
     @Override
     public List getSearchResults(Map fieldValues) {
@@ -68,6 +73,22 @@ public class LedgerBalanceForSalaryExpenseTransferLookupableHelperServiceImpl ex
         Long actualSize = OJBUtility.getResultActualSize(consolidatedBalances, recordCount, fieldValues, new LedgerBalance());
 
         return buildSearchResultList(consolidatedBalances, actualSize);
+    }
+    
+    /**
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#validateSearchParameters(java.util.Map)
+     */
+    @Override
+    public void validateSearchParameters(Map fieldValues) {
+        String fiscalYearString = (String) fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        SystemOptions options = this.getOptions(fiscalYearString);
+        
+        if(ObjectUtils.isNull(options)) {
+            DataDictionaryService dictionaryService = SpringContext.getBean(DataDictionaryService.class);
+            String label = dictionaryService.getAttributeLabel(LedgerBalance.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+            
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, KFSKeyConstants.ERROR_EXISTENCE, label);
+        }
     }
 
     /**

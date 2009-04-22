@@ -235,13 +235,13 @@ public class LaborPendingEntryGenerator {
     private static boolean isAccountingLinePayFYPeriodMatchesUniversityPayFYPeriod(LaborLedgerPostingDocument document, ExpenseTransferAccountingLine accountingLine) {
         Integer fiscalYear = document.getPostingYear();
         Integer payFiscalYear = accountingLine.getPayrollEndDateFiscalYear();
-        if (!payFiscalYear.equals(fiscalYear)) {
+        if (!fiscalYear.equals(payFiscalYear)) {
             return false;
         }
 
         String periodCode = document.getPostingPeriodCode();
         String payPeriodCode = accountingLine.getPayrollEndDateFiscalPeriodCode();
-        if (StringUtils.equals(periodCode, payPeriodCode)) {
+        if (!StringUtils.equals(periodCode, payPeriodCode)) {
             return false;
         }
 

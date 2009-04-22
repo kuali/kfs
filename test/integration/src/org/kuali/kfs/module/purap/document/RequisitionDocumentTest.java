@@ -40,6 +40,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.kfs.sys.suite.RelatesTo;
+import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -155,6 +157,7 @@ public class RequisitionDocumentTest extends KualiTestBase {
         AccountingDocumentTestUtils.testConvertIntoCopy(requisitionDocument, SpringContext.getBean(DocumentService.class), getExpectedPrePeCount());
     }
 
+    @RelatesTo(JiraIssue.KULPURAP3956)
     @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
     public final void testRouteDocumentToFinal() throws Exception {
         requisitionDocument = RequisitionDocumentFixture.REQ_NO_APO_VALID.createRequisitionDocument();
@@ -187,6 +190,7 @@ public class RequisitionDocumentTest extends KualiTestBase {
         AccountingDocumentTestUtils.testSaveDocument(altAPORequisition, SpringContext.getBean(DocumentService.class));
     }
 
+    @RelatesTo(JiraIssue.KULPURAP3956)
     @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
     public final void testRouteDocumentToFinalWithBasicActiveCommodityCode() throws Exception {
         requisitionDocument = RequisitionDocumentWithCommodityCodeFixture.REQ_VALID_ACTIVE_COMMODITY_CODE.createRequisitionDocument();

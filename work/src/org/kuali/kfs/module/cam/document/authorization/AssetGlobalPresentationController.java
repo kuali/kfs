@@ -40,17 +40,18 @@ public class AssetGlobalPresentationController extends FinancialSystemMaintenanc
     @Override
     public Set<String> getConditionallyHiddenPropertyNames(BusinessObject businessObject) {
         Set<String> fields = super.getConditionallyHiddenPropertyNames(businessObject);
-
         MaintenanceDocument document = (MaintenanceDocument) businessObject;
         AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
-
         MaintainableCollectionDefinition maintCollDef = SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getMaintainableCollection("AA", "assetPaymentDetails");
-        if (assetGlobal.isCapitalAssetBuilderOriginIndicator() || SpringContext.getBean(AssetGlobalService.class).isAssetSeparate(assetGlobal)) {
+        boolean isAssetSeparate = SpringContext.getBean(AssetGlobalService.class).isAssetSeparate(assetGlobal);
+
+        if (assetGlobal.isCapitalAssetBuilderOriginIndicator() || isAssetSeparate) {
             // do not include payment add section within the payment details collection
             maintCollDef.setIncludeAddLine(false);
         }
         else {
-            // conversely allow add during any other case. This is important because the attribute is set on the DD and the DD is only
+            // conversely allow add during any other case. This is important because the attribute is set on the DD and the DD is
+            // only
             // loaded on project startup. Hence setting is important to avoid state related bugs
             maintCollDef.setIncludeAddLine(true);
         }
@@ -59,8 +60,8 @@ public class AssetGlobalPresentationController extends FinancialSystemMaintenanc
             // Show payment sequence number field only if a separate by payment was selected
             fields.add(CamsPropertyConstants.AssetGlobal.SEPERATE_SOURCE_PAYMENT_SEQUENCE_NUMBER);
         }
-        
-        if (!SpringContext.getBean(AssetGlobalService.class).isAssetSeparate(assetGlobal)) {
+
+        if (!isAssetSeparate) {
             fields.addAll(getAssetGlobalLocationHiddenFields(assetGlobal));
 
             fields.add(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR);
@@ -78,6 +79,10 @@ public class AssetGlobalPresentationController extends FinancialSystemMaintenanc
                     fields.addAll(getAssetGlobalPaymentsHiddenFields(assetGlobal));
                 }
             }
+        }
+        // if no separate asset is added, hide the button
+        if (isAssetSeparate && (assetGlobal.getAssetSharedDetails().isEmpty() || assetGlobal.getAssetSharedDetails().get(0).getAssetGlobalUniqueDetails().isEmpty())) {
+            fields.add("calculateEqualSourceAmountsButton");
         }
 
         return fields;

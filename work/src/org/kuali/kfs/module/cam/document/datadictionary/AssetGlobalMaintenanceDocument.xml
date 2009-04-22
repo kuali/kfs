@@ -62,22 +62,6 @@
     </property>
   </bean>
 
-
-  <bean id="AssetGlobalMaintenanceDocument-AssetInformation" parent="AssetGlobalMaintenanceDocument-AssetInformation-parentBean"/>
-  <bean id="AssetGlobalMaintenanceDocument-AssetInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="assetInformation"/>
-    <property name="title" value="Asset Information"/>
-    <property name="maintainableItems">
-      <list>
-        <bean parent="MaintainableFieldDefinition" p:name="separateSourceCapitalAssetNumber" p:unconditionallyReadOnly="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="separateSourcePaymentSequenceNumber" p:unconditionallyReadOnly="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="totalCostAmount" p:unconditionallyReadOnly="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="calculateEqualSourceAmountsButton"/>
-      </list>
-    </property>
-  </bean>
-
-
   <bean id="AssetGlobalMaintenanceDocument-AssetDetailInformation" parent="AssetGlobalMaintenanceDocument-AssetDetailInformation-parentBean"/>
   <bean id="AssetGlobalMaintenanceDocument-AssetDetailInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Asset Detail Information"/>
@@ -231,6 +215,20 @@
         </bean>
         <bean parent="MaintainableSubSectionHeaderDefinition" p:name="Total Payment Amount"/>
         <bean parent="MaintainableFieldDefinition" p:name="totalAssetPaymentAmount" p:unconditionallyReadOnly="true"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="AssetGlobalMaintenanceDocument-AssetInformation" parent="AssetGlobalMaintenanceDocument-AssetInformation-parentBean"/>
+  <bean id="AssetGlobalMaintenanceDocument-AssetInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="assetInformation"/>
+    <property name="title" value="Asset Information"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="separateSourceCapitalAssetNumber" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="separateSourcePaymentSequenceNumber" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="totalCostAmount" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="calculateEqualSourceAmountsButton"/>
       </list>
     </property>
   </bean>

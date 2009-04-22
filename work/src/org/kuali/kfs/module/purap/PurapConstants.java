@@ -775,7 +775,9 @@ public class PurapConstants extends JSTLConstants {
     }
 
     public static final Integer PRORATION_SCALE = new Integer(6);
+    public static final Integer CREDITMEMO_PRORATION_SCALE = new Integer(20);
 
+    
     private static HashMap<String, String> getPurapParameterDetailTypeCodes() {
         HashMap<String, String> map;
         map = new HashMap<String, String>();

@@ -22,6 +22,7 @@ import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants.CreditMemoEditMode;
+import org.kuali.kfs.module.purap.PurapAuthorizationConstants.PaymentRequestEditMode;
 import org.kuali.kfs.module.purap.PurapConstants.CreditMemoStatuses;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
@@ -117,6 +118,11 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
 
         if (!vendorCreditMemoDocument.isSourceDocumentPaymentRequest()) {
             editModes.add(CreditMemoEditMode.LOCK_VENDOR_ENTRY);
+        }
+        
+        // always show amount after full entry
+        if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(vendorCreditMemoDocument)) {
+            editModes.add(CreditMemoEditMode.SHOW_AMOUNT_ONLY);
         }
         
         // only allow tax editing and display the "clear all taxes" button if doc is not using use tax

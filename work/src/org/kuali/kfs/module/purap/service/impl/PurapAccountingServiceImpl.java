@@ -788,7 +788,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                     KualiDecimal accountAmount = account.getAmount();
                     BigDecimal tmpPercent = BigDecimal.ZERO;
                     KualiDecimal extendedPrice = item.getTotalAmount();
-                    tmpPercent = accountAmount.bigDecimalValue().divide(extendedPrice.bigDecimalValue(), PurapConstants.PRORATION_SCALE.intValue(), KualiDecimal.ROUND_BEHAVIOR);
+                    tmpPercent = accountAmount.bigDecimalValue().divide(extendedPrice.bigDecimalValue(), PurapConstants.CREDITMEMO_PRORATION_SCALE.intValue(), KualiDecimal.ROUND_BEHAVIOR);
                     // test that the above amount is correct, if so just check that the total of all these matches the item total
 
                     KualiDecimal calcAmount = new KualiDecimal(tmpPercent.multiply(extendedPrice.bigDecimalValue()));

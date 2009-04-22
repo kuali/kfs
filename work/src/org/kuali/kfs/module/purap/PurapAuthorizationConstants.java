@@ -84,6 +84,7 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
         public static final String DISPLAY_INIT_TAB = "displayInitTab";
         public static final String EDIT_PRE_EXTRACT = "editPreExtract";
         public static final String ALLOW_FISCAL_ENTRY = "allowFiscalEntry";
+        public static final String SHOW_AMOUNT_ONLY = "showAmountOnly";
         public static final String LOCK_TAX_AMOUNT_ENTRY = "lockTaxAmountEntry";
         public static final String CLEAR_ALL_TAXES = "clearAllTaxes";
         public static final String ALLOW_REOPEN_PURCHASE_ORDER = "allowReopenPurchaseOrder";

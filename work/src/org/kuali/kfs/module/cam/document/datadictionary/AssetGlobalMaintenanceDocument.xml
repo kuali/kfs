@@ -7,10 +7,10 @@
     <property name="maintainableSections">
       <list>
         <ref bean="AssetGlobalMaintenanceDocument-AssetAcquisitionInformation"/>
-      	<ref bean="AssetGlobalMaintenanceDocument-AssetInformation"/>
         <ref bean="AssetGlobalMaintenanceDocument-AssetDetailInformation"/>
         <ref bean="AssetGlobalMaintenanceDocument-CampusLocation"/>
         <ref bean="AssetGlobalMaintenanceDocument-AddPayments"/>
+      	<ref bean="AssetGlobalMaintenanceDocument-AssetInformation"/>
         <ref bean="AssetGlobalMaintenanceDocument-RecalculateSourceAmount"/>
       </list>
     </property>

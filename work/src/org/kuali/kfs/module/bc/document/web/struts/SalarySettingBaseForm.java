@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundingReason;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
@@ -127,8 +128,28 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
         appointmentFunding.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
         appointmentFunding.refreshReferenceObject(KFSPropertyConstants.SUB_ACCOUNT);
         appointmentFunding.refreshReferenceObject(BCPropertyConstants.BUDGET_CONSTRUCTION_CALCULATED_SALARY_FOUNDATION_TRACKER);
+        this.applyDefaultReasonAmountIfEmpty(appointmentFunding);
     }
 
+    /**
+     * apply default reason amount of zero if the reason code is set and the amount is null
+     * adds a blank row place holder if no reason rows, to be optionally filled in by the user
+     * 
+     * @param appointmentFunding
+     */
+    public void applyDefaultReasonAmountIfEmpty (PendingBudgetConstructionAppointmentFunding appointmentFunding){
+        if (!appointmentFunding.getBudgetConstructionAppointmentFundingReason().isEmpty()){
+            BudgetConstructionAppointmentFundingReason afReason = appointmentFunding.getBudgetConstructionAppointmentFundingReason().get(0);
+            if (ObjectUtils.isNotNull(afReason)){
+                if (afReason.getAppointmentFundingReasonAmount() == null){
+                    afReason.setAppointmentFundingReasonAmount(KualiInteger.ZERO);
+                }
+            }
+        }
+        else {
+            appointmentFunding.getBudgetConstructionAppointmentFundingReason().add(new BudgetConstructionAppointmentFundingReason());
+        }
+    }
     /**
      * Gets the documentNumber attribute.
      * 

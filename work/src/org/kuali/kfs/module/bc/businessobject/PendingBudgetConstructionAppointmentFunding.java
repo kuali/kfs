@@ -706,14 +706,6 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
      * @return Returns the budgetConstructionAppointmentFundingReason.
      */
     public List<BudgetConstructionAppointmentFundingReason> getBudgetConstructionAppointmentFundingReason() {
-        if (budgetConstructionAppointmentFundingReason == null) {
-            budgetConstructionAppointmentFundingReason = new TypedArrayList(BudgetConstructionAppointmentFundingReason.class);
-        }
-
-        if (budgetConstructionAppointmentFundingReason.size() <= 0) {
-            budgetConstructionAppointmentFundingReason.add(new BudgetConstructionAppointmentFundingReason());
-        }
-
         return budgetConstructionAppointmentFundingReason;
     }
 
@@ -1091,6 +1083,17 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
      */
     public void setPurged(boolean purged) {
         this.purged = purged;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     */
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add(getBudgetConstructionAppointmentFundingReason());
+        return managedLists;
+
     }
 }
 

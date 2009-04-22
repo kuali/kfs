@@ -393,10 +393,6 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         // remove the purged appointment funding lines and their referenced records
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : purgedAppointmentFundings) {
             if (!appointmentFunding.isNewLineIndicator()) {
-                List<BudgetConstructionAppointmentFundingReason> fundingReasons = appointmentFunding.getBudgetConstructionAppointmentFundingReason();
-                fundingReasons.get(0).setAppointmentFundingReasonCode(null);
-
-                this.preprocessFundingReason(appointmentFunding);
                 businessObjectService.delete(appointmentFunding);
             }
         }
@@ -666,7 +662,11 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         this.resetDeletedFundingLines(appointmentFundings);
 
         this.updateAppointmentFundingsBeforeSaving(savableAppointmentFundings);
-        businessObjectService.save(savableAppointmentFundings);
+        
+        // save each line so deletion aware reasons get removed when needed
+        for (PendingBudgetConstructionAppointmentFunding savableAppointmentFunding : savableAppointmentFundings){
+            businessObjectService.save(savableAppointmentFunding);
+        }
     }
 
     /**
@@ -946,10 +946,11 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      * @param appointmentFunding the given appointment funding
      */
     public void preprocessFundingReason(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        businessObjectService.deleteMatching(BudgetConstructionAppointmentFundingReason.class, appointmentFunding.getValuesMap());
 
         List<BudgetConstructionAppointmentFundingReason> fundingReasons = appointmentFunding.getBudgetConstructionAppointmentFundingReason();
-        if (StringUtils.isBlank(fundingReasons.get(0).getAppointmentFundingReasonCode())) {
+        
+        // do special removal of any reason rows where the reason code is blank
+        if (!fundingReasons.isEmpty() && StringUtils.isBlank(fundingReasons.get(0).getAppointmentFundingReasonCode())) {
             fundingReasons.clear();
         }
     }

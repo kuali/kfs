@@ -11,6 +11,7 @@ import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.DateTimeService;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -277,4 +278,21 @@ public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectB
         return getDocumentHeader().getWorkflowDocument().getStatusDisplayValue();
     }
 
+    /**
+     * 
+     * This method...
+     * @return
+     */
+    public String getCreateDate() {
+        return SpringContext.getBean(DateTimeService.class).toDateString(getDocumentHeader().getWorkflowDocument().getCreateDate());
+    }
+
+    /**
+     * 
+     * This method...
+     * @return
+     */
+    public String getInitiatorId() {
+        return getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
+    }
 }

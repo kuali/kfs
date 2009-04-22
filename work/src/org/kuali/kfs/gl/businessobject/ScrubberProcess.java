@@ -325,6 +325,25 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
         scrubberReport = new ScrubberReportData();
         processGroup(reportOnlyMode);
         //reportService.generateBatchScrubberStatisticsReport(runDate, scrubberReport, scrubberReportErrors);
+        
+        //TODO: Shawn - need to implement below reports after Philip's report conversion work is done.
+//        // Run the reports
+//        if (reportOnlyMode) {
+//            // Run transaction list
+//            reportService.generateScrubberTransactionsOnline(runDate, group, documentNumber);
+//        }
+//        else if (collectorMode) {
+//            // defer report generation for later
+//        }
+//        else {
+//            // Run bad balance type report and removed transaction report
+//            reportService.generateScrubberBadBalanceTypeListingReport(runDate, groupsToScrub);
+//            reportService.generateScrubberRemovedTransactions(runDate, errorGroup);
+//        }
+
+        
+        
+        
     }
 
     /**

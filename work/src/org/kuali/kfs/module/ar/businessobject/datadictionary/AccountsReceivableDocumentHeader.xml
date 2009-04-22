@@ -25,6 +25,8 @@
         <ref bean="AccountsReceivableDocumentHeader-processingOrganizationCode" />
         <ref bean="AccountsReceivableDocumentHeader-processingChartOfAccCodeAndOrgCode" />
         <ref bean="AccountsReceivableDocumentHeader-documentStatus" />
+        <ref bean="AccountsReceivableDocumentHeader-createDate" />
+        <ref bean="AccountsReceivableDocumentHeader-initiatorId" />
       </list>
     </property>
   </bean>
@@ -125,6 +127,34 @@
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Document Status"/>
     <property name="shortLabel" value="Status"/>
+    <property name="maxLength" value="15"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="15"/>
+    </property>
+  </bean>
+
+  <bean id="AccountsReceivableDocumentHeader-createDate" parent="AccountsReceivableDocumentHeader-createDate-parentBean"/>
+  
+  <bean id="AccountsReceivableDocumentHeader-createDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="createDate"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Create Date"/>
+    <property name="shortLabel" value="Date"/>
+    <property name="maxLength" value="15"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="15"/>
+    </property>
+  </bean>
+
+  <bean id="AccountsReceivableDocumentHeader-initiatorId" parent="AccountsReceivableDocumentHeader-initiatorId-parentBean"/>
+  
+  <bean id="AccountsReceivableDocumentHeader-initiatorId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="initiatorId"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Initiator ID"/>
+    <property name="shortLabel" value="Initiator"/>
     <property name="maxLength" value="15"/>
     <property name="required" value="false"/>
     <property name="control">

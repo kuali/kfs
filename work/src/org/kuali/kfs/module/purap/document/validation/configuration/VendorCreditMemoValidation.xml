@@ -416,10 +416,7 @@
 						</list>
 					</property>
 				</bean>
-				<!-- Accounting Line Accessible left out, as its always true for Vendor Credit Memo -->				
-				<bean parent="AccountingDocument-AddAccountingLine-DefaultValidation" scope="prototype">
-					<property name="quitOnFail" value="false" />
-				</bean>
+				<!-- Accounting Line Accessible left out, as its always true for Vendor Credit Memo -->
 				<bean parent="VendorCreditMemo-accountPercentBetween0And100Validation" scope="prototype">
 					<property name="quitOnFail" value="false" />
 				</bean>

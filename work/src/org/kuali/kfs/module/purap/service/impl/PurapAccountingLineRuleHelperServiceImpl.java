@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.purap.service.impl;
 
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
@@ -105,4 +106,20 @@ public class PurapAccountingLineRuleHelperServiceImpl extends AccountingLineRule
         return true;
     }
 
+    /**
+     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidAccount(org.kuali.kfs.coa.businessobject.Account, org.kuali.rice.kns.datadictionary.DataDictionary, java.lang.String)
+     */
+    @Override
+    public boolean isValidAccount(Account account, DataDictionary dataDictionary, String errorPropertyName) {
+        String label = getAccountLabel();
+
+        // make sure it exists
+        if (ObjectUtils.isNull(account)) {
+            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
+            return false;
+        }
+
+        return true;
+    }
+    
 }

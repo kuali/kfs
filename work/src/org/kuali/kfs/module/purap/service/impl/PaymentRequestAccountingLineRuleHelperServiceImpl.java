@@ -15,45 +15,19 @@
  */
 package org.kuali.kfs.module.purap.service.impl;
 
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.module.purap.PurapKeyConstants;
-import org.kuali.kfs.module.purap.document.PurchasingDocument;
-import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
+import org.kuali.kfs.coa.service.ObjectCodeService;
+import org.kuali.kfs.coa.service.SubObjectCodeService;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.document.service.impl.AccountingLineRuleHelperServiceImpl;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.datadictionary.DataDictionary;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
-public class PurchasingAccountingLineRuleHelperServiceImpl extends AccountingLineRuleHelperServiceImpl {
+public class PaymentRequestAccountingLineRuleHelperServiceImpl extends AccountsPayableAccountingLineRuleHelperServiceImpl {
 
-    private PurchasingDocument document;
-    
-    public PurchasingDocument getDocument() {
-        return document;
-    }
-
-    public void setDocument(PurchasingDocument document) {
-        this.document = document;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.purap.service.impl.PurapAccountingLineRuleHelperServiceImpl#hasRequiredOverrides(org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String)
-     * override the default implementation and throw our own error message for accounts that are expired.
-     */
-    @Override
-    public boolean hasRequiredOverrides(AccountingLine line, String overrideCode) {
-        boolean retVal = true;
-        Account account = line.getAccount();
-        if (!ObjectUtils.isNull(account) && account.isExpired()) {            
-            GlobalVariables.getErrorMap().putError(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, PurapKeyConstants.ERROR_ITEM_ACCOUNT_EXPIRED, account.getAccountNumber());
-            retVal = false;
-        }
-        return retVal;
-    }
-
-    /*
+/*
     public boolean isValidObjectCode(ObjectCode objectCode, DataDictionary dataDictionary, String errorPropertyName) {
         
         String label = getObjectCodeLabel();

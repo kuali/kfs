@@ -625,6 +625,10 @@
 	</bean>
 	
 <!-- Payment Request Definitions -->	
+	<bean id="PaymentRequest-accountingLineDataDictionaryValidation" class="org.kuali.kfs.sys.document.validation.impl.AccountingLineDataDictionaryValidation" abstract="true">
+		<property name="accountingLineRuleHelperService"><ref bean="paymentRequestAccountingLineRuleHelperService" /></property>
+	</bean>
+
 	<bean id="PaymentRequest-tradeInWarningValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestTradeInWarningValidation" abstract="true"/>
 		
 	<bean id="PaymentRequest-expiredAccountWarningValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestExpiredAccountWarningValidation" abstract="true">

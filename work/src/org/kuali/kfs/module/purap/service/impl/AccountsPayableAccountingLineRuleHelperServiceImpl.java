@@ -19,8 +19,10 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.service.impl.AccountingLineRuleHelperServiceImpl;
+import org.kuali.rice.kns.datadictionary.DataDictionary;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -42,6 +44,22 @@ public class AccountsPayableAccountingLineRuleHelperServiceImpl extends Accounti
      */
     @Override
     public boolean hasRequiredOverrides(AccountingLine line, String overrideCode) {
+        return true;
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidAccount(org.kuali.kfs.coa.businessobject.Account, org.kuali.rice.kns.datadictionary.DataDictionary, java.lang.String)
+     */
+    @Override
+    public boolean isValidAccount(Account account, DataDictionary dataDictionary, String errorPropertyName) {
+        String label = getAccountLabel();
+
+        // make sure it exists
+        if (ObjectUtils.isNull(account)) {
+            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
+            return false;
+        }
+
         return true;
     }
 

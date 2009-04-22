@@ -169,7 +169,7 @@
 			        <kul:htmlControlAttribute
 				        attributeEntry="${itemAttributes.itemTaxAmount}"
 				        property="document.item[${ctr}].itemTaxAmount" 
-				        readOnly="${lockTaxAmountEntry}" 
+				        readOnly="${not (fullEntryMode) or lockTaxAmountEntry}" 
 				        tabindexOverride="${tabindexOverrideBase + 0}" />
 			    </div>
 			</td>			

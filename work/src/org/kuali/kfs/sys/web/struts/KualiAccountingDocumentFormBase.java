@@ -41,6 +41,7 @@ import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumen
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.exception.InfrastructureException;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -356,11 +357,10 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
     }
 
     /**
-     * @return String
+     * @return the URL to the accounting line import instructions
      */
     public String getAccountingLineImportInstructionsUrl() {
-        // FIXME: help URLs are all being removed
-        return "";//SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY) + SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.FINANCIAL_SYSTEM_DOCUMENT.class, KFSConstants.FinancialApcParms.ACCOUNTING_LINE_IMPORT_HELP);
+        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY) + SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.FINANCIAL_SYSTEM_DOCUMENT.class, KFSConstants.FinancialApcParms.ACCOUNTING_LINE_IMPORT_HELP);
     }
 
     /**

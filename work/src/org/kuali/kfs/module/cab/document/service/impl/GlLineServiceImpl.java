@@ -240,7 +240,7 @@ public class GlLineServiceImpl implements GlLineService {
         detail.setExpenditureFinancialSystemOriginationCode(replaceFiller(entry.getFinancialSystemOriginationCode()));
         detail.setExpenditureFinancialDocumentNumber(entry.getDocumentNumber());
         detail.setExpenditureFinancialDocumentTypeCode(replaceFiller(entry.getFinancialDocumentTypeCode()));
-        detail.setExpenditureFinancialDocumentPostedDate(entry.getTransactionPostingDate());
+        detail.setExpenditureFinancialDocumentPostedDate(entry.getTransactionDate());
         detail.setPurchaseOrderNumber(replaceFiller(entry.getReferenceFinancialDocumentNumber()));
         detail.setTransferPaymentIndicator(false);
         return detail;

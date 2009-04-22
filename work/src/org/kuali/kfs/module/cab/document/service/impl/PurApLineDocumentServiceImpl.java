@@ -520,7 +520,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
                 assetPaymentDetail.setExpenditureFinancialSystemOriginationCode(replaceFiller(glEntry.getFinancialSystemOriginationCode()));
                 assetPaymentDetail.setExpenditureFinancialDocumentNumber(glEntry.getDocumentNumber());
                 assetPaymentDetail.setExpenditureFinancialDocumentTypeCode(replaceFiller(glEntry.getFinancialDocumentTypeCode()));
-                assetPaymentDetail.setExpenditureFinancialDocumentPostedDate(glEntry.getTransactionPostingDate());
+                assetPaymentDetail.setExpenditureFinancialDocumentPostedDate(glEntry.getTransactionDate());
                 assetPaymentDetail.setAmount(account.getItemAccountTotalAmount());
                 assetPaymentDetail.setPurchaseOrderNumber(replaceFiller(glEntry.getReferenceFinancialDocumentNumber()));
                 assetPaymentDetail.setRequisitionNumber(requisitionIdentifier.toString());
@@ -549,8 +549,8 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
     }
 
     /**
-     * Update GL Entry status as "enroute" if all its amount are consumed by submit CAMs document.Return the general ledger
-     * entry changes as a list.
+     * Update GL Entry status as "enroute" if all its amount are consumed by submit CAMs document.Return the general ledger entry
+     * changes as a list.
      * 
      * @param glEntryList
      * @param selectedAccount
@@ -813,7 +813,8 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
 
 
     /**
-     * Gets the purApInfoService attribute. 
+     * Gets the purApInfoService attribute.
+     * 
      * @return Returns the purApInfoService.
      */
     public PurApInfoService getPurApInfoService() {
@@ -823,6 +824,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
 
     /**
      * Sets the purApInfoService attribute value.
+     * 
      * @param purApInfoService The purApInfoService to set.
      */
     public void setPurApInfoService(PurApInfoService purApInfoService) {

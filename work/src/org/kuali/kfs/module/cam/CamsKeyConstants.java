@@ -66,6 +66,7 @@ public class CamsKeyConstants {
         public static final String ERROR_ASSET_EXISTS_IN_DOCUMENT = "error.asset.exists.in.payment.document";
         public static final String ERROR_NON_ASSETS_IN_DOCUMENT = "error.payment.document.noAssetsInDocumentFound";
         public static final String ERROR_NON_ZERO_COST_ASSETS_ALLOWED = "error.payment.document.noZeroValueAssetsAllowed";
+        public static final String ERROR_POSTING_DATE_FUTURE_NOT_ALLOWED = "error.posting.date.future.notallowed";
     }
 
     public static class Transfer {
@@ -115,7 +116,7 @@ public class CamsKeyConstants {
         public static final String ERROR_ONCAMPUS_BUILDING_ROOM_NUMBER_NOT_PERMITTED = "error.oncampus.room.number.not.permitted";
         public static final String ERROR_ONCAMPUS_SUB_ROOM_NUMBER_NOT_PERMITTED = "error.oncampus.sub.room.number.not.permitted";
         public static final String ERROR_CHOOSE_ASSET_TYPE = "error.choose.asset.type.validate.location";
-        public static final String ERROR_LOCATION_NOT_PERMITTED_ASSET_TYPE="error.location.not.permitted.asset.type";
+        public static final String ERROR_LOCATION_NOT_PERMITTED_ASSET_TYPE = "error.location.not.permitted.asset.type";
     }
 
     public static class Retirement {
@@ -165,7 +166,7 @@ public class CamsKeyConstants {
         public static final String ERROR_APPROVE_DOCUMENT_WITH_ERROR_EXIST = "error.approve.document.with.error.exist";
         public static final String ERROR_RECORDS_NO_SELECTED = "error.document.records_no_selected";
         public static final String ERROR_CHECKBOX_MUST_BE_CHECKED = "error.checkbox.must.be.checked";
-        public static final String ERROR_GLOBAL_REPLACE_SEARCH_CRITERIA="error.global.replace.empty.fields";
+        public static final String ERROR_GLOBAL_REPLACE_SEARCH_CRITERIA = "error.global.replace.empty.fields";
     }
 
     public static class EquipmentLoanOrReturn {
@@ -226,11 +227,11 @@ public class CamsKeyConstants {
         public static final String ERROR_ZERO_OR_NEGATIVE_LOCATION_QUANTITY = "error.zero.or.negative.location.quantity";
         public static final String ERROR_SEPARATE_ASSET_BELOW_THRESHOLD = "error.separate.asset.below.threshold";
     }
-        
+
     public static class Asset {
-        public static final String ERROR_INVALID_SALVAGE_AMOUNT="error.asset.salvage.amount.not.valid";
+        public static final String ERROR_INVALID_SALVAGE_AMOUNT = "error.asset.salvage.amount.not.valid";
     }
-    
+
     public static class AssetRepairHistory {
         public static final String ERROR_DUPLICATE_INCIDENT_DATE = "error.duplicate.incident.date";
     }

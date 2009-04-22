@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.cam.document.validation.impl;
 
 import java.sql.Date;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,7 +27,6 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -60,11 +58,16 @@ public class AssetPaymentPostingDateValidation extends GenericValidation {
         AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) getAccountingLineForValidation();
         Date expenditureFinancialDocumentPostedDate = assetPaymentDetail.getExpenditureFinancialDocumentPostedDate();
         if (expenditureFinancialDocumentPostedDate != null) {
+            // check if date is after today
+            java.util.Date today = dateTimeService.getCurrentDate();
+            if (expenditureFinancialDocumentPostedDate.after(today)) {
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, CamsKeyConstants.Payment.ERROR_POSTING_DATE_FUTURE_NOT_ALLOWED);
+                return false;
+            }
             Map<String, Object> keyToFind = new HashMap<String, Object>();
             keyToFind.put(KFSPropertyConstants.UNIVERSITY_DATE, expenditureFinancialDocumentPostedDate);
+            UniversityDate universityDate = (UniversityDate) businessObjectService.findByPrimaryKey(UniversityDate.class, keyToFind);
 
-            UniversityDate universityDate = (UniversityDate)businessObjectService.findByPrimaryKey(UniversityDate.class, keyToFind);
-            
             if (universityDate == null) {
                 String label = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE).getLabel();
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, KFSKeyConstants.ERROR_EXISTENCE, label);
@@ -77,13 +80,14 @@ public class AssetPaymentPostingDateValidation extends GenericValidation {
                 valid = false;
             }
             if (valid) {
-                assetPaymentService.extractPostedDatePeriod(assetPaymentDetail);                 
-            }            
-        } else {
+                assetPaymentService.extractPostedDatePeriod(assetPaymentDetail);
+            }
+        }
+        else {
             String label = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE).getLabel();
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, KFSKeyConstants.ERROR_REQUIRED,label);
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, KFSKeyConstants.ERROR_REQUIRED, label);
             valid = false;
-        }            
+        }
         return valid;
     }
 

@@ -20,10 +20,14 @@ import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleB
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kim.bo.Person;
 
 public class CustomerInvoiceRecurrenceInitiatorValidation extends GenericValidation {
     
@@ -39,8 +43,20 @@ public class CustomerInvoiceRecurrenceInitiatorValidation extends GenericValidat
         if (customerInvoiceDocument.getNoRecurrenceDataFlag())
             return true;
         
-        if (ObjectUtils.isNull(customerInvoiceDocument.getCustomerInvoiceRecurrenceDetails().getDocumentInitiatorUserIdentifier())) {
+        String initiatorUserIdentifier = customerInvoiceDocument.getCustomerInvoiceRecurrenceDetails().getDocumentInitiatorUserIdentifier();
+        if (ObjectUtils.isNull(initiatorUserIdentifier)) {
             GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DOCUMENT_RECURRENCE_INITIATOR, ArKeyConstants.ERROR_INVOICE_RECURRENCE_INITIATOR_IS_REQUIRED);
+            return false;
+        }
+
+        DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer("INVR");
+        Person person = org.kuali.rice.kim.service.KIMServiceLocator.getPersonService().getPerson(initiatorUserIdentifier);
+        if (person == null) {
+            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DOCUMENT_RECURRENCE_INITIATOR, ArKeyConstants.ERROR_INVOICE_RECURRENCE_INITIATOR_DOES_NOT_EXIST);
+            return false;
+        }
+        if (!documentAuthorizer.canInitiate("INVR", person)) {
+            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DOCUMENT_RECURRENCE_INITIATOR, ArKeyConstants.ERROR_INVOICE_RECURRENCE_INITIATOR_IS_NOT_AUTHORIZED);
             return false;
         }
         return true;

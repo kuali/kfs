@@ -64,6 +64,8 @@ public class ArKeyConstants {
     public static final String ERROR_END_DATE_AND_TOTAL_NUMBER_OF_RECURRENCES_NOT_VALID = "error.document.invoiceRecurrenceMaintenance.endDateAndTotalNumberOfRecurrencesNotValid";
     public static final String ERROR_INVOICE_RECURRENCE_INTERVAL_CODE_IS_REQUIRED = "error.document.invoiceRecurrenceMaintenance.intervalCodeIsRequired";
     public static final String ERROR_INVOICE_RECURRENCE_INITIATOR_IS_REQUIRED = "error.document.invoiceRecurrenceMaintenance.initiatorIsRequired";
+    public static final String ERROR_INVOICE_RECURRENCE_INITIATOR_DOES_NOT_EXIST = "error.document.invoiceRecurrenceMaintenance.initiatorDoesNotExist";
+    public static final String ERROR_INVOICE_RECURRENCE_INITIATOR_IS_NOT_AUTHORIZED = "error.document.invoiceRecurrenceMainitenance.initiatorIsNotAuthorized";
     public static final String ERROR_INVOICE_RECURRENCE_DATA_SUFFICIENCY = "error.document.invoiceRecurrenceMaintenance.notEnoughDataToGenerateRecurrence";
     public static final String ERROR_INVOICE_RECURRENCE_ACTIVE_MUST_BE_TRUE = "error.document.invoiceRecurrenceMaintenance.activeIndicatorMustBeTrue";
 

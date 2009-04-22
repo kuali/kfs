@@ -199,7 +199,7 @@
 	<bean id="SearchingAttribute-customerPaymentMediumCode"
 		class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
 		<property name="businessObjectClassName"
-			value="org.kuali.kfs.module.ar.businessobject.PaymentMedium" />
+			value="org.kuali.kfs.module.ar.document.CashControlDocument" />
 		<property name="attributeName"
 			value="customerPaymentMediumCode" />
 		<property name="showAttributeInSearchCriteria" value="true" />

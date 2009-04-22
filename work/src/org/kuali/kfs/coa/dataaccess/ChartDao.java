@@ -40,13 +40,6 @@ public interface ChartDao {
     public Chart getUniversityChart();
 
     /**
-     * This method retrieves the All University Chart objects
-     * 
-     * @return University's chart object
-     */
-    public Collection getAllUniversityCharts();
-
-    /**
      * This method retrieves a given Chart based on it's primary key
      * 
      * @param chartOfAccountsCode

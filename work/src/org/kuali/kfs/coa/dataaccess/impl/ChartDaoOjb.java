@@ -24,9 +24,12 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.dataaccess.ChartDao;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.service.ParameterService;
 
 /**
  * This class is the OJB implementation of the ChartDao interface.
@@ -34,6 +37,7 @@ import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 public class ChartDaoOjb extends PlatformAwareDaoBaseOjb implements ChartDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ChartDaoOjb.class);
+    private ParameterService parameterService;
 
     /**
      * @see org.kuali.kfs.coa.dataaccess.ChartDao#getAll()
@@ -50,20 +54,19 @@ public class ChartDaoOjb extends PlatformAwareDaoBaseOjb implements ChartDao {
      * @see org.kuali.kfs.coa.dataaccess.ChartDao#getUniversityChart()
      */
     public Chart getUniversityChart() {
-        Criteria criteria = new Criteria();
-        criteria.addEqualToField("FIN_COA_CD", "RPTS_TO_FIN_COA_CD");
-        return (Chart) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Chart.class, criteria)).iterator().next();
-    }
+        // 1. find the organization with the type which reports to itself
+        final String organizationReportsToSelfParameterValue = getParameterService().getParameterValue(Organization.class, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES);
+        Criteria orgCriteria = new Criteria();
+        orgCriteria.addEqualTo("organizationTypeCode", organizationReportsToSelfParameterValue);
+        orgCriteria.addEqualTo("active", KFSConstants.ACTIVE_INDICATOR);
+        
+        Iterator organizations = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Organization.class, orgCriteria)).iterator();
+        Organization topDogOrg = null;
+        while (organizations.hasNext()) {
+            topDogOrg = (Organization)organizations.next();
+        }
 
-    /**
-     * @see org.kuali.kfs.coa.dataaccess.ChartDao#getAllUniversityCharts()
-     */
-    public Collection getAllUniversityCharts() {
-        Criteria criteria = new Criteria();
-        criteria.addEqualToField("FIN_COA_CD", "RPTS_TO_FIN_COA_CD");
-        Collection charts = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Chart.class, criteria));
-        List chartList = new ArrayList(charts);
-        return chartList;
+        return getByPrimaryId(topDogOrg.getChartOfAccountsCode());
     }
 
     /**
@@ -92,6 +95,22 @@ public class ChartDaoOjb extends PlatformAwareDaoBaseOjb implements ChartDao {
             chartResponsibilities.add(chart);
         }
         return chartResponsibilities;
+    }
+
+    /**
+     * Gets the parameterService attribute. 
+     * @return Returns the parameterService.
+     */
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    /**
+     * Sets the parameterService attribute value.
+     * @param parameterService The parameterService to set.
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }
 

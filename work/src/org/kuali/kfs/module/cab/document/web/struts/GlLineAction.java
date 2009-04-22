@@ -72,25 +72,16 @@ public class GlLineAction extends CabActionBase {
         // fieldValues.put(CabPropertyConstants.ACTIVE, true);
         Collection<GeneralLedgerEntry> entries = boService.findMatchingOrderBy(GeneralLedgerEntry.class, fieldValues, CabPropertyConstants.GeneralLedgerEntry.GENERAL_LEDGER_ACCOUNT_IDENTIFIER, true);
         List<GeneralLedgerEntry> fullList = new ArrayList<GeneralLedgerEntry>();
-        List<GeneralLedgerEntry> inactiveList = new ArrayList<GeneralLedgerEntry>();
         // make the default one as the first one
         entry.setSelected(true);
         fullList.add(0, entry);
 
         for (GeneralLedgerEntry generalLedgerEntry : entries) {
             if (!generalLedgerEntry.getGeneralLedgerAccountIdentifier().equals(entry.getGeneralLedgerAccountIdentifier())) {
-                if (generalLedgerEntry.isActive()) {
-                    generalLedgerEntry.setSelected(false);
-                    fullList.add(generalLedgerEntry);
-                }
-                else {
-                    generalLedgerEntry.setSelected(false);
-                    inactiveList.add(generalLedgerEntry);
-                }
+                generalLedgerEntry.setSelected(false);
+                fullList.add(generalLedgerEntry);
             }
         }
-        // merge lists
-        fullList.addAll(inactiveList);
         glLineForm.setRelatedGlEntries(fullList);
         glLineForm.setPrimaryGlAccountId(entry.getGeneralLedgerAccountIdentifier());
         CapitalAssetInformation capitalAssetInformation = glLineService.findCapitalAssetInformation(entry);
@@ -159,7 +150,6 @@ public class GlLineAction extends CabActionBase {
         }
 
         Document maintDoc = glLineService.createAssetGlobalDocument(submitList, defaultGeneralLedgerEntry);
-
         List<GeneralLedgerEntry> pendingList = new ArrayList<GeneralLedgerEntry>();
         preparePendingForAction(mapping, request, glLineForm, maintDoc, pendingList);
         if (!pendingList.isEmpty()) {
@@ -202,7 +192,7 @@ public class GlLineAction extends CabActionBase {
         List<GeneralLedgerEntry> submitList = new ArrayList<GeneralLedgerEntry>();
         if (defaultGeneralLedgerEntry != null) {
             defaultGeneralLedgerEntry.setSelected(true);
-            submitList.add(defaultGeneralLedgerEntry);
+            // submitList.add(defaultGeneralLedgerEntry);
             List<GeneralLedgerEntry> relatedGlEntries = glLineForm.getRelatedGlEntries();
             for (GeneralLedgerEntry generalLedgerEntry : relatedGlEntries) {
                 if (generalLedgerEntry.isSelected()) {

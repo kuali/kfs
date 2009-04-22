@@ -123,7 +123,6 @@
 		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.referenceFinancialDocumentNumber}" hideRequiredAsterisk="true" scope="col"/>
 		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.amount}" hideRequiredAsterisk="true" scope="col"/>
 				</tr>
-		<html:hidden property="primaryGlAccountId"/>
 		<c:set var="pos" value="-1" />		   			 
     	<c:forEach var="entry" items="${KualiForm.relatedGlEntries}">
 	 	<c:set var="pos" value="${pos+1}" />    	
@@ -141,7 +140,6 @@
 						<html:checkbox styleId="glselect" property="relatedGlEntry[${pos}].selected"/>
 					</c:otherwise>
 					</c:choose>
-					<html:hidden property="relatedGlEntry[${pos}].generalLedgerAccountIdentifier"/>
 				</td>
 				<td class="grid"><kul:htmlControlAttribute property="relatedGlEntry[${pos}].universityFiscalYear" 
 				attributeEntry="${entryAttributes.universityFiscalYear}" readOnly="true"/></td>

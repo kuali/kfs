@@ -163,10 +163,13 @@ public class GlLineForm extends KualiForm {
     @Override
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         super.reset(mapping, request);
-        this.relatedGlEntries.clear();
-        this.primaryGlAccountId = null;
-        this.capitalAssetInformation = null;
         this.selectAllGlEntries = false;
         this.currDocNumber = null;
+    }
+
+    @Override
+    public boolean getIsNewForm() {
+        // TODO hack for now
+        return true;
     }
 }

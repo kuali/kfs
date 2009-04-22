@@ -220,34 +220,34 @@
   <bean id="PurApGenericAttributes-requisitionStatus-parentBean" abstract="true" parent="RequisitionStatus-statusCode">
     <property name="name" value="requisitionStatus" />
     <property name="label" value="Requisition Status" />
-    <property name="shortLabel" value="REQ Status" />
+    <property name="shortLabel" value="Requisition Status" />
   </bean>
   <bean id="PurApGenericAttributes-purchaseOrderStatus" parent="PurApGenericAttributes-purchaseOrderStatus-parentBean" />
 
   <bean id="PurApGenericAttributes-purchaseOrderStatus-parentBean" abstract="true" parent="PurchaseOrderStatus-statusCode">
     <property name="name" value="purchaseOrderStatus" />
     <property name="label" value="Purchase Order Status" />
-    <property name="shortLabel" value="PO Status" />
+    <property name="shortLabel" value="Purchase Order Status" />
   </bean>
   <bean id="PurApGenericAttributes-paymentRequestStatus" parent="PurApGenericAttributes-paymentRequestStatus-parentBean" />
 
   <bean id="PurApGenericAttributes-paymentRequestStatus-parentBean" abstract="true" parent="PaymentRequestStatus-statusCode">
     <property name="name" value="paymentRequestStatus" />
     <property name="label" value="Payment Request Status" />
-    <property name="shortLabel" value="PREQ Status" />
+    <property name="shortLabel" value="Payment Request Status" />
   </bean>
   <bean id="PurApGenericAttributes-creditMemoStatus" parent="PurApGenericAttributes-creditMemoStatus-parentBean" />
 
   <bean id="PurApGenericAttributes-creditMemoStatus-parentBean" abstract="true" parent="CreditMemoStatus-statusCode">
     <property name="name" value="creditMemoStatus" />
     <property name="label" value="Credit Memo Status" />
-    <property name="shortLabel" value="CM Status" />
+    <property name="shortLabel" value="Credit Memo Status" />
   </bean>
   <bean id="PurApGenericAttributes-extractedTimestamp" parent="PurApGenericAttributes-extractedTimestamp-parentBean" />
 
   <bean id="PurApGenericAttributes-extractedTimestamp-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
     <property name="name" value="extractedTimestamp" />
-    <property name="label" value="Extracted For Payment Indicator" />
+    <property name="label" value="Extracted For Payment" />
     <property name="shortLabel" value="Extracted" />
   </bean>
   <bean id="PurApGenericAttributes-paymentPaidTimestamp" parent="PurApGenericAttributes-paymentPaidTimestamp-parentBean" />

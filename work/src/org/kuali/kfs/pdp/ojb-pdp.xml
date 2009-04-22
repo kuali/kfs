@@ -177,7 +177,7 @@
     <field-descriptor name="physCampusProcCode" column="PHYS_CMP_PROC_CD" jdbc-type="VARCHAR" primarykey="true"/>
     <field-descriptor name="disbursementTypeCode" column="DISB_TYP_CD" jdbc-type="VARCHAR" primarykey="true"/>
     <field-descriptor name="bankCode" column="BNK_CD" jdbc-type="VARCHAR" primarykey="true"/>
-    <field-descriptor name="disbNbrRangeStartDt" column="DISB_NBR_RNG_START_DT" jdbc-type="TIMESTAMP" primarykey="true"/>
+    <field-descriptor name="disbNbrRangeStartDt" column="DISB_NBR_RNG_START_DT" jdbc-type="DATE" primarykey="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="beginDisbursementNbr" column="BEG_DISB_NBR" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />

@@ -19,7 +19,7 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.pdp.PdpPropertyConstants;
@@ -38,7 +38,7 @@ public class DisbursementNumberRange extends PersistableBusinessObjectBase imple
     private KualiInteger beginDisbursementNbr;
     private KualiInteger lastAssignedDisbNbr;
     private KualiInteger endDisbursementNbr;
-    private Timestamp disbNbrRangeStartDt;
+    private Date disbNbrRangeStartDt;
     private String bankCode;
     private String disbursementTypeCode;
     private boolean active;
@@ -217,7 +217,7 @@ public class DisbursementNumberRange extends PersistableBusinessObjectBase imple
      * 
      * @return Returns the disbNbrRangeStartDt.
      */
-    public Timestamp getDisbNbrRangeStartDt() {
+    public Date getDisbNbrRangeStartDt() {
         return disbNbrRangeStartDt;
     }
 
@@ -226,7 +226,7 @@ public class DisbursementNumberRange extends PersistableBusinessObjectBase imple
      * 
      * @param disbNbrRangeStartDt The disbNbrRangeStartDt to set.
      */
-    public void setDisbNbrRangeStartDt(Timestamp disbNbrRangeStartDt) {
+    public void setDisbNbrRangeStartDt(Date disbNbrRangeStartDt) {
         this.disbNbrRangeStartDt = disbNbrRangeStartDt;
     }
 

@@ -1027,11 +1027,20 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         if (nonAppliedHoldings == null) {
             throw new IllegalArgumentException("A null value for the parameter [nonAppliedHoldings] was passed in.");
         }
-        if (amountToBeApplied == null || amountToBeApplied.isNegative()) {
-            throw new IllegalArgumentException("A null or negative value for the parameter [amountToBeApplied] was passed in.");
+        if (amountToBeApplied == null) {
+            throw new IllegalArgumentException("A null ovalue for the parameter [amountToBeApplied] was passed in.");
         }
         if (isFinal()) {
             throw new UnsupportedOperationException("This method should not be used when the document has been approved/gone to final.");
+        }
+        
+        // special-case the situation where the amountToBeApplied is negative, then make all allocations zero
+        if (amountToBeApplied.isNegative()) {
+            Map<String,KualiDecimal> allocations = new HashMap<String,KualiDecimal>();
+            for (NonAppliedHolding nonAppliedHolding : nonAppliedHoldings) {
+                allocations.put(nonAppliedHolding.getReferenceFinancialDocumentNumber(), KualiDecimal.ZERO);
+            }
+            return allocations;
         }
         
         Map<String,KualiDecimal> allocations = new HashMap<String,KualiDecimal>();

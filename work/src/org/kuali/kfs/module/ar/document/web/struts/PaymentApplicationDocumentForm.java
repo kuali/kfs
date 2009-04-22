@@ -294,8 +294,22 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         this.enteredInvoiceDocumentNumber = enteredInvoiceDocumentNumber;
     }
 
+    /**
+     * 
+     * This special casing for negative applieds is a display issue.  We basically dont 
+     * want to ever display that they applied a negative amount, even while they may 
+     * have an unsaved document with negative applications that are failing validations.
+     * 
+     * @return
+     */
     public KualiDecimal getTotalApplied() {
-        return getPaymentApplicationDocument().getTotalApplied();
+        KualiDecimal totalApplied = getPaymentApplicationDocument().getTotalApplied();
+        if (totalApplied.isPositive()) {
+            return totalApplied;
+        }
+        else {
+            return KualiDecimal.ZERO;
+        }
     }
     
     public KualiDecimal getUnallocatedBalance() {

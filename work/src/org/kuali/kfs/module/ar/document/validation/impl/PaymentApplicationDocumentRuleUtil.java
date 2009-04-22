@@ -78,6 +78,13 @@ public class PaymentApplicationDocumentRuleUtil {
             GlobalVariables.getErrorMap().putError(
                 fieldName,ArKeyConstants.PaymentApplicationDocumentErrors.CANNOT_APPLY_MORE_THAN_CASH_CONTROL_TOTAL_AMOUNT);
         }
+        
+        //  cant apply negative amounts
+        if (amountPaid.isNegative()) {
+            isValid = false;
+            GlobalVariables.getErrorMap().putError(
+                    fieldName,ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_MUST_BE_POSTIIVE);
+        }
         return isValid;
     }
     
@@ -202,6 +209,12 @@ public class PaymentApplicationDocumentRuleUtil {
                     ArPropertyConstants.PaymentApplicationDocumentFields.NON_INVOICED_LINE_AMOUNT,
                     ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_CANNOT_BE_ZERO);
             }
+            else if (nonArLineAmount.isNegative()) {
+                isValid = false;
+                errorMap.putError(
+                    ArPropertyConstants.PaymentApplicationDocumentFields.NON_INVOICED_LINE_AMOUNT,
+                    ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_MUST_BE_POSTIIVE);
+            }
             //  check that we're not trying to apply more funds to the invoice than the invoice has balance (ie, over-applying)
             else if (KualiDecimal.ZERO.isGreaterThan(cashControlBalanceToBeApplied.subtract(nonArLineAmount))) {
                 isValid = false;
@@ -303,6 +316,14 @@ public class PaymentApplicationDocumentRuleUtil {
             if(!isValid) {
                 String propertyName = ArPropertyConstants.PaymentApplicationDocumentFields.UNAPPLIED_AMOUNT;
                 String errorKey = ArKeyConstants.PaymentApplicationDocumentErrors.UNAPPLIED_AMOUNT_CANNOT_EXCEED_BALANCE_TO_BE_APPLIED;
+                GlobalVariables.getErrorMap().putError(propertyName, errorKey);
+            }
+            
+            //  the unapplied amount cannot be negative
+            isValid = nonAppliedAmount.isPositive() || nonAppliedAmount.isZero();
+            if (!isValid) {
+                String propertyName = ArPropertyConstants.PaymentApplicationDocumentFields.UNAPPLIED_AMOUNT;
+                String errorKey = ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_MUST_BE_POSTIIVE;
                 GlobalVariables.getErrorMap().putError(propertyName, errorKey);
             }
             return isValid;

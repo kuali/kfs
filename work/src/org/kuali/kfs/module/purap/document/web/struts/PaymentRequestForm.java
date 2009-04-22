@@ -17,6 +17,8 @@ package org.kuali.kfs.module.purap.document.web.struts;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants.PaymentRequestEditMode;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
@@ -193,6 +195,18 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
         can = can || editingMode.containsKey(PaymentRequestEditMode.TAX_AREA_EDITABLE);
         
         return can;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#shouldMethodToCallParameterBeUsed(java.lang.String, java.lang.String, javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
+        if (KNSConstants.DISPATCH_REQUEST_PARAMETER.equals(methodToCallParameterName) && 
+           ("changeUseTaxIndicator".equals(methodToCallParameterValue))) {
+            return true;
+        }
+        return super.shouldMethodToCallParameterBeUsed(methodToCallParameterName, methodToCallParameterValue, request);
     }
 
 }

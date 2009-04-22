@@ -824,15 +824,10 @@ public class PurapServiceImpl implements PurapService {
      */
     public void clearTax(PurchasingAccountsPayableDocument purapDocument, boolean useTax){
         for (PurApItem item : purapDocument.getItems()) {
-            if(item.getItemType().isLineItemIndicator()) {
-                //FIXME: only do above the line right now, if we tax below the line we need to change this
-
-                if(useTax) {
-                    item.getUseTaxItems().clear();
-                } else {
-                    item.setItemTaxAmount(null);
-                }
-                
+            if(useTax) {
+                item.getUseTaxItems().clear();
+            } else {
+                item.setItemTaxAmount(null);
             }
         }
     }

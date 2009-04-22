@@ -41,6 +41,7 @@
 <%@ attribute name="colSpanItemType" required="true" %>
 
 <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] && (empty KualiForm.editingMode['restrictFiscalEntry'])}" />
+<c:set var="lockTaxAmountEntry" value="${(not empty KualiForm.editingMode['lockTaxAmountEntry']) || !fullEntryMode}" />
 <c:set var="tabindexOverrideBase" value="50" />
 
 <c:if test="${empty overrideTitle}">
@@ -59,6 +60,7 @@
 <!--  hit form method to increment tab index -->
 <c:set var="dummyIncrementer" value="${kfunc:incrementTabIndex(KualiForm, tabKey)}" />
 <c:set var="currentTab" value="${kfunc:getTabState(KualiForm, tabKey)}" />
+<c:set var="purapTaxEnabled" value="${(not empty KualiForm.editingMode['purapTaxEnabled'])}" />
 
 <%-- default to open --%>
 <c:choose>
@@ -117,6 +119,12 @@
 				attributeEntry="${itemAttributes.itemDescription}" />
 			<kul:htmlAttributeHeaderCell colspan="${colSpanExtendedPrice}"
 				attributeEntry="${itemAttributes.extendedPrice}" />
+
+			<c:if test="${purapTaxEnabled}">
+			    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTaxAmount}" />				
+			    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.totalAmount}" />
+			</c:if>
+				
 			<c:if test="${colSpanBlank > 0}">
 				<th colspan="${colSpanBlank}">&nbsp;</th>
 			</c:if>
@@ -124,6 +132,12 @@
 	    <c:otherwise>
 			<kul:htmlAttributeHeaderCell colspan="${colSpanExtendedPrice}"
 				attributeEntry="${itemAttributes.extendedPrice}" />
+
+			<c:if test="${purapTaxEnabled}">
+			    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTaxAmount}" />				
+			    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.totalAmount}" />
+			</c:if>
+				
 			<kul:htmlAttributeHeaderCell colspan="${colSpanDescription}"
 				attributeEntry="${itemAttributes.itemDescription}" />
 			<c:if test="${colSpanBlank > 0}">
@@ -179,6 +193,36 @@
 							<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitPrice}" property="document.item[${ctr}].itemUnitPrice" readOnly="${not (fullEntryMode or amendmentEntry)}" styleClass="amount" tabindexOverride="${tabindexOverrideBase + 0}"/>
 						</div>
 					</td>
+					
+					<c:choose>
+					<c:when test="${purapTaxEnabled and itemLine.itemType.taxableIndicator}">
+					<td class="infoline">
+	 				    <div align="right">	 				        
+	 				        <kul:htmlControlAttribute
+						        attributeEntry="${itemAttributes.itemTaxAmount}"
+						        property="document.item[${ctr}].itemTaxAmount" readOnly="${lockTaxAmountEntry}" 
+						        tabindexOverride="${tabindexOverrideBase + 0}"/>	 				        
+						</div>
+					</td>				
+					<td class="infoline">
+	 				    <div align="right">
+	 				        <kul:htmlControlAttribute
+						        attributeEntry="${itemAttributes.totalAmount}"
+						        property="document.item[${ctr}].totalAmount" readOnly="true" 
+						        tabindexOverride="${tabindexOverrideBase + 0}"/>		 				        
+						</div>
+					</td>
+					</c:when>
+					<c:otherwise>
+					<td class="infoline">
+	 				    &nbsp;	 				        
+					</td>				
+					<td class="infoline">
+	 				    &nbsp;
+					</td>					
+					</c:otherwise>					
+					</c:choose>
+					
 					<c:if test="${colSpanBlank > 0}">
 					
 					<td colspan="${colSpanBlank}" class="infoline">
@@ -193,6 +237,36 @@
 							<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitPrice}" property="document.item[${ctr}].itemUnitPrice" readOnly="${not (fullEntryMode or amendmentEntry)}" styleClass="amount" tabindexOverride="${tabindexOverrideBase + 0}"/>
 						</div>
 					</td>
+
+					<c:choose>
+					<c:when test="${purapTaxEnabled and itemLine.itemType.taxableIndicator}">
+					<td class="infoline">
+	 				    <div align="right">	 				        
+	 				        <kul:htmlControlAttribute
+						        attributeEntry="${itemAttributes.itemTaxAmount}"
+						        property="document.item[${ctr}].itemTaxAmount" readOnly="${lockTaxAmountEntry}" 
+						        tabindexOverride="${tabindexOverrideBase + 0}"/>	 				        
+						</div>
+					</td>				
+					<td class="infoline">
+	 				    <div align="right">
+	 				        <kul:htmlControlAttribute
+						        attributeEntry="${itemAttributes.totalAmount}"
+						        property="document.item[${ctr}].totalAmount" readOnly="true" 
+						        tabindexOverride="${tabindexOverrideBase + 0}"/>		 				        
+						</div>
+					</td>
+					</c:when>
+					<c:otherwise>
+					<td class="infoline">
+	 				    &nbsp;	 				        
+					</td>				
+					<td class="infoline">
+	 				    &nbsp;
+					</td>					
+					</c:otherwise>					
+					</c:choose>
+					
 					<td class="infoline" colspan="${colSpanDescription}">
 						<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="document.item[${ctr}].itemDescription" readOnly="${not (fullEntryMode or amendmentEntry)}" tabindexOverride="${tabindexOverrideBase + 0}"/></td>
 					<c:if test="${colSpanBlank > 0}">

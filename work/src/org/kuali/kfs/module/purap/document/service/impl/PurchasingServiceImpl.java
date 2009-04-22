@@ -226,8 +226,9 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
     }
 
     public boolean getDefaultUseTaxIndicatorValue(PurchasingDocument purDoc) {
-
-        VendorDetail vendor = purDoc.getVendorDetail();
+        
+        purDoc.refreshReferenceObject("vendorDetail");
+        VendorDetail vendor = purDoc.getVendorDetail();        
         if (vendor != null) {
             String vendorStateCode = vendor.getDefaultAddressStateCode();
             String billingStateCode = purDoc.getBillingStateCode();

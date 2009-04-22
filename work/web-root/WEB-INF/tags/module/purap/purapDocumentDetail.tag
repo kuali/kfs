@@ -163,7 +163,7 @@
                 property="document.useTaxIndicator"
                 attributeEntry="${documentAttributes.useTaxIndicator}"
                 readOnly="true"/>&nbsp;
-            <c:if test="${fullEntryMode}">          
+            <c:if test="${fullEntryMode and paymentRequest}">          
                 <html:image property="methodToCall.changeUseTaxIndicator" src="${ConfigProperties.externalizable.images.url}tinybutton-${useTaxIndicatorButton}.gif" alt="Change Use Tax Indicator" title="Change Use Tax Indicator" styleClass="tinybutton"  tabindex="${tabindexOverrideBase + 0}" />
             </c:if>
         </td>

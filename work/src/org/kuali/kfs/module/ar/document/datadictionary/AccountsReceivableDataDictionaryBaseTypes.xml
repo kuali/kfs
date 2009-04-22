@@ -331,7 +331,7 @@
 			ref="SearchingAttribute-documentStatus-criteriaOnly" />
 		<property name="documentValues">
 			<list>
-				<value>documentStatus</value>
+				<value>accountsReceivableDocumentHeader.documentStatus</value>
 			</list>
 		</property>
 	</bean>

@@ -21,7 +21,10 @@ import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.kfs.sys.businessobject.AccountingLineBase;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.document.PurchasingDocument;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -34,7 +37,6 @@ import org.kuali.rice.kew.docsearch.SearchableAttributeStringValue;
 import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.datadictionary.DataDictionaryEntry;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.lookup.LookupUtils;
@@ -154,49 +156,82 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
             searchAttrValues.add(searchableAttributeValue);
         }
         
-        
         if (doc instanceof AccountingDocument) {
-            AccountingDocument accountingDoc = (AccountingDocument)doc; 
-           
-            for (Iterator itr = accountingDoc.getSourceAccountingLines().iterator(); itr.hasNext();) {
-                AccountingLineBase alb = (AccountingLineBase)itr.next();
-                
-                SearchableAttributeStringValue searchableAttributeValue = new SearchableAttributeStringValue();
-                searchableAttributeValue.setSearchableAttributeKey("chartOfAccountsCode");
-                searchableAttributeValue.setSearchableAttributeValue(alb.getChartOfAccountsCode());
-                searchAttrValues.add(searchableAttributeValue);
-                
-                searchableAttributeValue = new SearchableAttributeStringValue();
-                searchableAttributeValue.setSearchableAttributeKey("accountNumber");
-                searchableAttributeValue.setSearchableAttributeValue(alb.getAccountNumber());
-                searchAttrValues.add(searchableAttributeValue);
-                
-                searchableAttributeValue = new SearchableAttributeStringValue();
-                searchableAttributeValue.setSearchableAttributeKey("organizationCode");
-                searchableAttributeValue.setSearchableAttributeValue(alb.getAccount().getOrganizationCode());
-                searchAttrValues.add(searchableAttributeValue);
-            }
-            for (Iterator itr = accountingDoc.getTargetAccountingLines().iterator(); itr.hasNext();) {
-                AccountingLineBase alb = (AccountingLineBase)itr.next();
-              
-                SearchableAttributeStringValue searchableAttributeValue = new SearchableAttributeStringValue();
-                searchableAttributeValue.setSearchableAttributeKey("chartOfAccountsCode");
-                searchableAttributeValue.setSearchableAttributeValue(alb.getChartOfAccountsCode());
-                searchAttrValues.add(searchableAttributeValue);
-                
-                searchableAttributeValue = new SearchableAttributeStringValue();
-                searchableAttributeValue.setSearchableAttributeKey("accountNumber");
-                searchableAttributeValue.setSearchableAttributeValue(alb.getAccountNumber());
-                searchAttrValues.add(searchableAttributeValue);
-                
-                searchableAttributeValue = new SearchableAttributeStringValue();
-                searchableAttributeValue.setSearchableAttributeKey("organizationCode");
-                searchableAttributeValue.setSearchableAttributeValue(alb.getAccount().getOrganizationCode());
-                searchAttrValues.add(searchableAttributeValue);
+            if (doc instanceof PurchasingDocument) {
+                PurchasingDocument purchasingDoc = (PurchasingDocument)doc;
+                searchAttrValues.addAll(harvestPurchasingDocumentSearchableAttributes(purchasingDoc));
+            } else {
+                AccountingDocument accountingDoc = (AccountingDocument)doc;
+                searchAttrValues.addAll(harvestAccountingDocumentSearchableAttributes(accountingDoc));
             }
         }
        
         return searchAttrValues;
+    }
+    
+    /**
+     * Harvest chart of accounts code, account number, and organization code as searchable attributes from an accounting document
+     * @param accountingDoc the accounting document to pull values from
+     * @return a List of searchable values
+     */
+    protected List<SearchableAttributeValue> harvestAccountingDocumentSearchableAttributes(AccountingDocument accountingDoc) {
+        List<SearchableAttributeValue> searchAttrValues = new ArrayList<SearchableAttributeValue>();
+        
+        for (Iterator itr = accountingDoc.getSourceAccountingLines().iterator(); itr.hasNext();) {
+            AccountingLine accountingLine = (AccountingLine)itr.next();
+            addSearchableAttributesForAccountingLine(searchAttrValues, accountingLine);
+        }
+        for (Iterator itr = accountingDoc.getTargetAccountingLines().iterator(); itr.hasNext();) {
+            AccountingLine accountingLine = (AccountingLine)itr.next();
+            addSearchableAttributesForAccountingLine(searchAttrValues, accountingLine);
+        }
+        
+        return searchAttrValues;
+    }
+    
+    /**
+     * Harvest chart of accounts code, account number, and organization code as searchable attributes from an purchasing document
+     * @param purchasingDoc the purchasing document to pull values from
+     * @return a List of searchable values
+     */
+    protected List<SearchableAttributeValue> harvestPurchasingDocumentSearchableAttributes(PurchasingDocument purchasingDoc) {
+        List<SearchableAttributeValue> searchAttrValues = new ArrayList<SearchableAttributeValue>();
+        
+        Iterator itemIter = purchasingDoc.getItems().iterator();
+        while (itemIter.hasNext()) {
+            final PurApItem item = (PurApItem)itemIter.next();
+            Iterator accountingLineIter = item.getSourceAccountingLines().iterator();
+            while (accountingLineIter.hasNext()) {
+                AccountingLine accountingLine = (AccountingLine)accountingLineIter.next();
+                
+                addSearchableAttributesForAccountingLine(searchAttrValues, accountingLine);
+            }
+        }
+        
+        return searchAttrValues;
+    }
+    
+    /**
+     * Pulls the default searchable attributes - chart code, account number, and account organization code - from a given accounting line and populates
+     * the searchable attribute values in the given list
+     * @param searchAttrValues a List of SearchableAttributeValue objects to populate
+     * @param accountingLine an AccountingLine to get values from
+     */
+    protected void addSearchableAttributesForAccountingLine(List<SearchableAttributeValue> searchAttrValues, AccountingLine accountingLine) {
+        SearchableAttributeStringValue searchableAttributeValue = new SearchableAttributeStringValue();
+        searchableAttributeValue.setSearchableAttributeKey(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        searchableAttributeValue.setSearchableAttributeValue(accountingLine.getChartOfAccountsCode());
+        searchAttrValues.add(searchableAttributeValue);
+        
+        searchableAttributeValue = new SearchableAttributeStringValue();
+        searchableAttributeValue.setSearchableAttributeKey(KFSPropertyConstants.ACCOUNT_NUMBER);
+        searchableAttributeValue.setSearchableAttributeValue(accountingLine.getAccountNumber());
+        searchAttrValues.add(searchableAttributeValue);
+        
+        searchableAttributeValue = new SearchableAttributeStringValue();
+        searchableAttributeValue.setSearchableAttributeKey(KFSPropertyConstants.ORGANIZATION_CODE);
+        searchableAttributeValue.setSearchableAttributeValue(accountingLine.getAccount().getOrganizationCode());
+        searchAttrValues.add(searchableAttributeValue);
     }
     
     private Row createSearchResultReturnRow() {

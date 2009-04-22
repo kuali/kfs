@@ -235,7 +235,9 @@ public class PosterServiceImpl implements PosterService {
                         List<Message> parsingError = new ArrayList();
                         parsingError = tran.setFromTextFileForBatch(GLEN_RECORD, ecount);
                         if (parsingError.size() > 0) {
-                            throw new RuntimeException("Exception happened from parsing process");
+                            String messages = "";
+                            for(Message msg : parsingError) {messages += msg + " ";}
+                            throw new RuntimeException("Exception happened from parsing process: " + messages);
                         }
                         // need to pass ecount for building better message
                         addReporting(reportSummary, "SEQUENTIAL", GeneralLedgerConstants.SELECT_CODE);

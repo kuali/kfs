@@ -29,7 +29,7 @@
 	<html-el:hidden name="KualiForm" property="operatingModeTitle" />
 	<html-el:hidden name="KualiForm" property="budgetConstructionReportThresholdSettings.lockThreshold" />
 	
-    <kul:errors errorTitle="Errors found on Page:" />
+    <kul:errors errorTitle="Errors found on Page:" keyMatch="${BCConstants.ErrorKey.ORGANIZATION_REPORTS_SELECTION_ERRORS}"/>
     <kul:messages/>
     
     <html:hidden property="operatingModeTitle" value="${KualiForm.operatingModeTitle}" />

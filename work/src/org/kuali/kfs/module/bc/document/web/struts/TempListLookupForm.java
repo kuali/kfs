@@ -42,7 +42,7 @@ public class TempListLookupForm extends LookupForm {
     private boolean buildControlList;
     private boolean reportConsolidation;
     private boolean showInitialResults;
-    private int tempListLookupMode;
+    private int tempListLookupMode = BCConstants.TempListLookupMode.DEFAULT_LOOKUP_MODE;
     private String chartOfAccountsCode;
     private String accountNumber;
     private String subAccountNumber;

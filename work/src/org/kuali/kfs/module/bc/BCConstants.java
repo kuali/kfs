@@ -303,6 +303,7 @@ public class BCConstants extends JSTLConstants {
     public static class TempListLookupMode {
         public final static String TEMP_LIST_LOOKUP_MODE = "tempListLookupMode";
 
+        public final static int DEFAULT_LOOKUP_MODE = 0;
         public final static int INTENDED_INCUMBENT_SELECT = 1;
         public final static int POSITION_SELECT = 2;
         public final static int ACCOUNT_SELECT_ABOVE_POV = 3;

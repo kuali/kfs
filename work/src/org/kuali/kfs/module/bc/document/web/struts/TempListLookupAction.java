@@ -78,19 +78,23 @@ public class TempListLookupAction extends KualiLookupAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         TempListLookupForm tempListLookupForm = (TempListLookupForm) form;
-        Boolean isBCHeartBeating = (Boolean) GlobalVariables.getUserSession().retrieveObject(BCConstants.BC_HEARTBEAT_SESSIONFLAG);
-        if (isBCHeartBeating == null) {
-            if (tempListLookupForm.isMainWindow()){
-                Properties parameters = new Properties();
-                parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.LOAD_EXPANSION_SCREEN_METHOD_SESSION_TIMEOUT);
+        
+        // check for session heart beat only if running inside BC system
+        if (tempListLookupForm.getTempListLookupMode() != BCConstants.TempListLookupMode.DEFAULT_LOOKUP_MODE){
+            Boolean isBCHeartBeating = (Boolean) GlobalVariables.getUserSession().retrieveObject(BCConstants.BC_HEARTBEAT_SESSIONFLAG);
+            if (isBCHeartBeating == null) {
+                if (tempListLookupForm.isMainWindow()){
+                    Properties parameters = new Properties();
+                    parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.LOAD_EXPANSION_SCREEN_METHOD_SESSION_TIMEOUT);
 
-                String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.BC_SELECTION_ACTION, parameters);
+                    String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.BC_SELECTION_ACTION, parameters);
 
-                return new ActionForward(lookupUrl, true);
-            }
-            else {
-                GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_PREVIOUS_SESSION_TIMEOUT);
-                return mapping.findForward(BCConstants.MAPPING_LOST_SESSION_RETURNING);
+                    return new ActionForward(lookupUrl, true);
+                }
+                else {
+                    GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_PREVIOUS_SESSION_TIMEOUT);
+                    return mapping.findForward(BCConstants.MAPPING_LOST_SESSION_RETURNING);
+                }
             }
         }
 

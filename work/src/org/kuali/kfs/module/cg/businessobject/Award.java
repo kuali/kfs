@@ -1205,7 +1205,7 @@ public class Award extends PersistableBusinessObjectBase implements Inactivateab
     /**
      * Pretends to set the inquiry title
      */
-    public void setAwardInquiryTitle() {
+    public void setAwardInquiryTitle(String inquiryTitle) {
         // ain't nothing to do
     }
 

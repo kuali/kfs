@@ -20,7 +20,7 @@
       <list>
         <ref bean="Proposal-routingChart" />
         <ref bean="Proposal-routingOrg" />
-        <ref bean="Proposal-award.awardInquiryTitle" />
+        <!-- ref bean="Proposal-award.awardInquiryTitle" /-->
         <ref bean="Proposal-proposalOrganizations.organization.organizationCode" />
         <ref bean="Proposal-proposalSubcontractors.subcontractor.subcontractorNumber" />
         <ref bean="Proposal-proposalProjectDirectors.principalId" />
@@ -192,13 +192,13 @@
       <bean parent="HiddenControlDefinition" />
     </property>
   </bean>
-  <bean id="Proposal-award.awardInquiryTitle" parent="Proposal-award.awardInquiryTitle-parentBean" />
+  <!-- bean id="Proposal-award.awardInquiryTitle" parent="Proposal-award.awardInquiryTitle-parentBean" />
 
   <bean id="Proposal-award.awardInquiryTitle-parentBean" abstract="true" parent="Award-awardInquiryTitle">
     <property name="name" value="award.awardInquiryTitle" />
     <property name="label" value="Link to Award" />
     <property name="shortLabel" value="Award Link" />
-  </bean>
+  </bean-->
   <bean id="Proposal-proposalOrganizations.organization.organizationCode" parent="Proposal-proposalOrganizations.organization.organizationCode-parentBean" />
 
   <bean id="Proposal-proposalOrganizations.organization.organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
@@ -562,8 +562,8 @@
                     p:attributeName="proposalNumber" />
               <bean parent="FieldDefinition"
                     p:attributeName="oldProposalNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="award.awardInquiryTitle" />
+              <!-- bean parent="FieldDefinition"
+                    p:attributeName="award.awardInquiryTitle" /-->
               <bean parent="FieldDefinition"
                     p:attributeName="agencyNumber" />
               <bean parent="FieldDefinition"

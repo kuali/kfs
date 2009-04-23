@@ -32,13 +32,13 @@
     description="post the unitPrice into the extendedPrice field" %>
 <%@ attribute name="specialItemTotalType" required="false" %>
 <%@ attribute name="specialItemTotalOverride" required="false" fragment="true"
-              description="Fragment of code to specify special item total line" %>
+    description="Fragment of code to specify special item total line" %>
 <%@ attribute name="descriptionFirst" required="false" type="java.lang.Boolean"
     description="Whether or not to show item description before extended price." %>
 <%@ attribute name="mainColumnCount" required="true" %>
-<%@ attribute name="colSpanDescription" required="true" %>
-<%@ attribute name="colSpanExtendedPrice" required="true" %>
 <%@ attribute name="colSpanItemType" required="true" %>
+<%@ attribute name="colSpanExtendedPrice" required="true" %>
+<%@ attribute name="colSpanDescription" required="true" %>
 
 <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] && (empty KualiForm.editingMode['restrictFiscalEntry'])}" />
 <c:set var="lockTaxAmountEntry" value="${(not empty KualiForm.editingMode['lockTaxAmountEntry']) || !fullEntryMode}" />
@@ -90,12 +90,6 @@
 <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 	<tbody style="display: none;" id="tab-${tabKey}-div">
 </c:if>
-
-<!-- 
-<tr>
-	<td colspan="${mainColumnCount}" class="subhead"><span class="subhead-left"><c:out value="${overrideTitle}" /></span></td>
-</tr>
--->
 
 <tr>
 	<c:set var="colSpanDescription" value="${colSpanDescription}" />
@@ -223,12 +217,10 @@
 					</c:otherwise>					
 					</c:choose>
 					
-					<c:if test="${colSpanBlank > 0}">
-					
+					<c:if test="${colSpanBlank > 0}">					
 					<td colspan="${colSpanBlank}" class="infoline">
 						&nbsp;
-					</td>
-					
+					</td>					
 					</c:if>					
 				</c:when>
     			<c:otherwise>
@@ -269,12 +261,10 @@
 					
 					<td class="infoline" colspan="${colSpanDescription}">
 						<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="document.item[${ctr}].itemDescription" readOnly="${not (fullEntryMode or amendmentEntry)}" tabindexOverride="${tabindexOverrideBase + 0}"/></td>
-					<c:if test="${colSpanBlank > 0}">
-					
+					<c:if test="${colSpanBlank > 0}">					
 					<td colspan="${colSpanBlank}" class="infoline">
 						&nbsp;
-					</td>
-					
+					</td>					
 					</c:if>					
 				</c:otherwise>
 			</c:choose>

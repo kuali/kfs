@@ -100,7 +100,9 @@
 			showInvoiced="${showInvoiced}"
 			specialItemTotalType="DISC" 
 			mainColumnCount="${mainColumnCount}"
-			colSpanItemType="${colSpanItemType}" colSpanDescription="${colSpanDescription}" colSpanExtendedPrice="${colSpanExtendedPrice}">
+			colSpanItemType="${colSpanItemType}" 
+			colSpanExtendedPrice="${colSpanExtendedPrice}"
+			colSpanDescription="${colSpanDescription}" >
 			<jsp:attribute name="specialItemTotalOverride">
 				<tr>
 					<td align=right width='75%' colspan="5" scope="row" class="datacell">

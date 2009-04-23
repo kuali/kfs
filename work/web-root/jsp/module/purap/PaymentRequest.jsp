@@ -62,10 +62,10 @@
 			documentAttributes="${DataDictionary.PaymentRequestDocument.attributes}"
 	 		displayPaymentRequestInvoiceInfoFields="true" />        
 
-	  <c:if test="${taxInfoViewable || taxAreaEditable}">
+	  	<c:if test="${taxInfoViewable || taxAreaEditable}">
 		<purap:paymentRequestTaxInfo 
 			documentAttributes="${DataDictionary.PaymentRequestDocument.attributes}" />  
-	  </c:if>      
+	  	</c:if>      
 
 		<purap:paymentRequestProcessItems 
 			documentAttributes="${DataDictionary.PaymentRequestDocument.attributes}"

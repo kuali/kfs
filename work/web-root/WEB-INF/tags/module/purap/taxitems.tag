@@ -31,6 +31,7 @@
 <c:if test="${empty overrideTitle}">
 	<c:set var="overrideTitle" value="Tax Withholding Charges"/>
 </c:if>
+<c:set var="colSpanBlank" value="${mainColumnCount - (colSpanItemType + colSpanExtendedPrice)}" />
 
 <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
 <c:set var="topLevelTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
@@ -72,6 +73,9 @@
 		attributeEntry="${itemAttributes.itemTypeCode}" />	
 	<kul:htmlAttributeHeaderCell colspan="${colSpanExtendedPrice}"
 		attributeEntry="${itemAttributes.extendedPrice}" />	
+	<c:if test="${colSpanBlank > 0}">
+		<th colspan="${colSpanBlank}">&nbsp;</th>
+	</c:if>
 </tr>
 
 <logic:iterate indexId="ctr" name="KualiForm" property="document.items"	id="itemLine">
@@ -95,6 +99,11 @@
 					<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitPrice}" property="document.item[${ctr}].itemUnitPrice" readOnly="true" styleClass="amount" />
 				</div>
 			</td>
+			<c:if test="${colSpanBlank > 0}">					
+			<td colspan="${colSpanBlank}" class="infoline">
+				&nbsp;
+			</td>					
+			</c:if>								
 		</tr>	
 		<c:if test="${empty KualiForm.editingMode['allowItemEntry'] || !empty itemLine.itemExtendedPrice}">
 		    <purap:purapGeneralAccounting 

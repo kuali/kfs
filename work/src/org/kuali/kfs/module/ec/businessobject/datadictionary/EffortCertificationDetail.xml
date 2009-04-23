@@ -62,8 +62,6 @@
     <property name="name" value="effortCertificationPayrollAmount" />
     <property name="label" value="Salary" />
     <property name="shortLabel" value="Salary" />
-    
-    
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="EffortCertificationDetail-effortCertificationCalculatedOverallPercent" parent="EffortCertificationDetail-effortCertificationCalculatedOverallPercent-parentBean" />
@@ -72,8 +70,6 @@
     <property name="name" value="effortCertificationCalculatedOverallPercent" />
     <property name="label" value="Original Effort" />
     <property name="shortLabel" value="Original Effort" />
-    
-    
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.IntegerFormatter" />
   </bean>
   <bean id="EffortCertificationDetail-effortCertificationUpdatedOverallPercent" parent="EffortCertificationDetail-effortCertificationUpdatedOverallPercent-parentBean" />
@@ -82,8 +78,6 @@
     <property name="name" value="effortCertificationUpdatedOverallPercent" />
     <property name="label" value="Effort" />
     <property name="shortLabel" value="Effort" />
-    
-    
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.IntegerFormatter" />
   </bean>
   <bean id="EffortCertificationDetail-accountNumber" parent="EffortCertificationDetail-accountNumber-parentBean" />
@@ -113,8 +107,6 @@
     <property name="name" value="universityFiscalYear" />
     <property name="label" value="Financial Document Posting Year" />
     <property name="shortLabel" value="Posting Year" />
-    
-    
   </bean>
   <bean id="EffortCertificationDetail-financialObjectCode" parent="EffortCertificationDetail-financialObjectCode-parentBean" />
 
@@ -147,8 +139,6 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    
-    
   </bean>
   <bean id="EffortCertificationDetail-sourceChartOfAccountsCode" parent="EffortCertificationDetail-sourceChartOfAccountsCode-parentBean" />
 
@@ -162,8 +152,6 @@
       <bean parent="TextControlDefinition"
             p:size="2" />
     </property>
-    
-    
   </bean>
   <bean id="EffortCertificationDetail-costShareSourceSubAccountNumber" parent="EffortCertificationDetail-costShareSourceSubAccountNumber-parentBean" />
 
@@ -177,8 +165,6 @@
       <bean parent="TextControlDefinition"
             p:size="5" />
     </property>
-    
-    
   </bean>
   <bean id="EffortCertificationDetail-accountExpiredOverride" parent="EffortCertificationDetail-accountExpiredOverride-parentBean" />
 
@@ -192,8 +178,6 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
-    
-    
   </bean>
   <bean id="EffortCertificationDetail-originalFringeBenefitAmount" parent="EffortCertificationDetail-originalFringeBenefitAmount-parentBean" />
 
@@ -201,8 +185,6 @@
     <property name="name" value="originalFringeBenefitAmount" />
     <property name="label" value="Original Fringe Benefit" />
     <property name="shortLabel" value="Original F-Ben" />
-    
-    
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   <bean id="EffortCertificationDetail-fringeBenefitAmount" parent="EffortCertificationDetail-fringeBenefitAmount-parentBean" />
@@ -211,8 +193,6 @@
     <property name="name" value="fringeBenefitAmount" />
     <property name="label" value="Fringe Benefit" />
     <property name="shortLabel" value="F-Ben" />
-    
-    
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
 

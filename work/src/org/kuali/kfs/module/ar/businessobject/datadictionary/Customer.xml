@@ -107,7 +107,7 @@
         <property name="shortLabel" value="Number"/>
         <property name="maxLength" value="20"/>
         <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+            <bean parent="PhoneNumberValidationPattern" />
         </property>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="22"/>
@@ -203,7 +203,7 @@
         <property name="shortLabel" value="Address"/>
         <property name="maxLength" value="60"/>
         <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern"/>
+            <bean parent="EmailAddressValidationPattern"/>
         </property>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="62"/>
@@ -218,7 +218,7 @@
         <property name="shortLabel" value="Number"/>
         <property name="maxLength" value="20"/>
         <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+            <bean parent="PhoneNumberValidationPattern" />
         </property>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="22"/>
@@ -270,7 +270,7 @@
         <property name="shortLabel" value="Phone"/>
         <property name="maxLength" value="20"/>
         <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+            <bean parent="PhoneNumberValidationPattern" />
         </property>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="22"/>

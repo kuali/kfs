@@ -39,7 +39,7 @@ public class UniversityDateFiscalYearMakerImpl extends FiscalYearMakerImpl {
      * @see org.kuali.kfs.coa.batch.dataaccess.impl.FiscalYearMakerHelperImpl#performCustomProcessing(java.lang.Integer)
      */
     @Override
-    public void performCustomProcessing(Integer baseFiscalYear) {
+    public void performCustomProcessing(Integer baseFiscalYear, boolean firstCopyYear) {
         int fiscalYearStartMonth = getFiscalYearStartMonth(baseFiscalYear);
 
         // determine start date year, if start month is not January the year will be one behind the fiscal year
@@ -102,7 +102,7 @@ public class UniversityDateFiscalYearMakerImpl extends FiscalYearMakerImpl {
      * 
      * @param requestYear year to delete records for
      */
-    private void deleteNewYearRows(Integer requestYear) {
+    protected void deleteNewYearRows(Integer requestYear) {
         Criteria criteriaID = new Criteria();
         criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, requestYear);
 

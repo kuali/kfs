@@ -205,7 +205,7 @@ public class FiscalYearMakerImpl extends PlatformAwareDaoBaseOjb implements Fisc
      * 
      * @see org.kuali.kfs.coa.batch.dataaccess.FiscalYearMakerHelper#performCustomProcessing(java.lang.Integer)
      */
-    public void performCustomProcessing(Integer baseFiscalYear) {
+    public void performCustomProcessing(Integer baseFiscalYear, boolean firstCopyYear) {
 
     }
 

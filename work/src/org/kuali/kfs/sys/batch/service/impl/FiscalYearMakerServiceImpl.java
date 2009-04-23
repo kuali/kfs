@@ -93,7 +93,7 @@ public class FiscalYearMakerServiceImpl implements FiscalYearMakerService {
                 writeCopyFailureMessages(copyErrors);
             }
 
-            fiscalYearMaker.performCustomProcessing(baseYear);
+            fiscalYearMaker.performCustomProcessing(baseYear, true);
 
             // if copy two years call copy procedure again to copy records from base year + 1 to base year + 2
             if (fiscalYearMaker.isTwoYearCopy()) {
@@ -102,7 +102,7 @@ public class FiscalYearMakerServiceImpl implements FiscalYearMakerService {
                     writeCopyFailureMessages(copyErrors);
                 }
 
-                fiscalYearMaker.performCustomProcessing(baseYear + 1);
+                fiscalYearMaker.performCustomProcessing(baseYear + 1, false);
             }
         }
     }

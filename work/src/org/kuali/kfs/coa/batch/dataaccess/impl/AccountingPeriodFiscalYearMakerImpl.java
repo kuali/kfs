@@ -78,25 +78,29 @@ public class AccountingPeriodFiscalYearMakerImpl extends FiscalYearMakerImpl {
         // increment period end date by one year
         accountingPeriod.setUniversityFiscalPeriodEndDate(addYearToDate(accountingPeriod.getUniversityFiscalPeriodEndDate()));
 
-        // set status to open
-        accountingPeriod.setActive(true);
+        // set status to closed
+        accountingPeriod.setActive(false);
     }
 
     /**
-     * Retrieves all Accounting Period records for the second copied fiscal year and make inactive
+     * Retrieves all Accounting Period records for the first copied fiscal year and make active
      * 
      * @see org.kuali.kfs.coa.batch.dataaccess.impl.FiscalYearMakerHelperImpl#performCustomProcessing(java.lang.Integer)
      */
     @Override
-    public void performCustomProcessing(Integer baseFiscalYear) {
+    public void performCustomProcessing(Integer baseFiscalYear, boolean firstCopyYear) {
+        if (!firstCopyYear) {
+            return;
+        }
+        
         Criteria criteriaId = new Criteria();
-        criteriaId.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, baseFiscalYear + 2);
+        criteriaId.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, baseFiscalYear + 1);
 
         QueryByCriteria queryId = new QueryByCriteria(AccountingPeriod.class, criteriaId);
 
         Collection<AccountingPeriod> accountingPeriods = getPersistenceBrokerTemplate().getCollectionByQuery(queryId);
         for (AccountingPeriod accountingPeriod : accountingPeriods) {
-            accountingPeriod.setActive(false);
+            accountingPeriod.setActive(true);
             getPersistenceBrokerTemplate().store(accountingPeriod);
         }
     }

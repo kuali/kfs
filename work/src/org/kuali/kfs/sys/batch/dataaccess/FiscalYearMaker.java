@@ -60,8 +60,9 @@ public interface FiscalYearMaker {
      * Hook to do custom new population for a business object
      * 
      * @param baseFiscalYear fiscal year of the base record
+     * @param firstCopyYear boolean that indicates whether this is the first year being copied (useful for two year copies)
      */
-    public void performCustomProcessing(Integer baseFiscalYear);
+    public void performCustomProcessing(Integer baseFiscalYear, boolean firstCopyYear);
 
     /**
      * Indicator for determining whether we should do normal FYM process and call custom hook or only custom

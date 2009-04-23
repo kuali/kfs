@@ -684,7 +684,8 @@ enum GROUP_TYPE {VALID, ERROR, EXPIRED}
                 
                 
                 Account unscrubbedEntryAccount = accountingCycleCachingService.getAccount(unscrubbedEntry.getChartOfAccountsCode(), unscrubbedEntry.getAccountNumber());
-                if ((unscrubbedEntryAccount != null) && (!unscrubbedEntryAccount.isActive())) {
+                // KFSMI-173: both the expired and closed accounts rows are put in the expired account 
+                if ((unscrubbedEntryAccount != null) && ((!unscrubbedEntryAccount.isActive()) || unscrubbedEntryAccount.isClosed())) {
                     // Make a copy of it so OJB doesn't just update the row in the original
                     // group. It needs to make a new one in the expired group
                     OriginEntryFull expiredEntry = OriginEntryFull.copyFromOriginEntryable(scrubbedEntry);

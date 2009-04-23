@@ -38,6 +38,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.PreCommitSuite;
 import org.kuali.rice.kns.service.ParameterService;
@@ -50,6 +51,7 @@ import org.springframework.aop.framework.ProxyFactory;
 @AnnotationTestSuite(PreCommitSuite.class)
 public class TestUtils {
     private static final Log LOG = LogFactory.getLog(TestUtils.class);
+    private static final Integer fiscalYearForTesting = null;
 
     private static final String PLACEHOLDER_FILENAME = "placeholder.txt";
     
@@ -431,6 +433,19 @@ public class TestUtils {
                     throw new RuntimeException("Delete of " + file.getName() + " failed.");
                 }
             }
+        }
+    }
+    
+    /**
+     * Returns a fiscal year for testing.  If the fiscalYearForTesting property is not null, it returns that;
+     * otherwise, it runs the current fiscal year
+     * @return a fiscal year suitable for testing purposes
+     */
+    public static Integer getFiscalYearForTesting() {
+        if (fiscalYearForTesting == null) {
+            return SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+        } else {
+            return fiscalYearForTesting;
         }
     }
 }

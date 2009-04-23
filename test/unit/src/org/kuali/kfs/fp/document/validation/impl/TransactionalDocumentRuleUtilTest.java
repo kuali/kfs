@@ -17,18 +17,19 @@ package org.kuali.kfs.fp.document.validation.impl;
 
 import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.coa.service.BalanceTypService;
 import org.kuali.kfs.fp.document.JournalVoucherDocument;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
+import org.kuali.rice.kns.service.DateTimeService;
 
 /**
  * Class for unit testing the functionality of <code>{@link TransactionalDocumentRuleUtil}</code>
@@ -42,7 +43,6 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
 
 
     private final String ANNUAL_BALANCE_PERIOD_CODE = "AB";
-    private final Integer CURRENT_FISCAL_YEAR = new Integer("2004");
 
 
     // /////////////////////////////////////////////////////////////////////////
@@ -82,7 +82,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
      * @return AccountingPeriod
      */
     public AccountingPeriod getAnnualBalanceAccountingPeriod() {
-        return SpringContext.getBean(AccountingPeriodService.class).getByPeriod(ANNUAL_BALANCE_PERIOD_CODE, CURRENT_FISCAL_YEAR);
+        return SpringContext.getBean(AccountingPeriodService.class).getByPeriod(ANNUAL_BALANCE_PERIOD_CODE, TestUtils.getFiscalYearForTesting());
     }
 
     /**

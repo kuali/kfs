@@ -153,7 +153,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
         if (((FinancialSystemTransactionalDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(document.getClass().getName())).getAllowsErrorCorrection()) {
             // change to non-current posting year
             Integer postingYear = document.getPostingYear();
-            AccountingPeriod accountingPeriod = accountingPeriodService.getByPeriod(document.getAccountingPeriod().getUniversityFiscalPeriodCode(), postingYear - 5);
+            AccountingPeriod accountingPeriod = accountingPeriodService.getByPeriod(document.getAccountingPeriod().getUniversityFiscalPeriodCode(), postingYear - 1);
             assertNotNull("accounting period invalid for test", accountingPeriod);
             assertTrue("accounting period invalid (same as current year)", postingYear != accountingPeriod.getUniversityFiscalYear());
             assertEquals("accounting period invalid. period codes must remain the same", document.getAccountingPeriod().getUniversityFiscalPeriodCode(), accountingPeriod.getUniversityFiscalPeriodCode());

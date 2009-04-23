@@ -15,18 +15,19 @@
  */
 package org.kuali.kfs.sys.fixture;
 
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.sys.context.TestUtils;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public enum ObjectCodeFixture {
-    OBJECT_CODE_NON_BUDGET_OBJECT_CODE("BL", "3500", 2004), OBJECT_CODE_BUDGETED_OBJECT_CODE("BL", "3000", 2004);
+    OBJECT_CODE_NON_BUDGET_OBJECT_CODE("BL", "3500"), OBJECT_CODE_BUDGETED_OBJECT_CODE("BL", "3000");
 
     public final Integer universityFiscalYear;
     public final String chartOfAccountsCode;
     public final String financialObjectCode;
 
-    private ObjectCodeFixture(String chartOfAccountsCode, String financialObjectCode, Integer universityFiscalYear) {
-        this.universityFiscalYear = universityFiscalYear;
+    private ObjectCodeFixture(String chartOfAccountsCode, String financialObjectCode) {
+        this.universityFiscalYear = TestUtils.getFiscalYearForTesting();
         this.chartOfAccountsCode = chartOfAccountsCode;
         this.financialObjectCode = financialObjectCode;
     }

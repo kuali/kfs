@@ -23,6 +23,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -111,7 +112,7 @@ public enum AccountingLineFixture {
 
     AccountingLineFixture(Integer sequenceNumber, String chartOfAccountsCode, String accountNumber, String balanceTypeCode, String subAccountNumber, String financialObjectCode, String financialSubObjectCode, String projectCode, String encumbranceUpdateCode, String organizationReferenceId, String referenceOriginCode, String referenceNumber, String referenceTypeCode, String debitCreditCode, String amount) {
 
-        this.postingYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+        this.postingYear = TestUtils.getFiscalYearForTesting();
         this.sequenceNumber = sequenceNumber;
         this.accountNumber = accountNumber;
         this.balanceTypeCode = balanceTypeCode;

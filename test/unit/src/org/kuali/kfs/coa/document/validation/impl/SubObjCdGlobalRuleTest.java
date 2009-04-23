@@ -25,19 +25,24 @@ import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
 import org.kuali.kfs.coa.businessobject.SubObjectCodeGlobal;
 import org.kuali.kfs.coa.businessobject.SubObjectCodeGlobalDetail;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.context.TestUtils;
 
 @ConfigureContext
 public class SubObjCdGlobalRuleTest extends ChartRuleTestBase {
-    private class SOCDocument {
+    private static class SOCDocument {
         private class ChartCode {
             private static final String GOOD1 = "BL";
             private static final String BAD1 = "ZZ";
         }
 
-        private class FiscalYear {
-            private static final int GOOD1 = 2006;
-            private static final int BAD1 = 0;
-
+        private static class FiscalYear {
+            public static int getFiscalYear_GOOD1() {
+                return TestUtils.getFiscalYearForTesting().intValue();
+            }
+            
+            public static int getFiscalYear_BAD1() {
+                return 0;
+            }
         }
     }
 
@@ -68,7 +73,7 @@ public class SubObjCdGlobalRuleTest extends ChartRuleTestBase {
         // create new SubObjCdGlobal
         SubObjectCodeGlobal socChangeDocument = new SubObjectCodeGlobal();
 
-        socChangeDocument.setUniversityFiscalYear(SOCDocument.FiscalYear.GOOD1);
+        socChangeDocument.setUniversityFiscalYear(SOCDocument.FiscalYear.getFiscalYear_GOOD1());
         testDefaultExistenceCheck(socChangeDocument, "universityFiscalYear", false);
         assertGlobalErrorMapEmpty();
     }
@@ -78,7 +83,7 @@ public class SubObjCdGlobalRuleTest extends ChartRuleTestBase {
         // create new SubObjCdGlobal
         SubObjectCodeGlobal socChangeDocument = new SubObjectCodeGlobal();
 
-        socChangeDocument.setUniversityFiscalYear(SOCDocument.FiscalYear.BAD1);
+        socChangeDocument.setUniversityFiscalYear(SOCDocument.FiscalYear.getFiscalYear_BAD1());
 
         // run the test
         testDefaultExistenceCheck(socChangeDocument, "universityFiscalYear", true);
@@ -176,10 +181,10 @@ public class SubObjCdGlobalRuleTest extends ChartRuleTestBase {
         SubObjectCodeGlobal socChangeDocument = new SubObjectCodeGlobal();
         SubObjectCodeGlobalDetail socChangeDetail = new SubObjectCodeGlobalDetail();
 
-        socChangeDocument.setUniversityFiscalYear(2006);
+        socChangeDocument.setUniversityFiscalYear(TestUtils.getFiscalYearForTesting());
         socChangeDocument.refreshNonUpdateableReferences();
 
-        socChangeDetail.setUniversityFiscalYear(2006);
+        socChangeDetail.setUniversityFiscalYear(TestUtils.getFiscalYearForTesting());
         socChangeDetail.refreshNonUpdateableReferences();
 
         List<SubObjectCodeGlobalDetail> socDetails = new ArrayList<SubObjectCodeGlobalDetail>();
@@ -198,10 +203,10 @@ public class SubObjCdGlobalRuleTest extends ChartRuleTestBase {
         SubObjectCodeGlobal socChangeDocument = new SubObjectCodeGlobal();
         SubObjectCodeGlobalDetail socChangeDetail = new SubObjectCodeGlobalDetail();
 
-        socChangeDocument.setUniversityFiscalYear(2005);
+        socChangeDocument.setUniversityFiscalYear(TestUtils.getFiscalYearForTesting()-1);
         socChangeDocument.refreshNonUpdateableReferences();
 
-        socChangeDetail.setUniversityFiscalYear(2006);
+        socChangeDetail.setUniversityFiscalYear(TestUtils.getFiscalYearForTesting());
         socChangeDetail.refreshNonUpdateableReferences();
 
         List<SubObjectCodeGlobalDetail> socDetails = new ArrayList<SubObjectCodeGlobalDetail>();
@@ -219,13 +224,13 @@ public class SubObjCdGlobalRuleTest extends ChartRuleTestBase {
         SubObjectCodeGlobalDetail socChangeDetail = new SubObjectCodeGlobalDetail();
         SubObjectCodeGlobalDetail socChangeDetail2 = new SubObjectCodeGlobalDetail();
 
-        socChangeDocument.setUniversityFiscalYear(2006);
+        socChangeDocument.setUniversityFiscalYear(TestUtils.getFiscalYearForTesting());
         socChangeDocument.refreshNonUpdateableReferences();
 
-        socChangeDetail.setUniversityFiscalYear(2006);
+        socChangeDetail.setUniversityFiscalYear(TestUtils.getFiscalYearForTesting());
         socChangeDetail.refreshNonUpdateableReferences();
 
-        socChangeDetail2.setUniversityFiscalYear(2006);
+        socChangeDetail2.setUniversityFiscalYear(TestUtils.getFiscalYearForTesting());
         socChangeDetail2.refreshNonUpdateableReferences();
 
         List<SubObjectCodeGlobalDetail> socDetails = new ArrayList<SubObjectCodeGlobalDetail>();
@@ -246,13 +251,13 @@ public class SubObjCdGlobalRuleTest extends ChartRuleTestBase {
         SubObjectCodeGlobalDetail socChangeDetail = new SubObjectCodeGlobalDetail();
         SubObjectCodeGlobalDetail socChangeDetail2 = new SubObjectCodeGlobalDetail();
 
-        socChangeDocument.setUniversityFiscalYear(2006);
+        socChangeDocument.setUniversityFiscalYear(TestUtils.getFiscalYearForTesting());
         socChangeDocument.refreshNonUpdateableReferences();
 
-        socChangeDetail.setUniversityFiscalYear(2006);
+        socChangeDetail.setUniversityFiscalYear(TestUtils.getFiscalYearForTesting());
         socChangeDetail.refreshNonUpdateableReferences();
 
-        socChangeDetail2.setUniversityFiscalYear(2005);
+        socChangeDetail2.setUniversityFiscalYear(TestUtils.getFiscalYearForTesting()-1);
         socChangeDetail2.refreshNonUpdateableReferences();
 
         List<SubObjectCodeGlobalDetail> socDetails = new ArrayList<SubObjectCodeGlobalDetail>();

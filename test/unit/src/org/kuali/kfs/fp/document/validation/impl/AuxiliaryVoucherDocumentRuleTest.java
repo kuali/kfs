@@ -49,6 +49,7 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.Validation;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineValueAllowedValidation;
@@ -298,16 +299,18 @@ public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
      * This tests that the rules are calculating if dates are within accounting period grace periods correctly.
      */
     public void testWithinGracePeriod() {
-        AccountingPeriod firstPeriod = SpringContext.getBean(AccountingPeriodService.class).getByPeriod("10", new Integer(2007));
-        java.util.Calendar firstPeriodInside = new java.util.GregorianCalendar(2007, java.util.Calendar.MAY, 8);
-        java.util.Calendar firstPeriodOutside = new java.util.GregorianCalendar(2007, java.util.Calendar.MAY, 23);
+        final Integer currentFiscalYear = TestUtils.getFiscalYearForTesting();
+        final Integer pastFiscalYear = new Integer(currentFiscalYear.intValue() - 1);
+        AccountingPeriod firstPeriod = SpringContext.getBean(AccountingPeriodService.class).getByPeriod("10", new Integer(currentFiscalYear));
+        java.util.Calendar firstPeriodInside = new java.util.GregorianCalendar(currentFiscalYear, java.util.Calendar.MAY, 8);
+        java.util.Calendar firstPeriodOutside = new java.util.GregorianCalendar(currentFiscalYear, java.util.Calendar.MAY, 23);
         final AuxiliaryVoucherDocument avDoc = new AuxiliaryVoucherDocument();
         assertTrue(avDoc.calculateIfWithinGracePeriod(new java.sql.Date(firstPeriodInside.getTimeInMillis()), firstPeriod));
         assertFalse(avDoc.calculateIfWithinGracePeriod(new java.sql.Date(firstPeriodOutside.getTimeInMillis()), firstPeriod));
 
-        AccountingPeriod secondPeriod = SpringContext.getBean(AccountingPeriodService.class).getByPeriod("13", new Integer(2006));
-        java.util.Calendar secondPeriodInside = new java.util.GregorianCalendar(2006, java.util.Calendar.JULY, 20);
-        java.util.Calendar secondPeriodOutside = new java.util.GregorianCalendar(2007, java.util.Calendar.JULY, 21);
+        AccountingPeriod secondPeriod = SpringContext.getBean(AccountingPeriodService.class).getByPeriod("13", new Integer(pastFiscalYear));
+        java.util.Calendar secondPeriodInside = new java.util.GregorianCalendar(pastFiscalYear, java.util.Calendar.JUNE, 20);
+        java.util.Calendar secondPeriodOutside = new java.util.GregorianCalendar(currentFiscalYear, java.util.Calendar.JULY, 21);
         assertTrue(avDoc.calculateIfWithinGracePeriod(new java.sql.Date(secondPeriodInside.getTimeInMillis()), secondPeriod));
         assertFalse(avDoc.calculateIfWithinGracePeriod(new java.sql.Date(secondPeriodOutside.getTimeInMillis()), secondPeriod));
 

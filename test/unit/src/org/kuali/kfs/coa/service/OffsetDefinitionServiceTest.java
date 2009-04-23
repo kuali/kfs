@@ -19,6 +19,7 @@ import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
 
 /**
  * This class tests the OffsetDefinition service.
@@ -28,12 +29,12 @@ public class OffsetDefinitionServiceTest extends KualiTestBase {
 
     public void testValidateAccount() {
         OffsetDefinition offsetDefinition = null;
-        offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(new Integer(2004), "BA", "IB", "AC");
+        offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(TestUtils.getFiscalYearForTesting(), "BA", "IB", "AC");
         assertNotNull("offset object code not found", offsetDefinition.getFinancialObject());
         assertEquals("offset object code should have been 8000", "8000", offsetDefinition.getFinancialObject().getFinancialObjectCode());
 
         offsetDefinition = null;
-        offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(new Integer(2004), "XX", "XX", "XX");
+        offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(TestUtils.getFiscalYearForTesting(), "XX", "XX", "XX");
         assertNull(offsetDefinition);
     }
 }

@@ -172,5 +172,19 @@
     	</property>
     </bean>
     
+    <bean id="SearchingType-CapitalAssetManagementComplexMaintenanceDocument-capitalAssetNumber" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    	<property name="searchingAttribute">
+    		<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset" />
+    			<property name="attributeName" value="capitalAssetNumber" />
+    		</bean>
+    	</property>
+    	<property name="documentValues">
+    		<list>
+    			<value>newMaintainableObject.businessObject.capitalAssetNumber</value>
+    		</list>
+    	</property>
+    </bean>
+    
     
 </beans>

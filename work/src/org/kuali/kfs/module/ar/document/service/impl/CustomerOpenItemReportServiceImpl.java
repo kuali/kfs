@@ -248,8 +248,8 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
                 detail.setDocumentDescription("");
 
             // populate Document Payment Amount
-            detail.setDocumentPaymentAmount(paymentApplication.getTotalApplied().negated());
-
+            detail.setDocumentPaymentAmount(paymentApplication.getDocumentHeader().getFinancialDocumentTotalAmount().negated());
+            
             // populate Unpaid/Unapplied Amount if the customer number is the same
             if (paymentApplication.getNonAppliedHolding().getCustomerNumber().equals(paymentApplication.getAccountsReceivableDocumentHeader().getCustomerNumber())) {
                 detail.setUnpaidUnappliedAmount(paymentApplication.getNonAppliedHoldingAmount().negated());
@@ -273,6 +273,10 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             PaymentApplicationDocument paymentApplication = (PaymentApplicationDocument) itr.next();
             String documentNumber = paymentApplication.getDocumentNumber();
 
+            if ((paymentApplication.getNonAppliedHolding().getCustomerNumber().equals(paymentApplication.getAccountsReceivableDocumentHeader().getCustomerNumber()))) {
+                continue;
+            }
+            
             CustomerOpenItemReportDetail detail = (CustomerOpenItemReportDetail) details.get(documentNumber);
 
             // populate Document Description
@@ -286,9 +290,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             detail.setDocumentPaymentAmount(KualiDecimal.ZERO);
 
             // populate Unpaid/Unapplied Amount if the customer number is not the same
-            if (!(paymentApplication.getNonAppliedHolding().getCustomerNumber().equals(paymentApplication.getAccountsReceivableDocumentHeader().getCustomerNumber()))) {
-                detail.setUnpaidUnappliedAmount(paymentApplication.getNonAppliedHoldingAmount().negated());
-            }
+            detail.setUnpaidUnappliedAmount(paymentApplication.getNonAppliedHoldingAmount().negated());
 
             results.add(detail);
         }

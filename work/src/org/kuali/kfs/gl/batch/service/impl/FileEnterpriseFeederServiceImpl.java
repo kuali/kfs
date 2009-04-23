@@ -76,6 +76,7 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
             try {
                 enterpriseFeedPs = new PrintStream(enterpriseFeedFile);
             } catch (FileNotFoundException e) {
+                LOG.error("enterpriseFeedFile doesn't exist " + enterpriseFeedFileName);
                 throw new RuntimeException("enterpriseFeedFile doesn't exist " + enterpriseFeedFileName);
             }
             
@@ -85,6 +86,7 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
 
             File directory = new File(directoryName);
             if (!directory.exists() || !directory.isDirectory()) {
+                LOG.error("Directory doesn't exist and or it's not really a directory " + directoryName);
                 throw new RuntimeException("Directory doesn't exist and or it's not really a directory " + directoryName);
             }
 
@@ -170,7 +172,8 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
     protected File getDataFile(File doneFile) {
         String doneFileAbsPath = doneFile.getAbsolutePath();
         if (!doneFileAbsPath.endsWith(DONE_FILE_SUFFIX)) {
-            throw new IllegalArgumentException("DOne file name must end with " + DONE_FILE_SUFFIX);
+            LOG.error("Done file name must end with " + DONE_FILE_SUFFIX);
+            throw new IllegalArgumentException("Done file name must end with " + DONE_FILE_SUFFIX);
         }
         String dataFileAbsPath = StringUtils.removeEnd(doneFileAbsPath, DONE_FILE_SUFFIX) + DATA_FILE_SUFFIX;
         File dataFile = new File(dataFileAbsPath);
@@ -190,6 +193,7 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
     protected File getReconFile(File doneFile) {
         String doneFileAbsPath = doneFile.getAbsolutePath();
         if (!doneFileAbsPath.endsWith(DONE_FILE_SUFFIX)) {
+            LOG.error("Done file name must end with " + DONE_FILE_SUFFIX);
             throw new IllegalArgumentException("DOne file name must end with " + DONE_FILE_SUFFIX);
         }
         String reconFileAbsPath = StringUtils.removeEnd(doneFileAbsPath, DONE_FILE_SUFFIX) + RECON_FILE_SUFFIX;

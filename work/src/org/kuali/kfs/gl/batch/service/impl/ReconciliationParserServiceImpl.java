@@ -60,6 +60,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * are incorrect, then it is likely to cause undesired behavior.
  */
 public class ReconciliationParserServiceImpl implements ReconciliationParserService {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FileEnterpriseFeederHelperServiceImpl.class);
     private enum ParseState {
         INIT, TABLE_DEF, COLUMN_DEF, CHECKSUM_DEF;
     };
@@ -104,16 +105,19 @@ public class ReconciliationParserServiceImpl implements ReconciliationParserServ
 
             StringTokenizer strTok = new StringTokenizer(line);
             if (!strTok.hasMoreTokens()) {
+                LOG.error("Cannot find TABLE_DEF_STRING");
                 throw new RuntimeException();
             }
             String command = strTok.nextToken();
             if (command.equalsIgnoreCase(TABLE_DEF_STRING)) {
                 if (!strTok.hasMoreTokens()) {
+                    LOG.error("Cannot find TABLE_DEF_STRING");
                     throw new RuntimeException();
                 }
                 String parsedTableId = strTok.nextToken();
                 if (parsedTableId.equals(tableId)) {
                     if (!strTok.hasMoreTokens()) {
+                        LOG.error("Cannot find Parsed Table Id");
                         throw new RuntimeException();
                     }
                     String parsedRowCountStr = StringUtils.removeEnd(strTok.nextToken(), ";");
@@ -145,16 +149,19 @@ public class ReconciliationParserServiceImpl implements ReconciliationParserServ
 
             StringTokenizer strTok = new StringTokenizer(line);
             if (!strTok.hasMoreTokens()) {
+                LOG.error("Cannot find COLUMN_DEF_STRING");
                 throw new RuntimeException();
             }
 
             String command = strTok.nextToken();
             if (command.equalsIgnoreCase(COLUMN_DEF_STRING)) {
                 if (!strTok.hasMoreTokens()) {
+                    LOG.error("Cannot find COLUMN_DEF_STRING");
                     throw new RuntimeException();
                 }
                 String fieldName = strTok.nextToken();
                 if (!strTok.hasMoreTokens()) {
+                    LOG.error("Cannot find COLUMN_DEF_STRING");
                     throw new RuntimeException();
                 }
                 String columnAmountStr = strTok.nextToken();
@@ -169,6 +176,7 @@ public class ReconciliationParserServiceImpl implements ReconciliationParserServ
             }
             else if (command.equalsIgnoreCase(CHECKSUM_DEF_STRING)) {
                 if (!strTok.hasMoreTokens()) {
+                    LOG.error("Cannot find CHECKSUM_DEF_STRING");
                     throw new RuntimeException();
                 }
                 String checksumStr = strTok.nextToken();
@@ -177,11 +185,13 @@ public class ReconciliationParserServiceImpl implements ReconciliationParserServ
                 int checksum = Integer.parseInt(checksumStr);
 
                 if (checksum != linesInBlock) {
+                    LOG.error("Check Sum String is not same as Lines in Block");
                     throw new RuntimeException();
                 }
                 break;
             }
             else {
+                LOG.error("Cannot find any fields");
                 throw new RuntimeException();
             }
 

@@ -173,7 +173,7 @@ public class ReconciliationServiceImpl implements ReconciliationService {
             }
             catch (LoadException e) {
                 loadExceptionEncountered = true;
-
+                LOG.error("Line " + numEntriesAttemptedToLoad + " parse error: " + e.getMessage(), e);
                 Message newMessage = new Message("Line " + numEntriesAttemptedToLoad + " parse error: " + e.getMessage(), Message.TYPE_FATAL);
                 errorMessages.add(newMessage);
 
@@ -197,6 +197,7 @@ public class ReconciliationServiceImpl implements ReconciliationService {
         if (entriesFullyIterated) {
             if (loadExceptionEncountered) {
                 // generate a message saying reconcilation check did not continue
+                LOG.error("Reconciliation check failed because some origin entry lines could not be parsed.");
                 Message newMessage = new Message("Reconciliation check failed because some origin entry lines could not be parsed.", Message.TYPE_FATAL);
                 errorMessages.add(newMessage);
             }

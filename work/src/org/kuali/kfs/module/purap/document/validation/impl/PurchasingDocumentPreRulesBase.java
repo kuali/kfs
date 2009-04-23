@@ -53,9 +53,7 @@ public abstract class PurchasingDocumentPreRulesBase extends PurapDocumentPreRul
                 if (item.getItemTaxAmount() != null){
                 
                     StringBuffer questionTextBuffer = new StringBuffer("");        
-                    questionTextBuffer.append( "<style type=\"text/css\"> table.questionTable {border-collapse: collapse;} td.msgTd {padding:3px; width:600px; } </style>" );
-                    questionTextBuffer.append("<br/><br/><table class=\"questionTable\" align=\"center\">");
-                    questionTextBuffer.append("<tr><td class=\"msgTd\">" + PurapConstants.TAX_RECALCULATION_QUESTION + "</td></tr></table>");
+                    questionTextBuffer.append(PurapConstants.TAX_RECALCULATION_QUESTION);
                 
                     Boolean proceed = super.askOrAnalyzeYesNoQuestion(PurapConstants.TAX_RECALCULATION_INFO, questionTextBuffer.toString());
                    

@@ -69,7 +69,7 @@ public class LaborBalancingServiceImplTest extends BalancingServiceImplTestBase 
     @Override
     public void testGetBalance() {
         LaborBalanceHistory laborBalanceHistory = new LaborBalanceHistory();
-        laborBalanceHistory.setUniversityFiscalYear(2007);
+        laborBalanceHistory.setUniversityFiscalYear(2009);
         laborBalanceHistory.setChartOfAccountsCode("BA");
         laborBalanceHistory.setAccountNumber("6044900");
         laborBalanceHistory.setSubAccountNumber("-----");

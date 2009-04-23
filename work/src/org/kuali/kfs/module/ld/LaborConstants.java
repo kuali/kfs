@@ -176,8 +176,6 @@ public class LaborConstants {
         
         static final public String LABOR_GL_ENTRY_FILE = "gl_glentry_lab";
         static final public String BALANCE_FORWARDS_FILE = "ld_balance_forwards";
-        
-        public static final String BALANCING_REPORT_FILENAME_PREFIX = "laborBalancing_";
     }
 
     public static class TransactionGeneratorNames {

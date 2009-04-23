@@ -17,12 +17,13 @@ package org.kuali.kfs.gl.businessobject;
 
 import java.sql.Date;
 
+import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Represents an origin entry
  */
-public interface OriginEntry {
+public interface OriginEntry extends BusinessObject {
 
     /**
      * gets the transactionLedgerEntryDescription attribute value

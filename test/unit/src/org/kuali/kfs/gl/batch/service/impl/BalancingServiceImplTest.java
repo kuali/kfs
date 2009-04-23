@@ -70,7 +70,7 @@ public class BalancingServiceImplTest extends BalancingServiceImplTestBase {
     @Override
     public void testGetBalance() {
         BalanceHistory balanceHistory = new BalanceHistory();
-        balanceHistory.setUniversityFiscalYear(2007);
+        balanceHistory.setUniversityFiscalYear(2009);
         balanceHistory.setChartOfAccountsCode("BA");
         balanceHistory.setAccountNumber("6044900");
         balanceHistory.setSubAccountNumber("-----");

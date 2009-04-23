@@ -349,6 +349,15 @@
         <property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
     </bean>
     
+    <bean id="laborBalancingReportWriterService" class="org.kuali.kfs.sys.service.impl.ReportWriterTextServiceImpl">
+		<property name="filePath" value="${reports.directory}/ld"/>
+		<property name="fileNamePrefix" value="laborBalancing_"/>
+        <property name="title" value="Labor Balancing Report"/>
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
+        </property>
+    </bean>
+    
     <bean id="laborBalancingService" class="org.kuali.kfs.module.ld.batch.service.impl.LaborBalancingServiceImpl">
 		<property name="parameterService">
 			<ref bean="parameterService" />
@@ -382,6 +391,9 @@
         </property>
         <property name="ledgerEntryHistoryBalancingDao">
             <ref bean="laborLedgerEntryHistoryDao" />
+        </property>
+        <property name="reportWriterService">
+            <ref bean="laborBalancingReportWriterService" />
         </property>
         <property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
     </bean>

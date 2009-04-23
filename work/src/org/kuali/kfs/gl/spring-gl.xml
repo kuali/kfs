@@ -775,6 +775,15 @@
 		</property>
 	</bean>
 
+    <bean id="balancingReportWriterService" class="org.kuali.kfs.sys.service.impl.ReportWriterTextServiceImpl">
+		<property name="filePath" value="${reports.directory}/gl"/>
+		<property name="fileNamePrefix" value="balancing_"/>
+        <property name="title" value="General Ledger Balancing Report"/>
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
+        </property>
+    </bean>
+
     <bean id="glBalancingService" class="org.kuali.kfs.gl.batch.service.impl.BalancingServiceImpl">
 		<property name="parameterService">
 			<ref bean="parameterService" />
@@ -817,6 +826,9 @@
         </property>
         <property name="encumbranceDao">
             <ref bean="glEncumbranceDao" />
+        </property>
+        <property name="reportWriterService">
+            <ref bean="balancingReportWriterService" />
         </property>
         <property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
     </bean>

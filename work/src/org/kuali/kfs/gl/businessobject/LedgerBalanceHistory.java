@@ -15,13 +15,15 @@
  */
 package org.kuali.kfs.gl.businessobject;
 
+import org.kuali.rice.kns.bo.BusinessObject;
+
 
 
 
 /**
  * Interface for BalanceHistory used by GL and Labor
  */
-public interface LedgerBalanceHistory {
+public interface LedgerBalanceHistory extends BusinessObject {
     public Integer getUniversityFiscalYear();
     public String getChartOfAccountsCode();
     public String getAccountNumber();

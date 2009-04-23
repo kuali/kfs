@@ -33,16 +33,6 @@ public interface BalancingService {
     public boolean runBalancing();
     
     /**
-     * @return filename for the report
-     */
-    public abstract String getReportFilename();
-    
-    /**
-     * @return title for the report
-     */
-    public abstract String getReportTitle();
-    
-    /**
      * @return input poster file. Returns null if no file found.
      */
     public abstract File getPosterInputFile();

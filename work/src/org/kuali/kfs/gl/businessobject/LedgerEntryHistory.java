@@ -15,13 +15,14 @@
  */
 package org.kuali.kfs.gl.businessobject;
 
+import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 
 /**
  * Interface for EntryHistory used by GL and Labor
  */
-public interface LedgerEntryHistory {
+public interface LedgerEntryHistory extends BusinessObject {
     public Integer getUniversityFiscalYear();
     public String getChartOfAccountsCode();
     public String getFinancialObjectCode();

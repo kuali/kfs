@@ -28,7 +28,7 @@ public interface LedgerEntryBalancingDao {
      * @param financialBalanceTypeCode the given balance type code
      * @param universityFiscalPeriodCode the given university fiscal period code
      * @param transactionDebitCreditCode the given transaction debit or credit code
-     * @return object array with [0] being count(*) and [1] sum(TRANSACTION_LEDGER_ENTRY_AMOUNT)
+     * @return object array with [0] being count(*) and [1] sum(TRANSACTION_LEDGER_ENTRY_AMOUNT). Returns null if data was not found
      */
     public Object[] findEntryByGroup(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode, String financialBalanceTypeCode, String universityFiscalPeriodCode, String transactionDebitCreditCode);
 

@@ -17,13 +17,10 @@ package org.kuali.kfs.gl.batch.service.impl;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.io.PrintStream;
-import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.kfs.gl.GeneralLedgerConstants;
-import org.kuali.kfs.gl.TextReportHelper;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.BalanceHistory;
 import org.kuali.kfs.gl.businessobject.Entry;
@@ -33,15 +30,12 @@ import org.kuali.kfs.gl.dataaccess.LedgerBalanceBalancingDao;
 import org.kuali.kfs.gl.dataaccess.LedgerBalancingDao;
 import org.kuali.kfs.gl.dataaccess.LedgerEntryBalancingDao;
 import org.kuali.kfs.gl.dataaccess.LedgerEntryHistoryBalancingDao;
-import org.kuali.kfs.gl.service.impl.ReportServiceImpl;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -89,13 +83,6 @@ public abstract class BalancingServiceImplTestBase extends KualiTestBase {
     public void testBasicGetters() {
         // Here we test a set of basic getters. There really isn't much that should be done here because they vary between GL and Labor plus
         // these are pretty simple methods. Just checking that they return values should be enough.
-        assertNotNull(balancingService.getReportFilename());
-        assertNotNull(balancingService.getReportTitle());
-        
-        // Whether files are ready or not depends on if the poster ran before this. We are just executing the code here and not checking return value.
-        balancingService.getPosterInputFile();
-        balancingService.getPosterErrorOutputFile();
-        
         assertNotNull(balancingService.getPastFiscalYearsToConsider());
         assertNotNull(balancingService.getComparisonFailuresToPrintPerReport());
         
@@ -104,6 +91,10 @@ public abstract class BalancingServiceImplTestBase extends KualiTestBase {
         assertNotNull(balancingService.getShortTableLabel((EntryHistory.class).getSimpleName()));
         assertNotNull(balancingService.getShortTableLabel((Balance.class).getSimpleName()));
         assertNotNull(balancingService.getShortTableLabel((BalanceHistory.class).getSimpleName()));
+        
+        // Whether files are ready or not depends on if the poster ran before this. We are just executing the code here and not checking return value.
+        balancingService.getPosterInputFile();
+        balancingService.getPosterErrorOutputFile();
     }
     
     public void testGetOriginEntry() {
@@ -208,24 +199,10 @@ public abstract class BalancingServiceImplTestBase extends KualiTestBase {
      * Test helper to compare history data to live data, expecting comparison success
      */
     protected void assertCompareHistorySuccess() {
-        // Create a TextReportHelper so we can call methods that do printing
-        // TODO Would be nice to use mock object for the following. Waiting for TextReportHelper to become a service
-        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
-        String reportsDirectory = kualiConfigurationService.getPropertyString(KFSConstants.REPORTS_DIRECTORY_KEY);
-        String reportFilename = reportsDirectory + File.separator + "junit_" + balancingService.getReportFilename() + new SimpleDateFormat(ReportServiceImpl.DATE_FORMAT_STRING).format(dateTimeService.getCurrentDate()) + ".txt";
-        PrintStream REPORT_ps;
-        try {
-            REPORT_ps = new PrintStream(reportFilename);
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        TextReportHelper textReportHelper = new TextReportHelper("Junit Test Case Dump", REPORT_ps, dateTimeService);
+        assertEquals(0, balancingService.compareEntryHistory().intValue());
+        assertEquals(0, balancingService.compareBalanceHistory().intValue());
         
-        assertEquals(0, balancingService.compareEntryHistory(textReportHelper).intValue());
-        assertEquals(0, balancingService.compareBalanceHistory(textReportHelper).intValue());
-        
-        Map<String, Integer> countCustomComparisionFailures = balancingService.customCompareHistory(textReportHelper);
+        Map<String, Integer> countCustomComparisionFailures = balancingService.customCompareHistory();
         
         if (ObjectUtils.isNotNull(countCustomComparisionFailures)) {
             for (Iterator<String> names = countCustomComparisionFailures.keySet().iterator(); names.hasNext();) {
@@ -233,33 +210,16 @@ public abstract class BalancingServiceImplTestBase extends KualiTestBase {
                 assertEquals(0, countCustomComparisionFailures.get(name).intValue());
             }
         }
-        
-        REPORT_ps.close();
     }
     
     /**
      * Test helper to compare history data to live data, expecting comparison failure
      */
     protected void assertCompareHistoryFailure() {
-        // Create a TextReportHelper so we can call methods that do printing
-        // TODO Would be nice to use mock object for the following. Waiting for TextReportHelper to become a service
-        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
-        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-        String reportsDirectory = kualiConfigurationService.getPropertyString(KFSConstants.REPORTS_DIRECTORY_KEY);
-        String reportFilename = reportsDirectory + File.separator + "junit_" + balancingService.getReportFilename() + new SimpleDateFormat(ReportServiceImpl.DATE_FORMAT_STRING).format(dateTimeService.getCurrentDate()) + ".txt";
-        PrintStream REPORT_ps;
-        try {
-            REPORT_ps = new PrintStream(reportFilename);
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        TextReportHelper textReportHelper = new TextReportHelper("Junit Test Case Dump", REPORT_ps, dateTimeService);
+        assertNotSame(0, balancingService.compareEntryHistory().intValue());
+        assertNotSame(0, balancingService.compareBalanceHistory().intValue());
         
-        assertNotSame(0, balancingService.compareEntryHistory(textReportHelper).intValue());
-        assertNotSame(0, balancingService.compareBalanceHistory(textReportHelper).intValue());
-        
-        Map<String, Integer> countCustomComparisionFailures = balancingService.customCompareHistory(textReportHelper);
+        Map<String, Integer> countCustomComparisionFailures = balancingService.customCompareHistory();
         
         if (ObjectUtils.isNotNull(countCustomComparisionFailures)) {
             for (Iterator<String> names = countCustomComparisionFailures.keySet().iterator(); names.hasNext();) {
@@ -267,8 +227,6 @@ public abstract class BalancingServiceImplTestBase extends KualiTestBase {
                 assertNotSame(0, countCustomComparisionFailures.get(name).intValue());
             }
         }
-        
-        REPORT_ps.close();
     }
     
     /**

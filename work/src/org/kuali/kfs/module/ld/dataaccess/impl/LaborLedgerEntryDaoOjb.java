@@ -35,6 +35,7 @@ import org.kuali.kfs.module.ld.util.ConsolidationUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TransactionalServiceUtils;
 
 /**
@@ -157,7 +158,7 @@ public class LaborLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements L
     }
 
     /**
-     * @see org.kuali.kfs.module.ld.dataaccess.LaborLedgerEntryDao#findLaborLedgerEntryByGroup(java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.gl.dataaccess.LedgerEntryBalancingDao#findEntryByGroup(java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
     public Object[] findEntryByGroup(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode, String financialBalanceTypeCode, String universityFiscalPeriodCode, String transactionDebitCreditCode) {
         Criteria criteria = new Criteria();
@@ -175,7 +176,9 @@ public class LaborLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements L
         Iterator<Object[]> iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(reportQuery);
         Object[] returnResult = TransactionalServiceUtils.retrieveFirstAndExhaustIterator(iterator);
         
-        if (returnResult[0] instanceof BigDecimal) {
+        if (ObjectUtils.isNull(returnResult)) {
+            // Do nothing, we'll return null. Data wasn't found.
+        } else if (returnResult[0] instanceof BigDecimal) {
             returnResult[0] = ((BigDecimal) returnResult[0]).intValue();
         }
         else {

@@ -19,15 +19,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FilenameFilter;
-import java.io.PrintStream;
 import java.lang.reflect.ParameterizedType;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.gl.TextReportHelper;
 import org.kuali.kfs.gl.batch.service.BalancingService;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.Entry;
@@ -39,12 +36,11 @@ import org.kuali.kfs.gl.dataaccess.LedgerBalanceHistoryBalancingDao;
 import org.kuali.kfs.gl.dataaccess.LedgerBalancingDao;
 import org.kuali.kfs.gl.dataaccess.LedgerEntryBalancingDao;
 import org.kuali.kfs.gl.dataaccess.LedgerEntryHistoryBalancingDao;
-import org.kuali.kfs.gl.service.impl.ReportServiceImpl;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -77,6 +73,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
     protected LedgerBalanceBalancingDao ledgerBalanceBalancingDao;
     protected LedgerBalanceHistoryBalancingDao ledgerBalanceHistoryBalancingDao;
     protected LedgerEntryHistoryBalancingDao ledgerEntryHistoryBalancingDao;
+    protected ReportWriterService reportWriterService;
     protected String batchFileDirectoryName;
     
     /**
@@ -92,33 +89,13 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
      * @see org.kuali.kfs.gl.batch.service.BalancingService#runBalancing()
      */
     public boolean runBalancing() {
-        LOG.debug("Preparing parameters for report.");
-        // Prepare the report
-        String reportsDirectory = kualiConfigurationService.getPropertyString(KFSConstants.REPORTS_DIRECTORY_KEY);
-        // TODO should ReportServiceImpl.DATE_FORMAT_STRING be in KFSConstants?
-        // TODO no constant for .TXT?
-        String reportFilename = reportsDirectory + File.separator + this.getReportFilename() + new SimpleDateFormat(ReportServiceImpl.DATE_FORMAT_STRING).format(dateTimeService.getCurrentDate()) + ".txt";
-        PrintStream REPORT_ps;
-        try {
-            REPORT_ps = new PrintStream(reportFilename);
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        // We need one textReportHelper here so that we can print appropriate headers. See other methods for the ones that take care of writing error lines.
-        TextReportHelper textReportHelper = new TextReportHelper(this.getReportTitle(), REPORT_ps, dateTimeService);
-        
         // Prepare date constants used throughout the process
         Integer currentUniversityFiscalYear = optionsService.getCurrentYearOptions().getUniversityFiscalYear();
         int startUniversityFiscalYear = currentUniversityFiscalYear - this.getPastFiscalYearsToConsider();
 
         LOG.debug("Checking files required for balancing process are present.");
         if(!this.isFilesReady()) {
-            // Write title manually since we are returning after this without printing statistics
-            textReportHelper.writeTitle();
-            
-            textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.ERROR_BATCH_BALANCING_FILES));
+            reportWriterService.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.ERROR_BATCH_BALANCING_FILES));
             
             return false;
         }
@@ -127,7 +104,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
         boolean historyTablesPopulated = false;
         // Following does not check for custom data (AccountBalance & Encumbrance) present. Should be OK since it can't exist without entry and balance data.
         if (this.getHistoryCount(null, entryHistoryPersistentClass) == 0 || this.getHistoryCount(null, balanceHistoryPersistentClass) == 0) {
-            textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_DATA_INSERT), entryHistoryPersistentClass.getSimpleName(), balanceHistoryPersistentClass.getSimpleName());
+            reportWriterService.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_DATA_INSERT), entryHistoryPersistentClass.getSimpleName(), balanceHistoryPersistentClass.getSimpleName());
             
             ledgerBalancingDao.populateLedgerEntryHistory(startUniversityFiscalYear);
             ledgerBalancingDao.populateLedgerBalanceHistory(startUniversityFiscalYear);
@@ -142,10 +119,10 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
         boolean obsoleteUniversityFiscalYearDeleted = false;
         int obsoleteUniversityFiscalYear = startUniversityFiscalYear - 1;
         if(this.getHistoryCount(obsoleteUniversityFiscalYear, entryHistoryPersistentClass) != 0 || this.getHistoryCount(obsoleteUniversityFiscalYear, balanceHistoryPersistentClass) != 0 || this.doesCustomHistoryExist(obsoleteUniversityFiscalYear)) {
-            textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_OBSOLETE_FISCAL_YEAR_DATA_DELETED), entryHistoryPersistentClass.getSimpleName(), balanceHistoryPersistentClass.getSimpleName(), obsoleteUniversityFiscalYear);
+            reportWriterService.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_OBSOLETE_FISCAL_YEAR_DATA_DELETED), entryHistoryPersistentClass.getSimpleName(), balanceHistoryPersistentClass.getSimpleName(), obsoleteUniversityFiscalYear);
             this.deleteHistory(obsoleteUniversityFiscalYear, entryHistoryPersistentClass);
             this.deleteHistory(obsoleteUniversityFiscalYear, balanceHistoryPersistentClass);
-            this.deleteCustomHistory(obsoleteUniversityFiscalYear, textReportHelper);
+            this.deleteCustomHistory(obsoleteUniversityFiscalYear);
             obsoleteUniversityFiscalYearDeleted = true;
         }
         
@@ -153,49 +130,45 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
         int updateRecordsIgnored = 0;
         if (!historyTablesPopulated) {
             LOG.debug("Getting postable records and save them to history tables.");
-            updateRecordsIgnored = this.updateHistoriesHelper(startUniversityFiscalYear, textReportHelper);            
+            updateRecordsIgnored = this.updateHistoriesHelper(startUniversityFiscalYear);            
         }
 
         LOG.debug("Comparing entry history table with the PRD counterpart.");
-        int countEntryComparisionFailure = this.compareEntryHistory(textReportHelper);
+        int countEntryComparisionFailure = this.compareEntryHistory();
         if (countEntryComparisionFailure != 0) {
-            textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_FAILURE_COUNT), entryHistoryPersistentClass.getSimpleName(), countEntryComparisionFailure, this.getComparisonFailuresToPrintPerReport());
+            reportWriterService.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_FAILURE_COUNT), entryHistoryPersistentClass.getSimpleName(), countEntryComparisionFailure, this.getComparisonFailuresToPrintPerReport());
         }
         
         LOG.debug("Comparing balance history table with the PRD counterpart.");
-        int countBalanceComparisionFailure = this.compareBalanceHistory(textReportHelper);
+        int countBalanceComparisionFailure = this.compareBalanceHistory();
         if (countBalanceComparisionFailure != 0) {
-            textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_FAILURE_COUNT), balanceHistoryPersistentClass.getSimpleName(), countBalanceComparisionFailure, this.getComparisonFailuresToPrintPerReport());
+            reportWriterService.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_FAILURE_COUNT), balanceHistoryPersistentClass.getSimpleName(), countBalanceComparisionFailure, this.getComparisonFailuresToPrintPerReport());
         }
         
         LOG.debug("Comparing custom, if any, history table with the PRD counterpart.");
-        Map<String, Integer> countCustomComparisionFailures = this.customCompareHistory(textReportHelper);
+        Map<String, Integer> countCustomComparisionFailures = this.customCompareHistory();
         
         LOG.debug("Writing statistics section");
-        // We call writeTitle here because no title may have been written if there were no errors. It will check for us that the title isn't written twice
-        textReportHelper.writeTitle();
-        textReportHelper.writeStatisticsHeader();
-        textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_FISCAL_YEARS_INCLUDED), ledgerBalanceHistoryBalancingDao.findDistinctFiscalYears());
-        textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_HISTORY_TABLES_INITIALIZED), historyTablesPopulated ? "Yes" : "No");
-        textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_OBSOLETE_DELETED), obsoleteUniversityFiscalYearDeleted ? "Yes (" + obsoleteUniversityFiscalYear + ")": "No");
-        textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_UPDATED_SKIPPED), updateRecordsIgnored);
-        textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_COMPARISION_FAILURE), this.getShortTableLabel(entryHistoryPersistentClass.getSimpleName()), "(" + entryHistoryPersistentClass.getSimpleName() + ")", countEntryComparisionFailure);
-        textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_COMPARISION_FAILURE), this.getShortTableLabel(balanceHistoryPersistentClass.getSimpleName()), "(" + balanceHistoryPersistentClass.getSimpleName() + ")", countBalanceComparisionFailure);
-        textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_ENTRY_SUM_ROW_COUNT_HISTORY), this.getShortTableLabel(entryHistoryPersistentClass.getSimpleName()), "(" + entryHistoryPersistentClass.getSimpleName() + ")", ledgerEntryHistoryBalancingDao.findSumRowCountGreaterOrEqualThan(startUniversityFiscalYear));
-        textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_ENTRY_ROW_COUNT_PRODUCTION), this.getShortTableLabel((Entry.class).getSimpleName()), ledgerEntryBalancingDao.findCountGreaterOrEqualThan(startUniversityFiscalYear));
-        textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_BALANCE_ROW_COUNT_HISTORY), this.getShortTableLabel(balanceHistoryPersistentClass.getSimpleName()), "(" + balanceHistoryPersistentClass.getSimpleName() + ")", this.getHistoryCount(null, balanceHistoryPersistentClass));
-        textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_BALANCE_ROW_COUNT_PRODUCTION), this.getShortTableLabel((Balance.class).getSimpleName()), ledgerBalanceBalancingDao.findCountGreaterOrEqualThan(startUniversityFiscalYear));
+        reportWriterService.writeStatistic(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_FISCAL_YEARS_INCLUDED), ledgerBalanceHistoryBalancingDao.findDistinctFiscalYears());
+        reportWriterService.writeStatistic(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_HISTORY_TABLES_INITIALIZED), historyTablesPopulated ? "Yes" : "No");
+        reportWriterService.writeStatistic(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_OBSOLETE_DELETED), obsoleteUniversityFiscalYearDeleted ? "Yes (" + obsoleteUniversityFiscalYear + ")": "No");
+        reportWriterService.writeStatistic(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_UPDATED_SKIPPED), updateRecordsIgnored);
+        reportWriterService.writeStatistic(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_COMPARISION_FAILURE), this.getShortTableLabel(entryHistoryPersistentClass.getSimpleName()), "(" + entryHistoryPersistentClass.getSimpleName() + ")", countEntryComparisionFailure);
+        reportWriterService.writeStatistic(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_COMPARISION_FAILURE), this.getShortTableLabel(balanceHistoryPersistentClass.getSimpleName()), "(" + balanceHistoryPersistentClass.getSimpleName() + ")", countBalanceComparisionFailure);
+        reportWriterService.writeStatistic(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_ENTRY_SUM_ROW_COUNT_HISTORY), this.getShortTableLabel(entryHistoryPersistentClass.getSimpleName()), "(" + entryHistoryPersistentClass.getSimpleName() + ")", ledgerEntryHistoryBalancingDao.findSumRowCountGreaterOrEqualThan(startUniversityFiscalYear));
+        reportWriterService.writeStatistic(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_ENTRY_ROW_COUNT_PRODUCTION), this.getShortTableLabel((Entry.class).getSimpleName()), ledgerEntryBalancingDao.findCountGreaterOrEqualThan(startUniversityFiscalYear));
+        reportWriterService.writeStatistic(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_BALANCE_ROW_COUNT_HISTORY), this.getShortTableLabel(balanceHistoryPersistentClass.getSimpleName()), "(" + balanceHistoryPersistentClass.getSimpleName() + ")", this.getHistoryCount(null, balanceHistoryPersistentClass));
+        reportWriterService.writeStatistic(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_BALANCE_ROW_COUNT_PRODUCTION), this.getShortTableLabel((Balance.class).getSimpleName()), ledgerBalanceBalancingDao.findCountGreaterOrEqualThan(startUniversityFiscalYear));
+        
         if (ObjectUtils.isNotNull(countCustomComparisionFailures)) {
             for (Iterator<String> names = countCustomComparisionFailures.keySet().iterator(); names.hasNext();) {
                 String name = names.next();
                 int count = countCustomComparisionFailures.get(name);
                 
-                textReportHelper.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_COMPARISION_FAILURE), this.getShortTableLabel(name), "(" + name + ")", count);
+                reportWriterService.writeStatistic(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.REPORT_COMPARISION_FAILURE), this.getShortTableLabel(name), "(" + name + ")", count);
             }
         }
-        this.customPrintRowCountHistory(startUniversityFiscalYear, textReportHelper);
-        
-        REPORT_ps.close();
+        this.customPrintRowCountHistory(startUniversityFiscalYear);
         
         return true;
     }
@@ -269,10 +242,9 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
     /**
      * This is a helper method that wraps parsing poster entries for updateEntryHistory and updateBalanceHistory.
      * @param startUniversityFiscalYear fiscal year for which to accept the earlier parsed lines from the input file
-     * @param textReportHelper handle on TextReportHelper for fancy printing
      * @return indicated whether records where ignored due to being older then startUniversityFiscalYear
      */
-    protected int updateHistoriesHelper(Integer startUniversityFiscalYear, TextReportHelper textReportHelper) {
+    protected int updateHistoriesHelper(Integer startUniversityFiscalYear) {
         int ignoredRecordsFound = 0;
         int lineNumber = 0;
 
@@ -305,11 +277,8 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
                             this.updateCustomHistory(originEntry);
                         } else {
                             // Outside of trackable FY range. Log as being a failed line
-                            if (ignoredRecordsFound == 0) {
-                                textReportHelper.writeErrorHeader(originEntry);
-                            }
                             ignoredRecordsFound++;
-                            textReportHelper.writeErrors(originEntry, new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_RECORD_BEFORE_FISCAL_YEAR), Message.TYPE_WARNING, startUniversityFiscalYear));
+                            reportWriterService.writeError(originEntry, new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_RECORD_BEFORE_FISCAL_YEAR), Message.TYPE_WARNING, startUniversityFiscalYear));
                         }
                     }
                 }
@@ -323,7 +292,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
             posterErrorBufferedReader.close();
         } catch (Exception e) {
             LOG.fatal(String.format(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.ERROR_BATCH_BALANCING_UNKNOWN_FAILURE), e.getMessage(), lineNumber));
-            textReportHelper.printf(String.format(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.ERROR_BATCH_BALANCING_UNKNOWN_FAILURE), e.getMessage(), lineNumber));
+            reportWriterService.printf(String.format(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.ERROR_BATCH_BALANCING_UNKNOWN_FAILURE), e.getMessage(), lineNumber));
             throw new RuntimeException(String.format(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.ERROR_BATCH_BALANCING_UNKNOWN_FAILURE), e.getMessage(), lineNumber));
         }
         
@@ -332,10 +301,9 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
     
     /**
      * Compares entries in the Balance and BalanceHistory tables to ensure the amounts match.
-     * @param textReportHelper handle on TextReportHelper for fancy printing
      * @return count is compare failures
      */
-    protected Integer compareBalanceHistory(TextReportHelper textReportHelper) {
+    protected Integer compareBalanceHistory() {
         Integer countComparisionFailures = 0;
         
         // TODO findAll might not be a good idea performance wise. Do some kind of LIMIT stepping?
@@ -344,14 +312,11 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
             LedgerBalanceHistory ledgerBalanceHistory = iterator.next();
             Balance balance = this.getBalance(ledgerBalanceHistory);
             
-            if (!ledgerBalanceHistory.compareAmounts(balance)) {
+            if (ObjectUtils.isNull(balance) || !ledgerBalanceHistory.compareAmounts(balance)) {
                 // Compare failed, properly log it if we havn't written more then TOTAL_COMPARISION_FAILURES_TO_PRINT yet
-                if (countComparisionFailures == 0) {
-                    textReportHelper.writeErrorHeader(ledgerBalanceHistory, true);
-                }
                 countComparisionFailures++;
                 if (countComparisionFailures <= this.getComparisonFailuresToPrintPerReport()) {
-                    textReportHelper.writeErrors(ledgerBalanceHistory, new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_RECORD_FAILED_BALANCING), Message.TYPE_WARNING, ledgerBalanceHistory.getClass().getSimpleName()));
+                    reportWriterService.writeError(ledgerBalanceHistory, new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_RECORD_FAILED_BALANCING), Message.TYPE_WARNING, ledgerBalanceHistory.getClass().getSimpleName()));
                 }
             }
         }
@@ -361,10 +326,9 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
     
     /**
      * Compares entries in the Entry and EntryHistory tables to ensure the amounts match.
-     * @param textReportHelper handle on TextReportHelper for fancy printing
      * @return count is compare failures
      */
-    protected Integer compareEntryHistory(TextReportHelper textReportHelper) {
+    protected Integer compareEntryHistory() {
         Integer countComparisionFailures = 0;
         
         // TODO findAll might not be a good idea performance wise. Do some kind of LIMIT stepping?
@@ -378,12 +342,9 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
                     !(((Integer) objects[0]).intValue() == ledgerEntryHistory.getRowCount()
                             && ((KualiDecimal) objects[1]).equals(ledgerEntryHistory.getTransactionLedgerEntryAmount()))) {
                 // Compare failed, properly log it if we havn't written more then TOTAL_COMPARISION_FAILURES_TO_PRINT yet
-                if (countComparisionFailures == 0) {
-                    textReportHelper.writeErrorHeader(ledgerEntryHistory, true);
-                }
                 countComparisionFailures++;
                 if (countComparisionFailures <= this.getComparisonFailuresToPrintPerReport()) {
-                    textReportHelper.writeErrors(ledgerEntryHistory, new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_RECORD_FAILED_BALANCING), Message.TYPE_WARNING, ledgerEntryHistory.getClass().getSimpleName()));
+                    reportWriterService.writeError(ledgerEntryHistory, new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_RECORD_FAILED_BALANCING), Message.TYPE_WARNING, ledgerEntryHistory.getClass().getSimpleName()));
                 }
             }
         }
@@ -413,7 +374,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
      * should print message to that affect to be consistent with rest of functionality.
      * @param fiscalYear given fiscal year
      */
-    protected void deleteCustomHistory(Integer fiscalYear, TextReportHelper textReportHelper) {
+    protected void deleteCustomHistory(Integer fiscalYear) {
         return;
     }
     
@@ -427,19 +388,17 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
     
     /**
      * Possible override if sub class has additional history tables.
-     * @param textReportHelper handle on TextReportHelper for fancy printing
      * @return compare failures. As a HashMap of key: businessObjectName, value: count
      */
-    protected Map<String, Integer> customCompareHistory(TextReportHelper textReportHelper) {
+    protected Map<String, Integer> customCompareHistory() {
         return null;
     }
     
     /**
      * Possible override if sub class has additional history tables. Prints the row count history for STATISTICS section.
      * @param fiscalYear starting from which fiscal year the comparision should take place
-     * @param textReportHelper handle on TextReportHelper for fancy printing
      */
-    protected void customPrintRowCountHistory(Integer fiscalYear, TextReportHelper textReportHelper){
+    protected void customPrintRowCountHistory(Integer fiscalYear){
         return;
     }
     
@@ -542,6 +501,15 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
         this.ledgerEntryHistoryBalancingDao = ledgerEntryHistoryBalancingDao;
     }
 
+    /**
+     * Sets the reportWriterService
+     * 
+     * @param reportWriterService The reportWriterService to set.
+     */
+    public void setReportWriterService(ReportWriterService reportWriterService) {
+        this.reportWriterService = reportWriterService;
+    }
+    
     /**
      * Sets the batchFileDirectoryName
      * 

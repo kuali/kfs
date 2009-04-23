@@ -51,20 +51,6 @@ public class LaborBalancingServiceImpl extends BalancingServiceBaseImpl<LaborEnt
     protected File laborPosterErrorOutputFile = null;
     
     /**
-     * @see org.kuali.kfs.gl.batch.service.BalancingService#getReportFilename()
-     */
-    public String getReportFilename() {
-        return LaborConstants.BatchFileSystem.BALANCING_REPORT_FILENAME_PREFIX;
-    }
-    
-    /**
-     * @see org.kuali.kfs.gl.batch.service.BalancingService#getReportTitle()
-     */
-    public String getReportTitle() {
-        return kualiConfigurationService.getPropertyString(LaborKeyConstants.Balancing.REPORT_FILE_TITLE);
-    }
-    
-    /**
      * @see org.kuali.kfs.gl.batch.service.BalancingService#getPosterInputFile()
      */
     public File getPosterInputFile() {

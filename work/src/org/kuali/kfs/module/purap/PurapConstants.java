@@ -379,6 +379,7 @@ public class PurapConstants extends JSTLConstants {
         public static final String SPLIT_NOTE_TEXT = "splitNoteText";
         public static final String ITEMS_MOVING_TO_SPLIT = "movingPOItems";
         public static final String ITEMS_REMAINING = "remainingPOItems";
+        public static final String LINE_ITEMS_REMAINING = "remainingPOLineItems";
 
         public static final String CONFIRM_AWARD_QUESTION = "POConfirmAward";
         public static final String CONFIRM_AWARD_RETURN = "completeQuote";

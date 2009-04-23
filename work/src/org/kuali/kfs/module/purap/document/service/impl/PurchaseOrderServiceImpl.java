@@ -1496,16 +1496,21 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         HashMap<String, List<PurchaseOrderItem>> movingOrNot =  new HashMap<String, List<PurchaseOrderItem>>(3);
         List<PurchaseOrderItem> movingPOItems = new TypedArrayList(PurchaseOrderItem.class);
         List<PurchaseOrderItem> remainingPOItems = new TypedArrayList(PurchaseOrderItem.class);
+        List<PurchaseOrderItem> remainingPOLineItems = new TypedArrayList(PurchaseOrderItem.class);
         for (PurchaseOrderItem item : items) {
             if(item.isMovingToSplit()) {
                 movingPOItems.add(item);
             }          
             else {
                 remainingPOItems.add(item);
+                if (item.getItemType().isLineItemIndicator()) {
+                    remainingPOLineItems.add(item);
+                }
             }
         }
         movingOrNot.put(PODocumentsStrings.ITEMS_MOVING_TO_SPLIT, movingPOItems);
         movingOrNot.put(PODocumentsStrings.ITEMS_REMAINING, remainingPOItems);
+        movingOrNot.put(PODocumentsStrings.LINE_ITEMS_REMAINING, remainingPOLineItems);
         return movingOrNot;
     }
 

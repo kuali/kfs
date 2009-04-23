@@ -42,7 +42,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  * Validates that an accounting document's balances by object codes are unchanged
  */
 public class SalaryExpenseTransferValidAmountTransferredByObjectCodeValidation extends GenericValidation {
-    private AccountingDocument documentForValidation;
+    private Document documentForValidation;
 
     /**
      * Validates that an accounting document's unbalanced object code balances exist <strong>Expects an accounting document as the
@@ -50,10 +50,7 @@ public class SalaryExpenseTransferValidAmountTransferredByObjectCodeValidation e
      * 
      * @see org.kuali.kfs.validation.Validation#validate(java.lang.Object[])
      */
-    public boolean validate(AttributedDocumentEvent event) {
-        
-        AccountingDocument documentForValidation = getAccountingDocumentForValidation();
-        
+    public boolean validate(AttributedDocumentEvent event) {        
         SalaryExpenseTransferDocument expenseTransferDocument = (SalaryExpenseTransferDocument) documentForValidation;
         KualiWorkflowDocument workflowDocument = expenseTransferDocument.getDocumentHeader().getWorkflowDocument();
         
@@ -124,19 +121,11 @@ public class SalaryExpenseTransferValidAmountTransferredByObjectCodeValidation e
     }
 
     /**
-     * Gets the documentForValidation attribute. 
-     * @return Returns the documentForValidation.
-     */
-    public AccountingDocument getAccountingDocumentForValidation() {
-        return documentForValidation;
-    }
-
-    /**
      * Sets the documentForValidation attribute value.
      * 
      * @param documentForValidation The documentForValidation to set.
      */
-    public void setAccountingDocumentForValidation(AccountingDocument documentForValidation) {
+    public void setDocumentForValidation(Document documentForValidation) {
         this.documentForValidation = documentForValidation;
     }
 }

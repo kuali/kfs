@@ -133,7 +133,7 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
         noteService.save(cancelNote);
         document.addNote(cancelNote);
         
-        documentService.superUserDisapproveDocument(document, "disapproved - failed effort certification checks");
+        documentService.disapproveDocument(document, "disapproved - failed effort certification checks");
     }
 
     /**

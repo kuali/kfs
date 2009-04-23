@@ -127,6 +127,9 @@
 		<property name="budgetPullupDao">
 			<ref bean="bcBudgetPullupDao" />
 		</property>
+		<property name="persistenceService">
+			<ref bean="persistenceService" />
+		</property>
 	</bean>
 
 	<bean id="budgetPushPullService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetPushPullServiceImpl">

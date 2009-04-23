@@ -28,6 +28,7 @@ import org.kuali.kfs.module.bc.document.dataaccess.BudgetPullupDao;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService;
 import org.kuali.kfs.module.bc.document.service.BudgetOrganizationTreeService;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.PersistenceService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -41,6 +42,7 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
     private BusinessObjectService businessObjectService;
     private BudgetConstructionDao budgetConstructionDao;
     private BudgetPullupDao budgetPullupDao;
+    private PersistenceService persistenceService;
 
     // controls used to trap any runaways due to cycles in the reporting tree
     private static final int MAXLEVEL = 50;
@@ -108,6 +110,8 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
         curLevel++;
         budgetPullupDao.initPointOfView(principalName, bcOrgRpts.getChartOfAccountsCode(), bcOrgRpts.getOrganizationCode(), curLevel);
         budgetPullupDao.insertChildOrgs(principalName, curLevel);
+        
+        persistenceService.clearCache();
 
     }
 
@@ -238,6 +242,22 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
      */
     public void setBudgetPullupDao(BudgetPullupDao budgetPullupDao) {
         this.budgetPullupDao = budgetPullupDao;
+    }
+
+    /**
+     * Gets the persistenceService attribute. 
+     * @return Returns the persistenceService.
+     */
+    public PersistenceService getPersistenceService() {
+        return persistenceService;
+    }
+
+    /**
+     * Sets the persistenceService attribute value.
+     * @param persistenceService The persistenceService to set.
+     */
+    public void setPersistenceService(PersistenceService persistenceService) {
+        this.persistenceService = persistenceService;
     }
 
 }

@@ -109,7 +109,7 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
 
             Paragraph p = new Paragraph();
             p.add(new Chunk("\n     R.Q. Number: ", ver_8_bold));
-            p.add(new Chunk(po.getPurapDocumentIdentifier() + "\n", cour_7_normal));
+            p.add(new Chunk(po.getPurapDocumentIdentifier() + "\n", cour_10_normal));
             cell = new PdfPCell(p);
             cell.setBorderWidth(0);
             headerTable.addCell(cell);
@@ -241,13 +241,13 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
         p = new Paragraph();
         ContractManager contractManager = po.getContractManager();
         p.add(new Chunk("\n Return this form to:\n", ver_8_bold));
-        p.add(new Chunk(purchasingAddressFull + "\n", cour_7_normal));
-        p.add(new Chunk("\n", cour_7_normal));
+        p.add(new Chunk(purchasingAddressFull + "\n", cour_10_normal));
+        p.add(new Chunk("\n", cour_10_normal));
         p.add(new Chunk(" Fax #: ", ver_6_normal));
-        p.add(new Chunk(contractManager.getContractManagerFaxNumber() + "\n", cour_7_normal));
+        p.add(new Chunk(contractManager.getContractManagerFaxNumber() + "\n", cour_10_normal));
         p.add(new Chunk(" Contract Manager: ", ver_6_normal));
-        p.add(new Chunk(contractManager.getContractManagerName() + " " + contractManager.getContractManagerPhoneNumber() + "\n", cour_7_normal));
-        p.add(new Chunk("\n", cour_7_normal));
+        p.add(new Chunk(contractManager.getContractManagerName() + " " + contractManager.getContractManagerPhoneNumber() + "\n", cour_10_normal));
+        p.add(new Chunk("\n", cour_10_normal));
         p.add(new Chunk(" To:\n", ver_6_normal));
         StringBuffer vendorInfo = new StringBuffer();
         if (StringUtils.isNotBlank(poqv.getVendorAttentionName())) {
@@ -283,27 +283,27 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
             vendorInfo.append("     \n\n");
         }
 
-        p.add(new Chunk(vendorInfo.toString(), cour_7_normal));
+        p.add(new Chunk(vendorInfo.toString(), cour_10_normal));
         cell = new PdfPCell(p);
         cell.setHorizontalAlignment(Element.ALIGN_LEFT);
         infoTable.addCell(cell);
 
         p = new Paragraph();
         p.add(new Chunk("\n     R.Q. Number: ", ver_8_bold));
-        p.add(new Chunk(po.getPurapDocumentIdentifier() + "\n", cour_7_normal));
+        p.add(new Chunk(po.getPurapDocumentIdentifier() + "\n", cour_10_normal));
         Date requestDate = getDateTimeService().getCurrentSqlDate();
         if (poqv.getPurchaseOrderQuoteTransmitTimestamp() != null) {
             requestDate = (new Date(poqv.getPurchaseOrderQuoteTransmitTimestamp().getTime()));
         }
         p.add(new Chunk("     R.Q. Date: ", ver_8_bold));
-        p.add(new Chunk(sdf.format(requestDate) + "\n", cour_7_normal));
+        p.add(new Chunk(sdf.format(requestDate) + "\n", cour_10_normal));
         p.add(new Chunk("     RESPONSE MUST BE RECEIVED BY: ", ver_8_bold));
         if (po.getPurchaseOrderQuoteDueDate() != null) {
             Date dueDate = (new Date(po.getPurchaseOrderQuoteDueDate().getTime()));
-            p.add(new Chunk(sdf.format(dueDate) + "\n\n", cour_7_normal));
+            p.add(new Chunk(sdf.format(dueDate) + "\n\n", cour_10_normal));
         }
         else {
-            p.add(new Chunk("N/A\n\n", cour_7_normal));
+            p.add(new Chunk("N/A\n\n", cour_10_normal));
         }
 
         // retrieve the quote stipulations
@@ -328,7 +328,7 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
         p = new Paragraph();
         p.add(new Chunk("  Vendor Stipulations and Information\n\n", ver_6_normal));
         if ((po.getPurchaseOrderBeginDate() != null) && (po.getPurchaseOrderEndDate() != null)) {
-            p.add(new Chunk("     Order in effect from " + sdf.format(po.getPurchaseOrderBeginDate()) + " to " + sdf.format(po.getPurchaseOrderEndDate()) + ".\n", cour_7_normal));
+            p.add(new Chunk("     Order in effect from " + sdf.format(po.getPurchaseOrderBeginDate()) + " to " + sdf.format(po.getPurchaseOrderEndDate()) + ".\n", cour_10_normal));
         }
         Collection<PurchaseOrderVendorStipulation> vendorStipulationsList = po.getPurchaseOrderVendorStipulations();
         if (vendorStipulationsList.size() > 0) {
@@ -336,7 +336,7 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
             for (PurchaseOrderVendorStipulation povs : vendorStipulationsList) {
                 vendorStipulations.append("     " + povs.getVendorStipulationDescription() + "\n");
             }
-            p.add(new Chunk("     " + vendorStipulations.toString(), cour_7_normal));
+            p.add(new Chunk("     " + vendorStipulations.toString(), cour_10_normal));
         }
 
         PdfPCell tableCell = new PdfPCell(p);
@@ -374,7 +374,7 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
             itemsTable.addCell(" ");
             itemsTable.addCell(" ");
             itemsTable.addCell(" ");
-            tableCell = createCell(po.getPurchaseOrderQuoteVendorNoteText(), false, false, false, false, Element.ALIGN_LEFT, cour_7_normal);
+            tableCell = createCell(po.getPurchaseOrderQuoteVendorNoteText(), false, false, false, false, Element.ALIGN_LEFT, cour_10_normal);
             itemsTable.addCell(tableCell);
             itemsTable.addCell(" ");
             itemsTable.addCell(" ");
@@ -403,15 +403,15 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
                 else {
                     itemLineNumber = "";
                 }
-                tableCell = createCell(itemLineNumber, false, false, false, false, Element.ALIGN_CENTER, cour_7_normal);
+                tableCell = createCell(itemLineNumber, false, false, false, false, Element.ALIGN_CENTER, cour_10_normal);
                 itemsTable.addCell(tableCell);
                 String quantity = (poi.getItemQuantity() != null) ? poi.getItemQuantity().toString() : " ";
-                tableCell = createCell(quantity, false, false, false, false, Element.ALIGN_CENTER, cour_7_normal);
+                tableCell = createCell(quantity, false, false, false, false, Element.ALIGN_CENTER, cour_10_normal);
                 itemsTable.addCell(tableCell);
-                tableCell = createCell(poi.getItemUnitOfMeasureCode(), false, false, false, false, Element.ALIGN_CENTER, cour_7_normal);
+                tableCell = createCell(poi.getItemUnitOfMeasureCode(), false, false, false, false, Element.ALIGN_CENTER, cour_10_normal);
                 itemsTable.addCell(tableCell);
 
-                tableCell = createCell(description, false, false, false, false, Element.ALIGN_LEFT, cour_7_normal);
+                tableCell = createCell(description, false, false, false, false, Element.ALIGN_LEFT, cour_10_normal);
                 itemsTable.addCell(tableCell);
                 itemsTable.addCell(" ");
                 itemsTable.addCell(" ");
@@ -487,7 +487,7 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
             purchasingAddressPartial = po.getReceivingCityName() + ", " + po.getReceivingStateCode() + " " + po.getReceivingPostalCode();
         else  // use final delivery address
             purchasingAddressPartial = po.getDeliveryCityName() + ", " + po.getDeliveryStateCode() + " " + po.getDeliveryPostalCode();
-        p.add(new Chunk(purchasingAddressPartial + "\n", cour_7_normal));
+        p.add(new Chunk(purchasingAddressPartial + "\n", cour_10_normal));
         cell = new PdfPCell(p);
         cell.setColspan(2);
         cell.setHorizontalAlignment(Element.ALIGN_LEFT);

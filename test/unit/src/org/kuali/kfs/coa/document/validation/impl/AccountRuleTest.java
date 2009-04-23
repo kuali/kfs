@@ -20,7 +20,6 @@ import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapSize
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -36,6 +35,7 @@ import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -406,101 +406,82 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
-//    private Person getKualiUserByUserName(String userName) {
-//        AuthenticationUserId userId = new AuthenticationUserId(userName);
-//        Person user = null;
-//        try {
-//            user = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(userId);
-//        }
-//        return user;
-//    }
-//
-    // public void testNonSystemSupervisorReopeningClosedAccount_NotBeingReopened() {
-    //
-    // Account oldAccount = new Account();
-    // 
-    // maintDoc = newMaintDoc(oldAccount, newAccount);
-    // AccountRule rule= (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
-    //
-    // boolean result;
-    // KualiUser user = null;
-    //
-    // // setup common information
-    // oldAccount.setChartOfAccountsCode(Accounts.ChartCode.GOOD1);
-    // oldAccount.setAccountNumber(Accounts.AccountNumber.GOOD1);
-    // newAccount.setChartOfAccountsCode(Accounts.ChartCode.GOOD1);
-    // newAccount.setAccountNumber(Accounts.AccountNumber.GOOD1);
-    //
-    // // document not being closed
-    // oldAccount.setAccountClosedIndicator(false);
-    // newAccount.setAccountClosedIndicator(false);
-    // user = getKualiUserByUserName(Accounts.UserIds.GOOD1);
-    // result = rule.isNonSystemSupervisorReopeningAClosedAccount(maintDoc, user);
-    // assertEquals("Account is not closed, and is not being reopened.", false, result);
-    //
-    // }
+    private Person getKualiUserByUserName(String userName) {
+        return SpringContext.getBean(PersonService.class).getPersonByPrincipalName(userName);
+    }
 
-    // public void testNonSystemSupervisorReopeningClosedAccount_BeingReopenedNotSupervisor() {
-    //
-    // Account oldAccount = new Account();
-    // 
-    // maintDoc = newMaintDoc(oldAccount, newAccount);
-    // AccountRule rule= (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
-    //
-    // boolean result;
-    // KualiUser user = null;
-    //
-    // // setup common information
-    // oldAccount.setChartOfAccountsCode(Accounts.ChartCode.GOOD1);
-    // oldAccount.setAccountNumber(Accounts.AccountNumber.GOOD1);
-    // newAccount.setChartOfAccountsCode(Accounts.ChartCode.GOOD1);
-    // newAccount.setAccountNumber(Accounts.AccountNumber.GOOD1);
-    //
-    // // document being closed, non-supervisor user
-    // oldAccount.setAccountClosedIndicator(true);
-    // newAccount.setAccountClosedIndicator(false);
-    // user = getKualiUserByUserName(Accounts.UserIds.GOOD1);
-    // result = rule.isNonSystemSupervisorReopeningAClosedAccount(maintDoc, user);
-    // assertEquals("Account is being reopened by a non-System-Supervisor.", true, result);
-    //
-    // }
+    public void testNonSystemSupervisorReopeningClosedAccount_NotBeingReopened() {
+        Account oldAccount = new Account();
 
-    // public void testNonSystemSupervisorReopeningClosedAccount_BeingReopenedBySupervisor() {
-    //
-    // Account oldAccount = new Account();
-    // 
-    // maintDoc = newMaintDoc(oldAccount, newAccount);
-    // AccountRule rule= (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
-    //
-    // boolean result;
-    // KualiUser user = null;
-    //
-    // // setup common information
-    // oldAccount.setChartOfAccountsCode(Accounts.ChartCode.GOOD1);
-    // oldAccount.setAccountNumber(Accounts.AccountNumber.GOOD1);
-    // newAccount.setChartOfAccountsCode(Accounts.ChartCode.GOOD1);
-    // newAccount.setAccountNumber(Accounts.AccountNumber.GOOD1);
-    //
-    // // document being closed, supervisor user
-    // oldAccount.setAccountClosedIndicator(true);
-    // newAccount.setAccountClosedIndicator(false);
-    // user = getKualiUserByUserName(Accounts.UserIds.SUPER1);
-    // result = rule.isNonSystemSupervisorReopeningAClosedAccount(maintDoc, user);
-    // assertEquals("Account is being reopened by a System-Supervisor.", false, result);
-    //
-    // }
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount, newAccount);
+        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+
+        // setup common information
+        oldAccount.setChartOfAccountsCode(Accounts.ChartCode.GOOD1);
+        oldAccount.setAccountNumber(Accounts.AccountNumber.GOOD1);
+        newAccount.setChartOfAccountsCode(Accounts.ChartCode.GOOD1);
+        newAccount.setAccountNumber(Accounts.AccountNumber.GOOD1);
+
+        // document not being closed
+        oldAccount.setClosed(false);
+        newAccount.setClosed(false);
+        Person user = getKualiUserByUserName(Accounts.UserIds.GOOD1);
+        boolean result = rule.isNonSystemSupervisorEditingAClosedAccount(maintDoc, user);
+        
+        assertEquals("Account is not closed, and is not being reopened.", false, result);
+    }
+
+    public void testNonSystemSupervisorReopeningClosedAccount_BeingReopenedNotSupervisor() {
+        Account oldAccount = new Account();
+
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount, newAccount);
+        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+
+        // setup common information
+        oldAccount.setChartOfAccountsCode(Accounts.ChartCode.GOOD1);
+        oldAccount.setAccountNumber(Accounts.AccountNumber.GOOD1);
+        newAccount.setChartOfAccountsCode(Accounts.ChartCode.GOOD1);
+        newAccount.setAccountNumber(Accounts.AccountNumber.GOOD1);
+
+        // document being closed, non-supervisor user
+        oldAccount.setClosed(true);
+        newAccount.setClosed(false);
+        Person user = getKualiUserByUserName(Accounts.UserIds.GOOD1);
+        boolean result = rule.isNonSystemSupervisorEditingAClosedAccount(maintDoc, user);
+        
+        assertEquals("Account is being reopened by a non-System-Supervisor.", false, result);
+    }
+
+    public void testNonSystemSupervisorReopeningClosedAccount_BeingReopenedBySupervisor() {
+        Account oldAccount = new Account();
+
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount, newAccount);
+        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+
+        // setup common information
+        oldAccount.setChartOfAccountsCode(Accounts.ChartCode.GOOD1);
+        oldAccount.setAccountNumber(Accounts.AccountNumber.GOOD1);
+        newAccount.setChartOfAccountsCode(Accounts.ChartCode.GOOD1);
+        newAccount.setAccountNumber(Accounts.AccountNumber.GOOD1);
+
+        // document being closed, supervisor user
+        oldAccount.setClosed(true);
+        newAccount.setClosed(false);
+        Person user = getKualiUserByUserName(Accounts.UserIds.SUPER1);
+        boolean result = rule.isNonSystemSupervisorEditingAClosedAccount(maintDoc, user);
+        
+        assertEquals("Account is being reopened by a System-Supervisor.", false, result);
+    }
 
     public void testHasTemporaryRestrictedStatusCodeButNoRestrictedStatusDate_BothNull() {
-
-
         MaintenanceDocument maintDoc = newMaintDoc(newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
-        boolean result;
 
         // restricted status code blank, date not set
         newAccount.setAccountRestrictedStatusCode(null);
         newAccount.setAccountRestrictedStatusDate(null);
-        result = rule.hasTemporaryRestrictedStatusCodeButNoRestrictedStatusDate(newAccount);
+        boolean result = rule.hasTemporaryRestrictedStatusCodeButNoRestrictedStatusDate(newAccount);
+        
         assertEquals("No error should be thrown if code is blank.", false, result);
 
     }
@@ -1448,4 +1429,3 @@ public class AccountRuleTest extends ChartRuleTestBase {
         assertFieldErrorDoesNotExist("accountGuideline.accountPurposeText", KFSKeyConstants.ERROR_MAX_LENGTH);
     }
 }
-

@@ -19,6 +19,7 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.document.validation.MaintenanceRuleTestBase;
 
 /**
@@ -29,7 +30,6 @@ public class OrganizationAccountingDefaultRuleTest extends MaintenanceRuleTestBa
     
     OrganizationAccountingDefault organizationAccountingDefault;
     
-    private static Integer UNIVERSITY_FISCAL_YEAR = new Integer(2008);
     private static String EXPENSE_OBJECT_CODE = "3310";
     private static String INCOME_OBJECT_CODE = "0776";
     private static String CHART_CODE = "IU";
@@ -38,7 +38,7 @@ public class OrganizationAccountingDefaultRuleTest extends MaintenanceRuleTestBa
     protected void setUp() throws Exception {
         super.setUp();
         organizationAccountingDefault = new OrganizationAccountingDefault();
-        organizationAccountingDefault.setUniversityFiscalYear(UNIVERSITY_FISCAL_YEAR);
+        organizationAccountingDefault.setUniversityFiscalYear(TestUtils.getFiscalYearForTesting());
         organizationAccountingDefault.setChartOfAccountsCode(CHART_CODE);
     }
     

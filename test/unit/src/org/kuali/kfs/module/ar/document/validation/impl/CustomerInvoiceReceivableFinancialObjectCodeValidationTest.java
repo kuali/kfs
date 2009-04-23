@@ -20,13 +20,13 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.TestUtils;
 
 @ConfigureContext(session = khuntley)
 public class CustomerInvoiceReceivableFinancialObjectCodeValidationTest extends KualiTestBase {
     
     private CustomerInvoiceReceivableFinancialObjectCodeValidation validation;
     private final static String VALID_CHART_OF_ACCOUNTS = "BL";
-    private final static Integer VALID_POSTING_YEAR = new Integer(2008);
     private final static String VALID_FINANCIAL_OBJECT_CODE = "1500";
     private final static String INVALID_FINANCIAL_OBJECT_CODE = "XXXX";
     
@@ -35,7 +35,7 @@ public class CustomerInvoiceReceivableFinancialObjectCodeValidationTest extends 
         super.setUp();
         validation = new CustomerInvoiceReceivableFinancialObjectCodeValidation();
         validation.setCustomerInvoiceDocument(new CustomerInvoiceDocument());
-        validation.getCustomerInvoiceDocument().setPostingYear(VALID_POSTING_YEAR);
+        validation.getCustomerInvoiceDocument().setPostingYear(TestUtils.getFiscalYearForTesting());
         validation.getCustomerInvoiceDocument().setPaymentChartOfAccountsCode(VALID_CHART_OF_ACCOUNTS);
     }
 

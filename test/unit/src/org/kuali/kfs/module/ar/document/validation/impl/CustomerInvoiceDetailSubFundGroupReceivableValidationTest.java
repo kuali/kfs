@@ -21,6 +21,7 @@ import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.rice.kns.service.ParameterService;
 
 @ConfigureContext(session = khuntley)
@@ -30,9 +31,7 @@ public class CustomerInvoiceDetailSubFundGroupReceivableValidationTest extends K
     private final static String VALID_CHART_OF_ACCOUNTS_CODE = "UA";
     private final static String VALID_ACCOUNT_NUMBER = "1912810";
     private final static String INVALID_ACCOUNT_NUMBER_WITHOUT_MATCHING_OBJECT_CODE = "1912201";
-    private final static String INVALID_ACCOUNT_NUMBER_WITH_MATCHING_OBJECT_CODE = "2312810";
-    private final static Integer VALID_POSTING_YEAR = new Integer(2008); 
-    
+    private final static String INVALID_ACCOUNT_NUMBER_WITH_MATCHING_OBJECT_CODE = "2312810"; 
     
     @Override
     protected void setUp() throws Exception {
@@ -41,7 +40,7 @@ public class CustomerInvoiceDetailSubFundGroupReceivableValidationTest extends K
         validation.setParameterService(SpringContext.getBean(ParameterService.class));
         validation.setCustomerInvoiceDetail(new CustomerInvoiceDetail());
         validation.getCustomerInvoiceDetail().setChartOfAccountsCode(VALID_CHART_OF_ACCOUNTS_CODE);
-        validation.getCustomerInvoiceDetail().setPostingYear(VALID_POSTING_YEAR);
+        validation.getCustomerInvoiceDetail().setPostingYear(TestUtils.getFiscalYearForTesting());
         validation.setParameterService(SpringContext.getBean(ParameterService.class));
     }
 

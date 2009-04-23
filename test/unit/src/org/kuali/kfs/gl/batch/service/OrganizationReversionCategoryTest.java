@@ -23,6 +23,7 @@ import org.kuali.kfs.coa.service.OrganizationReversionService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
 
 /**
  * A test to make sure that canonical object codes are put into the correct Organization Reversion categories
@@ -57,12 +58,12 @@ public class OrganizationReversionCategoryTest extends KualiTestBase {
         OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic) categories.get(category);
         assertNotNull("Category not found", cat);
 
-        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2007), "BL", "5000");
+        ObjectCode se = objectCodeService.getByPrimaryId(TestUtils.getFiscalYearForTesting(), "BL", "5000");
         assertNotNull("S&E Object code should exist", se);
 
         assertFalse("S&E is not wages", cat.containsObjectCode(se));
 
-        ObjectCode wages = objectCodeService.getByPrimaryId(new Integer(2007), "BL", "3854");
+        ObjectCode wages = objectCodeService.getByPrimaryId(TestUtils.getFiscalYearForTesting(), "BL", "3854");
         assertNotNull("Wages Object code should exist", wages);
 
         assertTrue("Wages object is wages", cat.containsObjectCode(wages));
@@ -76,17 +77,17 @@ public class OrganizationReversionCategoryTest extends KualiTestBase {
         OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic) categories.get(category);
         assertNotNull("Category not found", cat);
 
-        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2007), "BL", "5000");
+        ObjectCode se = objectCodeService.getByPrimaryId(TestUtils.getFiscalYearForTesting(), "BL", "5000");
         assertNotNull("S&E Object code should exist", se);
 
         assertFalse("S&E is not salary/fringes", cat.containsObjectCode(se));
 
-        ObjectCode wages = objectCodeService.getByPrimaryId(new Integer(2007), "BL", "3854");
+        ObjectCode wages = objectCodeService.getByPrimaryId(TestUtils.getFiscalYearForTesting(), "BL", "3854");
         assertNotNull("Wages Object code should exist", wages);
 
         assertFalse("Wages object is not salary/fringes", cat.containsObjectCode(wages));
 
-        ObjectCode sal = objectCodeService.getByPrimaryId(new Integer(2007), "BL", "2000");
+        ObjectCode sal = objectCodeService.getByPrimaryId(TestUtils.getFiscalYearForTesting(), "BL", "2000");
         assertNotNull("Salary Object code should exist", sal);
 
         assertTrue("Wages object is salary/fringes", cat.containsObjectCode(sal));
@@ -100,12 +101,12 @@ public class OrganizationReversionCategoryTest extends KualiTestBase {
         OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic) categories.get(category);
         assertNotNull("Category not found", cat);
 
-        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2007), "BL", "5000");
+        ObjectCode se = objectCodeService.getByPrimaryId(TestUtils.getFiscalYearForTesting(), "BL", "5000");
         assertNotNull("S&E Object code should exist", se);
 
         assertFalse("S&E is not financial aid", cat.containsObjectCode(se));
 
-        ObjectCode fr = objectCodeService.getByPrimaryId(new Integer(2007), "BL", "5885");
+        ObjectCode fr = objectCodeService.getByPrimaryId(TestUtils.getFiscalYearForTesting(), "BL", "5885");
         assertNotNull("Fee Remission Object code should exist", fr);
 
         assertTrue("Fee Remission object is financial aid", cat.containsObjectCode(fr));
@@ -119,12 +120,12 @@ public class OrganizationReversionCategoryTest extends KualiTestBase {
         OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic) categories.get(category);
         assertNotNull("Category not found", cat);
 
-        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2007), "BL", "5000");
+        ObjectCode se = objectCodeService.getByPrimaryId(TestUtils.getFiscalYearForTesting(), "BL", "5000");
         assertNotNull("S&E Object code should exist", se);
 
         assertFalse("S&E is not capital equipment", cat.containsObjectCode(se));
 
-        ObjectCode ce = objectCodeService.getByPrimaryId(new Integer(2007), "BL", "7677");
+        ObjectCode ce = objectCodeService.getByPrimaryId(TestUtils.getFiscalYearForTesting(), "BL", "7677");
         assertNotNull("Capital Equip Object code should exist", ce);
 
         assertTrue("Art object is capital equipment", cat.containsObjectCode(ce));
@@ -138,7 +139,7 @@ public class OrganizationReversionCategoryTest extends KualiTestBase {
         OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic) categories.get(category);
         assertNotNull("Category not found", cat);
 
-        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2007), "BL", "5000");
+        ObjectCode se = objectCodeService.getByPrimaryId(TestUtils.getFiscalYearForTesting(), "BL", "5000");
         assertNotNull("S&E Object code should exist", se);
 
         assertFalse("S&E is not reserve", cat.containsObjectCode(se));
@@ -153,7 +154,7 @@ public class OrganizationReversionCategoryTest extends KualiTestBase {
         OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic) categories.get(category);
         assertNotNull("Category not found", cat);
 
-        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2007), "BL", "5000");
+        ObjectCode se = objectCodeService.getByPrimaryId(TestUtils.getFiscalYearForTesting(), "BL", "5000");
         assertNotNull("S&E Object code should exist", se);
 
         assertFalse("S&E is not transfer out", cat.containsObjectCode(se));
@@ -168,7 +169,7 @@ public class OrganizationReversionCategoryTest extends KualiTestBase {
         OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic) categories.get(category);
         assertNotNull("Category not found", cat);
 
-        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2007), "BL", "5000");
+        ObjectCode se = objectCodeService.getByPrimaryId(TestUtils.getFiscalYearForTesting(), "BL", "5000");
         assertNotNull("S&E Object code should exist", se);
 
         assertFalse("S&E is not transfer in", cat.containsObjectCode(se));
@@ -183,7 +184,7 @@ public class OrganizationReversionCategoryTest extends KualiTestBase {
         OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic) categories.get(category);
         assertNotNull("Category not found", cat);
 
-        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2007), "BL", "5000");
+        ObjectCode se = objectCodeService.getByPrimaryId(TestUtils.getFiscalYearForTesting(), "BL", "5000");
         assertNotNull("S&E Object code should exist", se);
 
         assertFalse("S&E is not travel", cat.containsObjectCode(se));
@@ -198,7 +199,7 @@ public class OrganizationReversionCategoryTest extends KualiTestBase {
         OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic) categories.get(category);
         assertNotNull("Category not found", cat);
 
-        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2007), "BL", "5000");
+        ObjectCode se = objectCodeService.getByPrimaryId(TestUtils.getFiscalYearForTesting(), "BL", "5000");
         assertNotNull("S&E Object code should exist", se);
 
         assertTrue("S&E is S&E", cat.containsObjectCode(se));
@@ -213,7 +214,7 @@ public class OrganizationReversionCategoryTest extends KualiTestBase {
         OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic) categories.get(category);
         assertNotNull("Category not found", cat);
 
-        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2007), "BL", "5000");
+        ObjectCode se = objectCodeService.getByPrimaryId(TestUtils.getFiscalYearForTesting(), "BL", "5000");
         assertNotNull("S&E Object code should exist", se);
 
         assertFalse("S&E is not asses expend", cat.containsObjectCode(se));
@@ -228,7 +229,7 @@ public class OrganizationReversionCategoryTest extends KualiTestBase {
         OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic) categories.get(category);
         assertNotNull("Category not found", cat);
 
-        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2007), "BL", "5000");
+        ObjectCode se = objectCodeService.getByPrimaryId(TestUtils.getFiscalYearForTesting(), "BL", "5000");
         assertNotNull("S&E Object code should exist", se);
 
         assertFalse("S&E is not revenue", cat.containsObjectCode(se));

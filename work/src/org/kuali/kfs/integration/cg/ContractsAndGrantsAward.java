@@ -24,4 +24,6 @@ public interface ContractsAndGrantsAward extends ExternalizableBusinessObject {
     public Long getProposalNumber();
 
     public ContractAndGrantsProposal getProposal();
+    
+    public String getAwardInquiryTitle();
 }

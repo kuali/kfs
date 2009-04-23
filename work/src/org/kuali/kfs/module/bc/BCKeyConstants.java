@@ -51,6 +51,7 @@ public class BCKeyConstants {
     public static final String ERROR_BUDGET_SUBFUND_NOT_SELECTED = "error.budget.subFundNotSelected";
     public static final String ERROR_BUDGET_OBJECT_CODE_NOT_SELECTED = "error.budget.objectCodeNotSelected";
     public static final String ERROR_BUDGET_REASON_CODE_NOT_SELECTED = "error.budget.reasonCodeNotSelected";
+    public static final String ERROR_BUDGET_THRESHOLD_PERCENT_NEEDED = "error.budget.thresholdPercentNeeded";
     public static final String ERROR_BUDGET_ORG_NOT_SELECTED = "error.budget.orgNotSelected";
     public static final String ERROR_BUDGET_LINE_EXISTS = "error.budget.lineExists";
     public static final String ERROR_LABOR_OBJECT_IN_NOWAGES_ACCOUNT = "error.budget.laborObjectInNoWagesAccount";

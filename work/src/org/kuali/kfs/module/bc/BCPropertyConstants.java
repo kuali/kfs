@@ -21,6 +21,7 @@ package org.kuali.kfs.module.bc;
 public class BCPropertyConstants {
     public static final String PULL_FLAG = "pullFlag";
     public static final String PENDING_BUDGET_CONSTRUCTION_APPOINTMENT_FUNDING = "pendingBudgetConstructionAppointmentFunding";
+    public static final String BUDGET_CONSTRUCTION_REPORT_THRESHOLD_SETTINGS = "budgetConstructionReportThresholdSettings";
  
     public static final String ACCOUNT_REPORTS_EXIST = "accountReportsExist";
     public static final String ORGANIZATION_LEVEL_CODE = "organizationLevelCode";
@@ -97,5 +98,7 @@ public class BCPropertyConstants {
     public static final String FINANCIAL_DOCUMENT_MONTH10_LINE_AMOUNT = "financialDocumentMont101LineAmount";
     public static final String FINANCIAL_DOCUMENT_MONTH11_LINE_AMOUNT = "financialDocumentMonth11LineAmount";
     public static final String FINANCIAL_DOCUMENT_MONTH12_LINE_AMOUNT = "financialDocumentMonth12LineAmount";
+
+    public static final String THRESHOLD_PERCENT = "thresholdPercent";
 
 }

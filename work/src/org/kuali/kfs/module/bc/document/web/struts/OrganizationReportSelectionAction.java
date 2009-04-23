@@ -34,6 +34,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
+import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.BudgetConstructionReportMode;
 import org.kuali.kfs.module.bc.BCConstants.Report.ReportSelectMode;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionObjectPick;
@@ -158,6 +159,13 @@ public class OrganizationReportSelectionAction extends BudgetExpansionAction {
         BudgetConstructionReportMode reportMode = BudgetConstructionReportMode.getBudgetConstructionReportModeByName(organizationReportSelectionForm.getReportMode());
         if (!storeCodeSelections(organizationReportSelectionForm, reportMode, principalId)) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+        
+        // validate threshold settings if needed
+        if (reportMode == BudgetConstructionReportMode.REASON_STATISTICS_REPORT || reportMode == BudgetConstructionReportMode.REASON_SUMMARY_REPORT || reportMode == BudgetConstructionReportMode.SALARY_SUMMARY_REPORT){
+            if (!this.validThresholdSettings(organizationReportSelectionForm.getBudgetConstructionReportThresholdSettings())){
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            }
         }
 
         // for report exports foward to export action to display formatting screen
@@ -483,5 +491,22 @@ public class OrganizationReportSelectionAction extends BudgetExpansionAction {
         }
 
         return foundSelected;
+    }
+
+    /**
+     * When apply threshold is checked, and displays error if no percent change threshold value is set.  
+     * 
+     * @param thresholdSettings
+     * @return
+     */
+    protected boolean validThresholdSettings(BudgetConstructionReportThresholdSettings thresholdSettings){
+        Boolean thresholdSettingsValid = true;
+        if (thresholdSettings.isUseThreshold()){
+            if (thresholdSettings.getThresholdPercent() == null){
+                thresholdSettingsValid = false;
+                GlobalVariables.getErrorMap().putError(BCPropertyConstants.BUDGET_CONSTRUCTION_REPORT_THRESHOLD_SETTINGS+"."+BCPropertyConstants.THRESHOLD_PERCENT, BCKeyConstants.ERROR_BUDGET_THRESHOLD_PERCENT_NEEDED);
+            }
+        }
+        return thresholdSettingsValid;
     }
 }

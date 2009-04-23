@@ -574,5 +574,6 @@ public class BCConstants extends JSTLConstants {
         public static final String DETAIL_SALARY_SETTING_TAB_ERRORS = "newBCAFLine*,budgetConstructionIntendedIncumbent.pendingBudgetConstructionAppointmentFunding*,budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding*";
         public static final String QUICK_SALARY_SETTING_TAB_ERRORS = "salarySettingExpansion.pendingBudgetConstructionAppointmentFunding*,adjustment*,newBCAFLine*";
         public static final String RETURNED_DETAIL_SALARY_SETTING_TAB_ERRORS = "newBCAFLine*";
+        public static final String ORGANIZATION_REPORTS_SELECTION_ERRORS = "budgetConstructionReportThresholdSettings*";
 }
 }

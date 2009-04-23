@@ -82,18 +82,23 @@
 	<bean id="PaymentApplicationDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     	<property name="searchingTypeDefinitions">
     		<list>
+	   			<ref bean="SearchingType-AccountsReceivableDocument-createDate-resultsOnly"/>
+   				<ref bean="SearchingType-AccountsReceivableDocument-initiatorId-resultsOnly"/>
 	   			<ref bean="SearchingType-AccountsReceivableDocument-customerNumber-criteriaOnly"/>
    				<ref bean="SearchingType-AccountsReceivableDocument-customerName-criteriaOnly"/>
+	   			<ref bean="SearchingType-PaymentApplicationDocument-customerNumber-criteriaOnly"/>
+   				<ref bean="SearchingType-PaymentApplicationDocument-customerName-criteriaOnly"/>
+   				<ref bean="SearchingType-AccountsReceivableDocument-documentStatus-resultsOnly"/>
 	   			<ref bean="SearchingType-AccountsReceivableDocument-processingChartOfAccountsCode-criteriaOnly"/>
    				<ref bean="SearchingType-AccountsReceivableDocument-processingOrganizationCode-criteriaOnly"/>
-<!--
+
     			<ref bean="SearchingType-PaymentApplicationDocument-billingChartOfAccountsCode-criteriaOnly" />
     			<ref bean="SearchingType-PaymentApplicationDocument-billingOrganizationCode-criteriaOnly" />
     			<ref bean="SearchingType-PaymentApplicationDocument-chartOfAccountsCode-sourceOnly" />
     			<ref bean="SearchingType-PaymentApplicationDocument-accountNumber-sourceOnly" />
     			<ref bean="SearchingType-PaymentApplicationDocument-financialDocumentReferenceInvoiceNumber-criteriaOnly" />
     			<ref bean="SearchingType-PaymentApplicationDocument-customerPaymentMediumIdentifier-criteriaOnly" />
--->
+
     		</list>
     	</property>
 	</bean>

@@ -28,6 +28,10 @@
         <li><portal:portalLink displayTitle="true" title='Cash Controls' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=CTRL'/></li>
         <li><portal:portalLink displayTitle="true" title='Payment Applications' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=APP'/></li>
     </ul>
+    <strong>Capital Asset Management</strong><br/>
+    <ul class="chan">
+		<li><portal:portalLink displayTitle="true" title='Asset Maintenance' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=CAMM'/></li>
+	</ul>
 	<strong>Contracts & Grants</strong><br/>
     <ul class="chan">
 		<li><portal:portalLink displayTitle="true" title='Proposals' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=PRPL'/></li>

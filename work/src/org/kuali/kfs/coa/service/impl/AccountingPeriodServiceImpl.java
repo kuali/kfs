@@ -16,10 +16,8 @@
 package org.kuali.kfs.coa.service.impl;
 
 import java.sql.Date;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -28,6 +26,7 @@ import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.spring.Cached;
 
@@ -93,35 +92,13 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
      */
     @Cached
     public AccountingPeriod getByDate(Date date) {
-        // first we need to figure out the last day for a given date
-        java.util.Date myDate = new java.util.Date(date.getTime());
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(myDate);
-        // get the current month
-        int month = cal.get(Calendar.MONTH);
-        cal.set(Calendar.MONTH, month + 1);
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-        // this should roll us back to the last day of the month for the previous month
-        cal.add(Calendar.DAY_OF_MONTH, -1);
-        Date lookupDate = new Date(cal.getTimeInMillis());
-        Map keys = new HashMap();
-        keys.put("universityFiscalPeriodEndDate", lookupDate);
-        Collection coll = getBusinessObjectService().findMatching(AccountingPeriod.class, keys);
-        if (coll.size() == 1) {
-            Iterator iter = coll.iterator();
-            AccountingPeriod period = (AccountingPeriod) iter.next();
-            return period;
-        }
-        else {
-            Iterator iter = coll.iterator();
-            while (iter.hasNext()) {
-                AccountingPeriod period = (AccountingPeriod) iter.next();
-                if (!isInvalidPeriodCode(period)) {
-                    return period;
-                }
-            }
-        }
-        return null;
+        Map primaryKeys = new HashMap();
+        primaryKeys.put("universityDate", date);
+        UniversityDate universityDate = (UniversityDate) getBusinessObjectService().findByPrimaryKey(UniversityDate.class, primaryKeys);
+        primaryKeys.clear();
+        primaryKeys.put("universityFiscalYear", universityDate.getUniversityFiscalYear());
+        primaryKeys.put("universityFiscalPeriodCode", universityDate.getUniversityFiscalAccountingPeriod());
+        return (AccountingPeriod) getBusinessObjectService().findByPrimaryKey(AccountingPeriod.class, primaryKeys); 
     }
 
     /**

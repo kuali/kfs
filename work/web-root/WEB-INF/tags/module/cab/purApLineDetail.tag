@@ -112,7 +112,13 @@
 		</c:otherwise>
 		</c:choose>
 	</td>
-	<td class="infoline">${itemLine.capitalAssetTransactionTypeCode }
+	
+	<td class="infoline">
+     		<kul:htmlControlAttribute property="${assetItemStr}.capitalAssetTransactionTypeCode" attributeEntry="${purApItemAssetAttributes.capitalAssetTransactionTypeCode}" readOnly="true" readOnlyBody="true">
+				<kul:inquiry boClassName="org.kuali.kfs.module.cab.businessobject.AssetTransactionType" keyValues="capitalAssetTransactionTypeCode=${itemLine.capitalAssetTransactionTypeCode}" render="true">
+             			<html:hidden write="true" property="${assetItemStr}.capitalAssetTransactionTypeCode" />
+           		</kul:inquiry>&nbsp;
+       		</kul:htmlControlAttribute>
 		<br></br>
 		<c:forEach items="${itemLine.purApItemAssets}" var="purApItemAsset">
 		<c:set var="i" value="${i+1}" />

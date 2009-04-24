@@ -94,6 +94,8 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
                     "an Invoice [#" + invoiceNumber + "] that was already closed.  This is not supported.");
         }
         
+        Integer paidAppliedItemNumber = 0;
+        
         //  retrieve the customer invoice details, and generate paid applieds for each 
         List<CustomerInvoiceDetail> invoiceDetails = invoice.getCustomerInvoiceDetailsWithoutDiscounts();
         for (CustomerInvoiceDetail invoiceDetail : invoiceDetails) {
@@ -104,8 +106,10 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
             }
             
             //  retrieve the number of current paid applieds, so we dont have item number overlap
-            Integer paidAppliedItemNumber = paidAppliedService.getNumberOfInvoicePaidAppliedsForInvoiceDetail(invoiceNumber, 
-                    invoiceDetail.getInvoiceItemNumber());
+            if (paidAppliedItemNumber == 0) {
+                paidAppliedItemNumber = paidAppliedService.getNumberOfInvoicePaidAppliedsForInvoiceDetail(invoiceNumber, 
+                        invoiceDetail.getInvoiceItemNumber());
+            }
             
             //  create and save the paidApplied
             InvoicePaidApplied invoicePaidApplied = new InvoicePaidApplied();

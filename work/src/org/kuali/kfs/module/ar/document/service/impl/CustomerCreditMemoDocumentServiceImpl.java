@@ -69,6 +69,8 @@ public class CustomerCreditMemoDocumentServiceImpl implements CustomerCreditMemo
         // visible in this transaction, so we do it manually.
         KualiDecimal openAmount = invoice.getOpenAmount();
 
+        Integer paidAppliedItemNumber = 0;
+        
         //  retrieve the customer invoice details, and generate paid applieds for each 
         List<CustomerCreditMemoDetail> details = creditMemo.getCreditMemoDetails();
         for (CustomerCreditMemoDetail detail : details) {
@@ -86,8 +88,11 @@ public class CustomerCreditMemoDocumentServiceImpl implements CustomerCreditMemo
             }
             
             //  retrieve the number of current paid applieds, so we dont have item number overlap
-            Integer paidAppliedItemNumber = paidAppliedService.getNumberOfInvoicePaidAppliedsForInvoiceDetail(invoiceNumber, 
-                    invoiceDetail.getInvoiceItemNumber());
+            if (paidAppliedItemNumber == 0) {
+                paidAppliedItemNumber = paidAppliedService.getNumberOfInvoicePaidAppliedsForInvoiceDetail(invoiceNumber, 
+                        invoiceDetail.getInvoiceItemNumber());
+            }
+            
             
             //  create and save the paidApplied
             InvoicePaidApplied invoicePaidApplied = new InvoicePaidApplied();

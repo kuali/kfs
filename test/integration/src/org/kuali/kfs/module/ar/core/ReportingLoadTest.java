@@ -53,8 +53,8 @@ import com.lowagie.text.pdf.SimpleBookmark;
 @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
 public class ReportingLoadTest extends KualiTestBase {
 
-    private static final int INVOICES_TO_CREATE = 30;
-    private static final String PRINT_SETTING = "U";
+    private static final int INVOICES_TO_CREATE = 2;
+    private static final String PRINT_SETTING = ArConstants.PrintInvoiceOptions.PRINT_BY_PROCESSING_ORG;
     private static final String INITIATOR = "khuntley";
     private static final int[] INVOICE_AGES = { -5, -18, -35, -65, -95, -125 };
     
@@ -183,7 +183,7 @@ public class ReportingLoadTest extends KualiTestBase {
         createManyInvoicesReadyForPrinting();
 
         //TODO Performance test these three lines
-        List<File> reports = reportService.generateInvoicesByInitiator(INITIATOR);
+        List<File> reports = reportService.generateInvoicesByInitiator(INITIATOR, null);
         assertTrue("List of reports should not be empty.", !reports.isEmpty());
         concatenateReportsIntoOnePdf(reports);
         

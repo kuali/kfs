@@ -138,7 +138,7 @@ public class CustomerInvoiceAction extends KualiAction {
                 fileName.append(date);  
             }
         } else if (ciForm.getUserId() != null) {
-            reports = reportService.generateInvoicesByInitiator(ciForm.getUserId());
+            reports = reportService.generateInvoicesByInitiator(ciForm.getUserId(), date);
             fileName.append(ciForm.getUserId());
         }
         if (reports.size()>0) {

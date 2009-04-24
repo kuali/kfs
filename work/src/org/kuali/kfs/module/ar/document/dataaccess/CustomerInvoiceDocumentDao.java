@@ -24,19 +24,22 @@ public interface CustomerInvoiceDocumentDao {
     
     /**
      * 
-     * Retrieves all Invoice documents that meet the following criteria: 
+     * Retrieves all Invoice document numbers that meet the following criteria: 
      * 1) PrintIndicator = BY_USER
      * 2) PrintDate = null 
-     * 3) ArDoc 
+     * 3) DocHeader.Status = Approved
+     * 
+     * WARNING that all the returned documents lack any workflow wiring.
+     * 
      * @param initiatorPrincipalName
      * @return
      */
-    public Collection<CustomerInvoiceDocument> getPrintableCustomerInvoiceDocumentsFromUserQueue();
+    public List<String> getPrintableCustomerInvoiceDocumentNumbersFromUserQueue();
 
     /**
      * 
-     * Retrieves all Invoice documents in the system associated with the given 
-     * Processing Chart and Org.
+     * Retrieves all Invoice document numbers in the system associated with the given 
+     * Processing Chart and Org, that are approved and ready to print.
      * 
      * WARNING that all the returned documents lack any workflow wiring.
      * 
@@ -44,7 +47,20 @@ public interface CustomerInvoiceDocumentDao {
      * @param organizationCode
      * @return
      */
-    public List<String> getCustomerInvoiceDocumentsByProcessingChartAndOrg(String chartOfAccountsCode, String organizationCode);
+    public List<String> getCustomerInvoiceDocumentNumbersByProcessingChartAndOrg(String chartOfAccountsCode, String organizationCode);
+    
+    /**
+     * 
+     * Retrieves all Invoice document numbers in the system associated with the given 
+     * Billing Chart and Org, that are approved and ready to print.
+     * 
+     * WARNING that all the returned documents lack any workflow wiring.
+     * 
+     * @param chartOfAccountsCode
+     * @param organizationCode
+     * @return
+     */
+    public List<String> getCustomerInvoiceDocumentNumbersByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode);
     
     /**
      * 

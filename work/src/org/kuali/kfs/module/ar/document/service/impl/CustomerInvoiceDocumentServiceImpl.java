@@ -50,6 +50,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.dao.DocumentDao;
 import org.kuali.rice.kns.exception.InfrastructureException;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -77,6 +79,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     private CustomerInvoiceDetailService customerInvoiceDetailService;
     private CustomerInvoiceRecurrenceDetails customerInvoiceRecurrenceDetails;
     private UniversityDateService universityDateService;
+    private PersonService<Person> personService;
     
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentServiceImpl.class);
 
@@ -356,30 +359,73 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         return customerInvoiceDocumentDao.getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
     }
 
-    public Collection<CustomerInvoiceDocument> getPrintableCustomerInvoiceDocumentsByInitiatorPrincipalName(String initiatorPrincipalName) {
-        Collection<CustomerInvoiceDocument> customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
+    public List<CustomerInvoiceDocument> getPrintableCustomerInvoiceDocumentsByInitiatorPrincipalName(String initiatorPrincipalName) {
+        if (StringUtils.isBlank(initiatorPrincipalName)) {
+            throw new IllegalArgumentException("The parameter [initiatorPrincipalName] passed in was null or blank.");
+        }
         
+        //  IMPORTANT NOTES ABOUT THIS METHOD
+        //
+        //  This method behaves differently than the other invoice printing methods.  This is 
+        // because there's no way from within KFS to do a direct DB call to get all the invoices 
+        // you want.  This is because workflow holds the document initiator, and you cant guarantee 
+        // that in a given implementation that you have access to that other db.  It could be on 
+        // another box in another network, and you only have web-services access to the Rice box.
+        //
+        //  Given that, we try to minimize the resource hit of this call as much as possible.  First 
+        // we retrieve all invoices that havent been printed (ie, dont have a print date) and that 
+        // are marked for the USER print queue.  At any given time that should be a manageable number of 
+        // documents.  
+        //
+        //  Then we walk through them, retrieve the full workflow-populated version of it, and only 
+        // return the ones that match the initiator.
+        //
+        //  This isnt as performant a solution as the other getPrintableCustomerInvoiceBy... 
+        // methods, but its the best we can do in this release, and it should be manageable.
+        
+        // 
+        //  attempt to retrieve the initiator person specified, and puke if not found
+        Person initiator = personService.getPersonByPrincipalName(initiatorPrincipalName);
+        if (initiator == null) {
+            throw new IllegalArgumentException("The parameter value for initiatorPrincipalName [" + initiatorPrincipalName + "] passed in doesnt map to a person.");
+        }
+        
+        //  retrieve all the ready-to-print docs in the user-queue for all users
+        List<String> printableUserQueueDocNumbers = customerInvoiceDocumentDao.getPrintableCustomerInvoiceDocumentNumbersFromUserQueue();
+        
+        //  get all the documents that might be right, but this set includes documents generated 
+        // by the wrong user
+        List<CustomerInvoiceDocument> customerInvoiceDocumentsSuperSet;
+        if (printableUserQueueDocNumbers.size() > 0) {
+            try {
+                customerInvoiceDocumentsSuperSet = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, printableUserQueueDocNumbers);
+            }
+            catch (WorkflowException e) {
+                throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
+            }
+        }
+        else {
+            customerInvoiceDocumentsSuperSet = new ArrayList<CustomerInvoiceDocument>();
+        }
+        
+        //  filter only the ones initiated by the correct user
+        List<CustomerInvoiceDocument> customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
+        for (CustomerInvoiceDocument superSetDocument : customerInvoiceDocumentsSuperSet) {
+            if (superSetDocument.getDocumentHeader().getWorkflowDocument().userIsInitiator(initiator)) {
+                customerInvoiceDocuments.add(superSetDocument);
+            }
+        }
         return customerInvoiceDocuments;
     }
     
-    public Collection<CustomerInvoiceDocument> getCustomerInvoiceDocumentsByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode) {
-        Collection<CustomerInvoiceDocument> customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
-
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("billByChartOfAccountCode", chartOfAccountsCode);
-        fieldValues.put("billedByOrganizationCode", organizationCode);
-
-
-        customerInvoiceDocuments = businessObjectService.findMatching(CustomerInvoiceDocument.class, fieldValues);
-
-        List<String> docNumbers = new ArrayList<String>();
-        for (CustomerInvoiceDocument doc : customerInvoiceDocuments) {
-            docNumbers.add(doc.getDocumentNumber());
-        }
-        customerInvoiceDocuments.clear();
-        if (docNumbers.size() != 0) {
+    public List<CustomerInvoiceDocument> getPrintableCustomerInvoiceDocumentsByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode) {
+        List<String> documentHeaderIds = customerInvoiceDocumentDao.getCustomerInvoiceDocumentNumbersByBillingChartAndOrg(
+                chartOfAccountsCode, organizationCode);
+        
+        List<CustomerInvoiceDocument> customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
+        if (documentHeaderIds != null && !documentHeaderIds.isEmpty()) {
             try {
-                customerInvoiceDocuments = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, docNumbers);
+                customerInvoiceDocuments = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds);
             }
             catch (WorkflowException e) {
                 throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
@@ -391,9 +437,9 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     /**
      * @see org.kuali.module.ar.service.CustomerInvoiceDocumentService#getCustomerInvoiceDocumentsByCustomerNumber(java.lang.String)
      */
-    public List<CustomerInvoiceDocument> getCustomerInvoiceDocumentsByProcessingChartAndOrg(String chartOfAccountsCode, String organizationCode) {
+    public List<CustomerInvoiceDocument> getPrintableCustomerInvoiceDocumentsByProcessingChartAndOrg(String chartOfAccountsCode, String organizationCode) {
 
-        List<String> documentHeaderIds = customerInvoiceDocumentDao.getCustomerInvoiceDocumentsByProcessingChartAndOrg(
+        List<String> documentHeaderIds = customerInvoiceDocumentDao.getCustomerInvoiceDocumentNumbersByProcessingChartAndOrg(
                 chartOfAccountsCode, organizationCode);
         
         List<CustomerInvoiceDocument> customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
@@ -678,6 +724,10 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
 
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
+    }
+
+    public void setPersonService(PersonService<Person> personService) {
+        this.personService = personService;
     }
     
 }

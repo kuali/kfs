@@ -15,6 +15,17 @@
  */
 package org.kuali.kfs.module.ar.businessobject.lookup;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.module.ar.ArConstants;
@@ -52,11 +63,6 @@ import org.kuali.rice.kns.web.format.Formatter;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.ResultRow;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 
 
@@ -122,7 +128,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         totalSYSPRplus1orMore = KualiDecimal.ZERO;
 
         if (reportOption.equalsIgnoreCase("PROCESSING ORGANIZATION") && chartCode.length() != 0 && orgCode.length() != 0) {
-            invoices = customerInvoiceDocumentService.getCustomerInvoiceDocumentsByProcessingChartAndOrg(chartCode, orgCode);
+            invoices = customerInvoiceDocumentService.getPrintableCustomerInvoiceDocumentsByProcessingChartAndOrg(chartCode, orgCode);
             for (CustomerInvoiceDocument ci : invoices) {
                 invoiceDetails.addAll(customerInvoiceDocumentService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(ci));
 //                LOG.info("\t\t****** PROCESSING ORGANIZATION\t\t"+invoiceDetails.toString()+chartCode+"\t"+orgCode);
@@ -133,7 +139,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
             }
         }
         if (reportOption.equalsIgnoreCase("BILLING ORGANIZATION") && chartCode.length() != 0 && orgCode.length() != 0) {
-            invoices = customerInvoiceDocumentService.getCustomerInvoiceDocumentsByBillingChartAndOrg(chartCode, orgCode);
+            invoices = customerInvoiceDocumentService.getPrintableCustomerInvoiceDocumentsByBillingChartAndOrg(chartCode, orgCode);
             for (CustomerInvoiceDocument ci : invoices) {
                 invoiceDetails.addAll(customerInvoiceDocumentService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(ci));
             }

@@ -77,7 +77,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsReceivableReportServiceImpl.class);
 
     private DateTimeService dateTimeService;
-    private PersonService personService;
+    private PersonService<Person> personService;
     private DocumentService documentService;
     
     private PhoneNumberFormatter phoneNumberFormatter = new PhoneNumberFormatter();
@@ -132,13 +132,13 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
             invoiceMap.put("poDate", dateTimeService.toDateString(invoice.getCustomerPurchaseOrderDate()));
         }
 
-        String initiatorID = invoice.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
+        String initiatorID = invoice.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
         Person user = null;
         try {
-            user = personService.getPersonByPrincipalName(initiatorID);
+            user = personService.getPerson(initiatorID);
         } catch (Exception e) {
-            LOG.error("Exception thrown from PersonService.getPersonByPrincipalName('" + initiatorID + "').", e);
-            throw new RuntimeException("Exception thrown from PersonService.getPersonByPrincipalName('" + initiatorID + "').", e);
+            LOG.error("Exception thrown from PersonService.getPerson('" + initiatorID + "').", e);
+            throw new RuntimeException("Exception thrown from PersonService.getPerson('" + initiatorID + "').", e);
         }
         if (user == null) {
             throw new RuntimeException("User '" + initiatorID + "' could not be retrieved from PersonService.");
@@ -263,13 +263,13 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
             invoiceMap.put("poDate", dateTimeService.toDateString(invoice.getCustomerPurchaseOrderDate()));
         }
 
-        String initiatorID = invoice.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
+        String initiatorID = invoice.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
         Person user = null;
         try {
-            user = personService.getPersonByPrincipalName(initiatorID);
+            user = personService.getPerson(initiatorID);
         } catch (Exception e) {
-            LOG.error("Exception thrown from PersonService.getPersonByPrincipalName('" + initiatorID + "').", e);
-            throw new RuntimeException("Exception thrown from PersonService.getPersonByPrincipalName('" + initiatorID + "').", e);
+            LOG.error("Exception thrown from PersonService.getPerson('" + initiatorID + "').", e);
+            throw new RuntimeException("Exception thrown from PersonService.getPerson('" + initiatorID + "').", e);
         }
         if (user == null) {
             throw new RuntimeException("User '" + initiatorID + "' could not be retrieved from PersonService.");
@@ -453,20 +453,16 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
      */
     public List<File> generateInvoicesByBillingOrg(String chartCode, String orgCode, Date date) {
         CustomerInvoiceDocumentService invoiceDocService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
-        Collection<CustomerInvoiceDocument> invoices = invoiceDocService.getCustomerInvoiceDocumentsByBillingChartAndOrg(chartCode, orgCode);
+        List<CustomerInvoiceDocument> invoices = invoiceDocService.getPrintableCustomerInvoiceDocumentsByBillingChartAndOrg(chartCode, orgCode);
         List<File> reports = new ArrayList<File>();
 
         for (CustomerInvoiceDocument doc : invoices) {
-            if (doc.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
-                if (ArConstants.PrintInvoiceOptions.PRINT_BY_BILLING_ORG.equalsIgnoreCase(doc.getPrintInvoiceIndicator())) {
-                    if (date == null) {
-                        reports.add(generateInvoice(doc));
-                    }
-                    else if (dateTimeService.toDateString(doc.getDocumentHeader().getWorkflowDocument().getCreateDate())!=null) {
-                        if (dateTimeService.toDateString(doc.getDocumentHeader().getWorkflowDocument().getCreateDate()).equals(dateTimeService.toDateString(date))) {
-                            reports.add(generateInvoice(doc));
-                        }
-                    }
+            if (date == null) {
+                reports.add(generateInvoice(doc));
+            }
+            else if (dateTimeService.toDateString(doc.getDocumentHeader().getWorkflowDocument().getCreateDate())!=null) {
+                if (dateTimeService.toDateString(doc.getDocumentHeader().getWorkflowDocument().getCreateDate()).equals(dateTimeService.toDateString(date))) {
+                    reports.add(generateInvoice(doc));
                 }
             }
         }
@@ -479,19 +475,16 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
      */
     public List<File> generateInvoicesByProcessingOrg(String chartCode, String orgCode, Date date){
         CustomerInvoiceDocumentService invoiceDocService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
-        List<CustomerInvoiceDocument> invoices = invoiceDocService.getCustomerInvoiceDocumentsByProcessingChartAndOrg(chartCode, orgCode);
+        List<CustomerInvoiceDocument> invoices = invoiceDocService.getPrintableCustomerInvoiceDocumentsByProcessingChartAndOrg(chartCode, orgCode);
+        
         List<File> reports = new ArrayList<File>();
         for (CustomerInvoiceDocument doc : invoices) {
-            if (doc.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
-                if (ArConstants.PrintInvoiceOptions.PRINT_BY_PROCESSING_ORG.equalsIgnoreCase(doc.getPrintInvoiceIndicator())) {
-                    if (date == null) {
-                        reports.add(generateInvoice(doc));
-                    }
-                    else if (dateTimeService.toDateString(doc.getDocumentHeader().getWorkflowDocument().getCreateDate())!=null) {
-                        if (dateTimeService.toDateString(doc.getDocumentHeader().getWorkflowDocument().getCreateDate()).equals(dateTimeService.toDateString(date))) {
-                            reports.add(generateInvoice(doc));
-                        }
-                    }
+            if (date == null) {
+                reports.add(generateInvoice(doc));
+            }
+            else if (dateTimeService.toDateString(doc.getDocumentHeader().getWorkflowDocument().getCreateDate())!=null) {
+                if (dateTimeService.toDateString(doc.getDocumentHeader().getWorkflowDocument().getCreateDate()).equals(dateTimeService.toDateString(date))) {
+                    reports.add(generateInvoice(doc));
                 }
             }
         }
@@ -502,12 +495,19 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
      * 
      * @see org.kuali.kfs.module.ar.report.service.AccountsReceivableReportService#generateInvoicesByInitiator(java.lang.String)
      */
-    public List<File> generateInvoicesByInitiator(String initiator) {
+    public List<File> generateInvoicesByInitiator(String initiator, java.sql.Date date) {
         List<File> reports = new ArrayList<File>();
         CustomerInvoiceDocumentService invoiceDocService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
         Collection<CustomerInvoiceDocument> invoices = invoiceDocService.getPrintableCustomerInvoiceDocumentsByInitiatorPrincipalName(initiator);
         for (CustomerInvoiceDocument invoice : invoices) {
-            reports.add(generateInvoice(invoice));
+            if (date == null) {
+                reports.add(generateInvoice(invoice));
+            }
+            else if (dateTimeService.toDateString(invoice.getDocumentHeader().getWorkflowDocument().getCreateDate())!=null) {
+                if (dateTimeService.toDateString(invoice.getDocumentHeader().getWorkflowDocument().getCreateDate()).equals(dateTimeService.toDateString(date))) {
+                    reports.add(generateInvoice(invoice));
+                }
+            }
         }
         return reports;
     }
@@ -555,7 +555,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
      * @see org.kuali.kfs.module.ar.report.service.AccountsReceivableReportService#generateStatementByBillingOrg(java.lang.String, java.lang.String)
      */
     public List<File> generateStatementByBillingOrg(String chartCode, String orgCode) {
-        return generateStatementReports(SpringContext.getBean(CustomerInvoiceDocumentService.class).getCustomerInvoiceDocumentsByBillingChartAndOrg(chartCode, orgCode));
+        return generateStatementReports(SpringContext.getBean(CustomerInvoiceDocumentService.class).getPrintableCustomerInvoiceDocumentsByBillingChartAndOrg(chartCode, orgCode));
     }
 
     /**
@@ -742,7 +742,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
      * Gets the personService attribute. 
      * @return Returns the personService.
      */
-    public PersonService getPersonService() {
+    public PersonService<Person> getPersonService() {
         return personService;
     }
 
@@ -750,7 +750,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
      * Sets the personService attribute value.
      * @param personService The personService to set.
      */
-    public void setPersonService(PersonService personService) {
+    public void setPersonService(PersonService<Person> personService) {
         this.personService = personService;
     }
 

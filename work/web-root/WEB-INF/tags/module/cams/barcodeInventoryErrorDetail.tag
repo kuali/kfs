@@ -34,9 +34,9 @@
 		<td align="right" class="${cssClass}">
 		    ${lineNumber}	
 		</td>
-
+		
 	   	<c:if test="${readOnly}">				
-			<td align="right" class="${cssClass}">${CamsConstants.BarcodeInventoryError.statusDescription[status]}&nbsp</td>
+			<td align="right" class="${cssClass}">${CamsConstants.BarCodeInventoryError.statusDescription[status]}&nbsp</td>			
 		</c:if>
 
 		<td align=left class="${cssClass}">&nbsp		

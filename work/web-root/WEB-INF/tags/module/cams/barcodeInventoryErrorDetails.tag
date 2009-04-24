@@ -37,7 +37,7 @@
 				<c:if test="${readOnly}">
 					<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.errorCorrectionStatusCode}" width="5%" />				
 				</c:if>
-									
+																		
 				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.assetTagNumber}"  width="6%"/>
 				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.uploadScanIndicator}" width="3%"/>
 				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.uploadScanTimestamp}" width="10%"/>
@@ -49,10 +49,19 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${bcieDetailAttributes.errorDescription}" width="20%"/>
 			</tr>
 			
+			<c:set var="isDocumentCorrected" value="${KualiForm.document.documentCorrected}"/>
+			
 			<c:set var="lineNumber" value="${0}"/>
 			<logic:iterate id="detail" name="KualiForm" property="document.barcodeInventoryErrorDetail" indexId="ctr">
-				<c:set var="status" value="${detail.errorCorrectionStatusCode}"/>	
-           		<c:set var="lineNumber" value="${lineNumber + 1}"/>
+				<c:set var="status" value="${detail.errorCorrectionStatusCode}"/>
+				
+				<c:if test="${isDocumentCorrected}">
+					<c:set var="lineNumber" value="${lineNumber + 1}"/>
+				</c:if>
+				<c:if test="${not isDocumentCorrected and status == CamsConstants.BarCodeInventoryError.STATUS_CODE_ERROR}">
+					<c:set var="lineNumber" value="${lineNumber + 1}"/>
+				</c:if>
+				
 				<cams:barcodeInventoryErrorDetail
 						barcodeInventoryDetailAttributes="${bcieDetailAttributes}"					
 						propertyName="document.barcodeInventoryErrorDetail[${ctr}]"

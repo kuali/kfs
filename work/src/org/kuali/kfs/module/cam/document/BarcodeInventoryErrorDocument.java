@@ -3,6 +3,7 @@ package org.kuali.kfs.module.cam.document;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -89,6 +90,21 @@ public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalD
     public void setBarcodeInventoryErrorDetail(List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails) {
         this.barcodeInventoryErrorDetail = barcodeInventoryErrorDetails;
     }
+    
+    
+    /**
+     * Determines the document had all its records corrected
+     * 
+     * @return boolean
+     */
+    public boolean isDocumentCorrected() {
+        for(BarcodeInventoryErrorDetail detail:this.getBarcodeInventoryErrorDetail() ) {
+            if (detail.getErrorCorrectionStatusCode().equals(CamsConstants.BarCodeInventoryError.STATUS_CODE_ERROR))
+                return false;
+        }
+        return true;
+    }
+    
     
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()

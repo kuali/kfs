@@ -14,6 +14,8 @@
  */
 package org.kuali.kfs.module.cam.document.web.struts;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -166,24 +168,32 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
 
         String currentUserID = GlobalVariables.getUserSession().getPerson().getPrincipalId();
 
+        List selectedRows = new ArrayList();
         int selectedCheckboxes[] = barcodeInventoryErrorForm.getRowCheckbox();
+        for(int i=0;i < selectedCheckboxes.length;i++) {
+            selectedRows.add(selectedCheckboxes[i]);
+        }
 
         // If rows were selected.....
         if (selectedCheckboxes != null) {
-
             // Validate
             this.invokeRules(document, true);
 
             barcodeInventoryErrorDetails = document.getBarcodeInventoryErrorDetail();
-            for (int i = 0; i < selectedCheckboxes.length; i++) {
-                for (BarcodeInventoryErrorDetail detail : barcodeInventoryErrorDetails) {
-                    if (detail.getUploadRowNumber().compareTo(new Long(selectedCheckboxes[i])) == 0) {
-                        if (detail.getErrorCorrectionStatusCode().equals(CamsConstants.BarCodeInventoryError.STATUS_CODE_CORRECTED)) {
-                            detail.setInventoryCorrectionTimestamp(getDateTimeService().getCurrentTimestamp());
-                            detail.setCorrectorUniversalIdentifier(currentUserID);
+            for (BarcodeInventoryErrorDetail detail : barcodeInventoryErrorDetails) {
+                int uploadRowNumber = detail.getUploadRowNumber().intValue();
+                if (selectedRows.contains(uploadRowNumber)) {
+                    if (detail.getErrorCorrectionStatusCode().equals(CamsConstants.BarCodeInventoryError.STATUS_CODE_CORRECTED)) {
+                        detail.setInventoryCorrectionTimestamp(getDateTimeService().getCurrentTimestamp());
+                        detail.setCorrectorUniversalIdentifier(currentUserID);
 
-                            getAssetBarcodeInventoryLoadService().updateAssetInformation(detail, false);
-                        }
+                        getAssetBarcodeInventoryLoadService().updateAssetInformation(detail, false);
+                    }
+                } else {
+                    //Reseting the status back to error for those rows that were not selected by the user to be validated.
+                    //detail.getCorrectorUniversalIdentifier() = null means record has not been saved as corrected
+                    if (detail.getCorrectorUniversalIdentifier() == null) {
+                        detail.setErrorCorrectionStatusCode(CamsConstants.BarCodeInventoryError.STATUS_CODE_ERROR);
                     }
                 }
             }

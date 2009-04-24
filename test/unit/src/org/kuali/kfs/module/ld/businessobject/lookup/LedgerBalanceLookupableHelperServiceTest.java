@@ -61,7 +61,7 @@ public class LedgerBalanceLookupableHelperServiceTest extends KualiTestBase {
         // Clear up the database so that any existing data cannot affact your test result
         HashMap keys = new HashMap();
         keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, TestUtils.getFiscalYearForTesting().toString());
-        keys.put(KFSPropertyConstants.EMPLID, "1000000005");
+        keys.put(KFSPropertyConstants.EMPLID, "0000001265");
         keys.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, "AC");
         keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, "BL");
         businessObjectService.deleteMatching(LedgerBalance.class, keys);

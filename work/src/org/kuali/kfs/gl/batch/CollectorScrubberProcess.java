@@ -16,8 +16,6 @@
 package org.kuali.kfs.gl.batch;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -25,9 +23,9 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.impl.DocumentGroupData;
 import org.kuali.kfs.gl.batch.service.impl.OriginEntryFileIterator;
-import org.kuali.kfs.gl.batch.service.impl.OriginEntryTotals;
 import org.kuali.kfs.gl.businessobject.CollectorDetail;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
@@ -38,8 +36,11 @@ import org.kuali.kfs.gl.service.ScrubberService;
 import org.kuali.kfs.gl.service.impl.CollectorScrubberStatus;
 import org.kuali.kfs.gl.service.impl.ScrubberStatus;
 import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.sys.batch.BatchSpringContext;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.PersistenceService;
+
 
 /**
  * This class scrubs the billing details in a collector batch. Note that all services used by this class are passed in as parameters
@@ -58,6 +59,7 @@ public class CollectorScrubberProcess {
     protected PersistenceService persistenceService;
     protected CollectorReportData collectorReportData;
     protected ScrubberService scrubberService;
+    protected DateTimeService dateTimeService;
 
     protected Set<DocumentGroupData> errorDocumentGroups;
     protected String collectorFileDirectoryName;
@@ -80,7 +82,7 @@ public class CollectorScrubberProcess {
      * @param kualiConfigurationService the config service
      * @param persistenceService the persistence service
      */
-    public CollectorScrubberProcess(CollectorBatch batch, OriginEntryService originEntryService, OriginEntryGroupService originEntryGroupService, KualiConfigurationService kualiConfigurationService, PersistenceService persistenceService, ScrubberService scrubberService, CollectorReportData collectorReportData, String collectorFileDirectoryName) {
+    public CollectorScrubberProcess(CollectorBatch batch, KualiConfigurationService kualiConfigurationService, PersistenceService persistenceService, ScrubberService scrubberService, CollectorReportData collectorReportData, DateTimeService dateTimeService, String collectorFileDirectoryName) {
         this.batch = batch;
         this.originEntryService = originEntryService;
         this.originEntryGroupService = originEntryGroupService;
@@ -88,6 +90,7 @@ public class CollectorScrubberProcess {
         this.persistenceService = persistenceService;
         this.collectorReportData = collectorReportData;
         this.scrubberService = scrubberService;
+        this.dateTimeService = dateTimeService;
         this.collectorFileDirectoryName = collectorFileDirectoryName;
     }
 
@@ -99,10 +102,16 @@ public class CollectorScrubberProcess {
     public CollectorScrubberStatus scrub() {
         // for the collector origin entry group scrub, we make sure that we're using a custom impl of the origin entry service and
         // group service.
-        ScrubberStatus scrubberStatus = scrubberService.scrubCollectorBatch(batch, collectorReportData, originEntryService, originEntryGroupService, collectorFileDirectoryName);
+        ScrubberStatus scrubberStatus = new ScrubberStatus();
+        CollectorScrubberStep step = (CollectorScrubberStep) BatchSpringContext.getStep(CollectorScrubberStep.STEP_NAME);
+        step.setScrubberStatus(scrubberStatus);
+        step.setBatch(batch);
+        step.setCollectorReportData(collectorReportData);
+                
+        step.execute(getClass().getName(), dateTimeService.getCurrentDate());
+        
         
         CollectorScrubberStatus collectorScrubberStatus = new CollectorScrubberStatus();
-
         // extract the group BOs form the scrubber
 
         //TODO: Shawn - need to change for file name here....instead of groups... 

@@ -624,6 +624,7 @@
 		
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 		<property name="reportDirectoryName" value="${reports.directory}"/>
+		<property name="collectorFileDirectoryName" value="${staging.directory}/gl/collector"/>
 	</bean>
 
 	<bean id="scrubberValidator" class="org.kuali.kfs.gl.service.impl.ScrubberValidatorImpl">
@@ -1615,6 +1616,11 @@
 	
 	<bean id="correctionProcessScrubberStep" class="org.kuali.kfs.gl.batch.CorrectionProcessScrubberStep" parent="step">
 		<property name="correctionDocumentService" ref="correctionDocumentService" />
+		<property name="scrubberService" ref="glScrubberService" />
+		<property name="batchTransactionalCachingService" ref="accountingCycleCachingService" />
+	</bean>
+	
+	<bean id="collectorScrubberStep" class="org.kuali.kfs.gl.batch.CollectorScrubberStep" parent="step">
 		<property name="scrubberService" ref="glScrubberService" />
 		<property name="batchTransactionalCachingService" ref="accountingCycleCachingService" />
 	</bean>

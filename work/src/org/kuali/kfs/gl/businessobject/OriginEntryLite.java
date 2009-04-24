@@ -337,7 +337,7 @@ public class OriginEntryLite extends PersistableBusinessObjectBase implements Or
                 return value + GeneralLedgerConstants.getSpaceAllOriginEntryFields().substring(0, size - value.length());
             }
             else {
-                return value;
+                return value.substring(0, size);
             }
         }
     }

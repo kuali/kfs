@@ -16,19 +16,14 @@
 package org.kuali.kfs.gl.batch.service.impl;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.kuali.kfs.gl.batch.CollectorBatch;
 import org.kuali.kfs.gl.batch.CollectorScrubberProcess;
 import org.kuali.kfs.gl.batch.service.CollectorScrubberService;
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.report.CollectorReportData;
-import org.kuali.kfs.gl.service.OriginEntryGroupService;
-import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.gl.service.ScrubberService;
 import org.kuali.kfs.gl.service.impl.CollectorScrubberStatus;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -46,6 +41,7 @@ public class CollectorScrubberServiceImpl implements CollectorScrubberService {
     private PersistenceService persistenceService;
     private ScrubberService scrubberService;
 
+
     /**
      * uns the scrubber on the origin entries in the batch. Any OEs edits/removals result of the scrub and demerger are removed
      * from the batch, and the same changes are reflected in the details in the same batch.
@@ -57,8 +53,9 @@ public class CollectorScrubberServiceImpl implements CollectorScrubberService {
      *      org.kuali.kfs.gl.report.CollectorReportData)
      */
     public CollectorScrubberStatus scrub(CollectorBatch batch, CollectorReportData collectorReportData, String collectorFileDirectoryName) {
-        CollectorScrubberProcess collectorScrubberProcess = new CollectorScrubberProcess(batch, SpringContext.getBean(OriginEntryService.class), SpringContext.getBean(OriginEntryGroupService.class), kualiConfigurationService, persistenceService, scrubberService, collectorReportData, collectorFileDirectoryName);
+        CollectorScrubberProcess collectorScrubberProcess = new CollectorScrubberProcess(batch, kualiConfigurationService, persistenceService, scrubberService, collectorReportData, dateTimeService, collectorFileDirectoryName);
         return collectorScrubberProcess.scrub();
+        
     }
 
     /**

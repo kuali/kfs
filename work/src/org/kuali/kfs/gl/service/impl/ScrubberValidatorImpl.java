@@ -392,7 +392,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                     //workingEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
                     //workingEntry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_AUTO_FORWARD) + " " + originEntry.getChartOfAccountsCode() + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription());
                     // TODO: Shawn - use messageBuilder and KeyConstant - also, length issue!?!??
-                    workingEntry.setTransactionLedgerEntryDescription(("AUTO FR " + " " + originEntry.getChartOfAccountsCode() + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription()).substring(0, 39));
+                    workingEntry.setTransactionLedgerEntryDescription("AUTO FR " + " " + originEntry.getChartOfAccountsCode() + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription());
                     return MessageBuilder.buildMessage(KFSKeyConstants.MSG_ACCOUNT_CLOSED_TO, workingEntry.getChartOfAccountsCode() + workingEntry.getAccountNumber(), Message.TYPE_WARNING);
                 }
                 else {
@@ -420,7 +420,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                         //workingEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
                         //workingEntry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_AUTO_FORWARD) + originEntry.getChartOfAccountsCode() + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription());
                         // TODO: Shawn - use messageBuilder and KeyConstant - also, length issue!?!??
-                        workingEntry.setTransactionLedgerEntryDescription(("AUTO FR " + originEntry.getChartOfAccountsCode() + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription()).substring(0, 39));
+                        workingEntry.setTransactionLedgerEntryDescription("AUTO FR " + originEntry.getChartOfAccountsCode() + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription());
                         return MessageBuilder.buildMessage(KFSKeyConstants.MSG_ACCOUNT_CLOSED_TO, workingEntry.getChartOfAccountsCode() + workingEntry.getAccountNumber(), Message.TYPE_WARNING);
                     }
                 }

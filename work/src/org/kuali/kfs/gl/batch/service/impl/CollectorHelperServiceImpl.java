@@ -106,7 +106,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         CollectorBatch batch = doCollectorFileParse(fileName, errorMap);
         
         // create a input file for scrubber
-        String collectorInputFileNameForScrubber = collectorFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_BACKUP_FILE;
+        String collectorInputFileNameForScrubber = collectorFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         PrintStream inputFilePs; 
         try {
             inputFilePs = new PrintStream(collectorInputFileNameForScrubber);

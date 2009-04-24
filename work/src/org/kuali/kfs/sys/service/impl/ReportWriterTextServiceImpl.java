@@ -36,35 +36,32 @@ import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.springframework.beans.factory.InitializingBean;
 
 /**
  * Text output implementation of <code>ReportWriterService</code> interface.<br>
  * If you are a developer attempting to add a new business object for error report writing, take a look at writeError and writeErrorHeader. Add
  * your condition to that.
  */
-public class ReportWriterTextServiceImpl implements ReportWriterService {
+public class ReportWriterTextServiceImpl implements ReportWriterService, InitializingBean {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReportWriterTextServiceImpl.class);
     
-    // CONFIGURABLE CONSTANTS
-    protected static final String FILENAME_SUFFIX = ".txt";
-    protected static final int PAGE_WIDTH = 130;
-    protected static final int PAGE_LENGTH = 57;
-    protected static final int INITIAL_PAGE_NUMBER = 1;
-    protected static final String STATISTICS_LEFT_PADDING = "                             ";
-    
     // Changing the initial line number would only affect that a page break occurs early. It does not actually print in the
-    // middle of the page. Hence changing this should be done with care.
+    // middle of the page. Hence changing this has little use.
     protected static final int INITIAL_LINE_NUMBER = 0;
     
-    // SPRING INJECTED
     private String filePath;
     private String fileNamePrefix;
+    private String fileNameSuffix;
     private String title;
+    private int pageWidth;
+    private int pageLength;
+    private int initialPageNumber;
+    private String statisticsLeftPadding;
     private DateTimeService dateTimeService;
     
-    // OTHER MEMBER VARIABLES
     protected PrintStream printStream;
-    protected int page = INITIAL_PAGE_NUMBER;
+    protected int page;
     protected int line = INITIAL_LINE_NUMBER;
     protected String errorFormat;
     protected String keyBlank;
@@ -81,6 +78,11 @@ public class ReportWriterTextServiceImpl implements ReportWriterService {
     
     // For printing new headers when the BO is changed
     protected Class<? extends BusinessObject> businessObjectClass;
+    
+    public void afterPropertiesSet() throws Exception {
+        // TODO put initialize() here. Wait until we figure our whether we use scope="prototype" in spring-*.xml or do addition to AbstractBatchTransactionalCachingStep
+        // TODO if this is removed don't forget to also remove InitializingBean
+    }
     
     /**
      * @see java.lang.Object#finalize()
@@ -218,7 +220,7 @@ public class ReportWriterTextServiceImpl implements ReportWriterService {
             this.modeStatistics = true;
             
             // If nothing has been written to the report we don't want to page break
-            if (!(page == INITIAL_PAGE_NUMBER && line == INITIAL_LINE_NUMBER)) {
+            if (!(page == initialPageNumber && line == INITIAL_LINE_NUMBER)) {
                 this.pageBreak();
             }
             
@@ -230,30 +232,30 @@ public class ReportWriterTextServiceImpl implements ReportWriterService {
             line += 5;
         }
         
-        if (STATISTICS_LEFT_PADDING.length() + message.length() > PAGE_WIDTH) {
+        if (statisticsLeftPadding.length() + message.length() > pageWidth) {
             LOG.warn("writeStatistic message written is out of bounds. Writing anyway.");
         }
         
-        this.printf(STATISTICS_LEFT_PADDING + message, args);
+        this.writeFormattedMessage(statisticsLeftPadding + message, args);
     }
     
     /**
      * @see org.kuali.kfs.sys.service.ReportWriterService#printf(java.lang.String)
      */
-    public void printf(String format) {
-        this.printf(format, new Object());
+    public void writeFormattedMessage(String format) {
+        this.writeFormattedMessage(format, new Object());
     }
     
     /**
      * @see org.kuali.kfs.sys.service.ReportWriterService#printf(java.lang.String, java.lang.Object[])
      */
-    public void printf(String format, Object ... args) {
+    public void writeFormattedMessage(String format, Object ... args) {
         this.initialize();
         
         printStream.printf(format, args);
         
         line++;
-        if (line >= PAGE_LENGTH) {
+        if (line >= pageLength) {
             this.pageBreak();
         }
     }
@@ -268,11 +270,13 @@ public class ReportWriterTextServiceImpl implements ReportWriterService {
         }
         
         try {
-            printStream = new PrintStream(filePath + File.separator + this.fileNamePrefix + dateTimeService.toDateStringForFilename(dateTimeService.getCurrentDate()) + FILENAME_SUFFIX);
+            printStream = new PrintStream(filePath + File.separator + this.fileNamePrefix + dateTimeService.toDateStringForFilename(dateTimeService.getCurrentDate()) + fileNameSuffix);
         }
         catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+        
+        page = initialPageNumber;
         
         // Initial header
         this.writeHeader(title);
@@ -285,14 +289,14 @@ public class ReportWriterTextServiceImpl implements ReportWriterService {
      */
     protected void writeMessageHelper(Message message) {
         // Truncate message if necessary
-        if (message.getMessage().length() > PAGE_WIDTH - keyLength) {
-            printStream.printf("%s\n", message.getMessage().substring(0, PAGE_WIDTH - keyLength));
+        if (message.getMessage().length() > pageWidth - keyLength) {
+            printStream.printf("%s\n", message.getMessage().substring(0, pageWidth - keyLength));
         } else {
             printStream.printf("%s\n", message.getMessage());
         }
         
         line++;
-        if (line >= PAGE_LENGTH) {
+        if (line >= pageLength) {
             pageBreak();
         }
     }
@@ -315,7 +319,7 @@ public class ReportWriterTextServiceImpl implements ReportWriterService {
      */
     protected void writeHeader(String title) {
         String headerText = String.format("%1$tY-%1$tm-%1$td %1$tH:%1$tM",dateTimeService.getCurrentDate());
-        int reportTitlePadding = PAGE_WIDTH/2 - headerText.length() - title.length()/2;
+        int reportTitlePadding = pageWidth/2 - headerText.length() - title.length()/2;
         headerText = String.format("%s%" + (reportTitlePadding + title.length()) + "s%" + reportTitlePadding + "s", headerText, title, "");
         
         printStream.printf("%sPAGE:%,9d\n\n", headerText, page);
@@ -389,6 +393,15 @@ public class ReportWriterTextServiceImpl implements ReportWriterService {
     }
     
     /**
+     * Sets the fileNameSuffix
+     * 
+     * @param fileNameSuffix The fileNameSuffix to set.
+     */
+    public void setFileNameSuffix(String fileNameSuffix) {
+        this.fileNameSuffix = fileNameSuffix;
+    }
+
+    /**
      * Sets the title
      * 
      * @param title The title to set.
@@ -397,6 +410,42 @@ public class ReportWriterTextServiceImpl implements ReportWriterService {
         this.title = title;
     }
     
+    /**
+     * Sets the pageWidth
+     * 
+     * @param pageWidth The pageWidth to set.
+     */
+    public void setPageWidth(int pageWidth) {
+        this.pageWidth = pageWidth;
+    }
+
+    /**
+     * Sets the pageLength
+     * 
+     * @param pageLength The pageLength to set.
+     */
+    public void setPageLength(int pageLength) {
+        this.pageLength = pageLength;
+    }
+
+    /**
+     * Sets the initialPageNumber
+     * 
+     * @param initialPageNumber The initialPageNumber to set.
+     */
+    public void setInitialPageNumber(int initialPageNumber) {
+        this.initialPageNumber = initialPageNumber;
+    }
+
+    /**
+     * Sets the statisticsLeftPadding
+     * 
+     * @param statisticsLeftPadding The statisticsLeftPadding to set.
+     */
+    public void setStatisticsLeftPadding(String statisticsLeftPadding) {
+        this.statisticsLeftPadding = statisticsLeftPadding;
+    }
+
     /**
      * Sets the DateTimeService
      * 

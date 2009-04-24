@@ -236,7 +236,7 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
         deleteHistory(fiscalYear, AccountBalanceHistory.class);
         deleteHistory(fiscalYear, EncumbranceHistory.class);
         
-        reportWriterService.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_OBSOLETE_FISCAL_YEAR_DATA_DELETED), (AccountBalanceHistory.class).getSimpleName(), (EncumbranceHistory.class).getSimpleName(), fiscalYear);
+        reportWriterService.writeFormattedMessage(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_OBSOLETE_FISCAL_YEAR_DATA_DELETED), (AccountBalanceHistory.class).getSimpleName(), (EncumbranceHistory.class).getSimpleName(), fiscalYear);
     }
     
     /**
@@ -352,7 +352,7 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
         }
         
         if (countComparisionFailures != 0) {
-            reportWriterService.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_FAILURE_COUNT), (AccountBalanceHistory.class).getSimpleName(), countComparisionFailures, this.getComparisonFailuresToPrintPerReport());
+            reportWriterService.writeFormattedMessage(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_FAILURE_COUNT), (AccountBalanceHistory.class).getSimpleName(), countComparisionFailures, this.getComparisonFailuresToPrintPerReport());
         }
         
         return countComparisionFailures;
@@ -382,7 +382,7 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
         }
         
         if (countComparisionFailures != 0) {
-            reportWriterService.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_FAILURE_COUNT), (EncumbranceHistory.class).getSimpleName(), countComparisionFailures, this.getComparisonFailuresToPrintPerReport());
+            reportWriterService.writeFormattedMessage(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_FAILURE_COUNT), (EncumbranceHistory.class).getSimpleName(), countComparisionFailures, this.getComparisonFailuresToPrintPerReport());
         }
         
         return countComparisionFailures;

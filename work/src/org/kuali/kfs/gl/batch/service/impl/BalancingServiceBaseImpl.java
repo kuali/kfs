@@ -95,7 +95,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
 
         LOG.debug("Checking files required for balancing process are present.");
         if(!this.isFilesReady()) {
-            reportWriterService.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.ERROR_BATCH_BALANCING_FILES));
+            reportWriterService.writeFormattedMessage(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.ERROR_BATCH_BALANCING_FILES));
             
             return false;
         }
@@ -104,7 +104,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
         boolean historyTablesPopulated = false;
         // Following does not check for custom data (AccountBalance & Encumbrance) present. Should be OK since it can't exist without entry and balance data.
         if (this.getHistoryCount(null, entryHistoryPersistentClass) == 0 || this.getHistoryCount(null, balanceHistoryPersistentClass) == 0) {
-            reportWriterService.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_DATA_INSERT), entryHistoryPersistentClass.getSimpleName(), balanceHistoryPersistentClass.getSimpleName());
+            reportWriterService.writeFormattedMessage(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_DATA_INSERT), entryHistoryPersistentClass.getSimpleName(), balanceHistoryPersistentClass.getSimpleName());
             
             ledgerBalancingDao.populateLedgerEntryHistory(startUniversityFiscalYear);
             ledgerBalancingDao.populateLedgerBalanceHistory(startUniversityFiscalYear);
@@ -119,7 +119,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
         boolean obsoleteUniversityFiscalYearDeleted = false;
         int obsoleteUniversityFiscalYear = startUniversityFiscalYear - 1;
         if(this.getHistoryCount(obsoleteUniversityFiscalYear, entryHistoryPersistentClass) != 0 || this.getHistoryCount(obsoleteUniversityFiscalYear, balanceHistoryPersistentClass) != 0 || this.doesCustomHistoryExist(obsoleteUniversityFiscalYear)) {
-            reportWriterService.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_OBSOLETE_FISCAL_YEAR_DATA_DELETED), entryHistoryPersistentClass.getSimpleName(), balanceHistoryPersistentClass.getSimpleName(), obsoleteUniversityFiscalYear);
+            reportWriterService.writeFormattedMessage(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_OBSOLETE_FISCAL_YEAR_DATA_DELETED), entryHistoryPersistentClass.getSimpleName(), balanceHistoryPersistentClass.getSimpleName(), obsoleteUniversityFiscalYear);
             this.deleteHistory(obsoleteUniversityFiscalYear, entryHistoryPersistentClass);
             this.deleteHistory(obsoleteUniversityFiscalYear, balanceHistoryPersistentClass);
             this.deleteCustomHistory(obsoleteUniversityFiscalYear);
@@ -136,13 +136,13 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
         LOG.debug("Comparing entry history table with the PRD counterpart.");
         int countEntryComparisionFailure = this.compareEntryHistory();
         if (countEntryComparisionFailure != 0) {
-            reportWriterService.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_FAILURE_COUNT), entryHistoryPersistentClass.getSimpleName(), countEntryComparisionFailure, this.getComparisonFailuresToPrintPerReport());
+            reportWriterService.writeFormattedMessage(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_FAILURE_COUNT), entryHistoryPersistentClass.getSimpleName(), countEntryComparisionFailure, this.getComparisonFailuresToPrintPerReport());
         }
         
         LOG.debug("Comparing balance history table with the PRD counterpart.");
         int countBalanceComparisionFailure = this.compareBalanceHistory();
         if (countBalanceComparisionFailure != 0) {
-            reportWriterService.printf(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_FAILURE_COUNT), balanceHistoryPersistentClass.getSimpleName(), countBalanceComparisionFailure, this.getComparisonFailuresToPrintPerReport());
+            reportWriterService.writeFormattedMessage(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_FAILURE_COUNT), balanceHistoryPersistentClass.getSimpleName(), countBalanceComparisionFailure, this.getComparisonFailuresToPrintPerReport());
         }
         
         LOG.debug("Comparing custom, if any, history table with the PRD counterpart.");
@@ -292,7 +292,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
             posterErrorBufferedReader.close();
         } catch (Exception e) {
             LOG.fatal(String.format(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.ERROR_BATCH_BALANCING_UNKNOWN_FAILURE), e.getMessage(), lineNumber));
-            reportWriterService.printf(String.format(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.ERROR_BATCH_BALANCING_UNKNOWN_FAILURE), e.getMessage(), lineNumber));
+            reportWriterService.writeFormattedMessage(String.format(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.ERROR_BATCH_BALANCING_UNKNOWN_FAILURE), e.getMessage(), lineNumber));
             throw new RuntimeException(String.format(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.ERROR_BATCH_BALANCING_UNKNOWN_FAILURE), e.getMessage(), lineNumber));
         }
         

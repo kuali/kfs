@@ -48,15 +48,15 @@ public interface ReportWriterService {
     public void writeStatistic(String message, Object ... args);
     
     /**
-     * Pass through to the PrintStream
+     * Pass through to PrintStream.printf except that it also handles pagination
      * @param format
      */
-    public void printf(String format);
+    public void writeFormattedMessage(String format);
     
     /**
-     * Pass through to the PrintStream
+     * Pass through to PrintStream.printf except that it also handles pagination
      * @param format
      * @param args
      */
-    public void printf(String format, Object ... args);
+    public void writeFormattedMessage(String format, Object ... args);
 }

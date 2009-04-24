@@ -35,13 +35,11 @@ import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.report.Summary;
-import org.kuali.kfs.gl.report.TextReportHelper;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborConstants.Poster;
 import org.kuali.kfs.module.ld.batch.LaborPosterStep;
 import org.kuali.kfs.module.ld.batch.service.LaborPosterService;
-import org.kuali.kfs.module.ld.batch.service.LaborReportService;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.document.validation.impl.TransactionFieldValidator;
 import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
@@ -52,6 +50,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.MessageBuilder;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -70,7 +69,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     private LaborOriginEntryService laborOriginEntryService;
     private OriginEntryGroupService originEntryGroupService;
 
-    private LaborReportService laborReportService;
+    private ReportWriterService reportWriterService;
     private DateTimeService dateTimeService;
     private VerifyTransaction laborPosterTransactionValidator;
     private ParameterService parameterService;
@@ -85,12 +84,8 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     private PrintStream POSTER_OUTPUT_GLE_FILE_ps;
     private PrintStream POSTER_OUTPUT_ERR_FILE_ps;
 
-
     private OriginEntryGroup validGroup;
     private OriginEntryGroup errorGroup;
-    
-    private TextReportHelper<Transaction> textReportHelper;
-    private PrintStream reportPrintStream;
     
     private Map<String,Integer> reportSummary = new HashMap<String,Integer>();
     int numberOfErrorOriginEntry;
@@ -132,7 +127,6 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         String postInputFileName = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.POSTER_INPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         String postOutFileName = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.POSTER_VALID_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         String postErrFileName = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.POSTER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-        String reportFileName = reportsDirectory + File.separator + "Labor_Poster_Main_" +  runDate.toString() + ".txt";
 
         FileReader INPUT_GLE_FILE = null;
         String GLEN_RECORD;
@@ -146,9 +140,6 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         try {
             POSTER_OUTPUT_GLE_FILE_ps = new PrintStream(postOutFileName);
             POSTER_OUTPUT_ERR_FILE_ps = new PrintStream(postErrFileName);
-            reportPrintStream = new PrintStream(reportFileName);
-
-
         }
         catch (IOException e) {
             LOG.error("postLaborLedgerEntries cannot open file: " + e.getMessage(), e);
@@ -165,8 +156,6 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         LaborOriginEntry laborOriginEntry = new LaborOriginEntry();
         LaborLedgerUnitOfWork laborLedgerUnitOfWork = new LaborLedgerUnitOfWork();
         
-        textReportHelper = new TextReportHelper<Transaction>("LABOR POSTER REPORT", reportPrintStream, dateTimeService, laborOriginEntry);
-        textReportHelper.writeErrorHeader();
         reportSummary.put(laborLedgerEntryPoster.getDestinationName() + "," + KFSConstants.OperationType.INSERT, new Integer(0));
         reportSummary.put(laborLedgerBalancePoster.getDestinationName() + "," + KFSConstants.OperationType.INSERT, new Integer(0));
         reportSummary.put(laborLedgerBalancePoster.getDestinationName() + "," + KFSConstants.OperationType.UPDATE, new Integer(0));
@@ -211,15 +200,13 @@ public class LaborPosterServiceImpl implements LaborPosterService {
             INPUT_GLE_FILE.close();
             POSTER_OUTPUT_GLE_FILE_ps.close();
             POSTER_OUTPUT_ERR_FILE_ps.close();
-
-            textReportHelper.writeStatisticsHeader();
-            reportPrintStream.printf("                                  SEQUENTIAL RECORDS READ                    %,9d\n", lineNumber);
-            reportPrintStream.printf("                                  LLEN RECORDS INSERTED (LD_LDGR_ENTR_T)     %,9d\n", reportSummary.get(laborLedgerEntryPoster.getDestinationName() + "," + KFSConstants.OperationType.INSERT));
-            reportPrintStream.printf("                                  LLBL RECORDS INSERTED (LD_LDGR_BAL_T)      %,9d\n", reportSummary.get(laborLedgerBalancePoster.getDestinationName() + "," + KFSConstants.OperationType.INSERT));
-            reportPrintStream.printf("                                  LLBL RECORDS UPDATED  (LD_LDGR_BAL_T)      %,9d\n", reportSummary.get(laborLedgerBalancePoster.getDestinationName() + "," + KFSConstants.OperationType.UPDATE));
-            reportPrintStream.printf("                                  LLGL RECORDS INSERTED (LD_LBR_GL_ENTRY_T)  %,9d\n", reportSummary.get(laborGLLedgerEntryPoster.getDestinationName() + "," + KFSConstants.OperationType.INSERT));
-            reportPrintStream.printf("                                  WARNING RECORDS WRITTEN                    %,9d\n", numberOfErrorOriginEntry);
-            reportPrintStream.close();
+            
+            reportWriterService.writeStatistic("SEQUENTIAL RECORDS READ                    %,9d\n", lineNumber);
+            reportWriterService.writeStatistic("LLEN RECORDS INSERTED (LD_LDGR_ENTR_T)     %,9d\n", reportSummary.get(laborLedgerEntryPoster.getDestinationName() + "," + KFSConstants.OperationType.INSERT));
+            reportWriterService.writeStatistic("LLBL RECORDS INSERTED (LD_LDGR_BAL_T)      %,9d\n", reportSummary.get(laborLedgerBalancePoster.getDestinationName() + "," + KFSConstants.OperationType.INSERT));
+            reportWriterService.writeStatistic("LLBL RECORDS UPDATED  (LD_LDGR_BAL_T)      %,9d\n", reportSummary.get(laborLedgerBalancePoster.getDestinationName() + "," + KFSConstants.OperationType.UPDATE));
+            reportWriterService.writeStatistic("LLGL RECORDS INSERTED (LD_LBR_GL_ENTRY_T)  %,9d\n", reportSummary.get(laborGLLedgerEntryPoster.getDestinationName() + "," + KFSConstants.OperationType.INSERT));
+            reportWriterService.writeStatistic("WARNING RECORDS WRITTEN                    %,9d\n", numberOfErrorOriginEntry);
             
             // shawn - need to change to use file??
             // laborReportService.generateErrorTransactionListing(invalidGroup, ReportRegistry.LABOR_POSTER_ERROR, reportsDirectory,
@@ -264,7 +251,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         }
 
         if (errors != null && !errors.isEmpty()) {
-            textReportHelper.writeErrors(originEntry, errors);
+            reportWriterService.writeError(originEntry, errors);
             numberOfErrorOriginEntry += errors.size();
             writeErrorEntry(line);
             return false;
@@ -582,14 +569,14 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     }
 
     /**
-     * Sets the laborReportService attribute value.
+     * Sets the reportWriterService
      * 
-     * @param laborReportService The laborReportService to set.
+     * @param reportWriterService The reportWriterService to set.
      */
-    public void setLaborReportService(LaborReportService laborReportService) {
-        this.laborReportService = laborReportService;
+    public void setReportWriterService(ReportWriterService reportWriterService) {
+        this.reportWriterService = reportWriterService;
     }
-
+    
     /**
      * Sets the laborPosterTransactionValidator attribute value.
      * 

@@ -661,9 +661,20 @@
 			<ref bean="parameterService" />
 		</property>		
 	</bean>
-	
+
 	<bean id="preparedStatementCachingDao" parent="platformAwareDaoJdbc" abstract="true">
 		<property name="dateTimeService" ref="dateTimeService" />
+	</bean>
+	
+	<bean id="reportWriterService" abstract="true">
+        <property name="fileNameSuffix" value=".txt" />
+        <property name="pageWidth" value="130" />
+        <property name="pageLength" value="57" />
+        <property name="initialPageNumber" value="1" />
+        <property name="statisticsLeftPadding" value="                             " />
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
+        </property>
 	</bean>
 	
 	<bean id="systemLedgerReferenceValuePreparedStatementCachingDao" parent="preparedStatementCachingDao" class="org.kuali.kfs.sys.batch.dataaccess.impl.LedgerReferenceValuePreparedStatementCachingDaoJdbc" /> 

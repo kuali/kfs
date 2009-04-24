@@ -315,6 +315,12 @@
 		<property name="laborLedgerDao" ref="laborLedgerPreparedStatementCachingDao" />
 	</bean>
 
+    <bean id="laborPosterReportWriterService" parent="reportWriterService" class="org.kuali.kfs.sys.service.impl.ReportWriterTextServiceImpl">
+		<property name="filePath" value="${reports.directory}/ld"/>
+		<property name="fileNamePrefix" value="Labor_Poster_Main_"/>
+        <property name="title" value="LABOR POSTER REPORT"/>
+    </bean>
+
     <bean id="laborPosterService" class="org.kuali.kfs.module.ld.batch.service.impl.LaborPosterServiceImpl">
         <property name="laborOriginEntryService">
             <ref bean="laborOriginEntryService" />
@@ -330,8 +336,8 @@
             <ref bean="parameterService" />
         </property>
 
-        <property name="laborReportService">
-            <ref bean="laborReportService" />
+        <property name="reportWriterService">
+            <ref bean="laborPosterReportWriterService" />
         </property>
         <property name="laborPosterTransactionValidator">
             <ref bean="laborPosterTransactionValidator" />
@@ -349,13 +355,10 @@
         <property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
     </bean>
     
-    <bean id="laborBalancingReportWriterService" class="org.kuali.kfs.sys.service.impl.ReportWriterTextServiceImpl">
+    <bean id="laborBalancingReportWriterService" parent="reportWriterService" class="org.kuali.kfs.sys.service.impl.ReportWriterTextServiceImpl">
 		<property name="filePath" value="${reports.directory}/ld"/>
 		<property name="fileNamePrefix" value="laborBalancing_"/>
         <property name="title" value="Labor Balancing Report"/>
-        <property name="dateTimeService">
-            <ref bean="dateTimeService" />
-        </property>
     </bean>
     
     <bean id="laborBalancingService" class="org.kuali.kfs.module.ld.batch.service.impl.LaborBalancingServiceImpl">

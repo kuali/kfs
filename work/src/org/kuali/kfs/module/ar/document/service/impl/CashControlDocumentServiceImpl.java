@@ -179,7 +179,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         // ignore university clearing sub-object-code KULAR-633
         accountingLine = buildAccountingLine(systemInformation.getUniversityClearingAccountNumber(), systemInformation.getUniversityClearingSubAccountNumber(), systemInformation.getUniversityClearingObjectCode(), null, systemInformation.getUniversityClearingChartOfAccountsCode(), KFSConstants.GL_CREDIT_CODE, cashControlDocument.getCashControlTotalAmount());
         // get document type for the glpes
-        String financialSystemDocumentTypeCode = getDataDictionaryService().getDocumentTypeNameByClass(CashReceiptDocument.class);
+        String financialSystemDocumentTypeCode = getDataDictionaryService().getDocumentTypeNameByClass(CashControlDocument.class);
         // create and add the new explicit entry based on this accounting line
         explicitEntry = createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options, financialSystemDocumentTypeCode);
         // create and add the offset entry
@@ -224,7 +224,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         // ignore university clearing sub-object-code KULAR-633
         accountingLine = buildAccountingLine(systemInformation.getUniversityClearingAccountNumber(), systemInformation.getUniversityClearingSubAccountNumber(), systemInformation.getUniversityClearingObjectCode(), null, systemInformation.getUniversityClearingChartOfAccountsCode(), KFSConstants.GL_CREDIT_CODE, cashControlDocument.getCashControlTotalAmount());
         // get document type for the glpes
-        String financialSystemDocumentTypeCode = getDataDictionaryService().getDocumentTypeNameByClass(DistributionOfIncomeAndExpenseDocument.class);
+        String financialSystemDocumentTypeCode = getDataDictionaryService().getDocumentTypeNameByClass(CashControlDocument.class);
         // create and add the new explicit entry based on this accounting line
         explicitEntry = createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options, financialSystemDocumentTypeCode);
         // create and add the offset entry
@@ -275,7 +275,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         // ignore university clearing sub-object-code KULAR-633
         accountingLine = buildAccountingLine(systemInformation.getUniversityClearingAccountNumber(), systemInformation.getUniversityClearingSubAccountNumber(), systemInformation.getCreditCardObjectCode(), null, systemInformation.getUniversityClearingChartOfAccountsCode(), KFSConstants.GL_DEBIT_CODE, cashControlDocument.getCashControlTotalAmount());
         //get document type for the glpes
-        String financialSystemDocumentTypeCode = getDataDictionaryService().getDocumentTypeNameByClass(GeneralErrorCorrectionDocument.class);
+        String financialSystemDocumentTypeCode = getDataDictionaryService().getDocumentTypeNameByClass(CashControlDocument.class);
         // create and add the new explicit entry based on this accounting line
         createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options, financialSystemDocumentTypeCode);
 

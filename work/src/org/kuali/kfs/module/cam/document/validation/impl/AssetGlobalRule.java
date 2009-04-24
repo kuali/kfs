@@ -1066,8 +1066,4 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     private AssetGlobalService getAssetGlobalService() {
         return SpringContext.getBean(AssetGlobalService.class);
     }
-
-    private DataDictionaryService getDataDictionaryService() {
-        return SpringContext.getBean(DataDictionaryService.class);
-    }
 }

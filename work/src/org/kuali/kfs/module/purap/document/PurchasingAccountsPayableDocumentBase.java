@@ -40,6 +40,7 @@ import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.service.SensitiveDataService;
 import org.kuali.kfs.module.purap.util.PurApRelatedViews;
 import org.kuali.kfs.sys.KFSConstants.AdHocPaymentIndicator;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
@@ -1074,4 +1075,21 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     
         return title;
     }
+
+    /**
+     * Overridden to return the source lines of all of the items
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getSourceAccountingLines()
+     */
+    @Override
+    public List getSourceAccountingLines() {
+        List<AccountingLine> sourceAccountingLines = new ArrayList<AccountingLine>();
+        for (Object itemAsObject : this.getItems()) {
+            final PurApItem item = (PurApItem)itemAsObject;
+            for (PurApAccountingLine accountingLine : item.getSourceAccountingLines()) {
+                sourceAccountingLines.add(accountingLine);
+            }
+        }
+        return sourceAccountingLines;
+    }
+    
 }

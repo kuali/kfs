@@ -25,6 +25,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="VendorAddress-vendorDefaultAddressIndicator" />
         <ref bean="VendorAddress-vendorFaxNumber" />
         <ref bean="VendorAddress-vendorAddressTypeCode" />
+        <ref bean="VendorAddress-vendorAddressType.vendorAddressTypeDescription" />
         <ref bean="VendorAddress-newCollectionRecord" />
         <ref bean="VendorAddress-vendorLine1Address" />
         <ref bean="VendorAddress-vendorLine2Address" />
@@ -137,6 +138,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:includeKeyInLabel="false" />
     </property>
   </bean>
+  
+  <bean id="VendorAddress-vendorAddressType.vendorAddressTypeDescription" parent="VendorAddress-vendorAddressType.vendorAddressTypeDescription-parentBean" />
+  <dd:boAttributeRef id="VendorAddress-vendorAddressType.vendorAddressTypeDescription-parentBean" abstract="true" parent="AddressType-vendorAddressTypeDescription"
+  			attributeName="vendorAddressType.vendorAddressTypeDescription" />
+                     
   <bean id="VendorAddress-newCollectionRecord" parent="VendorAddress-newCollectionRecord-parentBean" />
 
   <bean id="VendorAddress-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
@@ -304,7 +310,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="vendorAddressTypeCode" />
+              p:attributeName="vendorAddressType.vendorAddressTypeDescription" />
         <bean parent="FieldDefinition"
               p:attributeName="vendorLine1Address" />
         <bean parent="FieldDefinition"

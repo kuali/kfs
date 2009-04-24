@@ -684,5 +684,9 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         }
         return true;
     }
+    
+    public Date getCreateDateForResult() {
+        return this.getDocumentHeader().getWorkflowDocument().getCreateDate();
+    }
 }
 

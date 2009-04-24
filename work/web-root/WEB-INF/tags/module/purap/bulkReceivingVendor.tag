@@ -251,7 +251,7 @@
 	                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.shipmentReceivedDate}" /></div>
 	             </th>
 	             <td align=left valign=middle class="datacell">
-	                 <kul:htmlControlAttribute attributeEntry="${documentAttributes.shipmentReceivedDate}" property="document.shipmentReceivedDate" datePicker="true" readOnly="true"/>
+	                 <kul:htmlControlAttribute attributeEntry="${documentAttributes.shipmentReceivedDate}" property="document.shipmentReceivedDate" datePicker="true" readOnly="${not fullEntryMode}"/>
 	             </td>
             </tr>
 			<tr>
@@ -259,7 +259,7 @@
                   		<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.shipmentPackingSlipNumber}" /></div>
                 </th>
    	            <td align=left valign=middle class="datacell">
-       	           <kul:htmlControlAttribute attributeEntry="${documentAttributes.shipmentPackingSlipNumber}" property="document.shipmentPackingSlipNumber" readOnly="true"/>
+       	           <kul:htmlControlAttribute attributeEntry="${documentAttributes.shipmentPackingSlipNumber}" property="document.shipmentPackingSlipNumber" readOnly="${not fullEntryMode}"/>
            	    </td>
            	    <th align=right valign=middle class="bord-l-b">
                   		<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.shipmentReferenceNumber}" /></div>
@@ -273,7 +273,7 @@
                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.shipmentBillOfLadingNumber}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.shipmentBillOfLadingNumber}" property="document.shipmentBillOfLadingNumber" readOnly="true"/>
+                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.shipmentBillOfLadingNumber}" property="document.shipmentBillOfLadingNumber" readOnly="${not fullEntryMode}"/>
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                   		<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.carrierCode}" /></div>

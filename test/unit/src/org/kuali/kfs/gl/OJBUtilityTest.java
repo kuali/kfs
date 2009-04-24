@@ -26,6 +26,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -90,7 +91,7 @@ public class OJBUtilityTest extends KualiTestBase {
         SpringContext.getBean(BusinessObjectService.class).save(buildAccountBalanceFixture());
         
         Map propertyMap = new HashMap();
-        propertyMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, "2007");
+        propertyMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, TestUtils.getFiscalYearForTesting().toString());
 
         Long resultSize = OJBUtility.getResultSizeFromMap(propertyMap, new AccountBalance());
         assertTrue("Should be greater than 0 if there are account balance records", resultSize.intValue() > 0);
@@ -102,7 +103,7 @@ public class OJBUtilityTest extends KualiTestBase {
      */
     private AccountBalance buildAccountBalanceFixture() {
         AccountBalance accountBalance = new AccountBalance();
-        accountBalance.setUniversityFiscalYear(new Integer(2007));
+        accountBalance.setUniversityFiscalYear(TestUtils.getFiscalYearForTesting());
         accountBalance.setChartOfAccountsCode("BL");
         accountBalance.setAccountNumber("1031400");
         accountBalance.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());

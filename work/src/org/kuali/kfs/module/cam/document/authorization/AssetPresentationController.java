@@ -143,6 +143,10 @@ public class AssetPresentationController extends FinancialSystemMaintenanceDocum
                 // If asset is not loaned, hide the section
                 fields.add(CamsConstants.Asset.SECTION_ID_LOAN_INFORMATION);
             }
+            if (asset.getSeparateHistory() == null) {
+                // If asset is not separated, hide the section
+                fields.add(CamsConstants.Asset.SECTION_ID_HISTORY);
+            }
         }
 
         return fields;

@@ -108,7 +108,7 @@
 				<bean parent="AccountingLineView-field"
 					p:name="payrollEndDateFiscalYear" p:useShortLabel="true" />
 				<bean parent="AccountingLineView-field"
-					p:name="payrollEndDateFiscalPeriodCode" p:required="true" p:useShortLabel="true" />
+					p:name="payrollEndDateFiscalPeriodCode" p:useShortLabel="true" />
 				<bean parent="AccountingLineView-field"
 					p:name="transactionTotalHours" p:useShortLabel="true" />
 				<bean parent="AccountingLineView-field"

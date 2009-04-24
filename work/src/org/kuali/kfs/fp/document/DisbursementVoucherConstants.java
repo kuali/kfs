@@ -44,15 +44,6 @@ public interface DisbursementVoucherConstants extends ParameterKeyConstants {
     
     public static final List<String> VENDOR_PAYEE_TYPE_CODES = Arrays.asList(DV_PAYEE_TYPE_VENDOR, DV_PAYEE_TYPE_SUBJECT_PAYMENT_VENDOR, DV_PAYEE_TYPE_REVOLVING_FUND_VENDOR);
 
-    // ownership type
-    @Deprecated public static String OWNERSHIP_TYPE_CORPORATION = "C";
-    @Deprecated public static String OWNERSHIP_TYPE_GOVERNMENT = "G";
-    @Deprecated public static String OWNERSHIP_TYPE_MEDICAL = "H";
-    @Deprecated public static String OWNERSHIP_TYPE_INDIVIDUAL = "I";
-    @Deprecated public static String OWNERSHIP_TYPE_LEGAL_SERVICES = "L";
-    @Deprecated public static String OWNERSHIP_TYPE_PARTNERSHIP = "P";
-    @Deprecated public static String OWNERSHIP_TYPE_NONPROFIT_TRUST = "T";
-
     // document location
     public static final String NO_DOCUMENTATION_LOCATION = "N";
 

@@ -206,6 +206,7 @@ public class LaborConstants {
     public static final String CURRENT_FUNDS_LOOKUP_HELPER_SRVICE_NAME = "CurrentFundsLookupableHelperService";
     public static final String DASHES_DELETE_CODE = "-";
 
+    public static final String DOCUMENT_EMPLOYEE_ID_ERRORS = "document.emplid";
     public static final String EMPLOYEE_LOOKUP_ERRORS = "document.employeeLookups";
     public static final String EXPENSE_TRANSFER_ACCOUNTING_LINE_SERVIOCE_NAME = "expenseTransferAccountingLineService";
     public static final String LABOR_INQUIRY_OPTIONS_SERVICE = "laborInquiryOptionsService";

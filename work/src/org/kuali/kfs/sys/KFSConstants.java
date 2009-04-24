@@ -856,7 +856,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String FUND_BAL_OBJECT_CD = "FUND_BAL_OBJECT_CD";
     public static final String UNIV_FISCAL_YR = "UNIV_FISCAL_YR";
 
-    public static final String EMPLOYEE_LOOKUP_ERRORS = "document.employeeLookups";
+    public static final String EMPLOYEE_LOOKUP_ERRORS = "document.employeeLookups,document.emplid,universityFiscalYear";
 
     public static class BudgetConstructionConstants {
 

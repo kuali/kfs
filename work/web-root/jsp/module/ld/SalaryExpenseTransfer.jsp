@@ -40,7 +40,7 @@
     <sys:documentOverview editingMode="${KualiForm.editingMode}" />
  
 	<kul:tab tabTitle="Ledger Balance Importing" defaultOpen="true"
-		tabErrorKey="${KFSConstants.EMPLOYEE_LOOKUP_ERRORS},document.emplid">
+		tabErrorKey="${KFSConstants.EMPLOYEE_LOOKUP_ERRORS}">
 		<div class="tab-container" align=center>
 		<h3>Ledger Balance Importing</h3>
 		<table cellpadding="0" cellspacing="0" class="datatable"

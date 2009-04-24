@@ -28,8 +28,8 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Validates that an accounting document's accounting lines have the same Employee ID 
@@ -52,7 +52,7 @@ public class SalaryExpenseTransferAccountingLinesSameEmployeeValidation extends 
         String employeeID = salaryExpenseTransferDocument.getEmplid() ;
         
         if (StringUtils.isBlank(employeeID)) {
-            GlobalVariables.getErrorMap().putError("document.emplid", LaborKeyConstants.MISSING_EMPLOYEE_ID) ;
+            GlobalVariables.getErrorMap().putError(LaborConstants.DOCUMENT_EMPLOYEE_ID_ERRORS, LaborKeyConstants.MISSING_EMPLOYEE_ID) ;
             result = false ;
         }
         

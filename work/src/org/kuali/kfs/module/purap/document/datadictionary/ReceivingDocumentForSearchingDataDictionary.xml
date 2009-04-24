@@ -20,7 +20,7 @@
               <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">                    
                   <property name="searchingAttribute">
                       <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ReceivingDocumentForSearching"/>
+                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.LineItemReceivingDocument"/>
                           <property name="attributeName" value="sensitive"/>
                           <property name="showAttributeInSearchCriteria" value="false"/>
                           <property name="showAttributeInResultSet" value="false"/>
@@ -35,7 +35,7 @@
       	      <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
     			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ReceivingDocumentForSearching"/>
+                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.LineItemReceivingDocument"/>
     					  <property name="attributeName" value="vendorName"/>
     					  <property name="showAttributeInSearchCriteria" value="false"/>
                           <property name="showAttributeInResultSet" value="true"/>     					  
@@ -50,7 +50,7 @@
     		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
     			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ReceivingDocumentForSearching"/>
+                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.LineItemReceivingDocument"/>
     					  <property name="attributeName" value="vendorNumber"/>
     				  </bean>
     			  </property>
@@ -63,7 +63,7 @@
     		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
     			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ReceivingDocumentForSearching"/>
+                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.LineItemReceivingDocument"/>
     					  <property name="attributeName" value="purchaseOrderIdentifier"/>
     					  <property name="showAttributeInSearchCriteria" value="true"/>
                           <property name="showAttributeInResultSet" value="true"/>     				  
@@ -78,7 +78,7 @@
     		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
     			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ReceivingDocumentForSearching"/>
+                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.LineItemReceivingDocument"/>
     					  <property name="attributeName" value="shipmentBillOfLadingNumber"/>
     				  </bean>
     			  </property>
@@ -91,7 +91,7 @@
     		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
     			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ReceivingDocumentForSearching"/>
+                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.LineItemReceivingDocument"/>
     					  <property name="attributeName" value="shipmentPackingSlipNumber"/>
     				  </bean>
     			  </property>
@@ -104,7 +104,7 @@
     		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
     			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ReceivingDocumentForSearching"/>
+                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.LineItemReceivingDocument"/>
     					  <property name="attributeName" value="shipmentReferenceNumber"/>
     				  </bean>
     			  </property>
@@ -117,7 +117,7 @@
     		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
     			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ReceivingDocumentForSearching"/>
+                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.LineItemReceivingDocument"/>
     					  <property name="attributeName" value="carrierCode"/>
     				  </bean>
     			  </property>
@@ -130,7 +130,7 @@
     		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
     			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ReceivingDocumentForSearching"/>
+                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.LineItemReceivingDocument"/>
     					  <property name="attributeName" value="workflowStatusForResult"/>
     					  <property name="showAttributeInSearchCriteria" value="false"/>
     					  <property name="showAttributeInResultSet" value="true"/>

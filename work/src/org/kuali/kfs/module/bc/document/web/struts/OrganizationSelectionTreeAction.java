@@ -215,6 +215,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
         // reset any set pullflags in the database before navigation
         SpringContext.getBean(BudgetOrganizationTreeService.class).resetPullFlag(principalId);
 
+
         // push parent org onto the branch stack
         organizationSelectionTreeForm.getPreviousBranchOrgs().add(organizationSelectionTreeForm.getSelectionSubTreeOrgs().get(this.getSelectedLine(request)));
 
@@ -424,6 +425,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
         for (BudgetConstructionPullup budgetConstructionPullup : selectionSubTreeOrgs) {
             if (budgetConstructionPullup.getPullFlag() > 0) {
                 foundSelected = true;
+                break;
             }
         }
 
@@ -695,7 +697,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
      * @return
      */
     public List<BudgetConstructionPullup> removeUnselectedSubTreeOrgs(List<BudgetConstructionPullup> selectionSubTreeOrgs) {
-        List<BudgetConstructionPullup> returnList = new ArrayList();
+        List<BudgetConstructionPullup> returnList = new ArrayList<BudgetConstructionPullup>();
         for (BudgetConstructionPullup pullUp : selectionSubTreeOrgs) {
             if (pullUp.getPullFlag() > 0) {
                 returnList.add(pullUp);

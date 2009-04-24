@@ -17,6 +17,8 @@ package org.kuali.kfs.module.bc.document.service;
 
 import java.util.List;
 
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPullup;
+
 /**
  * This interface defines methods that manipulate objects used by the Organization Selection screens. Manipulated objects include
  * BudgetConstructionPullup with methods that populate and depopulate the associated table for a specific user.
@@ -59,7 +61,7 @@ public interface BudgetOrganizationTreeService {
      * @param organizationCode
      * @return
      */
-    public List getPullupChildOrgs(String principalId, String chartOfAccountsCode, String organizationCode);
+    public List<BudgetConstructionPullup> getPullupChildOrgs(String principalId, String chartOfAccountsCode, String organizationCode);
 
     /**
      * This method resets the pullflag for the BudgetConstructionPullup set of records owned by the user
@@ -74,6 +76,6 @@ public interface BudgetOrganizationTreeService {
      * @param principalId
      * @return
      */
-    public List getSelectedOrgs(String principalId);
+    public List<BudgetConstructionPullup> getSelectedOrgs(String principalId);
 }
 

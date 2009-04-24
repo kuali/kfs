@@ -42,7 +42,6 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
     private BusinessObjectService businessObjectService;
     private BudgetConstructionDao budgetConstructionDao;
     private BudgetPullupDao budgetPullupDao;
-    private PersistenceService persistenceService;
 
     // controls used to trap any runaways due to cycles in the reporting tree
     private static final int MAXLEVEL = 50;
@@ -108,11 +107,10 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
     private void buildSubTreeSql(String principalName, BudgetConstructionOrganizationReports bcOrgRpts, int curLevel) {
 
         curLevel++;
-        budgetPullupDao.initPointOfView(principalName, bcOrgRpts.getChartOfAccountsCode(), bcOrgRpts.getOrganizationCode(), curLevel);
-        budgetPullupDao.insertChildOrgs(principalName, curLevel);
+        budgetPullupDao.buildSubTree(principalName, bcOrgRpts.getChartOfAccountsCode(), bcOrgRpts.getOrganizationCode(), curLevel);
+//        budgetPullupDao.initPointOfView(principalName, bcOrgRpts.getChartOfAccountsCode(), bcOrgRpts.getOrganizationCode(), curLevel);
+//        budgetPullupDao.insertChildOrgs(principalName, curLevel);
         
-        persistenceService.clearCache();
-
     }
 
     /**
@@ -120,7 +118,8 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
      */
     public void cleanPullup(String principalName) {
 
-        budgetConstructionDao.deleteBudgetConstructionPullupByUserId(principalName);
+//        budgetConstructionDao.deleteBudgetConstructionPullupByUserId(principalName);
+        budgetPullupDao.cleanGeneralLedgerObjectSummaryTable(principalName);
 
     }
 
@@ -128,7 +127,7 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
      * @see org.kuali.kfs.module.bc.document.service.BudgetOrganizationTreeService#getPullupChildOrgs(java.lang.String,
      *      java.lang.String, java.lang.String)
      */
-    public List getPullupChildOrgs(String principalId, String chartOfAccountsCode, String organizationCode) {
+    public List<BudgetConstructionPullup> getPullupChildOrgs(String principalId, String chartOfAccountsCode, String organizationCode) {
 
         if (StringUtils.isBlank(principalId)) {
             throw new IllegalArgumentException("String parameter principalId was null or blank.");
@@ -140,7 +139,7 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
             throw new IllegalArgumentException("String parameter organizationCode was null or blank.");
         }
 
-        return budgetConstructionDao.getBudgetConstructionPullupChildOrgs(principalId, chartOfAccountsCode, organizationCode);
+        return (List<BudgetConstructionPullup>) budgetConstructionDao.getBudgetConstructionPullupChildOrgs(principalId, chartOfAccountsCode, organizationCode);
     }
 
     /**
@@ -164,12 +163,12 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetOrganizationTreeService#getSelectedOrgs(java.lang.String)
      */
-    public List getSelectedOrgs(String principalId) {
+    public List<BudgetConstructionPullup> getSelectedOrgs(String principalId) {
 
         if (StringUtils.isBlank(principalId)) {
             throw new IllegalArgumentException("String parameter principalId was null or blank.");
         }
-        return budgetConstructionDao.getBudgetConstructionPullupFlagSetByUserId(principalId);
+        return (List<BudgetConstructionPullup>) budgetConstructionDao.getBudgetConstructionPullupFlagSetByUserId(principalId);
     }
 
     /**
@@ -242,22 +241,6 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
      */
     public void setBudgetPullupDao(BudgetPullupDao budgetPullupDao) {
         this.budgetPullupDao = budgetPullupDao;
-    }
-
-    /**
-     * Gets the persistenceService attribute. 
-     * @return Returns the persistenceService.
-     */
-    public PersistenceService getPersistenceService() {
-        return persistenceService;
-    }
-
-    /**
-     * Sets the persistenceService attribute value.
-     * @param persistenceService The persistenceService to set.
-     */
-    public void setPersistenceService(PersistenceService persistenceService) {
-        this.persistenceService = persistenceService;
     }
 
 }

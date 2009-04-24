@@ -24,6 +24,7 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionFundingLock;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPullup;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
@@ -137,7 +138,7 @@ public interface BudgetConstructionDao {
      * @param principalName
      * @return
      */
-    public List getBudgetConstructionPullupFlagSetByUserId(String principalName);
+    public List<BudgetConstructionPullup> getBudgetConstructionPullupFlagSetByUserId(String principalName);
 
     /**
      * This returns a list of BudgetConstructionPullup objects (organizations) that are children to the passed in organization for
@@ -148,7 +149,7 @@ public interface BudgetConstructionDao {
      * @param organizationCode
      * @return
      */
-    public List getBudgetConstructionPullupChildOrgs(String principalId, String chartOfAccountsCode, String organizationCode);
+    public List<BudgetConstructionPullup> getBudgetConstructionPullupChildOrgs(String principalId, String chartOfAccountsCode, String organizationCode);
 
     /**
      * Returns the sum of the salary detail request amounts for an accounting line

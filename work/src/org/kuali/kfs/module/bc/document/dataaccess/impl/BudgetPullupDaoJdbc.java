@@ -16,11 +16,14 @@
 package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetPullupDao;
+import org.kuali.rice.kns.service.PersistenceService;
 
 /**
  * This class implemements BudgetPullupDao using Raw Sql
  */
 public class BudgetPullupDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetPullupDao {
+
+    private PersistenceService persistenceService;
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetPullupDaoJdbc.class);
     private static final int MAXLEVEL = 50;
@@ -63,11 +66,22 @@ public class BudgetPullupDaoJdbc extends BudgetConstructionDaoJdbcBase implement
     }
     
     /**
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetPullupDao#buildSubTree(java.lang.String, java.lang.String, java.lang.String, int)
+     */
+    public void buildSubTree(String principalName, String chartOfAccountsCode, String organizationCode, int currentLevel) {
+
+        initPointOfView(principalName, chartOfAccountsCode, organizationCode, currentLevel);
+        insertChildOrgs(principalName, currentLevel);
+        persistenceService.clearCache();
+        
+    }
+
+    /**
      * This method initializes and inserts the root organization using raw SQL.
      * 
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetPullupDao#initPointOfView(java.lang.String, java.lang.String, java.lang.String, int)
      */
-    public void initPointOfView(String principalName, String chartOfAccountsCode, String organizationCode, int currentLevel) {
+    private void initPointOfView(String principalName, String chartOfAccountsCode, String organizationCode, int currentLevel) {
    
         LOG.debug("initPointOfView() called");
         
@@ -79,7 +93,7 @@ public class BudgetPullupDaoJdbc extends BudgetConstructionDaoJdbcBase implement
      * 
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetPullupDao#insertChildOrgs(java.lang.String, int)
      */
-    public void insertChildOrgs(String principalName, int previousLevel) {
+    private void insertChildOrgs(String principalName, int previousLevel) {
         
         LOG.debug("insertChildOrgs() called");
 
@@ -100,5 +114,25 @@ public class BudgetPullupDaoJdbc extends BudgetConstructionDaoJdbcBase implement
             LOG.warn(String.format("\nWarning: One or more selected organizations have reporting organizations more than maxlevel of %d deep.", MAXLEVEL));
         }
     }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetPullupDao#cleanGeneralLedgerObjectSummaryTable(java.lang.String)
+     */
+    public void cleanGeneralLedgerObjectSummaryTable(String principalName) {
+        this.clearTempTableByUnvlId("LD_BCN_PULLUP_T","PERSON_UNVL_ID",principalName);
+        /**
+         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
+         */
+        persistenceService.clearCache();
+    }
+
+    /**
+     * Sets the persistenceService attribute value.
+     * @param persistenceService The persistenceService to set.
+     */
+    public void setPersistenceService(PersistenceService persistenceService) {
+        this.persistenceService = persistenceService;
+    }
+
 }
 

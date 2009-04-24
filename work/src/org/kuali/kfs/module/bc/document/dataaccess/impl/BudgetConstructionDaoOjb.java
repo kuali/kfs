@@ -236,15 +236,15 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#getBudgetConstructionPullupFlagSetByUserId(java.lang.String)
      */
-    public List getBudgetConstructionPullupFlagSetByUserId(String principalName) {
-        List orgs = new ArrayList();
+    public List<BudgetConstructionPullup> getBudgetConstructionPullupFlagSetByUserId(String principalName) {
+        List<BudgetConstructionPullup> orgs = new ArrayList<BudgetConstructionPullup>();
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, principalName);
         criteria.addGreaterThan("pullFlag", OrgSelControlOption.NO.getKey());
-        orgs = (List) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(BudgetConstructionPullup.class, criteria));
+        orgs = (List<BudgetConstructionPullup>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(BudgetConstructionPullup.class, criteria));
         if (orgs.isEmpty() || orgs.size() == 0) {
-            return Collections.EMPTY_LIST;
+            return (List<BudgetConstructionPullup>)Collections.EMPTY_LIST;
         }
         return orgs;
     }
@@ -253,8 +253,8 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#getBcPullupChildOrgs(java.lang.String,
      *      java.lang.String, java.lang.String)
      */
-    public List getBudgetConstructionPullupChildOrgs(String principalId, String chartOfAccountsCode, String organizationCode) {
-        List orgs = new ArrayList();
+    public List<BudgetConstructionPullup> getBudgetConstructionPullupChildOrgs(String principalId, String chartOfAccountsCode, String organizationCode) {
+        List<BudgetConstructionPullup> orgs = new ArrayList<BudgetConstructionPullup>();
 
         Criteria cycleCheckCriteria = new Criteria();
         cycleCheckCriteria.addEqualToField("chartOfAccountsCode", "reportsToChartOfAccountsCode");
@@ -271,10 +271,10 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
         QueryByCriteria query = QueryFactory.newQuery(BudgetConstructionPullup.class, criteria);
         query.addOrderByAscending("organization.organizationName");
 
-        orgs = (List) getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        orgs = (List<BudgetConstructionPullup>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         if (orgs.isEmpty() || orgs.size() == 0) {
-            return Collections.EMPTY_LIST;
+            return (List<BudgetConstructionPullup>) Collections.EMPTY_LIST;
         }
         return orgs;
     }

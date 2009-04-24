@@ -20,26 +20,35 @@ package org.kuali.kfs.module.bc.document.dataaccess;
  */
 public interface BudgetPullupDao {
     
+    public void buildSubTree(String principalName, String chartOfAccountsCode, String organizationCode, int currentLevel);
+    
+//    /**
+//     * This method initializes the root of the subtree in the temp table for the user
+//     * 
+//     * @param principalName
+//     * @param chartOfAccountsCode
+//     * @param organizationCode
+//     * @param currentLevel
+//     */
+//    public void initPointOfView(String principalName, String chartOfAccountsCode, String organizationCode, int currentLevel);
+//
+//    /**
+//     * This method fills out the subtree for the root node already found in the temp table for the user.
+//     * It is assumed the root node is already in the table initialized as the level 0 organization.
+//     * The report flag field is used to keep track of the levels of the organizations during the build process.
+//     * The report flag field is reset to zero at the end
+//     * 
+//     * @param principalName
+//     * @param previousLevel
+//     */
+//    public void insertChildOrgs(String principalName, int previousLevel);
+    
     /**
-     * This method initializes the root of the subtree in the temp table for the user
+     * Deletes rows in the Pullup temp table for the user
      * 
      * @param principalName
-     * @param chartOfAccountsCode
-     * @param organizationCode
-     * @param currentLevel
      */
-    public void initPointOfView(String principalName, String chartOfAccountsCode, String organizationCode, int currentLevel);
-
-    /**
-     * This method fills out the subtree for the root node already found in the temp table for the user.
-     * It is assumed the root node is already in the table initialized as the level 0 organization.
-     * The report flag field is used to keep track of the levels of the organizations during the build process.
-     * The report flag field is reset to zero at the end
-     * 
-     * @param principalName
-     * @param previousLevel
-     */
-    public void insertChildOrgs(String principalName, int previousLevel);
+    public void cleanGeneralLedgerObjectSummaryTable(String principalName);
 
 }
 

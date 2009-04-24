@@ -64,6 +64,7 @@ import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseCons
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.sys.service.HomeOriginationService;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.vnd.VendorConstants;
@@ -1250,7 +1251,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         if (getGeneralLedgerPendingEntries() == null || getGeneralLedgerPendingEntries().size() < 2) {
             LOG.warn("No gl entries for accounting lines.");
-            // throw new RuntimeException("No gl entries for accounting lines.");
+            return true;
         }
 
         /*
@@ -1287,14 +1288,20 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * @return GeneralLedgerPendingEntry generated wire charge debit
      */
     private GeneralLedgerPendingEntry processWireChargeDebitEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, WireCharge wireCharge) {
-
+        LOG.info("processWireChargeDebitEntries started");
+        
         // grab the explicit entry for the first accounting line and adjust for wire charge entry
         GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry(getGeneralLedgerPendingEntry(0));
         explicitEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
         explicitEntry.setFinancialObjectCode(wireCharge.getExpenseFinancialObjectCode());
         explicitEntry.setFinancialSubObjectCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode());
-        explicitEntry.setFinancialObjectTypeCode(SpringContext.getBean(OptionsService.class).getCurrentYearOptions().getFinObjTypeExpenditureexpCd());
         explicitEntry.setTransactionDebitCreditCode(GL_DEBIT_CODE);
+        
+        String objectTypeCode = SpringContext.getBean(OptionsService.class).getCurrentYearOptions().getFinObjTypeExpenditureexpCd();
+        explicitEntry.setFinancialObjectTypeCode(objectTypeCode);
+        
+        String originationCode = SpringContext.getBean(HomeOriginationService.class).getHomeOrigination().getFinSystemHomeOriginationCode();
+        explicitEntry.setFinancialSystemOriginationCode(originationCode);
 
         if (KFSConstants.COUNTRY_CODE_UNITED_STATES.equals(getDvWireTransfer().getDisbVchrBankCountryCode())) {
             explicitEntry.setTransactionLedgerEntryAmount(wireCharge.getDomesticChargeAmt());
@@ -1329,6 +1336,8 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * @param wireCharge wireCharge object from current fiscal year
      */
     private void processWireChargeCreditEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, WireCharge wireCharge, GeneralLedgerPendingEntry chargeEntry) {
+        LOG.info("processWireChargeCreditEntries started");
+        
         // copy the charge entry and adjust for credit
         GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry(chargeEntry);
         explicitEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
@@ -1337,13 +1346,9 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         explicitEntry.setFinancialObjectCode(wireCharge.getIncomeFinancialObjectCode());
 
         // retrieve object type
-        ObjectCode objectCode = new ObjectCode();
-        objectCode.setUniversityFiscalYear(explicitEntry.getUniversityFiscalYear());
-        objectCode.setChartOfAccountsCode(wireCharge.getChartOfAccountsCode());
-        objectCode.setFinancialObjectCode(wireCharge.getIncomeFinancialObjectCode());
-        objectCode = (ObjectCode) getBusinessObjectService().retrieve(objectCode);
-
+        ObjectCode objectCode = wireCharge.getIncomeFinancialObject();
         explicitEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
+        
         explicitEntry.setTransactionDebitCreditCode(GL_CREDIT_CODE);
 
         explicitEntry.setFinancialSubObjectCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode());

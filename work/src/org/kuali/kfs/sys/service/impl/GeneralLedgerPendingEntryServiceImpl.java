@@ -223,15 +223,15 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         delete(glpeSource.getDocumentHeader().getDocumentNumber());
 
         LOG.info("generating gl pending ledger entries for document " + glpeSource.getDocumentHeader().getDocumentNumber());
+        
         GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();
-        List<GeneralLedgerPendingEntry> entries;
         for (GeneralLedgerPendingEntrySourceDetail glpeSourceDetail : glpeSource.getGeneralLedgerPendingEntrySourceDetails()) {
             success &= glpeSource.generateGeneralLedgerPendingEntries(glpeSourceDetail, sequenceHelper);
             sequenceHelper.increment();
         }
 
         // doc specific pending entries generation
-        success = glpeSource.generateDocumentGeneralLedgerPendingEntries(sequenceHelper);
+        success &= glpeSource.generateDocumentGeneralLedgerPendingEntries(sequenceHelper);
         return success;
     }
 
@@ -415,6 +415,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         offsetEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         offsetEntry.setTransactionEntryOffsetIndicator(true);
         offsetEntry.setTransactionLedgerEntryDescription(KFSConstants.GL_PE_OFFSET_STRING);
+        offsetEntry.setFinancialSystemOriginationCode(explicitEntry.getFinancialSystemOriginationCode());
 
         LOG.debug("populateOffsetGeneralLedgerPendingEntry(Integer, GeneralLedgerPendingEntry, GeneralLedgerPendingEntrySequenceHelper, GeneralLedgerPendingEntry) - end");
         return success;

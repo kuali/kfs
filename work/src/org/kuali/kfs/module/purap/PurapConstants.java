@@ -435,6 +435,11 @@ public class PurapConstants extends JSTLConstants {
         public static final String REQUEST_CANCEL = "REQUEST CANCEL";
     }
     
+    public static class AccountsPayableSharedStatuses {
+        public static final String IN_PROCESS = "INPR";
+        public static final String AWAITING_ACCOUNTS_PAYABLE_REVIEW = "APAD"; // Waiting for Accounts Payable approval
+    }
+    
     public static final class PaymentRequestStatuses {
         public static final String INITIATE = "INIT";
         public static final String IN_PROCESS = "INPR";

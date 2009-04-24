@@ -31,6 +31,7 @@ import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.AccountsPayableDocumentStrings;
 import org.kuali.kfs.module.purap.PurapConstants.CMDocumentsStrings;
+import org.kuali.kfs.module.purap.PurapConstants.AccountsPayableSharedStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
@@ -470,18 +471,21 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         return new PurQuestionCallback() {
             public AccountsPayableDocument doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
                 DocumentService documentService = SpringContext.getBean(DocumentService.class);
-                AccountsPayableDocumentSpecificService apDocumentSpecificService = document.getDocumentSpecificService();
-                // one way or another we will have to fake the user session so get the current one
-                UserSession originalUserSession = GlobalVariables.getUserSession();
 
-                if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(document)) {
-                    // for now this works but if place of full entry changes it may need to be based on something else since may
-                    // need disapprove
-                    // if past full entry and workflow not in final state
+                if (AccountsPayableSharedStatuses.IN_PROCESS.equals(document.getStatusCode())) {
+                    //prior to submit, just call regular cancel logic
+                    documentService.cancelDocument(document, noteText);
+                }
+                else if (AccountsPayableSharedStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(document.getStatusCode())) {
+                    //while awaiting AP approval, just call regular disapprove logic as user will have action request
+                    documentService.disapproveDocument(document, noteText);
+                }
+                else {
+                    //any other time, perform special logic to cancel the document
                     if (!document.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+                        UserSession originalUserSession = GlobalVariables.getUserSession();
                         try {
-                            // need to run a super user cancel since person canceling may not have an action requested on the
-                            // document
+                            // person canceling may not have an action requested on the document
                             GlobalVariables.setUserSession(new UserSession(PurapConstants.SYSTEM_AP_USER));
                             documentService.superUserDisapproveDocument(document, "Document Cancelled by user " + originalUserSession.getPerson().getName() + " (" + originalUserSession.getPerson().getPrincipalName() + ")");
                         }
@@ -494,16 +498,8 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                         SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(document, "");
                     }
                 }
-                else {
-                    try {
-                        // need to run a super user cancel since person canceling may not have an action requested on the document
-                        GlobalVariables.setUserSession(new UserSession(PurapConstants.SYSTEM_AP_USER));
-                        documentService.superUserCancelDocument(document, "Document Cancelled by user " + originalUserSession.getPerson().getName() + " (" + originalUserSession.getPerson().getPrincipalName() + ")");
-                    }
-                    finally {
-                        GlobalVariables.setUserSession(originalUserSession);
-                    }
-                }
+                
+                
                 Note noteObj = documentService.createNoteFromDocument(document, noteText);
                 documentService.addNoteToDocument(document, noteObj);
                 SpringContext.getBean(NoteService.class).save(noteObj);

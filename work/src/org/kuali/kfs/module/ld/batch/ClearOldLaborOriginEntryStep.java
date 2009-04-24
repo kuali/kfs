@@ -44,9 +44,8 @@ public class ClearOldLaborOriginEntryStep extends AbstractStep {
      */
     public boolean execute(String jobName, Date jobRunDate) {
         LOG.debug("performStep() started");
-        //TODO: Shawn - need to create a parameter
-        //String daysStr = getParameterService().getParameterValue(getClass(), GeneralLedgerConstants.RETAIN_DAYS);
-        String daysStr ="7";
+        //need labor parameter? 
+        String daysStr = getParameterService().getParameterValue(getClass(), GeneralLedgerConstants.RETAIN_DAYS);
         int days = Integer.parseInt(daysStr);
         originEntryGroupService.deleteOlderLaborGroups(days);
         return true;

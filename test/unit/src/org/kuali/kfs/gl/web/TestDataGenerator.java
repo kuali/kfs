@@ -15,8 +15,10 @@
  */
 package org.kuali.kfs.gl.web;
 
+import java.beans.PropertyDescriptor;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -27,6 +29,8 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.businessobject.lookup.BusinessObjectFieldConverter;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -35,6 +39,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * a business object with those properties
  */
 public class TestDataGenerator {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TestDataGenerator.class);
 
     private String propertiesFileName;
     private Properties properties;
@@ -91,7 +96,32 @@ public class TestDataGenerator {
                 PropertyUtils.setProperty(businessObject, propertyName, finalPropertyValue);
             }
         }
+        setFiscalYear(businessObject);
         return businessObject;
+    }
+    
+    /**
+     * If the actual transaction implementation has a "setUniversityFiscalYear" method, use that to set the 
+     * fiscal year to the value of TestUtils.getFiscalYearForTesting()
+     * @param transaction transaction to try to set fiscal year on
+     */
+    protected void setFiscalYear(Transaction transaction) {
+        try {
+            final PropertyDescriptor propertyDescriptor = PropertyUtils.getPropertyDescriptor(transaction, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+            if (propertyDescriptor.getReadMethod() != null) {
+                PropertyUtils.setProperty(transaction, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, TestUtils.getFiscalYearForTesting());
+            }
+        }
+        catch (IllegalAccessException iae) {
+            LOG.info("Could test universityFiscalYear property on fixture of transaction type: "+transaction.getClass().getName(), iae);
+        }
+        catch (InvocationTargetException ite) {
+            LOG.info("Could test universityFiscalYear property on fixture of transaction type: "+transaction.getClass().getName(), ite);
+        }
+        catch (NoSuchMethodException nsme) {
+            LOG.info("Could test universityFiscalYear property on fixture of transaction type: "+transaction.getClass().getName(), nsme);
+        }
+        
     }
 
     /**

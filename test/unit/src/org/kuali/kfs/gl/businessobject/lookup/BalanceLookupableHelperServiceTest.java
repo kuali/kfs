@@ -28,6 +28,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.lookup.LookupableSpringContext;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -262,7 +263,7 @@ public class BalanceLookupableHelperServiceTest extends AbstractGeneralLedgerLoo
         // get the number of the search results before adding the second record into database
         Balance balance = new Balance();
         balance.setAccountNumber("1031400");
-        balance.setUniversityFiscalYear(2007);
+        balance.setUniversityFiscalYear(TestUtils.getFiscalYearForTesting());
         balance.setChartOfAccountsCode("BL");
 
         Map fieldValues = getLookupFieldValues(balance, true);

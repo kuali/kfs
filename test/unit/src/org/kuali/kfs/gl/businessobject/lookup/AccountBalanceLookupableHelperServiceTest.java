@@ -27,6 +27,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.lookup.LookupableSpringContext;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
 
 /**
  * This class contains the test cases that can be applied to the method in AccountBalanceLookupableImpl class.
@@ -147,7 +148,7 @@ public class AccountBalanceLookupableHelperServiceTest extends AbstractGeneralLe
         // get the number of the search results before adding the second record into database
         AccountBalance accountBalance = new AccountBalance();
         accountBalance.setAccountNumber("1031400");
-        accountBalance.setUniversityFiscalYear(2004);
+        accountBalance.setUniversityFiscalYear(TestUtils.getFiscalYearForTesting());
         accountBalance.setChartOfAccountsCode("BL");
 
         Map fieldValues = getLookupFieldValues(accountBalance, true);

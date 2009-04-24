@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.sys;
 
+import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 
@@ -87,7 +88,7 @@ public interface KualiTestConstants {
             public static final String DOC_HDR_ID = "1005";
             public static final String OBJECT_CODE = "3000";
             public static final String OBJECT_CODE2 = "5099";
-            public static final Integer POSTING_YEAR = new Integer(2004);
+            public static final Integer POSTING_YEAR = TestUtils.getFiscalYearForTesting();
             public static final String PROJECT_CODE = "KUL";
             public static final Integer SEQUENCE_NUMBER = new Integer(1);
             public static final String SUBACCOUNT = "AUCAP";

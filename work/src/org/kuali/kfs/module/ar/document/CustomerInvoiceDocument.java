@@ -1139,6 +1139,11 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
             setOpenInvoiceIndicator(false);
         }
         
+        //  make sure the docHeader gets its doc total right.  This is here because there's an ordering 
+        // bug in the struts classes for invoice that is preventing this from being set right.  There is 
+        // probably a better way to fix this that can be pursued later.
+        getDocumentHeader().setFinancialDocumentTotalAmount(getTotalDollarAmount());
+        
         //  invoice recurrence stuff, if there is a recurrence object
         if (ObjectUtils.isNotNull(this.getCustomerInvoiceRecurrenceDetails()) && getProcessRecurrenceFlag()) {
 

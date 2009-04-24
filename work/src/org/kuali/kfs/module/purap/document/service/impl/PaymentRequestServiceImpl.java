@@ -706,6 +706,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             // do we really need to set both, not positive, but probably won't hurt
             discountItem.setItemUnitPrice(discountAmount.setScale(2, KualiDecimal.ROUND_BEHAVIOR));
             discountItem.setExtendedPrice(new KualiDecimal(discountAmount));
+            
+            //set document
+            discountItem.setPurapDocument(paymentRequestDocument);
         }
         else { // no discount
             if (discountItem != null) {

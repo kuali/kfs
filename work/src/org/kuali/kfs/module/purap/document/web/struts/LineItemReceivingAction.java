@@ -30,6 +30,7 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.CorrectionReceivingDocumentStrings;
+import org.kuali.kfs.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.kfs.module.purap.businessobject.LineItemReceivingItem;
 import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
@@ -38,6 +39,8 @@ import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.module.purap.util.ReceivingQuestionCallback;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.util.KimConstants;
@@ -70,6 +73,26 @@ public class LineItemReceivingAction extends ReceivingBaseAction {
         LineItemReceivingForm rlf = (LineItemReceivingForm)form;
         LineItemReceivingDocument rlDoc = (LineItemReceivingDocument)rlf.getDocument();
         
+        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
+        boolean valid = true;
+        boolean poNotNull = true;
+        
+        //check for a po id
+        if (ObjectUtils.isNull(rlDoc.getPurchaseOrderIdentifier())) {
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.PURCHASE_ORDER_ID);
+            poNotNull = false;
+        }
+
+        if (ObjectUtils.isNull(rlDoc.getShipmentReceivedDate())) {
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.SHIPMENT_RECEIVED_DATE, KFSKeyConstants.ERROR_REQUIRED, PurapConstants.LineItemReceivingDocumentStrings.VENDOR_DATE);            
+        }
+
+        //exit early as the po is null, no need to proceed further until this is taken care of
+        if(poNotNull == false){
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+        
         PurchaseOrderDocument po = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(rlDoc.getPurchaseOrderIdentifier());
         if (ObjectUtils.isNotNull(po)) {
             // TODO figure out a more straightforward way to do this.  ailish put this in so the link id would be set and the perm check would work
@@ -79,6 +102,9 @@ public class LineItemReceivingAction extends ReceivingBaseAction {
             if (!SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(rlDoc).isAuthorizedByTemplate(rlDoc, KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, GlobalVariables.getUserSession().getPrincipalId())) {
                 throw buildAuthorizationException("initiate document", rlDoc);
             }
+        }else{
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_EXIST);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         
         //perform duplicate check
@@ -86,42 +112,25 @@ public class LineItemReceivingAction extends ReceivingBaseAction {
         if( forward != null ){
             return forward;
         }
-        
+                
         if (!SpringContext.getBean(ReceivingService.class).isPurchaseOrderActiveForLineItemReceivingDocumentCreation(rlDoc.getPurchaseOrderIdentifier())){
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_RECEIVING_LINE_DOCUMENT_PO_NOT_ACTIVE, rlDoc.getPurchaseOrderIdentifier().toString());
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            valid &= false;
+        }
+
+        if( SpringContext.getBean(ReceivingService.class).canCreateLineItemReceivingDocument(rlDoc.getPurchaseOrderIdentifier(), rlDoc.getDocumentNumber()) == false){            
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_RECEIVING_LINE_DOCUMENT_ACTIVE_FOR_PO, rlDoc.getDocumentNumber(), rlDoc.getPurchaseOrderIdentifier().toString());
+            valid &= false;
         }
         
-        String docNumbers = getReceivingDocInProcessNumbersAsString(rlDoc.getPurchaseOrderIdentifier(), rlDoc.getDocumentNumber());
-        
-        if (StringUtils.isNotEmpty(docNumbers)){
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_RECEIVING_LINE_DOCUMENT_ACTIVE_FOR_PO, docNumbers, rlDoc.getPurchaseOrderIdentifier().toString());
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        //populate and save Receiving Line Document from Purchase Order, only if we passed all the rules
+        if(valid){
+            SpringContext.getBean(ReceivingService.class).populateAndSaveLineItemReceivingDocument(rlDoc);
         }
-        
-        //populate and save Receiving Line Document from Purchase Order        
-        SpringContext.getBean(ReceivingService.class).populateAndSaveLineItemReceivingDocument(rlDoc);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
-    private String getReceivingDocInProcessNumbersAsString(Integer poNumber, String receivingDocNumber){
         
-        List<String> receivingDocs = SpringContext.getBean(ReceivingService.class).getLineItemReceivingDocumentNumbersInProcessForPurchaseOrder(poNumber, receivingDocNumber);
-        
-        if (receivingDocs.size() == 0){
-            receivingDocs = SpringContext.getBean(ReceivingService.class).getCorrectionReceivingDocumentNumbersInProcessForPurchaseOrder(poNumber, receivingDocNumber);
-        }
-        
-        StringBuffer returnValue = new StringBuffer();
-        
-        for (int i = 0; i < receivingDocs.size(); i++) {
-            returnValue.append(receivingDocs.get(i));
-        }
-        
-        return returnValue.toString();
-    }
-    
     public ActionForward createReceivingCorrection(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LineItemReceivingForm rlForm = (LineItemReceivingForm) form;
         LineItemReceivingDocument document = (LineItemReceivingDocument) rlForm.getDocument();        

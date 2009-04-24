@@ -24,6 +24,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -59,41 +60,41 @@ public class ObjectCodeServiceTest extends KualiTestBase {
 
 
     public void testFindById() {
-        ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
+        ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(TestUtils.getFiscalYearForTesting(), CHART_CODE, "5000");
         assertNotNull(objectCode);
     }
 
     public void testFindById2() {
-        ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(new Integer(2006), CHART_CODE, "none");
+        ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(TestUtils.getFiscalYearForTesting(), CHART_CODE, "none");
         assertNull(objectCode);
     }
 
     public void testObjectTypeRetrieval() {
-        ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
+        ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(TestUtils.getFiscalYearForTesting(), CHART_CODE, "5000");
         assertTrue("ObjectType Object should be valid.", ObjectUtils.isNotNull(objectCode.getFinancialObjectType()));
         assertEquals("Object Type should be EE", objectCode.getFinancialObjectType().getCode(), "EX");
     }
 
     public void testObjectSubTypeRetrieval() {
-        ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
+        ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(TestUtils.getFiscalYearForTesting(), CHART_CODE, "5000");
         assertTrue("ObjSubTyp Object should be valid.", ObjectUtils.isNotNull(objectCode.getFinancialObjectSubType()));
         assertEquals("Object Type", "NA", objectCode.getFinancialObjectSubType().getCode());
     }
 
     public void testBudgetAggregationCodeRetrieval() {
-        ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
+        ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(TestUtils.getFiscalYearForTesting(), CHART_CODE, "5000");
         assertTrue("BudgetAggregationCode Object should be valid.", ObjectUtils.isNotNull(objectCode.getFinancialBudgetAggregation()));
         assertEquals("Budget Aggregation Code should be something", objectCode.getFinancialBudgetAggregation().getCode(), "O");
     }
 
     public void testMandatoryTransferEliminationCodeRetrieval() {
-        ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
+        ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(TestUtils.getFiscalYearForTesting(), CHART_CODE, "5000");
         assertTrue("MandatoryTransferEliminationCode Object should be valid.", ObjectUtils.isNotNull(objectCode.getFinObjMandatoryTrnfrelim()));
         assertEquals("Mandatory Transfer Elimination Code should be something", objectCode.getFinObjMandatoryTrnfrelim().getCode(), "N");
     }
 
     public void testFederalFundedCodeRetrieval() {
-        ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
+        ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(TestUtils.getFiscalYearForTesting(), CHART_CODE, "5000");
         assertTrue("FederalFundedCode Object should be valid.", ObjectUtils.isNotNull(objectCode.getFinancialFederalFunded()));
         assertEquals("Federal Funded Code should be something", objectCode.getFinancialFederalFunded().getCode(), "N");
     }

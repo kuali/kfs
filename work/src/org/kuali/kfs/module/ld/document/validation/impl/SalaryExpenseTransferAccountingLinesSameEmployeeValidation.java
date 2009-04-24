@@ -52,7 +52,7 @@ public class SalaryExpenseTransferAccountingLinesSameEmployeeValidation extends 
         String employeeID = salaryExpenseTransferDocument.getEmplid() ;
         
         if (StringUtils.isBlank(employeeID)) {
-            GlobalVariables.getErrorMap().putError(LaborConstants.EMPLOYEE_LOOKUP_ERRORS, LaborKeyConstants.MISSING_EMPLOYEE_ID) ;
+            GlobalVariables.getErrorMap().putError("document.emplid", LaborKeyConstants.MISSING_EMPLOYEE_ID) ;
             result = false ;
         }
         

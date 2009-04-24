@@ -44,12 +44,9 @@ public class LaborExpensesDocumentPresentationController extends FinancialSystem
     public Set<String> getEditModes(Document document) {
         Set<String> editModes = super.getEditModes(document);
         
-        System.out.println("1====" + editModes);
-        
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if(workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
             editModes.add(LaborAuthorizationConstants.ExpenseTransferEditMode.LEDGER_BALANCE_IMPORTING);
-            System.out.println("2====" + editModes);
         }
         
         return editModes;

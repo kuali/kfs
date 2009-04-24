@@ -44,9 +44,7 @@ import org.kuali.rice.kns.web.format.CurrencyFormatter;
 public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
     private static Log LOG = LogFactory.getLog(SalaryExpenseTransferForm.class);
 
-    private Person user;
     private String balanceTypeCode;
-    private String emplid;
 
     /**
      * Constructs a SalaryExpenseTransferForm instance and sets up the appropriately casted document.
@@ -96,49 +94,6 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
     }
 
     /**
-     * Assign <code>{@link LaborUser}</code> instance to the struts form.
-     * 
-     * @param user The user to set.
-     */
-    public void setUser(Person user) {
-        this.user = user;
-    }
-
-    /**
-     * Retrieve <code>{@link LaborUser}</code> instance from the struts from.
-     * 
-     * @return Returns the LaborUser.
-     */
-    public Person getUser() {
-        return user;
-    }
-
-    /**
-     * Sets the employee ID retrieved from the universal user service
-     * 
-     * @param emplid The emplid to set.
-     */
-    public void setEmplid(String id) {
-        getSalaryExpenseTransferDocument().setEmplid(id);
-
-        if (id != null) {
-            setUser((Person) SpringContext.getBean(PersonService.class).getPersonByEmployeeId(id));
-        }
-    }
-
-    /**
-     * Returns the employee ID from the Person table.
-     * 
-     * @return Returns the employeeId
-     */
-    public String getEmplid() {
-        if (user == null) {
-            setUser((Person) SpringContext.getBean(PersonService.class).getPersonByEmployeeId(getSalaryExpenseTransferDocument().getEmplid())); 
-        }
-        return getSalaryExpenseTransferDocument().getEmplid();
-    }
-
-    /**
      * Removes fields from map if users is allowed to edit.
      * 
      * @see org.kuali.kfs.module.ld.document.web.struts.ExpenseTransferDocumentFormBase#getForcedReadOnlyTargetFields()
@@ -168,7 +123,6 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
         if (sourceAccoutingLines != null && !sourceAccoutingLines.isEmpty()) {
             ExpenseTransferAccountingLine sourceAccountingLine = sourceAccoutingLines.get(0);
             this.setUniversityFiscalYear(sourceAccountingLine.getPostingYear());
-            this.setEmplid(sourceAccountingLine.getEmplid());
         }
     }
 }

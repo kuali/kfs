@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferTargetAccountingLine;
 import org.kuali.kfs.sys.KFSConstants;
@@ -29,6 +30,8 @@ import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
@@ -40,6 +43,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public abstract class LaborExpenseTransferDocumentBase extends LaborLedgerPostingDocumentBase implements AmountTotaling, Copyable, Correctable, LaborExpenseTransferDocument {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(LaborExpenseTransferDocumentBase.class);
     private String emplid;
+    private Person user;
 
     /**
      * Constructor
@@ -127,6 +131,26 @@ public abstract class LaborExpenseTransferDocumentBase extends LaborLedgerPostin
     public void setEmplid(String emplid) {
         this.emplid = emplid;
     }
+    
+    /**
+     * Gets the user attribute. 
+     * @return Returns the user.
+     */
+    public Person getUser() {
+        if(user != null && !StringUtils.equals(user.getEmployeeId(), emplid)) {
+            this.user = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(emplid);
+        }
+        
+        return user;
+    }
+
+    /**
+     * Sets the user attribute value.
+     * @param user The user to set.
+     */
+    public void setUser(Person user) {
+        this.user = user;
+    }    
 
     /**
      * Overrides the base implementation to return "From".

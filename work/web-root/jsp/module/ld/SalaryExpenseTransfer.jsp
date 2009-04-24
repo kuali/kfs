@@ -40,7 +40,7 @@
     <sys:documentOverview editingMode="${KualiForm.editingMode}" />
  
 	<kul:tab tabTitle="Ledger Balance Importing" defaultOpen="true"
-		tabErrorKey="${KFSConstants.EMPLOYEE_LOOKUP_ERRORS}">
+		tabErrorKey="${KFSConstants.EMPLOYEE_LOOKUP_ERRORS},document.emplid">
 		<div class="tab-container" align=center>
 		<h3>Ledger Balance Importing</h3>
 		<table cellpadding="0" cellspacing="0" class="datatable"
@@ -67,13 +67,13 @@
                <kul:htmlAttributeHeaderCell
                    attributeEntry="${DataDictionary.PersonImpl.attributes.employeeId}"
                    horizontal="true"
-                   forceRequired="true" labelFor="emplid"
+                   forceRequired="true" labelFor="document.emplid"
                    />
                <td>
-                     <sys:employee userIdFieldName="emplid"
-                                 userNameFieldName="user.name" 
-                                 fieldConversions="employeeId:emplid"
-                                 lookupParameters="emplid:employeeId,universityFiscalYear:universityFiscalYear"
+                     <sys:employee userIdFieldName="document.emplid"
+                                 userNameFieldName="document.user.name" 
+                                 fieldConversions="employeeId:document.emplid"
+                                 lookupParameters="document.emplid:employeeId,universityFiscalYear:universityFiscalYear"
                                  hasErrors="${hasErrors}"
                                  onblur="${onblur}"
                                  highlight="${addHighlighting}" readOnly="${readOnly}" >
@@ -88,7 +88,7 @@
 	                   <gl:balanceInquiryLookup
 	                       boClassName="org.kuali.kfs.module.ld.businessobject.LedgerBalanceForSalaryExpenseTransfer"
 	                       actionPath="glBalanceInquiryLookup.do"
-	                       lookupParameters="universityFiscalYear:universityFiscalYear,emplid:emplid,financialBalanceTypeCode:financialBalanceTypeCode"
+	                       lookupParameters="universityFiscalYear:universityFiscalYear,document.emplid:emplid,financialBalanceTypeCode:financialBalanceTypeCode"
 	                       tabindexOverride="KualiForm.currentTabIndex"
 	                       hideReturnLink="false" image="buttonsmall_search.gif"/>
 	                </c:if>

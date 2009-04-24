@@ -42,12 +42,14 @@
 		<tr>
 			<td colspan="4" class="subhead">
 				<span class="subhead-left">General Information</span>
-				<span class="subhead-right">
-					<html:image property="methodToCall.printPoQuoteList"
+				<c:if test="${fullEntryMode}">
+					<span class="subhead-right">
+						<html:image property="methodToCall.printPoQuoteList"
 								src="${ConfigProperties.externalizable.images.url}tinybutton-prntquolist.gif"
 								alt="print quote list" title="print quote list"
 								styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/>
-				</span>
+					</span>
+				</c:if>
 			</td>
 		</tr>
 		

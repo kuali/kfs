@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetLocationGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetLocationGlobalDetail;
@@ -53,7 +54,7 @@ public class AssetLocationGlobalMaintainableImpl extends KualiGlobalMaintainable
 
         // validate and place PK into Map
         HashMap map = new HashMap();
-        map.put("capitalAssetNumber", addAssetLine.getCapitalAssetNumber());
+        map.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, addAssetLine.getCapitalAssetNumber());
 
         // retrieve Asset object by PK
         Asset asset = (Asset) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Asset.class, map);
@@ -75,8 +76,6 @@ public class AssetLocationGlobalMaintainableImpl extends KualiGlobalMaintainable
                 addAssetLine.setCampusTagNumber(asset.getCampusTagNumber());
             }
             addAssetLine.setNewCollectionRecord(true);
-            // Collection maintCollection = (Collection) ObjectUtils.getPropertyValue(getBusinessObject(), collectionName);
-            // maintCollection.add(addAssetLine);
         }
         super.addNewLineToCollection(collectionName);
     }
@@ -96,7 +95,7 @@ public class AssetLocationGlobalMaintainableImpl extends KualiGlobalMaintainable
             StringBuffer lockrep = new StringBuffer();
 
             lockrep.append(Asset.class.getName() + KFSConstants.Maintenance.AFTER_CLASS_DELIM);
-            lockrep.append("capitalAssetNumber" + KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+            lockrep.append(CamsPropertyConstants.AssetLocationGlobal.CAPITAL_ASSET_NUMBER + KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
             lockrep.append(detail.getCapitalAssetNumber());
 
             maintenanceLock.setDocumentNumber(assetLocationGlobal.getDocumentNumber());

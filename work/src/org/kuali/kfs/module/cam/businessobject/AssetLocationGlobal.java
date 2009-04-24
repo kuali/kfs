@@ -133,9 +133,6 @@ public class AssetLocationGlobal extends PersistableBusinessObjectBase implement
                     asset.setOldTagNumber(asset.getCampusTagNumber());
                     asset.setCampusTagNumber(detail.getCampusTagNumber());
                 }
-                else {
-                    asset.setCampusTagNumber(null);
-                }
                 asset.setLastInventoryDate(new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().getTime()));
 
                 persistables.add(asset);

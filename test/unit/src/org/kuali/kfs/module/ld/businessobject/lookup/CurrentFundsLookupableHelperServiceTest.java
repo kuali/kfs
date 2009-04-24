@@ -33,6 +33,7 @@ import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.businessobject.lookup.LookupableSpringContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.PersistenceService;
@@ -68,7 +69,7 @@ public class CurrentFundsLookupableHelperServiceTest extends KualiTestBase {
         // Clear up the data so that any existing data cannot affact your test result
         Map keys = new HashMap();
         keys.put(KFSPropertyConstants.ACCOUNT_NUMBER, "6044906");
-        keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, "2004");
+        keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, TestUtils.getFiscalYearForTesting().toString());
         keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, "BA");        
         businessObjectService.deleteMatching(LedgerBalance.class, keys);
     }
@@ -83,7 +84,7 @@ public class CurrentFundsLookupableHelperServiceTest extends KualiTestBase {
         insertCurrentFundsRecords();
         AccountStatusCurrentFunds accountStatusCurrentFunds = new AccountStatusCurrentFunds();
         accountStatusCurrentFunds.setAccountNumber("6044906");
-        accountStatusCurrentFunds.setUniversityFiscalYear(2004);
+        accountStatusCurrentFunds.setUniversityFiscalYear(TestUtils.getFiscalYearForTesting());
         accountStatusCurrentFunds.setChartOfAccountsCode("BA");
 
         // test the search results before the specified entry is inserted
@@ -121,7 +122,7 @@ public class CurrentFundsLookupableHelperServiceTest extends KualiTestBase {
         insertCurrentFundsRecords();
         AccountStatusCurrentFunds accountStatusCurrentFunds = new AccountStatusCurrentFunds();
         accountStatusCurrentFunds.setAccountNumber("6044906");
-        accountStatusCurrentFunds.setUniversityFiscalYear(2004);
+        accountStatusCurrentFunds.setUniversityFiscalYear(TestUtils.getFiscalYearForTesting());
         accountStatusCurrentFunds.setChartOfAccountsCode("BA");
 
         // test the search results before the specified entry is inserted
@@ -205,6 +206,7 @@ public class CurrentFundsLookupableHelperServiceTest extends KualiTestBase {
             String propertyKey = "getAccountStatusCurrentFunds.testData" + i;
             LedgerBalance inputData = new LedgerBalance();
             ObjectUtil.populateBusinessObject(inputData, properties, propertyKey, documentFieldNames, deliminator);
+            inputData.setUniversityFiscalYear(TestUtils.getFiscalYearForTesting());
             inputDataList.add(inputData);
         }
         String testTarget = "getAccountStatusCurrentFunds.";

@@ -29,6 +29,7 @@ import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.businessobject.lookup.LookupableSpringContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.PersistenceService;
@@ -59,7 +60,7 @@ public class LedgerBalanceLookupableHelperServiceTest extends KualiTestBase {
 
         // Clear up the database so that any existing data cannot affact your test result
         HashMap keys = new HashMap();
-        keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, "2004");
+        keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, TestUtils.getFiscalYearForTesting().toString());
         keys.put(KFSPropertyConstants.EMPLID, "1000000005");
         keys.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, "AC");
         keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, "BL");
@@ -70,7 +71,7 @@ public class LedgerBalanceLookupableHelperServiceTest extends KualiTestBase {
         insertLedgerBalanceRecords();
 
         LedgerBalance ledgerBalance = new LedgerBalance();
-        ledgerBalance.setUniversityFiscalYear(2004);
+        ledgerBalance.setUniversityFiscalYear(TestUtils.getFiscalYearForTesting());
         ledgerBalance.setEmplid("0000001265");
         ledgerBalance.setBalanceTypeCode("AC");
         ledgerBalance.setChartOfAccountsCode("BL");
@@ -128,6 +129,7 @@ public class LedgerBalanceLookupableHelperServiceTest extends KualiTestBase {
             String propertyKey = "getLedgerBalance.testData" + i;
             LedgerBalance inputData = new LedgerBalance();
             ObjectUtil.populateBusinessObject(inputData, properties, propertyKey, documentFieldNames, deliminator);
+            inputData.setUniversityFiscalYear(TestUtils.getFiscalYearForTesting());
             inputDataList.add(inputData);
         }
 

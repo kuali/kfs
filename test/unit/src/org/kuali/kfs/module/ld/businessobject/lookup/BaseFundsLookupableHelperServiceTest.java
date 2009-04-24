@@ -35,6 +35,7 @@ import org.kuali.kfs.sys.TestDataPreparator;
 import org.kuali.kfs.sys.businessobject.lookup.LookupableSpringContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.PersistenceService;
@@ -76,7 +77,7 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
         // Clear up the database so that any existing data cannot affact your test result
         Map keys = new HashMap();
         keys.put(KFSPropertyConstants.ACCOUNT_NUMBER, "1031400");
-        keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, "2007");
+        keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, TestUtils.getFiscalYearForTesting().toString());
         keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, "BL");        
         businessObjectService.deleteMatching(AccountStatusBaseFunds.class, keys);
         businessObjectService.deleteMatching(CalculatedSalaryFoundationTracker.class, keys);        
@@ -104,7 +105,7 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
                 
         AccountStatusBaseFunds accountStatusBaseFunds = new AccountStatusBaseFunds();
         accountStatusBaseFunds.setAccountNumber("1031400");
-        accountStatusBaseFunds.setUniversityFiscalYear(2007);
+        accountStatusBaseFunds.setUniversityFiscalYear(TestUtils.getFiscalYearForTesting());
         accountStatusBaseFunds.setChartOfAccountsCode("BL");
 
         // test the search results before the specified entry is inserted into the database
@@ -146,13 +147,17 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
         //Collection ledgerEntries = businessObjectService.findMatching(AccountStatusBaseFunds.class, fieldValues);
         System.out.println("****1111");
         List expectedDataList = TestDataPreparator.buildExpectedValueList(AccountStatusBaseFunds.class, properties, testTarget + "expected", fieldNames, deliminator, this.baseFundsExpectedInsertion);
+        for (Object expectedAccountStatusBaseFundsAsObject : expectedDataList) {
+            AccountStatusBaseFunds expectedAccountStatusBaseFunds = (AccountStatusBaseFunds)expectedAccountStatusBaseFundsAsObject;
+            expectedAccountStatusBaseFunds.setUniversityFiscalYear(TestUtils.getFiscalYearForTesting());
+        }
         System.out.println("****2222");
         
         for (int i=0;i < searchResults.size();i++) {            
             //AccountStatusBaseFundsForTesting accountStatusBaseFundsForTesting = new AccountStatusBaseFundsForTesting();                       
             //accountStatusBaseFunds = new AccountStatusBaseFunds();
             //ObjectUtil.buildObject(accountStatusBaseFunds, entry);                        
-            accountStatusBaseFunds = ((AccountStatusBaseFunds)searchResults.get(i));            
+            accountStatusBaseFunds = ((AccountStatusBaseFunds)searchResults.get(i));
             System.out.println("*********DATA:"+accountStatusBaseFunds.toString());            
             assertTrue(expectedDataList.contains(accountStatusBaseFunds));
         }
@@ -261,6 +266,7 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
             String propertyKey = "getCSFTracker.testData" + i;
             CalculatedSalaryFoundationTracker inputData = new CalculatedSalaryFoundationTracker();
             ObjectUtil.populateBusinessObject(inputData, properties, propertyKey, documentFieldNames, deliminator);
+            inputData.setUniversityFiscalYear(TestUtils.getFiscalYearForTesting());
             inputDataList.add(inputData);
         }
         
@@ -300,6 +306,7 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
             propertyKey = testTarget+"testData" + i;
             
             ObjectUtil.populateBusinessObject(inputData, properties, propertyKey, fieldNames, deliminator);
+            inputData.setUniversityFiscalYear(TestUtils.getFiscalYearForTesting());
             inputDataList.add(inputData);
         }
         this.baseFundsNumberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));

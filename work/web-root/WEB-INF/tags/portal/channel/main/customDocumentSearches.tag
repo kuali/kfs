@@ -49,9 +49,7 @@
         <li><portal:portalLink displayTitle="true" title='Electronic Invoice Rejects' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=EIRT'/></li>
         <li><portal:portalLink displayTitle="true" title='Payment Requests' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=PREQ'/></li>
         <li><portal:portalLink displayTitle="true" title='Purchase Orders' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=PO'/></li>
-        <li><portal:portalLink displayTitle="true" title='Receiving, Bulk' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=RCVB'/></li>
-        <li><portal:portalLink displayTitle="true" title='Receiving, Correction' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=RCVC'/></li>
-        <li><portal:portalLink displayTitle="true" title='Receiving, Line Item' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=RCVL'/></li>
+        <li><portal:portalLink displayTitle="true" title='Receiving' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=RCV'/></li>
         <li><portal:portalLink displayTitle="true" title='Requisitions' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=REQS'/></li>
         <li><portal:portalLink displayTitle="true" title='Vendor Credit Memos' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=CM'/></li>
      </ul>

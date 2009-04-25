@@ -21,6 +21,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -153,9 +154,41 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
         boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new SaveMonthlyBudgetEvent(BCPropertyConstants.BUDGET_CONSTRUCTION_MONTHLY, bcDoc, budgetConstructionMonthly));
 
         if (rulePassed) {
-            SpringContext.getBean(BudgetDocumentService.class).saveMonthlyBudget(monthlyBudgetForm, budgetConstructionMonthly);
-            GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
-            monthlyBudgetForm.setMonthlyPersisted(true);
+
+            // getting here means salary detail line monthly totals equal annual
+            // or this is a non-salary detail line and overriding any difference needs to be confirmed 
+            KualiInteger monthTotalAmount = budgetConstructionMonthly.getFinancialDocumentMonthTotalLineAmount();
+            KualiInteger pbglRequestAmount = budgetConstructionMonthly.getPendingBudgetConstructionGeneralLedger().getAccountLineAnnualBalanceAmount();
+            if (!monthTotalAmount.equals(pbglRequestAmount)){
+
+                // total is different than annual
+                Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+                KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
+                if (question == null || !(KFSConstants.CONFIRMATION_QUESTION.equals(question))){
+                    // ask question if not already asked
+                    String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(BCKeyConstants.QUESTION_CONFIRM_MONTHLY_OVERRIDE);
+                    questionText = StringUtils.replace(questionText, "{0}", pbglRequestAmount.toString());
+                    questionText = StringUtils.replace(questionText, "{1}", monthTotalAmount.toString());
+
+                    return this.performQuestionWithoutInput(mapping, form, request, response, KFSConstants.CONFIRMATION_QUESTION, questionText, KFSConstants.CONFIRMATION_QUESTION, BCConstants.MAPPING_SAVE, "");
+                }
+                else {
+                    Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
+                    if ((KFSConstants.CONFIRMATION_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+
+                        // yes do the override for non-salary line and save
+                        SpringContext.getBean(BudgetDocumentService.class).saveMonthlyBudget(monthlyBudgetForm, budgetConstructionMonthly);
+                        GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_MONTHLY_ANNUAL_OVERRIDE_SAVED);
+                        monthlyBudgetForm.setMonthlyPersisted(true);
+                    }
+                }
+            }
+            else {
+                // total is same as annual do the save with no confirmation
+                SpringContext.getBean(BudgetDocumentService.class).saveMonthlyBudget(monthlyBudgetForm, budgetConstructionMonthly);
+                GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
+                monthlyBudgetForm.setMonthlyPersisted(true);
+            }
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -177,21 +210,10 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
             }
             else {
                 Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
-                if ((KFSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+                if ((KFSConstants.CONFIRMATION_QUESTION.equals(question)) || ((KFSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked))) {
 
                     // yes button clicked - validate and save the row
-                    BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) GlobalVariables.getUserSession().retrieveObject(monthlyBudgetForm.getReturnFormKey());
-                    BudgetConstructionDocument bcDoc = budgetConstructionForm.getBudgetConstructionDocument();
-                    boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new SaveMonthlyBudgetEvent(BCPropertyConstants.BUDGET_CONSTRUCTION_MONTHLY, bcDoc, budgetConstructionMonthly));
-
-                    if (rulePassed) {
-                        SpringContext.getBean(BudgetDocumentService.class).saveMonthlyBudget(monthlyBudgetForm, budgetConstructionMonthly);
-
-                        // drop to close logic below
-                    }
-                    else {
-                        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-                    }
+                    return this.save(mapping, form, request, response);
                 }
                 // else go to close logic below
             }

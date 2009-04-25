@@ -45,6 +45,8 @@ public class BCConstants extends JSTLConstants {
     // this are used in expansion screen session security cleanup management
     public static final String MAPPING_ATTRIBUTE_KUALI_FORM = "KualiForm";
     public static final String MAPPING_SCOPE_SESSION = "session";
+    
+    public static final String MAPPING_SAVE = "save";
 
     // screen tab error keys
     public static final String BUDGET_CONSTRUCTION_SALARY_SETTING_TAB_ERRORS = "document.budgetConstructionSalarySetting*";

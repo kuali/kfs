@@ -21,6 +21,7 @@ package org.kuali.kfs.module.bc;
 public class BCKeyConstants {
     public static final String QUESTION_CONFIRM_CLEANUP = "document.budget.question.confirmCleanup.text";
     public static final String QUESTION_DELETE = "document.question.delete.text";
+    public static final String QUESTION_CONFIRM_MONTHLY_OVERRIDE = "document.budget.question.confirmMonthlyOverride.text";
 
     public static final String MESSAGE_BUDGET_DOCUMENT_NOT_BUDGETABLE = "message.budget.documentNotBudgetable";
     public static final String MESSAGE_BUDGET_NOCREATE_DOCUMENT = "message.budget.nocreate.document";
@@ -36,6 +37,7 @@ public class BCKeyConstants {
     public static final String MESSAGE_BENEFITS_MONTHLY_CALCULATED = "message.budget.benefitsMonthlyCalculated";
     public static final String MESSAGE_SALARY_SETTING_SAVED = "message.budget.salarySettingSaved";
     public static final String MESSAGE_SALARY_SETTING_SAVED_AND_CLOSED = "message.budget.salarySettingSavedAndClosed";
+    public static final String MESSAGE_MONTHLY_ANNUAL_OVERRIDE_SAVED = "message.budget.monthlyAnnualOverrideSaved";
 
     public static final String ERROR_BUDGET_USER_NOT_ORG_APPROVER = "error.budget.userNotOrgApprover";
     public static final String ERROR_BUDGET_USER_BELOW_DOCLEVEL = "error.budget.userBelowDocLevel";

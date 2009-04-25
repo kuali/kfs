@@ -146,13 +146,14 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
                 orr.setAttributes(attributes);
                 orr.setRoleRspActions(getRoleRspActions(roleMember));
                 orr.setRoleId(roleMember.getRoleId());
-                orr.setKimDocumentRoleMember(member, roleMember.getMemberTypeCode());
                 orr.setActiveFromDate(roleMember.getActiveFromDate());
                 orr.setActiveToDate(roleMember.getActiveToDate());
                 if(orr.isCreateDelegation())
                     orr.setDelegate(true);
-                else
+                else{
                     orr.setDelegate(false);
+                    orr.setKimDocumentRoleMember(member, roleMember.getMemberTypeCode());
+                }
                 orr.setORMId("");
             }
             KimRoleInfo roleInfo = getRoleService().getRole(orr.getRoleId());
@@ -173,14 +174,16 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
             //orr.setFromAmount()
             //toAmount
             //orr.getOverrideCode()()
-            orr.setPrincipalMemberPrincipalId(orr.getPerson().getPrincipalId());
-            orr.setPrincipalMemberPrincipalName(orr.getPerson().getPrincipalName());
-            orr.setRoleMemberRoleId(orr.getRole().getRoleId());
-            orr.setRoleMemberRoleNamespaceCode(orr.getRole().getNamespaceCode());
-            orr.setRoleMemberRoleName(orr.getRole().getRoleName());
-            orr.setGroupMemberGroupId(orr.getGroup().getGroupId());
-            orr.setGroupMemberGroupNamespaceCode(orr.getGroup().getNamespaceCode());
-            orr.setGroupMemberGroupName(orr.getGroup().getGroupName());
+            if(!orr.isCreateDelegation()){
+                orr.setPrincipalMemberPrincipalId(orr.getPerson().getPrincipalId());
+                orr.setPrincipalMemberPrincipalName(orr.getPerson().getPrincipalName());
+                orr.setRoleMemberRoleId(orr.getRole().getRoleId());
+                orr.setRoleMemberRoleNamespaceCode(orr.getRole().getNamespaceCode());
+                orr.setRoleMemberRoleName(orr.getRole().getRoleName());
+                orr.setGroupMemberGroupId(orr.getGroup().getGroupId());
+                orr.setGroupMemberGroupNamespaceCode(orr.getGroup().getNamespaceCode());
+                orr.setGroupMemberGroupName(orr.getGroup().getGroupName());
+            }
             orr.setActionTypeCode(orr.getRoleRspActions().get(0).getActionTypeCode());
             orr.setPriorityNumber(orr.getRoleRspActions().get(0).getPriorityNumber()==null?"":orr.getRoleRspActions().get(0).getPriorityNumber()+"");
             orr.setActionPolicyCode(orr.getRoleRspActions().get(0).getActionPolicyCode());
@@ -286,10 +289,8 @@ public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
         } else if(OrgReviewRole.FROM_AMOUNT_FIELD_NAME.equals(field.getPropertyName()) ||
                 OrgReviewRole.TO_AMOUNT_FIELD_NAME.equals(field.getPropertyName()) ||
                 OrgReviewRole.OVERRIDE_CODE_FIELD_NAME.equals(field.getPropertyName())) {
-            if((hasAccountingOrganizationHierarchy!=null && hasAccountingOrganizationHierarchy &&  
-                    shouldReviewTypesFieldBeReadOnly!=null && shouldReviewTypesFieldBeReadOnly) ||
-                    ((hasOrganizationHierarchy!=null && hasOrganizationHierarchy) && 
-                    (hasAccountingOrganizationHierarchy!=null && ! hasAccountingOrganizationHierarchy))){
+            if((hasAccountingOrganizationHierarchy==null || !hasAccountingOrganizationHierarchy) &&  
+                    (shouldReviewTypesFieldBeReadOnly!=null && shouldReviewTypesFieldBeReadOnly)){
                 field.setReadOnly(true);
             }
         }

@@ -66,6 +66,16 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="relationships" >
       <list>
         <bean parent="RelationshipDefinition">
+   			<property name="objectAttributeName" value="organization" />
+	        <property name="primitiveAttributes" >
+	        	<list>
+	            	<bean parent="PrimitiveAttributeDefinition"
+	                    p:sourceName="organizationCode"
+	                    p:targetName="organizationCode" />
+	            </list>
+	        </property>
+   		</bean>
+        <bean parent="RelationshipDefinition">
    			<property name="objectAttributeName" value="financialSystemDocumentType" />
 	        <property name="primitiveAttributes" >
 	        	<list>

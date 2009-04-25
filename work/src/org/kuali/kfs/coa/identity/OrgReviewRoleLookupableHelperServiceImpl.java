@@ -301,7 +301,12 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
      * @return
      */
     public List<String> getRolesToConsider(String documentTypeName, boolean hasOrganizationHierarchy, boolean hasAccountingOrganizationHierarchy, String closestParentDocumentTypeName){
-        if(StringUtils.isEmpty(documentTypeName)) return null;
+        if(StringUtils.isEmpty(documentTypeName)){
+            List<String> roleToConsider = new ArrayList<String>();
+            roleToConsider.add(KFSConstants.SysKimConstants.ORGANIZATION_REVIEWER_ROLE_NAME);                
+            roleToConsider.add(KFSConstants.SysKimConstants.ACCOUNTING_REVIEWER_ROLE_NAME);
+            return roleToConsider;
+        }
 
         List<String> roleToConsider = new ArrayList<String>();
         if(hasOrganizationHierarchy || hasAccountingOrganizationHierarchy){
@@ -664,9 +669,9 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
     @Override
     public void validateSearchParameters(Map fieldValues) {
         String documentTypeName = (String)fieldValues.get(DOCUMENT_TYPE_NAME);
-        if (StringUtils.isEmpty(documentTypeName)){
+        /*if (StringUtils.isEmpty(documentTypeName)){
             throw new ValidationException("Please select a document type name.");
-        }
+        }*/
         validateDocumentType(documentTypeName);
         super.validateSearchParameters(fieldValues);
     }

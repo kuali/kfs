@@ -22,38 +22,38 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
 import org.kuali.rice.kns.document.Document;
 
-public final class AttributedAssignSensitiveDataEvent extends AttributedDocumentEventBase {
-    
-    private PurchaseOrderDocument accountingDocumentForValidation;
-    private List<SensitiveData> sensitiveDatas;
+public final class AttributedAssignSensitiveDataEvent extends AttributedDocumentEventBase {    
+
+    private String sensitiveDataAssignmentReason;
+    private List<SensitiveData> sensitiveDatasAssigned;
     
     /**
      * Constructs an AssignSensitiveDataEvent with the given errorPathPrefix, document, and sensitive data list.
      * 
      * @param errorPathPrefix the error path
      * @param document document the event was invoked on
-     * @param sensitiveDatas the sensitive data list to be checked for assignment
+     * @param sensitiveDatasAssigned the sensitive data list to be checked for assignment
      */
-    public AttributedAssignSensitiveDataEvent(String errorPathPrefix, Document document, List<SensitiveData> sensitiveDatas) {
+    public AttributedAssignSensitiveDataEvent(String errorPathPrefix, Document document, String sensitiveDataAssignmentReason, List<SensitiveData> sensitiveDatasAssigned) {
         super("Assign sensitive data to purchase order " + getDocumentId(document), errorPathPrefix, document);
-        this.sensitiveDatas = sensitiveDatas;
-        this.accountingDocumentForValidation = accountingDocumentForValidation;
+        this.sensitiveDataAssignmentReason = sensitiveDataAssignmentReason;
+        this.sensitiveDatasAssigned = sensitiveDatasAssigned;
+    }
+    
+    public String getSensitiveDataAssignmentReason() {
+        return sensitiveDataAssignmentReason;
     }
 
-    public PurchaseOrderDocument getAccountingDocumentForValidation() {
-        return accountingDocumentForValidation;
+    public void setSensitiveDataAssignmentReason(String sensitiveDataAssignmentReason) {
+        this.sensitiveDataAssignmentReason = sensitiveDataAssignmentReason;
     }
 
-    public void setAccountingDocumentForValidation(PurchaseOrderDocument accountingDocumentForValidation) {
-        this.accountingDocumentForValidation = accountingDocumentForValidation;
+    public List<SensitiveData> getSensitiveDatasAssigned() {
+        return sensitiveDatasAssigned;
     }
 
-    public List<SensitiveData> getSensitiveDatas() {
-        return sensitiveDatas;
-    }
-
-    public void setSensitiveDatas(List<SensitiveData> sensitiveDatas) {
-        this.sensitiveDatas = sensitiveDatas;
+    public void setSensitiveDatasAssigned(List<SensitiveData> sensitiveDatasAssigned) {
+        this.sensitiveDatasAssigned = sensitiveDatasAssigned;
     }
     
 }

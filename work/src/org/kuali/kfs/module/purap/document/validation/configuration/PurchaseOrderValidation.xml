@@ -284,8 +284,12 @@
 								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
 							</bean>
 							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="sensitiveDatas" />
-								<property name="targetValidationProperty" value="sensitiveDatas" />
+								<property name="sourceEventProperty" value="sensitiveDataAssignmentReason" />
+								<property name="targetValidationProperty" value="sensitiveDataAssignmentReason" />
+							</bean>							
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="sensitiveDatasAssigned" />
+								<property name="targetValidationProperty" value="sensitiveDatasAssigned" />
 							</bean>							
 						</list>
 					</property>

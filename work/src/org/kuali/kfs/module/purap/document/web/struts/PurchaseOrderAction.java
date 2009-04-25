@@ -632,21 +632,22 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderDocument po = (PurchaseOrderDocument)poForm.getDocument();        
         Integer poId = po.getPurapDocumentIdentifier();
         List<SensitiveData> sds = poForm.getSensitiveDatasAssigned();
+        String sdaReason = poForm.getSensitiveDataAssignmentReason();
         SensitiveDataService sdService = SpringContext.getBean(SensitiveDataService.class);        
         
         // check business rules
-        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedAssignSensitiveDataEvent("", po, sds));
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedAssignSensitiveDataEvent("", po, sdaReason, sds));
         if (!rulePassed) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
         // update table SensitiveDataAssignment
-        SensitiveDataAssignment sda = new SensitiveDataAssignment(poId, poForm.getSensitiveDataAssignmentReason(), GlobalVariables.getUserSession().getPerson().getPrincipalId(), poForm.getSensitiveDatasAssigned());
+        SensitiveDataAssignment sda = new SensitiveDataAssignment(poId, poForm.getSensitiveDataAssignmentReason(), GlobalVariables.getUserSession().getPerson().getPrincipalName(), poForm.getSensitiveDatasAssigned());
         SpringContext.getBean(BusinessObjectService.class).save(sda);
 
         // update table PurchaseOrderSensitiveData
         sdService.deletePurchaseOrderSensitiveDatas(poId);
-        List<PurchaseOrderSensitiveData> posds = new ArrayList();
+        List<PurchaseOrderSensitiveData> posds = new ArrayList<PurchaseOrderSensitiveData>();
         for (SensitiveData sd : sds) {
             posds.add(new PurchaseOrderSensitiveData(poId, po.getRequisitionIdentifier(), sd.getSensitiveDataCode()));
         }

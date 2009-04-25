@@ -38,10 +38,13 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class PurchaseOrderAssignSensitiveDataValidation extends GenericValidation {
 
     private PurchaseOrderDocument accountingDocumentForValidation;
-    private List<SensitiveData> sensitiveDatas;
+    private String sensitiveDataAssignmentReason;
+    private List<SensitiveData> sensitiveDatasAssigned;
     
     /**
-     * Applies rules for validation of the Split of PO and PO child documents
+     * Applies rules for validation of sensitive data assignment to the PurchaseOrder document:
+     * The assignment reason must not be empty; 
+     * The assigned sensitive data entries must be active and not redundant.
      * 
      * @param document  A PurchaseOrderDocument (or one of its children)
      * @return      True if all relevant validation rules are passed.
@@ -49,16 +52,21 @@ public class PurchaseOrderAssignSensitiveDataValidation extends GenericValidatio
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
         GlobalVariables.getErrorMap().clearErrorPath();        
-        HashSet sdset = new HashSet();
+        HashSet<String> sdset = new HashSet<String>();
         
-        for (Object sdobj : sensitiveDatas) {
+        if (StringUtils.isEmpty(sensitiveDataAssignmentReason)) {
+            GlobalVariables.getErrorMap().putError(PurapConstants.ASSIGN_SENSITIVE_DATA_TAB_ERRORS, PurapKeyConstants.ERROR_ASSIGN_SENSITIVE_DATA_REASON_EMPTY);
+            valid = false;                            
+        }
+        
+        for (Object sdobj : sensitiveDatasAssigned) {
             SensitiveData sd = (SensitiveData)sdobj;
             if (!sd.isActive()) {
-                GlobalVariables.getErrorMap().putError(PurapConstants.ASSIGN_SENSITIVE_DATA_TAB_ERRORS, PurapKeyConstants.ERROR_ASSIGN_INACTIVE_SENSITIVE_DATA, sd.getSensitiveDataDescription());
+                GlobalVariables.getErrorMap().putError(PurapConstants.ASSIGN_SENSITIVE_DATA_TAB_ERRORS, PurapKeyConstants.ERROR_ASSIGN_SENSITIVE_DATA_INACTIVE, sd.getSensitiveDataDescription());
                 valid = false;                
             }
             else if (!sdset.add(sd.getSensitiveDataCode())) {
-                GlobalVariables.getErrorMap().putError(PurapConstants.ASSIGN_SENSITIVE_DATA_TAB_ERRORS, PurapKeyConstants.ERROR_ASSIGN_REDUNDANT_SENSITIVE_DATA, sd.getSensitiveDataDescription());
+                GlobalVariables.getErrorMap().putError(PurapConstants.ASSIGN_SENSITIVE_DATA_TAB_ERRORS, PurapKeyConstants.ERROR_ASSIGN_SENSITIVE_DATA_REDUNDANT, sd.getSensitiveDataDescription());
                 valid = false;                                    
             }            
         }
@@ -66,7 +74,6 @@ public class PurchaseOrderAssignSensitiveDataValidation extends GenericValidatio
         GlobalVariables.getErrorMap().clearErrorPath();
         return valid;
     }
-
  
     public PurchaseOrderDocument getAccountingDocumentForValidation() {
         return accountingDocumentForValidation;
@@ -75,13 +82,21 @@ public class PurchaseOrderAssignSensitiveDataValidation extends GenericValidatio
     public void setAccountingDocumentForValidation(PurchaseOrderDocument accountingDocumentForValidation) {
         this.accountingDocumentForValidation = accountingDocumentForValidation;
     }
-
-    public List<SensitiveData> getSensitiveDatas() {
-        return sensitiveDatas;
+    
+    public String getSensitiveDataAssignmentReason() {
+        return sensitiveDataAssignmentReason;
     }
 
-    public void setSensitiveDatas(List<SensitiveData> sensitiveDatas) {
-        this.sensitiveDatas = sensitiveDatas;
+    public void setSensitiveDataAssignmentReason(String sensitiveDataAssignmentReason) {
+        this.sensitiveDataAssignmentReason = sensitiveDataAssignmentReason;
+    }
+
+    public List<SensitiveData> getSensitiveDatasAssigned() {
+        return sensitiveDatasAssigned;
+    }
+
+    public void setSensitiveDatasAssigned(List<SensitiveData> sensitiveDatasAssigned) {
+        this.sensitiveDatasAssigned = sensitiveDatasAssigned;
     }
 
 }

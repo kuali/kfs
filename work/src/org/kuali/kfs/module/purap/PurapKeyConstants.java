@@ -140,8 +140,9 @@ public class PurapKeyConstants {
     public static final String ERROR_PURCHASE_ORDER_SPLIT_ONE_ITEM_MUST_REMAIN = "error.purchaseOrder.split.atLeastOneItem.mustRemain";
     public static final String ERROR_PURCHASE_ORDER_QUOTE_LIST_NO_VENDOR = "error.purchaseOrder.quoteList.no.vendor";
     public static final String ERROR_PURCHASE_ORDER_QUOTE_LIST_NON_EXISTENCE_VENDOR = "error.purchaseOrder.quoteList.nonExistence.vendor";
-    public static final String ERROR_ASSIGN_INACTIVE_SENSITIVE_DATA = "error.assign.inactive.sensitiveData";
-    public static final String ERROR_ASSIGN_REDUNDANT_SENSITIVE_DATA = "error.assign.redundant.sensitiveData";
+    public static final String ERROR_ASSIGN_SENSITIVE_DATA_REASON_EMPTY = "error.assign.sensitiveData.reason.empty";
+    public static final String ERROR_ASSIGN_SENSITIVE_DATA_INACTIVE = "error.assign.sensitiveData.inactive";
+    public static final String ERROR_ASSIGN_SENSITIVE_DATA_REDUNDANT = "error.assign.sensitiveData.redundant";
     
     
     // Accounts Payable

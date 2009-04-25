@@ -76,13 +76,25 @@ public class SensitiveDataRuleTest extends PurapRuleTestBase {
     }
     
     @ConfigureContext(session = parke)
+    public final void testAssignSensitiveDataReasonEmpty() {
+        List<SensitiveData> sds = new ArrayList<SensitiveData>();
+        sds.add(SensitiveDataFixture.SENSITIVE_DATA_ACTIVE.getSensitiveDataBO());
+
+        PurchaseOrderAssignSensitiveDataValidation validation = (PurchaseOrderAssignSensitiveDataValidation)validations.get("PurchaseOrder-assignSensitiveDataValidation-test");
+        validation.setAccountingDocumentForValidation(po);
+        validation.setSensitiveDataAssignmentReason(null);
+        validation.setSensitiveDatasAssigned(sds);
+        assertFalse( validation.validate(null) );               
+    }
+    
+    @ConfigureContext(session = parke)
     public final void testAssignSensitiveDataInactive() {
         List<SensitiveData> sds = new ArrayList<SensitiveData>();
         sds.add(SensitiveDataFixture.SENSITIVE_DATA_INACTIVE.getSensitiveDataBO());
 
         PurchaseOrderAssignSensitiveDataValidation validation = (PurchaseOrderAssignSensitiveDataValidation)validations.get("PurchaseOrder-assignSensitiveDataValidation-test");
         validation.setAccountingDocumentForValidation(po);
-        validation.setSensitiveDatas(sds);
+        validation.setSensitiveDatasAssigned(sds);
         assertFalse( validation.validate(null) );               
     }
     
@@ -94,7 +106,7 @@ public class SensitiveDataRuleTest extends PurapRuleTestBase {
 
         PurchaseOrderAssignSensitiveDataValidation validation = (PurchaseOrderAssignSensitiveDataValidation)validations.get("PurchaseOrder-assignSensitiveDataValidation-test");
         validation.setAccountingDocumentForValidation(po);
-        validation.setSensitiveDatas(sds);
+        validation.setSensitiveDatasAssigned(sds);
         assertFalse( validation.validate(null) );               
     }
     

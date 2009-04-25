@@ -245,7 +245,10 @@ public class SalarySettingCalculator {
     }
 
     /**
-     * get a collection of PendingBudgetConstructionAppointmentFunding objects that are not marked as deleted and excluded from total
+     * Get a collection of PendingBudgetConstructionAppointmentFunding objects that are not purged and not excluded from total. This
+     * is used to decide whether or not to include csf, request or requestCsf amounts in the totals. This allows marked deleted line
+     * in the set, but this is benign since marked deleted lines have zero request and requestCsf amounts by definition and we want
+     * marked delete csf amounts included in the totals.
      * 
      * @param AppointmentFundings the given appointment funding lines
      * @return a collection of PendingBudgetConstructionAppointmentFunding objects that are not marked as deleted
@@ -254,7 +257,9 @@ public class SalarySettingCalculator {
         List<PendingBudgetConstructionAppointmentFunding> effectiveAppointmentFundings = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
 
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : AppointmentFundings) {
-            if (!appointmentFunding.isAppointmentFundingDeleteIndicator() && !appointmentFunding.isExcludedFromTotal() && !appointmentFunding.isPurged()) {
+            // if (!appointmentFunding.isAppointmentFundingDeleteIndicator() && !appointmentFunding.isExcludedFromTotal() &&
+            // !appointmentFunding.isPurged()) {
+            if (!appointmentFunding.isExcludedFromTotal() && !appointmentFunding.isPurged()) {
                 effectiveAppointmentFundings.add(appointmentFunding);
             }
         }

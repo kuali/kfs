@@ -18,10 +18,9 @@ package org.kuali.kfs.module.ar.document.authorization;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
 import org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer;
-import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
@@ -88,7 +87,9 @@ public class CustomerInvoiceDocumentSourceLinesAuthorizer extends FinancialProce
     }
     
     /**
-     * Overridden to make chart and account number  read only for discount lines
+     * Overridden to make:
+     * 1. chart and account number read only for discount lines
+     * 2. invoice item description and amount editable for recurring invoices
      * 
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#determineFieldModifyability(org.kuali.kfs.sys.document.AccountingDocument,
      *      org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.kfs.sys.document.web.AccountingLineViewField, java.util.Map)
@@ -103,6 +104,14 @@ public class CustomerInvoiceDocumentSourceLinesAuthorizer extends FinancialProce
                 if (StringUtils.equals(fieldName, getChartPropertyName()) || StringUtils.equals(fieldName, getAccountNumberPropertyName())) 
                     canModify = false;
             }
+        } // set invoice item description and amount editable for recurring invoices
+        else {
+            boolean recurredInvoiceIndicator = ((CustomerInvoiceDocument)accountingDocument).getRecurredInvoiceIndicator();
+            if (recurredInvoiceIndicator) {
+                if (StringUtils.equals(fieldName, getItemDescriptionPropertyName()) || StringUtils.equals(fieldName, getAmountPropertyName()))
+                    canModify = true;
+            }
+                
         }
         
         return canModify;
@@ -120,5 +129,19 @@ public class CustomerInvoiceDocumentSourceLinesAuthorizer extends FinancialProce
      */
     protected String getAccountNumberPropertyName() {
         return "accountNumber";
+    }
+    
+    /**
+     * @return the property name of the invoice item description field, which will be set editable for recurring invoices
+     */
+    protected String getItemDescriptionPropertyName() {
+        return "invoiceItemDescription";
+    }
+    
+    /**
+     * @return the property name of the amount field, which will be set editable for recurring invoices
+     */
+    protected String getAmountPropertyName() {
+        return "amount";
     }
 }

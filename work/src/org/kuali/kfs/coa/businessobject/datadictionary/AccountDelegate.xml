@@ -22,6 +22,7 @@
         <ref bean="AccountDelegate-chartOfAccountsCode" />
         <ref bean="AccountDelegate-accountNumber" />
         <ref bean="AccountDelegate-financialDocumentTypeCode" />
+        <ref bean="AccountDelegate-financialSystemDocumentTypeCode.name" />
         <ref bean="AccountDelegate-accountDelegateSystemId" />
         <ref bean="AccountDelegate-accountDelegate.principalName" />
         <ref bean="AccountDelegate-accountDelegate.name" />
@@ -54,14 +55,14 @@
                     p:targetName="name" />
             </list>
           </property>
-        </bean>
+        </bean> 
         <bean parent="RelationshipDefinition">
    			<property name="objectAttributeName" value="financialSystemDocumentTypeCode" />
 	        <property name="primitiveAttributes" >
 	        	<list>
-	            	<bean parent="PrimitiveAttributeDefinition"
-	                    p:sourceName="financialDocumentTypeCode"
-	                    p:targetName="name" />
+	           	  <bean parent="PrimitiveAttributeDefinition"
+	                p:sourceName="financialDocumentTypeCode"
+	                p:targetName="name" />
 	            </list>
 	        </property>
    		</bean>
@@ -100,6 +101,13 @@
     <property name="forceUppercase" value="true" />
   </bean>
   <bean id="AccountDelegate-accountDelegateSystemId" parent="AccountDelegate-accountDelegateSystemId-parentBean" />
+  
+  <bean id="AccountDelegate-financialSystemDocumentTypeCode.name-parentBean" abstract="true" parent="DocumentType-name">
+  	<property name="name" value="financialSystemDocumentTypeCode.name"/>
+  	<property name="label" value="Document Type Name"/>
+  	<property name="forceUppercase" value="true"/>
+  </bean>
+  <bean id="AccountDelegate-financialSystemDocumentTypeCode.name" parent="AccountDelegate-financialSystemDocumentTypeCode.name-parentBean"/>
 
   <bean id="AccountDelegate-accountDelegateSystemId-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="accountDelegateSystemId" />
@@ -189,7 +197,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="accountNumber" />
               <bean parent="FieldDefinition"
-                    p:attributeName="financialDocumentTypeCode" />
+                    p:attributeName="financialSystemDocumentTypeCode.name" />
               <bean parent="FieldDefinition"
                     p:attributeName="accountDelegate.principalName" />
               <bean parent="FieldDefinition"
@@ -254,7 +262,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="accountNumber" />
         <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentTypeCode" />
+              p:attributeName="financialSystemDocumentTypeCode.name" />
         <bean parent="FieldDefinition"
               p:attributeName="accountDelegate.principalName" />
         <bean parent="FieldDefinition"

@@ -148,7 +148,7 @@
 			<bean parent="AttributeSecurity">
                 <property name="mask" value="true" /> 
                 <property name="maskFormatter">
-                    <bean parent="MaskFormatterSubString" p:maskLength="0" /> 
+                    <bean parent="MaskFormatterSubString" p:maskLength="4" /> 
                 </property>
   			</bean>
     </property>

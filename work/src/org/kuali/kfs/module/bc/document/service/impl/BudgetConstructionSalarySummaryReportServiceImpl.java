@@ -206,13 +206,6 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
         }
 
         if (appointmentFundingEntry != null) {
-            if (appointmentFundingEntry.getFinancialSubObjectCode().equals(BCConstants.Report.BLANK_SUB_OBJECT_CODE)) {
-                orgSalarySummaryReportEntry.setFinancialSubObjectCode(BCConstants.Report.BLANK);
-            }
-            else {
-                orgSalarySummaryReportEntry.setFinancialSubObjectCode(appointmentFundingEntry.getFinancialSubObjectCode());
-            }
-
             orgSalarySummaryReportEntry.setAppointmentFundingDurationCode(appointmentFundingEntry.getAppointmentFundingDurationCode());
             orgSalarySummaryReportEntry.setAppointmentTotalIntendedAmount(BudgetConstructionReportHelper.convertKualiInteger(appointmentFundingEntry.getAppointmentTotalIntendedAmount()));
             orgSalarySummaryReportEntry.setAppointmentTotalIntendedFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(appointmentFundingEntry.getAppointmentTotalIntendedFteQuantity(), 5, false));

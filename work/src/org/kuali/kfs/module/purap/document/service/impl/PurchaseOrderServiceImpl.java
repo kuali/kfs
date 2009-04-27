@@ -882,7 +882,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 userToRouteFyi = req.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
             }
             else {
-                userToRouteFyi = po.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
+                userToRouteFyi = po.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId();
             }
             
             try {
@@ -1614,7 +1614,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     // only update REQ if code is empty and status is correct
                     purapService.updateStatus(req, PurapConstants.RequisitionStatuses.CLOSED);
                     purapService.saveDocumentNoValidation(req);
-                    createPurchaseOrderDocument(req, acmDoc.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId(), detail.getContractManagerCode());
+                    createPurchaseOrderDocument(req, KFSConstants.SYSTEM_USER, detail.getContractManagerCode());
                 }
             }
 

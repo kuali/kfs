@@ -26,6 +26,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Validates that an accounting line has fringe benefit object code 
@@ -62,10 +63,9 @@ public class BenefitExpenseTransferFringeBenefitObjectCodeValidation extends Gen
 
         expenseTransferAccountingLine.refreshReferenceObject(KFSPropertyConstants.LABOR_OBJECT); 
         LaborObject laborObject = expenseTransferAccountingLine.getLaborObject();
-        if (laborObject == null) {
+        if (ObjectUtils.isNull(laborObject)) {
             return false;
         }
-
         boolean isItFringeObjectCode = LaborConstants.BenefitExpenseTransfer.LABOR_LEDGER_BENEFIT_CODE.equals(laborObject.getFinancialObjectFringeOrSalaryCode());
         if (!isItFringeObjectCode) {
             fringeObjectCode = false ;

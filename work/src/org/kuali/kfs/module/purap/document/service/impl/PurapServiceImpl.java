@@ -28,10 +28,10 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.PurapParameterConstants.TaxParameters;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.kfs.module.purap.PurapParameterConstants.TaxParameters;
 import org.kuali.kfs.module.purap.businessobject.BulkReceivingView;
 import org.kuali.kfs.module.purap.businessobject.CorrectionReceivingView;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoView;
@@ -56,7 +56,6 @@ import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
-import org.kuali.kfs.module.purap.document.dataaccess.ParameterDao;
 import org.kuali.kfs.module.purap.document.service.LogicContainer;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
@@ -72,7 +71,6 @@ import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.InfrastructureException;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -104,7 +102,6 @@ public class PurapServiceImpl implements PurapService {
     private PurchaseOrderService purchaseOrderService;
     private UniversityDateService universityDateService;
     private VendorService vendorService;
-    private ParameterDao parameterDao;
     private TaxService taxService; 
     
     public void setBusinessObjectService(BusinessObjectService boService) {
@@ -147,10 +144,6 @@ public class PurapServiceImpl implements PurapService {
         this.universityDateService = universityDateService;
     }
     
-    public void setParameterDao(ParameterDao parameterDao) {
-        this.parameterDao = parameterDao;
-    }
-    
     public void setTaxService(TaxService taxService) {
         this.taxService = taxService;
     }
@@ -179,56 +172,56 @@ public class PurapServiceImpl implements PurapService {
         
         try {
             //save requisition routing data
-            List reqViews = getRelatedViews(RequisitionView.class, accountsPayablePurchasingDocumentLinkIdentifier);
-            for (Iterator iterator = reqViews.iterator(); iterator.hasNext();) {
+            List<RequisitionView> reqViews = getRelatedViews(RequisitionView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            for (Iterator<RequisitionView> iterator = reqViews.iterator(); iterator.hasNext();) {
                 RequisitionView view = (RequisitionView) iterator.next();
                 Document doc = documentService.getByDocumentHeaderId(view.getDocumentNumber());
                 doc.getDocumentHeader().getWorkflowDocument().saveRoutingData();
             }
             
             //save purchase order routing data
-            List poViews = getRelatedViews(PurchaseOrderView.class, accountsPayablePurchasingDocumentLinkIdentifier);
-            for (Iterator iterator = poViews.iterator(); iterator.hasNext();) {
+            List<PurchaseOrderView> poViews = getRelatedViews(PurchaseOrderView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            for (Iterator<PurchaseOrderView> iterator = poViews.iterator(); iterator.hasNext();) {
                 PurchaseOrderView view = (PurchaseOrderView) iterator.next();
                 Document doc = documentService.getByDocumentHeaderId(view.getDocumentNumber());
                 doc.getDocumentHeader().getWorkflowDocument().saveRoutingData();
             }
             
             //save payment request routing data
-            List preqViews = getRelatedViews(PaymentRequestView.class, accountsPayablePurchasingDocumentLinkIdentifier);
-            for (Iterator iterator = preqViews.iterator(); iterator.hasNext();) {
+            List<PaymentRequestView> preqViews = getRelatedViews(PaymentRequestView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            for (Iterator<PaymentRequestView> iterator = preqViews.iterator(); iterator.hasNext();) {
                 PaymentRequestView view = (PaymentRequestView) iterator.next();
                 Document doc = documentService.getByDocumentHeaderId(view.getDocumentNumber());
                 doc.getDocumentHeader().getWorkflowDocument().saveRoutingData();
             }
             
             //save credit memo routing data
-            List cmViews = getRelatedViews(CreditMemoView.class, accountsPayablePurchasingDocumentLinkIdentifier);
-            for (Iterator iterator = cmViews.iterator(); iterator.hasNext();) {
+            List<CreditMemoView> cmViews = getRelatedViews(CreditMemoView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            for (Iterator<CreditMemoView> iterator = cmViews.iterator(); iterator.hasNext();) {
                 CreditMemoView view = (CreditMemoView) iterator.next();
                 Document doc = documentService.getByDocumentHeaderId(view.getDocumentNumber());
                 doc.getDocumentHeader().getWorkflowDocument().saveRoutingData();
             }
             
             //save line item receiving routing data
-            List lineViews = getRelatedViews(LineItemReceivingView.class, accountsPayablePurchasingDocumentLinkIdentifier);
-            for (Iterator iterator = lineViews.iterator(); iterator.hasNext();) {
+            List<LineItemReceivingView> lineViews = getRelatedViews(LineItemReceivingView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            for (Iterator<LineItemReceivingView> iterator = lineViews.iterator(); iterator.hasNext();) {
                 LineItemReceivingView view = (LineItemReceivingView) iterator.next();
                 Document doc = documentService.getByDocumentHeaderId(view.getDocumentNumber());
                 doc.getDocumentHeader().getWorkflowDocument().saveRoutingData();
             }
 
             //save correction receiving routing data
-            List corrViews = getRelatedViews(CorrectionReceivingView.class, accountsPayablePurchasingDocumentLinkIdentifier);
-            for (Iterator iterator = corrViews.iterator(); iterator.hasNext();) {
+            List<CorrectionReceivingView> corrViews = getRelatedViews(CorrectionReceivingView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            for (Iterator<CorrectionReceivingView> iterator = corrViews.iterator(); iterator.hasNext();) {
                 CorrectionReceivingView view = (CorrectionReceivingView) iterator.next();
                 Document doc = documentService.getByDocumentHeaderId(view.getDocumentNumber());
                 doc.getDocumentHeader().getWorkflowDocument().saveRoutingData();
             }
             
             //save bulk receiving routing data
-            List bulkViews = getRelatedViews(BulkReceivingView.class, accountsPayablePurchasingDocumentLinkIdentifier);
-            for (Iterator iterator = bulkViews.iterator(); iterator.hasNext();) {
+            List<BulkReceivingView> bulkViews = getRelatedViews(BulkReceivingView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            for (Iterator<BulkReceivingView> iterator = bulkViews.iterator(); iterator.hasNext();) {
                 BulkReceivingView view = (BulkReceivingView) iterator.next();
                 Document doc = documentService.getByDocumentHeaderId(view.getDocumentNumber());
                 doc.getDocumentHeader().getWorkflowDocument().saveRoutingData();
@@ -245,53 +238,53 @@ public class PurapServiceImpl implements PurapService {
      */
     public List<String> getRelatedDocumentIds(Integer accountsPayablePurchasingDocumentLinkIdentifier) {
         LOG.debug("getRelatedDocumentIds() started");
-        List documentIdList = new ArrayList();
+        List<String> documentIdList = new ArrayList<String>();
 
         //get requisition views
-        List reqViews = getRelatedViews(RequisitionView.class, accountsPayablePurchasingDocumentLinkIdentifier);
-        for (Iterator iterator = reqViews.iterator(); iterator.hasNext();) {
+        List<RequisitionView> reqViews = getRelatedViews(RequisitionView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+        for (Iterator<RequisitionView> iterator = reqViews.iterator(); iterator.hasNext();) {
             RequisitionView view = (RequisitionView) iterator.next();
             documentIdList.add(view.getDocumentNumber());
         }
         
         //get purchase order views
-        List poViews = getRelatedViews(PurchaseOrderView.class, accountsPayablePurchasingDocumentLinkIdentifier);
-        for (Iterator iterator = poViews.iterator(); iterator.hasNext();) {
+        List<PurchaseOrderView> poViews = getRelatedViews(PurchaseOrderView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+        for (Iterator<PurchaseOrderView> iterator = poViews.iterator(); iterator.hasNext();) {
             PurchaseOrderView view = (PurchaseOrderView) iterator.next();
             documentIdList.add(view.getDocumentNumber());
         }
         
         //get payment request views
-        List preqViews = getRelatedViews(PaymentRequestView.class, accountsPayablePurchasingDocumentLinkIdentifier);
-        for (Iterator iterator = preqViews.iterator(); iterator.hasNext();) {
+        List<PaymentRequestView> preqViews = getRelatedViews(PaymentRequestView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+        for (Iterator<PaymentRequestView> iterator = preqViews.iterator(); iterator.hasNext();) {
             PaymentRequestView view = (PaymentRequestView) iterator.next();
             documentIdList.add(view.getDocumentNumber());
         }
         
         //get credit memo views
-        List cmViews = getRelatedViews(CreditMemoView.class, accountsPayablePurchasingDocumentLinkIdentifier);
-        for (Iterator iterator = cmViews.iterator(); iterator.hasNext();) {
+        List<CreditMemoView> cmViews = getRelatedViews(CreditMemoView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+        for (Iterator<CreditMemoView> iterator = cmViews.iterator(); iterator.hasNext();) {
             CreditMemoView view = (CreditMemoView) iterator.next();
             documentIdList.add(view.getDocumentNumber());
         }
         
         //get line item receiving views
-        List lineViews = getRelatedViews(LineItemReceivingView.class, accountsPayablePurchasingDocumentLinkIdentifier);
-        for (Iterator iterator = lineViews.iterator(); iterator.hasNext();) {
+        List<LineItemReceivingView> lineViews = getRelatedViews(LineItemReceivingView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+        for (Iterator<LineItemReceivingView> iterator = lineViews.iterator(); iterator.hasNext();) {
             LineItemReceivingView view = (LineItemReceivingView) iterator.next();
             documentIdList.add(view.getDocumentNumber());
         }
 
         //get correction receiving views
-        List corrViews = getRelatedViews(CorrectionReceivingView.class, accountsPayablePurchasingDocumentLinkIdentifier);
-        for (Iterator iterator = corrViews.iterator(); iterator.hasNext();) {
+        List<CorrectionReceivingView> corrViews = getRelatedViews(CorrectionReceivingView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+        for (Iterator<CorrectionReceivingView> iterator = corrViews.iterator(); iterator.hasNext();) {
             CorrectionReceivingView view = (CorrectionReceivingView) iterator.next();
             documentIdList.add(view.getDocumentNumber());
         }
         
         //get bulk receiving views
-        List bulkViews = getRelatedViews(BulkReceivingView.class, accountsPayablePurchasingDocumentLinkIdentifier);
-        for (Iterator iterator = bulkViews.iterator(); iterator.hasNext();) {
+        List<BulkReceivingView> bulkViews = getRelatedViews(BulkReceivingView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+        for (Iterator<BulkReceivingView> iterator = bulkViews.iterator(); iterator.hasNext();) {
             BulkReceivingView view = (BulkReceivingView) iterator.next();
             documentIdList.add(view.getDocumentNumber());
         }
@@ -304,6 +297,7 @@ public class PurapServiceImpl implements PurapService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.PurapService#getRelatedViews(java.lang.Class, java.lang.Integer)
      */
+    @SuppressWarnings("unchecked")
     public List getRelatedViews(Class clazz, Integer accountsPayablePurchasingDocumentLinkIdentifier) {
         LOG.debug("getRelatedViews() started");
 
@@ -318,6 +312,7 @@ public class PurapServiceImpl implements PurapService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.PurapService#addBelowLineItems(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
      */
+    @SuppressWarnings("unchecked")
     public void addBelowLineItems(PurchasingAccountsPayableDocument document) {
         LOG.debug("addBelowLineItems() started");
 
@@ -329,7 +324,7 @@ public class PurapServiceImpl implements PurapService {
         // needed in case they get out of sync below won't work
         sortBelowTheLine(itemTypes, existingItems, belowTheLine);
 
-        List<String> existingItemTypes = new ArrayList();
+        List<String> existingItemTypes = new ArrayList<String>();
         for (PurApItem existingItem : existingItems) {
             existingItemTypes.add(existingItem.getItemTypeCode());
         }
@@ -520,6 +515,7 @@ public class PurapServiceImpl implements PurapService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.PurapService#getApoLimit(java.lang.Integer, java.lang.String, java.lang.String)
      */
+    @SuppressWarnings("unchecked")
     public KualiDecimal getApoLimit(Integer vendorContractGeneratedIdentifier, String chart, String org) {
         LOG.debug("getApoLimit() started");
 
@@ -620,6 +616,7 @@ public class PurapServiceImpl implements PurapService {
      * @param apDocument  AccountsPayableDocument
      * @param docType
      */
+    @SuppressWarnings("unchecked")
     public void processCloseReopenPo(AccountsPayableDocumentBase apDocument, String docType) {
         LOG.debug("processCloseReopenPo() started");
         
@@ -789,7 +786,7 @@ public class PurapServiceImpl implements PurapService {
      * @see org.kuali.kfs.module.purap.document.service.PurapService#getAllowedFiscalYears()
      */
     public List<Integer> getAllowedFiscalYears() {
-        List allowedYears = new ArrayList();
+        List<Integer> allowedYears = new ArrayList<Integer>();
         Integer currentFY = universityDateService.getCurrentFiscalYear();
         allowedYears.add(currentFY);
         if (allowEncumberNextFiscalYear()) {
@@ -810,14 +807,7 @@ public class PurapServiceImpl implements PurapService {
 
         return diffTodayClosing <= allowApoDate;
     }
-    
-    /**
-     * @see org.kuali.kfs.sys.service.ParameterService#getParametersGivenLikeCriteria(java.util.Map)
-     */
-    public List<Parameter> getParametersGivenLikeCriteria(Map<String, String> fieldValues) {
-        return parameterDao.getParametersGivenLikeCriteria(fieldValues);
-    }    
-    
+        
     /**
      * 
      * @see org.kuali.kfs.module.purap.document.service.PurapService#clearTax(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
@@ -1118,6 +1108,7 @@ public class PurapServiceImpl implements PurapService {
      * @param item
      * @param itemUseTaxClass
      */
+    @SuppressWarnings("unchecked")
     private void calculateItemTax(boolean useTaxIndicator, 
                                   String deliveryPostalCode, 
                                   Date transactionTaxDate, 

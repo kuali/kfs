@@ -25,11 +25,12 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.bo.Parameter;
+import org.kuali.rice.kns.service.ParameterService;
 
 public class PurchasingAddCapitalAssetLocationValidation extends GenericValidation {
 
-    private PurapService purapService;
-    private CapitalAssetLocation location;
+    protected CapitalAssetLocation location;
+    protected ParameterService parameterService;
     
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
@@ -37,17 +38,10 @@ public class PurchasingAddCapitalAssetLocationValidation extends GenericValidati
         // Retrieve and evaluate the parameter which determines whether location's address is required.
         // CHARTS_REQUIRING_LOCATIONS_ADDRESS_ON_(REQUISITION/PURCHASE_ORDER)
         Map<String, String> fieldValues = new HashMap<String, String>();
-        List<Parameter> results = purapService.getParametersGivenLikeCriteria(fieldValues);
+        
+        List<Parameter> results = getParameterService().retrieveParametersGivenLookupCriteria(fieldValues);
         // If the location's address is required, enforce the validation of the individual fields of the address.
         return valid;
-    }
-
-    public PurapService getPurapService() {
-        return purapService;
-    }
-
-    public void setPurapService(PurapService purapService) {
-        this.purapService = purapService;
     }
 
     public CapitalAssetLocation getLocation() {
@@ -56,6 +50,13 @@ public class PurchasingAddCapitalAssetLocationValidation extends GenericValidati
 
     public void setLocation(CapitalAssetLocation location) {
         this.location = location;
+    }
+
+    protected ParameterService getParameterService() {
+        if ( parameterService == null ) {
+            parameterService = SpringContext.getBean(ParameterService.class);
+        }
+        return parameterService;
     }
 
 }

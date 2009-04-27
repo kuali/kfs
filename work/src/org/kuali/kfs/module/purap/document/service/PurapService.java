@@ -53,6 +53,7 @@ public interface PurapService {
      * @param accountsPayablePurchasingDocumentLinkIdentifier
      * @return List of views for given identifier
      */
+    @SuppressWarnings("unchecked")
     public List getRelatedViews(Class clazz, Integer accountsPayablePurchasingDocumentLinkIdentifier);
 
     /**
@@ -209,17 +210,6 @@ public interface PurapService {
     */
    public boolean isTodayWithinApoAllowedRange();
 
-   /**
-    * This method can be used to retrieve a list of parameters that
-    * match the given fieldValues criteria. You could also specify the "like"
-    * criteria in the Map.
-    * 
-    * @param   fieldValues The Map containing the key value pairs to be used 
-    *                      to build the criteria.
-    * @return  List of Parameters that match the criteria.
-    */
-   public List<Parameter> getParametersGivenLikeCriteria(Map<String, String> fieldValues);
-   
    /**
     * Calculates sales or use tax for each item if sales tax enabled and item is taxable.
     * 

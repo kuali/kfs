@@ -162,7 +162,6 @@
         <property name="purchaseOrderService" ref="purchaseOrderService"/>
         <property name="universityDateService" ref="universityDateService"/>
         <property name="vendorService" ref="vendorService"/>
-        <property name="parameterDao" ref="parameterDao"/>
         <property name="taxService" ref="taxService"/>
     </bean>
     
@@ -355,8 +354,6 @@
         <property name="purchaseOrderService" ref="purchaseOrderService" />
         <property name="workflowDocumentService" ref="workflowDocumentService" />
 	</bean>
-
-    <bean id="parameterDao" parent="platformAwareDao" class="org.kuali.kfs.module.purap.document.dataaccess.impl.ParameterDaoOjb" />
 
 	<bean id="receivingDao" parent="platformAwareDao" class="org.kuali.kfs.module.purap.document.dataaccess.impl.ReceivingDaoOjb" />
 	

@@ -136,9 +136,7 @@
 		<property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
 	</bean>	
 	
-	<bean id="Purchasing-addCapitalAssetLocationValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAddCapitalAssetLocationValidation" abstract="true">
-		<property name="purapService" ref="purapService" />
-	</bean>		
+	<bean id="Purchasing-addCapitalAssetLocationValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAddCapitalAssetLocationValidation" abstract="true" />
 	
 	<bean id="Purchasing-newIndividualItemValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingNewIndividualItemValidation" abstract="true">
 		<property name="dataDictionaryService" ref="dataDictionaryService" />		

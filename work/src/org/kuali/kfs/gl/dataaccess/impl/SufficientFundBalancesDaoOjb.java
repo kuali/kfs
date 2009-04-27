@@ -92,6 +92,7 @@ public class SufficientFundBalancesDaoOjb extends PlatformAwareDaoBaseOjb implem
      * @param universityFiscalYear the university fiscal year of sufficient fund balances to delete
      * @param chartOfAccountsCode the chart code of sufficient fund balances to delete
      * @param accountNumber the account number of sufficient fund balances to delete
+     * @return the number of records deleted
      * @see org.kuali.kfs.gl.dataaccess.SufficientFundBalancesDao#deleteByAccountNumber(java.lang.Integer, java.lang.String, java.lang.String)
      */
     public int deleteByAccountNumber(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber) {

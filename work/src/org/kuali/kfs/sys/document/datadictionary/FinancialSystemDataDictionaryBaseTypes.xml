@@ -107,7 +107,7 @@
 					p:dynamicLabelProperty="subObjectCode.financialSubObjectCodeName" p:useShortLabel="true" />
 				<bean parent="AccountingLineView-field"
 					p:name="projectCode" p:webUILeaveFieldFunction="loadProjectInfo" p:useShortLabel="true"
-					p:dynamicLabelProperty="project.projectDescription" />
+					p:dynamicLabelProperty="project.name" />
 				<bean parent="AccountingLineView-field"
 					p:name="organizationReferenceId"
 					p:useShortLabel="true" />

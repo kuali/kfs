@@ -124,6 +124,12 @@
 		<property name="dateTimeService" ref="dateTimeService" />
 	</bean>
 
+	<bean id="wrappedBatchExecutorService" class="org.kuali.kfs.sys.batch.service.impl.WrappedBatchExecutorServiceImpl" />
+	
+	<bean id="wrappedStep" parent="step" abstract="true">
+		<property name="wrappedBatchExecutorService" ref="wrappedBatchExecutorService" />
+	</bean>
+
 	<bean id="scheduleJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>

@@ -35,6 +35,7 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.StatefulJob;
 import org.quartz.UnableToInterruptJobException;
+import org.springframework.util.StopWatch;
 
 public class Job implements StatefulJob, InterruptableJob {
 
@@ -150,8 +151,12 @@ public class Job implements StatefulJob, InterruptableJob {
             if (LOG.isInfoEnabled()) {
                 LOG.info(new StringBuffer("Executing step: ").append(step.getName()).append("=").append(step.getClass()));
             }
-            if (!step.execute(jobName, jobRunDate)) {
-                continueJob = false;
+            StopWatch stopWatch = new StopWatch();
+            stopWatch.start(jobName);
+            continueJob = step.execute(jobName, jobRunDate);
+            stopWatch.stop();
+            LOG.info(new StringBuffer("Step ").append(step.getName()).append(" of ").append(jobName).append(" took ").append(stopWatch.getTotalTimeSeconds() / 60.0).append(" minutes to complete").toString());
+            if (!continueJob) {
                 LOG.info("Stopping job after successful step execution");
             }
         }

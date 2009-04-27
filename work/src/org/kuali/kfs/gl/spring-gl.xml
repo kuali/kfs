@@ -1498,30 +1498,25 @@
 	<bean id="fileRenameStep" class="org.kuali.kfs.gl.batch.FileRenameStep" parent="step">
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 	</bean>
-	
-	<bean id="scrubberStep" class="org.kuali.kfs.gl.batch.ScrubberStep" parent="step">
+		
+	<bean id="scrubberStep" class="org.kuali.kfs.gl.batch.ScrubberStep" parent="accountingCycleCachingWrappedStep">
 		<property name="scrubberService" ref="glScrubberService" />
-		<property name="batchTransactionalCachingService" ref="accountingCycleCachingService" />
 	</bean>
 
-	<bean id="posterEntriesStep" class="org.kuali.kfs.gl.batch.PosterEntriesStep" parent="step">
+	<bean id="posterEntriesStep" class="org.kuali.kfs.gl.batch.PosterEntriesStep" parent="accountingCycleCachingWrappedStep">
 		<property name="posterService" ref="glPosterService" />
-		<property name="batchTransactionalCachingService" ref="accountingCycleCachingService" />
 	</bean>
 
-	<bean id="posterIndirectCostRecoveryEntriesStep" class="org.kuali.kfs.gl.batch.PosterIndirectCostRecoveryEntriesStep" parent="step">
+	<bean id="posterIndirectCostRecoveryEntriesStep" class="org.kuali.kfs.gl.batch.PosterIndirectCostRecoveryEntriesStep" parent="accountingCycleCachingWrappedStep">
 		<property name="posterService" ref="glPosterService" />
-		<property name="batchTransactionalCachingService" ref="accountingCycleCachingService" />
 	</bean>
 
-	<bean id="posterReversalStep" class="org.kuali.kfs.gl.batch.PosterReversalStep" parent="step">
+	<bean id="posterReversalStep" class="org.kuali.kfs.gl.batch.PosterReversalStep" parent="accountingCycleCachingWrappedStep">
 		<property name="posterService" ref="glPosterService" />
-		<property name="batchTransactionalCachingService" ref="accountingCycleCachingService" />
 	</bean>
 
-	<bean id="posterIndirectCostRecoveryGenerationStep" class="org.kuali.kfs.gl.batch.PosterIcrGenerationStep" parent="step">
+	<bean id="posterIndirectCostRecoveryGenerationStep" class="org.kuali.kfs.gl.batch.PosterIcrGenerationStep" parent="accountingCycleCachingWrappedStep">
 		<property name="posterService" ref="glPosterService" />
-		<property name="batchTransactionalCachingService" ref="accountingCycleCachingService" />
 	</bean>
 
 	<bean id="nightlyOutStep" class="org.kuali.kfs.gl.batch.NightlyOutStep" parent="step">
@@ -1604,7 +1599,7 @@
 			<ref bean="glOrganizationReversionProcessService" />
 		</property>
 	</bean>
-
+	
 	<bean id="collectorStep" class="org.kuali.kfs.gl.batch.CollectorStep" parent="step">
 		<property name="collectorService">
 			<ref bean="glCollectorService" />
@@ -1613,16 +1608,14 @@
 			<ref bean="glCollectorReportService" />
 		</property>
 	</bean>
-
-	<bean id="correctionProcessScrubberStep" class="org.kuali.kfs.gl.batch.CorrectionProcessScrubberStep" parent="step">
+	
+	<bean id="correctionProcessScrubberStep" class="org.kuali.kfs.gl.batch.CorrectionProcessScrubberStep" parent="accountingCycleCachingWrappedStep">
 		<property name="correctionDocumentService" ref="correctionDocumentService" />
 		<property name="scrubberService" ref="glScrubberService" />
-		<property name="batchTransactionalCachingService" ref="accountingCycleCachingService" />
 	</bean>
 	
-	<bean id="collectorScrubberStep" class="org.kuali.kfs.gl.batch.CollectorScrubberStep" parent="step">
+	<bean id="collectorScrubberStep" class="org.kuali.kfs.gl.batch.CollectorScrubberStep" parent="accountingCycleCachingWrappedStep">
 		<property name="scrubberService" ref="glScrubberService" />
-		<property name="batchTransactionalCachingService" ref="accountingCycleCachingService" />
 	</bean>
 	
 
@@ -1817,6 +1810,13 @@
 		<property name="ledgerDao" ref="generalLedgerPreparedStatementCachingDao" />
 	</bean>
 	
-	<bean id="batchFileService" class="org.kuali.kfs.gl.batch.service.impl.BatchFileServiceImpl" singleton="false">
+	<bean id="accountingCycleCachingWrappedStep" abstract="true" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="accountingCycleCachingService" />
+			</list>
+		</property>
 	</bean>
+
+	<bean id="batchFileService" class="org.kuali.kfs.gl.batch.service.impl.BatchFileServiceImpl" singleton="false" />
 </beans>

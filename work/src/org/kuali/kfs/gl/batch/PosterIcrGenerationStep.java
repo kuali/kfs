@@ -16,20 +16,21 @@
 package org.kuali.kfs.gl.batch;
 
 import org.kuali.kfs.gl.batch.service.PosterService;
-import org.kuali.kfs.sys.batch.AbstractBatchTransactionalCachingStep;
-import org.kuali.kfs.sys.batch.service.BatchTransactionalCachingService.BatchTransactionExecutor;
+import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
+import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 
 /**
  * A step to run the process that creates indirect cost recover transactions, that the poster can then post
  */
-public class PosterIcrGenerationStep extends AbstractBatchTransactionalCachingStep {
+public class PosterIcrGenerationStep extends AbstractWrappedBatchStep {
     private PosterService posterService;
 
     @Override
-    protected BatchTransactionExecutor getBatchTransactionExecutor() {
-        return new BatchTransactionExecutor() {
-            public void executeCustom() {
+    protected CustomBatchExecutor getCustomBatchExecutor() {
+        return new CustomBatchExecutor() {
+            public boolean execute() {
                 posterService.generateIcrTransactions();
+                return true;
             }
         };
     }

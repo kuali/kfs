@@ -16,24 +16,25 @@
 package org.kuali.kfs.gl.batch;
 
 import org.kuali.kfs.gl.service.ScrubberService;
-import org.kuali.kfs.sys.batch.AbstractBatchTransactionalCachingStep;
-import org.kuali.kfs.sys.batch.service.BatchTransactionalCachingService.BatchTransactionExecutor;
+import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
+import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 
 /**
  * A step to run the scrubber process.
  */
-public class ScrubberStep extends AbstractBatchTransactionalCachingStep {
+public class ScrubberStep extends AbstractWrappedBatchStep {
     private ScrubberService scrubberService;
 
     @Override
-    protected BatchTransactionExecutor getBatchTransactionExecutor() {
-        return new BatchTransactionExecutor() {
-            public void executeCustom() {
-                scrubberService.scrubEntries();                
+    protected CustomBatchExecutor getCustomBatchExecutor() {
+        return new CustomBatchExecutor() {
+            public boolean execute() {
+                scrubberService.scrubEntries();
+                return true;
             }
         };
     }
-    
+
     public void setScrubberService(ScrubberService scrubberService) {
         this.scrubberService = scrubberService;
     }

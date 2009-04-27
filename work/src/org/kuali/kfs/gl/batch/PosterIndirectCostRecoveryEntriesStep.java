@@ -15,24 +15,22 @@
  */
 package org.kuali.kfs.gl.batch;
 
-import java.util.Date;
-
 import org.kuali.kfs.gl.batch.service.PosterService;
-import org.kuali.kfs.sys.batch.AbstractBatchTransactionalCachingStep;
-import org.kuali.kfs.sys.batch.AbstractStep;
-import org.kuali.kfs.sys.batch.service.BatchTransactionalCachingService.BatchTransactionExecutor;
+import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
+import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 
 /**
  * The step that runs the poster service on indirect cost recovery entries.
  */
-public class PosterIndirectCostRecoveryEntriesStep extends AbstractBatchTransactionalCachingStep {
+public class PosterIndirectCostRecoveryEntriesStep extends AbstractWrappedBatchStep {
     private PosterService posterService;
 
     @Override
-    protected BatchTransactionExecutor getBatchTransactionExecutor() {
-        return new BatchTransactionExecutor() {
-            public void executeCustom() {
+    protected CustomBatchExecutor getCustomBatchExecutor() {
+        return new CustomBatchExecutor() {
+            public boolean execute() {
                 posterService.postIcrEntries();
+                return true;
             }
         };
     }

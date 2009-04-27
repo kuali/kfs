@@ -25,7 +25,7 @@ import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
 public class LaborAccountingCycleCachingServiceImpl extends AccountingCycleCachingServiceImpl implements LaborAccountingCycleCachingService {
     protected LedgerPreparedStatementCachingDao laborLedgerDao;
     
-    protected void initialize() {
+    public void initialize() {
         super.initialize();
         laborLedgerDao.initialize();
         previousValueCache.put(LedgerBalance.class, new PreviousValueReference<LedgerBalance>());

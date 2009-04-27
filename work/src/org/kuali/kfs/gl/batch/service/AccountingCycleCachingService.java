@@ -40,12 +40,12 @@ import org.kuali.kfs.gl.businessobject.ExpenditureTransaction;
 import org.kuali.kfs.gl.businessobject.Reversal;
 import org.kuali.kfs.gl.businessobject.SufficientFundBalances;
 import org.kuali.kfs.gl.businessobject.Transaction;
-import org.kuali.kfs.sys.batch.service.BatchTransactionalCachingService;
+import org.kuali.kfs.sys.batch.service.WrappingBatchService;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 
-public interface AccountingCycleCachingService extends BatchTransactionalCachingService {
+public interface AccountingCycleCachingService extends WrappingBatchService {
     public boolean isCurrentActiveDocumentType(String documentTypeCode);
 
     public SystemOptions getSystemOptions(Integer fiscalYear);

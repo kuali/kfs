@@ -16,20 +16,21 @@
 package org.kuali.kfs.module.ld.batch;
 
 import org.kuali.kfs.module.ld.batch.service.LaborScrubberService;
-import org.kuali.kfs.sys.batch.AbstractBatchTransactionalCachingStep;
-import org.kuali.kfs.sys.batch.service.BatchTransactionalCachingService.BatchTransactionExecutor;
+import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
+import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 
 /**
  * Labor scrubber Batch Step.
  */
-public class LaborScrubberStep extends AbstractBatchTransactionalCachingStep {
+public class LaborScrubberStep extends AbstractWrappedBatchStep {
     private LaborScrubberService laborScrubberService;
 
     @Override
-    protected BatchTransactionExecutor getBatchTransactionExecutor() {
-        return new BatchTransactionExecutor() {
-            public void executeCustom() {
+    protected CustomBatchExecutor getCustomBatchExecutor() {
+        return new CustomBatchExecutor() {
+            public boolean execute() {
                 laborScrubberService.scrubEntries();
+                return true;
             }
         };
     }

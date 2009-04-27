@@ -17,24 +17,24 @@ package org.kuali.kfs.gl.batch;
 
 import org.kuali.kfs.gl.document.service.CorrectionDocumentService;
 import org.kuali.kfs.gl.service.ScrubberService;
-import org.kuali.kfs.sys.batch.AbstractBatchTransactionalCachingStep;
-import org.kuali.kfs.sys.batch.service.BatchTransactionalCachingService.BatchTransactionExecutor;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
+import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 
 /**
  * A step to run the scrubber process.
  */
-public class CorrectionProcessScrubberStep extends AbstractBatchTransactionalCachingStep {
+public class CorrectionProcessScrubberStep extends AbstractWrappedBatchStep {
     public static final String STEP_NAME = "correctionProcessScrubberStep";
     private String documentId;
     private CorrectionDocumentService correctionDocumentService;
     private ScrubberService scrubberService;
 
     @Override
-    protected BatchTransactionExecutor getBatchTransactionExecutor() {
-        return new BatchTransactionExecutor() {
-            public void executeCustom() {
+    protected CustomBatchExecutor getCustomBatchExecutor() {
+        return new CustomBatchExecutor() {
+            public boolean execute() {
                 scrubberService.scrubGroupReportOnly(correctionDocumentService.generateOutputOriginEntryFileName(documentId), documentId);
+                return true;
             }
         };
     }

@@ -16,20 +16,21 @@
 package org.kuali.kfs.module.ld.batch;
 
 import org.kuali.kfs.module.ld.batch.service.LaborPosterService;
-import org.kuali.kfs.sys.batch.AbstractBatchTransactionalCachingStep;
-import org.kuali.kfs.sys.batch.service.BatchTransactionalCachingService.BatchTransactionExecutor;
+import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
+import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 
 /**
  * Defines the batch step for labor poster
  */
-public class LaborPosterStep extends AbstractBatchTransactionalCachingStep {
+public class LaborPosterStep extends AbstractWrappedBatchStep {
     private LaborPosterService laborPosterService;
 
     @Override
-    protected BatchTransactionExecutor getBatchTransactionExecutor() {
-        return new BatchTransactionExecutor() {
-            public void executeCustom() {
+    protected CustomBatchExecutor getCustomBatchExecutor() {
+        return new CustomBatchExecutor() {
+            public boolean execute() {
                 laborPosterService.postMainEntries();
+                return true;
             }
         };
     }

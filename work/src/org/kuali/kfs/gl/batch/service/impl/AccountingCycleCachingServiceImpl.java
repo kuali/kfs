@@ -64,7 +64,7 @@ public class AccountingCycleCachingServiceImpl extends AbstractBatchTransactiona
     
     protected UniversityDateService universityDateService;
 
-    protected void initialize() {
+    public void initialize() {
         super.initialize();
         workflowInfo = new WorkflowInfo();
         systemReferenceValueDao.initialize();
@@ -78,7 +78,7 @@ public class AccountingCycleCachingServiceImpl extends AbstractBatchTransactiona
         previousValueCache.put(AccountBalance.class, new PreviousValueReference<AccountBalance>());
     }
 
-    protected void destroy() {
+    public void destroy() {
         super.destroy();
         workflowInfo = null;
         systemReferenceValueDao.destroy();

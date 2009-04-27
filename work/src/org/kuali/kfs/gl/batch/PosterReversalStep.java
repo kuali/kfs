@@ -16,20 +16,21 @@
 package org.kuali.kfs.gl.batch;
 
 import org.kuali.kfs.gl.batch.service.PosterService;
-import org.kuali.kfs.sys.batch.AbstractBatchTransactionalCachingStep;
-import org.kuali.kfs.sys.batch.service.BatchTransactionalCachingService.BatchTransactionExecutor;
+import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
+import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 
 /**
  * The step that runs the poster service on reversals.
  */
-public class PosterReversalStep extends AbstractBatchTransactionalCachingStep {
+public class PosterReversalStep extends AbstractWrappedBatchStep {
     private PosterService posterService;
 
     @Override
-    protected BatchTransactionExecutor getBatchTransactionExecutor() {
-        return new BatchTransactionExecutor() {
-            public void executeCustom() {
+    protected CustomBatchExecutor getCustomBatchExecutor() {
+        return new CustomBatchExecutor() {
+            public boolean execute() {
                 posterService.postReversalEntries();
+                return true;
             }
         };
     }

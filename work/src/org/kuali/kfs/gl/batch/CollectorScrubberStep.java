@@ -15,17 +15,16 @@
  */
 package org.kuali.kfs.gl.batch;
 
-import org.kuali.kfs.gl.document.service.CorrectionDocumentService;
 import org.kuali.kfs.gl.report.CollectorReportData;
 import org.kuali.kfs.gl.service.ScrubberService;
 import org.kuali.kfs.gl.service.impl.ScrubberStatus;
-import org.kuali.kfs.sys.batch.AbstractBatchTransactionalCachingStep;
-import org.kuali.kfs.sys.batch.service.BatchTransactionalCachingService.BatchTransactionExecutor;
+import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
+import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 
 /**
  * A step to run the scrubber process.
  */
-public class CollectorScrubberStep extends AbstractBatchTransactionalCachingStep {
+public class CollectorScrubberStep extends AbstractWrappedBatchStep {
     public static final String STEP_NAME = "collectorScrubberStep";
     private ScrubberStatus scrubberStatus;
     private CollectorBatch batch;
@@ -33,10 +32,11 @@ public class CollectorScrubberStep extends AbstractBatchTransactionalCachingStep
     private ScrubberService scrubberService;
 
     @Override
-    protected BatchTransactionExecutor getBatchTransactionExecutor() {
-        return new BatchTransactionExecutor() {
-            public void executeCustom() {
+    protected CustomBatchExecutor getCustomBatchExecutor() {
+        return new CustomBatchExecutor() {
+            public boolean execute() {
                 scrubberService.scrubCollectorBatch(scrubberStatus, batch, collectorReportData);
+                return true;
             }
         };
     }

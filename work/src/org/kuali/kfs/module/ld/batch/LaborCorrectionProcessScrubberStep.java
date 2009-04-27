@@ -17,23 +17,24 @@ package org.kuali.kfs.module.ld.batch;
 
 import org.kuali.kfs.module.ld.batch.service.LaborScrubberService;
 import org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService;
-import org.kuali.kfs.sys.batch.AbstractBatchTransactionalCachingStep;
-import org.kuali.kfs.sys.batch.service.BatchTransactionalCachingService.BatchTransactionExecutor;
+import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
+import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 
 /**
  * Labor scrubber Batch Step.
  */
-public class LaborCorrectionProcessScrubberStep extends AbstractBatchTransactionalCachingStep {
+public class LaborCorrectionProcessScrubberStep extends AbstractWrappedBatchStep {
     public static final String STEP_NAME = "laborCorrectionProcessScrubberStep";
     private String documentId;
     private LaborCorrectionDocumentService laborCorrectionDocumentService;
     private LaborScrubberService laborScrubberService;
 
     @Override
-    protected BatchTransactionExecutor getBatchTransactionExecutor() {
-        return new BatchTransactionExecutor() {
-            public void executeCustom() {
+    protected CustomBatchExecutor getCustomBatchExecutor() {
+        return new CustomBatchExecutor() {
+            public boolean execute() {
                 laborScrubberService.scrubGroupReportOnly(laborCorrectionDocumentService.generateOutputOriginEntryFileName(documentId), documentId);
+                return true;
             }
         };
     }

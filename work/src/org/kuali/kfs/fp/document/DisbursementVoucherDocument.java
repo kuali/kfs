@@ -92,20 +92,17 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class DisbursementVoucherDocument extends AccountingDocumentBase implements Copyable, AmountTotaling {
     private static Logger LOG = Logger.getLogger(DisbursementVoucherDocument.class);
-    
+
     private static final String PAYEE_IS_PURCHASE_ORDER_VENDOR_SPLIT = "PayeeIsPurchaseOrderVendor";
     private static final String PURCHASE_ORDER_VENDOR_TYPE = "PO";
     private static final String DOCUMENT_REQUIRES_TAX_REVIEW_SPLIT = "RequiresTaxReview";
     private static final String DOCUMENT_REQUIRES_TRAVEL_REVIEW_SPLIT = "RequiresTravelReview";
-    private static final String PAYMENT_REASON_PREPAID_TRAVEL = "P";
-    private static final String PAYMENT_REASON_NONEMPLOYEE_TRAVEL = "N";
+
     private static final String PAYMENT_REASON_DECENDENT_COMPENSATION = "D";
-    private static final String PAYMENT_REASON_MOVING_REASON = "M";
     private static final String TAX_CONTROL_BACKUP_HOLDING = "B";
     private static final String TAX_CONTROL_HOLD_PAYMENTS = "H";
     private static final String CAMPUSES_TAXED_FOR_MOVING_REIMBURSEMENTS_PARAMETER_NAME = "CAMPUSES_TAXED_FOR_MOVING_REIMBURSEMENTS";
-    
-    private static transient IdentityManagementService identityManagementService;
+
     private static transient PersonService<Person> personService;
     private static transient ParameterService parameterService;
     private static transient VendorService vendorService;
@@ -147,6 +144,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     private DisbursementVoucherPayeeDetail dvPayeeDetail;
     private DisbursementVoucherPreConferenceDetail dvPreConferenceDetail;
     private DisbursementVoucherWireTransfer dvWireTransfer;
+    private DisbursementVoucherPaymentReasonService dvPymentReasonService;
 
     private Bank bank;
 
@@ -942,7 +940,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
 
         this.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(true);
         // I'm assuming that if a tax id type code other than 'S' is present ('S'=SSN), then the employee must be foreign
-        for ( String externalIdentifierTypeCode : employee.getExternalIdentifiers().keySet() ) {
+        for (String externalIdentifierTypeCode : employee.getExternalIdentifiers().keySet()) {
             if (DisbursementVoucherConstants.TAX_ID_TYPE_SSN.equals(externalIdentifierTypeCode)) {
                 this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(false);
             }
@@ -1017,7 +1015,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             Person person = getPersonService().getPerson(payeeDetail.getDisbVchrEmployeeIdNumber());
             if (person != null) {
                 payeeDetail.setDisbVchrAlienPaymentCode(true);
-                for ( String externalIdentifierTypeCode : person.getExternalIdentifiers().keySet() ) {
+                for (String externalIdentifierTypeCode : person.getExternalIdentifiers().keySet()) {
                     if (DisbursementVoucherConstants.TAX_ID_TYPE_SSN.equals(externalIdentifierTypeCode)) {
                         this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(false);
                     }
@@ -1289,17 +1287,17 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      */
     private GeneralLedgerPendingEntry processWireChargeDebitEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, WireCharge wireCharge) {
         LOG.info("processWireChargeDebitEntries started");
-        
+
         // grab the explicit entry for the first accounting line and adjust for wire charge entry
         GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry(getGeneralLedgerPendingEntry(0));
         explicitEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
         explicitEntry.setFinancialObjectCode(wireCharge.getExpenseFinancialObjectCode());
         explicitEntry.setFinancialSubObjectCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode());
         explicitEntry.setTransactionDebitCreditCode(GL_DEBIT_CODE);
-        
+
         String objectTypeCode = SpringContext.getBean(OptionsService.class).getCurrentYearOptions().getFinObjTypeExpenditureexpCd();
         explicitEntry.setFinancialObjectTypeCode(objectTypeCode);
-        
+
         String originationCode = SpringContext.getBean(HomeOriginationService.class).getHomeOrigination().getFinSystemHomeOriginationCode();
         explicitEntry.setFinancialSystemOriginationCode(originationCode);
 
@@ -1337,7 +1335,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      */
     private void processWireChargeCreditEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, WireCharge wireCharge, GeneralLedgerPendingEntry chargeEntry) {
         LOG.info("processWireChargeCreditEntries started");
-        
+
         // copy the charge entry and adjust for credit
         GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry(chargeEntry);
         explicitEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
@@ -1348,7 +1346,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         // retrieve object type
         ObjectCode objectCode = wireCharge.getIncomeFinancialObject();
         explicitEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
-        
+
         explicitEntry.setTransactionDebitCreditCode(GL_CREDIT_CODE);
 
         explicitEntry.setFinancialSubObjectCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode());
@@ -1359,7 +1357,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
 
         addPendingEntry(explicitEntry);
         sequenceHelper.increment();
-        
+
         // handle the offset entry
         GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(explicitEntry);
         GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
@@ -1463,7 +1461,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      */
     public void setDisbVchrPdpBankCode(String disbVchrPdpBankCode) {
         this.disbVchrPdpBankCode = disbVchrPdpBankCode;
-    }   
+    }
 
     /**
      * @see org.kuali.rice.kns.document.DocumentBase#getDocumentTitle()
@@ -1478,122 +1476,148 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * build document title based on the properties of current document
      * 
      * @param the default document title
-     * @return the combine information of the given title and additional payment indicators 
+     * @return the combine information of the given title and additional payment indicators
      */
-    private String buildDocumentTitle(String title) {  
+    private String buildDocumentTitle(String title) {
         DisbursementVoucherPayeeDetail payee = getDvPayeeDetail();
-        if(payee == null) {
+        if (payee == null) {
             return title;
         }
-        
-        Object[] indicators = new String[4];        
+
+        Object[] indicators = new String[4];
         indicators[0] = payee.isEmployee() ? AdHocPaymentIndicator.EMPLOYEE_PAYEE : AdHocPaymentIndicator.OTHER;
         indicators[1] = payee.isDisbVchrAlienPaymentCode() ? AdHocPaymentIndicator.ALIEN_PAYEE : AdHocPaymentIndicator.OTHER;
-        
+
         DisbursementVoucherPayeeService payeeService = SpringContext.getBean(DisbursementVoucherPayeeService.class);
         boolean isTaxReviewRequired = payeeService.isTaxReviewRequired(this.disbVchrPayeeTaxControlCode);
         indicators[2] = isTaxReviewRequired ? AdHocPaymentIndicator.TAX_CONTROL_REQUIRING_TAX_REVIEW : AdHocPaymentIndicator.OTHER;
-        
+
         DisbursementVoucherPaymentReasonService paymentReasonService = SpringContext.getBean(DisbursementVoucherPaymentReasonService.class);
         isTaxReviewRequired = paymentReasonService.isTaxReviewRequired(payee.getDisbVchrPaymentReasonCode());
         indicators[3] = isTaxReviewRequired ? AdHocPaymentIndicator.PAYMENT_REASON_REQUIRING_TAX_REVIEW : AdHocPaymentIndicator.OTHER;
-        
-        for(Object indicator : indicators) {
-            if(!AdHocPaymentIndicator.OTHER.equals(indicator)) {
+
+        for (Object indicator : indicators) {
+            if (!AdHocPaymentIndicator.OTHER.equals(indicator)) {
                 String titlePattern = title + " [{0}:{1}:{2}:{3}]";
                 return MessageFormat.format(titlePattern, indicators);
             }
         }
-    
+
         return title;
     }
 
 
     /**
-     * Provides answers to the following splits:
-     * PayeeIsPurchaseOrderVendor
-     * RequiresTaxReview
-     * RequiresTravelReview
+     * Provides answers to the following splits: PayeeIsPurchaseOrderVendor RequiresTaxReview RequiresTravelReview
+     * 
      * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#answerSplitNodeQuestion(java.lang.String)
      */
     @Override
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        if (nodeName.equals(DisbursementVoucherDocument.PAYEE_IS_PURCHASE_ORDER_VENDOR_SPLIT)) return isPayeePurchaseOrderVendor();
-        if (nodeName.equals(DisbursementVoucherDocument.DOCUMENT_REQUIRES_TAX_REVIEW_SPLIT)) return isTaxReviewRequired();
-        if (nodeName.equals(DisbursementVoucherDocument.DOCUMENT_REQUIRES_TRAVEL_REVIEW_SPLIT)) return isTravelReviewRequired();
-        throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
+        if (nodeName.equals(DisbursementVoucherDocument.PAYEE_IS_PURCHASE_ORDER_VENDOR_SPLIT))
+            return isPayeePurchaseOrderVendor();
+        if (nodeName.equals(DisbursementVoucherDocument.DOCUMENT_REQUIRES_TAX_REVIEW_SPLIT))
+            return isTaxReviewRequired();
+        if (nodeName.equals(DisbursementVoucherDocument.DOCUMENT_REQUIRES_TRAVEL_REVIEW_SPLIT))
+            return isTravelReviewRequired();
+        throw new UnsupportedOperationException("Cannot answer split question for this node you call \"" + nodeName + "\"");
     }
-    
+
     /**
      * @return true if the payee is a purchase order vendor and therefore should receive vendor review, false otherwise
      */
     protected boolean isPayeePurchaseOrderVendor() {
-        if (!this.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode().equals(DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR)) return false;
-        final VendorDetail vendor = getVendorService().getByVendorNumber(this.getDvPayeeDetail().getDisbVchrPayeeIdNumber());
-        if (vendor == null) return false;
+        if (!this.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode().equals(DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR)) {
+            return false;
+        }
+        
+        VendorDetail vendor = getVendorService().getByVendorNumber(this.getDvPayeeDetail().getDisbVchrPayeeIdNumber());
+        if (vendor == null) {
+            return false;
+        }
+        
         vendor.refreshReferenceObject("vendorHeader");
         return vendor.getVendorHeader().getVendorTypeCode().equals(DisbursementVoucherDocument.PURCHASE_ORDER_VENDOR_TYPE);
     }
-    
+
     /**
-     * Tax review is required under the following circumstances:
-     * the payee was an employee
-     * the payee was a non-resident alien vendor
-     * the tax control code = "B" or "H"
-     * the payment reason code was "D"
-     * the payment reason code was "M" and the campus was listed in the CAMPUSES_TAXED_FOR_MOVING_REIMBURSEMENTS_PARAMETER_NAME parameter
+     * Tax review is required under the following circumstances: the payee was an employee the payee was a non-resident alien vendor
+     * the tax control code = "B" or "H" the payment reason code was "D" the payment reason code was "M" and the campus was listed
+     * in the CAMPUSES_TAXED_FOR_MOVING_REIMBURSEMENTS_PARAMETER_NAME parameter
+     * 
      * @return true if any of the above conditions exist and this document should receive tax review, false otherwise
      */
     protected boolean isTaxReviewRequired() {
-        if (isPayeePurchaseOrderVendorHasWithholding()) return true;
-        if (this.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode().equals(DisbursementVoucherConstants.DV_PAYEE_TYPE_EMPLOYEE)) return true;
-        if (this.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode().equals(DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR) && SpringContext.getBean(VendorService.class).isVendorForeign(getDvPayeeDetail().getDisbVchrVendorHeaderIdNumberAsInteger())) return true;
-        if (!StringUtils.isBlank(this.getDisbVchrPayeeTaxControlCode()) && (this.getDisbVchrPayeeTaxControlCode().equals(DisbursementVoucherDocument.TAX_CONTROL_BACKUP_HOLDING) || this.getDisbVchrPayeeTaxControlCode().equals(DisbursementVoucherDocument.TAX_CONTROL_HOLD_PAYMENTS))) return true;
-        if (this.getDvPayeeDetail().getDisbVchrPaymentReasonCode().equals(DisbursementVoucherDocument.PAYMENT_REASON_DECENDENT_COMPENSATION)) return true;
-        if (this.getDvPayeeDetail().getDisbVchrPaymentReasonCode().equals(DisbursementVoucherDocument.PAYMENT_REASON_MOVING_REASON) && taxedCampusForMovingReimbursements()) return true;
+        if (isPayeePurchaseOrderVendorHasWithholding()) {
+            return true;
+        }
+
+        String payeeTypeCode = this.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode();
+        if (payeeTypeCode.equals(DisbursementVoucherConstants.DV_PAYEE_TYPE_EMPLOYEE)) {
+            return true;
+        }
+        
+        if (payeeTypeCode.equals(DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR) && this.getVendorService().isVendorForeign(getDvPayeeDetail().getDisbVchrVendorHeaderIdNumberAsInteger())) {
+            return true;
+        }
+
+        String taxControlCode = this.getDisbVchrPayeeTaxControlCode();
+        if (StringUtils.equals(taxControlCode, DisbursementVoucherDocument.TAX_CONTROL_BACKUP_HOLDING) || StringUtils.equals(taxControlCode,DisbursementVoucherDocument.TAX_CONTROL_HOLD_PAYMENTS)) {
+            return true;
+        }
+
+        String paymentReasonCode = this.getDvPayeeDetail().getDisbVchrPaymentReasonCode();
+        if (paymentReasonCode.equals(DisbursementVoucherDocument.PAYMENT_REASON_DECENDENT_COMPENSATION)) {
+            return true;
+        }
+
+        if (this.getDvPymentReasonService().isMovingPaymentReason(paymentReasonCode) && taxedCampusForMovingReimbursements()) {
+            return true;
+        }
+        
         return false;
     }
-    
+
     /**
      * @return true if the payee is a vendor and has withholding dates therefore should receive tax review, false otherwise
      */
     protected boolean isPayeePurchaseOrderVendorHasWithholding() {
-        if (!this.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode().equals(DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR)) return false;
-        final VendorDetail vendor = getVendorService().getByVendorNumber(this.getDvPayeeDetail().getDisbVchrPayeeIdNumber());
-        if (vendor == null) return false;
+        if (!this.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode().equals(DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR)) {
+            return false;
+        }
+        
+        VendorDetail vendor = getVendorService().getByVendorNumber(this.getDvPayeeDetail().getDisbVchrPayeeIdNumber());
+        if (vendor == null) {
+            return false;
+        }
+        
         vendor.refreshReferenceObject("vendorHeader");
-        return (vendor.getVendorHeader().getVendorFederalWithholdingTaxBeginningDate()!= null || vendor.getVendorHeader().getVendorFederalWithholdingTaxEndDate()!= null);
+        return (vendor.getVendorHeader().getVendorFederalWithholdingTaxBeginningDate() != null || vendor.getVendorHeader().getVendorFederalWithholdingTaxEndDate() != null);
     }
-    
-    
+
+
     /**
      * Determines if the campus this DV is related to is taxed (and should get tax review routing) for moving reimbursements
+     * 
      * @return true if the campus is taxed for moving reimbursements, false otherwise
      */
     protected boolean taxedCampusForMovingReimbursements() {
         return SpringContext.getBean(ParameterService.class).getParameterEvaluator(this.getClass(), CAMPUSES_TAXED_FOR_MOVING_REIMBURSEMENTS_PARAMETER_NAME, this.getCampusCode()).evaluationSucceeds();
     }
-    
+
     /**
-     * Travel review is required under the following circumstances:
-     * payment reason code is "P" or "N"
+     * Travel review is required under the following circumstances: payment reason code is "P" or "N"
+     * 
      * @return
      */
     protected boolean isTravelReviewRequired() {
-        return (this.getDvPayeeDetail().getDisbVchrPaymentReasonCode().equals(DisbursementVoucherDocument.PAYMENT_REASON_PREPAID_TRAVEL) || this.getDvPayeeDetail().getDisbVchrPaymentReasonCode().equals(DisbursementVoucherDocument.PAYMENT_REASON_NONEMPLOYEE_TRAVEL));
+        String paymentReasonCode = this.getDvPayeeDetail().getDisbVchrPaymentReasonCode();
+
+        return this.getDvPymentReasonService().isPrepaidTravelPaymentReason(paymentReasonCode) || this.getDvPymentReasonService().isNonEmployeeTravelPaymentReason(paymentReasonCode);
     }
-
-
-    protected IdentityManagementService getIdentityManagementService() {
-        if ( identityManagementService == null ) {
-            identityManagementService = SpringContext.getBean(IdentityManagementService.class);
-        }
-        return identityManagementService;
-    }
-
 
     protected PersonService<Person> getPersonService() {
-        if ( personService == null ) {
+        if (personService == null) {
             personService = SpringContext.getBean(PersonService.class);
         }
         return personService;
@@ -1601,7 +1625,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
 
 
     protected ParameterService getParameterService() {
-        if ( parameterService == null ) {
+        if (parameterService == null) {
             parameterService = SpringContext.getBean(ParameterService.class);
         }
         return parameterService;
@@ -1609,7 +1633,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
 
 
     protected VendorService getVendorService() {
-        if ( vendorService == null ) {
+        if (vendorService == null) {
             vendorService = SpringContext.getBean(VendorService.class);
         }
         return vendorService;
@@ -1617,9 +1641,21 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
 
 
     protected BusinessObjectService getBusinessObjectService() {
-        if ( businessObjectService == null ) {
+        if (businessObjectService == null) {
             businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         }
         return businessObjectService;
+    }
+
+    /**
+     * Gets the dvPymentReasonService attribute.
+     * 
+     * @return Returns the dvPymentReasonService.
+     */
+    public DisbursementVoucherPaymentReasonService getDvPymentReasonService() {
+        if (dvPymentReasonService == null) {
+            dvPymentReasonService = SpringContext.getBean(DisbursementVoucherPaymentReasonService.class);
+        }
+        return dvPymentReasonService;
     }
 }

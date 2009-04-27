@@ -693,12 +693,12 @@
       <table>
         <c:if test="${KualiForm.document.correctionInputFileName != null}">
           <tr>
-            <td width="20%" align="left" valign="middle" > Input Group ID: </td> 
+            <td width="20%" align="left" valign="middle" > Input File Name: </td> 
             <td align="left" valign="middle" > <c:out value="${KualiForm.document.correctionInputFileName}" /></td>
           </tr>
         </c:if>
         <tr>
-          <td width="20%" align="left" valign="middle" > Output Group ID: </td> 
+          <td width="20%" align="left" valign="middle" > Output File Name: </td> 
           <c:if test="${KualiForm.document.correctionOutputFileName != null}">
             <td align="left" valign="middle" > <c:out value="${KualiForm.document.correctionOutputFileName}" /></td>
           </c:if>
@@ -707,16 +707,10 @@
               <td align="left" valign="middle" ><c:out value="${Constants.NOT_AVAILABLE_STRING}"/></td>
             </c:if>
             <c:if test="${KualiForm.document.correctionTypeCode ne 'R'}">
-              <td align="left" valign="middle" > The output group ID is unavailable until the document has a status of FINAL.</td>
+              <td align="left" valign="middle" > The output file name is unavailable until the document has a status of FINAL.</td>
             </c:if>
           </c:if>
         </tr>
-        <c:if test="${KualiForm.document.correctionInputFileName != null}">
-          <tr>
-            <td width="20%" align="left" valign="middle" > Input File Name: </td> 
-            <td align="left" valign="middle" > <c:out value="${KualiForm.document.correctionInputFileName}" /></td>
-          </tr>
-        </c:if>
       </table>
     </div>
     <div class="tab-container" align="left" style="overflow: scroll; max-width: 100%;">

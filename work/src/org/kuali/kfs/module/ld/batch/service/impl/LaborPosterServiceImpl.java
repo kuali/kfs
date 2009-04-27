@@ -80,8 +80,6 @@ public class LaborPosterServiceImpl implements LaborPosterService {
 
     private final static int STEP = 1;
     private final static int LINE_INTERVAL = 2;
-
-    private PrintStream POSTER_OUTPUT_GLE_FILE_ps;
     private PrintStream POSTER_OUTPUT_ERR_FILE_ps;
 
     private OriginEntryGroup validGroup;
@@ -91,10 +89,6 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     int numberOfErrorOriginEntry;
 
     private String batchFileDirectoryName;
-
-    enum GROUP_TYPE {
-        VALID, ERROR
-    }
 
     // private Map<Transaction, List<Message>> laborLedgerEntriesErrorMap = new HashMap<Transaction, List<Message>>();
     private Map<Transaction, List<Message>> errorMap = new HashMap<Transaction, List<Message>>();
@@ -106,7 +100,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         LOG.info("postMainEntries() started");
         
         Date runDate = dateTimeService.getCurrentSqlDate();
-        String outputFileName = this.postLaborLedgerEntries(runDate);
+        this.postLaborLedgerEntries(runDate);
         //this.postLaborGLEntries(outputFileName, runDate);
 
     }
@@ -118,14 +112,13 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * @param invalidGroup the origin entry group that holds the invalid transactions
      * @param runDate the data when the process is running
      */
-    private String postLaborLedgerEntries(Date runDate) {
+    private void postLaborLedgerEntries(Date runDate) {
         LOG.info("postLaborLedgerEntries() started..........................");
         String reportsDirectory = ReportRegistry.getReportsDirectory();
         numberOfErrorOriginEntry = 0;
         // change file name to FIS
 
         String postInputFileName = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.POSTER_INPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-        String postOutFileName = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.POSTER_VALID_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         String postErrFileName = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.POSTER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
 
         FileReader INPUT_GLE_FILE = null;
@@ -138,7 +131,6 @@ public class LaborPosterServiceImpl implements LaborPosterService {
             throw new RuntimeException(e);
         }
         try {
-            POSTER_OUTPUT_GLE_FILE_ps = new PrintStream(postOutFileName);
             POSTER_OUTPUT_ERR_FILE_ps = new PrintStream(postErrFileName);
         }
         catch (IOException e) {
@@ -198,7 +190,6 @@ public class LaborPosterServiceImpl implements LaborPosterService {
 
             INPUT_GLE_FILE_br.close();
             INPUT_GLE_FILE.close();
-            POSTER_OUTPUT_GLE_FILE_ps.close();
             POSTER_OUTPUT_ERR_FILE_ps.close();
             
             reportWriterService.writeStatistic("SEQUENTIAL RECORDS READ                    %,9d\n", lineNumber);
@@ -217,9 +208,6 @@ public class LaborPosterServiceImpl implements LaborPosterService {
             LOG.error("postLaborLedgerEntries stopped due to: " + ioe.getMessage(), ioe);
             throw new RuntimeException("Unable to execute: " + ioe.getMessage() + " on line number : " + loadedCount, ioe);
         }
-
-
-        return postOutFileName;
     }
 
     /**
@@ -290,24 +278,6 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      */
     private List<Message> validateEntry(LaborOriginEntry originEntry) {
         return laborPosterTransactionValidator.verifyTransaction(originEntry);
-    }
-
-    /**
-     * post the processed entry into the approperiate group, either valid or invalid group
-     * 
-     * @param originEntry the given origin entry, a transaction
-     * @param entryGroup the origin entry group that the transaction will be assigned
-     * @param postDate the data when the transaction is processes
-     */
-    private void postAsProcessedOriginEntry(String line, GROUP_TYPE groupCode, Date postDate) {
-        try {
-            createOutputEntry(line, groupCode);
-        }
-        catch (IOException ioe) {
-            LOG.error("postAsProcessedOriginEntry stopped due to: " + ioe.getMessage(), ioe);
-            throw new RuntimeException("Unable to execute: " + ioe.getMessage(), ioe);
-        }
-
     }
 
     /**
@@ -590,30 +560,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         this.parameterService = parameterService;
     }
 
-
-    private void createOutputEntry(String entry, GROUP_TYPE groupCode) throws IOException {
-        OriginEntryGroup group = null;
-        PrintStream ps = null;
-        try {
-            switch (groupCode) {
-                case VALID:
-                    group = validGroup;
-                    ps = POSTER_OUTPUT_GLE_FILE_ps;
-                    break;
-                case ERROR:
-                    group = errorGroup;
-                    ps = POSTER_OUTPUT_ERR_FILE_ps;
-                    break;
-            }
-            ps.printf("%s\n", entry);
-
-        }
-        catch (Exception e) {
-            throw new IOException(e.toString());
-        }
-    }
-
-    /**
+      /**
      * @return the encumbrance update code
      */
     private String getEncumbranceUpdateCode(LaborOriginEntry laborOriginEntry) {

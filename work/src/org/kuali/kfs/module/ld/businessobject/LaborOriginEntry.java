@@ -764,7 +764,7 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntry, La
         }
 
         if (payrollEndDateFiscalYear == null) {
-            sb.append("   ");
+            sb.append("    ");
         }
         else {
             sb.append(getField(4, payrollEndDateFiscalYear.toString()));

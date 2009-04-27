@@ -558,7 +558,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         bankOffsetEntry.setFinancialDocumentApprovedCode(AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.NO);
         bankOffsetEntry.setTransactionEncumbranceUpdateCode(BLANK_SPACE);
         bankOffsetEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL);
-        bankOffsetEntry.setTransactionDebitCreditCode(depositAmount.isPositive() ? GL_DEBIT_CODE : GL_CREDIT_CODE);
+        bankOffsetEntry.setTransactionDebitCreditCode(depositAmount.isPositive() ? GL_CREDIT_CODE : GL_DEBIT_CODE);
         bankOffsetEntry.setFinancialSystemOriginationCode(SpringContext.getBean(HomeOriginationService.class).getHomeOrigination().getFinSystemHomeOriginationCode());
         bankOffsetEntry.setDocumentNumber(financialDocument.getDocumentNumber());
         

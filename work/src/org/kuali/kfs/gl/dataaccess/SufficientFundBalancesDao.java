@@ -39,6 +39,7 @@ public interface SufficientFundBalancesDao {
      * @param universityFiscalYear the university fiscal year of sufficient fund balances to delete
      * @param chartOfAccountsCode the chart code of sufficient fund balances to delete
      * @param accountNumber the account number of sufficient fund balances to delete
+     * @return the number of records deleted
      */
     public int deleteByAccountNumber(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber);
 

@@ -46,6 +46,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -106,7 +107,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
         documentHeader.setDocumentDescription(documentDescription);
         documentHeader.setExplanation(explanation);
 
-        document.prepareForSave();
+        document.prepareForSave(new SaveDocumentEvent(document));
         document.populateDocumentForRouting();
 
         String documentTitle = document.getDocumentTitle();

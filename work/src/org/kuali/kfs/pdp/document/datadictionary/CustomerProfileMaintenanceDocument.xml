@@ -115,9 +115,9 @@
       <list>	    
           <bean parent="MaintainableFieldDefinition" p:name="defaultChartCode" p:required="true"/>
 		  <bean parent="MaintainableFieldDefinition" p:name="defaultAccountNumber" p:required="true"/>
-		  <bean parent="MaintainableFieldDefinition" p:name="defaultSubAccountNumber" p:required="true"/>
+		  <bean parent="MaintainableFieldDefinition" p:name="defaultSubAccountNumber" p:required="false"/>
 		  <bean parent="MaintainableFieldDefinition" p:name="defaultObjectCode" p:required="true"/>
-		  <bean parent="MaintainableFieldDefinition" p:name="defaultSubObjectCode" p:required="true"/>
+		  <bean parent="MaintainableFieldDefinition" p:name="defaultSubObjectCode" p:required="false"/>
 	      <bean parent="MaintainableFieldDefinition" p:name="employeeCheck" p:required="false"/>
 	      <bean parent="MaintainableFieldDefinition" p:name="nraReview" p:required="false"/>
 	      <bean parent="MaintainableFieldDefinition" p:name="ownershipCodeRequired" p:required="false"/>

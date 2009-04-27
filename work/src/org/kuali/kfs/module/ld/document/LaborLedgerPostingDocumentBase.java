@@ -111,28 +111,14 @@ public abstract class LaborLedgerPostingDocumentBase extends AccountingDocumentB
     }
 
     /**
-     * If the document has a total amount, call method on document to get the total and set in doc header.
-     * 
-     * @see org.kuali.rice.kns.document.Document#prepareForSave()
-     */
-    @Override
-    public void prepareForSave() {
-        if (!SpringContext.getBean(LaborLedgerPendingEntryService.class).generateLaborLedgerPendingEntries(this)) {
-            logErrors();
-            throw new ValidationException("labor ledger LLPE generation failed");
-        }
-        
-        super.prepareForSave();
-    }    
-    
-    
-    /**
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#prepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
-        this.prepareForSave();
-        super.prepareForSave(event);        
+        if (!SpringContext.getBean(LaborLedgerPendingEntryService.class).generateLaborLedgerPendingEntries(this)) {
+            logErrors();
+            throw new ValidationException("labor ledger LLPE generation failed");
+        }
     }
     
     /**

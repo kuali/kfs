@@ -103,8 +103,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
     }
 
     /**
-     * Validates payment file header fields
-     * <li> Checks customer exists in customer profile table and is active </li>
+     * Validates payment file header fields <li>Checks customer exists in customer profile table and is active</li>
      * 
      * @param paymentFile payment file object
      * @param errorMap map in which errors will be added to
@@ -125,9 +124,8 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
     }
 
     /**
-     * Validates payment file trailer fields
-     * <li> Reconciles actual to expected payment count and totals </li>
-     * <li> Verifies the batch is not a duplicate </li>
+     * Validates payment file trailer fields <li>Reconciles actual to expected payment count and totals</li> <li>Verifies the batch
+     * is not a duplicate</li>
      * 
      * @param paymentFile payment file object
      * @param errorMap map in which errors will be added to
@@ -152,10 +150,8 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
     }
 
     /**
-     * Validates payment file groups
-     * <li> Checks number of note lines needed is not above the configured maximum allowed </li>
-     * <li> Verifies group total is not negative </li>
-     * <li> Verifies detail accounting total equals net payment amount </li>
+     * Validates payment file groups <li>Checks number of note lines needed is not above the configured maximum allowed</li> <li>
+     * Verifies group total is not negative</li> <li>Verifies detail accounting total equals net payment amount</li>
      * 
      * @param paymentFile payment file object
      * @param errorMap map in which errors will be added to
@@ -440,9 +436,19 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
         paymentAccountDetail.setFinChartCode(customer.getDefaultChartCode());
         paymentAccountDetail.setAccountNbr(customer.getDefaultAccountNumber());
-        paymentAccountDetail.setSubAccountNbr(customer.getDefaultSubAccountNumber());
+        if (StringUtils.isNotBlank(customer.getDefaultSubAccountNumber())) {
+            paymentAccountDetail.setSubAccountNbr(customer.getDefaultSubAccountNumber());
+        }
+        else {
+            paymentAccountDetail.setSubAccountNbr(KFSConstants.getDashSubAccountNumber());
+        }
         paymentAccountDetail.setFinObjectCode(customer.getDefaultObjectCode());
-        paymentAccountDetail.setFinSubObjectCode(customer.getDefaultSubObjectCode());
+        if (StringUtils.isNotBlank(customer.getDefaultSubAccountNumber())) {
+            paymentAccountDetail.setFinSubObjectCode(customer.getDefaultSubObjectCode());
+        }
+        else {
+            paymentAccountDetail.setFinSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
+        }
     }
 
     /**

@@ -26,6 +26,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Validates that an accounting line has salary object code 
@@ -62,7 +63,7 @@ public class SalaryExpenseTransferSalaryObjectCodeValidation extends GenericVali
         expenseTransferAccountingLine.refreshReferenceObject(KFSPropertyConstants.LABOR_OBJECT);   
         
         LaborObject laborObject = expenseTransferAccountingLine.getLaborObject();
-        if (laborObject == null) {
+        if (ObjectUtils.isNull(laborObject)) {
             return false;
         }
         

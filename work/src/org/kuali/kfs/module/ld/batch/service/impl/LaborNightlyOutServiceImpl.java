@@ -144,8 +144,6 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
      */
     public void copyLaborGenerealLedgerEntries() {
         
-        //TODO: Shawn - need to create a file in gl originEntry Directory
-        
         Date runDate = dateTimeService.getCurrentSqlDate();
         String reportDirectory = ReportRegistry.getReportsDirectory();
 
@@ -165,9 +163,12 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
         int numberOfGLEntries = generalLedgerEntries.size();
 
         for (LaborGeneralLedgerEntry entry : generalLedgerEntries) {
+            OriginEntryFull originEntry = new OriginEntryFull();
+            ObjectUtil.buildObject(originEntry, entry);
+
             //write to file
             try {
-                outputFilePs.printf("%s\n", entry.getLine());
+                outputFilePs.printf("%s\n", originEntry.getLine());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

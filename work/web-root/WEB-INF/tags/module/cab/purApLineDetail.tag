@@ -216,7 +216,7 @@
 			</td>
 			<td class="infoline">${payment.generalLedgerEntry.documentNumber}&nbsp;</td>
 			<td class="infoline">${payment.generalLedgerEntry.financialDocumentTypeCode}&nbsp;</td>
-			<td class="infoline">${payment.generalLedgerEntry.transactionDate}&nbsp;</td>
+			<td class="infoline" align="left"><fmt:formatDate value="${payment.generalLedgerEntry.transactionDate}" pattern="MM/dd/yyyy"/>&nbsp;</td>
 			<td class="infoline">${payment.generalLedgerEntry.universityFiscalYear}&nbsp;</td>
 			<td class="infoline">${payment.generalLedgerEntry.universityFiscalPeriodCode}&nbsp;</td>
 			<td class="infoline">${payment.itemAccountTotalAmount}&nbsp;</td>

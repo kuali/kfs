@@ -980,8 +980,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <dd:field attributeName="organizationCode"  />
         <dd:field attributeName="accountTypeCode"  />
         <dd:field attributeName="subFundGroupCode"  />
-  <!--    <dd:field attributeName="accountFiscalOfficerSystemIdentifier"  /> -->   
-        <dd:field attributeName="accountFiscalOfficerUser.principalName"  />
+        <dd:field attributeName="accountFiscalOfficerUser.name" />        
         <dd:field attributeName="closed" defaultValue="N" />
       </list>
     </property>
@@ -993,7 +992,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <dd:field attributeName="organizationCode"  />
         <dd:field attributeName="accountTypeCode"  />
         <dd:field attributeName="subFundGroupCode"  />
-        <dd:field attributeName="accountFiscalOfficerUser.principalName" inquiry="force" />
+        <dd:field attributeName="accountFiscalOfficerUser.name" inquiry="force" />    
         <dd:field attributeName="closed"  />
         <dd:field attributeName="accountManagerUser.name" inquiry="force" />
         <dd:field attributeName="accountCreateDate" />

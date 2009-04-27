@@ -65,11 +65,11 @@
     <xsd:element name="combine_group_ind" type="kfs:indicatorType"/>
     <xsd:element name="coa_cd" type="kfs:twoCharType"/>
     <xsd:element name="account_nbr" type="kfs:accountType"/>
-    <xsd:element name="sub_account_nbr" type="kfs:subAcctType"/>
+    <xsd:element name="sub_account_nbr" type="xsd:string"/>
     <xsd:element name="object_cd" type="kfs:objectType"/>
-    <xsd:element name="sub_object_cd" type="kfs:subObjectType"/>
+    <xsd:element name="sub_object_cd" type="xsd:string"/>
     <xsd:element name="org_ref_id" type="kfs:ZeroToEightCharType"/>
-    <xsd:element name="project_cd" type="kfs:oneToTenCharType"/>
+    <xsd:element name="project_cd" type="xsd:string"/>
     <xsd:element name="amount" type="xsd:decimal"/>
     <xsd:element name="payment_text" type="kfs:zeroToNinetyCharType"/>
     <xsd:element name="detail_count" type="xsd:integer"/>

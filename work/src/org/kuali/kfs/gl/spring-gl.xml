@@ -1604,13 +1604,16 @@
 			<ref bean="glOrganizationReversionProcessService" />
 		</property>
 	</bean>
-	
+
 	<bean id="collectorStep" class="org.kuali.kfs.gl.batch.CollectorStep" parent="step">
-		<property name="collectorService" ref="glCollectorService" />
-		<property name="collectorReportService" ref="glCollectorReportService" />
-		<property name="batchTransactionalCachingService" ref="accountingCycleCachingService" />
+		<property name="collectorService">
+			<ref bean="glCollectorService" />
+		</property>
+		<property name="collectorReportService">
+			<ref bean="glCollectorReportService" />
+		</property>
 	</bean>
-	
+
 	<bean id="correctionProcessScrubberStep" class="org.kuali.kfs.gl.batch.CorrectionProcessScrubberStep" parent="step">
 		<property name="correctionDocumentService" ref="correctionDocumentService" />
 		<property name="scrubberService" ref="glScrubberService" />

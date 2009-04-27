@@ -1471,7 +1471,7 @@
     		<map>
     		    <entry key="Commodity" value-ref="RoutingType-PurchasingDocument-Commodity"/>
     			<entry key="Award" value-ref="RoutingType-PurchasingDocument-Award"/>
-                <!-- no qualifiers for RequiresBudgetReview -->
+                <entry key="Budget" value-ref="RoutingType-PurchaseOrderDocument-Budget"/>
                 <!-- no qualifiers for VendorIsEmployeeOrNonResidentAlien -->
                 <!-- no qualifiers for TransmissionMethodIsPrint -->
     		</map>

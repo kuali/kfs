@@ -725,14 +725,12 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             actualCreditEntry.setAccountNumber(universityClearingAccount.getAccountNumber());
             actualCreditEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
             actualCreditEntry.setTransactionLedgerEntryAmount(ipa.getInvoiceItemAppliedAmount());
+            actualCreditEntry.setFinancialObjectCode(invoiceObjectCode.getFinancialObjectCode());
+            actualCreditEntry.setFinancialObjectTypeCode(invoiceObjectCode.getFinancialObjectTypeCode());
             actualCreditEntry.setFinancialBalanceTypeCode(ArConstants.ACTUALS_BALANCE_TYPE_CODE);
             actualCreditEntry.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
             glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), actualDebitEntry, sequenceHelper, actualCreditEntry);
-            if (hasCashControlDocument()) {
-                actualCreditEntry.setFinancialObjectCode(invoiceObjectCode.getFinancialObjectCode());
-                actualCreditEntry.setFinancialObjectTypeCode(invoiceObjectCode.getFinancialObjectTypeCode());
-            }
-            else {
+            if (!hasCashControlDocument()) {
                 actualCreditEntry.setFinancialObjectCode(unappliedObjectCode);
                 actualCreditEntry.setFinancialObjectTypeCode(unappliedObjectTypeCode);
                 actualCreditEntry.setFinancialSubObjectCode(unappliedSubObjectCode);

@@ -67,11 +67,6 @@ public class PostEntry implements PostTransaction {
         if (mode == PosterService.MODE_REVERSAL) {
             e.setFinancialDocumentReversalDate(null);
         }
-
-        // Make sure the row will be unique when adding to the entries table by
-        // adjusting the transaction sequence id
-        int maxSequenceId = accountingCycleCachingService.getMaxSequenceNumber(t);
-        e.setTransactionLedgerEntrySequenceNumber(new Integer(maxSequenceId + 1));
         
         accountingCycleCachingService.insertEntry(e);
 

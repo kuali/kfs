@@ -19,7 +19,6 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -33,17 +32,15 @@ import org.kuali.kfs.gl.batch.service.OrganizationReversionCategoryLogic;
 import org.kuali.kfs.gl.batch.service.OrganizationReversionProcessService;
 import org.kuali.kfs.gl.batch.service.OrganizationReversionUnitOfWorkService;
 import org.kuali.kfs.gl.batch.service.impl.CashOrganizationReversionCategoryLogic;
-import org.kuali.kfs.gl.batch.service.impl.OrganizationReversionMockServiceImpl;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
-import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.gl.businessobject.OriginEntryTestBase;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -130,7 +127,7 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
          */
         public Balance convertToBalance() {
             Balance balance = new Balance();
-            balance.setUniversityFiscalYear(new Integer((SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear()).intValue() - 1));
+            balance.setUniversityFiscalYear(TestUtils.getFiscalYearForTesting());
             balance.setChartOfAccountsCode(DEFAULT_BALANCE_CHART);
             balance.setAccountNumber(DEFAULT_BALANCE_ACCOUNT_NBR);
             balance.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());

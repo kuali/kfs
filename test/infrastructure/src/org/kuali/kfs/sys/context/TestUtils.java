@@ -51,7 +51,7 @@ import org.springframework.aop.framework.ProxyFactory;
 @AnnotationTestSuite(PreCommitSuite.class)
 public class TestUtils {
     private static final Log LOG = LogFactory.getLog(TestUtils.class);
-    private static final Integer fiscalYearForTesting = null;
+    private static Integer fiscalYearForTesting;
 
     private static final String PLACEHOLDER_FILENAME = "placeholder.txt";
     
@@ -443,9 +443,8 @@ public class TestUtils {
      */
     public static Integer getFiscalYearForTesting() {
         if (fiscalYearForTesting == null) {
-            return SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
-        } else {
-            return fiscalYearForTesting;
+            fiscalYearForTesting = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
         }
+        return fiscalYearForTesting;
     }
 }

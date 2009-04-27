@@ -80,7 +80,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     
     public static final String DATE_FORMAT_STRING = "yyyy-MM-dd";
     
-    private boolean continuationAccountIndicator = false;
+    
 
     private static String[] debitOrCredit = new String[] { KFSConstants.GL_DEBIT_CODE, KFSConstants.GL_CREDIT_CODE };
 
@@ -131,8 +131,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      */
     public List<Message> validateTransaction(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate, boolean laborIndicator, AccountingCycleCachingService accountingCycleCachingService) {
         LOG.debug("validateTransaction() started");
-        
-        continuationAccountIndicator = false;
+        boolean continuationAccountIndicator = false;
         
         List<Message> errors = new ArrayList<Message>();
 
@@ -202,7 +201,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
         // Labor Scrubber doesn't validate Account here.
         if (!laborIndicator) {
-            err = validateAccount(originEntry, scrubbedEntry, universityRunDate, accountingCycleCachingService);
+            err = validateAccount(originEntry, scrubbedEntry, universityRunDate, continuationAccountIndicator, accountingCycleCachingService);
             if (err != null) {
                 errors.add(err);
             }
@@ -291,7 +290,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      * @param universityRunDate the run date of the scrubber process
      * @return a Message if the account was invalid, or null if no error was encountered
      */
-    private Message validateAccount(OriginEntry originEntry, OriginEntry workingEntry, UniversityDate universityRunDate, AccountingCycleCachingService accountingCycleCachingService) {
+    private Message validateAccount(OriginEntry originEntry, OriginEntry workingEntry, UniversityDate universityRunDate, boolean continuationAccountIndicator, AccountingCycleCachingService accountingCycleCachingService) {
         LOG.debug("validateAccount() started");
 
         Account originEntryAccount = accountingCycleCachingService.getAccount(originEntry.getChartOfAccountsCode(), originEntry.getAccountNumber());
@@ -335,7 +334,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         long offsetAccountExpirationTime = getAdjustedAccountExpirationDate(originEntryAccount);
 
         if (isExpired(offsetAccountExpirationTime, today) || !originEntryAccount.isActive()) {
-            Message error = continuationAccountLogic(originEntry, workingEntry, today, accountingCycleCachingService);
+            Message error = continuationAccountLogic(originEntry, workingEntry, today, continuationAccountIndicator, accountingCycleCachingService);
             if (error != null) {
                 return error;
             }
@@ -353,7 +352,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      * @param today the run date of the scrubber (to test against expiration dates)
      * @return a Message if an error was encountered, otherwise null
      */
-    private Message continuationAccountLogic(OriginEntry originEntry, OriginEntry workingEntry, Calendar today, AccountingCycleCachingService accountingCycleCachingService) {
+    private Message continuationAccountLogic(OriginEntry originEntry, OriginEntry workingEntry, Calendar today, boolean continuationAccountIndicator, AccountingCycleCachingService accountingCycleCachingService) {
 
         List checkedAccountNumbers = new ArrayList();
 
@@ -387,7 +386,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                     workingEntry.setAccountNumber(accountNumber);
                     workingEntry.setChartOfAccountsCode(chartCode);
                     
-                    // shawn - set subAcount with dashes
+                    // to set subAcount with dashes
                     continuationAccountIndicator = true;
                     //workingEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
                     //workingEntry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_AUTO_FORWARD) + " " + originEntry.getChartOfAccountsCode() + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription());
@@ -415,7 +414,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                         workingEntry.setAccountNumber(accountNumber);
                         workingEntry.setChartOfAccountsCode(chartCode);
                         
-                        //shawn - set subAccount with dashes
+                        // to set subAccount with dashes
                         continuationAccountIndicator = true;
                         //workingEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
                         //workingEntry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_AUTO_FORWARD) + originEntry.getChartOfAccountsCode() + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription());

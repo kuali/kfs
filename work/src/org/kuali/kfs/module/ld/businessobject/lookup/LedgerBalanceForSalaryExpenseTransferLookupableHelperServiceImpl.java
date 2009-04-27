@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ld.businessobject.lookup;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -55,6 +57,10 @@ public class LedgerBalanceForSalaryExpenseTransferLookupableHelperServiceImpl ex
 
         String fiscalYearString = (String) fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         SystemOptions options = this.getOptions(fiscalYearString);
+        
+        if (ObjectUtils.isNull(options)) {
+            return new CollectionIncomplete(new ArrayList(), new Long(0));
+        }
 
         fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, options.getFinObjTypeExpenditureexpCd());
         fieldValues.put(KFSPropertyConstants.LABOR_OBJECT + "." + KFSPropertyConstants.FINANCIAL_OBJECT_FRINGE_OR_SALARY_CODE, SalaryExpenseTransfer.LABOR_LEDGER_SALARY_CODE);

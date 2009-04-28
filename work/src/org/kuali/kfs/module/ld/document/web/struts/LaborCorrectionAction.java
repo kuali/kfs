@@ -17,6 +17,7 @@ package org.kuali.kfs.module.ld.document.web.struts;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -70,6 +71,7 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiTableRenderFormMetadata;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
@@ -989,6 +991,7 @@ public class LaborCorrectionAction extends CorrectionAction {
         LOG.debug("saveToDesktop() started");
 
         LaborCorrectionForm laborCorrectionForm = (LaborCorrectionForm) form;
+        WebUtils.reRegisterEditablePropertiesFromPreviousRequest(laborCorrectionForm);
 
         if (checkOriginEntryGroupSelection(laborCorrectionForm)) {
             if (laborCorrectionForm.isInputGroupIdFromLastDocumentLoadIsMissing() && laborCorrectionForm.getInputGroupIdFromLastDocumentLoad() != null && laborCorrectionForm.getInputGroupIdFromLastDocumentLoad().equals(laborCorrectionForm.getInputGroupId())) {
@@ -1027,20 +1030,11 @@ public class LaborCorrectionAction extends CorrectionAction {
                 FileReader fileReader = new FileReader(fileNameWithPath);
                 BufferedReader br = new BufferedReader(fileReader);
                 
-                // set response
-                response.setContentType("application/txt");
-                response.setHeader("Content-disposition", "attachment; filename=" + laborCorrectionForm.getInputGroupId());
-                response.setHeader("Expires", "0");
-                response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-                response.setHeader("Pragma", "public");
-
-                BufferedOutputStream bw = new BufferedOutputStream(response.getOutputStream());
-
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 // write to output
-                buildTextOutputfile(bw, br);
+                buildTextOutputfile(baos, br);
+                WebUtils.saveMimeOutputStreamAsFile(response, "application/txt", baos, laborCorrectionForm.getInputGroupId());
                 
-                bw.flush();
-                bw.close();
                 br.close();
                 
                 return null;

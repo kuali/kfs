@@ -18,6 +18,7 @@ package org.kuali.kfs.gl.document.web.struts;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -71,6 +72,7 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.comparator.NumericValueComparator;
 import org.kuali.rice.kns.web.comparator.TemporalValueComparator;
 import org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase;
@@ -540,6 +542,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         LOG.debug("saveToDesktop() started");
 
         CorrectionForm correctionForm = (CorrectionForm) form;
+        WebUtils.reRegisterEditablePropertiesFromPreviousRequest(correctionForm);
 
         if (checkOriginEntryGroupSelection(correctionForm)) {
             if (correctionForm.isInputGroupIdFromLastDocumentLoadIsMissing() && correctionForm.getInputGroupIdFromLastDocumentLoad() != null && correctionForm.getInputGroupIdFromLastDocumentLoad().equals(correctionForm.getInputGroupId())) {
@@ -580,20 +583,11 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
                 FileReader fileReader = new FileReader(fileNameWithPath);
                 BufferedReader br = new BufferedReader(fileReader);
                 
-                // set response
-                response.setContentType("application/txt");
-                response.setHeader("Content-disposition", "attachment; filename=" + correctionForm.getInputGroupId());
-                response.setHeader("Expires", "0");
-                response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-                response.setHeader("Pragma", "public");
-
-                BufferedOutputStream bw = new BufferedOutputStream(response.getOutputStream());
-
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 // write to output
-                buildTextOutputfile(bw, br);
+                buildTextOutputfile(baos, br);
+                WebUtils.saveMimeOutputStreamAsFile(response, "application/txt", baos, correctionForm.getInputGroupId());
                 
-                bw.flush();
-                bw.close();
                 br.close();
                 
                 return null;
@@ -607,7 +601,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
     
     
     
-    public void buildTextOutputfile(BufferedOutputStream bw, BufferedReader br){
+    public void buildTextOutputfile(ByteArrayOutputStream bw, BufferedReader br){
         String line;
         try {
             while ((line = br.readLine()) != null) {

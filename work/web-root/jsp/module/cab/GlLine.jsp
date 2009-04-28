@@ -168,7 +168,7 @@
 				<td class="grid"><kul:htmlControlAttribute property="relatedGlEntry[${pos}].financialSubObjectCode" 
 				attributeEntry="${entryAttributes.financialSubObjectCode}" readOnly="true"/></td>
 				<td class="grid">
-				<kul:inquiry boClassName="org.kuali.rice.kns.bo.DocumentType" keyValues="documentTypeCode=${entry.financialDocumentTypeCode}" render="true">
+				<kul:inquiry boClassName="org.kuali.rice.kew.doctype.bo.DocumentTypeEBO" keyValues="documentTypeId=${entry.financialSystemDocumentTypeCode.documentTypeId}" render="true">
 				<kul:htmlControlAttribute property="relatedGlEntry[${pos}].financialDocumentTypeCode" 
 				attributeEntry="${entryAttributes.financialDocumentTypeCode}" readOnly="true"/>
 				</kul:inquiry>

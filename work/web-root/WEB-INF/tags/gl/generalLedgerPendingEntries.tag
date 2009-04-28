@@ -106,7 +106,7 @@
 					</kul:inquiry>
 				</td>
 				<td class="datacell center">
-					<kul:inquiry boClassName="org.kuali.rice.kns.bo.DocumentType" keyValues="documentTypeCode=${generalLedgerPendingEntry.financialDocumentTypeCode}" render="true">
+					<kul:inquiry boClassName="org.kuali.rice.kew.doctype.bo.DocumentTypeEBO" keyValues="documentTypeId=${generalLedgerPendingEntry.financialSystemDocumentTypeCode.documentTypeId}" render="true">
 						<html:hidden property="${generalLedgerPendingEntryProperty}[${ctr}].financialDocumentTypeCode" write="true" value="${generalLedgerPendingEntry.financialDocumentTypeCode}" />
 					</kul:inquiry>
 				</td>

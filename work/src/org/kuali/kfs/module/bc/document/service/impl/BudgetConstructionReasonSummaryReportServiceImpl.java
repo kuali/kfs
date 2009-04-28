@@ -173,7 +173,7 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
 
         // reason, amt, desc
         List<BudgetConstructionAppointmentFundingReason> appointmentFundingReasonList = salaryFundingEntry.getPendingAppointmentFunding().getBudgetConstructionAppointmentFundingReason();
-        if (appointmentFundingReasonList != null || !appointmentFundingReasonList.isEmpty()) {
+        if (ObjectUtils.isNotNull(appointmentFundingReasonList) && !appointmentFundingReasonList.isEmpty()) {
             BudgetConstructionAppointmentFundingReason appointmentFundingReason = appointmentFundingReasonList.get(0);
 
             Integer reasonAmount = BudgetConstructionReportHelper.convertKualiInteger(appointmentFundingReason.getAppointmentFundingReasonAmount());
@@ -222,7 +222,7 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
         }
 
         BudgetConstructionCalculatedSalaryFoundationTracker csfTracker = appointmentFunding.getEffectiveCSFTracker();
-        if (csfTracker != null) {
+        if (ObjectUtils.isNotNull(csfTracker)) {
             reasonSummaryReport.setCsfTimePercent(BudgetConstructionReportHelper.setDecimalDigit(csfTracker.getCsfTimePercent(), 2, false));
             reasonSummaryReport.setCsfAmount(csfTracker.getCsfAmount().intValue());
 

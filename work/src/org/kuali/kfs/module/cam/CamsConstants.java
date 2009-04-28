@@ -92,14 +92,26 @@ public class CamsConstants extends JSTLConstants {
     }
 
     public static class DocumentTypeName {
-        public static final String TRANSFER = "AT";
-        public static final String EQUIPMENT_LOAN_OR_RETURN = "ELR";
-        public static final String PAYMENT = "MPAY";
-        public static final String RETIREMENT = "ARG";
-        public static final String CREATE = "AA";
-        public static final String MAINTENANCE = "CASM";
-        public static final String FABRICATION = "FR";
-        public static final String LOCATION = "ALOC";
+        // CAM doc
+        public static final String ASSET_TRANSFER = "AT";
+        public static final String ASSET_EQUIPMENT_LOAN_OR_RETURN = "ELR";
+        public static final String ASSET_PAYMENT = "MPAY";
+        public static final String ASSET_RETIREMENT_GLOBAL = "ARG";
+        public static final String ASSET_ADD_GLOBAL = "AA";
+        public static final String ASSET_EDIT = "CASM";
+        public static final String ASSET_FABRICATION = "FR";
+        public static final String ASSET_LOCATION_GLOBAL = "ALOC";
+        public static final String ASSET_BARCODE_INVENTORY_ERROR = "BCIE";
+        public static final String ASSET_SEPARATE = "ASEP"; // Will be used for lock purposed only
+        // FP DOC
+        public static final String FP_CASH_RECEIPT = "CR";
+        public static final String FP_DISTRIBUTION_OF_INCOME_AND_EXPENSE = "DI";
+        public static final String FP_GENERAL_ERROR_CORRECTION = "GEC";
+        public static final String FP_INTERNAL_BILLING="IB";
+        public static final String FP_SERVICE_BILLING="SB";
+        public static final String FP_YEAR_END_DISTRIBUTION_INCOME_EXPENSE = "YEDI";
+        public static final String FP_YEAR_END_GENERAL_ERROR_CORRECTION = "YEGE";
+        public static final String FP_PROCUREMENT_CARD = "PCDO";
     }
 
     public static class PaymentDocumentTypeCodes {
@@ -279,7 +291,6 @@ public class CamsConstants extends JSTLConstants {
     public static class AssetGlobal {
         public static final String CAPITAL_OBJECT_ACCQUISITION_CODE_GROUP = "C;F;G;N;P;S;T";
         public static final String NON_NEW_ACQUISITION_CODE_GROUP = "G;T;S;F";
-        public static final String DOCUMENT_TYPE_CODE = "AA";
         public static final String NEW_ACQUISITION_TYPE_CODE = "N";
         public static final String PRE_TAGGING_ACQUISITION_TYPE_CODE = "P";
         public static final String LINE_DESCRIPTION_PAYMENT = "Payment";
@@ -314,4 +325,6 @@ public class CamsConstants extends JSTLConstants {
     public static class PreAssetTagging {
         public static final String SECTION_ID_PREASSET_TAGGING_DETAIL = "Edit List of Pre-Asset Tagging Details";
     }
+
+    public static final String defaultLockingInformation = "-1";
 }

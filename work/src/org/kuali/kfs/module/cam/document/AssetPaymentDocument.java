@@ -20,6 +20,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
+import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
+import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAccountingLineParser;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
@@ -32,6 +34,7 @@ import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.document.MaintenanceLock;
+import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
 import org.kuali.rice.kns.service.MaintenanceDocumentService;
@@ -48,7 +51,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
     private List<AssetPaymentAssetDetail> assetPaymentAssetDetail;
     private Long capitalAssetNumber;
     private boolean capitalAssetBuilderOriginIndicator;
-    
+
     public AssetPaymentDocument() {
         super();
         this.setAssetPaymentAssetDetail(new TypedArrayList(AssetPaymentAssetDetail.class));
@@ -98,17 +101,29 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         super.postProcessSave(event);
 
         if (!(event instanceof SaveDocumentEvent)) { // don't lock until they route
-            MaintenanceDocumentService maintenanceDocumentService = SpringContext.getBean(MaintenanceDocumentService.class);
-            AssetService assetService = SpringContext.getBean(AssetService.class);
-
-            maintenanceDocumentService.deleteLocks(this.getDocumentNumber());
-
-            List<MaintenanceLock> maintenanceLocks = new ArrayList<MaintenanceLock>();
+        // MaintenanceDocumentService maintenanceDocumentService = SpringContext.getBean(MaintenanceDocumentService.class);
+        // AssetService assetService = SpringContext.getBean(AssetService.class);
+        //
+        // maintenanceDocumentService.deleteLocks(this.getDocumentNumber());
+        //
+        // List<MaintenanceLock> maintenanceLocks = new ArrayList<MaintenanceLock>();
+        // for (AssetPaymentAssetDetail assetPaymentAssetDetail : this.getAssetPaymentAssetDetail()) {
+        // maintenanceLocks.add(assetService.generateAssetLock(documentNumber, assetPaymentAssetDetail.getCapitalAssetNumber()));
+        // }
+        // maintenanceDocumentService.storeLocks(maintenanceLocks);
+            ArrayList capitalAssetNumbers = new ArrayList<Long>();
             for (AssetPaymentAssetDetail assetPaymentAssetDetail : this.getAssetPaymentAssetDetail()) {
-                maintenanceLocks.add(assetService.generateAssetLock(documentNumber, assetPaymentAssetDetail.getCapitalAssetNumber()));
+                capitalAssetNumbers.add(assetPaymentAssetDetail.getCapitalAssetNumber());
             }
-            maintenanceDocumentService.storeLocks(maintenanceLocks);
+            
+            if (!this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, this.getDocumentNumber(), CamsConstants.DocumentTypeName.ASSET_PAYMENT, null)) {
+                throw new ValidationException("Asset " + capitalAssetNumbers.toString() + " is being locked by other documents.");
+            }
         }
+    }
+
+    private CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
+        return SpringContext.getBean(CapitalAssetManagementModuleService.class);
     }
 
     /**
@@ -123,11 +138,13 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         if (workflowDocument.stateIsProcessed()) {
             SpringContext.getBean(AssetPaymentService.class).processApprovedAssetPayment(this);
 
-            SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(this.getDocumentNumber());
+            //SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(this.getDocumentNumber());
+            this.getCapitalAssetManagementModuleService().deleteAssetLocks(this.getDocumentNumber(), null);
         }
 
         if (workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved()) {
-            SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(this.getDocumentNumber());
+            //SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(this.getDocumentNumber());
+            this.getCapitalAssetManagementModuleService().deleteAssetLocks(this.getDocumentNumber(), null);
         }
 
         if (isCapitalAssetBuilderOriginIndicator()) {

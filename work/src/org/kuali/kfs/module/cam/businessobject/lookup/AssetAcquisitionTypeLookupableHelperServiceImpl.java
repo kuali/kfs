@@ -68,7 +68,7 @@ public class AssetAcquisitionTypeLookupableHelperServiceImpl extends KualiLookup
         }
         else if (CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE.equalsIgnoreCase(assetAcquisitionType.getAcquisitionTypeCode())) {
             // no return if the user is not authorized to initiate 'New' acquisition type.
-            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(CamsConstants.DocumentTypeName.CREATE);
+            DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(CamsConstants.DocumentTypeName.ASSET_ADD_GLOBAL);
             boolean isAuthorized = documentAuthorizer.isAuthorized(businessObject, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.USE_ACQUISITION_TYPE_NEW, GlobalVariables.getUserSession().getPerson().getPrincipalId());
 
             if (!isAuthorized) {

@@ -25,9 +25,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.fp.document.TransferOfFundsDocument;
+import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
+import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlpeSourceDetail;
-import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.AssetTransferService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Building;
@@ -45,13 +46,12 @@ import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.bo.PostalCode;
 import org.kuali.rice.kns.bo.State;
-import org.kuali.rice.kns.document.MaintenanceLock;
+import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.CountryService;
 import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.MaintenanceDocumentService;
 import org.kuali.rice.kns.service.PostalCodeService;
 import org.kuali.rice.kns.service.StateService;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
@@ -453,17 +453,27 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         super.postProcessSave(event);
 
         if (!(event instanceof SaveDocumentEvent)) { // don't lock until they route
-            MaintenanceDocumentService maintenanceDocumentService = SpringContext.getBean(MaintenanceDocumentService.class);
-            AssetService assetService = SpringContext.getBean(AssetService.class);
-
-            maintenanceDocumentService.deleteLocks(this.getDocumentNumber());
-
-            List<MaintenanceLock> maintenanceLocks = new ArrayList<MaintenanceLock>();
-            maintenanceLocks.add(assetService.generateAssetLock(documentNumber, getCapitalAssetNumber()));
-            maintenanceDocumentService.storeLocks(maintenanceLocks);
+//            MaintenanceDocumentService maintenanceDocumentService = SpringContext.getBean(MaintenanceDocumentService.class);
+//            AssetService assetService = SpringContext.getBean(AssetService.class);
+//
+//            maintenanceDocumentService.deleteLocks(this.getDocumentNumber());
+//
+//            List<MaintenanceLock> maintenanceLocks = new ArrayList<MaintenanceLock>();
+//            maintenanceLocks.add(assetService.generateAssetLock(documentNumber, getCapitalAssetNumber()));
+//            maintenanceDocumentService.storeLocks(maintenanceLocks);
+                ArrayList capitalAssetNumbers = new ArrayList<Long>();
+                capitalAssetNumbers.add(this.getCapitalAssetNumber());
+                
+                if (!this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, this.getDocumentNumber(), CamsConstants.DocumentTypeName.ASSET_TRANSFER, null)) {
+                    throw new ValidationException("Asset " + capitalAssetNumbers.toString() + " is being locked by other documents.");
+                }
         }
     }
 
+    private CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
+        return SpringContext.getBean(CapitalAssetManagementModuleService.class);
+    }
+    
     /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#handleRouteStatusChange()
      */
@@ -474,11 +484,13 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.stateIsProcessed()) {
             SpringContext.getBean(AssetTransferService.class).saveApprovedChanges(this);
-            SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(getDocumentNumber());
+            //SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(getDocumentNumber());
+            getCapitalAssetManagementModuleService().deleteAssetLocks(this.getDocumentNumber(), null);
         }
 
         if (workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved()) {
-            SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(getDocumentNumber());
+            getCapitalAssetManagementModuleService().deleteAssetLocks(this.getDocumentNumber(), null);
+//            SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(getDocumentNumber());
         }
     }
 

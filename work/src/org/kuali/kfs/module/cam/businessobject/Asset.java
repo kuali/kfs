@@ -1971,7 +1971,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
             return "";
 
         Properties params = buildDocumentLookupLinkProperties();
-        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.TRANSFER);
+        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_TRANSFER);
 
         return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
     }
@@ -1986,7 +1986,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
             return "";
 
         Properties params = buildDocumentLookupLinkProperties();
-        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.MAINTENANCE);
+        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_EDIT);
 
         return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
     }
@@ -2001,7 +2001,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
             return "";
 
         Properties params = buildDocumentLookupLinkProperties();
-        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.FABRICATION);
+        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_FABRICATION);
 
         return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
     }
@@ -2016,7 +2016,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
             return "";
         
         Properties params = buildDocumentLookupLinkProperties();
-        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.CREATE);
+        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_ADD_GLOBAL);
         
         return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
     }
@@ -2031,7 +2031,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
             return "";
         
         Properties params = buildDocumentLookupLinkProperties();
-        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.PAYMENT);
+        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_PAYMENT);
         
         return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
     }
@@ -2046,7 +2046,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
             return "";
         
         Properties params = buildDocumentLookupLinkProperties();
-        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.EQUIPMENT_LOAN_OR_RETURN);
+        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_EQUIPMENT_LOAN_OR_RETURN);
         
         return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
     }
@@ -2061,7 +2061,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
             return "";
         
         Properties params = buildDocumentLookupLinkProperties();
-        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.LOCATION);
+        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_LOCATION_GLOBAL);
         
         return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
     }
@@ -2076,7 +2076,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
             return "";
         
         Properties params = buildDocumentLookupLinkProperties();
-        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.RETIREMENT);
+        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_RETIREMENT_GLOBAL);
         
         return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
     }

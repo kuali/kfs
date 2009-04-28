@@ -12,5 +12,7 @@
 	<bean id="effortCertificationService" class="org.kuali.kfs.module.ec.service.impl.EffortCertificationServiceImpl" />
 
     <bean id="capitalAssetBuilderModuleService" class="org.kuali.kfs.module.cab.service.impl.CapitalAssetBuilderModuleServiceImpl"/>
+    
+    <bean id="capitalAssetManagementModuleService" class="org.kuali.kfs.module.cam.service.impl.CapitalAssetManagementModuleServiceImpl"/>
 
 </beans>

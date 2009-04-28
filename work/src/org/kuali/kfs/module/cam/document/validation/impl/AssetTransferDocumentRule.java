@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cam.document.validation.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +42,7 @@ import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.AssetTransferService;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService.LocationField;
+import org.kuali.kfs.module.cam.service.AssetLockService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
@@ -74,6 +76,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
     private AssetPaymentService assetPaymentService;
     private AssetService assetService;
     private ObjectCodeService objectCodeService;
+    private AssetLockService assetLockService;
 
     /**
      * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
@@ -82,9 +85,10 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         AssetTransferDocument assetTransferDocument = (AssetTransferDocument) document;
         Asset asset = assetTransferDocument.getAsset();
-        if (this.getAssetService().isAssetLocked(document.getDocumentNumber(), asset.getCapitalAssetNumber())) {
-            return false;
-        }
+        // TODO: check if we want to remove the check when save
+        // if (this.getAssetService().isAssetLocked(document.getDocumentNumber(), asset.getCapitalAssetNumber())) {
+        // return false;
+        // }
         boolean valid = checkReferencesExist(assetTransferDocument);
         assetTransferDocument.clearGlPostables();
         if (valid && (valid &= validateAssetObjectCodeDefn(assetTransferDocument, asset))) {
@@ -125,7 +129,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         }
 
     }
-    
+
     /**
      * Asset Object Code must exist as an active status.
      * 
@@ -214,8 +218,9 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
 
         AssetTransferDocument assetTransferDocument = (AssetTransferDocument) document;
         Asset asset = assetTransferDocument.getAsset();
-
-        if (this.getAssetService().isAssetLocked(document.getDocumentNumber(), asset.getCapitalAssetNumber())) {
+        List<Long> assetNumbers = new ArrayList<Long>();
+        assetNumbers.add(asset.getCapitalAssetNumber());
+        if (this.getAssetLockService().isAssetLocked(assetNumbers, CamsConstants.DocumentTypeName.ASSET_TRANSFER, document.getDocumentNumber())) {
             return false;
         }
         boolean valid = true;
@@ -244,10 +249,10 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
 
         // validate if asset status = N or D
         String inventoryStatusCode = assetTransferDocument.getAsset().getInventoryStatus().getInventoryStatusCode();
-        if (inventoryStatusCode != null && !(StringUtils.equalsIgnoreCase(inventoryStatusCode, CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_ACTIVE) || StringUtils.equalsIgnoreCase(inventoryStatusCode, CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_ACTIVE_2003)) ) {
+        if (inventoryStatusCode != null && !(StringUtils.equalsIgnoreCase(inventoryStatusCode, CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_ACTIVE) || StringUtils.equalsIgnoreCase(inventoryStatusCode, CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_ACTIVE_2003))) {
             valid &= validateOwnerAccount(assetTransferDocument);
         }
-        
+
         // validate if location info is available, campus or off-campus
         valid &= validateLocation(assetTransferDocument);
         if (assetTransferDocument.isInterdepartmentalSalesIndicator()) {
@@ -319,7 +324,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
             }
         }
         if (StringUtils.isNotBlank(assetTransferDocument.getCampusCode())) {
-            //assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.CAMPUS);
+            // assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.CAMPUS);
             if (ObjectUtils.isNull(assetTransferDocument.getCampus())) {
                 putError(CamsPropertyConstants.AssetTransferDocument.CAMPUS_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_CAMPUS_CODE, assetTransferDocument.getCampusCode());
                 valid &= false;
@@ -327,14 +332,14 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         }
         if (StringUtils.isNotBlank(assetTransferDocument.getBuildingCode())) {
             assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.BUILDING);
-            if (ObjectUtils.isNull(assetTransferDocument.getBuilding())) { 
+            if (ObjectUtils.isNull(assetTransferDocument.getBuilding())) {
                 putError(CamsPropertyConstants.AssetTransferDocument.BUILDING_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_BUILDING_CODE, assetTransferDocument.getBuildingCode(), assetTransferDocument.getCampusCode());
                 valid &= false;
             }
         }
         if (StringUtils.isNotBlank(assetTransferDocument.getBuildingRoomNumber())) {
             assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.BUILDING_ROOM);
-            if (ObjectUtils.isNull(assetTransferDocument.getBuildingRoom())) { 
+            if (ObjectUtils.isNull(assetTransferDocument.getBuildingRoom())) {
                 putError(CamsPropertyConstants.AssetTransferDocument.BUILDING_ROOM_NUMBER, CamsKeyConstants.AssetLocation.ERROR_INVALID_ROOM_NUMBER, assetTransferDocument.getBuildingCode(), assetTransferDocument.getBuildingRoomNumber(), assetTransferDocument.getCampusCode());
                 valid &= false;
             }
@@ -372,16 +377,15 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
             finObjectSubTypeCode = firstAssetPayment.getFinancialObject().getFinancialObjectSubTypeCode();
         }
         boolean assetMovable = getAssetService().isAssetMovableCheckByPayment(finObjectSubTypeCode);
-        
-        FinancialSystemTransactionalDocumentAuthorizerBase documentAuthorizer = (FinancialSystemTransactionalDocumentAuthorizerBase) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(assetTransferDocument);
-        boolean isAuthorizedTransferMovable = documentAuthorizer.isAuthorized(assetTransferDocument, CamsConstants.CAM_MODULE_CODE, 
-                CamsConstants.PermissionNames.TRANSFER_NON_MOVABLE_ASSETS, GlobalVariables.getUserSession().getPerson().getPrincipalId());
 
-        if(!assetMovable && !isAuthorizedTransferMovable) {
+        FinancialSystemTransactionalDocumentAuthorizerBase documentAuthorizer = (FinancialSystemTransactionalDocumentAuthorizerBase) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(assetTransferDocument);
+        boolean isAuthorizedTransferMovable = documentAuthorizer.isAuthorized(assetTransferDocument, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.TRANSFER_NON_MOVABLE_ASSETS, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+
+        if (!assetMovable && !isAuthorizedTransferMovable) {
             GlobalVariables.getErrorMap().putErrorForSectionId(CamsPropertyConstants.COMMON_ERROR_SECTION_ID, CamsKeyConstants.Transfer.ERROR_INVALID_USER_GROUP_FOR_TRANSFER_NONMOVABLE_ASSET, asset.getCapitalAssetNumber().toString());
             valid &= false;
         }
-        
+
         // check if account is valid
         Account organizationOwnerAccount = assetTransferDocument.getOrganizationOwnerAccount();
         if (ObjectUtils.isNotNull(organizationOwnerAccount) && (organizationOwnerAccount.isExpired())) {
@@ -393,7 +397,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
             Organization ownerOrg = organizationOwnerAccount.getOrganization();
             Account campusPlantAccount = ownerOrg.getCampusPlantAccount();
             Account organizationPlantAccount = ownerOrg.getOrganizationPlantAccount();
-            
+
             if (assetMovable && ObjectUtils.isNull(organizationPlantAccount)) {
                 putError(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.Transfer.ERROR_ORG_PLANT_FUND_UNKNOWN);
                 valid &= false;
@@ -467,6 +471,14 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         }
         return assetService;
     }
+
+    public AssetLockService getAssetLockService() {
+        if (this.assetLockService == null) {
+            this.assetLockService = SpringContext.getBean(AssetLockService.class);
+        }
+        return assetLockService;
+    }
+
 
     public void setAssetService(AssetService assetService) {
         this.assetService = assetService;

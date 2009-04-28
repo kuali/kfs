@@ -382,6 +382,9 @@ public class CamsPropertyConstants {
     public static final String DOCUMENT_NUMBER="documentNumber";
 
 
+    public static class AssetLock {
+        public static final String DOCUMENT_NUMBER = "documentNumber";
+    }
 
 }
 

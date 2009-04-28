@@ -327,7 +327,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
             if (success &= checkReferenceExists(assetGlobal, assetPaymentDetail)) {
                 success &= validatePaymentLine(document, assetGlobal, assetPaymentDetail);
-                success &= checkNegativePayment(document, assetPaymentDetail);
+                success &= checkNegativeOrZeroPayment(document, assetPaymentDetail);
             }
         }
 
@@ -433,6 +433,8 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         }
 
         success &= validateObjectCode(assetPaymentDetail.getObjectCode(), assetGlobal);
+        
+        
         return success;
     }
 
@@ -443,12 +445,18 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
      * @param assetPaymentDetail
      * @return
      */
-    private boolean checkNegativePayment(MaintenanceDocument maintenanceDocument, AssetPaymentDetail assetPaymentDetail) {
+    private boolean checkNegativeOrZeroPayment(MaintenanceDocument maintenanceDocument, AssetPaymentDetail assetPaymentDetail) {
         boolean success = true;
         FinancialSystemMaintenanceDocumentAuthorizerBase documentAuthorizer = (FinancialSystemMaintenanceDocumentAuthorizerBase) KNSServiceLocator.getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument);
         boolean isAuthorized = documentAuthorizer.isAuthorized(maintenanceDocument, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.ADD_NEGATIVE_PAYMENTS, GlobalVariables.getUserSession().getPerson().getPrincipalId());
 
         if (!isAuthorized && assetPaymentDetail.getAmount() != null && assetPaymentDetail.getAmount().isNegative()) {
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.AMOUNT, CamsKeyConstants.AssetGlobal.ERROR_INVALID_PAYMENT_AMOUNT);
+            success = false;
+        }
+        
+        // amount can not be zero for any user
+        if (assetPaymentDetail.getAmount().isZero()) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.AMOUNT, CamsKeyConstants.AssetGlobal.ERROR_INVALID_PAYMENT_AMOUNT);
             success = false;
         }
@@ -513,13 +521,13 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         boolean valid = true;
         if (StringUtils.isNotBlank(acquisitionTypeCode) && getAssetGlobalService().existsInGroup(CamsConstants.AssetGlobal.NON_NEW_ACQUISITION_CODE_GROUP, acquisitionTypeCode)) {
 
-            if (StringUtils.isNotBlank(documentTypeCode) && !CamsConstants.AssetGlobal.DOCUMENT_TYPE_CODE.equalsIgnoreCase(documentTypeCode)) {
+            if (StringUtils.isNotBlank(documentTypeCode) && !CamsConstants.DocumentTypeName.ASSET_ADD_GLOBAL.equalsIgnoreCase(documentTypeCode)) {
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE, CamsKeyConstants.AssetGlobal.ERROR_DOCUMENT_TYPE_CODE_NOT_ALLOWED, documentTypeCode);
                 valid = false;
             }
             else {
                 // system set document type code as 'AA'
-                assetPaymentDetail.setExpenditureFinancialDocumentTypeCode(CamsConstants.AssetGlobal.DOCUMENT_TYPE_CODE);
+                assetPaymentDetail.setExpenditureFinancialDocumentTypeCode(CamsConstants.DocumentTypeName.ASSET_ADD_GLOBAL);
             }
         }
         return valid;

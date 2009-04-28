@@ -40,6 +40,7 @@ public class CabPropertyConstants {
         public static final String TRANSACTION_LEDGER_SUBMIT_AMOUNT = "transactionLedgerSubmitAmount";
         public static final String TRANSACTION_DEBIT_CREDIT_CODE = "transactionDebitCreditCode";
         public static final String PURAP_LINE_ASSET_ACCOUNTS = "purApLineAssetAccounts";
+        public static final String GENERAL_LEDGER_ENTRY_ASSETS = "generalLedgerEntryAssets";
     }
 
     public static class Entry {
@@ -165,5 +166,12 @@ public class CabPropertyConstants {
         public static final String PARAMETER_DETAIL_TYPE_CODE = "parameterDetailTypeCode";
         public static final String PARAMETER_NAMESPACE_CODE = "parameterNamespaceCode";
 
+    }
+
+    public static class CapitalAssetLock {
+        public static final String DOCUMENT_NUMBER = "documentNumber";
+        public static final String LOCKING_INFORMATION = "lockingInformation";
+        public static final String CAPITAL_ASSET_NUMBER = "capitalAssetNumber";
+        public static final String DOCUMENT_TYPE_NAME = "documentTypeName";
     }
 }

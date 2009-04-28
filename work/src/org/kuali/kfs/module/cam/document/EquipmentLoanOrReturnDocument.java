@@ -18,10 +18,10 @@ package org.kuali.kfs.module.cam.document;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 
+import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
+import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
-import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
@@ -29,12 +29,12 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.bo.PostalCode;
 import org.kuali.rice.kns.bo.State;
-import org.kuali.rice.kns.document.MaintenanceLock;
+import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
 import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
 import org.kuali.rice.kns.service.CountryService;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.MaintenanceDocumentService;
 import org.kuali.rice.kns.service.PostalCodeService;
 import org.kuali.rice.kns.service.StateService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -548,20 +548,33 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
     /**
      * @see org.kuali.rice.kns.document.DocumentBase#postProcessSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
      */
+    /**
+     * @see org.kuali.rice.kns.document.DocumentBase#postProcessSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
+     */
     @Override
     public void postProcessSave(KualiDocumentEvent event) {
         super.postProcessSave(event);
 
         if (!(event instanceof SaveDocumentEvent)) { // don't lock until they route
-            MaintenanceDocumentService maintenanceDocumentService = SpringContext.getBean(MaintenanceDocumentService.class);
-            AssetService assetService = SpringContext.getBean(AssetService.class);
-
-            maintenanceDocumentService.deleteLocks(this.getDocumentNumber());
-
-            List<MaintenanceLock> maintenanceLocks = new ArrayList<MaintenanceLock>();
-            maintenanceLocks.add(assetService.generateAssetLock(documentNumber, capitalAssetNumber));
-            maintenanceDocumentService.storeLocks(maintenanceLocks);
+            // MaintenanceDocumentService maintenanceDocumentService = SpringContext.getBean(MaintenanceDocumentService.class);
+            // AssetService assetService = SpringContext.getBean(AssetService.class);
+            //
+            // maintenanceDocumentService.deleteLocks(this.getDocumentNumber());
+            //
+            // List<MaintenanceLock> maintenanceLocks = new ArrayList<MaintenanceLock>();
+            // maintenanceLocks.add(assetService.generateAssetLock(documentNumber, capitalAssetNumber));
+            // maintenanceDocumentService.storeLocks(maintenanceLocks);
+            ArrayList capitalAssetNumbers = new ArrayList<Long>();
+            capitalAssetNumbers.add(this.getCapitalAssetNumber());
+            // check and lock on asset numbers exclude approve event.
+            if (!this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, this.getDocumentNumber(), CamsConstants.DocumentTypeName.ASSET_EQUIPMENT_LOAN_OR_RETURN, null)) {
+                throw new ValidationException("Asset " + capitalAssetNumbers.toString() + " is being locked by other documents.");
+            }
         }
+    }
+
+    private CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
+        return SpringContext.getBean(CapitalAssetManagementModuleService.class);
     }
 
     /**
@@ -578,11 +591,13 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
         if (workflowDocument.stateIsProcessed()) {
             SpringContext.getBean(EquipmentLoanOrReturnService.class).processApprovedEquipmentLoanOrReturn(this);
 
-            SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(getDocumentNumber());
+            // SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(getDocumentNumber());
+            this.getCapitalAssetManagementModuleService().deleteAssetLocks(this.getDocumentNumber(), null);
         }
 
         if (workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved()) {
-            SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(this.getDocumentNumber());
+            this.getCapitalAssetManagementModuleService().deleteAssetLocks(this.getDocumentNumber(), null);
+            // SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(this.getDocumentNumber());
         }
     }
 

@@ -99,7 +99,7 @@ public class AssetRetirementPresentationController extends FinancialSystemMainte
      */
     protected void conditionallyHideAssetCollectionEditing(MaintenanceDocument document) {
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) document.getNewMaintainableObject().getBusinessObject();
-        MaintainableCollectionDefinition maintCollDef = SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getMaintainableCollection(CamsConstants.DocumentTypeName.RETIREMENT, "assetRetirementGlobalDetails");
+        MaintainableCollectionDefinition maintCollDef = SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getMaintainableCollection(CamsConstants.DocumentTypeName.ASSET_RETIREMENT_GLOBAL, "assetRetirementGlobalDetails");
         if (SpringContext.getBean(AssetService.class).isDocumentEnrouting(document)) {
             // Once document starts routing, disallow add/delete asset button and multiple lookup.
             maintCollDef.setIncludeAddLine(false);

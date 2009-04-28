@@ -20,17 +20,21 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetLocationGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetLocationGlobalDetail;
-import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global location
@@ -81,30 +85,65 @@ public class AssetLocationGlobalMaintainableImpl extends KualiGlobalMaintainable
     }
 
     /**
-     * This creates the particular locking representation for this global location document.
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#handleRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
+     */
+    @Override
+    public void handleRouteStatusChange(DocumentHeader documentHeader) {
+        super.handleRouteStatusChange(documentHeader);
+        KualiWorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();
+        AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
+        if (workflowDoc.stateIsCanceled() || workflowDoc.stateIsDisapproved() || workflowDoc.stateIsProcessed() || workflowDoc.stateIsFinal()) {
+            this.getCapitalAssetManagementModuleService().deleteAssetLocks(documentNumber, null);
+        }
+    }
+
+    /**
+     * Add locks for asset number in location details
      * 
-     * @see org.kuali.rice.kns.maintenance.Maintainable#generateMaintenanceLocks()
+     * @see org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl#generateMaintenanceLocks()
      */
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {
         AssetLocationGlobal assetLocationGlobal = (AssetLocationGlobal) getBusinessObject();
-        List<MaintenanceLock> maintenanceLocks = new ArrayList();
-
-        for (AssetLocationGlobalDetail detail : assetLocationGlobal.getAssetLocationGlobalDetails()) {
-            MaintenanceLock maintenanceLock = new MaintenanceLock();
-            StringBuffer lockrep = new StringBuffer();
-
-            lockrep.append(Asset.class.getName() + KFSConstants.Maintenance.AFTER_CLASS_DELIM);
-            lockrep.append(CamsPropertyConstants.AssetLocationGlobal.CAPITAL_ASSET_NUMBER + KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
-            lockrep.append(detail.getCapitalAssetNumber());
-
-            maintenanceLock.setDocumentNumber(assetLocationGlobal.getDocumentNumber());
-            maintenanceLock.setLockingRepresentation(lockrep.toString());
-            maintenanceLocks.add(maintenanceLock);
+        List<Long> capitalAssetNumbers = new ArrayList<Long>();
+        for (AssetLocationGlobalDetail locationDetail : assetLocationGlobal.getAssetLocationGlobalDetails()) {
+            capitalAssetNumbers.add(locationDetail.getCapitalAssetNumber());
         }
-        return maintenanceLocks;
+
+        this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, documentNumber, DocumentTypeName.ASSET_LOCATION_GLOBAL, null);
+
+        return new ArrayList<MaintenanceLock>();
     }
 
+    protected CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
+        return SpringContext.getBean(CapitalAssetManagementModuleService.class);
+    }
+
+
+    /**
+     * This creates the particular locking representation for this global location document.
+     * 
+     * @see org.kuali.rice.kns.maintenance.Maintainable#generateMaintenanceLocks()
+     */
+    // @Override
+    // public List<MaintenanceLock> generateMaintenanceLocks() {
+    // AssetLocationGlobal assetLocationGlobal = (AssetLocationGlobal) getBusinessObject();
+    // List<MaintenanceLock> maintenanceLocks = new ArrayList();
+    //
+    // for (AssetLocationGlobalDetail detail : assetLocationGlobal.getAssetLocationGlobalDetails()) {
+    // MaintenanceLock maintenanceLock = new MaintenanceLock();
+    // StringBuffer lockrep = new StringBuffer();
+    //
+    // lockrep.append(Asset.class.getName() + KFSConstants.Maintenance.AFTER_CLASS_DELIM);
+    // lockrep.append("capitalAssetNumber" + KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+    // lockrep.append(detail.getCapitalAssetNumber());
+    //
+    // maintenanceLock.setDocumentNumber(assetLocationGlobal.getDocumentNumber());
+    // maintenanceLock.setLockingRepresentation(lockrep.toString());
+    // maintenanceLocks.add(maintenanceLock);
+    // }
+    // return new ArrayList();
+    // }
     @Override
     public Class<? extends PersistableBusinessObject> getPrimaryEditedBusinessObjectClass() {
         return Asset.class;

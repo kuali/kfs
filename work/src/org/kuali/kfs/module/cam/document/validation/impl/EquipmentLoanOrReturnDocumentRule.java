@@ -17,24 +17,26 @@ package org.kuali.kfs.module.cam.document.validation.impl;
 
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
-import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
 import org.kuali.kfs.module.cam.document.service.AssetService;
+import org.kuali.kfs.module.cam.service.AssetLockService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -42,7 +44,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRuleBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EquipmentLoanOrReturnDocumentRule.class);
 
-    private AssetService assetService;
+    private AssetLockService assetLockService;
 
     /**
      * Does not fail on rules failure
@@ -51,11 +53,12 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-        EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument = (EquipmentLoanOrReturnDocument) document;
-
-        if (getAssetService().isAssetLocked(equipmentLoanOrReturnDocument.getDocumentNumber(), equipmentLoanOrReturnDocument.getCapitalAssetNumber())) {
-            return false;
-        }
+        // EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument = (EquipmentLoanOrReturnDocument) document;
+        //
+        // if (getAssetService().isAssetLocked(equipmentLoanOrReturnDocument.getDocumentNumber(),
+        // equipmentLoanOrReturnDocument.getCapitalAssetNumber())) {
+        // return false;
+        // }
 
         return true;
     }
@@ -70,8 +73,10 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
         }
 
         EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument = (EquipmentLoanOrReturnDocument) document;
-
-        if (getAssetService().isAssetLocked(equipmentLoanOrReturnDocument.getDocumentNumber(), equipmentLoanOrReturnDocument.getCapitalAssetNumber())) {
+        List<Long> assetNumbers = new ArrayList<Long>();
+        assetNumbers.add(equipmentLoanOrReturnDocument.getCapitalAssetNumber());
+        // we could remove the lock check since we'll check it again when postProcessSave. The difference here is the error messages will show up without document saved.
+        if (getAssetLockService().isAssetLocked(assetNumbers, CamsConstants.DocumentTypeName.ASSET_EQUIPMENT_LOAN_OR_RETURN, equipmentLoanOrReturnDocument.getDocumentNumber())) {
             return false;
         }
 
@@ -205,14 +210,10 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
         return valid;
     }
 
-    public AssetService getAssetService() {
-        if (this.assetService == null) {
-            this.assetService = SpringContext.getBean(AssetService.class);
+    public AssetLockService getAssetLockService() {
+        if (this.assetLockService == null) {
+            this.assetLockService = SpringContext.getBean(AssetLockService.class);
         }
-        return assetService;
-    }
-
-    public void setAssetService(AssetService assetService) {
-        this.assetService = assetService;
+        return assetLockService;
     }
 }

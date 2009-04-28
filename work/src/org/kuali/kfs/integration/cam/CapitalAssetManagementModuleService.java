@@ -15,6 +15,39 @@
  */
 package org.kuali.kfs.integration.cam;
 
-public interface CapitalAssetManagementModuleService {
+import java.util.List;
 
+import org.kuali.kfs.module.cam.businessobject.AssetLock;
+
+public interface CapitalAssetManagementModuleService {
+    /**
+     * Check and store AssetLocks if they are not locked by other blocking documents. Either store all of the asset locks or none of
+     * them being stored in case of dead lock. If any of the asset is blocked, the error message will be built including link(s) to the
+     * blocking document(s). 
+     * 
+     * @param capitalAssetNumbers
+     * @param documentNumber
+     * @param documentType
+     * @param additionalInformation
+     * @return return true if all of the asset locks can be granted.
+     */
+    boolean storeAssetLocks(List<Long> capitalAssetNumbers, String documentNumber, String documentType, String lockingInformation);
+
+    /**
+     * Delete AssetLocks by document number and lockingInfomation for PurAp doc only.
+     * 
+     * @param documentNumber
+     * @param lockingInformation
+     */
+    void deleteAssetLocks(String documentNumber, String lockingInformation);
+    
+    
+    /**
+     * Check if the document hold any asset locks.
+     * 
+     * @param documentNumber
+     * @param lockingInformation
+     * @return
+     */
+    boolean isAssetLockedByDocument(String blockingDocumentNumber, String lockingInformation);
 }

@@ -101,7 +101,7 @@ public class GlLineServiceTest extends KualiTestBase {
 
     private Entry createGLEntry(String accountNumber, int seqNumber, KualiDecimal amount) throws ParseException {
         Entry entry = new Entry();
-        entry.setUniversityFiscalYear(2008);
+        entry.setUniversityFiscalYear(2009);
         entry.setChartOfAccountsCode("BL");
         entry.setAccountNumber(accountNumber);
         entry.setSubAccountNumber("---");
@@ -122,9 +122,9 @@ public class GlLineServiceTest extends KualiTestBase {
         entry.setTransactionDebitCreditCode("D");
         entry.setOrganizationDocumentNumber(null);
         entry.setProjectCode(null);
-        entry.setTransactionDate(new Date(DateUtils.parseDate("04/23/2008", new String[] { "MM/dd/yyyy" }).getTime()));
-        entry.setTransactionPostingDate(new Date(DateUtils.parseDate("04/23/2008", new String[] { "MM/dd/yyyy" }).getTime()));
-        entry.setTransactionDateTimeStamp(new Timestamp(DateUtils.parseDate("04/23/2008 10:59:59", new String[] { "MM/dd/yyyy HH:mm:ss" }).getTime()));
+        entry.setTransactionDate(new Date(DateUtils.parseDate("04/23/2009", new String[] { "MM/dd/yyyy" }).getTime()));
+        entry.setTransactionPostingDate(new Date(DateUtils.parseDate("04/23/2009", new String[] { "MM/dd/yyyy" }).getTime()));
+        entry.setTransactionDateTimeStamp(new Timestamp(DateUtils.parseDate("04/23/2009 10:59:59", new String[] { "MM/dd/yyyy HH:mm:ss" }).getTime()));
         return entry;
     }
 
@@ -199,7 +199,7 @@ public class GlLineServiceTest extends KualiTestBase {
     private void assertAssetPaymentDetail(Document document, AssetPaymentDetail detail, String accountNumber, KualiDecimal amount, Integer seqNo) {
         assertEquals(document.getDocumentNumber(), detail.getDocumentNumber());
         assertEquals(seqNo, detail.getSequenceNumber());
-        assertEquals(Integer.valueOf(2008), detail.getPostingYear());
+        assertEquals(Integer.valueOf(2009), detail.getPostingYear());
         assertEquals("10", detail.getPostingPeriodCode());
         assertEquals("BL", detail.getChartOfAccountsCode());
         assertEquals(accountNumber, detail.getAccountNumber());
@@ -211,7 +211,7 @@ public class GlLineServiceTest extends KualiTestBase {
         assertEquals("01", detail.getExpenditureFinancialSystemOriginationCode());
         assertEquals("1001", detail.getExpenditureFinancialDocumentNumber());
         assertEquals("INV", detail.getExpenditureFinancialDocumentTypeCode());
-        assertEquals("04/23/2008", new SimpleDateFormat("MM/dd/yyyy").format(detail.getExpenditureFinancialDocumentPostedDate()));
+        assertEquals("04/23/2009", new SimpleDateFormat("MM/dd/yyyy").format(detail.getExpenditureFinancialDocumentPostedDate()));
         assertEquals("", detail.getPurchaseOrderNumber());
         assertEquals(false, detail.isTransferPaymentIndicator());
     }

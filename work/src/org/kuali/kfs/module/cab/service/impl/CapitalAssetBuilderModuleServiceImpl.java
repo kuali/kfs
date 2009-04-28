@@ -17,20 +17,24 @@ package org.kuali.kfs.module.cab.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformationDetail;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
+import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.integration.purap.ExternalPurApItem;
@@ -49,12 +53,16 @@ import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAsse
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
+import org.kuali.kfs.module.cam.businessobject.AssetLock;
+import org.kuali.kfs.module.cam.dataaccess.CapitalAssetLockDao;
 import org.kuali.kfs.module.cam.document.service.AssetService;
+import org.kuali.kfs.module.cam.document.service.AssetLocationService.LocationField;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
@@ -93,11 +101,15 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilderModuleService {
+    private static Logger LOG = Logger.getLogger(CapitalAssetBuilderModuleService.class);
 
     /**
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#getAllAssetTransactionTypes()
@@ -144,7 +156,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * capital via a parameter setting.
      */
     public boolean doesAccountingLineFailAutomaticPurchaseOrderRules(AccountingLine accountingLine) {
-        PurApAccountingLine purapAccountingLine = (PurApAccountingLine)accountingLine;
+        PurApAccountingLine purapAccountingLine = (PurApAccountingLine) accountingLine;
         purapAccountingLine.refreshNonUpdateableReferences();
         return getParameterService().getParameterEvaluator(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.CAPITAL_ASSET_OBJECT_LEVELS, purapAccountingLine.getObjectCode().getFinancialObjectLevelCode()).evaluationSucceeds();
     }
@@ -157,7 +169,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         PurchasingDocument purchasingDocument = (PurchasingDocument) accountingDocument;
         return ObjectUtils.isNotNull(purchasingDocument.getPurchasingCapitalAssetItems()) && !purchasingDocument.getPurchasingCapitalAssetItems().isEmpty();
     }
-    
+
     public boolean validateAutomaticPurchaseOrderRule(AccountingDocument accountingDocument) {
         PurchasingDocument purchasingDocument = (PurchasingDocument) accountingDocument;
         for (PurApItem item : purchasingDocument.getItems()) {
@@ -1105,8 +1117,9 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     private boolean isCapitalAssetDataRequired(AccountingDocument accountingDocument, String dataEntryExpected) {
         boolean isCapitalAssetDataRequired = true;
         String accountingDocumentType = accountingDocument.getDocumentHeader().getWorkflowDocument().getDocumentType();
-        //if (isDocumentTypeRestricted(accountingDocument) || accountingDocumentType.equals(KFSConstants.FinancialDocumentTypeCodes.INTERNAL_BILLING)) {
-        if (accountingDocumentType.equals(KFSConstants.FinancialDocumentTypeCodes.INTERNAL_BILLING)) {            
+        // if (isDocumentTypeRestricted(accountingDocument) ||
+        // accountingDocumentType.equals(KFSConstants.FinancialDocumentTypeCodes.INTERNAL_BILLING)) {
+        if (accountingDocumentType.equals(KFSConstants.FinancialDocumentTypeCodes.INTERNAL_BILLING)) {
             if (dataEntryExpected.equals(KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE + KFSConstants.TARGET_ACCT_LINE_TYPE_CODE))
                 isCapitalAssetDataRequired = false;
         }
@@ -1125,7 +1138,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         String accountingDocumentType = accountingDocument.getDocumentHeader().getWorkflowDocument().getDocumentType();
         if (accountingDocumentType.equals(KFSConstants.FinancialDocumentTypeCodes.CASH_RECEIPT)) {
             canCreateNewAsset = false;
-        } else {
+        }
+        else {
             if (isDocumentTypeRestricted(accountingDocument) && dataEntryExpected.equals(KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE))
                 canCreateNewAsset = false;
         }
@@ -1409,10 +1423,10 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             Integer poId = getPurchaseOrderIdentifier(documentNumber);
             if (poId != null) {
                 List<Long> assetNumbers = null;
-                if (CabConstants.ASSET_GLOBAL_MAINTENANCE_DOCUMENT.equalsIgnoreCase(documentType)) {
+                if (DocumentTypeName.ASSET_ADD_GLOBAL.equalsIgnoreCase(documentType)) {
                     assetNumbers = getAssetNumbersFromAssetGlobal(documentNumber);
                 }
-                else if (CabConstants.ASSET_PAYMENT_DOCUMENT.equalsIgnoreCase(documentType)) {
+                else if (DocumentTypeName.ASSET_PAYMENT.equalsIgnoreCase(documentType)) {
                     assetNumbers = getAssetNumbersFromAssetPayment(documentNumber);
                 }
 
@@ -1437,9 +1451,15 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         if (matchingGlAssets != null && !matchingGlAssets.isEmpty()) {
             for (GeneralLedgerEntryAsset generalLedgerEntryAsset : matchingGlAssets) {
                 GeneralLedgerEntry generalLedgerEntry = generalLedgerEntryAsset.getGeneralLedgerEntry();
+                // release asset lock
+                getCapitalAssetManagementModuleService().deleteAssetLocks(generalLedgerEntry.getDocumentNumber(), null);
+
+                // update gl status as processed
                 generalLedgerEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS);
                 this.getBusinessObjectService().save(generalLedgerEntry);
+
             }
+
         }
     }
 
@@ -1453,36 +1473,61 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         fieldValues.put(CabPropertyConstants.PurchasingAccountsPayableItemAsset.CAMS_DOCUMENT_NUMBER, documentNumber);
         Collection<PurchasingAccountsPayableItemAsset> matchingAssets = this.getBusinessObjectService().findMatching(PurchasingAccountsPayableItemAsset.class, fieldValues);
         if (matchingAssets != null && !matchingAssets.isEmpty()) {
-            Map<Long, GeneralLedgerEntry> updateGlLines = new HashMap<Long, GeneralLedgerEntry>();
+            // Map<Long, GeneralLedgerEntry> updateGlLines = new HashMap<Long, GeneralLedgerEntry>();
             // update item and account status code to 'P' as fully processed
             for (PurchasingAccountsPayableItemAsset itemAsset : matchingAssets) {
+
                 itemAsset.setActivityStatusCode(CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS);
                 for (PurchasingAccountsPayableLineAssetAccount assetAccount : itemAsset.getPurchasingAccountsPayableLineAssetAccounts()) {
                     assetAccount.setActivityStatusCode(CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS);
                     GeneralLedgerEntry generalLedgerEntry = assetAccount.getGeneralLedgerEntry();
-                    updateGlLines.put(generalLedgerEntry.getGeneralLedgerAccountIdentifier(), generalLedgerEntry);
-                }
-                this.getBusinessObjectService().save(itemAsset);
 
-            }
-            // update general ledger entry status code to 'P' as fully processed
-            for (GeneralLedgerEntry glEntry : updateGlLines.values()) {
-                if (isGlEntryFullyProcessed(glEntry)) {
-                    glEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS);
-                    this.getBusinessObjectService().save(glEntry);
-                }
-            }
+                    // updateGlLines.put(generalLedgerEntry.getGeneralLedgerAccountIdentifier(), generalLedgerEntry);
 
-            // update cab document status code to 'P' as all its items fully processed
-            for (PurchasingAccountsPayableItemAsset itemAsset : matchingAssets) {
+                    if (isGlEntryFullyProcessed(generalLedgerEntry)) {
+                        generalLedgerEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS);
+                        this.getBusinessObjectService().save(generalLedgerEntry);
+                    }
+                }
+
+                // update cab document status code to 'P' as all its items fully processed
                 PurchasingAccountsPayableDocument purapDocument = itemAsset.getPurchasingAccountsPayableDocument();
                 if (isDocumentFullyProcessed(purapDocument)) {
                     purapDocument.setActivityStatusCode(CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS);
-                    this.getBusinessObjectService().save(purapDocument);
                 }
+
+                this.getBusinessObjectService().save(purapDocument);
+
+                if (isAccountsPayableItemLineFullyProcessed(itemAsset)) {
+                    // release the asset lock no matter if it's Asset global or Asset Payment since the CAB user can create Asset global doc even if Purap Asset numbers existing.
+                    getCapitalAssetManagementModuleService().deleteAssetLocks(itemAsset.getDocumentNumber(), itemAsset.getAccountsPayableLineItemIdentifier().toString());
+                }
+
             }
         }
 
+    }
+
+    /**
+     * Check all item lines from the same PREQ/CM item are fully processed.
+     * 
+     * @param itemAsset
+     * @return
+     */
+    protected boolean isAccountsPayableItemLineFullyProcessed(PurchasingAccountsPayableItemAsset itemAsset) {
+        Map fieldValues = new HashMap<String, Object>();
+
+        fieldValues.put(CabPropertyConstants.PurchasingAccountsPayableItemAsset.DOCUMENT_NUMBER, itemAsset.getDocumentNumber());
+        fieldValues.put(CabPropertyConstants.PurchasingAccountsPayableItemAsset.ACCOUNTS_PAYABLE_LINE_ITEM_IDENTIFIER, itemAsset.getAccountsPayableLineItemIdentifier());
+
+        Collection<PurchasingAccountsPayableItemAsset> matchingItems = getBusinessObjectService().findMatching(PurchasingAccountsPayableItemAsset.class, fieldValues);
+
+        for (PurchasingAccountsPayableItemAsset item : matchingItems) {
+            if (!CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS.equals(item.getActivityStatusCode())) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -1492,7 +1537,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @return
      */
     protected boolean isGlEntryFullyProcessed(GeneralLedgerEntry glEntry) {
-        glEntry.refreshReferenceObject(CabPropertyConstants.GeneralLedgerEntry.PURAP_LINE_ASSET_ACCOUNTS);
+        // glEntry.refreshReferenceObject(CabPropertyConstants.GeneralLedgerEntry.PURAP_LINE_ASSET_ACCOUNTS);
         for (PurchasingAccountsPayableLineAssetAccount account : glEntry.getPurApLineAssetAccounts()) {
             if (!CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS.equalsIgnoreCase(account.getActivityStatusCode())) {
                 return false;
@@ -1508,7 +1553,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @return
      */
     protected boolean isDocumentFullyProcessed(PurchasingAccountsPayableDocument purapDocument) {
-        purapDocument.refreshReferenceObject(CabPropertyConstants.PurchasingAccountsPayableDocument.PURCHASEING_ACCOUNTS_PAYABLE_ITEM_ASSETS);
+        // purapDocument.refreshReferenceObject(CabPropertyConstants.PurchasingAccountsPayableDocument.PURCHASEING_ACCOUNTS_PAYABLE_ITEM_ASSETS);
         for (PurchasingAccountsPayableItemAsset item : purapDocument.getPurchasingAccountsPayableItemAssets()) {
             if (!CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS.equalsIgnoreCase(item.getActivityStatusCode())) {
                 return false;
@@ -1527,7 +1572,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     private String buildNoteTextForPurApDoc(String documentType, List<Long> assetNumbers) {
         StringBuffer noteText = new StringBuffer();
 
-        if (CabConstants.ASSET_GLOBAL_MAINTENANCE_DOCUMENT.equalsIgnoreCase(documentType)) {
+        if (DocumentTypeName.ASSET_ADD_GLOBAL.equalsIgnoreCase(documentType)) {
             noteText.append("Asset Numbers have been created for this document: ");
         }
         else {
@@ -1678,5 +1723,9 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         return SpringContext.getBean(KualiModuleService.class);
     }
 
+    public CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
+        return SpringContext.getBean(CapitalAssetManagementModuleService.class);
+    }
 
+    
 }

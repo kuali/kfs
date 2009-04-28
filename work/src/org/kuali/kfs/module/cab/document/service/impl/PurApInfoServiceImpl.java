@@ -32,10 +32,14 @@ import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsse
 import org.kuali.kfs.module.cab.document.exception.PurApDocumentUnavailableException;
 import org.kuali.kfs.module.cab.document.service.PurApInfoService;
 import org.kuali.kfs.module.cab.document.web.struts.PurApLineForm;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
@@ -382,6 +386,9 @@ public class PurApInfoServiceImpl implements PurApInfoService {
             PurchaseOrderDocument po = ((VendorCreditMemoDocument) item.getPurapDocument()).getPurchaseOrderDocument();
             PurchaseOrderItem poi = null;
             if (item.getItemType().isLineItemIndicator()) {
+                if (po.getItems() == null || po.getItems().isEmpty()) {
+                    po.refreshReferenceObject("items");
+                }
                 poi = (PurchaseOrderItem) po.getItem(item.getItemLineNumber().intValue() - 1);
             }
             else {
@@ -400,6 +407,72 @@ public class PurApInfoServiceImpl implements PurApInfoService {
             LOG.error("getPurchaseOrderItemfromCreditMemoItem() Returning null because paymentRequest object is null");
             throw new PurError("Credit Memo Object in Purchase Order item line number " + item.getItemLineNumber() + "or itemType " + item.getItemTypeCode() + " is null");
         }
+    }
+
+
+    public List<Long> retrieveValidAssetNumberForLocking(Integer poId, String capitalAssetSystemTypeCode, PurApItem purApItem) {
+        List<Long> capitalAssetNumbers = new ArrayList<Long>();
+        CapitalAssetSystem capitalAssetSystem = null;
+
+        if (PurapConstants.CapitalAssetTabStrings.INDIVIDUAL_ASSETS.equalsIgnoreCase(capitalAssetSystemTypeCode)) {
+            // If PurAp sets the CAMS as INDIVIDUAL system
+            capitalAssetSystem = getCapitalAssetSystemForIndividual(poId, purApItem);
+
+        }
+        else if (PurapConstants.CapitalAssetTabStrings.ONE_SYSTEM.equalsIgnoreCase(capitalAssetSystemTypeCode)) {
+            capitalAssetSystem = this.getPurchaseOrderService().retrieveCapitalAssetSystemForOneSystem(poId);
+        }
+        else if (PurapConstants.CapitalAssetTabStrings.MULTIPLE_SYSTEMS.equalsIgnoreCase(capitalAssetSystemTypeCode)) {
+            // Currently, MULTIPLE system has no way to set asset information. As a result,we'll ignore multiple system type for the
+            // time being..
+        }
+
+        if (ObjectUtils.isNotNull(capitalAssetSystem) && capitalAssetSystem.getItemCapitalAssets() != null && !capitalAssetSystem.getItemCapitalAssets().isEmpty()) {
+            for (ItemCapitalAsset itemCapitalAsset : capitalAssetSystem.getItemCapitalAssets()) {
+                if (itemCapitalAsset.getCapitalAssetNumber() != null) {
+                    Map pKeys = new HashMap<String, Object>();
+
+                    pKeys.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, itemCapitalAsset.getCapitalAssetNumber());
+
+                    Asset asset = (Asset) businessObjectService.findByPrimaryKey(Asset.class, pKeys);
+                    if (ObjectUtils.isNotNull(asset) && getAssetService().isCapitalAsset(asset) && !getAssetService().isAssetRetired(asset)) {
+                        capitalAssetNumbers.add(itemCapitalAsset.getCapitalAssetNumber());
+                    }
+                }
+            }
+        }
+        return capitalAssetNumbers;
+    }
+
+    private CapitalAssetSystem getCapitalAssetSystemForIndividual(Integer poId, PurApItem purApItem) {
+        List<PurchasingCapitalAssetItem> capitalAssetItems = this.getPurchaseOrderService().retrieveCapitalAssetItemsForIndividual(poId);
+        if (capitalAssetItems == null || capitalAssetItems.isEmpty()) {
+            return null;
+        }
+
+        String purchaseOrderItemIdentifier = null;
+        PurchaseOrderItem poi = null;
+        if (purApItem instanceof PaymentRequestItem) {
+            poi = ((PaymentRequestItem) purApItem).getPurchaseOrderItem();
+
+        }
+        else if (purApItem instanceof CreditMemoItem) {
+            poi = getPurchaseOrderItemfromCreditMemoItem((CreditMemoItem) purApItem);
+        }
+
+        if (poi != null) {
+            purchaseOrderItemIdentifier = poi.getItemIdentifier().toString();
+        }
+        for (PurchasingCapitalAssetItem capitalAssetItem : capitalAssetItems) {
+            if (capitalAssetItem.getItemIdentifier().equals(purchaseOrderItemIdentifier)) {
+                return capitalAssetItem.getPurchasingCapitalAssetSystem();
+            }
+        }
+        return null;
+    }
+
+    private AssetService getAssetService() {
+        return SpringContext.getBean(AssetService.class);
     }
 
     /**

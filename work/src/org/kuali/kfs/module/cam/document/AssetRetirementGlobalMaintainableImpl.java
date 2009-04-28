@@ -21,9 +21,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
@@ -45,6 +47,7 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 
 /**
@@ -56,9 +59,8 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetRetirementGlobalMaintainableImpl.class);
     private static final String RETIRED_ASSET_TRANSFERRED_EXTERNALLY = "RetiredAssetTransferredExternally";
     private static final String RETIRED_ASSET_SOLD_OR_GIFTED = "RetiredAssetSoldOrGifted";
-    
+
     /**
-     * 
      * @see org.kuali.kfs.sys.document.FinancialSystemGlobalMaintainable#answerSplitNodeQuestion(java.lang.String)
      */
     @Override
@@ -81,40 +83,63 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
-        List<MaintenanceLock> maintenanceLocks = new ArrayList();
-
-        // Lock the merge target capital asset if it exists
+        List<Long> capitalAssetNumbers = new ArrayList<Long>();
         if (getAssetRetirementService().isAssetRetiredByMerged(assetRetirementGlobal)) {
-            MaintenanceLock maintenanceLock = new MaintenanceLock();
-            StringBuffer lockRep = new StringBuffer();
-
-            lockRep.append(Asset.class.getName() + KFSConstants.Maintenance.AFTER_CLASS_DELIM);
-            lockRep.append(CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER + KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
-            lockRep.append(assetRetirementGlobal.getMergedTargetCapitalAssetNumber());
-
-            maintenanceLock.setDocumentNumber(assetRetirementGlobal.getDocumentNumber());
-            maintenanceLock.setLockingRepresentation(lockRep.toString());
-
-            maintenanceLocks.add(maintenanceLock);
+            capitalAssetNumbers.add(assetRetirementGlobal.getMergedTargetCapitalAssetNumber());
         }
 
-        // Lock all source assets
-        for (AssetRetirementGlobalDetail detail : assetRetirementGlobal.getAssetRetirementGlobalDetails()) {
-            MaintenanceLock maintenanceLock = new MaintenanceLock();
-            StringBuffer lockRep = new StringBuffer();
-
-            lockRep.append(Asset.class.getName() + KFSConstants.Maintenance.AFTER_CLASS_DELIM);
-            lockRep.append(CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER + KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
-            lockRep.append(detail.getCapitalAssetNumber());
-
-            maintenanceLock.setDocumentNumber(detail.getDocumentNumber());
-            maintenanceLock.setLockingRepresentation(lockRep.toString());
-
-            maintenanceLocks.add(maintenanceLock);
+        for (AssetRetirementGlobalDetail retirementDetail : assetRetirementGlobal.getAssetRetirementGlobalDetails()) {
+            capitalAssetNumbers.add(retirementDetail.getCapitalAssetNumber());
         }
 
-        return maintenanceLocks;
+        this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, documentNumber, DocumentTypeName.ASSET_RETIREMENT_GLOBAL, null);
+
+        return new ArrayList<MaintenanceLock>();
     }
+
+    protected CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
+        return SpringContext.getBean(CapitalAssetManagementModuleService.class);
+    }
+
+    // @Override
+    // public List<MaintenanceLock> generateMaintenanceLocks() {
+    // AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
+    // List<MaintenanceLock> maintenanceLocks = new ArrayList();
+    //
+    // // Lock the merge target capital asset if it exists
+    // if (getAssetRetirementService().isAssetRetiredByMerged(assetRetirementGlobal)) {
+    // MaintenanceLock maintenanceLock = new MaintenanceLock();
+    // StringBuffer lockRep = new StringBuffer();
+    //
+    // lockRep.append(Asset.class.getName() + KFSConstants.Maintenance.AFTER_CLASS_DELIM);
+    // lockRep.append(CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER +
+    // KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+    // lockRep.append(assetRetirementGlobal.getMergedTargetCapitalAssetNumber());
+    //
+    // maintenanceLock.setDocumentNumber(assetRetirementGlobal.getDocumentNumber());
+    // maintenanceLock.setLockingRepresentation(lockRep.toString());
+    //
+    // maintenanceLocks.add(maintenanceLock);
+    // }
+    //
+    // // Lock all source assets
+    // for (AssetRetirementGlobalDetail detail : assetRetirementGlobal.getAssetRetirementGlobalDetails()) {
+    // MaintenanceLock maintenanceLock = new MaintenanceLock();
+    // StringBuffer lockRep = new StringBuffer();
+    //
+    // lockRep.append(Asset.class.getName() + KFSConstants.Maintenance.AFTER_CLASS_DELIM);
+    // lockRep.append(CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER +
+    // KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+    // lockRep.append(detail.getCapitalAssetNumber());
+    //
+    // maintenanceLock.setDocumentNumber(detail.getDocumentNumber());
+    // maintenanceLock.setLockingRepresentation(lockRep.toString());
+    //
+    // maintenanceLocks.add(maintenanceLock);
+    // }
+    //
+    // return maintenanceLocks;
+    // }
 
 
     @Override
@@ -127,7 +152,7 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
                 assetRetirementGlobal.setMergedTargetCapitalAssetDescription(assetRetirementGlobal.getMergedTargetCapitalAsset().getCapitalAssetDescription());
             }
         }
-        
+
         // add doc header description if retirement reason is "MERGED"
         if (CamsConstants.AssetRetirementReasonCode.MERGED.equals(assetRetirementGlobal.getRetirementReasonCode())) {
             document.getDocumentHeader().setDocumentDescription(CamsConstants.AssetRetirementGlobal.MERGE_AN_ASSET_DESCRIPTION);
@@ -154,18 +179,18 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
     public void addMultipleValueLookupResults(MaintenanceDocument document, String collectionName, Collection<PersistableBusinessObject> rawValues, boolean needsBlank, PersistableBusinessObject bo) {
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) document.getDocumentBusinessObject();
         List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails = assetRetirementGlobal.getAssetRetirementGlobalDetails();
-        
-        int nElements=assetRetirementGlobal.getAssetRetirementGlobalDetails().size() + rawValues.size();
+
+        int nElements = assetRetirementGlobal.getAssetRetirementGlobalDetails().size() + rawValues.size();
         if (!getAssetService().isDocumentEnrouting(document) && !getAssetRetirementService().isAllowedRetireMultipleAssets(document) && nElements > new Integer(1)) {
-              GlobalVariables.getErrorMap().putErrorForSectionId(CamsConstants.AssetRetirementGlobal.SECTION_ID_ASSET_DETAIL_INFORMATION, CamsKeyConstants.Retirement.ERROR_MULTIPLE_ASSET_RETIRED);
-        } else {
+            GlobalVariables.getErrorMap().putErrorForSectionId(CamsConstants.AssetRetirementGlobal.SECTION_ID_ASSET_DETAIL_INFORMATION, CamsKeyConstants.Retirement.ERROR_MULTIPLE_ASSET_RETIRED);
+        }
+        else {
             GlobalVariables.getErrorMap().clear();
 
-            //Adding the selected asset.
+            // Adding the selected asset.
             super.addMultipleValueLookupResults(document, collectionName, rawValues, needsBlank, bo);
         }
     }
-
 
 
     /**
@@ -204,23 +229,23 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
     public void handleRouteStatusChange(DocumentHeader documentHeader) {
         super.handleRouteStatusChange(documentHeader);
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
-        
-        if(documentHeader.getWorkflowDocument().stateIsEnroute()){
-            //display a message for asset not generating ledger entries when it is federally owned 
+
+        if (documentHeader.getWorkflowDocument().stateIsEnroute()) {
+            // display a message for asset not generating ledger entries when it is federally owned
             boolean allPaymentsFederalOwned = true;
             List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails = assetRetirementGlobal.getAssetRetirementGlobalDetails();
             for (AssetRetirementGlobalDetail assetRetirementGlobalDetail : assetRetirementGlobalDetails) {
                 for (AssetPayment assetPayment : assetRetirementGlobalDetail.getAsset().getAssetPayments()) {
                     if (!getAssetPaymentService().isPaymentFederalOwned(assetPayment)) {
-                        allPaymentsFederalOwned =  false;
+                        allPaymentsFederalOwned = false;
                     }
                 }
             }
-     
+
             if (allPaymentsFederalOwned) {
                 GlobalVariables.getMessageList().add(CamsKeyConstants.Retirement.MESSAGE_NO_LEDGER_ENTRY_REQUIRED_RETIREMENT);
             }
-           
+
         }
         // all approvals have been processed, the retirement date is set to the approval date
         if (documentHeader.getWorkflowDocument().stateIsProcessed()) {
@@ -231,9 +256,14 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
                 assetRetirementGlobal.getMergedTargetCapitalAsset().setCapitalAssetDescription(assetRetirementGlobal.getMergedTargetCapitalAssetDescription());
                 SpringContext.getBean(BusinessObjectService.class).save(assetRetirementGlobal.getMergedTargetCapitalAsset());
             }
-            
+
         }
         new AssetRetirementGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) documentHeader).handleRouteStatusChange(assetRetirementGlobal.getGeneralLedgerPendingEntries());
+
+        KualiWorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();
+        if (workflowDoc.stateIsCanceled() || workflowDoc.stateIsDisapproved() || workflowDoc.stateIsProcessed() || workflowDoc.stateIsFinal()) {
+            this.getCapitalAssetManagementModuleService().deleteAssetLocks(documentNumber, null);
+        }
     }
 
     /**
@@ -254,7 +284,7 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
         return Asset.class;
     }
 
-    
+
     private AssetRetirementService getAssetRetirementService() {
         return SpringContext.getBean(AssetRetirementService.class);
     }
@@ -262,7 +292,7 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
     private AssetService getAssetService() {
         return SpringContext.getBean(AssetService.class);
     }
-    
+
     private AssetPaymentService getAssetPaymentService() {
         return SpringContext.getBean(AssetPaymentService.class);
     }

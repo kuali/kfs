@@ -345,4 +345,11 @@
 		<property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetObjectCode" /> 
 	</bean>	
 
+	<!-- Start Asset Lock beans -->
+	
+    <bean id="capitalAssetLockDao" parent="platformAwareDao" class="org.kuali.kfs.module.cam.dataaccess.impl.CapitalAssetLockDaoOjb" />
+    <bean id="assetLockService" class="org.kuali.kfs.module.cam.service.impl.AssetLockServiceImpl">
+    	<property name="capitalAssetLockDao" ref="capitalAssetLockDao" />
+    </bean>
+    <!-- End Asset Lock beans -->
 </beans>

@@ -30,6 +30,9 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.gl.businessobject.Entry;
+import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
+import org.kuali.kfs.integration.purap.CapitalAssetSystem;
+import org.kuali.kfs.integration.purap.ItemCapitalAsset;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.batch.ExtractProcessLog;
@@ -49,17 +52,25 @@ import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAsse
 import org.kuali.kfs.module.cab.document.service.PurApInfoService;
 import org.kuali.kfs.module.cab.document.service.PurApLineService;
 import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
+import org.kuali.kfs.module.cam.document.service.AssetService;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountRevision;
+import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccountRevision;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
@@ -311,6 +322,9 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         // Keep track of unique account lines
         HashMap<String, PurchasingAccountsPayableLineAssetAccount> assetAcctLines = new HashMap<String, PurchasingAccountsPayableLineAssetAccount>();
 
+        // Keep track of asset lock
+        HashMap<String, Object> assetLocks = new HashMap<String, Object>();
+
         for (GlAccountLineGroup group : matchedGroups) {
             Entry entry = group.getTargetEntry();
             GeneralLedgerEntry generalLedgerEntry = new GeneralLedgerEntry(entry);
@@ -383,6 +397,27 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                         // if account line key matches within same GL Entry, combine the amount
                         assetAccount.setItemAccountTotalAmount(assetAccount.getItemAccountTotalAmount().add(purApAccountingLine.getAmount()));
                     }
+
+                    // Add to the asset lock table if purap has asset number information
+                    PurchaseOrderDocument purApdocument = getPurApInfoService().getCurrentDocumentForPurchaseOrderIdentifier(cabPurapDoc.getPurchaseOrderIdentifier());
+                    String lockingInformation = null;
+                    String assetLockKey = cabPurapDoc.getDocumentNumber();
+                    // Only individual system will lock on item line number. other system will using preq/cm doc nbr as the locking
+                    // key
+                    if (PurapConstants.CapitalAssetTabStrings.INDIVIDUAL_ASSETS.equalsIgnoreCase(purApdocument.getCapitalAssetSystemTypeCode())) {
+                        lockingInformation = purapItem.getItemIdentifier().toString();
+                        assetLockKey = cabPurapDoc.getDocumentNumber() + "-" + lockingInformation;
+                    }
+                    // set asset locks if the locks not exist HashMap and not in asset lock table either.
+                    if (!assetLocks.containsKey(assetLockKey) && !getCapitalAssetManagementModuleService().isAssetLockedByDocument(cabPurapDoc.getDocumentNumber(), lockingInformation)) {
+                        // the below method  need several PurAp service calls which may take long time to run.
+                        List capitalAssetNumbers = getAssetNumbersForLocking(purApdocument, purapItem);
+                        if (capitalAssetNumbers != null && !capitalAssetNumbers.isEmpty()) {
+                            boolean lockingResult = this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, cabPurapDoc.getDocumentNumber(), cabPurapDoc.getDocumentTypeCode(), lockingInformation);
+                            // add into cache
+                            assetLocks.put(assetLockKey, lockingResult);
+                        }
+                    }
                 }
                 businessObjectService.save(cabPurapDoc);
 
@@ -397,6 +432,8 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                 if (newApDoc) {
                     purApDocuments.add(cabPurapDoc);
                 }
+
+
             }
             else {
                 LOG.error("Could not create a valid PurchasingAccountsPayableDocument object for document number " + entry.getDocumentNumber());
@@ -404,6 +441,20 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         }
         updateProcessLog(processLog, reconciliationService);
         return purApDocuments;
+    }
+
+    private List getAssetNumbersForLocking(PurchaseOrderDocument purApdocument, PurApItem purapItem) {
+
+        String capitalAssetSystemTypeCode = purApdocument.getCapitalAssetSystemTypeCode();
+        if (!PurapConstants.CapitalAssetSystemStates.MODIFY.equalsIgnoreCase(purApdocument.getCapitalAssetSystemStateCode())) {
+            return null;
+        }
+        return getPurApInfoService().retrieveValidAssetNumberForLocking(purApdocument.getPurapDocumentIdentifier(), purApdocument.getCapitalAssetSystemTypeCode(), purapItem);
+    }
+
+
+    private CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
+        return SpringContext.getBean(CapitalAssetManagementModuleService.class);
     }
 
     private GeneralLedgerEntry createPositiveGlEntry(Entry entry) {

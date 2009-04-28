@@ -918,4 +918,13 @@
 		<foreignkey field-ref="documentNumber" />
 	</reference-descriptor>
 </class-descriptor>
+
+<class-descriptor class="org.kuali.kfs.module.cam.businessobject.AssetLock" table="CM_CPTLAST_LOCK_T">
+    <field-descriptor name="documentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+    <field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT" primarykey="true" index="true"/>
+    <field-descriptor name="lockingInformation" column="LOCK_INFO_TXT" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+    <field-descriptor name="documentTypeName" column="DOC_TYP_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+</class-descriptor>
 </descriptor-repository>

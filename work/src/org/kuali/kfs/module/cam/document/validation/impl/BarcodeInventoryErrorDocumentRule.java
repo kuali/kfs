@@ -34,6 +34,7 @@ import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
 import org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.DocumentLockingService;
+import org.kuali.kfs.module.cam.service.AssetLockService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -319,10 +320,16 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
                 result = false;
             }
             else if ((assets.size() > 0)) {
-                isAssetLocked = getAssetService().isAssetLocked("", assets.get(0).getCapitalAssetNumber());
-                if (isAssetLocked) {
-                    String lockingDocumentId = getAssetService().getLockingDocumentId(documentNumber, assets.get(0).getCapitalAssetNumber());
-                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.ASSET_TAG_NUMBER, CamsKeyConstants.BarcodeInventory.ERROR_ASSET_LOCKED, lockingDocumentId);
+                // isAssetLocked = getAssetService().isAssetLocked("", assets.get(0).getCapitalAssetNumber());
+                List<Long> assetNumbers = new ArrayList<Long>();
+                assetNumbers.add(assets.get(0).getCapitalAssetNumber());
+                List<String> lockingDocNumbers = SpringContext.getBean(AssetLockService.class).getAssetLockingDocuments(assetNumbers, CamsConstants.DocumentTypeName.ASSET_BARCODE_INVENTORY_ERROR, documentNumber);
+                if (lockingDocNumbers != null && !lockingDocNumbers.isEmpty()) {
+                    for (String lockingDocNumber : lockingDocNumbers) {
+                        // String lockingDocumentId = getAssetService().getLockingDocumentId(documentNumber,
+                        // assets.get(0).getCapitalAssetNumber());
+                        GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.ASSET_TAG_NUMBER, CamsKeyConstants.BarcodeInventory.ERROR_ASSET_LOCKED, lockingDocNumber);
+                    }
                     result = false;
                 }
             }

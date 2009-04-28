@@ -20,6 +20,7 @@ import java.util.List;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
 import org.kuali.kfs.module.cab.document.web.struts.PurApLineForm;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 
 
@@ -27,6 +28,15 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
  * This class declares methods used by CAB PurAp Line process
  */
 public interface PurApInfoService {
+    /**
+     * Valid asset number means asset number must exist in Asset table with status active ( a, c, s, u)
+     * 
+     * @param poId
+     * @param capitalAssetSystemTypeCode
+     * @param purApItem
+     * @return
+     */
+    List<Long> retrieveValidAssetNumberForLocking(Integer poId, String capitalAssetSystemTypeCode, PurApItem purApItem);
 
     /**
      * Get the workflow document number for given poId

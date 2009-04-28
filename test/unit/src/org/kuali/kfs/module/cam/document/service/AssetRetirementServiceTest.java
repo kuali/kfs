@@ -55,7 +55,7 @@ public class AssetRetirementServiceTest extends KualiTestBase {
      */
     @ConfigureContext(session = UserNameFixture.bomiddle, shouldCommitTransactions = false)
     public void testCreateGLPostables_Success() throws Exception {
-        MaintenanceDocument document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument(CamsConstants.DocumentTypeName.RETIREMENT);
+        MaintenanceDocument document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument(CamsConstants.DocumentTypeName.ASSET_RETIREMENT_GLOBAL);
         AssetRetirementGlobal assetRetirementGlobal = AssetRetirementGlobalMaintainableFixture.RETIREMENT1.newAssetRetirement();
         // create poster
         AssetRetirementGeneralLedgerPendingEntrySource assetRetirementGlPoster = new AssetRetirementGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) document.getDocumentHeader());

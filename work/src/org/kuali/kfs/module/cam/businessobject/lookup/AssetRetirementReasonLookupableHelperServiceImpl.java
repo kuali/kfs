@@ -64,7 +64,7 @@ public class AssetRetirementReasonLookupableHelperServiceImpl extends KualiLooku
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         
         if (initializingAssetRetirement) {
-            FinancialSystemMaintenanceDocumentAuthorizerBase documentAuthorizer = (FinancialSystemMaintenanceDocumentAuthorizerBase) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(CamsConstants.DocumentTypeName.RETIREMENT);
+            FinancialSystemMaintenanceDocumentAuthorizerBase documentAuthorizer = (FinancialSystemMaintenanceDocumentAuthorizerBase) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(CamsConstants.DocumentTypeName.ASSET_RETIREMENT_GLOBAL);
             
             // do not allow user to issue a retirement doc. if not active.
             if (!assetRetirementReason.isActive()) {

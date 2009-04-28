@@ -18,9 +18,6 @@ package org.kuali.kfs.module.cab;
 import org.kuali.rice.core.util.JSTLConstants;
 
 public class CabConstants extends JSTLConstants {
-    public static final String ASSET_PAYMENT_DOCUMENT = "MPAY";
-    public static final String ASSET_GLOBAL_MAINTENANCE_DOCUMENT = "AA";
-
     public static final String PREQ = "PREQ";
     public static final String CM = "CM";
 

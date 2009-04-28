@@ -23,7 +23,7 @@
 	<bean id="AssetPayment-assetCountValidation" class="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentAssetCountValidation" abstract="true"/>
 
 	<bean id="AssetPayment-lockValidation" class="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentLockValidation" abstract="true">
-		<property name="assetService" ref="assetService" />
+		<property name="assetLockService" ref="assetLockService" />
 	</bean>
 	
 	<bean id="AssetPayment-documentTypeValidation" class="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentDocumentTypeValidation" abstract="true">

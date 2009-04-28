@@ -32,6 +32,7 @@ import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.document.service.GlLineService;
+import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.util.RiceConstants;
 import org.kuali.rice.kew.dto.DocumentTypeDTO;
@@ -155,7 +156,7 @@ public class GlLineAction extends CabActionBase {
         if (!pendingList.isEmpty()) {
             return mapping.findForward(RiceConstants.MAPPING_BASIC);
         }
-        return new ActionForward(prepareDocHandlerUrl(maintDoc, CabConstants.ASSET_GLOBAL_MAINTENANCE_DOCUMENT), true);
+        return new ActionForward(prepareDocHandlerUrl(maintDoc, DocumentTypeName.ASSET_ADD_GLOBAL), true);
     }
 
     private void preparePendingForAction(ActionMapping mapping, HttpServletRequest request, GlLineForm glLineForm, Document maintDoc, List<GeneralLedgerEntry> pendingList) {
@@ -234,7 +235,7 @@ public class GlLineAction extends CabActionBase {
         if (!pendingList.isEmpty()) {
             return mapping.findForward(RiceConstants.MAPPING_BASIC);
         }
-        return new ActionForward(prepareDocHandlerUrl(document, CabConstants.ASSET_PAYMENT_DOCUMENT), true);
+        return new ActionForward(prepareDocHandlerUrl(document, DocumentTypeName.ASSET_PAYMENT), true);
     }
 
     /**

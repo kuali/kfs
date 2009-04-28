@@ -15,11 +15,13 @@
  */
 package org.kuali.kfs.module.cam.document.validation.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
-import org.kuali.kfs.module.cam.document.service.AssetService;
+import org.kuali.kfs.module.cam.service.AssetLockService;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
@@ -28,7 +30,7 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
  */
 public class AssetPaymentLockValidation extends GenericValidation {
 
-    private AssetService assetService;
+    private AssetLockService assetLockService;
 
     /**
      * Validates asset to ensure it is not locked by any other document
@@ -37,22 +39,22 @@ public class AssetPaymentLockValidation extends GenericValidation {
      */
     public boolean validate(AttributedDocumentEvent event) {
         AssetPaymentDocument assetPaymentDocument = (AssetPaymentDocument) event.getDocument();
-        List<AssetPaymentAssetDetail> assetPaymentAssetDetails =assetPaymentDocument.getAssetPaymentAssetDetail(); 
-        
-        for(AssetPaymentAssetDetail assetPaymentAssetDetail:assetPaymentAssetDetails) {            
-            if (assetService.isAssetLocked(assetPaymentDocument.getDocumentNumber(), assetPaymentAssetDetail.getCapitalAssetNumber())){                            
-                return false;
-            }
+        List<Long> assetNumbers = new ArrayList<Long>();
+        for (AssetPaymentAssetDetail assetPaymentAssetDetail : assetPaymentDocument.getAssetPaymentAssetDetail()) {
+            assetNumbers.add(assetPaymentAssetDetail.getCapitalAssetNumber());
         }
-        
+        if (assetLockService.isAssetLocked(assetNumbers,CamsConstants.DocumentTypeName.ASSET_PAYMENT, assetPaymentDocument.getDocumentNumber())) {
+            return false;
+        }
+
         return true;
     }
 
-    public AssetService getAssetService() {
-        return assetService;
+    public AssetLockService getAssetLockService() {
+        return assetLockService;
     }
 
-    public void setAssetService(AssetService assetService) {
-        this.assetService = assetService;
+    public void setAssetLockService(AssetLockService assetLockService) {
+        this.assetLockService = assetLockService;
     }
 }

@@ -15,11 +15,15 @@
  */
 package org.kuali.kfs.module.cam.document;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
 import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetFabrication;
 import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinder;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
@@ -27,13 +31,15 @@ import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
 import org.kuali.kfs.module.cam.document.service.RetirementInfoService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 import org.kuali.rice.kns.web.ui.Section;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * This class implements custom data preparation for displaying asset edit screen.
@@ -42,6 +48,33 @@ import org.kuali.rice.kns.web.ui.Section;
 public class AssetMaintainableImpl extends KualiMaintainableImpl {
     private Asset newAsset;
     private Asset copyAsset;
+
+    @Override
+    public List<MaintenanceLock> generateMaintenanceLocks() {
+        // If it is asset edit, add the lock for asset number. For Fabrication, won't lock for asset not created yet.
+        if (this.getBusinessObject() instanceof Asset && !(this.getBusinessObject() instanceof AssetFabrication)) {
+            List<Long> capitalAssetNumbers = new ArrayList<Long>();
+            Asset asset = (Asset) this.getBusinessObject();
+            capitalAssetNumbers.add(asset.getCapitalAssetNumber());
+
+            this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, documentNumber, DocumentTypeName.ASSET_EDIT, null);
+        }
+        return new ArrayList<MaintenanceLock>();
+    }
+
+    @Override
+    public void handleRouteStatusChange(DocumentHeader documentHeader) {
+        super.handleRouteStatusChange(documentHeader);
+        KualiWorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();
+        // release lock for asset edit...
+        if ((this.getBusinessObject() instanceof Asset && !(this.getBusinessObject() instanceof AssetFabrication)) && (workflowDoc.stateIsCanceled() || workflowDoc.stateIsDisapproved() || workflowDoc.stateIsProcessed() || workflowDoc.stateIsFinal())) {
+            this.getCapitalAssetManagementModuleService().deleteAssetLocks(documentNumber, null);
+        }
+    }
+
+    protected CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
+        return SpringContext.getBean(CapitalAssetManagementModuleService.class);
+    }
 
     /**
      * @see org.kuali.rice.kns.maintenance.Maintainable#processAfterEdit(org.kuali.rice.kns.document.MaintenanceDocument,
@@ -131,7 +164,7 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl {
     public void processAfterNew(MaintenanceDocument document, Map<String, String[]> parameters) {
         super.processAfterNew(document, parameters);
         initializeAttributes(document);
-        //document.getNewMaintainableObject().setGenerateDefaultValues(false);
+        // document.getNewMaintainableObject().setGenerateDefaultValues(false);
         if (newAsset.getCreateDate() == null) {
             newAsset.setCreateDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
             newAsset.setAcquisitionTypeCode(CamsConstants.Asset.ACQUISITION_TYPE_CODE_C);
@@ -142,11 +175,11 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl {
             getAssetService().setFiscalPeriod(newAsset);
         }
     }
-    
+
     @Override
-	public void setGenerateDefaultValues(String docTypeName) {		
-		
-	}
+    public void setGenerateDefaultValues(String docTypeName) {
+
+    }
 
     private AssetService getAssetService() {
         return SpringContext.getBean(AssetService.class);

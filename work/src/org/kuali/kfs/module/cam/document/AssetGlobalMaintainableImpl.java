@@ -24,8 +24,10 @@ import java.util.Map;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
+import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetDepreciationConvention;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
@@ -34,6 +36,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetOrganization;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
+import org.kuali.kfs.module.cam.businessobject.AssetLock;
 import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinder;
 import org.kuali.kfs.module.cam.document.gl.AssetGlobalGeneralLedgerPendingEntrySource;
 import org.kuali.kfs.module.cam.document.service.AssetDateService;
@@ -56,6 +59,7 @@ import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global assets
@@ -63,7 +67,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 public class AssetGlobalMaintainableImpl extends FinancialSystemGlobalMaintainable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalMaintainableImpl.class);
     private static final String REQUIRES_REVIEW = "RequiresReview";
-
+    
     /**
      * If the Add Asset Global document is submit from CAB, bypass all the approvers.
      */
@@ -367,12 +371,13 @@ public class AssetGlobalMaintainableImpl extends FinancialSystemGlobalMaintainab
             // Set for document number and document type code
             if (getAssetGlobalService().existsInGroup(CamsConstants.AssetGlobal.NON_NEW_ACQUISITION_CODE_GROUP, assetGlobal.getAcquisitionTypeCode())) {
                 assetPaymentDetail.setExpenditureFinancialDocumentNumber(documentNumber);
-                assetPaymentDetail.setExpenditureFinancialDocumentTypeCode(CamsConstants.AssetGlobal.DOCUMENT_TYPE_CODE);
+                assetPaymentDetail.setExpenditureFinancialDocumentTypeCode(CamsConstants.DocumentTypeName.ASSET_ADD_GLOBAL);
                 assetPaymentDetail.setExpenditureFinancialSystemOriginationCode(KFSConstants.ORIGIN_CODE_KUALI);
             }
         }
     }
 
+    
     /**
      * Creates locking representation for this global document. The locking is only applicable for assets that are being split. The
      * assets that are being created do not need to be locked since they don't exist yet.
@@ -382,24 +387,48 @@ public class AssetGlobalMaintainableImpl extends FinancialSystemGlobalMaintainab
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
-        List<MaintenanceLock> maintenanceLocks = new ArrayList<MaintenanceLock>();
-
         AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
-
         if (assetGlobalService.isAssetSeparate(assetGlobal)) {
-            MaintenanceLock assetSeperateMaintenanceLock = new MaintenanceLock();
-            StringBuffer lockRep = new StringBuffer();
+            List<Long> capitalAssetNumbers = new ArrayList<Long>();
+            capitalAssetNumbers.add(assetGlobal.getSeparateSourceCapitalAssetNumber());
 
-            lockRep.append(Asset.class.getName() + KFSConstants.Maintenance.AFTER_CLASS_DELIM);
-            lockRep.append(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER + KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
-            lockRep.append(assetGlobal.getSeparateSourceCapitalAssetNumber());
-
-            assetSeperateMaintenanceLock.setDocumentNumber(assetGlobal.getDocumentNumber());
-            assetSeperateMaintenanceLock.setLockingRepresentation(lockRep.toString());
-            maintenanceLocks.add(assetSeperateMaintenanceLock);
+            this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, documentNumber, DocumentTypeName.ASSET_SEPARATE, null);
         }
-        return maintenanceLocks;
+        
+        return new ArrayList<MaintenanceLock>();
     }
+    
+    protected CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
+        return SpringContext.getBean(CapitalAssetManagementModuleService.class);
+    }
+    
+    /**
+     * Creates locking representation for this global document. The locking is only applicable for assets that are being split. The
+     * assets that are being created do not need to be locked since they don't exist yet.
+     * 
+     * @see org.kuali.rice.kns.maintenance.Maintainable#generateMaintenanceLocks()
+     */
+//    @Override
+//    public List<MaintenanceLock> generateMaintenanceLocks() {
+//        AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
+//        List<MaintenanceLock> maintenanceLocks = new ArrayList<MaintenanceLock>();
+//
+//        AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
+//
+//        if (assetGlobalService.isAssetSeparate(assetGlobal)) {
+//            MaintenanceLock assetSeperateMaintenanceLock = new MaintenanceLock();
+//            StringBuffer lockRep = new StringBuffer();
+//
+//            lockRep.append(Asset.class.getName() + KFSConstants.Maintenance.AFTER_CLASS_DELIM);
+//            lockRep.append(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER + KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+//            lockRep.append(assetGlobal.getSeparateSourceCapitalAssetNumber());
+//
+//            assetSeperateMaintenanceLock.setDocumentNumber(assetGlobal.getDocumentNumber());
+//            assetSeperateMaintenanceLock.setLockingRepresentation(lockRep.toString());
+//            maintenanceLocks.add(assetSeperateMaintenanceLock);
+//        }
+//        return maintenanceLocks;
+//    }
 
 
     /**
@@ -648,6 +677,15 @@ public class AssetGlobalMaintainableImpl extends FinancialSystemGlobalMaintainab
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
         List<GeneralLedgerPendingEntry> generalLedgerPendingEntries = assetGlobal.getGeneralLedgerPendingEntries();
         new AssetGlobalGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) documentHeader).handleRouteStatusChange(generalLedgerPendingEntries);
+        
+        // release lock for separate source asset...
+        KualiWorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();
+        AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
+        if (assetGlobalService.isAssetSeparate(assetGlobal) && (workflowDoc.stateIsCanceled() || workflowDoc.stateIsDisapproved() || workflowDoc.stateIsProcessed() || workflowDoc.stateIsFinal())) {
+            this.getCapitalAssetManagementModuleService().deleteAssetLocks(documentNumber, null);
+        }
+        
+        // notify CAB of document status change
         if (((AssetGlobal) getBusinessObject()).isCapitalAssetBuilderOriginIndicator()) {
             SpringContext.getBean(CapitalAssetBuilderModuleService.class).notifyRouteStatusChange(documentHeader);
         }

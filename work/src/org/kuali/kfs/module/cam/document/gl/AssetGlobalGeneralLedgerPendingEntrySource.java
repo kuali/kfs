@@ -39,7 +39,7 @@ public class AssetGlobalGeneralLedgerPendingEntrySource extends CamsGeneralLedge
     }
 
     public String getFinancialDocumentTypeCode() {
-        return CamsConstants.AssetGlobal.DOCUMENT_TYPE_CODE;
+        return CamsConstants.DocumentTypeName.ASSET_ADD_GLOBAL;
     }
 
 }

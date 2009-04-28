@@ -1,0 +1,258 @@
+/*
+ * Copyright 2009 The Kuali Foundation.
+ * 
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl1.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.kuali.kfs.module.cam.service.impl;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
+import org.kuali.kfs.module.cab.CabConstants;
+import org.kuali.kfs.module.cab.CabPropertyConstants;
+import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
+import org.kuali.kfs.module.cam.businessobject.AssetLock;
+import org.kuali.kfs.module.cam.dataaccess.CapitalAssetLockDao;
+import org.kuali.kfs.module.cam.service.AssetLockService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.kns.util.UrlFactory;
+
+public class AssetLockServiceImpl implements AssetLockService {
+    private static Logger LOG = Logger.getLogger(AssetLockService.class);
+
+    private CapitalAssetLockDao capitalAssetLockDao;
+
+    // FP document types includes:
+    // CashReceipt,DistributionOfIncomeAndExpense,GeneralErrorCorrection,InternalBilling,ServiceBilling,YearEndDistributionOfIncomeAndExpense,YearEndGeneralErrorCorrection,ProcurementCard
+    private static final Map<String, String> FINANCIAL_DOC_TYPE_MAP = new HashMap<String, String>();
+    static {
+        FINANCIAL_DOC_TYPE_MAP.put(DocumentTypeName.FP_CASH_RECEIPT, DocumentTypeName.FP_CASH_RECEIPT);
+        FINANCIAL_DOC_TYPE_MAP.put(DocumentTypeName.FP_DISTRIBUTION_OF_INCOME_AND_EXPENSE, DocumentTypeName.FP_DISTRIBUTION_OF_INCOME_AND_EXPENSE);
+        FINANCIAL_DOC_TYPE_MAP.put(DocumentTypeName.FP_GENERAL_ERROR_CORRECTION, DocumentTypeName.FP_GENERAL_ERROR_CORRECTION);
+        FINANCIAL_DOC_TYPE_MAP.put(DocumentTypeName.FP_INTERNAL_BILLING, DocumentTypeName.FP_INTERNAL_BILLING);
+        FINANCIAL_DOC_TYPE_MAP.put(DocumentTypeName.FP_SERVICE_BILLING, DocumentTypeName.FP_SERVICE_BILLING);
+        FINANCIAL_DOC_TYPE_MAP.put(DocumentTypeName.FP_YEAR_END_DISTRIBUTION_INCOME_EXPENSE, DocumentTypeName.FP_YEAR_END_DISTRIBUTION_INCOME_EXPENSE);
+        FINANCIAL_DOC_TYPE_MAP.put(DocumentTypeName.FP_YEAR_END_GENERAL_ERROR_CORRECTION, DocumentTypeName.FP_YEAR_END_GENERAL_ERROR_CORRECTION);
+        FINANCIAL_DOC_TYPE_MAP.put(DocumentTypeName.FP_PROCUREMENT_CARD, DocumentTypeName.FP_PROCUREMENT_CARD);
+    }
+
+    // CAMS document types for maintain asset: AssetMaintenance, AssetFabrication, Asset Global, Asset Location Global,
+    // LoanAndReturn
+    private static final Map<String, String> ASSET_MAINTAIN_DOC_TYPE_MAP = new HashMap<String, String>();
+    static {
+        ASSET_MAINTAIN_DOC_TYPE_MAP.put(DocumentTypeName.ASSET_EDIT, DocumentTypeName.ASSET_EDIT);
+        ASSET_MAINTAIN_DOC_TYPE_MAP.put(DocumentTypeName.ASSET_LOCATION_GLOBAL, DocumentTypeName.ASSET_LOCATION_GLOBAL);
+        ASSET_MAINTAIN_DOC_TYPE_MAP.put(DocumentTypeName.ASSET_EQUIPMENT_LOAN_OR_RETURN, DocumentTypeName.ASSET_EQUIPMENT_LOAN_OR_RETURN);
+        ASSET_MAINTAIN_DOC_TYPE_MAP.put(DocumentTypeName.ASSET_BARCODE_INVENTORY_ERROR, DocumentTypeName.ASSET_BARCODE_INVENTORY_ERROR);
+    }
+
+    // CAMS document types relating payment changes: AssetRetirement and Merge, AssetTransfer, AssetPayment, Asset Separate
+    private static final Map<String, String> ASSET_PMT_CHG_DOC_TYPE_MAP = new HashMap<String, String>();
+    static {
+        ASSET_PMT_CHG_DOC_TYPE_MAP.put(DocumentTypeName.ASSET_RETIREMENT_GLOBAL, DocumentTypeName.ASSET_RETIREMENT_GLOBAL);
+        ASSET_PMT_CHG_DOC_TYPE_MAP.put(DocumentTypeName.ASSET_TRANSFER, DocumentTypeName.ASSET_TRANSFER);
+        ASSET_PMT_CHG_DOC_TYPE_MAP.put(DocumentTypeName.ASSET_PAYMENT, DocumentTypeName.ASSET_PAYMENT);
+        ASSET_PMT_CHG_DOC_TYPE_MAP.put(DocumentTypeName.ASSET_SEPARATE, DocumentTypeName.ASSET_SEPARATE);
+    }
+
+    protected boolean isPurApDocument(String documentTypeName) {
+        return CabConstants.PREQ.equals(documentTypeName) || CabConstants.CM.equals(documentTypeName);
+    }
+
+    /**
+     * Gets the capitalAssetLockDao attribute.
+     * 
+     * @return Returns the capitalAssetLockDao.
+     */
+    public CapitalAssetLockDao getCapitalAssetLockDao() {
+        return capitalAssetLockDao;
+    }
+
+
+    /**
+     * Sets the capitalAssetLockDao attribute value.
+     * 
+     * @param capitalAssetLockDao The capitalAssetLockDao to set.
+     */
+    public void setCapitalAssetLockDao(CapitalAssetLockDao capitalAssetLockDao) {
+        this.capitalAssetLockDao = capitalAssetLockDao;
+    }
+
+
+    /**
+     * @param assetLocks must be from the same documentNumber and have the same documentTypeName
+     * @return Return false without any of the asset being locked. Return true when all assets can be locked.
+     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#checkAndLockForDocument(java.util.Collection)
+     */
+    public synchronized boolean checkAndSetAssetLocks(List<AssetLock> assetLocks) {
+        if (assetLocks == null || assetLocks.isEmpty() || !assetLocks.iterator().hasNext()) {
+            return true;
+        }
+
+        AssetLock lock = assetLocks.iterator().next();
+        String documentTypeName = lock.getDocumentTypeName();
+        String documentNumber = lock.getDocumentNumber();
+
+        // build asset number collection for lock checking.
+        List assetNumbers = new ArrayList<Long>();
+        for (AssetLock assetLock : assetLocks) {
+            assetNumbers.add(assetLock.getCapitalAssetNumber());
+        }
+
+        // check each assetNumber is not locked by other document(s). PurAp document will ignore the locks since CAB batch will
+        // set the lock anyway.
+        if (isAssetLocked(assetNumbers, documentTypeName, documentNumber)) {
+            return false;
+        }
+        // locking. here we got to delete and save again...it looks clumsy but it is constrained by the framework, see
+        // MaintenanceDocumentBase.postProcessSave() for example.
+        deleteAssetLocks(documentNumber, lock.getLockingInformation());
+        getBusinessObjectService().save(assetLocks);
+
+        return true;
+    }
+
+    /**
+     * To get blocking document types for given document type. If given document type is FP, blocking documents will be CAMS payment
+     * change documents. If given document type is CAMs maintain related, the blocking documents are all CAMs doc excluding FP and
+     * PURAP. For other cases, returning null which will block all other documents.
+     * 
+     * @param documentTypeName
+     * @return
+     */
+    protected Collection getBlockingDocumentTypes(String documentTypeName) {
+        // FP document should be blocked by CAMS Payment change documents.
+        if (FINANCIAL_DOC_TYPE_MAP.containsKey(documentTypeName)) {
+            return ASSET_PMT_CHG_DOC_TYPE_MAP.values();
+        }
+        // CAMS maintain docs
+        else if (ASSET_MAINTAIN_DOC_TYPE_MAP.containsKey(documentTypeName)) {
+            List financialDocTypes = new ArrayList<String>();
+            financialDocTypes.addAll(ASSET_MAINTAIN_DOC_TYPE_MAP.values());
+            financialDocTypes.addAll(ASSET_PMT_CHG_DOC_TYPE_MAP.values());
+            return financialDocTypes;
+        }
+        // For CAMs payment change document, any doc type can be the blocker, return null for this case
+        return null;
+    }
+
+    /**
+     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#deleteLocks(java.lang.String, java.lang.String)
+     */
+    public void deleteAssetLocks(String documentNumber, String lockingInformation) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(CabPropertyConstants.CapitalAssetLock.DOCUMENT_NUMBER, documentNumber);
+        if (StringUtils.isNotBlank(lockingInformation)) {
+            fieldValues.put(CabPropertyConstants.CapitalAssetLock.LOCKING_INFORMATION, lockingInformation);
+        }
+        getBusinessObjectService().deleteMatching(AssetLock.class, fieldValues);
+    }
+
+    /**
+     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#generateAssetLocks(java.util.Collection,
+     *      java.lang.String, java.lang.String, java.lang.String)
+     */
+    public List<AssetLock> buildAssetLockHelper(List<Long> assetNumbers, String documentNumber, String documentType, String lockingInformation) {
+        List<AssetLock> assetLocks = new ArrayList<AssetLock>();
+
+        for (Long assetNumber : assetNumbers) {
+            AssetLock newLock = new AssetLock(documentNumber, assetNumber, lockingInformation, documentType);
+            assetLocks.add(newLock);
+        }
+        return assetLocks;
+    }
+
+
+    /**
+     * Generating error messages and doc links for blocking documents.
+     * 
+     * @param blockingDocuments
+     */
+    protected void addBlockingDocumentErrorMessage(Collection<String> blockingDocuments) {
+        for (String blockingDocId : blockingDocuments) {
+            // build the link URL for the blocking document. Better to use DocHandler because this could be
+            // a maintenance document or tDoc.
+            Properties parameters = new Properties();
+            parameters.put(KNSConstants.PARAMETER_DOC_ID, blockingDocId);
+            parameters.put(KNSConstants.PARAMETER_COMMAND, KNSConstants.METHOD_DISPLAY_DOC_SEARCH_VIEW);
+
+            String blockingUrl = UrlFactory.parameterizeUrl(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/" + KNSConstants.DOC_HANDLER_ACTION, parameters);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("blockingUrl = '" + blockingUrl + "'");
+                LOG.debug("Record: " + blockingDocId + "is locked.");
+            }
+
+            // post an error about the locked document
+            String[] errorParameters = { blockingUrl, blockingDocId };
+            GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_MAINTENANCE_LOCKED, errorParameters);
+        }
+    }
+
+    private BusinessObjectService getBusinessObjectService() {
+        return SpringContext.getBean(BusinessObjectService.class);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.cam.service.AssetLockService#isAssetLockedByDocument(java.lang.String, java.lang.String)
+     */
+    public boolean isAssetLockedByDocument(String documentNumber, String lockingInformation) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(CabPropertyConstants.CapitalAssetLock.DOCUMENT_NUMBER, documentNumber);
+        if (StringUtils.isNotBlank(lockingInformation)) {
+            fieldValues.put(CabPropertyConstants.CapitalAssetLock.LOCKING_INFORMATION, lockingInformation);
+        }
+        Collection<AssetLock> assetLocks = getBusinessObjectService().findMatching(AssetLock.class, fieldValues);
+        return assetLocks != null && !assetLocks.isEmpty();
+    }
+
+    /**
+     * Based on the given documentTypeName, it decides what document types could block it.
+     * 
+     * @see org.kuali.kfs.module.cam.service.AssetLockService#isAssetLocked(java.util.List, java.lang.String, java.lang.String)
+     */
+    public boolean isAssetLocked(List<Long> assetNumbers, String documentTypeName, String excludingDocumentNumber) {
+        if (!isPurApDocument(documentTypeName)) {
+            List<String> lockingDocumentNumbers = getAssetLockingDocuments(assetNumbers, documentTypeName, excludingDocumentNumber);
+            if (lockingDocumentNumbers != null && !lockingDocumentNumbers.isEmpty()) {
+                addBlockingDocumentErrorMessage(lockingDocumentNumbers);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.cam.service.AssetLockService#getAssetLockingDocuments(java.util.List, java.lang.String,
+     *      java.lang.String)
+     */
+    public List<String> getAssetLockingDocuments(List<Long> assetNumbers, String documentTypeName, String excludingDocumentNumber) {
+        Collection blockingDocumentTypes = getBlockingDocumentTypes(documentTypeName);
+        List<String> lockingDocumentNumbers = getCapitalAssetLockDao().getLockingDocumentNumbers(assetNumbers, blockingDocumentTypes, excludingDocumentNumber);
+        return lockingDocumentNumbers;
+    }
+
+
+}

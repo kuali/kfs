@@ -77,6 +77,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private OriginationCodeService originationCodeService;
     private PersistenceStructureService persistenceStructureService;
     private BalanceTypService balanceTypService;
+    private boolean continuationAccountIndicator;
     
     public static final String DATE_FORMAT_STRING = "yyyy-MM-dd";
     
@@ -131,7 +132,8 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      */
     public List<Message> validateTransaction(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate, boolean laborIndicator, AccountingCycleCachingService accountingCycleCachingService) {
         LOG.debug("validateTransaction() started");
-        boolean continuationAccountIndicator = false;
+        
+        continuationAccountIndicator = false;
         
         List<Message> errors = new ArrayList<Message>();
 
@@ -201,13 +203,13 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
         // Labor Scrubber doesn't validate Account here.
         if (!laborIndicator) {
-            err = validateAccount(originEntry, scrubbedEntry, universityRunDate, continuationAccountIndicator, accountingCycleCachingService);
+            err = validateAccount(originEntry, scrubbedEntry, universityRunDate, accountingCycleCachingService);
             if (err != null) {
                 errors.add(err);
             }
         }
 
-        err = validateSubAccount(originEntry, scrubbedEntry, continuationAccountIndicator, accountingCycleCachingService);
+        err = validateSubAccount(originEntry, scrubbedEntry, accountingCycleCachingService);
         if (err != null) {
             errors.add(err);
         }
@@ -290,7 +292,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      * @param universityRunDate the run date of the scrubber process
      * @return a Message if the account was invalid, or null if no error was encountered
      */
-    private Message validateAccount(OriginEntry originEntry, OriginEntry workingEntry, UniversityDate universityRunDate, boolean continuationAccountIndicator, AccountingCycleCachingService accountingCycleCachingService) {
+    private Message validateAccount(OriginEntry originEntry, OriginEntry workingEntry, UniversityDate universityRunDate, AccountingCycleCachingService accountingCycleCachingService) {
         LOG.debug("validateAccount() started");
 
         Account originEntryAccount = accountingCycleCachingService.getAccount(originEntry.getChartOfAccountsCode(), originEntry.getAccountNumber());
@@ -334,7 +336,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         long offsetAccountExpirationTime = getAdjustedAccountExpirationDate(originEntryAccount);
 
         if (isExpired(offsetAccountExpirationTime, today) || !originEntryAccount.isActive()) {
-            Message error = continuationAccountLogic(originEntry, workingEntry, today, continuationAccountIndicator, accountingCycleCachingService);
+            Message error = continuationAccountLogic(originEntry, workingEntry, today, accountingCycleCachingService);
             if (error != null) {
                 return error;
             }
@@ -352,7 +354,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      * @param today the run date of the scrubber (to test against expiration dates)
      * @return a Message if an error was encountered, otherwise null
      */
-    private Message continuationAccountLogic(OriginEntry originEntry, OriginEntry workingEntry, Calendar today, boolean continuationAccountIndicator, AccountingCycleCachingService accountingCycleCachingService) {
+    private Message continuationAccountLogic(OriginEntry originEntry, OriginEntry workingEntry, Calendar today, AccountingCycleCachingService accountingCycleCachingService) {
 
         List checkedAccountNumbers = new ArrayList();
 
@@ -490,7 +492,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      * @param workingEntry the scrubbed version of the origin entry
      * @return a Message if an error was encountered, otherwise null
      */
-    private Message validateSubAccount(OriginEntry originEntry, OriginEntry workingEntry, boolean continuationAccountIndicator, AccountingCycleCachingService accountingCycleCachingService) {
+    private Message validateSubAccount(OriginEntry originEntry, OriginEntry workingEntry, AccountingCycleCachingService accountingCycleCachingService) {
         LOG.debug("validateSubAccount() started");
 
         // when continuationAccount used, the subAccountNumber should be changed to dashes and skip validation subAccount process

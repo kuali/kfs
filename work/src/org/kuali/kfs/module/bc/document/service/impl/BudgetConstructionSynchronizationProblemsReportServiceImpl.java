@@ -101,7 +101,7 @@ public class BudgetConstructionSynchronizationProblemsReportServiceImpl implemen
         else {
             orgSynchronizationProblemsReportEntry.setOrganizationName(orgName);
         }
-        orgSynchronizationProblemsReportEntry.setFiscalYear(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4));
+        orgSynchronizationProblemsReportEntry.setFiscalYear(prevFiscalyear.toString() + "-" + universityFiscalYear.toString().substring(2, 4));
     }
     
     

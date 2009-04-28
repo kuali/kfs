@@ -53,6 +53,8 @@
         <ref bean="LineItemReceivingDocument-versionNumber"/>
         <ref bean="LineItemReceivingDocument-lineItemReceivingStatusCode"/>      
         <ref bean="LineItemReceivingDocument-workflowStatusForResult"/>   
+        <ref bean="LineItemReceivingDocument-documentTitleForResult"/>
+        <ref bean="LineItemReceivingDocument-createDateForResult"/>
       </list>
     </property>
 	<property name="relationships">
@@ -445,7 +447,28 @@
     </property>
   </bean>
   
+  <bean id="LineItemReceivingDocument-documentTitleForResult" parent="LineItemReceivingDocument-documentTitleForResult-parentBean"/>
+
+  <bean id="LineItemReceivingDocument-documentTitleForResult-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentTitleForResult"/>
+    <property name="label" value="Type"/>
+    <property name="shortLabel" value="Type"/>
+    <property name="maxLength" value="50"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+  </bean>
   
-  
+  <bean id="LineItemReceivingDocument-createDateForResult" parent="LineItemReceivingDocument-createDateForResult-parentBean"/>
+
+  <bean id="LineItemReceivingDocument-createDateForResult-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+    <property name="name" value="createDateForResult"/>
+    <property name="label" value="Date Created"/>
+    <property name="shortLabel" value="Date Created"/>
+  </bean>
     
 </beans>

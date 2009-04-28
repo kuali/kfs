@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.purap.document;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -39,6 +40,7 @@ import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.service.CountryService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -653,6 +655,14 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
         }else{
             return StringUtils.EMPTY;
         }
+    }
+    
+    public java.util.Date getCreateDateForResult() {
+        return new java.util.Date(getDocumentHeader().getWorkflowDocument().getCreateDate().getTime());
+    }
+    
+    public String getDocumentTitleForResult() throws WorkflowException{
+        return KNSServiceLocator.getWorkflowInfoService().getDocType(this.getDocumentHeader().getWorkflowDocument().getDocumentType()).getDocTypeLabel();
     }
     
 }

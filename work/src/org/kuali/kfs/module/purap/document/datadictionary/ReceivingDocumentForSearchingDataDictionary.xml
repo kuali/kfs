@@ -142,6 +142,36 @@
     				  </list>
     			  </property>
     		  </bean>
+    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.LineItemReceivingDocument"/>
+    						<property name="attributeName" value="createDateForResult"/>
+    						<property name="showAttributeInSearchCriteria" value="false"/>
+    						<property name="showAttributeInResultSet" value="true"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>createDateForResult</value>
+    					</list>
+    				</property>
+    			</bean>   		
+    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		      <property name="searchingAttribute">
+    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.LineItemReceivingDocument"/>
+    					  <property name="attributeName" value="documentTitleForResult"/>
+    					  <property name="showAttributeInSearchCriteria" value="false"/>
+    					  <property name="showAttributeInResultSet" value="true"/>
+    				  </bean>
+    			  </property>
+    			  <property name="documentValues">
+    			      <list>
+    					  <value>documentTitleForResult</value>
+    				  </list>
+    			  </property>
+    		  </bean>
           </list>  
       </property>
   </bean>

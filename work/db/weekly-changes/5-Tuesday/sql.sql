@@ -17,3 +17,7 @@ ALTER TABLE KRNS_MAINT_LOCK_T ADD PRIMARY KEY (MAINT_LOCK_ID)
 /
 ALTER TABLE KRNS_MAINT_LOCK_T MODIFY MAINT_LOCK_REP_TXT VARCHAR2(500)
 /
+
+update krim_role_perm_t set role_id = '83' where perm_id = '262'
+/
+

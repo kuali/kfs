@@ -21,3 +21,5 @@ ALTER TABLE KRNS_MAINT_LOCK_T MODIFY MAINT_LOCK_REP_TXT VARCHAR2(500)
 update krim_role_perm_t set role_id = '83' where perm_id = '262'
 /
 
+update krim_entity_emp_info_t set EMP_REC_ID = 1
+/

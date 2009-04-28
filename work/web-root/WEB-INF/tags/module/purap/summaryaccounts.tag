@@ -108,11 +108,14 @@
 							&nbsp;
 						</td>
 					    <td class="datacell center">
-						<bean:write name="KualiForm" property="summaryAccounts[${ctr}].account.organizationReferenceId"/>&nbsp;</td>
+							<bean:write name="KualiForm" property="summaryAccounts[${ctr}].account.organizationReferenceId"/>&nbsp;
+						</td>
 					    <td class="datacell center">
-						<bean:write name="KualiForm" property="document.documentHeader.organizationDocumentNumber"/>&nbsp;</td>
+							<bean:write name="KualiForm" property="document.documentHeader.organizationDocumentNumber"/>&nbsp;
+						</td>
 						<td class="datacell center"><div align="right">
-						<bean:write name="KualiForm" property="summaryAccounts[${ctr}].account.amount"/>&nbsp;</div></td> 
+							<bean:write name="KualiForm" property="summaryAccounts[${ctr}].account.amount"/>&nbsp;</div>
+						</td> 
 					</tr>
 					
                     <tr>
@@ -125,44 +128,23 @@
                                     </th>
                                 </tr>            
                                 <tr>
-                                	<!-- 
-                                    <kul:htmlAttributeHeaderCell attributeEntry="${summaryItemAttributes.itemLineNumber}" />
-                                    <c:if test="${not (isPaymentRequest or isCreditMemo)}">
-                                    	<kul:htmlAttributeHeaderCell attributeEntry="${summaryItemAttributes.itemTypeCode}" />
-                                    </c:if>
-                                    -->
                                     <kul:htmlAttributeHeaderCell width="25%" >Item</kul:htmlAttributeHeaderCell>
                                     <kul:htmlAttributeHeaderCell width="50%" attributeEntry="${summaryItemAttributes.itemDescription}" />
                                     <kul:htmlAttributeHeaderCell width="25%" attributeEntry="${summaryItemAttributes.estimatedEncumberanceAmount}" />
-                                </tr>   
-                                <tr>                
-                                    <logic:iterate id="itemValue" name="KualiForm" property="summaryAccounts[${ctr}].items" indexId="ctrItem">
-                                        <tr>
-                                        	<!-- 
-                                            <td class="datacell center">
-                                                <kul:htmlControlAttribute attributeEntry="${summaryItemAttributes.itemLineNumber}" property="summaryAccounts[${ctr}].items[${ctrItem}].itemLineNumber" readOnly="true" />&nbsp;
-                                            </td>
-                                            <c:if test="${not (isPaymentRequest or isCreditMemo)}">
-	                                            <td class="datacell center">
-	                                                <kul:htmlControlAttribute attributeEntry="${summaryItemAttributes.itemTypeCode}" 
-	                                                	property="summaryAccounts[${ctr}].items[${ctrItem}].itemTypeCode"
-	                                                	extraReadOnlyProperty="summaryAccounts[${ctr}].items[${ctrItem}].itemType.itemTypeDescription" 
-	                                                	readOnly="true" />&nbsp;
-	                                            </td>
-	                                        </c:if>
-	                                        -->
-                                            <td width="25%" class="datacell center">
-                                                <kul:htmlControlAttribute attributeEntry="${summaryItemAttributes.itemLineNumber}" property="summaryAccounts[${ctr}].items[${ctrItem}].itemIdentifierString" readOnly="true" />&nbsp;
-                                            </td>	                                        
-                                            <td width="50%" class="datacell center">
-                                                <kul:htmlControlAttribute attributeEntry="${summaryItemAttributes.itemDescription}" property="summaryAccounts[${ctr}].items[${ctrItem}].itemDescription" readOnly="true" />&nbsp;
-                                            </td>
-                                            <td width="25%" class="datacell center">
-                                                <kul:htmlControlAttribute attributeEntry="${summaryItemAttributes.estimatedEncumberanceAmount}" property="summaryAccounts[${ctr}].items[${ctrItem}].estimatedEncumberanceAmount" readOnly="true" />&nbsp;
-                                            </td>
-                                        </tr>
-                                    </logic:iterate>
-                                </tr>
+                                </tr>           
+                                <logic:iterate id="itemValue" name="KualiForm" property="summaryAccounts[${ctr}].items" indexId="ctrItem">
+                                    <tr>
+                                        <td width="25%" class="datacell center">
+                                            <kul:htmlControlAttribute attributeEntry="${summaryItemAttributes.itemLineNumber}" property="summaryAccounts[${ctr}].items[${ctrItem}].itemIdentifierString" readOnly="true" />&nbsp;
+                                        </td>	                                        
+                                        <td width="50%" class="datacell center">
+                                            <kul:htmlControlAttribute attributeEntry="${summaryItemAttributes.itemDescription}" property="summaryAccounts[${ctr}].items[${ctrItem}].itemDescription" readOnly="true" />&nbsp;
+                                        </td>
+                                        <td width="25%" class="datacell center">
+                                            <kul:htmlControlAttribute attributeEntry="${summaryItemAttributes.estimatedEncumberanceAmount}" property="summaryAccounts[${ctr}].items[${ctrItem}].estimatedEncumberanceAmount" readOnly="true" />&nbsp;
+                                        </td>
+                                    </tr>
+                                </logic:iterate>
                             </table>
                             </div>
                         </td>

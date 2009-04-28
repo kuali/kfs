@@ -1366,7 +1366,7 @@
 					<reportElement
 						x="539"
 						y="131"
-						width="44"
+						width="43"
 						height="1"
 						key="line-95"/>
 					<graphicElement stretchType="NoStretch"/>

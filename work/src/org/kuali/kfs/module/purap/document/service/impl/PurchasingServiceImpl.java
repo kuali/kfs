@@ -35,6 +35,7 @@ import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.service.PurchasingDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
+import org.kuali.kfs.module.purap.util.PurApItemUtils;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
@@ -162,6 +163,7 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
      * @see org.kuali.kfs.module.purap.document.service.PurchasingService#prorateForTradeInAndFullOrderDiscount(org.kuali.kfs.module.purap.document.PurchasingDocument)
      */
     public void prorateForTradeInAndFullOrderDiscount(PurchasingDocument purDoc) {
+        //TODO: are we throwing sufficient errors in this method?
         PurApItem fullOrderDiscount = null;
         PurApItem tradeIn = null;
         KualiDecimal totalAmount = KualiDecimal.ZERO;
@@ -180,27 +182,32 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
         }
         // If Discount is not null or zero get proration list for all non misc items and set (if not empty?)
         if (fullOrderDiscount != null && fullOrderDiscount.getExtendedPrice().isNonZero()) {
-            // TODO: Chris check if we should update maybe use doc specific service since req is always update and po is only if
             // empty
+            GlobalVariables.getMessageList().add("Full order discount accounts cleared and regenerated");
             fullOrderDiscount.getSourceAccountingLines().clear();
-            // FIXME: is this really correct? including below the line?
-            totalAmount = purDoc.getTotalDollarAmountAllItems(new String[] { PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE });
-
-            summaryAccounts = purapAccountingService.generateSummary(purDoc.getItems());
+            totalAmount = purDoc.getTotalDollarAmountAboveLineItems();
+            //Before we generate account summary, we should update the account amounts first.
+            purapAccountingService.updateAccountAmounts(purDoc);
+            summaryAccounts = purapAccountingService.generateSummary(PurApItemUtils.getAboveTheLineOnly(purDoc.getItems()));
             if (summaryAccounts.size() == 0) {
                 if (purDoc.shouldGiveErrorForEmptyAccountsProration()) {
                     GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_SUMMARY_ACCOUNTS_LIST_EMPTY, "full order discount");    
                 }
             } else {
-                distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE, fullOrderDiscount.getAccountingLineClass());
+                distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, 2, fullOrderDiscount.getAccountingLineClass());
+                for (PurApAccountingLine distributedAccount : distributedAccounts) {
+                    BigDecimal percent = distributedAccount.getAccountLinePercent();
+                    BigDecimal roundedPercent = new BigDecimal(Math.round(percent.doubleValue()));
+                    distributedAccount.setAccountLinePercent(roundedPercent);
+                }
                 fullOrderDiscount.setSourceAccountingLines(distributedAccounts);
             }
+        } else if(fullOrderDiscount!=null && fullOrderDiscount.getExtendedPrice().isZero()) {
+           fullOrderDiscount.getSourceAccountingLines().clear();
         }
-        // TODO: Should we also check at least one trade in selected?
+        
         // If Discount is not null or zero get proration list for all non misc items and set (if not empty?)
         if (tradeIn != null && tradeIn.getExtendedPrice().isNonZero()) {
-            // TODO: Chris check if we should update maybe use doc specific service since req is always update and po is only if
-            // empty
             tradeIn.getSourceAccountingLines().clear();
 
             totalAmount = purDoc.getTotalDollarAmountForTradeIn();
@@ -214,7 +221,7 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
                 }
             }
             else {
-                distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE, tradeIn.getAccountingLineClass());
+                distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, 2, tradeIn.getAccountingLineClass());
                 for (PurApAccountingLine distributedAccount : distributedAccounts) {
                     BigDecimal percent = distributedAccount.getAccountLinePercent();
                     BigDecimal roundedPercent = new BigDecimal(Math.round(percent.doubleValue()));

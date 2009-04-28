@@ -48,6 +48,7 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocumentBase;
+import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
@@ -79,6 +80,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -647,7 +649,6 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 GlobalVariables.getErrorMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.ERROR_DISTRIBUTE_ACCOUNTS_NOT_100_PERCENT);
                 foundAccountDistributionError = true;
             }
-            
             // if the institution's validate account distribution indicator is true and
             // there is a validation error in the accounts to distribute then we should display an error
             if(institutionNeedsDistributeAccountValidation && needToDistributeAccount && (validateDistributeAccounts(purchasingForm.getDocument(), distributionsourceAccountingLines) == false)){                
@@ -681,7 +682,10 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                     // We should be distributing accounting lines to above the line items all the time;
                     // but only to the below the line items when there is a unit cost.
                     boolean unitCostNotZeroForBelowLineItems = item.getItemType().isLineItemIndicator() ? true : item.getItemUnitPrice() != null && zero.compareTo(item.getItemUnitPrice()) < 0;
-                    if (item.getSourceAccountingLines().size() == 0 && unitCostNotZeroForBelowLineItems && itemIsActive) {
+                    List<String> typesNotAllowingEdit = SpringContext.getBean(ParameterService.class).getParameterValues(((PurchasingFormBase)form).getDocument().getClass(), PurapParameterConstants.PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT);
+                    boolean itemOnExcludeList = (typesNotAllowingEdit==null)?false:typesNotAllowingEdit.contains(item.getItemTypeCode());
+                    if (item.getSourceAccountingLines().size() == 0 && unitCostNotZeroForBelowLineItems && 
+                         !itemOnExcludeList && itemIsActive) {
                         for (PurApAccountingLine purApAccountingLine : distributionsourceAccountingLines) {
                             item.getSourceAccountingLines().add((PurApAccountingLine)ObjectUtils.deepCopy(purApAccountingLine));                            
                         }
@@ -703,10 +707,10 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 purchasingForm.setHideDistributeAccounts(true);
             }
 
-            if ((needToDistributeAccount && !performedAccountDistribution && !foundAccountDistributionError)) {
+            if ((needToDistributeAccount && !performedAccountDistribution && foundAccountDistributionError)) {
                 GlobalVariables.getErrorMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.PURAP_GENERAL_NO_ITEMS_TO_DISTRIBUTE_TO, "account numbers");
             }
-            if (needToDistributeCommodityCode && !performedCommodityCodeDistribution && !foundCommodityCodeDistributionError) {
+            if (needToDistributeCommodityCode && !performedCommodityCodeDistribution && foundCommodityCodeDistributionError) {
                 GlobalVariables.getErrorMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.PURAP_GENERAL_NO_ITEMS_TO_DISTRIBUTE_TO, "commodity codes");
             }
         }

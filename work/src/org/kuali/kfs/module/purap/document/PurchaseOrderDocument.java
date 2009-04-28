@@ -67,6 +67,7 @@ import org.kuali.kfs.module.purap.document.service.PurchasingDocumentSpecificSer
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
+import org.kuali.kfs.module.purap.util.PurApItemUtils;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
@@ -1207,13 +1208,13 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
      */
     public KualiDecimal getTotalDollarAmount(boolean includeInactive, boolean includeBelowTheLine) {
         KualiDecimal total = new KualiDecimal(BigDecimal.ZERO);
-        for (PurchaseOrderItem item : (List<PurchaseOrderItem>) getItems()) {
+        for (PurApItem item : (List<PurApItem>) getItems()) {
             //temp fix for KULPURAP-3119
             if (item.getPurapDocument() == null) {
                 item.setPurapDocument(this);
             }
             ItemType it = item.getItemType();
-            if ((includeBelowTheLine || it.isLineItemIndicator()) && (includeInactive || item.isItemActiveIndicator())) {
+            if ((includeBelowTheLine || it.isLineItemIndicator()) && (includeInactive || PurApItemUtils.checkItemActive(item))) {
                 KualiDecimal totalAmount = item.getTotalAmount();
                 KualiDecimal itemTotal = (totalAmount != null) ? totalAmount : KualiDecimal.ZERO;
                 total = total.add(itemTotal);

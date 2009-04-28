@@ -15,12 +15,15 @@
  */
 package org.kuali.kfs.module.purap.document;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
+import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.Status;
+import org.kuali.kfs.module.purap.util.PurApItemUtils;
 import org.kuali.rice.kns.bo.Country;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
@@ -158,6 +161,7 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument, P
      */
     public KualiDecimal getTotalDollarAmountAllItems(String[] excludedTypes);
 
+    public KualiDecimal getTotalDollarAmountAboveLineItems();
     /**
      * Computes the pre tax total dollar amount of all items.
      * 
@@ -312,5 +316,4 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument, P
      * @return
      */
     public boolean isInquiryRendered();
-    
 }

@@ -26,13 +26,14 @@ import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.dataaccess.IndirectCostRecoveryExclusionAccountDao;
 import org.kuali.kfs.coa.dataaccess.IndirectCostRecoveryExclusionTypeDao;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.batch.PosterIndirectCostRecoveryEntriesStep;
 import org.kuali.kfs.gl.batch.service.AccountingCycleCachingService;
 import org.kuali.kfs.gl.batch.service.IndirectCostRecoveryService;
 import org.kuali.kfs.gl.batch.service.PostTransaction;
-import org.kuali.kfs.gl.businessobject.Encumbrance;
 import org.kuali.kfs.gl.businessobject.ExpenditureTransaction;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,11 +46,15 @@ import org.springframework.util.StringUtils;
 @Transactional
 public class PostExpenditureTransaction implements IndirectCostRecoveryService, PostTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostExpenditureTransaction.class);
+    
+    private static final String INDIRECT_COST_TYPES_PARAMETER = "INDIRECT_COST_TYPES";
+    private static final String INDIRECT_COST_FISCAL_PERIODS_PARAMETER = "INDIRECT_COST_FISCAL_PERIODS";
 
     private IndirectCostRecoveryExclusionAccountDao indirectCostRecoveryExclusionAccountDao;
     private IndirectCostRecoveryExclusionTypeDao indirectCostRecoveryExclusionTypeDao;
     private AccountingCycleCachingService accountingCycleCachingService;
     private PersistenceStructureService persistenceStructureService;
+    private ParameterService parameterService;
     
     public void setIndirectCostRecoveryExclusionAccountDao(IndirectCostRecoveryExclusionAccountDao icrea) {
         indirectCostRecoveryExclusionAccountDao = icrea;
@@ -80,8 +85,8 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
         LOG.debug("isIcrTransaction() started");
         
         // Is the ICR indicator set?
-        // Is the period code a non-balance period? If so, continue, if not, we aren't posting this transaction
-        if (objectType.isFinObjectTypeIcrSelectionIndicator() && (!KFSConstants.PERIOD_CODE_ANNUAL_BALANCE.equals(universityFiscalPeriodCode)) && (!KFSConstants.PERIOD_CODE_BEGINNING_BALANCE.equals(universityFiscalPeriodCode)) && (!KFSConstants.PERIOD_CODE_CG_BEGINNING_BALANCE.equals(universityFiscalPeriodCode))) {
+        // Is the period code a non-balance period, as specified by KFS-GL / Poster Indirect Cost Recoveries Step / INDIRECT_COST_FISCAL_PERIODS? If so, continue, if not, we aren't posting this transaction
+        if (objectType.isFinObjectTypeIcrSelectionIndicator() && getParameterService().getParameterEvaluator(PosterIndirectCostRecoveryEntriesStep.class, PostExpenditureTransaction.INDIRECT_COST_FISCAL_PERIODS_PARAMETER, universityFiscalPeriodCode).evaluationSucceeds()) {
             // Continue on the posting process
 
             // Check the sub account type code. A21 subaccounts with the type of CS don't get posted
@@ -137,12 +142,12 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
                 return true;
             }
             else {
-                // If the ICR type code is empty or 10, don't post
-
-                // TODO: use type 10 constant
-                if ((!StringUtils.hasText(indirectCostRecoveryTypeCode)) || KFSConstants.MONTH10.equals(indirectCostRecoveryTypeCode)) {
+                // If the ICR type code is empty or excluded by the KFS-GL / Poster Indirect Cost Recoveries Step / INDIRECT_COST_TYPES parameter, don't post
+                if ((!StringUtils.hasText(indirectCostRecoveryTypeCode)) || !getParameterService().getParameterEvaluator(PosterIndirectCostRecoveryEntriesStep.class, PostExpenditureTransaction.INDIRECT_COST_TYPES_PARAMETER, indirectCostRecoveryTypeCode).evaluationSucceeds()) {
                     // No need to post this
-                    LOG.debug("isIcrTransaction() ICR type is null or 10 - not posted");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("isIcrTransaction() ICR type is null or excluded by the KFS-GL / Poster Indirect Cost Recoveries Step / INDIRECT_COST_TYPES parameter - not posted");
+                    }
                     return false;
                 }
 
@@ -268,4 +273,21 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
     public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
         this.persistenceStructureService = persistenceStructureService;
     }
+
+    /**
+     * Gets the parameterService attribute. 
+     * @return Returns the parameterService.
+     */
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    /**
+     * Sets the parameterService attribute value.
+     * @param parameterService The parameterService to set.
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+    
 }

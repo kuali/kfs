@@ -1722,7 +1722,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="391"
+						x="388"
 						y="12"
 						width="35"
 						height="12"
@@ -1735,7 +1735,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0;-#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="427"
+						x="424"
 						y="12"
 						width="56"
 						height="12"

@@ -135,11 +135,13 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
         // This code is only executed when the final approval occurs
         if (workflowDoc.stateIsProcessed()) {
             // This id and versionNumber null check is needed here since those fields are always null for a fresh maintenance doc.
-            if (vendorDetail.isVendorParentIndicator() && vendorDetail.getVendorHeaderGeneratedIdentifier() != null && vendorDetail.getVersionNumber() != null) {
+            if (vendorDetail.isVendorParentIndicator() && vendorDetail.getVendorHeaderGeneratedIdentifier() != null) { 
                 VendorDetail previousParent = SpringContext.getBean(VendorService.class).getParentVendor(vendorDetail.getVendorHeaderGeneratedIdentifier());
                 // We'll only need to do the following if the previousParent is not the same as the current vendorDetail, because
                 // the following lines are for vendor parent indicator changes.
-                if (previousParent.getVendorHeaderGeneratedIdentifier().intValue() != vendorDetail.getVendorHeaderGeneratedIdentifier().intValue() || previousParent.getVendorDetailAssignedIdentifier().intValue() != vendorDetail.getVendorDetailAssignedIdentifier().intValue()) {
+                if (vendorDetail.getVendorDetailAssignedIdentifier() == null || 
+                        previousParent.getVendorHeaderGeneratedIdentifier().intValue() != vendorDetail.getVendorHeaderGeneratedIdentifier().intValue() || 
+                        previousParent.getVendorDetailAssignedIdentifier().intValue() != vendorDetail.getVendorDetailAssignedIdentifier().intValue()) {
                     previousParent.setVendorParentIndicator(false);
                     addNoteForParentIndicatorChange(vendorDetail, previousParent, header.getDocumentNumber());
                     SpringContext.getBean(BusinessObjectService.class).save(previousParent);

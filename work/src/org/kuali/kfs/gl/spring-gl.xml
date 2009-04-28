@@ -1005,6 +1005,7 @@
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
+		<property name="parameterService" ref="parameterService" />
 	</bean>
 
 	<bean id="glIcrTransaction" class="org.kuali.kfs.gl.batch.service.impl.PostExpenditureTransaction">

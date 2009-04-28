@@ -16,13 +16,18 @@
 package org.kuali.kfs.gl.batch.service.impl;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.FileRenameStep;
+import org.kuali.kfs.gl.batch.PosterBalancingStep;
 import org.kuali.kfs.gl.batch.PosterEntriesStep;
+import org.kuali.kfs.gl.businessobject.AccountBalance;
 import org.kuali.kfs.gl.businessobject.AccountBalanceHistory;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.BalanceHistory;
+import org.kuali.kfs.gl.businessobject.Encumbrance;
 import org.kuali.kfs.gl.businessobject.EncumbranceHistory;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.EntryHistory;
@@ -35,8 +40,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.batch.Step;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
-import org.kuali.kfs.sys.suite.RelatesTo;
-import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 
 /**
@@ -55,34 +59,29 @@ public class BalancingServiceImplTest extends BalancingServiceImplTestBase {
         balancingService = (BalancingServiceBaseImpl<Entry, Balance>) TestUtils.getUnproxiedService("glBalancingService");
         ledgerEntryHistoryBalancingDao =  (LedgerEntryHistoryBalancingDao) SpringContext.getService("glEntryHistoryDao");
         ledgerBalancingDao = (LedgerBalancingDao) SpringContext.getService("glLedgerBalancingDao");
-
+        
         balancingDao = (BalancingDao) SpringContext.getService("glBalancingDao");
         accountBalanceDao = SpringContext.getBean(AccountBalanceDao.class);
         encumbranceDao = SpringContext.getBean(EncumbranceDao.class);
         
-        // careful: super.setUp needs to happen at the end because it requires balancingService being initialized
+        businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+
+        // Delete all data so that balancing has an empty table set to work with
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        businessObjectService.deleteMatching(Entry.class, fieldValues);
+        businessObjectService.deleteMatching(Balance.class, fieldValues);
+        businessObjectService.deleteMatching(Encumbrance.class, fieldValues);
+        businessObjectService.deleteMatching(AccountBalance.class, fieldValues);
+        businessObjectService.deleteMatching(EntryHistory.class, fieldValues);
+        businessObjectService.deleteMatching(BalanceHistory.class, fieldValues);
+        businessObjectService.deleteMatching(EncumbranceHistory.class, fieldValues);
+        businessObjectService.deleteMatching(AccountBalanceHistory.class, fieldValues);
+        
+        // Because KULDBA doesn't support FYs more then 1 year back we need to limit our range in order to properly test boundary cases
+        TestUtils.setSystemParameter(PosterBalancingStep.class, GeneralLedgerConstants.Balancing.NUMBER_OF_PAST_FISCAL_YEARS_TO_INCLUDE, "0");
+        
+        // careful: super.setUp needs to happen at the end because of service initialization and NUMBER_OF_PAST_FISCAL_YEARS_TO_INCLUDE
         super.setUp();
-    }
-    
-    /**
-     * @see org.kuali.kfs.gl.batch.service.impl.BalancingServiceImplTest#testGetBalance()
-     */
-    @Override
-    public void testGetBalance() {
-        BalanceHistory balanceHistory = new BalanceHistory();
-        balanceHistory.setUniversityFiscalYear(2009);
-        balanceHistory.setChartOfAccountsCode("BA");
-        balanceHistory.setAccountNumber("6044900");
-        balanceHistory.setSubAccountNumber("-----");
-        balanceHistory.setObjectCode("1464");
-        balanceHistory.setSubObjectCode("---");
-        balanceHistory.setBalanceTypeCode("AC");
-        balanceHistory.setObjectTypeCode("IC");
-        
-        Balance balance = balancingService.getBalance(balanceHistory);
-        
-        assertNotNull(balance);
-        assertTrue(balance instanceof Balance);
     }
     
     @Override
@@ -123,38 +122,48 @@ public class BalancingServiceImplTest extends BalancingServiceImplTestBase {
     
     @Override
     public void testRunBalancingDeleteObsoleteUniversityFiscalYearData() {
-        // Generate some data
+        // Run the poster to pick up the last two entries which are out of range
         this.postTestCaseEntries(INPUT_TRANSACTIONS);
         
-        int obsoleteYear = startUniversityFiscalYear-1;
+        // Manually populate our history tables and force entries to be picked up. This essentially does the same as testRunBalancingPopulateData
+        assertTrue("Populate should have copied some data", 0 != ledgerBalancingDao.populateLedgerEntryHistory(obsoleteUniversityFiscalYear));
+        assertTrue("Populate should have copied some data", 0 != ledgerBalancingDao.populateLedgerBalanceHistory(obsoleteUniversityFiscalYear));
+        assertTrue("Populate should have copied some data", 0 != balancingDao.populateAccountBalancesHistory(obsoleteUniversityFiscalYear));
+        assertTrue("Populate should have copied some data", 0 != balancingDao.populateEncumbranceHistory(obsoleteUniversityFiscalYear));
         
-        // INPUT_TRANSACTIONS contains 2 entries that are in an obsolete year, hence manually populate our history tables and force them to be picked up
-        ledgerBalancingDao.populateLedgerEntryHistory(obsoleteYear);
-        ledgerBalancingDao.populateLedgerBalanceHistory(obsoleteYear);
-        balancingDao.populateAccountBalancesHistory(obsoleteYear);
-        balancingDao.populateEncumbranceHistory(obsoleteYear);
+        // Pretty silly at this point, but lets double check that it copied the entries
+        assertTrue("Found no EntryHistory", 0 != this.getHistoryCount(obsoleteUniversityFiscalYear, EntryHistory.class));
+        assertTrue("Found no BalanceHistory", 0 != this.getHistoryCount(obsoleteUniversityFiscalYear, BalanceHistory.class));
+        assertTrue("Found no AccountBalanceHistory", 0 != this.getHistoryCount(obsoleteUniversityFiscalYear, AccountBalanceHistory.class));
+        assertTrue("Found no EncumbranceHistory", 0 != this.getHistoryCount(obsoleteUniversityFiscalYear, EncumbranceHistory.class));
         
-        // Check that it copied the entries (so we should find at least that many). If it did not, something is wrong with the setup of this test case
-        assertTrue(2 <= this.getHistoryCount(obsoleteYear, EntryHistory.class));
-        assertTrue(2 <= this.getHistoryCount(obsoleteYear, BalanceHistory.class));
-        assertTrue(2 <= this.getHistoryCount(obsoleteYear, AccountBalanceHistory.class));
-        assertTrue(2 <= this.getHistoryCount(obsoleteYear, EncumbranceHistory.class));
-        
-        // Run Balancing, it should hit the case that deletes the obsolete entries
+        // Run Balancing, it should hit the case that deletes the obsolete entries. Coincidentally: This will also ignore the two out of range entries in
+        // INPUT_TRANSACTIONS (the last two) but we're not actively testing for that here
         assertTrue(balancingService.runBalancing());
         
         // Verify that it deleted the entries
-        assertEquals(0, this.getHistoryCount(obsoleteYear, EntryHistory.class));
-        assertEquals(0, this.getHistoryCount(obsoleteYear, BalanceHistory.class));
-        assertEquals(0, this.getHistoryCount(obsoleteYear, AccountBalanceHistory.class));
-        assertEquals(0, this.getHistoryCount(obsoleteYear, EncumbranceHistory.class));
+        assertEquals(0, this.getHistoryCount(obsoleteUniversityFiscalYear, EntryHistory.class));
+        assertEquals(0, this.getHistoryCount(obsoleteUniversityFiscalYear, BalanceHistory.class));
+        assertEquals(0, this.getHistoryCount(obsoleteUniversityFiscalYear, AccountBalanceHistory.class));
+        assertEquals(0, this.getHistoryCount(obsoleteUniversityFiscalYear, EncumbranceHistory.class));
     }
     
     @Override
-    @RelatesTo(JiraIssue.KFSMI3345)
     public void testRunBalancingHistoryUpdate() {
         // First pass is exactly the same as testRunBalancingPopulateData. This serves to populate the tables
-        this.testRunBalancingPopulateData();
+        this.postTestCaseEntries(INPUT_TRANSACTIONS);
+        assertTrue("Populate should have copied some data", 0 != ledgerBalancingDao.populateLedgerEntryHistory(obsoleteUniversityFiscalYear));
+        assertTrue("Populate should have copied some data", 0 != ledgerBalancingDao.populateLedgerBalanceHistory(obsoleteUniversityFiscalYear));
+        assertTrue("Populate should have copied some data", 0 != balancingDao.populateAccountBalancesHistory(obsoleteUniversityFiscalYear));
+        assertTrue("Populate should have copied some data", 0 != balancingDao.populateEncumbranceHistory(obsoleteUniversityFiscalYear));
+        
+        try {
+            // Briefly sleep to ensure that we get unique timestamps on the rename step. This is obsolete since the input files will
+            // be the same but done to avoid future bugs if there are changes to the test setup
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            assertTrue("No reason that this job should have gotten interrupted.", false);
+        }
         
         // Next we post exactly the same entries and verify data exists. Note, now we have more entries
         this.postTestCaseEntries(INPUT_TRANSACTIONS);
@@ -200,7 +209,7 @@ public class BalancingServiceImplTest extends BalancingServiceImplTestBase {
     }
     
     /**
-     * @see org.kuali.kfs.gl.batch.service.impl.BalancingServiceImplTest#getInputTransactions()
+     * @see org.kuali.kfs.gl.batch.service.impl.BalancingServiceImplTestBase#getInputTransactions()
      */
     @Override
     protected String[] getInputTransactions() {
@@ -223,8 +232,8 @@ public class BalancingServiceImplTest extends BalancingServiceImplTestBase {
                 "BL1031420-----9041---ACLI08PREQEP942275        88888ESG SECURITY INC                                       49.00C2009-02-09BC70226   ----------        PO  EP510147                   ",
                 "BL1031420-----4520---ACEX08PREQEP942275        88888ESG SECURITY INC                                       49.00D2009-02-09BC70226   ----------        PO  EP510147                   ",
                 "BL1031420-----9041---ACLI08PREQEP942275        88888ESG SECURITY INC                                       49.00C2009-02-09BC70226   ----------        PO  EP510147                   ",
-                "BL1031420-----4520---ACEX08PREQEP942275        88888ESG SECURITY INC                                       98.00C2009-02-09BC70226   ----------        PO  EP510147                   ",
-                "BL1031420-----9041---ACLI08PREQEP942275        88888ESG SECURITY INC                                       98.00D2009-02-09BC70226   ----------        PO  EP510147                   ",
+                CHART_OF_ACCOUNTS_CODE + "1031420-----" + FINANCIAL_OBJECT_CODE + "---EXEX08PO  EP6797          88888166080043 HPS OFFICE SYSTEMS                          579.84D2009-02-09          ----------                                      D",
+                CHART_OF_ACCOUNTS_CODE + "1031420-----" + FINANCIAL_OBJECT_CODE + "---EXFB08PO  EP6797          88888GENERATED OFFSET                                      579.84C2009-03-25          ----------                                       ",
         };
     }
 }

@@ -39,6 +39,7 @@ import org.kuali.kfs.gl.dataaccess.LedgerEntryHistoryBalancingDao;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -65,7 +66,6 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
     protected ParameterService parameterService;
     protected KualiConfigurationService kualiConfigurationService;
     protected BusinessObjectService businessObjectService;
-    protected OptionsService optionsService;
     protected DateTimeService dateTimeService;
     protected UniversityDateService universityDateService;
     protected LedgerBalancingDao ledgerBalancingDao;
@@ -90,7 +90,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
      */
     public boolean runBalancing() {
         // Prepare date constants used throughout the process
-        Integer currentUniversityFiscalYear = optionsService.getCurrentYearOptions().getUniversityFiscalYear();
+        Integer currentUniversityFiscalYear = universityDateService.getCurrentFiscalYear();
         int startUniversityFiscalYear = currentUniversityFiscalYear - this.getPastFiscalYearsToConsider();
 
         LOG.debug("Checking files required for balancing process are present.");
@@ -427,15 +427,6 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
-    }
-    
-    /**
-     * Sets the OptionsService
-     * 
-     * @param optionsService The OptionsService to set.
-     */
-    public void setOptionsService(OptionsService optionsService) {
-        this.optionsService = optionsService;
     }
     
     /**

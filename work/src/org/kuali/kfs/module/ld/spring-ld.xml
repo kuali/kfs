@@ -314,7 +314,7 @@
 	<bean id="laborAccountingCycleCachingService" parent="accountingCycleCachingService" class="org.kuali.kfs.module.ld.batch.service.impl.LaborAccountingCycleCachingServiceImpl">
 		<property name="laborLedgerDao" ref="laborLedgerPreparedStatementCachingDao" />
 	</bean>
-	
+
 	<bean id="laborAccountingCycleCachingWrappedStep" abstract="true" parent="wrappedStep">
 		<property name="wrappingBatchServices">
 			<list>
@@ -378,9 +378,6 @@
 		</property>
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
-        </property>
-        <property name="optionsService">
-            <ref bean="optionsService" />
         </property>
         <property name="dateTimeService">
             <ref bean="dateTimeService" />

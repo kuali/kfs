@@ -792,9 +792,6 @@
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
-        <property name="optionsService">
-            <ref bean="optionsService" />
-        </property>
         <property name="dateTimeService">
             <ref bean="dateTimeService" />
         </property>
@@ -1499,7 +1496,7 @@
 	<bean id="fileRenameStep" class="org.kuali.kfs.gl.batch.FileRenameStep" parent="step">
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 	</bean>
-		
+	
 	<bean id="scrubberStep" class="org.kuali.kfs.gl.batch.ScrubberStep" parent="accountingCycleCachingWrappedStep">
 		<property name="scrubberService" ref="glScrubberService" />
 	</bean>

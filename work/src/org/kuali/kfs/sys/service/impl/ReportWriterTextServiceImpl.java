@@ -100,6 +100,12 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Initial
         
         // Check if we need to write a new table header. We do this if it hasn't been written before or if the businessObject changed
         if (newPage || businessObjectClass == null || !businessObjectClass.getName().equals(businessObject.getClass().getName())) {
+            
+            if (businessObjectClass != null && !businessObjectClass.getName().equals(businessObject.getClass().getName())) {
+                // If it changed push a newline in for neater formatting
+                this.writeFormattedMessage("\n");
+            }
+            
             this.writeErrorHeader(businessObject);
             newPage = false;
             businessObjectClass = businessObject.getClass();

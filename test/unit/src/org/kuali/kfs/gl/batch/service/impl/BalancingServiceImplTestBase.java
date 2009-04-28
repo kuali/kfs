@@ -17,9 +17,12 @@ package org.kuali.kfs.gl.batch.service.impl;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.BalanceHistory;
@@ -30,11 +33,16 @@ import org.kuali.kfs.gl.dataaccess.LedgerBalanceBalancingDao;
 import org.kuali.kfs.gl.dataaccess.LedgerBalancingDao;
 import org.kuali.kfs.gl.dataaccess.LedgerEntryBalancingDao;
 import org.kuali.kfs.gl.dataaccess.LedgerEntryHistoryBalancingDao;
+import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.module.ld.batch.LaborBalancingStep;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
-import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -44,12 +52,18 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public abstract class BalancingServiceImplTestBase extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalancingServiceImplTestBase.class);
     
+    protected static final String CHART_OF_ACCOUNTS_CODE = "BL";
+    protected static final String FINANCIAL_OBJECT_CODE = "5772";
+    
     protected BalancingServiceBaseImpl<Entry, Balance> balancingService;
     protected LedgerBalancingDao ledgerBalancingDao;
     protected LedgerEntryHistoryBalancingDao ledgerEntryHistoryBalancingDao;
+    protected BusinessObjectService businessObjectService;
     protected DateTimeService dateTimeService;
+    protected UniversityDateService universityDateService;
     
     protected Integer startUniversityFiscalYear;
+    protected Integer obsoleteUniversityFiscalYear;
     protected String[] INPUT_TRANSACTIONS = this.getInputTransactions();
     
     @Override
@@ -57,19 +71,23 @@ public abstract class BalancingServiceImplTestBase extends KualiTestBase {
         super.setUp();
         
         dateTimeService = SpringContext.getBean(DateTimeService.class);
+        universityDateService = SpringContext.getBean(UniversityDateService.class);
         
         // Make the last two of INPUT_TRANSACTIONS out of date range
-        OptionsService optionsService = SpringContext.getBean(OptionsService.class);
-        String currentFiscalYear = optionsService.getCurrentYearOptions().getUniversityFiscalYear() + "";
-        startUniversityFiscalYear = optionsService.getCurrentYearOptions().getUniversityFiscalYear() - balancingService.getPastFiscalYearsToConsider();
+        Integer currentFiscalYear = universityDateService.getCurrentFiscalYear();
+        startUniversityFiscalYear = currentFiscalYear - balancingService.getPastFiscalYearsToConsider();
+        obsoleteUniversityFiscalYear = startUniversityFiscalYear - 1;
         for (int i = 0; i < INPUT_TRANSACTIONS.length; i++) {
             if (i < INPUT_TRANSACTIONS.length - 2) {
                 INPUT_TRANSACTIONS[i] = currentFiscalYear + INPUT_TRANSACTIONS[i];
             } else {
                 // Want the last two to be out of range
-                INPUT_TRANSACTIONS[i] = (startUniversityFiscalYear-1 + "") + INPUT_TRANSACTIONS[i];
+                INPUT_TRANSACTIONS[i] = obsoleteUniversityFiscalYear + INPUT_TRANSACTIONS[i];
             }
         }
+        
+        // And to make sure that the posters don't complain we need to generate data in the obsolete fiscal year
+        this.generateObsoleteYearData(obsoleteUniversityFiscalYear);
     }
     
     @Override
@@ -103,8 +121,6 @@ public abstract class BalancingServiceImplTestBase extends KualiTestBase {
         assertNotNull(originEntry);
         assertEquals(2009, originEntry.getUniversityFiscalYear().intValue());
     }
-    
-    public abstract void testGetBalance();
     
     public void testGetNewestDataFile() {
         final String testFilename = "testGetNewestDataFile";
@@ -191,7 +207,7 @@ public abstract class BalancingServiceImplTestBase extends KualiTestBase {
     protected abstract void postTestCaseEntries(String[] inputTransactions);
     
     /**
-     * Test helper to get GL or Labor sample transactions
+     * Test helper to get GL or Labor sample transactions. This isn't in fixtures because these are written to a file, not used as objects
      */
     protected abstract String[] getInputTransactions();
     
@@ -226,6 +242,30 @@ public abstract class BalancingServiceImplTestBase extends KualiTestBase {
                 String name = names.next();
                 assertNotSame(0, countCustomComparisionFailures.get(name).intValue());
             }
+        }
+    }
+    
+     /**
+     * Test helper to generate obsolete fiscal year data if it does not exist. This method is messy. What it is doing is to check if the entries exist in
+     * case there was an FY rollover but data wasn't updated yet. If not, it makes copies of the current. This corresponds to the entries getInputTransactions
+     * @param obsoleteYear
+     */
+    protected void generateObsoleteYearData(Integer obsoleteYear) {
+        Map<String, Object> obsoleteChartOfAccountFieldValues = new HashMap<String, Object>();
+        obsoleteChartOfAccountFieldValues.put(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, obsoleteYear);
+        obsoleteChartOfAccountFieldValues.put(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, CHART_OF_ACCOUNTS_CODE);
+        obsoleteChartOfAccountFieldValues.put(KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, FINANCIAL_OBJECT_CODE);
+        ObjectCode obsoleteYearObjectCode = (ObjectCode) businessObjectService.findByPrimaryKey(ObjectCode.class, obsoleteChartOfAccountFieldValues);
+        if (ObjectUtils.isNull(obsoleteYearObjectCode)) {
+            Map<String, Object> fieldValues = new HashMap<String, Object>();
+            fieldValues.put(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, TestUtils.getFiscalYearForTesting());
+            fieldValues.put(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, CHART_OF_ACCOUNTS_CODE);
+            fieldValues.put(KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, FINANCIAL_OBJECT_CODE);
+            ObjectCode objectCode = (ObjectCode) businessObjectService.findByPrimaryKey(ObjectCode.class, fieldValues);
+            objectCode.setUniversityFiscalYear(obsoleteYear);
+            objectCode.setVersionNumber(null);
+            objectCode.setObjectId(null);
+            businessObjectService.save(objectCode);
         }
     }
     

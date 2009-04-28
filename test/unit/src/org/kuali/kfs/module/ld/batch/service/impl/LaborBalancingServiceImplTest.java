@@ -27,6 +27,7 @@ import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.dataaccess.LedgerBalancingDao;
 import org.kuali.kfs.gl.dataaccess.LedgerEntryHistoryBalancingDao;
 import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.module.ld.batch.LaborBalancingStep;
 import org.kuali.kfs.module.ld.batch.LaborFileRenameStep;
 import org.kuali.kfs.module.ld.batch.LaborPosterStep;
 import org.kuali.kfs.module.ld.businessobject.LaborBalanceHistory;
@@ -37,8 +38,6 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.batch.Step;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
-import org.kuali.kfs.sys.suite.RelatesTo;
-import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 
@@ -54,42 +53,26 @@ public class LaborBalancingServiceImplTest extends BalancingServiceImplTestBase 
         balancingService = (BalancingServiceBaseImpl<Entry, Balance>) TestUtils.getUnproxiedService("laborBalancingService");
         ledgerEntryHistoryBalancingDao =  (LedgerEntryHistoryBalancingDao) SpringContext.getService("laborLedgerEntryHistoryDao");
         ledgerBalancingDao = (LedgerBalancingDao) SpringContext.getService("laborBalancingDao");
+        businessObjectService = SpringContext.getBean(BusinessObjectService.class);
 
-        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        // Delete all data so that balancing has an empty table set to work with
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         businessObjectService.deleteMatching(LedgerEntry.class, fieldValues);
+        businessObjectService.deleteMatching(LedgerBalance.class, fieldValues);
+        businessObjectService.deleteMatching(LaborEntryHistory.class, fieldValues);
+        businessObjectService.deleteMatching(LaborBalanceHistory.class, fieldValues);
         
-        // careful: super.setUp needs to happen at the end because it requires balancingService being initialized
+        // Because KULDBA doesn't support FYs more then 1 year back we need to limit our range in order to properly test boundary cases
+        TestUtils.setSystemParameter(LaborBalancingStep.class, LaborConstants.Balancing.NUMBER_OF_PAST_FISCAL_YEARS_TO_INCLUDE, "0");
+        
+        // careful: super.setUp needs to happen at the end because of service initialization and NUMBER_OF_PAST_FISCAL_YEARS_TO_INCLUDE
         super.setUp();
-    }
-    
-    /**
-     * @see org.kuali.kfs.gl.batch.service.impl.BalancingServiceImplTest#testGetBalance()
-     */
-    @Override
-    public void testGetBalance() {
-        LaborBalanceHistory laborBalanceHistory = new LaborBalanceHistory();
-        laborBalanceHistory.setUniversityFiscalYear(2009);
-        laborBalanceHistory.setChartOfAccountsCode("BA");
-        laborBalanceHistory.setAccountNumber("6044900");
-        laborBalanceHistory.setSubAccountNumber("-----");
-        laborBalanceHistory.setFinancialObjectCode("2400");
-        laborBalanceHistory.setFinancialSubObjectCode("---");
-        laborBalanceHistory.setFinancialBalanceTypeCode("A2");
-        laborBalanceHistory.setFinancialObjectTypeCode("EX");
-        laborBalanceHistory.setPositionNumber("00014789");
-        laborBalanceHistory.setEmplid("0000000331");
-        
-        Balance balance = balancingService.getBalance(laborBalanceHistory);
-        
-        assertNotNull(balance);
-        assertTrue(balance instanceof LedgerBalance);
     }
     
     @Override
     public void testRunBalancingPopulateData() {
         LOG.debug("No data present scenario, hence process should populate data");
-                
+        
         // First confirm tables are empty. If this fails then the test scenario is incorrectly set up
         assertEquals(0, getLedgerEntryBalancingDao().findCountGreaterOrEqualThan(startUniversityFiscalYear).intValue());
         assertEquals(0, getLedgerBalanceBalancingDao().findCountGreaterOrEqualThan(startUniversityFiscalYear).intValue());
@@ -115,37 +98,45 @@ public class LaborBalancingServiceImplTest extends BalancingServiceImplTestBase 
     
     @Override
     public void testRunBalancingDeleteObsoleteUniversityFiscalYearData() {
-        // Generate some data
+        // Run the poster to pick up the last two entries which are out of range
         this.postTestCaseEntries(INPUT_TRANSACTIONS);
         
-        int obsoleteYear = startUniversityFiscalYear-1;
+        // Manually populate our history tables and force entries to be picked up. This essentially does the same as testRunBalancingPopulateData
+        assertTrue("Populate should have copied some data", 0 != ledgerBalancingDao.populateLedgerEntryHistory(obsoleteUniversityFiscalYear));
+        assertTrue("Populate should have copied some data", 0 != ledgerBalancingDao.populateLedgerBalanceHistory(obsoleteUniversityFiscalYear));
         
-        // INPUT_TRANSACTIONS contains 2 entries that are in an obsolete year, hence manually populate our history tables and force them to be picked up
-        ledgerBalancingDao.populateLedgerEntryHistory(obsoleteYear);
-        ledgerBalancingDao.populateLedgerBalanceHistory(obsoleteYear);
+        // Pretty silly at this point, but lets double check that it copied the entries
+        assertTrue("Found no LaborEntryHistory", 0 != this.getHistoryCount(obsoleteUniversityFiscalYear, LaborEntryHistory.class));
+        assertTrue("Found no LaborBalanceHistory", 0 != this.getHistoryCount(obsoleteUniversityFiscalYear, LaborBalanceHistory.class));
         
-        // Check that it copied the entries (so we should find at least that many). If it did not, something is wrong with the setup of this test case
-        assertTrue(2 <= this.getHistoryCount(obsoleteYear, LaborEntryHistory.class));
-        assertTrue(2 <= this.getHistoryCount(obsoleteYear, LaborBalanceHistory.class));
-        
-        // Run Balancing, it should hit the case that deletes the obsolete entries
+        // Run Balancing, it should hit the case that deletes the obsolete entries. Coincidentally: This will also ignore the two out of range entries in
+        // INPUT_TRANSACTIONS (the last two) but we're not actively testing for that here
         assertTrue(balancingService.runBalancing());
         
         // Verify that it deleted the entries
-        assertEquals(0, this.getHistoryCount(obsoleteYear, LaborEntryHistory.class));
-        assertEquals(0, this.getHistoryCount(obsoleteYear, LaborBalanceHistory.class));
+        assertEquals(0, this.getHistoryCount(obsoleteUniversityFiscalYear, LaborEntryHistory.class));
+        assertEquals(0, this.getHistoryCount(obsoleteUniversityFiscalYear, LaborBalanceHistory.class));
     }
     
     @Override
-    @RelatesTo(JiraIssue.KFSMI3345)
     public void testRunBalancingHistoryUpdate() {
         // First pass is exactly the same as testRunBalancingPopulateData. This serves to populate the tables
-        this.testRunBalancingPopulateData();
+        this.postTestCaseEntries(INPUT_TRANSACTIONS);
+        assertTrue("Populate should have copied some data", 0 != ledgerBalancingDao.populateLedgerEntryHistory(obsoleteUniversityFiscalYear));
+        assertTrue("Populate should have copied some data", 0 != ledgerBalancingDao.populateLedgerBalanceHistory(obsoleteUniversityFiscalYear));
+        
+        try {
+            // Briefly sleep to ensure that we get unique timestamps on the rename step. This is obsolete since the input files will
+            // be the same but done to avoid future bugs if there are changes to the test setup
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            assertTrue("No reason that this job should have gotten interrupted.", false);
+        }
         
         // Next we post exactly the same entries and verify data exists. Note, now we have more entries
         this.postTestCaseEntries(INPUT_TRANSACTIONS);
         assertEquals(24, getLedgerEntryBalancingDao().findCountGreaterOrEqualThan(startUniversityFiscalYear).intValue());
-        assertEquals(7, getLedgerBalanceBalancingDao().findCountGreaterOrEqualThan(startUniversityFiscalYear).intValue());
+        assertEquals(3, getLedgerBalanceBalancingDao().findCountGreaterOrEqualThan(startUniversityFiscalYear).intValue());
         
         // And run balancing again. Again, this should succeed
         assertTrue(balancingService.runBalancing());
@@ -205,9 +196,8 @@ public class LaborBalancingServiceImplTest extends BalancingServiceImplTestBase 
                 "BL1031400-----5625---A2EX08BT  01LP2837509     88888------------------TEST DESCRIPTION                                      619.90C2009-02-05                                                                     0.00     200906000000000010                                                      ",
                 "BL1031400-----5760---A2EX08BT  01LP2837509     88888------------------TEST DESCRIPTION                                      276.47C2009-02-05                                                                     0.00     200905000000000010                                                      ",
                 "BL1031400-----5760---A2EX08BT  01LP2837509     88888------------------TEST DESCRIPTION                                      276.47C2009-02-05                                                                     0.00     200906000000000010                                                      ",
-                "BL1031400-----5772---A2EX08BT  01LP2837509     88888------------------TEST DESCRIPTION                                      448.77C2009-02-05                                                                     0.00     200905000000000010                                                      ",
-                "BL1031400-----5772---A2EX08BT  01LP2837509     88888------------------TEST DESCRIPTION                                      448.77C2009-02-05                                                                     0.00     200906000000000010                                                      ",
-
+                CHART_OF_ACCOUNTS_CODE + "1031400-----" + FINANCIAL_OBJECT_CODE + "---A2EX08BT  01LP2837509     88888------------------TEST DESCRIPTION                                      448.77C2009-02-05                                                                     0.00     200905000000000010                                                      ",
+                CHART_OF_ACCOUNTS_CODE + "1031400-----" + FINANCIAL_OBJECT_CODE + "---A2EX08BT  01LP2837509     88888------------------TEST DESCRIPTION                                      448.77C2009-02-05                                                                     0.00     200906000000000010                                                      ",
         };
     }
 }

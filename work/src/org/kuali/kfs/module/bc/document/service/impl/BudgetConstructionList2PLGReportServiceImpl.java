@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgList2PLGReport;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionTwoPlugListMove;
@@ -73,7 +75,7 @@ public class BudgetConstructionList2PLGReportServiceImpl implements BudgetConstr
         String orgName = twoPlugListMoveEntry.getOrganization().getOrganizationName();
         String finChartDesc = twoPlugListMoveEntry.getChartOfAccounts().getReportsToChartOfAccounts().getFinChartOfAccountDescription();
         Integer prevFiscalyear = universityFiscalYear - 1;
-        orgList2PLGReportEntry.setFiscalYear(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4));
+        orgList2PLGReportEntry.setFiscalYear(prevFiscalyear.toString() + "-" + universityFiscalYear.toString().substring(2, 4));
         orgList2PLGReportEntry.setOrgChartOfAccountsCode(twoPlugListMoveEntry.getOrganizationChartOfAccountsCode());
 
         if (orgChartDesc == null) {
@@ -99,13 +101,34 @@ public class BudgetConstructionList2PLGReportServiceImpl implements BudgetConstr
             orgList2PLGReportEntry.setChartOfAccountDescription(chartDesc);
         }
         Integer prevPrevFiscalyear = prevFiscalyear - 1;
-        orgList2PLGReportEntry.setReqFy(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4));
+        orgList2PLGReportEntry.setReqFy(prevFiscalyear.toString() + "-" + universityFiscalYear.toString().substring(2, 4));
     }
     
     public void buildReportsBody(BudgetConstructionOrgList2PLGReport orgList2PLGReportEntry, BudgetConstructionTwoPlugListMove twoPlugListMoveEntry) {
         orgList2PLGReportEntry.setAccountNumber(twoPlugListMoveEntry.getAccountNumber());
         orgList2PLGReportEntry.setSubAccountNumber(twoPlugListMoveEntry.getSubAccountNumber());
-        orgList2PLGReportEntry.setAccountSubAccountName(twoPlugListMoveEntry.getAccount().getAccountName());
+//        orgList2PLGReportEntry.setAccountSubAccountName(twoPlugListMoveEntry.getAccount().getAccountName());
+
+        if (twoPlugListMoveEntry.getSubAccountNumber().equals(BCConstants.Report.DASHES_SUB_ACCOUNT_CODE)) {
+            if (twoPlugListMoveEntry.getAccount().getAccountName() == null) {
+                orgList2PLGReportEntry.setAccountSubAccountName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_ACCOUNT_DESCRIPTION));
+            }
+            else
+                orgList2PLGReportEntry.setAccountSubAccountName(twoPlugListMoveEntry.getAccount().getAccountName());
+        }
+        else {
+            try {
+                if (twoPlugListMoveEntry.getSubAccount().getSubAccountName() == null) {
+                    orgList2PLGReportEntry.setAccountSubAccountName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_SUB_ACCOUNT_DESCRIPTION));
+                }
+                else
+                    orgList2PLGReportEntry.setAccountSubAccountName(twoPlugListMoveEntry.getSubAccount().getSubAccountName());
+            }
+            catch (PersistenceBrokerException e) {
+                orgList2PLGReportEntry.setAccountSubAccountName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_SUB_ACCOUNT_DESCRIPTION));
+            }
+        }
+        
         orgList2PLGReportEntry.setReqAmount(new Integer(twoPlugListMoveEntry.getAccountLineAnnualBalanceAmount().intValue()));
     }
     

@@ -174,8 +174,15 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
             toAmountIsGreaterThanTotal.addGreaterOrEqualThan(KFSPropertyConstants.FIN_DOC_APPROVAL_TO_THIS_AMOUNT, totalDollarAmount);
             toMatchesClause.addOrCriteria(toAmountIsGreaterThanTotal);
             
+            Criteria fromIsNullClause = new Criteria();
+            fromIsNullClause.addIsNull(KFSPropertyConstants.FIN_DOC_APPROVAL_FROM_THIS_AMT);
+            Criteria fromIsZeroClause = new Criteria();
+            fromIsZeroClause.addEqualTo(KFSPropertyConstants.FIN_DOC_APPROVAL_FROM_THIS_AMT, "0");
+            Criteria fromIsNullishClause = new Criteria();
+            fromIsNullishClause.addOrCriteria(fromIsNullClause);
+            fromIsNullishClause.addOrCriteria(fromIsZeroClause);
             Criteria fromNotActiveClause = new Criteria();
-            fromNotActiveClause.addIsNull(KFSPropertyConstants.FIN_DOC_APPROVAL_FROM_THIS_AMT);
+            fromNotActiveClause.addAndCriteria(fromIsNullishClause);
             fromNotActiveClause.addAndCriteria(toMatchesClause);
             
             Criteria bothActive = new Criteria();

@@ -205,17 +205,10 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         // TO amount must be >= FROM amount or Zero
         KualiDecimal toAmount = newDelegate.getFinDocApprovalToThisAmount();
         if (ObjectUtils.isNotNull(toAmount) && !toAmount.equals(KualiDecimal.ZERO)) {
-
-            if (ObjectUtils.isNull(fromAmount)) {
+            // case if FROM amount is non-null and positive, disallow TO amount being less
+            if (fromAmount != null && toAmount.isLessThan(fromAmount)) {
                 putFieldError(KFSPropertyConstants.FIN_DOC_APPROVAL_TO_THIS_AMOUNT, KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
                 success &= false;
-            }
-            else {
-                // case if FROM amount is non-null and positive, disallow TO amount being less
-                if (toAmount.isLessThan(fromAmount)) {
-                    putFieldError(KFSPropertyConstants.FIN_DOC_APPROVAL_TO_THIS_AMOUNT, KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
-                    success &= false;
-                }
             }
         }
         

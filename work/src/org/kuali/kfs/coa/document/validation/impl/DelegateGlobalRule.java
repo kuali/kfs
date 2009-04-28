@@ -298,23 +298,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
         boolean success = true;
         if (ObjectUtils.isNotNull(toAmount)) {
 
-            if (ObjectUtils.isNull(fromAmount)) {
-                // case if FROM amount is null and TO amount not null then TO amount must be zero
-                if (!toAmount.equals(ZERO)) {
-                    String errorPath = KFSConstants.EMPTY_STRING;
-                    if (add) {
-                        errorPath = KFSConstants.MAINTENANCE_ADD_PREFIX + DELEGATE_GLOBALS_PREFIX + "." + "approvalToThisAmount";
-                        putFieldError(errorPath, KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
-                    }
-                    else {
-                        errorPath = DELEGATE_GLOBALS_PREFIX + "[" + lineNum + "]." + "approvalToThisAmount";
-
-                        putFieldError(errorPath, KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
-                    }
-                    success &= false;
-                }
-            }
-            else {
+            if (!ObjectUtils.isNull(fromAmount)) {
                 // case if FROM amount is non-null and positive, disallow TO amount being less if it is not ZERO (another indicator
                 // of infinity)
                 if (!toAmount.equals(ZERO) && toAmount.isLessThan(fromAmount)) {

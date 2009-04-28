@@ -231,16 +231,12 @@ public class AccountDelegateModelRule extends MaintenanceDocumentRuleBase {
      */
     protected boolean checkDelegateToAmountGreaterThanFromAmount(AccountDelegateModelDetail delegateModel) {
         boolean result = true;
-        if (ObjectUtils.isNull(delegateModel.getApprovalFromThisAmount())) {
-            if (!ObjectUtils.isNull(delegateModel.getApprovalToThisAmount()) && !delegateModel.getApprovalToThisAmount().equals(KualiDecimal.ZERO)) {
-                GlobalVariables.getErrorMap().putError("approvalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO, new String[0]);
-                result = false;
-            }
-        }
-        else if (!ObjectUtils.isNull(delegateModel.getApprovalToThisAmount())) {
-            if (delegateModel.getApprovalToThisAmount().isLessThan(delegateModel.getApprovalFromThisAmount())) {
-                GlobalVariables.getErrorMap().putError("approvalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO, new String[0]);
-                result = false;
+        if (!ObjectUtils.isNull(delegateModel.getApprovalFromThisAmount())) {
+            if (!ObjectUtils.isNull(delegateModel.getApprovalToThisAmount())) {
+                if (delegateModel.getApprovalToThisAmount().isLessThan(delegateModel.getApprovalFromThisAmount())) {
+                    GlobalVariables.getErrorMap().putError("approvalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO, new String[0]);
+                    result = false;
+                }
             }
         }
         return result;

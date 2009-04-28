@@ -674,6 +674,8 @@
 			<forward name="printReceivingTicketPDF"
 				path="/jsp/module/purap/ReceivingTicketForward.jsp"
 				redirect="false" />
+			<forward name="printPOQuoteListPDF"
+				path="/jsp/module/purap/PrintPOQuoteListForward.jsp" redirect="false" />				
 		</action>
 
 		<action path="/purapPrint"

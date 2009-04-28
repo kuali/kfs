@@ -110,7 +110,7 @@ public interface PurchaseOrderService extends PurchasingDocumentSpecificService 
      */
     public KualiDecimal getInternalPurchasingDollarLimit(PurchaseOrderDocument po);
 
-    public boolean printPurchaseOrderQuoteRequestsListPDF(PurchaseOrderDocument po, ByteArrayOutputStream baosPDF);
+    public boolean printPurchaseOrderQuoteRequestsListPDF(String documentNumber, ByteArrayOutputStream baosPDF);
 
     public boolean printPurchaseOrderQuotePDF(PurchaseOrderDocument po, PurchaseOrderVendorQuote povq, ByteArrayOutputStream baosPDF);
 

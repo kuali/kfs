@@ -930,6 +930,24 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return null;
     }
 
+    public ActionForward printPoQuoteList(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String poDocId = ((PurchaseOrderForm)form).getDocId();
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
+        SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
+        String basePath = getBasePath(request);
+        String methodToCallPrintPurchaseOrderPDF = "printPoQuoteListOnly";
+        String methodToCallDocHandler = "docHandler";
+        String printPOQuoteListPDFUrl = getUrlForPrintPO(basePath, poDocId, methodToCallPrintPurchaseOrderPDF);
+        String displayPOTabbedPageUrl = getUrlForPrintPO(basePath, poDocId, methodToCallDocHandler);
+        request.setAttribute("printPOQuoteListPDFUrl", printPOQuoteListPDFUrl);
+        request.setAttribute("displayPOTabbedPageUrl", displayPOTabbedPageUrl);
+        String label = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(PurchaseOrderDocument.class);
+        request.setAttribute("purchaseOrderLabel", label);
+
+        return mapping.findForward("printPOQuoteListPDF");        
+    }
+    
     /**
      * Print the list of PO Quote requests.
      * 
@@ -940,19 +958,18 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      * @throws Exception
      * @return An ActionForward
      */
-    public ActionForward printPoQuoteList(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-        PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
+    public ActionForward printPoQuoteListOnly(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String poDocId = request.getParameter("docId");
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
         try {
             StringBuffer sbFilename = new StringBuffer();
             sbFilename.append("PURAP_PO_QUOTE_LIST_");
-            sbFilename.append(po.getPurapDocumentIdentifier());
+            sbFilename.append(poDocId);
             sbFilename.append("_");
             sbFilename.append(System.currentTimeMillis());
             sbFilename.append(".pdf");
 
-            boolean success = SpringContext.getBean(PurchaseOrderService.class).printPurchaseOrderQuoteRequestsListPDF(po, baosPDF);
+            boolean success = SpringContext.getBean(PurchaseOrderService.class).printPurchaseOrderQuoteRequestsListPDF(poDocId, baosPDF);
 
             if (!success) {
                 if (baosPDF != null) {
@@ -963,8 +980,13 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             response.setHeader("Cache-Control", "max-age=30");
             response.setContentType("application/pdf");
             StringBuffer sbContentDispValue = new StringBuffer();
-            // sbContentDispValue.append("inline");
-            sbContentDispValue.append("attachment");
+            String useJavascript = request.getParameter("useJavascript");
+            if (useJavascript == null || useJavascript.equalsIgnoreCase("false")) {
+                sbContentDispValue.append("attachment");
+            }
+            else {
+                sbContentDispValue.append("inline");
+            }
             sbContentDispValue.append("; filename=");
             sbContentDispValue.append(sbFilename);
 

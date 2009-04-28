@@ -1853,6 +1853,13 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     public Campus getPurchaseOrderDeliveryCampus() {
         return purchaseOrderDeliveryCampus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, purchaseOrderDeliveryCampus, "purchaseOrderDeliveryCampus");
     }
+    
+    public Date getAccountsPayableApprovalDateForSearch(){
+        if (getAccountsPayableApprovalTimestamp() != null){
+            return new Date(getAccountsPayableApprovalTimestamp().getTime());
+        }
+        return null;
+    }
 
 }
 /*

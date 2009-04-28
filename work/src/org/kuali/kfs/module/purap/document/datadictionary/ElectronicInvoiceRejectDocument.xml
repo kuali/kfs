@@ -115,6 +115,7 @@
         <ref bean="ElectronicInvoiceRejectDocument-versionNumber"/>
         <ref bean="ElectronicInvoiceRejectDocument-invoiceNumberAcceptIndicator"/>
         <ref bean="ElectronicInvoiceRejectDocument-invoiceResearchIndicatorForResult"/>
+        <ref bean="ElectronicInvoiceRejectDocument-accountsPayableApprovalDateForSearch"/>
       </list>
     </property>
     <property name="relationships">
@@ -1466,6 +1467,14 @@
     </property>
   </bean>
   
+  <bean id="ElectronicInvoiceRejectDocument-accountsPayableApprovalDateForSearch" parent="ElectronicInvoiceRejectDocument-accountsPayableApprovalDateForSearch-parentBean"/>
+
+  <bean id="ElectronicInvoiceRejectDocument-accountsPayableApprovalDateForSearch-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+    <property name="name" value="accountsPayableApprovalDateForSearch"/>
+    <property name="label" value="Approval Date"/>
+    <property name="shortLabel" value="Approval Date"/>
+  </bean>
+  
   <!-- workflow attributes -->
   <bean id="ElectronicInvoiceRejectDocument-workflowAttributes" parent="ElectronicInvoiceRejectDocument-workflowAttributes-parentBean"/>
   
@@ -1593,14 +1602,14 @@
     		      <property name="searchingAttribute">
     			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument"/>
-    					  <property name="attributeName" value="accountsPayableApprovalTimestamp"/>
+    					  <property name="attributeName" value="accountsPayableApprovalDateForSearch"/>
     					  <property name="showAttributeInSearchCriteria" value="true"/>
                           <property name="showAttributeInResultSet" value="true"/>
                       </bean>
     			  </property>
     			  <property name="documentValues">
     			      <list>
-    					  <value>accountsPayableApprovalTimestamp</value>
+    					  <value>accountsPayableApprovalDateForSearch</value>
     				  </list>
     			  </property>
     		  </bean> 

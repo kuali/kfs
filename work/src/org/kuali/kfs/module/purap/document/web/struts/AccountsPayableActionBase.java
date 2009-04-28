@@ -62,6 +62,7 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.NoteService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageList;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.util.UrlFactory;
@@ -215,7 +216,16 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         ActionForward forward = super.route(mapping, form, request, response);
 
         // if successful, then redirect back to init
-        if (GlobalVariables.getMessageList().contains(RiceKeyConstants.MESSAGE_ROUTE_SUCCESSFUL)) {
+        boolean successMessageFound = false;
+        MessageList messageList = GlobalVariables.getMessageList();
+        for (int i = 0; i < messageList.size(); i++) {
+            if (StringUtils.equals(messageList.get(i).getErrorKey(),RiceKeyConstants.MESSAGE_ROUTE_SUCCESSFUL)){
+                successMessageFound = true;
+                break;
+            }
+        }
+        
+        if (successMessageFound) {
             String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
 
             Properties parameters = new Properties();

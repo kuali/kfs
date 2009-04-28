@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ld.document.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Iterator;
@@ -217,4 +218,8 @@ public interface LaborCorrectionDocumentService {
     public String generateOutputOriginEntryFileName(String docId);
     
     public String createOutputFileForProcessing(String docId, java.util.Date today);
+    
+    public String getBatchFileDirectoryName();
+    
+    public String getLlcpDirectoryName();
 }

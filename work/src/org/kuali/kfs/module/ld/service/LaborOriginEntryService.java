@@ -240,7 +240,7 @@ public interface LaborOriginEntryService {
      */
     //public List<LaborOriginEntry> getEntriesByGroupId(Integer groupId);
     
-    public Map getEntriesByGroupId(String fileName, List<LaborOriginEntry> originEntryList);
+    public Map getEntriesByGroupIdWithPath(String fileNameWithPath, List<LaborOriginEntry> originEntryList);
 
     public Map getEntriesByBufferedReader(BufferedReader inputBufferedReader, List<LaborOriginEntry> originEntryList);
     /**
@@ -275,6 +275,4 @@ public interface LaborOriginEntryService {
     //public Integer getGroupCount(Integer groupId);
     
     public Integer getGroupCount(String fileName);
-    
-    public  Iterator<LaborOriginEntry> getEntriesIteratorByGroupIdWithoutErrorChecking(String fileName);
 }

@@ -146,8 +146,6 @@ public interface OriginEntryGroupService {
      */
     //public OriginEntryGroup createGroup(Date date, String sourceCode, boolean valid, boolean process, boolean scrub);
     
-    public File createGroup(String fileName);
-    
     public File createLaborGroup(String fileName);
 
     /**
@@ -198,11 +196,7 @@ public interface OriginEntryGroupService {
     
     public File[] getAllLaborFileInBatchDirectory();
     
-    public File getFileWithFileName(String fileName);
-    
     public File getLaborFileWithFileName(String fileName);
     
     public void deleteFile(String fileName);
-    
-    public void deleteLaborFile(String fileName);
 }

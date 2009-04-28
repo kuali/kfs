@@ -48,7 +48,7 @@ public class LaborCorrectionDocument extends GeneralLedgerCorrectionProcessDocum
      */
     @Override
     public void handleRouteLevelChange(DocumentRouteLevelChangeDTO change) {
-        super.handleRouteLevelChange(change);
+        //super.handleRouteLevelChange(change);
         if (StringUtils.equals(change.getNewNodeName(), AUTO_APPROVE_ROUTE_LEVEL_NAME)) {
             String docId = getDocumentHeader().getDocumentNumber();
             // this code is performed asynchronously
@@ -62,7 +62,7 @@ public class LaborCorrectionDocument extends GeneralLedgerCorrectionProcessDocum
                 // originEntryGroupService.dontProcessGroup(doc.getCorrectionInputGroupId());
                 String dataFileName = doc.getCorrectionInputFileName();
                 String doneFileName = dataFileName.replace(GeneralLedgerConstants.BatchFileSystem.EXTENSION, GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION);
-                originEntryGroupService.deleteLaborFile(doneFileName);
+                originEntryGroupService.deleteFile(doneFileName);
             }
 
             else if (LaborCorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType) || LaborCorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionType)) {

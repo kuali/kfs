@@ -44,10 +44,7 @@ import org.kuali.kfs.gl.businessobject.CorrectionChange;
 import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
 import org.kuali.kfs.gl.businessobject.CorrectionCriteria;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
-import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.gl.document.CorrectionDocumentUtils;
-import org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument;
 import org.kuali.kfs.gl.document.authorization.CorrectionDocumentAuthorizer;
 import org.kuali.kfs.gl.document.service.CorrectionDocumentService;
 import org.kuali.kfs.gl.document.web.struts.CorrectionAction;
@@ -316,95 +313,32 @@ public class LaborCorrectionAction extends CorrectionAction {
         //OriginEntryGroup newOriginEntryGroup = CorrectionAction.originEntryGroupService.createGroup(today, OriginEntrySource.LABOR_CORRECTION_PROCESS_EDOC, false, false, false);
 
         FormFile sourceFile = laborCorrectionForm.getSourceFile();
-        String fullFileName = sourceFile.getFileName();
-
-        List<LaborOriginEntry> originEntryList = new ArrayList();
+        String llcpDirectory = SpringContext.getBean(LaborCorrectionDocumentService.class).getLlcpDirectoryName();
+        String fullFileName = llcpDirectory + File.separator + sourceFile.getFileName();
         BufferedReader br = new BufferedReader(new InputStreamReader(sourceFile.getInputStream()));
-        Map loadErrorMap = laborOriginEntryService.getEntriesByBufferedReader(br, originEntryList);
         
-        // close bufferedReader here
-        try {
-            br.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        //put errors on GlobalVariables
-        if (loadErrorMap.size() > 0){
-            Iterator iter = loadErrorMap.keySet().iterator();
-            while(iter.hasNext()){
-                Integer lineNumber = (Integer) iter.next();
-                List<Message> messageList = (List<Message>) loadErrorMap.get(lineNumber);
-                if (messageList.size() > 0){
-                    for (Message errorMmessage : messageList){
-                        GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_INVALID_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] {lineNumber.toString(), errorMmessage.toString()});
-                    }    
-                }
-            }
-            
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
-        }
-        
-        
-        
-//      int lineNumber = 0;
-    
-//      boolean errorsLoading = false;
-//      try {
-//          String currentLine = br.readLine();
-//          while (currentLine != null) {
-//             lineNumber++;
-//              if (!StringUtils.isEmpty(currentLine)) {
-//                  try {
-//
-//                  // Check for short lines - Skip the record
-//                      // KULLAB-379: LLCP should accept file upload rows even if the record length is not right padded to the full
-//                      // length
-//                      /*
-//                       * if (currentLine.length() < LaborConstants.LLCP_MAX_LENGTH) {
-//                       * GlobalVariables.getErrorMap().putError("systemAndEditMethod",
-//                       * KFSKeyConstants.Labor.LLCP_UPLOAD_FILE_INVALID_RECORD_SIZE_ERROR); errorsLoading = true; break; }
-//                       */
-//                      LaborOriginEntry entryFromFile = new LaborOriginEntry();
-//                      entryFromFile.setFromTextFile(currentLine, lineNumber);
-//                      entryFromFile.setEntryGroupId(newOriginEntryGroup.getId());
-//                      laborOriginEntryService.createEntry(entryFromFile, newOriginEntryGroup);
-//                      loadedCount++;
-//                  }
-//                  catch (LoadException e) {
-//                      errorsLoading = true;
-//                  }
-//              }
-//              currentLine = br.readLine();
-//          }
-//      }
-//      finally {
-//           br.close();
-//      }
-
-
-        //if file loads successfully copy the file to batchFileDirectory
-        int loadedCount = originEntryList.size();
-        
-        //create a group
-        File uploadedFile = originEntryGroupService.createLaborGroup(fullFileName);
+        //create a file
+        File uploadedFile = new File(fullFileName);
         PrintStream uploadedFilePrintStream;
         try {
             uploadedFilePrintStream = new PrintStream(uploadedFile);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        
+
         //write entries to file
-        for (OriginEntryFull entry : originEntryList){
+        int loadedCount = 0;
+        String stringLine;
+        while ((stringLine= br.readLine()) != null){
             try {
-                uploadedFilePrintStream.printf("%s\n", entry.getLine());
+                uploadedFilePrintStream.printf("%s\n", stringLine);
+                loadedCount++;
             } catch (Exception e) {
                 throw new IOException(e.toString());
             }
         }
         uploadedFilePrintStream.close();
-
-
+        
 
         int recordCountFunctionalityLimit = CorrectionDocumentUtils.getRecordCountFunctionalityLimit();
         if (CorrectionDocumentUtils.isRestrictedFunctionalityMode(loadedCount, recordCountFunctionalityLimit)) {
@@ -426,7 +360,24 @@ public class LaborCorrectionAction extends CorrectionAction {
         else {
             laborCorrectionForm.setRestrictedFunctionalityMode(false);
             if (loadedCount > 0) {
-                // Set all the data that we know
+                //now we can load all data from file
+                List<LaborOriginEntry> originEntryList = new ArrayList();
+                Map loadErrorMap = laborOriginEntryService.getEntriesByGroupIdWithPath(uploadedFile.getAbsolutePath(), originEntryList);
+                //put errors on GlobalVariables
+                if (loadErrorMap.size() > 0){
+                    Iterator iter = loadErrorMap.keySet().iterator();
+                    while(iter.hasNext()){
+                        Integer lineNumber = (Integer) iter.next();
+                        List<Message> messageList = (List<Message>) loadErrorMap.get(lineNumber);
+                        if (messageList.size() > 0){
+                            for (Message errorMmessage : messageList){
+                                GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_INVALID_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] {lineNumber.toString(), errorMmessage.toString()});
+                            }    
+                        }
+                    }
+                    return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                }
+                // Set all the data that we know                
                 laborCorrectionForm.setDataLoadedFlag(true);
                 laborCorrectionForm.setInputFileName(fullFileName);
                 document.setCorrectionInputFileName(fullFileName);
@@ -447,6 +398,7 @@ public class LaborCorrectionAction extends CorrectionAction {
         if (document.getCorrectionChangeGroup().isEmpty()) {
             document.addCorrectionChangeGroup(new CorrectionChangeGroup());
         }
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -487,13 +439,13 @@ public class LaborCorrectionAction extends CorrectionAction {
 //        }
 //    }
 
-    protected void loadAllEntries(String groupId, LaborCorrectionForm laborCorrectionForm) {
+    protected void loadAllEntries(String fileNameWithPath, LaborCorrectionForm laborCorrectionForm) {
         LOG.debug("loadAllEntries() started");
         LaborCorrectionDocument document = laborCorrectionForm.getLaborCorrectionDocument();
         
         if (!laborCorrectionForm.isRestrictedFunctionalityMode()) {
             List<LaborOriginEntry> laborSearchResults = new ArrayList();
-            Map loadErrorMap = laborOriginEntryService.getEntriesByGroupId(groupId, laborSearchResults);
+            Map loadErrorMap = laborOriginEntryService.getEntriesByGroupIdWithPath(fileNameWithPath, laborSearchResults);
             List<OriginEntryFull> searchResults = new ArrayList();
             searchResults.addAll(laborSearchResults);
             
@@ -1064,10 +1016,15 @@ public class LaborCorrectionAction extends CorrectionAction {
                 }
             }
             else {
-//String fileName = oeg.getSource().getCode() + oeg.getId().toString() + "_" + oeg.getDate().toString() + ".txt";
+                String batchDirectory = SpringContext.getBean(LaborCorrectionDocumentService.class).getBatchFileDirectoryName();
+                String fileNameWithPath; 
+                if (!laborCorrectionForm.getInputGroupId().contains(batchDirectory)){
+                    fileNameWithPath = batchDirectory + File.separator + laborCorrectionForm.getInputGroupId();
+                } else {
+                    fileNameWithPath = laborCorrectionForm.getInputGroupId(); 
+                }
                 
-                File file = originEntryGroupService.getLaborFileWithFileName(laborCorrectionForm.getInputGroupId());
-                FileReader fileReader = new FileReader(file.getPath());
+                FileReader fileReader = new FileReader(fileNameWithPath);
                 BufferedReader br = new BufferedReader(fileReader);
                 
                 // set response
@@ -1249,10 +1206,11 @@ public class LaborCorrectionAction extends CorrectionAction {
         LOG.debug("loadGroup() started");
 
         LaborCorrectionForm laborCorrectionForm = (LaborCorrectionForm) form;
+        String batchDirectory = SpringContext.getBean(LaborCorrectionDocumentService.class).getBatchFileDirectoryName();
 
         if (checkOriginEntryGroupSelection(laborCorrectionForm)) {
             LaborCorrectionDocument doc = laborCorrectionForm.getLaborCorrectionDocument();
-            doc.setCorrectionInputFileName(laborCorrectionForm.getInputGroupId());
+            doc.setCorrectionInputFileName(batchDirectory + File.separator + laborCorrectionForm.getInputGroupId());
 
             // TODO: Shawn - need to change using file - just size info will be enough
             // TODO: Shawn - int will be enough? should I change it long??
@@ -1314,8 +1272,8 @@ public class LaborCorrectionAction extends CorrectionAction {
         LaborCorrectionForm correctionForm = (LaborCorrectionForm) form;
 
         if (checkOriginEntryGroupSelection(correctionForm)) {
-            //OriginEntryGroup oeg = originEntryGroupService.getExactMatchingEntryGroup(correctionForm.getInputGroupId());
-            String doneFileName = correctionForm.getInputGroupId();
+            String batchDirectory = SpringContext.getBean(LaborCorrectionDocumentService.class).getBatchFileDirectoryName();
+            String doneFileName = batchDirectory + File.separator + correctionForm.getInputGroupId();
             String dataFileName = doneFileName.replace(GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION, GeneralLedgerConstants.BatchFileSystem.EXTENSION);
             
             int groupCount = laborOriginEntryService.getGroupCount(dataFileName);

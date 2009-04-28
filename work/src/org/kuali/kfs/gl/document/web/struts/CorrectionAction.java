@@ -43,6 +43,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.kuali.kfs.fp.batch.ProcurementCardInputFileType;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.impl.OriginEntryFileIterator;
 import org.kuali.kfs.gl.businessobject.CorrectionChange;
@@ -568,9 +569,15 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             else {
 
                 //String fileName = oeg.getSource().getCode() + oeg.getId().toString() + "_" + oeg.getDate().toString() + ".txt";
+                String batchDirectory = SpringContext.getBean(CorrectionDocumentService.class).getBatchFileDirectoryName();
+                String fileNameWithPath; 
+                if (!correctionForm.getInputGroupId().contains(batchDirectory)){
+                    fileNameWithPath = batchDirectory + File.separator + correctionForm.getInputGroupId();
+                } else {
+                    fileNameWithPath = correctionForm.getInputGroupId(); 
+                }
                 
-                File file = originEntryGroupService.getFileWithFileName(correctionForm.getInputGroupId());
-                FileReader fileReader = new FileReader(file.getPath());
+                FileReader fileReader = new FileReader(fileNameWithPath);
                 BufferedReader br = new BufferedReader(fileReader);
                 
                 // set response
@@ -618,10 +625,11 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         LOG.debug("loadGroup() started");
 
         CorrectionForm correctionForm = (CorrectionForm) form;
-
+        String batchDirectory = SpringContext.getBean(CorrectionDocumentService.class).getBatchFileDirectoryName();
+        
         if (checkOriginEntryGroupSelection(correctionForm)) {
             GeneralLedgerCorrectionProcessDocument doc = (GeneralLedgerCorrectionProcessDocument) correctionForm.getDocument();
-            doc.setCorrectionInputFileName(correctionForm.getInputGroupId());
+            doc.setCorrectionInputFileName(batchDirectory + File.separator + correctionForm.getInputGroupId());
 
             int inputGroupSize = originEntryService.getGroupCount(correctionForm.getInputGroupId());
             int recordCountFunctionalityLimit = CorrectionDocumentUtils.getRecordCountFunctionalityLimit();
@@ -683,7 +691,8 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
         if (checkOriginEntryGroupSelection(correctionForm)) {
             //OriginEntryGroup oeg = originEntryGroupService.getExactMatchingEntryGroup(correctionForm.getInputGroupId());
-            String doneFileName = correctionForm.getInputGroupId();
+            String batchDirectory = SpringContext.getBean(CorrectionDocumentService.class).getBatchFileDirectoryName();
+            String doneFileName = batchDirectory + File.separator + correctionForm.getInputGroupId();
             String dataFileName = doneFileName.replace(GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION, GeneralLedgerConstants.BatchFileSystem.EXTENSION);
             
             int groupCount = originEntryService.getGroupCount(dataFileName);
@@ -720,11 +729,13 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         //OriginEntryGroup newOriginEntryGroup = CorrectionAction.originEntryGroupService.createGroup(today, OriginEntrySource.GL_CORRECTION_PROCESS_EDOC, false, false, false);
 
         FormFile sourceFile = correctionForm.getSourceFile();
-        String fullFileName = sourceFile.getFileName();
+        String glcpDirectory = SpringContext.getBean(CorrectionDocumentService.class).getGlcpDirectoryName();
+        String fullFileName = glcpDirectory + File.separator + sourceFile.getFileName();
+        //shawn-test purpose
         
         BufferedReader br = new BufferedReader(new InputStreamReader(sourceFile.getInputStream()));
-        //create a group
-        File uploadedFile = originEntryGroupService.createGroup(fullFileName);
+        //create a file
+        File uploadedFile = new File(fullFileName);
         PrintStream uploadedFilePrintStream;
         try {
             uploadedFilePrintStream = new PrintStream(uploadedFile);
@@ -768,7 +779,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             if (loadedCount > 0) {
                 //now we can load all data from file
                 List<OriginEntryFull> originEntryList = new ArrayList();
-                Map loadErrorMap = originEntryService.getEntriesByGroupId(uploadedFile.getName(), originEntryList);
+                Map loadErrorMap = originEntryService.getEntriesByGroupIdWithPath(uploadedFile.getAbsolutePath(), originEntryList);
                 //put errors on GlobalVariables
                 if (loadErrorMap.size() > 0){
                     Iterator iter = loadErrorMap.keySet().iterator();
@@ -1269,13 +1280,13 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
      * @throws Exception
      */
     //protected void loadAllEntries(Integer groupId, CorrectionForm correctionForm) throws Exception {
-    protected void loadAllEntries(String groupId, CorrectionForm correctionForm) {
+    protected void loadAllEntries(String fileNameWithPath, CorrectionForm correctionForm) {
         LOG.debug("loadAllEntries() started");
         GeneralLedgerCorrectionProcessDocument document = correctionForm.getCorrectionDocument();
         
         if (!correctionForm.isRestrictedFunctionalityMode()) {
             List<OriginEntryFull> searchResults = new ArrayList(); 
-            Map loadErrorMap = originEntryService.getEntriesByGroupId(groupId, searchResults);
+            Map loadErrorMap = originEntryService.getEntriesByGroupIdWithPath(fileNameWithPath, searchResults);
 
             //put errors on GlobalVariables
             if (loadErrorMap.size() > 0){
@@ -1386,6 +1397,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             correctionForm.setRestrictedFunctionalityMode(true);
             return;
         }
+
 
         correctionForm.setPersistedOriginEntriesMissing(false);
 

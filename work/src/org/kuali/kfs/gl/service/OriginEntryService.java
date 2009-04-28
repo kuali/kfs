@@ -55,10 +55,6 @@ public interface OriginEntryService {
      * @return a set of summarized information of the entries within the specified group
      */
     public LedgerEntryHolder getSummaryByGroupId(Collection groupIdList);
-
-    public  Map getEntriesByGroupId(String groupId, List<OriginEntryFull> originEntryList);
-
-    public  Iterator<OriginEntryFull> getEntriesIteratorByGroupIdWithoutErrorChecking(String fileName);
     
     /**
      * get the summarized information of poster input entries that belong to the entry groups with the given group id list
@@ -71,4 +67,6 @@ public interface OriginEntryService {
     public Integer getGroupCount(String groupId);
     
     public Map getEntriesByBufferedReader(BufferedReader inputBufferedReader, List<OriginEntryFull> originEntryList);
+    
+    public  Map getEntriesByGroupIdWithPath(String fileNameWithPath, List<OriginEntryFull> originEntryList);
 }

@@ -32,6 +32,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.batch.service.impl.OriginEntryFileIterator;
 import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntryStatistics;
@@ -490,8 +491,9 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
             
             
             //OriginEntryGroup group = originEntryGroupService.getExactMatchingEntryGroup(document.getCorrectionInputGroupId());
-            String fileName = document.getCorrectionInputFileName();
-            inputGroupEntries = laborOriginEntryService.getEntriesIteratorByGroupIdWithoutErrorChecking(fileName);
+            File file = new File(document.getCorrectionInputFileName());
+            
+            inputGroupEntries = new LaborOriginEntryFileIterator(file);
             persistInputOriginEntriesForInitiatedOrSavedDocument(document, inputGroupEntries);
 
             // we've exhausted the iterator for the origin entries group
@@ -967,5 +969,10 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
     public void setBatchFileDirectoryName(String batchFileDirectoryName) {
         this.batchFileDirectoryName = batchFileDirectoryName;
     }
+
+    public String getBatchFileDirectoryName() {
+        return batchFileDirectoryName;
+    }
+
 
 }

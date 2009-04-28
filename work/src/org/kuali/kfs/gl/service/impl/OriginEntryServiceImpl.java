@@ -182,17 +182,13 @@ public class OriginEntryServiceImpl implements OriginEntryService {
             throw new RuntimeException("Error writing to file: " + e.getMessage());
         }
     }
-
-    public  Map getEntriesByGroupId(String fileName, List<OriginEntryFull> originEntryList) {
-        if (fileName == null) {
-            throw new IllegalArgumentException("File Name is null");
-        }
+    
+    public  Map getEntriesByGroupIdWithPath(String fileNameWithPath, List<OriginEntryFull> originEntryList) {
         
-        String fullFileName = batchFileDirectoryName + File.separator + fileName;
         FileReader INPUT_GLE_FILE = null;
         BufferedReader INPUT_GLE_FILE_br;
         try {
-            INPUT_GLE_FILE = new FileReader(fullFileName);
+            INPUT_GLE_FILE = new FileReader(fileNameWithPath);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -209,15 +205,7 @@ public class OriginEntryServiceImpl implements OriginEntryService {
             throw new RuntimeException(e);
         }
         
-        
         return returnErrorMap;
-    }
-    
-    public  Iterator<OriginEntryFull> getEntriesIteratorByGroupIdWithoutErrorChecking(String fileName) {
-        List<OriginEntryFull> returnList = new ArrayList();
-        File file = new File(batchFileDirectoryName + File.separator + fileName);
-        
-        return new OriginEntryFileIterator(file);
     }
     
     public Map getEntriesByBufferedReader(BufferedReader inputBufferedReader, List<OriginEntryFull> originEntryList) {
@@ -310,8 +298,9 @@ public class OriginEntryServiceImpl implements OriginEntryService {
         return output;
     }
 
-    public Integer getGroupCount(String fileName){
-        Iterator<OriginEntryFull> fileIterator = getEntriesIteratorByGroupIdWithoutErrorChecking(fileName);
+    public Integer getGroupCount(String fileNameWithPath){
+        File file = new File(fileNameWithPath);
+        Iterator<OriginEntryFull> fileIterator = new OriginEntryFileIterator(file);
         int count = 0;
         
         while(fileIterator.hasNext()){

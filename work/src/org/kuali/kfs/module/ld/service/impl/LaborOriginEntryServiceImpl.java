@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.batch.service.impl.OriginEntryFileIterator;
 import org.kuali.kfs.gl.businessobject.LedgerEntry;
 import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
@@ -354,16 +355,12 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
 //        }
 //    }
     
-    public  Map getEntriesByGroupId(String fileName, List<LaborOriginEntry> originEntryList) {
-        if (fileName == null) {
-            throw new IllegalArgumentException("File Name is null");
-        }
-        
-        String fullFileName = batchFileDirectoryName + File.separator + fileName;
+    public  Map getEntriesByGroupIdWithPath(String fileNameWithPath, List<LaborOriginEntry> originEntryList) {
+
         FileReader INPUT_GLE_FILE = null;
         BufferedReader INPUT_GLE_FILE_br;
         try {
-            INPUT_GLE_FILE = new FileReader(fullFileName);
+            INPUT_GLE_FILE = new FileReader(fileNameWithPath);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -383,7 +380,6 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
         
         return returnErrorMap;
     }
-    
     
     public Map getEntriesByBufferedReader(BufferedReader inputBufferedReader, List<LaborOriginEntry> originEntryList) {
         String line;
@@ -597,12 +593,6 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
 //        return laborOriginEntryDao.getLaborBackupGroups(backupDate);
 //    }
 
-    public  Iterator<LaborOriginEntry> getEntriesIteratorByGroupIdWithoutErrorChecking(String fileName) {
-        File file = new File(batchFileDirectoryName + File.separator + fileName);
-        
-        return new LaborOriginEntryFileIterator(file);
-    }
-
     /**
      * @see org.kuali.kfs.module.ld.service.LaborOriginEntryService#getGroupCount(java.lang.Integer)
      */
@@ -610,8 +600,9 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
 //        return laborOriginEntryDao.getGroupCount(groupId);
 //    }
     
-    public Integer getGroupCount(String fileName){
-        Iterator<LaborOriginEntry> fileIterator = getEntriesIteratorByGroupIdWithoutErrorChecking(fileName);
+    public Integer getGroupCount(String fileNameWithPath){
+        File file = new File(fileNameWithPath);
+        Iterator<LaborOriginEntry> fileIterator = new LaborOriginEntryFileIterator(file);
         int count = 0;
         
         while(fileIterator.hasNext()){

@@ -357,10 +357,6 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 //        return oeg;
 //    }
     
-    public File createGroup(String fileName){
-        return new File(batchFileDirectoryName + File.separator + fileName);
-    }
-    
     public File createLaborGroup(String fileName){
         return new File(batchLaborFileDirectoryName + File.separator + fileName);
     }
@@ -509,24 +505,13 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         return returnFiles;
     }
     
-    public void deleteFile(String fileName){
-        File file = getFileWithFileName(fileName);
+    public void deleteFile(String fileNameWithPath){
+        File file = new File(fileNameWithPath);
         if (file.exists()){
             file.delete();
         }
     }
-    
-    public void deleteLaborFile(String fileName){
-        File file = getLaborFileWithFileName(fileName);
-        if (file.exists()){
-            file.delete();
-        }
-    }
-    
-    public File getFileWithFileName(String fileName){
-        return new File(batchFileDirectoryName + File.separator + fileName);
-    }
-    
+
     public File getLaborFileWithFileName(String fileName){
         return new File(batchLaborFileDirectoryName + File.separator + fileName);
     }

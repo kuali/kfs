@@ -793,7 +793,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
         }
 
         // reload the group from the origin entry service
-        Iterator<OriginEntryFull> inputGroupEntries;
+        Iterator<OriginEntryFull> inputGroupEntries; 
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if ((workflowDocument.stateIsSaved() && !(correctionDocumentEntryMetadata.getInputGroupIdFromLastDocumentLoad() != null && correctionDocumentEntryMetadata.getInputGroupIdFromLastDocumentLoad().equals(document.getCorrectionInputFileName()))) || workflowDocument.stateIsInitiated()) {
             // we haven't saved the origin entry group yet, so let's load the entries from the DB and persist them for the document
@@ -802,8 +802,10 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
 
 
             // OriginEntryGroup group = originEntryGroupService.getExactMatchingEntryGroup(document.getCorrectionInputGroupId());
-            String fileName = document.getCorrectionInputFileName();
-            inputGroupEntries = originEntryService.getEntriesIteratorByGroupIdWithoutErrorChecking(fileName);
+            
+            File file = new File(document.getCorrectionInputFileName());
+            
+            inputGroupEntries = new OriginEntryFileIterator(file);
             persistInputOriginEntriesForInitiatedOrSavedDocument(document, inputGroupEntries);
 
             // we've exhausted the iterator for the origin entries group
@@ -996,5 +998,9 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
 
     public void setBatchFileDirectoryName(String batchFileDirectoryName) {
         this.batchFileDirectoryName = batchFileDirectoryName;
+    }
+
+    public String getBatchFileDirectoryName() {
+        return batchFileDirectoryName;
     }
 }

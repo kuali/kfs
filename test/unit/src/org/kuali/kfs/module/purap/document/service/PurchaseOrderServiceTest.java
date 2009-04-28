@@ -347,7 +347,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         try {
             DateTimeService dtService = SpringContext.getBean(DateTimeService.class);
 
-            poService.printPurchaseOrderQuoteRequestsListPDF(po, baosPDF);
+            poService.printPurchaseOrderQuoteRequestsListPDF(po.getDocumentNumber(), baosPDF);
             
             assertTrue(baosPDF.size()>0);
         }

@@ -64,6 +64,7 @@ public class EffortConstants extends JSTLConstants {
 
     public static final String DASH_ACCOUNT_NUMBER = "-------";
     public static final String DASH_CHART_OF_ACCOUNTS_CODE = "--";
+    public static final String DASH_POSITION_NUMBER = "--------";
 
     public static final String LABOR_OBJECT_SALARY_CODE = "S";
     public static final String VALUE_SEPARATOR = ", ";

@@ -31,6 +31,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
+import org.kuali.kfs.module.ec.EffortConstants;
 import org.kuali.kfs.module.ec.EffortPropertyConstants;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetailLineOverride;
@@ -39,6 +40,7 @@ import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.kfs.module.ec.util.PayrollAmountHolder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.rice.kim.bo.Person;
@@ -207,17 +209,23 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
     protected List<Map<String, HtmlData>> getDetailLineFieldInquiryUrl(List<EffortCertificationDetail> detailLines) {
         LOG.info("getDetailLineFieldInquiryUrl(List<EffortCertificationDetail>) start");
 
+        Map<String, String> noninquirableFieldValues = this.getNoninquirableFieldValues();
         Inquirable inquirable = this.getInquirable();
 
         List<Map<String, HtmlData>> inquiryURL = new ArrayList<Map<String, HtmlData>>();
-
         for (EffortCertificationDetail detailLine : detailLines) {
             detailLine.refreshNonUpdateableReferences();
-            Map<String, HtmlData> inquiryURLForAttribute = new HashMap<String, HtmlData>();
-            HtmlData inquiryHref;
-            for (String attributeName : this.getInquirableFieldNames()) {
-                String url = KFSConstants.EMPTY_STRING;
+            
+            Map<String, HtmlData> inquiryURLForAttribute = new HashMap<String, HtmlData>();            
+            for (String attributeName : this.getInquirableFieldNames()) {                
+                // exclude the non inquirable field values
+                Object attributeValue = ObjectUtil.getPropertyValue(detailLine, attributeName);
+                String noninquirableFieldValue = noninquirableFieldValues.get(attributeName);
+                if(noninquirableFieldValue!=null && noninquirableFieldValue.equals(attributeValue)) {
+                    continue;
+                }
 
+                HtmlData inquiryHref;
                 if (this.getCustomizedInquirableFieldNames().contains(attributeName)) {
                     inquiryHref = this.getCustomizedInquiryUrl(detailLine, attributeName);
                 }
@@ -246,6 +254,24 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
         inquiryHref.setHref(this.getCompleteURL(inquiryHref.getHref()));
 
         return inquiryHref;
+    }
+    
+    /**
+     * Gets the inquirableFieldNames attribute.
+     * 
+     * @return Returns the inquirableFieldNames.
+     */
+    public Map<String, String> getNoninquirableFieldValues() {
+        Map<String, String> inquirableFieldNames = new HashMap<String, String>();
+        inquirableFieldNames.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, KFSConstants.getDashSubAccountNumber());
+        inquirableFieldNames.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSConstants.getDashFinancialObjectCode());
+        inquirableFieldNames.put(KFSPropertyConstants.POSITION_NUMBER, EffortConstants.DASH_POSITION_NUMBER);
+
+        inquirableFieldNames.put(EffortPropertyConstants.SOURCE_CHART_OF_ACCOUNTS_CODE, EffortConstants.DASH_CHART_OF_ACCOUNTS_CODE);
+        inquirableFieldNames.put(EffortPropertyConstants.SOURCE_ACCOUNT_NUMBER, EffortConstants.DASH_ACCOUNT_NUMBER);
+        inquirableFieldNames.put(EffortPropertyConstants.COST_SHARE_SOURCE_SUB_ACCOUNT_NUMBER, KFSConstants.getDashSubAccountNumber());
+
+        return inquirableFieldNames;
     }
 
     /**

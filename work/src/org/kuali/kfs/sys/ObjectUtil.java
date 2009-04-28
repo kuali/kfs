@@ -312,6 +312,28 @@ public class ObjectUtil {
             LOG.debug(e.getMessage() + ":" + propertyName);
         }
     }
+    
+    /**
+     * get the value of the given property of the source object
+     * @param sourceObject the given source object
+     * @param propertyName the name of the given property 
+     */
+    public static Object getPropertyValue(Object sourceObject, String propertyName) {
+        try {
+            return PropertyUtils.getProperty(sourceObject, propertyName);
+        }
+        catch (IllegalAccessException e) {
+            LOG.debug(e.getMessage() + ":" + propertyName);
+        }
+        catch (InvocationTargetException e) {
+            LOG.debug(e.getMessage() + ":" + propertyName);
+        }
+        catch (NoSuchMethodException e) {
+            LOG.debug(e.getMessage() + ":" + propertyName);
+        }
+        
+        return null;
+    }
 
     /**
      * Determine if they have the same values in the specified fields

@@ -149,6 +149,18 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
     public boolean isPayeeIndividualVendor(DisbursementPayee payee) {
         return this.isVendor(payee) ? this.isPayeeIndividualVendor(payee.getPayeeIdNumber()) : false;
     }
+    
+    /**
+     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService#getVendorOwnershipTypeCode(org.kuali.kfs.fp.businessobject.DisbursementPayee)
+     */
+    public String getVendorOwnershipTypeCode(DisbursementPayee payee) {
+        if(ObjectUtils.isNull(payee) || !this.isVendor(payee)) {
+            return null;
+        }
+        
+        VendorDetail vendor = vendorService.getByVendorNumber(payee.getPayeeIdNumber());
+        return vendor == null ? null : vendor.getVendorHeader().getVendorOwnershipCode();
+    }
 
     /**
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService#checkPayeeAddressForChanges(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
@@ -266,7 +278,6 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
 
         return text.toString();
     }
-
 
     /**
      * Creates FYI requests to previous approvers

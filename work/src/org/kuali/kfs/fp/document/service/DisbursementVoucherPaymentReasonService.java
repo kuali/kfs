@@ -16,14 +16,9 @@
 package org.kuali.kfs.fp.document.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.kfs.fp.businessobject.DisbursementPayee;
 import org.kuali.kfs.fp.businessobject.PaymentReasonCode;
-import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.MessageList;
 
 /**
@@ -50,7 +45,7 @@ public interface DisbursementVoucherPaymentReasonService {
      * @return true if the given payee is qualified for the payment with the given reason code; otherwise, return false
      */
     public boolean isPayeeQualifiedForPayment(DisbursementPayee payee, String paymentReasonCode, List<String> payeeTypeCodes);
-    
+
     /**
      * determine whether the given payment reason is a non-employee travel payment reason
      * 
@@ -90,6 +85,14 @@ public interface DisbursementVoucherPaymentReasonService {
      * @return true if the given payment reason is a revolving fund payment reason; otherwise, return false
      */
     public boolean isRevolvingFundPaymentReason(String paymentReasonCode);
+    
+    /**
+     * determine whether the given payment reason is a decedent compensation payment reason
+     * 
+     * @param paymentReasonCode the givne payment reason code
+     * @return true if the given payment reason is a decedent compensation payment reason; otherwise, return false
+     */
+    public boolean isDecedentCompensationPaymentReason(String paymentReasonCode);
 
     /**
      * determine whether the given payment reason is of type that is specified by the given type parameter name. The type parameter
@@ -131,7 +134,7 @@ public interface DisbursementVoucherPaymentReasonService {
      * @param messageList the message list that will hold the usage of the given payment reason
      */
     public void postPaymentReasonCodeUsage(String paymentReasonCode, MessageList messageList);
-    
+
     /**
      * determine whether the given payment reason is required for tax review
      * 
@@ -139,4 +142,12 @@ public interface DisbursementVoucherPaymentReasonService {
      * @return true if the given payment reason is required for tax review; otherwise, false
      */
     public boolean isTaxReviewRequired(String paymentReasonCode);
+
+    /**
+     * get the vendor owership type codes for the given payment reason code
+     * 
+     * @param paymentReasonCode the given payment reason code
+     * @return the vendor owership type codes for the given payment reason code if any; otherwise, null
+     */
+    public List<String> getVendorOwnershipTypesByPaymentReason(String paymentReasonCode);
 }

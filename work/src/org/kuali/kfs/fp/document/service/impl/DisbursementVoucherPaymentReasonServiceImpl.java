@@ -31,6 +31,8 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ErrorMap;
@@ -44,7 +46,7 @@ import org.kuali.rice.kns.util.MessageList;
 public class DisbursementVoucherPaymentReasonServiceImpl implements DisbursementVoucherPaymentReasonService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherPaymentReasonServiceImpl.class);
 
-    private ParameterService parameterService;
+    public ParameterService parameterService;
     private BusinessObjectService businessObjectService;
     private DisbursementVoucherPayeeService disbursementVoucherPayeeService;
 
@@ -70,10 +72,14 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
         if (!payeeTypeCodes.contains(payeeTypeCode)) {
             return false;
         }
-
-        if (this.isMovingPaymentReason(paymentReasonCode) && disbursementVoucherPayeeService.isVendor(payee)) {
-            // Only vendors who are individuals can be paid moving expenses
-            return disbursementVoucherPayeeService.isPayeeIndividualVendor(payee);
+        
+        if (disbursementVoucherPayeeService.isVendor(payee)) {
+            List<String> vendorOwnershipTypeCodes = this.getVendorOwnershipTypesByPaymentReason(paymentReasonCode);
+            
+            if (vendorOwnershipTypeCodes != null && !vendorOwnershipTypeCodes.isEmpty()) {                
+                String vendorOwnershipTypeCodeOfPayee = disbursementVoucherPayeeService.getVendorOwnershipTypeCode(payee);
+                return vendorOwnershipTypeCodes.contains(vendorOwnershipTypeCodeOfPayee);
+            } 
         }
 
         if (this.isPrepaidTravelPaymentReason(paymentReasonCode)) {
@@ -127,6 +133,14 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
         String typeParameterName = DisbursementVoucherConstants.REVOLVING_FUND_PAYMENT_REASONS_PARM_NM;
         return this.isPaymentReasonOfType(typeParameterName, paymentReasonCode);
     }
+    
+    /**
+     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentReasonService#isDecedentCompensationPaymentReason(java.lang.String)
+     */
+    public boolean isDecedentCompensationPaymentReason(String paymentReasonCode) {
+        String typeParameterName = DisbursementVoucherConstants.DECEDENT_COMPENSATION_PAYMENT_REASONS_PARM_NM;
+        return this.isPaymentReasonOfType(typeParameterName, paymentReasonCode);
+    }    
 
     /**
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentReasonService#isPaymentReasonOfType(java.lang.String,
@@ -148,6 +162,13 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
      */
     public List<String> getPayeeTypesByPaymentReason(String paymentReasonCode) {
         return parameterService.getParameterValues(DisbursementVoucherDocument.class, DisbursementVoucherConstants.VALID_PAYEE_TYPES_BY_PAYMENT_REASON_PARM, paymentReasonCode);
+    }
+    
+    /**
+     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentReasonService#getVendorOwnershipTypesByPaymentReason(java.lang.String)
+     */
+    public List<String> getVendorOwnershipTypesByPaymentReason(String paymentReasonCode) {
+        return parameterService.getParameterValues(DisbursementVoucherDocument.class, DisbursementVoucherConstants.VALID_VENDOR_OWNERSHIP_TYPES_BY_PAYMENT_REASON, paymentReasonCode);
     }
 
     /**

@@ -89,4 +89,11 @@ public interface DisbursementVoucherPayeeService {
     public boolean isPayeeIndividualVendor(DisbursementPayee payee);
 
     public void checkPayeeAddressForChanges(DisbursementVoucherDocument dvDoc);
+    
+    /**
+     * get the ownership type code if the given payee is a vendor
+     * @param payee the given payee
+     * @return the ownership type code if the given payee is a vendor; otherwise, return null
+     */
+    public String getVendorOwnershipTypeCode(DisbursementPayee payee);
 }

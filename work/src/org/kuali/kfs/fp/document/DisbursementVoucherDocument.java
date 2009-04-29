@@ -98,10 +98,8 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     private static final String DOCUMENT_REQUIRES_TAX_REVIEW_SPLIT = "RequiresTaxReview";
     private static final String DOCUMENT_REQUIRES_TRAVEL_REVIEW_SPLIT = "RequiresTravelReview";
 
-    private static final String PAYMENT_REASON_DECENDENT_COMPENSATION = "D";
     private static final String TAX_CONTROL_BACKUP_HOLDING = "B";
     private static final String TAX_CONTROL_HOLD_PAYMENTS = "H";
-    private static final String CAMPUSES_TAXED_FOR_MOVING_REIMBURSEMENTS_PARAMETER_NAME = "CAMPUSES_TAXED_FOR_MOVING_REIMBURSEMENTS";
 
     private static transient PersonService<Person> personService;
     private static transient ParameterService parameterService;
@@ -1086,18 +1084,18 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         initiateDocument();
 
         // clear fields
-        setDisbVchrContactPhoneNumber("");
-        setDisbVchrContactEmailId("");
-        getDvPayeeDetail().setDisbVchrPayeePersonName("");
+        setDisbVchrContactPhoneNumber(StringUtils.EMPTY);
+        setDisbVchrContactEmailId(StringUtils.EMPTY);
+        getDvPayeeDetail().setDisbVchrPayeePersonName(StringUtils.EMPTY);
 
-        getDvPayeeDetail().setDisbVchrPayeeLine1Addr("");
-        getDvPayeeDetail().setDisbVchrPayeeLine2Addr("");
-        getDvPayeeDetail().setDisbVchrPayeeCityName("");
-        getDvPayeeDetail().setDisbVchrPayeeStateCode("");
-        getDvPayeeDetail().setDisbVchrPayeeZipCode("");
-        getDvPayeeDetail().setDisbVchrPayeeCountryCode("");
+        getDvPayeeDetail().setDisbVchrPayeeLine1Addr(StringUtils.EMPTY);
+        getDvPayeeDetail().setDisbVchrPayeeLine2Addr(StringUtils.EMPTY);
+        getDvPayeeDetail().setDisbVchrPayeeCityName(StringUtils.EMPTY);
+        getDvPayeeDetail().setDisbVchrPayeeStateCode(StringUtils.EMPTY);
+        getDvPayeeDetail().setDisbVchrPayeeZipCode(StringUtils.EMPTY);
+        getDvPayeeDetail().setDisbVchrPayeeCountryCode(StringUtils.EMPTY);
 
-        setDisbVchrPayeeTaxControlCode("");
+        setDisbVchrPayeeTaxControlCode(StringUtils.EMPTY);
 
         // clear nra
         SpringContext.getBean(DisbursementVoucherTaxService.class).clearNRATaxLines(this);
@@ -1114,7 +1112,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             vendorAddress = (VendorAddress) getBusinessObjectService().retrieve(vendorAddress);
 
             if (vendorDetail == null) {
-                getDvPayeeDetail().setDisbVchrPayeeIdNumber("");
+                getDvPayeeDetail().setDisbVchrPayeeIdNumber(StringUtils.EMPTY);
                 GlobalVariables.getMessageList().add(KFSKeyConstants.WARNING_DV_PAYEE_NONEXISTANT_CLEARED);
             }
             else {
@@ -1567,7 +1565,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         }
 
         String paymentReasonCode = this.getDvPayeeDetail().getDisbVchrPaymentReasonCode();
-        if (paymentReasonCode.equals(DisbursementVoucherDocument.PAYMENT_REASON_DECENDENT_COMPENSATION)) {
+        if (this.getDvPymentReasonService().isDecedentCompensationPaymentReason(paymentReasonCode)) {
             return true;
         }
 
@@ -1602,7 +1600,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * @return true if the campus is taxed for moving reimbursements, false otherwise
      */
     protected boolean taxedCampusForMovingReimbursements() {
-        return SpringContext.getBean(ParameterService.class).getParameterEvaluator(this.getClass(), CAMPUSES_TAXED_FOR_MOVING_REIMBURSEMENTS_PARAMETER_NAME, this.getCampusCode()).evaluationSucceeds();
+        return this.getParameterService().getParameterEvaluator(this.getClass(), DisbursementVoucherConstants.CAMPUSES_TAXED_FOR_MOVING_REIMBURSEMENTS_PARM_NM, this.getCampusCode()).evaluationSucceeds();
     }
 
     /**

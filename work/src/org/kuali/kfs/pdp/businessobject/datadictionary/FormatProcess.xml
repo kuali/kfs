@@ -50,8 +50,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   
   <bean id="FormatProcess-paymentProcIdentifier-parentBean" abstract="true" parent="PaymentProcess-id" >
   	<property name="name" value="paymentProcIdentifier" />
-  	<property name="shortLabel" value="Proc Id" />
-  	<property name="label" value="Payment Proc Identifier" />
   </bean>
   <bean id="FormatProcess-paymentProcess.extractedInd" parent="FormatProcess-paymentProcess.extractedInd-parentBean" />
   

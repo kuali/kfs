@@ -58,7 +58,7 @@
           <property name="required" value="true"/>
         </bean>
         <bean parent="MaintainableFieldDefinition" p:name="bankAccountTypeCode" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="payeeName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="payeeName" p:required="true" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="payeeEmailAddress" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="achTransactionType" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true"/>

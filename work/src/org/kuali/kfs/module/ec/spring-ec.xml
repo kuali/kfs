@@ -169,7 +169,7 @@
 	<bean id="effortExtractProcessReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder" >
 		<property name="reportTitle" value="Effort Certification Extract Process" />
 		<property name="reportFileName" value="effort_extract_summary" />
-		<property name="reportsDirectory" value="${reports.directory}/" />
+		<property name="reportsDirectory" value="${reports.directory}/ec/" />
 		<property name="resourceBundleBaseName" value="org/kuali/kfs/module/ec/report/messages" />
 		<property name="reportTemplateClassPath" value="org/kuali/kfs/module/ec/report/" />
 		<property name="reportTemplateName" value="EffortExtractProcessReport" />

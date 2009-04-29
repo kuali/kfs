@@ -107,7 +107,7 @@ public class EffortCertificationRoutingTest extends KualiTestBase {
 
         document.setEmplid("0000000060");
         document.setEffortCertificationReportNumber("A03");
-        document.setUniversityFiscalYear(2007);// Data only exists for this year
+        document.setUniversityFiscalYear(2009);// Data only exists for this year
         document.setEffortCertificationDocumentCode(true);// for award routing
         List<EffortCertificationDetail> effortCertificationDetailLines = new ArrayList<EffortCertificationDetail>();
         EffortCertificationDetail testDetailLine = new EffortCertificationDetail();

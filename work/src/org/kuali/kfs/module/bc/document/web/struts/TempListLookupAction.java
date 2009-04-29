@@ -34,6 +34,7 @@ import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.BCConstants.LockStatus;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockSummary;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
@@ -49,7 +50,6 @@ import org.kuali.kfs.module.bc.service.BudgetConstructionPositionService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.module.bc.BCConstants.LockStatus;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
@@ -72,18 +72,19 @@ public class TempListLookupAction extends KualiLookupAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TempListLookupAction.class);
 
     /**
-     * @see org.kuali.rice.kns.web.struts.action.KualiLookupAction#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.rice.kns.web.struts.action.KualiLookupAction#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         TempListLookupForm tempListLookupForm = (TempListLookupForm) form;
-        
+
         // check for session heart beat only if running inside BC system
-        if (tempListLookupForm.getTempListLookupMode() != BCConstants.TempListLookupMode.DEFAULT_LOOKUP_MODE){
+        if (tempListLookupForm.getTempListLookupMode() != BCConstants.TempListLookupMode.DEFAULT_LOOKUP_MODE) {
             Boolean isBCHeartBeating = (Boolean) GlobalVariables.getUserSession().retrieveObject(BCConstants.BC_HEARTBEAT_SESSIONFLAG);
             if (isBCHeartBeating == null) {
-                if (tempListLookupForm.isMainWindow()){
+                if (tempListLookupForm.isMainWindow()) {
                     Properties parameters = new Properties();
                     parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.LOAD_EXPANSION_SCREEN_METHOD_SESSION_TIMEOUT);
 
@@ -123,7 +124,7 @@ public class TempListLookupAction extends KualiLookupAction {
             AttributeSet qualification = new AttributeSet();
             qualification.put(BCPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE, rootOrg[0]);
             qualification.put(KfsKimAttributes.ORGANIZATION_CODE, rootOrg[1]);
-            
+
             boolean canUnlock = SpringContext.getBean(IdentityManagementService.class).isAuthorized(GlobalVariables.getUserSession().getPerson().getPrincipalId(), BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimConstants.UNLOCK_PERMISSION_NAME, null, qualification);
             tempListLookupForm.setSuppressActions(!canUnlock);
             tempListLookupForm.setSupplementalActionsEnabled(canUnlock);
@@ -157,14 +158,7 @@ public class TempListLookupAction extends KualiLookupAction {
 
             case BCConstants.TempListLookupMode.ACCOUNT_SELECT_ABOVE_POV:
                 // check report mode for 2PLG or Sync
-                if (tempListLookupForm.isForceToAccountListScreen()) {
-                    GlobalVariables.getMessageList().add(KFSKeyConstants.budget.MSG_REPORT_EMPTY_ACCOUNT_LIST);
-                }
-                else {
-                    // Show Account above current point of view for user
-                    // The table was already built in OrganizationSelectionTreeAction.performReport
-                    GlobalVariables.getMessageList().add(KFSKeyConstants.budget.MSG_REPORT_ACCOUNT_LIST);
-                }
+                // this case is handled after performing the search, see below
                 break;
 
             case BCConstants.TempListLookupMode.ACCOUNT_SELECT_BUDGETED_DOCUMENTS:
@@ -197,6 +191,23 @@ public class TempListLookupAction extends KualiLookupAction {
             forward = search(mapping, form, request, response);
         }
 
+        // handling this mode case here instead of inside case test above
+        // since it requires knowing if rows exist
+        if (tempListLookupForm.getTempListLookupMode() == BCConstants.TempListLookupMode.ACCOUNT_SELECT_ABOVE_POV) {
+            if (tempListLookupForm.isForceToAccountListScreen()) {
+                if (tempListLookupForm.getLookupable().getRows().isEmpty()) {
+                    GlobalVariables.getMessageList().add(KFSKeyConstants.budget.MSG_REPORT_EMPTY_ACCOUNT_LIST);
+                }
+                else {
+                    GlobalVariables.getMessageList().add(KFSKeyConstants.budget.MSG_REPORT_ACCOUNT_LIST);
+                }
+            }
+            else {
+                // Show Account above current point of view for user
+                // The table was already built in OrganizationSelectionTreeAction.performReport
+                GlobalVariables.getMessageList().add(KFSKeyConstants.budget.MSG_REPORT_ACCOUNT_LIST);
+            }
+        }
         return forward;
     }
 
@@ -486,12 +497,12 @@ public class TempListLookupAction extends KualiLookupAction {
      */
     public ActionForward doUnlockConfirmation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String lockType, String lockKeyMessage) throws Exception {
         TempListLookupForm lookupForm = (TempListLookupForm) form;
-        
+
         String question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (question == null) { // question hasn't been asked
             String message = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(BCKeyConstants.MSG_UNLOCK_CONFIRMATION);
             message = MessageFormat.format(message, lockType, lockKeyMessage);
-            
+
             lookupForm.registerNextMethodToCallIsRefresh(true);
 
             return this.performQuestionWithoutInput(mapping, form, request, response, BCConstants.UNLOCK_CONFIRMATION_QUESTION, message, KFSConstants.CONFIRMATION_QUESTION, BCConstants.TEMP_LIST_UNLOCK_METHOD, "");

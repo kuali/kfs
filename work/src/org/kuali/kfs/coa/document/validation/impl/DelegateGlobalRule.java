@@ -314,6 +314,19 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
                     success &= false;
                 }
             }
+            
+            if (toAmount.isLessThan(KualiDecimal.ZERO)) {
+                String errorPath = KFSConstants.EMPTY_STRING;
+                if (add) {
+                    errorPath = KFSConstants.MAINTENANCE_ADD_PREFIX + DELEGATE_GLOBALS_PREFIX + "." + "approvalToThisAmount";
+                    putFieldError(errorPath, KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
+                }
+                else {
+                    errorPath = DELEGATE_GLOBALS_PREFIX + "[" + lineNum + "]." + "approvalToThisAmount";
+                    putFieldError(errorPath, KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
+                }
+                success &= false;
+            }
         }
         return success;
     }

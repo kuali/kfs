@@ -209,6 +209,9 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
             if (fromAmount != null && toAmount.isLessThan(fromAmount)) {
                 putFieldError(KFSPropertyConstants.FIN_DOC_APPROVAL_TO_THIS_AMOUNT, KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
                 success &= false;
+            } else if (toAmount.isLessThan(KualiDecimal.ZERO)) {
+                putFieldError(KFSPropertyConstants.FIN_DOC_APPROVAL_TO_THIS_AMOUNT, KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
+                success &= false;
             }
         }
         

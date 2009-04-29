@@ -182,18 +182,6 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         return delegate;
     }
 
-    private AccountDelegate badDelegate7() {
-        AccountDelegate delegate = new AccountDelegate();
-        delegate.setChartOfAccountsCode(CHART_GOOD_1);
-        delegate.setAccountNumber(ACCOUNT_GOOD_1);
-        delegate.setFinancialDocumentTypeCode(DOCTYPE_GOOD_1);
-        delegate.setAccountDelegateSystemId(USERID_GOOD_1);
-        delegate.setFinDocApprovalFromThisAmt(null);
-        delegate.setFinDocApprovalToThisAmount(new KualiDecimal(GOOD_TO_AMT));
-        delegate.refresh();
-        return delegate;
-    }
-
     private AccountDelegate badDelegate8() {
         AccountDelegate delegate = new AccountDelegate();
         delegate.setChartOfAccountsCode(CHART_GOOD_1);
@@ -388,27 +376,6 @@ public class DelegateRuleTest extends ChartRuleTestBase {
     public void testCheckSimpleRulesStartDateRule_invalidToAmt() {
         DelegateRule rule = new DelegateRule();
         newDelegate = badDelegate5();
-
-        // new delegate with start-date same as today
-        maintDoc = newMaintDoc(newDelegate);
-        rule = (DelegateRule) setupMaintDocRule(maintDoc, rule.getClass());
-
-        // now we need to setup the convenience objects so that the rule has the right
-        // delegate values
-        rule.setupConvenienceObjects(maintDoc);
-
-
-        // confirm that there are no errors to begin with
-        assertGlobalErrorMapEmpty();
-
-        // run the business rules
-        rule.checkSimpleRules();
-        assertGlobalErrorMapContains(ERROR_PREFIX + "finDocApprovalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
-    }
-
-    public void testCheckSimpleRulesStartDateRule_nullFromAmtZeroPlusToAmt() {
-        DelegateRule rule = new DelegateRule();
-        newDelegate = badDelegate7();
 
         // new delegate with start-date same as today
         maintDoc = newMaintDoc(newDelegate);

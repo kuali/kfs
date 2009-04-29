@@ -239,6 +239,10 @@ public class AccountDelegateModelRule extends MaintenanceDocumentRuleBase {
                 }
             }
         }
+        if (!ObjectUtils.isNull(delegateModel.getApprovalToThisAmount()) && delegateModel.getApprovalToThisAmount().isLessThan(KualiDecimal.ZERO)) {
+            GlobalVariables.getErrorMap().putError("approvalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO, new String[0]);
+            result = false;
+        }
         return result;
     }
 

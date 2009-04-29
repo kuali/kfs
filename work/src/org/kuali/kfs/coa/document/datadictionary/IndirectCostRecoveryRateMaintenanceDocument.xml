@@ -76,6 +76,19 @@
     		  <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
             </list>
           </property>
+       
+          <property name="duplicateIdentificationFields">
+          	<list>
+          		<bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode"/>
+          		<bean parent="MaintainableFieldDefinition" p:name="accountNumber"/>
+          		<bean parent="MaintainableFieldDefinition" p:name="subAccountNumber"/>
+          		<bean parent="MaintainableFieldDefinition" p:name="financialObjectCode"/>
+          		<bean parent="MaintainableFieldDefinition" p:name="financialSubObjectCode"/>
+          		<bean parent="MaintainableFieldDefinition" p:name="transactionDebitIndicator" />
+          		<bean parent="MaintainableFieldDefinition" p:name="awardIndrCostRcvyRatePct"/>
+          		
+          	</list>
+          </property>
         </bean>
       </list>
     </property>

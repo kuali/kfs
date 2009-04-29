@@ -753,7 +753,19 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         return forward;
     }
 
+    @Override
+    public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        KualiAccountingDocumentFormBase tmpForm = (KualiAccountingDocumentFormBase) form;
+        this.applyCapitalAssetInformation(tmpForm);   
 
+        ActionForward forward = super.approve(mapping, form, request, response);
+
+        // need to check on sales tax for all the accounting lines
+        checkSalesTaxRequiredAllLines(tmpForm, tmpForm.getFinancialDocument().getSourceAccountingLines());
+        checkSalesTaxRequiredAllLines(tmpForm, tmpForm.getFinancialDocument().getTargetAccountingLines());
+        return forward;
+    }
+    
     @Override
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiAccountingDocumentFormBase tmpForm = (KualiAccountingDocumentFormBase) form;

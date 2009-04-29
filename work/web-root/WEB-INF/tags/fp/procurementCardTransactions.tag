@@ -95,7 +95,7 @@
     </table>   
 	
     <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
-		<sys-java:accountingLineGroup newLinePropertyName="newTargetLines[${totalNewTargetCtr}]" collectionPropertyName="document.transactionEntries[${ctr}].targetAccountingLines" collectionItemPropertyName="document.transactionEntries[${ctr}].targetAccountingLine" attributeGroupName="target" />
+		<sys-java:accountingLineGroup newLinePropertyName="newTargetLines[${totalNewTargetCtr}]" collectionPropertyName="document.transactionEntries[${ctr}].targetAccountingLines" collectionItemPropertyName="document.transactionEntries[${ctr}].targetAccountingLines" attributeGroupName="target" />
 	</table>
     
     <br/>

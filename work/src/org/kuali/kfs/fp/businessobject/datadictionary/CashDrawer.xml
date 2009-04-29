@@ -68,20 +68,13 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="CashDrawer-campusCode" parent="CashDrawer-campusCode-parentBean" />
 
-  <bean id="CashDrawer-campusCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CashDrawer-campusCode-parentBean" abstract="true" parent="Campus-campusCode">
     <property name="name" value="campusCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Campus Code" />
     <property name="shortLabel" value="Cmps Cd" />
     <property name="maxLength" value="70" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern"
-            p:allowUnderscore="true" />
-    </property>
     <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="WorkflowWorkgroupControlDefinition" />
-    </property>
   </bean>
   <bean id="CashDrawer-financialDocumentHundredCentAmount" parent="CashDrawer-financialDocumentHundredCentAmount-parentBean" />
 

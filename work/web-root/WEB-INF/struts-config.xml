@@ -76,8 +76,6 @@
 			type="org.kuali.kfs.fp.document.web.struts.CashManagementForm" />
 		<form-bean name="CashManagementStatusForm"
 			type="org.kuali.kfs.fp.document.web.struts.CashManagementStatusForm" />
-		<form-bean name="CashDrawerCorrectionForm"
-			type="org.kuali.kfs.fp.web.struts.CashDrawerCorrectionForm" />
 		<form-bean name="ProcurementCardForm"
 			type="org.kuali.kfs.fp.document.web.struts.ProcurementCardForm" />
 		<form-bean name="BudgetAdjustmentForm"
@@ -414,15 +412,6 @@
 			<set-property property="cancellable" value="true" />
 			<forward name="basic"
 				path="/jsp/fp/DepositWizard.jsp" />
-		</action>
-
-		<action path="/cashDrawerCorrection"
-			name="CashDrawerCorrectionForm" scope="request" attribute="KualiForm"
-			parameter="methodToCall"
-			type="org.kuali.kfs.fp.web.struts.CashDrawerCorrectionAction">
-			<set-property property="cancellable" value="false" />
-			<forward name="basic"
-				path="/jsp/fp/CashDrawerCorrection.jsp" />
 		</action>
 
 		<action path="/generalLedger*" name="{1}Form"

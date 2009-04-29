@@ -5,6 +5,7 @@
   <bean id="CashDrawerMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.CashDrawer"/>
     <property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemMaintainable"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.CashDrawerMaintenanceDocumentRule"/>
     <property name="maintainableSections">
       <list>
         <ref bean="CashDrawerMaintenanceDocument-EditCashDrawer"/>
@@ -17,12 +18,8 @@
         <value>campusCode</value>
       </list>
     </property>
-    
-    
-    
-    
     <property name="documentTypeName" value="CDS"/>
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.CashDrawerMaintenanceDocumentAuthorizer" />
     <property name="workflowAttributes">
     	<ref bean="CashDrawerMaintenanceDocument-workflowAttributes"/>
     </property>
@@ -37,7 +34,7 @@
     <property name="title" value="Edit Campus"/>
     <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="campusCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="campusCode" p:unconditionallyReadOnly="true" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.fp.businessobject.defaultvalue.CashDrawerCampusDefaultValueFinder" />
       </list>
     </property>
   </bean>
@@ -49,13 +46,13 @@
     <property name="title" value="Edit Currency Amounts"/>
     <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="financialDocumentHundredDollarAmount" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="financialDocumentFiftyDollarAmount" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="financialDocumentTwentyDollarAmount" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="financialDocumentTenDollarAmount" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="financialDocumentFiveDollarAmount" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="financialDocumentTwoDollarAmount" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="financialDocumentOneDollarAmount" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="hundredDollarCount" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="fiftyDollarCount" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="twentyDollarCount" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="tenDollarCount" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="fiveDollarCount" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="twoDollarCount" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="oneDollarCount" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="financialDocumentOtherDollarAmount" p:required="true"/>
       </list>
     </property>
@@ -68,12 +65,12 @@
     <property name="title" value="Edit Cash Drawer"/>
     <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="financialDocumentHundredCentAmount" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="financialDocumentFiftyCentAmount" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="financialDocumentTwentyFiveCentAmount" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="financialDocumentTenCentAmount" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="financialDocumentFiveCentAmount" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="financialDocumentOneCentAmount" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="hundredCentCount" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="fiftyCentCount" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="twentyFiveCentCount" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="tenCentCount" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="fiveCentCount" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="oneCentCount" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="financialDocumentOtherCentAmount" p:required="true"/>
       </list>
     </property>

@@ -3,18 +3,13 @@
   <bean id="CashManagementDocument" parent="CashManagementDocument-parentBean"/>
 
   <bean id="CashManagementDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
-    
-    
-    
-    
-    
     <property name="documentTypeName" value="CMD"/>
     <property name="documentClass" value="org.kuali.kfs.fp.document.CashManagementDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.CashManagementDocumentRule"/>
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.fp.document.validation.impl.CashManagementDocumentPreRules"/>    
     
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.CashManagementDocumentAuthorizer"/>
-    <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.CashManagementDocumentPresentationController"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.CashManagementDocumentPresentationControllerBase"/>
     
     <property name="sessionDocument" value="true"/>
 

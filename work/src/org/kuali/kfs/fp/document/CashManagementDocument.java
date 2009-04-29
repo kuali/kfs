@@ -250,7 +250,6 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
      */
     public CashDrawer getCashDrawer() {
         return cashDrawer;
-        // return cashDrawerService.getByWorkgroupName(this.workgroupName, false);
     }
 
     /**
@@ -371,7 +370,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, getDocumentNumber());
-        m.put("workgroupName", getCampusCode());
+        m.put("campusCode", getCampusCode());
         return m;
     }
 

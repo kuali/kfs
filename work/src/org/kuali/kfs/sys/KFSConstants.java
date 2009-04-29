@@ -1213,6 +1213,5 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String ORG_REVIEW_ROLE_CREATE_DELEGATION_DISPLAY_TEXT = "create delegation";
 
     }
-    
 }
 

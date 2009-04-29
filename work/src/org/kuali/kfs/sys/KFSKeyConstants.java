@@ -675,6 +675,7 @@ public class KFSKeyConstants {
         public static final String FIVE_CENT_AMOUNT_NEGATIVE = "error.document.cashDrawer.fiveCentAmountNegative";
         public static final String ONE_CENT_AMOUNT_NEGATIVE = "error.document.cashDrawer.oneCentAmountNegative";
         public static final String OTHER_CENT_AMOUNT_NEGATIVE = "error.document.cashDrawer.otherCentAmountNegative";
+        public static final String CASH_DRAWER_NOT_CLOSED = "error.document.cashDrawer.cashDrawerNotClosed";
     }
 
     public static final class JournalVoucher {

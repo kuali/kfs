@@ -373,7 +373,10 @@
 		</property>
 	</bean>
 	
-	<bean id="cashDrawerLookupableHelperService" class="org.kuali.kfs.fp.businessobject.lookup.CashDrawerLookupableHelperServiceImpl" />
+	<bean id="cashDrawerLookupableHelperService" class="org.kuali.kfs.fp.businessobject.lookup.CashDrawerLookupableHelperServiceImpl">
+		<property name="cashDrawerService" ref="cashDrawerService" />
+		<property name="cashReceiptService" ref="cashReceiptService" />
+	</bean>
 	
 	<bean id="cashDrawerLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
@@ -412,7 +415,7 @@
 	<bean id="disbursementPayeeLookupableHelperService" class="org.kuali.kfs.fp.businessobject.lookup.DisbursementPayeeLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
 		<property name="vendorLookupable">
 			<ref bean="vendorLookupable" />
-		</property>		
+		</property>	
 		<property name="kualiInquirable">
 			<ref bean="disbursementPayeeInquirable" />
 		</property>			

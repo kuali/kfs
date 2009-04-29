@@ -35,12 +35,15 @@ import org.kuali.kfs.fp.businessobject.format.CashDrawerStatusCodeFormatter;
 import org.kuali.kfs.fp.businessobject.format.CashReceiptDepositTypeFormatter;
 import org.kuali.kfs.fp.document.CashManagementDocument;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
+import org.kuali.kfs.fp.document.authorization.CashManagementDocumentPresentationController;
 import org.kuali.kfs.fp.document.service.CashManagementService;
 import org.kuali.kfs.fp.document.service.CashReceiptService;
 import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.sys.KFSConstants.DepositConstants;
 import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.web.format.CurrencyFormatter;
@@ -59,6 +62,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
     private transient List depositHelpers;
     private CashDrawerSummary cashDrawerSummary;
     private List<CashieringItemInProcess> recentlyClosedItemsInProcess;
+    private transient Boolean shouldAllowCashDrawerOpen = null;
 
     /**
      * Constructs a CashManagementForm.
@@ -171,6 +175,38 @@ public class CashManagementForm extends KualiDocumentFormBase {
      */
     public void setRecentlyClosedItemsInProcess(List<CashieringItemInProcess> recentlyClosedItemsInProcess) {
         this.recentlyClosedItemsInProcess = recentlyClosedItemsInProcess;
+    }
+    
+    /**
+     * @return true if the cash drawer can currently be opened, false otherwise
+     */
+    public boolean getAllowOpenCashDrawer() {
+        if (shouldAllowCashDrawerOpen == null) {
+            CashManagementDocumentPresentationController cmDocPrezController = createCashManagementDocumentPresentationController();
+            shouldAllowCashDrawerOpen = new Boolean(cmDocPrezController.canOpenCashDrawer(getDocument()));
+        }
+        return shouldAllowCashDrawerOpen.booleanValue();
+    }
+    
+    /**
+     * Creates an instance of the appropriate implementation of CashManagementDocumentPresentationController to check the cash drawer opening logic
+     * @return an instance of the CashManagementDocumentPresentationController for the document
+     */
+    protected CashManagementDocumentPresentationController createCashManagementDocumentPresentationController() {
+        final DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+        final FinancialSystemTransactionalDocumentEntry cmDocEntry = (FinancialSystemTransactionalDocumentEntry)dataDictionaryService.getDataDictionary().getDocumentEntry(dataDictionaryService.getDocumentTypeNameByClass(getDocument().getClass()));
+        
+        final CashManagementDocumentPresentationController cmDocPrezController;
+        try {
+            cmDocPrezController = (CashManagementDocumentPresentationController)cmDocEntry.getDocumentPresentationControllerClass().newInstance();
+        }
+        catch (InstantiationException ie) {
+            throw new RuntimeException("Cannot instantiate instance of document presentation controller with class "+cmDocEntry.getDocumentPresentationControllerClass().getName(), ie);
+        }
+        catch (IllegalAccessException iae) {
+            throw new RuntimeException("Illegal access occurred while instantiating instance of maintainable implementation "+cmDocEntry.getDocumentPresentationControllerClass().getName(), iae);
+        }
+        return cmDocPrezController;
     }
 
     /**

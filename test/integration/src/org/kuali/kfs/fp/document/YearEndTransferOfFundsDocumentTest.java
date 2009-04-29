@@ -21,6 +21,7 @@ import static org.kuali.kfs.sys.fixture.AccountingLineFixture.LINE1;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -93,22 +94,34 @@ public class YearEndTransferOfFundsDocumentTest extends KualiTestBase {
 
     @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
     public final void testConvertIntoErrorCorrection() throws Exception {
-        AccountingDocumentTestUtils.testConvertIntoErrorCorrection(buildDocument(), getExpectedPrePeCount(), SpringContext.getBean(DocumentService.class), SpringContext.getBean(TransactionalDocumentDictionaryService.class));
+        YearEndTransferOfFundsDocument document = buildDocument();
+        Set<String> persistedObjectCodes = YearEndObjectCodePersistenceUtils.persistPreviousYearObjectCodesForDocument(document);
+        AccountingDocumentTestUtils.testConvertIntoErrorCorrection(document, getExpectedPrePeCount(), SpringContext.getBean(DocumentService.class), SpringContext.getBean(TransactionalDocumentDictionaryService.class));
+        YearEndObjectCodePersistenceUtils.removePreviousYearObjectCodes(persistedObjectCodes);
     }
 
     @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
     public final void testRouteDocument() throws Exception {
-        AccountingDocumentTestUtils.testRouteDocument(buildDocument(), SpringContext.getBean(DocumentService.class));
+        YearEndTransferOfFundsDocument document = buildDocument();
+        Set<String> persistedObjectCodes = YearEndObjectCodePersistenceUtils.persistPreviousYearObjectCodesForDocument(document);
+        AccountingDocumentTestUtils.testRouteDocument(document, SpringContext.getBean(DocumentService.class));
+        YearEndObjectCodePersistenceUtils.removePreviousYearObjectCodes(persistedObjectCodes);
     }
 
     @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
     public final void testSaveDocument() throws Exception {
-        AccountingDocumentTestUtils.testSaveDocument(buildDocument(), SpringContext.getBean(DocumentService.class));
+        YearEndTransferOfFundsDocument document = buildDocument();
+        Set<String> persistedObjectCodes = YearEndObjectCodePersistenceUtils.persistPreviousYearObjectCodesForDocument(document);
+        AccountingDocumentTestUtils.testSaveDocument(document, SpringContext.getBean(DocumentService.class));
+        YearEndObjectCodePersistenceUtils.removePreviousYearObjectCodes(persistedObjectCodes);
     }
 
     @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
     public final void testConvertIntoCopy() throws Exception {
-        AccountingDocumentTestUtils.testConvertIntoCopy(buildDocument(), SpringContext.getBean(DocumentService.class), getExpectedPrePeCount());
+        YearEndTransferOfFundsDocument document = buildDocument();
+        Set<String> persistedObjectCodes = YearEndObjectCodePersistenceUtils.persistPreviousYearObjectCodesForDocument(document);
+        AccountingDocumentTestUtils.testConvertIntoCopy(document, SpringContext.getBean(DocumentService.class), getExpectedPrePeCount());
+        YearEndObjectCodePersistenceUtils.removePreviousYearObjectCodes(persistedObjectCodes);
     }
 
     // test util methods

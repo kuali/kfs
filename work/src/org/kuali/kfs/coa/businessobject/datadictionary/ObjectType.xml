@@ -73,13 +73,18 @@
 
   <bean id="ObjectType-financialReportingSortCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialReportingSortCode" />
+	<property name="forceUppercase" value="true" />
     <property name="label" value="Reporting Sort Code" />
-    <property name="shortLabel" value="Rpt Sort Code" />
+    <property name="shortLabel" value="SortCode" />
     <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AlphaValidationPattern"
+            p:exactLength="2" />
+    </property>
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="3" />
+            p:size="2" />
     </property>
   </bean>
   <bean id="ObjectType-finObjectTypeDebitcreditCd" parent="ObjectType-finObjectTypeDebitcreditCd-parentBean" />

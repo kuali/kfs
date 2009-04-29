@@ -88,12 +88,13 @@
 
   <bean id="ObjectConsolidation-financialReportingSortCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialReportingSortCode" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Reporting Sort Code" />
-    <property name="shortLabel" value="Sort Code" />
+    <property name="shortLabel" value="SortCode" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+      <bean parent="AlphaValidationPattern"
+            p:exactLength="2" />
     </property>
     <property name="required" value="true" />
     <property name="control" >

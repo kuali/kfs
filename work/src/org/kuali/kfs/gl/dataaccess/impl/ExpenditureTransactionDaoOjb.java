@@ -42,7 +42,8 @@ public class ExpenditureTransactionDaoOjb extends PlatformAwareDaoBaseOjb implem
     }
 
     /**
-     * Queries the database to find the expenditure transaction in the database that would be affected if the given transaction is posted
+     * Queries the database to find the expenditure transaction in the database that would be affected if the given transaction is
+     * posted
      * 
      * @param t a transaction to find a related expenditure transaction for
      * @return the expenditure transaction if found, null otherwise
@@ -82,12 +83,16 @@ public class ExpenditureTransactionDaoOjb extends PlatformAwareDaoBaseOjb implem
      */
     public Iterator getAllExpenditureTransactions() {
         LOG.debug("getAllExpenditureTransactions() started");
+        try {
+            Criteria crit = new Criteria();
+            // We want them all so no criteria is added
 
-        Criteria crit = new Criteria();
-        // We want them all so no criteria is added
-
-        QueryByCriteria qbc = QueryFactory.newQuery(ExpenditureTransaction.class, crit);
-        return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
+            QueryByCriteria qbc = QueryFactory.newQuery(ExpenditureTransaction.class, crit);
+            return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -104,6 +109,7 @@ public class ExpenditureTransactionDaoOjb extends PlatformAwareDaoBaseOjb implem
 
     /**
      * Saves an expenditure transaction
+     * 
      * @param et the expenditure transaction to save
      * @see org.kuali.kfs.gl.dataaccess.ExpenditureTransactionDao#save(org.kuali.kfs.gl.businessobject.ExpenditureTransaction)
      */
@@ -114,19 +120,29 @@ public class ExpenditureTransactionDaoOjb extends PlatformAwareDaoBaseOjb implem
     }
 
     /**
-     * Since expenditure transactions are temporary, just like flies that live for a mere day, this method removes all of the currently existing
-     * expenditure transactions from the database, all expenditure transactions having run through the poster and fulfilled their lifecycle
+     * Since expenditure transactions are temporary, just like flies that live for a mere day, this method removes all of the
+     * currently existing expenditure transactions from the database, all expenditure transactions having run through the poster and
+     * fulfilled their lifecycle
+     * 
      * @see org.kuali.kfs.gl.dataaccess.ExpenditureTransactionDao#deleteAllExpenditureTransactions()
      */
     public void deleteAllExpenditureTransactions() {
         LOG.debug("deleteAllExpenditureTransactions() started");
-        Iterator<ExpenditureTransaction> i = getAllExpenditureTransactions();
-        while (i.hasNext()) {
-            ExpenditureTransaction et = i.next();
-            if (LOG.isInfoEnabled()) {
-                LOG.info("The following ExpenditureTransaction was deleted: " + et.toString());
+        try{
+            Iterator<ExpenditureTransaction> i = getAllExpenditureTransactions();
+            while (i.hasNext()) {
+                ExpenditureTransaction et = i.next();
+                if (LOG.isInfoEnabled()) {
+                    LOG.info("The following ExpenditureTransaction was deleted: " + et.toString());
+                }
+                delete(et);
             }
-            delete(et);
         }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        
+        
+        
     }
 }

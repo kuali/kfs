@@ -47,6 +47,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class LaborOriginEntry extends OriginEntryFull implements OriginEntry, LaborTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborOriginEntry.class);
     private static String SPACES = "                                                                                                              ";
+    public static final String ZERO_TRANSACTION_LEDGER_ENTRY_AMOUNT =  "+0000000000000000.00"; 
     private static final String DATE_FORMAT = "yyyy-MM-dd";
     private String positionNumber;
     private Date transactionPostingDate;
@@ -734,13 +735,17 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntry, La
         // The length of Labor's transactionLedgerEntryAmount is 19
         // GL's transactionLedgerEntryAmount is 17
         // now it changed to 20
-        // TODO: Shawn - should it be constant like gl?
         if (transactionLedgerEntryAmount == null) {
-            sb.append("                    ");
+            sb.append(ZERO_TRANSACTION_LEDGER_ENTRY_AMOUNT);
         }
         else {
             String a = transactionLedgerEntryAmount.toString();
-            sb.append("                    ".substring(0, 20 - a.length()));
+            if (transactionLedgerEntryAmount.isNegative()) {
+                sb.append("-");
+            } else {
+                sb.append("+");
+            } 
+            sb.append(ZERO_TRANSACTION_LEDGER_ENTRY_AMOUNT.substring(0, 20 - a.length()));
             sb.append(a);
         }
 

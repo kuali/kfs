@@ -385,7 +385,7 @@ public class GeneralLedgerConstants {
             for ( AttributeDefinition attributeDefinition : attributes ) {
 
                 if (KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT.equals(attributeDefinition.getName())) {
-                    totalLength += OriginEntryFull.SPACE_TRANSACTION_LEDGER_ENTRY_AMOUNT.length();
+                    totalLength += OriginEntryFull.ZERO_TRANSACTION_LEDGER_ENTRY_AMOUNT.length();
                 }
                 else if (!(KFSPropertyConstants.ENTRY_GROUP_ID.equals(attributeDefinition.getName()) || KFSPropertyConstants.ENTRY_ID.equals(attributeDefinition.getName()))) {
                     totalLength += attributeDefinition.getMaxLength();

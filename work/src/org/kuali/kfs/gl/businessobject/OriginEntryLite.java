@@ -44,8 +44,8 @@ public class OriginEntryLite extends PersistableBusinessObjectBase implements Or
 
     // 17 characters while it is 19 character in DD. Don't change, it has to be 17.
     // KFSMI-3308 - changed to 20
-    public static final String SPACE_TRANSACTION_LEDGER_ENTRY_AMOUNT = "                    ";
-
+    public static final String ZERO_TRANSACTION_LEDGER_ENTRY_AMOUNT =  "+0000000000000000.00"; 
+    
     private Integer entryId;
     private Integer entryGroupId;
     protected String accountNumber;
@@ -388,11 +388,16 @@ public class OriginEntryLite extends PersistableBusinessObjectBase implements Or
         }
         sb.append(getField(40, transactionLedgerEntryDescription));
         if (transactionLedgerEntryAmount == null) {
-            sb.append(SPACE_TRANSACTION_LEDGER_ENTRY_AMOUNT);
+            sb.append(ZERO_TRANSACTION_LEDGER_ENTRY_AMOUNT);
         }
         else {
-            String a = transactionLedgerEntryAmount.toString();
-            sb.append(SPACE_TRANSACTION_LEDGER_ENTRY_AMOUNT.substring(0, 20 - a.length()));
+            String a = transactionLedgerEntryAmount.abs().toString();
+            if (transactionLedgerEntryAmount.isNegative()) {
+                sb.append("-");
+            } else {
+                sb.append("+");
+            }
+            sb.append(ZERO_TRANSACTION_LEDGER_ENTRY_AMOUNT.substring(0, 20 - a.length()));
             sb.append(a);
         }
         sb.append(getField(1, transactionDebitCreditCode));

@@ -27,6 +27,7 @@ import org.kuali.kfs.gl.businessobject.OriginEntryTestBase;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -83,7 +84,7 @@ public class ForwardEncumbranceTest extends OriginEntryTestBase {
          */
         public Encumbrance convertToEncumbrance() {
             Encumbrance e = new Encumbrance();
-            Integer fy = new Integer(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().intValue() - 1);
+            Integer fy = TestUtils.getFiscalYearForTesting().intValue();
             e.setUniversityFiscalYear(fy);
             e.setChartOfAccountsCode(chart);
             e.setAccountNumber(accountNumber);
@@ -95,7 +96,7 @@ public class ForwardEncumbranceTest extends OriginEntryTestBase {
             e.setOriginCode("EP");
             e.setDocumentNumber("000001"); // we don't need this field
             GregorianCalendar lastYear = new GregorianCalendar();
-            lastYear.add(Calendar.YEAR, -1);
+            lastYear.set(Calendar.YEAR, (TestUtils.getFiscalYearForTesting().intValue() - 1));
             e.setTransactionEncumbranceDate(new java.sql.Date(lastYear.getTimeInMillis()));
             e.setTransactionEncumbranceDescription("MONKEYS-R-US IS THE NEWEST AND GREATEST STORE IN THE ENTIRE TRI-STATE AREA");
             e.setAccountLineEncumbranceAmount(new KualiDecimal(1000));
@@ -139,7 +140,8 @@ public class ForwardEncumbranceTest extends OriginEntryTestBase {
         helper.setSubFundGroupService(SpringContext.getBean(SubFundGroupService.class));
 
         Encumbrance encumbrance = ENCUMBRANCE_FIXTURE.COST_SHARE_ENCUMBRANCE.convertToEncumbrance();
-        OriginEntryOffsetPair entryPair = EncumbranceClosingOriginEntryFactory.createBeginningBalanceEntryOffsetPair(encumbrance, SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear(), new java.sql.Date(new GregorianCalendar().getTimeInMillis()));
+        final Integer postingYear = TestUtils.getFiscalYearForTesting().intValue();
+        OriginEntryOffsetPair entryPair = EncumbranceClosingOriginEntryFactory.createBeginningBalanceEntryOffsetPair(encumbrance, postingYear, new java.sql.Date(new GregorianCalendar().getTimeInMillis()));
 
         assertTrue(helper.isEncumbranceEligibleForCostShare(entryPair.getEntry(), entryPair.getOffset(), encumbrance, ENCUMBRANCE_FIXTURE.COST_SHARE_ENCUMBRANCE.getObjectType()));
 

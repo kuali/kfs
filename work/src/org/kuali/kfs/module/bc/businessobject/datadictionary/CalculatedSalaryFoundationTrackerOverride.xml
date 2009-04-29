@@ -35,6 +35,21 @@
         <ref bean="CalculatedSalaryFoundationTrackerOverride-active" />
       </list>
     </property>
+    <property name="relationships" >
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="csfTrackerOverridePerson" />
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="emplid"
+                    p:targetName="employeeId" />                   
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->

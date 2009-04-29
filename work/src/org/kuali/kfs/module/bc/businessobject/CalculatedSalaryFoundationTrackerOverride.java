@@ -21,12 +21,16 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -58,6 +62,9 @@ public class CalculatedSalaryFoundationTrackerOverride extends PersistableBusine
     private SubObjectCode financialSubObject;
     private SystemOptions universityFiscal;
     private List calculatedSalaryFoundationTracker;
+
+    private Person csfTrackerOverridePerson;
+
 
     /**
      * Default constructor.
@@ -443,6 +450,26 @@ public class CalculatedSalaryFoundationTrackerOverride extends PersistableBusine
      */
     public void setUniversityFiscal(SystemOptions universityFiscal) {
         this.universityFiscal = universityFiscal;
+    }
+
+    /**
+     * Gets the csfTrackerOverridePerson attribute. 
+     * @return Returns the csfTrackerOverridePerson.
+     */
+    public Person getCsfTrackerOverridePerson() {
+        if(csfTrackerOverridePerson == null || !StringUtils.equals(csfTrackerOverridePerson.getEmployeeId(), emplid)) {
+            csfTrackerOverridePerson = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(emplid);
+        }
+        
+        return csfTrackerOverridePerson;
+    }
+
+    /**
+     * Sets the csfTrackerOverridePerson attribute value.
+     * @param csfTrackerOverridePerson The csfTrackerOverridePerson to set.
+     */
+    public void setCsfTrackerOverridePerson(Person csfTrackerOverridePerson) {
+        this.csfTrackerOverridePerson = csfTrackerOverridePerson;
     }
 
     /**

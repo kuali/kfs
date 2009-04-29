@@ -143,7 +143,7 @@
 				<td class="infoline">
 				    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemQuantity}" property="newPurchasingItemLine.itemQuantity" tabindexOverride="${tabindexOverrideBase + 0}"/>
 			    </td>
-                <td class="infoline" nowrap="nowrap" >
+                <td class="infoline" >
                     <c:set var="itemUnitOfMeasureCodeField"  value="newPurchasingItemLine.itemUnitOfMeasureCode" />
                     <c:set var="itemUnitOfMeasureDescriptionField"  value="newPurchasingItemLine.itemUnitOfMeasure.itemUnitOfMeasureDescription" />
                     <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" 
@@ -161,7 +161,7 @@
 				    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemCatalogNumber}" property="newPurchasingItemLine.itemCatalogNumber" tabindexOverride="${tabindexOverrideBase + 0}"/>
 			    </td>
 			    <c:if test = "${displayCommodityCodeFields}">
-                    <td class="infoline" nowrap="nowrap" >
+                    <td class="infoline" >
                         <c:set var="commodityCodeField"  value="newPurchasingItemLine.purchasingCommodityCode" />
                         <c:set var="commodityDescriptionField"  value="newPurchasingItemLine.commodityCode.commodityDescription" />
                         <kul:htmlControlAttribute attributeEntry="${itemAttributes.purchasingCommodityCode}" 
@@ -348,7 +348,7 @@
 						    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null))))}" 
 						    tabindexOverride="${tabindexOverrideBase + 0}"/>
 					</td>
-                    <td class="infoline" nowrap="nowrap" >
+                    <td class="infoline" >
                         <kul:htmlControlAttribute 
                             attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" 
                             property="document.item[${ctr}].itemUnitOfMeasureCode"
@@ -372,7 +372,7 @@
 						    tabindexOverride="${tabindexOverrideBase + 0}"/>
 				    </td>
 				    <c:if test="${displayCommodityCodeFields}">
-                        <td class="infoline" nowrap="nowrap" >
+                        <td class="infoline" >
                             <kul:htmlControlAttribute 
                                 attributeEntry="${itemAttributes.purchasingCommodityCode}" 
                                 property="document.item[${ctr}].purchasingCommodityCode"

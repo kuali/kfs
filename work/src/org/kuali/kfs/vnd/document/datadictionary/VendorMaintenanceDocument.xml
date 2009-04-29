@@ -5,6 +5,7 @@
   <bean id="VendorMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorDetail"/>
     <property name="maintainableClass" value="org.kuali.kfs.vnd.document.VendorMaintainableImpl"/>
+    <property name="encryptDocumentDataInPersistentSessionStorage" value="true" />
     <property name="maintainableSections">
       <list>
         <ref bean="VendorMaintenanceDocument-Vendor"/>

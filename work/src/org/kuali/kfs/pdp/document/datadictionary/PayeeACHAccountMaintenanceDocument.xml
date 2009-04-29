@@ -5,6 +5,7 @@
   <bean id="PayeeACHAccountMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.PayeeACHAccount"/>
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="encryptDocumentDataInPersistentSessionStorage" value="true" />
     <property name="maintainableSections">
       <list>
         <ref bean="PayeeACHAccountMaintenanceDocument-EditPayeeACHAccount"/>

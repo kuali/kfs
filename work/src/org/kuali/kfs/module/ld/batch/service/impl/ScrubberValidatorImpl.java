@@ -23,6 +23,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.BalanceTypService;
 import org.kuali.kfs.gl.batch.ScrubberStep;
@@ -44,7 +45,6 @@ import org.kuali.kfs.sys.MessageBuilder;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -70,6 +70,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private PersistenceService persistenceService;
     private ScrubberValidator scrubberValidator;
     private PersistenceStructureService persistenceStructureService;
+    private boolean continuationAccountIndicator;
     
 
     /**
@@ -79,7 +80,8 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     public List<Message> validateTransaction(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate, boolean laborIndicator, AccountingCycleCachingService laborAccountingCycleCachingService) {
         LOG.debug("validateTransaction() started");
         List<Message> errors = new ArrayList<Message>();
-
+        continuationAccountIndicator = false;
+        
         LaborOriginEntry laborOriginEntry = (LaborOriginEntry) originEntry;
         LaborOriginEntry laborScrubbedEntry = (LaborOriginEntry) scrubbedEntry;
 
@@ -116,6 +118,11 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
 
         err = validateAccount(laborOriginEntry, laborScrubbedEntry, universityRunDate, (LaborAccountingCycleCachingService) laborAccountingCycleCachingService);
+        if (err != null) {
+            errors.add(err);
+        }
+        
+        err = validateSubAccount(laborOriginEntry, laborScrubbedEntry, (LaborAccountingCycleCachingService) laborAccountingCycleCachingService);
         if (err != null) {
             errors.add(err);
         }
@@ -351,6 +358,10 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                 accountNumber = account.getContinuationAccountNumber();
             }
             else {
+                
+                // set continuationAccountLogicIndi
+                continuationAccountIndicator = true;
+                
                 laborWorkingEntry.setAccount(account);
                 laborWorkingEntry.setAccountNumber(accountNumber);
                 laborWorkingEntry.setChartOfAccountsCode(chartCode);
@@ -467,6 +478,70 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
         return MessageBuilder.buildMessageWithPlaceHolder(LaborKeyConstants.MESSAGE_SUSPENSE_ACCOUNT_APPLIED, Message.TYPE_WARNING, suspenseCOAcode, suspenseAccountNumber, suspenseSubAccountNumber);
     }
+    
+    /**
+     * Validates the sub account of the origin entry
+     * 
+     * @param originEntry the origin entry being scrubbed
+     * @param workingEntry the scrubbed version of the origin entry
+     * @return a Message if an error was encountered, otherwise null
+     */
+
+    private Message validateSubAccount(LaborOriginEntry originEntry, LaborOriginEntry workingEntry, LaborAccountingCycleCachingService laborAccountingCycleCachingService) {
+        LOG.debug("validateSubAccount() started");
+
+        // when continuationAccount used, the subAccountNumber should be changed to dashes and skip validation subAccount process
+        if (continuationAccountIndicator) {
+            workingEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
+            return null;
+        }
+                
+        // If the sub account number is empty, set it to dashes.
+        // Otherwise set the workingEntry sub account number to the
+        // sub account number of the input origin entry.
+        if (org.springframework.util.StringUtils.hasText(originEntry.getSubAccountNumber())) {
+            // sub account IS specified
+            if (!KFSConstants.getDashSubAccountNumber().equals(originEntry.getSubAccountNumber())) {
+              SubAccount originEntrySubAccount = laborAccountingCycleCachingService.getSubAccount(originEntry.getChartOfAccountsCode(), originEntry.getAccountNumber(), originEntry.getSubAccountNumber());
+              //SubAccount originEntrySubAccount = getSubAccount(originEntry);
+                if (originEntrySubAccount == null) {
+                    // sub account is not valid
+                    return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_SUB_ACCOUNT_NOT_FOUND, originEntry.getChartOfAccountsCode() + "-" + originEntry.getAccountNumber() + "-" + originEntry.getSubAccountNumber(), Message.TYPE_FATAL);
+                }
+                else {
+                    // sub account IS valid
+                    if (originEntrySubAccount.isActive()) {
+                        // sub account IS active
+                        workingEntry.setSubAccountNumber(originEntry.getSubAccountNumber());
+                    }
+                    else {
+                        // sub account IS NOT active
+                        if (parameterService.getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ANNUAL_CLOSING_DOC_TYPE).equals(originEntry.getFinancialDocumentTypeCode())) {
+                            // document IS annual closing
+                            workingEntry.setSubAccountNumber(originEntry.getSubAccountNumber());
+                        }
+                        else {
+                            // document is NOT annual closing
+                            return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_SUB_ACCOUNT_NOT_ACTIVE, originEntry.getChartOfAccountsCode() + "-" + originEntry.getAccountNumber() + "-" + originEntry.getSubAccountNumber(), Message.TYPE_FATAL);
+                        }
+                    }
+                }
+            }
+            else {
+                // the sub account is dashes
+                workingEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
+            }
+        }
+        else {
+            // No sub account is specified.
+            workingEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
+        }
+        
+        
+        return null;
+        
+    }
+
 
     public void validateForInquiry(GeneralLedgerPendingEntry entry) {
     }

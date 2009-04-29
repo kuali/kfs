@@ -208,10 +208,13 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                 errors.add(err);
             }
         }
-
-        err = validateSubAccount(originEntry, scrubbedEntry, accountingCycleCachingService);
-        if (err != null) {
-            errors.add(err);
+        
+        // Labor Scrubber doesn't validate SubAccount here
+        if (!laborIndicator) {
+            err = validateSubAccount(originEntry, scrubbedEntry, accountingCycleCachingService);
+            if (err != null) {
+                errors.add(err);
+            }
         }
 
         err = validateProjectCode(originEntry, scrubbedEntry, accountingCycleCachingService);

@@ -106,13 +106,10 @@
       <list>
         <dd:maintField attributeName="accountFiscalOfficerSystemIdentifier" unconditionallyReadOnly="true" required="true"/>
         <dd:maintField attributeName="accountFiscalOfficerUser.principalName" required="true"/>
-        <dd:maintField attributeName="accountFiscalOfficerUser.name" unconditionallyReadOnly="true"/>
         <dd:maintField attributeName="accountsSupervisorySystemsIdentifier" unconditionallyReadOnly="true" required="true"/>
         <dd:maintField attributeName="accountSupervisoryUser.principalName" required="true"/>
-        <dd:maintField attributeName="accountSupervisoryUser.name" unconditionallyReadOnly="true"/>
         <dd:maintField attributeName="accountManagerSystemIdentifier" unconditionallyReadOnly="true" required="true"/>
         <dd:maintField attributeName="accountManagerUser.principalName" required="true"/>
-        <dd:maintField attributeName="accountManagerUser.name" unconditionallyReadOnly="true"/>
 
         <dd:maintField attributeName="continuationFinChrtOfAcctCd"/>
         <dd:maintField attributeName="continuationAccountNumber"/>

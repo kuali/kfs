@@ -190,7 +190,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
             }
 
             Account account = detailLine.getAccount();
-            String accountFiscalOfficerPersonUserId = account.getAccountFiscalOfficerUserPersonUserIdentifier();
+            String accountFiscalOfficerPersonUserId = account.getAccountFiscalOfficerUser().getPrincipalName();
             if (StringUtils.isEmpty(accountFiscalOfficerPersonUserId)) {
                 String actionRequestOfOfficer = this.getActionRequest(routeLevelName, KFSConstants.RouteLevelNames.ACCOUNT);
                 adHocRoutePersons.add(this.buildAdHocRouteRecipient(accountFiscalOfficerPersonUserId, actionRequestOfOfficer));
@@ -285,7 +285,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
         for (EffortCertificationDetail detailLine : effortCertificationDetailLines) {
             if (this.getDifference(detailLine).isNonZero()) {
                 Account account = detailLine.getAccount();
-                String accountFiscalOfficerPersonUserId = account.getAccountFiscalOfficerUserPersonUserIdentifier();
+                String accountFiscalOfficerPersonUserId = account.getAccountFiscalOfficerUser().getPrincipalName();
 
                 if (StringUtils.isEmpty(accountFiscalOfficerPersonUserId)) {
                     fiscalOfficers.add(accountFiscalOfficerPersonUserId);

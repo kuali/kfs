@@ -60,7 +60,6 @@
               <bean parent="MaintainableFieldDefinition" p:name="accountDelegatePrimaryRoutingIndicator"/>
               <bean parent="MaintainableFieldDefinition" p:name="accountDelegateStartDate" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder"/>
               <bean parent="MaintainableFieldDefinition" p:name="accountDelegate.principalName" p:required="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="accountDelegate.name" p:unconditionallyReadOnly="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="accountDelegateUniversalId" p:unconditionallyReadOnly="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="approvalFromThisAmount"/>
               <bean parent="MaintainableFieldDefinition" p:name="approvalToThisAmount"/>

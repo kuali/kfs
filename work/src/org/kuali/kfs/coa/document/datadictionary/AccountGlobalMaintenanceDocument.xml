@@ -54,13 +54,10 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="accountFiscalOfficerSystemIdentifier" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="accountFiscalOfficerUser.principalName"/>
-        <bean parent="MaintainableFieldDefinition" p:name="accountFiscalOfficerUser.name" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="accountsSupervisorySystemsIdentifier" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="accountSupervisoryUser.principalName"/>
-        <bean parent="MaintainableFieldDefinition" p:name="accountSupervisoryUser.name" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="accountManagerSystemIdentifier" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="accountManagerUser.principalName"/>
-        <bean parent="MaintainableFieldDefinition" p:name="accountManagerUser.name" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="organizationCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="subFundGroupCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="accountExpirationDate"/>

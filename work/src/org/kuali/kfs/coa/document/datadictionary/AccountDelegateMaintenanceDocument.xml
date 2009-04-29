@@ -47,7 +47,6 @@
         <bean parent="MaintainableFieldDefinition" p:name="financialDocumentTypeCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="accountDelegateSystemId" p:unconditionallyReadOnly="true" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="accountDelegate.principalName" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="accountDelegate.name" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="finDocApprovalFromThisAmt"/>
         <bean parent="MaintainableFieldDefinition" p:name="finDocApprovalToThisAmount"/>
         <bean parent="MaintainableFieldDefinition" p:name="accountsDelegatePrmrtIndicator"/>

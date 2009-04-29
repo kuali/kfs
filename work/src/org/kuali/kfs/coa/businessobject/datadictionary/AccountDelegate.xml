@@ -201,8 +201,6 @@
               <bean parent="FieldDefinition"
                     p:attributeName="accountDelegate.principalName" />
               <bean parent="FieldDefinition"
-                    p:attributeName="accountDelegate.name" />
-              <bean parent="FieldDefinition"
                     p:attributeName="finDocApprovalFromThisAmt" />
               <bean parent="FieldDefinition"
                     p:attributeName="finDocApprovalToThisAmount" />

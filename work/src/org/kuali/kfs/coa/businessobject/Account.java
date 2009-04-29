@@ -1001,17 +1001,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
         return accountFiscalOfficerUser;
     }
 
-    /**
-     * The network id of the account fiscal officer
-     * 
-     * @return the network id of the account fiscal officer
-     */
-    public String getAccountFiscalOfficerUserPersonUserIdentifier() {
-        return this.getAccountFiscalOfficerUser().getPrincipalName();
-    }
-
-
-    /**
+   /**
      * @param accountFiscalOfficerUser The accountFiscalOfficerUser to set.
      * @deprecated
      */
@@ -1022,15 +1012,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     public Person getAccountManagerUser() {
         accountManagerUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(accountManagerSystemIdentifier, accountManagerUser);
         return accountManagerUser;
-    }
-
-    /**
-     * Returns the network id of the account manager user
-     * 
-     * @return the network id of the account manager user
-     */
-    public String getAccountManagerUserPersonUserIdentifier() {
-        return this.getAccountManagerUser().getPrincipalName();
     }
 
     /**
@@ -1045,18 +1026,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     public Person getAccountSupervisoryUser() {
         accountSupervisoryUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(accountsSupervisorySystemsIdentifier, accountSupervisoryUser);
         return accountSupervisoryUser;
-    }
-
-    /**
-     * So, if you've read the comments for getAccountFiscalOfficerUserPersonUserIdentifier and
-     * getAccountManagerUserPersonUserIdentifier, then you would suspect that this method would return the network id for the
-     * account supervisory user. But--ha ha! You'd be wrong. This method has a devious and unexpected twist. No, actually, I'm
-     * kidding. This returns the network if the account supervisory user.
-     * 
-     * @return Take a guess. Honestly.
-     */
-    public String getAccountSupervisoryUserPersonUserIdentifier() {
-        return this.getAccountSupervisoryUser().getPrincipalName();
     }
 
     /**

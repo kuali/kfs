@@ -70,7 +70,6 @@
               <bean parent="MaintainableFieldDefinition" p:name="approvalFromThisAmount"/>
               <bean parent="MaintainableFieldDefinition" p:name="approvalToThisAmount"/>
               <bean parent="MaintainableFieldDefinition" p:name="accountDelegate.principalName" p:required="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="accountDelegate.name" p:unconditionallyReadOnly="true" p:required="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="accountDelegateUniversalId" p:unconditionallyReadOnly="true" p:required="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>

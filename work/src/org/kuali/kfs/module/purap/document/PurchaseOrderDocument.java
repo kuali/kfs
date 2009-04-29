@@ -1372,6 +1372,11 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     }
 
     public KualiDecimal getInternalPurchasingLimit() {
+        //FIXME need the following because at places this field remains null because contract manager is not refreshed and null
+        //per KULPURAP-3799
+        if (internalPurchasingLimit == null) {
+            setInternalPurchasingLimit(SpringContext.getBean(PurchaseOrderService.class).getInternalPurchasingDollarLimit(this));
+        }
         return internalPurchasingLimit;
     }
 

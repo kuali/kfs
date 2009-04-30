@@ -56,6 +56,7 @@ public class BCKeyConstants {
     public static final String ERROR_BUDGET_THRESHOLD_PERCENT_NEEDED = "error.budget.thresholdPercentNeeded";
     public static final String ERROR_BUDGET_ORG_NOT_SELECTED = "error.budget.orgNotSelected";
     public static final String ERROR_BUDGET_LINE_EXISTS = "error.budget.lineExists";
+    public static final String ERROR_BUDGET_LINE_REINSTATED = "error.budget.lineReinstated";
     public static final String ERROR_LABOR_OBJECT_IN_NOWAGES_ACCOUNT = "error.budget.laborObjectInNoWagesAccount";
     public static final String ERROR_FRINGE_BENEFIT_OBJECT_NOT_ALLOWED = "error.budget.fringeBenefitObjectNotAllowed";
     public static final String ERROR_SALARY_SETTING_OBJECT_ONLY = "error.budget.salarySettingObjectOnly";

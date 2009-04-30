@@ -166,7 +166,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
      * @param isRevenue
      * @param line
      */
-    public void addPBGLLine(PendingBudgetConstructionGeneralLedger line, boolean isRevenue) {
+    public int addPBGLLine(PendingBudgetConstructionGeneralLedger line, boolean isRevenue) {
         int insertPoint = 0;
         ListIterator pbglLines;
         if (isRevenue) {
@@ -200,6 +200,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
         else {
             this.pendingBudgetConstructionGeneralLedgerExpenditureLines.add(insertPoint, line);
         }
+        return insertPoint;
 
     }
 

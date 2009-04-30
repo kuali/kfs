@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -327,7 +328,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         BudgetConstructionHeader budgetConstructionHeader;
         if (budgetConstructionForm.getDocId() != null) {
-            HashMap primaryKey = new HashMap();
+            Map<String, Object> primaryKey = new HashMap<String, Object>();
             primaryKey.put(KFSPropertyConstants.DOCUMENT_NUMBER, budgetConstructionForm.getDocId());
 
             budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
@@ -999,9 +1000,42 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         if (StringUtils.isBlank(line.getFinancialSubObjectCode())) {
             line.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         }
+        
+        // check the DB for an existing persisted version of the line
+        // and reinstate that with a message to the user indicating such
+        boolean isReinstated = false;
+        Map<String, Object> primaryKey = new HashMap<String, Object>();
+        primaryKey.put(KFSPropertyConstants.DOCUMENT_NUMBER, line.getDocumentNumber());
+        primaryKey.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, line.getUniversityFiscalYear());
+        primaryKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, line.getChartOfAccountsCode());
+        primaryKey.put(KFSPropertyConstants.ACCOUNT_NUMBER, line.getAccountNumber());
+        primaryKey.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, line.getSubAccountNumber());
+        primaryKey.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, line.getFinancialBalanceTypeCode());
+        primaryKey.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, line.getFinancialObjectTypeCode());
+
+        primaryKey.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, line.getFinancialObjectCode());
+        primaryKey.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, line.getFinancialSubObjectCode());
+
+        PendingBudgetConstructionGeneralLedger dbLine = (PendingBudgetConstructionGeneralLedger) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(PendingBudgetConstructionGeneralLedger.class, primaryKey);
+        if (dbLine != null){
+            line = dbLine;
+            SpringContext.getBean(BudgetDocumentService.class).populatePBGLLine(line);
+            isReinstated = true;
+        }
 
         // add the line in the proper order - assumes already exists check is done in rules
-        bcDoc.addPBGLLine(line, isRevenue);
+        int insertPoint = bcDoc.addPBGLLine(line, isRevenue);
+        
+        if (isReinstated){
+            String errorKey; 
+            if (isRevenue){
+                errorKey = KNSConstants.DOCUMENT_PROPERTY_NAME + "." + BCPropertyConstants.PENDING_BUDGET_CONSTRUCTION_GENERAL_LEDGER_REVENUE_LINES + "[" + insertPoint  + "]." + KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT;
+            }
+            else {
+                errorKey = KNSConstants.DOCUMENT_PROPERTY_NAME + "." + BCPropertyConstants.PENDING_BUDGET_CONSTRUCTION_GENERAL_LEDGER_EXPENDITURE_LINES + "[" + insertPoint  + "]." + KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT;
+            }
+            GlobalVariables.getErrorMap().putError(errorKey, BCKeyConstants.ERROR_BUDGET_LINE_REINSTATED, dbLine.getFinancialObjectCode() + "," + dbLine.getFinancialSubObjectCode());
+        }
 
         // adjust totals
         if (line.getAccountLineAnnualBalanceAmount() != null && line.getAccountLineAnnualBalanceAmount() != KualiInteger.ZERO) {

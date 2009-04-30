@@ -46,6 +46,7 @@
             	            #ctrl-info th { text-align: right; }
                 	        #ctrl-info th, #ctrl-info td { width: 50%; }
     	                </style>
+		  				<h3>Control Information</h3>
     				    <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
                     	    <tr>
                         	    <th>Application Document #</th>

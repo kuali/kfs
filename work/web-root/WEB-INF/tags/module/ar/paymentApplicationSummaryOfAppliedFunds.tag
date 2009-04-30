@@ -30,6 +30,7 @@
 		    		No Customer Selected
 	    	</c:when>
 			<c:otherwise>
+			    <h3>Summary of Applied Funds</h3>
 				<table width="100%" cellpadding="0" cellspacing="0"
 					class="datatable">
 					<tr>
@@ -87,6 +88,11 @@
 						<td valign='top'>
                             <c:set var="showCCAndBtbA" value="${hasRelatedCashControlDocument}"/>
                             <table class='datatable'>
+								<tr>
+									<td colspan='3' class='tab-subhead'>
+										Unapplied Funds
+									</td>
+								</tr>
 								<tr>
 									<c:if test="${!showCCAndBtbA}">
 		                        	    <c:if test="${readOnly ne true}">

@@ -35,6 +35,7 @@
                     No Customer Selected
                 </c:when>
                 <c:otherwise>
+                    <h3>Quick Apply to Invoice</h3>
                     <table width="100%" cellpadding="0" cellspacing="0"
                         class="datatable">
                         <tr>

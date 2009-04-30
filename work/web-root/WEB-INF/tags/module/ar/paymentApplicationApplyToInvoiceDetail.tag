@@ -32,6 +32,7 @@
 <kul:tab tabTitle="Apply to Invoice Detail" defaultOpen="true"
 	tabErrorKey="${KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB}">
 	<div class="tab-container" align="center">
+	    <h3>Apply to Invoice Detail</h3>
         <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
 			<tr>
 				<th>

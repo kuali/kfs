@@ -32,6 +32,7 @@
 					No Cash Control Document
 	        	</c:when>
 	        	<c:otherwise>
+	        	    <h3>Unapplied</h3>
             		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
                 		<tr>
                     		<kul:htmlAttributeHeaderCell literalLabel="Customer"/>  

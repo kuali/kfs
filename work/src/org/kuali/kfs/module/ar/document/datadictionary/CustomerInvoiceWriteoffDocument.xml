@@ -35,7 +35,7 @@
   <bean id="CustomerInvoiceWriteoffDocument-financialDocumentReferenceInvoiceNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentReferenceInvoiceNumber"/>
     <property name="forceUppercase" value="true"/>
-    <property name="label" value="Invoice Ref. Number"/>
+    <property name="label" value="Invoice Reference Number"/>
     <property name="shortLabel" value="Invoice Ref. Number"/>
     <property name="maxLength" value="10"/>
     <property name="required" value="false"/>

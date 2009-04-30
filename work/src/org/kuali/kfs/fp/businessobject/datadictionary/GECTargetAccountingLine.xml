@@ -142,7 +142,7 @@
 
   <bean id="GECTargetAccountingLine-organizationReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationReferenceId" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Organization Reference Id" />
     <property name="shortLabel" value="Org Ref Id" />
     <property name="maxLength" value="8" />

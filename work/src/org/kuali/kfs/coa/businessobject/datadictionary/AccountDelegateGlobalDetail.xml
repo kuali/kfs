@@ -140,7 +140,7 @@
 
   <bean id="AccountDelegateGlobalDetail-approvalToThisAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="approvalToThisAmount" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="true" />    
     <property name="label" value="Approval To This Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />

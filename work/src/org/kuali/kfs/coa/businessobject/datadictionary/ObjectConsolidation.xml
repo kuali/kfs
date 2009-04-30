@@ -54,7 +54,7 @@
 
   <bean id="ObjectConsolidation-finConsolidationObjectName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="finConsolidationObjectName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Consolidation Object Name" />
     <property name="shortLabel" value="Long Name" />
     <property name="maxLength" value="40" />
@@ -68,7 +68,7 @@
 
   <bean id="ObjectConsolidation-finConsolidationObjShortName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="finConsolidationObjShortName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Consolidation Object Short Name" />
     <property name="shortLabel" value="Short Name" />
     <property name="maxLength" value="12" />

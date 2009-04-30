@@ -64,7 +64,7 @@
 
   <bean id="ObjectLevel-financialObjectLevelName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialObjectLevelName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Object Level Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />
@@ -82,7 +82,7 @@
 
   <bean id="ObjectLevel-financialObjectLevelShortNm-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialObjectLevelShortNm" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Object Level" />
     <property name="shortLabel" value="ObjLevel" />
     <property name="maxLength" value="12" />
@@ -112,7 +112,7 @@
 
   <bean id="ObjectLevel-financialReportingSortCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialReportingSortCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Report Sort Code" />
     <property name="shortLabel" value="SortCode" />
     <property name="maxLength" value="2" />

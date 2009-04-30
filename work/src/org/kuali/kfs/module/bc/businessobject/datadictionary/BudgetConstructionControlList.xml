@@ -184,7 +184,7 @@
 
   <bean id="BudgetConstructionControlList-selectedPullFlag-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="selectedPullFlag" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Selected Pull Flag" />
     <property name="shortLabel" value="Flag" />
     <property name="maxLength" value="7" />

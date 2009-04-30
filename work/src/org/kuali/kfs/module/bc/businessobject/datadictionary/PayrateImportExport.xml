@@ -27,7 +27,7 @@
 
   <bean id="PayrateImportExport-fileName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="fileName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Import File" />
     <property name="shortLabel" value="Import File" />
     <property name="maxLength" value="50" />
@@ -43,7 +43,7 @@
 
   <bean id="PayrateImportExport-positionUnionCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="positionUnionCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Position Union Code" />
     <property name="shortLabel" value="Position Union Code" />
     <property name="maxLength" value="50" />
@@ -71,7 +71,7 @@
 
   <bean id="PayrateImportExport-exportCount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="exportCount" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Export Count" />
     <property name="shortLabel" value="Export Count" />
     <property name="maxLength" value="50" />
@@ -87,7 +87,7 @@
 
   <bean id="PayrateImportExport-importCount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="importCount" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Import Count" />
     <property name="shortLabel" value="Import Count" />
     <property name="maxLength" value="50" />
@@ -102,7 +102,7 @@
 
   <bean id="PayrateImportExport-updateCount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="updateCount" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Update Count" />
     <property name="shortLabel" value="Update Count" />
     <property name="maxLength" value="50" />

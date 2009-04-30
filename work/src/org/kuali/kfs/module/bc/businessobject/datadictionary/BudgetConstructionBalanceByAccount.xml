@@ -262,7 +262,7 @@
 
   <bean id="BudgetConstructionBalanceByAccount-levelFinancialReportSortCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="levelFinancialReportSortCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Level Financial Report Sort Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="2" />
@@ -334,7 +334,7 @@
 
   <bean id="BudgetConstructionBalanceByAccount-typeFinancialReportSortCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="typeFinancialReportSortCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Type Financial Report Sort Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="2" />

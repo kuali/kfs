@@ -112,7 +112,7 @@
 
   <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-csfFundingStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="csfFundingStatusCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Csf Funding Status Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="1" />

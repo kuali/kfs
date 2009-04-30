@@ -81,7 +81,7 @@
 
   <bean id="ProcurementCardHolder-cardHolderAlternateName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="cardHolderAlternateName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Card Holder Alternate Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="45" />
@@ -94,7 +94,7 @@
 
   <bean id="ProcurementCardHolder-cardHolderCityName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="cardHolderCityName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Card Holder City Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="45" />
@@ -107,7 +107,7 @@
 
   <bean id="ProcurementCardHolder-cardHolderLine1Address-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="cardHolderLine1Address" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Card Holder Line1 Address" />
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="45" />
@@ -120,7 +120,7 @@
 
   <bean id="ProcurementCardHolder-cardHolderLine2Address-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="cardHolderLine2Address" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Card Holder Line2 Address" />
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="45" />
@@ -133,7 +133,7 @@
 
   <bean id="ProcurementCardHolder-cardHolderName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="cardHolderName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Card Holder Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="35" />
@@ -148,7 +148,7 @@
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
 	p:sourceAttributeName="postalStateCode">
     <property name="name" value="cardHolderStateCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Card Holder State Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="2" />
@@ -161,7 +161,7 @@
 
   <bean id="ProcurementCardHolder-cardHolderWorkPhoneNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="cardHolderWorkPhoneNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Card Holder Work Phone Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="10" />
@@ -199,7 +199,7 @@
 
   <bean id="ProcurementCardHolder-cardNoteText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="cardNoteText" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Card Note Text" />
     <property name="shortLabel" value="Text" />
     <property name="maxLength" value="50" />
@@ -212,7 +212,7 @@
 
   <bean id="ProcurementCardHolder-cardStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="cardStatusCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Card Status Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="2" />
@@ -243,7 +243,7 @@
 
   <bean id="ProcurementCardHolder-transactionCreditCardNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionCreditCardNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Transaction Credit Card Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="16" />

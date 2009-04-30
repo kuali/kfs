@@ -95,7 +95,7 @@
 
   <bean id="BudgetConstructionAccountSelect-financialDocumentInitiatorIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentInitiatorIdentifier" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Upd by" />
     <property name="shortLabel" value="Upd by" />
     <property name="maxLength" value="10" />

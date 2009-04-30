@@ -51,12 +51,11 @@
 
   <bean id="A21SubAccount-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
   </bean>
-  <bean id="A21SubAccount-subAccountTypeCode" parent="A21SubAccount-subAccountTypeCode-parentBean" >
-    	<property name="forceUppercase" value="true" />
-  </bean>
+  <bean id="A21SubAccount-subAccountTypeCode" parent="A21SubAccount-subAccountTypeCode-parentBean" />
 
   <bean id="A21SubAccount-subAccountTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="subAccountTypeCode" />
+	<property name="forceUppercase" value="false" />    
     <property name="label" value="Sub-Account Type Code" />
     <property name="shortLabel" value="Type Code" />
     <property name="maxLength" value="2" />

@@ -69,7 +69,7 @@
 
   <bean id="FormatResult-sortGroupName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="sortGroupName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Sort Group Name" />
     <property name="shortLabel" value="Sort Group" />
     <property name="maxLength" value="32" />

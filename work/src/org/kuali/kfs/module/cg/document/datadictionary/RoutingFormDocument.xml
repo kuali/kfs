@@ -189,7 +189,7 @@
 
   <bean id="RoutingFormDocument-grantNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="grantNumber"/>
-    <property name="forceUppercase" value="true"/>
+    <property name="forceUppercase" value="false"/>
     <property name="label" value="Current Grant No."/>
     <property name="shortLabel" value="Grant Number"/>
     <property name="maxLength" value="27"/>
@@ -223,7 +223,7 @@
 
   <bean id="RoutingFormDocument-routingFormAnnouncementNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormAnnouncementNumber"/>
-    <property name="forceUppercase" value="true"/>
+    <property name="forceUppercase" value="false"/>
     <property name="label" value="Routing Form Announcement Number"/>
     <property name="shortLabel" value="Routing Form Announcement"/>
     <property name="maxLength" value="110"/>
@@ -240,7 +240,7 @@
 
   <bean id="RoutingFormDocument-routingFormBudgetNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormBudgetNumber"/>
-    <property name="forceUppercase" value="true"/>
+    <property name="forceUppercase" value="false"/>
     <property name="label" value="Routing Form Budget Number"/>
     <property name="shortLabel" value="Number"/>
     <property name="maxLength" value="12"/>
@@ -358,7 +358,7 @@
 
   <bean id="RoutingFormDocument-routingFormFellowEmailAddress-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormFellowEmailAddress"/>
-    <property name="forceUppercase" value="true"/>
+    <property name="forceUppercase" value="false"/>
     <property name="label" value="Routing Form Fellow Email Address"/>
     <property name="shortLabel" value="Address"/>
     <property name="maxLength" value="40"/>
@@ -375,7 +375,7 @@
 
   <bean id="RoutingFormDocument-routingFormFellowFirstName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormFellowFirstName"/>
-    <property name="forceUppercase" value="true"/>
+    <property name="forceUppercase" value="false"/>
     <property name="label" value="Routing Form Fellow First Name"/>
     <property name="shortLabel" value="Name"/>
     <property name="maxLength" value="25"/>
@@ -392,7 +392,7 @@
 
   <bean id="RoutingFormDocument-routingFormFellowFullName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormFellowFullName"/>
-    <property name="forceUppercase" value="true"/>
+    <property name="forceUppercase" value="false"/>
     <property name="label" value="Fellow"/>
     <property name="shortLabel" value="Name"/>
     <property name="maxLength" value="30"/>
@@ -409,7 +409,7 @@
 
   <bean id="RoutingFormDocument-routingFormFellowLastName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormFellowLastName"/>
-    <property name="forceUppercase" value="true"/>
+    <property name="forceUppercase" value="false"/>
     <property name="label" value="Routing Form Fellow Last Name"/>
     <property name="shortLabel" value="Name"/>
     <property name="maxLength" value="25"/>
@@ -460,7 +460,7 @@
 
   <bean id="RoutingFormDocument-routingFormLayDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormLayDescription"/>
-    <property name="forceUppercase" value="true"/>
+    <property name="forceUppercase" value="false"/>
     <property name="label" value="Lay Description of This Request"/>
     <property name="shortLabel" value="Description"/>
     <property name="maxLength" value="1000"/>
@@ -491,7 +491,7 @@
 
   <bean id="RoutingFormDocument-routingFormOtherPurposeDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormOtherPurposeDescription"/>
-    <property name="forceUppercase" value="true"/>
+    <property name="forceUppercase" value="false"/>
     <property name="label" value="Routing Form Other Purpose Description"/>
     <property name="shortLabel" value="Description"/>
     <property name="maxLength" value="50"/>
@@ -508,7 +508,7 @@
 
   <bean id="RoutingFormDocument-projectTypeOtherDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="projectTypeOtherDescription"/>
-    <property name="forceUppercase" value="true"/>
+    <property name="forceUppercase" value="false"/>
     <property name="label" value="Project Type Other Description"/>
     <property name="shortLabel" value="Description"/>
     <property name="maxLength" value="75"/>
@@ -525,7 +525,7 @@
 
   <bean id="RoutingFormDocument-routingFormOtherTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormOtherTypeDescription"/>
-    <property name="forceUppercase" value="true"/>
+    <property name="forceUppercase" value="false"/>
     <property name="label" value="Routing Form Other Type Description"/>
     <property name="shortLabel" value="Description"/>
     <property name="maxLength" value="75"/>
@@ -542,7 +542,7 @@
 
   <bean id="RoutingFormDocument-routingFormParentNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormParentNumber"/>
-    <property name="forceUppercase" value="true"/>
+    <property name="forceUppercase" value="false"/>
     <property name="label" value="Routing Form Parent Number"/>
     <property name="shortLabel" value="Number"/>
     <property name="maxLength" value="12"/>
@@ -559,7 +559,7 @@
 
   <bean id="RoutingFormDocument-routingFormPhysicalCampusCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormPhysicalCampusCode"/>
-    <property name="forceUppercase" value="true"/>
+    <property name="forceUppercase" value="false"/>
     <property name="label" value="Routing Form Physical Campus Code"/>
     <property name="shortLabel" value="Code"/>
     <property name="maxLength" value="2"/>
@@ -576,7 +576,7 @@
 
   <bean id="RoutingFormDocument-routingFormPriorGrantNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormPriorGrantNumber"/>
-    <property name="forceUppercase" value="true"/>
+    <property name="forceUppercase" value="false"/>
     <property name="label" value="Prior Grant No."/>
     <property name="shortLabel" value="Number"/>
     <property name="maxLength" value="27"/>
@@ -593,7 +593,7 @@
 
   <bean id="RoutingFormDocument-routingFormProjectTitle-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormProjectTitle"/>
-    <property name="forceUppercase" value="true"/>
+    <property name="forceUppercase" value="false"/>
     <property name="label" value="Routing Form Project Title"/>
     <property name="shortLabel" value="Title"/>
     <property name="maxLength" value="500"/>
@@ -627,7 +627,7 @@
 
   <bean id="RoutingFormDocument-routingFormSpaceRequiredDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="routingFormSpaceRequiredDescription"/>
-    <property name="forceUppercase" value="true"/>
+    <property name="forceUppercase" value="false"/>
     <property name="label" value="Routing Form Space Required Description"/>
     <property name="shortLabel" value="Description"/>
     <property name="maxLength" value="1000"/>
@@ -720,7 +720,7 @@
 
   <bean id="RoutingFormDocument-previousFederalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="previousFederalIdentifier"/>
-    <property name="forceUppercase" value="true"/>
+    <property name="forceUppercase" value="false"/>
     <property name="label" value="Previous Federal Identifier"/>
     <property name="shortLabel" value="Identifier"/>
     <property name="maxLength" value="12"/>
@@ -737,7 +737,7 @@
 
   <bean id="RoutingFormDocument-federalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="federalIdentifier"/>
-    <property name="forceUppercase" value="true"/>
+    <property name="forceUppercase" value="false"/>
     <property name="label" value="Federal Identification No."/>
     <property name="shortLabel" value="Identifier"/>
     <property name="maxLength" value="12"/>
@@ -754,7 +754,7 @@
 
   <bean id="RoutingFormDocument-grantsGovernmentConfirmationNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="grantsGovernmentConfirmationNumber"/>
-    <property name="forceUppercase" value="true"/>
+    <property name="forceUppercase" value="false"/>
     <property name="label" value="Grants.gov Confirmation No."/>
     <property name="shortLabel" value="Number"/>
     <property name="maxLength" value="12"/>
@@ -785,7 +785,7 @@
 
   <bean id="RoutingFormDocument-projectAbstract-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="projectAbstract"/>
-    <property name="forceUppercase" value="true"/>
+    <property name="forceUppercase" value="false"/>
     <property name="label" value="Project Abstract"/>
     <property name="shortLabel" value="Abstract"/>
     <property name="maxLength" value="4000"/>

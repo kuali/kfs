@@ -57,7 +57,7 @@
 
   <bean id="BudgetConstructionHeader-budgetLockUserIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetLockUserIdentifier" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Budget Lock User Identifier" />
     <property name="shortLabel" value="Identifier" />
     <property name="maxLength" value="10" />
@@ -75,7 +75,7 @@
 
   <bean id="BudgetConstructionHeader-budgetTransactionLockUserIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetTransactionLockUserIdentifier" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Budget Transaction Lock User Identifier" />
     <property name="shortLabel" value="Identifier" />
     <property name="maxLength" value="10" />

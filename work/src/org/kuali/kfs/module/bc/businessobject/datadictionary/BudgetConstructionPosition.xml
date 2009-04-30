@@ -74,7 +74,7 @@
 
   <bean id="BudgetConstructionPosition-iuDefaultObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="iuDefaultObjectCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Default Object Code" />
     <property name="shortLabel" value="Default Object Code" />
     <property name="maxLength" value="4" />
@@ -128,7 +128,7 @@
 
   <bean id="BudgetConstructionPosition-iuPositionType-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="iuPositionType" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Position Type" />
     <property name="shortLabel" value="Position Type" />
     <property name="maxLength" value="2" />
@@ -146,7 +146,7 @@
 
   <bean id="BudgetConstructionPosition-jobCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="jobCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Job Code" />
     <property name="shortLabel" value="Job Code" />
     <property name="maxLength" value="6" />
@@ -164,7 +164,7 @@
 
   <bean id="BudgetConstructionPosition-jobCodeDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="jobCodeDescription" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Job Code Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="30" />
@@ -182,7 +182,7 @@
 
   <bean id="BudgetConstructionPosition-positionDepartmentIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="positionDepartmentIdentifier" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Position Department Identifier" />
     <property name="shortLabel" value="Department Identifier" />
     <property name="maxLength" value="10" />
@@ -200,7 +200,7 @@
 
   <bean id="BudgetConstructionPosition-positionDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="positionDescription" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Position Description" />
     <property name="shortLabel" value="Position Desc" />
     <property name="maxLength" value="30" />
@@ -234,7 +234,7 @@
 
   <bean id="BudgetConstructionPosition-positionEffectiveStatus-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="positionEffectiveStatus" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Position Effective Status" />
     <property name="shortLabel" value="Pos Eff Status" />
     <property name="maxLength" value="1" />
@@ -273,7 +273,7 @@
 
   <bean id="BudgetConstructionPosition-positionGradeDefault-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="positionGradeDefault" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Position Salary Grade Default" />
     <property name="shortLabel" value="Salary Grade" />
     <property name="maxLength" value="3" />
@@ -291,7 +291,7 @@
 
   <bean id="BudgetConstructionPosition-positionLockUserIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="positionLockUserIdentifier" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Position Lock User Identifier" />
     <property name="shortLabel" value="Lock User ID" />
     <property name="maxLength" value="10" />
@@ -327,7 +327,7 @@
 
   <bean id="BudgetConstructionPosition-positionRegularTemporary-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="positionRegularTemporary" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Position Regular Temporary" />
     <property name="shortLabel" value="Pos Reg/Temp" />
     <property name="maxLength" value="1" />
@@ -346,7 +346,7 @@
 
   <bean id="BudgetConstructionPosition-positionSalaryPlanDefault-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="positionSalaryPlanDefault" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Position Salary Plan Default" />
     <property name="shortLabel" value="Salary Plan" />
     <property name="maxLength" value="4" />
@@ -384,7 +384,7 @@
 
   <bean id="BudgetConstructionPosition-positionStatus-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="positionStatus" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Position Status" />
     <property name="shortLabel" value="Status" />
     <property name="maxLength" value="1" />
@@ -403,7 +403,7 @@
 
   <bean id="BudgetConstructionPosition-positionUnionCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="positionUnionCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Position Union Code" />
     <property name="shortLabel" value="Union Code" />
     <property name="maxLength" value="3" />
@@ -439,7 +439,7 @@
 
   <bean id="BudgetConstructionPosition-setidDepartment-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="setidDepartment" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Department Set Id" />
     <property name="shortLabel" value="Set Id" />
     <property name="maxLength" value="5" />
@@ -457,7 +457,7 @@
 
   <bean id="BudgetConstructionPosition-setidJobCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="setidJobCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Job Code Set Id" />
     <property name="shortLabel" value="Job Code Set Id" />
     <property name="maxLength" value="5" />
@@ -475,7 +475,7 @@
 
   <bean id="BudgetConstructionPosition-setidSalary-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="setidSalary" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Salary Set Id" />
     <property name="shortLabel" value="Salary Set Id" />
     <property name="maxLength" value="5" />

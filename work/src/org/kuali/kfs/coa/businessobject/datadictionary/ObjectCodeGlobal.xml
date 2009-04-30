@@ -72,7 +72,7 @@
 
   <bean id="ObjectCodeGlobal-financialObjectCodeName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialObjectCodeName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Object Code Name" />
     <property name="shortLabel" value="ObjCodeName" />
     <property name="maxLength" value="40" />
@@ -90,7 +90,7 @@
 
   <bean id="ObjectCodeGlobal-financialObjectCodeShortName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialObjectCodeShortName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Object Code Short Name" />
     <property name="shortLabel" value="ObjCodeShortName" />
     <property name="maxLength" value="12" />
@@ -177,7 +177,7 @@
 
   <bean id="ObjectCodeGlobal-historicalFinancialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="historicalFinancialObjectCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Historical Financial Object Code" />
     <property name="shortLabel" value="HistFinObjCde" />
     <property name="maxLength" value="4" />
@@ -247,7 +247,7 @@
 
   <bean id="ObjectCodeGlobal-nextYearFinancialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="nextYearFinancialObjectCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Next Year Object Code" />
     <property name="shortLabel" value="NextYearObjCode" />
     <property name="maxLength" value="4" />

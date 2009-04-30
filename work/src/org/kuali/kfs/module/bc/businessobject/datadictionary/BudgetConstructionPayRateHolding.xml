@@ -72,7 +72,7 @@
 
   <bean id="BudgetConstructionPayRateHolding-grade-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="grade" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Grade" />
     <property name="shortLabel" value="Grade" />
     <property name="maxLength" value="3" />
@@ -90,7 +90,7 @@
 
   <bean id="BudgetConstructionPayRateHolding-name-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="name" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Person Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="50" />
@@ -126,7 +126,7 @@
 
   <bean id="BudgetConstructionPayRateHolding-salaryAdministrationPlan-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="salaryAdministrationPlan" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Salary Administration Plan" />
     <property name="shortLabel" value="Plan" />
     <property name="maxLength" value="4" />
@@ -144,7 +144,7 @@
 
   <bean id="BudgetConstructionPayRateHolding-setidSalary-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="setidSalary" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Setid Salary" />
     <property name="shortLabel" value="Salary" />
     <property name="maxLength" value="5" />
@@ -162,7 +162,7 @@
 
   <bean id="BudgetConstructionPayRateHolding-unionCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="unionCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Union Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="3" />

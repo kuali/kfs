@@ -65,7 +65,7 @@
  
  <bean id="GenericAttributes-oneDigitTextCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="oneDigitTextCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Generic One-Digit Text Code" />
     <property name="shortLabel" value="TextCode1" />
     <property name="maxLength" value="1" />
@@ -84,7 +84,7 @@
 
   <bean id="GenericAttributes-twoDigitTextCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="twoDigitTextCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Generic Two-Digit Text Code" />
     <property name="shortLabel" value="TextCode2" />
     <property name="maxLength" value="2" />
@@ -323,7 +323,7 @@
 
   <bean id="GenericAttributes-objectId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="objectId" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Object Id" />
     <property name="shortLabel" value="Id" />
     <property name="maxLength" value="36" />

@@ -66,7 +66,7 @@
 
   <bean id="BudgetConstructionAppointmentFundingLoad-appointmentFundingDeleteCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="appointmentFundingDeleteCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Appointment Funding Delete Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="1" />

@@ -251,7 +251,7 @@
   <bean id="LaborJournalVoucherDetail-debitCreditCode" parent="LaborJournalVoucherDetail-debitCreditCode-parentBean" />
   <bean id="LaborJournalVoucherDetail-debitCreditCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="debitCreditCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Credit or Debit Code" />
     <property name="shortLabel" value="Credit/Debit" />
     <property name="maxLength" value="1" />

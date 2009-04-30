@@ -51,7 +51,7 @@
 
   <bean id="BudgetConstructionDuration-appointmentDurationDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="appointmentDurationDescription" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Appointment Duration Description" />
     <property name="shortLabel" value="Duration Desc" />
     <property name="maxLength" value="40" />

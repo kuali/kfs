@@ -92,7 +92,7 @@
 
   <bean id="BudgetConstructionFundingLock-fill1-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="fill1" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Fill1" />
     <property name="shortLabel" value="Fill1" />
     <property name="maxLength" value="229" />
@@ -111,7 +111,7 @@
 
   <bean id="BudgetConstructionFundingLock-fill2-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="fill2" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Fill2" />
     <property name="shortLabel" value="Fill2" />
     <property name="maxLength" value="255" />
@@ -130,7 +130,7 @@
 
   <bean id="BudgetConstructionFundingLock-fill3-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="fill3" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Fill3" />
     <property name="shortLabel" value="Fill3" />
     <property name="maxLength" value="255" />
@@ -149,7 +149,7 @@
 
   <bean id="BudgetConstructionFundingLock-fill4-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="fill4" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Fill4" />
     <property name="shortLabel" value="Fill4" />
     <property name="maxLength" value="255" />
@@ -168,7 +168,7 @@
 
   <bean id="BudgetConstructionFundingLock-fill5-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="fill5" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Fill5" />
     <property name="shortLabel" value="Fill5" />
     <property name="maxLength" value="4" />

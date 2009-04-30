@@ -101,7 +101,7 @@
 
   <bean id="CalculatedSalaryFoundationTrackerOverride-csfDeleteCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="csfDeleteCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Csf Delete Code" />
     <property name="shortLabel" value="Delete Code" />
     <property name="maxLength" value="1" />
@@ -137,7 +137,7 @@
 
   <bean id="CalculatedSalaryFoundationTrackerOverride-csfFundingStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="csfFundingStatusCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="CSF Funding Status Code" />
     <property name="shortLabel" value="CSF Funding Status" />
     <property name="maxLength" value="1" />

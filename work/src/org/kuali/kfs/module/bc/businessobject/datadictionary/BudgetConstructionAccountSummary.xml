@@ -238,7 +238,7 @@
 
   <bean id="BudgetConstructionAccountSummary-subFundSortCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="subFundSortCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Sub Fund Sort Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="2" />

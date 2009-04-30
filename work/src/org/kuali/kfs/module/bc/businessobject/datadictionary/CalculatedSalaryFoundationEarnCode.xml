@@ -34,7 +34,7 @@
 
   <bean id="CalculatedSalaryFoundationEarnCode-csfEligibleFlag-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="csfEligibleFlag" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Csf Eligible Flag" />
     <property name="shortLabel" value="Flag" />
     <property name="maxLength" value="1" />
@@ -52,7 +52,7 @@
 
   <bean id="CalculatedSalaryFoundationEarnCode-description-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="description" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="30" />
@@ -70,7 +70,7 @@
 
   <bean id="CalculatedSalaryFoundationEarnCode-earnCodeRegularEarnings-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="earnCodeRegularEarnings" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Earn Code Regular Earnings" />
     <property name="shortLabel" value="Earnings" />
     <property name="maxLength" value="3" />

@@ -36,7 +36,7 @@
 
   <bean id="BudgetConstructionActiveJobMove-departmentIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="departmentIdentifier" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Department Identifier" />
     <property name="shortLabel" value="Identifier" />
     <property name="maxLength" value="10" />
@@ -126,7 +126,7 @@
 
   <bean id="BudgetConstructionActiveJobMove-employeeStatus-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="employeeStatus" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Employee Status" />
     <property name="shortLabel" value="Status" />
     <property name="maxLength" value="1" />

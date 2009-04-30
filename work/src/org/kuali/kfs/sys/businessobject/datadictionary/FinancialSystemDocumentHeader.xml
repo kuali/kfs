@@ -56,7 +56,7 @@
   <bean id="FinancialSystemDocumentHeader-financialDocumentStatusCode" parent="FinancialSystemDocumentHeader-financialDocumentStatusCode-parentBean" />
 
   <bean id="FinancialSystemDocumentHeader-financialDocumentStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="shortLabel" value="Status" />
     <property name="maxLength" value="2" />
     <property name="control" >

@@ -40,7 +40,7 @@
 
   <bean id="InternalBillingItem-itemStockDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="itemStockDescription" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Item Stock Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="40" />
@@ -67,7 +67,7 @@
 
   <bean id="InternalBillingItem-itemStockNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="itemStockNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Item Stock Number" />
     <property name="shortLabel" value="Stock#" />
     <property name="maxLength" value="9" />
@@ -86,7 +86,7 @@
 
   <bean id="InternalBillingItem-unitOfMeasureCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="unitOfMeasureCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Unit Of Measure Code" />
     <property name="shortLabel" value="UoM" />
     <property name="maxLength" value="2" />

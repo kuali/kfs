@@ -67,7 +67,7 @@
 
   <bean id="SystemOptions-universityFiscalYearName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="universityFiscalYearName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Fiscal Year Name" />
     <property name="shortLabel" value="Year Name" />
     <property name="maxLength" value="10" />

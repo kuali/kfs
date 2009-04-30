@@ -130,7 +130,7 @@
 
   <bean id="BudgetConstructionPositionFunding-name-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="name" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Person Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="50" />

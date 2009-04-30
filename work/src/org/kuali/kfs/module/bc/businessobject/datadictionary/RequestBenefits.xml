@@ -74,7 +74,7 @@
 
   <bean id="RequestBenefits-financialObjectBenefitsTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialObjectBenefitsTypeDescription" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Labor Benefits Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="40" />

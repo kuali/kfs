@@ -54,7 +54,7 @@
 
   <bean id="BudgetConstructionIntendedIncumbent-grade-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="grade" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Salary Grade" />
     <property name="shortLabel" value="Sal Grade" />
     <property name="maxLength" value="3" />
@@ -72,7 +72,7 @@
 
   <bean id="BudgetConstructionIntendedIncumbent-iuClassificationLevel-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="iuClassificationLevel" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Iu Classification Level" />
     <property name="shortLabel" value="Cls" />
     <property name="maxLength" value="2" />
@@ -90,7 +90,7 @@
 
   <bean id="BudgetConstructionIntendedIncumbent-name-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="name" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Person Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="50" />
@@ -109,7 +109,7 @@
 
   <bean id="BudgetConstructionIntendedIncumbent-salaryAdministrationPlan-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="salaryAdministrationPlan" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Salary Administration Plan" />
     <property name="shortLabel" value="Plan" />
     <property name="maxLength" value="4" />
@@ -127,7 +127,7 @@
 
   <bean id="BudgetConstructionIntendedIncumbent-setidSalary-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="setidSalary" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Salary Setid" />
     <property name="shortLabel" value="Sal Setid" />
     <property name="maxLength" value="5" />

@@ -39,7 +39,7 @@
 
   <bean id="PaymentFileLoad-subUnit-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="subUnit" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Sub Unit" />
     <property name="shortLabel" value="Unt" />
     <property name="maxLength" value="4" />

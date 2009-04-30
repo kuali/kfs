@@ -63,7 +63,7 @@
 
   <bean id="SubObjectCodeGlobal-financialSubObjectCodeName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialSubObjectCodeName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Sub-Object Code Name" />
     <property name="shortLabel" value="SubObjCodeName" />
     <property name="maxLength" value="40" />

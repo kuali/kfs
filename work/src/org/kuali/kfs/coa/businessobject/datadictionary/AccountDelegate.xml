@@ -105,7 +105,7 @@
   <bean id="AccountDelegate-financialSystemDocumentTypeCode.name-parentBean" abstract="true" parent="DocumentType-name">
   	<property name="name" value="financialSystemDocumentTypeCode.name"/>
   	<property name="label" value="Document Type Name"/>
-  	<property name="forceUppercase" value="true"/>
+  	<property name="forceUppercase" value="false"/>
   </bean>
   <bean id="AccountDelegate-financialSystemDocumentTypeCode.name" parent="AccountDelegate-financialSystemDocumentTypeCode.name-parentBean"/>
 

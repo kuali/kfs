@@ -168,7 +168,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="PriorYearAccount-accountCityName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accountCityName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Account City Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="25" />
@@ -238,7 +238,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="PriorYearAccount-accountFiscalOfficerSystemIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accountFiscalOfficerSystemIdentifier" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Account Fiscal Officer System Identifier" />
     <property name="shortLabel" value="Identifier" />
     <property name="maxLength" value="10" />
@@ -254,7 +254,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="PriorYearAccount-accountInFinancialProcessingIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accountInFinancialProcessingIndicator" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Account In Financial Processing Indicator" />
     <property name="shortLabel" value="Indicator" />
     <property name="maxLength" value="1" />
@@ -266,7 +266,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="PriorYearAccount-accountManagerSystemIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accountManagerSystemIdentifier" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Account Manager System Identifier" />
     <property name="shortLabel" value="Identifier" />
     <property name="maxLength" value="10" />
@@ -282,7 +282,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="PriorYearAccount-accountName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accountName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Account Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />
@@ -326,7 +326,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="PriorYearAccount-accountPhysicalCampusCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accountPhysicalCampusCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Account Physical Campus Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="2" />
@@ -376,7 +376,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
 	p:sourceAttributeName="postalStateCode">
     <property name="name" value="accountStateCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Account State Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="2" />
@@ -392,7 +392,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="PriorYearAccount-accountStreetAddress-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accountStreetAddress" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Account Street Address" />
     <property name="shortLabel" value="Address" />
     <property name="maxLength" value="30" />
@@ -461,7 +461,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="PriorYearAccount-accountsSupervisorySystemsIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accountsSupervisorySystemsIdentifier" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Accounts Supervisory Systems Identifier" />
     <property name="shortLabel" value="Identifier" />
     <property name="maxLength" value="10" />
@@ -477,7 +477,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="PriorYearAccount-acctCustomIndCstRcvyExclCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="acctCustomIndCstRcvyExclCd" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Acct Custom Ind Cst Rcvy Excl Cd" />
     <property name="shortLabel" value="Cd" />
     <property name="maxLength" value="1" />
@@ -526,7 +526,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="PriorYearAccount-accountCfdaNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accountCfdaNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Catalog of Federal Domestic Assistance Number" />
     <property name="shortLabel" value="Nbr" />
     <property name="maxLength" value="6" />
@@ -666,7 +666,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="PriorYearAccount-extrnlFinEncumSufficntFndIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="extrnlFinEncumSufficntFndIndicator" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Extrnl Fin Encum Sufficnt Fnd Indicator" />
     <property name="shortLabel" value="Indicator" />
     <property name="maxLength" value="1" />
@@ -678,7 +678,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="PriorYearAccount-finPreencumSufficientFundIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="finPreencumSufficientFundIndicator" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Fin Preencum Sufficient Fund Indicator" />
     <property name="shortLabel" value="Indicator" />
     <property name="maxLength" value="1" />
@@ -722,7 +722,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="PriorYearAccount-financialObjectivePrsctrlIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialObjectivePrsctrlIndicator" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Financial Objective Prsctrl Indicator" />
     <property name="shortLabel" value="Indicator" />
     <property name="maxLength" value="1" />
@@ -734,7 +734,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="PriorYearAccount-forContractsAndGrants-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="forContractsAndGrants" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="In Cg" />
     <property name="shortLabel" value="Cg" />
     <property name="maxLength" value="1" />
@@ -838,7 +838,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="PriorYearAccount-pendingAcctSufficientFundsIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="pendingAcctSufficientFundsIndicator" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Pending Acct Sufficient Funds Indicator" />
     <property name="shortLabel" value="Indicator" />
     <property name="maxLength" value="1" />

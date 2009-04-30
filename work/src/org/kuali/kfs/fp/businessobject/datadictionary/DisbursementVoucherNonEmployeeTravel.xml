@@ -120,6 +120,7 @@
 
   <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrTravelFromStateCode-parentBean" abstract="true" parent="VendorAddress-vendorStateCode">
     <property name="name" value="disbVchrTravelFromStateCode" />
+    <property name="forceUppercase" value="false" />    
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.StateCodeValuesFinder"

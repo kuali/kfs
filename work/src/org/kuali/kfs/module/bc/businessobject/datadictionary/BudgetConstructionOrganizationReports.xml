@@ -102,7 +102,7 @@
 
   <bean id="BudgetConstructionOrganizationReports-selectionKeyCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="selectionKeyCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Point Of View Key Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="7" />

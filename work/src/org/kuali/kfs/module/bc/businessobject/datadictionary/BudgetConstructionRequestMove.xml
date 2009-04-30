@@ -413,7 +413,7 @@
 
   <bean id="BudgetConstructionRequestMove-requestUpdateErrorCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="requestUpdateErrorCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Request Update Error Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="4" />

@@ -49,8 +49,8 @@ public class PurchaseOrderAmendmentNewIndividualItemValidation extends PurchaseO
         }
 
         if (item.getItemInvoicedTotalAmount() != null) {
-            KualiDecimal total = item.getTotalAmount();
-            if ((total == null) || total.compareTo(item.getItemInvoicedTotalAmount()) < 0) {
+            KualiDecimal total = item.getTotalAmount().abs();
+            if ((total == null) || total.compareTo(item.getItemInvoicedTotalAmount().abs()) < 0) {
                 valid = false;
                 GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_AMND_INVALID_AMT, "Item Extended Price", identifierString);
             }

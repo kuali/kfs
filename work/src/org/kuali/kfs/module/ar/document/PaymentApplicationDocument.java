@@ -1181,6 +1181,50 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         result = initiator.getPrincipalId().equalsIgnoreCase(getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
         return result;
     }
+ 
+    /** CUSTOM SEARCH HELPER METHODS **/
+    
+    /**
+     * 
+     * This method is defined to assist in the custom search implementation.
+     * @return
+     */
+    public String getUnappliedCustomerNumber() {
+        if(nonAppliedHolding==null) {
+            return "";
+        }
+        return nonAppliedHolding.getCustomerNumber();
+    }
+    
+    /**
+     * 
+     * This method is defined to assist in the custom search implementation.
+     * @return
+     */
+    public String getUnappliedCustomerName() {
+        if(nonAppliedHolding==null) {
+            return "";
+        }
+        return nonAppliedHolding.getCustomer().getCustomerName();
+    }
+    
+    /**
+     * 
+     * This method is defined to assist in the custom search implementation.
+     * @return
+     */
+    public String getInvoiceAppliedCustomerNumber() {
+        return getAccountsReceivableDocumentHeader().getCustomerNumber();
+    }
+    
+    /**
+     * 
+     * This method is defined to assist in the custom search implementation.
+     * @return
+     */
+    public String getInvoiceAppliedCustomerName() {
+        return getAccountsReceivableDocumentHeader().getCustomer().getCustomerName();
+    }
     
 }
 

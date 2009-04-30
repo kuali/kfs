@@ -16,6 +16,10 @@
 		<property name="documentPresentationControllerClass" value="org.kuali.kfs.module.ar.document.authorization.PaymentApplicationDocumentPresentationController"/>
 		<property name="attributes">
 			<list>
+			    <ref bean="PaymentApplicationDocument-unappliedCustomerNumber"/>
+			    <ref bean="PaymentApplicationDocument-unappliedCustomerName"/>
+			    <ref bean="PaymentApplicationDocument-appliedCustomerNumber"/>
+			    <ref bean="PaymentApplicationDocument-appliedCustomerName"/>
 				<ref bean="PaymentApplicationDocument-versionNumber"/>
 			</list>
 		</property>
@@ -24,6 +28,31 @@
       <ref bean="PaymentApplicationDocument-workflowAttributes"/>
     </property>
 	</bean>
+    
+    <bean id="PaymentApplicationDocument-unappliedCustomerNumber" parent="PaymentApplicationDocument-unappliedCustomerNumber-parentBean"/>
+    <bean id="PaymentApplicationDocument-unappliedCustomerNumber-parentBean" abstract="true" parent="Customer-customerNumber">
+		<property name="name" value="unappliedCustomerNumber" />
+    	<property name="label" value="Unapplied Customer Number"/>
+    </bean>
+    
+    <bean id="PaymentApplicationDocument-appliedCustomerNumber" parent="PaymentApplicationDocument-appliedCustomerNumber-parentBean"/>
+    <bean id="PaymentApplicationDocument-appliedCustomerNumber-parentBean" abstract="true" parent="Customer-customerNumber">
+		<property name="name" value="invoiceAppliedCustomerNumber" />
+    	<property name="label" value="Invoice Applied Customer Number"/>
+    </bean>
+    
+    <bean id="PaymentApplicationDocument-unappliedCustomerName" parent="PaymentApplicationDocument-unappliedCustomerName-parentBean"/>
+    <bean id="PaymentApplicationDocument-unappliedCustomerName-parentBean" abstract="true" parent="Customer-customerName">
+		<property name="name" value="unappliedCustomerName" />
+    	<property name="label" value="Unapplied Customer Name"/>
+    </bean>
+    
+    <bean id="PaymentApplicationDocument-appliedCustomerName" parent="PaymentApplicationDocument-appliedCustomerName-parentBean"/>
+    <bean id="PaymentApplicationDocument-appliedCustomerName-parentBean" abstract="true" parent="Customer-customerName">
+		<property name="name" value="invoiceAppliedCustomerName" />
+    	<property name="label" value="Invoice Applied Customer Name"/>
+    </bean>
+    
     
 	<bean id="PaymentApplicationDocument-versionNumber" parent="PaymentApplicationDocument-versionNumber-parentBean"/>
 	<bean id="PaymentApplicationDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber"/>
@@ -84,10 +113,10 @@
     		<list>
 	   			<ref bean="SearchingType-AccountsReceivableDocument-createDate-resultsOnly"/>
    				<ref bean="SearchingType-AccountsReceivableDocument-initiatorId-resultsOnly"/>
-	   			<ref bean="SearchingType-AccountsReceivableDocument-customerNumber-criteriaOnly"/>
-   				<ref bean="SearchingType-AccountsReceivableDocument-customerName-criteriaOnly"/>
-	   			<ref bean="SearchingType-PaymentApplicationDocument-customerNumber-criteriaOnly"/>
-   				<ref bean="SearchingType-PaymentApplicationDocument-customerName-criteriaOnly"/>
+	   			<ref bean="SearchingType-PaymentApplicationDocument-appliedCustomerNumber-criteriaOnly"/>
+   				<ref bean="SearchingType-PaymentApplicationDocument-appliedCustomerName-criteriaOnly"/>
+	   			<ref bean="SearchingType-PaymentApplicationDocument-unappliedCustomerNumber-criteriaOnly"/>
+   				<ref bean="SearchingType-PaymentApplicationDocument-unappliedCustomerName-criteriaOnly"/>
    				<ref bean="SearchingType-AccountsReceivableDocument-documentStatus-resultsOnly"/>
 	   			<ref bean="SearchingType-AccountsReceivableDocument-processingChartOfAccountsCode-criteriaOnly"/>
    				<ref bean="SearchingType-AccountsReceivableDocument-processingOrganizationCode-criteriaOnly"/>

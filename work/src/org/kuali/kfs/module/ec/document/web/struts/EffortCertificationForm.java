@@ -219,7 +219,7 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
             Map<String, HtmlData> inquiryURLForAttribute = new HashMap<String, HtmlData>();            
             for (String attributeName : this.getInquirableFieldNames()) {                
                 // exclude the non inquirable field values
-                Object attributeValue = ObjectUtil.getPropertyValue(detailLine, attributeName);
+                Object attributeValue = ObjectUtils.getPropertyValue(detailLine, attributeName);
                 String noninquirableFieldValue = noninquirableFieldValues.get(attributeName);
                 if(noninquirableFieldValue!=null && noninquirableFieldValue.equals(attributeValue)) {
                     continue;

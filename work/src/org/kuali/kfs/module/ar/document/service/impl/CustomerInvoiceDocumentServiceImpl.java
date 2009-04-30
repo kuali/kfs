@@ -169,6 +169,11 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     }
     
     public Collection<CustomerInvoiceDocument> attachWorkflowHeadersToTheInvoices(Collection<CustomerInvoiceDocument> invoices) {
+        List<CustomerInvoiceDocument> docs = new ArrayList<CustomerInvoiceDocument>();
+        if (invoices == null || invoices.isEmpty()) {
+            return docs;
+        }
+        
         //  make a list of necessary workflow docs to retrieve
         List<String> documentHeaderIds = new ArrayList<String>();
         for (CustomerInvoiceDocument invoice : invoices) {
@@ -176,7 +181,6 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         }
 
         //  get all of our docs with full workflow headers
-        List<CustomerInvoiceDocument> docs = new ArrayList<CustomerInvoiceDocument>();
         try {
             docs = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds);
         }

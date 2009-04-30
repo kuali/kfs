@@ -40,11 +40,43 @@
 		<property name="showAttributeInSearchCriteria" value="true" />
 		<property name="showAttributeInResultSet" value="false" />
 	</bean>
+	<bean id="SearchingAttribute-appliedCustomerNumber-criteriaOnly"
+		class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+		<property name="businessObjectClassName"
+			value="org.kuali.kfs.module.ar.document.PaymentApplicationDocument" />
+		<property name="attributeName" value="invoiceAppliedCustomerNumber" />
+		<property name="showAttributeInSearchCriteria" value="true" />
+		<property name="showAttributeInResultSet" value="false" />
+	</bean>
+	<bean id="SearchingAttribute-unappliedCustomerNumber-criteriaOnly"
+		class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+		<property name="businessObjectClassName"
+			value="org.kuali.kfs.module.ar.document.PaymentApplicationDocument" />
+		<property name="attributeName" value="unappliedCustomerNumber" />
+		<property name="showAttributeInSearchCriteria" value="true" />
+		<property name="showAttributeInResultSet" value="false" />
+	</bean>
 	<bean id="SearchingAttribute-customerName-criteriaOnly"
 		class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
 		<property name="businessObjectClassName"
 			value="org.kuali.kfs.module.ar.businessobject.Customer" />
 		<property name="attributeName" value="customerName" />
+		<property name="showAttributeInSearchCriteria" value="true" />
+		<property name="showAttributeInResultSet" value="false" />
+	</bean>
+	<bean id="SearchingAttribute-appliedCustomerName-criteriaOnly"
+		class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+		<property name="businessObjectClassName"
+			value="org.kuali.kfs.module.ar.document.PaymentApplicationDocument" />
+		<property name="attributeName" value="invoiceAppliedCustomerName" />
+		<property name="showAttributeInSearchCriteria" value="true" />
+		<property name="showAttributeInResultSet" value="false" />
+	</bean>
+	<bean id="SearchingAttribute-unappliedCustomerName-criteriaOnly"
+		class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+		<property name="businessObjectClassName"
+			value="org.kuali.kfs.module.ar.document.PaymentApplicationDocument" />
+		<property name="attributeName" value="unappliedCustomerName" />
 		<property name="showAttributeInSearchCriteria" value="true" />
 		<property name="showAttributeInResultSet" value="false" />
 	</bean>
@@ -188,6 +220,16 @@
 		<property name="showAttributeInSearchCriteria" value="true" />
 		<property name="showAttributeInResultSet" value="false" />
 	</bean>
+	<bean
+		id="SearchingAttribute-financialDocumentReferenceInvoiceNumberForPaymentApplication-criteriaOnly"
+		class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+		<property name="businessObjectClassName"
+			value="org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied" />
+		<property name="attributeName"
+			value="financialDocumentReferenceInvoiceNumber" />
+		<property name="showAttributeInSearchCriteria" value="true" />
+		<property name="showAttributeInResultSet" value="false" />
+	</bean>
 	<bean id="SearchingAttribute-lockboxNumber"
 		class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
 		<property name="businessObjectClassName"
@@ -262,14 +304,27 @@
 		</property>
 	</bean>
 	<bean
-		id="SearchingType-PaymentApplicationDocument-customerNumber-criteriaOnly"
+		id="SearchingType-PaymentApplicationDocument-appliedCustomerNumber-criteriaOnly"
 		class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
 		<property name="searchingAttribute"
-			ref="SearchingAttribute-customerNumber-criteriaOnly" />
+			ref="SearchingAttribute-appliedCustomerNumber-criteriaOnly" />
 		<property name="documentValues">
 			<list>
 				<value>
 					accountsReceivableDocumentHeader.customer.customerNumber
+				</value>
+			</list>
+		</property>
+	</bean>
+	<bean
+		id="SearchingType-PaymentApplicationDocument-unappliedCustomerNumber-criteriaOnly"
+		class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+		<property name="searchingAttribute"
+			ref="SearchingAttribute-unappliedCustomerNumber-criteriaOnly" />
+		<property name="documentValues">
+			<list>
+				<value>
+					nonAppliedHolding.customer.customerNumber
 				</value>
 			</list>
 		</property>
@@ -311,10 +366,21 @@
 		</property>
 	</bean>
 	<bean
-		id="SearchingType-PaymentApplicationDocument-customerName-criteriaOnly"
+		id="SearchingType-PaymentApplicationDocument-appliedCustomerName-criteriaOnly"
 		class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
 		<property name="searchingAttribute"
-			ref="SearchingAttribute-customerName-criteriaOnly" />
+			ref="SearchingAttribute-appliedCustomerName-criteriaOnly" />
+		<property name="documentValues">
+			<list>
+				<value>accountsReceivableDocumentHeader.customer.customerName</value>
+			</list>
+		</property>
+	</bean>
+	<bean
+		id="SearchingType-PaymentApplicationDocument-unappliedCustomerName-criteriaOnly"
+		class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+		<property name="searchingAttribute"
+			ref="SearchingAttribute-unappliedCustomerName-criteriaOnly" />
 		<property name="documentValues">
 			<list>
 				<value>invoicePaidApplieds.invoiceDetail.customerInvoiceDocument.customerName</value>
@@ -637,7 +703,7 @@
 		id="SearchingType-PaymentApplicationDocument-financialDocumentReferenceInvoiceNumber-criteriaOnly"
 		class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
 		<property name="searchingAttribute"
-			ref="SearchingAttribute-financialDocumentReferenceInvoiceNumber-criteriaOnly" />
+			ref="SearchingAttribute-financialDocumentReferenceInvoiceNumberForPaymentApplication-criteriaOnly" />
 		<property name="documentValues">
 			<list>
 				<value>

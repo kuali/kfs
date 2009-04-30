@@ -54,7 +54,7 @@
 	<field name="invoiceItemTaxAmount" class="org.kuali.rice.kns.util.KualiDecimal"/>
 
 
-		<group  name="details" minHeightToStartNewPage="265" >
+		<group  name="details" minHeightToStartNewPage="145" >
 			<groupExpression><![CDATA[
 $V{PAGE_NUMBER}.intValue() == 1 ? $V{REPORT_COUNT} : null]]></groupExpression>
 			<groupHeader>

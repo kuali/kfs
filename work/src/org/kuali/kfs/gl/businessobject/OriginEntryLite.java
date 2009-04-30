@@ -397,7 +397,7 @@ public class OriginEntryLite extends PersistableBusinessObjectBase implements Or
             } else {
                 sb.append("+");
             }
-            sb.append(ZERO_TRANSACTION_LEDGER_ENTRY_AMOUNT.substring(0, 20 - a.length()));
+            sb.append(ZERO_TRANSACTION_LEDGER_ENTRY_AMOUNT.substring(1, 20 - a.length()));
             sb.append(a);
         }
         sb.append(getField(1, transactionDebitCreditCode));

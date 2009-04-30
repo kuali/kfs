@@ -326,7 +326,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
      * @see org.kuali.kfs.sys.document.AmountTotaling#getTotalDollarAmount()
      */
     public KualiDecimal getTotalDollarAmount() {
-        return cashControlTotalAmount;
+        return getCashControlTotalAmount();
     }
 
     /**
@@ -335,7 +335,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
      * @return String
      */
     public String getCurrencyFormattedTotalCashControlAmount() {
-        return (String) new CurrencyFormatter().format(cashControlTotalAmount);
+        return (String) new CurrencyFormatter().format(getCashControlTotalAmount());
     }
 
     /**
@@ -650,6 +650,15 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
         this.bank = bank;
     }
 
+    public void recalculateTotals() {
+        KualiDecimal total = KualiDecimal.ZERO;
+        for (CashControlDetail cashControlDetail : getCashControlDetails()) {
+            total = total.add(cashControlDetail.getFinancialDocumentLineAmount());
+        }
+        cashControlTotalAmount = total;
+        getDocumentHeader().setFinancialDocumentTotalAmount(total);
+    }
+    
     @Override
     public void prepareForSave() {
         
@@ -658,6 +667,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
         // deleted on the form are actually deleted, as OJB does a terrible job at this 
         // by itself.
         deleteCashControlDetailsFromDB();
+        recalculateTotals();
     }
     
     private void deleteCashControlDetailsFromDB() {

@@ -105,7 +105,7 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
             ccDoc = ccForm.getCashControlDocument();
             ccDoc.refreshReferenceObject("customerPaymentMedium");
             // recalc b/c changes to the amounts could have happened
-            ccDoc.setCashControlTotalAmount(calculateCashControlTotal(ccDoc));
+            ccDoc.recalculateTotals();
         }
 
         return super.execute(mapping, form, request, response);
@@ -239,6 +239,9 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
 
         }
 
+        //  recalc totals, including the docHeader total
+        cashControlDocument.recalculateTotals();
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
 
     }
@@ -271,7 +274,10 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
             documentService.cancelDocument(payAppDoc, ArKeyConstants.DOCUMENT_DELETED_FROM_CASH_CTRL_DOC);
         }
         cashControlDocument.deleteCashControlDetail(indexOfLineToDelete);
-
+        
+        //  recalc totals, including the docHeader total
+        cashControlDocument.recalculateTotals();
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

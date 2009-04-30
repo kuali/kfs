@@ -59,34 +59,6 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
     private String wireChargeMessage;
 
     /**
-     * Override reset to reset checkboxes if they are present on the requesting page
-     * 
-     * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#reset(org.apache.struts.action.ActionMapping,
-     *      javax.servlet.http.HttpServletRequest)
-     */
-    public void reset(ActionMapping mapping, HttpServletRequest request) {
-        // TODO: remove the method after identifying the problem happening on CNV
-        this.setMethodToCall(null);
-        this.setRefreshCaller(null);
-        this.setAnchor(null);
-        this.setCurrentTabIndex(0);
-
-        if (request.getParameter("checkboxToReset") != null) {
-            String[] checkboxesToReset = request.getParameterValues("checkboxToReset");
-            
-            for (String propertyName : checkboxesToReset) {
-                try {
-                    LOG.info("===" + propertyName);                   
-                    PropertyUtils.setNestedProperty(this, propertyName, false);
-                }
-                catch (Exception e1) {
-                    LOG.info("===", e1);
-                }
-            }
-        }
-    }
-
-    /**
      * Constructs a DisbursementVoucherForm.java.
      */
     public DisbursementVoucherForm() {

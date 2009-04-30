@@ -36,6 +36,7 @@ import org.kuali.kfs.module.ar.businessobject.WriteoffTaxCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableTaxService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceGLPEService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.TaxDetail;
@@ -232,7 +233,11 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
      * @return
      */
     public KualiDecimal getInvoiceWriteoffAmount() {
-        invoiceWriteoffAmount = customerInvoiceDocument.getOpenAmount();
+        // only pull the invoice open amount as the invoice writeoff amount while the doc 
+        // is in play.  once its been approved, rely on the amount stored in the db.
+        if (!KFSConstants.DocumentStatusCodes.APPROVED.equals(getDocumentHeader().getFinancialDocumentStatusCode())) {
+            invoiceWriteoffAmount = customerInvoiceDocument.getOpenAmount();
+        }
         return invoiceWriteoffAmount;
     }
 

@@ -54,6 +54,7 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
@@ -95,6 +96,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         }
         
         Integer paidAppliedItemNumber = 0;
+        KualiDecimal totalApplied = KualiDecimal.ZERO;
         
         //  retrieve the customer invoice details, and generate paid applieds for each 
         List<CustomerInvoiceDetail> invoiceDetails = invoice.getCustomerInvoiceDetailsWithoutDiscounts();
@@ -121,12 +123,20 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
             invoicePaidApplied.setUniversityFiscalPeriodCode(universityDateService.getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
             invoicePaidApplied.setInvoiceItemAppliedAmount(invoiceDetail.getAmountOpen());
             businessObjectService.save(invoicePaidApplied);
+
+            //  record how much we're applying
+            totalApplied = totalApplied.add(invoicePaidApplied.getInvoiceItemAppliedAmount());
         }
         
         //  close the document
         invoice.setOpenInvoiceIndicator(false);
         invoice.setClosedDate(dateTimeService.getCurrentSqlDate());
         documentService.updateDocument(invoice);
+        
+        //  set the final document total for the invoice
+        writeoff.setInvoiceWriteoffAmount(totalApplied);
+        writeoff.getDocumentHeader().setFinancialDocumentTotalAmount(totalApplied);
+        documentService.updateDocument(writeoff);
     }
     
     /**

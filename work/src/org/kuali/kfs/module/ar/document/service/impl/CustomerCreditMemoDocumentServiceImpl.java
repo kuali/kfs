@@ -151,6 +151,9 @@ public class CustomerCreditMemoDocumentServiceImpl implements CustomerCreditMemo
                 customerCreditMemoDocument.recalculateTotals(customerCreditMemoDetailItemAmount,isCustomerInvoiceDetailTaxable);
             }
         }
+        
+        //  force the docHeader docTotal
+        customerCreditMemoDocument.getDocumentHeader().setFinancialDocumentTotalAmount(customerCreditMemoDocument.getCrmTotalAmount());
     }
 
     public Collection<CustomerCreditMemoDocument> getCustomerCreditMemoDocumentByInvoiceDocument(String invoiceNumber) {

@@ -72,6 +72,18 @@
 		<kul:htmlControlAttribute 
 			attributeEntry="${vendorQuoteAttributes.vendorLine1Address}" property="document.purchaseOrderVendorQuote[${ctr}].vendorLine1Address" 
 			readOnly="${!quoteEditable}" tabindexOverride="${tabindexOverrideBase + 8}"/>
+			<c:if test="${quoteEditable}">
+			   <kul:lookup  boClassName="org.kuali.kfs.vnd.businessobject.VendorAddress" 
+               readOnlyFields="active, vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier" autoSearch="yes"
+               lookupParameters="'Y':active,document.vendorHeaderGeneratedIdentifier:vendorHeaderGeneratedIdentifier,document.vendorDetailAssignedIdentifier:vendorDetailAssignedIdentifier" 
+               fieldConversions="defaultAddressLine1:document.vendorLine1Address,
+               					 defaultAddressLine2:document.vendorLine2Address,
+               					 defaultAddressCity:document.vendorCityName,
+               					 defaultAddressPostalCode:document.vendorPostalCode,
+               					 defaultAddressStateCode:document.vendorStateCode,
+               					 defaultAddressInternationalProvince:document.vendorAddressInternationalProvinceName,
+               					 defaultAddressCountryCode:document.vendorCountryCode"/>
+            </c:if>
 	</td>
 	<th align=right valign=middle class="bord-l-b">
 		<div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.vendorPhoneNumber}" /></div>

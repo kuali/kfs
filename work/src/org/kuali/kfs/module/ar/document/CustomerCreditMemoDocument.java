@@ -614,7 +614,7 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
     }  
 
     public KualiDecimal getTotalDollarAmount() {
-        return getCrmTotalAmount();
+        return getDocumentHeader().getFinancialDocumentTotalAmount();
     } 
     
     

@@ -456,51 +456,34 @@
                             </div>
 						</td>
 					</c:if>
-					<c:if test="${(fullEntryMode or (amendmentEntry and itemLine.itemInvoicedTotalAmount == null))}">
+					<c:if test="${(fullEntryMode or (amendmentEntry and itemLine.itemInvoicedTotalAmount == null)) or (amendmentEntry) or (isATypeOfPODoc and ! itemLine.itemActiveIndicator) or (not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator)))}">
 						<td class="infoline" rowspan="2">
-						    <div align="center">
+						    <div align="center">						    	
+						    	<c:if test="${fullEntryMode or (amendmentEntry and itemLine.itemInvoicedTotalAmount == null)}">
 						        <html:image
 							        property="methodToCall.deleteItem.line${ctr}"
 							        src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif"
 							        alt="Delete Item ${ctr+1}" title="Delete Item ${ctr+1}"
-							        styleClass="tinybutton" />
+							        styleClass="tinybutton" /><br><br>
+							    </c:if>
+							    <c:if test="${amendmentEntry}">
+							    	<c:if test="${(itemLine.canInactivateItem and itemLine.itemInvoicedTotalAmount != null)}">
+							        <html:image
+								        property="methodToCall.inactivateItem.line${ctr}"
+							    	    src="${ConfigProperties.externalizable.images.url}tinybutton-inactivate.gif"
+								        alt="Inactivate Item ${ctr+1}" title="Inactivate Item ${ctr+1}"
+								        styleClass="tinybutton" /><br><br>
+							    	</c:if>
+							    </c:if>
+							    <c:if test="${(isATypeOfPODoc and ! itemLine.itemActiveIndicator)}">
+						    		<div align="center">Inactive</div><br><br>						    
+							    </c:if>							    
+							    <c:if test="${(not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator)))}">							    	
+						    		<div align="center">&nbsp;</div>
+							    </c:if>							    
 							</div>
 						</td>
 					</c:if>
-					<c:if test="${amendmentEntry}">
-					    <c:choose>
-					    	<c:when test="${(itemLine.canInactivateItem and itemLine.itemInvoicedTotalAmount != null)}">
-						<td class="infoline" rowspan="2">
-						    <div align="center">
-						        <html:image
-							        property="methodToCall.inactivateItem.line${ctr}"
-						    	    src="${ConfigProperties.externalizable.images.url}tinybutton-inactivate.gif"
-							        alt="Inactivate Item ${ctr+1}" title="Inactivate Item ${ctr+1}"
-							        styleClass="tinybutton" />
-					        </div>
-					    </td>
-					        </c:when>
-					        <c:otherwise>
-					            <c:if test="${(itemLine.itemInvoicedTotalAmount != null and itemLine.itemActiveIndicator)}">
-					    <td class="infoline" rowspan="2">&nbsp;</td>
-								</c:if>
-					        </c:otherwise>
-					    </c:choose>
-					</c:if>
-					<c:choose>
-					    <c:when test="${(isATypeOfPODoc and ! itemLine.itemActiveIndicator)}">
-						<td class="infoline" rowspan="2">
-						    <div align="center">Inactive</div>
-						</td>
-					    </c:when>
-					    <c:otherwise>
-                            <c:if test="${(not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator)))}">
-						<td class="infoline" rowspan="2">
-						    <div align="center">&nbsp;</div>
-						</td>
-					        </c:if>
-					    </c:otherwise>
-					</c:choose>
 					<c:if test="${isATypeOfPODoc}">
 					    <td class="infoline" rowspan="2">
 					        <div align="right">

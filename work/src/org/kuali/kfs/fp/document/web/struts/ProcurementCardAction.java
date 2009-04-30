@@ -18,10 +18,12 @@ package org.kuali.kfs.fp.document.web.struts;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine;
+import org.kuali.kfs.fp.businessobject.ProcurementCardTransactionDetail;
 import org.kuali.kfs.fp.document.ProcurementCardDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -33,6 +35,7 @@ import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
@@ -69,11 +72,15 @@ public class ProcurementCardAction extends KualiAccountingDocumentActionBase {
     @Override
     public ActionForward insertTargetLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProcurementCardForm procurementCardForm = (ProcurementCardForm) form;
+        ProcurementCardDocument procurementCardDocument = (ProcurementCardDocument) procurementCardForm.getDocument();
 
         // get index of new target line
         int newTargetIndex = super.getSelectedLine(request);
 
         ProcurementCardTargetAccountingLine line = (ProcurementCardTargetAccountingLine) procurementCardForm.getNewTargetLines().get(newTargetIndex);
+
+        ProcurementCardTransactionDetail transactionDetail = (ProcurementCardTransactionDetail) procurementCardDocument.getTransactionEntries().get(newTargetIndex);
+        line.setFinancialDocumentTransactionLineNumber(transactionDetail.getFinancialDocumentTransactionLineNumber());
 
         // check any business rules
         boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINES_PROPERTY_NAME + "[" + Integer.toString(newTargetIndex) + "]", procurementCardForm.getDocument(), (AccountingLine) line));
@@ -90,6 +97,23 @@ public class ProcurementCardAction extends KualiAccountingDocumentActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#performBalanceInquiryForTargetLine(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward performBalanceInquiryForTargetLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProcurementCardForm procurementCardForm = (ProcurementCardForm) form;
+        ProcurementCardDocument procurementCardDocument = (ProcurementCardDocument) procurementCardForm.getDocument();
+
+        int targetContainerIndex = this.getSelectedContainer(request);
+        ProcurementCardTransactionDetail ProcurementCardTransactionDetail = (ProcurementCardTransactionDetail) procurementCardDocument.getTransactionEntries().get(targetContainerIndex);
+
+        int targetIndex = super.getSelectedLine(request);
+        TargetAccountingLine targetLine = (ProcurementCardTargetAccountingLine) ProcurementCardTransactionDetail.getTargetAccountingLines().get(targetIndex);
+
+        return performBalanceInquiryForAccountingLine(mapping, form, request, targetLine);
+    }
 
     /**
      * Override to resync base accounting lines. New lines on the PCDO document can be inserted anywhere in the list, not necessary
@@ -130,5 +154,17 @@ public class ProcurementCardAction extends KualiAccountingDocumentActionBase {
         procurementCardForm.setNewTargetLines(new TypedArrayList(ProcurementCardTargetAccountingLine.class));
 
         return super.reload(mapping, procurementCardForm, request, response);
+    }
+
+    // get the index of selected transaction entry
+    protected int getSelectedContainer(HttpServletRequest request) {
+        int selectedContainer = -1;
+        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        if (StringUtils.isNotBlank(parameterName)) {
+            String lineNumber = StringUtils.substringBetween(parameterName, ".transactionEntries[", "].");
+            selectedContainer = Integer.parseInt(lineNumber);
+        }
+
+        return selectedContainer;
     }
 }

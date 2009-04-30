@@ -16,18 +16,55 @@
 package org.kuali.kfs.fp.document.authorization;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
 
 public class ProcurementCardAccountingLineAuthorizer extends FinancialProcessingAccountingLineAuthorizer {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardAccountingLineAuthorizer.class);
 
     /**
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#getKimHappyPropertyNameForField(java.lang.String)
      */
     @Override
     protected String getKimHappyPropertyNameForField(String convertedName) {
-        String name = super.getKimHappyPropertyNameForField(convertedName);
-        name =  name.replaceFirst("(.)*transactionEntriess\\.", StringUtils.EMPTY);
-        
+        String name = stripDocumentPrefixFromName(convertedName);
+        name = name.replaceAll("\\[\\d+\\]", StringUtils.EMPTY);
+        name = name.replaceFirst("(.)*transactionEntries\\.", StringUtils.EMPTY);
+
         return name;
     }
 
+    /**
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#getAddMethod(org.kuali.kfs.sys.businessobject.AccountingLine,
+     *      java.lang.String, java.lang.Integer)
+     */
+    @Override
+    protected String getAddMethod(AccountingLine accountingLine, String accountingLineProperty) {
+        String infix = getActionInfixForNewAccountingLine(accountingLine, accountingLineProperty);
+        String lineIndex = this.getLineContainerIndex(accountingLineProperty);
+
+        return KFSConstants.INSERT_METHOD + infix + "Line.line" + lineIndex + ".anchoraccounting" + infix + "Anchor";
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#getBalanceInquiryMethod(org.kuali.kfs.sys.businessobject.AccountingLine,
+     *      java.lang.String, java.lang.Integer)
+     */
+    @Override
+    protected String getBalanceInquiryMethod(AccountingLine accountingLine, String accountingLineProperty, Integer accountingLineIndex) {
+        String infix = getActionInfixForExtantAccountingLine(accountingLine, accountingLineProperty);
+        String lineContainer = this.getLineContainer(accountingLineProperty) + ".";
+
+        return KFSConstants.PERFORMANCE_BALANCE_INQUIRY_FOR_METHOD + infix + "Line." + lineContainer + "line" + accountingLineIndex + ".anchoraccounting" + infix + "existingLineLineAnchor" + accountingLineIndex;
+    }
+
+    protected String getLineContainer(String accountingLineProperty) {
+        String lineContainer = stripDocumentPrefixFromName(accountingLineProperty);
+        return StringUtils.substringBeforeLast(lineContainer, ".");
+    }
+
+    protected String getLineContainerIndex(String accountingLineProperty) {
+        String lineContainer = this.getLineContainer(accountingLineProperty);
+        return StringUtils.substringBetween(lineContainer, "[", "]");
+    }
 }

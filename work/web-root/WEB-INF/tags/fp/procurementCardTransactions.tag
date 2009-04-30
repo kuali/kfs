@@ -31,8 +31,6 @@
   <c:set var="cardAttributes" value="${DataDictionary.ProcurementCardHolder.attributes}" />
 	
   <div class="tab-container" align=center>
-  <c:set var="totalNewTargetCtr" value="0"/>
-  <c:set var="baseCtr" value="0"/>
   <logic:iterate indexId="ctr" name="KualiForm" property="document.transactionEntries" id="currentTransaction">
     <table cellpadding="0" class="datatable" summary="Transaction Details">
                                                                                            
@@ -95,11 +93,10 @@
     </table>   
 	
     <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
-		<sys-java:accountingLineGroup newLinePropertyName="newTargetLines[${totalNewTargetCtr}]" collectionPropertyName="document.transactionEntries[${ctr}].targetAccountingLines" collectionItemPropertyName="document.transactionEntries[${ctr}].targetAccountingLines" attributeGroupName="target" />
+		<sys-java:accountingLineGroup newLinePropertyName="newTargetLines[${ctr}]" collectionPropertyName="document.transactionEntries[${ctr}].targetAccountingLines" collectionItemPropertyName="document.transactionEntries[${ctr}].targetAccountingLines" attributeGroupName="target" />
 	</table>
     
     <br/>
-    <c:set var="totalNewTargetCtr" value="${totalNewTargetCtr+1}"/>
    </logic:iterate> 
   </div>
   <SCRIPT type="text/javascript">

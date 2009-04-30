@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="ProcurementCardDocument" parent="ProcurementCardDocument-parentBean"/>
-
   <bean id="ProcurementCardDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
-    
-    
-    
-    
     <property name="documentTypeName" value="PCDO"/>
     <property name="documentClass" value="org.kuali.kfs.fp.document.ProcurementCardDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
@@ -31,10 +26,8 @@
     </property>   
   </bean>
   
-     <!-- Validations -->
-  
+  <!-- Validations -->
   <bean id="ProcurementCardDocument-validations" parent="ProcurementCardDocument-validations-parentBean"/>
-  
   <bean id="ProcurementCardDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
 		<map>
@@ -78,8 +71,7 @@
 	  <property name="errorKey" value="document.targetAccounting*,targetAccountingLines,newTargetLine*"/>
   </bean>
   
-  <bean id="ProcurementCard-accountingLineView" parent="ProcurementCard-accountingLineView-parent"/>
-  
+  <bean id="ProcurementCard-accountingLineView" parent="ProcurementCard-accountingLineView-parent"/> 
   <bean id="ProcurementCard-accountingLineView-parent" parent="AccountingLineView" abstract="true">
 		<property name="elements">
 			<list>
@@ -98,19 +90,17 @@
 		</property>
   </bean>
   
-	<bean id="ProcurementCard-targetGroupTotals" class="org.springframework.beans.factory.config.ListFactoryBean">
-		<property name="sourceList">
-			<list>
-				<bean class="org.kuali.kfs.fp.document.web.ProcurementCardGroupTotalDefinition" p:totalProperty="targetTotal" p:representedProperty="amount"/>
-			</list>
-		</property>
-	</bean>
-	
-	<!-- workflow attributes for routing -->
-	<bean id="ProcurementCardDocument-workflowAttributes" parent="ProcurementCardDocument-workflowAttributes-parentBean"/>
-	
-	<bean id="ProcurementCardDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
-    	
+  <bean id="ProcurementCard-targetGroupTotals" class="org.springframework.beans.factory.config.ListFactoryBean">
+    	<property name="sourceList">
+    		<list>
+    			<bean class="org.kuali.kfs.fp.document.web.ProcurementCardGroupTotalDefinition" p:totalProperty="targetTotal" p:representedProperty="amount"/>
+    		</list>
+    	</property>
+  </bean>
+    
+  <!-- workflow attributes for routing -->
+  <bean id="ProcurementCardDocument-workflowAttributes" parent="ProcurementCardDocument-workflowAttributes-parentBean"/>    
+  <bean id="ProcurementCardDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">    	
     	<property name="routingTypeDefinitions">
     		<map>
      			<entry key="AccountFullEdit" value-ref="RoutingType-AccountingDocument-Account-targetOnly"/>   		
@@ -119,5 +109,5 @@
     			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund-targetOnly"/>
     		</map>
     	</property>
-	</bean>
+  </bean>
 </beans>

@@ -289,7 +289,7 @@ public class OriginEntryLite extends PersistableBusinessObjectBase implements Or
         
         setTransactionDebitCreditCode(line.substring(116, 117));
 
-        if (!getValue(line, 114, 124).equals(GeneralLedgerConstants.EMPTY_CODE)){
+        if (!getValue(line, 117, 127).equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
                 setTransactionDate(parseDate(getValue(line, 117, 127), false));
             }

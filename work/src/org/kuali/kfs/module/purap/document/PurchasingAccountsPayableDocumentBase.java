@@ -342,11 +342,10 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
         if (allowDeleteAwareCollection) {            
-            List<PurApAccountingLine> accounts = new ArrayList<PurApAccountingLine>();
-            for (PurApItem item : (List<PurApItem>)this.getItems()) {
-                accounts.addAll(item.getSourceAccountingLines());
-            }
-            managedLists.add(accounts);
+            //From now on, the list of accounting lines would have been added when the 
+            //super.buildListOfDeletionAwareLists() is executed when it calls getSourceAccountingLines(). 
+            //So we can remove the old codes that used to exist here to add the accounts to the
+            //managedLists and just use the one from the super.buildListOfDeletionAwareLists()
             managedLists.add(this.getItems());
         }
         return managedLists;
@@ -791,7 +790,10 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     public Status getStatus() {
-        if (ObjectUtils.isNull(this.status) && StringUtils.isNotEmpty(this.getStatusCode())) {
+        if (ObjectUtils.isNull(this.status) && StringUtils.isNotEmpty(this.getStatusCode()))  {
+            this.refreshReferenceObject(PurapPropertyConstants.STATUS);
+        }
+        else if (ObjectUtils.isNotNull(status) && StringUtils.isNotEmpty(getStatusCode()) && !status.getStatusCode().equals(getStatusCode())) {
             this.refreshReferenceObject(PurapPropertyConstants.STATUS);
         }
         return status;

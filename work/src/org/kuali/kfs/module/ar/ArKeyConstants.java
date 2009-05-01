@@ -89,6 +89,8 @@ public class ArKeyConstants {
         public static final String ERROR_CLEARING_ACCOUNT_INACTIVE = "error.SystemInformation.clearingAccountInactive";
         public static final String ERROR_WIRE_ACCOUNT_INACTIVE = "error.SystemInformation.wireAccountInactive";
         public static final String ERROR_LOCKBOX_NUMBER_NOT_UNIQUE = "error.SystemInformation.lockboxNumberNotUnique";
+        public static final String ERROR_POSTAL_STATE_CODE_NOT_VALID = "error.SystemInformation.postalStateCodeNotValid";
+        public static final String ERROR_POSTAL_ZIP_CODE_NOT_VALID = "error.SystemInformation.postalZipCodeNotValid";
     }
 
     // Invoice Item Code errors
@@ -96,6 +98,8 @@ public class ArKeyConstants {
         public static final String NONPOSITIVE_ITEM_DEFAULT_PRICE = "error.invoiceItemCode.nonPositiveNumericValue";
         public static final String NONPOSITIVE_ITEM_DEFAULT_QUANTITY = "error.invoiceItemCode.nonPositiveNumericValue";
         public static final String ORG_OPTIONS_DOES_NOT_EXIST_FOR_CHART_AND_ORG = "error.invoiceItemCode.orgOptionsDoesNotExistForChartAndOrg";
+        public static final String ERROR_INVALID_CHART_OF_ACCOUNTS_CODE = "error.invoiceItemCode.errorInvalidChartOfAccountsCode";
+        public static final String ERROR_INVALID_ORGANIZATION_CODE = "error.invoiceItemCode.errorInvalidOrganizationCode";
     }
 
     // Customer Type errors

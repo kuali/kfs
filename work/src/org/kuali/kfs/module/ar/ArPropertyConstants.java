@@ -188,6 +188,8 @@ public class ArPropertyConstants {
         public static final String PROCESSING_CHART_OF_ACCOUNTS_CODE = "processingChartOfAccountCode";
         public static final String PROCESSING_ORGANIZATION_CODE = "processingOrganizationCode";
         public static final String LOCKBOX_NUMBER = "lockboxNumber";
+        public static final String ORGANIZATION_REMIT_TO_STATE_CODE = "organizationRemitToStateCode";
+        public static final String ORGANIZATION_REMIT_TO_ZIP_CODE = "organizationRemitToZipCode";
     }
     
     // CustomerInvoiceItemCodes

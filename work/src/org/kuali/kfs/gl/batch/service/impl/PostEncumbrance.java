@@ -19,8 +19,11 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.batch.PosterEntriesStep;
+import org.kuali.kfs.gl.batch.ScrubberStep;
 import org.kuali.kfs.gl.batch.service.AccountingCycleCachingService;
 import org.kuali.kfs.gl.batch.service.EncumbranceCalculator;
 import org.kuali.kfs.gl.batch.service.PostTransaction;
@@ -29,6 +32,7 @@ import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,6 +46,7 @@ public class PostEncumbrance implements PostTransaction, EncumbranceCalculator {
     private AccountingCycleCachingService accountingCycleCachingService;
     private DateTimeService dateTimeService;
     private PersistenceStructureService persistenceStructureService;
+    private ParameterService parameterService;
 
     /**
      * Constructs a PostEncumbrance instance
@@ -154,7 +159,10 @@ public class PostEncumbrance implements PostTransaction, EncumbranceCalculator {
      * @param enc
      */
     public void updateEncumbrance(Transaction t, Encumbrance enc) {
-        if (KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdateCode())) {
+        //KFSMI-1571 - check parameter encumbranceOpenAmountOeverridingDocTypes
+        String[] encumbranceOpenAmountOeverridingDocTypes = parameterService.getParameterValues(PosterEntriesStep.class, GeneralLedgerConstants.PosterService.ENCUMBRANCE_OPEN_AMOUNT_OVERRIDING_DOCUMENT_TYPES).toArray(new String[] {});
+
+        if (KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdateCode()) && !ArrayUtils.contains(encumbranceOpenAmountOeverridingDocTypes, t.getFinancialDocumentTypeCode())) {
             // If using referring doc number, add or subtract transaction amount from
             // encumbrance closed amount
             if (KFSConstants.GL_DEBIT_CODE.equals(t.getTransactionDebitCreditCode())) {
@@ -194,5 +202,9 @@ public class PostEncumbrance implements PostTransaction, EncumbranceCalculator {
 
     public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
         this.persistenceStructureService = persistenceStructureService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }

@@ -200,6 +200,8 @@ public class GeneralLedgerConstants {
     public static class PosterService {
         static final public String SYMBOL_USE_EXPENDITURE_ENTRY = "@";
         static final public String SYMBOL_USE_ICR_FROM_ACCOUNT = "#";
+        static final public String ENCUMBRANCE_OPEN_AMOUNT_OVERRIDING_DOCUMENT_TYPES = "ENCUMBRANCE_OPEN_AMOUNT_OVERRIDING_DOCUMENT_TYPES"; 
+
     }
     
     public static class Balancing {

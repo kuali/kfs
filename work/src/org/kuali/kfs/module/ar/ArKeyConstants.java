@@ -89,8 +89,6 @@ public class ArKeyConstants {
         public static final String ERROR_CLEARING_ACCOUNT_INACTIVE = "error.SystemInformation.clearingAccountInactive";
         public static final String ERROR_WIRE_ACCOUNT_INACTIVE = "error.SystemInformation.wireAccountInactive";
         public static final String ERROR_LOCKBOX_NUMBER_NOT_UNIQUE = "error.SystemInformation.lockboxNumberNotUnique";
-        public static final String ERROR_POSTAL_STATE_CODE_NOT_VALID = "error.SystemInformation.postalStateCodeNotValid";
-        public static final String ERROR_POSTAL_ZIP_CODE_NOT_VALID = "error.SystemInformation.postalZipCodeNotValid";
     }
 
     // Invoice Item Code errors

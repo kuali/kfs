@@ -506,7 +506,7 @@ public class PurchaseOrderPdf extends PurapPdf {
         p = new Paragraph();
         p.add(new Chunk("  Contract ID\n", ver_5_normal));
         if (po.getVendorContract() != null) {
-            p.add(new Chunk(po.getVendorContract().getVendorContractGeneratedIdentifier().toString(), cour_7_normal));
+            p.add(new Chunk(po.getVendorContract().getVendorContractName(), cour_7_normal));
         }
         cell = new PdfPCell(p);
         cell.setHorizontalAlignment(Element.ALIGN_LEFT);

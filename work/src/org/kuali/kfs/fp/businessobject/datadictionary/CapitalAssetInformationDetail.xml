@@ -89,7 +89,8 @@
   <bean id="CapitalAssetInformationDetail-capitalAssetTagNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset"
 	p:sourceAttributeName="campusTagNumber">
-  	<property name="name" value="capitalAssetTagNumber" />
+	<property name="required" value="false" />
+	<property name="name" value="capitalAssetTagNumber" />
   </bean>	
   	
   <bean id="CapitalAssetInformationDetail-capitalAssetSerialNumber" parent="CapitalAssetInformationDetail-capitalAssetSerialNumber-parentBean" />  

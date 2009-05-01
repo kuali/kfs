@@ -1281,11 +1281,6 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         List<CapitalAssetInformationDetail> capitalAssetInformationDetails = capitalAssetInformation.getCapitalAssetInformationDetails();
         for (CapitalAssetInformationDetail dtl : capitalAssetInformationDetails) {
             String errorPathPrefix = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION_DETAILS;
-            if (StringUtils.isBlank(dtl.getCapitalAssetTagNumber())) {
-                String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformationDetail.class, KFSPropertyConstants.CAPITAL_ASSET_TAG_NUMBER);
-                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.CAPITAL_ASSET_TAG_NUMBER, KFSKeyConstants.ERROR_REQUIRED, label);
-                valid = false;
-            }
 
             if (StringUtils.isBlank(dtl.getCampusCode())) {
                 String label = this.getDataDictionaryService().getAttributeLabel(Campus.class, KFSPropertyConstants.CAMPUS_CODE);

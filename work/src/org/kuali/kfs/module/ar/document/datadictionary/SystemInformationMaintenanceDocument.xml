@@ -46,6 +46,7 @@
         <bean parent="ReferenceDefinition" p:attributeName="universityFiscalYearObject" p:attributeToHighlightOnFail="universityFiscalYear"/>
         <bean parent="ReferenceDefinition" p:attributeName="financialDocumentInitiator" p:attributeToHighlightOnFail="financialDocumentInitiator.principalName"/>                
       	<bean parent="ReferenceDefinition" p:attributeName="orgRemitToZipCode" p:attributeToHighlightOnFail="organizationRemitToZipCode"/>
+      	<bean parent="ReferenceDefinition" p:attributeName="organizationRemitToState" p:attributeToHighlightOnFail="organizationRemitToStateCode"/>
       </list>
     </property>
     <property name="lockingKeys">

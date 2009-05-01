@@ -25,15 +25,17 @@ public class PurchaseOrderCapitalAssetSystem extends PurchasingCapitalAssetSyste
 	
 	public PurchaseOrderCapitalAssetSystem(CapitalAssetSystem originalSystem) {
 	    super();
-	    this.setCapitalAssetSystemDescription(originalSystem.getCapitalAssetSystemDescription());
-	    this.setCapitalAssetNotReceivedCurrentFiscalYearIndicator(originalSystem.isCapitalAssetNotReceivedCurrentFiscalYearIndicator());
-	    this.setCapitalAssetTypeCode(originalSystem.getCapitalAssetTypeCode());
-	    this.setCapitalAssetManufacturerName(originalSystem.getCapitalAssetManufacturerName());
-	    this.setCapitalAssetModelDescription(originalSystem.getCapitalAssetModelDescription());
-	    this.setCapitalAssetNoteText(originalSystem.getCapitalAssetNoteText());
-	    populatePurchaseOrderItemCapitalAssets(originalSystem);
-	    populateCapitalAssetLocations(originalSystem);
-	    this.setCapitalAssetCountAssetNumber(originalSystem.getCapitalAssetCountAssetNumber());
+	    if (originalSystem != null) {
+            this.setCapitalAssetSystemDescription(originalSystem.getCapitalAssetSystemDescription());
+            this.setCapitalAssetNotReceivedCurrentFiscalYearIndicator(originalSystem.isCapitalAssetNotReceivedCurrentFiscalYearIndicator());
+            this.setCapitalAssetTypeCode(originalSystem.getCapitalAssetTypeCode());
+            this.setCapitalAssetManufacturerName(originalSystem.getCapitalAssetManufacturerName());
+            this.setCapitalAssetModelDescription(originalSystem.getCapitalAssetModelDescription());
+            this.setCapitalAssetNoteText(originalSystem.getCapitalAssetNoteText());
+            populatePurchaseOrderItemCapitalAssets(originalSystem);
+            populateCapitalAssetLocations(originalSystem);
+            this.setCapitalAssetCountAssetNumber(originalSystem.getCapitalAssetCountAssetNumber());
+        }
 	}
 	
 	private void populatePurchaseOrderItemCapitalAssets(CapitalAssetSystem originalSystem) {

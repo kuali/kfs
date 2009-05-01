@@ -62,20 +62,15 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
         }
         Class<? extends Document> docClass = entry.getDocumentClass();
  
-      
-        if (AccountingDocument.class.isAssignableFrom( docClass)) {
-            String accountingLineClassName = SourceAccountingLine.class.getName();
-            Class alClass = null;
+        if (AccountingDocument.class.isAssignableFrom(docClass)) {
+            Class alClass = SourceAccountingLine.class;
             BusinessObject alBusinessObject  = null;
-            
-            String orgClassName = Organization.class.getName();
-            Class orgClass = null;
+
+            Class orgClass = Organization.class;
             BusinessObject orgBusinessObject  = null;
             
             try {
-                alClass = Class.forName(accountingLineClassName);
                 alBusinessObject = (BusinessObject)alClass.newInstance();
-                orgClass = Class.forName(orgClassName);
                 orgBusinessObject = (BusinessObject)orgClass.newInstance();
                 
             } catch (Exception cnfe) {
@@ -84,19 +79,19 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
             
             Field chartField = FieldUtils.getPropertyField(alClass, "chartOfAccountsCode", true);
             chartField.setFieldDataType(SearchableAttribute.DATA_TYPE_STRING);
-            List displayedFieldNames = new ArrayList();
+            List<String> displayedFieldNames = new ArrayList<String>();
             displayedFieldNames.add("chartOfAccountsCode");
             LookupUtils.setFieldQuickfinder(alBusinessObject, "chartOfAccountsCode", chartField, displayedFieldNames);
             
             Field orgField = FieldUtils.getPropertyField(orgClass, "organizationCode", true);
             orgField.setFieldDataType(SearchableAttribute.DATA_TYPE_STRING);
-            displayedFieldNames = new ArrayList();
+            displayedFieldNames.clear();
             displayedFieldNames.add("organizationCode");
             LookupUtils.setFieldQuickfinder(new Account(), "organizationCode", orgField, displayedFieldNames);
             
             Field accountField = FieldUtils.getPropertyField(alClass, "accountNumber", true);
             accountField.setFieldDataType(SearchableAttribute.DATA_TYPE_STRING);
-            displayedFieldNames = new ArrayList();
+            displayedFieldNames.clear();
             displayedFieldNames.add("accountNumber");
             LookupUtils.setFieldQuickfinder(alBusinessObject, "accountNumber", accountField, displayedFieldNames);
 
@@ -114,18 +109,11 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
         }
         
         if (AmountTotaling.class.isAssignableFrom( docClass)) {
-              String businessObjectClassName = FinancialSystemDocumentHeader.class.getName();
-              Class boClass = null;
-              try {
-                  boClass = Class.forName(businessObjectClassName);
-              } catch (ClassNotFoundException cnfe) {
-                  throw new RuntimeException(cnfe);
-              }
+              Class boClass = FinancialSystemDocumentHeader.class;
               
               Field searchField = FieldUtils.getPropertyField(boClass, "financialDocumentTotalAmount", true);
               searchField.setFieldDataType(SearchableAttribute.DATA_TYPE_FLOAT);
 
-              
               List<Field> fieldList = new ArrayList<Field>();
               fieldList.add(searchField);
               docSearchRows.add(new Row(fieldList));

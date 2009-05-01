@@ -126,7 +126,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         List<Class> ignoreClasses = Arrays.asList(INACTIVATEABLE_LOOKUP_IGNORE_CLASSES);
         
         for(BusinessObjectEntry businessObjectEntry:dataDictionary.getBusinessObjectEntries().values()){
-            if ( !businessObjectEntry.getBusinessObjectClass().getName().startsWith(KFS_PACKAGE_NAME)
+            if ( !businessObjectEntry.getBusinessObjectClass().getName().startsWith("org.kuali.rice")
                     && !ignoreClasses.contains(businessObjectEntry.getBusinessObjectClass())) {
                 List<Class> iList = (List<Class>)Arrays.asList(businessObjectEntry.getBusinessObjectClass().getInterfaces());
                 try {

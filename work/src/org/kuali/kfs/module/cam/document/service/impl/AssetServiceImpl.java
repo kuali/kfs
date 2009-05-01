@@ -174,7 +174,7 @@ public class AssetServiceImpl implements AssetService {
         StringBuffer lockrep = new StringBuffer();
 
         lockrep.append(Asset.class.getName() + KFSConstants.Maintenance.AFTER_CLASS_DELIM);
-        lockrep.append("capitalAssetNumber" + KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+        lockrep.append(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER + KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
         lockrep.append(capitalAssetNumber);
 
         maintenanceLock.setDocumentNumber(documentNumber);

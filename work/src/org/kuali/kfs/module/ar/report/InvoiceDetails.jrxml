@@ -342,7 +342,7 @@
 		<columnFooter>
 			<band height="80"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement mode="Opaque" x="90" y="2" width="400" height="15" key="staticText-86">
+					<reportElement mode="Opaque" x="76" y="2" width="400" height="15" key="staticText-86">
 						<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue()==1)]]></printWhenExpression>
 					</reportElement>
 					<box></box>

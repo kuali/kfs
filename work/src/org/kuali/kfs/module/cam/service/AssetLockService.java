@@ -54,7 +54,7 @@ public interface AssetLockService {
      * @param lockingInformation
      * @return
      */
-    boolean isAssetLockedByDocument(String documentNumber, String lockingInformation);
+    boolean isAssetLockedByCurrentDocument(String documentNumber, String lockingInformation);
 
     /**
      * Check if assets are locked by other document. 

@@ -224,11 +224,12 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
             capitalAssetNumber = Long.parseLong(sCapitalAssetNumber);
         }
         catch (NumberFormatException e) {
-            //Validating the asset number field is not empty
+            // Validating the asset number field is not empty
             if (ObjectUtils.isNull(sCapitalAssetNumber) || StringUtils.isBlank(sCapitalAssetNumber)) {
                 String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentAssetDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER).getLabel();
                 GlobalVariables.getErrorMap().putError(errorPath, KFSKeyConstants.ERROR_REQUIRED, label);
-            } else {
+            }
+            else {
                 // it is not empty but has an invalid value.
                 GlobalVariables.getErrorMap().putError(errorPath, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_CAPITAL_ASSET_NUMBER, sCapitalAssetNumber);
             }
@@ -283,8 +284,23 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
         // run all validation first
         boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AssetPaymentPrepareRouteEvent(errorPath, assetPaymentDocument));
         if (rulePassed) {
-            // this super method call could trigger the warning message of object sub type code from payment lines not matching the one from assets.
+            // this super method call could trigger the warning message of object sub type code from payment lines not matching the
+            // one from assets.
             return super.route(mapping, form, request, response);
+        }
+        else {
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+    }
+
+    @Override
+    public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AssetPaymentDocument assetPaymentDocument = ((AssetPaymentForm) form).getAssetPaymentDocument();
+        String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME;
+        // run all validation first
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AssetPaymentPrepareRouteEvent(errorPath, assetPaymentDocument));
+        if (rulePassed) {
+            return super.blanketApprove(mapping, form, request, response);
         }
         else {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);

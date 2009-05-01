@@ -46,22 +46,6 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
 
     private AssetLockService assetLockService;
 
-    /**
-     * Does not fail on rules failure
-     * 
-     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
-     */
-    @Override
-    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-        // EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument = (EquipmentLoanOrReturnDocument) document;
-        //
-        // if (getAssetService().isAssetLocked(equipmentLoanOrReturnDocument.getDocumentNumber(),
-        // equipmentLoanOrReturnDocument.getCapitalAssetNumber())) {
-        // return false;
-        // }
-
-        return true;
-    }
 
     /**
      * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)

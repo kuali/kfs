@@ -91,7 +91,7 @@ public class AssetLocationGlobalMaintainableImpl extends KualiGlobalMaintainable
     public void handleRouteStatusChange(DocumentHeader documentHeader) {
         super.handleRouteStatusChange(documentHeader);
         KualiWorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();
-        AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
+        // release the lock when document status changed as following...
         if (workflowDoc.stateIsCanceled() || workflowDoc.stateIsDisapproved() || workflowDoc.stateIsProcessed() || workflowDoc.stateIsFinal()) {
             this.getCapitalAssetManagementModuleService().deleteAssetLocks(documentNumber, null);
         }
@@ -120,30 +120,6 @@ public class AssetLocationGlobalMaintainableImpl extends KualiGlobalMaintainable
     }
 
 
-    /**
-     * This creates the particular locking representation for this global location document.
-     * 
-     * @see org.kuali.rice.kns.maintenance.Maintainable#generateMaintenanceLocks()
-     */
-    // @Override
-    // public List<MaintenanceLock> generateMaintenanceLocks() {
-    // AssetLocationGlobal assetLocationGlobal = (AssetLocationGlobal) getBusinessObject();
-    // List<MaintenanceLock> maintenanceLocks = new ArrayList();
-    //
-    // for (AssetLocationGlobalDetail detail : assetLocationGlobal.getAssetLocationGlobalDetails()) {
-    // MaintenanceLock maintenanceLock = new MaintenanceLock();
-    // StringBuffer lockrep = new StringBuffer();
-    //
-    // lockrep.append(Asset.class.getName() + KFSConstants.Maintenance.AFTER_CLASS_DELIM);
-    // lockrep.append("capitalAssetNumber" + KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
-    // lockrep.append(detail.getCapitalAssetNumber());
-    //
-    // maintenanceLock.setDocumentNumber(assetLocationGlobal.getDocumentNumber());
-    // maintenanceLock.setLockingRepresentation(lockrep.toString());
-    // maintenanceLocks.add(maintenanceLock);
-    // }
-    // return new ArrayList();
-    // }
     @Override
     public Class<? extends PersistableBusinessObject> getPrimaryEditedBusinessObjectClass() {
         return Asset.class;

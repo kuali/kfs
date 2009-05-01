@@ -209,6 +209,7 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="purApLineDao" ref="purApLineDao" />
 		<property name="purApInfoService" ref="purApInfoService" />
+		<property name="capitalAssetManagementModuleService" ref="capitalAssetManagementModuleService" />
 	</bean>  
 	<bean id="purApLineDocumentService" class="org.kuali.kfs.module.cab.document.service.impl.PurApLineDocumentServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />

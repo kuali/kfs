@@ -49,7 +49,17 @@ public class CapitalAssetManagementModuleServiceImpl implements CapitalAssetMana
      * @see org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService#isAssetLockedByDocument(java.lang.String,
      *      java.lang.String)
      */
-    public boolean isAssetLockedByDocument(String documentNumber, String lockingInformation) {
-        return getAssetLockService().isAssetLockedByDocument(documentNumber, StringUtils.isBlank(lockingInformation) ? CamsConstants.defaultLockingInformation : lockingInformation);
+    public boolean isAssetLockedByCurrentDocument(String documentNumber, String lockingInformation) {
+        return getAssetLockService().isAssetLockedByCurrentDocument(documentNumber, StringUtils.isBlank(lockingInformation) ? CamsConstants.defaultLockingInformation : lockingInformation);
     }
+
+    /**
+     * @see org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService#isAssetLocked(java.util.List, java.lang.String,
+     *      java.lang.String)
+     */
+    public boolean isAssetLocked(List<Long> assetNumbers, String documentTypeName, String excludingDocumentNumber) {
+        return getAssetLockService().isAssetLocked(assetNumbers, documentTypeName, excludingDocumentNumber);
+    }
+
+
 }

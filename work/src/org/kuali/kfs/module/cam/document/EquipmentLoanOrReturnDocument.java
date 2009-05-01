@@ -556,14 +556,6 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
         super.postProcessSave(event);
 
         if (!(event instanceof SaveDocumentEvent)) { // don't lock until they route
-            // MaintenanceDocumentService maintenanceDocumentService = SpringContext.getBean(MaintenanceDocumentService.class);
-            // AssetService assetService = SpringContext.getBean(AssetService.class);
-            //
-            // maintenanceDocumentService.deleteLocks(this.getDocumentNumber());
-            //
-            // List<MaintenanceLock> maintenanceLocks = new ArrayList<MaintenanceLock>();
-            // maintenanceLocks.add(assetService.generateAssetLock(documentNumber, capitalAssetNumber));
-            // maintenanceDocumentService.storeLocks(maintenanceLocks);
             ArrayList capitalAssetNumbers = new ArrayList<Long>();
             capitalAssetNumbers.add(this.getCapitalAssetNumber());
             // check and lock on asset numbers exclude approve event.
@@ -591,13 +583,11 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
         if (workflowDocument.stateIsProcessed()) {
             SpringContext.getBean(EquipmentLoanOrReturnService.class).processApprovedEquipmentLoanOrReturn(this);
 
-            // SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(getDocumentNumber());
             this.getCapitalAssetManagementModuleService().deleteAssetLocks(this.getDocumentNumber(), null);
         }
 
         if (workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved()) {
             this.getCapitalAssetManagementModuleService().deleteAssetLocks(this.getDocumentNumber(), null);
-            // SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(this.getDocumentNumber());
         }
     }
 

@@ -39,7 +39,6 @@ import org.kuali.kfs.module.cab.document.service.PurApLineService;
 import org.kuali.kfs.module.cab.document.web.PurApLineSession;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
-import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
@@ -153,7 +152,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      */
     public String processCreateAsset(PurchasingAccountsPayableItemAsset selectedItem, List<PurchasingAccountsPayableDocument> purApDocs, PurApLineSession purApLineSession, Integer requisitionIdentifier) throws WorkflowException {
         // Create new CAMS asset global document
-        MaintenanceDocument newDocument = (MaintenanceDocument) documentService.getNewDocument(DocumentTypeName.ASSET_ADD_GLOBAL);
+        MaintenanceDocument newDocument = (MaintenanceDocument) documentService.getNewDocument(CamsConstants.DocumentTypeName.ASSET_ADD_GLOBAL);
         newDocument.getNewMaintainableObject().setMaintenanceAction(KNSConstants.MAINTENANCE_NEW_ACTION);
         newDocument.getDocumentHeader().setDocumentDescription(CabConstants.NEW_ASSET_DOCUMENT_DESC);
 
@@ -814,7 +813,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
 
 
     /**
-     * Gets the purApInfoService attribute. 
+     * Gets the purApInfoService attribute.
      * 
      * @return Returns the purApInfoService.
      */

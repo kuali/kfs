@@ -57,6 +57,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     private KualiDecimal splitQty;
     private boolean selectedValue;
     private String itemTypeCode;
+    private String lockingInformation;
     // used for Capital Asset Transaction
     private String capitalAssetTransactionTypeCode;
     private List<ItemCapitalAsset> purApItemAssets;
@@ -88,6 +89,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
         this.activityStatusCode = initialItemAsset.getActivityStatusCode();
         this.tradeInAllowance = initialItemAsset.isTradeInAllowance();
         this.itemAssignedToTradeInIndicator = initialItemAsset.isItemAssignedToTradeInIndicator();
+        this.additionalChargeNonTradeInIndicator = initialItemAsset.isAdditionalChargeNonTradeInIndicator();
         this.purchasingAccountsPayableLineAssetAccounts = new TypedArrayList(PurchasingAccountsPayableLineAssetAccount.class);
         this.selectedValue = false;
         this.createAssetIndicator = initialItemAsset.isCreateAssetIndicator();
@@ -99,6 +101,22 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
         this.purchasingAccountsPayableDocument = initialItemAsset.getPurchasingAccountsPayableDocument();
     }
 
+
+    /**
+     * Gets the lockingInformation attribute. 
+     * @return Returns the lockingInformation.
+     */
+    public String getLockingInformation() {
+        return lockingInformation;
+    }
+
+    /**
+     * Sets the lockingInformation attribute value.
+     * @param lockingInformation The lockingInformation to set.
+     */
+    public void setLockingInformation(String lockingInformation) {
+        this.lockingInformation = lockingInformation;
+    }
 
     /**
      * Gets the capitalAssetSystemIdentifier attribute.

@@ -235,4 +235,8 @@ public class CamsKeyConstants {
     public static class AssetRepairHistory {
         public static final String ERROR_DUPLICATE_INCIDENT_DATE = "error.duplicate.incident.date";
     }
+
+    public static class AssetLock {
+        public static final String ERROR_ASSET_LOCKED = "error.asset.locked";
+    }
 }

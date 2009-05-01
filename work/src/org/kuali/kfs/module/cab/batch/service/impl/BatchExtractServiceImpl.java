@@ -108,16 +108,20 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         for (PurchasingAccountsPayableDocument purApDoc : purApDocuments) {
             documentUpdated = false;
             // Refresh to get the referenced GLEntry BO. This is required to call purApLineService.processAllocate().
-            purApDoc.refreshReferenceObject(CabPropertyConstants.PurchasingAccountsPayableDocument.PURCHASEING_ACCOUNTS_PAYABLE_ITEM_ASSETS);
-            candidateDocs.add(purApDoc);
+            Map<String, String> primaryKeys = new HashMap<String, String>();
+            primaryKeys.put(CabPropertyConstants.PurchasingAccountsPayableDocument.DOCUMENT_NUMBER, purApDoc.getDocumentNumber());
+            // check if doc is already in CAB
+            PurchasingAccountsPayableDocument cabPurapDoc = (PurchasingAccountsPayableDocument) businessObjectService.findByPrimaryKey(PurchasingAccountsPayableDocument.class, primaryKeys);
+
+            candidateDocs.add(cabPurapDoc);
             // keep the original list of items for iteration since purApLineService.processAllocate() may remove the line item when
             // it's additional charges line.
-            initialItems.addAll(purApDoc.getPurchasingAccountsPayableItemAssets());
+            initialItems.addAll(cabPurapDoc.getPurchasingAccountsPayableItemAssets());
 
             // set additional charge indicator for each line item from PurAp. we need to set them before hand for use in
             // purApLineService.getAllocateTargetLines(), in which method to select line items as the target allocating lines.
             for (PurchasingAccountsPayableItemAsset ititialItem : initialItems) {
-                purApInfoService.setAccountsPayableItemsFromPurAp(ititialItem, purApDoc.getDocumentTypeCode());
+                purApInfoService.setAccountsPayableItemsFromPurAp(ititialItem, cabPurapDoc.getDocumentTypeCode());
             }
 
             // allocate additional charge lines if it's active line
@@ -135,7 +139,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
             }
 
             if (documentUpdated) {
-                businessObjectService.save(purApDoc);
+                businessObjectService.save(cabPurapDoc);
             }
             candidateDocs.clear();
             initialItems.clear();
@@ -323,7 +327,9 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         HashMap<String, PurchasingAccountsPayableLineAssetAccount> assetAcctLines = new HashMap<String, PurchasingAccountsPayableLineAssetAccount>();
 
         // Keep track of asset lock
-        HashMap<String, Object> assetLocks = new HashMap<String, Object>();
+        HashMap<String, Object> assetLockMap = new HashMap<String, Object>();
+        // Keep track of purchaseOrderDocument
+        HashMap<Integer, PurchaseOrderDocument> poDocMap = new HashMap<Integer, PurchaseOrderDocument>();
 
         for (GlAccountLineGroup group : matchedGroups) {
             Entry entry = group.getTargetEntry();
@@ -399,25 +405,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                     }
 
                     // Add to the asset lock table if purap has asset number information
-                    PurchaseOrderDocument purApdocument = getPurApInfoService().getCurrentDocumentForPurchaseOrderIdentifier(cabPurapDoc.getPurchaseOrderIdentifier());
-                    String lockingInformation = null;
-                    String assetLockKey = cabPurapDoc.getDocumentNumber();
-                    // Only individual system will lock on item line number. other system will using preq/cm doc nbr as the locking
-                    // key
-                    if (PurapConstants.CapitalAssetTabStrings.INDIVIDUAL_ASSETS.equalsIgnoreCase(purApdocument.getCapitalAssetSystemTypeCode())) {
-                        lockingInformation = purapItem.getItemIdentifier().toString();
-                        assetLockKey = cabPurapDoc.getDocumentNumber() + "-" + lockingInformation;
-                    }
-                    // set asset locks if the locks not exist HashMap and not in asset lock table either.
-                    if (!assetLocks.containsKey(assetLockKey) && !getCapitalAssetManagementModuleService().isAssetLockedByDocument(cabPurapDoc.getDocumentNumber(), lockingInformation)) {
-                        // the below method  need several PurAp service calls which may take long time to run.
-                        List capitalAssetNumbers = getAssetNumbersForLocking(purApdocument, purapItem);
-                        if (capitalAssetNumbers != null && !capitalAssetNumbers.isEmpty()) {
-                            boolean lockingResult = this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, cabPurapDoc.getDocumentNumber(), cabPurapDoc.getDocumentTypeCode(), lockingInformation);
-                            // add into cache
-                            assetLocks.put(assetLockKey, lockingResult);
-                        }
-                    }
+                    addAssetLocks(assetLockMap, cabPurapDoc, purapItem, itemAsset.getAccountsPayableLineItemIdentifier(), poDocMap);
                 }
                 businessObjectService.save(cabPurapDoc);
 
@@ -443,8 +431,49 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         return purApDocuments;
     }
 
-    private List getAssetNumbersForLocking(PurchaseOrderDocument purApdocument, PurApItem purapItem) {
+    /**
+     * Add asset lock to prohibit CAMS user modify the asset payment line.
+     * 
+     * @param assetLockMap
+     * @param cabPurapDoc
+     * @param purapItem
+     * @param itemAsset
+     * @param poDocMap
+     */
+    private void addAssetLocks(HashMap<String, Object> assetLockMap, PurchasingAccountsPayableDocument cabPurapDoc, PurApItem purapItem, Integer accountsPaymentItemId, HashMap<Integer, PurchaseOrderDocument> poDocMap) {
+        PurchaseOrderDocument purApdocument = null;
+        if (poDocMap.containsKey(cabPurapDoc.getPurchaseOrderIdentifier())) {
+            purApdocument = poDocMap.get(cabPurapDoc.getPurchaseOrderIdentifier());
+        }
+        else {
+            purApdocument = getPurApInfoService().getCurrentDocumentForPurchaseOrderIdentifier(cabPurapDoc.getPurchaseOrderIdentifier());
+            poDocMap.put(cabPurapDoc.getPurchaseOrderIdentifier(), purApdocument);
+        }
+        String assetLockKey = cabPurapDoc.getDocumentNumber();
+        // Only individual system will lock on item line number. other system will using preq/cm doc nbr as the locking
+        // key
+        String lockingInformation = null;
+        if (PurapConstants.CapitalAssetTabStrings.INDIVIDUAL_ASSETS.equalsIgnoreCase(purApdocument.getCapitalAssetSystemTypeCode())) {
+            lockingInformation = accountsPaymentItemId.toString();
+            assetLockKey = cabPurapDoc.getDocumentNumber() + "-" + lockingInformation;
+        }
+        // set asset locks if the locks does not exist in HashMap and not in asset lock table either.
+        if (!assetLockMap.containsKey(assetLockKey) && !getCapitalAssetManagementModuleService().isAssetLockedByCurrentDocument(cabPurapDoc.getDocumentNumber(), lockingInformation)) {
+            // the below method need several PurAp service calls which may take long time to run.
+            List capitalAssetNumbers = getAssetNumbersForLocking(purApdocument, purapItem);
+            if (capitalAssetNumbers != null && !capitalAssetNumbers.isEmpty()) {
+                boolean lockingResult = this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, cabPurapDoc.getDocumentNumber(), cabPurapDoc.getDocumentTypeCode(), lockingInformation);
+                // add into cache
+                assetLockMap.put(assetLockKey, lockingResult);
+            }
+            else {
+                // remember the decision...
+                assetLockMap.put(assetLockKey, false);
+            }
+        }
+    }
 
+    private List getAssetNumbersForLocking(PurchaseOrderDocument purApdocument, PurApItem purapItem) {
         String capitalAssetSystemTypeCode = purApdocument.getCapitalAssetSystemTypeCode();
         if (!PurapConstants.CapitalAssetSystemStates.MODIFY.equalsIgnoreCase(purApdocument.getCapitalAssetSystemStateCode())) {
             return null;

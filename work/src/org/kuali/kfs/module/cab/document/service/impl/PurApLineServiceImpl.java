@@ -26,6 +26,7 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
@@ -38,7 +39,9 @@ import org.kuali.kfs.module.cab.dataaccess.PurApLineDao;
 import org.kuali.kfs.module.cab.document.service.PurApInfoService;
 import org.kuali.kfs.module.cab.document.service.PurApLineService;
 import org.kuali.kfs.module.cab.document.web.PurApLineSession;
+import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.document.service.AssetService;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -56,6 +59,7 @@ public class PurApLineServiceImpl implements PurApLineService {
     private BusinessObjectService businessObjectService;
     private PurApLineDao purApLineDao;
     private PurApInfoService purApInfoService;
+    private CapitalAssetManagementModuleService capitalAssetManagementModuleService;
 
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#mergeLinesHasDifferentObjectSubTypes(java.util.List)
@@ -122,7 +126,7 @@ public class PurApLineServiceImpl implements PurApLineService {
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineDocumentService#inActivateDocument(org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument)
      */
-    public void conditionalyUpdateDocumentStatusAsProcessed(PurchasingAccountsPayableDocument selectedDoc) {
+    public void conditionallyUpdateDocumentStatusAsProcessed(PurchasingAccountsPayableDocument selectedDoc) {
         for (PurchasingAccountsPayableItemAsset item : selectedDoc.getPurchasingAccountsPayableItemAssets()) {
             if (item.isActive()) {
                 return;
@@ -196,11 +200,11 @@ public class PurApLineServiceImpl implements PurApLineService {
             selectedLineItem.getPurchasingAccountsPayableDocument().getPurchasingAccountsPayableItemAssets().remove(selectedLineItem);
             // when an line is removed from the document, we should check if it is the only active line in the document and
             // in-activate document if yes.
-            conditionalyUpdateDocumentStatusAsProcessed(selectedLineItem.getPurchasingAccountsPayableDocument());
+            conditionallyUpdateDocumentStatusAsProcessed(selectedLineItem.getPurchasingAccountsPayableDocument());
         }
 
         // Adjust create asset and apply payment indicator only when allocate additional charges.
-        if (selectedLineItem.isAdditionalChargeNonTradeInIndicator() || selectedLineItem.isTradeInAllowance()) {
+        if (!initiateFromBatch && (selectedLineItem.isAdditionalChargeNonTradeInIndicator() || selectedLineItem.isTradeInAllowance())) {
             setAssetIndicator(purApDocs);
         }
 
@@ -208,6 +212,26 @@ public class PurApLineServiceImpl implements PurApLineService {
         if (!initiateFromBatch) {
             for (PurchasingAccountsPayableItemAsset allocateTargetItem : allocateTargetLines) {
                 updateItemStatusAsUserModified(allocateTargetItem);
+            }
+        }
+    }
+
+    protected void checkAssetLockRemovable(PurchasingAccountsPayableDocument purApdoc, List processedItems) {
+        boolean itemLock = false;
+        // For the time being, only for individual system, each item has its own asset numbers.
+        Map<String, PurchasingAccountsPayableItemAsset> processedItemMap = new HashMap<String, PurchasingAccountsPayableItemAsset>();
+        for (PurchasingAccountsPayableItemAsset itemAsset : purApdoc.getPurchasingAccountsPayableItemAssets()) {
+            if (CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS.equalsIgnoreCase(itemAsset.getActivityStatusCode())) {
+                processedItemMap.put(itemAsset.getLockingInformation(), itemAsset);
+            }
+            else if (processedItemMap.containsKey(itemAsset.getLockingInformation())) {
+                // there is item not processed yet, can't remove lock
+                processedItemMap.remove(itemAsset.getLockingInformation());
+            }
+        }
+        if (!processedItemMap.isEmpty()) {
+            for (String lockingInformation : processedItemMap.keySet()) {
+                processedItems.add(processedItemMap.get(lockingInformation));
             }
         }
     }
@@ -627,7 +651,7 @@ public class PurApLineServiceImpl implements PurApLineService {
                 // remove mergeLines from the document
                 sourceItem.getPurchasingAccountsPayableDocument().getPurchasingAccountsPayableItemAssets().remove(sourceItem);
                 // if all active lines are merged to other line, we need to in-activate the current document
-                conditionalyUpdateDocumentStatusAsProcessed(sourceItem.getPurchasingAccountsPayableDocument());
+                conditionallyUpdateDocumentStatusAsProcessed(sourceItem.getPurchasingAccountsPayableDocument());
             }
         }
         // set the target item itemLineNumber for pre-tagging
@@ -884,20 +908,32 @@ public class PurApLineServiceImpl implements PurApLineService {
         for (PurchasingAccountsPayableDocument purApDoc : purApDocs) {
             // auto save items(including deleted items) and accounts due to auto-update setting in OJB.
             businessObjectService.save(purApDoc);
+            checkAssetLockRemovable(purApDoc, purApLineSession.getProcessedItems());
         }
         if (purApLineSession != null) {
             // save to action history table
             List<PurchasingAccountsPayableActionHistory> historyList = purApLineSession.getActionsTakenHistory();
-            if (!historyList.isEmpty()) {
+            if (historyList != null && !historyList.isEmpty()) {
                 businessObjectService.save(historyList);
                 historyList.clear();
             }
 
             // save to generalLedgerEntry table
             List<GeneralLedgerEntry> glUpdateList = purApLineSession.getGlEntryUpdateList();
-            if (!glUpdateList.isEmpty()) {
+            if (glUpdateList != null && !glUpdateList.isEmpty()) {
                 businessObjectService.save(glUpdateList);
                 glUpdateList.clear();
+            }
+
+            // for processed documents either by allocate or by merge, remove the asset lock
+            List<PurchasingAccountsPayableItemAsset> processedItems = purApLineSession.getProcessedItems();
+            if (processedItems != null && !processedItems.isEmpty()) {
+                for (PurchasingAccountsPayableItemAsset processedItem : processedItems) {
+                    if (this.getCapitalAssetManagementModuleService().isAssetLockedByCurrentDocument(processedItem.getDocumentNumber(), processedItem.getLockingInformation())) {
+                        this.getCapitalAssetManagementModuleService().deleteAssetLocks(processedItem.getDocumentNumber(), processedItem.getLockingInformation());
+                    }
+                }
+                processedItems.clear();
             }
         }
     }
@@ -1136,4 +1172,22 @@ public class PurApLineServiceImpl implements PurApLineService {
     private AssetService getAssetService() {
         return SpringContext.getBean(AssetService.class);
     }
+
+    /**
+     * Gets the capitalAssetManagementModuleService attribute. 
+     * @return Returns the capitalAssetManagementModuleService.
+     */
+    public CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
+        return capitalAssetManagementModuleService;
+    }
+
+    /**
+     * Sets the capitalAssetManagementModuleService attribute value.
+     * @param capitalAssetManagementModuleService The capitalAssetManagementModuleService to set.
+     */
+    public void setCapitalAssetManagementModuleService(CapitalAssetManagementModuleService capitalAssetManagementModuleService) {
+        this.capitalAssetManagementModuleService = capitalAssetManagementModuleService;
+    }
+    
+    
 }

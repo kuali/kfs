@@ -401,34 +401,6 @@ public class AssetGlobalMaintainableImpl extends FinancialSystemGlobalMaintainab
     protected CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
         return SpringContext.getBean(CapitalAssetManagementModuleService.class);
     }
-    
-    /**
-     * Creates locking representation for this global document. The locking is only applicable for assets that are being split. The
-     * assets that are being created do not need to be locked since they don't exist yet.
-     * 
-     * @see org.kuali.rice.kns.maintenance.Maintainable#generateMaintenanceLocks()
-     */
-//    @Override
-//    public List<MaintenanceLock> generateMaintenanceLocks() {
-//        AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
-//        List<MaintenanceLock> maintenanceLocks = new ArrayList<MaintenanceLock>();
-//
-//        AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
-//
-//        if (assetGlobalService.isAssetSeparate(assetGlobal)) {
-//            MaintenanceLock assetSeperateMaintenanceLock = new MaintenanceLock();
-//            StringBuffer lockRep = new StringBuffer();
-//
-//            lockRep.append(Asset.class.getName() + KFSConstants.Maintenance.AFTER_CLASS_DELIM);
-//            lockRep.append(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER + KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
-//            lockRep.append(assetGlobal.getSeparateSourceCapitalAssetNumber());
-//
-//            assetSeperateMaintenanceLock.setDocumentNumber(assetGlobal.getDocumentNumber());
-//            assetSeperateMaintenanceLock.setLockingRepresentation(lockRep.toString());
-//            maintenanceLocks.add(assetSeperateMaintenanceLock);
-//        }
-//        return maintenanceLocks;
-//    }
 
 
     /**

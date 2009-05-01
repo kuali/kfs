@@ -85,10 +85,6 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         AssetTransferDocument assetTransferDocument = (AssetTransferDocument) document;
         Asset asset = assetTransferDocument.getAsset();
-        // TODO: check if we want to remove the check when save
-        // if (this.getAssetService().isAssetLocked(document.getDocumentNumber(), asset.getCapitalAssetNumber())) {
-        // return false;
-        // }
         boolean valid = checkReferencesExist(assetTransferDocument);
         assetTransferDocument.clearGlPostables();
         if (valid && (valid &= validateAssetObjectCodeDefn(assetTransferDocument, asset))) {

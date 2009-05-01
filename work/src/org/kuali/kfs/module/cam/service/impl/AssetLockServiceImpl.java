@@ -24,9 +24,9 @@ import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
+import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
 import org.kuali.kfs.module.cam.businessobject.AssetLock;
 import org.kuali.kfs.module.cam.dataaccess.CapitalAssetLockDao;
@@ -67,6 +67,7 @@ public class AssetLockServiceImpl implements AssetLockService {
         ASSET_MAINTAIN_DOC_TYPE_MAP.put(DocumentTypeName.ASSET_LOCATION_GLOBAL, DocumentTypeName.ASSET_LOCATION_GLOBAL);
         ASSET_MAINTAIN_DOC_TYPE_MAP.put(DocumentTypeName.ASSET_EQUIPMENT_LOAN_OR_RETURN, DocumentTypeName.ASSET_EQUIPMENT_LOAN_OR_RETURN);
         ASSET_MAINTAIN_DOC_TYPE_MAP.put(DocumentTypeName.ASSET_BARCODE_INVENTORY_ERROR, DocumentTypeName.ASSET_BARCODE_INVENTORY_ERROR);
+        ASSET_MAINTAIN_DOC_TYPE_MAP.put(DocumentTypeName.ASSET_PAYMENT_FROM_CAB, DocumentTypeName.ASSET_PAYMENT_FROM_CAB);
     }
 
     // CAMS document types relating payment changes: AssetRetirement and Merge, AssetTransfer, AssetPayment, Asset Separate
@@ -191,7 +192,7 @@ public class AssetLockServiceImpl implements AssetLockService {
      * 
      * @param blockingDocuments
      */
-    protected void addBlockingDocumentErrorMessage(Collection<String> blockingDocuments) {
+    protected void addBlockingDocumentErrorMessage(Collection<String> blockingDocuments, String documentTypeName) {
         for (String blockingDocId : blockingDocuments) {
             // build the link URL for the blocking document. Better to use DocHandler because this could be
             // a maintenance document or tDoc.
@@ -207,7 +208,13 @@ public class AssetLockServiceImpl implements AssetLockService {
 
             // post an error about the locked document
             String[] errorParameters = { blockingUrl, blockingDocId };
-            GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_MAINTENANCE_LOCKED, errorParameters);
+            if (FINANCIAL_DOC_TYPE_MAP.containsKey(documentTypeName)) {
+                // display a different error message for lock request from FP document.
+                GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, CamsKeyConstants.AssetLock.ERROR_ASSET_LOCKED, errorParameters);
+            }
+            else {
+                GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_MAINTENANCE_LOCKED, errorParameters);
+            }
         }
     }
 
@@ -218,7 +225,7 @@ public class AssetLockServiceImpl implements AssetLockService {
     /**
      * @see org.kuali.kfs.module.cam.service.AssetLockService#isAssetLockedByDocument(java.lang.String, java.lang.String)
      */
-    public boolean isAssetLockedByDocument(String documentNumber, String lockingInformation) {
+    public boolean isAssetLockedByCurrentDocument(String documentNumber, String lockingInformation) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(CabPropertyConstants.CapitalAssetLock.DOCUMENT_NUMBER, documentNumber);
         if (StringUtils.isNotBlank(lockingInformation)) {
@@ -234,10 +241,13 @@ public class AssetLockServiceImpl implements AssetLockService {
      * @see org.kuali.kfs.module.cam.service.AssetLockService#isAssetLocked(java.util.List, java.lang.String, java.lang.String)
      */
     public boolean isAssetLocked(List<Long> assetNumbers, String documentTypeName, String excludingDocumentNumber) {
+        if (assetNumbers == null || assetNumbers.isEmpty()) {
+            return false;
+        }
         if (!isPurApDocument(documentTypeName)) {
             List<String> lockingDocumentNumbers = getAssetLockingDocuments(assetNumbers, documentTypeName, excludingDocumentNumber);
             if (lockingDocumentNumbers != null && !lockingDocumentNumbers.isEmpty()) {
-                addBlockingDocumentErrorMessage(lockingDocumentNumbers);
+                addBlockingDocumentErrorMessage(lockingDocumentNumbers, documentTypeName);
                 return true;
             }
         }

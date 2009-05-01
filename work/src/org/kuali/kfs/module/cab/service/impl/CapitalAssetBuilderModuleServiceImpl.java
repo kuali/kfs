@@ -50,6 +50,7 @@ import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntryAsset;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAssetAccount;
+import org.kuali.kfs.module.cab.document.service.PurApInfoService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
@@ -77,6 +78,7 @@ import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAssetBase;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
@@ -1500,7 +1502,14 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
                 if (isAccountsPayableItemLineFullyProcessed(itemAsset)) {
                     // release the asset lock no matter if it's Asset global or Asset Payment since the CAB user can create Asset global doc even if Purap Asset numbers existing.
-                    getCapitalAssetManagementModuleService().deleteAssetLocks(itemAsset.getDocumentNumber(), itemAsset.getAccountsPayableLineItemIdentifier().toString());
+                    PurchaseOrderDocument purApdocument = getPurApInfoService().getCurrentDocumentForPurchaseOrderIdentifier(purapDocument.getPurchaseOrderIdentifier());
+                    // Only individual system will lock on item line number. other system will using preq/cm doc nbr as the locking
+                    // key
+                    String lockingInformation = null;
+                    if (PurapConstants.CapitalAssetTabStrings.INDIVIDUAL_ASSETS.equalsIgnoreCase(purApdocument.getCapitalAssetSystemTypeCode())) {
+                        lockingInformation = itemAsset.getAccountsPayableLineItemIdentifier().toString();
+                    }
+                    getCapitalAssetManagementModuleService().deleteAssetLocks(itemAsset.getDocumentNumber(), lockingInformation);
                 }
 
             }
@@ -1727,5 +1736,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         return SpringContext.getBean(CapitalAssetManagementModuleService.class);
     }
 
+    private PurApInfoService getPurApInfoService() {
+        return SpringContext.getBean(PurApInfoService.class);
+    }
     
 }

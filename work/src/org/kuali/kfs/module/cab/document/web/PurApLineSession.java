@@ -15,23 +15,37 @@
  */
 package org.kuali.kfs.module.cab.document.web;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.kuali.kfs.module.cab.CabPropertyConstants.Pretag;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableActionHistory;
+import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 public class PurApLineSession {
     private List<PurchasingAccountsPayableActionHistory> actionsTakenHistory;
     private List<GeneralLedgerEntry> glEntryUpdateList;
+    private List<PurchasingAccountsPayableItemAsset> processedItems;
 
     public PurApLineSession() {
         actionsTakenHistory = new TypedArrayList(PurchasingAccountsPayableActionHistory.class);
         glEntryUpdateList = new TypedArrayList(GeneralLedgerEntry.class);
+        processedItems = new TypedArrayList(PurchasingAccountsPayableItemAsset.class);
     }
 
-    
+
+    /**
+     * Gets the processedDocuments attribute. 
+     * @return Returns the processedDocuments.
+     */
+    public List<PurchasingAccountsPayableItemAsset> getProcessedItems() {
+        return processedItems;
+    }
+
+
     /**
      * Gets the glEntryList attribute. 
      * @return Returns the glEntryList.

@@ -103,6 +103,7 @@ public class CamsConstants extends JSTLConstants {
         public static final String ASSET_LOCATION_GLOBAL = "ALOC";
         public static final String ASSET_BARCODE_INVENTORY_ERROR = "BCIE";
         public static final String ASSET_SEPARATE = "ASEP"; // Will be used for lock purposed only
+        public static final String ASSET_PAYMENT_FROM_CAB = "MPAYCAB";
         // FP DOC
         public static final String FP_CASH_RECEIPT = "CR";
         public static final String FP_DISTRIBUTION_OF_INCOME_AND_EXPENSE = "DI";

@@ -84,6 +84,7 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
     public List<MaintenanceLock> generateMaintenanceLocks() {
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
         List<Long> capitalAssetNumbers = new ArrayList<Long>();
+        
         if (getAssetRetirementService().isAssetRetiredByMerged(assetRetirementGlobal)) {
             capitalAssetNumbers.add(assetRetirementGlobal.getMergedTargetCapitalAssetNumber());
         }
@@ -91,7 +92,7 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
         for (AssetRetirementGlobalDetail retirementDetail : assetRetirementGlobal.getAssetRetirementGlobalDetails()) {
             capitalAssetNumbers.add(retirementDetail.getCapitalAssetNumber());
         }
-
+        // get asset locks
         this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, documentNumber, DocumentTypeName.ASSET_RETIREMENT_GLOBAL, null);
 
         return new ArrayList<MaintenanceLock>();
@@ -100,46 +101,6 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
     protected CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
         return SpringContext.getBean(CapitalAssetManagementModuleService.class);
     }
-
-    // @Override
-    // public List<MaintenanceLock> generateMaintenanceLocks() {
-    // AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
-    // List<MaintenanceLock> maintenanceLocks = new ArrayList();
-    //
-    // // Lock the merge target capital asset if it exists
-    // if (getAssetRetirementService().isAssetRetiredByMerged(assetRetirementGlobal)) {
-    // MaintenanceLock maintenanceLock = new MaintenanceLock();
-    // StringBuffer lockRep = new StringBuffer();
-    //
-    // lockRep.append(Asset.class.getName() + KFSConstants.Maintenance.AFTER_CLASS_DELIM);
-    // lockRep.append(CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER +
-    // KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
-    // lockRep.append(assetRetirementGlobal.getMergedTargetCapitalAssetNumber());
-    //
-    // maintenanceLock.setDocumentNumber(assetRetirementGlobal.getDocumentNumber());
-    // maintenanceLock.setLockingRepresentation(lockRep.toString());
-    //
-    // maintenanceLocks.add(maintenanceLock);
-    // }
-    //
-    // // Lock all source assets
-    // for (AssetRetirementGlobalDetail detail : assetRetirementGlobal.getAssetRetirementGlobalDetails()) {
-    // MaintenanceLock maintenanceLock = new MaintenanceLock();
-    // StringBuffer lockRep = new StringBuffer();
-    //
-    // lockRep.append(Asset.class.getName() + KFSConstants.Maintenance.AFTER_CLASS_DELIM);
-    // lockRep.append(CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER +
-    // KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
-    // lockRep.append(detail.getCapitalAssetNumber());
-    //
-    // maintenanceLock.setDocumentNumber(detail.getDocumentNumber());
-    // maintenanceLock.setLockingRepresentation(lockRep.toString());
-    //
-    // maintenanceLocks.add(maintenanceLock);
-    // }
-    //
-    // return maintenanceLocks;
-    // }
 
 
     @Override
@@ -260,6 +221,7 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
         }
         new AssetRetirementGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) documentHeader).handleRouteStatusChange(assetRetirementGlobal.getGeneralLedgerPendingEntries());
 
+        // release the lock when document status changed as following...
         KualiWorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();
         if (workflowDoc.stateIsCanceled() || workflowDoc.stateIsDisapproved() || workflowDoc.stateIsProcessed() || workflowDoc.stateIsFinal()) {
             this.getCapitalAssetManagementModuleService().deleteAssetLocks(documentNumber, null);

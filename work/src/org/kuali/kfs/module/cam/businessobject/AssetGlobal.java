@@ -1030,26 +1030,4 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         this.maxAssetTotalAmount = maxAssetTotalAmount;
     }
 
-//    @Override
-//    public void afterInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-//        super.afterInsert(persistenceBroker);
-//        createSeparateLock(this, persistenceBroker);
-//    }
-//
-//    /**
-//     * Creates a maintenance lock at asset level so that no other documents can work on it when separate is saved
-//     * 
-//     * @param assetGlobal AssetGlobal
-//     */
-//    private void createSeparateLock(AssetGlobal assetGlobal, PersistenceBroker persistenceBroker) {
-//        if (SpringContext.getBean(AssetGlobalService.class).isAssetSeparate(assetGlobal)) {
-//            MaintenanceDocumentService maintenanceDocumentService = SpringContext.getBean(MaintenanceDocumentService.class);
-//            List<MaintenanceLock> maintenanceLocks = new ArrayList<MaintenanceLock>();
-//            AssetService assetService = SpringContext.getBean(AssetService.class);
-//            MaintenanceLock lock = assetService.generateAssetLock(assetGlobal.getDocumentNumber(), assetGlobal.getSeparateSourceCapitalAssetNumber());
-//            maintenanceLocks.add(lock);
-//            maintenanceDocumentService.storeLocks(maintenanceLocks);
-//            persistenceBroker.removeFromCache(lock);
-//        }
-//    }
 }

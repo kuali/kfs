@@ -32,6 +32,7 @@ import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsse
 import org.kuali.kfs.module.cab.document.exception.PurApDocumentUnavailableException;
 import org.kuali.kfs.module.cab.document.service.PurApInfoService;
 import org.kuali.kfs.module.cab.document.web.struts.PurApLineForm;
+import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.document.service.AssetService;
@@ -128,10 +129,12 @@ public class PurApInfoServiceImpl implements PurApInfoService {
 
         String capitalAssetSystemTypeCode = purApdocument.getCapitalAssetSystemTypeCode();
         String capitalAssetSystemStateCode = purApdocument.getCapitalAssetSystemStateCode();
+        boolean individualItemLock = false;
 
         if (PurapConstants.CapitalAssetTabStrings.INDIVIDUAL_ASSETS.equalsIgnoreCase(capitalAssetSystemTypeCode)) {
             // If PurAp sets the CAMS as INDIVIDUAL system
             setIndividualAssetsFromPurAp(poId, purApDocs, capitalAssetSystemStateCode);
+            individualItemLock = true;
         }
         else if (PurapConstants.CapitalAssetTabStrings.ONE_SYSTEM.equalsIgnoreCase(capitalAssetSystemTypeCode)) {
             // If PurAp sets the CAMS as ONE system
@@ -141,6 +144,14 @@ public class PurApInfoServiceImpl implements PurApInfoService {
         else if (PurapConstants.CapitalAssetTabStrings.MULTIPLE_SYSTEMS.equalsIgnoreCase(capitalAssetSystemTypeCode)) {
             // If PurAp sets the CAMS as MULTIPLE system
             setMultipleSystemFromPurAp(poId, purApDocs, capitalAssetSystemStateCode);
+        }
+
+        // Setting locking information based on capital asset system type code. Currently, only individual system can set asset
+        // numbers for each item
+        for (PurchasingAccountsPayableDocument purApDoc : purApDocs) {
+            for (PurchasingAccountsPayableItemAsset itemAsset : purApDoc.getPurchasingAccountsPayableItemAssets()) {
+                itemAsset.setLockingInformation(individualItemLock ? itemAsset.getAccountsPayableLineItemIdentifier().toString() : CamsConstants.defaultLockingInformation);
+            }
         }
     }
 
@@ -450,7 +461,7 @@ public class PurApInfoServiceImpl implements PurApInfoService {
             return null;
         }
 
-        String purchaseOrderItemIdentifier = null;
+        Integer purchaseOrderItemIdentifier = null;
         PurchaseOrderItem poi = null;
         if (purApItem instanceof PaymentRequestItem) {
             poi = ((PaymentRequestItem) purApItem).getPurchaseOrderItem();
@@ -461,7 +472,7 @@ public class PurApInfoServiceImpl implements PurApInfoService {
         }
 
         if (poi != null) {
-            purchaseOrderItemIdentifier = poi.getItemIdentifier().toString();
+            purchaseOrderItemIdentifier = poi.getItemIdentifier();
         }
         for (PurchasingCapitalAssetItem capitalAssetItem : capitalAssetItems) {
             if (capitalAssetItem.getItemIdentifier().equals(purchaseOrderItemIdentifier)) {

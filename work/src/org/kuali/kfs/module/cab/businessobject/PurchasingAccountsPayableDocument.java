@@ -44,9 +44,28 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
     private String purApContactEmailAddress;
     private String purApContactPhoneNumber;
     private String statusDescription;
+    private String capitalAssetSystemTypeCodeFromPurAp;
 
     public PurchasingAccountsPayableDocument() {
         this.purchasingAccountsPayableItemAssets = new TypedArrayList(PurchasingAccountsPayableItemAsset.class);
+    }
+
+
+    /**
+     * Gets the capitalAssetSystemTypeCodeFromPurAp attribute. 
+     * @return Returns the capitalAssetSystemTypeCodeFromPurAp.
+     */
+    public String getCapitalAssetSystemTypeCodeFromPurAp() {
+        return capitalAssetSystemTypeCodeFromPurAp;
+    }
+
+
+    /**
+     * Sets the capitalAssetSystemTypeCodeFromPurAp attribute value.
+     * @param capitalAssetSystemTypeCodeFromPurAp The capitalAssetSystemTypeCodeFromPurAp to set.
+     */
+    public void setCapitalAssetSystemTypeCodeFromPurAp(String capitalAssetSystemTypeCodeFromPurAp) {
+        this.capitalAssetSystemTypeCodeFromPurAp = capitalAssetSystemTypeCodeFromPurAp;
     }
 
 

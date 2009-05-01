@@ -98,7 +98,9 @@ public class PurApLineAction extends CabActionBase {
     }
 
     protected void clearPurApLineSession(Integer purchaseOrderIdentifier) {
-        GlobalVariables.getUserSession().removeObject(CabConstants.CAB_PURAP_SESSION.concat(purchaseOrderIdentifier.toString()));
+        if (purchaseOrderIdentifier != null) {
+            GlobalVariables.getUserSession().removeObject(CabConstants.CAB_PURAP_SESSION.concat(purchaseOrderIdentifier.toString()));
+        }
     }
 
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -143,6 +145,7 @@ public class PurApLineAction extends CabActionBase {
             }
         }
     }
+
     /**
      * Setup relationship from account to item and item to doc. In this way, we keep all working objects in the same view as form.
      * 
@@ -158,6 +161,7 @@ public class PurApLineAction extends CabActionBase {
             }
         }
     }
+
     /**
      * Cancels the action and returns to portal main page
      * 
@@ -222,7 +226,7 @@ public class PurApLineAction extends CabActionBase {
         GlobalVariables.getUserSession().removeObject(CabConstants.CAB_PURAP_SESSION.concat(purchaseOrderIdentifier.toString()));
     }
 
-    
+
     /**
      * This method handles split action. Create one item with split quantity
      * 
@@ -254,7 +258,7 @@ public class PurApLineAction extends CabActionBase {
             // create a new item with split quantity from selected item
             purApLineService.processSplit(selectedLineItem, purApLineSession.getActionsTakenHistory());
         }
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -282,17 +286,18 @@ public class PurApLineAction extends CabActionBase {
     protected void checkSplitQty(PurchasingAccountsPayableItemAsset itemAsset, String errorPath) {
         if (itemAsset.getSplitQty() == null)
             itemAsset.setSplitQty(KualiDecimal.ZERO);
-        
-        if (itemAsset.getAccountsPayableItemQuantity() == null) 
-            itemAsset.setAccountsPayableItemQuantity(KualiDecimal.ZERO);            
-                
-        KualiDecimal splitQty    = itemAsset.getSplitQty();
-        KualiDecimal oldQty      = itemAsset.getAccountsPayableItemQuantity();        
-        KualiDecimal maxAllowQty = oldQty.subtract(new KualiDecimal(0.1)); 
-                
+
+        if (itemAsset.getAccountsPayableItemQuantity() == null)
+            itemAsset.setAccountsPayableItemQuantity(KualiDecimal.ZERO);
+
+        KualiDecimal splitQty = itemAsset.getSplitQty();
+        KualiDecimal oldQty = itemAsset.getAccountsPayableItemQuantity();
+        KualiDecimal maxAllowQty = oldQty.subtract(new KualiDecimal(0.1));
+
         if (splitQty == null) {
             GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurchasingAccountsPayableItemAsset.SPLIT_QTY, CabKeyConstants.ERROR_SPLIT_QTY_REQUIRED);
-        } else if (splitQty.isLessEqual(KualiDecimal.ZERO) || splitQty.isGreaterEqual(oldQty)) {
+        }
+        else if (splitQty.isLessEqual(KualiDecimal.ZERO) || splitQty.isGreaterEqual(oldQty)) {
             GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurchasingAccountsPayableItemAsset.SPLIT_QTY, CabKeyConstants.ERROR_SPLIT_QTY_INVALID, maxAllowQty.toString());
         }
         return;
@@ -319,7 +324,7 @@ public class PurApLineAction extends CabActionBase {
             Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
             if (CabConstants.TRADE_IN_INDICATOR_QUESTION.equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {
                 if (purApLineService.mergeLinesHasDifferentObjectSubTypes(mergeLines)) {
-                 // check if objectSubTypes are different and bring the obj sub types warning message
+                    // check if objectSubTypes are different and bring the obj sub types warning message
                     String warningMessage = generateObjectSubTypeQuestion();
                     return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.PAYMENT_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION, warningMessage, KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.MERGE, "");
                 }
@@ -345,7 +350,7 @@ public class PurApLineAction extends CabActionBase {
                 return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.TRADE_IN_INDICATOR_QUESTION, SpringContext.getBean(KualiConfigurationService.class).getPropertyString(CabKeyConstants.QUESTION_TRADE_IN_INDICATOR_EXISTING), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.MERGE, "");
             }
             else if (purApLineService.mergeLinesHasDifferentObjectSubTypes(mergeLines)) {
-             // check if objectSubTypes are different and bring the obj sub types warning message
+                // check if objectSubTypes are different and bring the obj sub types warning message
                 String warningMessage = generateObjectSubTypeQuestion();
                 return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.PAYMENT_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION, warningMessage, KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.MERGE, "");
             }

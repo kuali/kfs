@@ -59,6 +59,7 @@ public class PurApLineForm extends KualiForm {
 
     private String documentNumber;
 
+    
     public PurApLineForm() {
         this.purApDocs = new TypedArrayList(PurchasingAccountsPayableDocument.class);
     }
@@ -76,6 +77,7 @@ public class PurApLineForm extends KualiForm {
         super.addRequiredNonEditableProperties();
         registerRequiredNonEditableProperty(CabPropertyConstants.PurchasingAccountsPayableDocument.PURCHASE_ORDER_IDENTIFIER);
     }
+
 
     /**
      * Gets the documentNumber attribute.

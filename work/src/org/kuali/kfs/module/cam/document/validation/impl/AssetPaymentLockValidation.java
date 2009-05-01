@@ -43,7 +43,12 @@ public class AssetPaymentLockValidation extends GenericValidation {
         for (AssetPaymentAssetDetail assetPaymentAssetDetail : assetPaymentDocument.getAssetPaymentAssetDetail()) {
             assetNumbers.add(assetPaymentAssetDetail.getCapitalAssetNumber());
         }
-        if (assetLockService.isAssetLocked(assetNumbers,CamsConstants.DocumentTypeName.ASSET_PAYMENT, assetPaymentDocument.getDocumentNumber())) {
+        String documentTypeForLocking = CamsConstants.DocumentTypeName.ASSET_PAYMENT;
+        if (assetPaymentDocument.isCapitalAssetBuilderOriginIndicator()) {
+            documentTypeForLocking = CamsConstants.DocumentTypeName.ASSET_PAYMENT_FROM_CAB;
+        }
+        
+        if (assetLockService.isAssetLocked(assetNumbers,documentTypeForLocking, assetPaymentDocument.getDocumentNumber())) {
             return false;
         }
 

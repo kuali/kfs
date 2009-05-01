@@ -79,6 +79,10 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         invoices = new ArrayList<CustomerInvoiceDocument>();
         selectedInvoiceApplication = null;
         invoiceApplications = new ArrayList<PaymentApplicationInvoiceApply>();
+        nonAppliedControlDocs = new ArrayList<PaymentApplicationDocument>();
+        nonAppliedControlHoldings = new ArrayList<NonAppliedHolding>();
+        nonAppliedControlAllocations = new HashMap<String,KualiDecimal>();
+        distributionsFromControlDocs = new HashMap<String,KualiDecimal>();
     }
 
     @Override

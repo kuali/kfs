@@ -261,8 +261,13 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER, CamsKeyConstants.Retirement.ERROR_BLANK_CAPITAL_ASSET_NUMBER);
             return false;
         }
-        
         assetRetirementGlobalDetail.refreshReferenceObject(CamsPropertyConstants.AssetLocationGlobalDetail.ASSET);
+
+        if (ObjectUtils.isNull(assetRetirementGlobalDetail.getAsset())) {
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER, CamsKeyConstants.Retirement.ERROR_INVALID_CAPITAL_ASSET_NUMBER,assetRetirementGlobalDetail.getCapitalAssetNumber().toString());
+            return false;
+        }
+        
         if (this.getAssetService().isAssetLoaned(assetRetirementGlobalDetail.getAsset())) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER, CamsKeyConstants.Retirement.ERROR_LOANED_ASSET_CANNOT_RETIRED);            
             success = false;

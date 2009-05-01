@@ -616,14 +616,14 @@
 			</band>
 		</columnHeader>
 		<detail>
-			<band height="40"  isSplitAllowed="true" >
+			<band height="145"  isSplitAllowed="true" >
 				<subreport  isUsingCache="true">
 					<reportElement
 						mode="Transparent"
 						x="1"
 						y="0"
 						width="550"
-						height="24"
+						height="145"
 						key="subreport-1"
 						stretchType="RelativeToTallestObject"
 						isPrintInFirstWholeBand="true"/>

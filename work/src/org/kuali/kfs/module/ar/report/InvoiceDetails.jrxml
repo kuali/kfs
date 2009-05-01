@@ -53,19 +53,6 @@
 	<field name="amount" class="org.kuali.rice.kns.util.KualiDecimal"/>
 	<field name="invoiceItemTaxAmount" class="org.kuali.rice.kns.util.KualiDecimal"/>
 
-
-		<group  name="details" minHeightToStartNewPage="145" >
-			<groupExpression><![CDATA[
-$V{PAGE_NUMBER}.intValue() == 1 ? $V{REPORT_COUNT} : null]]></groupExpression>
-			<groupHeader>
-			<band height="0"  isSplitAllowed="true" >
-			</band>
-			</groupHeader>
-			<groupFooter>
-			<band height="0"  isSplitAllowed="true" >
-			</band>
-			</groupFooter>
-		</group>
 		<background>
 			<band height="0"  isSplitAllowed="true" >
 			</band>
@@ -236,7 +223,7 @@ $V{PAGE_NUMBER}.intValue() == 1 ? $V{REPORT_COUNT} : null]]></groupExpression>
 			</band>
 		</columnHeader>
 		<detail>
-			<band height="22"  isSplitAllowed="true" >
+			<band height="22"  isSplitAllowed="false" >
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						style="dataCell"
@@ -353,12 +340,24 @@ $V{PAGE_NUMBER}.intValue() == 1 ? $V{REPORT_COUNT} : null]]></groupExpression>
 			</band>
 		</detail>
 		<columnFooter>
-			<band height="66"  isSplitAllowed="true" >
+			<band height="80"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement mode="Opaque" x="90" y="2" width="400" height="15" key="staticText-86">
+						<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue()==1)]]></printWhenExpression>
+					</reportElement>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isItalic="true" />
+					</textElement>
+					<textFieldExpression class="java.lang.String">
+						<![CDATA["(additional invoice lines may be printed on the following pages)"]]>
+					</textFieldExpression>
+				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0.00 %" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
 						x="363"
-						y="28"
+						y="45"
 						width="104"
 						height="15"
 						backcolor="#DDDDDD"
@@ -373,7 +372,7 @@ $V{PAGE_NUMBER}.intValue() == 1 ? $V{REPORT_COUNT} : null]]></groupExpression>
 					<reportElement
 						mode="Opaque"
 						x="363"
-						y="10"
+						y="27"
 						width="104"
 						height="15"
 						backcolor="#DDDDDD"
@@ -388,7 +387,7 @@ $V{PAGE_NUMBER}.intValue() == 1 ? $V{REPORT_COUNT} : null]]></groupExpression>
 					<reportElement
 						mode="Opaque"
 						x="363"
-						y="46"
+						y="63"
 						width="104"
 						height="16"
 						backcolor="#DDDDDD"
@@ -402,7 +401,7 @@ $V{PAGE_NUMBER}.intValue() == 1 ? $V{REPORT_COUNT} : null]]></groupExpression>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="467"
-						y="46"
+						y="63"
 						width="80"
 						height="15"
 						key="textField-16"/>
@@ -415,7 +414,7 @@ $V{PAGE_NUMBER}.intValue() == 1 ? $V{REPORT_COUNT} : null]]></groupExpression>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="467"
-						y="28"
+						y="45"
 						width="80"
 						height="15"
 						key="textField-17"/>
@@ -428,7 +427,7 @@ $V{PAGE_NUMBER}.intValue() == 1 ? $V{REPORT_COUNT} : null]]></groupExpression>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="467"
-						y="10"
+						y="27"
 						width="80"
 						height="15"
 						key="textField-18"/>
@@ -441,7 +440,7 @@ $V{PAGE_NUMBER}.intValue() == 1 ? $V{REPORT_COUNT} : null]]></groupExpression>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="6"
-						y="10"
+						y="27"
 						width="295"
 						height="16"
 						key="textField-19"/>
@@ -454,7 +453,7 @@ $V{PAGE_NUMBER}.intValue() == 1 ? $V{REPORT_COUNT} : null]]></groupExpression>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="6"
-						y="46"
+						y="63"
 						width="295"
 						height="16"
 						key="textField-21"/>
@@ -467,7 +466,7 @@ $V{PAGE_NUMBER}.intValue() == 1 ? $V{REPORT_COUNT} : null]]></groupExpression>
 				<line direction="TopDown">
 					<reportElement
 						x="467"
-						y="44"
+						y="61"
 						width="80"
 						height="0"
 						key="line-1"/>

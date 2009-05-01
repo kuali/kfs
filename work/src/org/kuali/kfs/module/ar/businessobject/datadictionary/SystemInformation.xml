@@ -73,13 +73,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
                     p:targetName="name" />
             </list>
           </property>
-        </bean>
-        <dd:relationship objectAttribute="organizationRemitToState">
-            <dd:primitiveAttribute source="organizationRemitToStateCode" target="postalStateCode" />
-        </dd:relationship>
-        <dd:relationship objectAttribute="orgRemitToZipCode">
-            <dd:primitiveAttribute source="organizationRemitToZipCode" target="postalCode" />
-        </dd:relationship> 
+        </bean> 
        </list>
     </property>    
   </bean>
@@ -358,12 +352,19 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
 
   <bean id="SystemInformation-organizationRemitToStateCode" parent="SystemInformation-organizationRemitToStateCode-parentBean" />
-  <bean id="SystemInformation-organizationRemitToStateCode-parentBean" abstract="true" parent="OrganizationOptions-organizationRemitToStateCode">
+  <bean id="SystemInformation-organizationRemitToStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+    p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
+	p:sourceAttributeName="postalStateCode">
+	<property name="name" value="organizationRemitToStateCode" />
+	<property name="forceUppercase" value="true" />
     <property name="label" value="State" />
   </bean>
 
   <bean id="SystemInformation-organizationRemitToZipCode" parent="SystemInformation-organizationRemitToZipCode-parentBean" />
-  <bean id="SystemInformation-organizationRemitToZipCode-parentBean" abstract="true" parent="OrganizationOptions-organizationRemitToZipCode">
+  <bean id="SystemInformation-organizationRemitToZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+        p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
+		p:sourceAttributeName="postalCode">
+    <property name="name" value="organizationRemitToZipCode" />
   </bean>
   
 <!-- Business Object Inquiry Definition -->

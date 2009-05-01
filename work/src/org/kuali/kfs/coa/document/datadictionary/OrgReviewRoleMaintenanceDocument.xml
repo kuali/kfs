@@ -88,7 +88,6 @@
 	<property name="routingTypeDefinitions">
     		
     		<map>
-    			<entry key="Chart" value-ref="OrgReviewRoleMaintenanceDocument-RoutingType-Chart"/>
     			<entry key="OrganizationHierarchy" value-ref="OrgReviewRoleMaintenanceDocument-RoutingType-OrganizationHierarchy"/>
     		</map>
     	
@@ -113,14 +112,6 @@
     	</property>
    	</bean>
    	
-   	<bean id="OrgReviewRoleMaintenanceDocument-DocumentValuePathGroup-Chart" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
-    	<property name="documentValues">
-    		<list>
-    			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
-    		</list>
-    	</property>
-   	</bean>
-   	
    	<bean id="OrgReviewRoleMaintenanceDocument-RoutingType-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
@@ -135,17 +126,4 @@
     	</property>
     </bean>
 
-	<bean id="OrgReviewRoleMaintenanceDocument-RoutingType-Chart" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
-    	<property name="routingAttributes">
-    		<list>
-		        <ref bean="OrgReviewRoleMaintenanceDocument-RoutingAttribute-Chart"/>
-    		</list>
-    	</property>
-    	<property name="documentValuePathGroups">
-    		<list>
-    			<ref bean="OrgReviewRoleMaintenanceDocument-DocumentValuePathGroup-Chart"/>
-    		</list>
-    	</property>
-    </bean>
-  
 </beans>

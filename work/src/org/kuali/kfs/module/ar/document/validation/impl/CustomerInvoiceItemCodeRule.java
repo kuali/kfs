@@ -22,13 +22,18 @@ import java.util.Map;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectTypeService;
 import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 
@@ -51,6 +56,7 @@ public class CustomerInvoiceItemCodeRule extends MaintenanceDocumentRuleBase {
         success &= validateItemDefaultQuantity(newInvoiceItemCode);
         success &= validateExistenceOfOrganizationOption(newInvoiceItemCode);
         success &= isCustomerInvoiceItemCodeObjectValid(newInvoiceItemCode);
+        success &= validateBillingOrg(document);
 
         return success;
     }
@@ -60,6 +66,26 @@ public class CustomerInvoiceItemCodeRule extends MaintenanceDocumentRuleBase {
         // always return true even if there are business rule failures.
         processCustomRouteDocumentBusinessRules(document);
         return true;
+    }
+    
+    public boolean validateBillingOrg(MaintenanceDocument document) {
+        boolean success = true;
+        
+        String billingChartCode = newInvoiceItemCode.getChartOfAccountsCode();
+        String billingOrganizationCode = newInvoiceItemCode.getOrganizationCode();
+        
+        if (ObjectUtils.isNull(billingChartCode) || ObjectUtils.isNull(billingOrganizationCode))
+            return success;
+        
+        // get the documentAuthorizer for this document
+        MaintenanceDocumentAuthorizer documentAuthorizer = (MaintenanceDocumentAuthorizer) getDocumentHelperService().getDocumentAuthorizer(document);
+        success = documentAuthorizer.isAuthorizedByTemplate(document, KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.CREATE_MAINTAIN_RECORDS, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+        if (!success){
+            putFieldError(ArPropertyConstants.CustomerInvoiceItemCodes.CHART_OF_ACCOUNTS_CODE, ArKeyConstants.InvoiceItemCode.ERROR_INVALID_CHART_OF_ACCOUNTS_CODE);
+            putFieldError(ArPropertyConstants.CustomerInvoiceItemCodes.ORGANIZATION_CODE,ArKeyConstants.InvoiceItemCode.ERROR_INVALID_ORGANIZATION_CODE );
+            success = false;
+        }
+        return success;
     }
 
     public boolean validateItemDefaultPrice(CustomerInvoiceItemCode customerInvoiceItemCode) {

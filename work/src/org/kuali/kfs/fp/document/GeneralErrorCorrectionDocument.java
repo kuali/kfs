@@ -18,11 +18,15 @@ package org.kuali.kfs.fp.document;
 import static org.kuali.kfs.sys.KFSConstants.FROM;
 import static org.kuali.kfs.sys.KFSConstants.TO;
 
+import java.util.ArrayList;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.GECSourceAccountingLine;
 import org.kuali.kfs.fp.businessobject.GECTargetAccountingLine;
 import org.kuali.kfs.fp.businessobject.GeneralErrorCorrectionDocumentAccountingLineParser;
+import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
@@ -34,7 +38,11 @@ import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 
 /**
@@ -45,6 +53,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class GeneralErrorCorrectionDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling, CapitalAssetEditable {
     
     private CapitalAssetInformation capitalAssetInformation;
+    private CapitalAssetManagementModuleService capitalAssetManagementModuleService;
     
     /**
      * Initializes the array lists and some basic info.
@@ -178,4 +187,56 @@ public class GeneralErrorCorrectionDocument extends AccountingDocumentBase imple
     public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
         this.capitalAssetInformation = capitalAssetInformation;
     }
+
+    /**
+     * 
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#handleRouteStatusChange()
+     */
+    @Override
+    public void handleRouteStatusChange() {
+        super.handleRouteStatusChange();        
+        KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
+        
+        //Deleting document lock
+        if (workflowDocument.stateIsProcessed() || workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved()) {            
+            if (ObjectUtils.isNotNull(this.getCapitalAssetInformation()))
+                this.getCapitalAssetManagementModuleService().deleteAssetLocks(this.getDocumentNumber(), null);
+        }
+    }
+
+
+    /**+
+     * 
+     * @see org.kuali.rice.kns.document.DocumentBase#postProcessSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
+     */
+    @Override
+    public void postProcessSave(KualiDocumentEvent event) {
+        super.postProcessSave(event);
+        if (!(event instanceof SaveDocumentEvent)) { // don't lock until they route
+            generateCapitalAssetLock();
+        }
+    }
+    
+    public void generateCapitalAssetLock() {
+        CapitalAssetInformation capitalAssetInformation = this.getCapitalAssetInformation();
+        
+        if (ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetNumber())) {
+            ArrayList<Long> capitalAssetNumbers = new ArrayList<Long>();
+            capitalAssetNumbers.add(capitalAssetInformation.getCapitalAssetNumber());                
+            
+            if (!this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, this.getDocumentNumber(), KFSConstants.FinancialDocumentTypeCodes.GENERAL_ERROR_CORRECTION, null)) {
+                throw new ValidationException("Asset " + capitalAssetNumbers.toString() + " is being locked by other documents.");
+            }
+        }            
+    }    
+    
+    /**
+     * @return CapitalAssetManagementModuleService
+     */
+    public CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
+        if (capitalAssetManagementModuleService == null) {
+            capitalAssetManagementModuleService = SpringContext.getBean(CapitalAssetManagementModuleService.class);
+        }
+        return capitalAssetManagementModuleService;
+    }    
 }

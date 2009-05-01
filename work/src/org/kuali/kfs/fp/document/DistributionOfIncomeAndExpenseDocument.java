@@ -16,9 +16,12 @@
 
 package org.kuali.kfs.fp.document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
+import org.kuali.kfs.fp.document.service.CashReceiptService;
+import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
@@ -31,7 +34,12 @@ import org.kuali.kfs.sys.document.ElectronicPaymentClaiming;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * The Distribution of Income and Expense (DI) document is used to distribute income or expense, or assets and liabilities. Amounts
@@ -42,6 +50,8 @@ public class DistributionOfIncomeAndExpenseDocument extends AccountingDocumentBa
     private List<ElectronicPaymentClaim> electronicPaymentClaims;
     
     private CapitalAssetInformation capitalAssetInformation;
+    private CapitalAssetManagementModuleService capitalAssetManagementModuleService;
+
     
     /**
      * Constructs a DistributionOfIncomeAndExpenseDocument.java.
@@ -122,4 +132,61 @@ public class DistributionOfIncomeAndExpenseDocument extends AccountingDocumentBa
     public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
         this.capitalAssetInformation = capitalAssetInformation;
     }
+    
+    
+    /**
+     *     
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#handleRouteStatusChange()
+     */
+    @Override
+    public void handleRouteStatusChange() {
+        super.handleRouteStatusChange();        
+        KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
+        
+        //Deleting document lock
+        if (workflowDocument.stateIsProcessed() || workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved()) {            
+            if (ObjectUtils.isNotNull(this.getCapitalAssetInformation()))
+                this.getCapitalAssetManagementModuleService().deleteAssetLocks(this.getDocumentNumber(), null);
+        }
+    }
+
+    /**
+     * 
+     * @see org.kuali.rice.kns.document.DocumentBase#postProcessSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
+     */
+    @Override
+    public void postProcessSave(KualiDocumentEvent event) {
+        super.postProcessSave(event);
+        if (!(event instanceof SaveDocumentEvent)) { // don't lock until they route
+            generateCapitalAssetLock();
+        }
+    }
+
+    
+    /**
+     * 
+     * Generates the locks for assets included in the document
+     */
+    public void generateCapitalAssetLock() {
+        CapitalAssetInformation capitalAssetInformation = this.getCapitalAssetInformation();
+        
+        if (ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetNumber())) {
+            ArrayList<Long> capitalAssetNumbers = new ArrayList<Long>();
+            capitalAssetNumbers.add(capitalAssetInformation.getCapitalAssetNumber());                
+            
+            if (!this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, this.getDocumentNumber(), KFSConstants.FinancialDocumentTypeCodes.DISTRIBUTION_OF_INCOME_AND_EXPENSE, null)) {
+                throw new ValidationException("Asset " + capitalAssetNumbers.toString() + " is being locked by other documents.");
+            }
+        }            
+    }    
+    
+    /**
+     * @return CapitalAssetManagementModuleService
+     */
+    CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
+        if (capitalAssetManagementModuleService == null) {
+            capitalAssetManagementModuleService = SpringContext.getBean(CapitalAssetManagementModuleService.class);
+        }
+        return capitalAssetManagementModuleService;
+    }    
 }

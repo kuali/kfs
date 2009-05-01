@@ -31,18 +31,26 @@ import org.kuali.kfs.fp.document.validation.event.AddCheckEvent;
 import org.kuali.kfs.fp.document.validation.event.DeleteCheckEvent;
 import org.kuali.kfs.fp.document.validation.event.UpdateCheckEvent;
 import org.kuali.kfs.fp.service.CheckService;
+import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
+import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
+import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
+import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.format.CurrencyFormatter;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * This is the business object that represents the CashReceiptDocument in Kuali. This is a transactional document that will
@@ -77,7 +85,10 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     private CoinDetail coinDetail;
 
     private CapitalAssetInformation capitalAssetInformation;
-
+    
+    private CapitalAssetManagementModuleService capitalAssetManagementModuleService;
+    
+    
     /**
      * Initializes the array lists and line incrementers.
      */
@@ -216,15 +227,23 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
      */
     @Override
     public void handleRouteStatusChange() {
-        super.handleRouteStatusChange();
+        super.handleRouteStatusChange();        
+        KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
+        
         // Workflow Status of PROCESSED --> Kuali Doc Status of Verified
-        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+        if (workflowDocument.stateIsProcessed()) {
             this.getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
             LOG.info("Adding Cash to Cash Drawer");
             SpringContext.getBean(CashReceiptService.class).addCashDetailsToCashDrawer(this);
         }
-    }
 
+        //Deleting document lock
+        if (workflowDocument.stateIsProcessed() || workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved()) {            
+            if (ObjectUtils.isNotNull(this.getCapitalAssetInformation()))
+                this.getCapitalAssetManagementModuleService().deleteAssetLocks(this.getDocumentNumber(), null);
+        }
+    }
+    
     /**
      * This method removes a check from the list and updates the total appropriately.
      * 
@@ -445,6 +464,19 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
 
         SpringContext.getBean(BusinessObjectService.class).save(getCurrencyDetail());
         SpringContext.getBean(BusinessObjectService.class).save(getCoinDetail());
+        
+        if (!(event instanceof SaveDocumentEvent)) { // don't lock until they route
+            CapitalAssetInformation capitalAssetInformation = this.getCapitalAssetInformation();
+            
+            if (ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetNumber())) {
+                ArrayList<Long> capitalAssetNumbers = new ArrayList<Long>();
+                capitalAssetNumbers.add(capitalAssetInformation.getCapitalAssetNumber());                
+                
+                if (!this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, this.getDocumentNumber(), KFSConstants.FinancialDocumentTypeCodes.CASH_RECEIPT, null)) {
+                    throw new ValidationException("Asset " + capitalAssetNumbers.toString() + " is being locked by other documents.");
+                }
+            }            
+        }
     }
 
     /**
@@ -651,6 +683,13 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
             setCampusLocationCode(GlobalVariables.getUserSession().getPerson().getCampusCode());
         }
     }
+
     
+    private CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
+        if (capitalAssetManagementModuleService == null) {
+            capitalAssetManagementModuleService = SpringContext.getBean(CapitalAssetManagementModuleService.class);
+        }
+        return capitalAssetManagementModuleService;
+    }    
 }
 

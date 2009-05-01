@@ -1033,8 +1033,9 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String DISTRIBUTION_OF_INCOME_AND_EXPENSE = "DI";
         public static final String YEAR_END_DISTRIBUTION_OF_INCOME_AND_EXPENSE = "YEDI";
         public static final String SERVICE_BILLING = "SB";
-        public static final String INTERNAL_BILLING = "BC";
+        public static final String INTERNAL_BILLING = "IB";
         public static final String CASH_RECEIPT = "CR";
+        public static final String PROCUREMENT_CARD = "PCDO";        
     }
     
     public static final class AccountingLineViewStandardBlockNames {

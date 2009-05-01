@@ -102,17 +102,8 @@ public class CamsConstants extends JSTLConstants {
         public static final String ASSET_FABRICATION = "FR";
         public static final String ASSET_LOCATION_GLOBAL = "ALOC";
         public static final String ASSET_BARCODE_INVENTORY_ERROR = "BCIE";
-        public static final String ASSET_SEPARATE = "ASEP"; // Will be used for lock purposed only
-        public static final String ASSET_PAYMENT_FROM_CAB = "MPAYCAB";
-        // FP DOC
-        public static final String FP_CASH_RECEIPT = "CR";
-        public static final String FP_DISTRIBUTION_OF_INCOME_AND_EXPENSE = "DI";
-        public static final String FP_GENERAL_ERROR_CORRECTION = "GEC";
-        public static final String FP_INTERNAL_BILLING="IB";
-        public static final String FP_SERVICE_BILLING="SB";
-        public static final String FP_YEAR_END_DISTRIBUTION_INCOME_EXPENSE = "YEDI";
-        public static final String FP_YEAR_END_GENERAL_ERROR_CORRECTION = "YEGE";
-        public static final String FP_PROCUREMENT_CARD = "PCDO";
+        public static final String ASSET_SEPARATE = "ASEP"; // Will be used for lock purposed only                
+		public static final String ASSET_PAYMENT_FROM_CAB = "MPAYCAB";        
     }
 
     public static class PaymentDocumentTypeCodes {

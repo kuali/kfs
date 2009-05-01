@@ -20,8 +20,12 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.sql.DataSource;
 
@@ -34,6 +38,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemMaintenanceDocumentEntry;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.PreCommitSuite;
+import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.datadictionary.DataDictionary;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
@@ -45,6 +50,8 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 public class DataDictionaryConfigurationTest extends KualiTestBase {
     private static final Logger LOG = Logger.getLogger(DataDictionaryConfigurationTest.class);
     private DataDictionary dataDictionary;
+    
+    public final static String KFS_PACKAGE_NAME = "org.kuali.kfs";
 
     public void testAllDataDicitionaryDocumentTypesExistInWorkflowDocumentTypeTable() throws Exception {
         HashSet<String> workflowDocumentTypeNames = new HashSet<String>();
@@ -119,7 +126,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         List<Class> ignoreClasses = Arrays.asList(INACTIVATEABLE_LOOKUP_IGNORE_CLASSES);
         
         for(BusinessObjectEntry businessObjectEntry:dataDictionary.getBusinessObjectEntries().values()){
-            if ( !businessObjectEntry.getBusinessObjectClass().getName().startsWith("org.kuali.rice")
+            if ( !businessObjectEntry.getBusinessObjectClass().getName().startsWith(KFS_PACKAGE_NAME)
                     && !ignoreClasses.contains(businessObjectEntry.getBusinessObjectClass())) {
                 List<Class> iList = (List<Class>)Arrays.asList(businessObjectEntry.getBusinessObjectClass().getInterfaces());
                 try {
@@ -148,9 +155,123 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         assertEquals(noObjectLabelClassList.toString(), 0, noObjectLabelClassList.size());
     }
     
+    /**
+     * checke if the business object data dictionaries still have summary property for beans. If so, report errors.
+     * The error can be caused by the parent beans referenced by the tested bean definition.
+     */
+    public void testAllBusinessObjectsHaveNoSummaryProperty() throws Exception {
+        Map<String, Set<String>> errorReport = new HashMap<String, Set<String>>();       
+        for(BusinessObjectEntry businessObjectEntry:dataDictionary.getBusinessObjectEntries().values()){
+            
+            if(businessObjectEntry.getBusinessObjectClass().getName().startsWith(KFS_PACKAGE_NAME)) {            
+                for(AttributeDefinition attributeDefinition : businessObjectEntry.getAttributes()) {                    
+                    if(attributeDefinition.getSummary() != null) {
+                        String boClassName = businessObjectEntry.getBusinessObjectClass().getName();
+                        
+                        reportErrorAttribute(errorReport, attributeDefinition, boClassName);
+                    }
+                }
+            }
+        }
+        
+        printReport(errorReport);
+        assertEquals("Please see the more information in LOG/Console", 0, errorReport.size());
+    }
+    
+    /**
+     * checke if the business object data dictionaries still have description property for beans. If so, report errors.
+     * The error can be caused by the parent beans referenced by the tested bean definition.
+     */
+    public void testAllBusinessObjectsHaveNoDescriptionProperty() throws Exception {
+        Map<String, Set<String>> errorReport = new HashMap<String, Set<String>>();   
+        for(BusinessObjectEntry businessObjectEntry:dataDictionary.getBusinessObjectEntries().values()){
+            
+            if(businessObjectEntry.getBusinessObjectClass().getName().startsWith(KFS_PACKAGE_NAME)) {            
+                for(AttributeDefinition attributeDefinition : businessObjectEntry.getAttributes()) {                    
+                    if(attributeDefinition.getDescription() != null) {
+                        String boClassName = businessObjectEntry.getBusinessObjectClass().getName();
+                        
+                        reportErrorAttribute(errorReport, attributeDefinition, boClassName);
+                    }
+                }
+            }
+        }
+        
+        printReport(errorReport);       
+        assertEquals("Please see the more information in LOG/Console", 0, errorReport.size());
+    }
+    
+    /**
+     * checke if the document data dictionaries still have summary property for beans. If so, report errors.
+     * The error can be caused by the parent beans referenced by the tested bean definition.
+     */
+    public void testAllDocumentEntriesHaveNoSummaryProperty() throws Exception {
+        Map<String, Set<String>> errorReport = new HashMap<String, Set<String>>();        
+        for(DocumentEntry documentEntry:dataDictionary.getDocumentEntries().values()){
+            
+            if(documentEntry.getDocumentClass().getName().startsWith(KFS_PACKAGE_NAME)) {            
+                for(AttributeDefinition attributeDefinition : documentEntry.getAttributes()) {                    
+                    if(attributeDefinition.getSummary() != null) {
+                        String boClassName = documentEntry.getDocumentClass().getName();
+                        
+                        reportErrorAttribute(errorReport, attributeDefinition, boClassName);
+                    }
+                }
+            }
+        }
+        
+        printReport(errorReport);        
+        assertEquals("Please see the more information in LOG/Console", 0, errorReport.size());
+    }
+    
+    /**
+     * checke if the document data dictionaries still have description property for beans. If so, report errors.     
+     * The error can be caused by the parent beans referenced by the tested bean definition.
+     */
+    public void testAllDocumentEntriesHaveNoDescriptionProperty() throws Exception {
+        Map<String, Set<String>> errorReport = new HashMap<String, Set<String>>();       
+        for(DocumentEntry documentEntry:dataDictionary.getDocumentEntries().values()){
+            
+            if(documentEntry.getDocumentClass().getName().startsWith(KFS_PACKAGE_NAME)) {            
+                for(AttributeDefinition attributeDefinition : documentEntry.getAttributes()) {                    
+                    if(attributeDefinition.getDescription() != null) {
+                        String boClassName = documentEntry.getDocumentClass().getName();
+                        
+                        reportErrorAttribute(errorReport, attributeDefinition, boClassName);
+                    }
+                }
+            }
+        }
+        
+        printReport(errorReport);        
+        assertEquals("Please see the more information in LOG/Console", 0, errorReport.size());
+    }
+
+    private void reportErrorAttribute(Map<String, Set<String>> reports, AttributeDefinition attributeDefinition, String boClassName) {
+        Set<String> attributeSet = reports.containsKey(boClassName) ? reports.get(boClassName) : new TreeSet<String>(); 
+        attributeSet.add(attributeDefinition.getName());
+        reports.put(boClassName, attributeSet);
+    }
+    
+    private StringBuilder convertReportsAsText(Map<String, Set<String>> reports) {
+        StringBuilder reportsAsText = new StringBuilder();
+        for(String key : new TreeSet<String>(reports.keySet())) {
+            reportsAsText.append(key + "\n");
+            for(String value : reports.get(key)) {
+                reportsAsText.append("\t--").append(value).append("\n");
+            }
+        }
+        return reportsAsText;
+    }
+    
+    private void printReport(Map<String, Set<String>> reports) {
+        StringBuilder reportsAsText = convertReportsAsText(reports);       
+        System.out.println(reportsAsText);
+        LOG.info("\n" + reportsAsText);
+    }
+    
     protected void setUp() throws Exception {
         super.setUp();
         dataDictionary = SpringContext.getBean(DataDictionaryService.class).getDataDictionary();
-    }
-    
+    } 
 }

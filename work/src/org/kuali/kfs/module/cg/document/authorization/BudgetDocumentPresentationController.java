@@ -24,7 +24,7 @@ public class BudgetDocumentPresentationController extends FinancialSystemTransac
      * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canAdHocRoute(org.kuali.rice.kns.document.Document)
      */
     @Override
-    protected boolean canAdHocRoute(Document document) {
+    protected boolean canAddAdhocRequests(Document document) {
         return false;
     }
 

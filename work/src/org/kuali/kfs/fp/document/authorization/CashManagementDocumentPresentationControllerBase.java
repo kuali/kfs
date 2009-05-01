@@ -170,14 +170,14 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
      * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canAdHocRoute(org.kuali.rice.kns.document.Document)
      */
     @Override
-    protected boolean canAdHocRoute(Document document) {
+    protected boolean canAddAdhocRequests(Document document) {
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.stateIsEnroute()) {
             ValidActionsDTO validActions = workflowDocument.getRouteHeader().getValidActions();
             return validActions.contains(KEWConstants.ACTION_TAKEN_FYI_CD);
         }
 
-        return super.canAdHocRoute(document);
+        return super.canAddAdhocRequests(document);
     }
     
     /**

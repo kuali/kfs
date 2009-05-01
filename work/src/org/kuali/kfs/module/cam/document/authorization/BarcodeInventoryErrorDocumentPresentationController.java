@@ -46,7 +46,7 @@ public class BarcodeInventoryErrorDocumentPresentationController extends Financi
     }
     
     @Override
-    protected boolean canAdHocRoute(Document document) {
+    protected boolean canAddAdhocRequests(Document document) {
         return SpringContext.getBean(AssetService.class).isDocumentEnrouting(document);        
     }
 

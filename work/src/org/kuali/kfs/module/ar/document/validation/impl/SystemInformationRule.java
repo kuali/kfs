@@ -26,7 +26,6 @@ import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class SystemInformationRule extends MaintenanceDocumentRuleBase {
@@ -95,8 +94,7 @@ public class SystemInformationRule extends MaintenanceDocumentRuleBase {
         success &= checkWireAccountIsActive();
         success &= checkLockboxNumberIsUnique();
 
-        //return success;
-        return true;
+        return success;
     }
 
     /**
@@ -120,7 +118,8 @@ public class SystemInformationRule extends MaintenanceDocumentRuleBase {
         success &= checkWireAccountIsActive();
         success &= checkLockboxNumberIsUnique();
 
-        return success;
+        //return success;
+        return true;
         // TODO method never shows any errors even if returning false; just says 'Document was successfully saved'
     }
 
@@ -197,8 +196,6 @@ public class SystemInformationRule extends MaintenanceDocumentRuleBase {
 
       return success;
    }
-
-
 
 /*
     @Override

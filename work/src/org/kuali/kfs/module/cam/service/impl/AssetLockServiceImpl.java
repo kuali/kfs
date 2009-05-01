@@ -49,14 +49,14 @@ public class AssetLockServiceImpl implements AssetLockService {
     // CashReceipt,DistributionOfIncomeAndExpense,GeneralErrorCorrection,InternalBilling,ServiceBilling,YearEndDistributionOfIncomeAndExpense,YearEndGeneralErrorCorrection,ProcurementCard
     private static final Map<String, String> FINANCIAL_DOC_TYPE_MAP = new HashMap<String, String>();
     static {
-        FINANCIAL_DOC_TYPE_MAP.put(DocumentTypeName.FP_CASH_RECEIPT, DocumentTypeName.FP_CASH_RECEIPT);
-        FINANCIAL_DOC_TYPE_MAP.put(DocumentTypeName.FP_DISTRIBUTION_OF_INCOME_AND_EXPENSE, DocumentTypeName.FP_DISTRIBUTION_OF_INCOME_AND_EXPENSE);
-        FINANCIAL_DOC_TYPE_MAP.put(DocumentTypeName.FP_GENERAL_ERROR_CORRECTION, DocumentTypeName.FP_GENERAL_ERROR_CORRECTION);
-        FINANCIAL_DOC_TYPE_MAP.put(DocumentTypeName.FP_INTERNAL_BILLING, DocumentTypeName.FP_INTERNAL_BILLING);
-        FINANCIAL_DOC_TYPE_MAP.put(DocumentTypeName.FP_SERVICE_BILLING, DocumentTypeName.FP_SERVICE_BILLING);
-        FINANCIAL_DOC_TYPE_MAP.put(DocumentTypeName.FP_YEAR_END_DISTRIBUTION_INCOME_EXPENSE, DocumentTypeName.FP_YEAR_END_DISTRIBUTION_INCOME_EXPENSE);
-        FINANCIAL_DOC_TYPE_MAP.put(DocumentTypeName.FP_YEAR_END_GENERAL_ERROR_CORRECTION, DocumentTypeName.FP_YEAR_END_GENERAL_ERROR_CORRECTION);
-        FINANCIAL_DOC_TYPE_MAP.put(DocumentTypeName.FP_PROCUREMENT_CARD, DocumentTypeName.FP_PROCUREMENT_CARD);
+        FINANCIAL_DOC_TYPE_MAP.put(KFSConstants.FinancialDocumentTypeCodes.CASH_RECEIPT,KFSConstants.FinancialDocumentTypeCodes.CASH_RECEIPT );
+        FINANCIAL_DOC_TYPE_MAP.put(KFSConstants.FinancialDocumentTypeCodes.DISTRIBUTION_OF_INCOME_AND_EXPENSE, KFSConstants.FinancialDocumentTypeCodes.DISTRIBUTION_OF_INCOME_AND_EXPENSE);
+        FINANCIAL_DOC_TYPE_MAP.put(KFSConstants.FinancialDocumentTypeCodes.GENERAL_ERROR_CORRECTION, KFSConstants.FinancialDocumentTypeCodes.GENERAL_ERROR_CORRECTION);
+        FINANCIAL_DOC_TYPE_MAP.put(KFSConstants.FinancialDocumentTypeCodes.INTERNAL_BILLING, KFSConstants.FinancialDocumentTypeCodes.INTERNAL_BILLING);
+        FINANCIAL_DOC_TYPE_MAP.put(KFSConstants.FinancialDocumentTypeCodes.SERVICE_BILLING, KFSConstants.FinancialDocumentTypeCodes.SERVICE_BILLING);
+        FINANCIAL_DOC_TYPE_MAP.put(KFSConstants.FinancialDocumentTypeCodes.YEAR_END_DISTRIBUTION_OF_INCOME_AND_EXPENSE, KFSConstants.FinancialDocumentTypeCodes.YEAR_END_DISTRIBUTION_OF_INCOME_AND_EXPENSE);
+        FINANCIAL_DOC_TYPE_MAP.put(KFSConstants.FinancialDocumentTypeCodes.YEAR_END_GENERAL_ERROR_CORRECTION, KFSConstants.FinancialDocumentTypeCodes.YEAR_END_GENERAL_ERROR_CORRECTION);
+        FINANCIAL_DOC_TYPE_MAP.put(KFSConstants.FinancialDocumentTypeCodes.PROCUREMENT_CARD, KFSConstants.FinancialDocumentTypeCodes.PROCUREMENT_CARD);
     }
 
     // CAMS document types for maintain asset: AssetMaintenance, AssetFabrication, Asset Global, Asset Location Global,
@@ -213,9 +213,9 @@ public class AssetLockServiceImpl implements AssetLockService {
                 GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, CamsKeyConstants.AssetLock.ERROR_ASSET_LOCKED, errorParameters);
             }
             else {
-                GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_MAINTENANCE_LOCKED, errorParameters);
-            }
+            GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_MAINTENANCE_LOCKED, errorParameters);
         }
+    }
     }
 
     private BusinessObjectService getBusinessObjectService() {

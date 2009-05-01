@@ -101,7 +101,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         super.postProcessSave(event);
 
         if (!(event instanceof SaveDocumentEvent)) { // don't lock until they route
-            ArrayList capitalAssetNumbers = new ArrayList<Long>();
+            ArrayList<Long> capitalAssetNumbers = new ArrayList<Long>();
             for (AssetPaymentAssetDetail assetPaymentAssetDetail : this.getAssetPaymentAssetDetail()) {
                 capitalAssetNumbers.add(assetPaymentAssetDetail.getCapitalAssetNumber());
             }

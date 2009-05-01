@@ -637,10 +637,6 @@
 				<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue() ==1)]]></printWhenExpression>
 			</band>
 		</pageFooter>
-		<lastPageFooter>
-			<band height="222"  isSplitAllowed="true" >
-			</band>
-		</lastPageFooter>
 		<summary>
 			<band height="0"  isSplitAllowed="true" >
 			</band>

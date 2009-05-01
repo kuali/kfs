@@ -49,7 +49,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
     private String wireAccountNumber;
     private String wireSubAccountNumber;
     private String wireObjectCode;
-    private String wireSubObjectCode;    
+    private String wireSubObjectCode;
     
 	private ObjectCode creditCardFinancialObject;
 	private SubObjectCode universityClearingSubObject;
@@ -911,8 +911,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
      * @return Returns the orgRemitToZipCode.
      */
     public PostalCode getOrgRemitToZipCode() {
-        if(ObjectUtils.isNull(orgRemitToZipCode))
-            orgRemitToZipCode = SpringContext.getBean(PostalCodeService.class).getByPostalCodeInDefaultCountry(organizationRemitToZipCode);
+        orgRemitToZipCode = SpringContext.getBean(PostalCodeService.class).getByPostalCodeInDefaultCountryIfNecessary(this, organizationRemitToZipCode, orgRemitToZipCode);
         return orgRemitToZipCode;
     }
 

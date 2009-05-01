@@ -137,7 +137,7 @@ public abstract class LaborExpenseTransferDocumentBase extends LaborLedgerPostin
      * @return Returns the user.
      */
     public Person getUser() {
-        if(user != null && !StringUtils.equals(user.getEmployeeId(), emplid)) {
+        if(user == null || !StringUtils.equals(user.getEmployeeId(), emplid)) {
             this.user = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(emplid);
         }
         

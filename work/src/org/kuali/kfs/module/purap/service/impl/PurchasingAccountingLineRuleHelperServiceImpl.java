@@ -28,16 +28,6 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PurchasingAccountingLineRuleHelperServiceImpl extends AccountingLineRuleHelperServiceImpl {
 
-    private PurchasingDocument document;
-    
-    public PurchasingDocument getDocument() {
-        return document;
-    }
-
-    public void setDocument(PurchasingDocument document) {
-        this.document = document;
-    }
-
     /**
      * @see org.kuali.kfs.module.purap.service.impl.PurapAccountingLineRuleHelperServiceImpl#hasRequiredOverrides(org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String)
      * override the default implementation and throw our own error message for accounts that are expired.

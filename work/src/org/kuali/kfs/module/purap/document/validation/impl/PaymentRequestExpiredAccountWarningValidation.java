@@ -20,17 +20,20 @@ import java.util.List;
 
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class PaymentRequestExpiredAccountWarningValidation extends GenericValidation {
 
     private PurApItem itemForValidation;
     private DateTimeService dateTimeService;
+    private ParameterService parameterService;
     
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
@@ -39,8 +42,16 @@ public class PaymentRequestExpiredAccountWarningValidation extends GenericValida
             if (accountingLine.getAccount().isExpired()) {
                 Date current = dateTimeService.getCurrentDate();
                 Date accountExpirationDate = accountingLine.getAccount().getAccountExpirationDate();
+                String expirationExtensionDays = parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, KFSConstants.SystemGroupParameterNames.GL_SCRUBBER_VALIDATION_DAYS_OFFSET);
+                int expirationExtensionDaysInt = 3 * 30; // default to 90 days (approximately 3 months)
+
+                if (expirationExtensionDays.trim().length() > 0) {
+
+                    expirationExtensionDaysInt = new Integer(expirationExtensionDays).intValue();
+                }
+                
                 if (!accountingLine.getAccount().isForContractsAndGrants() ||
-                     dateTimeService.dateDiff(accountExpirationDate, current, false) < 90) {
+                     dateTimeService.dateDiff(accountExpirationDate, current, false) < expirationExtensionDaysInt) {
                     GlobalVariables.getMessageList().add(KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
                     valid &= false;
                     break;
@@ -64,6 +75,14 @@ public class PaymentRequestExpiredAccountWarningValidation extends GenericValida
 
     public void setItemForValidation(PurApItem itemForValidation) {
         this.itemForValidation = itemForValidation;
+    }
+
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 
 }

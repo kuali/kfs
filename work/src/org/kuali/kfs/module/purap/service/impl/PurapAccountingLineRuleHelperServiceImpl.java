@@ -32,9 +32,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PurapAccountingLineRuleHelperServiceImpl extends AccountingLineRuleHelperServiceImpl implements PurapAccountingLineRuleHelperService{
     private PurchasingAccountsPayableDocument document;
-    
-    
-    
+        
     public PurchasingAccountsPayableDocument getDocument() {
         return document;
     }

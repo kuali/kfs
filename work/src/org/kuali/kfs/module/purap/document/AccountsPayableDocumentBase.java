@@ -21,6 +21,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
@@ -144,7 +145,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
                 Note note = (Note) obj;
                 // may need to refresh this attachment because of a bug - see see KULPURAP-1397
                 note.refreshReferenceObject("attachment");
-                if (ObjectUtils.isNotNull(note.getAttachment())) {
+                if (ObjectUtils.isNotNull(note.getAttachment()) && PurapConstants.AttachmentTypeCodes.ATTACHMENT_TYPE_INVOICE_IMAGE.equals(note.getAttachment().getAttachmentTypeCode())) {
                     return false;
                 }
             }

@@ -622,7 +622,9 @@
 		<property name="creditMemoService" ref="creditMemoService" />
 	</bean>
 	
-<!-- Payment Request Definitions -->	
+<!-- Payment Request Definitions -->
+	<bean id="PaymentRequest-invoiceImageAttachmentValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestInvoiceImageAttachmentValidation" abstract="true"/>
+	
 	<bean id="PaymentRequest-accountingLineDataDictionaryValidation" class="org.kuali.kfs.sys.document.validation.impl.AccountingLineDataDictionaryValidation" abstract="true">
 		<property name="accountingLineRuleHelperService"><ref bean="paymentRequestAccountingLineRuleHelperService" /></property>
 	</bean>
@@ -631,6 +633,7 @@
 		
 	<bean id="PaymentRequest-expiredAccountWarningValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestExpiredAccountWarningValidation" abstract="true">
 		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="parameterService" ref="parameterService" />
 	</bean>
 
 	<bean id="PaymentRequest-accountingLineAccessibleBranchingValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestAccountingLineAccessibleBranchingValidation" abstract="true"/>

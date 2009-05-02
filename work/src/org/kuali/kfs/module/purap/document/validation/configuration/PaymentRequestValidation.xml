@@ -104,6 +104,7 @@
 			
 				<bean parent="PaymentRequest-checkNegativeAccountsValidation" scope="prototype"/>	
 
+				<bean parent="PaymentRequest-invoiceImageAttachmentValidation" scope="prototype"/>				
 			</list>
 		</property>
   	</bean>
@@ -176,7 +177,9 @@
 																	
 				<bean parent="PaymentRequest-payDateNotPastValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
-				</bean>  															
+				</bean>  								
+				
+				<bean parent="PaymentRequest-invoiceImageAttachmentValidation" scope="prototype"/>							
 			</list>
 		</property>
   	</bean>

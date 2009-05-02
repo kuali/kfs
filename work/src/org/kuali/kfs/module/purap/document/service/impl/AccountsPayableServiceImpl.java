@@ -23,6 +23,7 @@ import java.util.Set;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.gl.batch.ScrubberStep;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
@@ -46,6 +47,7 @@ import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccount;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.bo.Note;
@@ -289,9 +291,16 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
                 }
                 else if (account.isExpired()) {
                     Account continuationAccount = accountService.getByPrimaryId(account.getContinuationFinChrtOfAcctCd(), account.getContinuationAccountNumber());
+                    String expirationExtensionDays = parameterService.getParameterValue(ScrubberStep.class, KFSConstants.SystemGroupParameterNames.GL_SCRUBBER_VALIDATION_DAYS_OFFSET);
+                    int expirationExtensionDaysInt = 3 * 30; // default to 90 days (approximately 3 months)
 
+                    if (expirationExtensionDays.trim().length() > 0) {
+
+                        expirationExtensionDaysInt = new Integer(expirationExtensionDays).intValue();
+                    }
+                    
                     // if account is C&G and expired then add to list.
-                    if ((account.isForContractsAndGrants() && dateTimeService.dateDiff(account.getAccountExpirationDate(), dateTimeService.getCurrentDate(), true) > 90)) {
+                    if ((account.isForContractsAndGrants() && dateTimeService.dateDiff(account.getAccountExpirationDate(), dateTimeService.getCurrentDate(), true) > expirationExtensionDaysInt)) {
 
                         if (continuationAccount == null) {
                             replaceAcct = new ExpiredOrClosedAccount();
@@ -369,9 +378,16 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
                 }
                 else if (account.isExpired()) {
                     Account continuationAccount = accountService.getByPrimaryId(account.getContinuationFinChrtOfAcctCd(), account.getContinuationAccountNumber());
+                    String expirationExtensionDays = parameterService.getParameterValue(ScrubberStep.class, KFSConstants.SystemGroupParameterNames.GL_SCRUBBER_VALIDATION_DAYS_OFFSET);
+                    int expirationExtensionDaysInt = 3 * 30; // default to 90 days (approximately 3 months)
+
+                    if (expirationExtensionDays.trim().length() > 0) {
+
+                        expirationExtensionDaysInt = new Integer(expirationExtensionDays).intValue();
+                    }
 
                     // if account is C&G and expired then add to list.
-                    if ((account.isForContractsAndGrants() && dateTimeService.dateDiff(account.getAccountExpirationDate(), dateTimeService.getCurrentDate(), true) > 90)) {
+                    if ((account.isForContractsAndGrants() && dateTimeService.dateDiff(account.getAccountExpirationDate(), dateTimeService.getCurrentDate(), true) > expirationExtensionDaysInt)) {
 
                         if (continuationAccount == null) {
                             replaceAcct = new ExpiredOrClosedAccount();

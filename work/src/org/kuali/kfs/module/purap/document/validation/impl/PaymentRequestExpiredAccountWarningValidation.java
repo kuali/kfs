@@ -18,6 +18,7 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.kuali.kfs.gl.batch.ScrubberStep;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.sys.KFSConstants;
@@ -42,7 +43,7 @@ public class PaymentRequestExpiredAccountWarningValidation extends GenericValida
             if (accountingLine.getAccount().isExpired()) {
                 Date current = dateTimeService.getCurrentDate();
                 Date accountExpirationDate = accountingLine.getAccount().getAccountExpirationDate();
-                String expirationExtensionDays = parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, KFSConstants.SystemGroupParameterNames.GL_SCRUBBER_VALIDATION_DAYS_OFFSET);
+                String expirationExtensionDays = parameterService.getParameterValue(ScrubberStep.class, KFSConstants.SystemGroupParameterNames.GL_SCRUBBER_VALIDATION_DAYS_OFFSET);
                 int expirationExtensionDaysInt = 3 * 30; // default to 90 days (approximately 3 months)
 
                 if (expirationExtensionDays.trim().length() > 0) {

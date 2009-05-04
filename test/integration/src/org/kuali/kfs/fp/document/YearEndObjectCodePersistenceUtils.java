@@ -45,7 +45,7 @@ public class YearEndObjectCodePersistenceUtils {
         final Integer postingYear = new Integer(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().intValue() - 1);
         final ObjectCodeService objectCodeService = SpringContext.getBean(ObjectCodeService.class);
         
-        final ObjectCode existingObjectCode = objectCodeService.getByPrimaryId(postingYear, accountingLine.getChartOfAccountsCode(), accountingLine.getAccountNumber());
+        final ObjectCode existingObjectCode = objectCodeService.getByPrimaryId(postingYear, accountingLine.getChartOfAccountsCode(), accountingLine.getFinancialObjectCode());
         
         if (existingObjectCode == null) {
             objectCode.setUniversityFiscalYear(postingYear);

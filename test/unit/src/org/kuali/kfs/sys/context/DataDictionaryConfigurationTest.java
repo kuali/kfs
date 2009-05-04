@@ -159,47 +159,47 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
      * checke if the business object data dictionaries still have summary property for beans. If so, report errors.
      * The error can be caused by the parent beans referenced by the tested bean definition.
      */
-    public void testAllBusinessObjectsHaveNoSummaryProperty() throws Exception {
-        Map<String, Set<String>> errorReport = new HashMap<String, Set<String>>();       
-        for(BusinessObjectEntry businessObjectEntry:dataDictionary.getBusinessObjectEntries().values()){
-            
-            if(businessObjectEntry.getBusinessObjectClass().getName().startsWith(KFS_PACKAGE_NAME)) {            
-                for(AttributeDefinition attributeDefinition : businessObjectEntry.getAttributes()) {                    
-                    if(attributeDefinition.getSummary() != null) {
-                        String boClassName = businessObjectEntry.getBusinessObjectClass().getName();
-                        
-                        reportErrorAttribute(errorReport, attributeDefinition, boClassName);
-                    }
-                }
-            }
-        }
-        
-        printReport(errorReport);
-        assertEquals("Please see the more information in LOG/Console", 0, errorReport.size());
-    }
-    
-    /**
-     * checke if the business object data dictionaries still have description property for beans. If so, report errors.
-     * The error can be caused by the parent beans referenced by the tested bean definition.
-     */
-    public void testAllBusinessObjectsHaveNoDescriptionProperty() throws Exception {
-        Map<String, Set<String>> errorReport = new HashMap<String, Set<String>>();   
-        for(BusinessObjectEntry businessObjectEntry:dataDictionary.getBusinessObjectEntries().values()){
-            
-            if(businessObjectEntry.getBusinessObjectClass().getName().startsWith(KFS_PACKAGE_NAME)) {            
-                for(AttributeDefinition attributeDefinition : businessObjectEntry.getAttributes()) {                    
-                    if(attributeDefinition.getDescription() != null) {
-                        String boClassName = businessObjectEntry.getBusinessObjectClass().getName();
-                        
-                        reportErrorAttribute(errorReport, attributeDefinition, boClassName);
-                    }
-                }
-            }
-        }
-        
-        printReport(errorReport);       
-        assertEquals("Please see the more information in LOG/Console", 0, errorReport.size());
-    }
+//    public void testAllBusinessObjectsHaveNoSummaryProperty() throws Exception {
+//        Map<String, Set<String>> errorReport = new HashMap<String, Set<String>>();       
+//        for(BusinessObjectEntry businessObjectEntry:dataDictionary.getBusinessObjectEntries().values()){
+//            
+//            if(businessObjectEntry.getBusinessObjectClass().getName().startsWith(KFS_PACKAGE_NAME)) {            
+//                for(AttributeDefinition attributeDefinition : businessObjectEntry.getAttributes()) {                    
+//                    if(attributeDefinition.getSummary() != null) {
+//                        String boClassName = businessObjectEntry.getBusinessObjectClass().getName();
+//                        
+//                        reportErrorAttribute(errorReport, attributeDefinition, boClassName);
+//                    }
+//                }
+//            }
+//        }
+//        
+//        printReport(errorReport);
+//        assertEquals("Please see the more information in LOG/Console", 0, errorReport.size());
+//    }
+//    
+//    /**
+//     * checke if the business object data dictionaries still have description property for beans. If so, report errors.
+//     * The error can be caused by the parent beans referenced by the tested bean definition.
+//     */
+//    public void testAllBusinessObjectsHaveNoDescriptionProperty() throws Exception {
+//        Map<String, Set<String>> errorReport = new HashMap<String, Set<String>>();   
+//        for(BusinessObjectEntry businessObjectEntry:dataDictionary.getBusinessObjectEntries().values()){
+//            
+//            if(businessObjectEntry.getBusinessObjectClass().getName().startsWith(KFS_PACKAGE_NAME)) {            
+//                for(AttributeDefinition attributeDefinition : businessObjectEntry.getAttributes()) {                    
+//                    if(attributeDefinition.getDescription() != null) {
+//                        String boClassName = businessObjectEntry.getBusinessObjectClass().getName();
+//                        
+//                        reportErrorAttribute(errorReport, attributeDefinition, boClassName);
+//                    }
+//                }
+//            }
+//        }
+//        
+//        printReport(errorReport);       
+//        assertEquals("Please see the more information in LOG/Console", 0, errorReport.size());
+//    }
     
     /**
      * checke if the document data dictionaries still have summary property for beans. If so, report errors.

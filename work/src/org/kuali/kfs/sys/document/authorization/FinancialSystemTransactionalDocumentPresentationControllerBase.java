@@ -17,6 +17,8 @@ package org.kuali.kfs.sys.document.authorization;
 
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
@@ -38,7 +40,8 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  * Base class for all FinancialSystemDocumentPresentationControllers.
  */
 public class FinancialSystemTransactionalDocumentPresentationControllerBase extends TransactionalDocumentPresentationControllerBase implements FinancialSystemTransactionalDocumentPresentationController {
-
+    private static Log LOG = LogFactory.getLog(FinancialSystemTransactionalDocumentPresentationControllerBase.class);
+            
     /**
      * Makes sure that the given document implements error correction, that error correction is turned on for the document in the
      * data dictionary, and that the document is in a workflow state that allows error correction.
@@ -47,6 +50,10 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
      */
     public boolean canErrorCorrect(FinancialSystemTransactionalDocument document) {
         if (!(document instanceof Correctable)) {
+            return false;
+        }
+        
+        if (!this.canCopy(document)) {
             return false;
         }
 
@@ -66,8 +73,7 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
         }
 
         final KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        
-        
+           
         return (workflowDocument.stateIsApproved() || workflowDocument.stateIsProcessed() || workflowDocument.stateIsFinal());
     }
 
@@ -77,14 +83,17 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
     @Override
     public Set<String> getDocumentActions(Document document) {
         Set<String> documentActions = super.getDocumentActions(document);
+        
         if (document instanceof FinancialSystemTransactionalDocument) {
             if (canErrorCorrect((FinancialSystemTransactionalDocument) document)) {
                 documentActions.add(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT);
             }
+            
             if (canHaveBankEntry(document)) {
                 documentActions.add(KFSConstants.KFS_ACTION_CAN_EDIT_BANK);
             }
         }
+        
         return documentActions;
     }
 
@@ -109,6 +118,7 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
     // check if bank entry should be viewable for the given document
     private boolean canHaveBankEntry(Document document) {
         boolean bankSpecificationEnabled = SpringContext.getBean(BankService.class).isBankSpecificationEnabled();
+        
         if (bankSpecificationEnabled) {
             String documentTypeCode = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(document.getClass());
 

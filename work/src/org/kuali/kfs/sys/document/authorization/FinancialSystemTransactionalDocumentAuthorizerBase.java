@@ -17,13 +17,17 @@ package org.kuali.kfs.sys.document.authorization;
 
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.PermissionTemplate;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
+import org.kuali.rice.kns.util.KNSConstants;
 
 public class FinancialSystemTransactionalDocumentAuthorizerBase extends TransactionalDocumentAuthorizerBase {
+    private static Log LOG = LogFactory.getLog(FinancialSystemTransactionalDocumentAuthorizerBase.class);
 
     /**
      * Overridden to check if document error correction can be allowed here.
@@ -34,11 +38,13 @@ public class FinancialSystemTransactionalDocumentAuthorizerBase extends Transact
     @Override
     public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActionsFromPresentationController) {
         Set<String> documentActionsToReturn = super.getDocumentActions(document, user, documentActionsFromPresentationController);
-        if (documentActionsFromPresentationController.contains(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT) && canErrorCorrect(document, user)) {
-            documentActionsToReturn.add(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT);
+        
+        if (documentActionsToReturn.contains(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT) && !(documentActionsToReturn.contains(KNSConstants.KUALI_ACTION_CAN_COPY) && canErrorCorrect(document, user))) {
+            documentActionsToReturn.remove(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT);
         }
-        if (documentActionsFromPresentationController.contains(KFSConstants.KFS_ACTION_CAN_EDIT_BANK) && canEditBankCode(document, user)) {
-            documentActionsToReturn.add(KFSConstants.KFS_ACTION_CAN_EDIT_BANK);
+        
+        if (documentActionsToReturn.contains(KFSConstants.KFS_ACTION_CAN_EDIT_BANK) && !canEditBankCode(document, user)) {
+            documentActionsToReturn.remove(KFSConstants.KFS_ACTION_CAN_EDIT_BANK);
         }
         
         return documentActionsToReturn;

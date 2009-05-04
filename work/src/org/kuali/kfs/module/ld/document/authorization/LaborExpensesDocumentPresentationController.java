@@ -17,6 +17,8 @@ package org.kuali.kfs.module.ld.document.authorization;
 
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.module.ld.LaborAuthorizationConstants;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kns.document.Document;
@@ -28,6 +30,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  */
 
 public class LaborExpensesDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
+    private static Log LOG = LogFactory.getLog(LaborExpensesDocumentPresentationController.class);
 
     /**
      * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canCopy(org.kuali.rice.kns.document.Document)
@@ -50,7 +53,5 @@ public class LaborExpensesDocumentPresentationController extends FinancialSystem
         }
         
         return editModes;
-    }
-    
-    
+    }    
 }

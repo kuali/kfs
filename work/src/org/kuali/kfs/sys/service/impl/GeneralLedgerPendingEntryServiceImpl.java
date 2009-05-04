@@ -255,10 +255,15 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         explicitEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
         explicitEntry.setTransactionEntryProcessedTs(new java.sql.Timestamp(transactionTimestamp.getTime()));
         explicitEntry.setAccountNumber(glpeSourceDetail.getAccountNumber());
-        if (glpeSourceDetail.getAccount().getAccountSufficientFundsCode() == null) {
+        
+        glpeSourceDetail.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
+        if (ObjectUtils.isNotNull(glpeSourceDetail.getAccount()) && StringUtils.isBlank(glpeSourceDetail.getAccount().getAccountSufficientFundsCode())) {
             glpeSourceDetail.getAccount().setAccountSufficientFundsCode(KFSConstants.SF_TYPE_NO_CHECKING);
         }
-        explicitEntry.setAcctSufficientFundsFinObjCd(SpringContext.getBean(SufficientFundsService.class).getSufficientFundsObjectCode(glpeSourceDetail.getObjectCode(), glpeSourceDetail.getAccount().getAccountSufficientFundsCode()));
+        
+        String sifficientFundsObjectCode = SpringContext.getBean(SufficientFundsService.class).getSufficientFundsObjectCode(glpeSourceDetail.getObjectCode(), glpeSourceDetail.getAccount().getAccountSufficientFundsCode());
+        explicitEntry.setAcctSufficientFundsFinObjCd(sifficientFundsObjectCode);
+        
         explicitEntry.setFinancialDocumentApprovedCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.NO);
         explicitEntry.setTransactionEncumbranceUpdateCode(BLANK_SPACE);
         explicitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL); // this is the default that most documents use
@@ -267,12 +272,15 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         explicitEntry.setFinancialSystemOriginationCode(SpringContext.getBean(HomeOriginationService.class).getHomeOrigination().getFinSystemHomeOriginationCode());
         explicitEntry.setDocumentNumber(glpeSourceDetail.getDocumentNumber());
         explicitEntry.setFinancialObjectCode(glpeSourceDetail.getFinancialObjectCode());
+        
         if (ObjectUtils.isNull(glpeSourceDetail.getObjectCode()) || StringUtils.isBlank(glpeSourceDetail.getObjectCode().getFinancialObjectTypeCode())) {
             glpeSourceDetail.refreshReferenceObject("objectCode");
         }
-        if (!ObjectUtils.isNull(glpeSourceDetail.getObjectCode())) {
+        
+        if (ObjectUtils.isNotNull(glpeSourceDetail.getObjectCode())) {
             explicitEntry.setFinancialObjectTypeCode(glpeSourceDetail.getObjectCode().getFinancialObjectTypeCode());
         }
+        
         explicitEntry.setOrganizationDocumentNumber(glpeSource.getDocumentHeader().getOrganizationDocumentNumber());
         explicitEntry.setOrganizationReferenceId(glpeSourceDetail.getOrganizationReferenceId());
         explicitEntry.setProjectCode(getEntryValue(glpeSourceDetail.getProjectCode(), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankProjectCode()));

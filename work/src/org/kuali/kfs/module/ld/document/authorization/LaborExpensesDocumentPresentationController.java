@@ -20,6 +20,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.module.ld.LaborAuthorizationConstants;
+import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -37,6 +38,14 @@ public class LaborExpensesDocumentPresentationController extends FinancialSystem
      */
     @Override
     public boolean canCopy(Document document) {
+        return false;
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#canErrorCorrect(org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument)
+     */
+    @Override
+    public boolean canErrorCorrect(FinancialSystemTransactionalDocument document) {
         return false;
     }
 

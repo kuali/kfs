@@ -52,7 +52,7 @@
     <property name="shortLabel" value="Sub-Fund Group Code" />
     <property name="maxLength" value="6" />
     <property name="validationPattern" >
-      <bean parent="AlphaValidationPattern"
+      <bean parent="AlphaNumericValidationPattern"
             p:maxLength="6" />
     </property>
     <property name="required" value="true" />

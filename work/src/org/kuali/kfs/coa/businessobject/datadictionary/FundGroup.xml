@@ -39,7 +39,7 @@
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >
-      <bean parent="AlphaValidationPattern"
+      <bean parent="AlphaNumericValidationPattern"
             p:exactLength="2" />
     </property>
     <property name="required" value="true" />

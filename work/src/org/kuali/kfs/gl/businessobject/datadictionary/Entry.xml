@@ -162,7 +162,7 @@
   </bean>
   <bean id="Entry-transactionLedgerEntrySequenceNumber" parent="Entry-transactionLedgerEntrySequenceNumber-parentBean" />
 
-  <bean id="Entry-transactionLedgerEntrySequenceNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
+  <bean id="Entry-transactionLedgerEntrySequenceNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceNumber">
     <property name="name" value="transactionLedgerEntrySequenceNumber" />
     <property name="forceUppercase" value="true" />
   </bean>

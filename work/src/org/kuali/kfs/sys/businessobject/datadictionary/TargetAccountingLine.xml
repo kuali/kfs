@@ -87,7 +87,7 @@
   </bean>
   <bean id="TargetAccountingLine-sequenceNumber" parent="TargetAccountingLine-sequenceNumber-parentBean" />
 
-  <bean id="TargetAccountingLine-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
+  <bean id="TargetAccountingLine-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-sequenceNumber">
     <property name="forceUppercase" value="true" />
     <property name="name" value="sequenceNumber" />
     <property name="required" value="false" />

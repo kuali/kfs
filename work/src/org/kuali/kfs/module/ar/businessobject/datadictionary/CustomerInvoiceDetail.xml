@@ -301,7 +301,7 @@
   
   <bean id="CustomerInvoiceDetail-sequenceNumber" parent="CustomerInvoiceDetail-sequenceNumber-parentBean" />
 
-  <bean id="CustomerInvoiceDetail-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
+  <bean id="CustomerInvoiceDetail-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-sequenceNumber">
     <property name="name" value="sequenceNumber" />
     <property name="label" value="Item Number" />
     <property name="shortLabel" value="Item Nbr" />

@@ -177,7 +177,7 @@
   </bean>
   <bean id="ExpenseTransferSourceAccountingLine-sequenceNumber" parent="ExpenseTransferSourceAccountingLine-sequenceNumber-parentBean" />
 
-  <bean id="ExpenseTransferSourceAccountingLine-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
+  <bean id="ExpenseTransferSourceAccountingLine-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-sequenceNumber">
     <property name="name" value="sequenceNumber" />
     <property name="required" value="false" />
   </bean>

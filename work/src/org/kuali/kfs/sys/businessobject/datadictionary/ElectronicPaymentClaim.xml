@@ -42,7 +42,7 @@
   </bean>
   <bean id="ElectronicPaymentClaim-financialDocumentLineNumber" parent="ElectronicPaymentClaim-financialDocumentLineNumber-parentBean" />
 
-  <bean id="ElectronicPaymentClaim-financialDocumentLineNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
+  <bean id="ElectronicPaymentClaim-financialDocumentLineNumber-parentBean" abstract="true" parent="GenericAttributes-sequenceNumber">
     <property name="forceUppercase" value="true" />
     <property name="name" value="financialDocumentLineNumber" />
     <property name="label" value="Generating Document Line Number" />

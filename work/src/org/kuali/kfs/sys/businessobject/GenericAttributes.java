@@ -26,6 +26,9 @@ public class GenericAttributes extends AttributeReferenceDummy {
     private String routingAttributeTitle;
 
     private Integer transactionEntrySequenceId;
+    private Integer sequenceNumber;
+    private Integer itemSequenceId;
+    private Integer transactionLedgerEntrySequenceNumber;
     private String universityFiscalAccountingPeriod;
     private Integer genericFiscalYear;
     private String maxDollarAmount;
@@ -94,6 +97,30 @@ public class GenericAttributes extends AttributeReferenceDummy {
         this.transactionEntrySequenceId = transactionEntrySequenceId;
     }
 
+    public Integer getSequenceNumber() {
+        return sequenceNumber;
+    }
+
+    public void setSequenceNumber(Integer sequenceNumber) {
+        this.sequenceNumber = sequenceNumber;
+    }
+
+    public Integer getItemSequenceId() {
+        return itemSequenceId;
+    }
+    
+    public void setItemSequenceId(Integer itemSequenceId) {
+        this.itemSequenceId = itemSequenceId;
+    }
+    
+    public Integer getTransactionLedgerEntrySequenceNumber() {
+        return transactionLedgerEntrySequenceNumber;
+    }
+    
+    public void setTransactionLedgerEntrySequenceNumber(Integer transactionLedgerEntrySequenceNumber) {
+        this.transactionLedgerEntrySequenceNumber = transactionLedgerEntrySequenceNumber;
+    }
+    
     public String getUniversityFiscalAccountingPeriod() {
         return universityFiscalAccountingPeriod;
     }

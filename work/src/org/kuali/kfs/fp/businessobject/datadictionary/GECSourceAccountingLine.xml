@@ -123,7 +123,7 @@
   </bean>
   <bean id="GECSourceAccountingLine-sequenceNumber" parent="GECSourceAccountingLine-sequenceNumber-parentBean" />
 
-  <bean id="GECSourceAccountingLine-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
+  <bean id="GECSourceAccountingLine-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-sequenceNumber">
     <property name="name" value="sequenceNumber" />
     <property name="required" value="false" />
     <property name="forceUppercase" value="true" />

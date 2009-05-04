@@ -210,7 +210,7 @@
   </bean>
   
   <bean id="AssetPaymentDetail-sequenceNumber" parent="AssetPaymentDetail-sequenceNumber-parentBean" />
-  <bean id="AssetPaymentDetail-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
+  <bean id="AssetPaymentDetail-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-sequenceNumber">
     <property name="name" value="sequenceNumber" />
     <property name="required" value="false" />
   </bean>

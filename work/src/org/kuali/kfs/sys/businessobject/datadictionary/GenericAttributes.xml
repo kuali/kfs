@@ -24,6 +24,9 @@
 		  <ref bean="GenericAttributes-emailAddress"/>
 		  <ref bean="GenericAttributes-universityFiscalAccountingPeriod"/>
 		  <ref bean="GenericAttributes-transactionEntrySequenceId"/>
+		  <ref bean="GenericAttributes-sequenceNumber"/>
+		  <ref bean="GenericAttributes-itemSequenceNumber"/>
+		  <ref bean="GenericAttributes-transactionEntrySequenceNumber"/>		  
 		  <ref bean="GenericAttributes-genericFiscalYear"/>
 		  <ref bean="GenericAttributes-versionNumber"/>
 		  <ref bean="GenericAttributes-objectId"/>
@@ -284,6 +287,55 @@
     
     
   </bean>
+  <bean id="GenericAttributes-sequenceNumber" parent="GenericAttributes-sequenceNumber-parentBean" />
+
+  <bean id="GenericAttributes-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="sequenceNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sequence Number" />
+    <property name="shortLabel" value="Seq #" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+  </bean>
+  <bean id="GenericAttributes-itemSequenceNumber" parent="GenericAttributes-itemSequenceNumber-parentBean" />
+
+  <bean id="GenericAttributes-itemSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemSequenceId" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Item Sequence Id" />
+    <property name="shortLabel" value="Item Seq Id" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="7" />
+    </property>
+  </bean>
+  <bean id="GenericAttributes-transactionEntrySequenceNumber" parent="GenericAttributes-transactionEntrySequenceNumber-parentBean" />
+
+  <bean id="GenericAttributes-transactionEntrySequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionLedgerEntrySequenceNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transaction Entry Sequence Number" />
+    <property name="shortLabel" value="Seq #" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+  </bean>
+  
   <bean id="GenericAttributes-genericFiscalYear" parent="GenericAttributes-genericFiscalYear-parentBean" />
 
   <bean id="GenericAttributes-genericFiscalYear-parentBean" abstract="true" parent="AttributeDefinition">

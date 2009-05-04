@@ -144,7 +144,7 @@
   </bean>
   <bean id="LaborJournalVoucherDetail-sequenceNumber" parent="LaborJournalVoucherDetail-sequenceNumber-parentBean" />
 
-  <bean id="LaborJournalVoucherDetail-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
+  <bean id="LaborJournalVoucherDetail-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-sequenceNumber">
     <property name="name" value="sequenceNumber" />
     <property name="required" value="false" />
   </bean>

@@ -123,7 +123,7 @@
   </bean>
   <bean id="VoucherSourceAccountingLine-sequenceNumber" parent="VoucherSourceAccountingLine-sequenceNumber-parentBean" />
 
-  <bean id="VoucherSourceAccountingLine-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
+  <bean id="VoucherSourceAccountingLine-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-sequenceNumber">
     <property name="name" value="sequenceNumber" />
     <property name="required" value="false" />
     <property name="forceUppercase" value="true" />

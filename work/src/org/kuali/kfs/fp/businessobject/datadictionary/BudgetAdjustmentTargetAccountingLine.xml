@@ -377,7 +377,7 @@
   </bean>
   <bean id="BudgetAdjustmentTargetAccountingLine-sequenceNumber" parent="BudgetAdjustmentTargetAccountingLine-sequenceNumber-parentBean" />
 
-  <bean id="BudgetAdjustmentTargetAccountingLine-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
+  <bean id="BudgetAdjustmentTargetAccountingLine-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-sequenceNumber">
     <property name="name" value="sequenceNumber" />
     <property name="required" value="false" />
     <property name="forceUppercase" value="true" />

@@ -124,7 +124,7 @@
   </bean>
   <bean id="ProcurementCardSourceAccountingLine-sequenceNumber" parent="ProcurementCardSourceAccountingLine-sequenceNumber-parentBean" />
 
-  <bean id="ProcurementCardSourceAccountingLine-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
+  <bean id="ProcurementCardSourceAccountingLine-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-sequenceNumber">
     <property name="name" value="sequenceNumber" />
     <property name="required" value="false" />
     <property name="forceUppercase" value="true" />

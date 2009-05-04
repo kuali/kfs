@@ -572,7 +572,7 @@ public class ReceivingServiceImpl implements ReceivingService {
                             String poDocNumber = (String)objects[1];
                             
                             //create a PO amendment
-                            PurchaseOrderAmendmentDocument amendmentPo = (PurchaseOrderAmendmentDocument) purchaseOrderService.createAndSavePotentialChangeDocument(poDocNumber, PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, PurchaseOrderStatuses.AWAIT_NEW_UNORDERED_ITEM_REVIEW);
+                            PurchaseOrderAmendmentDocument amendmentPo = (PurchaseOrderAmendmentDocument) purchaseOrderService.createAndSavePotentialChangeDocument(poDocNumber, PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, PurchaseOrderStatuses.AMENDMENT);
 
                             //add new lines to amendement
                             addUnorderedItemsToAmendment(amendmentPo, rlDoc);

@@ -24,6 +24,7 @@ import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountDump;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountReports;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundingReason;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
@@ -484,7 +485,14 @@ public class ReportExportServiceImpl implements ReportExportService {
         line = line + new KualiDecimal(fundingRecord.getAppointmentRequestedPayRate()) + fieldSeperator;
         line = line + textDelimiter + (fundingRecord.isAppointmentFundingDeleteIndicator() ? "Y" : "N") + textDelimiter + fieldSeperator;
         line = line + fundingRecord.getAppointmentFundingMonth() + fieldSeperator;
-        line = line + textDelimiter + ((fundingRecord.getBudgetConstructionAppointmentFundingReason().get(0).getAppointmentFundingReasonCode() == null) ? "" : fundingRecord.getBudgetConstructionAppointmentFundingReason().get(0).getAppointmentFundingReasonCode()) + textDelimiter + fieldSeperator;
+        
+        List<BudgetConstructionAppointmentFundingReason> appointmentFundingReasonList = fundingRecord.getBudgetConstructionAppointmentFundingReason(); 
+        if (ObjectUtils.isNotNull(appointmentFundingReasonList) && !appointmentFundingReasonList.isEmpty()){
+            line = line + textDelimiter + ((appointmentFundingReasonList.get(0).getAppointmentFundingReasonCode() == null) ? "" : appointmentFundingReasonList.get(0).getAppointmentFundingReasonCode()) + textDelimiter + fieldSeperator;
+        }
+        else {
+            line = line + textDelimiter + "" + textDelimiter + fieldSeperator;
+        }
         line = line + textDelimiter + accountReport.getBudgetConstructionOrganizationReports().getResponsibilityCenterCode() + textDelimiter;
         line = line + "\r\n";
 

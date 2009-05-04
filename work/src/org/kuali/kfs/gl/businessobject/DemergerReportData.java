@@ -55,7 +55,7 @@ public class DemergerReportData {
     }
 
     /**
-     * Increments the count of cost share encumbrance transactions read by 1
+     * Increments the count of error transactions read by 1
      */
     public void incrementErrorTransactionsRead() {
         errorTransactionsRead++;

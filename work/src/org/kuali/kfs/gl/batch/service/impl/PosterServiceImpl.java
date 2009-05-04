@@ -604,12 +604,7 @@ public class PosterServiceImpl implements PosterService {
         }
         else {
             e.setFinancialObjectCode(icrRateDetail.getFinancialObjectCode());
-            if (GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(icrRateDetail.getFinancialSubObjectCode())) {
-                e.setFinancialSubObjectCode(et.getSubObjectCode());
-            }
-            else {
-                e.setFinancialSubObjectCode(icrRateDetail.getFinancialSubObjectCode());
-            }
+            e.setFinancialSubObjectCode(icrRateDetail.getFinancialSubObjectCode());
         }
 
         if (GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(icrRateDetail.getAccountNumber())) {

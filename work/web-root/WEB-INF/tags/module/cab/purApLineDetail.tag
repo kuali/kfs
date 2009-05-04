@@ -28,6 +28,7 @@
 <c:set var="financialSystemDocumentHeaderAttributes" value="${DataDictionary.FinancialSystemDocumentHeader.attributes}" />
 <c:set var="genericAttributes" value="${DataDictionary.GenericAttributes.attributes}" />
 <c:set var="CapitalAssetInformationAttributes"	value="${DataDictionary.CapitalAssetInformation.attributes}" />	
+<c:set var="dateFormatPattern" value="MM/dd/yyyy"/>
 
 <c:choose>
 	<c:when test="${itemLine.tradeInAllowance}">
@@ -216,7 +217,7 @@
 			</td>
 			<td class="infoline">${payment.generalLedgerEntry.documentNumber}&nbsp;</td>
 			<td class="infoline">${payment.generalLedgerEntry.financialDocumentTypeCode}&nbsp;</td>
-			<td class="infoline" align="left"><fmt:formatDate value="${payment.generalLedgerEntry.transactionDate}" pattern="MM/dd/yyyy"/>&nbsp;</td>
+			<td class="infoline" align="left"><fmt:formatDate value="${payment.generalLedgerEntry.transactionDate}" pattern="${dateFormatPattern}"/>&nbsp;</td>
 			<td class="infoline">${payment.generalLedgerEntry.universityFiscalYear}&nbsp;</td>
 			<td class="infoline">${payment.generalLedgerEntry.universityFiscalPeriodCode}&nbsp;</td>
 			<td class="infoline">${payment.itemAccountTotalAmount}&nbsp;</td>

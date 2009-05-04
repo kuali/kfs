@@ -814,7 +814,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     public void handleRouteStatusChange() {
         super.handleRouteStatusChange();
         
-        if(getDocumentHeader().getWorkflowDocument().stateIsApproved()) {
+        if(getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
             
             //  get the now time to stamp invoices with
@@ -834,8 +834,8 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
                     throw new RuntimeException("DocumentService returned a Null CustomerInvoice Document for Doc# " + invoiceDocumentNumber + ".");
                 }
                 
-                // KULAR-384 - close the invoice if the open amount is zero
-                if (KualiDecimal.ZERO.equals(invoice.getOpenAmount())) {
+                // KULAR-384 - close the invoice if its open and the openAmount is zero
+                if (invoice.getOpenAmount().isZero() && invoice.isOpenInvoiceIndicator()) {
                     invoice.setClosedDate(today);
                     invoice.setOpenInvoiceIndicator(false);
                     getDocService().updateDocument(invoice);

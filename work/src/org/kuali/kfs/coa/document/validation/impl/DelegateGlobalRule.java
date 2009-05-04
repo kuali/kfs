@@ -346,49 +346,6 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
     }
 
     /**
-     * This method validates the rule that says there can be only one PrimaryRoute delegate on a Global Delegate document if the
-     * docType is ALL. It checks the delegateGlobalToTest against the list, to determine whether adding this new
-     * delegateGlobalToTest would violate any PrimaryRoute business rule violations. If any of the incoming variables is null or
-     * empty, the method will do nothing, and return Null. It will only process the business rules if there is sufficient data to do
-     * so.
-     * 
-     * @param delegateGlobalToTest A delegateGlobal line that you want to test agains the list.
-     * @param delegateGlobals A List of delegateGlobal items that is being tested against.
-     * @return Null if the business rule passes, or an Integer value greater than zero, representing the line that the new line is
-     *         conflicting with
-     */
-    protected Integer checkPrimaryRouteOnlyAllowOneAllDocType(AccountDelegateGlobalDetail delegateGlobalToTest, List<AccountDelegateGlobalDetail> delegateGlobals, Integer testLineNum) {
-
-        // exit immediately if the adding line isnt both Primary and ALL docTypes
-        if (delegateGlobalToTest == null || delegateGlobals == null || delegateGlobals.isEmpty()) {
-            return null;
-        }
-        if (!delegateGlobalToTest.getAccountDelegatePrimaryRoutingIndicator()) {
-            return null;
-        }
-        if (!KFSConstants.ROOT_DOCUMENT_TYPE.equalsIgnoreCase(delegateGlobalToTest.getFinancialDocumentTypeCode())) {
-            return null;
-        }
-
-        // at this point, the delegateGlobal being added is a Primary for ALL docTypes, so we need to
-        // test whether any in the existing list are also Primary, regardless of docType
-        AccountDelegateGlobalDetail delegateGlobal = null;
-        for (int lineNumber = 0; lineNumber < delegateGlobals.size(); lineNumber++) {
-            delegateGlobal = delegateGlobals.get(lineNumber);
-            if (delegateGlobal.getAccountDelegatePrimaryRoutingIndicator()) {
-                if (testLineNum == null) {
-                    return new Integer(lineNumber);
-                }
-                else if (!(testLineNum.intValue() == lineNumber)) {
-                    return new Integer(lineNumber);
-                }
-            }
-        }
-
-        return null;
-    }
-
-    /**
      * This method validates the rule that says there can be only one PrimaryRoute delegate for each given docType. It checks the
      * delegateGlobalToTest against the list, to determine whether adding this new delegateGlobalToTest would violate any
      * PrimaryRoute business rule violations. If any of the incoming variables is null or empty, the method will do nothing, and

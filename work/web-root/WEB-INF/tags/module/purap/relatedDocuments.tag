@@ -45,14 +45,14 @@
 			groupList="document.relatedViews.groupedRelatedPurchaseOrderViews"
 			limitByPoId="${limitByPoId}" /> 
 
-		<purap:relatedReceivingDocumentsDetail documentAttributes="${documentAttributes}"
-			groupList="document.relatedViews.groupedRelatedReceivingViews" 
-			limitByPoId="${limitByPoId}" /> 
-			 
 		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"
 			viewList="document.relatedViews.relatedBulkReceivingViews" 
 			limitByPoId="${limitByPoId}" /> 
 
+		<purap:relatedReceivingDocumentsDetail documentAttributes="${documentAttributes}"
+			groupList="document.relatedViews.groupedRelatedReceivingViews" 
+			limitByPoId="${limitByPoId}" /> 
+			 
 		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"
 			viewList="document.relatedViews.relatedPaymentRequestViews"
 			limitByPoId="${limitByPoId}" /> 

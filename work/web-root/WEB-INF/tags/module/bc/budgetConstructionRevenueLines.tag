@@ -29,7 +29,7 @@
 </c:if>
 
 <c:set var="pbglRevenueAttributes" value="${DataDictionary.PendingBudgetConstructionGeneralLedger.attributes}" />
-<c:set var="readOnly" value="$!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
+<c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] || KualiForm.systemViewOnly}" />
 <c:set var="pbglRevPropertyName" value="document.pendingBudgetConstructionGeneralLedgerRevenueLines"/>
 
 <fmt:formatNumber value="${KualiForm.document.revenueAccountLineAnnualBalanceAmountTotal}" 

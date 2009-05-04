@@ -172,14 +172,12 @@ public class FaxServiceImpl implements FaxService {
         }
         catch (PurError e) {
             GlobalVariables.getErrorMap().putError("errors", "error.blank");
-            imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), imageTempLocation); // Removes the temporary images;
                                                                                                   // only need to call once.
             LOG.debug("faxPurchaseOrderPdf() ended");
         }
         catch (Throwable e) {
             LOG.error("faxPurchaseOrderPdf() Faxing Failed on PDF creation - Exception was " + e.getMessage(), e);
             GlobalVariables.getErrorMap().putError("errors", "error.blank", "Faxing Error.  Unable to save pdf file. Please Contact Purchasing");
-            imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), imageTempLocation); // Removes the temporary images;
                                                                                                   // only need to call once.
             LOG.debug("faxPurchaseOrderPdf() ended");
         }
@@ -223,7 +221,6 @@ public class FaxServiceImpl implements FaxService {
             }
         }
 
-        imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), imageTempLocation); // Removes the temporary images; only need to call once.
         LOG.debug("faxPurchaseOrderPdf() ended");
     }
 

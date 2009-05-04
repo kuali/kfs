@@ -93,10 +93,7 @@ public class PrintServiceImpl implements PrintService {
             PurchaseOrderPdfParameters pdfParameters = getPurchaseOrderQuoteRequestsListPdfParameters(po);
             String deliveryCampusName = pdfParameters.getCampusParameter().getCampus().getCampusName();
             poQuoteRequestsPdf.generatePOQuoteRequestsListPdf(po, byteArrayOutputStream, pdfParameters.getCampusParameter().getPurchasingInstitutionName());
-            if (pdfParameters.isUseImage()) {
-                // Removes temporary images; only need to call once.
-                imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), pdfParameters.getImageTempLocation()); 
-            }
+
         }
         catch (PurError pe) {
             LOG.error("Caught exception ", pe);
@@ -247,10 +244,6 @@ public class PrintServiceImpl implements PrintService {
             PurchaseOrderPdfParameters pdfParameters = getPurchaseOrderQuotePdfParameters(po);
             String deliveryCampusName = pdfParameters.getCampusParameter().getCampus().getCampusName();
             poQuotePdf.generatePOQuotePDF(po, povq, deliveryCampusName, pdfParameters.getContractManagerCampusCode(), pdfParameters.getLogoImage(), byteArrayOutputStream, environment);
-            if (pdfParameters.isUseImage()) {
-                // Removes temporary images; only need to call once.
-                imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), pdfParameters.getImageTempLocation());
-            }
         }
         catch (PurError pe) {
             LOG.error("Caught exception ", pe);
@@ -284,10 +277,6 @@ public class PrintServiceImpl implements PrintService {
             pdfParameters = getPurchaseOrderQuotePdfParameters(po);
             String deliveryCampusName = pdfParameters.getCampusParameter().getCampus().getCampusName();
             poQuotePdf.savePOQuotePDF(po, povq, pdfParameters.getPdfFileLocation(), pdfQuoteFilename, deliveryCampusName, pdfParameters.getContractManagerCampusCode(), pdfParameters.getLogoImage(), environment);
-            if (pdfParameters.isUseImage()) {
-                // Removes temporary images; only need to call once.
-                imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), pdfParameters.getImageTempLocation());
-            }
         }
         catch (PurError e) {
             LOG.error("Caught exception ", e);
@@ -413,10 +402,6 @@ public class PrintServiceImpl implements PrintService {
         try {
             PurchaseOrderPdfParameters pdfParameters = getPurchaseOrderPdfParameters(po);
             poPdf.generatePdf(po, pdfParameters, byteArrayOutputStream, isRetransmit, environment, retransmitItems);
-            if (pdfParameters.isUseImage()) {
-                // Removes temporary images; only need to call once.
-                imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), pdfParameters.getImageTempLocation());
-            }
         }
         catch (PurError e) {
             LOG.error("Caught exception ", e);
@@ -467,10 +452,6 @@ public class PrintServiceImpl implements PrintService {
         try {
             pdfParameters = getPurchaseOrderPdfParameters(po);
             poPdf.savePdf(po, pdfParameters, isRetransmit, environment);
-            if (pdfParameters.isUseImage()) {
-                // Removes temporary images; only need to call once.
-                imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), pdfParameters.getImageTempLocation());
-            }
         }
         catch (PurError e) {
             LOG.error("Caught exception ", e);
@@ -548,10 +529,6 @@ public class PrintServiceImpl implements PrintService {
         
         try {
             recBlkTicketPDF.generatePdf(blkRecDoc,baosPDF,logoImage,environment);
-            if (useImage) {
-                // Removes temporary images; only need to call once.
-                imageDao.removeImages(key, imageTempLocation);
-            }
         }catch (PurapConfigurationException pce) {
             LOG.error("Caught exception ", pce);
             errors.add(pce.getMessage());

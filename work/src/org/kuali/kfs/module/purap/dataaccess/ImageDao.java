@@ -50,12 +50,4 @@ public interface ImageDao {
      */
     public String getLogo(String key, String campusCode, String location);
 
-    /**
-     * Remove temporary images
-     * 
-     * @param key - Key for use in the filenames
-     * @param location - location of where image resides
-     */
-    public void removeImages(String key, String location);
-
 }

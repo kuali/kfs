@@ -34,7 +34,7 @@ import org.kuali.kfs.module.ld.document.LaborExpenseTransferDocumentBase;
 import org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
@@ -78,9 +78,9 @@ public class LaborExpenseTransferAccountAcceptFringeBenefitValidation extends Ge
     protected boolean isAccountAcceptFringeBenefit(AccountingLine accountingLine) {
         boolean acceptsFringeBenefits = true;
 
-        accountingLine.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
+ //       accountingLine.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
         Account account = accountingLine.getAccount();
-        if (account != null && !account.isAccountsFringesBnftIndicator()) {
+        if (ObjectUtils.isNotNull(account) && !account.isAccountsFringesBnftIndicator()) {
             String overrideCode = accountingLine.getOverrideCode();
             boolean canNonFringeAccountUsed = NON_FRINGE_ACCOUNT_USED.equals(overrideCode);
             canNonFringeAccountUsed = canNonFringeAccountUsed || EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED.equals(overrideCode);

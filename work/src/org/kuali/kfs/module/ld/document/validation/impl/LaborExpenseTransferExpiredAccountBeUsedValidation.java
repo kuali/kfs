@@ -33,7 +33,7 @@ import org.kuali.kfs.module.ld.document.LaborExpenseTransferDocumentBase;
 import org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
@@ -81,7 +81,7 @@ public class LaborExpenseTransferExpiredAccountBeUsedValidation extends GenericV
     protected boolean canExpiredAccountBeUsed(AccountingLine accountingLine) {
 
         Account account = accountingLine.getAccount();
-        if (account != null && account.isExpired() && !account.isClosed()) {
+        if (ObjectUtils.isNotNull(account) && account.isExpired() && !account.isClosed()) {
             String overrideCode = accountingLine.getOverrideCode();
             boolean canExpiredAccountUsed = EXPIRED_ACCOUNT.equals(overrideCode);
             canExpiredAccountUsed = canExpiredAccountUsed || EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED.equals(overrideCode);

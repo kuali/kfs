@@ -727,6 +727,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         // remove all existing tax items added by previous calculation
         removeTaxItems(preq);
         
+        // don't need to calculate tax items if TaxClassificationCode is N (Non_Reportable)
+        if (StringUtils.equalsIgnoreCase(preq.getTaxClassificationCode(), "N")) 
+            return;
+            
         // reserve the grand total excluding any tax amount, to be used as the base to compute all tax items
         // if we don't reserve this, the pre-tax total could be changed as new tax items are added 
         BigDecimal taxableAmount = preq.getGrandPreTaxTotal().bigDecimalValue();  

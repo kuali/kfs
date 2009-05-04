@@ -281,7 +281,8 @@ public class AssetGlpeSourceDetail extends PersistableBusinessObjectBase impleme
 
 
     /**
-     * Gets the payment attribute. 
+     * Gets the payment attribute.
+     * 
      * @return Returns the payment.
      */
     public boolean isPayment() {
@@ -291,6 +292,7 @@ public class AssetGlpeSourceDetail extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the payment attribute value.
+     * 
      * @param payment The payment to set.
      */
     public void setPayment(boolean payment) {
@@ -299,7 +301,8 @@ public class AssetGlpeSourceDetail extends PersistableBusinessObjectBase impleme
 
 
     /**
-     * Gets the paymentOffset attribute. 
+     * Gets the paymentOffset attribute.
+     * 
      * @return Returns the paymentOffset.
      */
     public boolean isPaymentOffset() {
@@ -309,10 +312,48 @@ public class AssetGlpeSourceDetail extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the paymentOffset attribute value.
+     * 
      * @param paymentOffset The paymentOffset to set.
      */
     public void setPaymentOffset(boolean paymentOffset) {
         this.paymentOffset = paymentOffset;
     }
+
+
+    /**
+     * We have to return from this method directly since this is not a real persistent class and if we call super, it will run into
+     * "Class not found in OJB repository" exception.
+     * 
+     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#refresh()
+     */
+    @Override
+    public void refresh() {
+        return;
+    }
+
+
+    /**
+     * We have to return from this method directly since this is not a real persistent class and if we call super, it will run into
+     * "Class not found in OJB repository" exception.
+     * 
+     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#refreshNonUpdateableReferences()
+     */
+    @Override
+    public void refreshNonUpdateableReferences() {
+        return;
+    }
+
+
+    /**
+     * We have to return from this method directly since this is not a real persistent class and if we call super, it will run into
+     * "Class not found in OJB repository" exception.
+     * 
+     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#refreshReferenceObject(java.lang.String)
+     */
+    @Override
+    public void refreshReferenceObject(String referenceObjectName) {
+        return;
+    }
+
 
 }

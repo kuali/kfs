@@ -15,10 +15,9 @@
  */
 package org.kuali.kfs.gl.batch;
 
-import java.util.Date;
-
 import org.kuali.kfs.gl.batch.service.BalancingService;
-import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
+import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 
 /**
  * Generates a balancing report if data is present in the history tables. Instructions on how to test this process for General Ledger:<br>
@@ -26,24 +25,24 @@ import org.kuali.kfs.sys.batch.AbstractStep;
  * 2) Run BatchStepRunner for posterEntriesStep<br>
  * 3) Run BatchStepRunner for fileRenameStep<br>
  * 4) Run BatchStepRunner for posterBalancingStep<br>
- * 5) Evaluate GeneralLedgerConstants.BatchFileSystem.BALANCING_REPORT_FILENAME_PREFIX in KFSConstants.REPORTS_DIRECTORY_KEY for results<br>
+ * 5) Evaluate GL batch directory for results
  */
-public class PosterBalancingStep extends AbstractStep {
+public class PosterBalancingStep extends AbstractWrappedBatchStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterBalancingStep.class);
     
     private BalancingService balancingService;
-
+    
     /**
-     * Perform this step of a batch job.
-     * 
-     * @param jobName the name of the job running the step
-     * @param jobRunDate the time/date the job is executed
-     * @return true if successful and continue the job, false if successful and stop the job
-     * @throws Throwable if unsuccessful
-     * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String)
+     * @see org.kuali.kfs.sys.batch.AbstractWrappedBatchStep#getCustomBatchExecutor()
      */
-    public boolean execute(String jobName, Date jobRunDate) {
-        return balancingService.runBalancing();
+    @Override
+    protected CustomBatchExecutor getCustomBatchExecutor() {
+        return new CustomBatchExecutor() {
+            public boolean execute() {
+                balancingService.runBalancing();
+                return true;
+            }
+        };
     }
 
     /**

@@ -192,12 +192,12 @@ public class LaborPosterServiceImpl implements LaborPosterService {
             INPUT_GLE_FILE.close();
             POSTER_OUTPUT_ERR_FILE_ps.close();
             
-            reportWriterService.writeStatistic("SEQUENTIAL RECORDS READ                    %,9d\n", lineNumber);
-            reportWriterService.writeStatistic("LLEN RECORDS INSERTED (LD_LDGR_ENTR_T)     %,9d\n", reportSummary.get(laborLedgerEntryPoster.getDestinationName() + "," + KFSConstants.OperationType.INSERT));
-            reportWriterService.writeStatistic("LLBL RECORDS INSERTED (LD_LDGR_BAL_T)      %,9d\n", reportSummary.get(laborLedgerBalancePoster.getDestinationName() + "," + KFSConstants.OperationType.INSERT));
-            reportWriterService.writeStatistic("LLBL RECORDS UPDATED  (LD_LDGR_BAL_T)      %,9d\n", reportSummary.get(laborLedgerBalancePoster.getDestinationName() + "," + KFSConstants.OperationType.UPDATE));
-            reportWriterService.writeStatistic("LLGL RECORDS INSERTED (LD_LBR_GL_ENTRY_T)  %,9d\n", reportSummary.get(laborGLLedgerEntryPoster.getDestinationName() + "," + KFSConstants.OperationType.INSERT));
-            reportWriterService.writeStatistic("WARNING RECORDS WRITTEN                    %,9d\n", numberOfErrorOriginEntry);
+            reportWriterService.writeStatisticLine("SEQUENTIAL RECORDS READ                    %,9d", lineNumber);
+            reportWriterService.writeStatisticLine("LLEN RECORDS INSERTED (LD_LDGR_ENTR_T)     %,9d", reportSummary.get(laborLedgerEntryPoster.getDestinationName() + "," + KFSConstants.OperationType.INSERT));
+            reportWriterService.writeStatisticLine("LLBL RECORDS INSERTED (LD_LDGR_BAL_T)      %,9d", reportSummary.get(laborLedgerBalancePoster.getDestinationName() + "," + KFSConstants.OperationType.INSERT));
+            reportWriterService.writeStatisticLine("LLBL RECORDS UPDATED  (LD_LDGR_BAL_T)      %,9d", reportSummary.get(laborLedgerBalancePoster.getDestinationName() + "," + KFSConstants.OperationType.UPDATE));
+            reportWriterService.writeStatisticLine("LLGL RECORDS INSERTED (LD_LBR_GL_ENTRY_T)  %,9d", reportSummary.get(laborGLLedgerEntryPoster.getDestinationName() + "," + KFSConstants.OperationType.INSERT));
+            reportWriterService.writeStatisticLine("WARNING RECORDS WRITTEN                    %,9d", numberOfErrorOriginEntry);
             
             // shawn - need to change to use file??
             // laborReportService.generateErrorTransactionListing(invalidGroup, ReportRegistry.LABOR_POSTER_ERROR, reportsDirectory,

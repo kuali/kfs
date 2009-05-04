@@ -315,20 +315,6 @@
 		<property name="laborLedgerDao" ref="laborLedgerPreparedStatementCachingDao" />
 	</bean>
 
-	<bean id="laborAccountingCycleCachingWrappedStep" abstract="true" parent="wrappedStep">
-		<property name="wrappingBatchServices">
-			<list>
-				<ref bean="laborAccountingCycleCachingService" />
-			</list>
-		</property>
-	</bean>
-
-    <bean id="laborPosterReportWriterService" parent="reportWriterService" class="org.kuali.kfs.sys.service.impl.ReportWriterTextServiceImpl">
-		<property name="filePath" value="${reports.directory}/ld"/>
-		<property name="fileNamePrefix" value="Labor_Poster_Main_"/>
-        <property name="title" value="LABOR POSTER REPORT"/>
-    </bean>
-
     <bean id="laborPosterService" class="org.kuali.kfs.module.ld.batch.service.impl.LaborPosterServiceImpl">
         <property name="laborOriginEntryService">
             <ref bean="laborOriginEntryService" />
@@ -361,12 +347,6 @@
             <ref bean="laborGLLedgerEntryPoster" />
         </property>
         <property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
-    </bean>
-    
-    <bean id="laborBalancingReportWriterService" parent="reportWriterService" class="org.kuali.kfs.sys.service.impl.ReportWriterTextServiceImpl">
-		<property name="filePath" value="${reports.directory}/ld"/>
-		<property name="fileNamePrefix" value="laborBalancing_"/>
-        <property name="title" value="Labor Balancing Report"/>
     </bean>
     
     <bean id="laborBalancingService" class="org.kuali.kfs.module.ld.batch.service.impl.LaborBalancingServiceImpl">
@@ -513,11 +493,28 @@
 
 	<bean id="createLaborBackupGroupStep" class="org.kuali.kfs.module.ld.batch.CreateLaborBackupGroupStep" parent="step" />         
            
-	<bean id="laborScrubberStep" class="org.kuali.kfs.module.ld.batch.LaborScrubberStep" parent="laborAccountingCycleCachingWrappedStep">
+	<bean id="laborScrubberStep" class="org.kuali.kfs.module.ld.batch.LaborScrubberStep" parent="wrappedStep">
+	    <property name="wrappingBatchServices">
+			<list>
+				<ref bean="laborAccountingCycleCachingService" />
+			</list>
+		</property>
 		<property name="laborScrubberService" ref="laborScrubberService" />
 	</bean>
 	
-	<bean id="laborPosterStep" class="org.kuali.kfs.module.ld.batch.LaborPosterStep" parent="laborAccountingCycleCachingWrappedStep">
+	<bean id="laborPosterReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/ld"/>
+		<property name="fileNamePrefix" value="Labor_Poster_Main_"/>
+        <property name="title" value="LABOR POSTER REPORT"/>
+    </bean>
+	
+	<bean id="laborPosterStep" class="org.kuali.kfs.module.ld.batch.LaborPosterStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="laborAccountingCycleCachingService" />
+				<ref bean="laborPosterReportWriterService" />
+			</list>
+		</property>
 		<property name="laborPosterService" ref="laborPosterService" />
 	</bean>
 		           
@@ -624,7 +621,18 @@
 		</property>
 	</bean>
 	
-	<bean id="laborBalancingStep" class="org.kuali.kfs.module.ld.batch.LaborBalancingStep" parent="step">
+    <bean id="laborBalancingReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/ld"/>
+		<property name="fileNamePrefix" value="laborBalancing_"/>
+        <property name="title" value="Labor Balancing Report"/>
+    </bean>
+	
+	<bean id="laborBalancingStep" class="org.kuali.kfs.module.ld.batch.LaborBalancingStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="laborBalancingReportWriterService" />
+			</list>
+		</property>
 		<property name="balancingService">
 			<ref bean="laborBalancingService" />
 		</property>
@@ -1183,11 +1191,38 @@
 		</property>
 	</bean>
 			
-	<bean id="laborCorrectionProcessScrubberStep" class="org.kuali.kfs.module.ld.batch.LaborCorrectionProcessScrubberStep" parent="laborAccountingCycleCachingWrappedStep">
+	<bean id="laborCorrectionProcessScrubberStep" class="org.kuali.kfs.module.ld.batch.LaborCorrectionProcessScrubberStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="laborAccountingCycleCachingService" />
+			</list>
+		</property>
 		<property name="laborCorrectionDocumentService" ref="laborCorrectionDocumentService" />
 		<property name="laborScrubberService" ref="laborScrubberService" />
 	</bean>
-			
+
+	<bean id="laborTransactionReportHelper" parent="transactionReportHelper">
+	    <property name="responsibleClasses">
+	        <list>
+	            <value>org.kuali.kfs.module.ld.businessobject.LaborOriginEntry</value>
+	        </list>
+	    </property>
+	</bean>
+
+	<bean id="laborLedgerBalanceHistoryReportHelper" parent="ledgerBalanceHistoryReportHelper">
+	    <property name="responsibleClasses">
+	        <list>
+	            <value>org.kuali.kfs.module.ld.businessobject.LaborBalanceHistory</value>
+	        </list>
+	    </property>
+	</bean>
+	
+	<bean id="laborLedgerEntryHistoryReportHelper" parent="ledgerEntryHistoryReportHelper">
+	    <property name="responsibleClasses">
+	        <list>
+	            <value>org.kuali.kfs.module.ld.businessobject.LaborEntryHistory</value>
+	        </list>
+	    </property>
+	</bean>
+
 </beans>
-
-

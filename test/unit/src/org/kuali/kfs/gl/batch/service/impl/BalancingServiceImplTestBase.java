@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.Balance;
@@ -33,14 +32,12 @@ import org.kuali.kfs.gl.dataaccess.LedgerBalanceBalancingDao;
 import org.kuali.kfs.gl.dataaccess.LedgerBalancingDao;
 import org.kuali.kfs.gl.dataaccess.LedgerEntryBalancingDao;
 import org.kuali.kfs.gl.dataaccess.LedgerEntryHistoryBalancingDao;
-import org.kuali.kfs.module.ld.LaborConstants;
-import org.kuali.kfs.module.ld.batch.LaborBalancingStep;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.sys.service.impl.ReportWriterTextServiceImpl;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -73,6 +70,9 @@ public abstract class BalancingServiceImplTestBase extends KualiTestBase {
         dateTimeService = SpringContext.getBean(DateTimeService.class);
         universityDateService = SpringContext.getBean(UniversityDateService.class);
         
+        // Due to how WrappingBatchService works we need to manually initialize report writing
+        ((ReportWriterTextServiceImpl) balancingService.reportWriterService).initialize();
+        
         // Make the last two of INPUT_TRANSACTIONS out of date range
         Integer currentFiscalYear = universityDateService.getCurrentFiscalYear();
         startUniversityFiscalYear = currentFiscalYear - balancingService.getPastFiscalYearsToConsider();
@@ -94,6 +94,9 @@ public abstract class BalancingServiceImplTestBase extends KualiTestBase {
     protected void tearDown() throws Exception {
         // KualiTestBase cleans added files up. Hence we need to make sure BalancingService doesn't use cache when looking for files
         balancingService.clearPosterFileCache();
+        
+        // Due to how WrappingBatchService works we need to manually destroy report writing
+        ((ReportWriterTextServiceImpl) balancingService.reportWriterService).destroy();
         
         super.tearDown();
     }

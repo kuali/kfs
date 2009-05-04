@@ -95,7 +95,7 @@ public class LaborBalanceHistory extends LedgerBalance implements LedgerBalanceH
      */
     @Override
     public String getObjectCode() {
-        throw new UnsupportedOperationException();
+        return this.getFinancialObjectCode();
     }
     
     /**
@@ -104,7 +104,7 @@ public class LaborBalanceHistory extends LedgerBalance implements LedgerBalanceH
      */
     @Override
     public void setObjectCode(String objectCode) {
-        throw new UnsupportedOperationException();
+        this.setFinancialObjectCode(objectCode);
     }
 
     /**
@@ -113,7 +113,7 @@ public class LaborBalanceHistory extends LedgerBalance implements LedgerBalanceH
      */
     @Override
     public String getSubObjectCode() {
-        throw new UnsupportedOperationException();
+        return this.getFinancialSubObjectCode();
     }
 
     /**
@@ -122,7 +122,7 @@ public class LaborBalanceHistory extends LedgerBalance implements LedgerBalanceH
      */
     @Override
     public void setSubObjectCode(String subObjectCode) {
-        throw new UnsupportedOperationException();
+        this.setFinancialSubObjectCode(subObjectCode);
     }
     
     /**
@@ -131,7 +131,7 @@ public class LaborBalanceHistory extends LedgerBalance implements LedgerBalanceH
      */
     @Override
     public String getObjectTypeCode() {
-        throw new UnsupportedOperationException();
+        return this.getFinancialObjectTypeCode();
     }
     
     /**
@@ -140,7 +140,7 @@ public class LaborBalanceHistory extends LedgerBalance implements LedgerBalanceH
      */
     @Override
     public void setObjectTypeCode(String objectTypeCode) {
-        throw new UnsupportedOperationException();
+        this.setFinancialObjectTypeCode(objectTypeCode);
     }
     
     /**
@@ -149,7 +149,7 @@ public class LaborBalanceHistory extends LedgerBalance implements LedgerBalanceH
      */
     @Override
     public String getBalanceTypeCode() {
-        throw new UnsupportedOperationException();
+        return this.getFinancialBalanceTypeCode();
     }
 
     /**
@@ -158,7 +158,7 @@ public class LaborBalanceHistory extends LedgerBalance implements LedgerBalanceH
      */
     @Override
     public void setBalanceTypeCode(String balanceTypeCode) {
-        throw new UnsupportedOperationException();
+        this.setFinancialBalanceTypeCode(balanceTypeCode);
     }
     
     /**

@@ -33,7 +33,8 @@ public interface ReportWriterService {
     public void writeError(BusinessObject businessObject, Message message);
     
     /**
-     * Same as writeError take a single message except that the business object value is only printed once and then a message on each row
+     * Same as writeError except that it provides for multiple messages for the BO. BO values are only printed once and then messages each
+     * row below that.
      * @param businessObject controlling the table header and values to be printed
      * @param messages associated with the businessObject
      */
@@ -41,22 +42,25 @@ public interface ReportWriterService {
     
     /**
      * Writes statistics usually placed at the end of the report. If this is the first time this method is called then a statistics header
-     * is written. All messages are indented per STATISTICS_LEFT_PADDING.
+     * is written. All messages are indented per STATISTICS_LEFT_PADDING. If multiple lines are needed, call this method multiple times to
+     * assure pagination works properly
      * @param message to write
      * @param args for the message per standard String.format
      */
-    public void writeStatistic(String message, Object ... args);
+    public void writeStatisticLine(String message, Object ... args);
     
     /**
-     * Pass through to PrintStream.printf except that it also handles pagination
+     * Pass through to PrintStream.printf except that it also handles pagination. If multiple lines are needed, call this method multiple
+     * times to assure pagination works properly
      * @param format
      */
-    public void writeFormattedMessage(String format);
+    public void writeFormattedMessageLine(String format);
     
     /**
-     * Pass through to PrintStream.printf except that it also handles pagination
+     * Pass through to PrintStream.printf except that it also handles pagination. If multiple lines are needed, call this method multiple
+     * times to assure pagination works properly
      * @param format
      * @param args
      */
-    public void writeFormattedMessage(String format, Object ... args);
+    public void writeFormattedMessageLine(String format, Object ... args);
 }

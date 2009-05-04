@@ -61,7 +61,6 @@ import org.kuali.kfs.gl.businessobject.Reversal;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.dataaccess.ExpenditureTransactionDao;
 import org.kuali.kfs.gl.dataaccess.ReversalDao;
-import org.kuali.kfs.gl.report.TextReportHelper;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.gl.service.ReportService;
@@ -75,6 +74,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.exception.InvalidFlexibleOffsetException;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
+import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -118,13 +118,11 @@ public class PosterServiceImpl implements PosterService {
     private DataDictionaryService dataDictionaryService;
     private BusinessObjectService businessObjectService;
     private PersistenceStructureService persistenceStructureService;
+    private ReportWriterService reportWriterService;
     
     private PrintStream OUTPUT_ERR_FILE_ps;
     private PrintStream OUTPUT_GLE_FILE_ps;
-    private PrintStream reportPrintStream;
-    private TextReportHelper<Transaction> textReportHelper;
     private String batchFileDirectoryName;
-    private String reportDirectoryName;
     private BufferedReader INPUT_GLE_FILE_br = null;
     private FileReader INPUT_GLE_FILE = null;
     private AccountingCycleCachingService accountingCycleCachingService;
@@ -139,7 +137,6 @@ public class PosterServiceImpl implements PosterService {
             INPUT_GLE_FILE = new FileReader(batchFileDirectoryName + File.separator +  GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
             INPUT_GLE_FILE_br = new BufferedReader(INPUT_GLE_FILE);
             OUTPUT_ERR_FILE_ps = new PrintStream(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.POSTER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);    
-            reportPrintStream = new PrintStream(reportDirectoryName + File.separator + "poster_main_" + runDate.toString() + ".txt");
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();
             throw new RuntimeException("PosterMainEntries Stopped: " + e1.getMessage(), e1);
@@ -156,7 +153,6 @@ public class PosterServiceImpl implements PosterService {
         try{
             OUTPUT_GLE_FILE_ps = new PrintStream(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.REVERSAL_POSTER_VALID_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
             OUTPUT_ERR_FILE_ps = new PrintStream(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.REVERSAL_POSTER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
-            reportPrintStream = new PrintStream(reportDirectoryName + File.separator + "poster_reversal_" + runDate.toString() + ".txt");
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();
             throw new RuntimeException("PosterReversalEntries Stopped: " + e1.getMessage(), e1);
@@ -174,7 +170,6 @@ public class PosterServiceImpl implements PosterService {
         INPUT_GLE_FILE = new FileReader(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.ICR_POSTER_INPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
         INPUT_GLE_FILE_br = new BufferedReader(INPUT_GLE_FILE);
         OUTPUT_ERR_FILE_ps = new PrintStream(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.ICR_POSTER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
-        reportPrintStream = new PrintStream(reportDirectoryName + File.separator + "poster_icr_" + runDate.toString() + ".txt");
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();
             throw new RuntimeException("PosterIcrEntries Stopped: " + e1.getMessage(), e1);
@@ -194,23 +189,7 @@ public class PosterServiceImpl implements PosterService {
         Date runDate = new Date(runDateService.calculateRunDate(executionDate).getTime());
         UniversityDate runUniversityDate = universityDateDao.getByPrimaryKey(runDate);
         Iterator reversalTransactions = null;
-        switch (mode) {
-            case PosterService.MODE_ENTRIES:
-                textReportHelper = new TextReportHelper<Transaction>("GL POSTER REPORT (MAIN)", reportPrintStream, dateTimeService, new OriginEntryFull());
-                break;
-            case PosterService.MODE_REVERSAL:
-                reversalTransactions = reversalDao.getByDate(runDate);
-                textReportHelper = new TextReportHelper<Transaction>("GL POSTER REPORT (REVERSAL)", reportPrintStream, dateTimeService, new Reversal());
-                break;
-            case PosterService.MODE_ICR:
-                textReportHelper = new TextReportHelper<Transaction>("GL POSTER REPORT (ICR)", reportPrintStream, dateTimeService, new OriginEntryFull());
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid poster mode " + mode);
-        }
 
-        textReportHelper.writeErrorHeader();
-        
         // Build the summary map so all the possible combinations of destination & operation
         // are included in the summary part of the report.
         Map reportSummary = new HashMap();
@@ -256,8 +235,7 @@ public class PosterServiceImpl implements PosterService {
                     OUTPUT_GLE_FILE_ps.close();
                 }
                 OUTPUT_ERR_FILE_ps.close();
-                textReportHelper.writeStatisticsHeader();
-                reportPrintStream.printf("                                  SEQUENTIAL RECORDS READ                    %,9d\n", reportSummary.get("SEQUENTIAL,S"));
+                reportWriterService.writeStatisticLine("SEQUENTIAL RECORDS READ                    %,9d", reportSummary.get("SEQUENTIAL,S"));
             }
             else {
                 LOG.debug("postEntries() Processing reversal transactions");
@@ -274,27 +252,25 @@ public class PosterServiceImpl implements PosterService {
                     }
                 }
                 
-                textReportHelper.writeStatisticsHeader();
-                reportPrintStream.printf("                                  GLRV RECORDS READ (GL_REVERSAL_T)          %,9d\n", reportSummary.get("GL_REVERSAL_T,S"));
+                reportWriterService.writeStatisticLine("GLRV RECORDS READ (GL_REVERSAL_T)          %,9d", reportSummary.get("GL_REVERSAL_T,S"));
                 //reportService.generatePosterReversalTransactionsListing(executionDate, runDate, validGroup);
             }
             
             //PDF version had this abstracted to print I/U/D for each table in 7 posters, but some statistics are meaningless (i.e. GLEN is never updated), so un-abstracted here
-            reportPrintStream.printf("                                  GLEN RECORDS INSERTED (GL_ENTRY_T)         %,9d\n", reportSummary.get("GL_ENTRY_T,I"));
-            reportPrintStream.printf("                                  GLBL RECORDS INSERTED (GL_BALANCE_T)       %,9d\n", reportSummary.get("GL_BALANCE_T,I"));
-            reportPrintStream.printf("                                  GLBL RECORDS UPDATED  (GL_BALANCE_T)       %,9d\n", reportSummary.get("GL_BALANCE_T,U"));
-            reportPrintStream.printf("                                  GLEX RECORDS INSERTED (GL_EXPEND_TRN_T)    %,9d\n", reportSummary.get("GL_EXPEND_TRN_T,I"));
-            reportPrintStream.printf("                                  GLEX RECORDS UPDATED  (GL_EXPEND_TRN_T)    %,9d\n", reportSummary.get("GL_EXPEND_TRN_T,U"));
-            reportPrintStream.printf("                                  GLEC RECORDS INSERTED (GL_ENCUMBRANCE_T)   %,9d\n", reportSummary.get("GL_ENCUMBRANCE_T,I"));
-            reportPrintStream.printf("                                  GLEC RECORDS UPDATED  (GL_ENCUMBRANCE_T)   %,9d\n", reportSummary.get("GL_ENCUMBRANCE_T,U"));
-            reportPrintStream.printf("                                  GLRV RECORDS INSERTED (GL_REVERSAL_T)      %,9d\n", reportSummary.get("GL_REVERSAL_T,I"));
-            reportPrintStream.printf("                                  GLRV RECORDS DELETED  (GL_REVERSAL_T)      %,9d\n", reportSummary.get("GL_REVERSAL_T,D"));
-            reportPrintStream.printf("                                  SFBL RECORDS INSERTED (GL_SF_BALANCES_T)   %,9d\n", reportSummary.get("GL_SF_BALANCES_T,I"));
-            reportPrintStream.printf("                                  SFBL RECORDS UPDATED  (GL_SF_BALANCES_T)   %,9d\n", reportSummary.get("GL_SF_BALANCES_T,U"));
-            reportPrintStream.printf("                                  ACBL RECORDS INSERTED (GL_ACCT_BALANCES_T) %,9d\n", reportSummary.get("GL_ACCT_BALANCES_T,I"));
-            reportPrintStream.printf("                                  ACBL RECORDS UPDATED  (GL_ACCT_BALANCES_T) %,9d\n", reportSummary.get("GL_ACCT_BALANCES_T,U"));
-            reportPrintStream.printf("                                  WARNING RECORDS WRITTEN                    %,9d\n", reportSummary.get("WARNING,I"));
-            reportPrintStream.close();
+            reportWriterService.writeStatisticLine("GLEN RECORDS INSERTED (GL_ENTRY_T)         %,9d", reportSummary.get("GL_ENTRY_T,I"));
+            reportWriterService.writeStatisticLine("GLBL RECORDS INSERTED (GL_BALANCE_T)       %,9d", reportSummary.get("GL_BALANCE_T,I"));
+            reportWriterService.writeStatisticLine("GLBL RECORDS UPDATED  (GL_BALANCE_T)       %,9d", reportSummary.get("GL_BALANCE_T,U"));
+            reportWriterService.writeStatisticLine("GLEX RECORDS INSERTED (GL_EXPEND_TRN_T)    %,9d", reportSummary.get("GL_EXPEND_TRN_T,I"));
+            reportWriterService.writeStatisticLine("GLEX RECORDS UPDATED  (GL_EXPEND_TRN_T)    %,9d", reportSummary.get("GL_EXPEND_TRN_T,U"));
+            reportWriterService.writeStatisticLine("GLEC RECORDS INSERTED (GL_ENCUMBRANCE_T)   %,9d", reportSummary.get("GL_ENCUMBRANCE_T,I"));
+            reportWriterService.writeStatisticLine("GLEC RECORDS UPDATED  (GL_ENCUMBRANCE_T)   %,9d", reportSummary.get("GL_ENCUMBRANCE_T,U"));
+            reportWriterService.writeStatisticLine("GLRV RECORDS INSERTED (GL_REVERSAL_T)      %,9d", reportSummary.get("GL_REVERSAL_T,I"));
+            reportWriterService.writeStatisticLine("GLRV RECORDS DELETED  (GL_REVERSAL_T)      %,9d", reportSummary.get("GL_REVERSAL_T,D"));
+            reportWriterService.writeStatisticLine("SFBL RECORDS INSERTED (GL_SF_BALANCES_T)   %,9d", reportSummary.get("GL_SF_BALANCES_T,I"));
+            reportWriterService.writeStatisticLine("SFBL RECORDS UPDATED  (GL_SF_BALANCES_T)   %,9d", reportSummary.get("GL_SF_BALANCES_T,U"));
+            reportWriterService.writeStatisticLine("ACBL RECORDS INSERTED (GL_ACCT_BALANCES_T) %,9d", reportSummary.get("GL_ACCT_BALANCES_T,I"));
+            reportWriterService.writeStatisticLine("ACBL RECORDS UPDATED  (GL_ACCT_BALANCES_T) %,9d", reportSummary.get("GL_ACCT_BALANCES_T,U"));
+            reportWriterService.writeStatisticLine("WARNING RECORDS WRITTEN                    %,9d", reportSummary.get("WARNING,I"));
         }
         catch (RuntimeException re) {
             LOG.error("postEntries stopped due to: " + re.getMessage() + " on line number : " + ecount, re);
@@ -406,7 +382,7 @@ public class PosterServiceImpl implements PosterService {
 
             if (errors.size() > 0) {
                 // Error on this transaction
-                textReportHelper.writeErrors(tran, errors);
+                reportWriterService.writeError(tran, errors);
                 addReporting(reportSummary, "WARNING", GeneralLedgerConstants.INSERT_CODE);
                 try {
                     writeErrorEntry(line, invalidGroup);
@@ -425,7 +401,7 @@ public class PosterServiceImpl implements PosterService {
                     if (actionCode.startsWith(GeneralLedgerConstants.ERROR_CODE)) {
                         errors = new ArrayList<Message>();
                         errors.add(new Message(actionCode, Message.TYPE_WARNING));
-                        textReportHelper.writeErrors(tran, errors);
+                        reportWriterService.writeError(tran, errors);
                     }
                     else if (actionCode.indexOf(GeneralLedgerConstants.INSERT_CODE) >= 0) {
                         addReporting(reportSummary, poster.getDestinationName(), GeneralLedgerConstants.INSERT_CODE);
@@ -476,9 +452,7 @@ public class PosterServiceImpl implements PosterService {
         catch (FileNotFoundException e) {
             throw new RuntimeException("generateIcrTransactions Stopped: " + e.getMessage(), e);
         }
-        TextReportHelper<ExpenditureTransaction> textReportHelper = new TextReportHelper<ExpenditureTransaction>("ICR GENERATION REPORT", reportPrintStream, dateTimeService, new ExpenditureTransaction());
-        textReportHelper.writeErrorHeader();
-
+        
         int reportExpendTranRetrieved = 0;
         int reportExpendTranDeleted = 0;
         int reportExpendTranKept = 0;
@@ -529,7 +503,7 @@ public class PosterServiceImpl implements PosterService {
                             if (getPercentage(transactionAmount, icrEntry.getAwardIndrCostRcvyRatePct()).subtract(distributionAmount).abs().isGreaterThan(WARNING_MAX_DIFFERENCE)) {
                                 List<Message> warnings = new ArrayList<Message>();
                                 warnings.add(new Message("ADJUSTMENT GREATER THAN " + WARNING_MAX_DIFFERENCE, Message.TYPE_WARNING));
-                                textReportHelper.writeErrors(et, warnings);
+                                reportWriterService.writeError(et, warnings);
                             }
                         }
                         else if (icrEntry.getTransactionDebitIndicator().equals(KFSConstants.GL_DEBIT_CODE)) {
@@ -544,13 +518,13 @@ public class PosterServiceImpl implements PosterService {
                             // Log if D / C code not found
                             List<Message> warnings = new ArrayList<Message>();
                             warnings.add(new Message("DEBIT OR CREDIT CODE NOT FOUND", Message.TYPE_FATAL));
-                            textReportHelper.writeErrors(et, warnings);
+                            reportWriterService.writeError(et, warnings);
                         }
 
                         // generateTransactions(et, icrEntry, generatedTransactionAmount, runDate, OUTPUT_GLE_FILE_ps,
                         // reportErrors);
                         //TODO: Shawn - need to check with Jeff
-                        generateTransactions(et, icrEntry, generatedTransactionAmount, runDate, OUTPUT_GLE_FILE_ps, textReportHelper, icrGenerationMetadata);
+                        generateTransactions(et, icrEntry, generatedTransactionAmount, runDate, OUTPUT_GLE_FILE_ps, icrGenerationMetadata);
                         
                         reportOriginEntryGenerated = reportOriginEntryGenerated + 2;
                     }
@@ -567,16 +541,14 @@ public class PosterServiceImpl implements PosterService {
             catch (Exception e) {
                 List errorList = new ArrayList();
                 errorList.add(new Message(e.toString() + " occurred for this record.", Message.TYPE_FATAL));
-                textReportHelper.writeErrors(et, errorList);
+                reportWriterService.writeError(et, errorList);
             }
         }
         OUTPUT_GLE_FILE_ps.close();
-        textReportHelper.writeStatisticsHeader();
-        reportPrintStream.printf("                           GLEX RECORDS READ               (GL_EXPEND_TRN_T) %,9d\n", reportExpendTranRetrieved);
-        reportPrintStream.printf("                           GLEX RECORDS DELETED            (GL_EXPEND_TRN_T) %,9d\n", reportExpendTranDeleted);
-        reportPrintStream.printf("                           GLEX RECORDS KEPT DUE TO ERRORS (GL_EXPEND_TRN_T) %,9d\n", reportExpendTranKept);
-        reportPrintStream.printf("                           TRANSACTIONS GENERATED                            %,9d\n", reportOriginEntryGenerated);
-        reportPrintStream.close();
+        reportWriterService.writeStatisticLine("GLEX RECORDS READ               (GL_EXPEND_TRN_T) %,9d", reportExpendTranRetrieved);
+        reportWriterService.writeStatisticLine("GLEX RECORDS DELETED            (GL_EXPEND_TRN_T) %,9d", reportExpendTranDeleted);
+        reportWriterService.writeStatisticLine("GLEX RECORDS KEPT DUE TO ERRORS (GL_EXPEND_TRN_T) %,9d", reportExpendTranKept);
+        reportWriterService.writeStatisticLine("TRANSACTIONS GENERATED                            %,9d", reportOriginEntryGenerated);
     }
 
     /**
@@ -588,7 +560,7 @@ public class PosterServiceImpl implements PosterService {
      * @param runDate the transaction date for the newly created origin entry
      * @param group the group to save the origin entry to
      */
-    private void generateTransactions(ExpenditureTransaction et, IndirectCostRecoveryRateDetail icrRateDetail, KualiDecimal generatedTransactionAmount, Date runDate, PrintStream group, TextReportHelper<ExpenditureTransaction> textReportHelper, IndirectCostRecoveryGenerationMetadata icrGenerationMetadata) {
+    private void generateTransactions(ExpenditureTransaction et, IndirectCostRecoveryRateDetail icrRateDetail, KualiDecimal generatedTransactionAmount, Date runDate, PrintStream group, IndirectCostRecoveryGenerationMetadata icrGenerationMetadata) {
 
         BigDecimal pct = new BigDecimal(icrRateDetail.getAwardIndrCostRcvyRatePct().toString());
         pct = pct.divide(BDONEHUNDRED);
@@ -604,8 +576,8 @@ public class PosterServiceImpl implements PosterService {
         }
         else {
             e.setFinancialObjectCode(icrRateDetail.getFinancialObjectCode());
-            e.setFinancialSubObjectCode(icrRateDetail.getFinancialSubObjectCode());
-        }
+                e.setFinancialSubObjectCode(icrRateDetail.getFinancialSubObjectCode());
+            }
 
         if (GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(icrRateDetail.getAccountNumber())) {
             e.setAccountNumber(et.getAccountNumber());
@@ -695,7 +667,7 @@ public class PosterServiceImpl implements PosterService {
         if (balSheetObjectCode == null) {
             List<Message> warnings = new ArrayList<Message>();
             warnings.add(new Message(configurationService.getPropertyString(KFSKeyConstants.ERROR_INVALID_OFFSET_OBJECT_CODE) + icrRateDetail.getUniversityFiscalYear() + "-" + e.getChartOfAccountsCode() + "-" +offsetBalanceSheetObjectCodeNumber, Message.TYPE_WARNING));
-            textReportHelper.writeErrors(et, warnings);
+            reportWriterService.writeError(et, warnings);
             
         }
         else {
@@ -715,7 +687,7 @@ public class PosterServiceImpl implements PosterService {
         catch (InvalidFlexibleOffsetException ex) {
             List<Message> warnings = new ArrayList<Message>();
             warnings.add(new Message("FAILED TO GENERATE FLEXIBLE OFFSETS " + ex.getMessage(), Message.TYPE_WARNING));
-            textReportHelper.writeErrors(et, warnings);
+            reportWriterService.writeError(et, warnings);
             LOG.warn("FAILED TO GENERATE FLEXIBLE OFFSETS FOR EXPENDITURE TRANSACTION " + et.toString(), ex);
         }
 
@@ -1067,12 +1039,12 @@ public class PosterServiceImpl implements PosterService {
         this.batchFileDirectoryName = batchFileDirectoryName;
     }
 
-    public void setReportDirectoryName(String reportDirectoryName) {
-        this.reportDirectoryName = reportDirectoryName;
-    }
-
     public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
         this.persistenceStructureService = persistenceStructureService;
+    }
+
+    public void setReportWriterService(ReportWriterService reportWriterService) {
+        this.reportWriterService = reportWriterService;
     }
 
 }

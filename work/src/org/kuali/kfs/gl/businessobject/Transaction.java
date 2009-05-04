@@ -30,12 +30,13 @@ import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
+import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This interface represents a financial transaction
  */
-public interface Transaction {
+public interface Transaction extends BusinessObject {
     public String getAccountNumber();
 
     public String getFinancialBalanceTypeCode();

@@ -26,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
+import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
 import org.kuali.kfs.module.cam.businessobject.AssetLock;
@@ -158,6 +159,19 @@ public class AssetLockServiceImpl implements AssetLockService {
             financialDocTypes.addAll(ASSET_PMT_CHG_DOC_TYPE_MAP.values());
             return financialDocTypes;
         }
+        // FP blocking documents
+        if (CamsConstants.DocumentTypeName.ASSET_FP_INQUIRY.equals(documentTypeName)){
+            return FINANCIAL_DOC_TYPE_MAP.values();
+        }
+
+        // PREQ blocking documents
+        if (CamsConstants.DocumentTypeName.ASSET_PREQ_INQUIRY.equals(documentTypeName)){
+            List fpAndPurApDocTypes = new ArrayList<String>();
+            fpAndPurApDocTypes.add(CabConstants.PREQ);
+            fpAndPurApDocTypes.add(CabConstants.CM);
+            return fpAndPurApDocTypes;
+        }
+
         // For CAMs payment change document, any doc type can be the blocker, return null for this case
         return null;
     }

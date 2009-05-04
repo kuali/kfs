@@ -413,6 +413,9 @@
         <property name="businessObjectService">
     		<ref bean="businessObjectService"/>
     	</property>
+    	<property name="businessObjectMetaDataService">
+    		<ref bean="businessObjectMetaDataService"/>
+    	</property>
     	<property name="persistenceService">
             <ref bean="persistenceService" />
         </property>
@@ -434,6 +437,18 @@
 		</property>
     </bean>
     
+    <bean name="offsetDefinitionInactivationBlockingDetectionService"
+    	class="org.kuali.kfs.coa.service.impl.OffsetDefinitionInactivationBlockingDetectionServiceImpl">
+    	<property name="persistenceStructureService">
+            <ref bean="persistenceStructureService" />
+        </property>
+        <property name="businessObjectService">
+    		<ref bean="businessObjectService"/>
+    	</property>
+    	<property name="businessObjectMetaDataService">
+    		<ref bean="businessObjectMetaDataService"/>
+    	</property>
+    </bean>
 	<bean name="chartRoleTypeService" class="org.kuali.kfs.coa.identity.ChartRoleTypeServiceImpl" />
 	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 		<property name="serviceDefinition">

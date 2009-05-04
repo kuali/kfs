@@ -39,7 +39,9 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.util.UrlFactory;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class AssetLockServiceImpl implements AssetLockService {
     private static Logger LOG = Logger.getLogger(AssetLockService.class);
 

@@ -339,7 +339,7 @@
 						    attributeEntry="${itemAttributes.itemTypeCode}"
 						    property="document.item[${ctr}].itemTypeCode"
 						    extraReadOnlyProperty="document.item[${ctr}].itemType.itemTypeDescription"
-						    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.versionNumber == null)) or lockB2BEntry}" tabindexOverride="${tabindexOverrideBase + 0}"/>
+						    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.versionNumber == null)) or itemLine.itemTypeCode == 'UNOR' or lockB2BEntry}" tabindexOverride="${tabindexOverrideBase + 0}"/>
 					</td>
 					<td class="infoline">
 					    <kul:htmlControlAttribute

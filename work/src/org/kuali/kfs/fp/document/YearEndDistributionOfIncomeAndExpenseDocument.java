@@ -16,12 +16,22 @@
 
 package org.kuali.kfs.fp.document;
 
+import java.util.ArrayList;
+
+import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
+import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.ElectronicPaymentClaiming;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 
 /**
@@ -29,6 +39,8 @@ import org.kuali.kfs.sys.document.ElectronicPaymentClaiming;
  * version and the non-yearEnd version of a document is the glpe's generation.
  */
 public class YearEndDistributionOfIncomeAndExpenseDocument extends DistributionOfIncomeAndExpenseDocument implements YearEndDocument, AmountTotaling, ElectronicPaymentClaiming, CapitalAssetEditable {
+    private CapitalAssetInformation capitalAssetInformation;
+    private CapitalAssetManagementModuleService capitalAssetManagementModuleService;
 
     /**
      * Constructs a YearEndDistributionOfIncomeAndExpenseDocument.java.
@@ -61,5 +73,4 @@ public class YearEndDistributionOfIncomeAndExpenseDocument extends DistributionO
     public Class<? extends AccountingDocument> getDocumentClassForAccountingLineValueAllowedValidation() {
         return DistributionOfIncomeAndExpenseDocument.class;
     }
-    
 }

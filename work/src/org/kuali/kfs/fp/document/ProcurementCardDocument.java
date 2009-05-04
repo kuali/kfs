@@ -26,6 +26,8 @@ import org.kuali.kfs.fp.businessobject.ProcurementCardHolder;
 import org.kuali.kfs.fp.businessobject.ProcurementCardSourceAccountingLine;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTransactionDetail;
+import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
@@ -40,9 +42,14 @@ import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * This is the Procurement Card Document Class. The procurement cards distributes expenses from clearing accounts. It is a two-sided
@@ -57,6 +64,7 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
     private List transactionEntries;
     
     private CapitalAssetInformation capitalAssetInformation;
+    private CapitalAssetManagementModuleService capitalAssetManagementModuleService;
 
     /**
      * Default constructor.
@@ -273,4 +281,40 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
     public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
         this.capitalAssetInformation = capitalAssetInformation;
     }
+
+
+    /**
+     * 
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#handleRouteStatusChange()
+     */
+    @Override
+    public void handleRouteStatusChange() {
+        super.handleRouteStatusChange();        
+        this.getCapitalAssetManagementModuleService().deleteDocumentAssetLocks(this);        
+    }
+
+
+    /**
+     * 
+     * @see org.kuali.rice.kns.document.DocumentBase#postProcessSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
+     */
+    @Override
+    public void postProcessSave(KualiDocumentEvent event) {
+        super.postProcessSave(event);
+        if (!(event instanceof SaveDocumentEvent)) { // don't lock until they route
+            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(this.getClass());
+            this.getCapitalAssetManagementModuleService().generateCapitalAssetLock(this,documentTypeName);
+        }
+    }
+    
+    /**
+     * @return CapitalAssetManagementModuleService
+     */
+    private CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
+        if (capitalAssetManagementModuleService == null) {
+            capitalAssetManagementModuleService = SpringContext.getBean(CapitalAssetManagementModuleService.class);
+        }
+        return capitalAssetManagementModuleService;
+    }    
+
 }

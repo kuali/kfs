@@ -15,15 +15,19 @@
  */
 package org.kuali.kfs.fp.document;
 
+import java.util.ArrayList;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.BasicFormatWithLineDescriptionAccountingLineParser;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
+import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**

@@ -26,6 +26,7 @@ import org.kuali.kfs.fp.businessobject.GECSourceAccountingLine;
 import org.kuali.kfs.fp.businessobject.GECTargetAccountingLine;
 import org.kuali.kfs.fp.businessobject.GeneralErrorCorrectionDocumentAccountingLineParser;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
+import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
@@ -41,6 +42,7 @@ import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -53,7 +55,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 public class GeneralErrorCorrectionDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling, CapitalAssetEditable {
     
     private CapitalAssetInformation capitalAssetInformation;
-    private CapitalAssetManagementModuleService capitalAssetManagementModuleService;
+    private transient CapitalAssetManagementModuleService capitalAssetManagementModuleService;
     
     /**
      * Initializes the array lists and some basic info.
@@ -195,17 +197,11 @@ public class GeneralErrorCorrectionDocument extends AccountingDocumentBase imple
     @Override
     public void handleRouteStatusChange() {
         super.handleRouteStatusChange();        
-        KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
-        
-        //Deleting document lock
-        if (workflowDocument.stateIsProcessed() || workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved()) {            
-            if (ObjectUtils.isNotNull(this.getCapitalAssetInformation()))
-                this.getCapitalAssetManagementModuleService().deleteAssetLocks(this.getDocumentNumber(), null);
-        }
+        this.getCapitalAssetManagementModuleService().deleteDocumentAssetLocks(this);        
     }
 
 
-    /**+
+    /**
      * 
      * @see org.kuali.rice.kns.document.DocumentBase#postProcessSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
      */
@@ -213,23 +209,11 @@ public class GeneralErrorCorrectionDocument extends AccountingDocumentBase imple
     public void postProcessSave(KualiDocumentEvent event) {
         super.postProcessSave(event);
         if (!(event instanceof SaveDocumentEvent)) { // don't lock until they route
-            generateCapitalAssetLock();
+            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(this.getClass());
+            this.getCapitalAssetManagementModuleService().generateCapitalAssetLock(this,documentTypeName);
         }
     }
-    
-    public void generateCapitalAssetLock() {
-        CapitalAssetInformation capitalAssetInformation = this.getCapitalAssetInformation();
         
-        if (ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetNumber())) {
-            ArrayList<Long> capitalAssetNumbers = new ArrayList<Long>();
-            capitalAssetNumbers.add(capitalAssetInformation.getCapitalAssetNumber());                
-            
-            if (!this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, this.getDocumentNumber(), KFSConstants.FinancialDocumentTypeCodes.GENERAL_ERROR_CORRECTION, null)) {
-                throw new ValidationException("Asset " + capitalAssetNumbers.toString() + " is being locked by other documents.");
-            }
-        }            
-    }    
-    
     /**
      * @return CapitalAssetManagementModuleService
      */

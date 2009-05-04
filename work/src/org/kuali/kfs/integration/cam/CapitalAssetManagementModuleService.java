@@ -17,7 +17,7 @@ package org.kuali.kfs.integration.cam;
 
 import java.util.List;
 
-import org.kuali.kfs.module.cam.businessobject.AssetLock;
+import org.kuali.rice.kns.document.Document;
 
 public interface CapitalAssetManagementModuleService {
     /**
@@ -60,4 +60,20 @@ public interface CapitalAssetManagementModuleService {
      * @return
      */
     boolean isAssetLocked(List<Long> assetNumbers, String documentTypeName, String excludingDocumentNumber);
+
+    
+    /**
+     * 
+     * Creates the locks for each asset on a documents
+     * @param document
+     */
+    public void generateCapitalAssetLock(Document document, String documentTypeNames);
+
+    /**
+     * 
+     * Deletes the asset locks associated with a particular document
+     * @param document
+     */
+    public void deleteDocumentAssetLocks(Document document);
+
 }

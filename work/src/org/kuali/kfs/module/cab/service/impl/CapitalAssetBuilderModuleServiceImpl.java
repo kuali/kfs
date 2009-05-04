@@ -32,6 +32,14 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformationDetail;
+import org.kuali.kfs.fp.document.CashReceiptDocument;
+import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
+import org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument;
+import org.kuali.kfs.fp.document.InternalBillingDocument;
+import org.kuali.kfs.fp.document.ProcurementCardDocument;
+import org.kuali.kfs.fp.document.ServiceBillingDocument;
+import org.kuali.kfs.fp.document.YearEndDistributionOfIncomeAndExpenseDocument;
+import org.kuali.kfs.fp.document.YearEndGeneralErrorCorrectionDocument;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
@@ -82,6 +90,7 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.sys.KFSConstants.*;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -1026,8 +1035,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 // No data to be collected and no data entered. Hence no error
                 return true;
             }
-        }
-        else {
+        } else {
             // Data is expected
             if (isCapitalAssetInformationBlank(capitalAssetInformation)) {
                 // No data is entered
@@ -1050,9 +1058,12 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             }
         }
 
+        String documentNumber = accountingDocument.getDocumentNumber();
+        String documentType = getDocumentTypeName(accountingDocument);
+        
         if (!isUpdateAssetBlank(capitalAssetInformation)) {
             // Validate update Asset information
-            valid = validateUpdateCapitalAssetField(capitalAssetInformation);
+            valid = validateUpdateCapitalAssetField(capitalAssetInformation,documentType,documentNumber);
         }
         else {
             // Validate New Asset information
@@ -1218,19 +1229,23 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param capitalAssetManagementAsset the asset to be validated
      * @return boolean false if the asset is not active
      */
-    private boolean validateUpdateCapitalAssetField(CapitalAssetInformation capitalAssetInformation) {
+    private boolean validateUpdateCapitalAssetField(CapitalAssetInformation capitalAssetInformation, String documentType,String documentNumber) {
         boolean valid = true;
 
         Map<String, String> params = new HashMap<String, String>();
         params.put(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, capitalAssetInformation.getCapitalAssetNumber().toString());
         Asset asset = (Asset) this.getBusinessObjectService().findByPrimaryKey(Asset.class, params);
 
+        List<Long> assetNumbers = new ArrayList<Long>();
+        assetNumbers.add(capitalAssetInformation.getCapitalAssetNumber());
+                
         if (ObjectUtils.isNull(asset)) {
             valid = false;
             String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformation.class, KFSPropertyConstants.CAPITAL_ASSET_NUMBER);
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, KFSKeyConstants.ERROR_EXISTENCE, label);
-        }
-        else if (!(this.getAssetService().isCapitalAsset(asset) && !this.getAssetService().isAssetRetired(asset))) {
+        } else if  (getCapitalAssetManagementModuleService().isAssetLocked(assetNumbers,documentType,documentNumber)) {
+            valid = false;
+        }   else if (!(this.getAssetService().isCapitalAsset(asset) && !this.getAssetService().isAssetRetired(asset))) {
             // check asset status must be capital asset active.
             valid = false;
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetInformation.ERROR_ASSET_ACTIVE_CAPITAL_ASSET_REQUIRED);
@@ -1541,7 +1556,6 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @return
      */
     protected boolean isGlEntryFullyProcessed(GeneralLedgerEntry glEntry) {
-        // glEntry.refreshReferenceObject(CabPropertyConstants.GeneralLedgerEntry.PURAP_LINE_ASSET_ACCOUNTS);
         for (PurchasingAccountsPayableLineAssetAccount account : glEntry.getPurApLineAssetAccounts()) {
             if (!CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS.equalsIgnoreCase(account.getActivityStatusCode())) {
                 return false;
@@ -1557,7 +1571,6 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @return
      */
     protected boolean isDocumentFullyProcessed(PurchasingAccountsPayableDocument purapDocument) {
-        // purapDocument.refreshReferenceObject(CabPropertyConstants.PurchasingAccountsPayableDocument.PURCHASEING_ACCOUNTS_PAYABLE_ITEM_ASSETS);
         for (PurchasingAccountsPayableItemAsset item : purapDocument.getPurchasingAccountsPayableItemAssets()) {
             if (!CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS.equalsIgnoreCase(item.getActivityStatusCode())) {
                 return false;
@@ -1707,6 +1720,36 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     }
 
 
+    /**
+     * 
+     * gets the document type based on the instance of a class
+     * @param accountingDocument
+     * @return
+     */
+    private String getDocumentTypeName(AccountingDocument accountingDocument) {
+        String documentTypeName=null;
+        if (accountingDocument instanceof YearEndGeneralErrorCorrectionDocument)
+            documentTypeName = KFSConstants.FinancialDocumentTypeCodes.YEAR_END_GENERAL_ERROR_CORRECTION;
+        else if (accountingDocument instanceof YearEndDistributionOfIncomeAndExpenseDocument)
+            documentTypeName = KFSConstants.FinancialDocumentTypeCodes.YEAR_END_DISTRIBUTION_OF_INCOME_AND_EXPENSE;
+        else if (accountingDocument instanceof ServiceBillingDocument)
+            documentTypeName = KFSConstants.FinancialDocumentTypeCodes.SERVICE_BILLING;
+        else if (accountingDocument instanceof GeneralErrorCorrectionDocument) 
+            documentTypeName = KFSConstants.FinancialDocumentTypeCodes.GENERAL_ERROR_CORRECTION;
+        else if (accountingDocument instanceof CashReceiptDocument)
+            documentTypeName = KFSConstants.FinancialDocumentTypeCodes.CASH_RECEIPT;
+        else if (accountingDocument instanceof DistributionOfIncomeAndExpenseDocument)
+            documentTypeName = KFSConstants.FinancialDocumentTypeCodes.DISTRIBUTION_OF_INCOME_AND_EXPENSE;
+        else if (accountingDocument instanceof InternalBillingDocument)
+            documentTypeName = KFSConstants.FinancialDocumentTypeCodes.INTERNAL_BILLING;
+        else if (accountingDocument instanceof ProcurementCardDocument)
+            documentTypeName = KFSConstants.FinancialDocumentTypeCodes.PROCUREMENT_CARD;
+        else
+            throw new RuntimeException("Invalid FP document type.");
+
+        return documentTypeName;
+    }
+
     public ParameterService getParameterService() {
         return SpringContext.getBean(ParameterService.class);
     }
@@ -1734,5 +1777,5 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     private PurApInfoService getPurApInfoService() {
         return SpringContext.getBean(PurApInfoService.class);
     }
-    
+
 }

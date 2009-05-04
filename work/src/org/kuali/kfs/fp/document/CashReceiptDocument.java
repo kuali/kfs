@@ -46,6 +46,7 @@ import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -218,31 +219,6 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
         return new ArrayList<SufficientFundsItem>();
     }
 
-    /**
-     * Override to set the document status to VERIFIED ("V") when the document is FINAL. When the Cash Management document that this
-     * is associated with is FINAL approved, this status will be set to APPROVED ("A") to be picked up by the GL for processing.
-     * That's done in the handleRouteStatusChange() method in the CashManagementDocument.
-     * 
-     * @see org.kuali.rice.kns.document.Document#handleRouteStatusChange()
-     */
-    @Override
-    public void handleRouteStatusChange() {
-        super.handleRouteStatusChange();        
-        KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
-        
-        // Workflow Status of PROCESSED --> Kuali Doc Status of Verified
-        if (workflowDocument.stateIsProcessed()) {
-            this.getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
-            LOG.info("Adding Cash to Cash Drawer");
-            SpringContext.getBean(CashReceiptService.class).addCashDetailsToCashDrawer(this);
-        }
-
-        //Deleting document lock
-        if (workflowDocument.stateIsProcessed() || workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved()) {            
-            if (ObjectUtils.isNotNull(this.getCapitalAssetInformation()))
-                this.getCapitalAssetManagementModuleService().deleteAssetLocks(this.getDocumentNumber(), null);
-        }
-    }
     
     /**
      * This method removes a check from the list and updates the total appropriately.
@@ -444,6 +420,28 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     }
 
     /**
+     * Override to set the document status to VERIFIED ("V") when the document is FINAL. When the Cash Management document that this
+     * is associated with is FINAL approved, this status will be set to APPROVED ("A") to be picked up by the GL for processing.
+     * That's done in the handleRouteStatusChange() method in the CashManagementDocument.
+     * 
+     * @see org.kuali.rice.kns.document.Document#handleRouteStatusChange()
+     */
+    @Override
+    public void handleRouteStatusChange() {
+        super.handleRouteStatusChange();        
+        KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
+        
+        // Workflow Status of PROCESSED --> Kuali Doc Status of Verified
+        if (workflowDocument.stateIsProcessed()) {
+            this.getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
+            LOG.info("Adding Cash to Cash Drawer");
+            SpringContext.getBean(CashReceiptService.class).addCashDetailsToCashDrawer(this);
+        }
+
+        this.getCapitalAssetManagementModuleService().deleteDocumentAssetLocks(this);        
+    }
+    
+    /**
      * @see org.kuali.rice.kns.document.DocumentBase#postProcessSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
      */
     @Override
@@ -464,19 +462,11 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
 
         SpringContext.getBean(BusinessObjectService.class).save(getCurrencyDetail());
         SpringContext.getBean(BusinessObjectService.class).save(getCoinDetail());
-        
-        if (!(event instanceof SaveDocumentEvent)) { // don't lock until they route
-            CapitalAssetInformation capitalAssetInformation = this.getCapitalAssetInformation();
-            
-            if (ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetNumber())) {
-                ArrayList<Long> capitalAssetNumbers = new ArrayList<Long>();
-                capitalAssetNumbers.add(capitalAssetInformation.getCapitalAssetNumber());                
                 
-                if (!this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, this.getDocumentNumber(), KFSConstants.FinancialDocumentTypeCodes.CASH_RECEIPT, null)) {
-                    throw new ValidationException("Asset " + capitalAssetNumbers.toString() + " is being locked by other documents.");
-                }
-            }            
-        }
+        if (!(event instanceof SaveDocumentEvent)) { // don't lock until they route
+            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(this.getClass());
+            this.getCapitalAssetManagementModuleService().generateCapitalAssetLock(this,documentTypeName);
+        }        
     }
 
     /**

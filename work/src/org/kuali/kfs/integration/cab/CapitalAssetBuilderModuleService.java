@@ -73,5 +73,5 @@ public interface CapitalAssetBuilderModuleService {
      *         otherwise, false
      */
     public boolean hasCapitalAssetObjectSubType(AccountingDocument accountingDocument);
-
+    
 }

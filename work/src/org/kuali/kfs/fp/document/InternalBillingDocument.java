@@ -36,6 +36,7 @@ import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -203,6 +204,7 @@ public class InternalBillingDocument extends AccountingDocumentBase implements C
         this.capitalAssetInformation = capitalAssetInformation;
     }
 
+
     /**
      * 
      * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#handleRouteStatusChange()
@@ -210,14 +212,9 @@ public class InternalBillingDocument extends AccountingDocumentBase implements C
     @Override
     public void handleRouteStatusChange() {
         super.handleRouteStatusChange();        
-        KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
-        
-        //Deleting document lock
-        if (workflowDocument.stateIsProcessed() || workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved()) {            
-            if (ObjectUtils.isNotNull(this.getCapitalAssetInformation()))
-                this.getCapitalAssetManagementModuleService().deleteAssetLocks(this.getDocumentNumber(), null);
-        }
+        this.getCapitalAssetManagementModuleService().deleteDocumentAssetLocks(this);        
     }
+
 
     /**
      * 
@@ -227,27 +224,12 @@ public class InternalBillingDocument extends AccountingDocumentBase implements C
     public void postProcessSave(KualiDocumentEvent event) {
         super.postProcessSave(event);
         if (!(event instanceof SaveDocumentEvent)) { // don't lock until they route
-            generateCapitalAssetLock();
+            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(this.getClass());
+            this.getCapitalAssetManagementModuleService().generateCapitalAssetLock(this,documentTypeName);
         }
     }
 
     
-    /**
-     * 
-     * Generates the locks for assets included in the document
-     */
-    public void generateCapitalAssetLock() {
-        CapitalAssetInformation capitalAssetInformation = this.getCapitalAssetInformation();
-        
-        if (ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetNumber())) {
-            ArrayList<Long> capitalAssetNumbers = new ArrayList<Long>();
-            capitalAssetNumbers.add(capitalAssetInformation.getCapitalAssetNumber());                
-            
-            if (!this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, this.getDocumentNumber(), KFSConstants.FinancialDocumentTypeCodes.INTERNAL_BILLING, null)) {
-                throw new ValidationException("Asset " + capitalAssetNumbers.toString() + " is being locked by other documents.");
-            }
-        }            
-    }    
     
     /**
      * @return CapitalAssetManagementModuleService

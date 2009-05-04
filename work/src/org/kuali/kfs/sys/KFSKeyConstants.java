@@ -857,4 +857,7 @@ public class KFSKeyConstants {
     public static final String TO_AMOUNT_OUT_OF_RANGE = "error.member.toamount.outofrange";
     public static final String FROM_AMOUNT_OUT_OF_RANGE = "error.member.fromamount.outofrange";
     public static final String INVALID_DOCTYPE_SELECTED = "error.invalid.doctype.selected";
+
+    public static final String WORKFLOW_DIRECTORY = "data.xml.root.location";
+    public static final String INGESTION_DIRECTORY = "ingestion";
 }

@@ -97,14 +97,6 @@ public class ReportRunnerAction extends BudgetExpansionAction {
                 jasperFileName = "BudgetAccountObjectDetail";
                 SpringContext.getBean(BudgetConstructionDocumentAccountObjectDetailReportService.class).updateDocumentAccountObjectDetailReportTable(principalName, reportRunnerForm.getDocumentNumber(), reportRunnerForm.getUniversityFiscalYear(), reportRunnerForm.getChartOfAccountsCode(), reportRunnerForm.getAccountNumber(), reportRunnerForm.getSubAccountNumber());
                 reportSet = SpringContext.getBean(BudgetConstructionDocumentAccountObjectDetailReportService.class).buildReports(principalName);
-//                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//
-//                ResourceBundle resourceBundle = ResourceBundle.getBundle(BCConstants.Report.REPORT_MESSAGES_CLASSPATH, Locale.getDefault());
-//                Map<String, Object> reportData = new HashMap<String, Object>();
-//                reportData.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
-//
-//                SpringContext.getBean(ReportGenerationService.class).generateReportToOutputStream(reportData, reportSet, BCConstants.Report.REPORT_TEMPLATE_CLASSPATH + jasperFileName, baos);
-//                WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, jasperFileName + ReportGeneration.PDF_FILE_EXTENSION);
                 break;
             }
 
@@ -112,15 +104,6 @@ public class ReportRunnerAction extends BudgetExpansionAction {
             case 1: {
                 jasperFileName = "BudgetAccountSalaryDetail";
                 reportSet = SpringContext.getBean(BudgetConstructionAccountSalaryDetailReportService.class).buildReports(reportRunnerForm.getUniversityFiscalYear(), reportRunnerForm.getChartOfAccountsCode(), reportRunnerForm.getAccountNumber(), reportRunnerForm.getSubAccountNumber());
-
-//                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//
-//                ResourceBundle resourceBundle = ResourceBundle.getBundle(BCConstants.Report.REPORT_MESSAGES_CLASSPATH, Locale.getDefault());
-//                Map<String, Object> reportData = new HashMap<String, Object>();
-//                reportData.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
-//
-//                SpringContext.getBean(ReportGenerationService.class).generateReportToOutputStream(reportData, reportSet, BCConstants.Report.REPORT_TEMPLATE_CLASSPATH + jasperFileName, baos);
-//                WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, jasperFileName + ReportGeneration.PDF_FILE_EXTENSION);
                 break;
             }
 
@@ -128,15 +111,6 @@ public class ReportRunnerAction extends BudgetExpansionAction {
             case 2: {
                 jasperFileName = "BudgetAccountMonthlyDetail";
                 reportSet = SpringContext.getBean(BudgetConstructionAccountMonthlyDetailReportService.class).buildReports(reportRunnerForm.getDocumentNumber(), reportRunnerForm.getUniversityFiscalYear(), reportRunnerForm.getChartOfAccountsCode(), reportRunnerForm.getAccountNumber(), reportRunnerForm.getSubAccountNumber());
-
-//                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//
-//                ResourceBundle resourceBundle = ResourceBundle.getBundle(BCConstants.Report.REPORT_MESSAGES_CLASSPATH, Locale.getDefault());
-//                Map<String, Object> reportData = new HashMap<String, Object>();
-//                reportData.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
-//
-//                SpringContext.getBean(ReportGenerationService.class).generateReportToOutputStream(reportData, reportSet, BCConstants.Report.REPORT_TEMPLATE_CLASSPATH + jasperFileName, baos);
-//                WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, jasperFileName + ReportGeneration.PDF_FILE_EXTENSION);
                 break;
             }
             case 3: {

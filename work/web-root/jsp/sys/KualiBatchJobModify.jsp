@@ -130,7 +130,7 @@
 				<td><kul:htmlAttributeLabel attributeEntryName="DataDictionary.BatchJobStatus.attributes.status" /></td>
 				<td>${job.status}&nbsp;</td>
 				<td>Logs URL:</td>
-				<td><a href="${ConfigProperties.htdocs.logs.url}" target="_blank">${ConfigProperties.htdocs.logs.url}</a></td>
+				<td><a href="${ConfigProperties.htdocs.reports.url}" target="_blank">${ConfigProperties.htdocs.reports.url}</a></td>
 			</tr>
 		</table>
 	  </div>		

@@ -60,7 +60,7 @@ public class FinancialSystemUserRoleTypeServiceImpl extends KimRoleTypeServiceBa
             return false;
         }
         // exact match on namespace or qualifier namespace of kfs-sys works
-        if (roleQualifier.get(KfsKimAttributes.NAMESPACE_CODE).equals(qualification.get(KfsKimAttributes.NAMESPACE_CODE)) || KFSConstants.ParameterNamespaces.KFS.equals(roleQualifier.get(KfsKimAttributes.NAMESPACE_CODE))) {
+        if (StringUtils.equals(roleQualifier.get(KfsKimAttributes.NAMESPACE_CODE), qualification.get(KfsKimAttributes.NAMESPACE_CODE)) || StringUtils.equals(KFSConstants.ParameterNamespaces.KFS, roleQualifier.get(KfsKimAttributes.NAMESPACE_CODE))) {
             return true;
         }
         return false;
@@ -80,10 +80,10 @@ public class FinancialSystemUserRoleTypeServiceImpl extends KimRoleTypeServiceBa
             // if chart and org aren't on the assignment we don't care, since we are only matching to get the default chart/org for
             // a user in FinancialSystemUserServiceImpl
             if (!(StringUtils.isBlank(rmi.getQualifier().get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE)) || StringUtils.isBlank(rmi.getQualifier().get(KfsKimAttributes.ORGANIZATION_CODE)))) {
-                if (rmi.getQualifier().get(KfsKimAttributes.NAMESPACE_CODE).equals(qualification.get(KfsKimAttributes.NAMESPACE_CODE))) {
+                if (StringUtils.equals(qualification.get(KfsKimAttributes.NAMESPACE_CODE), rmi.getQualifier().get(KfsKimAttributes.NAMESPACE_CODE))) {
                     namespaceMatch = rmi;
                 }
-                else if (KFSConstants.ParameterNamespaces.KFS.equals(rmi.getQualifier().get(KfsKimAttributes.NAMESPACE_CODE))) {
+                else if (StringUtils.equals(KFSConstants.ParameterNamespaces.KFS, rmi.getQualifier().get(KfsKimAttributes.NAMESPACE_CODE))) {
                     nonNamespaceMatch = rmi;
                 }
             }

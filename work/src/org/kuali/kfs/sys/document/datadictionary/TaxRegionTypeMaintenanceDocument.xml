@@ -16,6 +16,8 @@
       </list>
     </property>
     
+    <property name="allowsNewOrCopy" value="false"/>
+    
     <property name="documentTypeName" value="TRTP"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

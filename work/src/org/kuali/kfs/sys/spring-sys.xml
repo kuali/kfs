@@ -592,9 +592,6 @@
 
     <bean id="objectCodeDynamicNameLabelGenerator" class="org.kuali.kfs.sys.document.service.impl.ObjectCodeDynamicNameLabelGeneratorImpl" />
 
-    <bean id="workflowAttributesPropertyResolutionService" class="org.kuali.kfs.sys.document.service.impl.WorkflowAttributePropertyResolutionServiceImpl">
-    	<property name="persistenceStructureService"><ref bean="persistenceStructureService" /></property>
-    </bean>
 
 	<bean id="systemOptionsFiscalYearMaker" class="org.kuali.kfs.sys.batch.dataaccess.impl.SystemOptionsFiscalYearMakerImpl" parent="FiscalYearMaker">
 		<property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.SystemOptions" /> 

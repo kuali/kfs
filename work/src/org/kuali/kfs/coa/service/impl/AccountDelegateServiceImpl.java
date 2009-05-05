@@ -45,6 +45,7 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
      * @return true if the doc type is in the Financial System document space, false otherwise
      */
     protected boolean isFinancialSystemDocumentType(String documentTypeCode, WorkflowInfo workflowInfo) {
+        if (StringUtils.isBlank(documentTypeCode)) return false;
         if (documentTypeCode.equals(KFSConstants.ROOT_DOCUMENT_TYPE)) return true;
         try {
             if (!workflowInfo.isCurrentActiveDocumentType(documentTypeCode)) return false;

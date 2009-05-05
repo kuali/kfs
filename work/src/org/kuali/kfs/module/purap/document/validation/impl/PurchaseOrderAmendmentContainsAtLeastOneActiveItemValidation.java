@@ -53,7 +53,7 @@ public class PurchaseOrderAmendmentContainsAtLeastOneActiveItemValidation extend
 
     protected String getDocumentTypeLabel(String documentTypeName) {
         try {
-            return SpringContext.getBean(WorkflowInfoService.class).getDocType(documentTypeName).getDocTypeLabel();
+            return SpringContext.getBean(KualiWorkflowInfo.class).getDocType(documentTypeName).getDocTypeLabel();
         }
         catch (WorkflowException e) {
             throw new RuntimeException("Caught Exception trying to get Workflow Document Type", e);

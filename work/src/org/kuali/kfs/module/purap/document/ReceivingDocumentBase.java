@@ -660,7 +660,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     }
     
     public String getDocumentTitleForResult() throws WorkflowException{
-        return SpringContext.getBean(WorkflowInfoService.class).getDocType(this.getDocumentHeader().getWorkflowDocument().getDocumentType()).getDocTypeLabel();
+        return SpringContext.getBean(KualiWorkflowInfo.class).getDocType(this.getDocumentHeader().getWorkflowDocument().getDocumentType()).getDocTypeLabel();
     }
     
 }

@@ -21,12 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.FinancialSystemMaintenanceDocument;
-import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
-import org.kuali.kfs.sys.document.datadictionary.FinancialSystemMaintenanceDocumentEntry;
 import org.kuali.kfs.sys.document.service.WorkflowAttributePropertyResolutionService;
 import org.kuali.rice.kew.docsearch.DocumentSearchContext;
 import org.kuali.rice.kew.docsearch.SearchableAttribute;
@@ -35,16 +30,17 @@ import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.rule.WorkflowAttributeValidationError;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.GlobalBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
-import org.kuali.rice.kns.datadictionary.DataDictionaryEntry;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry;
 import org.kuali.rice.kns.datadictionary.SearchingAttribute;
 import org.kuali.rice.kns.datadictionary.SearchingTypeDefinition;
 import org.kuali.rice.kns.datadictionary.WorkflowAttributes;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
 import org.kuali.rice.kns.maintenance.Maintainable;
@@ -53,6 +49,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.FieldUtils;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
@@ -102,7 +99,7 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
         searchableAttributeValue.setSearchableAttributeValue(doc.getDocumentHeader().getOrganizationDocumentNumber());
         saValues.add(searchableAttributeValue);
 
-        if (doc instanceof FinancialSystemMaintenanceDocument) {
+        if (doc instanceof MaintenanceDocument) {
             final Class<? extends BusinessObject> businessObjectClass = getBusinessObjectClass(documentSearchContext.getDocumentTypeName());
             if (businessObjectClass != null) {
                 if (GlobalBusinessObject.class.isAssignableFrom(businessObjectClass)) {
@@ -113,7 +110,7 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
                         saValues.addAll(findAllSearchableAttributesForGlobalBusinessObject(globalBO));
                     }
                 } else {
-                    saValues.addAll(parsePrimaryKeyValuesFromDocument(businessObjectClass, (FinancialSystemMaintenanceDocument)doc));
+                    saValues.addAll(parsePrimaryKeyValuesFromDocument(businessObjectClass, (MaintenanceDocument)doc));
                 }
 
             }
@@ -132,14 +129,7 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
 
         List<Row> docSearchRows = new ArrayList<Row>();
 
-        final DataDictionaryEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDictionaryObjectEntry("FinancialSystemDocumentHeader");
-        String businessObjectClassName = boEntry.getFullClassName();
-        Class boClass = null;
-        try {
-            boClass = Class.forName(businessObjectClassName);
-        } catch (ClassNotFoundException cnfe) {
-            throw new RuntimeException(cnfe);
-        }
+        Class boClass = DocumentHeader.class;
 
         Field descriptionField = FieldUtils.getPropertyField(boClass, "documentDescription", true);
         descriptionField.setFieldDataType(SearchableAttribute.DATA_TYPE_STRING);
@@ -159,7 +149,7 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
         DocumentEntry entry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(documentSearchContext.getDocumentTypeName());
         if (entry  == null)
             return docSearchRows;
-        if (entry instanceof FinancialSystemMaintenanceDocumentEntry) {
+        if (entry instanceof MaintenanceDocumentEntry) {
             Class<? extends BusinessObject> businessObjectClass = getBusinessObjectClass(documentSearchContext.getDocumentTypeName());
             Class<? extends Maintainable> maintainableClass = getMaintainableClass(documentSearchContext.getDocumentTypeName());
 
@@ -182,14 +172,11 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
         return docSearchRows;
     }
 
-    /**
-     * @see org.kuali.rice.kew.docsearch.SearchableAttribute#validateUserSearchInputs(java.util.Map, org.kuali.rice.kew.docsearch.DocumentSearchContext)
-     */
     public List<WorkflowAttributeValidationError> validateUserSearchInputs(Map<Object, String> paramMap, DocumentSearchContext searchContext) {
-
+        // TODO Auto-generated method stub
         return null;
     }
-
+    
     /**
      * Creates a list of search fields, one for each primary key of the maintained business object 
      * @param businessObjectClass the class of the maintained business object
@@ -227,6 +214,14 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
             if (fieldDataType.equals(DataDictionarySearchableAttribute.DATA_TYPE_BOOLEAN)) {
                 fieldDataType = SearchableAttribute.DATA_TYPE_STRING;
             }
+            
+            // Allow inline range searching on dates and numbers
+            if (fieldDataType.equals(DataDictionarySearchableAttribute.DATA_TYPE_FLOAT) ||
+                fieldDataType.equals(DataDictionarySearchableAttribute.DATA_TYPE_LONG) ||
+                fieldDataType.equals(DataDictionarySearchableAttribute.DATA_TYPE_DATE)) {
+                
+                searchField.setAllowInlineRange(true);
+            }
             searchField.setFieldDataType(fieldDataType);
             List displayedFieldNames = new ArrayList();
             displayedFieldNames.add(attributeName);
@@ -252,7 +247,7 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
      * @param documentContent
      * @return
      */
-    protected List<SearchableAttributeValue> parsePrimaryKeyValuesFromDocument(Class<? extends BusinessObject> businessObjectClass, FinancialSystemMaintenanceDocument document) {
+    protected List<SearchableAttributeValue> parsePrimaryKeyValuesFromDocument(Class<? extends BusinessObject> businessObjectClass, MaintenanceDocument document) {
         List<SearchableAttributeValue> values = new ArrayList<SearchableAttributeValue>();
 
         final List primaryKeyNames = SpringContext.getBean(BusinessObjectMetaDataService.class).listPrimaryKeyFieldNames(businessObjectClass);
@@ -274,7 +269,7 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
      * @param document the document XML
      * @return a generated SearchableAttributeValue, or null if a value could not be created
      */
-    protected SearchableAttributeValue parseSearchableAttributeValueForPrimaryKey(String propertyName, Class<? extends BusinessObject> businessObjectClass, FinancialSystemMaintenanceDocument document) {
+    protected SearchableAttributeValue parseSearchableAttributeValueForPrimaryKey(String propertyName, Class<? extends BusinessObject> businessObjectClass, MaintenanceDocument document) {
 
         Maintainable maintainable  = document.getNewMaintainableObject();
         PersistableBusinessObject bo = maintainable.getBusinessObject();
@@ -328,7 +323,7 @@ public class DataDictionarySearchableAttribute implements SearchableAttribute {
         GlobalBusinessObject globalBO = null;
 
         Map pkMap = new LinkedHashMap();
-        pkMap.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+        pkMap.put(KNSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
 
         List returnedBOs = (List)SpringContext.getBean(BusinessObjectService.class).findMatching(businessObjectClass, pkMap);
         if (returnedBOs.size() > 0) {

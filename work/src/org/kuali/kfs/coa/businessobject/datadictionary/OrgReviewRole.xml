@@ -27,6 +27,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="OrgReviewRole-chart.chartOfAccountsCode" />
         <ref bean="OrgReviewRole-organization.organizationCode" />
         <ref bean="OrgReviewRole-person.principalName" />
+        <ref bean="OrgReviewRole-person.name" />
         <ref bean="OrgReviewRole-memberPrincipal.principalId" />        
         <ref bean="OrgReviewRole-memberPrincipal.principalName" />
         <ref bean="OrgReviewRole-role.namespaceCode" />
@@ -92,10 +93,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 	            	<bean parent="PrimitiveAttributeDefinition"
 	                    p:sourceName="roleMemberRoleId"
 	                    p:targetName="roleId" />
-	            	<bean parent="PrimitiveAttributeDefinition"
+	            	<bean parent="SupportAttributeDefinition"
 	                    p:sourceName="roleMemberRoleNamespaceCode"
 	                    p:targetName="namespaceCode" />
-	            	<bean parent="PrimitiveAttributeDefinition"
+	            	<bean parent="SupportAttributeDefinition"
 	                    p:sourceName="roleMemberRoleName"
 	                    p:targetName="roleName" />
 	            </list>
@@ -108,10 +109,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 	            	<bean parent="PrimitiveAttributeDefinition"
 	                    p:sourceName="groupMemberGroupId"
 	                    p:targetName="groupId" />
-	            	<bean parent="PrimitiveAttributeDefinition"
+	            	<bean parent="SupportAttributeDefinition"
 	                    p:sourceName="groupMemberGroupNamespaceCode"
 	                    p:targetName="namespaceCode" />
-	            	<bean parent="PrimitiveAttributeDefinition"
+	            	<bean parent="SupportAttributeDefinition"
 	                    p:sourceName="groupMemberGroupName"
 	                    p:targetName="groupName" />
 	            </list>
@@ -124,9 +125,13 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 	            	<bean parent="PrimitiveAttributeDefinition"
 	                    p:sourceName="principalMemberPrincipalId"
 	                    p:targetName="principalId" />
-	            	<bean parent="PrimitiveAttributeDefinition"
+	            	<bean parent="SupportAttributeDefinition"
+		            	p:identifier="true"
 	                    p:sourceName="principalMemberPrincipalName"
 	                    p:targetName="principalName" />
+	            	<bean parent="SupportAttributeDefinition"
+	                    p:sourceName="person.name"
+	                    p:targetName="name" />
 	            </list>
 	        </property>
    		</bean>
@@ -220,6 +225,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="OrgReviewRole-person.principalName-parentBean" parent="PersonImpl-principalName" abstract="true"
         p:name="person.principalName" />
 
+  <bean id="OrgReviewRole-person.name" parent="OrgReviewRole-person.name-parentBean" />
+  <bean id="OrgReviewRole-person.name-parentBean" parent="PersonImpl-name" abstract="true"
+        p:name="person.name" />
+
   <bean id="OrgReviewRole-memberPrincipal.principalId" parent="OrgReviewRole-memberPrincipal.principalId-parentBean" />
   <bean id="OrgReviewRole-memberPrincipal.principalId-parentBean" parent="PersonImpl-principalId" abstract="true"
         p:name="principalMemberPrincipalId">
@@ -230,7 +239,14 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="OrgReviewRole-memberPrincipal.principalName" parent="OrgReviewRole-memberPrincipal.principalName-parentBean" />
   <bean id="OrgReviewRole-memberPrincipal.principalName-parentBean" parent="PersonImpl-principalName" abstract="true"
-        p:name="principalMemberPrincipalName" />
+        p:name="principalMemberPrincipalName" >
+    <property name="control" >
+      <bean parent="KualiUserControlDefinition"
+            p:personNameAttributeName="person.name"
+            p:universalIdAttributeName="principalMemberPrincipalId"
+            p:userIdAttributeName="principalMemberPrincipalName" />
+    </property>
+  </bean>
 
   <bean id="OrgReviewRole-roleId" parent="OrgReviewRole-roleId-parentBean" />
   <bean id="OrgReviewRole-roleId-parentBean" parent="RoleImpl-roleId" abstract="true"

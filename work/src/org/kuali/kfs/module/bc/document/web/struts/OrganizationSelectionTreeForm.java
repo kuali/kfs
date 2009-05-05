@@ -22,8 +22,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.kuali.kfs.module.bc.BCConstants.OrgSelControlOption;
-import org.kuali.kfs.module.bc.BCConstants.OrgSelOpMode;
+import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPullup;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -32,7 +31,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
- * This class...
+ * ActionForm that supports the Organization Selection Tree page
  */
 public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationSelectionTreeForm.class);
@@ -46,17 +45,19 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
 
     private String currentPointOfViewKeyCode;
     private String previousPointOfViewKeyCode;
-    private List pullFlagKeyLabels;
+    private List<KeyLabelPair> pullFlagKeyLabels;
 
     // passed parms
     private String operatingMode;
 
     private boolean accountSummaryConsolidation;
     private boolean accountObjectDetailConsolidation;
-    private boolean monthObjectSummaryConsolidation; 
-    
-    private String reportMode;    
-    
+    private boolean monthObjectSummaryConsolidation;
+
+    private String reportMode;
+
+    // used to flag reset() not to reset check box values when returning from child expansion screen
+    private boolean noResetOnReturn = false;
 
     /**
      * Constructs a OrganizationSelectionTreeForm.java.
@@ -77,15 +78,18 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
     public void populate(HttpServletRequest request) {
 
         super.populate(request);
+        populatePreviousBranchOrgs();
+        populateSelectionSubTreeOrgs();
 
     }
 
     public void populateSelectionSubTreeOrgs() {
 
-        Iterator selectionOrgs = getSelectionSubTreeOrgs().iterator();
+        Iterator<BudgetConstructionPullup> selectionOrgs = getSelectionSubTreeOrgs().iterator();
         while (selectionOrgs.hasNext()) {
             BudgetConstructionPullup selectionOrg = (BudgetConstructionPullup) selectionOrgs.next();
-            final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "organization" }));
+
+            final List<String> REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "organization" }));
             SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(selectionOrg, REFRESH_FIELDS);
         }
 
@@ -93,10 +97,10 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
 
     public void populatePreviousBranchOrgs() {
 
-        Iterator previousBranchOrgs = getPreviousBranchOrgs().iterator();
+        Iterator<BudgetConstructionPullup> previousBranchOrgs = getPreviousBranchOrgs().iterator();
         while (previousBranchOrgs.hasNext()) {
             BudgetConstructionPullup previousBranchOrg = (BudgetConstructionPullup) previousBranchOrgs.next();
-            final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "organization" }));
+            final List<String> REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "organization" }));
             SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(previousBranchOrg, REFRESH_FIELDS);
         }
 
@@ -251,7 +255,7 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
      * 
      * @return Returns the pullFlagKeyLabels.
      */
-    public List getPullFlagKeyLabels() {
+    public List<KeyLabelPair> getPullFlagKeyLabels() {
         return pullFlagKeyLabels;
     }
 
@@ -260,7 +264,7 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
      * 
      * @param pullFlagKeyLabels The pullFlagKeyLabels to set.
      */
-    public void setPullFlagKeyLabels(List pullFlagKeyLabels) {
+    public void setPullFlagKeyLabels(List<KeyLabelPair> pullFlagKeyLabels) {
         this.pullFlagKeyLabels = pullFlagKeyLabels;
     }
 
@@ -314,5 +318,54 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
         this.monthObjectSummaryConsolidation = monthObjectSummaryConsolidation;
     }
 
+    /**
+     * @see org.kuali.rice.kns.web.struts.form.KualiForm#shouldMethodToCallParameterBeUsed(java.lang.String, java.lang.String,
+     *      javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
+
+        if (methodToCallParameterValue.equalsIgnoreCase("performBuildPointOfView")) {
+            return true;
+        }
+        return super.shouldMethodToCallParameterBeUsed(methodToCallParameterName, methodToCallParameterValue, request);
+    }
+
+    /**
+     * @see org.kuali.rice.kns.web.struts.form.KualiForm#reset(org.apache.struts.action.ActionMapping,
+     *      javax.servlet.http.HttpServletRequest) resets check box fields if not returning from a child expansion screen
+     */
+    @Override
+    public void reset(ActionMapping mapping, HttpServletRequest request) {
+
+        if (this.isNoResetOnReturn()) {
+            this.setNoResetOnReturn(false);
+        }
+        else {
+            super.reset(mapping, request);
+            for (BudgetConstructionPullup selectionSubTreeOrg : selectionSubTreeOrgs) {
+                selectionSubTreeOrg.setPullFlag(0);
+            }
+        }
+        this.getMessages().clear();
+    }
+
+    /**
+     * Gets the noResetOnReturn attribute.
+     * 
+     * @return Returns the noResetOnReturn.
+     */
+    public boolean isNoResetOnReturn() {
+        return noResetOnReturn;
+    }
+
+    /**
+     * Sets the noResetOnReturn attribute value.
+     * 
+     * @param noResetOnReturn The noResetOnReturn to set.
+     */
+    public void setNoResetOnReturn(boolean noResetOnReturn) {
+        this.noResetOnReturn = noResetOnReturn;
+    }
 
 }

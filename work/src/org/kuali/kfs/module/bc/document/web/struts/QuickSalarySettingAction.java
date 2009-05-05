@@ -39,6 +39,7 @@ import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.document.validation.event.QuickSaveSalarySettingEvent;
 import org.kuali.kfs.module.bc.util.BudgetUrlUtil;
+import org.kuali.kfs.sys.DynamicCollectionComparator;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -168,7 +169,6 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
 
         if (salarySettingExpansion == null) {
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_SALARY_SETTING_EXPANSION_NOT_FOUND);
-            this.cleanupAnySessionForm(mapping, request);
             return this.returnToCaller(mapping, form, request, response);
         }
 
@@ -353,6 +353,8 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
 
         int indexOfSelectedLine = this.getSelectedLine(request);
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingForm.getAppointmentFundings();
+        DynamicCollectionComparator.sort(appointmentFundings, KFSPropertyConstants.POSITION_NUMBER, KFSPropertyConstants.EMPLID);
+
         PendingBudgetConstructionAppointmentFunding appointmentFunding = appointmentFundings.get(indexOfSelectedLine);
 
         // get the base action

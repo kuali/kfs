@@ -24,14 +24,12 @@
  	</tr>
  	<tr>
 	 	<td>
-			<html:hidden property="operatingModeTitle" value="${KualiForm.operatingModeTitle}" />    
 		 	<div align=center><br>   
 				<table style="width:auto" border="0" cellpadding="0" cellspacing="0" class="nobord">
 			    	<tr>
 						<td width="200" style="border-style:solid; border-color:#999999; border-width:1px; padding:6px; background-color:#EAE9E9">
 			            	<div align="center">
 			                     <strong>Select Point of View: <br><br>
-			                     	<html:hidden property="previousPointOfViewKeyCode" value="${KualiForm.currentPointOfViewKeyCode}" />
 			                        <kul:htmlControlAttribute property="currentPointOfViewKeyCode" attributeEntry="${pointOfViewOrgAttributes.selectionKeyCode}" onchange="refreshPointOfView(this.form)" readOnly="false" styleClass="grid" />
 			                      	<br>
 			                     </strong>
@@ -44,16 +42,16 @@
 			            		 <p align="center"><strong>Currently Selected:</strong><strong><br><br></strong>
 				                 <kul:htmlControlAttribute property="pointOfViewOrg.chartOfAccountsCode" attributeEntry="${pointOfViewOrgAttributes.chartOfAccountsCode}" readOnly="true" readOnlyBody="true">
 				    	             <kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.Chart" keyValues="chartOfAccountsCode=${pointOfViewOrg.chartOfAccountsCode}" render="${!empty KualiForm.pointOfViewOrg.chartOfAccountsCode}">
-					                 	<html:hidden write="true" property="pointOfViewOrg.chartOfAccountsCode" />
+				    	             ${KualiForm.pointOfViewOrg.chartOfAccountsCode}
 				    	         	 </kul:inquiry>
 			        	         </kul:htmlControlAttribute>
 			            	     -
 			                	 <kul:htmlControlAttribute property="pointOfViewOrg.organizationCode" attributeEntry="${pointOfViewOrgAttributes.organizationCode}" readOnly="true" readOnlyBody="true">
 			                   	 	<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.Organization" keyValues="chartOfAccountsCode=${KualiForm.pointOfViewOrg.chartOfAccountsCode}&amp;organizationCode=${KualiForm.pointOfViewOrg.organizationCode}" render="${!empty KualiForm.pointOfViewOrg.organizationCode}">
-				      		        	<html:hidden write="true" property="pointOfViewOrg.organizationCode" />
+				    	             ${KualiForm.pointOfViewOrg.organizationCode}
 			      			        </kul:inquiry>
 				                 </kul:htmlControlAttribute>
-				                 <span class="fineprint">(<kul:htmlControlAttribute property="pointOfViewOrg.organization.organizationName" attributeEntry="${organizationAttributes.organizationName}" readOnly="true"/>)
+				                 <span class="fineprint">(<kul:htmlControlAttribute property="pointOfViewOrg.organization.organizationName" attributeEntry="${organizationAttributes.organizationName}" readOnly="true" readOnlyBody="true">${KualiForm.pointOfViewOrg.organization.organizationName}&nbsp;</kul:htmlControlAttribute>)
 			    	             </span>
 			        		</div>
 			            </td>

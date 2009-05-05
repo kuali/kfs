@@ -176,7 +176,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
                 String[] flds = organizationSelectionTreeForm.getCurrentPointOfViewKeyCode().split("[-]");
                 organizationSelectionTreeForm.setPreviousPointOfViewKeyCode(organizationSelectionTreeForm.getCurrentPointOfViewKeyCode());
 
-                HashMap map = new HashMap();
+                HashMap<String, Object> map = new HashMap<String, Object>();
                 map.put("chartOfAccountsCode", flds[0]);
                 map.put("organizationCode", flds[1]);
                 organizationSelectionTreeForm.setPointOfViewOrg((BudgetConstructionOrganizationReports) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionOrganizationReports.class, map));
@@ -193,6 +193,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
             }
         }
         else {
+            organizationSelectionTreeForm.setPreviousPointOfViewKeyCode(organizationSelectionTreeForm.getCurrentPointOfViewKeyCode());
             organizationSelectionTreeForm.setPointOfViewOrg(new BudgetConstructionOrganizationReports());
             organizationSelectionTreeForm.setSelectionSubTreeOrgs(new TypedArrayList(BudgetConstructionPullup.class));
             organizationSelectionTreeForm.setPreviousBranchOrgs(new TypedArrayList(BudgetConstructionPullup.class));
@@ -248,7 +249,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
             organizationSelectionTreeForm.setPreviousBranchOrgs(new TypedArrayList(BudgetConstructionPullup.class));
 
             // reinitialize the selection tool to the root
-            HashMap map = new HashMap();
+            HashMap<String, Object> map = new HashMap<String, Object>();
             map.put("chartOfAccountsCode", previousBranchOrg.getChartOfAccountsCode());
             map.put("organizationCode", previousBranchOrg.getOrganizationCode());
             map.put("principalId", principalId);
@@ -437,6 +438,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
             GlobalVariables.getErrorMap().putError(BCConstants.SELECTION_SUB_TREE_ORGS, BCKeyConstants.ERROR_BUDGET_ORG_NOT_SELECTED);
         }
 
+
         return foundSelected;
     }
 
@@ -452,6 +454,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
         if (!storedSelectedOrgs(organizationSelectionTreeForm.getSelectionSubTreeOrgs())) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
+        organizationSelectionTreeForm.setNoResetOnReturn(true);
 
         // forward to temp list action for displaying results
         String url = BudgetUrlUtil.buildTempListLookupUrl(mapping, organizationSelectionTreeForm, BCConstants.TempListLookupMode.POSITION_SELECT, BudgetConstructionPositionSelect.class.getName(), null);
@@ -471,6 +474,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
         if (!storedSelectedOrgs(organizationSelectionTreeForm.getSelectionSubTreeOrgs())) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
+        organizationSelectionTreeForm.setNoResetOnReturn(true);
 
         // forward to temp list action for displaying results
         String url = BudgetUrlUtil.buildTempListLookupUrl(mapping, organizationSelectionTreeForm, BCConstants.TempListLookupMode.INTENDED_INCUMBENT_SELECT, BudgetConstructionIntendedIncumbentSelect.class.getName(), null);
@@ -497,6 +501,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
             GlobalVariables.getMessageList().add("error.inquiry");
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
+        organizationSelectionTreeForm.setNoResetOnReturn(true);
 
         // forward to temp list action for displaying results
         String url = BudgetUrlUtil.buildTempListLookupUrl(mapping, organizationSelectionTreeForm, BCConstants.TempListLookupMode.ACCOUNT_SELECT_BUDGETED_DOCUMENTS, BudgetConstructionAccountSelect.class.getName(), null);
@@ -530,6 +535,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
         // if no accounts are on the list
         int rowCount = SpringContext.getBean(BudgetPushPullService.class).buildPullUpBudgetedDocuments(principalId, bcFiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode);
         if (rowCount != 0) {
+            organizationSelectionTreeForm.setNoResetOnReturn(true);
             String url = BudgetUrlUtil.buildTempListLookupUrl(mapping, organizationSelectionTreeForm, BCConstants.TempListLookupMode.ACCOUNT_SELECT_PULLUP_DOCUMENTS, BudgetConstructionAccountSelect.class.getName(), null);
 
             return new ActionForward(url, true);
@@ -568,6 +574,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
 
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
+        organizationSelectionTreeForm.setNoResetOnReturn(true);
 
         // forward to temp list action for displaying results
         String url = BudgetUrlUtil.buildTempListLookupUrl(mapping, organizationSelectionTreeForm, BCConstants.TempListLookupMode.ACCOUNT_SELECT_PULLUP_DOCUMENTS, BudgetConstructionAccountSelect.class.getName(), null);
@@ -601,6 +608,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
         // otherwise add successful pullup message if no accounts are on the list
         int rowCount = SpringContext.getBean(BudgetPushPullService.class).buildPushDownBudgetedDocuments(principalId, bcFiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode);
         if (rowCount != 0) {
+            organizationSelectionTreeForm.setNoResetOnReturn(true);
             String url = BudgetUrlUtil.buildTempListLookupUrl(mapping, organizationSelectionTreeForm, BCConstants.TempListLookupMode.ACCOUNT_SELECT_PUSHDOWN_DOCUMENTS, BudgetConstructionAccountSelect.class.getName(), null);
 
             return new ActionForward(url, true);
@@ -639,6 +647,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
 
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
+        organizationSelectionTreeForm.setNoResetOnReturn(true);
 
         // forward to temp list action for displaying results
         String url = BudgetUrlUtil.buildTempListLookupUrl(mapping, organizationSelectionTreeForm, BCConstants.TempListLookupMode.ACCOUNT_SELECT_PUSHDOWN_DOCUMENTS, BudgetConstructionAccountSelect.class.getName(), null);
@@ -678,6 +687,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
         if (reportModeName.equals(BudgetConstructionReportMode.TWOPLG_LIST_REPORT.reportModeName) || reportModeName.equals(BudgetConstructionReportMode.SYNCHRONIZATION_PROBLEMS_REPORT.reportModeName)) {
             forceToAccountListScreen = true;
         }
+        organizationSelectionTreeForm.setNoResetOnReturn(true);
 
         String forwardURL = "";
         if (rowCount != 0 || forceToAccountListScreen) {

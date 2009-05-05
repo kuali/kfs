@@ -359,12 +359,12 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
      * return after salary setting is closed
      */
     protected ActionForward returnAfterClose(SalarySettingBaseForm salarySettingForm, ActionMapping mapping, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        this.cleanupAnySessionForm(mapping, request);
         if (salarySettingForm.isBudgetByAccountMode()) {
             salarySettingForm.getCallBackMessages().add(BCKeyConstants.MESSAGE_BUDGET_SUCCESSFUL_CLOSE);
             return this.returnToCaller(mapping, salarySettingForm, request, response);
         }
 
+        this.cleanupAnySessionForm(mapping, request);
         GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_SUCCESSFUL_CLOSE);
         return mapping.findForward(BCConstants.MAPPING_ORGANIZATION_SALARY_SETTING_RETURNING);
     }

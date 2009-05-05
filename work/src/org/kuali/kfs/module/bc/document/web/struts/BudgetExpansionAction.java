@@ -113,6 +113,9 @@ public class BudgetExpansionAction extends KualiAction {
     public ActionForward returnToCaller(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetExpansionForm budgetExpansionForm = (BudgetExpansionForm) form;
 
+        // if this form is session scoped remove it 
+        this.cleanupAnySessionForm(mapping, request);
+
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.BC_SELECTION_REFRESH_METHOD);
         parameters.put(KFSConstants.DOC_FORM_KEY, budgetExpansionForm.getReturnFormKey());
@@ -136,7 +139,7 @@ public class BudgetExpansionAction extends KualiAction {
             GlobalVariables.getUserSession().addObject(BCPropertyConstants.CALL_BACK_MESSAGES, budgetExpansionForm.getCallBackMessages());
         }
 
-        if (!budgetExpansionForm.getCallBackErrors().isEmpty()) {
+        if (budgetExpansionForm.getCallBackErrors().hasErrors()) {
             GlobalVariables.getUserSession().addObject(BCPropertyConstants.CALL_BACK_ERRORS, budgetExpansionForm.getCallBackErrors());
         }
     }

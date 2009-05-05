@@ -76,11 +76,11 @@ public class IncumbentSalarySettingAction extends DetailSalarySettingAction {
             String emplid = (String) fieldValues.get(KFSPropertyConstants.EMPLID);
             
             errorMap.putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_INCUMBENT_NOT_FOUND, emplid);
-            this.cleanupAnySessionForm(mapping, request);
             if (incumbentSalarySettingForm.isBudgetByAccountMode()){
                 return this.returnToCaller(mapping, form, request, response);
             }
             else {
+                this.cleanupAnySessionForm(mapping, request);
                 return mapping.findForward(BCConstants.MAPPING_ORGANIZATION_SALARY_SETTING_RETURNING);
             }
         }
@@ -97,22 +97,22 @@ public class IncumbentSalarySettingAction extends DetailSalarySettingAction {
             
             boolean accessModeUpdated = incumbentSalarySettingForm.updateAccessMode(errorMap);
             if (!accessModeUpdated) {
-                this.cleanupAnySessionForm(mapping, request);
                 if (incumbentSalarySettingForm.isBudgetByAccountMode()){
                     return this.returnToCaller(mapping, form, request, response);
                 }
                 else {
+                    this.cleanupAnySessionForm(mapping, request);
                     return mapping.findForward(BCConstants.MAPPING_ORGANIZATION_SALARY_SETTING_RETURNING);
                 }
             }
 
             boolean gotLocks = incumbentSalarySettingForm.acquirePositionAndFundingLocks(errorMap);
             if (!gotLocks) {
-                this.cleanupAnySessionForm(mapping, request);
                 if (incumbentSalarySettingForm.isBudgetByAccountMode()){
                     return this.returnToCaller(mapping, form, request, response);
                 }
                 else {
+                    this.cleanupAnySessionForm(mapping, request);
                     return mapping.findForward(BCConstants.MAPPING_ORGANIZATION_SALARY_SETTING_RETURNING);
                 }
             }

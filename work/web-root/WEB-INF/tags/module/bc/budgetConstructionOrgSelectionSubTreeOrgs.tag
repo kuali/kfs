@@ -32,10 +32,6 @@
 	    <tr>
             <td class="grid" valign="center" rowspan="1" colspan="1">
             <div align="center">
-               	<html:hidden write="false" property="selectionSubTreeOrgs[${status.index}].reportsToChartOfAccountsCode" />
-               	<html:hidden write="false" property="selectionSubTreeOrgs[${status.index}].reportsToOrganizationCode" />
-               	<html:hidden write="false" property="selectionSubTreeOrgs[${status.index}].versionNumber" />
-               	<html:hidden write="false" property="selectionSubTreeOrgs[${status.index}].principalId" />
                 
                 <c:choose>
                    	<c:when test="${KualiForm.operatingMode == BCConstants.OrgSelOpMode.PULLUP or KualiForm.operatingMode == BCConstants.OrgSelOpMode.PUSHDOWN}">                   
@@ -58,8 +54,8 @@
                 <kul:inquiry
                     boClassName="org.kuali.kfs.coa.businessobject.Chart"
                     keyValues="chartOfAccountsCode=${item.chartOfAccountsCode}"
-                    render="${!empty KualiForm.selectionSubTreeOrgs[0].chartOfAccountsCode}">
-                	<html:hidden write="true" property="selectionSubTreeOrgs[${status.index}].chartOfAccountsCode" />
+                    render="${!empty KualiForm.selectionSubTreeOrgs[status.index].chartOfAccountsCode}">
+                    ${KualiForm.selectionSubTreeOrgs[status.index].chartOfAccountsCode}
                 </kul:inquiry>&nbsp;
             </kul:htmlControlAttribute>
 			-
@@ -71,8 +67,8 @@
                 <kul:inquiry
                     boClassName="org.kuali.kfs.coa.businessobject.Organization"
                     keyValues="chartOfAccountsCode=${item.chartOfAccountsCode}&amp;organizationCode=${item.organizationCode}"
-                    render="${!empty KualiForm.selectionSubTreeOrgs[0].organizationCode}">
-                	<html:hidden write="true" property="selectionSubTreeOrgs[${status.index}].organizationCode" />
+                    render="${!empty KualiForm.selectionSubTreeOrgs[status.index].organizationCode}">
+                    ${KualiForm.selectionSubTreeOrgs[status.index].organizationCode}
                 </kul:inquiry>&nbsp;
 	      	</kul:htmlControlAttribute>
             </td>
@@ -80,7 +76,10 @@
             <kul:htmlControlAttribute
                 property="selectionSubTreeOrgs[${status.index}].organization.organizationName"
                 attributeEntry="${organizationAttributes.organizationName}"
-                readOnly="true"/>&nbsp;
+                readOnly="true"
+                readOnlyBody="true">
+                ${KualiForm.selectionSubTreeOrgs[status.index].organization.organizationName}&nbsp;
+	      	</kul:htmlControlAttribute>
             </td>
             <td class="grid" valign="center" rowspan="1" >
             <div align="center">&nbsp;

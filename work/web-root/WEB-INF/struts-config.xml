@@ -496,8 +496,16 @@
 			<forward name="lostSessionReturning" path="/jsp/module/bc/LostSessionReturning.jsp" />
 			<forward name="import_export"
 				path="/jsp/module/bc/BudgetConstructionImportExport.jsp" />
-			<forward name="report_dump"
-				path="/jsp/module/bc/BudgetConstructionImportExport.jsp" />
+		</action>
+
+		<action path="/budgetOrganizationSelectionTree" name="OrganizationSelectionTreeForm"
+			input="/jsp/module/bc/OrganizationSelectionTree.jsp"
+			type="org.kuali.kfs.module.bc.document.web.struts.OrganizationSelectionTreeAction"
+			scope="session" parameter="methodToCall" validate="true"
+			attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/module/bc/OrganizationSelectionTree.jsp" />
+			<forward name="lostSessionReturning" path="/jsp/module/bc/LostSessionReturning.jsp" />
 		</action>
 
 		<action path="/budgetMonthlyBudget" name="MonthlyBudgetForm"

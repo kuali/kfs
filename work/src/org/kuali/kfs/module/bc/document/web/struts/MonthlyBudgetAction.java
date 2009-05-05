@@ -219,7 +219,6 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
             }
         }
 
-        this.cleanupAnySessionForm(mapping, request);
         return returnToCaller(mapping, form, request, response);
     }
 
@@ -303,7 +302,6 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
                     BudgetConstructionDocument bcDoc = budgetConstructionForm.getBudgetConstructionDocument();
                     SpringContext.getBean(BudgetDocumentService.class).callForBenefitsCalcIfNeeded(bcDoc, budgetConstructionMonthly, KualiInteger.ZERO);
 
-                    this.cleanupAnySessionForm(mapping, request);
                     return returnToCaller(mapping, form, request, response);
                 }
                 // else go to close logic below

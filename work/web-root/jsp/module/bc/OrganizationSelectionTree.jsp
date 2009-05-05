@@ -34,12 +34,6 @@
       </style> 
     <![endif]-->
     	    
-	<html-el:hidden name="KualiForm" property="returnAnchor" />
-	<html-el:hidden name="KualiForm" property="returnFormKey" />
-	<html-el:hidden name="KualiForm" property="backLocation" />
-	<html-el:hidden name="KualiForm" property="operatingMode" />
-	<html-el:hidden name="KualiForm" property="universityFiscalYear" />
-
     <kul:errors keyMatch="pointOfViewOrg" errorTitle="Errors found in Organization Selection:" />
     <c:forEach items="${KualiForm.messages}" var="message">
 	   ${message}

@@ -84,11 +84,11 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
             String fiscalYear = (String) fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
             errorMap.putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_POSITION_NOT_FOUND, positionNumber, fiscalYear);
 
-            this.cleanupAnySessionForm(mapping, request);
             if (positionSalarySettingForm.isBudgetByAccountMode()) {
                 return this.returnToCaller(mapping, form, request, response);
             }
             else {
+                this.cleanupAnySessionForm(mapping, request);
                 return mapping.findForward(BCConstants.MAPPING_ORGANIZATION_SALARY_SETTING_RETURNING);
             }
         }
@@ -102,11 +102,11 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
         BudgetConstructionLockStatus bcLockStatus = SpringContext.getBean(LockService.class).lockPosition(positionNumber, universityFiscalYear, principalId);
         if (!bcLockStatus.getLockStatus().equals(BCConstants.LockStatus.SUCCESS)) {
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_POSITION_LOCK_NOT_OBTAINED, new String[] { universityFiscalYear.toString(), positionNumber });
-            this.cleanupAnySessionForm(mapping, request);
             if (positionSalarySettingForm.isBudgetByAccountMode()) {
                 return this.returnToCaller(mapping, form, request, response);
             }
             else {
+                this.cleanupAnySessionForm(mapping, request);
                 return mapping.findForward(BCConstants.MAPPING_ORGANIZATION_SALARY_SETTING_RETURNING);
             }
         }
@@ -125,11 +125,11 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
             boolean accessModeUpdated = positionSalarySettingForm.updateAccessMode(errorMap);
             if (!accessModeUpdated) {
                 this.unlockPositionOnly(positionSalarySettingForm);
-                this.cleanupAnySessionForm(mapping, request);
                 if (positionSalarySettingForm.isBudgetByAccountMode()) {
                     return this.returnToCaller(mapping, form, request, response);
                 }
                 else {
+                    this.cleanupAnySessionForm(mapping, request);
                     return mapping.findForward(BCConstants.MAPPING_ORGANIZATION_SALARY_SETTING_RETURNING);
                 }
             }
@@ -137,11 +137,11 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
             boolean gotLocks = positionSalarySettingForm.acquirePositionAndFundingLocks(errorMap);
             if (!gotLocks) {
                 this.unlockPositionOnly(positionSalarySettingForm);
-                this.cleanupAnySessionForm(mapping, request);
                 if (positionSalarySettingForm.isBudgetByAccountMode()) {
                     return this.returnToCaller(mapping, form, request, response);
                 }
                 else {
+                    this.cleanupAnySessionForm(mapping, request);
                     return mapping.findForward(BCConstants.MAPPING_ORGANIZATION_SALARY_SETTING_RETURNING);
                 }
             }
@@ -303,7 +303,6 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
         BudgetConstructionLockStatus bcLockStatus = SpringContext.getBean(LockService.class).lockPositionAndActiveFunding(universityFiscalYear, positionNumber, principalId);
         if (!bcLockStatus.getLockStatus().equals(BCConstants.LockStatus.SUCCESS)) {
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_POSITION_LOCK_NOT_OBTAINED, new String[] { universityFiscalYear.toString(), positionNumber });
-            this.cleanupAnySessionForm(mapping, request);
             return this.returnToCaller(mapping, form, request, response);
         }
 

@@ -64,6 +64,8 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
     protected boolean canEdit(Document document) {
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
         if (!PurchaseOrderStatuses.IN_PROCESS.equals(poDocument.getStatusCode()) &&
+                !PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT.equals(poDocument.getStatusCode()) &&
+                !PurchaseOrderStatuses.WAITING_FOR_VENDOR.equals(poDocument.getStatusCode()) &&
                 !PurchaseOrderStatuses.QUOTE.equals(poDocument.getStatusCode()) &&
                 !PurchaseOrderStatuses.AWAIT_PURCHASING_REVIEW.equals(poDocument.getStatusCode()) &&
                 !PurchaseOrderStatuses.AWAIT_NEW_UNORDERED_ITEM_REVIEW.equals(poDocument.getStatusCode()) &&

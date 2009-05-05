@@ -193,8 +193,8 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         this.setVendorShippingTitleCode(vendorDetail.getVendorShippingTitleCode());
         this.setVendorPaymentTermsCode(vendorDetail.getVendorPaymentTermsCode());
         this.setVendorShippingPaymentTermsCode(vendorDetail.getVendorShippingPaymentTermsCode());
-    }
-
+        this.setVendorCustomerNumber("");
+    } 
     /**
      * @see org.kuali.kfs.module.purap.document.PurchasingDocument#templateVendorContract(org.kuali.kfs.vnd.businessobject.VendorContract)
      */

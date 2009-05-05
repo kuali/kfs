@@ -28,10 +28,12 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.ModuleService;
+import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.ExternalizableBusinessObjectUtils;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -177,7 +179,7 @@ public class PurApObjectUtils {
             BusinessObject targetCollectionObject = (BusinessObject) createNewObjectFromClass(sourceCollectionObject.getClass());
             populateFromBaseWithSuper(sourceCollectionObject, targetCollectionObject, supplementalUncopyable, new HashSet<Class>());
             // BusinessObject targetCollectionObject = (BusinessObject)ObjectUtils.deepCopy((Serializable)sourceCollectionObject);
-            Map pkMap = KNSServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(targetCollectionObject);
+            Map pkMap = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(targetCollectionObject);
             Set<String> pkFields = pkMap.keySet();
             for (String field : pkFields) {
                 ObjectUtils.setObjectProperty(targetCollectionObject, field, null);
@@ -204,7 +206,7 @@ public class PurApObjectUtils {
         try {
             if (clazz.getSuperclass().equals(ExternalizableBusinessObject.class)) {
                 Class eboInterface = ExternalizableBusinessObjectUtils.determineExternalizableBusinessObjectSubInterface(clazz);
-                ModuleService moduleService = KNSServiceLocator.getKualiModuleService().getResponsibleModuleService(eboInterface);
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(eboInterface);
                 return moduleService.createNewObjectFromExternalizableClass(eboInterface);
             }
             else {
@@ -292,8 +294,8 @@ public class PurApObjectUtils {
             equal = false;
         }
         else {
-            Map bo1Keys = KNSServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(bo1);
-            Map bo2Keys = KNSServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(bo2);
+            Map bo1Keys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(bo1);
+            Map bo2Keys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(bo2);
             for (Iterator iter = bo1Keys.keySet().iterator(); iter.hasNext();) {
                 String keyName = (String) iter.next();
                 if (bo1Keys.get(keyName) != null && bo2Keys.get(keyName) != null) {

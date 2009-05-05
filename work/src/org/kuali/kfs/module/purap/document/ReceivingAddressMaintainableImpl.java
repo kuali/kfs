@@ -19,7 +19,6 @@ import java.security.GeneralSecurityException;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.businessobject.ReceivingAddress;
 import org.kuali.kfs.module.purap.document.service.ReceivingAddressService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -31,7 +30,6 @@ import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.service.BusinessObjectAuthorizationService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -83,8 +81,8 @@ public class ReceivingAddressMaintainableImpl extends KualiMaintainableImpl {
         lockRepresentation.append(ReceivingAddress.class.getName());
         lockRepresentation.append(KFSConstants.Maintenance.AFTER_CLASS_DELIM);
 
-        DataDictionaryService dataDictionaryService = KNSServiceLocator.getDataDictionaryService();
-        EncryptionService encryptionService = KNSServiceLocator.getEncryptionService();
+        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+        EncryptionService encryptionService = SpringContext.getBean(EncryptionService.class);
 
         int count = 0;
         for (String fieldName : fieldNames) {

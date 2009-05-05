@@ -22,9 +22,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KeyValuesService;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
@@ -39,10 +39,10 @@ public class CampusNoBlankValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
 
-        KeyValuesService boService = KNSServiceLocator.getKeyValuesService();
+        KeyValuesService kvService = SpringContext.getBean(KeyValuesService.class);
         Map fieldValues = new HashMap();
         fieldValues.put(KNSPropertyConstants.ACTIVE_INDICATOR, true);
-        Collection codes = boService.findMatching(CampusParameter.class, fieldValues);
+        Collection codes = kvService.findMatching(CampusParameter.class, fieldValues);
         List labels = new ArrayList();
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
             CampusParameter campusParameter = (CampusParameter) iter.next();

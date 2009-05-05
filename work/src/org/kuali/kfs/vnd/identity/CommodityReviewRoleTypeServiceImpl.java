@@ -18,11 +18,9 @@ package org.kuali.kfs.vnd.identity;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.cg.identity.CgKimAttributes;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.doctype.service.DocumentTypeService;
-import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
 import org.kuali.rice.kim.util.KimCommonUtils;
@@ -44,7 +42,7 @@ public class CommodityReviewRoleTypeServiceImpl extends KimRoleTypeServiceBase {
     
     public DocumentTypeService getDocumentTypeService() {
         if (documentTypeService == null) {
-            documentTypeService = KEWServiceLocator.getDocumentTypeService();
+            documentTypeService = SpringContext.getBean(DocumentTypeService.class);
         }
         return this.documentTypeService;
     }

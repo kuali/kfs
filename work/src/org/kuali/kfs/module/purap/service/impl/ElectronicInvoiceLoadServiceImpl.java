@@ -55,8 +55,9 @@ import org.kuali.kfs.module.purap.exception.PurError;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceLoadService;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.MailService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -533,7 +534,7 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
         // perform reject scenario
         // peform reject scenario
         try {
-            ElectronicInvoiceRejectDocument eirDoc = (ElectronicInvoiceRejectDocument) KNSServiceLocator.getDocumentService().getNewDocument("EIRT");
+            ElectronicInvoiceRejectDocument eirDoc = (ElectronicInvoiceRejectDocument) SpringContext.getBean(DocumentService.class).getNewDocument("EIRT");
             eirDoc.setInvoiceLoadSummary(eils);
             // then populate EI and EIO
             eirDoc.setInvoiceOrderLevelData(ei, eio);
@@ -551,7 +552,7 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
             // updated load object
             eil.insertInvoiceLoadSummary(eils);
             eil.addInvoiceReject(eirDoc);
-//            KNSServiceLocator.getDocumentService().saveDocument(eirDoc);
+//            SpringContext.getBean(DocumentService.class).saveDocument(eirDoc);
         }
         catch (WorkflowException e) {
             // TODO Auto-generated catch block
@@ -583,7 +584,7 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
         for (Iterator itemIter = eInvoice.getInvoiceDetailOrders().iterator(); itemIter.hasNext();) {
             try {
                 ElectronicInvoiceOrder eInvoiceOrder = (ElectronicInvoiceOrder) itemIter.next();
-                ElectronicInvoiceRejectDocument eInvoiceRejectDocument = (ElectronicInvoiceRejectDocument) KNSServiceLocator.getDocumentService().getNewDocument("EIRT");
+                ElectronicInvoiceRejectDocument eInvoiceRejectDocument = (ElectronicInvoiceRejectDocument) SpringContext.getBean(DocumentService.class).getNewDocument("EIRT");
                 eInvoiceRejectDocument.setInvoiceLoadSummary(eInvoiceLoadSummary);
                 // then populate EI and EIO
                 eInvoiceRejectDocument.setFileLevelData(eInvoice);
@@ -602,7 +603,7 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
                 // updated load object
                 eInvoiceLoad.insertInvoiceLoadSummary(eInvoiceLoadSummary);
                 eInvoiceLoad.addInvoiceReject(eInvoiceRejectDocument);
-//                KNSServiceLocator.getDocumentService().saveDocument(eInvoiceRejectDocument);
+//                SpringContext.getBean(DocumentService.class).saveDocument(eInvoiceRejectDocument);
             }
             catch (WorkflowException e) {
                 e.printStackTrace();

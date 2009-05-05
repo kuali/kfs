@@ -15,28 +15,14 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapKeyConstants;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
-import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.WorkflowInfoService;
 
 public class PurchasingAccountsPayableNewIndividualItemValidation extends GenericValidation {
 
@@ -57,7 +43,7 @@ public class PurchasingAccountsPayableNewIndividualItemValidation extends Generi
 
     protected String getDocumentTypeLabel(String documentTypeName) {
         try {
-            return KNSServiceLocator.getWorkflowInfoService().getDocType(documentTypeName).getDocTypeLabel();
+            return SpringContext.getBean(WorkflowInfoService.class).getDocType(documentTypeName).getDocTypeLabel();
         }
         catch (WorkflowException e) {
             throw new RuntimeException("Caught Exception trying to get Workflow Document Type", e);

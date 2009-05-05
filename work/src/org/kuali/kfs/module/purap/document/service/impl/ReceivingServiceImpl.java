@@ -52,7 +52,6 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.AdHocRoutePerson;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.NoteService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -843,7 +842,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         PurchaseOrderDocument poDoc = receivingDoc.getPurchaseOrderDocument();
         if (purchaseOrderService.canAmendPurchaseOrder(poDoc)){
             try{
-                KNSServiceLocator.getDocumentService().approveDocument(receivingDoc, "Approved by the batch job", null);
+                SpringContext.getBean(DocumentService.class).approveDocument(receivingDoc, "Approved by the batch job", null);
             }
             catch (WorkflowException e) {
                 e.printStackTrace();

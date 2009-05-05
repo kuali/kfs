@@ -20,11 +20,12 @@ import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.workflow.service.WorkflowInfoService;
 
 public class PurchasingProcessContainsAtLeastOneItemValidation extends GenericValidation {
     
@@ -54,7 +55,7 @@ public class PurchasingProcessContainsAtLeastOneItemValidation extends GenericVa
 
     protected String getDocumentTypeLabel(String documentTypeName) {
         try {
-            return KNSServiceLocator.getWorkflowInfoService().getDocType(documentTypeName).getDocTypeLabel();
+            return SpringContext.getBean(WorkflowInfoService.class).getDocType(documentTypeName).getDocTypeLabel();
         }
         catch (WorkflowException e) {
             throw new RuntimeException("Caught Exception trying to get Workflow Document Type", e);

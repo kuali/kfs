@@ -16,28 +16,22 @@
 package org.kuali.kfs.module.purap.document;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.appleton;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
 import junit.framework.Assert;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceLoadSummary;
 import org.kuali.kfs.module.purap.fixture.ElectronicInvoiceLoadSummaryFixture;
 import org.kuali.kfs.module.purap.fixture.ElectronicInvoiceRejectDocumentFixture;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
-import org.kuali.kfs.module.purap.service.ElectronicInvoiceHelperService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -61,7 +55,7 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
     @ConfigureContext(session = appleton, shouldCommitTransactions = true)
     public final void testSaveDocument() throws Exception { 
         ElectronicInvoiceLoadSummary eils = ElectronicInvoiceLoadSummaryFixture.EILS_BASIC.createElectronicInvoiceLoadSummary();
-        BusinessObjectService boService =  KNSServiceLocator.getBusinessObjectService();
+        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
         boService.save(eils);        
 
         GlobalVariables.getUserSession().setBackdoorUser( "kfs" );
@@ -81,7 +75,7 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
     @ConfigureContext(session = appleton, shouldCommitTransactions = true)
     public final void testSaveDocumentWithNonMatchingPO() throws Exception {
         ElectronicInvoiceLoadSummary eils = ElectronicInvoiceLoadSummaryFixture.EILS_BASIC.createElectronicInvoiceLoadSummary();
-        BusinessObjectService boService =  KNSServiceLocator.getBusinessObjectService();
+        BusinessObjectService boService =  SpringContext.getBean(BusinessObjectService.class);
         boService.save(eils);
 
         GlobalVariables.getUserSession().setBackdoorUser( "parke" );
@@ -106,7 +100,7 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
     @ConfigureContext(session = appleton, shouldCommitTransactions = true)
     public final void testSaveDocumentWithMatchingPO() throws Exception {
         ElectronicInvoiceLoadSummary eils = ElectronicInvoiceLoadSummaryFixture.EILS_MATCHING.createElectronicInvoiceLoadSummary();
-        BusinessObjectService boService =  KNSServiceLocator.getBusinessObjectService();
+        BusinessObjectService boService =  SpringContext.getBean(BusinessObjectService.class);
         boService.save(eils);
 
         GlobalVariables.getUserSession().setBackdoorUser( "parke" );
@@ -132,7 +126,7 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
     @ConfigureContext(session = appleton, shouldCommitTransactions = false)
     public final void testRouteDocument() throws Exception {
 //        ElectronicInvoiceLoadSummary eils = ElectronicInvoiceLoadSummaryFixture.EILS_BASIC.createElectronicInvoiceLoadSummary();
-//        BusinessObjectService boService =  KNSServiceLocator.getBusinessObjectService();
+//        BusinessObjectService boService =  SpringContext.getBean(BusinessObjectService.class);
 //        boService.save(eils);
 //        
 //        eirDoc = ElectronicInvoiceRejectDocumentFixture.EIR_ONLY_REQUIRED_FIELDS.createElectronicInvoiceRejectDocument(eils);

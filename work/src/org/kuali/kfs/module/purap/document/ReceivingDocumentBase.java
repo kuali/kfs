@@ -16,11 +16,9 @@
 package org.kuali.kfs.module.purap.document;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.kfs.module.purap.businessobject.Carrier;
 import org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason;
 import org.kuali.kfs.module.purap.businessobject.LineItemReceivingStatus;
@@ -36,14 +34,14 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.entity.KimPrincipal;
-import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kns.workflow.service.WorkflowInfoService;
 
 public abstract class ReceivingDocumentBase extends FinancialSystemTransactionalDocumentBase implements ReceivingDocument {
 
@@ -558,7 +556,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
             String annotationNote = (ObjectUtils.isNull(annotation)) ? "" : annotation;
             String responsibilityNote = (ObjectUtils.isNull(responsibility)) ? "" : responsibility;
             String currentNodeName = getCurrentRouteNodeName(workflowDocument);
-            KimPrincipal principal = KIMServiceLocator.getIdentityManagementService().getPrincipalByPrincipalName(userNetworkId);
+            KimPrincipal principal = SpringContext.getBean(IdentityManagementService.class).getPrincipalByPrincipalName(userNetworkId);
             workflowDocument.adHocRouteDocumentToPrincipal(KEWConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, annotationNote, principal.getPrincipalId(), responsibilityNote, true);
         }
     }
@@ -662,7 +660,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     }
     
     public String getDocumentTitleForResult() throws WorkflowException{
-        return KNSServiceLocator.getWorkflowInfoService().getDocType(this.getDocumentHeader().getWorkflowDocument().getDocumentType()).getDocTypeLabel();
+        return SpringContext.getBean(WorkflowInfoService.class).getDocType(this.getDocumentHeader().getWorkflowDocument().getDocumentType()).getDocTypeLabel();
     }
     
 }

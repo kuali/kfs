@@ -42,11 +42,12 @@ import org.kuali.kfs.module.purap.pdf.PurchaseOrderQuotePdf;
 import org.kuali.kfs.module.purap.pdf.PurchaseOrderQuoteRequestsPdf;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -154,7 +155,7 @@ public class PrintServiceImpl implements PrintService {
         ContractManager contractManager = po.getContractManager();
         String contractManagerCampusCode = "N/A";
         if (contractManager != null && contractManager.getContractManagerUserIdentifier() != null) {
-            Person contractManagerUser = KIMServiceLocator.getPersonService().getPerson(contractManager.getContractManagerUserIdentifier());
+            Person contractManagerUser = SpringContext.getBean(PersonService.class).getPerson(contractManager.getContractManagerUserIdentifier());
             contractManagerCampusCode = contractManagerUser.getCampusCode();
         }
 
@@ -210,7 +211,7 @@ public class PrintServiceImpl implements PrintService {
         ContractManager contractManager = po.getContractManager();
         String contractManagerCampusCode = "";
         if (contractManager.getContractManagerUserIdentifier() != null) {            
-            Person contractManagerUser = KIMServiceLocator.getPersonService().getPerson(contractManager.getContractManagerUserIdentifier());
+            Person contractManagerUser = SpringContext.getBean(PersonService.class).getPerson(contractManager.getContractManagerUserIdentifier());
             contractManagerCampusCode = contractManagerUser.getCampusCode();
         }
 

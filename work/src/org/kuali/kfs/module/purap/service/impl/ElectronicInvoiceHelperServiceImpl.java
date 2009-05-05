@@ -90,11 +90,11 @@ import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.mail.InvalidAddressException;
 import org.kuali.rice.kns.mail.MailMessage;
+import org.kuali.rice.kns.service.AttachmentService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.MailService;
@@ -635,7 +635,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
         ElectronicInvoiceRejectDocument eInvoiceRejectDocument = null;
         try {
-            eInvoiceRejectDocument = (ElectronicInvoiceRejectDocument) KNSServiceLocator.getDocumentService().getNewDocument("EIRT");
+            eInvoiceRejectDocument = (ElectronicInvoiceRejectDocument) SpringContext.getBean(DocumentService.class).getNewDocument("EIRT");
             
             eInvoiceRejectDocument.setInvoiceProcessTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
             eInvoiceRejectDocument.setVendorDunsNumber(fileDunsNumber);
@@ -694,7 +694,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
         Attachment attachment = null;
         try {
-            attachment = KNSServiceLocator.getAttachmentService().createAttachment(eInvoiceRejectDocument, attachmentFile.getName(),INVOICE_FILE_MIME_TYPE , (int)attachmentFile.length(), fileStream, attachmentType);
+            attachment = SpringContext.getBean(AttachmentService.class).createAttachment(eInvoiceRejectDocument, attachmentFile.getName(),INVOICE_FILE_MIME_TYPE , (int)attachmentFile.length(), fileStream, attachmentType);
         }
         catch (IOException e) {
             throw new RuntimeException(e);
@@ -726,7 +726,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
         try {
 
-            eInvoiceRejectDocument = (ElectronicInvoiceRejectDocument) KNSServiceLocator.getDocumentService().getNewDocument("EIRT");
+            eInvoiceRejectDocument = (ElectronicInvoiceRejectDocument) SpringContext.getBean(DocumentService.class).getNewDocument("EIRT");
 
             eInvoiceRejectDocument.setInvoiceProcessTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
             String rejectdocDesc = generateRejectDocumentDescription(eInvoice,electronicInvoiceOrder);
@@ -896,7 +896,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         }
         
         try{
-            KNSServiceLocator.getDocumentService().routeDocument(rejectDoc, "Routed by electronic invoice batch job", null);
+            SpringContext.getBean(DocumentService.class).routeDocument(rejectDoc, "Routed by electronic invoice batch job", null);
         }
         catch (WorkflowException e) {
             e.printStackTrace();
@@ -1024,7 +1024,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
         PaymentRequestDocument preqDoc = null;
         try {
-            preqDoc = (PaymentRequestDocument) KNSServiceLocator.getDocumentService().getNewDocument("PREQ");
+            preqDoc = (PaymentRequestDocument) SpringContext.getBean(DocumentService.class).getNewDocument("PREQ");
         }
         catch (WorkflowException e) {
             String extraDescription = "Error=" + e.getMessage();
@@ -1131,7 +1131,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         }
         
         try {
-            KNSServiceLocator.getDocumentService().routeDocument(preqDoc,routingAnnotation, null);
+            SpringContext.getBean(DocumentService.class).routeDocument(preqDoc,routingAnnotation, null);
         }
         catch (WorkflowException e) {
             e.printStackTrace();

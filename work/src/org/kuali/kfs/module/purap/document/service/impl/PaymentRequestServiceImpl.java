@@ -86,7 +86,6 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.NoteService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -1512,7 +1511,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                 
                 if (approveDoc){
                     try{
-                        KNSServiceLocator.getDocumentService().approveDocument(preqDoc, "Approved by Receiving Required PREQ job", null);
+                        SpringContext.getBean(DocumentService.class).approveDocument(preqDoc, "Approved by Receiving Required PREQ job", null);
                     }
                     catch (WorkflowException e) {
                         e.printStackTrace();

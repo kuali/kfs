@@ -36,7 +36,7 @@
 
   <bean id="CashManagementDocument-campusCode" parent="CashManagementDocument-campusCode-parentBean"/>
 
-  <bean id="CashManagementDocument-campusCode-parentBean" abstract="true" parent="PersonImpl-principalName">
+  <bean id="CashManagementDocument-campusCode-parentBean" abstract="true" parent="Campus-campusCode">
     <property name="name" value="campusCode"/>
     <property name="label" value="Verification Unit"/>
     <property name="shortLabel" value="Verification Unit"/>

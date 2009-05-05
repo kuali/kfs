@@ -356,6 +356,10 @@ public class BulkReceivingPdf extends PurapPdf {
             }else{
                 shipToInfo.append("     " + deliveryBuildingName + " Room #" + blkRecDoc.getDeliveryBuildingRoomNumber() + "\n");    
             }
+        }else{
+            if (StringUtils.isNotBlank(deliveryBuildingName)){
+                shipToInfo.append("     " + deliveryBuildingName + "\n");
+            }
         }
         
         shipToInfo.append("     " + blkRecDoc.getDeliveryBuildingLine1Address() + "\n");
@@ -428,10 +432,7 @@ public class BulkReceivingPdf extends PurapPdf {
         cell.setHorizontalAlignment(Element.ALIGN_LEFT);
         additionalInfoTable.addCell(cell);
         
-        if (blkRecDoc.getPurchaseOrderIdentifier() != null){
-            updateRequestorInfo(blkRecDoc,additionalInfoTable);
-        }
-        
+        updateRequestorInfo(blkRecDoc,additionalInfoTable);
         
         String campusCode = blkRecDoc.getDeliveryCampusCode();
         

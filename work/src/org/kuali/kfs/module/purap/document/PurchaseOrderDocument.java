@@ -105,7 +105,6 @@ import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
-import org.kuali.rice.kns.workflow.service.WorkflowInfoService;
 
 /**
  * Purchase Order Document

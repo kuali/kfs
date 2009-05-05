@@ -41,7 +41,7 @@ import org.kuali.rice.kns.service.CountryService;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.rice.kns.workflow.service.WorkflowInfoService;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 
 public abstract class ReceivingDocumentBase extends FinancialSystemTransactionalDocumentBase implements ReceivingDocument {
 

@@ -22,7 +22,7 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.workflow.service.WorkflowInfoService;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 
 public class PurchasingAccountsPayableNewIndividualItemValidation extends GenericValidation {
 

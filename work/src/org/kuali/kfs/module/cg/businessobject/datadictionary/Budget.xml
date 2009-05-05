@@ -378,7 +378,7 @@
 
   <bean id="Budget-budgetProjectDirectorUniversalIdentifier-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="budgetProjectDirectorUniversalIdentifier" />
-    <property name="label" value="Project Director" />
+    <property name="label" value="Project Director Principal Name" />
     <property name="shortLabel" value="Project Director" />
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
@@ -391,8 +391,8 @@
 
   <bean id="Budget-projectDirector.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="projectDirector.principalName" />
-    <property name="label" value="Project Director UserID" />
-    <property name="shortLabel" value="UserID" />
+    <property name="label" value="Project Director Principal Name" />
+    <property name="shortLabel" value="Principal Name" />
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="KualiUserControlDefinition"

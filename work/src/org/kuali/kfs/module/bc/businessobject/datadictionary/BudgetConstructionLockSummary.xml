@@ -89,7 +89,7 @@
   
   <bean id="BudgetConstructionLockSummary-lockUser.principalName" parent="PersonImpl-principalName">
     <property name="name" value="lockUser.principalName" />
-    <property name="label" value="Lock User Id" />
+    <property name="label" value="Lock Principal Name" />
   </bean>
   
 <!-- Business Object Lookup Definition -->

@@ -208,7 +208,7 @@
   <bean id="AssetGlobal-assetRepresentative.principalName" parent="AssetGlobal-assetRepresentative.principalName-parentBean" />
   <bean id="AssetGlobal-assetRepresentative.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="assetRepresentative.principalName" />
-    <property name="label" value="Asset Representative" />
+    <property name="label" value="Asset Representative Principal Name" />
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="KualiUserControlDefinition"

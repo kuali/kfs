@@ -157,7 +157,7 @@
   <bean id="CustomerInvoiceRecurrenceDetails-documentInitiatorUserPersonUserIdentifier-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="documentInitiatorUserPersonUserIdentifier" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Initiator Network ID" />
+    <property name="label" value="Invoice Initiator Network Principal Name" />
     <property name="shortLabel" value="InvInitID" />
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
@@ -168,7 +168,7 @@
   <bean id="CustomerInvoiceRecurrenceDetails-documentInitiatorUser.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="documentInitiatorUser.principalName" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Initiator User ID" />
+    <property name="label" value="Invoice Initiator Principal Name" />
     <property name="shortLabel" value="InvInitID" />
     <property name="control" >
       <bean parent="KualiUserControlDefinition"

@@ -196,8 +196,8 @@
 
   <bean id="PaymentGroupHistory-changeUser.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="changeUser.principalName" />
-    <property name="label" value="Change User" />
-    <property name="shortLabel" value="Change User" />
+    <property name="label" value="Change User Principal Name" />
+    <property name="shortLabel" value="Change User Principal Name" />
   </bean>
   <bean id="PaymentGroupHistory-disbursementType.name" parent="PaymentGroupHistory-disbursementType.name-parentBean" />
 

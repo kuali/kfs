@@ -256,7 +256,7 @@
 
   <bean id="BudgetConstructionAccountSelect-budgetConstructionHeader.budgetLockUser.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="budgetConstructionHeader.budgetLockUser.principalName" />
-    <property name="label" value="Bdgt. Lock" />
+    <property name="label" value="Bdgt. Lock Principal Name" />
     <property name="shortLabel" value="Bdgt. Lock" />
     
     

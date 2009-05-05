@@ -60,8 +60,8 @@
 
   <bean id="VendorTaxChange-vendorTaxChangePerson.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="vendorTaxChangePerson.principalName" />
-    <property name="label" value="Vendor Tax Change Person Identifier" />
-    <property name="shortLabel" value="Vendor Tax Change Person ID" />
+    <property name="label" value="Vendor Tax Change Principal Name" />
+    <property name="shortLabel" value="Vendor Tax Change Principal Name" />
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="KualiUserControlDefinition"

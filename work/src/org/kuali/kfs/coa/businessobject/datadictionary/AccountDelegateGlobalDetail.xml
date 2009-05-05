@@ -103,8 +103,8 @@
 
   <bean id="AccountDelegateGlobalDetail-accountDelegate.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="accountDelegate.principalName" />
-    <property name="label" value="Account Delegate UserID" />
-    <property name="shortLabel" value="UserID" />
+    <property name="label" value="Account Delegate Principal Name" />
+    <property name="shortLabel" value="Principal Name" />
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="KualiUserControlDefinition"

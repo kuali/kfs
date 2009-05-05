@@ -71,7 +71,7 @@
 
   <bean id="ProposalProjectDirector-projectDirector.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="projectDirector.principalName" />
-    <property name="label" value="Project Director User ID" />
+    <property name="label" value="Project Director Principal Name" />
     <property name="required" value="false" />
   </bean>
   <bean id="ProposalProjectDirector-projectDirector.name" parent="ProposalProjectDirector-projectDirector.name-parentBean" />

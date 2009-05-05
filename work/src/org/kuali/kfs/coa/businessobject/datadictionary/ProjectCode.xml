@@ -88,7 +88,7 @@
 
   <bean id="ProjectCode-projectManagerUniversal.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="projectManagerUniversal.principalName" />
-    <property name="label" value="Project Manager UserID" />
+    <property name="label" value="Project Manager Principal Name" />
     <property name="shortLabel" value="UserID" />
     <property name="required" value="false" />
     <property name="control" >

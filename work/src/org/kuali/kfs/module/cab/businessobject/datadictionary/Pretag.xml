@@ -105,7 +105,7 @@
 
   <bean id="Pretag-personUniversal.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="personUniversal.principalName" />
-    <property name="label" value="Asset Representative" />
+    <property name="label" value="Asset Representative Principal Name" />
     <property name="shortLabel" value="Identifier" />
     <property name="required" value="false" />
     <property name="control" >

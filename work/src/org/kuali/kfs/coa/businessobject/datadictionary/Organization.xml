@@ -228,8 +228,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Organization-organizationManagerUniversal.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="organizationManagerUniversal.principalName" />
-    <property name="label" value="Organization Manager UserID" />
-    <property name="shortLabel" value="OrgMgrUserId" />
+    <property name="label" value="Organization Manager Principal Name" />
+    <property name="shortLabel" value="OrgMgr Principal Name" />
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="KualiUserControlDefinition"
@@ -582,7 +582,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Organization-organizationExtension.hrmsPersonnelApproverUniversal.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="organizationExtension.hrmsPersonnelApproverUniversal.principalName" />
-    <property name="label" value="Personnel Approver UserID" />
+    <property name="label" value="Personnel Approver Principal Name" />
     <property name="shortLabel" value="Personnel Approver" />
     <property name="required" value="false" />
     <property name="control" >
@@ -614,7 +614,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Organization-organizationExtension.fiscalApproverUniversal.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="organizationExtension.fiscalApproverUniversal.principalName" />
-    <property name="label" value="Fiscal Approver UserID" />
+    <property name="label" value="Fiscal Approver Principal Name" />
     <property name="shortLabel" value="Fiscal Approver" />
     <property name="required" value="false" />
     <property name="control" >

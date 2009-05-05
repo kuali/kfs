@@ -270,8 +270,8 @@
 
   <bean id="Award-lookupPerson.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="lookupPerson.principalName" />
-    <property name="label" value="Project Director User ID" />
-    <property name="shortLabel" value="Proj Dir User ID" />
+    <property name="label" value="Project Director Principal Name" />
+    <property name="shortLabel" value="Proj Dir Principal Name" />
     <property name="control" >
       <bean parent="KualiUserControlDefinition"
             p:personNameAttributeName="lookupPerson.name"

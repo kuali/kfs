@@ -656,8 +656,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <dd:boAttributeRef id="Account-accountFiscalOfficerUser.principalName-parentBean" parent="PersonImpl-principalName" abstract="true"
                      attributeName="accountFiscalOfficerUser.principalName"
-                     label="Fiscal Officer UserID"
-                     shortLabel="UserID"
+                     label="Fiscal Officer Principal Name"
+                     shortLabel="Principal Name"
                      required="false">
     <dd:user universalIdAttribute="accountFiscalOfficerSystemIdentifier" userObjectAttribute="accountFiscalOfficerUser" />
   </dd:boAttributeRef>
@@ -685,8 +685,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Account-accountSupervisoryUser.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="accountSupervisoryUser.principalName" />
-    <property name="label" value="Account Supervisor UserID" />
-    <property name="shortLabel" value="UserID" />
+    <property name="label" value="Account Supervisor Principal Name" />
+    <property name="shortLabel" value="Principal Name" />
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="KualiUserControlDefinition"
@@ -717,8 +717,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Account-accountManagerUser.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="accountManagerUser.principalName" />
-    <property name="label" value="Account Manager UserID" />
-    <property name="shortLabel" value="UserID" />
+    <property name="label" value="Account Manager Principal Name" />
+    <property name="shortLabel" value="Principal Name" />
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="KualiUserControlDefinition"

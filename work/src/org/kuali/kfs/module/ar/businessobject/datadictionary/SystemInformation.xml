@@ -138,7 +138,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="SystemInformation-financialDocumentInitiator.principalName" parent="SystemInformation-financialDocumentInitiator.principalName-parentBean" />
   <bean id="SystemInformation-financialDocumentInitiator.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="financialDocumentInitiator.principalName" />
-    <property name="label" value="Lockbox Document Initiator" />
+    <property name="label" value="Lockbox Document Initiator Principal Name" />
     <property name="shortLabel" value="Initiator" />
     <property name="required" value="true" />
     <property name="control" >

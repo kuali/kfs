@@ -221,8 +221,8 @@
   <bean id="EquipmentLoanOrReturnDocument-borrowerPerson.principalName" parent="EquipmentLoanOrReturnDocument-borrowerPerson.principalName-parentBean"/>
   <bean id="EquipmentLoanOrReturnDocument-borrowerPerson.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="borrowerPerson.principalName"/>
-    <property name="label" value="Borrower ID"/>
-    <property name="shortLabel" value="Borrower ID"/>
+    <property name="label" value="Borrower Principal Name"/>
+    <property name="shortLabel" value="Borrower Principal Name"/>
     <property name="required" value="true"/>
     <property name="control">
       <bean parent="KualiUserControlDefinition" p:personNameAttributeName="borrowerPerson.name" p:universalIdAttributeName="borrowerUniversalIdentifier" p:userIdAttributeName="borrowerPerson.principalName"/>

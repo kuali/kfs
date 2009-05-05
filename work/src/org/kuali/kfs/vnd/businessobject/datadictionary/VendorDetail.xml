@@ -352,7 +352,7 @@
 
   <bean id="VendorDetail-vendorRestrictedPerson.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="vendorRestrictedPerson.principalName" />
-    <property name="label" value="Restricted By" />
+    <property name="label" value="Restricted By Principal Name" />
     <property name="shortLabel" value="Restricted By" />
     <property name="required" value="false" />
     <property name="control" >

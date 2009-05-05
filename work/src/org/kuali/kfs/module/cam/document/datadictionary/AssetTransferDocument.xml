@@ -192,8 +192,8 @@
 
   <bean id="AssetTransferDocument-assetRepresentative.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="assetRepresentative.principalName"/>
-    <property name="label" value="Asset Representative"/>
-    <property name="shortLabel" value="UserID"/>
+    <property name="label" value="Asset Representative Principal Name"/>
+    <property name="shortLabel" value="Principal Name"/>
     <property name="required" value="false"/>
     <property name="control">
       <bean parent="KualiUserControlDefinition" p:personNameAttributeName="assetRepresentative.name" p:universalIdAttributeName="representativeUniversalIdentifier" p:userIdAttributeName="assetRepresentative.principalName"/>

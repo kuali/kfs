@@ -135,8 +135,8 @@
 
   <bean id="Batch-submiterUser.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="submiterUser.principalName" />
-    <property name="label" value="Submiter User ID" />
-    <property name="shortLabel" value="Submiter User ID" />
+    <property name="label" value="Submiter Principal Name" />
+    <property name="shortLabel" value="Submiter Principal Name" />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

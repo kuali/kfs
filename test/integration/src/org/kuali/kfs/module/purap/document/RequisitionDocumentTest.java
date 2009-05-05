@@ -165,7 +165,7 @@ public class RequisitionDocumentTest extends KualiTestBase {
         AccountingDocumentTestUtils.routeDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
         WorkflowTestUtils.waitForNodeChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);
 
-        // the document should now be routed to vputman as Fiscal Officer
+        // the document should now be routed to the Fiscal Officer
         changeCurrentUser(rorenfro);
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(requisitionDocument, ACCOUNT_REVIEW));
@@ -242,7 +242,7 @@ public class RequisitionDocumentTest extends KualiTestBase {
         SpringContext.getBean(KualiRuleService.class).applyRules(new RouteDocumentEvent(requisitionDocument));
         assertFalse(GlobalVariables.getErrorMap().isEmpty());
     }
-
+    
     private UserNameFixture getInitialUserName() {
         return rjweiss;
     }

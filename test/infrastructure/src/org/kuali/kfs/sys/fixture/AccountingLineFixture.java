@@ -53,6 +53,7 @@ public enum AccountingLineFixture {
     PURAP_LINE1(null, "BL", "1031400", null, null, "5000", null, null, null, null, null, null, null, null, "1000.00"),
     PURAP_LINE2(null, "BL", "0212007", null, null, "5000", null, null, null, null, null, null, null, null, "1000.00"),
     PURAP_LINE3(null, "BL", "2231401", null, null, "5000", null, null, null, null, null, null, null, null, "1000.00"),
+    PURAP_PERFORMANCE_LINE(null, "BL", "1031497", null, null, "5000", null, null, null, null, null, null, null, null, "10.00"),
     PURAP_LINE_NEGATIVE_AMT(null, "BL", "2231401", null, null, "5000", null, null, null, null, null, null, null, null, "-56.00"),
     
     GEC_LINE1(null, "BL", "1031400", null, "ADV", "5000", "SSS", "KUL", null, null, "01", "123", null, null, "1.10"), ICA_LINE(null, "BL", "5431400", null, null, "5500", null, null, null, null, null, null, null, null, "1.10"), EXPENSE_GEC_LINE(null, "BA", "6044900", "AC", null, "1940", null, "KUL", "F", null, "01", "123", null, null, "1.10"),

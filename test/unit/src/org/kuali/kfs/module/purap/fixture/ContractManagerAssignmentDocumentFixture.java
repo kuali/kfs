@@ -27,7 +27,8 @@ import org.kuali.rice.kns.service.DocumentService;
 
 public enum ContractManagerAssignmentDocumentFixture {
     ACM_DOCUMENT_VALID (new ContractManagerAssignmentDetailFixture[] {ContractManagerAssignmentDetailFixture.ACM_DETAIL_REQ_ONLY_REQUIRED_FIELDS, ContractManagerAssignmentDetailFixture.ACM_DETAIL_REQ_ONLY_REQUIRED_FIELDS_2 } ),
-    ACM_DOCUMENT_VALID_2 (new ContractManagerAssignmentDetailFixture[] {ContractManagerAssignmentDetailFixture.ACM_DETAIL_REQ_ONLY_REQUIRED_FIELDS_2 } )
+    ACM_DOCUMENT_VALID_2 (new ContractManagerAssignmentDetailFixture[] {ContractManagerAssignmentDetailFixture.ACM_DETAIL_REQ_ONLY_REQUIRED_FIELDS_2 } ),
+    ACM_DOCUMENT_PERFORMANCE(new ContractManagerAssignmentDetailFixture[] {ContractManagerAssignmentDetailFixture.ACM_DETAIL_PERFORMANCE})
  ;
 
     private ContractManagerAssignmentDetailFixture[] acmDetailFixtures;

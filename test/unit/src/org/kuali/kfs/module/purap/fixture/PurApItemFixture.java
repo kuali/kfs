@@ -113,6 +113,19 @@ public enum PurApItemFixture {
             false, // itemAssignedToTradeInIndicator
             new KualiDecimal(10000), // extendedPrice
             new KualiDecimal(100) // itemQuantity
+    ), BASIC_QTY_ITEM_PERFORMANCE(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            "BX", // itemUnitOfMeasureCode
+            "", // itemCatalogNumber
+            "Thing", // itemDescription
+            new BigDecimal(10.00), // itemUnitPrice
+            "ITEM", // itemTypeCode
+            "", // itemAuxiliaryPartIdentifier
+            "", // externalOrganizationB2bProductReferenceNumber
+            "", // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(10.00), // extendedPrice
+            new KualiDecimal(10.00) // itemQuantity
     ), REQ_MULTI_ITEM_QUANTITY(null, // itemIdentifier
             new Integer(1), // itemLineNumber
             "PCS", // itemUnitOfMeasureCode

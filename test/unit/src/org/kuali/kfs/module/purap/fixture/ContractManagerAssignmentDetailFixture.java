@@ -28,6 +28,10 @@ public enum ContractManagerAssignmentDetailFixture {
             new Integer(12),   // contractManagerCode
             RequisitionDocumentFixture.REQ_NO_APO_VALID_2.createRequisitionDocument() // purchasingDocumentFixture
     ),
+    ACM_DETAIL_PERFORMANCE("", // documentNumber
+            new Integer(10),   // contractManagerCode
+            RequisitionDocumentFixture.REQ_PERFORMANCE.createRequisitionDocument() // purchasingDocumentFixture
+    ),
  ;
 
     private String documentNumber;

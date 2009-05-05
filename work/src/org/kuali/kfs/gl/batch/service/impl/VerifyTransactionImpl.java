@@ -120,9 +120,11 @@ public class VerifyTransactionImpl implements VerifyTransaction {
         if ((t.getDocumentNumber() == null) || (t.getDocumentNumber().trim().length() == 0)) {
             errors.add(new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_DOCUMENT_NUMBER_NOT_BE_NULL), Message.TYPE_FATAL));
         }
-        if (t.getTransactionLedgerEntrySequenceNumber() == null) {
-            errors.add(new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_SEQUENCE_NUMBER_NOT_BE_NULL), Message.TYPE_FATAL));
-        }
+        
+        // Don't need to check SequenceNumber because it sets in PosterServiceImpl, so commented out
+//        if (t.getTransactionLedgerEntrySequenceNumber() == null) {
+//            errors.add(new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_SEQUENCE_NUMBER_NOT_BE_NULL), Message.TYPE_FATAL));
+//        }
         
         if (t.getBalanceType() != null && t.getBalanceType().isFinBalanceTypeEncumIndicator()  && !t.getObjectType().isFundBalanceIndicator()){
             if (t.getTransactionEncumbranceUpdateCode().trim().equals(GeneralLedgerConstants.EMPTY_CODE)){

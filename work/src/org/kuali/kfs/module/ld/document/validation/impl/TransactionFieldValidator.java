@@ -277,13 +277,14 @@ public class TransactionFieldValidator {
      * @param transaction the given transaction
      * @return null if the transaction sequence number is valid; otherwise, return error message
      */
-    public static Message checkTransactionLedgerEntrySequenceNumber(LaborTransaction transaction) {
-        Integer sequenceNumber = transaction.getTransactionLedgerEntrySequenceNumber();
-        if (sequenceNumber == null) {
-            return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_SEQUENCE_NUMBER_NOT_BE_NULL, Message.TYPE_FATAL);
-        }
-        return null;
-    }
+    // Don't need to check SequenceNumber because it sets in each poster (LaborLedgerEntryPoster and LaborGLLedgerEntryPoster), so commented out
+//    public static Message checkTransactionLedgerEntrySequenceNumber(LaborTransaction transaction) {
+//        Integer sequenceNumber = transaction.getTransactionLedgerEntrySequenceNumber();
+//        if (sequenceNumber == null) {
+//            return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_SEQUENCE_NUMBER_NOT_BE_NULL, Message.TYPE_FATAL);
+//        }
+//        return null;
+//    }
 
     /**
      * Checks if the given transaction contains debit credit code

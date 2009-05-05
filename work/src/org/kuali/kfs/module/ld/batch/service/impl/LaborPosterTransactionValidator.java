@@ -52,7 +52,8 @@ public class LaborPosterTransactionValidator implements VerifyTransaction {
         MessageBuilder.addMessageIntoList(messageList, TransactionFieldValidator.checkFinancialDocumentNumber(laborTransaction));
         MessageBuilder.addMessageIntoList(messageList, TransactionFieldValidator.checkFinancialSystemOriginationCode(laborTransaction));
         MessageBuilder.addMessageIntoList(messageList, TransactionFieldValidator.checkTransactionDebitCreditCode(laborTransaction));
-        MessageBuilder.addMessageIntoList(messageList, TransactionFieldValidator.checkTransactionLedgerEntrySequenceNumber(laborTransaction));
+        // Don't need to check SequenceNumber because it sets in each poster (LaborLedgerEntryPoster and LaborGLLedgerEntryPoster), so commented out
+        //MessageBuilder.addMessageIntoList(messageList, TransactionFieldValidator.checkTransactionLedgerEntrySequenceNumber(laborTransaction));
         MessageBuilder.addMessageIntoList(messageList, TransactionFieldValidator.checkEmplid(laborTransaction));
 
         return messageList;

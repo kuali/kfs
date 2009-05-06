@@ -50,7 +50,6 @@
         <property name="triggerNames">
             <list>
 				<value>scheduleJobTrigger</value>
-				<value>workflowXmlIngestionTrigger</value>
             </list>
         </property>
         <property name="jobNames">
@@ -59,7 +58,6 @@
 				<value>purgeJob</value>
 				<value>fiscalYearMakerJob</value>
 				<value>clearCacheJob</value>
-				<value>workflowXmlIngestionJob</value>
             </list>
         </property>
         <property name="fiscalYearMakers">
@@ -157,25 +155,6 @@
 		<property name="jobName" value="scheduleJob" />
 		<property name="cronExpression" value="${batch.schedule.cron.expression}" />
 	</bean>
-	
-	 <bean id="workflowXmlIngestionJob" parent="scheduledJobDescriptor">
-	    <property name="steps">
-	    	<list>
-	        	<ref bean="workflowXmlIngestionStep" />
-	    	</list>
-	    </property>
-	 </bean>
-	
-	 <bean id="workflowXmlIngestionTrigger" parent="simpleTrigger">
-	    <property name="jobName"     value="workflowXmlIngestionJob" />
-	    <property name="startDelay"  value="30000" />
-		<property name="repeatCount" value="0" />
-	 </bean>
-	 
-	<bean id="workflowXmlIngestionStep" class="org.kuali.kfs.sys.batch.WorkflowXmlIngestionStep" parent="step">
-		<property name="xmlIngesterService"        ref="enXmlIngesterService" />
-		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
-	</bean> 
 	 
  	<bean id="batchJobStatusLookupableHelperService" class="org.kuali.kfs.sys.businessobject.lookup.BatchJobStatusLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
     	<property name="schedulerService" ref="schedulerService" />

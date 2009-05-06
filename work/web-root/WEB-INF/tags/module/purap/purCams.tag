@@ -84,7 +84,7 @@
 	<c:set var="availabilityOnce" value="${PurapConstants.CapitalAssetAvailability.ONCE}"/>
 
 	<c:if test="${!empty KualiForm.document.purchasingCapitalAssetItems and ( (KualiForm.purchasingItemCapitalAssetAvailability eq availabilityOnce) or (KualiForm.purchasingCapitalAssetSystemCommentsAvailability eq availabilityOnce) or (KualiForm.purchasingCapitalAssetSystemDescriptionAvailability eq availabilityOnce) or (KualiForm.purchasingCapitalAssetSystemAvailability eq availabilityOnce) )}">
-	<table cellpadding="0" cellspacing="0" class="datatable" summary="CAMS Systems" style="width:100%">
+	<table cellpadding="0" cellspacing="0" class="datatable" summary="Capital Asset Systems" style="width:100%">
 	<tr>
 		<td colspan="12" class="subhead">System Detail</td>
 	</tr>	

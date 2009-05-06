@@ -26,9 +26,9 @@
 <c:set var="tabindexOverrideBase" value="60" />
 <c:set var="availabilityOnce" value="${PurapConstants.CapitalAssetAvailability.ONCE}"/>
 
-<table cellpadding="0" cellspacing="0" class="datatable" summary="CAMS Items">
+<table cellpadding="0" cellspacing="0" class="datatable" summary="Capital Asset Items">
 	<tr>
-		<td colspan="12" class="subhead">CAMS Items</td>
+		<td colspan="12" class="subhead">Capital Asset Items</td>
 	</tr>
 	<tr>
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemLineNumber}" />
@@ -127,7 +127,7 @@
 			    <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 			         <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" alt="show" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " />
 			    </c:if>
-			    CAMs
+			    Capital Asset
 			</div>
 			</th>
 	    </tr>

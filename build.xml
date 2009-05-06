@@ -77,6 +77,10 @@
 		<property name="rice.use.quartz.database" value="false" />
 		<condition property="rice.exception.routing.immediate" value="true"><equals arg1="${use.quartz.scheduling}" arg2="false" /></condition>
 		<property name="rice.exception.routing.immediate" value="false" />
+		<condition property="b2b.environment" value="${b2b.production.environment}">
+			<equals arg1="${build.environment}" arg2="${production.environment.code}" />
+		</condition>
+		<property name="b2b.environment" value="${b2b.test.environment}" />
 		<loadfile property="configuration" srcfile="${build.project.directory}/${configuration.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="p6spy" srcfile="${build.project.directory}/${p6spy.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="web" srcfile="${build.project.directory}/${web.file}"><filterchain><expandproperties/></filterchain></loadfile>

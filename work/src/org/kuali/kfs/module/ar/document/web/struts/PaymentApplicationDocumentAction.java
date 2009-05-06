@@ -416,6 +416,27 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
             payAppForm.setNonAppliedHoldingCustomerNumber(payAppForm.getNonAppliedHoldingCustomerNumber().toUpperCase());
         }
 
+        //  validate the customer number in the unapplied
+        if (StringUtils.isNotBlank(payAppForm.getNonAppliedHoldingCustomerNumber())) {
+            Map<String,String> pkMap = new HashMap<String,String>();
+            pkMap.put("customerNumber", payAppForm.getNonAppliedHoldingCustomerNumber());
+            int found = businessObjectService.countMatching(Customer.class, pkMap);
+            if (found == 0) {
+                addFieldError(KFSConstants.PaymentApplicationTabErrorCodes.UNAPPLIED_TAB, 
+                        ArPropertyConstants.PaymentApplicationDocumentFields.UNAPPLIED_CUSTOMER_NUMBER, 
+                        ArKeyConstants.PaymentApplicationDocumentErrors.ENTERED_INVOICE_CUSTOMER_NUMBER_INVALID);
+                return null;
+            }
+        }
+        
+        //  validate the amount in the unapplied
+        if (payAppForm.getNonAppliedHoldingAmount() != null && payAppForm.getNonAppliedHoldingAmount().isNegative()) {
+            addFieldError(KFSConstants.PaymentApplicationTabErrorCodes.UNAPPLIED_TAB, 
+                    ArPropertyConstants.PaymentApplicationDocumentFields.UNAPPLIED_AMOUNT, 
+                    ArKeyConstants.PaymentApplicationDocumentErrors.UNAPPLIED_AMOUNT_CANNOT_BE_NEGATIVE);
+            return null;
+        }
+        
         String customerNumber = payAppForm.getNonAppliedHoldingCustomerNumber();
         KualiDecimal amount = payAppForm.getNonAppliedHoldingAmount();
         

@@ -204,6 +204,7 @@ public class ArKeyConstants {
         public static final String UNAPPLIED_AMOUNT_CANNOT_EXCEED_AVAILABLE_AMOUNT = "error.document.paymentApplication.unappliedAmountCannotExceedAvailableAmount";
         public static final String UNAPPLIED_AMOUNT_CANNOT_EXCEED_BALANCE_TO_BE_APPLIED = "error.document.paymentApplication.unappliedAmountCannotExceedBalanceToBeApplied";
         public static final String UNAPPLIED_AMOUNT_CANNOT_BE_EMPTY_OR_ZERO = "error.document.paymentApplication.unappliedAmountCannotBeEmptyOrZero";
+        public static final String UNAPPLIED_AMOUNT_CANNOT_BE_NEGATIVE = "error.document.paymentApplication.unappliedAmountCannotBeNegative";
         public static final String UNAPPLIED_CUSTOMER_NUMBER_CANNOT_BE_LEFT_BLANK = "error.document.paymentApplication.unappliedCustomerNumberCannotBeBlank";
         public static final String NON_AR_AMOUNT_EXCEEDS_SELECTED_INVOICE_BALANCE = "error.document.paymentApplication.nonArLineAmountExceedsInvoiceBalance";
         public static final String NON_AR_AMOUNT_EXCEEDS_BALANCE_TO_BE_APPLIED = "error.document.paymentApplication.nonArLineAmountExceedsBalanceToBeApplied";

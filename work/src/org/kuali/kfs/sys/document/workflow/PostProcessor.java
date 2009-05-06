@@ -24,6 +24,7 @@ import org.kuali.rice.kew.dto.ActionTakenEventDTO;
 import org.kuali.rice.kew.dto.AfterProcessEventDTO;
 import org.kuali.rice.kew.dto.BeforeProcessEventDTO;
 import org.kuali.rice.kew.dto.DeleteEventDTO;
+import org.kuali.rice.kew.dto.DocumentLockingEventDTO;
 import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.postprocessor.PostProcessorRemote;
@@ -39,6 +40,10 @@ import org.kuali.rice.kns.service.PostProcessorService;
 public class PostProcessor implements PostProcessorRemote {
 
     private static Logger LOG = Logger.getLogger(PostProcessor.class);
+
+    public Long[] getDocumentIdsToLock(DocumentLockingEventDTO arg0) throws Exception {
+        return SpringContext.getBean(PostProcessorService.class).getDocumentIdsToLock(arg0);
+    }
 
     /**
      * @see org.kuali.rice.kew.clientapp.PostProcessorRemote#doRouteStatusChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteStatusChangeDTO)

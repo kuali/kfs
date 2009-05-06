@@ -31,6 +31,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.gl.service.SufficientFundsService;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
@@ -71,6 +72,7 @@ import org.kuali.kfs.module.purap.util.PurApItemUtils;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.MultiselectableDocSearchConversion;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -1525,8 +1527,13 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
 
         // if document's fiscal year is less than or equal to the current fiscal year
         if (SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().compareTo(Integer.valueOf(documentFiscalYearString)) >= 0) {
-            if (alwaysRoutes) {
-                return true;
+            // get list of sufficientfundItems
+            List<SufficientFundsItem> fundsItems = SpringContext.getBean(SufficientFundsService.class).checkSufficientFunds(getPendingLedgerEntriesForSufficientFundsChecking());
+                for (SufficientFundsItem fundsItem : fundsItems) {
+                    if (this.getChartOfAccountsCode().equalsIgnoreCase(fundsItem.getAccount().getChartOfAccountsCode())) {
+                    LOG.debug("Chart code of rule extension matches chart code of at least one Sufficient Funds Item");
+                    return true;
+                }
             }
         }
 

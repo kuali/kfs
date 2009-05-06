@@ -84,13 +84,15 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
     public List<MaintenanceLock> generateMaintenanceLocks() {
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
         List<Long> capitalAssetNumbers = new ArrayList<Long>();
-        
-        if (getAssetRetirementService().isAssetRetiredByMerged(assetRetirementGlobal)) {
+
+        if (getAssetRetirementService().isAssetRetiredByMerged(assetRetirementGlobal) && assetRetirementGlobal.getMergedTargetCapitalAssetNumber() != null) {
             capitalAssetNumbers.add(assetRetirementGlobal.getMergedTargetCapitalAssetNumber());
         }
 
         for (AssetRetirementGlobalDetail retirementDetail : assetRetirementGlobal.getAssetRetirementGlobalDetails()) {
-            capitalAssetNumbers.add(retirementDetail.getCapitalAssetNumber());
+            if (retirementDetail.getCapitalAssetNumber() != null) {
+                capitalAssetNumbers.add(retirementDetail.getCapitalAssetNumber());
+            }
         }
         // get asset locks
         this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, documentNumber, DocumentTypeName.ASSET_RETIREMENT_GLOBAL, null);

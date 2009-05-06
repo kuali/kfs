@@ -52,7 +52,7 @@ public class AssetLockServiceImpl implements AssetLockService {
     // CashReceipt,DistributionOfIncomeAndExpense,GeneralErrorCorrection,InternalBilling,ServiceBilling,YearEndDistributionOfIncomeAndExpense,YearEndGeneralErrorCorrection,ProcurementCard
     private static final Map<String, String> FINANCIAL_DOC_TYPE_MAP = new HashMap<String, String>();
     static {
-        FINANCIAL_DOC_TYPE_MAP.put(KFSConstants.FinancialDocumentTypeCodes.CASH_RECEIPT,KFSConstants.FinancialDocumentTypeCodes.CASH_RECEIPT );
+        FINANCIAL_DOC_TYPE_MAP.put(KFSConstants.FinancialDocumentTypeCodes.CASH_RECEIPT, KFSConstants.FinancialDocumentTypeCodes.CASH_RECEIPT);
         FINANCIAL_DOC_TYPE_MAP.put(KFSConstants.FinancialDocumentTypeCodes.DISTRIBUTION_OF_INCOME_AND_EXPENSE, KFSConstants.FinancialDocumentTypeCodes.DISTRIBUTION_OF_INCOME_AND_EXPENSE);
         FINANCIAL_DOC_TYPE_MAP.put(KFSConstants.FinancialDocumentTypeCodes.GENERAL_ERROR_CORRECTION, KFSConstants.FinancialDocumentTypeCodes.GENERAL_ERROR_CORRECTION);
         FINANCIAL_DOC_TYPE_MAP.put(KFSConstants.FinancialDocumentTypeCodes.INTERNAL_BILLING, KFSConstants.FinancialDocumentTypeCodes.INTERNAL_BILLING);
@@ -160,12 +160,12 @@ public class AssetLockServiceImpl implements AssetLockService {
             return financialDocTypes;
         }
         // FP blocking documents
-        if (CamsConstants.DocumentTypeName.ASSET_FP_INQUIRY.equals(documentTypeName)){
+        if (CamsConstants.DocumentTypeName.ASSET_FP_INQUIRY.equals(documentTypeName)) {
             return FINANCIAL_DOC_TYPE_MAP.values();
         }
 
         // PREQ blocking documents
-        if (CamsConstants.DocumentTypeName.ASSET_PREQ_INQUIRY.equals(documentTypeName)){
+        if (CamsConstants.DocumentTypeName.ASSET_PREQ_INQUIRY.equals(documentTypeName)) {
             List fpAndPurApDocTypes = new ArrayList<String>();
             fpAndPurApDocTypes.add(CabConstants.PREQ);
             fpAndPurApDocTypes.add(CabConstants.CM);
@@ -196,8 +196,10 @@ public class AssetLockServiceImpl implements AssetLockService {
         List<AssetLock> assetLocks = new ArrayList<AssetLock>();
 
         for (Long assetNumber : assetNumbers) {
-            AssetLock newLock = new AssetLock(documentNumber, assetNumber, lockingInformation, documentType);
-            assetLocks.add(newLock);
+            if (assetNumber != null) {
+                AssetLock newLock = new AssetLock(documentNumber, assetNumber, lockingInformation, documentType);
+                assetLocks.add(newLock);
+            }
         }
         return assetLocks;
     }
@@ -229,9 +231,9 @@ public class AssetLockServiceImpl implements AssetLockService {
                 GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, CamsKeyConstants.AssetLock.ERROR_ASSET_LOCKED, errorParameters);
             }
             else {
-            GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_MAINTENANCE_LOCKED, errorParameters);
+                GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_MAINTENANCE_LOCKED, errorParameters);
+            }
         }
-    }
     }
 
     private BusinessObjectService getBusinessObjectService() {

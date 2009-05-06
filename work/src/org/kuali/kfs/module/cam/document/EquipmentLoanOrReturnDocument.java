@@ -31,7 +31,6 @@ import org.kuali.rice.kns.bo.PostalCode;
 import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
 import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
 import org.kuali.rice.kns.service.CountryService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -557,7 +556,9 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
 
         if (!(event instanceof SaveDocumentEvent)) { // don't lock until they route
             ArrayList capitalAssetNumbers = new ArrayList<Long>();
-            capitalAssetNumbers.add(this.getCapitalAssetNumber());
+            if (this.getCapitalAssetNumber() != null) {
+                capitalAssetNumbers.add(this.getCapitalAssetNumber());
+            }
             // check and lock on asset numbers exclude approve event.
             if (!this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, this.getDocumentNumber(), CamsConstants.DocumentTypeName.ASSET_EQUIPMENT_LOAN_OR_RETURN, null)) {
                 throw new ValidationException("Asset " + capitalAssetNumbers.toString() + " is being locked by other documents.");

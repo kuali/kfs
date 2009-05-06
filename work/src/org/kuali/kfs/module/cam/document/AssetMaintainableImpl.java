@@ -55,7 +55,9 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl {
         if (this.getBusinessObject() instanceof Asset && !(this.getBusinessObject() instanceof AssetFabrication)) {
             List<Long> capitalAssetNumbers = new ArrayList<Long>();
             Asset asset = (Asset) this.getBusinessObject();
-            capitalAssetNumbers.add(asset.getCapitalAssetNumber());
+            if (asset.getCapitalAssetNumber() != null) {
+                capitalAssetNumbers.add(asset.getCapitalAssetNumber());
+            }
 
             this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, documentNumber, DocumentTypeName.ASSET_EDIT, null);
         }

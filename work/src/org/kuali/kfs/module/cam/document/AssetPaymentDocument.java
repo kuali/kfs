@@ -26,18 +26,15 @@ import org.kuali.kfs.module.cam.businessobject.AssetPaymentAccountingLineParser;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
-import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
-import org.kuali.rice.kns.service.MaintenanceDocumentService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -103,14 +100,16 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         if (!(event instanceof SaveDocumentEvent)) { // don't lock until they route
             ArrayList<Long> capitalAssetNumbers = new ArrayList<Long>();
             for (AssetPaymentAssetDetail assetPaymentAssetDetail : this.getAssetPaymentAssetDetail()) {
-                capitalAssetNumbers.add(assetPaymentAssetDetail.getCapitalAssetNumber());
+                if (assetPaymentAssetDetail.getCapitalAssetNumber() != null) {
+                    capitalAssetNumbers.add(assetPaymentAssetDetail.getCapitalAssetNumber());
+                }
             }
-            
+
             String documentTypeForLocking = CamsConstants.DocumentTypeName.ASSET_PAYMENT;
             if (this.isCapitalAssetBuilderOriginIndicator()) {
                 documentTypeForLocking = CamsConstants.DocumentTypeName.ASSET_PAYMENT_FROM_CAB;
             }
-            
+
             if (!this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, this.getDocumentNumber(), documentTypeForLocking, null)) {
                 throw new ValidationException("Asset " + capitalAssetNumbers.toString() + " is being locked by other documents.");
             }

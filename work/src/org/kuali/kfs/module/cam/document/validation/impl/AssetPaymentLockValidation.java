@@ -41,14 +41,16 @@ public class AssetPaymentLockValidation extends GenericValidation {
         AssetPaymentDocument assetPaymentDocument = (AssetPaymentDocument) event.getDocument();
         List<Long> assetNumbers = new ArrayList<Long>();
         for (AssetPaymentAssetDetail assetPaymentAssetDetail : assetPaymentDocument.getAssetPaymentAssetDetail()) {
-            assetNumbers.add(assetPaymentAssetDetail.getCapitalAssetNumber());
+            if (assetPaymentAssetDetail.getCapitalAssetNumber() != null) {
+                assetNumbers.add(assetPaymentAssetDetail.getCapitalAssetNumber());
+            }
         }
         String documentTypeForLocking = CamsConstants.DocumentTypeName.ASSET_PAYMENT;
         if (assetPaymentDocument.isCapitalAssetBuilderOriginIndicator()) {
             documentTypeForLocking = CamsConstants.DocumentTypeName.ASSET_PAYMENT_FROM_CAB;
         }
-        
-        if (assetLockService.isAssetLocked(assetNumbers,documentTypeForLocking, assetPaymentDocument.getDocumentNumber())) {
+
+        if (assetLockService.isAssetLocked(assetNumbers, documentTypeForLocking, assetPaymentDocument.getDocumentNumber())) {
             return false;
         }
 

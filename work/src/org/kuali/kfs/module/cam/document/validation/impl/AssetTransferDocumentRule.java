@@ -34,7 +34,6 @@ import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
-import org.kuali.kfs.module.cam.businessobject.AssetStatus;
 import org.kuali.kfs.module.cam.document.AssetTransferDocument;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
 import org.kuali.kfs.module.cam.document.service.AssetObjectCodeService;
@@ -215,7 +214,9 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         AssetTransferDocument assetTransferDocument = (AssetTransferDocument) document;
         Asset asset = assetTransferDocument.getAsset();
         List<Long> assetNumbers = new ArrayList<Long>();
-        assetNumbers.add(asset.getCapitalAssetNumber());
+        if (asset.getCapitalAssetNumber() != null) {
+            assetNumbers.add(asset.getCapitalAssetNumber());
+        }
         if (this.getAssetLockService().isAssetLocked(assetNumbers, CamsConstants.DocumentTypeName.ASSET_TRANSFER, document.getDocumentNumber())) {
             return false;
         }

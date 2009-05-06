@@ -58,8 +58,11 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
 
         EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument = (EquipmentLoanOrReturnDocument) document;
         List<Long> assetNumbers = new ArrayList<Long>();
-        assetNumbers.add(equipmentLoanOrReturnDocument.getCapitalAssetNumber());
-        // we could remove the lock check since we'll check it again when postProcessSave. The difference here is the error messages will show up without document saved.
+        if (equipmentLoanOrReturnDocument.getCapitalAssetNumber() != null) {
+            assetNumbers.add(equipmentLoanOrReturnDocument.getCapitalAssetNumber());
+        }
+        // we could remove the lock check since we'll check it again when postProcessSave. The difference here is the error messages
+        // will show up without document saved.
         if (getAssetLockService().isAssetLocked(assetNumbers, CamsConstants.DocumentTypeName.ASSET_EQUIPMENT_LOAN_OR_RETURN, equipmentLoanOrReturnDocument.getDocumentNumber())) {
             return false;
         }

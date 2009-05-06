@@ -389,7 +389,9 @@ public class AssetGlobalMaintainableImpl extends FinancialSystemGlobalMaintainab
         AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
         if (assetGlobalService.isAssetSeparate(assetGlobal)) {
             List<Long> capitalAssetNumbers = new ArrayList<Long>();
-            capitalAssetNumbers.add(assetGlobal.getSeparateSourceCapitalAssetNumber());
+            if (assetGlobal.getSeparateSourceCapitalAssetNumber() != null) {
+                capitalAssetNumbers.add(assetGlobal.getSeparateSourceCapitalAssetNumber());
+            }
 
             this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, documentNumber, DocumentTypeName.ASSET_SEPARATE, null);
         }

@@ -26,7 +26,6 @@ import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetLocationGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetLocationGlobalDetail;
-import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -107,7 +106,9 @@ public class AssetLocationGlobalMaintainableImpl extends KualiGlobalMaintainable
         AssetLocationGlobal assetLocationGlobal = (AssetLocationGlobal) getBusinessObject();
         List<Long> capitalAssetNumbers = new ArrayList<Long>();
         for (AssetLocationGlobalDetail locationDetail : assetLocationGlobal.getAssetLocationGlobalDetails()) {
-            capitalAssetNumbers.add(locationDetail.getCapitalAssetNumber());
+            if (locationDetail.getCapitalAssetNumber() != null) {
+                capitalAssetNumbers.add(locationDetail.getCapitalAssetNumber());
+            }
         }
 
         this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, documentNumber, DocumentTypeName.ASSET_LOCATION_GLOBAL, null);

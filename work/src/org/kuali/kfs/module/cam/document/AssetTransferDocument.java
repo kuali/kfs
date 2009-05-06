@@ -454,7 +454,9 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
         if (!(event instanceof SaveDocumentEvent)) { // don't lock until they route
             ArrayList capitalAssetNumbers = new ArrayList<Long>();
-            capitalAssetNumbers.add(this.getCapitalAssetNumber());
+            if (this.getCapitalAssetNumber() != null) {
+                capitalAssetNumbers.add(this.getCapitalAssetNumber());
+            }
 
             if (!this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, this.getDocumentNumber(), CamsConstants.DocumentTypeName.ASSET_TRANSFER, null)) {
                 throw new ValidationException("Asset " + capitalAssetNumbers.toString() + " is being locked by other documents.");

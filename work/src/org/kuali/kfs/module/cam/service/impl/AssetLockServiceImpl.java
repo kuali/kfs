@@ -180,6 +180,9 @@ public class AssetLockServiceImpl implements AssetLockService {
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#deleteLocks(java.lang.String, java.lang.String)
      */
     public void deleteAssetLocks(String documentNumber, String lockingInformation) {
+        if (StringUtils.isBlank(documentNumber)) {
+            return;
+        }
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(CabPropertyConstants.CapitalAssetLock.DOCUMENT_NUMBER, documentNumber);
         if (StringUtils.isNotBlank(lockingInformation)) {

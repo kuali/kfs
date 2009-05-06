@@ -20,7 +20,6 @@
               
 <%@ attribute name="displayPaymentRequestInitFields" required="false"
               description="Boolean to indicate if PO specific fields should be displayed" %>
-<c:set var="tabindexOverrideBase" value="20" />
 
 <kul:tabTop tabTitle="Payment Request Initiation" defaultOpen="true" tabErrorKey="${PurapConstants.PAYMENT_REQUEST_INIT_TAB_ERRORS}">
 	
@@ -29,7 +28,7 @@
     <div class="tab-container" align=center>
             <h3>Payment Request Initiation</h3>
 
-        <table cellpadding="0" cellspacing="0" class="datatable" summary="Payment Request Init Section">
+        <table cellpadding="0" cellspacing="0" class="datatable" summary="Payment Request Initiation Section">
 
             <tr>
                 <th align=right valign=middle class="bord-l-b">
@@ -37,16 +36,14 @@
                 </th>
                 <td align=left valign=middle class="datacell">
                    <kul:htmlControlAttribute 
-                   		attributeEntry="${documentAttributes.purchaseOrderIdentifier}" property="document.purchaseOrderIdentifier"
-                   		readOnly="${not displayInitTab}" tabindexOverride="${tabindexOverrideBase + 0}"/>
+                   		attributeEntry="${documentAttributes.purchaseOrderIdentifier}" property="document.purchaseOrderIdentifier"/>
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.invoiceNumber}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
                    <kul:htmlControlAttribute 
-                   		attributeEntry="${documentAttributes.invoiceNumber}" property="document.invoiceNumber" 
-                   		tabindexOverride="${tabindexOverrideBase + 0}"/>
+                   		attributeEntry="${documentAttributes.invoiceNumber}" property="document.invoiceNumber" />
                 </td>
             </tr>
             <tr>
@@ -55,16 +52,14 @@
                 </th>
                 <td align=left valign=middle class="datacell">
                    <kul:htmlControlAttribute 
-                   		attributeEntry="${documentAttributes.invoiceDate}" property="document.invoiceDate" datePicker="true" 
-                   		tabindexOverride="${tabindexOverrideBase + 0}"/>
+                   		attributeEntry="${documentAttributes.invoiceDate}" property="document.invoiceDate" datePicker="true" />
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                    <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.vendorInvoiceAmount}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
                    <kul:htmlControlAttribute 
-                   		attributeEntry="${documentAttributes.vendorInvoiceAmount}" property="document.vendorInvoiceAmount"  
-                   		tabindexOverride="${tabindexOverrideBase + 0}"/>
+                   		attributeEntry="${documentAttributes.vendorInvoiceAmount}" property="document.vendorInvoiceAmount" />
                 </td>
             </tr>
             <tr>
@@ -73,16 +68,13 @@
                 </th>
                 <td align=left valign=middle class="datacell">
                    <kul:htmlControlAttribute 
-                   		attributeEntry="${documentAttributes.specialHandlingInstructionLine1Text}" property="document.specialHandlingInstructionLine1Text" 
-                   		tabindexOverride="${tabindexOverrideBase + 0}"/>
+                   		attributeEntry="${documentAttributes.specialHandlingInstructionLine1Text}" property="document.specialHandlingInstructionLine1Text"  />
                    <br/> 
                    <kul:htmlControlAttribute 
-                   		attributeEntry="${documentAttributes.specialHandlingInstructionLine2Text}" property="document.specialHandlingInstructionLine2Text" 
-                   		tabindexOverride="${tabindexOverrideBase + 0}"/>
+                   		attributeEntry="${documentAttributes.specialHandlingInstructionLine2Text}" property="document.specialHandlingInstructionLine2Text" />
                    <br/>
                    <kul:htmlControlAttribute 
-                   		attributeEntry="${documentAttributes.specialHandlingInstructionLine3Text}" property="document.specialHandlingInstructionLine3Text" 
-                   		tabindexOverride="${tabindexOverrideBase + 0}"/>
+                   		attributeEntry="${documentAttributes.specialHandlingInstructionLine3Text}" property="document.specialHandlingInstructionLine3Text" />
                 </td>
                 <th align=right valign=middle class="bord-l-b" colspan="2">
                    <div align="right">&nbsp;</div>

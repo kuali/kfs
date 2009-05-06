@@ -48,7 +48,7 @@
                 <td align=left valign=middle class="datacell">
                    <kul:htmlControlAttribute 
                    		attributeEntry="${documentAttributes.purchaseOrderIdentifier}" property="document.purchaseOrderIdentifier"
-                   		readOnly="${not displayInitTab}" tabindexOverride="${tabindexOverrideBase + 3}"/>
+                   		readOnly="true" tabindexOverride="${tabindexOverrideBase + 3}"/>
                 </td>
             </tr>
             

@@ -1,9 +1,9 @@
 package org.kuali.kfs.module.ar.document.validation.impl;
 
 import java.sql.Date;
-import java.util.List;
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
@@ -15,13 +15,17 @@ import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.vnd.VendorPropertyConstants;
+import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class CustomerRule extends MaintenanceDocumentRuleBase {
@@ -368,12 +372,25 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
     public boolean validateAddresses(Customer customer) {
         boolean isValid = true;
         int i = 0;
+        // this block is to validate email addresses
+        for (CustomerAddress customerAddress : customer.getCustomerAddresses()) {
+            if (ObjectUtils.isNotNull(customerAddress.getCustomerEmailAddress())) {
+                String errorPath = KNSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.CustomerFields.CUSTOMER_TAB_ADDRESSES + "[" + i + "]";
+                GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+
+                this.getDictionaryValidationService().validateBusinessObject(customerAddress);
+                GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
+            }
+            i++;
+        }
+        i = 0;
         for (CustomerAddress customerAddress : customer.getCustomerAddresses()) {
             isValid &= checkAddressIsValid(customerAddress, i);
             isValid &= validateEndDateForExistingCustomerAddress(customerAddress.getCustomerAddressEndDate(), i);
             i++;
         }
-
+        if (GlobalVariables.getErrorMap().getErrorCount() > 0)
+            isValid = false;
 
         if (isValid) {
             i = 0;

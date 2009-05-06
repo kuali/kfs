@@ -41,6 +41,7 @@
                 <ref bean="Customer-customerAddresses.customerStateCode"/>
                 <ref bean="Customer-customerAddresses.customerZipCode"/>
                 <ref bean="Customer-customerAddresses.customerAddressInternationalProvinceName"/>
+                <ref bean="Customer-customerAddresses.customerEmailAddress" />
                 <ref bean="Customer-customerTaxTypeCode"/>
                 <ref bean="Customer-customerTaxNbr"/>
             </list>
@@ -158,7 +159,7 @@
         <property name="shortLabel" value="Number"/>
         <property name="maxLength" value="20"/>
         <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+            <bean parent="PhoneNumberValidationPattern" />
         </property>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="22"/>
@@ -359,6 +360,12 @@
     <bean id="Customer-customerAddresses.customerAddressInternationalProvinceName-parentBean" abstract="true" parent="CustomerAddress-customerAddressInternationalProvinceName">
         <property name="name" value="customerAddresses.customerAddressInternationalProvinceName"/>
     </bean>
+    
+    <bean id="Customer-customerAddresses.customerEmailAddress" parent="Customer-customerAddresses.customerEmailAddress-parentBean"/>
+
+    <bean id="Customer-customerAddresses.customerEmailAddress-parentBean" abstract="true" parent="CustomerAddress-customerEmailAddress">
+        <property name="name" value="customerAddresses.customerEmailAddress"/>
+    </bean>
 
     <!-- Business Object Inquiry Definition -->
 
@@ -504,6 +511,7 @@
                 <bean parent="FieldDefinition" p:attributeName="customerAddresses.customerStateCode"/>
                 <bean parent="FieldDefinition" p:attributeName="customerAddresses.customerZipCode"/>
                 <bean parent="FieldDefinition" p:attributeName="customerAddresses.customerAddressInternationalProvinceName"/>
+                <bean parent="FieldDefinition" p:attributeName="customerAddresses.customerEmailAddress"/>
             </list>
         </property>
         <property name="resultFields">

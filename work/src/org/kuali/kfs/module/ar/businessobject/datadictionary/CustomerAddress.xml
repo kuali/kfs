@@ -131,7 +131,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="shortLabel" value="Email" />
     <property name="maxLength" value="60" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="EmailAddressValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"

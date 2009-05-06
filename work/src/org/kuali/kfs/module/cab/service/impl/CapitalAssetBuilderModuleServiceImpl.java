@@ -343,7 +343,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     protected boolean validateAllFieldRequirementsByChart(String systemState, List<CapitalAssetSystem> capitalAssetSystems, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String documentType, String systemType) {
         boolean valid = true;
         List<Parameter> results = new ArrayList<Parameter>();
-        Map<String,String> criteria = new HashMap<String,String>();
+        Map<String, String> criteria = new HashMap<String, String>();
         criteria.put(CabPropertyConstants.Parameter.PARAMETER_NAMESPACE_CODE, CabConstants.Parameters.NAMESPACE);
         criteria.put(CabPropertyConstants.Parameter.PARAMETER_DETAIL_TYPE_CODE, CabConstants.Parameters.DETAIL_TYPE_DOCUMENT);
         criteria.put(CabPropertyConstants.Parameter.PARAMETER_NAME, "CHARTS_REQUIRING%" + documentType);
@@ -1060,7 +1060,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
         String documentNumber = accountingDocument.getDocumentNumber();
         String documentType = getDocumentTypeName(accountingDocument);
-        
+
         if (!isUpdateAssetBlank(capitalAssetInformation)) {
             // Validate update Asset information
             valid = validateUpdateCapitalAssetField(capitalAssetInformation,documentType,documentNumber);
@@ -1238,7 +1238,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
         List<Long> assetNumbers = new ArrayList<Long>();
         assetNumbers.add(capitalAssetInformation.getCapitalAssetNumber());
-                
+
         if (ObjectUtils.isNull(asset)) {
             valid = false;
             String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformation.class, KFSPropertyConstants.CAPITAL_ASSET_NUMBER);
@@ -1510,16 +1510,17 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
                 this.getBusinessObjectService().save(purapDocument);
 
-                if (isAccountsPayableItemLineFullyProcessed(itemAsset)) {
-                    // release the asset lock no matter if it's Asset global or Asset Payment since the CAB user can create Asset global doc even if Purap Asset numbers existing.
-                    PurchaseOrderDocument purApdocument = getPurApInfoService().getCurrentDocumentForPurchaseOrderIdentifier(purapDocument.getPurchaseOrderIdentifier());
-                    // Only individual system will lock on item line number. other system will using preq/cm doc nbr as the locking
-                    // key
-                    String lockingInformation = null;
-                    if (PurapConstants.CapitalAssetTabStrings.INDIVIDUAL_ASSETS.equalsIgnoreCase(purApdocument.getCapitalAssetSystemTypeCode())) {
-                        lockingInformation = itemAsset.getAccountsPayableLineItemIdentifier().toString();
-                    }
-                    getCapitalAssetManagementModuleService().deleteAssetLocks(itemAsset.getDocumentNumber(), lockingInformation);
+                String lockingInformation = null;
+                PurchaseOrderDocument poDocument = getPurApInfoService().getCurrentDocumentForPurchaseOrderIdentifier(purapDocument.getPurchaseOrderIdentifier());
+                // Only individual system will lock on item line number. other system will using preq/cm doc nbr as the locking
+                // key
+                if (PurapConstants.CapitalAssetTabStrings.INDIVIDUAL_ASSETS.equalsIgnoreCase(poDocument.getCapitalAssetSystemTypeCode())) {
+                    lockingInformation = itemAsset.getAccountsPayableLineItemIdentifier().toString();
+                }
+                // release the asset lock no matter if it's Asset global or Asset Payment since the CAB user can create Asset global
+                // doc even if Purap Asset numbers existing.
+                if (isAccountsPayableItemLineFullyProcessed(purapDocument, lockingInformation)) {
+                    getCapitalAssetManagementModuleService().deleteAssetLocks(purapDocument.getDocumentNumber(), lockingInformation);
                 }
 
             }
@@ -1528,21 +1529,15 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     }
 
     /**
-     * Check all item lines from the same PREQ/CM item are fully processed.
+     * Check all item lines from the same PREQ/CM item are fully processed. If lockingInformation is empty, we check all items are
+     * processed as fully processed. If it's not empty, we will check items originated from the same PO item only.
      * 
      * @param itemAsset
      * @return
      */
-    protected boolean isAccountsPayableItemLineFullyProcessed(PurchasingAccountsPayableItemAsset itemAsset) {
-        Map fieldValues = new HashMap<String, Object>();
-
-        fieldValues.put(CabPropertyConstants.PurchasingAccountsPayableItemAsset.DOCUMENT_NUMBER, itemAsset.getDocumentNumber());
-        fieldValues.put(CabPropertyConstants.PurchasingAccountsPayableItemAsset.ACCOUNTS_PAYABLE_LINE_ITEM_IDENTIFIER, itemAsset.getAccountsPayableLineItemIdentifier());
-
-        Collection<PurchasingAccountsPayableItemAsset> matchingItems = getBusinessObjectService().findMatching(PurchasingAccountsPayableItemAsset.class, fieldValues);
-
-        for (PurchasingAccountsPayableItemAsset item : matchingItems) {
-            if (!CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS.equals(item.getActivityStatusCode())) {
+    protected boolean isAccountsPayableItemLineFullyProcessed(PurchasingAccountsPayableDocument purapDocument, String lockingInformation) {
+        for (PurchasingAccountsPayableItemAsset item : purapDocument.getPurchasingAccountsPayableItemAssets()) {
+            if ((StringUtils.isBlank(lockingInformation) && !CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS.equals(item.getActivityStatusCode())) || (StringUtils.isNotBlank(lockingInformation) && item.getAccountsPayableLineItemIdentifier().equals(lockingInformation) && !CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS.equals(item.getActivityStatusCode()))) {
                 return false;
             }
         }

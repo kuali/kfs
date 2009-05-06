@@ -164,7 +164,7 @@ public class PurApInfoServiceImpl implements PurApInfoService {
     protected void setMultipleSystemFromPurAp(Integer poId, List<PurchasingAccountsPayableDocument> purApDocs, String capitalAssetSystemStateCode) {
         List<CapitalAssetSystem> capitalAssetSystems = this.getPurchaseOrderService().retrieveCapitalAssetSystemsForMultipleSystem(poId);
         if (ObjectUtils.isNotNull(capitalAssetSystems) && !capitalAssetSystems.isEmpty()) {
-            // PurAp doesn't support multiple system asset information for KFS3.0
+            // PurAp doesn't support multiple system asset information for KFS3.0. It works as one system for 3.0.
             CapitalAssetSystem capitalAssetSystem = capitalAssetSystems.get(0);
             if (ObjectUtils.isNotNull(capitalAssetSystem)) {
                 String capitalAssetTransactionType = getCapitalAssetTransTypeForOneSystem(poId);
@@ -434,15 +434,18 @@ public class PurApInfoServiceImpl implements PurApInfoService {
             capitalAssetSystem = this.getPurchaseOrderService().retrieveCapitalAssetSystemForOneSystem(poId);
         }
         else if (PurapConstants.CapitalAssetTabStrings.MULTIPLE_SYSTEMS.equalsIgnoreCase(capitalAssetSystemTypeCode)) {
-            // Currently, MULTIPLE system has no way to set asset information. As a result,we'll ignore multiple system type for the
-            // time being..
+            List<CapitalAssetSystem> capitalAssetSystems = this.getPurchaseOrderService().retrieveCapitalAssetSystemsForMultipleSystem(poId);
+            if (ObjectUtils.isNotNull(capitalAssetSystems) && !capitalAssetSystems.isEmpty()) {
+                // PurAp doesn't support multiple system asset information for KFS3.0. It works as One system.
+                capitalAssetSystem = capitalAssetSystems.get(0);
+            }
         }
 
         if (ObjectUtils.isNotNull(capitalAssetSystem) && capitalAssetSystem.getItemCapitalAssets() != null && !capitalAssetSystem.getItemCapitalAssets().isEmpty()) {
             for (ItemCapitalAsset itemCapitalAsset : capitalAssetSystem.getItemCapitalAssets()) {
                 if (itemCapitalAsset.getCapitalAssetNumber() != null) {
                     Map pKeys = new HashMap<String, Object>();
-
+                    // Asset must be valid and capital active 'A','C','S','U'
                     pKeys.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, itemCapitalAsset.getCapitalAssetNumber());
 
                     Asset asset = (Asset) businessObjectService.findByPrimaryKey(Asset.class, pKeys);

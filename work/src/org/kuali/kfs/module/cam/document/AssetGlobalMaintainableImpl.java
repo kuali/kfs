@@ -36,7 +36,6 @@ import org.kuali.kfs.module.cam.businessobject.AssetOrganization;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
-import org.kuali.kfs.module.cam.businessobject.AssetLock;
 import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinder;
 import org.kuali.kfs.module.cam.document.gl.AssetGlobalGeneralLedgerPendingEntrySource;
 import org.kuali.kfs.module.cam.document.service.AssetDateService;
@@ -67,7 +66,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 public class AssetGlobalMaintainableImpl extends FinancialSystemGlobalMaintainable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalMaintainableImpl.class);
     private static final String REQUIRES_REVIEW = "RequiresReview";
-    
+
     /**
      * If the Add Asset Global document is submit from CAB, bypass all the approvers.
      */
@@ -87,7 +86,7 @@ public class AssetGlobalMaintainableImpl extends FinancialSystemGlobalMaintainab
      */
     @Override
     public void processAfterNew(MaintenanceDocument document, Map<String, String[]> parameters) {
-                
+
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
 
         // set "asset number" and "type code" from URL
@@ -377,7 +376,7 @@ public class AssetGlobalMaintainableImpl extends FinancialSystemGlobalMaintainab
         }
     }
 
-    
+
     /**
      * Creates locking representation for this global document. The locking is only applicable for assets that are being split. The
      * assets that are being created do not need to be locked since they don't exist yet.
@@ -394,10 +393,10 @@ public class AssetGlobalMaintainableImpl extends FinancialSystemGlobalMaintainab
 
             this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, documentNumber, DocumentTypeName.ASSET_SEPARATE, null);
         }
-        
+
         return new ArrayList<MaintenanceLock>();
     }
-    
+
     protected CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
         return SpringContext.getBean(CapitalAssetManagementModuleService.class);
     }
@@ -649,14 +648,14 @@ public class AssetGlobalMaintainableImpl extends FinancialSystemGlobalMaintainab
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
         List<GeneralLedgerPendingEntry> generalLedgerPendingEntries = assetGlobal.getGeneralLedgerPendingEntries();
         new AssetGlobalGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) documentHeader).handleRouteStatusChange(generalLedgerPendingEntries);
-        
+
         // release lock for separate source asset...
         KualiWorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();
         AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
         if (assetGlobalService.isAssetSeparate(assetGlobal) && (workflowDoc.stateIsCanceled() || workflowDoc.stateIsDisapproved() || workflowDoc.stateIsProcessed() || workflowDoc.stateIsFinal())) {
             this.getCapitalAssetManagementModuleService().deleteAssetLocks(documentNumber, null);
         }
-        
+
         // notify CAB of document status change
         if (((AssetGlobal) getBusinessObject()).isCapitalAssetBuilderOriginIndicator()) {
             SpringContext.getBean(CapitalAssetBuilderModuleService.class).notifyRouteStatusChange(documentHeader);
@@ -681,12 +680,12 @@ public class AssetGlobalMaintainableImpl extends FinancialSystemGlobalMaintainab
     }
 
     /**
-     * 
      * populates the asset location information (add new section)
+     * 
      * @param asset
      */
     private void populateAssetLocationTabInformation(Asset asset) {
-        AssetGlobalDetail assetSharedDetail = (AssetGlobalDetail)this.getNewCollectionLine(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS);
+        AssetGlobalDetail assetSharedDetail = (AssetGlobalDetail) this.getNewCollectionLine(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS);
         assetSharedDetail.setCampusCode(asset.getCampusCode());
         assetSharedDetail.setBuildingCode(asset.getBuildingCode());
         assetSharedDetail.setBuildingRoomNumber(asset.getBuildingRoomNumber());

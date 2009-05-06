@@ -122,25 +122,6 @@ public interface AssetService {
     boolean isCapitalAssetNumberDuplicate(Long capitalAssetNumber1, Long capitalAssetNumber2);
 
     /**
-     * Creates the particular locking representation for this transactional asset document.
-     * 
-     * @param documentNumber
-     * @param capitalAssetNumber
-     * @return locking representation
-     */
-    public MaintenanceLock generateAssetLock(String documentNumber, Long capitalAssetNumber);
-
-    /**
-     * Helper method that will check if an asset is locked. If it is we fail error check and call another helper message to add
-     * appropriate error message to global ErrorMap.
-     * 
-     * @param documentNumber
-     * @param capitalAssetNumber
-     * @return boolean True if no lock, false otherwise.
-     */
-    public boolean isAssetLocked(String documentNumber, Long capitalAssetNumber);
-
-    /**
      * This method calls the service codes to calculate the summary fields for each asset
      * 
      * @param asset
@@ -203,13 +184,4 @@ public interface AssetService {
      * @param asset
      */
     public void setFiscalPeriod(Asset asset);
-
-    /**
-     * returns the document id that locks a particular asset
-     * 
-     * @param documentNumber
-     * @param capitalAssetNumber
-     * @return
-     */
-    public String getLockingDocumentId(String documentNumber, Long capitalAssetNumber);
 }

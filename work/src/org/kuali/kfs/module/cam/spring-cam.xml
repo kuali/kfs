@@ -247,7 +247,6 @@
      
      <bean id="assetService" class="org.kuali.kfs.module.cam.document.service.impl.AssetServiceImpl" >
     	<property name="parameterService" ref="parameterService" />
-    	<property name="documentLockingService" ref="documentLockingService" />
     	<property name="paymentSummaryService" ref="paymentSummaryService" />
     	<property name="businessObjectService" ref="businessObjectService" />
     </bean>
@@ -269,10 +268,6 @@
     	<property name="parameterService" ref="parameterService" />
     	<property name="assetService" ref="assetService" />
     </bean>
-
-	 <bean id="documentLockingService" class="org.kuali.kfs.module.cam.document.service.impl.DocumentLockingServiceImpl">
-    	<property name="maintenanceDocumentDao"><ref bean="maintenanceDocumentDao" /></property>
-    </bean>    
 
     <bean id="assetObjectCodeService" class="org.kuali.kfs.module.cam.document.service.impl.AssetObjectCodeServiceImpl">
     	<property name="universityDateService" ref="universityDateService" />

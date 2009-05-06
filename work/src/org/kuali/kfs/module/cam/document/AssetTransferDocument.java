@@ -141,7 +141,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         assetRepresentative = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(representativeUniversalIdentifier, assetRepresentative);
         return assetRepresentative;
     }
-    
+
     /**
      * Sets the assetRepresentative attribute.
      * 
@@ -206,7 +206,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      */
     public Campus getCampus() {
         Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put(KNSPropertyConstants.CAMPUS_CODE, campusCode); 
+        criteria.put(KNSPropertyConstants.CAMPUS_CODE, campusCode);
         return campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).getExternalizableBusinessObject(Campus.class, criteria);
     }
 
@@ -453,19 +453,19 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         super.postProcessSave(event);
 
         if (!(event instanceof SaveDocumentEvent)) { // don't lock until they route
-                ArrayList capitalAssetNumbers = new ArrayList<Long>();
-                capitalAssetNumbers.add(this.getCapitalAssetNumber());
-                
-                if (!this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, this.getDocumentNumber(), CamsConstants.DocumentTypeName.ASSET_TRANSFER, null)) {
-                    throw new ValidationException("Asset " + capitalAssetNumbers.toString() + " is being locked by other documents.");
-                }
+            ArrayList capitalAssetNumbers = new ArrayList<Long>();
+            capitalAssetNumbers.add(this.getCapitalAssetNumber());
+
+            if (!this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, this.getDocumentNumber(), CamsConstants.DocumentTypeName.ASSET_TRANSFER, null)) {
+                throw new ValidationException("Asset " + capitalAssetNumbers.toString() + " is being locked by other documents.");
+            }
         }
     }
 
     private CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
         return SpringContext.getBean(CapitalAssetManagementModuleService.class);
     }
-    
+
     /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#handleRouteStatusChange()
      */

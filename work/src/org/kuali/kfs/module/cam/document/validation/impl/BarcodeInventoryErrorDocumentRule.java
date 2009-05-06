@@ -33,7 +33,6 @@ import org.kuali.kfs.module.cam.businessobject.AssetCondition;
 import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
 import org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument;
 import org.kuali.kfs.module.cam.document.service.AssetService;
-import org.kuali.kfs.module.cam.document.service.DocumentLockingService;
 import org.kuali.kfs.module.cam.service.AssetLockService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -404,10 +403,6 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
 
     private BusinessObjectService getBusinessObjectService() {
         return SpringContext.getBean(BusinessObjectService.class);
-    }
-
-    private DocumentLockingService getDocumentLockingService() {
-        return SpringContext.getBean(DocumentLockingService.class);
     }
 
     private AssetBarcodeInventoryLoadService getAssetBarcodeInventoryLoadService() {

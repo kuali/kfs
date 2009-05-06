@@ -99,6 +99,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
         this.purApItemAssets = new ArrayList<ItemCapitalAsset>(initialItemAsset.getPurApItemAssets());
         this.capitalAssetSystemIdentifier = initialItemAsset.getCapitalAssetSystemIdentifier();
         this.purchasingAccountsPayableDocument = initialItemAsset.getPurchasingAccountsPayableDocument();
+        this.lockingInformation = initialItemAsset.getLockingInformation();
     }
 
 

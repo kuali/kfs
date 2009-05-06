@@ -221,17 +221,25 @@ public class PurApLineServiceImpl implements PurApLineService {
         // For the time being, only for individual system, each item has its own asset numbers.
         Map<String, PurchasingAccountsPayableItemAsset> processedItemMap = new HashMap<String, PurchasingAccountsPayableItemAsset>();
         for (PurchasingAccountsPayableItemAsset itemAsset : purApdoc.getPurchasingAccountsPayableItemAssets()) {
-            if (CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS.equalsIgnoreCase(itemAsset.getActivityStatusCode())) {
-                processedItemMap.put(itemAsset.getLockingInformation(), itemAsset);
+            if (itemAsset.getLockingInformation() == null) {
+                itemAsset.setLockingInformation(CamsConstants.defaultLockingInformation);
             }
-            else if (processedItemMap.containsKey(itemAsset.getLockingInformation())) {
-                // there is item not processed yet, can't remove lock
-                processedItemMap.remove(itemAsset.getLockingInformation());
+            // maintain processedItemMap with item being fully processed. if item is not fully processed, key will be null
+            if (!processedItemMap.containsKey(itemAsset.getLockingInformation()) || processedItemMap.get(itemAsset.getLockingInformation()) != null) {
+                if (CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS.equalsIgnoreCase(itemAsset.getActivityStatusCode())) {
+                    processedItemMap.put(itemAsset.getLockingInformation(), itemAsset);
+                }
+                else {
+                    // there is item not processed yet, can't remove lock
+                    processedItemMap.put(itemAsset.getLockingInformation(), null);
+                }
             }
         }
         if (!processedItemMap.isEmpty()) {
             for (String lockingInformation : processedItemMap.keySet()) {
-                processedItems.add(processedItemMap.get(lockingInformation));
+                if (processedItemMap.get(lockingInformation) != null) {
+                    processedItems.add(processedItemMap.get(lockingInformation));
+                }
             }
         }
     }
@@ -1174,7 +1182,8 @@ public class PurApLineServiceImpl implements PurApLineService {
     }
 
     /**
-     * Gets the capitalAssetManagementModuleService attribute. 
+     * Gets the capitalAssetManagementModuleService attribute.
+     * 
      * @return Returns the capitalAssetManagementModuleService.
      */
     public CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
@@ -1183,11 +1192,12 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * Sets the capitalAssetManagementModuleService attribute value.
+     * 
      * @param capitalAssetManagementModuleService The capitalAssetManagementModuleService to set.
      */
     public void setCapitalAssetManagementModuleService(CapitalAssetManagementModuleService capitalAssetManagementModuleService) {
         this.capitalAssetManagementModuleService = capitalAssetManagementModuleService;
     }
-    
-    
+
+
 }

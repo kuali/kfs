@@ -32,9 +32,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetLocation;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.module.cam.document.service.AssetService;
-import org.kuali.kfs.module.cam.document.service.DocumentLockingService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
@@ -43,7 +41,6 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -54,7 +51,6 @@ public class AssetServiceImpl implements AssetService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetServiceImpl.class);
 
     private ParameterService parameterService;
-    private DocumentLockingService documentLockingService;
     private PaymentSummaryService paymentSummaryService;
     private BusinessObjectService businessObjectService;
 
@@ -64,14 +60,6 @@ public class AssetServiceImpl implements AssetService {
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
-    }
-
-    public DocumentLockingService getDocumentLockingService() {
-        return documentLockingService;
-    }
-
-    public void setDocumentLockingService(DocumentLockingService documentLockingService) {
-        this.documentLockingService = documentLockingService;
     }
 
     public boolean isAssetMovableCheckByAsset(Asset asset) {
@@ -166,48 +154,6 @@ public class AssetServiceImpl implements AssetService {
         return false;
     }
 
-    /**
-     * @see org.kuali.kfs.module.cam.document.service.AssetService#generateAssetLock(java.lang.String, java.lang.Long)
-     */
-    public MaintenanceLock generateAssetLock(String documentNumber, Long capitalAssetNumber) {
-        MaintenanceLock maintenanceLock = new MaintenanceLock();
-        StringBuffer lockrep = new StringBuffer();
-
-        lockrep.append(Asset.class.getName() + KFSConstants.Maintenance.AFTER_CLASS_DELIM);
-        lockrep.append(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER + KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
-        lockrep.append(capitalAssetNumber);
-
-        maintenanceLock.setDocumentNumber(documentNumber);
-        maintenanceLock.setLockingRepresentation(lockrep.toString());
-
-        return maintenanceLock;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.cam.document.service.AssetService#isAssetLocked(java.lang.String, java.lang.Long)
-     */
-    public boolean isAssetLocked(String documentNumber, Long capitalAssetNumber) {
-        List<MaintenanceLock> maintenanceLocks = new ArrayList<MaintenanceLock>();
-        maintenanceLocks.add(this.generateAssetLock(documentNumber, capitalAssetNumber));
-
-        String lockingDocumentId = getDocumentLockingService().getLockingDocumentId(documentNumber, maintenanceLocks);
-
-        if (documentLockingService.checkForLockingDocument(lockingDocumentId)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.cam.document.service.AssetService#getLockingDocumentId(java.lang.String, java.lang.Long)
-     */
-    public String getLockingDocumentId(String documentNumber, Long capitalAssetNumber) {
-        List<MaintenanceLock> maintenanceLocks = new ArrayList<MaintenanceLock>();
-        maintenanceLocks.add(this.generateAssetLock(documentNumber, capitalAssetNumber));
-
-        return getDocumentLockingService().getLockingDocumentId(documentNumber, maintenanceLocks);
-    }
 
     /**
      * This method calls the service codes to calculate the summary fields for each asset

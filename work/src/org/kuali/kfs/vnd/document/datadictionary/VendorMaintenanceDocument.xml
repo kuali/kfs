@@ -172,6 +172,7 @@
   <bean id="VendorMaintenanceDocument-Contact-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Contact"/>
     <property name="title" value="Contact"/>
+    <property name="defaultOpen" value="false"/>
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">
@@ -240,6 +241,7 @@
   <bean id="VendorMaintenanceDocument-SupplierDiversity-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="vendorSupplierDiversities"/>
     <property name="title" value="Supplier Diversity"/>
+    <property name="defaultOpen" value="false"/>
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">
@@ -273,6 +275,7 @@
   <bean id="VendorMaintenanceDocument-ShippingSpecialConditions-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="vendorShippingSpecialConditions"/>
     <property name="title" value="Shipping Special Conditions"/>
+    <property name="defaultOpen" value="false"/>
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">
@@ -307,6 +310,7 @@
   <bean id="VendorMaintenanceDocument-VendorCommodityCodes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="vendorCommodities"/>
     <property name="title" value="Vendor Commodity Codes"/>
+    <property name="defaultOpen" value="false"/>
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">
@@ -341,6 +345,7 @@
   <bean id="VendorMaintenanceDocument-SearchAlias-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="vendorAliases"/>
     <property name="title" value="Search Alias"/>
+    <property name="defaultOpen" value="false"/>
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">
@@ -367,6 +372,7 @@
   <bean id="VendorMaintenanceDocument-VendorPhoneNumber-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="vendorPhoneNumbers"/>
     <property name="title" value="Vendor Phone Number"/>
+    <property name="defaultOpen" value="false"/>
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">
@@ -399,6 +405,7 @@
   <bean id="VendorMaintenanceDocument-CustomerNumber-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="vendorCustomerNumbers"/>
     <property name="title" value="Customer Number"/>
+    <property name="defaultOpen" value="false"/>
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">
@@ -430,6 +437,7 @@
   <bean id="VendorMaintenanceDocument-Contracts-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="vendorContracts"/>
     <property name="title" value="Contracts"/>
+    <property name="defaultOpen" value="false"/>
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">

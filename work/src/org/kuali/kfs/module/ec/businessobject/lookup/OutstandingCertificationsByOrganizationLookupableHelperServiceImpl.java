@@ -15,8 +15,11 @@
  */
 package org.kuali.kfs.module.ec.businessobject.lookup;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -33,8 +36,11 @@ public class OutstandingCertificationsByOrganizationLookupableHelperServiceImpl 
      */
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, "!" + KFSConstants.DocumentStatusCodes.APPROVED);
-
-        return super.getSearchResults(fieldValues);
+        
+        // remove the duplicate effort documents
+        Set<? extends BusinessObject> searchResultSet = new HashSet<BusinessObject>(super.getSearchResults(fieldValues));
+        
+        return new ArrayList<BusinessObject> (searchResultSet);
     }
     
     /**

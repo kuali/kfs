@@ -19,11 +19,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.ec.EffortPropertyConstants;
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 
 /**
@@ -86,6 +90,21 @@ public class OutstandingCertificationsByOrganization extends EffortCertification
         }
 
         return nextApprovers;
+    }
+
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object arg0) {
+        if(arg0 instanceof OutstandingCertificationsByOrganization) {
+            List<String> keyFields = new ArrayList<String>();
+            keyFields.add(KFSPropertyConstants.DOCUMENT_NUMBER);
+
+            ObjectUtil.equals(this, arg0, keyFields );
+        }
+        
+        return false;
     }
 }
 

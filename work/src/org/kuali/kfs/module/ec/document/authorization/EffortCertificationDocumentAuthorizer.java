@@ -15,22 +15,11 @@
  */
 package org.kuali.kfs.module.ec.document.authorization;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.kuali.kfs.module.ec.EffortConstants.EffortCertificationEditMode;
-import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
-import org.kuali.kfs.module.ec.util.EffortCertificationParameterFinder;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
-
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.Document;
 
 /**
  * Document Authorizer for the Effort Certification document.
  */
-public class EffortCertificationDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
-    
+public class EffortCertificationDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase { 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocumentAuthorizer.class);
 }
-

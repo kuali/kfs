@@ -178,6 +178,8 @@ public class CertificationReportAction extends EffortCertificationAction {
         CertificationReportForm certificationReportForm = (CertificationReportForm) form;
         for (EffortCertificationDetail detailLine : certificationReportForm.getDetailLines()) {
             detailLine.refreshNonUpdateableReferences();
+            
+            EffortCertificationDocumentRuleUtil.applyDefaultValues(detailLine);
         }
 
         return actionForward;
@@ -189,11 +191,11 @@ public class CertificationReportAction extends EffortCertificationAction {
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward actionForward = super.execute(mapping, form, request, response);
-        this.refresh(mapping, form, request, response);
-
         CertificationReportForm certificationReportForm = (CertificationReportForm) form;
         this.updateDetailLinesFromSummaryLines(certificationReportForm);
+        
+        ActionForward actionForward = super.execute(mapping, form, request, response);
+        this.refresh(mapping, form, request, response);
         
         return actionForward;
     }

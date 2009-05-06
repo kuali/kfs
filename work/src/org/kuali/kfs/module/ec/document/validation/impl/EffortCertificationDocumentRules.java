@@ -291,7 +291,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
             hasValidReference &= accountingLineRuleHelperService.isValidAccount(detailLine.getAccount(), dataDictionary, EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS);
             hasValidReference &= accountingLineRuleHelperService.isValidChart(detailLine.getChartOfAccounts(), dataDictionary, EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS);
 
-            if (!KFSConstants.getDashSubAccountNumber().equals(detailLine.getSubAccountNumber())) {
+            if (!KFSConstants.getDashSubAccountNumber().equals(detailLine.getSubAccountNumber()) && StringUtils.isNotBlank(detailLine.getSubAccountNumber())) {
                 hasValidReference &= accountingLineRuleHelperService.isValidSubAccount(detailLine.getSubAccount(), dataDictionary, EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS);
             }
         }

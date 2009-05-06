@@ -28,6 +28,9 @@ import org.kuali.rice.core.util.JSTLConstants;
  * General constants for the effort reporting module.
  */
 public class EffortConstants extends JSTLConstants {
+    
+    public static final String EFFORT_NAMESPACE_CODE = "KFS-EC";
+    
     /**
      * hold contants used by extract process
      */

@@ -276,7 +276,7 @@ public class EffortCertificationDocumentRuleUtil {
      * @return true if original effort percent same as current effort percent
      */
     
-    public static boolean isOrinalEffortPercentSameAsCurrentEffortPercent(Integer originalEffortPercent, Integer effortPercent) {
+    public static boolean isOriginalEffortPercentSameAsCurrentEffortPercent(Integer originalEffortPercent, Integer effortPercent) {
         return originalEffortPercent.equals(effortPercent);
     }
     
@@ -289,22 +289,19 @@ public class EffortCertificationDocumentRuleUtil {
      */
     public static boolean isPayrollAmountOverChanged(EffortCertificationDetail detailLine, KualiDecimal originalTotalAmount, double limitOfLinePayrollAmountChange) {        
         KualiDecimal payrollAmount = detailLine.getEffortCertificationPayrollAmount();
-        KualiDecimal orignalPayrollAmount = detailLine.getEffortCertificationOriginalPayrollAmount();
+        KualiDecimal originalPayrollAmount = detailLine.getEffortCertificationOriginalPayrollAmount();
         
         KualiDecimal difference = KualiDecimal.ZERO;
         
         Integer originalEffortPercent = detailLine.getEffortCertificationCalculatedOverallPercent();
-        Integer effortPercent = detailLine.getEffortCertificationUpdatedOverallPercent();
-        
-        if (isOrinalEffortPercentSameAsCurrentEffortPercent(originalEffortPercent, effortPercent)) {
-            difference = orignalPayrollAmount.subtract(payrollAmount).multiply(HUNDRED_DOLLAR_AMOUNT).abs();
-        }
-        else {
-            KualiDecimal calculatedPayrollAmount = PayrollAmountHolder.recalculatePayrollAmount(originalTotalAmount, effortPercent);
-            difference = calculatedPayrollAmount.subtract(payrollAmount).multiply(HUNDRED_DOLLAR_AMOUNT).abs();
+        Integer effortPercent = detailLine.getEffortCertificationUpdatedOverallPercent();       
+        if (isOriginalEffortPercentSameAsCurrentEffortPercent(originalEffortPercent, effortPercent)) {
+            difference = originalPayrollAmount.subtract(payrollAmount).multiply(HUNDRED_DOLLAR_AMOUNT).abs();
+            
+            return difference.divide(originalTotalAmount).doubleValue() > limitOfLinePayrollAmountChange * HUNDRED_DOLLAR_AMOUNT.intValue();
         }
         
-        return difference.divide(originalTotalAmount).doubleValue() > limitOfLinePayrollAmountChange * HUNDRED_DOLLAR_AMOUNT.intValue();
+        return false;
     }
 
     /**

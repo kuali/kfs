@@ -261,8 +261,15 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
             glpeSourceDetail.getAccount().setAccountSufficientFundsCode(KFSConstants.SF_TYPE_NO_CHECKING);
         }
         
-        String sifficientFundsObjectCode = SpringContext.getBean(SufficientFundsService.class).getSufficientFundsObjectCode(glpeSourceDetail.getObjectCode(), glpeSourceDetail.getAccount().getAccountSufficientFundsCode());
-        explicitEntry.setAcctSufficientFundsFinObjCd(sifficientFundsObjectCode);
+        if (ObjectUtils.isNull(glpeSourceDetail.getObjectCode()) || StringUtils.isBlank(glpeSourceDetail.getObjectCode().getFinancialObjectTypeCode())) {
+            glpeSourceDetail.refreshReferenceObject("objectCode");
+        }
+        
+        if (!ObjectUtils.isNull(glpeSourceDetail.getObjectCode())) {
+            String sifficientFundsObjectCode = SpringContext.getBean(SufficientFundsService.class).getSufficientFundsObjectCode(glpeSourceDetail.getObjectCode(), glpeSourceDetail.getAccount().getAccountSufficientFundsCode());
+            explicitEntry.setAcctSufficientFundsFinObjCd(sifficientFundsObjectCode);
+            explicitEntry.setFinancialObjectTypeCode(glpeSourceDetail.getObjectCode().getFinancialObjectTypeCode());
+        }
         
         explicitEntry.setFinancialDocumentApprovedCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.NO);
         explicitEntry.setTransactionEncumbranceUpdateCode(BLANK_SPACE);
@@ -272,14 +279,6 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         explicitEntry.setFinancialSystemOriginationCode(SpringContext.getBean(HomeOriginationService.class).getHomeOrigination().getFinSystemHomeOriginationCode());
         explicitEntry.setDocumentNumber(glpeSourceDetail.getDocumentNumber());
         explicitEntry.setFinancialObjectCode(glpeSourceDetail.getFinancialObjectCode());
-        
-        if (ObjectUtils.isNull(glpeSourceDetail.getObjectCode()) || StringUtils.isBlank(glpeSourceDetail.getObjectCode().getFinancialObjectTypeCode())) {
-            glpeSourceDetail.refreshReferenceObject("objectCode");
-        }
-        
-        if (ObjectUtils.isNotNull(glpeSourceDetail.getObjectCode())) {
-            explicitEntry.setFinancialObjectTypeCode(glpeSourceDetail.getObjectCode().getFinancialObjectTypeCode());
-        }
         
         explicitEntry.setOrganizationDocumentNumber(glpeSource.getDocumentHeader().getOrganizationDocumentNumber());
         explicitEntry.setOrganizationReferenceId(glpeSourceDetail.getOrganizationReferenceId());

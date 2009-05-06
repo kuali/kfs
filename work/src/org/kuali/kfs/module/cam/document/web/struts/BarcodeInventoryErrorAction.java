@@ -170,12 +170,13 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
 
         List selectedRows = new ArrayList();
         int selectedCheckboxes[] = barcodeInventoryErrorForm.getRowCheckbox();
-        for(int i=0;i < selectedCheckboxes.length;i++) {
-            selectedRows.add(selectedCheckboxes[i]);
-        }
 
         // If rows were selected.....
         if (selectedCheckboxes != null) {
+            for(int i=0;i < selectedCheckboxes.length;i++) {
+                selectedRows.add(selectedCheckboxes[i]);
+            }
+
             // Validate
             this.invokeRules(document, true);
 

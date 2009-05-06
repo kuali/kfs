@@ -20,10 +20,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ParameterKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.ParameterService;
 
 /**
  * Holds constants for disbursement voucher and payee documents.
@@ -57,24 +58,9 @@ public interface DisbursementVoucherConstants extends ParameterKeyConstants {
     }
 
     public static class PaymentReasonCodes {
-        public static final String PRIZE = "A";
-        public static final String OUT_OF_POCKET = "B";
-        public static final String RESEARCH_PARTICIPANT = "C";
-        public static final String DECEDENT = "D";
-        public static final String SERVICES = "E";
-        public static final String REFUND = "F";
-        public static final String UTILITIES = "G";
-        public static final String MEDICAL = "H";
-        public static final String REVOLVING_FUND = "K";
-        public static final String CONTRACTUAL_AGREEMENTS = "L";
-        public static final String MOVING = "M";
-        public static final String TRAVEL_NONEMPLOYEE = "N";
-        public static final String TRAVEL_PREPAID = "P";
         public static final String ROYALTIES = "R";
         public static final String RENTAL_PAYMENT = "T";
-        public static final String SUBSCRIPTIONS = "W";
         public static final String TRAVEL_HONORARIUM = "X";
-        public static final String CLAIMS = "Z";
     }
 
     public static class DvPdpExtractGroup {
@@ -88,42 +74,47 @@ public interface DisbursementVoucherConstants extends ParameterKeyConstants {
     }
     
     public enum TabByReasonCode{
-        NON_EMPLOYEE_TRAVEL_TAB(PaymentReasonCodes.TRAVEL_NONEMPLOYEE, TabKey.NON_EMPLOYEE_TRAVEL_EXPENSE, KFSPropertyConstants.DV_NON_EMPLOYEE_TRAVEL, 
+        NON_EMPLOYEE_TRAVEL_TAB(NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM, TabKey.NON_EMPLOYEE_TRAVEL_EXPENSE, KFSPropertyConstants.DV_NON_EMPLOYEE_TRAVEL, 
                 KFSPropertyConstants.DISB_VCHR_NON_EMP_TRAVELER_NAME,KFSKeyConstants.WARNING_DV_NON_EMPLOYEE_TRAVEL_TAB),
-        PREPAID_TRAVEL_TAB(PaymentReasonCodes.TRAVEL_PREPAID, TabKey.PRE_PAID_TRAVEL_EXPENSES, KFSPropertyConstants.DV_PRE_CONFERENCE_DETAIL, 
+        PREPAID_TRAVEL_TAB(PREPAID_TRAVEL_PAYMENT_REASONS_PARM_NM, TabKey.PRE_PAID_TRAVEL_EXPENSES, KFSPropertyConstants.DV_PRE_CONFERENCE_DETAIL, 
                 KFSPropertyConstants.DV_CONFERENCE_DESTINATION_NAME,KFSKeyConstants.WARNING_DV_PREPAID_TRAVEL_TAB);
         
-        public String paymentReasonCode;
+        public String paymentReasonParameterName;
         public String tabKey;
         public String propertyName;
         public String reprentingFieldName;
         public String messageKey;
 
-        private TabByReasonCode(String paymentReasonCode, String tabKey, String propertyName, String reprentingFieldName, String messageKey) {
-            this.paymentReasonCode = paymentReasonCode;
+        private TabByReasonCode(String paymentReasonParameterName, String tabKey, String propertyName, String reprentingFieldName, String messageKey) {
+            this.paymentReasonParameterName = paymentReasonParameterName;
             this.tabKey = tabKey;
             this.propertyName = propertyName;
             this.reprentingFieldName = reprentingFieldName;
             this.messageKey = messageKey;
         }
         
+        private static ParameterService parameterService;
+        private static ParameterService getParameterService() {
+            if (parameterService == null) {
+                parameterService = SpringContext.getBean(ParameterService.class);
+            }
+            return parameterService;
+        }
+        
         public static TabByReasonCode getTabByReasonCode(String paymentReasonCode) {
             for(TabByReasonCode tab : TabByReasonCode.values()) {
-                if(StringUtils.equals(tab.paymentReasonCode, paymentReasonCode)){
+                if(parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, tab.paymentReasonParameterName, paymentReasonCode).evaluationSucceeds()){
                     return tab;
                 }
-            }
-            
+            }            
             return null;
         }
         
         public static List<String> getAllTabKeys() {
             List<String> tabKeys = new ArrayList<String>();
-            
             for(TabByReasonCode tab : TabByReasonCode.values()) {
                 tabKeys.add(tab.tabKey);
             }
-            
             return tabKeys;
         } 
         

@@ -217,7 +217,10 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             pg.setPayeeIdTypeCd(PdpConstants.PayeeIdTypeCodes.ENTITY_ID);
 
             // All payments are taxable except research participant, rental & royalties
-            pg.setTaxablePayment((!DisbursementVoucherConstants.PaymentReasonCodes.RESEARCH_PARTICIPANT.equals(rc)) && (!DisbursementVoucherConstants.PaymentReasonCodes.RENTAL_PAYMENT.equals(rc)) && (!DisbursementVoucherConstants.PaymentReasonCodes.ROYALTIES.equals(rc)));
+            pg.setTaxablePayment(
+                    !parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.RESEARCH_PAYMENT_REASONS_PARM_NM, rc).evaluationSucceeds()
+                        && !DisbursementVoucherConstants.PaymentReasonCodes.RENTAL_PAYMENT.equals(rc)
+                        && !DisbursementVoucherConstants.PaymentReasonCodes.ROYALTIES.equals(rc));
         }
         else { // Payee is not an employee
             // Assume it is not taxable until proven otherwise
@@ -391,7 +394,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         }
 
         String paymentReasonCode = dvpd.getDisbVchrPaymentReasonCode();
-        if (DisbursementVoucherConstants.PaymentReasonCodes.TRAVEL_NONEMPLOYEE.equals(paymentReasonCode) || DisbursementVoucherConstants.PaymentReasonCodes.TRAVEL_HONORARIUM.equals(paymentReasonCode)) {
+        if (parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM, paymentReasonCode).evaluationSucceeds() || DisbursementVoucherConstants.PaymentReasonCodes.TRAVEL_HONORARIUM.equals(paymentReasonCode)) {
             DisbursementVoucherNonEmployeeTravel dvnet = document.getDvNonEmployeeTravel();
             pnt = new PaymentNoteText();
             pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
@@ -421,7 +424,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
                 }
             }
         }
-        else if (DisbursementVoucherConstants.PaymentReasonCodes.TRAVEL_PREPAID.equals(paymentReasonCode)) {
+        else if (parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.PREPAID_TRAVEL_PAYMENT_REASONS_PARM_NM, paymentReasonCode).evaluationSucceeds()) {
             pnt = new PaymentNoteText();
             pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
             pnt.setCustomerNoteText("Payment is for the following indviuals/charges:");

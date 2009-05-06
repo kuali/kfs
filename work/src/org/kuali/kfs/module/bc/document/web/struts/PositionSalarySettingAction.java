@@ -30,6 +30,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.BCConstants.LockStatus;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockStatus;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
@@ -38,8 +39,6 @@ import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.service.BudgetConstructionPositionService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
-import org.kuali.kfs.module.bc.BCConstants.LockStatus;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ErrorMap;
@@ -101,7 +100,7 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
         // attempt to lock position
         BudgetConstructionLockStatus bcLockStatus = SpringContext.getBean(LockService.class).lockPosition(positionNumber, universityFiscalYear, principalId);
         if (!bcLockStatus.getLockStatus().equals(BCConstants.LockStatus.SUCCESS)) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_POSITION_LOCK_NOT_OBTAINED, new String[] { universityFiscalYear.toString(), positionNumber });
+            errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FAIL_TO_LOCK_POSITION, budgetConstructionPosition.toString());
             if (positionSalarySettingForm.isBudgetByAccountMode()) {
                 return this.returnToCaller(mapping, form, request, response);
             }

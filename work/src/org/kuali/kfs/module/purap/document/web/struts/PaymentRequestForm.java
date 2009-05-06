@@ -100,17 +100,6 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
     }
 
     /**
-     * Helper method to indicate if the current document has reached full document entry.
-     * 
-     * @return - true if document has reached full entry, false otherwise
-     */
-    //TODO hjs-should we consider making this an editmode instead of a method on the form?
-    public boolean isFullDocumentEntryCompleted() {
-        PaymentRequestDocument preq = (PaymentRequestDocument) this.getDocument();
-        return SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(preq);
-    }
-
-    /**
      * Build additional payment request specific buttons and set extraButtons list.
      * 
      * @return - list of extra buttons to be displayed to the user

@@ -22,6 +22,7 @@
               description="Boolean to indicate if Invoice Info PREQ specific fields should be displayed" %>
 
 <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] && (empty KualiForm.editingMode['restrictFiscalEntry'])}" />
+<c:set var="fullDocumentEntryCompleted" value="${not empty KualiForm.editingMode['fullDocumentEntryCompleted']}" />
 <c:set var="purchaseOrderAttributes" value="${DataDictionary.PurchaseOrderDocument.attributes}" />
 <c:set var="editPreExtract"	value="${(not empty KualiForm.editingMode['editPreExtract'])}" />
 <c:set var="tabindexOverrideBase" value="40" />
@@ -122,7 +123,7 @@
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                 	<c:choose>
-                	<c:when test="${KualiForm.fullDocumentEntryCompleted eq false}">
+                	<c:when test="${not fullDocumentEntryCompleted}">
 					<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorInvoiceAmount}" useShortLabel="true"/></div>
 					</c:when>
 					<c:otherwise>
@@ -132,7 +133,7 @@
                 </th>
                 <td align=left valign=middle class="datacell">
                 	<c:choose>
-                	<c:when test="${KualiForm.fullDocumentEntryCompleted eq false}">                
+                	<c:when test="${not fullDocumentEntryCompleted}">                
                 	<kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorInvoiceAmount}" property="document.vendorInvoiceAmount" readOnly="true" />
 					</c:when>
 					<c:otherwise>

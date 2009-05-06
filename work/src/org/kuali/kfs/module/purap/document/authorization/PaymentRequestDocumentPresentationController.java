@@ -152,9 +152,8 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
             editModes.add(PaymentRequestEditMode.LOCK_VENDOR_ENTRY);
         }
         
-        // always show amount after full entry
         if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(paymentRequestDocument)) {
-            editModes.add(PaymentRequestEditMode.SHOW_AMOUNT_ONLY);
+            editModes.add(PaymentRequestEditMode.FULL_DOCUMENT_ENTRY_COMPLETED);
         }
         else if (ObjectUtils.isNotNull(paymentRequestDocument.getPurchaseOrderDocument()) && PurapConstants.PurchaseOrderStatuses.OPEN.equals(paymentRequestDocument.getPurchaseOrderDocument().getStatusCode())) {
             editModes.add(PaymentRequestEditMode.ALLOW_CLOSE_PURCHASE_ORDER);
@@ -192,9 +191,6 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
         if (paymentRequestDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.ACCOUNT_REVIEW)) {
             // remove FULL_ENTRY because FO cannot edit rest of doc; only their own acct lines
             editModes.add(PaymentRequestEditMode.RESTRICT_FISCAL_ENTRY);
-
-            // expense_entry was already added in super, add amount edit mode
-            editModes.add(PaymentRequestEditMode.SHOW_AMOUNT_ONLY);
 
             // only do line item check if the hold/cancel indicator is false, otherwise document editing should be turned off.
             if (!paymentRequestDocument.isHoldIndicator() && !paymentRequestDocument.isPaymentRequestedCancelIndicator()) {

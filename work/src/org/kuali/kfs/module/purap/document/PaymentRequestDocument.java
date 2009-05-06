@@ -772,7 +772,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
 
         // if we've hit full entry completed then close/reopen po
-        if (PurapConstants.PaymentRequestStatuses.STATUS_ORDER.isFullDocumentEntryCompleted(this.getStatusCode()) && this.isClosePurchaseOrderIndicator()) {
+        if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(this) && this.isClosePurchaseOrderIndicator()) {
             SpringContext.getBean(PurapService.class).performLogicForCloseReopenPO(this);
         }
     }

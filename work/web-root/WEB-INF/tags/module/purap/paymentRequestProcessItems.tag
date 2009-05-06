@@ -20,6 +20,7 @@
 <%@ attribute name="accountingLineAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
 <%@ attribute name="isCreditMemo" required="false" description="Indicates whether the tag is being used in the context of a credit memo document." %>
 
+<c:set var="fullDocumentEntryCompleted" value="${not empty KualiForm.editingMode['fullDocumentEntryCompleted']}" />
 <c:set var="purapTaxEnabled" value="${(not empty KualiForm.editingMode['purapTaxEnabled'])}" />
 <c:set var="tabindexOverrideBase" value="50" />
 
@@ -33,9 +34,6 @@
     </c:if>		
 	<table cellpadding="0" cellspacing="0" class="datatable" summary="Items Section">
 	
-	    <c:set var="editingMode" value="${KualiForm.editingMode}" scope="request"/>
-	    <c:set var="showAmount" value="${(!empty KualiForm.editingMode['showAmountOnly'])}" />
-	   	       
 	    <c:if test="${empty isCreditMemo or !isCreditMemo}" >
 			<c:set var="mainColumnCount" value="12"/>
 			<c:set var="colSpanItemType" value="4"/>
@@ -47,7 +45,7 @@
 	    	<purap:paymentRequestItems 
 		    	itemAttributes="${itemAttributes}"
 	    		accountingLineAttributes="${accountingLineAttributes}" 
-	    		showAmount="${showAmount}" 
+	    		showAmount="${fullDocumentEntryCompleted}" 
 	    		mainColumnCount="${mainColumnCount}" />
 		</c:if>
 
@@ -96,7 +94,7 @@
 			itemAttributes="${itemAttributes}" 
 			accountingLineAttributes="${accountingLineAttributes}" 
 			overrideTitle="Additional Charges" 
-			showAmount="${showAmount}"
+			showAmount="${fullDocumentEntryCompleted}"
 			showInvoiced="${showInvoiced}"
 			specialItemTotalType="DISC" 
 			mainColumnCount="${mainColumnCount}"
@@ -211,7 +209,7 @@
 					    readOnly="false" tabindexOverride="${tabindexOverrideBase + 0}" />
 					    <kul:htmlAttributeLabel attributeEntry="${documentAttributes.closePurchaseOrderIndicator}" skipHelpUrl="true" noColon="true" />
 	              </c:if>
-	              <c:if test="${not empty KualiForm.document.recurringPaymentTypeCode and KualiForm.fullDocumentEntryCompleted == false}">
+	              <c:if test="${not empty KualiForm.document.recurringPaymentTypeCode and not fullDocumentEntryCompleted}">
 	                Recurring PO
 	              </c:if>
               </c:if>
@@ -223,7 +221,7 @@
 					    readOnly="false" tabindexOverride="${tabindexOverrideBase + 0}"/>
 					    <kul:htmlAttributeLabel attributeEntry="${documentAttributes.reopenPurchaseOrderIndicator}" skipHelpUrl="true" noColon="true" />
 	              </c:if>
-	              <c:if test="${not empty KualiForm.document.paymentRequestDocument.recurringPaymentTypeCode and KualiForm.fullDocumentEntryCompleted == false}">
+	              <c:if test="${not empty KualiForm.document.paymentRequestDocument.recurringPaymentTypeCode and not fullDocumentEntryCompleted}">
 	                Recurring PO
 	              </c:if>			
               </c:if>		

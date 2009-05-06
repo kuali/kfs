@@ -129,7 +129,7 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
         }
         Set<String> editModes = presentationController.getEditModes(accountingDocument);
         editModes = authorizer.getEditModes(accountingDocument, GlobalVariables.getUserSession().getPerson(), editModes);
-        return editModes.contains(PurapAuthorizationConstants.PaymentRequestEditMode.SHOW_AMOUNT_ONLY);
+        return editModes.contains(PurapAuthorizationConstants.PaymentRequestEditMode.FULL_DOCUMENT_ENTRY_COMPLETED);
     }
     
     /**

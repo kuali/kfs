@@ -90,7 +90,6 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
         Set<String> editModes = super.getEditModes(document);
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         VendorCreditMemoDocument vendorCreditMemoDocument = (VendorCreditMemoDocument)document;
-        boolean isFullDocumentEntryCompleted = SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(vendorCreditMemoDocument);
 
         if (canCancel(vendorCreditMemoDocument)) {
             editModes.add(CreditMemoEditMode.ACCOUNTS_PAYABLE_PROCESSOR_CANCEL);
@@ -104,8 +103,16 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
             editModes.add(CreditMemoEditMode.REMOVE_HOLD);
         }
 
-        if (isFullDocumentEntryCompleted) {
+        if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(vendorCreditMemoDocument)) {
             editModes.add(CreditMemoEditMode.FULL_DOCUMENT_ENTRY_COMPLETED);
+        }
+        else {
+            if (ObjectUtils.isNotNull(vendorCreditMemoDocument.getPurchaseOrderDocument()) && 
+                    !vendorCreditMemoDocument.isSourceVendor() && 
+                    PurapConstants.PurchaseOrderStatuses.CLOSED.equals(vendorCreditMemoDocument.getPurchaseOrderDocument().getStatusCode())) {
+                // TODO hjs-is this right? check to see if the checkbox is showing up for non-AP folks
+                editModes.add(CreditMemoEditMode.ALLOW_REOPEN_PURCHASE_ORDER);
+            }
         }
 
         if (StringUtils.equals(vendorCreditMemoDocument.getStatusCode(), PurapConstants.CreditMemoStatuses.INITIATE)) {
@@ -120,11 +127,6 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
             editModes.add(CreditMemoEditMode.LOCK_VENDOR_ENTRY);
         }
         
-        // always show amount after full entry
-        if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(vendorCreditMemoDocument)) {
-            editModes.add(CreditMemoEditMode.SHOW_AMOUNT_ONLY);
-        }
-        
         // only allow tax editing and display the "clear all taxes" button if doc is not using use tax
         if (vendorCreditMemoDocument.isUseTaxIndicator()) {
             editModes.add(CreditMemoEditMode.CLEAR_ALL_TAXES);
@@ -137,15 +139,6 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
             editModes.add(PurapAuthorizationConstants.PURAP_TAX_ENABLED);
         }
 
-        //TODO hjs-is this right?  check to see if the checkbox is showing up for non-AP folks
-        if (ObjectUtils.isNotNull(vendorCreditMemoDocument.getPurchaseOrderDocument())){  
-            if (!vendorCreditMemoDocument.isSourceVendor() &&
-                    !isFullDocumentEntryCompleted && 
-                    PurapConstants.PurchaseOrderStatuses.CLOSED.equals(vendorCreditMemoDocument.getPurchaseOrderDocument().getStatusCode())) {
-                editModes.add(CreditMemoEditMode.ALLOW_REOPEN_PURCHASE_ORDER);
-            }
-        }
-        
         // Remove editBank edit mode if the document has been extracted
         if (vendorCreditMemoDocument.isExtracted()) {
             editModes.remove(KFSConstants.BANK_ENTRY_EDITABLE_EDITING_MODE);

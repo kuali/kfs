@@ -170,6 +170,15 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
     }
     
     /**
+     * @see org.kuali.kfs.sys.service.ReportWriterService#writeNewLines(int)
+     */
+    public void writeNewLines(int lines) {
+        for (int i = 0; i < lines; i++) {
+            this.writeFormattedMessageLine("");
+        }
+    }
+    
+    /**
      * @see org.kuali.kfs.sys.service.ReportWriterService#writeStatisticLine(java.lang.String, java.lang.Object[])
      */
     public void writeStatisticLine(String message, Object ... args) {

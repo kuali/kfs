@@ -50,6 +50,12 @@ public interface ReportWriterService {
     public void writeStatisticLine(String message, Object ... args);
     
     /**
+     * Writes "lines" number of newlines to the report
+     * @param lines number of newlines to write to the report
+     */
+    public void writeNewLines(int lines);
+    
+    /**
      * Pass through to PrintStream.printf except that it also handles pagination. If multiple lines are needed, call this method multiple
      * times to assure pagination works properly
      * @param format

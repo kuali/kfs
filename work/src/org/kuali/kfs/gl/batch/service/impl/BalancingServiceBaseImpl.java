@@ -105,7 +105,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
         // Following does not check for custom data (AccountBalance & Encumbrance) present. Should be OK since it can't exist without entry and balance data.
         if (this.getHistoryCount(null, entryHistoryPersistentClass) == 0 || this.getHistoryCount(null, balanceHistoryPersistentClass) == 0) {
             reportWriterService.writeFormattedMessageLine(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_DATA_INSERT), entryHistoryPersistentClass.getSimpleName(), balanceHistoryPersistentClass.getSimpleName());
-            reportWriterService.writeFormattedMessageLine("");
+            reportWriterService.writeNewLines(1);
             
             ledgerBalancingDao.populateLedgerEntryHistory(startUniversityFiscalYear);
             ledgerBalancingDao.populateLedgerBalanceHistory(startUniversityFiscalYear);
@@ -121,7 +121,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
         int obsoleteUniversityFiscalYear = startUniversityFiscalYear - 1;
         if(this.getHistoryCount(obsoleteUniversityFiscalYear, entryHistoryPersistentClass) != 0 || this.getHistoryCount(obsoleteUniversityFiscalYear, balanceHistoryPersistentClass) != 0 || this.doesCustomHistoryExist(obsoleteUniversityFiscalYear)) {
             reportWriterService.writeFormattedMessageLine(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_OBSOLETE_FISCAL_YEAR_DATA_DELETED), entryHistoryPersistentClass.getSimpleName(), balanceHistoryPersistentClass.getSimpleName(), obsoleteUniversityFiscalYear);
-            reportWriterService.writeFormattedMessageLine("");
+            reportWriterService.writeNewLines(1);
             this.deleteHistory(obsoleteUniversityFiscalYear, entryHistoryPersistentClass);
             this.deleteHistory(obsoleteUniversityFiscalYear, balanceHistoryPersistentClass);
             this.deleteCustomHistory(obsoleteUniversityFiscalYear);
@@ -138,14 +138,14 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
         LOG.debug("Comparing entry history table with the PRD counterpart.");
         int countEntryComparisionFailure = this.compareEntryHistory();
         if (countEntryComparisionFailure != 0) {
-            reportWriterService.writeFormattedMessageLine("");
+            reportWriterService.writeNewLines(1);
             reportWriterService.writeFormattedMessageLine(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_FAILURE_COUNT), entryHistoryPersistentClass.getSimpleName(), countEntryComparisionFailure, this.getComparisonFailuresToPrintPerReport());
         }
         
         LOG.debug("Comparing balance history table with the PRD counterpart.");
         int countBalanceComparisionFailure = this.compareBalanceHistory();
         if (countBalanceComparisionFailure != 0) {
-            reportWriterService.writeFormattedMessageLine("");
+            reportWriterService.writeNewLines(1);
             reportWriterService.writeFormattedMessageLine(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_FAILURE_COUNT), balanceHistoryPersistentClass.getSimpleName(), countBalanceComparisionFailure, this.getComparisonFailuresToPrintPerReport());
         }
         

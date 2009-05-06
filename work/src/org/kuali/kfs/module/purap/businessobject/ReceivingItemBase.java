@@ -208,8 +208,14 @@ public abstract class ReceivingItemBase extends PersistableBusinessObjectBase im
     }
 
     public ItemReasonAdded getItemReasonAdded() {
+        if (itemReasonAdded != null) {
+            return itemReasonAdded;
+        }
+        else if (itemReasonAddedCode != null){
+            refreshReferenceObject(PurapPropertyConstants.ITEM_REASON_ADDED);
+        }
         return itemReasonAdded;
-    }
+    } 
 
     public void setItemReasonAdded(ItemReasonAdded itemReasonAdded) {
         this.itemReasonAdded = itemReasonAdded;

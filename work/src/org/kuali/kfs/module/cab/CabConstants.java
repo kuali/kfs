@@ -34,7 +34,6 @@ public class CabConstants extends JSTLConstants {
     public static final String PO_STATUS_CODE_OPEN = "OPEN";
 
     public static final String CAB_PURAP_SESSION = "CABPurAp";
-    public static final String NEW_ASSET_DOCUMENT_DESC = "CAB submit document for PurAp line";
 
     public static class DateFormats {
         public static final String MONTH_DAY_YEAR = "MM/dd/yyyy";

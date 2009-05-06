@@ -98,18 +98,8 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
      * @see org.kuali.kfs.coa.dataaccess.AccountDao#getPrimaryDelegationByExample(org.kuali.kfs.coa.businessobject.AccountDelegate,
      *      java.lang.String)
      */
-    public AccountDelegate getPrimaryDelegationByExample(AccountDelegate delegateExample, String totalDollarAmount) {
-        Collection collection = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(AccountDelegate.class, getDelegateByExampleCriteria(delegateExample, totalDollarAmount, "Y")));
-        if (collection.isEmpty()) {
-            return null;
-        }
-        for (Iterator iterator = collection.iterator(); iterator.hasNext();) {
-            AccountDelegate delegate = (AccountDelegate) iterator.next();
-            if (!KFSConstants.ROOT_DOCUMENT_TYPE.equals(delegate.getFinancialDocumentTypeCode())) {
-                return delegate;
-            }
-        }
-        return (AccountDelegate) collection.iterator().next();
+    public List getPrimaryDelegationByExample(AccountDelegate delegateExample, String totalDollarAmount) {
+        return new ArrayList(getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(AccountDelegate.class, getDelegateByExampleCriteria(delegateExample, totalDollarAmount, "Y"))));
     }
 
     /**
@@ -133,14 +123,6 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
         Criteria criteria = new Criteria();
         criteria.addEqualTo(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, delegateExample.getChartOfAccountsCode());
         criteria.addEqualTo(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, delegateExample.getAccountNumber());
-        Criteria docTypeMatchCriteria = new Criteria();
-        docTypeMatchCriteria.addEqualTo(KFSConstants.FINANCIAL_DOCUMENT_TYPE_CODE, delegateExample.getFinancialDocumentTypeCode());
-        Criteria docTypeAllCriteria = new Criteria();
-        docTypeAllCriteria.addEqualTo(KFSConstants.FINANCIAL_DOCUMENT_TYPE_CODE, KFSConstants.ROOT_DOCUMENT_TYPE);
-        Criteria docTypeOrCriteria = new Criteria();
-        docTypeOrCriteria.addOrCriteria(docTypeMatchCriteria);
-        docTypeOrCriteria.addOrCriteria(docTypeAllCriteria);
-        criteria.addAndCriteria(docTypeOrCriteria);
         criteria.addEqualTo("accountDelegateActiveIndicator", "Y");
         criteria.addLessOrEqualThan("accountDelegateStartDate", SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
         criteria.addEqualTo("accountsDelegatePrmrtIndicator", accountsDelegatePrmrtIndicator);

@@ -16,25 +16,23 @@
 package org.kuali.kfs.coa.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.coa.dataaccess.AccountDao;
 import org.kuali.kfs.coa.service.AccountService;
-import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kim.util.KimCommonUtils;
 import org.kuali.rice.kns.util.spring.Cached;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * This class is the service implementation for the Account structure. This is the default, Kuali provided implementation.
@@ -107,7 +105,19 @@ public class AccountServiceImpl implements AccountService {
      */
 
     public AccountDelegate getPrimaryDelegationByExample(AccountDelegate delegateExample, String totalDollarAmount) {
-        return accountDao.getPrimaryDelegationByExample(delegateExample, totalDollarAmount);
+        String documentTypeName = delegateExample.getFinancialDocumentTypeCode();
+        List primaryDelegations = filterAccountDelegates(delegateExample, accountDao.getPrimaryDelegationByExample(delegateExample, totalDollarAmount));
+        if (primaryDelegations.isEmpty()) {
+            return null;
+        }
+        AccountDelegate delegate;
+        for (Iterator iterator = primaryDelegations.iterator(); iterator.hasNext();) {
+            delegate = (AccountDelegate) iterator.next();
+            if (!KFSConstants.ROOT_DOCUMENT_TYPE.equals(delegate.getFinancialDocumentTypeCode())) {
+                return delegate;
+            }
+        }
+        return (AccountDelegate)primaryDelegations.iterator().next();
     }
 
     /**
@@ -115,7 +125,69 @@ public class AccountServiceImpl implements AccountService {
      *      java.lang.String)
      */
     public List getSecondaryDelegationsByExample(AccountDelegate delegateExample, String totalDollarAmount) {
-        return accountDao.getSecondaryDelegationsByExample(delegateExample, totalDollarAmount);
+        List secondaryDelegations = accountDao.getSecondaryDelegationsByExample(delegateExample, totalDollarAmount);
+        return filterAccountDelegates(delegateExample, secondaryDelegations);
+    }
+
+    /**
+     * This method filters account delegates by 
+     * 1) performing an exact match on the document type name of delegateExample
+     * 2) if no match is found for 1), then by performing an exact match on 
+     * the closest parent document type name of delegateExample document type name.
+     * 
+     * @param delegateExample
+     * @param accountDelegatesToFilterFrom
+     * @return
+     */
+    private List<AccountDelegate> filterAccountDelegates(AccountDelegate delegateExample, List<AccountDelegate> accountDelegatesToFilterFrom){
+        String documentTypeName = delegateExample.getFinancialDocumentTypeCode();
+        AccountDelegate delegate;
+        List<AccountDelegate> filteredAccountDelegates = filterAccountDelegates(accountDelegatesToFilterFrom, documentTypeName);
+        if(filteredAccountDelegates.size()==0){
+            Set<String> potentialParentDocumentTypeNames = getPotentialParentDocumentTypeNames(accountDelegatesToFilterFrom);
+            String closestParentDocumentTypeName = KimCommonUtils.getClosestParentDocumentTypeName(
+                    KEWServiceLocator.getDocumentTypeService().findByName(documentTypeName), 
+                    potentialParentDocumentTypeNames);
+            filteredAccountDelegates = filterAccountDelegates(accountDelegatesToFilterFrom, closestParentDocumentTypeName);
+        }
+        return filteredAccountDelegates;
+    }
+    
+    /**
+     * This method filters account delegates by performing an exact match on the document type name passed in.
+     * 
+     * @param delegations
+     * @param documentTypeNameToFilterOn
+     * @return
+     */
+    private List<AccountDelegate> filterAccountDelegates(List<AccountDelegate> delegations, String documentTypeNameToFilterOn){
+        AccountDelegate delegate;
+        List<AccountDelegate> filteredSecondaryDelegations = new ArrayList<AccountDelegate>();
+        for(Object delegateObject: delegations){
+            delegate = (AccountDelegate)delegateObject;
+            if(StringUtils.equals(delegate.getFinancialDocumentTypeCode(), documentTypeNameToFilterOn)){
+                filteredSecondaryDelegations.add(delegate);
+            }
+        }
+        return filteredSecondaryDelegations;
+    }
+
+    /**
+     * This method gets a list of potential parent document type names 
+     * by collecting the unique doc type names from the list of account delegations
+     * 
+     * @param delegations
+     * @return
+     */
+    private Set<String> getPotentialParentDocumentTypeNames(List<AccountDelegate> delegations){
+        AccountDelegate delegate;
+        Set<String> potentialParentDocumentTypeNames = new HashSet<String>();
+        for(Object delegateObject: delegations){
+            delegate = (AccountDelegate)delegateObject;
+            if(!potentialParentDocumentTypeNames.contains(delegate.getFinancialDocumentTypeCode()))
+                potentialParentDocumentTypeNames.add(delegate.getFinancialDocumentTypeCode());
+        }
+        return potentialParentDocumentTypeNames;
     }
 
     /**

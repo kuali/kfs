@@ -952,11 +952,6 @@ public class PurapConstants extends JSTLConstants {
         public static final String MULTIPLE = "MUL";
     }
 
-    public static class CapitalAssetTransactionTypes {
-        public static final String ASSET_GIVEN_IN_TRADE = "TDIN";
-        //TODO: add more asset transaction types
-    }
-    
     public static final class CAMS_REQUIREDNESS_FIELDS {
         private static final Map<String, String> getRequirednessFieldsByParameterNames() {
             Map<String, String> fieldsByParameterNames = new HashMap<String, String>();

@@ -51,6 +51,7 @@
 		</tr>
 		</c:if>
 		
+		<!--  Column Names -->
 		<tr>
 			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemLineNumber}" />
 			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" />
@@ -70,6 +71,7 @@
 			<kul:htmlAttributeHeaderCell literalLabel="Actions"/>
 		</tr>
 		
+		<!--  New Receiving Line Item -->
 		<c:if test="${fullEntryMode}">
 		<tr>
             <td class="infoline">
@@ -129,6 +131,7 @@
 		</tr>
 		</c:if>
 		
+		<!-- Existing Receiving Line Items -->
 		<logic:iterate indexId="ctr" name="KualiForm" property="document.items" id="itemLine">
 			<c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
 			<c:set var="topLevelTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
@@ -207,15 +210,15 @@
 				    readOnly="${true}" />
 		    </td>
 			<td class="infoline">
-                        <kul:htmlControlAttribute 
-                            attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" 
-                            property="document.item[${ctr}].itemUnitOfMeasureCode"
-                            onblur="loadItemUnitOfMeasureInfo( 'document.item[${ctr}].itemUnitOfMeasureCode', 'document.item[${ctr}].itemUnitOfMeasure.itemUnitOfMeasureDescription' );${onblur}"
-                            readOnly="${true}"
-                            tabindexOverride="${tabindexOverrideBase + 0}"/>
-                        <div id="document.item[${ctr}].itemUnitOfMeasure.itemUnitOfMeasureDescription.div" class="fineprint">
-                            <html:hidden write="true" property="document.item[${ctr}].itemUnitOfMeasure.itemUnitOfMeasureDescription"/>&nbsp;  
-                        </div>     
+	            <kul:htmlControlAttribute 
+	                attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" 
+	                property="document.item[${ctr}].itemUnitOfMeasureCode"
+	                onblur="loadItemUnitOfMeasureInfo( 'document.item[${ctr}].itemUnitOfMeasureCode', 'document.item[${ctr}].itemUnitOfMeasure.itemUnitOfMeasureDescription' );${onblur}"
+	                readOnly="${true}"
+	                tabindexOverride="${tabindexOverrideBase + 0}"/>
+	            <div id="document.item[${ctr}].itemUnitOfMeasure.itemUnitOfMeasureDescription.div" class="fineprint">
+	                <html:hidden write="true" property="document.item[${ctr}].itemUnitOfMeasure.itemUnitOfMeasureDescription"/>&nbsp;  
+	            </div>     
 		    </td>
 
 			<c:if test="${KualiForm.stateFinal == false}">
@@ -251,11 +254,12 @@
 				    property="document.item[${ctr}].itemDamagedTotalQuantity"
 				    readOnly="${not (fullEntryMode)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
 			</td>
-			<td class="infoline">
-			    <kul:htmlControlAttribute
-				    attributeEntry="${itemAttributes.itemReasonAddedCode}"
+			<td class="infoline">				
+				<kul:htmlControlAttribute
+				    attributeEntry="${itemAttributes.itemReasonAddedCode}"	
 				    property="document.item[${ctr}].itemReasonAddedCode"
-				    readOnly="${not (fullEntryMode) or itemLine.itemLineNumber != null}" tabindexOverride="${tabindexOverrideBase + 0}"/>
+				    extraReadOnlyProperty="document.item[${ctr}].itemReasonAdded.itemReasonAddedDescription"			    				    
+				    readOnly="${not (fullEntryMode) or itemLine.itemLineNumber != null}" tabindexOverride="${tabindexOverrideBase + 0}"/>					
 			</td>
 			<td class="infoline">
 			    &nbsp;

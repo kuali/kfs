@@ -50,7 +50,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class GlLineServiceImpl implements GlLineService {
-    private static final String CAB_DESC_PREFIX = "CAB created for GL ";
+    private static final String CAB_DESC_PREFIX = "CAB created for FP ";
     protected BusinessObjectService businessObjectService;
 
 
@@ -73,7 +73,7 @@ public class GlLineServiceImpl implements GlLineService {
         }
         // save the document
         document.getNewMaintainableObject().setMaintenanceAction(KNSConstants.MAINTENANCE_NEW_ACTION);
-        document.getDocumentHeader().setDocumentDescription(CAB_DESC_PREFIX + primary.getGeneralLedgerAccountIdentifier());
+        document.getDocumentHeader().setDocumentDescription(CAB_DESC_PREFIX + primary.getDocumentNumber());
         document.getNewMaintainableObject().setBusinessObject(assetGlobal);
         document.getNewMaintainableObject().setBoClass(assetGlobal.getClass());
         documentService.saveDocument(document);
@@ -181,7 +181,7 @@ public class GlLineServiceImpl implements GlLineService {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         AssetPaymentDocument document = (AssetPaymentDocument) documentService.getNewDocument(DocumentTypeName.ASSET_PAYMENT);
         document.setCapitalAssetBuilderOriginIndicator(true);
-        document.getDocumentHeader().setDocumentDescription(CAB_DESC_PREFIX + primaryGlEntry.getGeneralLedgerAccountIdentifier());
+        document.getDocumentHeader().setDocumentDescription(CAB_DESC_PREFIX + primaryGlEntry.getDocumentNumber());
         updatePreTagInformation(primaryGlEntry, document);
         // Asset Payment Detail
         int seq = 0;

@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.ACHBank;
 import org.kuali.kfs.pdp.service.AchBankService;
@@ -57,6 +58,10 @@ public class AchBankServiceImpl implements AchBankService {
 
             String str = null;
             while ((str = inputStream.readLine()) != null) {
+                if (StringUtils.isBlank(str)) {
+                    continue;
+                }
+                
                 String bankRoutingNumber = getField(str, 1, 9);
 
                 Map fieldValues = new HashMap();

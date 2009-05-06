@@ -1587,7 +1587,7 @@
 
 	<bean id="posterIndirectCostRecoveryGenerationReportWriterService" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/gl"/>
-		<property name="fileNamePrefix" value="poster_icr_generation_"/>
+		<property name="fileNamePrefix" value="icr_generation_"/>
         <property name="title" value="ICR GENERATION REPORT"/>
     </bean>
 

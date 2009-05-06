@@ -86,6 +86,8 @@ function loadAccountInfo( accountCodeFieldName, accountNameFieldName ) {
 	} else if (coaCode=='') {
 		setRecipientValue(accountNameFieldName, wrapError( 'chart code is empty' ), true );
 	} else {
+		accountCode = accountCode.toUpperCase();
+		
 		var dwrReply = {
 			callback:function(data) {
 			if ( data != null && typeof data == 'object' ) {

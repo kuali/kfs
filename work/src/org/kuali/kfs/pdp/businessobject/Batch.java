@@ -24,40 +24,34 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 
 public class Batch extends TimestampedBusinessObjectBase {
-
-    private KualiInteger id; // PMT_BATCH_ID
-
+    private KualiInteger id; 
     private KualiInteger customerId;
-    private CustomerProfile customerProfile; // CUST_ID
-
-    private String paymentFileName; // PMT_FL_NM
-    private Timestamp customerFileCreateTimestamp; // CUST_FL_CRTN_TS
-    private KualiInteger paymentCount; // PMT_CNT
-    private KualiDecimal paymentTotalAmount; // PMT_TOT_AMT
+    private String paymentFileName; 
+    private Timestamp customerFileCreateTimestamp; 
+    private KualiInteger paymentCount; 
+    private KualiDecimal paymentTotalAmount; 
+    private String submiterUserId; 
+    private Timestamp fileProcessTimestamp; 
+    
+    private CustomerProfile customerProfile; 
     private Person submiterUser;
-    private String submiterUserId; // SBMTR_USR_ID
-    private Timestamp fileProcessTimestamp; // FL_PROC_TS
     
     public Batch() {
         super();
     }
 
-    /**
-     * @hibernate.property column="FL_PROC_TS"
-     */
     public Timestamp getFileProcessTimestamp() {
         return fileProcessTimestamp;
     }
 
     /**
      * @return
-     * @hibernate.id column="PMT_BATCH_ID" generator-class="sequence"
-     * @hibernate.generator-param name="sequence" value="PDP.PDP_PMT_BATCH_ID_SEQ"
      */
     public KualiInteger getId() {
         return id;
@@ -65,7 +59,6 @@ public class Batch extends TimestampedBusinessObjectBase {
 
     /**
      * @return
-     * @hibernate.property column="CUST_FL_CRTN_TS"
      */
     public Timestamp getCustomerFileCreateTimestamp() {
         return customerFileCreateTimestamp;
@@ -73,7 +66,6 @@ public class Batch extends TimestampedBusinessObjectBase {
 
     /**
      * @return
-     * @hibernate.property column="PMT_CNT"
      */
     public KualiInteger getPaymentCount() {
         return paymentCount;
@@ -81,7 +73,6 @@ public class Batch extends TimestampedBusinessObjectBase {
 
     /**
      * @return
-     * @hibernate.property column="PMT_FL_NM" lenght="30"
      */
     public String getPaymentFileName() {
         return paymentFileName;
@@ -89,7 +80,6 @@ public class Batch extends TimestampedBusinessObjectBase {
 
     /**
      * @return
-     * @hibernate.property column="PMT_TOT_AMT"
      */
     public KualiDecimal getPaymentTotalAmount() {
         return paymentTotalAmount;
@@ -97,7 +87,6 @@ public class Batch extends TimestampedBusinessObjectBase {
 
     /**
      * @return
-     * @hibernate.many-to-one column="CUST_ID" class="edu.iu.uis.pdp.bo.CustomerProfile"
      */
     public CustomerProfile getCustomerProfile() {
         return customerProfile;
@@ -153,21 +142,15 @@ public class Batch extends TimestampedBusinessObjectBase {
     }
 
     public Person getSubmiterUser() {
+        submiterUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(submiterUserId, submiterUser);
         return submiterUser;
     }
 
     public void setSubmiterUser(Person s) {
-        if (s != null) {
-            this.submiterUserId = s.getPrincipalId();
-        }
-        else {
-            this.submiterUserId = null;
-        }
         this.submiterUser = s;
     }
 
     /**
-     * @hibernate.property column="SBMTR_USR_ID" length="11" not-null="true"
      * @return Returns the submiterUserId.
      */
     public String getSubmiterUserId() {
@@ -179,17 +162,6 @@ public class Batch extends TimestampedBusinessObjectBase {
      */
     public void setSubmiterUserId(String submiterUserId) {
         this.submiterUserId = submiterUserId;
-    }
-
-
-    public void updateUser(org.kuali.rice.kim.service.PersonService userService) {
-        Person u = userService.getPerson(submiterUserId);
-        if (u == null) {
-            setSubmiterUser(null);
-        }
-        else {
-            setSubmiterUser(u);
-        }
     }
 
     /**

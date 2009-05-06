@@ -842,9 +842,9 @@
               <bean parent="FieldDefinition"
                     p:attributeName="paymentGroup.batch.customerProfile.chartCode" />     
               <bean parent="FieldDefinition"
-                    p:attributeName="paymentGroup.batch.customerProfile.unitCode" />                                                                                           
+                    p:attributeName="paymentGroup.batch.customerProfile.unitCode" p:noLookup="true" />                                                                                           
               <bean parent="FieldDefinition"
-                    p:attributeName="paymentGroup.batch.customerProfile.subUnitCode" />
+                    p:attributeName="paymentGroup.batch.customerProfile.subUnitCode" p:noLookup="true" />
               <bean parent="FieldDefinition"
                     p:attributeName="paymentGroup.processImmediate" />
               <bean parent="FieldDefinition"

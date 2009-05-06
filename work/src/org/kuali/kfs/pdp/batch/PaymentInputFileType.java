@@ -45,16 +45,14 @@ public class PaymentInputFileType extends BatchInputFileTypeBase {
     public String getFileName(String principalName, Object parsedFileContents, String fileUserIdentifer) {
         Timestamp currentTimestamp = dateTimeService.getCurrentTimestamp();
 
-        StringBuffer buf = new StringBuffer();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
-        formatter.setLenient(false);
-        formatter.format(currentTimestamp, buf, new FieldPosition(0));
-
         String fileName = PdpConstants.PDP_FILE_UPLOAD_FILE_PREFIX  + "_" + principalName;
         if (StringUtils.isNotBlank(fileUserIdentifer)) {
             fileName += "_" + StringUtils.remove(fileUserIdentifer, " ");
         }
-        fileName += "_" + buf.toString();
+        fileName += "_" + dateTimeService.toString(currentTimestamp, "yyyyMMdd_HHmmss");
+        
+        // remove spaces in filename
+        fileName = StringUtils.remove(fileName, " ");
 
         return fileName;
     }

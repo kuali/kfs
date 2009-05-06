@@ -315,7 +315,7 @@ public class PaymentFileServiceImpl implements PaymentFileService {
         }
 
         batch.setPaymentTotalAmount(paymentFile.getPaymentTotalAmount());
-        batch.setSubmiterUser(GlobalVariables.getUserSession().getPerson());
+        batch.setSubmiterUserId(GlobalVariables.getUserSession().getPerson().getPrincipalId());
 
         return batch;
     }

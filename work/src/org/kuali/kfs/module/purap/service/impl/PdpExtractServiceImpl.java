@@ -906,7 +906,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         batch.setCustomerFileCreateTimestamp(new Timestamp(processRunDate.getTime()));
         batch.setFileProcessTimestamp(new Timestamp(processRunDate.getTime()));
         batch.setPaymentFileName(PurapConstants.PDP_PURAP_EXTRACT_FILE_NAME);
-        batch.setSubmiterUser(puser);
+        batch.setSubmiterUserId(puser.getPrincipalId());
 
         // Set these for now, we will update them later
         batch.setPaymentCount(KualiInteger.ZERO);

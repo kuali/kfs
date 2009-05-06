@@ -61,7 +61,7 @@ public class AchBankServiceImpl implements AchBankService {
 
                 Map fieldValues = new HashMap();
                 fieldValues.put(PdpPropertyConstants.BANK_ROUTING_NUMBER, bankRoutingNumber);
-                ACHBank tableBank = (ACHBank) this.businessObjectService.findMatching(ACHBank.class, fieldValues);
+                ACHBank tableBank = (ACHBank) this.businessObjectService.findByPrimaryKey(ACHBank.class, fieldValues);
                 
                 ACHBank ab = new ACHBank(str);
                 if (tableBank != null) {

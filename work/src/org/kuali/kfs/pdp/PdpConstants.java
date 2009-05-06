@@ -22,7 +22,7 @@ import org.kuali.rice.kns.authorization.AuthorizationConstants.EditMode;
  * Contains general PDP constants.
  */
 public class PdpConstants {
-    public static final String PDP_FILE_UPLOAD_FILE_PREFIX = "pdp_payment_file_";
+    public static final String PDP_FILE_UPLOAD_FILE_PREFIX = "pdp_payment_file";
     public static final String PAYMENT_FILE_TYPE_INDENTIFIER = "paymentInputFileType";
     public static final String PAYMENT_LOAD_CREATE_DATE_SEPARATOR = "T";
     public static final String PAYMENT_LOAD_CREATE_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";

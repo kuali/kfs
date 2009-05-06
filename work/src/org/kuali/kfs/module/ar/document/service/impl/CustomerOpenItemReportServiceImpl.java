@@ -251,8 +251,10 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             detail.setDocumentPaymentAmount(paymentApplication.getDocumentHeader().getFinancialDocumentTotalAmount().negated());
             
             // populate Unpaid/Unapplied Amount if the customer number is the same
-            if (paymentApplication.getNonAppliedHolding().getCustomerNumber().equals(paymentApplication.getAccountsReceivableDocumentHeader().getCustomerNumber())) {
-                detail.setUnpaidUnappliedAmount(paymentApplication.getNonAppliedHoldingAmount().negated());
+            if (ObjectUtils.isNotNull(paymentApplication.getNonAppliedHolding())) {
+                if (paymentApplication.getNonAppliedHolding().getCustomerNumber().equals(paymentApplication.getAccountsReceivableDocumentHeader().getCustomerNumber())) {
+                    detail.setUnpaidUnappliedAmount(paymentApplication.getNonAppliedHoldingAmount().negated());
+                }
             }
             
             results.add(detail);

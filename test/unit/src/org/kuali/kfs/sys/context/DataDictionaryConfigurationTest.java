@@ -205,7 +205,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
      * checke if the document data dictionaries still have summary property for beans. If so, report errors.
      * The error can be caused by the parent beans referenced by the tested bean definition.
      */
-    public void testAllDocumentEntriesHaveNoSummaryProperty() throws Exception {
+    public void allDocumentEntriesHaveNoSummaryProperty() throws Exception {
         Map<String, Set<String>> errorReport = new HashMap<String, Set<String>>();        
         for(DocumentEntry documentEntry:dataDictionary.getDocumentEntries().values()){
             
@@ -228,7 +228,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
      * checke if the document data dictionaries still have description property for beans. If so, report errors.     
      * The error can be caused by the parent beans referenced by the tested bean definition.
      */
-    public void testAllDocumentEntriesHaveNoDescriptionProperty() throws Exception {
+    public void allDocumentEntriesHaveNoDescriptionProperty() throws Exception {
         Map<String, Set<String>> errorReport = new HashMap<String, Set<String>>();       
         for(DocumentEntry documentEntry:dataDictionary.getDocumentEntries().values()){
             

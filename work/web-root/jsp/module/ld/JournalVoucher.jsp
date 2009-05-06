@@ -28,7 +28,7 @@
 	<!-- LABOR JOURNAL VOUCHER SPECIFIC FIELDS -->
 	<kul:tab tabTitle="Labor Distribution Journal Voucher Details" defaultOpen="true"
 		tabErrorKey="${KFSConstants.EDIT_JOURNAL_VOUCHER_ERRORS}">
-		<div class="tab-container" align=center>
+		<div class="tab-container" align="center">
 		<h3>Labor Distribution Journal Voucher Details</h3>
 		
 		<table cellpadding=0 class="datatable" summary="Labor Distribution Journal Voucher Details">

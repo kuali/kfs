@@ -105,6 +105,7 @@ import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.Parameter;
+import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
@@ -1035,7 +1036,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 // No data to be collected and no data entered. Hence no error
                 return true;
             }
-        } else {
+        }
+        else {
             // Data is expected
             if (isCapitalAssetInformationBlank(capitalAssetInformation)) {
                 // No data is entered
@@ -1063,7 +1065,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
         if (!isUpdateAssetBlank(capitalAssetInformation)) {
             // Validate update Asset information
-            valid = validateUpdateCapitalAssetField(capitalAssetInformation,documentType,documentNumber);
+            valid = validateUpdateCapitalAssetField(capitalAssetInformation, documentType, documentNumber);
         }
         else {
             // Validate New Asset information
@@ -1229,7 +1231,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param capitalAssetManagementAsset the asset to be validated
      * @return boolean false if the asset is not active
      */
-    private boolean validateUpdateCapitalAssetField(CapitalAssetInformation capitalAssetInformation, String documentType,String documentNumber) {
+    private boolean validateUpdateCapitalAssetField(CapitalAssetInformation capitalAssetInformation, String documentType, String documentNumber) {
         boolean valid = true;
 
         Map<String, String> params = new HashMap<String, String>();
@@ -1243,9 +1245,11 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             valid = false;
             String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformation.class, KFSPropertyConstants.CAPITAL_ASSET_NUMBER);
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, KFSKeyConstants.ERROR_EXISTENCE, label);
-        } else if  (getCapitalAssetManagementModuleService().isAssetLocked(assetNumbers,documentType,documentNumber)) {
+        }
+        else if (getCapitalAssetManagementModuleService().isAssetLocked(assetNumbers, documentType, documentNumber)) {
             valid = false;
-        }   else if (!(this.getAssetService().isCapitalAsset(asset) && !this.getAssetService().isAssetRetired(asset))) {
+        }
+        else if (!(this.getAssetService().isCapitalAsset(asset) && !this.getAssetService().isAssetRetired(asset))) {
             // check asset status must be capital asset active.
             valid = false;
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetInformation.ERROR_ASSET_ACTIVE_CAPITAL_ASSET_REQUIRED);
@@ -1342,6 +1346,9 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         int index = 0;
         List<CapitalAssetInformationDetail> capitalAssetInformationDetails = capitalAssetInformation.getCapitalAssetInformationDetails();
         for (CapitalAssetInformationDetail dtl : capitalAssetInformationDetails) {
+            // We have to explicitly call this DD service to uppercase each field. This may not be the best place and maybe form populate
+            // is a better place but we CAMS team don't own FP document. This is the best we can do for now.
+            SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(dtl);
             String errorPathPrefix = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION_DETAILS;
 
             if (StringUtils.isNotBlank(dtl.getCapitalAssetTagNumber()) && !dtl.getCapitalAssetTagNumber().equalsIgnoreCase(CamsConstants.Asset.NON_TAGGABLE_ASSET)) {
@@ -1716,20 +1723,20 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
 
     /**
-     * 
      * gets the document type based on the instance of a class
+     * 
      * @param accountingDocument
      * @return
      */
     private String getDocumentTypeName(AccountingDocument accountingDocument) {
-        String documentTypeName=null;
+        String documentTypeName = null;
         if (accountingDocument instanceof YearEndGeneralErrorCorrectionDocument)
             documentTypeName = KFSConstants.FinancialDocumentTypeCodes.YEAR_END_GENERAL_ERROR_CORRECTION;
         else if (accountingDocument instanceof YearEndDistributionOfIncomeAndExpenseDocument)
             documentTypeName = KFSConstants.FinancialDocumentTypeCodes.YEAR_END_DISTRIBUTION_OF_INCOME_AND_EXPENSE;
         else if (accountingDocument instanceof ServiceBillingDocument)
             documentTypeName = KFSConstants.FinancialDocumentTypeCodes.SERVICE_BILLING;
-        else if (accountingDocument instanceof GeneralErrorCorrectionDocument) 
+        else if (accountingDocument instanceof GeneralErrorCorrectionDocument)
             documentTypeName = KFSConstants.FinancialDocumentTypeCodes.GENERAL_ERROR_CORRECTION;
         else if (accountingDocument instanceof CashReceiptDocument)
             documentTypeName = KFSConstants.FinancialDocumentTypeCodes.CASH_RECEIPT;

@@ -20,21 +20,22 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="ProcurementCard-routeDocumentValidation" parent="ProcurementCard-routeDocumentValidation-parentBean" scope="prototype" />
-	
+	<bean id="ProcurementCard-routeDocumentValidation" parent="ProcurementCard-routeDocumentValidation-parentBean" scope="prototype" />	
 	<bean id="ProcurementCard-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
 				<bean parent="AccountingDocument-RouteDocument-DefaultValidation" scope="prototype" /> 
+                <bean parent="CapitialAssetInformation-capitalAssetInformationValidation" scope="prototype" />
 			</list>
 		</property>
 	</bean>
 	
-	<bean id="ProcurementCard-addAccountingLineValidation" parent="ProcurementCard-addAccountingLineValidation-parentBean" scope="prototype" />
-	
+	<bean id="ProcurementCard-addAccountingLineValidation" parent="ProcurementCard-addAccountingLineValidation-parentBean" scope="prototype" />	
 	<bean id="ProcurementCard-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
+                <bean parent="AccountingDocument-AddAccountingLine-DefaultValidation" scope="prototype" />
+                
 				<bean parent="ProcurementCard-newAccountingLineBranchingValidation" scope="prototype">
 					<property name="branchMap">
 						<map>
@@ -91,12 +92,14 @@
 		</property>
 	</bean>
 	
-	
-	<bean id="ProcurementCard-updateAccountingLineValidation" parent="ProcurementCard-updateAccountingLineValidation-parentBean" scope="prototype" />
-	
+	<bean id="ProcurementCard-updateAccountingLineValidation" parent="ProcurementCard-updateAccountingLineValidation-parentBean" scope="prototype" />	
 	<bean id="ProcurementCard-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
   			<list>
+                <bean parent="AccountingDocument-UpdateAccountingLine-DefaultValidation" scope="prototype">
+                    <property name="quitOnFail" value="true" />
+                </bean>
+                
 				<bean parent="ProcurementCard-newAccountingLineBranchingValidation" scope="prototype">
 					<property name="branchMap">
 						<map>
@@ -138,6 +141,7 @@
 							</bean>
 						</list>
 					</property>
+                    <property name="quitOnFail" value="true" />
 				</bean>
 				<bean parent="ProcurementCard-accountNumberValidation" scope="prototype">
 					<property name="parameterProperties">
@@ -148,13 +152,13 @@
 							</bean>
 						</list>
 					</property>
+                    <property name="quitOnFail" value="true" />
 				</bean>
 			</list>
 		</property>
 	</bean>
 	
-	<bean id="ProcurementCard-reviewAccountingLineValidation" parent="ProcurementCard-reviewAccountingLineValidation-parentBean" scope="prototype" />
-	
+	<bean id="ProcurementCard-reviewAccountingLineValidation" parent="ProcurementCard-reviewAccountingLineValidation-parentBean" scope="prototype" />	
 	<bean id="ProcurementCard-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
@@ -214,20 +218,18 @@
 		</property>
 	</bean>
 
-	<bean id="ProcurementCard-deleteAccountingLineValidation" parent="ProcurementCard-deleteAccountingLineValidation-parentBean" scope="prototype" />
-  
+	<bean id="ProcurementCard-deleteAccountingLineValidation" parent="ProcurementCard-deleteAccountingLineValidation-parentBean" scope="prototype" />  
 	<bean id="ProcurementCard-deleteAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<bean parent="AccountingDocument-DeleteAccountingLine-DefaultValidation" scope="prototype" />
   		</property>
 	</bean>
 	
-	<bean id="ProcurementCard-approveDocumentValidation" parent="ProcurementCard-approveDocumentValidation-parent" scope="prototype" />
-	
+	<bean id="ProcurementCard-approveDocumentValidation" parent="ProcurementCard-approveDocumentValidation-parent" scope="prototype" />	
 	<bean id="ProcurementCard-approveDocumentValidation-parent" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
-			<bean parent="CapitialAssetInformation-capitalAssetInformationValidation" scope="prototype" />
+            <bean parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype" />
 		</property>
-	</bean>
+	</bean> 
 
 </beans>

@@ -257,18 +257,22 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         explicitEntry.setAccountNumber(glpeSourceDetail.getAccountNumber());
         
         glpeSourceDetail.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
-        if (ObjectUtils.isNotNull(glpeSourceDetail.getAccount()) && StringUtils.isBlank(glpeSourceDetail.getAccount().getAccountSufficientFundsCode())) {
-            glpeSourceDetail.getAccount().setAccountSufficientFundsCode(KFSConstants.SF_TYPE_NO_CHECKING);
-        }
         
         if (ObjectUtils.isNull(glpeSourceDetail.getObjectCode()) || StringUtils.isBlank(glpeSourceDetail.getObjectCode().getFinancialObjectTypeCode())) {
-            glpeSourceDetail.refreshReferenceObject("objectCode");
+            glpeSourceDetail.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
         }
         
-        if (!ObjectUtils.isNull(glpeSourceDetail.getObjectCode())) {
-            String sifficientFundsObjectCode = SpringContext.getBean(SufficientFundsService.class).getSufficientFundsObjectCode(glpeSourceDetail.getObjectCode(), glpeSourceDetail.getAccount().getAccountSufficientFundsCode());
-            explicitEntry.setAcctSufficientFundsFinObjCd(sifficientFundsObjectCode);
-            explicitEntry.setFinancialObjectTypeCode(glpeSourceDetail.getObjectCode().getFinancialObjectTypeCode());
+        if (ObjectUtils.isNotNull(glpeSourceDetail.getAccount())) {
+            if(StringUtils.isBlank(glpeSourceDetail.getAccount().getAccountSufficientFundsCode())) {
+                glpeSourceDetail.getAccount().setAccountSufficientFundsCode(KFSConstants.SF_TYPE_NO_CHECKING);
+            }
+            
+            String sufficientFundsCode = glpeSourceDetail.getAccount().getAccountSufficientFundsCode();
+            ObjectCode objectCode = glpeSourceDetail.getObjectCode();
+            if(ObjectUtils.isNotNull(objectCode)) {
+                String sifficientFundsObjectCode = SpringContext.getBean(SufficientFundsService.class).getSufficientFundsObjectCode(objectCode, sufficientFundsCode);
+                explicitEntry.setAcctSufficientFundsFinObjCd(sifficientFundsObjectCode);
+            }
         }
         
         explicitEntry.setFinancialDocumentApprovedCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.NO);

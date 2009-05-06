@@ -39,10 +39,10 @@
 				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
 				<value>ProcurementCard-approveDocumentValidation</value>
 			</entry>
-			<entry>
-				<key><value>org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent</value></key>
-				<value>ProcurementCard-addAccountingLineValidation</value>
-			</entry>
+            <entry>
+                <key><value>org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent</value></key>
+                <value>ProcurementCard-addAccountingLineValidation</value>
+            </entry>            
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.DeleteAccountingLineEvent</value></key>
 				<value>ProcurementCard-deleteAccountingLineValidation</value>
@@ -68,7 +68,7 @@
 	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.ProcurementCardAccountingLineAuthorizer"/>
 	  <property name="importedLinePropertyPrefix" value="target"/>
 	  <property name="totals" ref="ProcurementCard-targetGroupTotals"/>
-	  <property name="errorKey" value="document.targetAccounting*,targetAccountingLines,newTargetLine*"/>
+	  <property name="errorKey" value="document.transactionEntries*,*targetAccountingLines*,*newTargetLine*"/>
   </bean>
   
   <bean id="ProcurementCard-accountingLineView" parent="ProcurementCard-accountingLineView-parent"/> 

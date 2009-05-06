@@ -23,6 +23,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
@@ -71,7 +72,18 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
         ActionForward actionForward = super.execute(mapping, form, request, response);
 
         OrganizationSelectionTreeForm orgSelTreeForm = (OrganizationSelectionTreeForm) form;
+        
         if (!orgSelTreeForm.isLostSession()){
+
+            // re-init the session form if session scoped
+            if (orgSelTreeForm.getMethodToCall().equals("refresh")) {
+                if (BCConstants.MAPPING_SCOPE_SESSION.equals(mapping.getScope())) {
+                    HttpSession sess = request.getSession(Boolean.FALSE);
+                    String formName = mapping.getAttribute();
+                    sess.setAttribute(formName, orgSelTreeForm);
+                }
+            }
+
             if (orgSelTreeForm.getPullFlagKeyLabels().isEmpty() && orgSelTreeForm.getOperatingMode() != null) {
                 OrgSelOpMode opMode = OrgSelOpMode.valueOf(orgSelTreeForm.getOperatingMode());
                 switch (opMode) {

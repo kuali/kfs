@@ -43,6 +43,7 @@ import org.kuali.rice.kim.bo.types.impl.KimAttributeImpl;
 import org.kuali.rice.kim.bo.ui.KimDocumentRoleMember;
 import org.kuali.rice.kim.bo.ui.RoleDocumentDelegation;
 import org.kuali.rice.kim.bo.ui.RoleDocumentDelegationMember;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.web.comparator.StringValueComparator;
@@ -982,6 +983,10 @@ public class OrgReviewRole extends RoleImpl {
      * @return Returns the person.
      */
     public Person getPerson() {
+        if(StringUtils.isNotEmpty(principalMemberPrincipalId) && 
+          (person==null || StringUtils.isEmpty(person.getPrincipalId()) || StringUtils.isEmpty(person.getName()))){
+            person = KIMServiceLocator.getPersonService().getPerson(principalMemberPrincipalId);
+        }
         return person;
     }
     /**

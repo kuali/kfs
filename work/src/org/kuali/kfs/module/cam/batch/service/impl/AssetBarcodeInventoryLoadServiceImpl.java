@@ -454,7 +454,11 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
                     ln = 0;
                     isFirstDocument = false;
                 }
-                barcodeInventoryErrorDetails.add(bcies.get(bcieCount));
+                
+                BarcodeInventoryErrorDetail barcodeInventoryErrorDetail =bcies.get(bcieCount);
+                barcodeInventoryErrorDetail.setUploadRowNumber(Long.valueOf(ln+1));
+                barcodeInventoryErrorDetails.add(barcodeInventoryErrorDetail);
+                
                 ln++;
                 bcieCount++;
             }

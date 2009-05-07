@@ -32,14 +32,12 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-@ConfigureContext(session = khuntley)
-
+@ConfigureContext(session = khuntley, shouldCommitTransactions = true)
 public class CustomerCreditMemoDocumentRuleTest extends KualiTestBase {
     
     public static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerCreditMemoDocumentRuleTest.class);
@@ -295,7 +293,7 @@ public class CustomerCreditMemoDocumentRuleTest extends KualiTestBase {
         document.getDocumentHeader().setDocumentDescription("CREATING TEST CRM DOCUMENT");
             
         try {
-            Document savedDocument = SpringContext.getBean(DocumentService.class).saveDocument(document, DocumentSystemSaveEvent.class);
+            Document savedDocument = SpringContext.getBean(DocumentService.class).routeDocument(document, "Routing from Unit Test", null);
         } catch (Exception e){
             LOG.error(e.getMessage());
         } 

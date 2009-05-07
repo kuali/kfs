@@ -8,6 +8,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -283,10 +284,12 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
     }
 
     public Account getAccount() {
+        getCustomerInvoiceDetail().refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
         return getCustomerInvoiceDetail().getAccount();
     }
 
     public String getFinancialObjectCode() {
+        getCustomerInvoiceDetail().refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
         return getCustomerInvoiceDetail().getFinancialObjectCode();
     }
 

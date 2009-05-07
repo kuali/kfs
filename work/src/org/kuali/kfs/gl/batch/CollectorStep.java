@@ -43,7 +43,6 @@ public class CollectorStep extends AbstractStep {
      * @return true if the next step in the job should proceed, false otherwise
      * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String, java.util.Date)
      */
-    @Override
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         CollectorReportData collectorReportData = collectorService.performCollection();
         collectorReportService.sendEmails(collectorReportData);

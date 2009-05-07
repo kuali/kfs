@@ -60,6 +60,11 @@ public class PurapConstants extends JSTLConstants {
         public static final String PRICE_CONFIRMATION = "CONF";
     }
 
+    public static class QuoteTypeDescriptions {
+        public static final String COMPETITIVE = "Competitive";
+        public static final String PRICE_CONFIRMATION = "Price Confirmation";
+    }
+
     public static class QuoteTransmitTypes {
         public static final String PRINT = "PRINT";
         public static final String FAX = "FAX";

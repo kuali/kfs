@@ -88,7 +88,9 @@
              </th>
              <td align=left valign=middle class="datacell">
                  <kul:htmlControlAttribute 
-                 	attributeEntry="${documentAttributes.purchaseOrderQuoteTypeCode}" property="document.purchaseOrderQuoteTypeCode" 
+                 	attributeEntry="${documentAttributes.purchaseOrderQuoteTypeCode}" 
+                 	property="document.purchaseOrderQuoteTypeCode" 
+                 	extraReadOnlyProperty="document.purchaseOrderQuoteTypeDescription"
                  	readOnly="${!quoteEditable}" tabindexOverride="${tabindexOverrideBase + 0}"/>
              </td>
         </tr>

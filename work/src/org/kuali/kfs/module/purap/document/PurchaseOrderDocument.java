@@ -41,6 +41,7 @@ import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.PurapConstants.CreditMemoStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.kfs.module.purap.PurapConstants.QuoteTypeDescriptions;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
@@ -827,6 +828,17 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
 
     public void setPurchaseOrderQuoteDueDate(Date purchaseOrderQuoteDueDate) {
         this.purchaseOrderQuoteDueDate = purchaseOrderQuoteDueDate;
+    }
+
+    public String getPurchaseOrderQuoteTypeDescription() {
+        String descript = purchaseOrderQuoteTypeCode;
+        if (PurapConstants.QuoteTypes.COMPETITIVE.equals(purchaseOrderQuoteTypeCode)) {
+            descript = QuoteTypeDescriptions.COMPETITIVE;
+        }
+        else if (PurapConstants.QuoteTypes.PRICE_CONFIRMATION.equals(purchaseOrderQuoteTypeCode)){
+            descript = QuoteTypeDescriptions.PRICE_CONFIRMATION;
+        }
+        return descript;
     }
 
     public String getPurchaseOrderQuoteTypeCode() {

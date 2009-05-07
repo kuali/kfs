@@ -89,8 +89,11 @@ public class FormatAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         FormatForm formatForm = (FormatForm) form;
+        
+        // when we return from the lookup, our next request's method to call is going to be refresh
+        formatForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
+        formatForm.registerNextMethodToCallIsRefresh(true);
 
         Person kualiUser = GlobalVariables.getUserSession().getPerson();
         FormatSelection formatSelection = formatService.getDataForFormat(kualiUser);
@@ -136,6 +139,11 @@ public class FormatAction extends KualiAction {
      */
     public ActionForward prepare(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         FormatForm formatForm = (FormatForm) form;
+
+        // when we return from the lookup, our next request's method to call is going to be refresh
+        formatForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
+        formatForm.registerNextMethodToCallIsRefresh(true);
+                
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
 
         if (formatForm.getCampus() == null) {
@@ -177,6 +185,11 @@ public class FormatAction extends KualiAction {
      */
     public ActionForward continueFormat(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         FormatForm formatForm = (FormatForm) form;
+
+        // when we return from the lookup, our next request's method to call is going to be refresh
+        formatForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
+        formatForm.registerNextMethodToCallIsRefresh(true);
+        
         try {
             KualiInteger processId = formatForm.getFormatProcessSummary().getProcessId();
             formatService.performFormat(processId.intValue());
@@ -201,8 +214,11 @@ public class FormatAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward clear(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         FormatForm formatForm = (FormatForm) form;
+        
+        // when we return from the lookup, our next request's method to call is going to be refresh
+        formatForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
+        formatForm.registerNextMethodToCallIsRefresh(true);
 
         List<CustomerProfile> customers = formatForm.getCustomers();
         for (CustomerProfile customerProfile : customers) {
@@ -225,8 +241,12 @@ public class FormatAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         FormatForm formatForm = (FormatForm) form;
+        
+        // when we return from the lookup, our next request's method to call is going to be refresh
+        formatForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
+        formatForm.registerNextMethodToCallIsRefresh(true);
+        
         KualiInteger processId = formatForm.getFormatProcessSummary().getProcessId();
 
         if (processId != null) {
@@ -248,6 +268,11 @@ public class FormatAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward clearUnfinishedFormat(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        FormatForm formatForm = (FormatForm) form; 
+        
+        // when we return from the lookup, our next request's method to call is going to be refresh
+        formatForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
+        formatForm.registerNextMethodToCallIsRefresh(true);
 
         String processIdParam = request.getParameter(PdpParameterConstants.FormatProcess.PROCESS_ID_PARAM);
         Integer processId = Integer.parseInt(processIdParam);

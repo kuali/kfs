@@ -110,6 +110,7 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>    
+    <property name="forceUppercase" value="true"/>
   </bean>
   
   <bean id="AssetPaymentDetail-expenditureFinancialSystemOriginationCode" parent="AssetPaymentDetail-expenditureFinancialSystemOriginationCode-parentBean" />

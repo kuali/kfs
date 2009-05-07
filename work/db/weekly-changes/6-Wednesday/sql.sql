@@ -1,3 +1,13 @@
+update ca_acct_delegate_t
+set fdoc_aprv_from_amt = null
+where fdoc_aprv_from_amt = 0
+;
+commit;
+update ca_acct_delegate_t
+set fdoc_aprv_to_amt = null
+where fdoc_aprv_to_amt = 0
+;
+commit;
 INSERT INTO KRIM_ROLE_PERM_T(ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND) 
     VALUES('675', sys_guid(), 1, '44', '205', 'Y')
 /

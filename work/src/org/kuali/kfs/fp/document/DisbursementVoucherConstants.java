@@ -103,7 +103,7 @@ public interface DisbursementVoucherConstants extends ParameterKeyConstants {
         
         public static TabByReasonCode getTabByReasonCode(String paymentReasonCode) {
             for(TabByReasonCode tab : TabByReasonCode.values()) {
-                if(parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, tab.paymentReasonParameterName, paymentReasonCode).evaluationSucceeds()){
+                if(getParameterService().getParameterEvaluator(DisbursementVoucherDocument.class, tab.paymentReasonParameterName, paymentReasonCode).evaluationSucceeds()){
                     return tab;
                 }
             }            

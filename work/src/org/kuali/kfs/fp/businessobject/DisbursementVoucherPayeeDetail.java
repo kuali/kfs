@@ -844,12 +844,12 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
     public boolean hasSameAddress(DisbursementVoucherPayeeDetail compareDetail) {
         boolean isEqual = true;
 
-        isEqual &= ObjectUtils.nullSafeEquals(this.disbVchrPayeeLine1Addr, compareDetail.disbVchrPayeeLine1Addr);
-        isEqual &= ObjectUtils.nullSafeEquals(this.disbVchrPayeeLine2Addr, compareDetail.disbVchrPayeeLine2Addr);
-        isEqual &= ObjectUtils.nullSafeEquals(this.disbVchrPayeeCityName, compareDetail.disbVchrPayeeCityName);
-        isEqual &= ObjectUtils.nullSafeEquals(this.disbVchrPayeeStateCode, compareDetail.disbVchrPayeeStateCode);
-        isEqual &= ObjectUtils.nullSafeEquals(this.disbVchrPayeeZipCode, compareDetail.disbVchrPayeeZipCode);
-        isEqual &= ObjectUtils.nullSafeEquals(this.disbVchrPayeeCountryCode, compareDetail.disbVchrPayeeCountryCode);
+        isEqual &= ObjectUtils.nullSafeEquals(this.getDisbVchrPayeeLine1Addr(), compareDetail.getDisbVchrPayeeLine1Addr());
+        isEqual &= ObjectUtils.nullSafeEquals(this.getDisbVchrPayeeLine2Addr(), compareDetail.getDisbVchrPayeeLine2Addr());
+        isEqual &= ObjectUtils.nullSafeEquals(this.getDisbVchrPayeeCityName(), compareDetail.getDisbVchrPayeeCityName());
+        isEqual &= ObjectUtils.nullSafeEquals(this.getDisbVchrPayeeStateCode(), compareDetail.getDisbVchrPayeeStateCode());
+        isEqual &= ObjectUtils.nullSafeEquals(this.getDisbVchrPayeeZipCode(), compareDetail.getDisbVchrPayeeZipCode());
+        isEqual &= ObjectUtils.nullSafeEquals(this.getDisbVchrPayeeCountryCode(), compareDetail.getDisbVchrPayeeCountryCode());
 
         return isEqual;
     }
@@ -862,12 +862,12 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
     public String getAddressAsString() {
         StringBuffer address = new StringBuffer();
 
-        address.append(this.disbVchrPayeeLine1Addr).append(", ");
-        address.append(this.disbVchrPayeeLine2Addr).append(", ");
-        address.append(this.disbVchrPayeeCityName).append(", ");
-        address.append(this.disbVchrPayeeStateCode).append(" ");
-        address.append(this.disbVchrPayeeZipCode).append(", ");
-        address.append(this.disbVchrPayeeCountryCode);
+        address.append(this.getDisbVchrPayeeLine1Addr()).append(", ");
+        address.append(this.getDisbVchrPayeeLine2Addr()).append(", ");
+        address.append(this.getDisbVchrPayeeCityName()).append(", ");
+        address.append(this.getDisbVchrPayeeStateCode()).append(" ");
+        address.append(this.getDisbVchrPayeeZipCode()).append(", ");
+        address.append(this.getDisbVchrPayeeCountryCode());
 
         return address.toString();
     }

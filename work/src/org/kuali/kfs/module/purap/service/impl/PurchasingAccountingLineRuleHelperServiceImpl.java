@@ -26,7 +26,7 @@ import org.kuali.rice.kns.datadictionary.DataDictionary;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
-public class PurchasingAccountingLineRuleHelperServiceImpl extends AccountingLineRuleHelperServiceImpl {
+public class PurchasingAccountingLineRuleHelperServiceImpl extends PurapAccountingLineRuleHelperServiceImpl {
 
     /**
      * @see org.kuali.kfs.module.purap.service.impl.PurapAccountingLineRuleHelperServiceImpl#hasRequiredOverrides(org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String)
@@ -42,57 +42,5 @@ public class PurchasingAccountingLineRuleHelperServiceImpl extends AccountingLin
         }
         return retVal;
     }
-
-    /*
-    public boolean isValidObjectCode(ObjectCode objectCode, DataDictionary dataDictionary, String errorPropertyName) {
-        
-        String label = getObjectCodeLabel();
-
-        // make sure it exists
-        if (ObjectUtils.isNull(objectCode)) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
-            return false;
-        }
-        
-        Integer universityFiscalYear = getDocument().getPostingYearNextOrCurrent();
-        ObjectCode objectCodeForValidation = (SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(universityFiscalYear, objectCode.getChartOfAccountsCode(), objectCode.getFinancialObjectCode()));
-//      setSubObjectCode(SpringContext.getBean(SubObjectCodeService.class).getByPrimaryId(universityFiscalYear, this.getChartOfAccountsCode(), this.getAccountNumber(), this.getFinancialObjectCode(), this.getFinancialSubObjectCode()));
-            
-
-
-        // check active status
-        if (!objectCodeForValidation.isFinancialObjectActiveCode()) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label);
-            return false;
-        }
-
-        return true;
-    }
-*/    
-  
-/*    
-    public boolean isValidSubObjectCode(SubObjectCode subObjectCode, DataDictionary dataDictionary, String errorPropertyName) {
-
-
-        String label = getSubObjectCodeLabel();
-
-        // make sure it exists
-        if (ObjectUtils.isNull(subObjectCode)) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
-            return false;
-        }
-        
-        Integer universityFiscalYear = getDocument().getPostingYearNextOrCurrent();
-        SubObjectCode subObjectCodeForValidation = (SpringContext.getBean(SubObjectCodeService.class).getByPrimaryId(universityFiscalYear, subObjectCode.getChartOfAccountsCode(), subObjectCode.getAccountNumber(), subObjectCode.getFinancialObjectCode(), subObjectCode.getFinancialSubObjectCode()));
-
-
-        // check active flag
-        if (!subObjectCodeForValidation.isActive()) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label);
-            return false;
-        }
-        return true;
-    }
-*/
     
 }

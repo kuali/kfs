@@ -22,10 +22,6 @@
 
 <!-- PURAP Definitions -->
 
-	<bean id="PurchasingAccountsPayable-accountingLineDataDictionaryValidation" class="org.kuali.kfs.sys.document.validation.impl.AccountingLineDataDictionaryValidation" abstract="true">
-		<property name="accountingLineRuleHelperService"><ref bean="purapAccountingLineRuleHelperService" /></property>
-	</bean>
-
 	<bean id="PurchasingAccountsPayable-accountPercentBetween0And100Validation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableAccountPercentBetween0And100Validation" abstract="true"/>
 
 	<bean id="PurchasingAccountsPayable-belowTheLineValuesValidation" parent="PurchasingAccountsPayable-belowTheLineValuesValidation-parentBean" scope="prototype" />
@@ -96,7 +92,7 @@
 	</bean>
 
 <!-- Purchasing Definitions -->
-	<bean id="Purchasing-accountingLineDataDictionaryValidation" class="org.kuali.kfs.sys.document.validation.impl.AccountingLineDataDictionaryValidation" abstract="true">
+	<bean id="Purchasing-accountingLineDataDictionaryValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurapAccountingLineDataDictionaryValidation" abstract="true">
 		<property name="accountingLineRuleHelperService"><ref bean="purchasingAccountingLineRuleHelperService" /></property>
 	</bean>
 
@@ -548,10 +544,6 @@
 	</bean>
 	
 <!-- Accounts Payable Definitions  -->
-	<bean id="AccountsPayable-accountingLineDataDictionaryValidation" class="org.kuali.kfs.sys.document.validation.impl.AccountingLineDataDictionaryValidation" abstract="true">
-		<property name="accountingLineRuleHelperService"><ref bean="accountsPayableAccountingLineRuleHelperService" /></property>
-	</bean>
-
     <bean id="AccountsPayable-processApprovalAtAccountsPayableReviewAllowedValidation" class="org.kuali.kfs.module.purap.document.validation.impl.AccountsPayableProcessApprovalAtAccountsPayableReviewAllowedValidation" abstract="true"/>        
 	
 	<bean id="AccountsPayable-validateAccountsPayableItemsValidation" class="org.kuali.kfs.module.purap.document.validation.impl.AccountsPayableValidateAccountsPayableItemsValidation" abstract="true">
@@ -561,6 +553,10 @@
 	<bean id="AccountsPayable-preCalculateValidation" class="org.kuali.kfs.module.purap.document.validation.impl.AccountsPayablePreCalculateValidation" abstract="true"/>	
 	
 <!-- Credit Memo Definitions -->
+	<bean id="VendorCreditMemo-accountingLineDataDictionaryValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurapAccountingLineDataDictionaryValidation" abstract="true">
+		<property name="accountingLineRuleHelperService"><ref bean="vendorCreditMemoAccountingLineRuleHelperService" /></property>
+	</bean>
+
 	<bean id="VendorCreditMemo-flagLineItemTotalsValidation" class="org.kuali.kfs.module.purap.document.validation.impl.VendorCreditMemoFlagLineItemTotalsValidation" abstract="true"/>
 
 	<bean id="VendorCreditMemo-totalMatchesVendorAmountValidation" class="org.kuali.kfs.module.purap.document.validation.impl.VendorCreditMemoTotalMatchesVendorAmountValidation" abstract="true"/>
@@ -625,7 +621,7 @@
 <!-- Payment Request Definitions -->
 	<bean id="PaymentRequest-invoiceImageAttachmentValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestInvoiceImageAttachmentValidation" abstract="true"/>
 	
-	<bean id="PaymentRequest-accountingLineDataDictionaryValidation" class="org.kuali.kfs.sys.document.validation.impl.AccountingLineDataDictionaryValidation" abstract="true">
+	<bean id="PaymentRequest-accountingLineDataDictionaryValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurapAccountingLineDataDictionaryValidation" abstract="true">
 		<property name="accountingLineRuleHelperService"><ref bean="paymentRequestAccountingLineRuleHelperService" /></property>
 	</bean>
 

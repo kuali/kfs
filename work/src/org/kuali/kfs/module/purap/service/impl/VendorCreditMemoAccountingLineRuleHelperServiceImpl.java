@@ -26,19 +26,10 @@ import org.kuali.rice.kns.datadictionary.DataDictionary;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
-public class AccountsPayableAccountingLineRuleHelperServiceImpl extends AccountingLineRuleHelperServiceImpl {
+public class VendorCreditMemoAccountingLineRuleHelperServiceImpl extends PurapAccountingLineRuleHelperServiceImpl {
 
     /**
-     * @see org.kuali.kfs.module.purap.service.impl.PurapAccountingLineRuleHelperServiceImpl#hasRequiredOverrides(org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String)
-     * override the default implementation and throw our own error message for accounts that are expired.
-     */
-    @Override
-    public boolean hasRequiredOverrides(AccountingLine line, String overrideCode) {
-        return true;
-    }
-
-    /**
-     * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidAccount(org.kuali.kfs.coa.businessobject.Account, org.kuali.rice.kns.datadictionary.DataDictionary, java.lang.String)
+     * @see org.kuali.kfs.sys.document.service.impl.AccountingLineRuleHelperServiceImpl#isValidAccount(org.kuali.kfs.coa.businessobject.Account, org.kuali.rice.kns.datadictionary.DataDictionary, java.lang.String)
      */
     @Override
     public boolean isValidAccount(Account account, DataDictionary dataDictionary, String errorPropertyName) {

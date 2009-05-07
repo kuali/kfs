@@ -109,7 +109,7 @@
     <bean id="purchasingAccountingLineRuleHelperService" class="org.kuali.kfs.module.purap.service.impl.PurchasingAccountingLineRuleHelperServiceImpl">
     	<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
     </bean>        
-    <bean id="accountsPayableAccountingLineRuleHelperService" class="org.kuali.kfs.module.purap.service.impl.AccountsPayableAccountingLineRuleHelperServiceImpl">
+    <bean id="vendorCreditMemoAccountingLineRuleHelperService" class="org.kuali.kfs.module.purap.service.impl.VendorCreditMemoAccountingLineRuleHelperServiceImpl">
     	<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
     </bean>        
     <bean id="paymentRequestAccountingLineRuleHelperService" class="org.kuali.kfs.module.purap.service.impl.PaymentRequestAccountingLineRuleHelperServiceImpl">

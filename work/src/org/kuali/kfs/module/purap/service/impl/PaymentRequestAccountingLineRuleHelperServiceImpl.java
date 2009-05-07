@@ -31,7 +31,7 @@ import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
-public class PaymentRequestAccountingLineRuleHelperServiceImpl extends AccountsPayableAccountingLineRuleHelperServiceImpl {
+public class PaymentRequestAccountingLineRuleHelperServiceImpl extends PurapAccountingLineRuleHelperServiceImpl {
 
     /**
      * @see org.kuali.kfs.module.purap.service.impl.AccountsPayableAccountingLineRuleHelperServiceImpl#hasRequiredOverrides(org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String)
@@ -42,8 +42,7 @@ public class PaymentRequestAccountingLineRuleHelperServiceImpl extends AccountsP
         boolean hasOverrides = true;
         
         Account account = SpringContext.getBean(AccountService.class).getByPrimaryId(line.getChartOfAccountsCode(), line.getAccountNumber());
-        PaymentRequestDocument document = SpringContext.getBean(PaymentRequestService.class).getPaymentRequestByDocumentNumber(line.getDocumentNumber());
-        String docStatus = document.getStatusCode();
+        String docStatus = getDocument().getStatusCode();
                 
         //if account exists
         if(ObjectUtils.isNotNull(account)){

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.document.service.impl;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,6 +35,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -193,7 +195,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
      */
     public boolean createDistributionOfIncomeAndExpenseGLPEs(CashControlDocument cashControlDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
-
+        
         AccountingLine accountingLine = null;
         GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
 
@@ -217,9 +219,9 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
             return false;
         }
 
-        // get current year oprions
+        // get current year options
         SystemOptions options = optionsService.getCurrentYearOptions();
-
+        
         // build dummy accounting line for gl population
         // ignore university clearing sub-object-code KULAR-633
         accountingLine = buildAccountingLine(systemInformation.getUniversityClearingAccountNumber(), systemInformation.getUniversityClearingSubAccountNumber(), systemInformation.getUniversityClearingObjectCode(), null, systemInformation.getUniversityClearingChartOfAccountsCode(), KFSConstants.GL_CREDIT_CODE, cashControlDocument.getCashControlTotalAmount());
@@ -230,12 +232,31 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         // create and add the offset entry
         success &= createAndAddTheOffsetEntry(cashControlDocument, explicitEntry, accountingLine, sequenceHelper);
 
-        // build dummy accounting line for gl creation
-        accountingLine = buildAccountingLine(systemInformation.getWireAccountNumber(), systemInformation.getWireSubAccountNumber(), systemInformation.getWireObjectCode(), systemInformation.getWireSubObjectCode(), systemInformation.getWireChartOfAccountsCode(), KFSConstants.GL_DEBIT_CODE, cashControlDocument.getCashControlTotalAmount());
-        // create and add the new explicit entry based on this accounting line
-        explicitEntry = createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options, financialSystemDocumentTypeCode);
-        // create and add the offset entry
-        success &= createAndAddTheOffsetEntry(cashControlDocument, explicitEntry, accountingLine, sequenceHelper);
+        // get Advance Deposit accounting lines by getting Electronic Payment Claims
+        Map criteria2 = new HashMap();
+        criteria2.put("referenceFinancialDocumentNumber", cashControlDocument.getDocumentNumber());
+        Collection<ElectronicPaymentClaim> electronicPaymentClaims = SpringContext.getBean(BusinessObjectService.class).findMatching(ElectronicPaymentClaim.class, criteria2);
+
+        // no EFT claims found
+        if (ObjectUtils.isNull(electronicPaymentClaims)) {
+            return false;
+        }
+
+        // for each Advance Deposit accounting line, create a reverse GLPE in CashControl document.
+        for (ElectronicPaymentClaim electronicPaymentClaim : electronicPaymentClaims ) {
+            Map criteria3= new HashMap();
+            criteria3.put("documentNumber", electronicPaymentClaim.getDocumentNumber());
+            criteria3.put("sequenceNumber", electronicPaymentClaim.getFinancialDocumentLineNumber());
+            criteria3.put("financialDocumentLineTypeCode", "F");
+            SourceAccountingLine advanceDepositAccountingLine = (SourceAccountingLine)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SourceAccountingLine.class, criteria3);
+            
+            // build dummy accounting line for gl creation
+            accountingLine = buildAccountingLine(advanceDepositAccountingLine.getAccountNumber(), advanceDepositAccountingLine.getSubAccountNumber(), advanceDepositAccountingLine.getFinancialObjectCode(), advanceDepositAccountingLine.getFinancialSubObjectCode(), advanceDepositAccountingLine.getChartOfAccountsCode(), KFSConstants.GL_DEBIT_CODE, advanceDepositAccountingLine.getAmount());
+            // create and add the new explicit entry based on this accounting line
+            explicitEntry = createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options, financialSystemDocumentTypeCode);
+            // create and add the offset entry
+            success &= createAndAddTheOffsetEntry(cashControlDocument, explicitEntry, accountingLine, sequenceHelper);
+        }
 
         return success;
     }

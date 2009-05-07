@@ -24,6 +24,8 @@ import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.RiceKeyConstants;
 
 
 /**
@@ -94,4 +96,30 @@ public class FinancialSystemUserRoleTypeServiceImpl extends KimRoleTypeServiceBa
         }
         return matchingMemberships;
     }
+    
+    /**
+     * note: for validating KFS-SYS User membership
+     *   - if chart or org are specified, chart, org, and namespace are all required
+     *   - none are required if not
+     *   - can only have one assignment to the role for a given namespace - including no namespace 
+     *  
+     * @see org.kuali.rice.kim.service.support.impl.KimTypeServiceBase#validateAttributes(org.kuali.rice.kim.bo.types.dto.AttributeSet)
+     */
+    @Override
+    public AttributeSet validateAttributes(AttributeSet attributes) {
+        AttributeSet errorMap = super.validateAttributes(attributes);
+        String chartCode = attributes.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+        String organizationCode = attributes.get(KfsKimAttributes.ORGANIZATION_CODE);
+        String namespaceCode = attributes.get(KfsKimAttributes.NAMESPACE_CODE);
+        if(StringUtils.isEmpty(chartCode) && StringUtils.isEmpty(organizationCode)){
+            //remove chartofAccountCode, organizationCode and namespaceCode errors
+            //Object results = GlobalVariables.getErrorMap().getErrorMessagesForProperty(attributeName);
+            //RiceKeyConstants.ERROR_REQUIRED
+            errorMap.remove(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+            errorMap.remove(KfsKimAttributes.ORGANIZATION_CODE);
+            errorMap.remove(KfsKimAttributes.NAMESPACE_CODE);
+        }
+        return errorMap;
+    }
+        
 }

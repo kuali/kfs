@@ -52,6 +52,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.OriginationCodeService;
+import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -80,8 +81,6 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private boolean continuationAccountIndicator;
     
     public static final String DATE_FORMAT_STRING = "yyyy-MM-dd";
-    
-    
 
     private static String[] debitOrCredit = new String[] { KFSConstants.GL_DEBIT_CODE, KFSConstants.GL_CREDIT_CODE };
 
@@ -282,8 +281,6 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             errors.add(err);
         }
 
-        
-        
         return errors;
     }
 
@@ -1175,5 +1172,6 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     public void setBalanceTypService(BalanceTypService balanceTypService) {
         this.balanceTypService = balanceTypService;
     }
+    
 }
 

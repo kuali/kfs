@@ -21,6 +21,8 @@ import org.kuali.kfs.gl.batch.service.CollectorReportService;
 import org.kuali.kfs.gl.batch.service.CollectorService;
 import org.kuali.kfs.gl.report.CollectorReportData;
 import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
+import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 
 /**
  * Batch step that controls the collector process. The basic steps in the collector process are the following: 1) Retrieves files
@@ -36,12 +38,13 @@ public class CollectorStep extends AbstractStep {
 
     /**
      * Controls the collector process.
-     * @param jobName the job running this step
-     * @param jobRunDate the time/date when the job was started
-     * @return whether the job should continue executing other steps
-     * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
+     * @param jobName the name of the job
+     * @param jobRunDate when the job has been run
+     * @return true if the next step in the job should proceed, false otherwise
+     * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String, java.util.Date)
      */
-    public boolean execute(String jobName, Date jobRunDate) {
+    @Override
+    public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         CollectorReportData collectorReportData = collectorService.performCollection();
         collectorReportService.sendEmails(collectorReportData);
         collectorReportService.generateCollectorRunReports(collectorReportData);

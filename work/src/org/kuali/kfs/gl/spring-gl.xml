@@ -601,9 +601,6 @@
 		<property name="persistenceService">
 			<ref bean="persistenceService" />
 		</property>
-		<property name="reportService">
-			<ref bean="reportService" />
-		</property>
 		<property name="scrubberValidator">
 			<ref bean="scrubberValidator" />
 		</property>
@@ -613,20 +610,19 @@
 		<property name="runDateService">
 			<ref bean="glRunDateService" />
 		</property>
-<!-- 
-		<property name="originEntryLiteService">
-			<ref bean="originEntryLiteService" />
-		</property>
--->
 		<property name="accountingCycleCachingService">
 		  	<ref bean="accountingCycleCachingService" />
 		</property>
-		
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 		<property name="reportDirectoryName" value="${reports.directory}"/>
 		<property name="collectorFileDirectoryName" value="${staging.directory}/gl/collector"/>
+		<property name="demergerReportWriterService" ref="demergerReportWriterService" />
+		<property name="scrubberReportWriterService" ref="scrubberReportWriterService" />
+		<property name="scrubberReportOnlyWriterService" ref="scrubberReportOnlyWriterService" />
+		<property name="collectorScrubberReportWriterService" ref="collectorScrubberReportWriterService" />
+		<property name="collectorDemergerReportWriterService" ref="collectorDemergerReportWriterService"/>
 	</bean>
-
+	
 	<bean id="scrubberValidator" class="org.kuali.kfs.gl.service.impl.ScrubberValidatorImpl">
 		<property name="persistenceService">
 			<ref bean="persistenceService" />
@@ -1502,7 +1498,12 @@
 		</property>
 	</bean>
 	
-	<bean id="demergerStep" class="org.kuali.kfs.gl.batch.DemergerStep" parent="step">
+	<bean id="demergerStep" class="org.kuali.kfs.gl.batch.DemergerStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="demergerReportWriterService" />
+			</list>
+		</property>
 		<property name="scrubberService">
 			<ref bean="glScrubberService" />
 		</property>
@@ -1528,10 +1529,41 @@
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 	</bean>
 	
+	<bean id="demergerReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/gl"/>
+		<property name="fileNamePrefix" value="demerger_report_"/>
+        <property name="title" value="GL DEMERGER REPORT"/>
+    </bean>
+    
+    <bean id="collectorDemergerReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/gl"/>
+		<property name="fileNamePrefix" value="collector_demerger_report_"/>
+        <property name="title" value="GL DEMERGER REPORT"/>
+    </bean>
+    
+    <bean id="scrubberReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/gl"/>
+		<property name="fileNamePrefix" value="scrubberJob_"/>
+        <property name="title" value="GL SCRUBBER REPORT"/>
+    </bean>
+    
+    <bean id="scrubberReportOnlyWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/gl"/>
+		<property name="fileNamePrefix" value="scrubberJob_reportOnly_"/>
+        <property name="title" value="GL SCRUBBER REPORT"/>
+    </bean>
+    
+    <bean id="collectorScrubberReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/gl"/>
+		<property name="fileNamePrefix" value="scrubberJob_collector_"/>
+        <property name="title" value="GL SCRUBBER REPORT"/>
+    </bean>
+	
 	<bean id="scrubberStep" class="org.kuali.kfs.gl.batch.ScrubberStep" parent="wrappedStep">
 		<property name="wrappingBatchServices">
 			<list>
 				<ref bean="accountingCycleCachingService" />
+				<ref bean="scrubberReportWriterService" />
 			</list>
 		</property>
 		<property name="scrubberService" ref="glScrubberService" />
@@ -1695,6 +1727,7 @@
 		<property name="wrappingBatchServices">
 			<list>
 				<ref bean="accountingCycleCachingService" />
+				<ref bean="scrubberReportOnlyWriterService" />
 			</list>
 		</property>
 		<property name="correctionDocumentService" ref="correctionDocumentService" />
@@ -1705,6 +1738,8 @@
 		<property name="wrappingBatchServices">
 			<list>
 				<ref bean="accountingCycleCachingService" />
+				<ref bean="collectorScrubberReportWriterService" />
+				<ref bean="collectorDemergerReportWriterService" />
 			</list>
 		</property>
 		<property name="scrubberService" ref="glScrubberService" />

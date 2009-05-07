@@ -24,36 +24,40 @@ import org.kuali.kfs.gl.exception.LoadException;
 import org.kuali.kfs.gl.service.ScrubberService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
+import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.springframework.util.StopWatch;
 
 /**
  * A step to run the scrubber process.
  */
-public class DemergerStep extends AbstractStep {
+public class DemergerStep extends AbstractWrappedBatchStep {
     private ScrubberService scrubberService;
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DemergerStep.class);
+    
+    /**
+     * Overridden to run the scrubber demerger process.
+     * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
+     */
+    @Override
+    protected CustomBatchExecutor getCustomBatchExecutor() {
+        return new CustomBatchExecutor() {
+            public boolean execute() {
+                final String jobName = "demerger";
+                StopWatch stopWatch = new StopWatch();
+                stopWatch.start(jobName);
+                scrubberService.performDemerger();
 
-      /**
-       * Runs the scrubber process.
-       * 
-       * @param jobName the name of the job this step is being run as part of
-       * @param jobRunDate the time/date the job was started
-       * @return true if the job completed successfully, false if otherwise
-       * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
-       */
-      public boolean execute(String jobName, Date jobRunDate) {
-          StopWatch stopWatch = new StopWatch();
-          stopWatch.start(jobName);
-          scrubberService.performDemerger();
-
-          stopWatch.stop();
-          LOG.info("scrubber step of " + jobName + " took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");
-          if (LOG.isDebugEnabled()) {
-              LOG.debug("scrubber step of " + jobName + " took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");
-          }
-          return true;
-      }
+                stopWatch.stop();
+                LOG.info("scrubber step of " + jobName + " took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("scrubber step of " + jobName + " took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");
+                }
+                return true;
+            }
+        };
+    }
 
       /**
        * Sets the scrubberSerivce, allowing the injection of an implementation of that service

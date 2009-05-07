@@ -54,8 +54,10 @@
 					attributeEntry="${balanceInquiryAttributes.universityFiscalYear}"
 					property="universityFiscalYear" forceRequired="true" readOnly="${readOnly}" /> 
 					<c:if test="${!readOnly}">
-						<kul:lookup	boClassName="org.kuali.kfs.sys.businessobject.SystemOptions"
-						lookupParameters="universityFiscalYear:universityFiscalYear"
+						<!-- KULLAB-704 Force the field conversions. -->	
+						<kul:lookup	boClassName="org.kuali.kfs.sys.businessobject.SystemOptions"						
+						lookupParameters="universityFiscalYear:universityFiscalYear" 
+						fieldConversions="universityFiscalYear:universityFiscalYear"
 						fieldLabel="${balanceInquiryAttributes.universityFiscalYear.label}" />
 					</c:if>
 				</td>
@@ -70,9 +72,12 @@
 					attributeEntry="${balanceInquiryAttributes.chartOfAccountsCode}"
 					property="chartOfAccountsCode" forceRequired="true" readOnly="${readOnly}" />
 					<c:if test="${!readOnly}">
+						<!-- KULLAB-704 Force the field conversions. -->
 						<kul:lookup	boClassName="org.kuali.kfs.coa.businessobject.Chart"
-						lookupParameters="chartOfAccountsCode:chartOfAccountsCode"
+						lookupParameters="chartOfAccountsCode:chartOfAccountsCode"							
+						fieldConversions="chartOfAccountsCode:chartOfAccountsCode"
 						fieldLabel="${balanceInquiryAttributes.chartOfAccountsCode.label}" />
+						
 					</c:if>
 				</td>
 					
@@ -89,6 +94,7 @@
 					<c:if test="${!readOnly}">
 						 <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Account"
 						lookupParameters="accountNumber:accountNumber,chartOfAccountsCode:chartOfAccountsCode"
+						fieldConversions="accountNumber:accountNumber,chartOfAccountsCode:chartOfAccountsCode"
 						fieldLabel="${balanceInquiryAttributes.accountNumber.label}" />
 					</c:if>
 				</td>
@@ -105,6 +111,7 @@
 					<c:if test="${!readOnly}">
 						<kul:lookup	boClassName="org.kuali.kfs.coa.businessobject.SubAccount"
 						lookupParameters="accountNumber:accountNumber,subAccountNumber:subAccountNumber,chartOfAccountsCode:chartOfAccountsCode"
+						fieldConversions="accountNumber:accountNumber,subAccountNumber:subAccountNumber,chartOfAccountsCode:chartOfAccountsCode"
 						fieldLabel="${balanceInquiryAttributes.subAccountNumber.label}" />
 					</c:if>
 				</td>

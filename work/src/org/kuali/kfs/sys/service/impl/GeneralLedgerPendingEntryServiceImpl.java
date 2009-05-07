@@ -275,6 +275,10 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
             }
         }
         
+        if (!ObjectUtils.isNull(glpeSourceDetail.getObjectCode())) {
+            explicitEntry.setFinancialObjectTypeCode(glpeSourceDetail.getObjectCode().getFinancialObjectTypeCode());
+        }
+        
         explicitEntry.setFinancialDocumentApprovedCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.NO);
         explicitEntry.setTransactionEncumbranceUpdateCode(BLANK_SPACE);
         explicitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL); // this is the default that most documents use

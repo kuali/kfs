@@ -457,36 +457,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         return super.getSourceAccountingLineClass();
     } 
     
-    public String getVendorPaymentTermsCode() {
-        if (getVendorContract() != null) {
-            return getVendorContract().getVendorPaymentTermsCode();
-        }
-        else if (getVendorDetail() != null) {
-            return getVendorDetail().getVendorPaymentTermsCode();
-        }
-        return "";
-    }
-
-    public String getVendorShippingPaymentTermsCode() {
-        if (getVendorContract() != null) {
-            return getVendorContract().getVendorShippingPaymentTermsCode();
-        }
-        else if (getVendorDetail() != null) {
-            return getVendorDetail().getVendorShippingPaymentTermsCode();
-        }
-        return "";
-    }
-
-    public String getVendorShippingTitleCode() {
-        if (getVendorContract() != null) {
-            return getVendorContract().getVendorShippingTitleCode();
-        }
-        else if (getVendorDetail() != null) {
-            return getVendorDetail().getVendorShippingTitleCode();
-        }
-        return "";
-    }
-
     public String getRequisitionOrganizationReference1Text() {
         return requisitionOrganizationReference1Text;
     }

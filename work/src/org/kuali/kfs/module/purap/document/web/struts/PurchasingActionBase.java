@@ -136,34 +136,19 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 refreshVendorContract.setVendorContractGeneratedIdentifier(document.getVendorContractGeneratedIdentifier());
                 refreshVendorContract = (VendorContract) businessObjectService.retrieve(refreshVendorContract);
 
-                // Need to reset the vendor header and detail id of the document from the refreshVendorContract as well
-                // so that we can continue to do the other lookups (address, customer number) using the correct vendor ids.
-                document.setVendorHeaderGeneratedIdentifier(refreshVendorContract.getVendorHeaderGeneratedIdentifier());
-                document.setVendorDetailAssignedIdentifier(refreshVendorContract.getVendorDetailAssignedIdentifier());
-
-                // Need to clear out the Customer Number (see comments on KULPURAP-832).
-                document.setVendorCustomerNumber(null);
-
                 // retrieve Vendor based on selected contract
-                document.setVendorDetailAssignedIdentifier(refreshVendorContract.getVendorDetailAssignedIdentifier());
                 document.setVendorHeaderGeneratedIdentifier(refreshVendorContract.getVendorHeaderGeneratedIdentifier());
+                document.setVendorDetailAssignedIdentifier(refreshVendorContract.getVendorDetailAssignedIdentifier());
                 document.refreshReferenceObject("vendorDetail");
                 document.templateVendorDetail(document.getVendorDetail());
 
+                //always template contract after vendor to keep contract defaults last
                 document.templateVendorContract(refreshVendorContract);
 
                 // populate default address from selected vendor
                 VendorAddress defaultAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(document.getVendorDetail().getVendorAddresses(), document.getVendorDetail().getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
                 document.templateVendorAddress(defaultAddress);
 
-                // populate cost source from the selected contract
-                if (refreshVendorContract != null) {
-                    String costSourceCode = refreshVendorContract.getPurchaseOrderCostSourceCode();
-                    if (StringUtils.isNotBlank(costSourceCode)) {
-                        document.setPurchaseOrderCostSourceCode(costSourceCode);
-                        document.refreshReferenceObject(PurapPropertyConstants.PURCHASE_ORDER_COST_SOURCE);
-                    }
-                }
             }
         }
 

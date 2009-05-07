@@ -184,16 +184,14 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
      * @see org.kuali.kfs.module.purap.document.PurchasingDocument#templateVendorDetail(org.kuali.kfs.vnd.businessobject.VendorDetail)
      */
     public void templateVendorDetail(VendorDetail vendorDetail) {
-        if (vendorDetail == null) {
-            return;
+        if (ObjectUtils.isNotNull(vendorDetail)) {
+            this.setVendorDetail(vendorDetail);
+            this.setVendorName(vendorDetail.getVendorName());
+            this.setVendorShippingTitleCode(vendorDetail.getVendorShippingTitleCode());
+            this.setVendorPaymentTermsCode(vendorDetail.getVendorPaymentTermsCode());
+            this.setVendorShippingPaymentTermsCode(vendorDetail.getVendorShippingPaymentTermsCode());
+            this.setVendorCustomerNumber("");
         }
-
-        this.setVendorDetail(vendorDetail);
-        this.setVendorName(vendorDetail.getVendorName());
-        this.setVendorShippingTitleCode(vendorDetail.getVendorShippingTitleCode());
-        this.setVendorPaymentTermsCode(vendorDetail.getVendorPaymentTermsCode());
-        this.setVendorShippingPaymentTermsCode(vendorDetail.getVendorShippingPaymentTermsCode());
-        this.setVendorCustomerNumber("");
     } 
     /**
      * @see org.kuali.kfs.module.purap.document.PurchasingDocument#templateVendorContract(org.kuali.kfs.vnd.businessobject.VendorContract)
@@ -202,19 +200,11 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         if (ObjectUtils.isNotNull(vendorContract)) {
             this.setVendorContract(vendorContract);
             this.setVendorContractGeneratedIdentifier(vendorContract.getVendorContractGeneratedIdentifier());
+            this.setVendorShippingTitleCode(vendorContract.getVendorShippingTitleCode());
+            this.setVendorPaymentTermsCode(vendorContract.getVendorPaymentTermsCode());
+            this.setVendorShippingPaymentTermsCode(vendorContract.getVendorShippingPaymentTermsCode());
+            this.setPurchaseOrderCostSourceCode(vendorContract.getPurchaseOrderCostSourceCode());
         }
-        
-        //FIXME why is this updating the fields on the vendor detail object?? (hjs)
-//        vendorDetail.setVendorShippingTitleCode(vendorContract.getVendorShippingTitleCode());
-//        vendorDetail.refreshReferenceObject("vendorShippingTitle");
-//        vendorDetail.setVendorPaymentTermsCode(vendorContract.getVendorPaymentTermsCode());
-//        vendorDetail.refreshReferenceObject("vendorPaymentTerms");
-//        vendorDetail.setVendorShippingPaymentTermsCode(vendorContract.getVendorShippingPaymentTermsCode());
-//        vendorDetail.refreshReferenceObject("vendorShippingPaymentTerms");
-//        this.setVendorDetail(vendorDetail);
-//        this.setVendorShippingTitleCode(vendorContract.getVendorShippingTitleCode());
-//        this.setVendorPaymentTermsCode(vendorContract.getVendorPaymentTermsCode());
-//        this.setVendorShippingPaymentTermsCode(vendorContract.getVendorShippingPaymentTermsCode());
     }
 
     /**

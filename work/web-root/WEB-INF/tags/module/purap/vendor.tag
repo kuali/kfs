@@ -39,8 +39,24 @@
 <c:set var="lockB2BEntry" value="${(not empty KualiForm.editingMode['lockB2BEntry'])}" />
 <c:set var="editPreExtract"	value="${(not empty KualiForm.editingMode['editPreExtract'])}" />
 <c:set var="currentUserCampusCode" value="${UserSession.person.campusCode}" />
-<c:set var="extraPrefix" value="${displayPurchaseOrderFields or displayPaymentRequestFields ? 'document' : 'document.vendorDetail'}" />
 <c:set var="tabindexOverrideBase" value="30" />
+
+<c:choose> 
+  <c:when test="${displayPurchaseOrderFields}" > 
+    <c:set var="extraPrefix" value="document" />
+  </c:when> 
+  <c:when test="${displayRequisitionFields}" > 
+    <c:if test="${not empty KualiForm.document.vendorContractGeneratedIdentifier}" >
+        <c:set var="extraPrefix" value="document.vendorContract" />
+    </c:if>
+    <c:if test="${empty KualiForm.document.vendorContractGeneratedIdentifier}" >
+        <c:set var="extraPrefix" value="document.vendorDetail" />
+    </c:if>
+  </c:when> 
+  <c:otherwise> 
+ 	<c:set var="extraPrefix" value="document.vendorDetail" />
+  </c:otherwise> 
+</c:choose>  
 <c:choose> 
   <c:when test="${displayPurchaseOrderFields}" > 
     <c:set var="extraPrefixShippingTitle" value="document" />
@@ -49,10 +65,15 @@
     <c:set var="extraPrefixShippingTitle" value="document.purchaseOrderDocument" />
   </c:when> 
   <c:when test="${displayRequisitionFields}" > 
-    <c:set var="extraPrefixShippingTitle" value="document.vendorDetail" />
+    <c:if test="${not empty KualiForm.document.vendorContractGeneratedIdentifier}" >
+        <c:set var="extraPrefixShippingTitle" value="document.vendorContract" />
+    </c:if>
+    <c:if test="${empty KualiForm.document.vendorContractGeneratedIdentifier}" >
+        <c:set var="extraPrefixShippingTitle" value="document.vendorDetail" />
+    </c:if>
   </c:when> 
   <c:otherwise> 
- 	<c:set var="extraPrefixShippingTitle" value="document.vendorDetail" />
+    <c:set var="extraPrefixShippingTitle" value="document.vendorDetail" />
   </c:otherwise> 
 </c:choose>  
 

@@ -40,7 +40,7 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
     protected boolean canSave(Document document) {
         VendorCreditMemoDocument vendorCreditMemoDocument = (VendorCreditMemoDocument) document;
 
-        if (!StringUtils.equals(vendorCreditMemoDocument.getStatusCode(), PurapConstants.CreditMemoStatuses.IN_PROCESS)) {
+        if (StringUtils.equals(vendorCreditMemoDocument.getStatusCode(), PurapConstants.CreditMemoStatuses.INITIATE)) {
             return false;
         }
 

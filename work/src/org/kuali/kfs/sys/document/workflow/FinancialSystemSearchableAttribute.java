@@ -18,11 +18,10 @@ package org.kuali.kfs.sys.document.workflow;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.kfs.module.purap.businessobject.PurApItem;
-import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
@@ -30,6 +29,8 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.AmountTotaling;
+import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
+import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
 import org.kuali.rice.kew.docsearch.DocumentSearchContext;
 import org.kuali.rice.kew.docsearch.SearchableAttribute;
 import org.kuali.rice.kew.docsearch.SearchableAttributeFloatValue;
@@ -63,7 +64,12 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
         Class<? extends Document> docClass = entry.getDocumentClass();
  
         if (AccountingDocument.class.isAssignableFrom(docClass)) {
+            Map<String, AccountingLineGroupDefinition> alGroups = ((FinancialSystemTransactionalDocumentEntry)entry).getAccountingLineGroups();
             Class alClass = SourceAccountingLine.class;
+
+            if (alGroups.containsKey("source")) {
+                alClass = alGroups.get("source").getAccountingLineClass();
+            }
             BusinessObject alBusinessObject  = null;
 
             Class orgClass = Organization.class;

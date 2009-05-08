@@ -220,8 +220,12 @@
 <!-- **** End of PurAp service beans **** -->
 
 <!-- Start Gl Line Processing beans -->
-<bean id="glLineService" class="org.kuali.kfs.module.cab.document.service.impl.GlLineServiceImpl">
+	<bean id="glLineService" class="org.kuali.kfs.module.cab.document.service.impl.GlLineServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean> 
 <!-- End GL Line Processing beans -->
+
+<!-- Start Gl and PurAp helper beans -->
+	<bean id="glAndPurApHelperService" class="org.kuali.kfs.module.cab.document.service.impl.GlAndPurApHelperServiceImpl" />
+<!-- End Gl and PurAp helper beans -->	
 </beans>

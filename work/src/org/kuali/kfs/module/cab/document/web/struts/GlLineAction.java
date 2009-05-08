@@ -31,11 +31,11 @@ import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
+import org.kuali.kfs.module.cab.document.service.GlAndPurApHelperService;
 import org.kuali.kfs.module.cab.document.service.GlLineService;
 import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.util.RiceConstants;
-import org.kuali.rice.kew.dto.DocumentTypeDTO;
 import org.kuali.rice.kew.dto.RouteHeaderDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
@@ -101,33 +101,6 @@ public class GlLineAction extends CabActionBase {
         return findGeneralLedgerEntry(cabGlEntryId);
     }
 
-    /**
-     * Prepares doc handler url based on the Document Type Definition from workflow
-     * 
-     * @param maintDoc Document
-     * @param docTypeName Document Type Name
-     * @return URL that handles the document
-     */
-    protected String prepareDocHandlerUrl(Document maintDoc, String docTypeName) {
-        KualiWorkflowInfo kualiWorkflowInfo = SpringContext.getBean(KualiWorkflowInfo.class);
-        try {
-            DocumentTypeDTO docType = kualiWorkflowInfo.getDocType(docTypeName);
-            String docHandlerUrl = docType.getDocTypeHandlerUrl();
-            if (docHandlerUrl.indexOf("?") == -1) {
-                docHandlerUrl += "?";
-            }
-            else {
-                docHandlerUrl += "&";
-            }
-
-            docHandlerUrl += "docId=" + maintDoc.getDocumentNumber() + "&" + "command=displayDocSearchView";
-            return docHandlerUrl;
-        }
-        catch (WorkflowException e) {
-            throw new RuntimeException("Caught WorkflowException trying to get document handler URL from Workflow", e);
-        }
-    }
-
 
     /**
      * Action "Create Assets" from CAB GL Detail Selection screen is processed by this method. This will initiate an asset global
@@ -156,7 +129,7 @@ public class GlLineAction extends CabActionBase {
         if (!pendingList.isEmpty()) {
             return mapping.findForward(RiceConstants.MAPPING_BASIC);
         }
-        return new ActionForward(prepareDocHandlerUrl(maintDoc, DocumentTypeName.ASSET_ADD_GLOBAL), true);
+        return new ActionForward(getGlAndPurApHelperService().getDocHandlerUrl(maintDoc.getDocumentNumber(), DocumentTypeName.ASSET_ADD_GLOBAL), true);
     }
 
     private void preparePendingForAction(ActionMapping mapping, HttpServletRequest request, GlLineForm glLineForm, Document maintDoc, List<GeneralLedgerEntry> pendingList) {
@@ -235,7 +208,7 @@ public class GlLineAction extends CabActionBase {
         if (!pendingList.isEmpty()) {
             return mapping.findForward(RiceConstants.MAPPING_BASIC);
         }
-        return new ActionForward(prepareDocHandlerUrl(document, DocumentTypeName.ASSET_PAYMENT), true);
+        return new ActionForward(getGlAndPurApHelperService().getDocHandlerUrl(document.getDocumentNumber(), DocumentTypeName.ASSET_PAYMENT), true);
     }
 
     /**
@@ -322,5 +295,9 @@ public class GlLineAction extends CabActionBase {
             prepareRecordsForDisplay(glLineForm, entry);
         }
         return mapping.findForward(RiceConstants.MAPPING_BASIC);
+    }
+
+    protected GlAndPurApHelperService getGlAndPurApHelperService() {
+        return SpringContext.getBean(GlAndPurApHelperService.class);
     }
 }

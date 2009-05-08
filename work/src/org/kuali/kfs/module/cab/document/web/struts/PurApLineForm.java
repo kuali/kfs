@@ -24,19 +24,17 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.cab.document.service.GlAndPurApHelperService;
 import org.kuali.kfs.module.cab.document.service.PurApInfoService;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.dto.DocumentTypeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 
 public class PurApLineForm extends KualiForm {
     private static final Logger LOG = Logger.getLogger(PurApLineAction.class);
@@ -59,7 +57,7 @@ public class PurApLineForm extends KualiForm {
 
     private String documentNumber;
 
-    
+
     public PurApLineForm() {
         this.purApDocs = new TypedArrayList(PurchasingAccountsPayableDocument.class);
     }
@@ -338,24 +336,17 @@ public class PurApLineForm extends KualiForm {
      * @return
      */
     public String getDocHandlerForwardLink() {
-        KualiWorkflowInfo kualiWorkflowInfo = SpringContext.getBean(KualiWorkflowInfo.class);
-        try {
-            String docTypeName = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(this.documentNumber).getDocumentHeader().getWorkflowDocument().getDocumentType();
-            DocumentTypeDTO docType = kualiWorkflowInfo.getDocType(docTypeName);
-            String docHandlerUrl = docType.getDocTypeHandlerUrl();
-            if (docHandlerUrl.indexOf("?") == -1) {
-                docHandlerUrl += "?";
+        String docHandlerLink = "";
+        if (StringUtils.isNotBlank(this.documentNumber)) {
+            try {
+                String docTypeName = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(this.documentNumber).getDocumentHeader().getWorkflowDocument().getDocumentType();
+                docHandlerLink = SpringContext.getBean(GlAndPurApHelperService.class).getDocHandlerUrl(this.documentNumber, docTypeName);
             }
-            else {
-                docHandlerUrl += "&";
+            catch (WorkflowException e) {
+                throw new RuntimeException("Caught WorkflowException trying to get document type name from Workflow", e);
             }
-
-            docHandlerUrl += KNSConstants.PARAMETER_DOC_ID + "=" + this.documentNumber + "&" + KNSConstants.PARAMETER_COMMAND + "=" + KEWConstants.DOCSEARCH_COMMAND;
-            return docHandlerUrl;
         }
-        catch (WorkflowException e) {
-            throw new RuntimeException("Caught WorkflowException trying to get document handler URL from Workflow", e);
-        }
+        return docHandlerLink;
     }
 
     public PurchasingAccountsPayableDocument getPurApDoc(int index) {

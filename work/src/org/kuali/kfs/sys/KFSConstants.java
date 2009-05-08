@@ -1214,5 +1214,13 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String ORG_REVIEW_ROLE_CREATE_DELEGATION_DISPLAY_TEXT = "create delegation";
 
     }
+    
+    public static class ReportConstants{
+        public static final String EMPTY_CELL_ENTRY_KEY_PREFIX = "EMPTY_CELL";
+        
+        public static final String TABLE_HEADER_LINE_KEY = "tableHeaderLine";
+        public static final String SEPARATOR_LINE_KEY = "separatorLine";
+        public static final String TABLE_CELL_FORMAT_KEY = "tableCellFormat";
+    }
 }
 

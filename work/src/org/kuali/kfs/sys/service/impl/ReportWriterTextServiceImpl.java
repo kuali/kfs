@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.batch.service.WrappingBatchService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -142,10 +143,7 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
         }
         
         // Get business object formatter that will be used
-        BusinessObjectReportHelper businessObjectReportHelper = this.getBusinessObjectReportHelpers().get(businessObject.getClass());
-        if (ObjectUtils.isNull(businessObjectReportHelper)) {
-            throw new RuntimeException(businessObject.getClass().toString() + " is not handled");
-        }
+        BusinessObjectReportHelper businessObjectReportHelper = getBusinessObjectReportHelper(businessObject);
         
         // Print the values of the businessObject per formatting determined by writeErrorHeader
         List<Object> formatterArgs = new ArrayList<Object>();
@@ -169,10 +167,7 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
                 // Any consecutive one only has message written, hence use padding
                 
                 // Get business object formatter that will be used
-                BusinessObjectReportHelper businessObjectReportHelper = this.getBusinessObjectReportHelpers().get(businessObject.getClass());
-                if (ObjectUtils.isNull(businessObjectReportHelper)) {
-                    throw new RuntimeException(businessObject.getClass().toString() + " is not handled");
-                }
+                BusinessObjectReportHelper businessObjectReportHelper = getBusinessObjectReportHelper(businessObject);
                 
                 // Print the values of the businessObject per formatting determined by writeErrorHeader
                 List<Object> formatterArgs = new ArrayList<Object>();
@@ -274,10 +269,7 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
      * @param businessObject to print header for
      */
     protected void writeErrorHeader(BusinessObject businessObject) {
-        BusinessObjectReportHelper businessObjectReportHelper = this.getBusinessObjectReportHelpers().get(businessObject.getClass());
-        if (ObjectUtils.isNull(businessObjectReportHelper)) {
-            throw new RuntimeException(businessObject.getClass().toString() + " is not handled");
-        }
+        BusinessObjectReportHelper businessObjectReportHelper = getBusinessObjectReportHelper(businessObject);
         List<String> errorHeader = businessObjectReportHelper.getTableHeader(pageWidth);
         
         // If we are at end of page and don't have space for table header, go ahead and page break
@@ -319,6 +311,45 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
         }
         
         return businessObjectReportHelpers;
+    }
+    
+    /**
+     * @see org.kuali.kfs.sys.service.ReportWriterService#writeTableHeader(org.kuali.rice.kns.bo.BusinessObject)
+     */
+    public void writeTableHeader(BusinessObject businessObject) {
+        BusinessObjectReportHelper businessObjectReportHelper = getBusinessObjectReportHelper(businessObject);
+        
+        Map<String, String> tableDefinition = businessObjectReportHelper.getTableDefintion(pageWidth);
+        
+        this.writeFormattedMessageLine(tableDefinition.get(KFSConstants.ReportConstants.TABLE_HEADER_LINE_KEY));
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.service.ReportWriterService#writeTableRow(org.kuali.rice.kns.bo.BusinessObject)
+     */
+    public void writeTableRow(BusinessObject businessObject) {
+        BusinessObjectReportHelper businessObjectReportHelper = getBusinessObjectReportHelper(businessObject);
+        Map<String, String> tableDefinition = businessObjectReportHelper.getTableDefintion(pageWidth);
+
+        String tableCellFormat = tableDefinition.get(KFSConstants.ReportConstants.TABLE_CELL_FORMAT_KEY);
+        List<String> tableCellValues = businessObjectReportHelper.getTableCellValuesPaddingWithEmptyCell(businessObject);
+        
+        this.writeFormattedMessageLine(tableCellFormat, tableCellValues.toArray());
+    }
+    
+    /**
+     * get the business report helper for the given business object
+     * 
+     * @param businessObject the given business object
+     * @return the business report helper for the given business object
+     */
+    private BusinessObjectReportHelper getBusinessObjectReportHelper(BusinessObject businessObject) {
+        BusinessObjectReportHelper businessObjectReportHelper = this.getBusinessObjectReportHelpers().get(businessObject.getClass());
+        if (ObjectUtils.isNull(businessObjectReportHelper)) {
+            throw new RuntimeException(businessObject.getClass().toString() + " is not handled");
+        }
+        
+        return businessObjectReportHelper;
     }
 
     /**

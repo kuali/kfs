@@ -75,6 +75,18 @@ public interface ReportWriterService {
      * @param args
      */
     public void writeFormattedMessageLine(String format, Object ... args);
+    
+    /**
+     * Write table header into a report for the given business object
+     * @param businessObject the given business object
+     */
+    public void writeTableHeader(BusinessObject businessObject);
+    
+    /**
+     * Write table row into a report for the given business object
+     * @param businessObject the given business object
+     */
+    public void writeTableRow(BusinessObject businessObject);
 
     /**
      * Breaking the page and write a new header

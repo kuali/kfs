@@ -142,7 +142,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
 
         VendorContract contract = new VendorContract();
         Integer contrID = po.getVendorContractGeneratedIdentifier();
-        KualiDecimal contrAPOLimit = new KualiDecimal(100000.00);
+        KualiDecimal contrAPOLimit = new KualiDecimal(120000.00);
         contract.setVendorContractGeneratedIdentifier(contrID);
         contract.setOrganizationAutomaticPurchaseOrderLimit(contrAPOLimit);
         
@@ -159,25 +159,30 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         KualiDecimal result;
 
         // contract == null & manager != null
+        po.setVendorContractGeneratedIdentifier(null);
+        po.setVendorContract(null);
         po.setContractManager(manager);
         result = poService.getInternalPurchasingDollarLimit(po);
         assertEquals(result, mngrDDLimit);
         
         // contract != null & manager == null
+        po.setVendorContractGeneratedIdentifier(contrID);
         po.setVendorContract(contract);
+        po.setContractManagerCode(null);
         po.setContractManager(null);
         result = poService.getInternalPurchasingDollarLimit(po);
         assertEquals(result, contrDLimit);
         
         // contract != null & manager != null, and contract limit > manager limit
+        po.setVendorContractGeneratedIdentifier(contrID);
         po.setVendorContract(contract);
+        po.setContractManagerCode(mngrCode);
         po.setContractManager(manager);
+        po.setContractManagerCode(mngrCode);
         result = poService.getInternalPurchasingDollarLimit(po);
         assertEquals(result, contrDLimit);
         
         // contract != null & manager != null, and contract limit < manager limit
-        po.setVendorContract(contract);
-        po.setContractManager(manager);
         KualiDecimal mngrDDLimit1 = new KualiDecimal(150000.00);  
         manager.setContractManagerDelegationDollarLimit(mngrDDLimit1);
         result = poService.getInternalPurchasingDollarLimit(po);
@@ -185,7 +190,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
     }
         
     /**
-     * Matches an existing Purchase Order Document with a retransmited PO Document newly generated from it;
+     * Matches an existing Purchase Order Document with a retransmitted PO Document newly generated from it;
      * Fails the assertion if any of the copied persistent fields don't match.
      */
     public static void assertMatchRetransmit(PurchaseOrderDocument doc1, PurchaseOrderDocument doc2) {

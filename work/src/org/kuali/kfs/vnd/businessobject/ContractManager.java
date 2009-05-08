@@ -59,11 +59,9 @@ public class ContractManager extends PersistableBusinessObjectBase {
      * Default constructor.
      */
     public ContractManager() {
-
     }
 
     public Integer getContractManagerCode() {
-
         return contractManagerCode;
     }
 
@@ -72,7 +70,6 @@ public class ContractManager extends PersistableBusinessObjectBase {
     }
 
     public String getContractManagerName() {
-
         return contractManagerName;
     }
 
@@ -81,7 +78,6 @@ public class ContractManager extends PersistableBusinessObjectBase {
     }
 
     public String getContractManagerPhoneNumber() {
-
         return contractManagerPhoneNumber;
     }
 
@@ -90,7 +86,6 @@ public class ContractManager extends PersistableBusinessObjectBase {
     }
 
     public String getContractManagerFaxNumber() {
-
         return contractManagerFaxNumber;
     }
 
@@ -99,7 +94,6 @@ public class ContractManager extends PersistableBusinessObjectBase {
     }
 
     public KualiDecimal getContractManagerDelegationDollarLimit() {
-
         return contractManagerDelegationDollarLimit;
     }
 

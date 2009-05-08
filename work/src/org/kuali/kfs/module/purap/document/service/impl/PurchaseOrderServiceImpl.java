@@ -410,7 +410,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             //FIXME somehow data fields such as contractManagerDelegationDollarLimit in reference object contractManager didn't get retrieved 
             // (are null) as supposed to be (this happens whether or not proxy is set to true), even though contractManager is not null;
             // so here we have to manually refresh the contractManager to retrieve the fields 
-            document.refreshReferenceObject(PurapPropertyConstants.CONTRACT_MANAGER);
+            if (document.getContractManager().getContractManagerDelegationDollarLimit() == null) {
+                document.refreshReferenceObject(PurapPropertyConstants.CONTRACT_MANAGER);
+            }
             KualiDecimal contractManagerLimit = document.getContractManager().getContractManagerDelegationDollarLimit();
             if ((contractDollarLimit != null) && (contractManagerLimit != null)) {
                 if (contractDollarLimit.compareTo(contractManagerLimit) > 0) {
@@ -429,7 +431,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
         else if ((document.getVendorContract() == null) && (document.getContractManager() != null)) {
             //FIXME As above, here we have to manually refresh the contractManager to retrieve its field
-            document.refreshReferenceObject(PurapPropertyConstants.CONTRACT_MANAGER);
+            if (document.getContractManager().getContractManagerDelegationDollarLimit() == null) {
+                document.refreshReferenceObject(PurapPropertyConstants.CONTRACT_MANAGER);
+            }
             return document.getContractManager().getContractManagerDelegationDollarLimit();
         }
         else if ((document.getVendorContract() != null) && (document.getContractManager() == null)) {

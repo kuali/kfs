@@ -71,7 +71,13 @@
 	<td align=left valign=middle class="datacell">
 		<kul:htmlControlAttribute 
 			attributeEntry="${vendorQuoteAttributes.vendorLine1Address}" property="document.purchaseOrderVendorQuote[${ctr}].vendorLine1Address" 
-			readOnly="${!quoteEditable}" tabindexOverride="${tabindexOverrideBase + 8}"/>
+			readOnly="${!quoteEditable}" tabindexOverride="${tabindexOverrideBase + 8}"/>		
+		<c:if test="${quoteEditable}">
+		   <kul:lookup  boClassName="org.kuali.kfs.vnd.businessobject.VendorAddress" 
+              readOnlyFields="active, vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier" autoSearch="yes"
+              lookupParameters="'Y':active,document.purchaseOrderVendorQuote[${ctr}].vendorHeaderGeneratedIdentifier:vendorHeaderGeneratedIdentifier,document.purchaseOrderVendorQuote[${ctr}].vendorDetailAssignedIdentifier:vendorDetailAssignedIdentifier"
+              fieldConversions="vendorAddressGeneratedIdentifier:document.purchaseOrderVendorQuote[${ctr}].vendorAddressGeneratedIdentifier,vendorLine1Address:document.purchaseOrderVendorQuote[${ctr}].vendorLine1Address,vendorLine2Address:document.purchaseOrderVendorQuote[${ctr}].vendorLine2Address,vendorCityName:document.purchaseOrderVendorQuote[${ctr}].vendorCityName,vendorStateCode:document.purchaseOrderVendorQuote[${ctr}].vendorStateCode,vendorCountryCode:document.purchaseOrderVendorQuote[${ctr}].vendorCountry.postalCountryName,vendorFaxNumber:document.purchaseOrderVendorQuote[${ctr}].vendorFaxNumber,vendorAttentionName:document.purchaseOrderVendorQuote[${ctr}].vendorAttentionName,vendorZipCode:document.purchaseOrderVendorQuote[${ctr}].vendorPostalCode"/>
+        </c:if>
 	</td>
 	<th align=right valign=middle class="bord-l-b">
 		<div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.vendorPhoneNumber}" /></div>

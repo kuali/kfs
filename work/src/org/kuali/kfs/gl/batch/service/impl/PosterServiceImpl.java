@@ -241,6 +241,7 @@ public class PosterServiceImpl implements PosterService {
                 LOG.debug("postEntries() Processing reversal transactions");
                 
                 final String GL_REVERSAL_T = MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(Reversal.class).getFullTableName();
+                reversalTransactions = reversalDao.getByDate(runDate);
                 while (reversalTransactions.hasNext()) {
                     ecount++;
                     Transaction tran = (Transaction) reversalTransactions.next();

@@ -160,7 +160,7 @@ public class BusinessObjectReportHelper {
         for (int index =0; index < this.columnCount; index++) {
             Integer cellWidth = cellWidthList.get(index);
             
-            separatorLine = StringUtils.rightPad(separatorLine, cellWidth, KFSConstants.DASH) + " ";
+            separatorLine = separatorLine + StringUtils.rightPad(StringUtils.EMPTY, cellWidth, KFSConstants.DASH) + " ";
             singleRowFormat = singleRowFormat + "%-" + cellWidth + "s ";
             
             tableWidth += cellWidth;
@@ -175,8 +175,7 @@ public class BusinessObjectReportHelper {
         int numberOfCell = cellWidthList.size();
         int rowCount = (int) Math.ceil(numberOfCell * 1.0 / columnCount);
         for(int index =0; index < rowCount; index++) {
-            tableHeaderLineFormat = tableHeaderLineFormat + singleRowFormat + "\n";
-            tableHeaderLineFormat = tableHeaderLineFormat + separatorLine + "\n";
+            tableHeaderLineFormat = tableHeaderLineFormat + singleRowFormat + "\n" + separatorLine + "\n";
             
             tableCellFormat = tableCellFormat + singleRowFormat + "\n";
         }

@@ -262,7 +262,7 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
         if (ObjectUtils.isNull(businessObjectReportHelper)) {
             throw new RuntimeException(businessObject.getClass().toString() + " is not handled");
         }
-        List<String> errorHeader = businessObjectReportHelper.getErrorHeader(pageWidth);
+        List<String> errorHeader = businessObjectReportHelper.getTableHeader(pageWidth);
         
         // If we are at end of page and don't have space for table header, go ahead and page break
         if (errorHeader.size() + line >=  pageLength) {

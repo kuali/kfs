@@ -80,13 +80,13 @@ public class BusinessObjectReportHelper  {
     }
     
     /**
-     * Returns multiple lines of what represent the error header. The last line in this list is the error format.
+     * Returns multiple lines of what represent a table header. The last line in this list is the format of the table cells.
      * @param maximumPageWidth maximum before line is out of bounds. Used to fill message to the end of this range. Note that if there isn't at least maximumPageWidth characters available it will go minimumMessageLength out of bounds. It is up to the calling class to handle that
-     * @return error header. Last element is the error format
+     * @return table header. Last element is the format of the table cells.
      */
-    public List<String> getErrorHeader(int maximumPageWidth) {
-        String errorSeparatorLine = "";
-        String errorFormat = "";
+    public List<String> getTableHeader(int maximumPageWidth) {
+        String separatorLine = StringUtils.EMPTY;
+        String messageFormat = StringUtils.EMPTY;
         
         // Construct the header based on orderedPropertyNameToHeaderLabelMap. It will pick the longest of label or DD size
         for (Iterator<Map.Entry<String,String>> entries = orderedPropertyNameToHeaderLabelMap.entrySet().iterator(); entries.hasNext();) {
@@ -102,31 +102,31 @@ public class BusinessObjectReportHelper  {
                 longest = entry.getValue().length();
             }
             
-            errorSeparatorLine = errorSeparatorLine + StringUtils.rightPad("", longest, KFSConstants.DASH) + " ";
-            errorFormat = errorFormat + "%-" + longest + "s ";
+            separatorLine = separatorLine + StringUtils.rightPad("", longest, KFSConstants.DASH) + " ";
+            messageFormat = messageFormat + "%-" + longest + "s ";
         }
         
         // Now fill to the end of pageWidth for the message column. If there is not enough space go out of bounds
-        int availableWidth = maximumPageWidth - (errorSeparatorLine.length()+1);
+        int availableWidth = maximumPageWidth - (separatorLine.length()+1);
         if (availableWidth < minimumMessageLength) {
             availableWidth = minimumMessageLength;
         }
-        errorSeparatorLine = errorSeparatorLine + StringUtils.rightPad("", availableWidth, KFSConstants.DASH);
-        errorFormat = errorFormat + "%-" + availableWidth + "s";
+        separatorLine = separatorLine + StringUtils.rightPad("", availableWidth, KFSConstants.DASH);
+        messageFormat = messageFormat + "%-" + availableWidth + "s";
         
         // Fill in the header labels. We use the errorFormat to do this to get justification right
         List<Object> formatterArgs = new ArrayList<Object>();
         formatterArgs.addAll(orderedPropertyNameToHeaderLabelMap.values());
         formatterArgs.add(messageLabel);
-        String errorHeaderLine = String.format(errorFormat, formatterArgs.toArray());
+        String tableHeaderLine = String.format(messageFormat, formatterArgs.toArray());
         
         // Construct return list
-        List<String> header = new ArrayList<String>();
-        header.add(errorHeaderLine);
-        header.add(errorSeparatorLine);
-        header.add(errorFormat);
+        List<String> tableHeader = new ArrayList<String>();
+        tableHeader.add(tableHeaderLine);
+        tableHeader.add(separatorLine);
+        tableHeader.add(messageFormat);
                 
-        return header;        
+        return tableHeader;        
     }
     
     /**

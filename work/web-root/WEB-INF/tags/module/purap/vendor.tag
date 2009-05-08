@@ -42,7 +42,7 @@
 <c:set var="tabindexOverrideBase" value="30" />
 
 <c:choose> 
-  <c:when test="${displayPurchaseOrderFields}" > 
+  <c:when test="${displayPurchaseOrderFields or displayPaymentRequestFields}" > 
     <c:set var="extraPrefix" value="document" />
   </c:when> 
   <c:when test="${displayRequisitionFields}" > 

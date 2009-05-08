@@ -505,13 +505,20 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         this.setUseTaxIndicator(po.isUseTaxIndicator());
         this.setPaymentRequestPositiveApprovalIndicator(po.isPaymentRequestPositiveApprovalIndicator());
         this.setVendorCustomerNumber(po.getVendorCustomerNumber());
+
         if (po.getPurchaseOrderCostSource() != null) {
             this.setPaymentRequestCostSource(po.getPurchaseOrderCostSource());
             this.setPaymentRequestCostSourceCode(po.getPurchaseOrderCostSourceCode());
         }
+        
         if (po.getVendorShippingPaymentTerms() != null) {
             this.setVendorShippingPaymentTerms(po.getVendorShippingPaymentTerms());
             this.setVendorShippingPaymentTermsCode(po.getVendorShippingPaymentTermsCode());
+        }
+        
+        if (po.getVendorPaymentTerms() != null) {
+            this.setVendorPaymentTermsCode(po.getVendorPaymentTermsCode());
+            this.setVendorPaymentTerms(po.getVendorPaymentTerms());
         }
 
         if (po.getRecurringPaymentType() != null) {
@@ -553,21 +560,14 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             
             boolean blankAttentionLine = StringUtils.equalsIgnoreCase("Y",SpringContext.getBean(KualiConfigurationService.class).getParameterValue(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.BLANK_ATTENTION_LINE_FOR_PO_TYPE_ADDRESS));
 
-            if (blankAttentionLine){
+            if (blankAttentionLine) {
                 setVendorAttentionName(StringUtils.EMPTY);
-            }else{
+            }
+            else {
                 setVendorAttentionName(StringUtils.defaultString(po.getVendorAttentionName()));
-        }
+            }
         }
 
-        if ((po.getVendorPaymentTerms() == null) || ("".equals(po.getVendorPaymentTerms().getVendorPaymentTermsCode()))) {
-            this.setVendorPaymentTerms(new PaymentTermType());
-            this.vendorPaymentTerms.setVendorPaymentTermsCode("");
-        }
-        else {
-            this.setVendorPaymentTermsCode(po.getVendorPaymentTermsCode());
-            this.setVendorPaymentTerms(po.getVendorPaymentTerms());
-        }
         this.setPaymentRequestPayDate(SpringContext.getBean(PaymentRequestService.class).calculatePayDate(this.getInvoiceDate(), this.getVendorPaymentTerms()));
 
         AccountsPayableService accountsPayableService = SpringContext.getBean(AccountsPayableService.class);

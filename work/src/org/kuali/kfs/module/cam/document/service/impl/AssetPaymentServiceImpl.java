@@ -263,7 +263,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
             KualiDecimal unallocatedTotal = totalAmount;
             for (AssetPaymentAssetDetail assetPaymentAssetDetail : assetPaymentAssetDetails) {
 
-                Double previousTotalCostAmount = new Double(assetPaymentAssetDetail.getPreviousTotalCostAmount().toString());
+                Double previousTotalCostAmount = new Double(assetPaymentAssetDetail.getPreviousTotalCostAmount() == null? "0" : assetPaymentAssetDetail.getPreviousTotalCostAmount().toString());
                 Double percentage = new Double(0);
                 if (totalHistoricalCost.compareTo(new Double(0)) != 0)
                     percentage = (previousTotalCostAmount / totalHistoricalCost);

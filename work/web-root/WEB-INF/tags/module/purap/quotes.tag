@@ -149,6 +149,12 @@
                 <kul:htmlControlAttribute 
                 	attributeEntry="${vendorQuoteAttributes.vendorLine1Address}" property="newPurchaseOrderVendorQuote.vendorLine1Address" 
                 	tabindexOverride="${tabindexOverrideBase + 5}"/>
+                <c:if test="${quoteEditable and (not empty KualiForm.newPurchaseOrderVendorQuote.vendorLine1Address)}">                
+				   <kul:lookup  boClassName="org.kuali.kfs.vnd.businessobject.VendorAddress" 
+		              readOnlyFields="active, vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier" autoSearch="yes"
+		              lookupParameters="'Y':active,newPurchaseOrderVendorQuote.vendorHeaderGeneratedIdentifier:vendorHeaderGeneratedIdentifier,newPurchaseOrderVendorQuote.vendorDetailAssignedIdentifier:vendorDetailAssignedIdentifier"
+                      fieldConversions="vendorAddressGeneratedIdentifier:newPurchaseOrderVendorQuote.vendorAddressGeneratedIdentifier,vendorLine1Address:newPurchaseOrderVendorQuote.vendorLine1Address,vendorLine2Address:newPurchaseOrderVendorQuote.vendorLine2Address,vendorCityName:newPurchaseOrderVendorQuote.vendorCityName,vendorStateCode:newPurchaseOrderVendorQuote.vendorStateCode,vendorZipCode:newPurchaseOrderVendorQuote.vendorPostalCode,vendorCountryCode:newPurchaseOrderVendorQuote.vendorCountryCode,vendorFaxNumber:newPurchaseOrderVendorQuote.vendorFaxNumber,vendorAttentionName:newPurchaseOrderVendorQuote.vendorAttentionName"/>
+  		    	</c:if>		
             </td>
             <th align=right valign=middle class="bord-l-b">
                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.vendorPhoneNumber}" /></div>

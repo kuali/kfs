@@ -24,11 +24,13 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PREQDocumentsStrings;
+import org.kuali.kfs.module.purap.businessobject.LineItemReceivingItem;
 import org.kuali.kfs.module.purap.businessobject.PurapEnterableItem;
 import org.kuali.kfs.module.purap.businessobject.ReceivingItem;
 import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
 import org.kuali.kfs.module.purap.document.ReceivingDocument;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
+import org.kuali.kfs.module.purap.document.validation.AddReceivingItemRule;
 import org.kuali.kfs.module.purap.document.validation.ContinuePurapRule;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -42,7 +44,7 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
-public class LineItemReceivingDocumentRule extends DocumentRuleBase implements ContinuePurapRule {
+public class LineItemReceivingDocumentRule extends DocumentRuleBase implements ContinuePurapRule, AddReceivingItemRule{
 
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {        
@@ -164,6 +166,14 @@ public class LineItemReceivingDocumentRule extends DocumentRuleBase implements C
             }
         }
         return valid;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.purap.document.validation.AddReceivingItemRule#processAddReceivingItemRules(org.kuali.kfs.module.purap.document.ReceivingDocument, org.kuali.kfs.module.purap.businessobject.ReceivingItem)
+     */
+    public boolean processAddReceivingItemRules(ReceivingDocument document, ReceivingItem item) {
+        // TODO Auto-generated method stub
+        return true;
     }
 
 }

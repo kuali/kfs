@@ -54,6 +54,7 @@
 <!-- Maintenance Section Definitions -->
   <bean id="AssetMaintenanceDocument-AssetPaymentLink" parent="AssetMaintenanceDocument-AssetPaymentLink-parentBean"/>
   <bean id="AssetMaintenanceDocument-AssetPaymentLink-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="defaultOpen" value="false"/>
 	<property name="id" value="paymentLookup"/>  
     <property name="title" value="Payments Lookup"/>
     <property name="maintainableItems">
@@ -65,6 +66,7 @@
 
   <bean id="AssetMaintenanceDocument-ViewRelatedDocumentLink" parent="AssetMaintenanceDocument-ViewRelatedDocumentLink-parentBean"/>
   <bean id="AssetMaintenanceDocument-ViewRelatedDocumentLink-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="defaultOpen" value="false"/>  
 	<property name="id" value="documentLookup"/>  
     <property name="title" value="Lookup Related Document(s)"/>
     <property name="maintainableItems">
@@ -86,7 +88,7 @@
   <bean id="AssetMaintenanceDocument-AssetDetailInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Asset Detail Information"/>
     <property name="title" value="Asset Detail Information"/>
-    <property name="maintainableItems">
+    <property name="maintainableItems">    
       <list>
         <bean parent="MaintainableSubSectionHeaderDefinition" p:name="Asset Detail Info"/>
         <bean parent="MaintainableFieldDefinition" p:name="capitalAssetNumber" p:unconditionallyReadOnly="true"/>
@@ -146,6 +148,7 @@
   <bean id="AssetMaintenanceDocument-OrganizationInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Organization Information"/>
     <property name="title" value="Organization Information"/>
+    <property name="defaultOpen" value="false"/>
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="organizationInventoryName"/>
@@ -179,6 +182,7 @@
   <bean id="AssetMaintenanceDocument-LandInformation" parent="AssetMaintenanceDocument-LandInformation-parentBean"/>
 
   <bean id="AssetMaintenanceDocument-LandInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="defaultOpen" value="false"/>  
     <property name="id" value="landInformation"/>
     <property name="title" value="Land Information"/>
     <property name="maintainableItems">
@@ -195,6 +199,7 @@
   <bean id="AssetMaintenanceDocument-PaymentInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="paymentInformation"/>
     <property name="title" value="Payments"/>
+    <property name="defaultOpen" value="false"/>
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">
@@ -255,6 +260,7 @@
   <bean id="AssetMaintenanceDocument-AssetDepreciationInformation" parent="AssetMaintenanceDocument-AssetDepreciationInformation-parentBean"/>
 
   <bean id="AssetMaintenanceDocument-AssetDepreciationInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="defaultOpen" value="false"/>  
     <property name="id" value="depreciationInformation"/>
     <property name="title" value="Asset Depreciation Information"/>
     <property name="maintainableItems">
@@ -318,6 +324,7 @@
   <bean id="AssetMaintenanceDocument-Warranty-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="warrenty"/>
     <property name="title" value="Warranty"/>
+    <property name="defaultOpen" value="false"/>    
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="assetWarranty.warrantyNumber" p:noLookup="true"/>
@@ -333,6 +340,7 @@
   <bean id="AssetMaintenanceDocument-RepairHistory" parent="AssetMaintenanceDocument-RepairHistory-parentBean"/>
 
   <bean id="AssetMaintenanceDocument-RepairHistory-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="defaultOpen" value="false"/>  
     <property name="id" value="repairHistory"/>
     <property name="title" value="Repair History"/>
     <property name="maintainableItems">
@@ -362,6 +370,7 @@
   <bean id="AssetMaintenanceDocument-Components-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="components"/>
     <property name="title" value="Components"/>
+    <property name="defaultOpen" value="false"/>    
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableCollectionDefinition">

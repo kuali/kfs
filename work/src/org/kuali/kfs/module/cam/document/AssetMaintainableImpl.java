@@ -16,6 +16,8 @@
 package org.kuali.kfs.module.cam.document;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -31,17 +33,21 @@ import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
 import org.kuali.kfs.module.cam.document.service.RetirementInfoService;
+import org.kuali.kfs.module.cam.service.AssetLockService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.Section;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 
 /**
  * This class implements custom data preparation for displaying asset edit screen.
@@ -50,6 +56,18 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 public class AssetMaintainableImpl extends KualiMaintainableImpl {
     private Asset newAsset;
     private Asset copyAsset;
+
+    private static final Map<String, String> FINANCIAL_DOC_NAME_MAP = new HashMap<String, String>();
+    static {
+        FINANCIAL_DOC_NAME_MAP.put(KFSConstants.FinancialDocumentTypeCodes.CASH_RECEIPT, KFSConstants.FinancialDocumentTypeNames.CASH_RECEIPT);
+        FINANCIAL_DOC_NAME_MAP.put(KFSConstants.FinancialDocumentTypeCodes.DISTRIBUTION_OF_INCOME_AND_EXPENSE, KFSConstants.FinancialDocumentTypeNames.DISTRIBUTION_OF_INCOME_AND_EXPENSE);
+        FINANCIAL_DOC_NAME_MAP.put(KFSConstants.FinancialDocumentTypeCodes.GENERAL_ERROR_CORRECTION, KFSConstants.FinancialDocumentTypeNames.GENERAL_ERROR_CORRECTION);
+        FINANCIAL_DOC_NAME_MAP.put(KFSConstants.FinancialDocumentTypeCodes.INTERNAL_BILLING, KFSConstants.FinancialDocumentTypeNames.INTERNAL_BILLING);
+        FINANCIAL_DOC_NAME_MAP.put(KFSConstants.FinancialDocumentTypeCodes.SERVICE_BILLING, KFSConstants.FinancialDocumentTypeNames.SERVICE_BILLING);
+        FINANCIAL_DOC_NAME_MAP.put(KFSConstants.FinancialDocumentTypeCodes.YEAR_END_DISTRIBUTION_OF_INCOME_AND_EXPENSE, KFSConstants.FinancialDocumentTypeNames.YEAR_END_DISTRIBUTION_OF_INCOME_AND_EXPENSE);
+        FINANCIAL_DOC_NAME_MAP.put(KFSConstants.FinancialDocumentTypeCodes.YEAR_END_GENERAL_ERROR_CORRECTION, KFSConstants.FinancialDocumentTypeNames.YEAR_END_GENERAL_ERROR_CORRECTION);
+        FINANCIAL_DOC_NAME_MAP.put(KFSConstants.FinancialDocumentTypeCodes.PROCUREMENT_CARD, KFSConstants.FinancialDocumentTypeNames.PROCUREMENT_CARD);
+    }
 
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {
@@ -182,13 +200,44 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl {
             newAsset.setCapitalAssetTypeCode(SpringContext.getBean(ParameterService.class).getParameterValue(Asset.class, CamsConstants.Parameters.DEFAULT_FABRICATION_ASSET_TYPE_CODE));
             getAssetService().setFiscalPeriod(newAsset);
         }
-        // setup offCampusLocation 
+        // setup offCampusLocation
         getAssetLocationService().setOffCampusLocation(newAsset);
     }
 
     @Override
     public void setGenerateDefaultValues(String docTypeName) {
 
+    }
+
+    public List<String> getFpLinks() {
+        Asset asset = (Asset) getBusinessObject();
+        List<Long> assetNumbers = new ArrayList<Long>();
+        assetNumbers.add(asset.getCapitalAssetNumber());
+        return SpringContext.getBean(AssetLockService.class).getAssetLockingDocuments(assetNumbers, CamsConstants.DocumentTypeName.ASSET_FP_INQUIRY, "");
+    }
+
+    public List<String> getPreqLinks() {
+        Asset asset = (Asset) getBusinessObject();
+        List<Long> assetNumbers = new ArrayList<Long>();
+        assetNumbers.add(asset.getCapitalAssetNumber());
+        return SpringContext.getBean(AssetLockService.class).getAssetLockingDocuments(assetNumbers, CamsConstants.DocumentTypeName.ASSET_PREQ_INQUIRY, "");
+    }
+
+    public List<String> getFpLinkedDocumentInfo() {
+        List<String> documentInfo = new ArrayList<String>();
+        Iterator<String> fpDocumentNumbers = getFpLinks().iterator();
+        while (fpDocumentNumbers.hasNext()) {
+            String aDocumentNumber = fpDocumentNumbers.next();
+            KualiWorkflowInfo kualiWorkflowInfo = SpringContext.getBean(KualiWorkflowInfo.class);
+            try {
+                String docTypeName = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(aDocumentNumber).getDocumentHeader().getWorkflowDocument().getDocumentType();
+                documentInfo.add(FINANCIAL_DOC_NAME_MAP.get(docTypeName) + "-" + aDocumentNumber);
+            }
+            catch (WorkflowException e) {
+                throw new RuntimeException("Caught WorkflowException trying to get document type name", e);
+            }
+        }
+        return documentInfo;
     }
 
     private AssetService getAssetService() {

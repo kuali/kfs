@@ -22,6 +22,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants.AssetTransferDocument;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetLocation;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
@@ -31,7 +32,8 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.State;
-import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.kns.datadictionary.DataDictionaryEntryBase;
+import org.kuali.rice.kns.document.DocumentBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.StateService;
@@ -144,7 +146,16 @@ public class AssetLocationServiceImpl implements AssetLocationService {
         String zipCode = readPropertyValue(businessObject, fieldMap, LocationField.ZIP_CODE);
         String countryCode = readPropertyValue(businessObject, fieldMap, LocationField.COUNTRY_CODE);
 
-        BusinessObjectEntry businessObjectEntry = this.getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(businessObject.getClass().getName());
+        // businessObject parameter could be BusinessObjectEntry or TransactionalDocumentEntry
+        DataDictionaryService ddService = this.getDataDictionaryService();
+        DataDictionaryEntryBase ddEntry = null;
+        if (DocumentBase.class.isAssignableFrom(businessObject.getClass())) {
+            String docTypeName = ddService.getDocumentTypeNameByClass(businessObject.getClass());
+            ddEntry = ddService.getDataDictionary().getDocumentEntry(docTypeName);
+        }
+        else {
+            ddEntry = this.getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(businessObject.getClass().getName());
+        }
 
         boolean onCampus = StringUtils.isNotBlank(buildingCode) || StringUtils.isNotBlank(roomNumber) || StringUtils.isNotBlank(subRoomNumber);
         boolean offCampus = StringUtils.isNotBlank(contactName) || StringUtils.isNotBlank(streetAddress) || StringUtils.isNotBlank(cityName) || StringUtils.isNotBlank(stateCode) || StringUtils.isNotBlank(zipCode) || StringUtils.isNotBlank(countryCode);
@@ -156,7 +167,7 @@ public class AssetLocationServiceImpl implements AssetLocationService {
         }
         else {
             if (isCapital) {
-                valid &= validateCapitalAssetLocation(assetType, fieldMap, campusCode, buildingCode, roomNumber, subRoomNumber, contactName, streetAddress, cityName, stateCode, zipCode, countryCode, onCampus, offCampus, businessObjectEntry);
+                valid &= validateCapitalAssetLocation(assetType, fieldMap, campusCode, buildingCode, roomNumber, subRoomNumber, contactName, streetAddress, cityName, stateCode, zipCode, countryCode, onCampus, offCampus, ddEntry);
             }
             else {
                 valid &= validateNonCapitalAssetLocation(fieldMap, contactName, streetAddress, cityName, stateCode, zipCode, countryCode, onCampus, offCampus);
@@ -166,7 +177,7 @@ public class AssetLocationServiceImpl implements AssetLocationService {
     }
 
 
-    private boolean validateCapitalAssetLocation(AssetType assetType, Map<LocationField, String> fieldMap, String campusCode, String buildingCode, String roomNumber, String subRoomNumber, String contactName, String streetAddress, String cityName, String stateCode, String zipCode, String countryCode, boolean onCampus, boolean offCampus, BusinessObjectEntry businessObjectEntry) {
+    private boolean validateCapitalAssetLocation(AssetType assetType, Map<LocationField, String> fieldMap, String campusCode, String buildingCode, String roomNumber, String subRoomNumber, String contactName, String streetAddress, String cityName, String stateCode, String zipCode, String countryCode, boolean onCampus, boolean offCampus, DataDictionaryEntryBase businessObjectEntry) {
         boolean valid = true;
         if (ObjectUtils.isNull(assetType)) {
             GlobalVariables.getErrorMap().putErrorForSectionId(CamsConstants.LOCATION_INFORMATION_SECTION_ID, CamsKeyConstants.AssetLocation.ERROR_CHOOSE_ASSET_TYPE);

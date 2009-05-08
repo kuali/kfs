@@ -48,11 +48,15 @@ public class AssetGlobalPresentationController extends FinancialSystemMaintenanc
         if (assetGlobal.isCapitalAssetBuilderOriginIndicator() || isAssetSeparate) {
             // do not include payment add section within the payment details collection
             maintCollDef.setIncludeAddLine(false);
+            // No update could be made to payment if it's created from CAB. Here, disable delete button if payment already added into
+            // collection.
+            for (AssetPaymentDetail payment : assetGlobal.getAssetPaymentDetails()) {
+                payment.setNewCollectionRecord(false);
+            }
         }
         else {
             // conversely allow add during any other case. This is important because the attribute is set on the DD and the DD is
-            // only
-            // loaded on project startup. Hence setting is important to avoid state related bugs
+            // only loaded on project startup. Hence setting is important to avoid state related bugs
             maintCollDef.setIncludeAddLine(true);
         }
 
@@ -84,6 +88,8 @@ public class AssetGlobalPresentationController extends FinancialSystemMaintenanc
         if (isAssetSeparate && (assetGlobal.getAssetSharedDetails().isEmpty() || assetGlobal.getAssetSharedDetails().get(0).getAssetGlobalUniqueDetails().isEmpty())) {
             fields.add("calculateEqualSourceAmountsButton");
         }
+
+
 
         return fields;
     }

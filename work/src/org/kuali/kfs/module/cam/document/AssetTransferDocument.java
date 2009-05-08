@@ -480,6 +480,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
             SpringContext.getBean(AssetTransferService.class).saveApprovedChanges(this);
         }
 
+        // Remove asset lock when doc status change. We don't include stateIsFinal since document always go to 'processed' first.
         if (workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsProcessed()) {
             getCapitalAssetManagementModuleService().deleteAssetLocks(this.getDocumentNumber(), null);
         }

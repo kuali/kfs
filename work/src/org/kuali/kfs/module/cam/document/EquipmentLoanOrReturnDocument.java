@@ -585,6 +585,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
             SpringContext.getBean(EquipmentLoanOrReturnService.class).processApprovedEquipmentLoanOrReturn(this);
         }
 
+        // Remove asset lock when doc status change. We don't include stateIsFinal since document always go to 'processed' first.
         if (workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsProcessed()) {
             this.getCapitalAssetManagementModuleService().deleteAssetLocks(this.getDocumentNumber(), null);
         }

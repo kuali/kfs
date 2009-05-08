@@ -518,14 +518,6 @@ public class AssetGlobalMaintainableImpl extends FinancialSystemGlobalMaintainab
         assetGlobal.getAssetSharedDetails().clear();
         assetGlobal.getAssetSharedDetails().addAll(locationMap.values());
 
-        // No update could be made to payment if it's created from CAB. Here, disable delete button if payment already added into
-        // collection.
-        if (assetGlobal.isCapitalAssetBuilderOriginIndicator()) {
-            for (AssetPaymentDetail payment : assetGlobal.getAssetPaymentDetails()) {
-                payment.setNewCollectionRecord(false);
-            }
-        }
-
         // When document starts routing, FO won't allow to change asset total amount which is a derived value from Asset payments
         // and the quantity of assets. To compare asset total amount , we need to calculate and save the value before FO made
         // changes. No handle to the workflow document and see if it starts routing. Otherwise, we can add if condition here.
@@ -651,10 +643,10 @@ public class AssetGlobalMaintainableImpl extends FinancialSystemGlobalMaintainab
         List<GeneralLedgerPendingEntry> generalLedgerPendingEntries = assetGlobal.getGeneralLedgerPendingEntries();
         new AssetGlobalGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) documentHeader).handleRouteStatusChange(generalLedgerPendingEntries);
 
-        // release lock for separate source asset...
+        // release lock for separate source asset...We don't include stateIsFinal since document always go to 'processed' first.
         KualiWorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();
         AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
-        if (assetGlobalService.isAssetSeparate(assetGlobal) && (workflowDoc.stateIsCanceled() || workflowDoc.stateIsDisapproved() || workflowDoc.stateIsProcessed() || workflowDoc.stateIsFinal())) {
+        if (assetGlobalService.isAssetSeparate(assetGlobal) && (workflowDoc.stateIsCanceled() || workflowDoc.stateIsDisapproved() || workflowDoc.stateIsProcessed())) {
             this.getCapitalAssetManagementModuleService().deleteAssetLocks(documentNumber, null);
         }
 

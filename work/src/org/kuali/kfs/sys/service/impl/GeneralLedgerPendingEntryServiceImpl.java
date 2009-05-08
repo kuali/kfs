@@ -258,11 +258,11 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         explicitEntry.setTransactionEntryProcessedTs(new java.sql.Timestamp(transactionTimestamp.getTime()));
         explicitEntry.setAccountNumber(glpeSourceDetail.getAccountNumber());
         
-        if (getPersistenceStructureService().hasReference(glpeSourceDetail.getClass(), KFSPropertyConstants.ACCOUNT)) {
+        if (ObjectUtils.isNull(glpeSourceDetail.getAccount()) || getPersistenceStructureService().hasReference(glpeSourceDetail.getClass(), KFSPropertyConstants.ACCOUNT)) {
             glpeSourceDetail.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
         }
         
-        if (getPersistenceStructureService().hasReference(glpeSourceDetail.getClass(), KFSPropertyConstants.OBJECT_CODE) && (ObjectUtils.isNull(glpeSourceDetail.getObjectCode()) || StringUtils.isBlank(glpeSourceDetail.getObjectCode().getFinancialObjectTypeCode()))) {
+        if ((ObjectUtils.isNull(glpeSourceDetail.getObjectCode()) || StringUtils.isBlank(glpeSourceDetail.getObjectCode().getFinancialObjectTypeCode())) && getPersistenceStructureService().hasReference(glpeSourceDetail.getClass(), KFSPropertyConstants.OBJECT_CODE) ) {
             glpeSourceDetail.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
         }
         

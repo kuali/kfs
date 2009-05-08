@@ -18,6 +18,7 @@ package org.kuali.kfs.module.cam.document.service;
 import java.util.Map;
 
 import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetLocation;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.rice.kns.bo.BusinessObject;
 
@@ -38,4 +39,11 @@ public interface AssetLocationService {
     public void updateOffCampusLocation(Asset newAsset);
 
     boolean validateLocation(Map<LocationField, String> fieldMap, BusinessObject businessObject, boolean isCapital, AssetType assetType);
+
+    /** 
+     * check if offCampusLocation is holding any location information.
+     * 
+     * @param offCampusLocation
+     */
+    public boolean isOffCampusLocationExists(AssetLocation offCampusLocation);
 }

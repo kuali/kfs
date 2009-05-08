@@ -478,10 +478,9 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.stateIsProcessed()) {
             SpringContext.getBean(AssetTransferService.class).saveApprovedChanges(this);
-            getCapitalAssetManagementModuleService().deleteAssetLocks(this.getDocumentNumber(), null);
         }
 
-        if (workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved()) {
+        if (workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsProcessed()) {
             getCapitalAssetManagementModuleService().deleteAssetLocks(this.getDocumentNumber(), null);
         }
     }

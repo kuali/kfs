@@ -2,6 +2,7 @@ package org.kuali.kfs.module.cam.businessobject;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Properties;
@@ -2005,7 +2006,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
 
         return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
     }
-    
+
     /**
      * return the link for asset create or separate global document lookup for given capital asset number.
      * 
@@ -2014,13 +2015,13 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     public String getAssetCreateOrSeparateDocumentLookup() {
         if (this.getCapitalAssetNumber() == null)
             return "";
-        
+
         Properties params = buildDocumentLookupLinkProperties();
         params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_ADD_GLOBAL);
-        
+
         return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
     }
-    
+
     /**
      * return the link for asset payment document lookup for given capital asset number.
      * 
@@ -2029,13 +2030,13 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     public String getAssetPaymentDocumentLookup() {
         if (this.getCapitalAssetNumber() == null)
             return "";
-        
+
         Properties params = buildDocumentLookupLinkProperties();
         params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_PAYMENT);
-        
+
         return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
     }
-    
+
     /**
      * return the link for asset equipment loan or return document lookup for given capital asset number.
      * 
@@ -2044,13 +2045,13 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     public String getAssetEquipmentLoanOrReturnDocumentLookup() {
         if (this.getCapitalAssetNumber() == null)
             return "";
-        
+
         Properties params = buildDocumentLookupLinkProperties();
         params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_EQUIPMENT_LOAN_OR_RETURN);
-        
+
         return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
     }
-    
+
     /**
      * return the link for asset location global document lookup for given capital asset number.
      * 
@@ -2059,13 +2060,13 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     public String getAssetLocationDocumentLookup() {
         if (this.getCapitalAssetNumber() == null)
             return "";
-        
+
         Properties params = buildDocumentLookupLinkProperties();
         params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_LOCATION_GLOBAL);
-        
+
         return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
     }
-    
+
     /**
      * return the link for asset retirement or merge document lookup for given capital asset number.
      * 
@@ -2074,11 +2075,22 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     public String getAssetMergeOrRetirementDocumentLookup() {
         if (this.getCapitalAssetNumber() == null)
             return "";
-        
+
         Properties params = buildDocumentLookupLinkProperties();
         params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_RETIREMENT_GLOBAL);
-        
+
         return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
     }
 
+    /**
+     * override this method so we can remove the offcampus location
+     * 
+     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     */
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List<List> managedLists = new ArrayList<List>();
+        managedLists.add(getAssetLocations());
+        return managedLists;
+    }
 }

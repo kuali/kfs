@@ -76,14 +76,16 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
     private PurApInfoService purApInfoService;
 
     public static final String DOCUMENT_DESC_PREFIX = "CAB created for ";
-    
+
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineDocumentService#processApplyPayment(PurchasingAccountsPayableItemAsset,
      *      List, PurApLineSession, Integer)
      */
     public String processApplyPayment(PurchasingAccountsPayableItemAsset selectedItem, List<PurchasingAccountsPayableDocument> purApDocs, PurApLineSession purApLineSession, Integer requisitionIdentifer) throws WorkflowException {
         AssetPaymentDocument newDocument = (AssetPaymentDocument) documentService.getNewDocument(AssetPaymentDocument.class);
-        newDocument.getDocumentHeader().setDocumentDescription(DOCUMENT_DESC_PREFIX + selectedItem.getPurchasingAccountsPayableDocument().getDocumentTypeCode() + " " + selectedItem.getDocumentNumber());
+        if (ObjectUtils.isNotNull(selectedItem) && ObjectUtils.isNotNull(selectedItem.getPurchasingAccountsPayableDocument())) {
+            newDocument.getDocumentHeader().setDocumentDescription(DOCUMENT_DESC_PREFIX + selectedItem.getPurchasingAccountsPayableDocument().getDocumentTypeCode() + " " + selectedItem.getDocumentNumber());
+        }
         // set assetPaymentDetail list
         createAssetPaymentDetails(newDocument.getSourceAccountingLines(), selectedItem, newDocument.getDocumentNumber(), requisitionIdentifer);
 
@@ -156,7 +158,9 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         // Create new CAMS asset global document
         MaintenanceDocument newDocument = (MaintenanceDocument) documentService.getNewDocument(CamsConstants.DocumentTypeName.ASSET_ADD_GLOBAL);
         newDocument.getNewMaintainableObject().setMaintenanceAction(KNSConstants.MAINTENANCE_NEW_ACTION);
-        newDocument.getDocumentHeader().setDocumentDescription(DOCUMENT_DESC_PREFIX + selectedItem.getPurchasingAccountsPayableDocument().getDocumentTypeCode() + " " + selectedItem.getDocumentNumber());
+        if (ObjectUtils.isNotNull(selectedItem) && ObjectUtils.isNotNull(selectedItem.getPurchasingAccountsPayableDocument())) {
+            newDocument.getDocumentHeader().setDocumentDescription(DOCUMENT_DESC_PREFIX + selectedItem.getPurchasingAccountsPayableDocument().getDocumentTypeCode() + " " + selectedItem.getDocumentNumber());
+        }
 
         // populate pre-tagging entry
         Integer poId = selectedItem.getPurchasingAccountsPayableDocument().getPurchaseOrderIdentifier();

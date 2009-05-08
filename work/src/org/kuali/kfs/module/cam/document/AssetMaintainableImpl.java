@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetFabrication;
@@ -38,6 +39,7 @@ import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.Section;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -87,9 +89,8 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl {
     public void processAfterEdit(MaintenanceDocument document, Map parameters) {
         initializeAttributes(document);
         // Identifies the latest location information
-        AssetLocationService assetlocationService = SpringContext.getBean(AssetLocationService.class);
-        assetlocationService.setOffCampusLocation(copyAsset);
-        assetlocationService.setOffCampusLocation(newAsset);
+        getAssetLocationService().setOffCampusLocation(copyAsset);
+        getAssetLocationService().setOffCampusLocation(newAsset);
 
         // Calculates payment summary and depreciation summary based on available payment records
         PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
@@ -158,6 +159,11 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl {
         if (asset.getCapitalAssetNumber() == null) {
             asset.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
         }
+        asset.refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_LOCATIONS);
+        // update and save asset location
+        if (getAssetLocationService().isOffCampusLocationExists(asset.getOffCampusLocation())) {
+            getAssetLocationService().updateOffCampusLocation(asset);
+        }
         super.saveBusinessObject();
     }
 
@@ -176,6 +182,8 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl {
             newAsset.setCapitalAssetTypeCode(SpringContext.getBean(ParameterService.class).getParameterValue(Asset.class, CamsConstants.Parameters.DEFAULT_FABRICATION_ASSET_TYPE_CODE));
             getAssetService().setFiscalPeriod(newAsset);
         }
+        // setup offCampusLocation 
+        getAssetLocationService().setOffCampusLocation(newAsset);
     }
 
     @Override
@@ -185,5 +193,9 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl {
 
     private AssetService getAssetService() {
         return SpringContext.getBean(AssetService.class);
+    }
+
+    private AssetLocationService getAssetLocationService() {
+        return SpringContext.getBean(AssetLocationService.class);
     }
 }

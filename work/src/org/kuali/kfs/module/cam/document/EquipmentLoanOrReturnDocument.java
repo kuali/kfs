@@ -583,11 +583,9 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
 
         if (workflowDocument.stateIsProcessed()) {
             SpringContext.getBean(EquipmentLoanOrReturnService.class).processApprovedEquipmentLoanOrReturn(this);
-
-            this.getCapitalAssetManagementModuleService().deleteAssetLocks(this.getDocumentNumber(), null);
         }
 
-        if (workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved()) {
+        if (workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsProcessed()) {
             this.getCapitalAssetManagementModuleService().deleteAssetLocks(this.getDocumentNumber(), null);
         }
     }

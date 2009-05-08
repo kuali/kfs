@@ -1,0 +1,149 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="Reversal" parent="Reversal-parentBean" />
+
+  <bean id="Reversal-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.gl.businessobject.Reversal" />
+    
+    <property name="objectLabel" value="Reversal" />
+    <property name="attributes" >
+      <list>
+        <ref bean="Reversal-financialDocumentReversalDate" />
+	    <ref bean="Reversal-universityFiscalYear" />
+	    <ref bean="Reversal-chartOfAccountsCode" />
+	    <ref bean="Reversal-accountNumber" />
+	    <ref bean="Reversal-subAccountNumber" />
+	    <ref bean="Reversal-financialObjectCode" />
+	    <ref bean="Reversal-financialSubObjectCode" />
+	    <ref bean="Reversal-financialBalanceTypeCode" />
+	    <ref bean="Reversal-financialObjectTypeCode" />
+	    <ref bean="Reversal-universityFiscalPeriodCode" />
+	    <ref bean="Reversal-financialDocumentTypeCode" />
+	    <ref bean="Reversal-financialSystemOriginationCode" />
+	    <ref bean="Reversal-documentNumber" />
+	    <ref bean="Reversal-transactionLedgerEntrySequenceNumber" />
+	    <ref bean="Reversal-transactionLedgerEntryDescription" />
+	    <ref bean="Reversal-transactionLedgerEntryAmount" />
+	    <ref bean="Reversal-transactionDebitCreditCode" />
+	    <ref bean="Reversal-transactionDate" />
+	    <ref bean="Reversal-organizationDocumentNumber" />
+	    <ref bean="Reversal-projectCode" />
+	    <ref bean="Reversal-organizationReferenceId" />
+	    <ref bean="Reversal-referenceFinancialDocumentTypeCode" />
+	    <ref bean="Reversal-referenceFinancialSystemOriginationCode" />
+	    <ref bean="Reversal-referenceFinancialDocumentNumber" />
+	    <ref bean="Reversal-transactionEncumbranceUpdateCode" />
+	    <ref bean="Reversal-transactionPostingDate" />
+      </list>
+    </property>
+  </bean>
+  
+  <!-- Attribute Definitions -->
+  <bean id="Reversal-financialDocumentReversalDate" parent="Reversal-financialDocumentReversalDate-parentBean" />
+
+  <bean id="Reversal-financialDocumentReversalDate-parentBean" abstract="true" parent="Entry-financialDocumentReversalDate" />
+  
+  <bean id="Reversal-universityFiscalYear" parent="Reversal-universityFiscalYear-parentBean" />
+
+  <bean id="Reversal-universityFiscalYear-parentBean" abstract="true" parent="Entry-universityFiscalYear" />
+
+  <bean id="Reversal-chartOfAccountsCode" parent="Reversal-chartOfAccountsCode-parentBean" />
+
+  <bean id="Reversal-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode" />
+
+  <bean id="Reversal-accountNumber" parent="Reversal-accountNumber-parentBean" />
+
+  <bean id="Reversal-accountNumber-parentBean" abstract="true" parent="Account-accountNumber" />
+
+  <bean id="Reversal-subAccountNumber" parent="Reversal-subAccountNumber-parentBean" />
+
+  <bean id="Reversal-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber" />
+
+  <bean id="Reversal-financialObjectCode" parent="Reversal-financialObjectCode-parentBean" />
+
+  <bean id="Reversal-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode" />
+
+  <bean id="Reversal-financialSubObjectCode" parent="Reversal-financialSubObjectCode-parentBean" />
+
+  <bean id="Reversal-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode" />
+
+  <bean id="Reversal-financialBalanceTypeCode" parent="Reversal-financialBalanceTypeCode-parentBean" />
+
+  <bean id="Reversal-financialBalanceTypeCode-parentBean" abstract="true" parent="Entry-financialBalanceTypeCode" />
+
+  <bean id="Reversal-financialObjectTypeCode" parent="Reversal-financialObjectTypeCode-parentBean" />
+
+  <bean id="Reversal-financialObjectTypeCode-parentBean" abstract="true" parent="Entry-financialObjectTypeCode" />
+
+  <bean id="Reversal-universityFiscalPeriodCode" parent="Reversal-universityFiscalPeriodCode-parentBean" />
+
+  <bean id="Reversal-universityFiscalPeriodCode-parentBean" abstract="true" parent="Entry-universityFiscalPeriodCode" />
+
+  <bean id="Reversal-financialDocumentTypeCode" parent="Reversal-financialDocumentTypeCode-parentBean" />
+
+  <bean id="Reversal-financialDocumentTypeCode-parentBean" abstract="true" parent="Entry-financialDocumentTypeCode" />
+
+  <bean id="Reversal-financialSystemOriginationCode" parent="Reversal-financialSystemOriginationCode-parentBean" />
+
+  <bean id="Reversal-financialSystemOriginationCode-parentBean" abstract="true" parent="Entry-financialSystemOriginationCode" />
+
+  <bean id="Reversal-documentNumber" parent="Reversal-documentNumber-parentBean" />
+
+  <bean id="Reversal-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber" />
+
+  <bean id="Reversal-transactionLedgerEntrySequenceNumber" parent="Reversal-transactionLedgerEntrySequenceNumber-parentBean" />
+
+  <bean id="Reversal-transactionLedgerEntrySequenceNumber-parentBean" abstract="true" parent="Entry-transactionLedgerEntrySequenceNumber" />
+
+  <bean id="Reversal-transactionLedgerEntryDescription" parent="Reversal-transactionLedgerEntryDescription-parentBean" />
+
+  <bean id="Reversal-transactionLedgerEntryDescription-parentBean" abstract="true" parent="Entry-transactionLedgerEntryDescription" />
+
+  <bean id="Reversal-transactionLedgerEntryAmount" parent="Reversal-transactionLedgerEntryAmount-parentBean" />
+
+  <bean id="Reversal-transactionLedgerEntryAmount-parentBean" abstract="true" parent="Entry-transactionLedgerEntryAmount" />
+
+  <bean id="Reversal-transactionDebitCreditCode" parent="Reversal-transactionDebitCreditCode-parentBean" />
+
+  <bean id="Reversal-transactionDebitCreditCode-parentBean" abstract="true" parent="Entry-transactionDebitCreditCode" />
+
+  <bean id="Reversal-transactionDate" parent="Reversal-transactionDate-parentBean" />
+
+  <bean id="Reversal-transactionDate-parentBean" abstract="true" parent="Entry-transactionDate" />
+
+  <bean id="Reversal-organizationDocumentNumber" parent="Reversal-organizationDocumentNumber-parentBean" />
+
+  <bean id="Reversal-organizationDocumentNumber-parentBean" abstract="true" parent="Entry-organizationDocumentNumber" />
+
+  <bean id="Reversal-projectCode" parent="Reversal-projectCode-parentBean" />
+
+  <bean id="Reversal-projectCode-parentBean" abstract="true" parent="Entry-projectCode" />
+
+  <bean id="Reversal-organizationReferenceId" parent="Reversal-organizationReferenceId-parentBean" />
+
+  <bean id="Reversal-organizationReferenceId-parentBean" abstract="true" parent="Entry-organizationReferenceId" />
+
+  <bean id="Reversal-referenceFinancialDocumentTypeCode" parent="Reversal-referenceFinancialDocumentTypeCode-parentBean" />
+
+  <bean id="Reversal-referenceFinancialDocumentTypeCode-parentBean" abstract="true" parent="Entry-referenceFinancialDocumentTypeCode" />
+
+  <bean id="Reversal-referenceFinancialSystemOriginationCode" parent="Reversal-referenceFinancialSystemOriginationCode-parentBean" />
+
+  <bean id="Reversal-referenceFinancialSystemOriginationCode-parentBean" abstract="true" parent="Entry-referenceFinancialSystemOriginationCode" />
+
+  <bean id="Reversal-referenceFinancialDocumentNumber" parent="Reversal-referenceFinancialDocumentNumber-parentBean" />
+
+  <bean id="Reversal-referenceFinancialDocumentNumber-parentBean" abstract="true" parent="Entry-referenceFinancialDocumentNumber" />
+
+  <bean id="Reversal-transactionEncumbranceUpdateCode" parent="Reversal-transactionEncumbranceUpdateCode-parentBean" />
+
+  <bean id="Reversal-transactionEncumbranceUpdateCode-parentBean" abstract="true" parent="Entry-transactionEncumbranceUpdateCode" />
+
+  <bean id="Reversal-transactionPostingDate" parent="Reversal-transactionPostingDate-parentBean" />
+
+  <bean id="Reversal-transactionPostingDate-parentBean" abstract="true" parent="Entry-transactionPostingDate" />
+</beans>

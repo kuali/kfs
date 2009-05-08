@@ -359,6 +359,7 @@
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
+		<property name="persistenceStructureService" ref="persistenceStructureService" />
 	</bean>
 	
 	<bean id="taxService" class="org.kuali.kfs.sys.service.impl.TaxServiceImpl">

@@ -68,6 +68,7 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -89,6 +90,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     private BalanceTypService balanceTypeService;
     private DateTimeService dateTimeService;
     private DataDictionaryService dataDictionaryService;
+    private PersistenceStructureService persistenceStructureService;
 
     /**
      * @see org.kuali.module.gl.service.GeneralLedgerPendingEntryService#getExpenseSummary(java.util.List, java.lang.String,
@@ -256,9 +258,11 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         explicitEntry.setTransactionEntryProcessedTs(new java.sql.Timestamp(transactionTimestamp.getTime()));
         explicitEntry.setAccountNumber(glpeSourceDetail.getAccountNumber());
         
-        glpeSourceDetail.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
+        if (getPersistenceStructureService().hasReference(glpeSourceDetail.getClass(), KFSPropertyConstants.ACCOUNT)) {
+            glpeSourceDetail.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
+        }
         
-        if (ObjectUtils.isNull(glpeSourceDetail.getObjectCode()) || StringUtils.isBlank(glpeSourceDetail.getObjectCode().getFinancialObjectTypeCode())) {
+        if (getPersistenceStructureService().hasReference(glpeSourceDetail.getClass(), KFSPropertyConstants.OBJECT_CODE) && (ObjectUtils.isNull(glpeSourceDetail.getObjectCode()) || StringUtils.isBlank(glpeSourceDetail.getObjectCode().getFinancialObjectTypeCode()))) {
             glpeSourceDetail.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
         }
         
@@ -823,6 +827,22 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
      */
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
+    }
+
+    /**
+     * Gets the persistenceStructureService attribute. 
+     * @return Returns the persistenceStructureService.
+     */
+    public PersistenceStructureService getPersistenceStructureService() {
+        return persistenceStructureService;
+    }
+
+    /**
+     * Sets the persistenceStructureService attribute value.
+     * @param persistenceStructureService The persistenceStructureService to set.
+     */
+    public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
+        this.persistenceStructureService = persistenceStructureService;
     }
 
 }

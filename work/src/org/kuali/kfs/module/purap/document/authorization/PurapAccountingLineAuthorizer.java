@@ -222,7 +222,7 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
      * This method checks whether the accounting lines are editable for a specific item type.
      * 
      */
-    protected final boolean allowAccountingLinesAreEditable(AccountingDocument accountingDocument,
+    protected boolean allowAccountingLinesAreEditable(AccountingDocument accountingDocument,
                                                             AccountingLine accountingLine){
         
         PurApAccountingLine purapAccount = (PurApAccountingLine)accountingLine;
@@ -238,7 +238,6 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
         }else{
             return true;
         }
-        
     }
     
     private Class getPurapDocumentClass(AccountingDocument accountingDocument){

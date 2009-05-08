@@ -15,7 +15,11 @@
  */
 package org.kuali.kfs.module.purap.document.authorization;
 
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Accounting line authorizer for Requisition document which allows adding accounting lines at specified nodes

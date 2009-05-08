@@ -136,35 +136,35 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument, java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
+     *      java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
      */
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument documentCopy, String collectionName, PersistableBusinessObject bo) {
         boolean success = true;
-        
+
         // get all incidentDates from AssetRepairHistory collection and check for duplicate dates.
         if (collectionName.equals(CamsConstants.Asset.COLLECTION_ID_ASSET_REPAIR_HISTORY)) {
-            
+
             Asset asset = (Asset) documentCopy.getNewMaintainableObject().getBusinessObject();
             Set<Date> incidentDateSet = new HashSet<Date>();
-            
+
             for (AssetRepairHistory assetRepairHistory : asset.getAssetRepairHistory()) {
                 if (assetRepairHistory.getIncidentDate() != null) {
                     incidentDateSet.add(assetRepairHistory.getIncidentDate());
                 }
             }
-    
+
             AssetRepairHistory assetRepairHistoryDetails = (AssetRepairHistory) bo;
-            
+
             success &= checkDuplicateIncidentDate(assetRepairHistoryDetails, incidentDateSet);
-    
+
             return success & super.processCustomAddCollectionLineBusinessRules(documentCopy, collectionName, bo);
         }
-        
-        return success ;
+
+        return success;
     }
-    
+
     /**
      * Check for duplicate incident dates within the Repair History section
      * 
@@ -174,7 +174,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      */
     private boolean checkDuplicateIncidentDate(AssetRepairHistory assetRepairHistory, Set<Date> incidentDateSet) {
         boolean success = true;
-        
+
         if (!incidentDateSet.add(assetRepairHistory.getIncidentDate())) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetRepairHistory.INCIDENT_DATE, CamsKeyConstants.AssetRepairHistory.ERROR_DUPLICATE_INCIDENT_DATE);
             success &= false;
@@ -182,7 +182,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
         return success;
     }
-    
+
     /**
      * Validate fabrication details
      * 
@@ -293,9 +293,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         }
 
         // validate location.
-        if (isOnCampusLocationChanged() || isOffCampusLocationChanged()) {
-            valid &= validateLocation();
-        }
+        valid &= validateLocation();
 
         // validate In-service Date
         if (assetService.isInServiceDateChanged(oldAsset, newAsset)) {
@@ -318,20 +316,6 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         return true;
     }
 
-
-    /**
-     * Check if on campus fields got changed.
-     * 
-     * @return
-     */
-    private boolean isOnCampusLocationChanged() {
-        boolean changed = false;
-
-        if (!StringUtils.equalsIgnoreCase(oldAsset.getCampusCode(), newAsset.getCampusCode()) || !StringUtils.equalsIgnoreCase(oldAsset.getBuildingCode(), newAsset.getBuildingCode()) || !StringUtils.equalsIgnoreCase(oldAsset.getBuildingRoomNumber(), newAsset.getBuildingRoomNumber())) {
-            changed = true;
-        }
-        return changed;
-    }
 
     /**
      * Check if off campus fields got changed.
@@ -466,8 +450,8 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * validates depreciation data
+     * 
      * @param asset
      * @return boolean
      */
@@ -475,20 +459,21 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         if (asset.getSalvageAmount() == null) {
             asset.setSalvageAmount(KualiDecimal.ZERO);
         }
-        
+
         if (asset.getBaseAmount() == null) {
             asset.setBaseAmount(KualiDecimal.ZERO);
         }
 
-        //If the salvage amount is greater than the base amount, then data is invalid
-        if (asset.getSalvageAmount().compareTo(asset.getBaseAmount()) > 0 ) {
+        // If the salvage amount is greater than the base amount, then data is invalid
+        if (asset.getSalvageAmount().compareTo(asset.getBaseAmount()) > 0) {
             putFieldError(CamsPropertyConstants.Asset.SALVAGE_AMOUNT, CamsKeyConstants.Asset.ERROR_INVALID_SALVAGE_AMOUNT);
             return false;
-        } else {
+        }
+        else {
             return true;
         }
     }
-    
+
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         initializeAttributes(document);

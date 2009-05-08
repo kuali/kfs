@@ -606,9 +606,6 @@
     <property name="name" value="financialDocumentPostingYear" />
     <property name="label" value="Fiscal Year" />
     <property name="required" value="false" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
   </bean>
   
   <bean id="Asset-inventoryScannedCode" parent="Asset-inventoryScannedCode-parentBean" />

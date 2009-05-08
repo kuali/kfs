@@ -22,7 +22,7 @@
         <ref bean="PaymentDetail-paymentGroup.batch.customerProfile.chartCode" />
         <ref bean="PaymentDetail-paymentGroup.batch.customerProfile.unitCode" />
         <ref bean="PaymentDetail-paymentGroup.batch.customerProfile.customerShortName" />
-        <ref bean="PaymentDetail-paymentGroup.batch.id" />
+        <ref bean="PaymentDetail-paymentGroup.batchId" />
         <ref bean="PaymentDetail-paymentGroup.batch.customerFileCreateTimestamp" />
         <ref bean="PaymentDetail-paymentGroup.batch.paymentFileName" />
         <ref bean="PaymentDetail-custPaymentDocNbr" />
@@ -271,10 +271,10 @@
   <bean id="PaymentDetail-paymentGroup.paymentStatusCode-parentBean" abstract="true" parent="PaymentGroup-paymentStatusCode">
     <property name="name" value="paymentGroup.paymentStatusCode" />
   </bean>
-  <bean id="PaymentDetail-paymentGroup.batch.id" parent="PaymentDetail-paymentGroup.batch.id-parentBean" />
+  <bean id="PaymentDetail-paymentGroup.batchId" parent="PaymentDetail-paymentGroup.batchId-parentBean" />
 
-  <bean id="PaymentDetail-paymentGroup.batch.id-parentBean" abstract="true" parent="PaymentGroup-batch.id">
-    <property name="name" value="paymentGroup.batch.id" />
+  <bean id="PaymentDetail-paymentGroup.batchId-parentBean" abstract="true" parent="PaymentGroup-batch.id">
+    <property name="name" value="paymentGroup.batchId" />
   </bean>
   <bean id="PaymentDetail-paymentGroup.batch.customerFileCreateTimestamp" parent="PaymentDetail-paymentGroup.batch.customerFileCreateTimestamp-parentBean" />
 
@@ -581,7 +581,7 @@
           <property name="inquiryFields" >
             <list> 
               <bean parent="FieldDefinition"
-                    p:attributeName="paymentGroup.batch.id" />  
+                    p:attributeName="paymentGroup.batchId" />  
               <bean parent="FieldDefinition"
                     p:attributeName="paymentGroup.physCampusProcessCd" />                     
               <bean parent="FieldDefinition"
@@ -870,7 +870,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="paymentGroup.paymentStatusCode" />  
               <bean parent="FieldDefinition" 
-                    p:attributeName="paymentGroup.batch.id"/>
+                    p:attributeName="paymentGroup.batchId"/>
               <bean parent="FieldDefinition" 
                     p:attributeName="paymentGroupId"/> 
               <bean parent="FieldDefinition" 

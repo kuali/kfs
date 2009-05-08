@@ -355,10 +355,8 @@
               p:attributeName="documentTotalRecurrenceNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="documentRecurrenceIntervalCode" />
-<!--
         <bean parent="FieldDefinition"
               p:attributeName="documentInitiatorUserIdentifier" />
--->
         <bean parent="FieldDefinition"
               p:attributeName="documentInitiatorUser.principalName" />
         <bean parent="FieldDefinition"

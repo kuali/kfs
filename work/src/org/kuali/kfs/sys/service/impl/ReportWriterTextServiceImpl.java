@@ -54,6 +54,7 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
     protected int pageWidth;
     protected int pageLength;
     protected int initialPageNumber;
+    protected String errorSubTitle;
     protected String statisticsLabel;
     protected String statisticsLeftPadding;
     protected String pageLabel;
@@ -109,15 +110,30 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
     }
     
     /**
+     * @see org.kuali.kfs.sys.service.ReportWriterService#writeSubTitle(java.lang.String)
+     */
+    public void writeSubTitle(String message) {
+        if (message.length() > pageWidth) {
+            LOG.warn("sub title to be written exceeds pageWidth. Printing anyway.");
+            this.writeFormattedMessageLine(message);
+        } else {
+            int padding = (pageWidth - message.length()) / 2;
+            this.writeFormattedMessageLine("%" + (padding + message.length()) + "s", message);
+        }
+    }
+    
+    /**
      * @see org.kuali.kfs.sys.service.ReportWriterService#writeError(java.lang.Class, org.kuali.kfs.sys.Message)
      */
     public void writeError(BusinessObject businessObject, Message message) {
         // Check if we need to write a new table header. We do this if it hasn't been written before or if the businessObject changed
         if (newPage || businessObjectClass == null || !businessObjectClass.getName().equals(businessObject.getClass().getName())) {
-            
-            if (businessObjectClass != null && !businessObjectClass.getName().equals(businessObject.getClass().getName())) {
+            if (businessObjectClass == null) {
+                // If we didn't write the header before, write it with a subTitle
+                this.writeSubTitle(errorSubTitle);
+            } else if (!businessObjectClass.getName().equals(businessObject.getClass().getName())) {
                 // If it changed push a newline in for neater formatting
-                this.writeFormattedMessageLine("");
+                this.writeNewLines(1);
             }
             
             this.writeErrorHeader(businessObject);
@@ -228,9 +244,9 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
     }
     
     /**
-     * Helper method for breaking the page and writing a new header
+     * @see org.kuali.kfs.sys.service.ReportWriterService#pageBreak()
      */
-    protected void pageBreak() {
+    public void pageBreak() {
         // Intentionally not using writeFormattedMessageLine here since it would loop trying to page break ;)
         printStream.printf("%c\n",12);
         page++;
@@ -250,7 +266,7 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
         headerText = String.format("%s%" + (reportTitlePadding + title.length()) + "s%" + reportTitlePadding + "s", headerText, title, "");
         
         this.writeFormattedMessageLine("%s%s%,9d", headerText, pageLabel, page);
-        this.writeFormattedMessageLine("");
+        this.writeNewLines(1);
     }
     
     /**
@@ -366,6 +382,15 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
      */
     public void setInitialPageNumber(int initialPageNumber) {
         this.initialPageNumber = initialPageNumber;
+    }
+
+    /**
+     * Sets the errorSubTitle
+     * 
+     * @param errorSubTitle The errorSubTitle to set.
+     */
+    public void setErrorSubTitle(String errorSubTitle) {
+        this.errorSubTitle = errorSubTitle;
     }
 
     /**

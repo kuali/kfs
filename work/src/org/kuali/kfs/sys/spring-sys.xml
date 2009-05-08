@@ -683,6 +683,7 @@
         <property name="pageWidth" value="130" />
         <property name="pageLength" value="57" />
         <property name="initialPageNumber" value="1" />
+        <property name="errorSubTitle" value="ERROR AND STATISTICS REPORT" />
         <property name="statisticsLabel" value="                                    S T A T I S T I C S                                    " />
         <property name="statisticsLeftPadding" value="                             " />
         <property name="pageLabel" value="PAGE:" />

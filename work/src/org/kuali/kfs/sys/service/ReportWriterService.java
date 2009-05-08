@@ -25,6 +25,12 @@ import org.kuali.rice.kns.bo.BusinessObject;
  */
 public interface ReportWriterService {
     /**
+     * Writes a centered message. The purpose of this is primarily to write custom subtitles necessary in some reports
+     * @param message to be written centered
+     */
+    public void writeSubTitle(String message);
+    
+    /**
      * Writes an error message for the passed in business object. If the business object is the first or different then the
      * previous one a table header is printed per definition in the implementation of this service
      * @param businessObject controlling the table header and values to be printed
@@ -69,4 +75,9 @@ public interface ReportWriterService {
      * @param args
      */
     public void writeFormattedMessageLine(String format, Object ... args);
+
+    /**
+     * Breaking the page and write a new header
+     */
+    public void pageBreak();
 }

@@ -47,6 +47,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
@@ -485,14 +487,15 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                     documentService.disapproveDocument(document, noteText);
                 }
                 else {
+                    UserSession originalUserSession = GlobalVariables.getUserSession();
                     //any other time, perform special logic to cancel the document
                     if (!document.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
-                        UserSession originalUserSession = GlobalVariables.getUserSession();
                         try {
                             // person canceling may not have an action requested on the document
-                            GlobalVariables.setUserSession(new UserSession(PurapConstants.SYSTEM_AP_USER));
-                            documentService.superUserDisapproveDocument(document, "Document Cancelled by user " + originalUserSession.getPerson().getName() + " (" + originalUserSession.getPerson().getPrincipalName() + ")");
-                        }
+                            Person userRequestedCancel = SpringContext.getBean(PersonService.class).getPerson(document.getLastActionPerformedByPersonId());
+                            GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
+                            documentService.superUserDisapproveDocument(document, "Document Cancelled by user " + originalUserSession.getPerson().getName() + " (" + originalUserSession.getPerson().getPrincipalName() + ") per request of user " + userRequestedCancel.getName() + " (" + userRequestedCancel.getPrincipalName() + ")");
+                      }
                         finally {
                             GlobalVariables.setUserSession(originalUserSession);
                         }
@@ -500,6 +503,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                     else {
                         // call gl method here (no reason for post processing since workflow done)
                         SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(document, "");
+                        document.getDocumentHeader().getWorkflowDocument().logDocumentAction("Document Cancelled by user " + originalUserSession.getPerson().getName() + " (" + originalUserSession.getPerson().getPrincipalName() + ")");
                     }
                 }
                 

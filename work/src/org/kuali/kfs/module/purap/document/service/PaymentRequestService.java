@@ -353,5 +353,14 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
      * @return true if PREQ should be routed to the receiving required level
      */
     public boolean determineReceivingRequirements(Integer preqDocId);
+    
+    /**
+     * Payment Requests created in the previous fiscal year get backdated if we're at the beginning of the new fiscal year (i.e.
+     * prior to first closing)
+     * 
+     * @param paymentRequestDocument
+     * @return
+     */
+    public boolean allowBackpost(PaymentRequestDocument paymentRequestDocument);
 }
 

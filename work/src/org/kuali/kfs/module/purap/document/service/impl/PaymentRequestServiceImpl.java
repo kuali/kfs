@@ -32,6 +32,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.PurapConstants.ItemTypeCodes;
 import org.kuali.kfs.module.purap.PurapConstants.PREQDocumentsStrings;
@@ -71,6 +72,7 @@ import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.PaymentTermType;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
@@ -119,6 +121,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     private AccountsPayableService accountsPayableService;
     private VendorService vendorService;
     private DataDictionaryService dataDictionaryService;
+    private UniversityDateService universityDateService;
     
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
@@ -178,6 +181,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
+    }
+
+    public void setUniversityDateService(UniversityDateService universityDateService) {
+        this.universityDateService = universityDateService;
     }
 
     /**
@@ -1574,6 +1581,37 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         }
         
         return isAwaitingReceiving;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#allowBackpost(org.kuali.kfs.module.purap.document.PaymentRequestDocument)
+     */
+    public boolean allowBackpost(PaymentRequestDocument paymentRequestDocument) {
+        int allowBackpost = (Integer.parseInt(parameterService.getParameterValue(PaymentRequestDocument.class, PurapRuleConstants.ALLOW_BACKPOST_DAYS)));
+
+        Calendar today = dateTimeService.getCurrentCalendar();
+        Integer currentFY = universityDateService.getCurrentUniversityDate().getUniversityFiscalYear();
+        java.util.Date priorClosingDateTemp = universityDateService.getLastDateOfFiscalYear(currentFY - 1);
+        Calendar priorClosingDate = Calendar.getInstance();
+        priorClosingDate.setTime(priorClosingDateTemp);
+
+        // adding 1 to set the date to midnight the day after backpost is allowed so that preqs allow backpost on the last day
+        Calendar allowBackpostDate = Calendar.getInstance();
+        allowBackpostDate.setTime(priorClosingDate.getTime());
+        allowBackpostDate.add(Calendar.DATE, allowBackpost + 1);
+
+        Calendar preqInvoiceDate = Calendar.getInstance();
+        preqInvoiceDate.setTime(paymentRequestDocument.getInvoiceDate());
+
+        // if today is after the closing date but before/equal to the allowed backpost date and the invoice date is for the
+        // prior year, set the year to prior year
+        if ((today.compareTo(priorClosingDate) > 0) && (today.compareTo(allowBackpostDate) <= 0) && (preqInvoiceDate.compareTo(priorClosingDate) <= 0)) {
+            LOG.debug("allowBackpost() within range to allow backpost; posting entry to period 12 of previous FY");
+            return true;
+        }
+
+        LOG.debug("allowBackpost() not within range to allow backpost; posting entry to current FY");
+        return false;
     }
     
 }

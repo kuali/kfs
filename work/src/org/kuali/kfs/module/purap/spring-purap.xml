@@ -183,6 +183,7 @@
         <property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService"/>
         <property name="kualiRuleService" ref="kualiRuleService"/>
         <property name="objectCodeService" ref="objectCodeService"/>
+        <property name="paymentRequestService" ref="paymentRequestService" />
         <property name="parameterService" ref="parameterService"/>
         <property name="purapAccountingService" ref="purapAccountingService"/>
         <property name="purchaseOrderService" ref="purchaseOrderService"/>
@@ -234,6 +235,7 @@
         <property name="workflowDocumentService" ref="workflowDocumentService" />
         <property name="vendorService" ref="vendorService" />
         <property name="dataDictionaryService" ref="dataDictionaryService" />
+        <property name="universityDateService" ref="universityDateService"/>
     </bean>
 	
 	<bean id="creditMemoDao" parent="platformAwareDao" class="org.kuali.kfs.module.purap.document.dataaccess.impl.CreditMemoDaoOjb" />

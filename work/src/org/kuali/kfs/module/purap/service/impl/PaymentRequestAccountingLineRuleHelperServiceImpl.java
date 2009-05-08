@@ -16,16 +16,21 @@
 package org.kuali.kfs.module.purap.service.impl;
 
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.coa.service.ObjectCodeService;
+import org.kuali.kfs.coa.service.SubObjectCodeService;
 import org.kuali.kfs.gl.batch.ScrubberStep;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.rice.kns.datadictionary.DataDictionary;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -75,9 +80,8 @@ public class PaymentRequestAccountingLineRuleHelperServiceImpl extends PurapAcco
         return hasOverrides;        
     }
 
-/*
+
     public boolean isValidObjectCode(ObjectCode objectCode, DataDictionary dataDictionary, String errorPropertyName) {
-        
         String label = getObjectCodeLabel();
 
         // make sure it exists
@@ -86,11 +90,8 @@ public class PaymentRequestAccountingLineRuleHelperServiceImpl extends PurapAcco
             return false;
         }
         
-        Integer universityFiscalYear = getDocument().getPostingYearNextOrCurrent();
+        Integer universityFiscalYear = ((PaymentRequestDocument)getDocument()).getPostingYearPriorOrCurrent();
         ObjectCode objectCodeForValidation = (SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(universityFiscalYear, objectCode.getChartOfAccountsCode(), objectCode.getFinancialObjectCode()));
-//      setSubObjectCode(SpringContext.getBean(SubObjectCodeService.class).getByPrimaryId(universityFiscalYear, this.getChartOfAccountsCode(), this.getAccountNumber(), this.getFinancialObjectCode(), this.getFinancialSubObjectCode()));
-            
-
 
         // check active status
         if (!objectCodeForValidation.isFinancialObjectActiveCode()) {
@@ -100,12 +101,10 @@ public class PaymentRequestAccountingLineRuleHelperServiceImpl extends PurapAcco
 
         return true;
     }
-*/    
+
   
-/*    
+
     public boolean isValidSubObjectCode(SubObjectCode subObjectCode, DataDictionary dataDictionary, String errorPropertyName) {
-
-
         String label = getSubObjectCodeLabel();
 
         // make sure it exists
@@ -114,17 +113,17 @@ public class PaymentRequestAccountingLineRuleHelperServiceImpl extends PurapAcco
             return false;
         }
         
-        Integer universityFiscalYear = getDocument().getPostingYearNextOrCurrent();
+        Integer universityFiscalYear = ((PaymentRequestDocument)getDocument()).getPostingYearPriorOrCurrent();
         SubObjectCode subObjectCodeForValidation = (SpringContext.getBean(SubObjectCodeService.class).getByPrimaryId(universityFiscalYear, subObjectCode.getChartOfAccountsCode(), subObjectCode.getAccountNumber(), subObjectCode.getFinancialObjectCode(), subObjectCode.getFinancialSubObjectCode()));
 
-
+ 
         // check active flag
         if (!subObjectCodeForValidation.isActive()) {
             GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label);
             return false;
         }
+
         return true;
     }
-*/
     
 }

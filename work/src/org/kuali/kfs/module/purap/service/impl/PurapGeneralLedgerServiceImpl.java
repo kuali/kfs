@@ -54,6 +54,7 @@ import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.service.PurapAccountRevisionService;
@@ -86,6 +87,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
     private DateTimeService dateTimeService;
     private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
     private KualiRuleService kualiRuleService;
+    private PaymentRequestService paymentRequestService;
     private ParameterService parameterService;
     private PurapAccountingService purapAccountingService;
     private PurchaseOrderService purchaseOrderService;
@@ -128,30 +130,9 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         }
         else if (PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT.equals(docType)) {
             PaymentRequestDocument preq = (PaymentRequestDocument) purapDocument;
-
-            // PREQs created in the previous fiscal year get backdated if we're at the beginning of the new fiscal year (i.e. prior
-            // to first closing)
-            int allowBackpost = (Integer.parseInt(parameterService.getParameterValue(PaymentRequestDocument.class, PurapRuleConstants.ALLOW_BACKPOST_DAYS)));
-
-            Calendar today = dateTimeService.getCurrentCalendar();
-            Integer currentFY = uDate.getUniversityFiscalYear();
-            Date priorClosingDateTemp = universityDateService.getLastDateOfFiscalYear(currentFY - 1);
-            Calendar priorClosingDate = Calendar.getInstance();
-            priorClosingDate.setTime(priorClosingDateTemp);
-
-            // adding 1 to set the date to midnight the day after backpost is allowed so that preqs allow backpost on the last day
-            Calendar allowBackpostDate = Calendar.getInstance();
-            allowBackpostDate.setTime(priorClosingDate.getTime());
-            allowBackpostDate.add(Calendar.DATE, allowBackpost + 1);
-
-            Calendar preqInvoiceDate = Calendar.getInstance();
-            preqInvoiceDate.setTime(preq.getInvoiceDate());
-
-            // if today is after the closing date but before/equal to the allowed backpost date and the invoice date is for the
-            // prior year, set the year to prior year
-            if ((today.compareTo(priorClosingDate) > 0) && (today.compareTo(allowBackpostDate) <= 0) && (preqInvoiceDate.compareTo(priorClosingDate) <= 0)) {
+            if (paymentRequestService.allowBackpost(preq)) {
                 LOG.debug("createGlPendingTransaction() within range to allow backpost; posting entry to period 12 of previous FY");
-                explicitEntry.setUniversityFiscalYear(currentFY - 1);
+                explicitEntry.setUniversityFiscalYear(uDate.getUniversityFiscalYear() - 1);
                 explicitEntry.setUniversityFiscalPeriodCode(KFSConstants.MONTH12);
             }
 
@@ -1518,6 +1499,10 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+
+    public void setPaymentRequestService(PaymentRequestService paymentRequestService) {
+        this.paymentRequestService = paymentRequestService;
     }
 
 }

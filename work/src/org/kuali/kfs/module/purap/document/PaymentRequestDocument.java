@@ -57,6 +57,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.PaymentTermType;
@@ -155,6 +156,16 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         return true;
     }
 
+    public Integer getPostingYearPriorOrCurrent() {
+        if (SpringContext.getBean(PaymentRequestService.class).allowBackpost(this)) {
+            //allow prior; use it
+            return SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear() - 1;
+        }
+        //don't allow prior; use CURRENT
+        return SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+    }
+
+    
     /**
      * Overrides the method in PurchasingAccountsPayableDocumentBase to add the criteria
      * specific to Payment Request Document.

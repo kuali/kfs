@@ -13,7 +13,6 @@
         <ref bean="AssetMaintenanceDocument-OrganizationInformation"/>
         <ref bean="AssetMaintenanceDocument-PaymentInformation"/>
 		<ref bean="AssetMaintenanceDocument-AssetPaymentLink"/>
-		<ref bean="AssetMaintenanceDocument-ViewRelatedDocumentLink"/>        
         <ref bean="AssetMaintenanceDocument-FabricationInformation"/>
         <ref bean="AssetMaintenanceDocument-LandInformation"/>
         <ref bean="AssetMaintenanceDocument-AssetDepreciationInformation"/>
@@ -22,6 +21,7 @@
         <ref bean="AssetMaintenanceDocument-Warranty"/>
         <ref bean="AssetMaintenanceDocument-RepairHistory"/>
         <ref bean="AssetMaintenanceDocument-Components"/>
+		<ref bean="AssetMaintenanceDocument-ViewRelatedDocumentLink"/>        
       </list>
     </property>
     <property name="defaultExistenceChecks">
@@ -49,6 +49,7 @@
     <property name="workflowAttributes">
       <ref bean="AssetMaintenanceDocument-workflowAttributes"/>
     </property>
+    <property name="additionalSectionsFile" value="/jsp/module/cams/AssetPendingLookup.jsp" /> 
   </bean>
 
 <!-- Maintenance Section Definitions -->
@@ -63,26 +64,6 @@
       </list>
 	</property>
   </bean>
-
-  <bean id="AssetMaintenanceDocument-ViewRelatedDocumentLink" parent="AssetMaintenanceDocument-ViewRelatedDocumentLink-parentBean"/>
-  <bean id="AssetMaintenanceDocument-ViewRelatedDocumentLink-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="defaultOpen" value="false"/>  
-	<property name="id" value="documentLookup"/>  
-    <property name="title" value="Lookup Related Document(s)"/>
-    <property name="maintainableItems">
-      <list>
-     	<bean parent="MaintainableFieldDefinition" p:name="assetMaintenanceDocumentLookup"/>	                        
-     	<bean parent="MaintainableFieldDefinition" p:name="assetFabricationDocumentLookup"/>	                        
-     	<bean parent="MaintainableFieldDefinition" p:name="assetCreateOrSeparateDocumentLookup"/>	                        
-     	<bean parent="MaintainableFieldDefinition" p:name="assetPaymentDocumentLookup"/>	                        
-     	<bean parent="MaintainableFieldDefinition" p:name="assetTransferDocumentLookup"/>	                        
-     	<bean parent="MaintainableFieldDefinition" p:name="assetEquipmentLoanOrReturnDocumentLookup"/>	                        
-     	<bean parent="MaintainableFieldDefinition" p:name="assetLocationDocumentLookup"/>	                        
-     	<bean parent="MaintainableFieldDefinition" p:name="assetMergeOrRetirementDocumentLookup"/>	                        
-      </list>
-	</property>
-  </bean>
-  
   <bean id="AssetMaintenanceDocument-AssetDetailInformation" parent="AssetMaintenanceDocument-AssetDetailInformation-parentBean"/>
 
   <bean id="AssetMaintenanceDocument-AssetDetailInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
@@ -406,7 +387,25 @@
       </list>
     </property>
   </bean>
-
+  
+  <bean id="AssetMaintenanceDocument-ViewRelatedDocumentLink" parent="AssetMaintenanceDocument-ViewRelatedDocumentLink-parentBean"/>
+  <bean id="AssetMaintenanceDocument-ViewRelatedDocumentLink-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+	<property name="id" value="documentLookup"/>  
+    <property name="title" value="Lookup Related Capital Asset Document(s)"/>
+    <property name="maintainableItems">
+      <list>
+     	<bean parent="MaintainableFieldDefinition" p:name="assetMaintenanceDocumentLookup"/>	                        
+     	<bean parent="MaintainableFieldDefinition" p:name="assetFabricationDocumentLookup"/>	                        
+     	<bean parent="MaintainableFieldDefinition" p:name="assetCreateOrSeparateDocumentLookup"/>	                        
+     	<bean parent="MaintainableFieldDefinition" p:name="assetPaymentDocumentLookup"/>	                        
+     	<bean parent="MaintainableFieldDefinition" p:name="assetTransferDocumentLookup"/>	                        
+     	<bean parent="MaintainableFieldDefinition" p:name="assetEquipmentLoanOrReturnDocumentLookup"/>	                        
+     	<bean parent="MaintainableFieldDefinition" p:name="assetLocationDocumentLookup"/>	                        
+     	<bean parent="MaintainableFieldDefinition" p:name="assetMergeOrRetirementDocumentLookup"/>	                        
+      </list>
+	</property>
+  </bean>
+  
 
   
   <bean id="AssetMaintenanceDocument-workflowAttributes" parent="AssetMaintenanceDocument-workflowAttributes-parentBean"/>

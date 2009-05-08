@@ -57,6 +57,8 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
     private DisbursementVoucherNonEmployeeExpense newPrePaidNonEmployeeExpenseLine;
     private DisbursementVoucherPreConferenceRegistrant newPreConferenceRegistrantLine;
     private String wireChargeMessage;
+    
+    private boolean canExport = false;
 
     /**
      * Constructs a DisbursementVoucherForm.java.
@@ -294,5 +296,21 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
         execludedMethodToCall.add("showTravelPerDiemLinks");
 
         return execludedMethodToCall;
+    }
+    
+    /**
+     * Gets the canExport attribute. 
+     * @return Returns the canExport.
+     */
+    public boolean isCanExport() {
+        return canExport;
+    }
+
+    /**
+     * Sets the canExport attribute value.
+     * @param canExport The canExport to set.
+     */
+    public void setCanExport(boolean canExport) {
+        this.canExport = canExport;
     }
 }

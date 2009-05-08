@@ -1038,6 +1038,18 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String PROCUREMENT_CARD = "PCDO";        
     }
     
+    // financial document type names
+    public static final class FinancialDocumentTypeNames {
+        public static final String GENERAL_ERROR_CORRECTION = "General Error Correction";
+        public static final String YEAR_END_GENERAL_ERROR_CORRECTION = "Year End General Error Correction";
+        public static final String DISTRIBUTION_OF_INCOME_AND_EXPENSE = "Distribution of Income and Expense";
+        public static final String YEAR_END_DISTRIBUTION_OF_INCOME_AND_EXPENSE = "Year End Distribution of Income and Expense";
+        public static final String SERVICE_BILLING = "Service Billing";
+        public static final String INTERNAL_BILLING = "Internal Billing";
+        public static final String CASH_RECEIPT = "Cash Receipt";
+        public static final String PROCUREMENT_CARD = "Procurement Card";        
+    }
+
     public static final class AccountingLineViewStandardBlockNames {
         public static final String ACTION_BLOCK = "actions";
         public static final String SEQUENCE_NUMBER_BLOCK = "sequenceNumber";

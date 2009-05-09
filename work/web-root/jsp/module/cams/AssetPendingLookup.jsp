@@ -22,10 +22,9 @@
 <kul:tab tabTitle="View Purchasing/Financial Asset Documents" defaultOpen="false">
 	<div class="tab-container" align=center>
 		<table cellpadding="0" cellspacing="0" class="datatable" summary="view/edit pending entries">
-
-    	<c:if test="${!empty fpLockingList }">
-			<tr>
-				<logic:iterate id="fpLinkedDocumentInfo" name="KualiForm" property="document.newMaintainableObject.fpLinkedDocumentInfo" indexId="ctr">
+    	<c:if test="${!empty linkedDocumentNames }">
+			<logic:iterate id="fpLinkedDocumentInfo" name="KualiForm" property="document.newMaintainableObject.fpLinkedDocumentInfo" indexId="ctr">
+				<tr>
 					<c:set var="documentName" value="${fn:substringBefore(KualiForm.document.newMaintainableObject.fpLinkedDocumentInfo[ctr], '-')}" />
 					<c:set var="documentNumber" value="${fn:substringAfter(KualiForm.document.newMaintainableObject.fpLinkedDocumentInfo[ctr], '-')}" />
 					<td class="infoline" align="center">${documentName} - 
@@ -33,23 +32,24 @@
 							${documentNumber}
 						</a>&nbsp;
 					</td>
-				</logic:iterate>
-			</tr>
+				</tr>
+			</logic:iterate>
 		</c:if>
+		</table>
+		<br/>
 		
+		<table cellpadding="0" cellspacing="0" class="datatable" summary="view/edit pending entries">
 		<c:if test="${!empty preqLockingList}">
-			<tr>
-				<logic:iterate id="preqLinks" name="KualiForm" property="document.newMaintainableObject.preqLinks" indexId="ctr">
+			<logic:iterate id="preqLinks" name="KualiForm" property="document.newMaintainableObject.preqLinks" indexId="ctr">
+				<tr>
 					<td class="infoline" align="center">Payment Request - 
 						<a href="${ConfigProperties.application.url}/kew/DocHandler.do?command=displayDocSearchView&docId=${KualiForm.document.newMaintainableObject.preqLinks[ctr]}"  target="_blank">
 							${KualiForm.document.newMaintainableObject.preqLinks[ctr]}
-					</a>&nbsp;
+						</a>&nbsp;
 					</td>
-				</logic:iterate>
-			</tr>
+				</tr>
+			</logic:iterate>
 		</c:if>
-		
-		
 		</table>
 	</div>
 </kul:tab>

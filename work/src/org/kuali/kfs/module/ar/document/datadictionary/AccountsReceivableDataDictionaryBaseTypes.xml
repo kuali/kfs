@@ -522,7 +522,7 @@
 		<property name="documentValues">
 			<list>
 				<value>
-					invoicePaidApplieds.invoiceItem.customerInvoiceDocument.billByChartOfAccountCode
+					invoicePaidApplieds.invoiceDetail.customerInvoiceDocument.billByChartOfAccountCode
 				</value>
 			</list>
 		</property>
@@ -570,7 +570,7 @@
 		<property name="documentValues">
 			<list>
 				<value>
-					invoicePaidApplieds.invoiceItem.customerInvoiceDocument.billedByOrganizationCode
+					invoicePaidApplieds.invoiceDetail.customerInvoiceDocument.billedByOrganizationCode
 				</value>
 			</list>
 		</property>
@@ -609,7 +609,7 @@
 		<property name="documentValues">
 			<list>
 				<value>
-					invoicePaidApplieds.invoiceItem.customerInvoiceDocument.sourceAccountingLines.chartOfAccountsCode
+					invoicePaidApplieds.invoiceDetail.customerInvoiceDocument.sourceAccountingLines.chartOfAccountsCode
 				</value>
 			</list>
 		</property>
@@ -648,7 +648,7 @@
 		<property name="documentValues">
 			<list>
 				<value>
-					invoicePaidApplieds.invoiceItem.customerInvoiceDocument.sourceAccountingLines.accountNumber
+					invoicePaidApplieds.invoiceDetail.customerInvoiceDocument.sourceAccountingLines.accountNumber
 				</value>
 			</list>
 		</property>

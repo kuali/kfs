@@ -810,6 +810,37 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         return false;
     }
 
+    /**
+     * 
+     * This method is used ONLY for handleRouteStatus change and other 
+     * postProcessor related tasks (like getWorkflowEngineDocumentIdsToLock()) 
+     * and should not otherwise be used.  The reason this is its own method 
+     * is to make sure that handleRouteStatusChange and 
+     * getWorkflowEngineDocumentIdsToLock use the same method to retrieve 
+     * what invoices to update.
+     * @return
+     */
+    private List<String> getInvoiceNumbersToUpdateOnFinal() {
+        List<String> docIds = new ArrayList<String>();
+        for(InvoicePaidApplied ipa : getInvoicePaidApplieds()) {
+            docIds.add(ipa.getFinancialDocumentReferenceInvoiceNumber());
+        }
+        return docIds;
+    }
+    
+    @Override
+    public Long[] getWorkflowEngineDocumentIdsToLock() {
+        List<String> docIdStrings = getInvoiceNumbersToUpdateOnFinal();
+        if (docIdStrings == null || docIdStrings.isEmpty()) {
+            return null;
+        }
+        Long[] docIds = new Long[docIdStrings.size()];
+        for (int i = 0; i < docIdStrings.size(); i++) { // damn I miss ruby sometimes
+            docIds[i] = new Long(docIdStrings.get(i));
+        }
+        return docIds;
+    }
+
     @Override
     public void handleRouteStatusChange() {
         super.handleRouteStatusChange();
@@ -820,8 +851,8 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             //  get the now time to stamp invoices with
             java.sql.Date today = new java.sql.Date(dateTimeService.getCurrentDate().getTime());
             
-            for(InvoicePaidApplied ipa : getInvoicePaidApplieds()) {
-                String invoiceDocumentNumber = ipa.getFinancialDocumentReferenceInvoiceNumber();
+            List<String> invoiceDocNumbers = getInvoiceNumbersToUpdateOnFinal();
+            for(String invoiceDocumentNumber : invoiceDocNumbers) {
                 CustomerInvoiceDocument invoice = null;
                 
                 //  attempt to retrieve the invoice doc

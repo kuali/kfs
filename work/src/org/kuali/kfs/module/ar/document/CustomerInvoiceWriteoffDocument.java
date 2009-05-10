@@ -267,6 +267,15 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
         setFinancialDocumentReferenceInvoiceNumber(null);
     }
 
+    @Override
+    public Long[] getWorkflowEngineDocumentIdsToLock() {
+        if (StringUtils.isNotBlank(getFinancialDocumentReferenceInvoiceNumber())) {
+            return new Long[] { new Long(getFinancialDocumentReferenceInvoiceNumber()) };
+        }
+        return null;
+        
+    }
+
     /**
      * When document is processed do the following: 1) Apply amounts to writeoff invoice 2) Mark off invoice indiciator
      * 

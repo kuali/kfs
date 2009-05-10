@@ -1044,6 +1044,16 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         return valuesMap;
     }
 
+    @Override
+    public Long[] getWorkflowEngineDocumentIdsToLock() {
+        //  add the invoice number of the Error Corrected doc, if this is an error correction
+        if (this.isInvoiceReversal()) {
+            if (StringUtils.isNotBlank(getDocumentHeader().getFinancialDocumentInErrorNumber())) {
+                return new Long[] { new Long(getDocumentHeader().getFinancialDocumentInErrorNumber()) };
+            }
+        }
+        return null;
+    }
 
     /**
      * When document is processed do the following: 1) Set the billingDate to today's date if not already set 2) If there are
@@ -1072,16 +1082,17 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         
         //  handle a Correction/Reversal document
         if (this.isInvoiceReversal()) {
+            CustomerInvoiceDocument correctedCustomerInvoiceDocument;
             try {
-                CustomerInvoiceDocument correctedCustomerInvoiceDocument = (CustomerInvoiceDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(this.getDocumentHeader().getFinancialDocumentInErrorNumber());
-
-                // if reversal, close both this reversal invoice and the original invoice
-                SpringContext.getBean(CustomerInvoiceDocumentService.class).closeCustomerInvoiceDocument(correctedCustomerInvoiceDocument);
-                SpringContext.getBean(CustomerInvoiceDocumentService.class).closeCustomerInvoiceDocument(this);
+                correctedCustomerInvoiceDocument = (CustomerInvoiceDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(this.getDocumentHeader().getFinancialDocumentInErrorNumber());
             }
             catch (WorkflowException e) {
                 throw new RuntimeException("Cannot find customer invoice document with id " + this.getDocumentHeader().getFinancialDocumentInErrorNumber());
             }
+
+            // if reversal, close both this reversal invoice and the original invoice
+            SpringContext.getBean(CustomerInvoiceDocumentService.class).closeCustomerInvoiceDocument(correctedCustomerInvoiceDocument);
+            SpringContext.getBean(CustomerInvoiceDocumentService.class).closeCustomerInvoiceDocument(this);
         }
         
         //  handle Recurrence 
@@ -1096,6 +1107,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
             try {
                 // set new user session to recurrence initiator
                 String initiator = this.getCustomerInvoiceRecurrenceDetails().getDocumentInitiatorUserPersonUserIdentifier();
+                UserSession currentSession = GlobalVariables.getUserSession();
                 GlobalVariables.setUserSession(new UserSession(initiator));
 
                 // populate InvoiceRecurrence business object
@@ -1114,9 +1126,12 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
                 invoiceRecurrenceMaintDoc.getDocumentHeader().setDocumentDescription("Automatically created from Invoice");
                 invoiceRecurrenceMaintDoc.getNewMaintainableObject().setBusinessObject(newInvoiceRecurrence);
 
-                // route InvoiceRecurrenceMaintenanceDocument
-                SpringContext.getBean(DocumentService.class).routeDocument(invoiceRecurrenceMaintDoc, null, null);
-
+                // blanket approve the INVR, bypassing everything
+                invoiceRecurrenceMaintDoc.getDocumentHeader().getWorkflowDocument().blanketApprove("Blanket Approved by the creating Invoice Document #" + getDocumentNumber());
+                
+                // return the session to the original initiator
+                GlobalVariables.setUserSession(currentSession);
+                
             }
             catch (WorkflowException e) {
                 throw new RuntimeException("Cannot find Invoice Recurrence Maintenance Document with id " + this.getDocumentHeader().getFinancialDocumentInErrorNumber());

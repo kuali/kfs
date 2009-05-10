@@ -490,6 +490,15 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
         return SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(this.getClass());
     }
     
+    @Override
+    public Long[] getWorkflowEngineDocumentIdsToLock() {
+        // a credit memo wont always update the source invoice, but sometimes it will so we include it here
+        if (StringUtils.isNotBlank(getFinancialDocumentReferenceInvoiceNumber())) {
+            return new Long[] { new Long(getFinancialDocumentReferenceInvoiceNumber()) };
+        }
+        return null;
+    }
+
     /**
      * When document is processed do the following:
      * 

@@ -1568,6 +1568,7 @@
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
+		  <property name="defaultOpen" value="false"/>            
           <property name="title" value="Asset Detail Information" />
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
@@ -1629,6 +1630,7 @@
         </bean>
         <bean parent="InquirySectionDefinition">
           <property name="title" value="Asset Location" />
+		  <property name="defaultOpen" value="false"/>          
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
@@ -1661,6 +1663,7 @@
         </bean>
         <bean parent="InquirySectionDefinition">
           <property name="title" value="Organization Information" />
+		  <property name="defaultOpen" value="false"/>
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
@@ -1687,6 +1690,7 @@
         <bean parent="InquirySectionDefinition">
           <property name="id" value="paymentInformation" />
           <property name="title" value="Payments" />
+		  <property name="defaultOpen" value="false"/>          
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
@@ -1786,6 +1790,7 @@
         </bean>        
         <bean parent="InquirySectionDefinition">
           <property name="title" value="Payments Summary" />
+	      <property name="defaultOpen" value="false"/>          
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
@@ -1795,6 +1800,7 @@
         </bean> 
         <bean parent="InquirySectionDefinition">
           <property name="title" value="Payments Lookup" />
+		  <property name="defaultOpen" value="false"/>          
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
@@ -1806,6 +1812,7 @@
         
         <bean parent="InquirySectionDefinition">
           <property name="title" value="Related Document Lookup" />
+		  <property name="defaultOpen" value="false"/>          
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
@@ -1831,6 +1838,7 @@
         
         <bean parent="InquirySectionDefinition">
           <property name="title" value="Fabrication Information" />
+		  <property name="defaultOpen" value="false"/>          
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
@@ -1845,6 +1853,7 @@
         </bean> 
         <bean parent="InquirySectionDefinition">
           <property name="title" value="Land Information" />
+          <property name="defaultOpen" value="false"/>
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
@@ -1859,6 +1868,7 @@
         </bean>
         <bean parent="InquirySectionDefinition">
           <property name="title" value="Asset Depreciation Information" />
+		  <property name="defaultOpen" value="false"/>          
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
@@ -1885,6 +1895,7 @@
         </bean>
         <bean parent="InquirySectionDefinition">
           <property name="title" value="View Asset Merge History" />
+		  <property name="defaultOpen" value="false"/>          
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
@@ -1913,6 +1924,7 @@
         </bean>
         <bean parent="InquirySectionDefinition">
           <property name="title" value="View Asset Separate History" />
+		  <property name="defaultOpen" value="false"/>          
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
@@ -1925,6 +1937,7 @@
         </bean>
         <bean parent="InquirySectionDefinition">
           <property name="title" value="View Retirement Information" />
+		  <property name="defaultOpen" value="false"/>          
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
@@ -1975,6 +1988,7 @@
         </bean>
         <bean parent="InquirySectionDefinition">
           <property name="title" value="View Equipment Loan Information" />
+		  <property name="defaultOpen" value="false"/>          
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
@@ -2019,6 +2033,7 @@
         </bean>
         <bean parent="InquirySectionDefinition">
           <property name="title" value="Warranty" />
+		  <property name="defaultOpen" value="false"/>          
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
@@ -2041,6 +2056,7 @@
         </bean>
         <bean parent="InquirySectionDefinition">
           <property name="title" value="Repair History" />
+		  <property name="defaultOpen" value="false"/>          
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
@@ -2074,6 +2090,7 @@
         </bean>
         <bean parent="InquirySectionDefinition">
           <property name="title" value="Components" />
+		  <property name="defaultOpen" value="false"/>          
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>

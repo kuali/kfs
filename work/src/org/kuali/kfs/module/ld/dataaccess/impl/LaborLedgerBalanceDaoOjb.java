@@ -358,7 +358,7 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
         return employeeFunding;
     }
 
-    // marshal into AccountStatusBaseFunds from the query result
+    // marshal into LaborBalanceSummary from the query result
     private LaborBalanceSummary marshalFundsAsLaborBalanceSummary(Object[] queryResult) {
         return new LaborBalanceSummary(queryResult);
     }

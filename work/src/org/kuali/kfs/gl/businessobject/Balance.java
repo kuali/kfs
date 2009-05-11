@@ -797,4 +797,22 @@ public class Balance extends PersistableBusinessObjectBase {
     public void setPriorYearAccount(PriorYearAccount priorYearAccount) {
         this.priorYearAccount = priorYearAccount;
     }
+    
+    private String fundGroup; // a transient attribute
+
+    /**
+     * Gets the fundGroup attribute. 
+     * @return Returns the fundGroup.
+     */
+    public String getFundGroup() {
+        return fundGroup;
+    }
+
+    /**
+     * Sets the fundGroup attribute value.
+     * @param fundGroup The fundGroup to set.
+     */
+    public void setFundGroup(String fundGroup) {
+        this.fundGroup = fundGroup;
+    }    
 }

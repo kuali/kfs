@@ -42,6 +42,8 @@
         <ref bean="Balance-month12Amount" />
         <ref bean="Balance-month13Amount" />
         <ref bean="Balance-timestamp" />
+        
+        <ref bean="Balance-fundGroup" />
         <ref bean="Balance-dummyBusinessObject.consolidationOption" />
         <ref bean="Balance-dummyBusinessObject.pendingEntryOption" />
         <ref bean="Balance-dummyBusinessObject.amountViewOption" />
@@ -245,6 +247,11 @@
     <property name="shortLabel" value="Year End Close" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  
+  <bean id="Balance-fundGroup" parent="Balance-fundGroup-parentBean" />
+  <bean id="Balance-fundGroup-parentBean" abstract="true" parent="SubFundGroup-fundGroupCode">
+    <property name="name" value="fundGroup" />
+  </bean>  
 
 <!-- Business Object Inquiry Definition -->
 

@@ -181,8 +181,8 @@ public class BalanceEncumbranceReport {
                 cell = new PdfPCell(new Phrase(gls.getFundGroup(), textFont));
                 balances.addCell(cell);
 
-                totalAmount = gls.getBeginningBalance().add(gls.getAnnualBalance());
-                totalAmount = totalAmount.add(gls.getCgBeginningBalance());
+                totalAmount = gls.getBeginningBalanceLineAmount().add(gls.getAccountLineAnnualBalanceAmount());
+                totalAmount = totalAmount.add(gls.getContractsGrantsBeginningBalanceAmount());
                 cell = new PdfPCell(new Phrase(nf.format(totalAmount.doubleValue()), textFont));
                 balances.addCell(cell);
             }
@@ -191,8 +191,8 @@ public class BalanceEncumbranceReport {
             cell = new PdfPCell(new Phrase("Total", textFont));
             balances.addCell(cell);
 
-            totalAmount = totals.getBeginningBalance().add(totals.getAnnualBalance());
-            totalAmount = totalAmount.add(totals.getCgBeginningBalance());
+            totalAmount = totals.getBeginningBalanceLineAmount().add(totals.getAccountLineAnnualBalanceAmount());
+            totalAmount = totalAmount.add(totals.getContractsGrantsBeginningBalanceAmount());
             cell = new PdfPCell(new Phrase(nf.format(totalAmount.doubleValue()), textFont));
             balances.addCell(cell);
 

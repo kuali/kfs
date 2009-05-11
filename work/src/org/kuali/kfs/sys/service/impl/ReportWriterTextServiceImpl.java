@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.batch.service.WrappingBatchService;
@@ -323,7 +324,7 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
         
         Map<String, String> tableDefinition = businessObjectReportHelper.getTableDefintion(pageWidth);
         
-        this.writeFormattedMessageLine(tableDefinition.get(KFSConstants.ReportConstants.TABLE_HEADER_LINE_KEY));
+        this.writeMutipleFormattedMessageLines(tableDefinition.get(KFSConstants.ReportConstants.TABLE_HEADER_LINE_KEY));
     }
 
     /**
@@ -336,7 +337,7 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
         String tableCellFormat = tableDefinition.get(KFSConstants.ReportConstants.TABLE_CELL_FORMAT_KEY);
         List<String> tableCellValues = businessObjectReportHelper.getTableCellValuesPaddingWithEmptyCell(businessObject);
         
-        this.writeFormattedMessageLine(tableCellFormat, tableCellValues.toArray());
+        this.writeMutipleFormattedMessageLines(tableCellFormat, tableCellValues.toArray());
     }
     
     /**
@@ -352,6 +353,20 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
         }
         
         return businessObjectReportHelper;
+    }
+    
+    /**
+     * write the given information as multiple lines if it contains more than one line breaks
+     * @param format the given text format definition
+     * @param args the given information being written out
+     */
+    private void writeMutipleFormattedMessageLines(String format, Object ... args) {
+        String message = String.format(format, args);        
+        String[] messageLines = StringUtils.split(message, "\n");
+        
+        for(String line : messageLines) {
+            this.writeFormattedMessageLine(line);
+        }
     }
 
     /**

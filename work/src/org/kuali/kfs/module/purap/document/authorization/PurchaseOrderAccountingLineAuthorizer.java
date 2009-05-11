@@ -43,14 +43,15 @@ public class PurchaseOrderAccountingLineAuthorizer extends PurapAccountingLineAu
         PurApAccountingLine purapAccount = (PurApAccountingLine)accountingLine;
         PurchaseOrderItem poItem = (PurchaseOrderItem)purapAccount.getPurapItem();
 
-        if (!poItem.isItemActiveIndicator()) {
-            return false;
-        }
-        
-        if (poItem.getItemInvoicedTotalAmount()!= null && poItem.getItemInvoicedTotalAmount().compareTo(new KualiDecimal(0)) != 0 ) {
-            return false;
-        }
+        if (poItem != null) {
+            if (!poItem.isItemActiveIndicator()) {
+                return false;
+            }
 
+            if (poItem.getItemInvoicedTotalAmount() != null && poItem.getItemInvoicedTotalAmount().compareTo(new KualiDecimal(0)) != 0) {
+                return false;
+            }
+        }
         return super.allowAccountingLinesAreEditable(accountingDocument, accountingLine);
     }
 }

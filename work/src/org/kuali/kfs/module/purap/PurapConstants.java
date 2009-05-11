@@ -46,9 +46,6 @@ public class PurapConstants extends JSTLConstants {
 
     public static final String PURAP_NAMESPACE = "KFS-PURAP";
     
-    // special user used in the special ap cancel action
-    public static final String SYSTEM_AP_USER = KFSConstants.SYSTEM_USER;
-
     public static final KualiDecimal HUNDRED = new KualiDecimal(100);
 
     public static final String B2B_PUNCHBACK_METHOD_TO_CALL = "returnFromShopping";

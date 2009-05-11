@@ -37,6 +37,7 @@ public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends KimR
     private OrganizationService organizationService;
 
     protected boolean isParentOrg(String qualificationChartCode, String qualificationOrgCode, String roleChartCode, String roleOrgCode, boolean descendHierarchy) {
+        if (roleChartCode == null && roleOrgCode == null) return false;
         if (roleOrgCode == null) {
             return roleChartCode.equals(qualificationChartCode) || (descendHierarchy && chartService.isParentChart(qualificationChartCode, roleChartCode));
         }

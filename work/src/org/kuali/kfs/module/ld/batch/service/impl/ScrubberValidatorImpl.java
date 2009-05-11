@@ -25,7 +25,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.service.AccountService;
-import org.kuali.kfs.coa.service.BalanceTypService;
+import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.gl.batch.ScrubberStep;
 import org.kuali.kfs.gl.batch.service.AccountingCycleCachingService;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
@@ -64,7 +64,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private BusinessObjectService businessObjectService;
     private ParameterService parameterService;
     private AccountService accountService;
-    private BalanceTypService balanceTypService;
+    private BalanceTypeService balanceTypService;
     private OptionsService optionsService;
 
     private PersistenceService persistenceService;
@@ -596,7 +596,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      * 
      * @param balanceTypService The balanceTypService to set.
      */
-    public void setBalanceTypService(BalanceTypService balanceTypService) {
+    public void setBalanceTypService(BalanceTypeService balanceTypService) {
         this.balanceTypService = balanceTypService;
     }
 

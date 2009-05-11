@@ -34,7 +34,7 @@ import static org.kuali.kfs.sys.KFSPropertyConstants.SUB_ACCOUNT_NUMBER;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.service.BalanceTypService;
+import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -65,7 +65,7 @@ public class JournalVoucherAccountingLineParser extends AuxiliaryVoucherAccounti
     @Override
     protected void performCustomSourceAccountingLinePopulation(Map<String, String> attributeValueMap, SourceAccountingLine sourceAccountingLine, String accountingLineAsString) {
 
-        boolean isFinancialOffsetGeneration = SpringContext.getBean(BalanceTypService.class).getBalanceTypByCode(balanceTypeCode).isFinancialOffsetGenerationIndicator();
+        boolean isFinancialOffsetGeneration = SpringContext.getBean(BalanceTypeService.class).getBalanceTypeByCode(balanceTypeCode).isFinancialOffsetGenerationIndicator();
         if (isFinancialOffsetGeneration || StringUtils.equals(balanceTypeCode, KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE)) {
             super.performCustomSourceAccountingLinePopulation(attributeValueMap, sourceAccountingLine, accountingLineAsString);
         }
@@ -89,7 +89,7 @@ public class JournalVoucherAccountingLineParser extends AuxiliaryVoucherAccounti
         if (StringUtils.equals(balanceTypeCode, KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE)) {
             return ENCUMBRANCE_ENTRY;
         }
-        else if (SpringContext.getBean(BalanceTypService.class).getBalanceTypByCode(balanceTypeCode).isFinancialOffsetGenerationIndicator()) {
+        else if (SpringContext.getBean(BalanceTypeService.class).getBalanceTypeByCode(balanceTypeCode).isFinancialOffsetGenerationIndicator()) {
             return OFFSET_ENTRY;
         }
         else {

@@ -17,7 +17,7 @@ package org.kuali.kfs.gl.service.impl;
 
 import java.util.Arrays;
 
-import org.kuali.kfs.coa.service.BalanceTypService;
+import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.gl.ObjectHelper;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -26,7 +26,7 @@ import org.kuali.kfs.sys.context.SpringContext;
  * This class represents an origin entry key
  */
 public class OriginEntryKey {
-    static BalanceTypService balanceTypService = SpringContext.getBean(BalanceTypService.class);
+    static BalanceTypeService balanceTypService = SpringContext.getBean(BalanceTypeService.class);
 
     /*
      * (non-Javadoc)
@@ -73,7 +73,7 @@ public class OriginEntryKey {
      */
     public void setIntoOriginEntry(OriginEntryFull entry) {
         entry.setAccountNumber(getAccountNumber());
-        entry.setBalanceType(balanceTypService.getBalanceTypByCode(getBalanceTypeCode()));
+        entry.setBalanceType(balanceTypService.getBalanceTypeByCode(getBalanceTypeCode()));
         entry.setChartOfAccountsCode(getChartCode());
         entry.setTransactionLedgerEntrySequenceNumber(new Integer(getEntrySequenceNumber()));
         entry.setDocumentNumber(getDocumentNumber());

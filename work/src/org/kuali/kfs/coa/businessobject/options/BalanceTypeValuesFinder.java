@@ -21,7 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.BalanceType;
-import org.kuali.kfs.coa.service.BalanceTypService;
+import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
@@ -37,13 +37,13 @@ public class BalanceTypeValuesFinder extends KeyValuesBase {
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        Collection<BalanceType> balanceTypeCodeCollection = SpringContext.getBean(BalanceTypService.class).getAllBalanceTyps();
+        Collection<BalanceType> balanceTypeCodeCollection = SpringContext.getBean(BalanceTypeService.class).getAllBalanceTypes();
         List<KeyLabelPair> balanceTypeCodes = new ArrayList<KeyLabelPair>();
         balanceTypeCodes.add(new KeyLabelPair("", ""));
 
         for (BalanceType balanceType : balanceTypeCodeCollection) {
             if(balanceType.isActive()) {
-                balanceTypeCodes.add(new KeyLabelPair(balanceType.getCode(), balanceType.getCode()));
+                balanceTypeCodes.add(new KeyLabelPair(balanceType.getCode(), balanceType.getCodeAndDescription()));
             }
         }
         return balanceTypeCodes;

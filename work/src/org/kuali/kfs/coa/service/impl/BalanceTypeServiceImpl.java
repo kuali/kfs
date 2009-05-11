@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.dataaccess.BalanceTypeDao;
-import org.kuali.kfs.coa.service.BalanceTypService;
+import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.dataaccess.OptionsDao;
 import org.kuali.kfs.sys.service.KualiCodeService;
@@ -36,8 +36,8 @@ import org.kuali.rice.kns.util.spring.CacheNoCopy;
  */
 
 @NonTransactional
-public class BalanceTypServiceImpl implements BalanceTypService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceTypServiceImpl.class);
+public class BalanceTypeServiceImpl implements BalanceTypeService {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceTypeServiceImpl.class);
 
     // balance type constants
 
@@ -47,35 +47,24 @@ public class BalanceTypServiceImpl implements BalanceTypService {
     private UniversityDateService universityDateService;
     private OptionsDao optionsDao;
 
-    private HashMap<String,BalanceType> balanceTypes = new HashMap<String,BalanceType>(); 
     
     /**
-     * This method retrieves a BalanceTyp instance from the Kuali database by its primary key - the balance typ's code.
+     * This method retrieves a BalanceTyp instance from the Kuali database by its primary key - the balance type's code.
      * 
      * @param code The primary key in the database for this data type.
      * @return A fully populated object instance.
      */
-    public BalanceType getBalanceTypByCode(String code) {
-        loadBalanceTypes();
-        return balanceTypes.get(code);
+    public BalanceType getBalanceTypeByCode(String code) {
+       return (BalanceType)kualiCodeService.getByCode(BalanceType.class, code);
     }
 
     /**
      * @see org.kuali.kfs.coa.service.BalanceTypService#getAllBalanceTyps()
      */
-    public Collection getAllBalanceTyps() {
-        loadBalanceTypes();
-        return balanceTypes.values();
+    public Collection<BalanceType> getAllBalanceTypes() {
+        return  kualiCodeService.getAll(BalanceType.class);
     }
     
-    private void loadBalanceTypes() {
-        if ( balanceTypes.isEmpty() ) {
-            Collection<BalanceType> balTypes = kualiCodeService.getAll(BalanceType.class);
-            for ( BalanceType bt : balTypes ) {
-                balanceTypes.put(bt.getCode(), bt);
-            }
-        }
-    }
 
     /**
      * 
@@ -114,7 +103,7 @@ public class BalanceTypServiceImpl implements BalanceTypService {
     }
 
     /**
-     * @see org.kuali.kfs.coa.service.BalanceTypService#getCostShareEncumbranceBalanceType(java.lang.Integer)
+     * @see org.kuali.kfs.coa.service.BalanceTypeService#getCostShareEncumbranceBalanceType(java.lang.Integer)
      */
     @CacheNoCopy
     public String getCostShareEncumbranceBalanceType(Integer universityFiscalYear) {
@@ -123,7 +112,7 @@ public class BalanceTypServiceImpl implements BalanceTypService {
 
     /**
      * 
-     * @see org.kuali.kfs.coa.service.BalanceTypService#getEncumbranceBalanceTypes(java.lang.Integer)
+     * @see org.kuali.kfs.coa.service.BalanceTypeService#getEncumbranceBalanceTypes(java.lang.Integer)
      */
     @CacheNoCopy
     public List<String> getEncumbranceBalanceTypes(Integer universityFiscalYear) {

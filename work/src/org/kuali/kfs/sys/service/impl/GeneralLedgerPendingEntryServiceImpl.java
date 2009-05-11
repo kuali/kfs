@@ -34,7 +34,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
-import org.kuali.kfs.coa.service.BalanceTypService;
+import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.coa.service.ObjectTypeService;
 import org.kuali.kfs.coa.service.OffsetDefinitionService;
@@ -87,7 +87,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     private ChartService chartService;
     private OptionsService optionsService;
     private ParameterService parameterService;
-    private BalanceTypService balanceTypeService;
+    private BalanceTypeService balanceTypeService;
     private DateTimeService dateTimeService;
     private DataDictionaryService dataDictionaryService;
     private PersistenceStructureService persistenceStructureService;
@@ -788,7 +788,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         }
     }
 
-    public void setBalanceTypeService(BalanceTypService balanceTypeService) {
+    public void setBalanceTypeService(BalanceTypeService balanceTypeService) {
         this.balanceTypeService = balanceTypeService;
     }
 

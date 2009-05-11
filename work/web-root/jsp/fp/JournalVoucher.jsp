@@ -97,18 +97,9 @@
 						</SCRIPT>
 						<html:select property="selectedBalanceType.code" onchange="submitForChangedBalanceType()">
 						<c:forEach items="${KualiForm.balanceTypes}" var="balanceType">
-								<c:choose>
-									<c:when
-										test="${KualiForm.selectedBalanceType.code==balanceType.code}">
-										<html:option value="${balanceType.code}"><c:out value="${balanceType.code}" /> -
-										<c:out value="${balanceType.name}" /></html:option>
-									</c:when>
-									<c:otherwise>
-										<html:option value="${balanceType.code}" ><c:out
-											value="${balanceType.code}" /> - <c:out
-											value="${balanceType.name}" /></html:option>
-									</c:otherwise>
-								</c:choose>
+							<html:option value="${balanceType.code}" >
+								<c:out value="${balanceType.codeAndDescription}" /> 
+							</html:option>
 							</c:forEach>
 						</html:select>
 						<NOSCRIPT><html:submit value="refresh"

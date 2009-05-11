@@ -168,7 +168,7 @@
 		</property>
 	</bean>
 
-	<bean id="balanceTypService" class="org.kuali.kfs.coa.service.impl.BalanceTypServiceImpl">
+	<bean id="balanceTypService" class="org.kuali.kfs.coa.service.impl.BalanceTypeServiceImpl">
 		<property name="kualiCodeService">
 			<ref bean="kualiCodeService" />
 		</property>

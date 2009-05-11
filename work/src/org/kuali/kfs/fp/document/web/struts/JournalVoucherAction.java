@@ -27,7 +27,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.coa.businessobject.BalanceType;
-import org.kuali.kfs.coa.service.BalanceTypService;
+import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.fp.businessobject.VoucherAccountingLineHelper;
 import org.kuali.kfs.fp.businessobject.VoucherAccountingLineHelperBase;
 import org.kuali.kfs.fp.businessobject.VoucherSourceAccountingLine;
@@ -39,10 +39,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -373,7 +370,7 @@ public class JournalVoucherAction extends VoucherAction {
      */
     protected BalanceType getPopulatedBalanceTypeInstance(String balanceTypeCode) {
         // now we have to get the code and the name of the original and new balance types
-        return SpringContext.getBean(BalanceTypService.class).getBalanceTypByCode(balanceTypeCode);
+        return SpringContext.getBean(BalanceTypeService.class).getBalanceTypeByCode(balanceTypeCode);
     }
 
     /**

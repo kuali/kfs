@@ -30,7 +30,7 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.service.BalanceTypService;
+import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.Encumbrance;
@@ -64,7 +64,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
     private final static String OBJECT_TYPE_FIN_OBJECT_TYPE_DEBITCREDIT_CD = "objectType.finObjectTypeDebitcreditCd";
 
     private ParameterService parameterService;
-    private BalanceTypService balanceTypService;
+    private BalanceTypeService balanceTypService;
     private OptionsService optionsService;
 
     /**
@@ -675,7 +675,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
         return entryObject;
     }
 
-    public void setBalanceTypService(BalanceTypService balanceTypService) {
+    public void setBalanceTypService(BalanceTypeService balanceTypService) {
         this.balanceTypService = balanceTypService;
     }
 

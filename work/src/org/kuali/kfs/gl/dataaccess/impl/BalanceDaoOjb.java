@@ -32,7 +32,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.OrganizationReversion;
-import org.kuali.kfs.coa.service.BalanceTypService;
+import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.coa.service.ObjectTypeService;
 import org.kuali.kfs.coa.service.SubFundGroupService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
@@ -61,7 +61,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceDaoOjb.class);
     private ParameterService parameterService;
     private OptionsService optionsService;
-    private BalanceTypService balanceTypService;
+    private BalanceTypeService balanceTypService;
 
     /**
      * Does a ReportQuery to summarize GL balance data
@@ -878,7 +878,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
         this.parameterService = parameterService;
     }
 
-    public void setBalanceTypService(BalanceTypService balanceTypService) {
+    public void setBalanceTypService(BalanceTypeService balanceTypService) {
         this.balanceTypService = balanceTypService;
     }
 }

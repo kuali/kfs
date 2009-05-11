@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.BalanceType;
-import org.kuali.kfs.coa.service.BalanceTypService;
+import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.fp.document.JournalVoucherDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -102,7 +102,7 @@ public class JournalVoucherForm extends VoucherForm {
         else {
             // it's the first time in, the form will be empty the first time in
             // set up default selection value
-            selectedBalanceType = SpringContext.getBean(BalanceTypService.class).getBalanceTypByCode(KFSConstants.BALANCE_TYPE_ACTUAL);
+            selectedBalanceType = SpringContext.getBean(BalanceTypeService.class).getBalanceTypeByCode(KFSConstants.BALANCE_TYPE_ACTUAL);
             setSelectedBalanceType(selectedBalanceType);
             setOriginalBalanceType(selectedBalanceType.getCode());
 
@@ -187,7 +187,7 @@ public class JournalVoucherForm extends VoucherForm {
      */
     private void populateBalanceTypeListForRendering() {
         // grab the list of valid balance types
-        ArrayList balanceTypes = new ArrayList(SpringContext.getBean(BalanceTypService.class).getAllBalanceTyps());
+        ArrayList balanceTypes = new ArrayList(SpringContext.getBean(BalanceTypeService.class).getAllBalanceTypes());
 
         // set into the form for rendering
         this.setBalanceTypes(balanceTypes);
@@ -210,8 +210,8 @@ public class JournalVoucherForm extends VoucherForm {
      */
     protected BalanceType getPopulatedBalanceTypeInstance(String balanceTypeCode) {
         // now we have to get the code and the name of the original and new balance types
-        BalanceTypService bts = SpringContext.getBean(BalanceTypService.class);
-        return bts.getBalanceTypByCode(balanceTypeCode);
+        BalanceTypeService bts = SpringContext.getBean(BalanceTypeService.class);
+        return bts.getBalanceTypeByCode(balanceTypeCode);
     }
 
     /**

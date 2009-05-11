@@ -25,7 +25,7 @@ import org.kuali.kfs.coa.businessobject.BalanceType;
  * that are necessary for transaction processing in the application. This interface defines methods for each balance type that is
  * needed by the application. TODO - Continue to update this with new balance type as they are needed.
  */
-public interface BalanceTypService {
+public interface BalanceTypeService {
 
     static final String ACTUAL_BALANCE_TYPE = "AC";
 
@@ -34,15 +34,15 @@ public interface BalanceTypService {
      * 
      * @return A list of active balance types in Kuali.
      */
-    public Collection getAllBalanceTyps();
+    public Collection<BalanceType> getAllBalanceTypes();
     
     /**
-     * This method retrieves a BalanceTyp instance from the Kuali database by its primary key - the balance typ's code.
+     * This method retrieves a BalanceType instance from the Kuali database by its primary key - the balance type's code.
      * 
      * @param code The primary key in the database for this data type.
      * @return A fully populated object instance.
      */
-    public BalanceType getBalanceTypByCode(String code);
+    public BalanceType getBalanceTypeByCode(String code);
 
 
     /**

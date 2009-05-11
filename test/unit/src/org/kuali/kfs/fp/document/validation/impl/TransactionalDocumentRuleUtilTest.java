@@ -20,7 +20,7 @@ import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapEmpt
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
-import org.kuali.kfs.coa.service.BalanceTypService;
+import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.fp.document.JournalVoucherDocument;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
@@ -163,7 +163,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
         BalanceType balanceType = null;
 
         if (btStr != null) {
-            balanceType = SpringContext.getBean(BalanceTypService.class).getBalanceTypByCode(btStr);
+            balanceType = SpringContext.getBean(BalanceTypeService.class).getBalanceTypeByCode(btStr);
         }
         assertGlobalErrorMapEmpty();
         AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);

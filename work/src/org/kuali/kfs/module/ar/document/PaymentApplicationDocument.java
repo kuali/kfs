@@ -24,7 +24,7 @@ import java.util.Map;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
-import org.kuali.kfs.coa.service.BalanceTypService;
+import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.coa.service.OffsetDefinitionService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
@@ -490,7 +490,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         
         // Get handles to the services we need
         GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
-        BalanceTypService balanceTypeService = SpringContext.getBean(BalanceTypService.class);
+        BalanceTypeService balanceTypeService = SpringContext.getBean(BalanceTypeService.class);
         UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
         SystemInformationService systemInformationService = SpringContext.getBean(SystemInformationService.class);
         OffsetDefinitionService offsetDefinitionService = SpringContext.getBean(OffsetDefinitionService.class);

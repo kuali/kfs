@@ -75,7 +75,7 @@ public class JournalVoucherAction extends org.kuali.kfs.fp.document.web.struts.J
 
         // retrieve fully populated balance type instances
         BalanceType origBalType = getPopulatedBalanceTypeInstance(journalVoucherForm.getOriginalBalanceType());
-        BalanceType newBalType = getPopulatedBalanceTypeInstance(journalVoucherForm.getSelectedBalanceType().getCode());
+        BalanceType newBalType = journalVoucherForm.getSelectedBalanceType();
 
         // then deal with external encumbrance changes
         if (origBalType.isFinBalanceTypeEncumIndicator() && !newBalType.isFinBalanceTypeEncumIndicator()) {

@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.kfs.coa.service.BalanceTypService;
+import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.coa.service.ObjectTypeService;
 import org.kuali.kfs.coa.service.PriorYearAccountService;
 import org.kuali.kfs.coa.service.SubFundGroupService;
@@ -65,7 +65,7 @@ public class YearEndServiceImpl implements YearEndService {
     private OriginEntryGroupService originEntryGroupService;
     private DateTimeService dateTimeService;
     private BalanceService balanceService;
-    private BalanceTypService balanceTypeService;
+    private BalanceTypeService balanceTypeService;
     private ObjectTypeService objectTypeService;
     private ParameterService parameterService;
     private KualiConfigurationService configurationService;
@@ -648,7 +648,7 @@ public class YearEndServiceImpl implements YearEndService {
         this.balanceService = balanceService;
     }
 
-    public void setBalanceTypeService(BalanceTypService balanceTypeService) {
+    public void setBalanceTypeService(BalanceTypeService balanceTypeService) {
         this.balanceTypeService = balanceTypeService;
     }
 

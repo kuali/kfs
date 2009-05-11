@@ -21,7 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.BalanceType;
-import org.kuali.kfs.coa.service.BalanceTypService;
+import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
@@ -56,8 +56,8 @@ public class ActualBalanceTypeOptionFinder extends KeyValuesBase implements Valu
     public List getKeyValues() {
         List labels = new ArrayList();
 
-        BalanceTypService bts = SpringContext.getBean(BalanceTypService.class);
-        Collection c = bts.getAllBalanceTyps();
+        BalanceTypeService bts = SpringContext.getBean(BalanceTypeService.class);
+        Collection c = bts.getAllBalanceTypes();
 
         for (Iterator iter = c.iterator(); iter.hasNext();) {
             BalanceType bt = (BalanceType) iter.next();

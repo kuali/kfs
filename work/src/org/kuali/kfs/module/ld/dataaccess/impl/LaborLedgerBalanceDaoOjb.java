@@ -45,7 +45,7 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.kfs.coa.service.BalanceTypService;
+import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.gl.dataaccess.LedgerBalanceBalancingDao;
 import org.kuali.kfs.module.ld.LaborConstants;
@@ -70,7 +70,7 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerBalanceDaoOjb.class);
     private KualiConfigurationService kualiConfigurationService;
 
-    private BalanceTypService balanceTypService;
+    private BalanceTypeService balanceTypService;
 
     /**
      * @see org.kuali.kfs.module.ld.dataaccess.LaborLedgerBalanceDao#findBalancesForFiscalYear(java.lang.Integer)
@@ -425,7 +425,7 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
         this.kualiConfigurationService = kualiConfigurationService;
     }
 
-    public void setBalanceTypService(BalanceTypService balanceTypService) {
+    public void setBalanceTypService(BalanceTypeService balanceTypService) {
         this.balanceTypService = balanceTypService;
     }
 

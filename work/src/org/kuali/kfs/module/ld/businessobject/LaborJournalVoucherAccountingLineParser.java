@@ -38,7 +38,7 @@ import static org.kuali.kfs.sys.KFSPropertyConstants.SUB_ACCOUNT_NUMBER;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.service.BalanceTypService;
+import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.module.ld.LaborPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -108,7 +108,7 @@ public class LaborJournalVoucherAccountingLineParser extends AccountingLineParse
         sourceAccountingLine.setAmount(amount);
         sourceAccountingLine.setDebitCreditCode(debitCreditCode);
 
-        boolean isFinancialOffsetGeneration = SpringContext.getBean(BalanceTypService.class).getBalanceTypByCode(balanceTypeCode).isFinancialOffsetGenerationIndicator();
+        boolean isFinancialOffsetGeneration = SpringContext.getBean(BalanceTypeService.class).getBalanceTypeByCode(balanceTypeCode).isFinancialOffsetGenerationIndicator();
         if (isFinancialOffsetGeneration || StringUtils.equals(balanceTypeCode, KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE)) {
             super.performCustomSourceAccountingLinePopulation(attributeValueMap, sourceAccountingLine, accountingLineAsString);
         }

@@ -19,7 +19,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.BalanceType;
-import org.kuali.kfs.coa.service.BalanceTypService;
+import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.fp.document.JournalVoucherDocument;
 import org.kuali.kfs.fp.document.web.struts.JournalVoucherForm;
 import org.kuali.kfs.module.ld.LaborConstants.JournalVoucherOffsetType;
@@ -53,7 +53,7 @@ public class LaborJournalVoucherForm extends JournalVoucherForm {
      */
     @Override
     protected void populateSourceAccountingLineEncumbranceCode(SourceAccountingLine sourceLine) {
-        BalanceType selectedBalanceType = getPopulatedBalanceTypeInstance(getSelectedBalanceType().getCode());
+        BalanceType selectedBalanceType = getSelectedBalanceType();
         if (selectedBalanceType != null && StringUtils.isNotBlank(selectedBalanceType.getCode())) {
             sourceLine.setBalanceTyp(selectedBalanceType);
             sourceLine.setBalanceTypeCode(selectedBalanceType.getCode());
@@ -74,7 +74,7 @@ public class LaborJournalVoucherForm extends JournalVoucherForm {
         }
         else {
             // it's the first time in, the form will be empty the first time in set up default selection value
-            selectedBalanceType = SpringContext.getBean(BalanceTypService.class).getBalanceTypByCode(KFSConstants.BALANCE_TYPE_ACTUAL);
+            selectedBalanceType = SpringContext.getBean(BalanceTypeService.class).getBalanceTypeByCode(KFSConstants.BALANCE_TYPE_ACTUAL);
             setSelectedBalanceType(selectedBalanceType);
             setOriginalBalanceType(selectedBalanceType.getCode());
 

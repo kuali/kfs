@@ -32,7 +32,7 @@ import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.coa.service.AccountService;
-import org.kuali.kfs.coa.service.BalanceTypService;
+import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.ObjectHelper;
 import org.kuali.kfs.gl.batch.ScrubberStep;
@@ -77,7 +77,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private AccountService accountService;
     private OriginationCodeService originationCodeService;
     private PersistenceStructureService persistenceStructureService;
-    private BalanceTypService balanceTypService;
+    private BalanceTypeService balanceTypService;
     private boolean continuationAccountIndicator;
     
     public static final String DATE_FORMAT_STRING = "yyyy-MM-dd";
@@ -1169,7 +1169,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         this.parameterService = parameterService;
     }
 
-    public void setBalanceTypService(BalanceTypService balanceTypService) {
+    public void setBalanceTypService(BalanceTypeService balanceTypService) {
         this.balanceTypService = balanceTypService;
     }
     

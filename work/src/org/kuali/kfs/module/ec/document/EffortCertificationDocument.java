@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 import org.kuali.kfs.module.ec.service.EffortCertificationDocumentService;
@@ -39,6 +40,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.coa.businessobject.Organization;
 
 /**
  * Effort Certification Document Class.
@@ -54,6 +56,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
     private boolean effortCertificationDocumentCode;
     private Integer universityFiscalYear;
     private String emplid;
+    private String organizationCode;    
     private KualiDecimal financialDocumentTotalAmount;
 
     private Integer totalEffortPercent;
@@ -63,6 +66,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     private EffortCertificationReportDefinition effortCertificationReportDefinition;
     private Person employee;
+    private Organization organization;
     private SystemOptions options;
 
     private List<EffortCertificationDetail> effortCertificationDetailLines;
@@ -132,6 +136,42 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
         this.universityFiscalYear = universityFiscalYear;
     }
 
+    /**
+     * Gets the organizationCode attribute.
+     * 
+     * @return Returns the organizationCode.
+     */
+    public String getOrganizationCode() {
+        return organizationCode;
+    }
+
+    /**
+     * Sets the organizationCode attribute value.
+     * 
+     * @param organizationCode The organizationCode to set.
+     */
+    public void setOrganizationCode(String organizationCode) {
+        this.organizationCode = organizationCode;
+    }
+
+    /**
+     * Gets the organization attribute.
+     * 
+     * @return Returns the organization.
+     */
+    public Organization getOrganization() {
+        return organization;
+    }
+
+    /**
+     * Sets the organization attribute value.
+     * 
+     * @param organization The organization to set.
+     */
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
+    }
+    
     /**
      * Gets the emplid attribute.
      * 

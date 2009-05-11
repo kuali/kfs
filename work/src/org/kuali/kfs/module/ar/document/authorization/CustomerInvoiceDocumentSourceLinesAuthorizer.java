@@ -104,14 +104,6 @@ public class CustomerInvoiceDocumentSourceLinesAuthorizer extends FinancialProce
                 if (StringUtils.equals(fieldName, getChartPropertyName()) || StringUtils.equals(fieldName, getAccountNumberPropertyName())) 
                     canModify = false;
             }
-        } // set invoice item description and amount editable for recurring invoices
-        else {
-            boolean recurredInvoiceIndicator = ((CustomerInvoiceDocument)accountingDocument).getRecurredInvoiceIndicator();
-            if (recurredInvoiceIndicator) {
-                if (StringUtils.equals(fieldName, getItemDescriptionPropertyName()) || StringUtils.equals(fieldName, getAmountPropertyName()))
-                    canModify = true;
-            }
-                
         }
         
         return canModify;

@@ -69,7 +69,6 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
         public static final String TAX_AREA_EDITABLE = "taxAreaEditable";
         public static final String RESTRICT_FISCAL_ENTRY = "restrictFiscalEntry";
         public static final String ALLOW_CLOSE_PURCHASE_ORDER = "allowClosePurchaseOrder";
-        public static final String ACCOUNTS_PAYABLE_ENTRY = "accountsPayableEntry";
         public static final String ACCOUNTS_PAYABLE_PROCESSOR_CANCEL = "processorCancel";
         public static final String ACCOUNTS_PAYABLE_MANAGER_CANCEL = "managerCancel";
         public static final String REQUEST_CANCEL = "requestPaymentRequestCancel";

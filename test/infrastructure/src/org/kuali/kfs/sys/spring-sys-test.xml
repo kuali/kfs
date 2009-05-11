@@ -60,11 +60,6 @@
 	</bean>	
        
     <bean id="summaryReportHelper" parent="businessObjectReportHelper">
-        <property name="responsibleClasses">
-            <list>
-                <value>org.kuali.kfs.gl.businessobject.BalanceHistory</value>
-            </list>
-        </property>
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.Balance" />
         <property name="columnCount" value="6" />
         <property name="orderedPropertyNameToHeaderLabelMap">

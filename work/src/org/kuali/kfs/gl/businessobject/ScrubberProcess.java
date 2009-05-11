@@ -118,6 +118,7 @@ public class ScrubberProcess {
     private RunDateService runDateService;
     private AccountingCycleCachingService accountingCycleCachingService;
     private ReportWriterService scrubberReportWriterService;
+    private ReportWriterService scrubberListingReportWriterService;
     private ReportWriterService demergerReportWriterService;
 
     // this will only be populated when in collector mode, otherwise the memory requirements will be huge
@@ -171,7 +172,7 @@ public class ScrubberProcess {
     /**
      * These parameters are all the dependencies.
      */
-    public ScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, AccountingCycleCachingService accountingCycleCachingService,DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService configurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, ScrubberValidator scrubberValidator, ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride, RunDateService runDateService, String batchFileDirectoryName, String reportDirectoryName, ReportWriterService scrubberReportWriterService, ReportWriterService demergerReportWriterService) {
+    public ScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, AccountingCycleCachingService accountingCycleCachingService,DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService configurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, ScrubberValidator scrubberValidator, ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride, RunDateService runDateService, String batchFileDirectoryName, String reportDirectoryName, ReportWriterService scrubberReportWriterService, ReportWriterService scrubberListingReportWritingService, ReportWriterService demergerReportWriterService) {
         super();
         this.flexibleOffsetAccountService = flexibleOffsetAccountService;
         this.accountingCycleCachingService = accountingCycleCachingService;
@@ -190,6 +191,7 @@ public class ScrubberProcess {
         this.batchFileDirectoryName = batchFileDirectoryName;
         this.reportDirectoryName = reportDirectoryName;
         this.scrubberReportWriterService = scrubberReportWriterService;
+        this.scrubberListingReportWriterService = scrubberListingReportWritingService;
         this.demergerReportWriterService = demergerReportWriterService;
     }
 
@@ -305,6 +307,7 @@ public class ScrubberProcess {
         setDescriptions();
         ScrubberReportData scrubberReport = new ScrubberReportData();
         processGroup(reportOnlyMode, scrubberReport);
+        
         /*reportService.generateBatchScrubberStatisticsReport(runDate, scrubberReport, scrubberReportErrors);
         
         //TODO: Shawn - need to implement below reports after Philip's report conversion work is done.

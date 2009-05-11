@@ -39,7 +39,6 @@ public class BusinessObjectReportHelper {
 
     protected int minimumMessageLength;
     protected String messageLabel;
-    protected List<Class<? extends BusinessObject>> responsibleClasses;
     protected Class<? extends BusinessObject> dataDictionaryBusinessObjectClass;
     protected Map<String, String> orderedPropertyNameToHeaderLabelMap;
     protected DataDictionaryService dataDictionaryService;
@@ -57,18 +56,39 @@ public class BusinessObjectReportHelper {
 
         for (Iterator<String> propertyNames = orderedPropertyNameToHeaderLabelMap.keySet().iterator(); propertyNames.hasNext();) {
             String propertyName = propertyNames.next();
-
-            try {
-                keys.add(PropertyUtils.getProperty(businessObject, propertyName));
-            }
-            catch (Exception e) {
-                throw new RuntimeException("Failed getting propertyName=" + propertyName + " from businessObjecName=" + businessObject.getClass().getName(), e);
-            }
+            keys.add(retrievePropertyValue(businessObject, propertyName));
         }
 
         return keys;
     }
 
+    /**
+     * Returns a value for a given property, can be overridden to allow for pseudo-properties
+     * 
+     * @param businessObject
+     * @param propertyName
+     * @return
+     */
+    protected Object retrievePropertyValue(BusinessObject businessObject, String propertyName) {
+        try {
+            return PropertyUtils.getProperty(businessObject, propertyName);
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Failed getting propertyName=" + propertyName + " from businessObjecName=" + businessObject.getClass().getName(), e);
+        }
+    }
+    
+    /**
+     * Returns the maximum length of a value for a given propery, can be overridden to allow for pseudo-properties
+     * 
+     * @param businessObjectClass
+     * @param propertyName
+     * @return
+     */
+    protected int retrievePropertyValueMaximumLength(Class<? extends BusinessObject> businessObjectClass, String propertyName) {
+        return dataDictionaryService.getAttributeMaxLength(dataDictionaryBusinessObjectClass, propertyName);
+    }
+    
     /**
      * Same as getValues except that it actually doesn't retrieve the values from the BO but instead returns a blank linke. This is
      * useful if indentation for message printing is necessary.
@@ -106,7 +126,7 @@ public class BusinessObjectReportHelper {
 
             int longest;
             try {
-                longest = dataDictionaryService.getAttributeMaxLength(dataDictionaryBusinessObjectClass, entry.getKey());
+                longest = retrievePropertyValueMaximumLength(dataDictionaryBusinessObjectClass, entry.getKey());
             }
             catch (Exception e) {
                 throw new RuntimeException("Failed getting propertyName=" + entry.getKey() + " from businessObjecName=" + dataDictionaryBusinessObjectClass.getName(), e);
@@ -250,7 +270,7 @@ public class BusinessObjectReportHelper {
             int maxLengthOfAttribute = 0;
             if (!attributeName.startsWith(KFSConstants.ReportConstants.EMPTY_CELL_ENTRY_KEY_PREFIX)) {
                 try {
-                    maxLengthOfAttribute = dataDictionaryService.getAttributeMaxLength(dataDictionaryBusinessObjectClass, attributeName);
+                    maxLengthOfAttribute = retrievePropertyValueMaximumLength(dataDictionaryBusinessObjectClass, entry.getKey());
                 }
                 catch (Exception e) {
                     throw new RuntimeException("Failed getting propertyName=" + entry.getKey() + " from businessObjecName=" + dataDictionaryBusinessObjectClass.getName(), e);
@@ -313,15 +333,6 @@ public class BusinessObjectReportHelper {
     }
 
     /**
-     * Gets the responsibleClasses
-     * 
-     * @return responsibleClasses
-     */
-    public List<Class<? extends BusinessObject>> getResponsibleClasses() {
-        return responsibleClasses;
-    }
-
-    /**
      * Sets the minimumMessageLength
      * 
      * @param minimumMessageLength The minimumMessageLength to set.
@@ -337,15 +348,6 @@ public class BusinessObjectReportHelper {
      */
     public void setMessageLabel(String messageLabel) {
         this.messageLabel = messageLabel;
-    }
-
-    /**
-     * Sets the responsibleClasses
-     * 
-     * @param responsibleClasses The responsibleClasses to set.
-     */
-    public void setResponsibleClasses(List<Class<? extends BusinessObject>> responsibleClasses) {
-        this.responsibleClasses = responsibleClasses;
     }
 
     /**

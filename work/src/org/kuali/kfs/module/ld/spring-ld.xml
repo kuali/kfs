@@ -506,6 +506,11 @@
 		<property name="filePath" value="${reports.directory}/ld"/>
 		<property name="fileNamePrefix" value="Labor_Poster_Main_"/>
         <property name="title" value="LABOR POSTER REPORT"/>
+		<property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.module.ld.businessobject.LaborOriginEntry" value="laborTransactionReportHelper"/>
+        	</map>
+       	</property>
     </bean>
 	
 	<bean id="laborPosterStep" class="org.kuali.kfs.module.ld.batch.LaborPosterStep" parent="wrappedStep">
@@ -625,6 +630,13 @@
 		<property name="filePath" value="${reports.directory}/ld"/>
 		<property name="fileNamePrefix" value="laborBalancing_"/>
         <property name="title" value="Labor Balancing Report"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.module.ld.businessobject.LaborOriginEntry" value="laborTransactionReportHelper"/>
+        		<entry key="org.kuali.kfs.module.ld.businessobject.LaborEntryHistory" value="ledgerEntryHistoryReportHelper"/>
+        		<entry key="org.kuali.kfs.module.ld.businessobject.LaborBalanceHistory" value="laborLedgerBalanceHistoryReportHelper"/>
+        	</map>
+       	</property>
     </bean>
 	
 	<bean id="laborBalancingStep" class="org.kuali.kfs.module.ld.batch.LaborBalancingStep" parent="wrappedStep">
@@ -1202,27 +1214,12 @@
 	</bean>
 
 	<bean id="laborTransactionReportHelper" parent="transactionReportHelper">
-	    <property name="responsibleClasses">
-	        <list>
-	            <value>org.kuali.kfs.module.ld.businessobject.LaborOriginEntry</value>
-	        </list>
-	    </property>
 	</bean>
 
 	<bean id="laborLedgerBalanceHistoryReportHelper" parent="ledgerBalanceHistoryReportHelper">
-	    <property name="responsibleClasses">
-	        <list>
-	            <value>org.kuali.kfs.module.ld.businessobject.LaborBalanceHistory</value>
-	        </list>
-	    </property>
 	</bean>
 	
 	<bean id="laborLedgerEntryHistoryReportHelper" parent="ledgerEntryHistoryReportHelper">
-	    <property name="responsibleClasses">
-	        <list>
-	            <value>org.kuali.kfs.module.ld.businessobject.LaborEntryHistory</value>
-	        </list>
-	    </property>
 	</bean>
 
 </beans>

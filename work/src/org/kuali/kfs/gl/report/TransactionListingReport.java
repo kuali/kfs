@@ -24,6 +24,8 @@ import java.util.Iterator;
 
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.report.BusinessObjectReportHelper;
+import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 import com.lowagie.text.Document;
@@ -48,44 +50,8 @@ import com.lowagie.text.pdf.PdfWriter;
 public class TransactionListingReport {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransactionListingReport.class);
 
-    class PageHelper extends PdfPageEventHelper {
-        public Date runDate;
-        public Font headerFont;
-        public String title;
-
-        /**
-         * Generates end page for the transaction listing report
-         * 
-         * @see com.lowagie.text.pdf.PdfPageEventHelper#onEndPage(com.lowagie.text.pdf.PdfWriter, com.lowagie.text.Document)
-         */
-        public void onEndPage(PdfWriter writer, Document document) {
-            try {
-                Rectangle page = document.getPageSize();
-                PdfPTable head = new PdfPTable(3);
-                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-                PdfPCell cell = new PdfPCell(new Phrase(sdf.format(runDate), headerFont));
-                cell.setBorder(Rectangle.NO_BORDER);
-                head.addCell(cell);
-
-                cell = new PdfPCell(new Phrase(title, headerFont));
-                cell.setBorder(Rectangle.NO_BORDER);
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                head.addCell(cell);
-
-                cell = new PdfPCell(new Phrase("Page: " + new Integer(writer.getPageNumber()), headerFont));
-                cell.setBorder(Rectangle.NO_BORDER);
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-                head.addCell(cell);
-
-                head.setTotalWidth(page.width() - document.leftMargin() - document.rightMargin());
-                head.writeSelectedRows(0, -1, document.leftMargin(), page.height() - document.topMargin() + head.getTotalHeight(), writer.getDirectContent());
-            }
-            catch (Exception e) {
-                throw new ExceptionConverter(e);
-            }
-        }
-    }
-
+    protected ReportWriterService reportWriterService;
+    
     public TransactionListingReport() {
         super();
     }
@@ -99,137 +65,37 @@ public class TransactionListingReport {
      * @param fileprefix file prefix of file
      * @param destinationDirectory directory where file resides
      */
-    public void generateReport(Iterator<Transaction> transactions, Date runDate, String title, String fileprefix, String destinationDirectory) {
+    public void generateReport(Iterator<Transaction> transactions, Date runDate) {
         LOG.debug("generateReport() started");
 
-        Font headerFont = FontFactory.getFont(FontFactory.COURIER, 8, Font.BOLD);
-        Font textFont = FontFactory.getFont(FontFactory.COURIER, 8, Font.NORMAL);
+        int transactionCount = 0;
+        KualiDecimal debitTotal = KualiDecimal.ZERO;
+        KualiDecimal creditTotal = KualiDecimal.ZERO;
+        KualiDecimal budgetTotal = KualiDecimal.ZERO;
 
-        Document document = new Document(PageSize.A4.rotate());
+        DecimalFormat nf = new DecimalFormat();
+        nf.applyPattern("###,###,###,##0.00");
 
-        PageHelper helper = new PageHelper();
-        helper.runDate = runDate;
-        helper.headerFont = headerFont;
-        helper.title = title;
+        if (transactions != null) {
+            while (transactions.hasNext()) {
+                Transaction tran = (Transaction) transactions.next();
 
-        try {
-            String filename = destinationDirectory + "/" + fileprefix + "_";
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
-            filename = filename + sdf.format(runDate);
-            filename = filename + ".pdf";
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filename));
-            writer.setPageEvent(helper);
-
-            document.open();
-
-            float[] widths = { 5, 9, 5, 5, 6, 5, 6, 5, 7, 25, 10, 10, 10 };
-            PdfPTable transactionList = new PdfPTable(widths);
-            transactionList.setHeaderRows(1);
-            transactionList.setWidthPercentage(100);
-
-            // Add headers
-            PdfPCell cell = new PdfPCell(new Phrase("Fiscal Year", headerFont));
-            transactionList.addCell(cell);
-            cell = new PdfPCell(new Phrase("Account Number", headerFont));
-            transactionList.addCell(cell);
-            cell = new PdfPCell(new Phrase("Object Code", headerFont));
-            transactionList.addCell(cell);
-            cell = new PdfPCell(new Phrase("Object Type", headerFont));
-            transactionList.addCell(cell);
-            cell = new PdfPCell(new Phrase("Balance Type", headerFont));
-            transactionList.addCell(cell);
-            cell = new PdfPCell(new Phrase("Fiscal Period", headerFont));
-            transactionList.addCell(cell);
-            cell = new PdfPCell(new Phrase("Document Type", headerFont));
-            transactionList.addCell(cell);
-            cell = new PdfPCell(new Phrase("System Origin", headerFont));
-            transactionList.addCell(cell);
-            cell = new PdfPCell(new Phrase("Document Number", headerFont));
-            transactionList.addCell(cell);
-            cell = new PdfPCell(new Phrase("Description", headerFont));
-            transactionList.addCell(cell);
-            cell = new PdfPCell(new Phrase("Debit Amount", headerFont));
-            transactionList.addCell(cell);
-            cell = new PdfPCell(new Phrase("Credit Amount", headerFont));
-            transactionList.addCell(cell);
-            cell = new PdfPCell(new Phrase("Budget Amount", headerFont));
-            transactionList.addCell(cell);
-
-            int transactionCount = 0;
-            KualiDecimal debitTotal = KualiDecimal.ZERO;
-            KualiDecimal creditTotal = KualiDecimal.ZERO;
-            KualiDecimal budgetTotal = KualiDecimal.ZERO;
-
-            DecimalFormat nf = new DecimalFormat();
-            nf.applyPattern("###,###,###,##0.00");
-
-            if (transactions != null) {
-                while (transactions.hasNext()) {
-                    Transaction tran = (Transaction) transactions.next();
-
-                    cell = new PdfPCell(new Phrase(tran.getUniversityFiscalYear() == null ? " " : tran.getUniversityFiscalYear().toString(), textFont));
-                    transactionList.addCell(cell);
-                    cell = new PdfPCell(new Phrase(tran.getChartOfAccountsCode() + "-" + tran.getAccountNumber(), textFont));
-                    transactionList.addCell(cell);
-                    cell = new PdfPCell(new Phrase(tran.getFinancialObjectCode(), textFont));
-                    transactionList.addCell(cell);
-                    cell = new PdfPCell(new Phrase(tran.getFinancialObjectTypeCode(), textFont));
-                    transactionList.addCell(cell);
-                    cell = new PdfPCell(new Phrase(tran.getFinancialBalanceTypeCode(), textFont));
-                    transactionList.addCell(cell);
-                    cell = new PdfPCell(new Phrase(tran.getUniversityFiscalPeriodCode(), textFont));
-                    transactionList.addCell(cell);
-                    cell = new PdfPCell(new Phrase(tran.getFinancialDocumentTypeCode(), textFont));
-                    transactionList.addCell(cell);
-                    cell = new PdfPCell(new Phrase(tran.getFinancialSystemOriginationCode(), textFont));
-                    transactionList.addCell(cell);
-                    cell = new PdfPCell(new Phrase(tran.getDocumentNumber(), textFont));
-                    transactionList.addCell(cell);
-                    cell = new PdfPCell(new Phrase(tran.getTransactionLedgerEntryDescription(), textFont));
-                    transactionList.addCell(cell);
-
-                    DecimalFormat decimalFormat = new DecimalFormat();
-
-                    if (KFSConstants.GL_DEBIT_CODE.equals(tran.getTransactionDebitCreditCode())) {
-                        cell = new PdfPCell(new Phrase(nf.format(tran.getTransactionLedgerEntryAmount().doubleValue()), textFont));
-                        debitTotal = debitTotal.add(tran.getTransactionLedgerEntryAmount());
-                    }
-                    else {
-                        cell = new PdfPCell(new Phrase(nf.format(0), textFont));
-                    }
-                    cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-                    transactionList.addCell(cell);
-
-                    if (KFSConstants.GL_CREDIT_CODE.equals(tran.getTransactionDebitCreditCode())) {
-                        cell = new PdfPCell(new Phrase(nf.format(tran.getTransactionLedgerEntryAmount().doubleValue()), textFont));
-                        creditTotal = creditTotal.add(tran.getTransactionLedgerEntryAmount());
-                    }
-                    else {
-                        cell = new PdfPCell(new Phrase(nf.format(0), textFont));
-                    }
-                    cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-                    transactionList.addCell(cell);
-
-                    if (!KFSConstants.GL_CREDIT_CODE.equals(tran.getTransactionDebitCreditCode()) && !KFSConstants.GL_DEBIT_CODE.equals(tran.getTransactionDebitCreditCode())) {
-                        cell = new PdfPCell(new Phrase(nf.format(tran.getTransactionLedgerEntryAmount().doubleValue()), textFont));
-                        budgetTotal = budgetTotal.add(tran.getTransactionLedgerEntryAmount());
-                    }
-                    else {
-                        cell = new PdfPCell(new Phrase(nf.format(0), textFont));
-                    }
-                    cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-                    transactionList.addCell(cell);
-
-                    transactionCount++;
+                reportWriterService.writeTableRow(tran);
+                
+                if (KFSConstants.GL_DEBIT_CODE.equals(tran.getTransactionDebitCreditCode())) {
+                    debitTotal = debitTotal.add(tran.getTransactionLedgerEntryAmount());
                 }
+                if (KFSConstants.GL_CREDIT_CODE.equals(tran.getTransactionDebitCreditCode())) {
+                    creditTotal = creditTotal.add(tran.getTransactionLedgerEntryAmount());
+                }
+                if (!KFSConstants.GL_CREDIT_CODE.equals(tran.getTransactionDebitCreditCode()) && !KFSConstants.GL_DEBIT_CODE.equals(tran.getTransactionDebitCreditCode())) {
+                    budgetTotal = budgetTotal.add(tran.getTransactionLedgerEntryAmount());
+                }
+                transactionCount++;
             }
+        }
 
-            // Now add the total line
-            cell = new PdfPCell(new Phrase("", textFont));
-            transactionList.addCell(cell);
-            cell = new PdfPCell(new Phrase("", textFont));
-            transactionList.addCell(cell);
-
+            /*// Now add the total line
             DecimalFormat intf = new DecimalFormat();
             intf.applyPattern("###,###");
             cell = new PdfPCell(new Phrase(intf.format(transactionCount), headerFont));
@@ -249,20 +115,14 @@ public class TransactionListingReport {
             cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
             transactionList.addCell(cell);
 
-            document.add(transactionList);
-        }
-        catch (DocumentException de) {
-            LOG.error("generateReport() Error creating PDF report", de);
-            throw new RuntimeException("Report Generation Failed: " + de.getMessage());
-        }
-        catch (FileNotFoundException fnfe) {
-            LOG.error("generateReport() Error writing PDF report", fnfe);
-            throw new RuntimeException("Report Generation Failed: Error writing to file " + fnfe.getMessage());
-        }
-        finally {
-            if ((document != null) && document.isOpen()) {
-                document.close();
-            }
-        }
+            document.add(transactionList);*/
+    }
+    
+    /**
+     * Sets the reportWriterService attribute value.
+     * @param reportWriterService The reportWriterService to set.
+     */
+    public void setReportWriterService(ReportWriterService reportWriterService) {
+        this.reportWriterService = reportWriterService;
     }
 }

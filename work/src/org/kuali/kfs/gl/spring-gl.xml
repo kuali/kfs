@@ -618,6 +618,7 @@
 		<property name="collectorFileDirectoryName" value="${staging.directory}/gl/collector"/>
 		<property name="demergerReportWriterService" ref="demergerReportWriterService" />
 		<property name="scrubberReportWriterService" ref="scrubberReportWriterService" />
+		<property name="scrubberListingReportWriterService" ref="scrubberListingReportWriterService" />
 		<property name="scrubberReportOnlyWriterService" ref="scrubberReportOnlyWriterService" />
 		<property name="collectorScrubberReportWriterService" ref="collectorScrubberReportWriterService" />
 		<property name="collectorDemergerReportWriterService" ref="collectorDemergerReportWriterService"/>
@@ -1279,6 +1280,15 @@
 		<property name="filePath" value="${reports.directory}/gl"/>
 		<property name="fileNamePrefix" value="balancing_"/>
         <property name="title" value="General Ledger Balancing Report"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.gl.businessobject.AccountBalanceHistory" value="accountBalanceHistoryReportHelper"/>
+        		<entry key="org.kuali.kfs.gl.businessobject.EncumbranceHistory" value="encumbranceHistoryReportHelper"/>
+        		<entry key="org.kuali.kfs.gl.businessobject.OriginEntryFull" value="transactionReportHelper"/>
+        		<entry key="org.kuali.kfs.gl.businessobject.EntryHistory" value="ledgerEntryHistoryReportHelper"/>
+        		<entry key="org.kuali.kfs.gl.businessobject.BalanceHistory" value="ledgerBalanceHistoryReportHelper"/>
+        	</map>
+        </property>
     </bean>
 	
 	<bean id="posterBalancingStep" class="org.kuali.kfs.gl.batch.PosterBalancingStep" parent="wrappedStep">
@@ -1533,30 +1543,39 @@
 		<property name="filePath" value="${reports.directory}/gl"/>
 		<property name="fileNamePrefix" value="demerger_report_"/>
         <property name="title" value="GL DEMERGER REPORT"/>
+        <!-- the report does not print out BO's, therefore classToBusinessObjectReportHelperBeanNames not needed-->
     </bean>
     
     <bean id="collectorDemergerReportWriterService" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/gl"/>
 		<property name="fileNamePrefix" value="collector_demerger_report_"/>
         <property name="title" value="GL DEMERGER REPORT"/>
+        <!-- the report does not print out BO's, therefore classToBusinessObjectReportHelperBeanNames not needed-->
     </bean>
     
     <bean id="scrubberReportWriterService" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/gl"/>
 		<property name="fileNamePrefix" value="scrubberJob_"/>
         <property name="title" value="GL SCRUBBER REPORT"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.gl.businessobject.OriginEntryFull" value="transactionReportHelper"/>
+        	</map>
+        </property>
     </bean>
     
     <bean id="scrubberReportOnlyWriterService" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/gl"/>
 		<property name="fileNamePrefix" value="scrubberJob_reportOnly_"/>
         <property name="title" value="GL SCRUBBER REPORT"/>
+        <!-- the report does not print out BO's, therefore classToBusinessObjectReportHelperBeanNames not needed-->
     </bean>
     
     <bean id="collectorScrubberReportWriterService" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/gl"/>
 		<property name="fileNamePrefix" value="scrubberJob_collector_"/>
         <property name="title" value="GL SCRUBBER REPORT"/>
+        <!-- the report does not print out BO's, therefore classToBusinessObjectReportHelperBeanNames not needed-->
     </bean>
 	
 	<bean id="scrubberStep" class="org.kuali.kfs.gl.batch.ScrubberStep" parent="wrappedStep">
@@ -1573,6 +1592,12 @@
 		<property name="filePath" value="${reports.directory}/gl"/>
 		<property name="fileNamePrefix" value="poster_main_"/>
         <property name="title" value="GL POSTER REPORT (MAIN)"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.gl.businessobject.OriginEntryFull" value="transactionReportHelper"/>
+        		<entry key="org.kuali.kfs.gl.businessobject.Reversal" value="transactionReportHelper"/>
+        	</map>
+       	</property>
     </bean>
 
 	<bean id="posterEntriesStep" class="org.kuali.kfs.gl.batch.PosterEntriesStep" parent="wrappedStep">
@@ -1589,6 +1614,12 @@
 		<property name="filePath" value="${reports.directory}/gl"/>
 		<property name="fileNamePrefix" value="poster_icr_"/>
         <property name="title" value="GL POSTER REPORT (ICR)"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.gl.businessobject.OriginEntryFull" value="transactionReportHelper"/>
+        		<entry key="org.kuali.kfs.gl.businessobject.Reversal" value="transactionReportHelper"/>
+        	</map>
+       	</property>
     </bean>
 
 	<bean id="posterIndirectCostRecoveryEntriesStep" class="org.kuali.kfs.gl.batch.PosterIndirectCostRecoveryEntriesStep" parent="wrappedStep">
@@ -1605,6 +1636,11 @@
 		<property name="filePath" value="${reports.directory}/gl"/>
 		<property name="fileNamePrefix" value="poster_reversal_"/>
         <property name="title" value="GL POSTER REPORT (REVERSAL)"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.gl.businessobject.Reversal" value="transactionReportHelper"/>
+        	</map>
+       	</property>
     </bean>
 
 	<bean id="posterReversalStep" class="org.kuali.kfs.gl.batch.PosterReversalStep" parent="wrappedStep">
@@ -1621,6 +1657,11 @@
 		<property name="filePath" value="${reports.directory}/gl"/>
 		<property name="fileNamePrefix" value="icr_generation_"/>
         <property name="title" value="ICR GENERATION REPORT"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.gl.businessobject.OriginEntryFull" value="transactionReportHelper"/>
+        	</map>
+       	</property>
     </bean>
 
 	<bean id="posterIndirectCostRecoveryGenerationStep" class="org.kuali.kfs.gl.batch.PosterIcrGenerationStep" parent="wrappedStep">
@@ -1938,12 +1979,6 @@
 	</bean>
 
 	<bean id="transactionReportHelper" parent="businessObjectReportHelper">
-	    <property name="responsibleClasses">
-	        <list>
-	            <value>org.kuali.kfs.gl.businessobject.OriginEntryFull</value>
-	            <value>org.kuali.kfs.gl.businessobject.Reversal</value>
-	        </list>
-	    </property>
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.Entry" />
 	    <property name="orderedPropertyNameToHeaderLabelMap">
     		<map>
@@ -1963,13 +1998,31 @@
     		</map>
 	    </property>
 	</bean>
-	
-	<bean id="sufficientFundRebuildReportHelper" parent="businessObjectReportHelper">
-	    <property name="responsibleClasses">
-	        <list>
-	            <value>org.kuali.kfs.gl.businessobject.SufficientFundRebuild</value>
-	        </list>
+
+	<bean id="transactionListingReportHelper" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.Entry" />
+	    <property name="orderedPropertyNameToHeaderLabelMap">
+    		<map>
+    			<entry key="universityFiscalYear" value="YEAR"/>
+    			<entry key="chartOfAccountsCode" value="COA"/>
+    			<entry key="accountNumber" value="ACCOUNT"/>
+    			<entry key="financialObjectCode" value="OBJ"/>
+    			<entry key="financialObjectTypeCode" value="OT"/>
+    			<entry key="financialBalanceTypeCode" value="BT"/>
+    			<entry key="universityFiscalPeriodCode" value="PRD"/>
+    			<entry key="financialDocumentTypeCode" value="DTYP"/>
+    			<entry key="financialSystemOriginationCode" value="ORIG"/>
+    			<entry key="documentNumber" value="DOC #"/>
+    			<entry key="transactionLedgerEntryDescription" value="DESC"/>
+    			<entry key="debitAmount" value="Debit Amount"/>
+    			<entry key="creditAmount" value="Credit Amount"/>
+    			<entry key="budgetAmount" value="Budget Amount"/>
+    		</map>
 	    </property>
+	</bean>
+		
+	<!-- TODO: warren this bean doesn't seem to be referenced anywhere -->
+	<bean id="sufficientFundRebuildReportHelper" parent="businessObjectReportHelper">
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.SufficientFundRebuild" />
 	    <property name="orderedPropertyNameToHeaderLabelMap">
     		<map>
@@ -1980,12 +2033,8 @@
 	    </property>
 	</bean>
 	
+	<!-- TODO: warren this bean doesn't seem to be referenced anywhere -->
 	<bean id="expenditureTransactionReportHelper" parent="businessObjectReportHelper">
-	    <property name="responsibleClasses">
-	        <list>
-	            <value>org.kuali.kfs.gl.businessobject.ExpenditureTransaction</value>
-	        </list>
-	    </property>
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.ExpenditureTransaction" />
 	    <property name="orderedPropertyNameToHeaderLabelMap">
     		<map>
@@ -2005,11 +2054,6 @@
 	</bean>
 
 	<bean id="ledgerBalanceHistoryReportHelper" parent="businessObjectReportHelper">
-	    <property name="responsibleClasses">
-	        <list>
-	            <value>org.kuali.kfs.gl.businessobject.BalanceHistory</value>
-	        </list>
-	    </property>
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.Balance" />
 	    <property name="orderedPropertyNameToHeaderLabelMap">
     		<map>
@@ -2026,11 +2070,6 @@
 	</bean>
 	
 	<bean id="ledgerEntryHistoryReportHelper" parent="businessObjectReportHelper">
-	    <property name="responsibleClasses">
-	        <list>
-	            <value>org.kuali.kfs.gl.businessobject.EntryHistory</value>
-	        </list>
-	    </property>
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.Entry" />
 	    <property name="orderedPropertyNameToHeaderLabelMap">
     		<map>
@@ -2045,11 +2084,6 @@
 	</bean>
 
 	<bean id="accountBalanceHistoryReportHelper" parent="businessObjectReportHelper">
-	    <property name="responsibleClasses">
-	        <list>
-	            <value>org.kuali.kfs.gl.businessobject.AccountBalanceHistory</value>
-	        </list>
-	    </property>
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.AccountBalance" />
 	    <property name="orderedPropertyNameToHeaderLabelMap">
     		<map>
@@ -2064,11 +2098,6 @@
 	</bean>
 	
 	<bean id="encumbranceHistoryReportHelper" parent="businessObjectReportHelper">
-	    <property name="responsibleClasses">
-	        <list>
-	            <value>org.kuali.kfs.gl.businessobject.EncumbranceHistory</value>
-	        </list>
-	    </property>
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.Encumbrance" />
 	    <property name="orderedPropertyNameToHeaderLabelMap">
     		<map>
@@ -2087,4 +2116,15 @@
 	</bean>
 
 	<bean id="batchFileService" class="org.kuali.kfs.gl.batch.service.impl.BatchFileServiceImpl" singleton="false" />
+	
+	<bean id="scrubberListingReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/gl"/>
+		<property name="fileNamePrefix" value="scrubber_listing_"/>
+        <property name="title" value="Output Transaction Listing From the Scrubber"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.gl.businessobject.OriginEntryFull" value="transactionListingReportHelper"/>
+        	</map>
+       	</property>
+    </bean>
 </beans>

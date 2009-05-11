@@ -61,6 +61,12 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
     protected String pageLabel;
     protected DateTimeService dateTimeService;
 
+    /**
+     * A map of BO classes to {@link BusinessObjectReportHelper} bean names, to configure which BO's will be rendered by which BusinessObjectReportHelper.
+     * This property should be configured via the spring bean definition 
+     */
+    protected Map<Class<? extends BusinessObject>, String> classToBusinessObjectReportHelperBeanNames;
+    
     // Local caching field to speed up the selection of formatting BusinessObjectReportHelper to use per configuration in Spring
     protected Map<Class<? extends BusinessObject>, BusinessObjectReportHelper> businessObjectReportHelpers;
     
@@ -84,16 +90,36 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
      */
     public void initialize() {
         try {
-            printStream = new PrintStream(filePath + File.separator + this.fileNamePrefix + dateTimeService.toDateTimeStringForFilename(dateTimeService.getCurrentDate()) + fileNameSuffix);
+            printStream = new PrintStream(generateFullFilePath());
         }
         catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
         
         page = initialPageNumber;
-        
+
+        initializeBusinessObjectReportHelpers();
         // Initial header
         this.writeHeader(title);
+    }
+    
+    protected void initializeBusinessObjectReportHelpers() {
+        businessObjectReportHelpers = new HashMap<Class<? extends BusinessObject>, BusinessObjectReportHelper>();
+        if (classToBusinessObjectReportHelperBeanNames != null) {
+            for (Class<? extends BusinessObject> clazz : classToBusinessObjectReportHelperBeanNames.keySet()) {
+                String businessObjectReportHelperBeanName = classToBusinessObjectReportHelperBeanNames.get(clazz);
+                BusinessObjectReportHelper reportHelper = (BusinessObjectReportHelper) SpringContext.getService(businessObjectReportHelperBeanName);
+                if (ObjectUtils.isNull(reportHelper)) {
+                    LOG.error("Cannot find BusinessObjectReportHelper implementation for class: " + clazz.getName() + " bean name: " + businessObjectReportHelperBeanName);
+                    throw new RuntimeException("Cannot find BusinessObjectReportHelper implementation for class: " + clazz.getName() + " bean name: " + businessObjectReportHelperBeanName);
+                }
+                businessObjectReportHelpers.put(clazz, reportHelper);
+            }
+        }
+    }
+    
+    protected String generateFullFilePath() {
+        return filePath + File.separator + this.fileNamePrefix + dateTimeService.toDateTimeStringForFilename(dateTimeService.getCurrentDate()) + fileNameSuffix;
     }
     
     /**
@@ -290,30 +316,6 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
     }
     
     /**
-     * Initializes the businessObjectReportHelpers Map based on spring bean injections. This represents keys mapped to businessObjectReportHelpers that
-     * are responsible for managing the reporting printing of that key. Note that several keys may map to the same businessObjectReportHelpers depending
-     * on how it is defined in spring.
-     * @return map of class by BusinessObjectReportHelper
-     */
-    public Map<Class<? extends BusinessObject>, BusinessObjectReportHelper> getBusinessObjectReportHelpers() {
-        if (ObjectUtils.isNull(businessObjectReportHelpers)) {
-            businessObjectReportHelpers = new HashMap<Class<? extends BusinessObject>, BusinessObjectReportHelper>();
-            
-            for (Iterator<BusinessObjectReportHelper> businessObjectReportHelpersIter = SpringContext.getBeansOfType(BusinessObjectReportHelper.class).values().iterator(); businessObjectReportHelpersIter.hasNext();) {
-                BusinessObjectReportHelper businessObjectReportHelper = businessObjectReportHelpersIter.next();
-                
-                for (Iterator<Class<? extends BusinessObject>> responsibleClassesIter = businessObjectReportHelper.getResponsibleClasses().iterator(); responsibleClassesIter.hasNext();) {
-                    Class<? extends BusinessObject> responsibleClass = responsibleClassesIter.next();
-                    
-                    businessObjectReportHelpers.put(responsibleClass, businessObjectReportHelper);
-                }
-            }            
-        }
-        
-        return businessObjectReportHelpers;
-    }
-    
-    /**
      * @see org.kuali.kfs.sys.service.ReportWriterService#writeTableHeader(org.kuali.rice.kns.bo.BusinessObject)
      */
     public void writeTableHeader(BusinessObject businessObject) {
@@ -344,7 +346,7 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
      * @return the business report helper for the given business object
      */
     private BusinessObjectReportHelper getBusinessObjectReportHelper(BusinessObject businessObject) {
-        BusinessObjectReportHelper businessObjectReportHelper = this.getBusinessObjectReportHelpers().get(businessObject.getClass());
+        BusinessObjectReportHelper businessObjectReportHelper = this.businessObjectReportHelpers.get(businessObject.getClass());
         if (ObjectUtils.isNull(businessObjectReportHelper)) {
             throw new RuntimeException(businessObject.getClass().toString() + " is not handled");
         }
@@ -458,5 +460,14 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }
+
+    /**
+     * Sets a map of BO classes to {@link BusinessObjectReportHelper} bean names, to configure which BO's will be rendered by which BusinessObjectReportHelper.
+     * This property should be configured via the spring bean definition
+     * @param classToBusinessObjectReportHelperBeanNames The classToBusinessObjectReportHelperBeanNames to set.
+     */
+    public void setClassToBusinessObjectReportHelperBeanNames(Map<Class<? extends BusinessObject>, String> classToBusinessObjectReportHelperBeanNames) {
+        this.classToBusinessObjectReportHelperBeanNames = classToBusinessObjectReportHelperBeanNames;
     }
 }

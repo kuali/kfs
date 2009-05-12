@@ -1811,32 +1811,6 @@
         </bean> 
         
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Related Document Lookup" />
-		  <property name="defaultOpen" value="false"/>          
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
-            <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="assetMaintenanceDocumentLookup" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="assetFabricationDocumentLookup" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="assetCreateOrSeparateDocumentLookup" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="assetPaymentDocumentLookup" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="assetTransferDocumentLookup" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="assetEquipmentLoanOrReturnDocumentLookup" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="assetLocationDocumentLookup" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="assetMergeOrRetirementDocumentLookup" />
-            </list>
-          </property>
-        </bean>
-        
-        <bean parent="InquirySectionDefinition">
           <property name="title" value="Fabrication Information" />
 		  <property name="defaultOpen" value="false"/>          
           <property name="numberOfColumns" value="1" />
@@ -2148,6 +2122,33 @@
             </list>
           </property>
         </bean> 
+              
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Lookup Related Capital Asset Docuemnt(s)" />
+		  <property name="defaultOpen" value="false"/>          
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetMaintenanceDocumentLookup" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetFabricationDocumentLookup" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetCreateOrSeparateDocumentLookup" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetPaymentDocumentLookup" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetTransferDocumentLookup" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetEquipmentLoanOrReturnDocumentLookup" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetLocationDocumentLookup" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="assetMergeOrRetirementDocumentLookup" />
+            </list>
+          </property>
+        </bean>
+              
       </list>
     </property>
     <property name="inquirableClass" value="org.kuali.kfs.module.cam.businessobject.inquiry.AssetInquirableImpl" />

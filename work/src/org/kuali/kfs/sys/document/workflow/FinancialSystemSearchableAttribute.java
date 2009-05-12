@@ -44,6 +44,7 @@ import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.FieldUtils;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 import org.kuali.rice.kns.web.ui.Row;
@@ -67,9 +68,12 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
             Map<String, AccountingLineGroupDefinition> alGroups = ((FinancialSystemTransactionalDocumentEntry)entry).getAccountingLineGroups();
             Class alClass = SourceAccountingLine.class;
 
-            if (alGroups.containsKey("source")) {
-                alClass = alGroups.get("source").getAccountingLineClass();
+            if (ObjectUtils.isNotNull(alGroups)) {
+                if (alGroups.containsKey("source")) {
+                    alClass = alGroups.get("source").getAccountingLineClass();
+                }
             }
+            
             BusinessObject alBusinessObject  = null;
 
             Class orgClass = Organization.class;

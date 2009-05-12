@@ -56,6 +56,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 public class AssetMaintainableImpl extends KualiMaintainableImpl {
     private Asset newAsset;
     private Asset copyAsset;
+    private boolean fabricationOn;
 
     private static final Map<String, String> FINANCIAL_DOC_NAME_MAP = new HashMap<String, String>();
     static {
@@ -168,6 +169,8 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl {
         if (copyAsset == null) {
             copyAsset = (Asset) document.getOldMaintainableObject().getBusinessObject();
         }
+
+        setFabricationOn(document.getNewMaintainableObject().getBusinessObject() instanceof AssetFabrication);
     }
 
 
@@ -238,6 +241,14 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl {
             }
         }
         return documentInfo;
+    }
+
+    public boolean isFabricationOn() {
+        return fabricationOn;
+    }
+
+    public void setFabricationOn(boolean fabricationOn) {
+        this.fabricationOn = fabricationOn;
     }
 
     private AssetService getAssetService() {

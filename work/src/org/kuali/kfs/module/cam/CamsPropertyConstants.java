@@ -200,6 +200,7 @@ public class CamsPropertyConstants {
         public static final String OFF_CAMPUS_ADDRESS = "offCampusAddress";
         public static final String OFF_CAMPUS_CITY = "offCampusCityName";
         public static final String OFF_CAMPUS_ZIP = "offCampusZipCode";
+        public static final String OFF_CAMPUS_CONTACT_NAME = "offCampusName";
         public static final String LOCATION_TAB = "locationTabKey";
         public static final String TRANSFER_FUND_FINANCIAL_DOC = "transferOfFundsFinancialDocument";
         public static final String TRANSFER_FUND_FINANCIAL_DOC_NUM = "transferOfFundsFinancialDocumentNumber";

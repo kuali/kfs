@@ -69,6 +69,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         LOCATION_FIELD_MAP.put(LocationField.STATE_CODE, CamsPropertyConstants.AssetTransferDocument.OFF_CAMPUS_STATE_CODE);
         LOCATION_FIELD_MAP.put(LocationField.ZIP_CODE, CamsPropertyConstants.AssetTransferDocument.OFF_CAMPUS_ZIP);
         LOCATION_FIELD_MAP.put(LocationField.COUNTRY_CODE, CamsPropertyConstants.AssetGlobalDetail.OFF_CAMPUS_COUNTRY_CODE);
+        LOCATION_FIELD_MAP.put(LocationField.CONTACT_NAME, CamsPropertyConstants.AssetTransferDocument.OFF_CAMPUS_CONTACT_NAME);
     }
 
     private UniversityDateService universityDateService;

@@ -331,6 +331,10 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
      * @see org.kuali.kfs.sys.service.ReportWriterService#writeTableRow(org.kuali.rice.kns.bo.BusinessObject)
      */
     public void writeTableRow(BusinessObject businessObject) {
+        if (newPage) {
+            writeTableHeader(businessObject);
+            newPage = false;
+        }
         BusinessObjectReportHelper businessObjectReportHelper = getBusinessObjectReportHelper(businessObject);
         Map<String, String> tableDefinition = businessObjectReportHelper.getTableDefintion(pageWidth);
 

@@ -49,8 +49,10 @@ import org.kuali.kfs.gl.batch.ScrubberSortStep.ScrubberSortComparator;
 import org.kuali.kfs.gl.batch.service.AccountingCycleCachingService;
 import org.kuali.kfs.gl.batch.service.RunDateService;
 import org.kuali.kfs.gl.batch.service.ScrubberProcessObjectCodeOverride;
+import org.kuali.kfs.gl.batch.service.impl.OriginEntryFileIterator;
 import org.kuali.kfs.gl.report.CollectorReportData;
 import org.kuali.kfs.gl.report.TextReportHelper;
+import org.kuali.kfs.gl.report.TransactionListingReport;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.gl.service.ScrubberReportData;
@@ -60,11 +62,13 @@ import org.kuali.kfs.gl.service.impl.StringHelper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.sys.batch.service.WrappingBatchService;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.exception.InvalidFlexibleOffsetException;
+import org.kuali.kfs.sys.service.DocumentNumberAwareReportWriterService;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -307,7 +311,13 @@ public class ScrubberProcess {
         setDescriptions();
         ScrubberReportData scrubberReport = new ScrubberReportData();
         processGroup(reportOnlyMode, scrubberReport);
-        
+
+        if (reportOnlyMode) {
+            ((DocumentNumberAwareReportWriterService) scrubberListingReportWriterService).setDocumentNumber(documentNumber);
+            ((WrappingBatchService) scrubberListingReportWriterService).initialize();
+            new TransactionListingReport().generateReport(scrubberListingReportWriterService, new OriginEntryFileIterator(new File(inputFile)), runDate);
+            ((WrappingBatchService) scrubberListingReportWriterService).destroy();
+        }
         /*reportService.generateBatchScrubberStatisticsReport(runDate, scrubberReport, scrubberReportErrors);
         
         //TODO: Shawn - need to implement below reports after Philip's report conversion work is done.

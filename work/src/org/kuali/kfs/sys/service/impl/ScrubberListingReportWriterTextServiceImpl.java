@@ -40,8 +40,6 @@ public class ScrubberListingReportWriterTextServiceImpl extends ReportWriterText
     @Override
     public void initialize() {
         super.initialize();
-        
-        documentNumber = KNSConstants.EMPTY_STRING;
     }
 
     /**

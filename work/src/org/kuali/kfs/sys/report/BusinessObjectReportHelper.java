@@ -232,7 +232,7 @@ public class BusinessObjectReportHelper {
             }
             else {
                 try {
-                    Object propertyValue = PropertyUtils.getProperty(businessObject, attributeName);
+                    Object propertyValue = retrievePropertyValue(businessObject, attributeName);
                     tableCellValues.add(ObjectUtils.isNotNull(propertyValue) ? propertyValue.toString() : StringUtils.EMPTY);
                 }
                 catch (Exception e) {
@@ -267,18 +267,17 @@ public class BusinessObjectReportHelper {
         for (Map.Entry<String, String> entry : orderedPropertyNameToHeaderLabelMap.entrySet()) {
             String attributeName = entry.getKey();
 
-            int maxLengthOfAttribute = 0;
+            int cellWidth = 0;
             if (!attributeName.startsWith(KFSConstants.ReportConstants.EMPTY_CELL_ENTRY_KEY_PREFIX)) {
                 try {
-                    maxLengthOfAttribute = retrievePropertyValueMaximumLength(dataDictionaryBusinessObjectClass, entry.getKey());
+                    cellWidth = retrievePropertyValueMaximumLength(dataDictionaryBusinessObjectClass, entry.getKey());
                 }
                 catch (Exception e) {
                     throw new RuntimeException("Failed getting propertyName=" + entry.getKey() + " from businessObjecName=" + dataDictionaryBusinessObjectClass.getName(), e);
                 }
             }
 
-            int cellWidth = entry.getValue().length();
-            if (entry.getValue().length() > maxLengthOfAttribute) {
+            if (entry.getValue().length() > cellWidth) {
                 cellWidth = entry.getValue().length();
             }
 

@@ -16,7 +16,10 @@
 package org.kuali.kfs.gl.report;
 
 import org.kuali.kfs.gl.businessobject.Entry;
+import org.kuali.kfs.gl.businessobject.OriginEntry;
+import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.report.BusinessObjectReportHelper;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -27,22 +30,22 @@ public class TransactionListingReportBusinessObjectReportHelper extends Business
      */
     @Override
     protected Object retrievePropertyValue(BusinessObject businessObject, String propertyName) {
-        if ("debitAmount".equals(propertyName) && Entry.class.isAssignableFrom(businessObject.getClass())) {
-            Entry e = (Entry) businessObject;
+        if ("debitAmount".equals(propertyName) && businessObject instanceof Transaction) {
+            Transaction e = (Transaction) businessObject;
             if (KFSConstants.GL_DEBIT_CODE.equals(e.getTransactionDebitCreditCode())) {
                 return e.getTransactionLedgerEntryAmount();
             }
             return KualiDecimal.ZERO;
         }
-        if ("creditAmount".equals(propertyName) && Entry.class.isAssignableFrom(businessObject.getClass())) {
-            Entry e = (Entry) businessObject;
+        if ("creditAmount".equals(propertyName) && businessObject instanceof Transaction) {
+            Transaction e = (Transaction) businessObject;
             if (KFSConstants.GL_CREDIT_CODE.equals(e.getTransactionDebitCreditCode())) {
                 return e.getTransactionLedgerEntryAmount();
             }
             return KualiDecimal.ZERO;
         }
-        if ("budgetAmount".equals(propertyName) && Entry.class.isAssignableFrom(businessObject.getClass())) {
-            Entry e = (Entry) businessObject;
+        if ("budgetAmount".equals(propertyName) && businessObject instanceof Transaction) {
+            Transaction e = (Transaction) businessObject;
             if (!KFSConstants.GL_DEBIT_CODE.equals(e.getTransactionDebitCreditCode()) &&
                     !KFSConstants.GL_CREDIT_CODE.equals(e.getTransactionDebitCreditCode())) {
                 return e.getTransactionLedgerEntryAmount();
@@ -57,7 +60,9 @@ public class TransactionListingReportBusinessObjectReportHelper extends Business
      */
     @Override
     protected int retrievePropertyValueMaximumLength(Class<? extends BusinessObject> businessObjectClass, String propertyName) {
-        // TODO Auto-generated method stub
+        if ("debitAmount".equals(propertyName) || "creditAmount".equals(propertyName) || "budgetAmount".equals(propertyName)) {
+            return super.retrievePropertyValueMaximumLength(businessObjectClass, KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT);
+        }
         return super.retrievePropertyValueMaximumLength(businessObjectClass, propertyName);
     }
 

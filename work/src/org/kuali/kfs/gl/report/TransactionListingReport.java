@@ -50,8 +50,6 @@ import com.lowagie.text.pdf.PdfWriter;
 public class TransactionListingReport {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransactionListingReport.class);
 
-    protected ReportWriterService reportWriterService;
-    
     public TransactionListingReport() {
         super();
     }
@@ -65,7 +63,7 @@ public class TransactionListingReport {
      * @param fileprefix file prefix of file
      * @param destinationDirectory directory where file resides
      */
-    public void generateReport(Iterator<Transaction> transactions, Date runDate) {
+    public void generateReport(ReportWriterService reportWriterService, Iterator<? extends Transaction> transactions, Date runDate) {
         LOG.debug("generateReport() started");
 
         int transactionCount = 0;
@@ -116,13 +114,5 @@ public class TransactionListingReport {
             transactionList.addCell(cell);
 
             document.add(transactionList);*/
-    }
-    
-    /**
-     * Sets the reportWriterService attribute value.
-     * @param reportWriterService The reportWriterService to set.
-     */
-    public void setReportWriterService(ReportWriterService reportWriterService) {
-        this.reportWriterService = reportWriterService;
     }
 }

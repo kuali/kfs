@@ -1999,7 +1999,7 @@
 	    </property>
 	</bean>
 
-	<bean id="transactionListingReportHelper" parent="businessObjectReportHelper">
+	<bean id="transactionListingReportHelper" parent="businessObjectReportHelper" class="org.kuali.kfs.gl.report.TransactionListingReportBusinessObjectReportHelper">
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.Entry" />
 	    <property name="orderedPropertyNameToHeaderLabelMap">
     		<map>
@@ -2019,6 +2019,7 @@
     			<entry key="budgetAmount" value="Budget Amount"/>
     		</map>
 	    </property>
+	    <property name="columnCount" value="14"/>
 	</bean>
 		
 	<!-- TODO: warren this bean doesn't seem to be referenced anywhere -->
@@ -2117,7 +2118,7 @@
 
 	<bean id="batchFileService" class="org.kuali.kfs.gl.batch.service.impl.BatchFileServiceImpl" singleton="false" />
 	
-	<bean id="scrubberListingReportWriterService" parent="reportWriterService">
+	<bean id="scrubberListingReportWriterService" parent="reportWriterService" class="org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl">
 		<property name="filePath" value="${reports.directory}/gl"/>
 		<property name="fileNamePrefix" value="scrubber_listing_"/>
         <property name="title" value="Output Transaction Listing From the Scrubber"/>

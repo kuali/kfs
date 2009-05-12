@@ -91,10 +91,6 @@ public class FormatAction extends KualiAction {
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         FormatForm formatForm = (FormatForm) form;
         
-        // when we return from the lookup, our next request's method to call is going to be refresh
-        formatForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
-        formatForm.registerNextMethodToCallIsRefresh(true);
-
         Person kualiUser = GlobalVariables.getUserSession().getPerson();
         FormatSelection formatSelection = formatService.getDataForFormat(kualiUser);
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
@@ -123,6 +119,10 @@ public class FormatAction extends KualiAction {
             formatForm.setCustomers(customers);
             formatForm.setRanges(formatSelection.getRangeList());
         }
+        
+        // when we return from the lookup, our next request's method to call is going to be refresh
+        formatForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
+        formatForm.registerNextMethodToCallIsRefresh(true);
 
         return mapping.findForward(PdpConstants.MAPPING_SELECTION);
     }
@@ -140,10 +140,6 @@ public class FormatAction extends KualiAction {
     public ActionForward prepare(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         FormatForm formatForm = (FormatForm) form;
 
-        // when we return from the lookup, our next request's method to call is going to be refresh
-        formatForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
-        formatForm.registerNextMethodToCallIsRefresh(true);
-                
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
 
         if (formatForm.getCampus() == null) {
@@ -169,6 +165,10 @@ public class FormatAction extends KualiAction {
         }
 
         formatForm.setFormatProcessSummary(formatProcessSummary);
+
+        // when we return from the lookup, our next request's method to call is going to be refresh
+        formatForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
+        formatForm.registerNextMethodToCallIsRefresh(true);
 
         return mapping.findForward(PdpConstants.MAPPING_CONTINUE);
     }
@@ -215,16 +215,16 @@ public class FormatAction extends KualiAction {
      */
     public ActionForward clear(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         FormatForm formatForm = (FormatForm) form;
-        
-        // when we return from the lookup, our next request's method to call is going to be refresh
-        formatForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
-        formatForm.registerNextMethodToCallIsRefresh(true);
 
         List<CustomerProfile> customers = formatForm.getCustomers();
         for (CustomerProfile customerProfile : customers) {
             customerProfile.setSelectedForFormat(false);
         }
         formatForm.setCustomers(customers);
+        
+        // when we return from the lookup, our next request's method to call is going to be refresh
+        formatForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
+        formatForm.registerNextMethodToCallIsRefresh(true);
 
         return mapping.findForward(PdpConstants.MAPPING_SELECTION);
 
@@ -243,15 +243,14 @@ public class FormatAction extends KualiAction {
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         FormatForm formatForm = (FormatForm) form;
         
-        // when we return from the lookup, our next request's method to call is going to be refresh
-        formatForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
-        formatForm.registerNextMethodToCallIsRefresh(true);
-        
         KualiInteger processId = formatForm.getFormatProcessSummary().getProcessId();
 
         if (processId != null) {
             formatService.clearUnfinishedFormat(processId.intValue());
         }
+        // when we return from the lookup, our next request's method to call is going to be refresh
+        formatForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
+        formatForm.registerNextMethodToCallIsRefresh(true);
 
         return mapping.findForward(KNSConstants.MAPPING_PORTAL);
 
@@ -270,16 +269,14 @@ public class FormatAction extends KualiAction {
     public ActionForward clearUnfinishedFormat(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         FormatForm formatForm = (FormatForm) form; 
         
-        // when we return from the lookup, our next request's method to call is going to be refresh
-        formatForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
-        formatForm.registerNextMethodToCallIsRefresh(true);
-
         String processIdParam = request.getParameter(PdpParameterConstants.FormatProcess.PROCESS_ID_PARAM);
         Integer processId = Integer.parseInt(processIdParam);
 
         if (processId != null) {
             formatService.resetFormatPayments(processId);
         }
+        formatForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
+        formatForm.registerNextMethodToCallIsRefresh(true);
 
         return mapping.findForward(KNSConstants.MAPPING_PORTAL);
 

@@ -24,6 +24,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.DisbursementNumberRange;
 import org.kuali.kfs.pdp.businessobject.FormatProcessSummary;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.format.CurrencyFormatter;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
@@ -48,6 +49,8 @@ public class FormatForm extends KualiForm {
         super();
         customers = new ArrayList<CustomerProfile>();
         ranges = new ArrayList<DisbursementNumberRange>();
+        registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
+        registerNextMethodToCallIsRefresh(true);
     }
 
     /**

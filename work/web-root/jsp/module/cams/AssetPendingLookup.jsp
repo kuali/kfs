@@ -18,7 +18,9 @@
 
 <c:set var="preqLockingList" value="${KualiForm.document.newMaintainableObject.preqLinks}" />
 <c:set var="linkedDocumentNames" value="${KualiForm.document.newMaintainableObject.fpLinkedDocumentInfo}" />
+<c:set var="fabricationOn" value="${KualiForm.document.newMaintainableObject.fabricationOn}" />
 
+<c:if test="${!fabricationOn }" >
 <kul:tab tabTitle="View Purchasing/Financial Asset Documents" defaultOpen="false">
 	<div class="tab-container" align=center>
 		<table cellpadding="0" cellspacing="0" class="datatable" summary="view/edit pending entries">
@@ -53,3 +55,4 @@
 		</table>
 	</div>
 </kul:tab>
+</c:if>

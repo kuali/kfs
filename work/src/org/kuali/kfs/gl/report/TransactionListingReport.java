@@ -71,9 +71,6 @@ public class TransactionListingReport {
         KualiDecimal creditTotal = KualiDecimal.ZERO;
         KualiDecimal budgetTotal = KualiDecimal.ZERO;
 
-        DecimalFormat nf = new DecimalFormat();
-        nf.applyPattern("###,###,###,##0.00");
-
         if (transactions != null) {
             while (transactions.hasNext()) {
                 Transaction tran = (Transaction) transactions.next();
@@ -93,26 +90,9 @@ public class TransactionListingReport {
             }
         }
 
-            /*// Now add the total line
-            DecimalFormat intf = new DecimalFormat();
-            intf.applyPattern("###,###");
-            cell = new PdfPCell(new Phrase(intf.format(transactionCount), headerFont));
-            cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-            transactionList.addCell(cell);
-            cell = new PdfPCell(new Phrase("", textFont));
-            cell.setColspan(7);
-            transactionList.addCell(cell);
-            cell = new PdfPCell(new Phrase(nf.format(debitTotal.doubleValue()), headerFont));
-            cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-            transactionList.addCell(cell);
-            cell = new PdfPCell(new Phrase(nf.format(creditTotal.doubleValue()), headerFont));
-            cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-            transactionList.addCell(cell);
-
-            cell = new PdfPCell(new Phrase(nf.format(budgetTotal.doubleValue()), headerFont));
-            cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-            transactionList.addCell(cell);
-
-            document.add(transactionList);*/
+        reportWriterService.writeStatisticLine("Total Transactions                %,9d", transactionCount);
+        reportWriterService.writeStatisticLine("Total Debit Amount                %,9.2f", debitTotal.doubleValue());
+        reportWriterService.writeStatisticLine("Total Credit Amount               %,9.2f", creditTotal.doubleValue());
+        reportWriterService.writeStatisticLine("Total Budget Amount               %,9.2f", budgetTotal.doubleValue());
     }
 }

@@ -318,6 +318,12 @@ public class ScrubberProcess {
             new TransactionListingReport().generateReport(scrubberListingReportWriterService, new OriginEntryFileIterator(new File(inputFile)), runDate);
             ((WrappingBatchService) scrubberListingReportWriterService).destroy();
         }
+        else if (collectorMode) {
+            
+        }
+        else {
+            
+        }
         /*reportService.generateBatchScrubberStatisticsReport(runDate, scrubberReport, scrubberReportErrors);
         
         //TODO: Shawn - need to implement below reports after Philip's report conversion work is done.

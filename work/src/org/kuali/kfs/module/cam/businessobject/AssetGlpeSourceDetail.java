@@ -24,7 +24,6 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public class AssetGlpeSourceDetail extends PersistableBusinessObjectBase implements GeneralLedgerPendingEntrySourceDetail {
-    private Account account;
     private String accountNumber;
     private KualiDecimal amount;
     private String balanceTypeCode;
@@ -33,7 +32,6 @@ public class AssetGlpeSourceDetail extends PersistableBusinessObjectBase impleme
     private String financialDocumentLineDescription;
     private String financialObjectCode;
     private String financialSubObjectCode;
-    private ObjectCode objectCode;
     private String organizationReferenceId;
     private Integer postingYear;
     private String projectCode;
@@ -48,6 +46,10 @@ public class AssetGlpeSourceDetail extends PersistableBusinessObjectBase impleme
     private boolean capitalizationOffset;
     private boolean payment;
     private boolean paymentOffset;
+    private Account account;
+    private ObjectCode objectCode;
+    private int sequenceNumber;
+    private String postingPeriodCode;
 
 
     public Account getAccount() {
@@ -353,6 +355,46 @@ public class AssetGlpeSourceDetail extends PersistableBusinessObjectBase impleme
     @Override
     public void refreshReferenceObject(String referenceObjectName) {
         return;
+    }
+
+
+    /**
+     * Gets the sequenceNumber attribute.
+     * 
+     * @return Returns the sequenceNumber.
+     */
+    public int getSequenceNumber() {
+        return sequenceNumber;
+    }
+
+
+    /**
+     * Sets the sequenceNumber attribute value.
+     * 
+     * @param sequenceNumber The sequenceNumber to set.
+     */
+    public void setSequenceNumber(int sequenceNumber) {
+        this.sequenceNumber = sequenceNumber;
+    }
+
+
+    /**
+     * Gets the postingPeriodCode attribute.
+     * 
+     * @return Returns the postingPeriodCode.
+     */
+    public String getPostingPeriodCode() {
+        return postingPeriodCode;
+    }
+
+
+    /**
+     * Sets the postingPeriodCode attribute value.
+     * 
+     * @param postingPeriodCode The postingPeriodCode to set.
+     */
+    public void setPostingPeriodCode(String postingPeriodCode) {
+        this.postingPeriodCode = postingPeriodCode;
     }
 
 

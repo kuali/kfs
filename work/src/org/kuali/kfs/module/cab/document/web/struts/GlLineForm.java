@@ -170,6 +170,11 @@ public class GlLineForm extends KualiForm {
     @Override
     public boolean getIsNewForm() {
         // TODO hack for now
+        // Avoid this exception after first submit
+        /*
+         * java.lang.RuntimeException: Cannot verify that the methodToCall should be methodToCall.submitAssetGlobal.x
+         * org.kuali.rice.kns.util.WebUtils.parseMethodToCall(WebUtils.java:112)
+         */
         return true;
     }
 }

@@ -18,10 +18,10 @@ package org.kuali.kfs.module.purap.businessobject;
 import java.sql.Timestamp;
 import java.util.List;
 
+import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
@@ -136,4 +136,11 @@ public class PurchaseOrderView extends AbstractRelatedView {
         return super.getUrl();
     }
         
+    /**
+     * Check if the purchase order this view represents is approved, i.e. its status is either OPEN or CLOSED.
+     * @return true if the purchase order is approved; false otherwise.
+     */
+    public boolean getIsApproved() {
+        return PurchaseOrderStatuses.OPEN.equals(purchaseOrderStatusCode) || PurchaseOrderStatuses.CLOSED.equals(purchaseOrderStatusCode);
+    }
 }

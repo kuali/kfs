@@ -35,9 +35,12 @@
 
 <kul:tab tabTitle="View Related Documents" defaultOpen="false" tabErrorKey="${PurapConstants.RELATED_DOCS_TAB_ERRORS}">
     <div class="tab-container" align=center>
-        <h3>Related Documents</h3>
-		<br />
+    	<font color="red"><bean:message key="${PurapConstants.WARNING_PURCHASEORDER_NUMBER_DONT_DISCLOSE}" /></font>
+   		<br/>
 	
+        <h3>Related Documents</h3>
+		<br/>
+
 		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"
 			viewList="document.relatedViews.relatedRequisitionViews" /> 
 		

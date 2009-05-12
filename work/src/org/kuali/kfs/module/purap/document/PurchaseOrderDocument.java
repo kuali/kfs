@@ -1623,4 +1623,13 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     public String getDocumentTitleForResult() throws WorkflowException{
         return SpringContext.getBean(KualiWorkflowInfo.class).getDocType(this.getDocumentHeader().getWorkflowDocument().getDocumentType()).getDocTypeLabel();
     }
+    
+    /**
+     * Checks if the purchase order this view represents is approved, i.e. its status is either OPEN or CLOSED.
+     * @return true if the purchase order is approved; false otherwise.
+     */
+    public boolean getIsApproved() {
+        return PurchaseOrderStatuses.OPEN.equals(getStatusCode()) || PurchaseOrderStatuses.CLOSED.equals(getStatusCode());
+    }
+    
 }

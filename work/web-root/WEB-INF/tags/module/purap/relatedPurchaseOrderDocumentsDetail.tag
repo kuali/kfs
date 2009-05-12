@@ -28,7 +28,12 @@
 			<c:if test="${(empty limitByPoId) or (limitByPoId eq view.purapDocumentIdentifier)}">
 			    <c:choose>
 			        <c:when test="${view.purchaseOrderCurrentIndicator}">
-        	            <h3> ${view.documentLabel} - <a href="<c:out value="${view.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${view.purapDocumentIdentifier}" /></a></h3>
+        	            <h3> ${view.documentLabel} - 
+        	            	<a href="<c:out value="${view.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${view.purapDocumentIdentifier}" /></a>
+        	            	<c:if test="${!view.isApproved}" >
+        	            		&nbsp;<font color="#FF8080">UNAPPROVED</font>
+        	            	</c:if>
+        	            </h3>
 				    	<c:if test="${not empty view.notes}">
 				    		<c:set var="notes" value="${view.notes}"/>
 				    	</c:if>				

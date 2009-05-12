@@ -187,7 +187,9 @@ public class PurapConstants extends JSTLConstants {
     public static final String STIPULATIONS_TAB_ERRORS = "document.purchaseOrderVendorStipulation*,newPurchaseOrderVendorStipulationLine*";
     // PO/Quotes Tab Constants
     public static final String QUOTE_TAB_ERRORS = "document.quote*,quote*,purchaseOrderVendorQuotes*,newPurchaseOrderVendorQuote*";
-
+    //PO Number Warning
+    public static final String WARNING_PURCHASEORDER_NUMBER_DONT_DISCLOSE = "warning.purchaseorder.number.dont.disclose";
+    
     // Assign Contract Manager
     public static final String ASSIGN_CONTRACT_MANAGER_DEFAULT_DESC = "Contract Manager Assigned";
     public static final String ASSIGN_CONTRACT_MANAGER_TAB_ERRORS = "document.unassignedRequisition*";

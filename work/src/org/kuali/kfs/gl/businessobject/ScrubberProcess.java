@@ -49,7 +49,9 @@ import org.kuali.kfs.gl.batch.ScrubberSortStep.ScrubberSortComparator;
 import org.kuali.kfs.gl.batch.service.AccountingCycleCachingService;
 import org.kuali.kfs.gl.batch.service.RunDateService;
 import org.kuali.kfs.gl.batch.service.ScrubberProcessObjectCodeOverride;
+import org.kuali.kfs.gl.batch.service.impl.FilteringOriginEntryFileIterator;
 import org.kuali.kfs.gl.batch.service.impl.OriginEntryFileIterator;
+import org.kuali.kfs.gl.batch.service.impl.FilteringOriginEntryFileIterator.OriginEntryFilter;
 import org.kuali.kfs.gl.report.CollectorReportData;
 import org.kuali.kfs.gl.report.TextReportHelper;
 import org.kuali.kfs.gl.report.TransactionListingReport;
@@ -123,6 +125,8 @@ public class ScrubberProcess {
     private AccountingCycleCachingService accountingCycleCachingService;
     private ReportWriterService scrubberReportWriterService;
     private ReportWriterService scrubberListingReportWriterService;
+    private ReportWriterService scrubberBadBalanceListingReportWriterService;
+    private ReportWriterService demergerRemovedTransactionsListingReportWriterService;
     private ReportWriterService demergerReportWriterService;
 
     // this will only be populated when in collector mode, otherwise the memory requirements will be huge
@@ -176,7 +180,7 @@ public class ScrubberProcess {
     /**
      * These parameters are all the dependencies.
      */
-    public ScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, AccountingCycleCachingService accountingCycleCachingService,DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService configurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, ScrubberValidator scrubberValidator, ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride, RunDateService runDateService, String batchFileDirectoryName, String reportDirectoryName, ReportWriterService scrubberReportWriterService, ReportWriterService scrubberListingReportWritingService, ReportWriterService demergerReportWriterService) {
+    public ScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, AccountingCycleCachingService accountingCycleCachingService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService configurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, ScrubberValidator scrubberValidator, ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride, RunDateService runDateService, String batchFileDirectoryName, String reportDirectoryName, ReportWriterService scrubberReportWriterService, ReportWriterService scrubberListingReportWritingService, ReportWriterService scrubberBadBalanceListingReportWriterService, ReportWriterService demergerReportWriterService, ReportWriterService demergerRemovedTransactionsListingReportWriterService) {
         super();
         this.flexibleOffsetAccountService = flexibleOffsetAccountService;
         this.accountingCycleCachingService = accountingCycleCachingService;
@@ -196,7 +200,9 @@ public class ScrubberProcess {
         this.reportDirectoryName = reportDirectoryName;
         this.scrubberReportWriterService = scrubberReportWriterService;
         this.scrubberListingReportWriterService = scrubberListingReportWritingService;
+        this.scrubberBadBalanceListingReportWriterService = scrubberBadBalanceListingReportWriterService;
         this.demergerReportWriterService = demergerReportWriterService;
+        this.demergerRemovedTransactionsListingReportWriterService = demergerRemovedTransactionsListingReportWriterService;
     }
 
     /**
@@ -310,19 +316,17 @@ public class ScrubberProcess {
         setOffsetString();
         setDescriptions();
         ScrubberReportData scrubberReport = new ScrubberReportData();
+        
         processGroup(reportOnlyMode, scrubberReport);
 
         if (reportOnlyMode) {
-            ((DocumentNumberAwareReportWriterService) scrubberListingReportWriterService).setDocumentNumber(documentNumber);
-            ((WrappingBatchService) scrubberListingReportWriterService).initialize();
-            new TransactionListingReport().generateReport(scrubberListingReportWriterService, new OriginEntryFileIterator(new File(inputFile)), runDate);
-            ((WrappingBatchService) scrubberListingReportWriterService).destroy();
+            generateScrubberTransactionListingReport(documentNumber, inputFile);
         }
         else if (collectorMode) {
-            
+            // defer report generation for later
         }
         else {
-            
+            generateScrubberBlankBalanceTypeCodeReport(inputFile);
         }
         /*reportService.generateBatchScrubberStatisticsReport(runDate, scrubberReport, scrubberReportErrors);
         
@@ -518,17 +522,19 @@ public class ScrubberProcess {
         demergerReport.setValidTransactionsSaved(validSaved);
         
         if (!collectorMode) {
-            demergerReportWriterService.writeStatisticLine("                                       SCRUBBER ERROR TRANSACTIONS READ       %,9d\n", demergerReport.getErrorTransactionsRead());
-            demergerReportWriterService.writeStatisticLine("                                       SCRUBBER VALID TRANSACTIONS READ       %,9d\n", demergerReport.getValidTransactionsRead());
+            demergerReportWriterService.writeStatisticLine("SCRUBBER ERROR TRANSACTIONS READ       %,9d\n", demergerReport.getErrorTransactionsRead());
+            demergerReportWriterService.writeStatisticLine("SCRUBBER VALID TRANSACTIONS READ       %,9d\n", demergerReport.getValidTransactionsRead());
             demergerReportWriterService.writeNewLines(1);
-            demergerReportWriterService.writeStatisticLine("                                       DEMERGER ERRORS SAVED                  %,9d\n", demergerReport.getErrorTransactionsSaved());
-            demergerReportWriterService.writeStatisticLine("                                       DEMERGER VALID TRANSACTIONS SAVED      %,9d\n", demergerReport.getValidTransactionsSaved());
-            demergerReportWriterService.writeStatisticLine("                                       OFFSET TRANSACTIONS BYPASSED           %,9d\n", demergerReport.getOffsetTransactionsBypassed());
-            demergerReportWriterService.writeStatisticLine("                                       CAPITALIZATION TRANSACTIONS BYPASSED   %,9d\n", demergerReport.getCapitalizationTransactionsBypassed());
-            demergerReportWriterService.writeStatisticLine("                                       LIABILITY TRANSACTIONS BYPASSED        %,9d\n", demergerReport.getLiabilityTransactionsBypassed());
-            demergerReportWriterService.writeStatisticLine("                                       TRANSFER TRANSACTIONS BYPASSED         %,9d\n", demergerReport.getTransferTransactionsBypassed());
-            demergerReportWriterService.writeStatisticLine("                                       COST SHARE TRANSACTIONS BYPASSED       %,9d\n", demergerReport.getCostShareTransactionsBypassed());
-            demergerReportWriterService.writeStatisticLine("                                       COST SHARE ENC TRANSACTIONS BYPASSED   %,9d\n", demergerReport.getCostShareEncumbranceTransactionsBypassed());
+            demergerReportWriterService.writeStatisticLine("DEMERGER ERRORS SAVED                  %,9d\n", demergerReport.getErrorTransactionsSaved());
+            demergerReportWriterService.writeStatisticLine("DEMERGER VALID TRANSACTIONS SAVED      %,9d\n", demergerReport.getValidTransactionsSaved());
+            demergerReportWriterService.writeStatisticLine("OFFSET TRANSACTIONS BYPASSED           %,9d\n", demergerReport.getOffsetTransactionsBypassed());
+            demergerReportWriterService.writeStatisticLine("CAPITALIZATION TRANSACTIONS BYPASSED   %,9d\n", demergerReport.getCapitalizationTransactionsBypassed());
+            demergerReportWriterService.writeStatisticLine("LIABILITY TRANSACTIONS BYPASSED        %,9d\n", demergerReport.getLiabilityTransactionsBypassed());
+            demergerReportWriterService.writeStatisticLine("TRANSFER TRANSACTIONS BYPASSED         %,9d\n", demergerReport.getTransferTransactionsBypassed());
+            demergerReportWriterService.writeStatisticLine("COST SHARE TRANSACTIONS BYPASSED       %,9d\n", demergerReport.getCostShareTransactionsBypassed());
+            demergerReportWriterService.writeStatisticLine("COST SHARE ENC TRANSACTIONS BYPASSED   %,9d\n", demergerReport.getCostShareEncumbranceTransactionsBypassed());
+            
+            generateDemergerRemovedTransactionsReport(demergerErrorOutputFilename);
         }
     }
 
@@ -638,6 +644,8 @@ public class ScrubberProcess {
                 List<Message> tmperrors = unscrubbedEntry.setFromTextFileForBatch(GLEN_RECORD, line);
                 scrubberReport.incrementUnscrubbedRecordsRead();
                 transactionErrors = new ArrayList<Message>();
+                
+                // 
                 // This is done so if the code modifies this row, then saves it, it will be an insert,
                 // and it won't touch the original. The Scrubber never modifies input rows/groups.
                 // not relevant for file version
@@ -1982,5 +1990,36 @@ public class ScrubberProcess {
         
     }
     
+    
+    /**
+     * Generates the scrubber listing report for the GLCP document
+     * @param documentNumber the document number of the GLCP document
+     */
+    protected void generateScrubberTransactionListingReport(String documentNumber, String inputFileName) {
+        ((DocumentNumberAwareReportWriterService) scrubberListingReportWriterService).setDocumentNumber(documentNumber);
+        ((WrappingBatchService) scrubberListingReportWriterService).initialize();
+        new TransactionListingReport().generateReport(scrubberListingReportWriterService, new OriginEntryFileIterator(new File(inputFileName)), runDate);
+        ((WrappingBatchService) scrubberListingReportWriterService).destroy();
+    }
+    
+    /**
+     * Generates the scrubber report that lists out the input origin entries with blank balance type codes.
+     */
+    protected void generateScrubberBlankBalanceTypeCodeReport(String inputFileName) {
+        OriginEntryFilter blankBalanceTypeFilter = new OriginEntryFilter() {
+            /**
+             * @see org.kuali.kfs.gl.batch.service.impl.FilteringOriginEntryFileIterator.OriginEntryFilter#accept(org.kuali.kfs.gl.businessobject.OriginEntryFull)
+             */
+            public boolean accept(OriginEntryFull originEntry) {
+                return org.apache.commons.lang.StringUtils.isNotBlank(originEntry.getFinancialBalanceTypeCode());
+            }
+        };
+        Iterator<OriginEntryFull> blankBalanceOriginEntries = new FilteringOriginEntryFileIterator(new File(inputFileName), blankBalanceTypeFilter);
+        new TransactionListingReport().generateReport(scrubberBadBalanceListingReportWriterService, blankBalanceOriginEntries, runDate);   
+    }
+    
+    protected void generateDemergerRemovedTransactionsReport(String errorFileName) {
+        OriginEntryFileIterator removedTransactions = new OriginEntryFileIterator(new File(errorFileName));
+        new TransactionListingReport().generateReport(demergerRemovedTransactionsListingReportWriterService, removedTransactions, runDate);
+    }
 }
-

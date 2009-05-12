@@ -50,10 +50,9 @@ public class PendingTransactionDaoOjb extends PlatformAwareDaoBaseOjb implements
         criteria.addEqualTo(PdpPropertyConstants.PROCESS_IND, false);
         
         Criteria criteria2 = new Criteria();
-        criteria.addIsNull(PdpPropertyConstants.PROCESS_IND);
+        criteria2.addIsNull(PdpPropertyConstants.PROCESS_IND);
         
         criteria.addOrCriteria(criteria2);
-        
         return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(GlPendingTransaction.class, criteria));
     }
     

@@ -25,9 +25,9 @@ import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.SubAccountTrickleDownInactivationService;
 import org.kuali.kfs.coa.service.SubObjectTrickleDownInactivationService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
-import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -37,7 +37,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * can automatically deactivate the Sub-Accounts related to the account It also overrides the processAfterCopy so that it sets
  * specific fields that shouldn't be copied to default values {@link KualiPostProcessor}
  */
-public class KualiAccountMaintainableImpl extends KualiMaintainableImpl {
+public class KualiAccountMaintainableImpl extends FinancialSystemMaintainable {
     private static final Logger LOG = Logger.getLogger(KualiAccountMaintainableImpl.class);
 
     /**

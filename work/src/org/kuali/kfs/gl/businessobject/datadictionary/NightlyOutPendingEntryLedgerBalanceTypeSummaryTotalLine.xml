@@ -1,0 +1,61 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine" parent="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-parentBean" />
+
+  <bean id="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine" />
+    
+    <property name="objectLabel" value="Nightly Out Pending Entry Ledger Balance Summary Detail Line" />
+        <property name="attributes">
+      <list>
+        <ref bean="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-financialBalanceTypeCode" />
+        <ref bean="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-recordCount" />
+        <ref bean="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-debitAmount" />
+        <ref bean="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-debitCount" />
+        <ref bean="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-creditAmount" />
+        <ref bean="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-creditCount" />
+        <ref bean="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-budgetAmount" />
+        <ref bean="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-budgetCount" />
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-financialBalanceTypeCode" parent="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-financialBalanceTypeCode-parentBean" />
+
+  <bean id="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
+  	<property name="name" value="financialBalanceTypeCode" />
+  </bean>
+
+  <bean id="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-recordCount" parent="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-recordCount-parentBean" />
+
+  <bean id="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-recordCount-parentBean" abstract="true" parent="NightlyOutPendingEntryLedgerSummaryTotalLine-recordCount" />
+
+  <bean id="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-debitAmount" parent="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-debitAmount-parentBean" />
+
+  <bean id="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-debitAmount-parentBean" abstract="true" parent="NightlyOutPendingEntryLedgerSummaryTotalLine-debitAmount" />
+
+  <bean id="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-debitCount" parent="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-debitCount-parentBean" />
+
+  <bean id="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-debitCount-parentBean" abstract="true" parent="NightlyOutPendingEntryLedgerSummaryTotalLine-debitCount" />
+
+  <bean id="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-creditAmount" parent="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-creditAmount-parentBean" />
+
+  <bean id="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-creditAmount-parentBean" abstract="true" parent="NightlyOutPendingEntryLedgerSummaryTotalLine-creditAmount" />
+
+  <bean id="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-creditCount" parent="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-creditCount-parentBean" />
+
+  <bean id="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-creditCount-parentBean" abstract="true" parent="NightlyOutPendingEntryLedgerSummaryTotalLine-creditCount" />
+
+  <bean id="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-budgetAmount" parent="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-budgetAmount-parentBean" />
+
+  <bean id="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-budgetAmount-parentBean" abstract="true" parent="NightlyOutPendingEntryLedgerSummaryTotalLine-budgetAmount" />
+
+  <bean id="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-budgetCount" parent="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-budgetCount-parentBean" />
+
+  <bean id="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-budgetCount-parentBean" abstract="true" parent="NightlyOutPendingEntryLedgerSummaryTotalLine-budgetCount" />
+  
+</beans>

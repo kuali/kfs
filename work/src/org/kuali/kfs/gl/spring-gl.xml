@@ -934,9 +934,9 @@
 		<property name="originEntryGroupService">
 			<ref bean="originEntryGroupService" />
 		</property>
-		<property name="reportService">
-			<ref bean="reportService" />
-		</property>
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
+		<property name="pendingEntryListReportWriterService" ref="generalLegerPendingEntryListReportWriterService" />
+		<property name="pendingEntrySummaryReportWriterService" ref="generalLegerPendingEntryLedgerReportWriterService" />
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 	</bean>
 
@@ -1673,8 +1673,38 @@
 		</property>
 		<property name="posterService" ref="glPosterIndirectCostRecoveryGenerationService" />
 	</bean>
+	
+	<bean id="generalLegerPendingEntryListReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/gl"/>
+		<property name="fileNamePrefix" value="glpe_list_"/>
+        <property name="title" value="PENDING ENTRY LEDGER TABLE"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.gl.businessobject.PendingEntrySummary" value="pendingEntrySummaryReportHelper"/>
+        	</map>
+       	</property>
+    </bean>
+    
+    <bean id="generalLegerPendingEntryLedgerReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/gl"/>
+		<property name="fileNamePrefix" value="glpe_ledger_"/>
+        <property name="title" value="GLPE Statistics Report"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryTotalLine" value="nightlyOutPendingEntryLedgerSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine" value="nightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryDetailLine" value="nightlyOutPendingEntryLedgerSummaryDetailLineReportHelper" />
+        	</map>
+        </property>
+    </bean>
 
-	<bean id="nightlyOutStep" class="org.kuali.kfs.gl.batch.NightlyOutStep" parent="step">
+	<bean id="nightlyOutStep" class="org.kuali.kfs.gl.batch.NightlyOutStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="generalLegerPendingEntryListReportWriterService" />
+				<ref bean="generalLegerPendingEntryLedgerReportWriterService" />
+			</list>
+		</property>
 		<property name="nightlyOutService">
 			<ref bean="glNightlyOutService" />
 		</property>
@@ -2114,6 +2144,77 @@
     			<entry key="documentNumber" value="DOC #"/>
     		</map>
 	    </property>
+	</bean>
+	
+	<bean id="pendingEntrySummaryReportHelper" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.PendingEntrySummary" />
+	    <property name="orderedPropertyNameToHeaderLabelMap">
+    		<map>
+    			<entry key="documentTypeCode" value="Doc Type"/>
+    			<entry key="documentNumber" value="Document Number"/>
+    			<entry key="balanceTypeCode" value="BT"/>
+    			<entry key="chartOfAccountsCode" value="COA"/>
+    			<entry key="accountNumber" value="Account Number"/>
+    			<entry key="financialObjectCode" value="Obj Cd"/>
+    			<entry key="creditAmount" value="Credit" />
+    			<entry key="debitAmount" value="Debit" />
+    			<entry key="budgetAmount" value="Blank" />
+    		</map>
+	    </property>
+	    <property name="columnCount" value="9" />
+	</bean>
+	
+	<bean id="nightlyOutPendingEntryLedgerSummaryTotalLineReportHelper" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryTotalLine" />
+	    <property name="orderedPropertyNameToHeaderLabelMap">
+    		<map>
+    			<entry key="recordCount" value="Record Count"/>
+    			<entry key="debitAmount" value="Debit Amount"/>
+    			<entry key="debitCount" value="Debit Count" />
+    			<entry key="creditAmount" value="Credit Amount"/>
+    			<entry key="creditCount" value="Credit Count" />
+    			<entry key="budgetAmount" value="No D/C Code Amount"/>
+    			<entry key="budgetCount" value="No D/C Code Count" />
+    		</map>
+	    </property>
+	    <property name="columnCount" value="7" />
+	</bean>
+	
+	<bean id="nightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLineReportHelper" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine" />
+	    <property name="orderedPropertyNameToHeaderLabelMap">
+    		<map>
+    			<entry key="financialBalanceTypeCode" value="Bal Typ"/>
+    			<entry key="recordCount" value="Record Count"/>
+    			<entry key="debitAmount" value="Debit Amount"/>
+    			<entry key="debitCount" value="Debit Count" />
+    			<entry key="creditAmount" value="Credit Amount"/>
+    			<entry key="creditCount" value="Credit Count" />
+    			<entry key="budgetAmount" value="No D/C Code Amount"/>
+    			<entry key="budgetCount" value="No D/C Code Count" />
+    		</map>
+	    </property>
+	    <property name="columnCount" value="8" />
+	</bean>
+	
+	<bean id="nightlyOutPendingEntryLedgerSummaryDetailLineReportHelper" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryDetailLine" />
+	    <property name="orderedPropertyNameToHeaderLabelMap">
+    		<map>
+    			<entry key="financialBalanceTypeCode" value="Bal Typ"/>
+    			<entry key="financialSystemOriginationCode" value="Orig"/>
+    			<entry key="universityFiscalYear" value="Year"/>
+    			<entry key="universityAccountPeriodCode" value="Prd"/>
+    			<entry key="recordCount" value="Record Count"/>
+    			<entry key="debitAmount" value="Debit Amount"/>
+    			<entry key="debitCount" value="Debit Count" />
+    			<entry key="creditAmount" value="Credit Amount"/>
+    			<entry key="creditCount" value="Credit Count" />
+    			<entry key="budgetAmount" value="No D/C Code Amount"/>
+    			<entry key="budgetCount" value="No D/C Code Count" />
+    		</map>
+	    </property>
+	    <property name="columnCount" value="11" />
 	</bean>
 
 	<bean id="batchFileService" class="org.kuali.kfs.gl.batch.service.impl.BatchFileServiceImpl" singleton="false" />

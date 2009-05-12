@@ -15,28 +15,33 @@
  */
 package org.kuali.kfs.gl.batch;
 
-import java.util.Date;
-
 import org.kuali.kfs.gl.service.NightlyOutService;
-import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
+import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 
 /**
  * Runs the nightly out process, which is the process that preps general ledger pending entries to be fed to the scrubber.
  */
-public class NightlyOutStep extends AbstractStep {
+public class NightlyOutStep extends AbstractWrappedBatchStep {
     private NightlyOutService nightlyOutService;
 
     /**
-     * Runs the nightly out process.
-     * 
-     * @param jobName the name of the job this step is being run as part of
-     * @param jobRunDate the time/date the job is being run
-     * @return true if the job completed successfully, false if otherwise
-     * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
+     * @return a proper executor for the NightlyOutStep
      */
-    public boolean execute(String jobName, Date jobRunDate) {
-        nightlyOutService.copyApprovedPendingLedgerEntries();
-        return true;
+    @Override
+    protected CustomBatchExecutor getCustomBatchExecutor() {
+        return new CustomBatchExecutor() {
+            /**
+             * Runs the nightly out process.
+             * 
+             * @return true if the job completed successfully, false if otherwise
+             * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
+             */
+            public boolean execute() {
+                nightlyOutService.copyApprovedPendingLedgerEntries();
+                return true;
+            }
+        };
     }
 
     /**

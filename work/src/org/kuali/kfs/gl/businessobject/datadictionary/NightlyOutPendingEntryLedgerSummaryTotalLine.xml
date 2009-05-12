@@ -1,0 +1,67 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="NightlyOutPendingEntryLedgerSummaryTotalLine" parent="NightlyOutPendingEntryLedgerSummaryTotalLine-parentBean" />
+
+  <bean id="NightlyOutPendingEntryLedgerSummaryTotalLine-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryTotalLine" />
+    
+    <property name="objectLabel" value="Nightly Out Pending Entry Ledger Summary Total Line" />
+        <property name="attributes">
+      <list>
+        <ref bean="NightlyOutPendingEntryLedgerSummaryTotalLine-recordCount" />
+        <ref bean="NightlyOutPendingEntryLedgerSummaryTotalLine-debitAmount" />
+        <ref bean="NightlyOutPendingEntryLedgerSummaryTotalLine-debitCount" />
+        <ref bean="NightlyOutPendingEntryLedgerSummaryTotalLine-creditAmount" />
+        <ref bean="NightlyOutPendingEntryLedgerSummaryTotalLine-creditCount" />
+        <ref bean="NightlyOutPendingEntryLedgerSummaryTotalLine-budgetAmount" />
+        <ref bean="NightlyOutPendingEntryLedgerSummaryTotalLine-budgetCount" />
+      </list>
+    </property>
+  </bean>
+
+  <bean id="NightlyOutPendingEntryLedgerSummaryTotalLine-recordCount" parent="NightlyOutPendingEntryLedgerSummaryTotalLine-recordCount-parentBean" />
+
+  <bean id="NightlyOutPendingEntryLedgerSummaryTotalLine-recordCount-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
+  	<property name="name" value="recordCount" />
+  </bean>
+
+  <bean id="NightlyOutPendingEntryLedgerSummaryTotalLine-debitAmount" parent="NightlyOutPendingEntryLedgerSummaryTotalLine-debitAmount-parentBean" />
+
+  <bean id="NightlyOutPendingEntryLedgerSummaryTotalLine-debitAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="debitAmount" />
+  </bean>
+
+  <bean id="NightlyOutPendingEntryLedgerSummaryTotalLine-debitCount" parent="NightlyOutPendingEntryLedgerSummaryTotalLine-debitCount-parentBean" />
+
+  <bean id="NightlyOutPendingEntryLedgerSummaryTotalLine-debitCount-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
+  	<property name="name" value="debitCount" />
+  </bean>
+
+  <bean id="NightlyOutPendingEntryLedgerSummaryTotalLine-creditAmount" parent="NightlyOutPendingEntryLedgerSummaryTotalLine-creditAmount-parentBean" />
+
+  <bean id="NightlyOutPendingEntryLedgerSummaryTotalLine-creditAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="creditAmount" />
+  </bean>
+
+  <bean id="NightlyOutPendingEntryLedgerSummaryTotalLine-creditCount" parent="NightlyOutPendingEntryLedgerSummaryTotalLine-creditCount-parentBean" />
+
+  <bean id="NightlyOutPendingEntryLedgerSummaryTotalLine-creditCount-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
+  	<property name="name" value="creditCount" />
+  </bean>
+
+  <bean id="NightlyOutPendingEntryLedgerSummaryTotalLine-budgetAmount" parent="NightlyOutPendingEntryLedgerSummaryTotalLine-budgetAmount-parentBean" />
+
+  <bean id="NightlyOutPendingEntryLedgerSummaryTotalLine-budgetAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="budgetAmount" />
+  </bean>
+
+  <bean id="NightlyOutPendingEntryLedgerSummaryTotalLine-budgetCount" parent="NightlyOutPendingEntryLedgerSummaryTotalLine-budgetCount-parentBean" />
+
+  <bean id="NightlyOutPendingEntryLedgerSummaryTotalLine-budgetCount-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
+  	<property name="name" value="budgetCount" />
+  </bean>
+</beans>

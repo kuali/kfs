@@ -36,6 +36,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="Account-accountState.codeAndDescription" />
         <ref bean="Account-accountStreetAddress" />
         <ref bean="Account-accountZipCode" />
+        <ref bean="Account-postalZipCode.postalCode" />
         <ref bean="Account-reportsToChartOfAccountsCode" />
         <ref bean="Account-reportsToAccountNumber" />
         <ref bean="Account-accountCreateDate" />
@@ -341,6 +342,13 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="label" value="Account Postal Code" />
     <property name="shortLabel" value="ZipCode" />
   </bean>
+  
+  <bean id="Account-postalZipCode.postalCode" parent="Account-postalZipCode.postalCode-parentBean" />
+
+  <dd:boAttributeRef id="Account-postalZipCode.postalCode-parentBean" abstract="true" parent="PostalCode-postalCode"
+                     attributeName="postalZipCode.postalCode"
+                     label="Account Postal Code"
+                     shortLabel="ZipCode" />
   <bean id="Account-reportsToChartOfAccountsCode" parent="Account-reportsToChartOfAccountsCode-parentBean" />
 
   <bean id="Account-reportsToChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
@@ -821,7 +829,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
               <dd:field attributeName="accountPhysicalCampusCode" />
               <dd:field attributeName="accountEffectiveDate" />
               <dd:field attributeName="accountExpirationDate" />
-              <dd:field attributeName="accountZipCode" />
+              <dd:field attributeName="postalZipCode.postalCode" />
               <dd:field attributeName="accountCityName" />
               <dd:field attributeName="accountState.codeAndDescription" />
               <dd:field attributeName="accountStreetAddress" />

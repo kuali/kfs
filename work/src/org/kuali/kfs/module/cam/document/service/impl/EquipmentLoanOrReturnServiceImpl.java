@@ -98,7 +98,7 @@ public class EquipmentLoanOrReturnServiceImpl implements EquipmentLoanOrReturnSe
                 borrowerLocation.setAssetLocationTypeCode(CamsConstants.AssetLocationTypeCode.BORROWER);
                 updateAsset.getAssetLocations().add(borrowerLocation);
             }
-            borrowerLocation.setAssetLocationContactName(document.getBorrowerPerson().getName());
+            borrowerLocation.setAssetLocationContactName(document.getBorrowerPerson().getPrincipalName());
             borrowerLocation.setAssetLocationContactIdentifier(document.getBorrowerUniversalIdentifier());
             borrowerLocation.setAssetLocationInstitutionName(document.getBorrowerPerson().getPrimaryDepartmentCode());
             borrowerLocation.setAssetLocationPhoneNumber(document.getBorrowerPhoneNumber());
@@ -133,7 +133,7 @@ public class EquipmentLoanOrReturnServiceImpl implements EquipmentLoanOrReturnSe
                 storeAtLocation.setAssetLocationTypeCode(CamsConstants.AssetLocationTypeCode.BORROWER_STORAGE);
                 updateAsset.getAssetLocations().add(storeAtLocation);
             }
-            storeAtLocation.setAssetLocationContactName(document.getBorrowerPerson().getName());
+            storeAtLocation.setAssetLocationContactName(document.getBorrowerPerson().getPrincipalName());
             storeAtLocation.setAssetLocationContactIdentifier(document.getBorrowerUniversalIdentifier());
             storeAtLocation.setAssetLocationInstitutionName(document.getBorrowerPerson().getPrimaryDepartmentCode());
             storeAtLocation.setAssetLocationPhoneNumber(document.getBorrowerStoragePhoneNumber());

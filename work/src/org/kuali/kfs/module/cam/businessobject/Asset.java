@@ -31,6 +31,7 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.util.UrlFactory;
 
@@ -112,6 +113,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     private AssetStatus inventoryStatus;
     private List<AssetPayment> assetPayments;
     private Person assetRepresentative;
+    private Person borrowerPerson;
     private AssetOrganization assetOrganization;
     private String organizationTagNumber;
     private List<AssetRepairHistory> assetRepairHistory;
@@ -1623,6 +1625,28 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
      */
     public void setAssetRepresentative(Person assetRepresentative) {
         this.assetRepresentative = assetRepresentative;
+    }
+
+
+    /**
+     * Gets the borrowerPerson attribute.
+     * 
+     * @return Returns the borrowerPerson.
+     */
+    public Person getBorrowerPerson() {
+        if (ObjectUtils.isNotNull(borrowerLocation)) {
+            borrowerPerson = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(borrowerLocation.getAssetLocationContactIdentifier(), borrowerPerson);
+        }
+        return borrowerPerson;
+    }
+
+    /**
+     * Sets the borrowerPerson attribute value.
+     * 
+     * @param borrowerPerson The borrowerPerson to set.
+     */
+    public void setBorrowerPerson(Person borrowerPerson) {
+        this.borrowerPerson = borrowerPerson;
     }
 
     /**

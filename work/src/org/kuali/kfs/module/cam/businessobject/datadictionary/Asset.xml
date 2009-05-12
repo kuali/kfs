@@ -69,7 +69,9 @@
         <ref bean="Asset-representativeUniversalIdentifier" />
         <ref bean="Asset-assetRepresentative.principalName" />
         <ref bean="Asset-assetRepresentative.name" />
+        <ref bean="Asset-borrowerLocation.assetLocationContactIdentifier" />
         <ref bean="Asset-borrowerLocation.assetLocationContactName" />
+        <ref bean="Asset-borrowerPerson.name" />
         <ref bean="Asset-organizationOwnerAccountNumber" />
         <ref bean="Asset-organizationOwnerChartOfAccountsCode" />
         <ref bean="Asset-organizationOwnerAccount.organizationCode" />
@@ -1336,6 +1338,24 @@
   <bean id="Asset-borrowerLocation.assetLocationContactName-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerPerson.principalName">
     <property name="name" value="borrowerLocation.assetLocationContactName" />
     <property name="label" value="Name" />
+    <property name="control">
+      <bean parent="KualiUserControlDefinition" p:personNameAttributeName="borrowerPerson.name" p:universalIdAttributeName="borrowerLocation.assetLocationContactIdentifier" p:userIdAttributeName="borrowerLocation.assetLocationContactName"/>
+    </property>
+  </bean>
+  
+  <bean id="Asset-borrowerPerson.name" parent="Asset-borrowerPerson.name-parentBean" />																								
+  <bean id="Asset-borrowerPerson.name-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerPerson.name">
+    <property name="name" value="borrowerPerson.name" />
+    <property name="label" value="Name" />
+  </bean>
+  
+  <bean id="Asset-borrowerLocation.assetLocationContactIdentifier" parent="Asset-borrowerLocation.assetLocationContactIdentifier-parentBean" />																								
+  <bean id="Asset-borrowerLocation.assetLocationContactIdentifier-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerUniversalIdentifier">
+    <property name="name" value="borrowerLocation.assetLocationContactIdentifier" />
+    <property name="displayLabelAttribute" value="borrowerLocation.assetLocationContactName"/>
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
   </bean>
   
   <bean id="Asset-borrowerLocation.assetLocationStreetAddress" parent="Asset-borrowerLocation.assetLocationStreetAddress-parentBean" />
@@ -2121,7 +2141,7 @@
               </bean>
             </list>
           </property>
-        </bean> 
+        </bean>              
               
         <bean parent="InquirySectionDefinition">
           <property name="title" value="Lookup Related Capital Asset Docuemnt(s)" />

@@ -344,7 +344,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     protected boolean validateAllFieldRequirementsByChart(String systemState, List<CapitalAssetSystem> capitalAssetSystems, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String documentType, String systemType) {
         boolean valid = true;
         List<Parameter> results = new ArrayList<Parameter>();
-        Map<String,String> criteria = new HashMap<String,String>();
+        Map<String, String> criteria = new HashMap<String, String>();
         criteria.put(CabPropertyConstants.Parameter.PARAMETER_NAMESPACE_CODE, CabConstants.Parameters.NAMESPACE);
         criteria.put(CabPropertyConstants.Parameter.PARAMETER_DETAIL_TYPE_CODE, CabConstants.Parameters.DETAIL_TYPE_DOCUMENT);
         criteria.put(CabPropertyConstants.Parameter.PARAMETER_NAME, "CHARTS_REQUIRING%" + documentType);
@@ -1062,10 +1062,10 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
         String documentNumber = accountingDocument.getDocumentNumber();
         String documentType = getDocumentTypeName(accountingDocument);
-        
+
         if (!isUpdateAssetBlank(capitalAssetInformation)) {
             // Validate update Asset information
-            valid = validateUpdateCapitalAssetField(capitalAssetInformation,documentType,documentNumber);
+            valid = validateUpdateCapitalAssetField(capitalAssetInformation, documentType, documentNumber);
         }
         else {
             // Validate New Asset information
@@ -1092,11 +1092,11 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         List<SourceAccountingLine> sAccountingLines = accountingDocument.getSourceAccountingLines();
         for (SourceAccountingLine sourceAccountingLine : sAccountingLines) {
             ObjectCode objectCode = sourceAccountingLine.getObjectCode();
-            
-            if(ObjectUtils.isNull(objectCode)) {
+
+            if (ObjectUtils.isNull(objectCode)) {
                 break;
             }
-            
+
             String objectSubTypeCode = objectCode.getFinancialObjectSubTypeCode();
             if (financialProcessingCapitalObjectSubTypes.contains(objectSubTypeCode)) {
                 getCapitalAssetObjectSubTypeLinesFlag = KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE;
@@ -1108,11 +1108,11 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         List<TargetAccountingLine> tAccountingLines = accountingDocument.getTargetAccountingLines();
         for (TargetAccountingLine targetAccountingLine : tAccountingLines) {
             ObjectCode objectCode = targetAccountingLine.getObjectCode();
-            
-            if(ObjectUtils.isNull(objectCode)) {
+
+            if (ObjectUtils.isNull(objectCode)) {
                 break;
             }
-            
+
             String objectSubTypeCode = objectCode.getFinancialObjectSubTypeCode();
             if (financialProcessingCapitalObjectSubTypes.contains(objectSubTypeCode)) {
                 getCapitalAssetObjectSubTypeLinesFlag = getCapitalAssetObjectSubTypeLinesFlag.equals(KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE) ? KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE + KFSConstants.TARGET_ACCT_LINE_TYPE_CODE : KFSConstants.TARGET_ACCT_LINE_TYPE_CODE;
@@ -1243,7 +1243,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param capitalAssetManagementAsset the asset to be validated
      * @return boolean false if the asset is not active
      */
-    private boolean validateUpdateCapitalAssetField(CapitalAssetInformation capitalAssetInformation, String documentType,String documentNumber) {
+    private boolean validateUpdateCapitalAssetField(CapitalAssetInformation capitalAssetInformation, String documentType, String documentNumber) {
         boolean valid = true;
 
         Map<String, String> params = new HashMap<String, String>();
@@ -1252,7 +1252,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
         List<Long> assetNumbers = new ArrayList<Long>();
         assetNumbers.add(capitalAssetInformation.getCapitalAssetNumber());
-                
+
         if (ObjectUtils.isNull(asset)) {
             valid = false;
             String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformation.class, KFSPropertyConstants.CAPITAL_ASSET_NUMBER);
@@ -1358,7 +1358,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         int index = 0;
         List<CapitalAssetInformationDetail> capitalAssetInformationDetails = capitalAssetInformation.getCapitalAssetInformationDetails();
         for (CapitalAssetInformationDetail dtl : capitalAssetInformationDetails) {
-            // We have to explicitly call this DD service to uppercase each field. This may not be the best place and maybe form populate
+            // We have to explicitly call this DD service to uppercase each field. This may not be the best place and maybe form
+            // populate
             // is a better place but we CAMS team don't own FP document. This is the best we can do for now.
             SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(dtl);
             String errorPathPrefix = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION_DETAILS;
@@ -1482,16 +1483,36 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         if (matchingGlAssets != null && !matchingGlAssets.isEmpty()) {
             for (GeneralLedgerEntryAsset generalLedgerEntryAsset : matchingGlAssets) {
                 GeneralLedgerEntry generalLedgerEntry = generalLedgerEntryAsset.getGeneralLedgerEntry();
-                // release asset lock
-                getCapitalAssetManagementModuleService().deleteAssetLocks(generalLedgerEntry.getDocumentNumber(), null);
 
                 // update gl status as processed
                 generalLedgerEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS);
                 this.getBusinessObjectService().save(generalLedgerEntry);
 
+                // release asset lock
+                if (isFpDocumentFullyProcessed(generalLedgerEntry)) {
+                    getCapitalAssetManagementModuleService().deleteAssetLocks(generalLedgerEntry.getDocumentNumber(), null);
+                }
             }
-
         }
+    }
+
+    /**
+     * Check all generalLedgerEntries from the same FP document are fully processed.
+     * 
+     * @param generalLedgerEntry
+     * @return
+     */
+    protected boolean isFpDocumentFullyProcessed(GeneralLedgerEntry generalLedgerEntry) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(CabPropertyConstants.GeneralLedgerEntry.DOCUMENT_NUMBER, generalLedgerEntry.getDocumentNumber());
+        Collection<GeneralLedgerEntry> matchingGlEntries = this.getBusinessObjectService().findMatching(GeneralLedgerEntry.class, fieldValues);
+
+        for (GeneralLedgerEntry glEntry : matchingGlEntries) {
+            if (!CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS.equals(glEntry.getActivityStatusCode())) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -1531,11 +1552,11 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
                 String lockingInformation = null;
                 PurchaseOrderDocument poDocument = getPurApInfoService().getCurrentDocumentForPurchaseOrderIdentifier(purapDocument.getPurchaseOrderIdentifier());
-                    // Only individual system will lock on item line number. other system will using preq/cm doc nbr as the locking
-                    // key
+                // Only individual system will lock on item line number. other system will using preq/cm doc nbr as the locking
+                // key
                 if (PurapConstants.CapitalAssetTabStrings.INDIVIDUAL_ASSETS.equalsIgnoreCase(poDocument.getCapitalAssetSystemTypeCode())) {
-                        lockingInformation = itemAsset.getAccountsPayableLineItemIdentifier().toString();
-                    }
+                    lockingInformation = itemAsset.getAccountsPayableLineItemIdentifier().toString();
+                }
                 // release the asset lock no matter if it's Asset global or Asset Payment since the CAB user can create Asset global
                 // doc even if Purap Asset numbers existing.
                 if (isAccountsPayableItemLineFullyProcessed(purapDocument, lockingInformation)) {
@@ -1548,8 +1569,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     }
 
     /**
-     * Check all item lines from the same PREQ/CM item are fully processed. If lockingInformation is empty, we check all items are
-     * processed as fully processed. If it's not empty, we will check items originated from the same PO item only.
+     * If lockingInformation is not empty, check all item lines from the same PurAp item are fully processed. If lockingInformation
+     * is empty, we check all items from the same PREQ/CM document processed as fully processed.
      * 
      * @param itemAsset
      * @return
@@ -1741,14 +1762,14 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @return
      */
     private String getDocumentTypeName(AccountingDocument accountingDocument) {
-        String documentTypeName=null;
+        String documentTypeName = null;
         if (accountingDocument instanceof YearEndGeneralErrorCorrectionDocument)
             documentTypeName = KFSConstants.FinancialDocumentTypeCodes.YEAR_END_GENERAL_ERROR_CORRECTION;
         else if (accountingDocument instanceof YearEndDistributionOfIncomeAndExpenseDocument)
             documentTypeName = KFSConstants.FinancialDocumentTypeCodes.YEAR_END_DISTRIBUTION_OF_INCOME_AND_EXPENSE;
         else if (accountingDocument instanceof ServiceBillingDocument)
             documentTypeName = KFSConstants.FinancialDocumentTypeCodes.SERVICE_BILLING;
-        else if (accountingDocument instanceof GeneralErrorCorrectionDocument) 
+        else if (accountingDocument instanceof GeneralErrorCorrectionDocument)
             documentTypeName = KFSConstants.FinancialDocumentTypeCodes.GENERAL_ERROR_CORRECTION;
         else if (accountingDocument instanceof CashReceiptDocument)
             documentTypeName = KFSConstants.FinancialDocumentTypeCodes.CASH_RECEIPT;

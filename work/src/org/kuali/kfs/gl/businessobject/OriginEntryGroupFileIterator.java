@@ -52,7 +52,6 @@ public class OriginEntryGroupFileIterator implements Iterator<OriginEntry> {
      * Returns whether a next origin entry in the file exists
      * @return true if there is a next line, false otherwise
      */
-    @Override
     public boolean hasNext() {
         if (currentLine == null) {
             try {
@@ -72,7 +71,6 @@ public class OriginEntryGroupFileIterator implements Iterator<OriginEntry> {
      * Returns the next available OriginEntry in the group file
      * @see java.util.Iterator#next()
      */
-    @Override
     public OriginEntry next() {
         if (currentLine == null) return null;
         OriginEntryLite originEntry = new OriginEntryLite();
@@ -94,7 +92,6 @@ public class OriginEntryGroupFileIterator implements Iterator<OriginEntry> {
      * 
      * @see java.util.Iterator#remove()
      */
-    @Override
     public void remove() {
         throw new UnsupportedOperationException("OriginEntryGroupFileIterator is read only");
     }

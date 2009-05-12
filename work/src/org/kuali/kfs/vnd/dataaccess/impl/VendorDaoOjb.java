@@ -63,7 +63,18 @@ public class VendorDaoOjb extends PlatformAwareDaoBaseOjb implements VendorDao {
         VendorContract contract = (VendorContract) getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(VendorContract.class, header));
         return contract;
     }
-
+        
+    /* This method is equivalent to VendorDetail.isB2BVendor, but perhaps more efficient.
+    public boolean isB2BVendor(VendorDetail vendorDetail) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("VNDR_HDR_GNRTD_ID", vendorDetail.getVendorHeaderGeneratedIdentifier());
+        criteria.addEqualTo("VNDR_DTL_ASND_ID", vendorDetail.getVendorDetailAssignedIdentifier());
+        criteria.addEqualTo("VNDR_B2B_IND", "Y");
+        Collection<VendorContract> contracts = getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(VendorContract.class, criteria));
+        return contracts.size() > 0;
+    }
+    */
+    
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }

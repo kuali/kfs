@@ -24,5 +24,5 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 public interface VendorDao {
     
     public VendorContract getVendorB2BContract(VendorDetail vendorDetail, String campus);
-    
+    //public boolean isB2BVendor(VendorDetail vendorDetail);
 }

@@ -38,6 +38,7 @@
 <c:set var="amendmentEntry" value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
 <c:set var="lockB2BEntry" value="${(not empty KualiForm.editingMode['lockB2BEntry'])}" />
 <c:set var="editPreExtract"	value="${(not empty KualiForm.editingMode['editPreExtract'])}" />
+
 <c:set var="currentUserCampusCode" value="${UserSession.person.campusCode}" />
 <c:set var="tabindexOverrideBase" value="30" />
 
@@ -95,13 +96,13 @@
                     	readOnly="${not (fullEntryMode or amendmentEntry) or vendorReadOnly or displayPaymentRequestFields or displayCreditMemoFields or purchaseOrderAwarded or lockB2BEntry}" tabindexOverride="${tabindexOverrideBase + 0}"/>
                     <c:if test="${(fullEntryMode or amendmentEntry) and (displayRequisitionFields or displayPurchaseOrderFields) and !purchaseOrderAwarded and !lockB2BEntry}" >
                         <kul:lookup  boClassName="org.kuali.kfs.vnd.businessobject.VendorDetail" 
-                        lookupParameters="'Y':activeIndicator, 'PO':vendorHeader.vendorTypeCode"
-                        fieldConversions="vendorHeaderGeneratedIdentifier:document.vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier:document.vendorDetailAssignedIdentifier,defaultAddressLine1:document.vendorLine1Address,defaultAddressLine2:document.vendorLine2Address,defaultAddressCity:document.vendorCityName,defaultAddressPostalCode:document.vendorPostalCode,defaultAddressStateCode:document.vendorStateCode,defaultAddressInternationalProvince:document.vendorAddressInternationalProvinceName,defaultAddressCountryCode:document.vendorCountryCode"/>
+                        	lookupParameters="'Y':activeIndicator, 'PO':vendorHeader.vendorTypeCode"
+                        	fieldConversions="vendorHeaderGeneratedIdentifier:document.vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier:document.vendorDetailAssignedIdentifier,defaultAddressLine1:document.vendorLine1Address,defaultAddressLine2:document.vendorLine2Address,defaultAddressCity:document.vendorCityName,defaultAddressPostalCode:document.vendorPostalCode,defaultAddressStateCode:document.vendorStateCode,defaultAddressInternationalProvince:document.vendorAddressInternationalProvinceName,defaultAddressCountryCode:document.vendorCountryCode"/>
                         <c:if test="${displayRequisitionFields}">
                             &nbsp;<html:image property="methodToCall.clearVendor" src="${ConfigProperties.externalizable.images.url}tinybutton-clearvendor.gif" alt="clear vendor" styleClass="tinybutton"/>
                         </c:if>
                     </c:if>
-                    <c:if test="${lockB2BEntry}">
+                    <c:if test="${lockB2BEntry or (displayRequisitionFields or displayPurchaseOrderFields) and KualiForm.document.hasB2BVendor}">
                         &nbsp;&nbsp;<portal:portalLink displayTitle="true" title="Shop Catalogs" url="b2b.do?methodToCall=shopCatalogs" />
                     </c:if>
                 </td>
@@ -148,11 +149,11 @@
                     <kul:htmlControlAttribute 
                     	attributeEntry="${documentAttributes.vendorLine1Address}" property="document.vendorLine1Address" 
                     	readOnly="${not (fullEntryMode or amendmentEntry) or displayCreditMemoFields or (lockB2BEntry and (displayRequisitionFields or displayPurchaseOrderFields))}" tabindexOverride="${tabindexOverrideBase + 0}"/>
-                    <c:if test="${(fullEntryMode or amendmentEntry) and vendorReadOnly}">
+                    <c:if test="${(fullEntryMode or amendmentEntry) and vendorReadOnly and !lockB2BEntry}">
                         <kul:lookup  boClassName="org.kuali.kfs.vnd.businessobject.VendorAddress" 
-                        readOnlyFields="active, vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier" autoSearch="yes"
-                        lookupParameters="'Y':active,document.vendorHeaderGeneratedIdentifier:vendorHeaderGeneratedIdentifier,document.vendorDetailAssignedIdentifier:vendorDetailAssignedIdentifier" 
-                        fieldConversions="vendorAddressGeneratedIdentifier:document.vendorAddressGeneratedIdentifier"/>
+                        	readOnlyFields="active, vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier" autoSearch="yes"
+                        	lookupParameters="'Y':active,document.vendorHeaderGeneratedIdentifier:vendorHeaderGeneratedIdentifier,document.vendorDetailAssignedIdentifier:vendorDetailAssignedIdentifier" 
+                        	fieldConversions="vendorAddressGeneratedIdentifier:document.vendorAddressGeneratedIdentifier"/>
                     </c:if>
                 </td>
                 <th align=right valign=middle class="bord-l-b">
@@ -238,8 +239,10 @@
                     	attributeEntry="${documentAttributes.vendorCustomerNumber}" property="document.vendorCustomerNumber" 
                     	readOnly="${not (fullEntryMode or amendmentEntry) or displayCreditMemoFields or lockB2BEntry}" tabindexOverride="${tabindexOverrideBase + 4}"/>
                     <c:if test="${(fullEntryMode or amendmentEntry) and vendorReadOnly and !lockB2BEntry}">
-                        <kul:lookup  boClassName="org.kuali.kfs.vnd.businessobject.VendorCustomerNumber" readOnlyFields="vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier" autoSearch="yes"
-                        lookupParameters="document.vendorHeaderGeneratedIdentifier:vendorHeaderGeneratedIdentifier,document.vendorDetailAssignedIdentifier:vendorDetailAssignedIdentifier" fieldConversions="vendorCustomerNumber:document.vendorCustomerNumber"/>
+                        <kul:lookup  boClassName="org.kuali.kfs.vnd.businessobject.VendorCustomerNumber" 
+                        	readOnlyFields="vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier" autoSearch="yes"
+                        	lookupParameters="document.vendorHeaderGeneratedIdentifier:vendorHeaderGeneratedIdentifier,document.vendorDetailAssignedIdentifier:vendorDetailAssignedIdentifier" 
+                        	fieldConversions="vendorCustomerNumber:document.vendorCustomerNumber"/>
                     </c:if>
                 </td>
 
@@ -348,7 +351,10 @@
                         	attributeEntry="${documentAttributes.vendorContractName}" property="document.vendorContractName" 
                         	readOnly="true" tabindexOverride="${tabindexOverrideBase + 4}"/>
                         <c:if test="${(fullEntryMode or amendmentEntry) and !lockB2BEntry}">
-                            <kul:lookup  boClassName="org.kuali.kfs.vnd.businessobject.VendorContract" autoSearch="yes" readOnlyFields="vendorCampusCode" lookupParameters="'${currentUserCampusCode}':vendorCampusCode" fieldConversions="vendorContractGeneratedIdentifier:document.vendorContractGeneratedIdentifier" />
+                            <kul:lookup  boClassName="org.kuali.kfs.vnd.businessobject.VendorContract" 
+                            	autoSearch="yes" readOnlyFields="vendorCampusCode" 
+                            	lookupParameters="'${currentUserCampusCode}':vendorCampusCode" 
+                            	fieldConversions="vendorContractGeneratedIdentifier:document.vendorContractGeneratedIdentifier" />
                         </c:if>
                     </td>
                     <th align=right valign=middle class="bord-l-b">
@@ -359,9 +365,10 @@
                         	attributeEntry="${documentAttributes.vendorContactsLabel}" property="document.vendorContactsLabel" 
                         	readOnly="true" tabindexOverride="${tabindexOverrideBase + 6}"/>                    
                         <c:if test="${vendorReadOnly}" >
-                            <kul:lookup  boClassName="org.kuali.kfs.vnd.businessobject.VendorContact" readOnlyFields="vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier" autoSearch="yes" 
-                            lookupParameters="document.vendorHeaderGeneratedIdentifier:vendorHeaderGeneratedIdentifier,document.vendorDetailAssignedIdentifier:vendorDetailAssignedIdentifier" 
-                            hideReturnLink="true" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_return.gif" />                    
+                            <kul:lookup  boClassName="org.kuali.kfs.vnd.businessobject.VendorContact" 
+                            	readOnlyFields="vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier" autoSearch="yes" 
+                            	lookupParameters="document.vendorHeaderGeneratedIdentifier:vendorHeaderGeneratedIdentifier,document.vendorDetailAssignedIdentifier:vendorDetailAssignedIdentifier" 
+                            	hideReturnLink="true" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_return.gif" />                    
                         </c:if>
                     </td>
                 </tr>            
@@ -375,9 +382,10 @@
                         	attributeEntry="${documentAttributes.vendorPhoneNumber}" property="document.vendorPhoneNumber" 
                         	readOnly="true" tabindexOverride="${tabindexOverrideBase + 4}"/>                    
                         <c:if test="${vendorReadOnly}" >
-                            <kul:lookup  boClassName="org.kuali.kfs.vnd.businessobject.VendorPhoneNumber" readOnlyFields="vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier" autoSearch="yes" 
-                            lookupParameters="document.vendorHeaderGeneratedIdentifier:vendorHeaderGeneratedIdentifier,document.vendorDetailAssignedIdentifier:vendorDetailAssignedIdentifier" 
-                            hideReturnLink="true" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_return.gif" />                    
+                            <kul:lookup  boClassName="org.kuali.kfs.vnd.businessobject.VendorPhoneNumber" 
+                            	readOnlyFields="vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier" autoSearch="yes" 
+                            	lookupParameters="document.vendorHeaderGeneratedIdentifier:vendorHeaderGeneratedIdentifier,document.vendorDetailAssignedIdentifier:vendorDetailAssignedIdentifier" 
+                            	hideReturnLink="true" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_return.gif" />                    
                         </c:if>
                     </td>
                     <th align=right valign=middle class="bord-l-b" rowspan="2">

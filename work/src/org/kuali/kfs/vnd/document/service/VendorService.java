@@ -186,5 +186,12 @@ public interface VendorService {
      * @return VendorContract B2B Contract for given vendor
      */
     public VendorContract getVendorB2BContract(VendorDetail vendorDetail, String campus);
-
+    
+    /**
+     * Indicates whether the specified vendor is a B2B vendor, i.e. whether it has at least one contract that has the b2b indicator set to yes. 
+     * @param vendorDetail the specified vendor
+     * @return true if the specified vendor is a B2B vendor; false otherwise.
+     *
+    public boolean isB2BVendor(VendorDetail vendorDetail);
+    */
 }

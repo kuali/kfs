@@ -54,6 +54,7 @@ import org.kuali.kfs.vnd.businessobject.PurchaseOrderCostSource;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
@@ -62,6 +63,7 @@ import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
 import org.kuali.rice.kns.service.CountryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -829,11 +831,12 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
 
     public String getVendorContractName() {
+        getVendorContract();
         if (ObjectUtils.isNull(vendorContract)) {
             return "";
         }
         else {
-            return getVendorContract().getVendorContractName();
+            return vendorContract.getVendorContractName();
         }
     }
 
@@ -1269,4 +1272,11 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         return getDeliveryCampusCode();
     }
     
+    public boolean getHasB2BVendor() {
+        if (getVendorHeaderGeneratedIdentifier() != null) {
+            String campusCode = GlobalVariables.getUserSession().getPerson().getCampusCode();
+            return SpringContext.getBean(VendorService.class).getVendorB2BContract(getVendorDetail(), campusCode) != null;
+        }
+        return false;
+    }
 }

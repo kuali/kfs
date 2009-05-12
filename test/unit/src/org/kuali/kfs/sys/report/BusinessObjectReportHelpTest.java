@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.sys.report;
 
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.sys.ConfigureContext;
@@ -37,10 +38,26 @@ public class BusinessObjectReportHelpTest extends KualiTestBase {
     }
 
     public void testGetTableDefintion() throws Exception {
-        Map<String, String> tableDefintion = summaryReportHelper.getTableDefintion(150);
+        Map<String, String> tableDefintion = summaryReportHelper.getTableDefintion();
 
         System.out.println(tableDefintion.get(KFSConstants.ReportConstants.TABLE_HEADER_LINE_KEY));
         System.out.println(tableDefintion.get(KFSConstants.ReportConstants.SEPARATOR_LINE_KEY));
         System.out.println(tableDefintion.get(KFSConstants.ReportConstants.TABLE_CELL_FORMAT_KEY));
+    }
+    
+    public void testApplyColumnSpanOnCellWidth() throws Exception {        
+        List<Integer> cellWidthList = summaryReportHelper.getTableCellWidth();
+        
+        System.out.println("===before: " + cellWidthList);        
+        summaryReportHelper.applyColspanOnCellWidth(cellWidthList);        
+        System.out.println("===after : " + cellWidthList);
+    }
+    
+    public void testGetTableCellFormat() throws Exception {        
+        String tabelCellFormatWithoutColspan = summaryReportHelper.getTableCellFormat(false);
+        System.out.println("===Without Colspan: " + tabelCellFormatWithoutColspan);
+        
+        String tabelCellFormatWithColspan = summaryReportHelper.getTableCellFormat(true);
+        System.out.println("===With Colspan:    " + tabelCellFormatWithColspan);
     }
 }

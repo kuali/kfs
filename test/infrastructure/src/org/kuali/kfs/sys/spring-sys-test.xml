@@ -58,13 +58,24 @@
 			</map>
 		</property>
 	</bean>	
+    
+    <bean id="tableReportWriterService" parent="reportWriterService">
+        <property name="filePath" value="${reports.directory}"/>
+        <property name="fileNamePrefix" value="table_report_test_"/>
+        <property name="title" value="Test Report As Table"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+            <map>
+                <entry key="org.kuali.kfs.gl.businessobject.GlSummary" value="summaryReportHelper"/>
+            </map>
+        </property>
+    </bean>
        
     <bean id="summaryReportHelper" parent="businessObjectReportHelper">
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.Balance" />
         <property name="columnCount" value="6" />
         <property name="orderedPropertyNameToHeaderLabelMap">
             <map>
-                <entry key="accountNumber" value="FUND"/>
+                <entry key="fundGroup" value="FUND"/>
                 <entry key="accountLineAnnualBalanceAmount" value="ANNUAL BAL    "/>
                 <entry key="beginningBalanceLineAmount"     value="BEGINNING BAL  "/>
                 <entry key="contractsGrantsBeginningBalanceAmount" value="CG BEGINNING BAL"/>
@@ -89,6 +100,45 @@
                 <entry key="month13Amount" value="ACCUM AMT FOR CLOSE"/>
             </map>
         </property>
+        <property name="columnSpanDefinition">
+            <map>
+                <entry key="fundGroup" value="4"/>
+                <entry key="month1Amount" value="2"/>
+                <entry key="month3Amount" value="5"/>
+                <entry key="month8Amount" value="5"/>
+            </map>
+        </property>        
     </bean>
     
+    <bean id="colspanTableReportWriterService" parent="reportWriterService">
+        <property name="filePath" value="${reports.directory}"/>
+        <property name="fileNamePrefix" value="colspan_table_report_test_"/>
+        <property name="title" value="Test Report As Table"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+            <map>
+                <entry key="org.kuali.kfs.gl.businessobject.GlSummary" value="colspanSummaryReportHelper"/>
+            </map>
+        </property>
+    </bean>
+       
+    <bean id="colspanSummaryReportHelper" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.Balance" />
+        <property name="columnCount" value="6" />
+        <property name="orderedPropertyNameToHeaderLabelMap">
+            <map>
+                <entry key="fundGroup" value="FUND"/>
+                <entry key="accountLineAnnualBalanceAmount" value="ANNUAL BAL    "/>
+                <entry key="beginningBalanceLineAmount"     value="BEGINNING BAL  "/>
+                <entry key="contractsGrantsBeginningBalanceAmount" value="CG BEGINNING BAL"/>
+                <entry key="month1Amount" value="ACCUM AMT FOR JUL"/>
+                <entry key="month2Amount" value="ACCUM AMT FOR AUG"/>
+            </map>
+        </property>
+        <property name="columnSpanDefinition">
+            <map>
+                <entry key="fundGroup" value="4"/>
+                <entry key="month1Amount" value="2"/>
+            </map>
+        </property>        
+    </bean>
 </beans>

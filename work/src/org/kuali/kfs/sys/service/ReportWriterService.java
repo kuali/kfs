@@ -16,8 +16,10 @@
 package org.kuali.kfs.sys.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.sys.report.BusinessObjectReportHelper;
 import org.kuali.rice.kns.bo.BusinessObject;
 
 /**
@@ -87,9 +89,23 @@ public interface ReportWriterService {
      * @param businessObject the given business object
      */
     public void writeTableRow(BusinessObject businessObject);
+    
+    /**
+     * Write table into a report for the given list of business objects
+     * @param businessObjects the given business objects
+     * @param isHeaderRepeatedInNewPage instruct if the header row needs to be repeated in a new page
+     * @param isRowBreakAcrossPageAllowed determine whether a row can be broken across pages
+     */
+    public void writeTable(List<? extends BusinessObject> businessObjects, boolean isHeaderRepeatedInNewPage, boolean isRowBreakAcrossPageAllowed);
 
     /**
      * Breaking the page and write a new header
      */
     public void pageBreak();
+
+    /**
+     * Write table row into a report for the given business object and also take the colspan in account
+     * @param businessObject the given business object
+     */
+    public void writeTableRowWithColspan(BusinessObject businessObject);
 }

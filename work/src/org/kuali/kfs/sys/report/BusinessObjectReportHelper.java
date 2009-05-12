@@ -44,6 +44,7 @@ public class BusinessObjectReportHelper {
     protected DataDictionaryService dataDictionaryService;
 
     private int columnCount = 0;
+    private Map<String, Integer> columnSpanDefinition;
 
     /**
      * Returns the values in a list of the passed in business object in order of the spring definition.
@@ -77,7 +78,7 @@ public class BusinessObjectReportHelper {
             throw new RuntimeException("Failed getting propertyName=" + propertyName + " from businessObjecName=" + businessObject.getClass().getName(), e);
         }
     }
-    
+
     /**
      * Returns the maximum length of a value for a given propery, can be overridden to allow for pseudo-properties
      * 
@@ -88,7 +89,7 @@ public class BusinessObjectReportHelper {
     protected int retrievePropertyValueMaximumLength(Class<? extends BusinessObject> businessObjectClass, String propertyName) {
         return dataDictionaryService.getAttributeMaxLength(dataDictionaryBusinessObjectClass, propertyName);
     }
-    
+
     /**
      * Same as getValues except that it actually doesn't retrieve the values from the BO but instead returns a blank linke. This is
      * useful if indentation for message printing is necessary.
@@ -164,11 +165,10 @@ public class BusinessObjectReportHelper {
 
     /**
      * get the primary information that can define a table structure
-     * @param pageWidth the max page width. If the table width is greater than the given page width, a warning message is logged
      * 
      * @return the primary information that can define a table structure
      */
-    public Map<String, String> getTableDefintion(int pageWidth) {
+    public Map<String, String> getTableDefintion() {
         String tableHeaderLineFormat = StringUtils.EMPTY;
         String tableCellFormat = StringUtils.EMPTY;
         String separatorLine = StringUtils.EMPTY;
@@ -176,34 +176,26 @@ public class BusinessObjectReportHelper {
 
         // build the formatter for a single row
         List<Integer> cellWidthList = this.getTableCellWidth();
-        Integer tableWidth = 0;
-        for (int index =0; index < this.columnCount; index++) {
+        for (int index = 0; index < this.columnCount; index++) {
             Integer cellWidth = cellWidthList.get(index);
-            
+
             separatorLine = separatorLine + StringUtils.rightPad(StringUtils.EMPTY, cellWidth, KFSConstants.DASH) + " ";
             singleRowFormat = singleRowFormat + "%-" + cellWidth + "s ";
-            
-            tableWidth += cellWidth;
-        }
-        
-        // send out a warning if the table width is greater than the given page width
-        if(tableWidth > pageWidth) {
-            LOG.warn("message is out of bounds writing anyway");
         }
 
-        // build the formatters for mutiple rows 
+        // build the formatters for mutiple rows
         int numberOfCell = cellWidthList.size();
         int rowCount = (int) Math.ceil(numberOfCell * 1.0 / columnCount);
-        for(int index =0; index < rowCount; index++) {
+        for (int index = 0; index < rowCount; index++) {
             tableHeaderLineFormat = tableHeaderLineFormat + singleRowFormat + "\n" + separatorLine + "\n";
-            
+
             tableCellFormat = tableCellFormat + singleRowFormat + "\n";
         }
-        
+
         // fill in the header labels
-        List<String> tableHeaderLabelValues = new ArrayList<String>(orderedPropertyNameToHeaderLabelMap.values());        
+        List<String> tableHeaderLabelValues = new ArrayList<String>(orderedPropertyNameToHeaderLabelMap.values());
         this.paddingTableCellValues(numberOfCell, tableHeaderLabelValues);
-        
+
         String tableHeaderLine = String.format(tableHeaderLineFormat, tableHeaderLabelValues.toArray());
 
         Map<String, String> tableDefintion = new HashMap<String, String>();
@@ -213,17 +205,17 @@ public class BusinessObjectReportHelper {
 
         return tableDefintion;
     }
-    
+
     /**
-     * Returns the values in a list of the passed in business object in order of the spring definition. The value for 
-     * the "EMPTY_CELL" entry is an empty string. 
+     * Returns the values in a list of the passed in business object in order of the spring definition. The value for the
+     * "EMPTY_CELL" entry is an empty string.
      * 
      * @param businessObject for which to return the values
      * @return the values
      */
-    public List<String> getTableCellValues(BusinessObject businessObject) {
+    public List<String> getTableCellValues(BusinessObject businessObject, boolean allowColspan) {
         List<String> tableCellValues = new ArrayList<String>();
-        
+
         for (Map.Entry<String, String> entry : orderedPropertyNameToHeaderLabelMap.entrySet()) {
             String attributeName = entry.getKey();
 
@@ -241,51 +233,147 @@ public class BusinessObjectReportHelper {
             }
         }
         
+        if(allowColspan) {
+            this.applyColspanOnCellValues(tableCellValues);
+        }
+
         return tableCellValues;
+    }
+
+    public String getTableCellFormat(boolean allowColspan) {
+        List<Integer> cellWidthList = this.getTableCellWidth();
+        
+        if(allowColspan && ObjectUtils.isNotNull(this.columnSpanDefinition)) {
+            this.applyColspanOnCellWidth(cellWidthList);
+        }
+
+        int numberOfCell = cellWidthList.size();
+        int rowCount = (int) Math.ceil(numberOfCell * 1.0 / columnCount);
+
+        String tableCellFormat = StringUtils.EMPTY;
+        for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+            String singleRowFormat = StringUtils.EMPTY;
+            
+            for (int columnIndex = 0; columnIndex < this.columnCount; columnIndex++) {
+                int index = columnCount * rowIndex + columnIndex; 
+                
+                if(index >= numberOfCell) {
+                    break;
+                }
+                
+                int width = cellWidthList.get(index);
+                if(width > 0) {
+                    singleRowFormat = singleRowFormat + "%-" + width + "s ";
+                }
+            }
+            
+            tableCellFormat = tableCellFormat + singleRowFormat + "\n";
+        }
+
+        return tableCellFormat;
+    }
+
+    /**
+     * get the width of all table cells
+     * 
+     * @return the width of all table cells. The width is in the order defined as the orderedPropertyNameToHeaderLabelMap
+     */
+    public void applyColspanOnCellWidth(List<Integer> cellWidthList) {
+        int indexOfCurrentCell = 0;
+        for (Map.Entry<String, String> entry : orderedPropertyNameToHeaderLabelMap.entrySet()) {
+            String attributeName = entry.getKey();
+
+            if (columnSpanDefinition.containsKey(attributeName)) {
+                int columnSpan = columnSpanDefinition.get(attributeName);
+
+                int widthOfCurrentNonEmptyCell = cellWidthList.get(indexOfCurrentCell);
+                for (int i = 1; i < columnSpan; i++) {
+                    widthOfCurrentNonEmptyCell += cellWidthList.get(indexOfCurrentCell + i);
+                    cellWidthList.set(indexOfCurrentCell + i, 0);
+                }
+                cellWidthList.set(indexOfCurrentCell, widthOfCurrentNonEmptyCell + columnSpan - 1);
+            }
+
+            indexOfCurrentCell++;
+        }
     }
     
     /**
+     * get the width of all table cells
+     * 
+     * @return the width of all table cells. The width is in the order defined as the orderedPropertyNameToHeaderLabelMap
+     */
+    public void applyColspanOnCellValues(List<String> cellValues) {
+        String REMOVE_ME = "REMOVE-ME-!";
+        
+        int indexOfCurrentCell = 0;
+        for (Map.Entry<String, String> entry : orderedPropertyNameToHeaderLabelMap.entrySet()) {
+            String attributeName = entry.getKey();
+
+            if (columnSpanDefinition.containsKey(attributeName)) {
+                int columnSpan = columnSpanDefinition.get(attributeName);
+
+                for (int i = 1; i < columnSpan; i++) {
+                    cellValues.set(indexOfCurrentCell + i, REMOVE_ME);
+                }
+            }
+
+            indexOfCurrentCell++;
+        }
+        
+        int originalLength = cellValues.size();
+        for(int index = originalLength -1; index>=0; index-- ) {
+            if(StringUtils.equals(cellValues.get(index), REMOVE_ME)) {
+                cellValues.remove(index);
+            }
+        }
+    }
+
+    /**
      * This method...
+     * 
      * @param businessObject
      * @return
      */
-    public List<String> getTableCellValuesPaddingWithEmptyCell(BusinessObject businessObject) {
-        List<String> tableCellValues = this.getTableCellValues(businessObject);
-        
+    public List<String> getTableCellValuesPaddingWithEmptyCell(BusinessObject businessObject, boolean allowColspan) {
+        List<String> tableCellValues = this.getTableCellValues(businessObject, allowColspan);
+
         int numberOfCell = orderedPropertyNameToHeaderLabelMap.entrySet().size();
         this.paddingTableCellValues(numberOfCell, tableCellValues);
-        
+
         return tableCellValues;
     }
 
     /**
      * get the width of all table cells
+     * 
      * @return the width of all table cells. The width is in the order defined as the orderedPropertyNameToHeaderLabelMap
      */
     public List<Integer> getTableCellWidth() {
         List<Integer> cellWidthList = new ArrayList<Integer>();
         for (Map.Entry<String, String> entry : orderedPropertyNameToHeaderLabelMap.entrySet()) {
             String attributeName = entry.getKey();
+            String attributeValue = entry.getValue();
 
-            int cellWidth = 0;
+            int cellWidth = attributeValue.length();
             if (!attributeName.startsWith(KFSConstants.ReportConstants.EMPTY_CELL_ENTRY_KEY_PREFIX)) {
                 try {
-                    cellWidth = retrievePropertyValueMaximumLength(dataDictionaryBusinessObjectClass, entry.getKey());
+                    cellWidth = retrievePropertyValueMaximumLength(dataDictionaryBusinessObjectClass, attributeName);
                 }
                 catch (Exception e) {
-                    throw new RuntimeException("Failed getting propertyName=" + entry.getKey() + " from businessObjecName=" + dataDictionaryBusinessObjectClass.getName(), e);
+                    throw new RuntimeException("Failed getting propertyName=" + attributeName + " from businessObjecName=" + dataDictionaryBusinessObjectClass.getName(), e);
                 }
             }
 
-            if (entry.getValue().length() > cellWidth) {
-                cellWidth = entry.getValue().length();
+            if (attributeValue.length() > cellWidth) {
+                cellWidth = attributeValue.length();
             }
 
             cellWidthList.add(cellWidth);
         }
 
         int numberOfCell = cellWidthList.size();
-        int rowCount = (int) Math.ceil(numberOfCell * 1.0 / columnCount);        
+        int rowCount = (int) Math.ceil(numberOfCell * 1.0 / columnCount);
         for (int colIndex = 0; colIndex < columnCount; colIndex++) {
             int longestLength = cellWidthList.get(colIndex);
 
@@ -311,22 +399,22 @@ public class BusinessObjectReportHelper {
                     break;
                 }
 
-                cellWidthList.set(colIndex, longestLength);
+                cellWidthList.set(currentIndex, longestLength);
             }
         }
-        
+
         return cellWidthList;
     }
-    
-    // put empty strings into the table cell values if the values are not enough to feed the table 
+
+    // put empty strings into the table cell values if the values are not enough to feed the table
     private void paddingTableCellValues(int numberOfCell, List<String> tableCellValues) {
         int reminder = columnCount - numberOfCell % columnCount;
-        if(reminder < columnCount) {
+        if (reminder < columnCount) {
             List<String> paddingObject = new ArrayList<String>(reminder);
-            for(int index = 0; index < reminder; index++) {
+            for (int index = 0; index < reminder; index++) {
                 paddingObject.add(StringUtils.EMPTY);
             }
-            
+
             tableCellValues.addAll(paddingObject);
         }
     }
@@ -383,5 +471,14 @@ public class BusinessObjectReportHelper {
      */
     public void setColumnCount(int columnCount) {
         this.columnCount = columnCount;
+    }
+
+    /**
+     * Sets the columnSpanDefinition attribute value.
+     * 
+     * @param columnSpanDefinition The columnSpanDefinition to set.
+     */
+    public void setColumnSpanDefinition(Map<String, Integer> columnSpanDefinition) {
+        this.columnSpanDefinition = columnSpanDefinition;
     }
 }

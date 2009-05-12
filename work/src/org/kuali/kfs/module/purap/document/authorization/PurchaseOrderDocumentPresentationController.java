@@ -63,13 +63,19 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
     @Override
     protected boolean canEdit(Document document) {
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
+        // po amend docs in CGIP status are only editable when in Initiated or Saved status
+        if (PurchaseOrderStatuses.CHANGE_IN_PROCESS.equals(poDocument.getStatusCode())) {
+            KualiWorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
+            if (!workflowDoc.stateIsInitiated() && !workflowDoc.stateIsSaved()) {
+                return false;
+            }
+        }
         if (!PurchaseOrderStatuses.IN_PROCESS.equals(poDocument.getStatusCode()) &&
                 !PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT.equals(poDocument.getStatusCode()) &&
                 !PurchaseOrderStatuses.WAITING_FOR_VENDOR.equals(poDocument.getStatusCode()) &&
                 !PurchaseOrderStatuses.QUOTE.equals(poDocument.getStatusCode()) &&
                 !PurchaseOrderStatuses.AWAIT_PURCHASING_REVIEW.equals(poDocument.getStatusCode()) &&
-                !PurchaseOrderStatuses.AWAIT_NEW_UNORDERED_ITEM_REVIEW.equals(poDocument.getStatusCode()) &&
-                !PurchaseOrderStatuses.CHANGE_IN_PROCESS.equals(poDocument.getStatusCode())) {
+                !PurchaseOrderStatuses.AWAIT_NEW_UNORDERED_ITEM_REVIEW.equals(poDocument.getStatusCode())) {
             return false;
         }
         return super.canEdit(document);

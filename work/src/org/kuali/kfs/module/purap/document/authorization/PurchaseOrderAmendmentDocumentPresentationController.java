@@ -24,6 +24,7 @@ import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 
 public class PurchaseOrderAmendmentDocumentPresentationController extends PurchaseOrderDocumentPresentationController {
@@ -33,11 +34,17 @@ public class PurchaseOrderAmendmentDocumentPresentationController extends Purcha
         Set<String> editModes = super.getEditModes(document);
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
 
-        if (PurchaseOrderStatuses.CHANGE_IN_PROCESS.equals(poDocument.getStatusCode()) ||
-                PurchaseOrderStatuses.AWAIT_NEW_UNORDERED_ITEM_REVIEW.equals(poDocument.getStatusCode())) {
+        if (PurchaseOrderStatuses.CHANGE_IN_PROCESS.equals(poDocument.getStatusCode())) {
+            KualiWorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
+            //  amendment doc needs to lock its field for initiator while enroute
+            if (workflowDoc.stateIsInitiated() || workflowDoc.stateIsSaved()) {
+                editModes.add(PurchaseOrderEditMode.AMENDMENT_ENTRY);
+            }
+        }
+        if (PurchaseOrderStatuses.AWAIT_NEW_UNORDERED_ITEM_REVIEW.equals(poDocument.getStatusCode())) {
             editModes.add(PurchaseOrderEditMode.AMENDMENT_ENTRY);
         }
-
+        
         if (SpringContext.getBean(PurapService.class).isDocumentStoppedInRouteNode((PurchasingAccountsPayableDocument) document, "New Unordered Items")) {
             editModes.add(PurchaseOrderEditMode.UNORDERED_ITEM_ACCOUNT_ENTRY);
         }

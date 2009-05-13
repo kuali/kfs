@@ -37,6 +37,7 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.ReceivingDocument;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
+import org.kuali.kfs.module.purap.document.validation.event.AddReceivingItemEvent;
 import org.kuali.kfs.module.purap.util.ReceivingQuestionCallback;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -46,6 +47,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.DocumentHelperService;
+import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -233,7 +235,7 @@ public class LineItemReceivingAction extends ReceivingBaseAction {
         LineItemReceivingForm lineItemReceivingForm = (LineItemReceivingForm) form;
         LineItemReceivingItem item = lineItemReceivingForm.getNewLineItemReceivingItemLine();
         LineItemReceivingDocument lineItemReceivingDocument = (LineItemReceivingDocument) lineItemReceivingForm.getDocument();
-        boolean rulePassed = true; //SpringContext.getBean(KualiRuleService.class).applyRules(new AddPurchasingAccountsPayableItemEvent("", purDocument, item));
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddReceivingItemEvent(PurapPropertyConstants.NEW_LINE_ITEM_RECEIVING_ITEM_LINE, lineItemReceivingDocument, item));
 
         if (rulePassed) {
             item = lineItemReceivingForm.getAndResetNewReceivingItemLine();                       

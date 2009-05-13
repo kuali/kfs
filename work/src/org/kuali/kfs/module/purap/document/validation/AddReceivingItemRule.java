@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.validation;
 
-import org.kuali.kfs.module.purap.businessobject.ReceivingItem;
+import org.kuali.kfs.module.purap.businessobject.LineItemReceivingItem;
 import org.kuali.kfs.module.purap.document.ReceivingDocument;
 
 public interface AddReceivingItemRule {
@@ -27,5 +27,5 @@ public interface AddReceivingItemRule {
      * @param item
      * @return
      */
-    public boolean processAddReceivingItemRules (ReceivingDocument document, ReceivingItem item);
+    public boolean processAddReceivingItemRules (ReceivingDocument document, LineItemReceivingItem item,String errorPathPrefix);
 }

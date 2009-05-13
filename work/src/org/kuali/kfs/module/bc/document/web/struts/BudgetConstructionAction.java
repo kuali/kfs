@@ -516,7 +516,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             // prevents proper cleanup in KualiRequestProcessor.processActionPerform()
             UserSession userSession = (UserSession) request.getSession().getAttribute(KNSConstants.USER_SESSION_KEY);
             String docFormKey = docForm.getFormKey();
-            SpringContext.getBean(SessionDocumentService.class).purgeDocumentForm(docForm.getDocument().getDocumentNumber(), docFormKey, userSession);
+            SpringContext.getBean(SessionDocumentService.class).purgeDocumentForm(docForm.getDocument().getDocumentNumber(), docFormKey, userSession, request);
 
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
 
@@ -541,7 +541,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                 // prevents proper cleanup in KualiRequestProcessor.processActionPerform()
                 UserSession userSession = (UserSession) request.getSession().getAttribute(KNSConstants.USER_SESSION_KEY);
                 String docFormKey = docForm.getFormKey();
-                SpringContext.getBean(SessionDocumentService.class).purgeDocumentForm(docForm.getDocument().getDocumentNumber(), docFormKey, userSession);
+                SpringContext.getBean(SessionDocumentService.class).purgeDocumentForm(docForm.getDocument().getDocumentNumber(), docFormKey, userSession, request);
 
                 return new ActionForward(lookupUrl, true);
             }

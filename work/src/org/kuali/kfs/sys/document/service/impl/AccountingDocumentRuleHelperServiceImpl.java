@@ -62,33 +62,35 @@ public class AccountingDocumentRuleHelperServiceImpl implements AccountingDocume
         List<String> incomeObjectTypes = objectTypeService.getCurrentYearBasicIncomeObjectTypes();
         return incomeObjectTypes.contains(getObjectCodeTypeCodeWithoutSideEffects(postable));
     }
-    
+
     /**
      * Makes sure that the objectCode attribute is fully populated b/c we are using proxying in our persistence layer.
      * 
      * @param accountingLine
      * @return the object type code of the object code of the given accounting line
      */
-    public String getObjectCodeTypeCodeWithoutSideEffects(GeneralLedgerPendingEntrySourceDetail postable) {            
+    public String getObjectCodeTypeCodeWithoutSideEffects(GeneralLedgerPendingEntrySourceDetail postable) {
         Integer fiscalYear = postable.getPostingYear();
         String chartOfAccountsCode = postable.getChartOfAccountsCode();
         String financialObjectCode = postable.getFinancialObjectCode();
-        
+
         ObjectCodeService objectCodeService = SpringContext.getBean(ObjectCodeService.class);
-        ObjectCode objectCode = objectCodeService.getByPrimaryId(fiscalYear, chartOfAccountsCode, financialObjectCode);
-        
+        ObjectCode objectCode = objectCodeService.getByPrimaryIdWithCaching(fiscalYear, chartOfAccountsCode, financialObjectCode);
+
         return ObjectUtils.isNotNull(objectCode) ? objectCode.getFinancialObjectTypeCode() : null;
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService#isValidBalanceType(org.kuali.kfs.coa.businessobject.BalanceTyp, java.lang.String)
+     * @see org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService#isValidBalanceType(org.kuali.kfs.coa.businessobject.BalanceTyp,
+     *      java.lang.String)
      */
     public boolean isValidBalanceType(BalanceType balanceType, String errorPropertyName) {
         return isValidBalanceType(balanceType, BalanceType.class, errorPropertyName, errorPropertyName);
     }
-    
+
     /**
      * Looks up a label from the data dictionary
+     * 
      * @param entryClass the class of the attribute to lookup the label for
      * @param attributeName the attribute to look up the label for
      * @return the label
@@ -106,7 +108,8 @@ public class AccountingDocumentRuleHelperServiceImpl implements AccountingDocume
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService#isValidBalanceType(org.kuali.kfs.coa.businessobject.BalanceTyp, java.lang.Class, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService#isValidBalanceType(org.kuali.kfs.coa.businessobject.BalanceTyp,
+     *      java.lang.Class, java.lang.String, java.lang.String)
      */
     public boolean isValidBalanceType(BalanceType balanceType, Class entryClass, String attributeName, String errorPropertyName) {
         String label = getLabelFromDataDictionary(entryClass, attributeName);
@@ -123,7 +126,8 @@ public class AccountingDocumentRuleHelperServiceImpl implements AccountingDocume
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService#isValidOpenAccountingPeriod(org.kuali.kfs.coa.businessobject.AccountingPeriod, java.lang.Class, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService#isValidOpenAccountingPeriod(org.kuali.kfs.coa.businessobject.AccountingPeriod,
+     *      java.lang.Class, java.lang.String, java.lang.String)
      */
     public boolean isValidOpenAccountingPeriod(AccountingPeriod accountingPeriod, Class entryClass, String attribueName, String errorPropertyName) {
         // retrieve from system to make sure it exists
@@ -143,7 +147,8 @@ public class AccountingDocumentRuleHelperServiceImpl implements AccountingDocume
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService#isValidReversalDate(java.sql.Date, java.lang.String)
+     * @see org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService#isValidReversalDate(java.sql.Date,
+     *      java.lang.String)
      */
     public boolean isValidReversalDate(Date reversalDate, String errorPropertyName) {
         java.sql.Date today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight();
@@ -155,7 +160,7 @@ public class AccountingDocumentRuleHelperServiceImpl implements AccountingDocume
             return true;
         }
     }
-    
+
     /**
      * Gets the named property from KualiConfigurationService (i.e., from ApplicationResources.properties) and formats it with the
      * given arguments (if any).
@@ -171,6 +176,7 @@ public class AccountingDocumentRuleHelperServiceImpl implements AccountingDocume
 
     /**
      * Sets the dataDictionaryService attribute value.
+     * 
      * @param ddService The ddService to set.
      */
     public void setDataDictionaryService(DataDictionaryService ddService) {
@@ -179,6 +185,7 @@ public class AccountingDocumentRuleHelperServiceImpl implements AccountingDocume
 
     /**
      * Sets the objectTypeService attribute value.
+     * 
      * @param objectTypeService The objectTypeService to set.
      */
     public void setObjectTypeService(ObjectTypeService objectTypeService) {

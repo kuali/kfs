@@ -41,6 +41,7 @@ import org.kuali.rice.kns.document.TransactionalDocument;
 import org.kuali.rice.kns.rules.DocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -171,9 +172,9 @@ public class LineItemReceivingDocumentRule extends DocumentRuleBase implements C
     /**
      * @see org.kuali.kfs.module.purap.document.validation.AddReceivingItemRule#processAddReceivingItemRules(org.kuali.kfs.module.purap.document.ReceivingDocument, org.kuali.kfs.module.purap.businessobject.ReceivingItem)
      */
-    public boolean processAddReceivingItemRules(ReceivingDocument document, ReceivingItem item) {
-        // TODO Auto-generated method stub
-        return true;
+    public boolean processAddReceivingItemRules(ReceivingDocument document, LineItemReceivingItem item,String errorPathPrefix) {
+        boolean valid = SpringContext.getBean(DictionaryValidationService.class).isBusinessObjectValid(item,errorPathPrefix);
+        return valid;
     }
 
 }

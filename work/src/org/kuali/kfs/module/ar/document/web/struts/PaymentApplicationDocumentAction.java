@@ -155,6 +155,13 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         Integer nonInvoicedItemNumber = 1;
         for (NonInvoiced n : paymentApplicationDocument.getNonInvoiceds()) {
             n.setFinancialDocumentLineNumber(nonInvoicedItemNumber++);
+            n.setFinancialDocumentLineNumber(nonInvoicedItemNumber++);
+            n.refreshReferenceObject("chartOfAccounts");
+            n.refreshReferenceObject("account");
+            n.refreshReferenceObject("subAccount");
+            n.refreshReferenceObject("financialObject");
+            n.refreshReferenceObject("financialSubObject");
+            n.refreshReferenceObject("project");
         }
                 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -253,6 +260,12 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
             Integer nonInvoicedItemNumber = 1;
             for (NonInvoiced n : paymentApplicationDocument.getNonInvoiceds()) {
                 n.setFinancialDocumentLineNumber(nonInvoicedItemNumber++);
+                n.refreshReferenceObject("chartOfAccounts");
+                n.refreshReferenceObject("account");
+                n.refreshReferenceObject("subAccount");
+                n.refreshReferenceObject("financialObject");
+                n.refreshReferenceObject("financialSubObject");
+                n.refreshReferenceObject("project");
             }
                 
             // make an empty new one

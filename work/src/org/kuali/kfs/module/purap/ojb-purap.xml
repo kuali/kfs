@@ -2856,17 +2856,11 @@
     <field-descriptor name="itemOutstandingInvoiceQuantity" column="ITM_OSTND_INV_QTY" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
     <field-descriptor name="itemOutstandingInvoiceAmount" column="ITM_OSTND_INV_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" /> 
     <field-descriptor name="itemSalesTaxAmount" column="ITM_TAX_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-    <field-descriptor name="capitalAssetTransactionTypeCode" column="CPTL_AST_TRN_TYP_CD" jdbc-type="VARCHAR"/>
-    
-    
-    <reference-descriptor name="capitalAssetTransactionType" class-ref="org.kuali.kfs.module.cab.businessobject.AssetTransactionType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="capitalAssetTransactionTypeCode" />
-    </reference-descriptor> 
-    
+    <field-descriptor name="capitalAssetTransactionTypeCode" column="CPTL_AST_TRN_TYP_CD" jdbc-type="VARCHAR"/>    
     <reference-descriptor name="purapDocument" class-ref="org.kuali.kfs.module.purap.document.PaymentRequestDocument" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="purapDocumentIdentifier" />
     </reference-descriptor>
-        <reference-descriptor name="itemType" class-ref="org.kuali.kfs.module.purap.businessobject.ItemType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="itemType" class-ref="org.kuali.kfs.module.purap.businessobject.ItemType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="itemTypeCode" />
     </reference-descriptor>
     <!-- the account deletion is handled within our buildDeletionAwareLists, setting auto-delete=none as a workaround to Optimistic Locking Exception for now -->
@@ -2877,11 +2871,8 @@
     </collection-descriptor>
     <collection-descriptor name="useTaxItems" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PaymentRequestItemUseTax" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="itemIdentifier" />
-    </collection-descriptor>    
-    
+    </collection-descriptor>        
 </class-descriptor>
-
-
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.RequisitionAccount" table="PUR_REQS_ACCT_T">
     <field-descriptor name="accountIdentifier" column="REQS_ACCT_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="REQS_ACCT_ID"/>
@@ -3557,13 +3548,7 @@
     <field-descriptor name="preqUnitPrice" column="PMT_RQST_UNT_PRC" jdbc-type="DECIMAL"/>
     <field-descriptor name="itemSalesTaxAmount" column="ITM_TAX_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
     <field-descriptor name="preqTotalAmount" column="PMT_RQST_EXTND_PRC" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-	<!-- <field-descriptor name="capitalAssetTransactionTypeCode" column="CPTL_AST_TRN_TYP_CD" jdbc-type="VARCHAR"/> -->
-    
-    <!-- TODO:uncomment this and above when column added 
-    <reference-descriptor name="capitalAssetTransactionType" class-ref="org.kuali.kfs.module.cab.businessobject.AssetTransactionType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="capitalAssetTransactionTypeCode" />
-    </reference-descriptor> 
-     -->
+	<field-descriptor name="capitalAssetTransactionTypeCode" column="CPTL_AST_TRN_TYP_CD" jdbc-type="VARCHAR"/>    
     <reference-descriptor name="itemType" class-ref="org.kuali.kfs.module.purap.businessobject.ItemType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="itemTypeCode" />
     </reference-descriptor>
@@ -3930,9 +3915,6 @@
     <reference-descriptor name="purchasingDocument" class-ref="org.kuali.kfs.module.purap.document.RequisitionDocument" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="purapDocumentIdentifier" />
     </reference-descriptor>    
-    <reference-descriptor name="capitalAssetTransactionType" class-ref="org.kuali.kfs.module.cab.businessobject.AssetTransactionType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="capitalAssetTransactionTypeCode" />
-    </reference-descriptor> 
     <reference-descriptor name="purchasingCapitalAssetSystem" class-ref="org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetSystem" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <foreignkey field-ref="capitalAssetSystemIdentifier" />
     </reference-descriptor>           
@@ -3949,9 +3931,6 @@
     <reference-descriptor name="purchasingDocument" class-ref="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>       
-    <reference-descriptor name="capitalAssetTransactionType" class-ref="org.kuali.kfs.module.cab.businessobject.AssetTransactionType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="capitalAssetTransactionTypeCode" />
-    </reference-descriptor> 
     <reference-descriptor name="purchasingCapitalAssetSystem" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetSystem" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <foreignkey field-ref="capitalAssetSystemIdentifier" />
     </reference-descriptor> 

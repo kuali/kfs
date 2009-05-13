@@ -42,8 +42,6 @@ public interface PurchasingCapitalAssetItem {
 
     public CapitalAssetBuilderAssetTransactionType getCapitalAssetTransactionType();
 
-    public void setCapitalAssetTransactionType(CapitalAssetBuilderAssetTransactionType capitalAssetTransactionType);
-
     public CapitalAssetSystem getPurchasingCapitalAssetSystem();
 
     public void setPurchasingCapitalAssetSystem(CapitalAssetSystem purchasingCapitalAssetSystem);

@@ -19,7 +19,10 @@ import java.math.BigDecimal;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.util.PurApItemUtils;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -142,11 +145,7 @@ public abstract class AccountsPayableItemBase extends PurApItemBase implements A
     }
 
     public CapitalAssetBuilderAssetTransactionType getCapitalAssetTransactionType() {
-        return capitalAssetTransactionType;
-    }
-
-    public void setCapitalAssetTransactionType(CapitalAssetBuilderAssetTransactionType capitalAssetTransactionType) {
-        this.capitalAssetTransactionType = capitalAssetTransactionType;
+        return capitalAssetTransactionType = (CapitalAssetBuilderAssetTransactionType) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CapitalAssetBuilderAssetTransactionType.class).retrieveExternalizableBusinessObjectIfNecessary(this, capitalAssetTransactionType, PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE);
     }
 
 }

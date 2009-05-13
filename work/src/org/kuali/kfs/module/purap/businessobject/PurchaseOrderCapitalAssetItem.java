@@ -40,8 +40,6 @@ public class PurchaseOrderCapitalAssetItem extends PurchasingCapitalAssetItemBas
     public PurchaseOrderCapitalAssetItem(RequisitionCapitalAssetItem reqAssetItem, Integer itemIdentifier) {
         this.setItemIdentifier(itemIdentifier);
         this.setCapitalAssetTransactionTypeCode(reqAssetItem.getCapitalAssetTransactionTypeCode());
-        //FIXME (from hjs) why are we setting this reference?
-        this.setCapitalAssetTransactionType(reqAssetItem.getCapitalAssetTransactionType());
         if (ObjectUtils.isNotNull(reqAssetItem.getPurchasingCapitalAssetSystem())) {
             this.setPurchasingCapitalAssetSystem(new PurchaseOrderCapitalAssetSystem((RequisitionCapitalAssetSystem)reqAssetItem.getPurchasingCapitalAssetSystem()));
         }

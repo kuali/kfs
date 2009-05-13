@@ -22,8 +22,11 @@ import org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public abstract class PurchasingCapitalAssetItemBase extends PersistableBusinessObjectBase implements PurchasingCapitalAssetItem {
@@ -81,11 +84,7 @@ public abstract class PurchasingCapitalAssetItemBase extends PersistableBusiness
     }
 
     public CapitalAssetBuilderAssetTransactionType getCapitalAssetTransactionType() {
-        return capitalAssetTransactionType;
-    }
-
-    public void setCapitalAssetTransactionType(CapitalAssetBuilderAssetTransactionType capitalAssetTransactionType) {
-        this.capitalAssetTransactionType = capitalAssetTransactionType;
+        return capitalAssetTransactionType = (CapitalAssetBuilderAssetTransactionType) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CapitalAssetBuilderAssetTransactionType.class).retrieveExternalizableBusinessObjectIfNecessary(this, capitalAssetTransactionType, PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE);
     }
 
     public CapitalAssetSystem getPurchasingCapitalAssetSystem() {

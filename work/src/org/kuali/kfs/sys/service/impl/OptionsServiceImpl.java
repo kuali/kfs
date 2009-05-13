@@ -21,6 +21,8 @@ import org.kuali.kfs.sys.dataaccess.OptionsDao;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.util.spring.CacheNoCopy;
+import org.kuali.rice.kns.util.spring.Cached;
 
 @NonTransactional
 public class OptionsServiceImpl implements OptionsService {
@@ -28,10 +30,10 @@ public class OptionsServiceImpl implements OptionsService {
 
     private OptionsDao optionsDao;
     private UniversityDateService universityDateService;
-    
+
+    @CacheNoCopy
     public SystemOptions getCurrentYearOptions() {
         LOG.debug("getCurrentYearOptions() started");
-
         Integer fy = universityDateService.getCurrentFiscalYear();
         return optionsDao.getByPrimaryId(fy);
     }
@@ -53,6 +55,6 @@ public class OptionsServiceImpl implements OptionsService {
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
     }
-    
-    
+
+
 }

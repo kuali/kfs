@@ -26,6 +26,7 @@ import org.kuali.kfs.coa.dataaccess.ObjectCodeDao;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.util.spring.CacheNoCopy;
 
 /**
  * This class is the service implementation for the ObjectCode structure. This is the default implementation, that is delivered with
@@ -39,9 +40,9 @@ public class ObjectCodeServiceImpl implements ObjectCodeService {
     private UniversityDateService universityDateService;
 
     /**
-     * 
      * @see org.kuali.kfs.coa.service.ObjectCodeService#getByPrimaryId(java.lang.Integer, java.lang.String, java.lang.String)
      */
+    @CacheNoCopy
     public ObjectCode getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode) {
         return objectCodeDao.getByPrimaryId(universityFiscalYear, chartOfAccountsCode, financialObjectCode);
     }
@@ -55,6 +56,7 @@ public class ObjectCodeServiceImpl implements ObjectCodeService {
 
     /**
      * Injects the ObjectCodeDao
+     * 
      * @param objectCodeDao
      */
     public void setObjectCodeDao(ObjectCodeDao objectCodeDao) {
@@ -80,7 +82,6 @@ public class ObjectCodeServiceImpl implements ObjectCodeService {
     }
 
     /**
-     * 
      * @see org.kuali.kfs.coa.service.ObjectCodeService#getYearList(java.lang.String, java.lang.String)
      */
     public List getYearList(String chartOfAccountsCode, String financialObjectCode) {

@@ -25,6 +25,7 @@ import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.dataaccess.OptionsDao;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.util.spring.CacheNoCopy;
 
 /**
  * This service implementation is the default implementation of the ObjectType service that is delivered with Kuali.
@@ -38,7 +39,6 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
     private OptionsDao optionsDao;
 
     /**
-     * 
      * @see org.kuali.kfs.coa.service.ObjectTypeService#getByPrimaryKey(java.lang.String)
      */
     public ObjectType getByPrimaryKey(String objectTypeCode) {
@@ -46,7 +46,6 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
     }
 
     /**
-     * 
      * @see org.kuali.kfs.coa.service.ObjectTypeService#getAssetObjectType(java.lang.Integer)
      */
     public String getAssetObjectType(Integer universityFiscalYear) {
@@ -54,7 +53,6 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
     }
 
     /**
-     * 
      * @see org.kuali.kfs.coa.service.ObjectTypeService#getBasicExpenseObjectTypes(java.lang.Integer)
      */
     public List<String> getBasicExpenseObjectTypes(Integer universityFiscalYear) {
@@ -69,7 +67,6 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
     }
 
     /**
-     * 
      * @see org.kuali.kfs.coa.service.ObjectTypeService#getExpenseObjectTypes(java.lang.Integer)
      */
     public List<String> getExpenseObjectTypes(Integer universityFiscalYear) {
@@ -84,7 +81,6 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
     }
 
     /**
-     * 
      * @see org.kuali.kfs.coa.service.ObjectTypeService#getBasicIncomeObjectTypes(java.lang.Integer)
      */
     public List<String> getBasicIncomeObjectTypes(Integer universityFiscalYear) {
@@ -99,7 +95,6 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
     }
 
     /**
-     * 
      * @see org.kuali.kfs.coa.service.ObjectTypeService#getExpenseTransferObjectType(java.lang.Integer)
      */
     public String getExpenseTransferObjectType(Integer universityFiscalYear) {
@@ -107,7 +102,6 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
     }
 
     /**
-     * 
      * @see org.kuali.kfs.coa.service.ObjectTypeService#getIncomeTransferObjectType(java.lang.Integer)
      */
     public String getIncomeTransferObjectType(Integer universityFiscalYear) {
@@ -115,7 +109,6 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
     }
 
     /**
-     * 
      * @see org.kuali.kfs.coa.service.ObjectTypeService#getCurrentYearAssetObjectType()
      */
     public String getCurrentYearAssetObjectType() {
@@ -123,7 +116,6 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
     }
 
     /**
-     * 
      * @see org.kuali.kfs.coa.service.ObjectTypeService#getCurrentYearBasicExpenseObjectTypes()
      */
     public List<String> getCurrentYearBasicExpenseObjectTypes() {
@@ -131,7 +123,6 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
     }
 
     /**
-     * 
      * @see org.kuali.kfs.coa.service.ObjectTypeService#getCurrentYearExpenseObjectTypes()
      */
     public List<String> getCurrentYearExpenseObjectTypes() {
@@ -139,15 +130,14 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
     }
 
     /**
-     * 
      * @see org.kuali.kfs.coa.service.ObjectTypeService#getCurrentYearBasicIncomeObjectTypes()
      */
+    @CacheNoCopy
     public List<String> getCurrentYearBasicIncomeObjectTypes() {
         return getBasicIncomeObjectTypes(universityDateService.getCurrentFiscalYear());
     }
-    
+
     /**
-     * 
      * @see org.kuali.kfs.coa.service.ObjectTypeService#getCurrentYearExpenseTransferObjectType()
      */
     public String getCurrentYearExpenseTransferObjectType() {
@@ -155,7 +145,6 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
     }
 
     /**
-     * 
      * @see org.kuali.kfs.coa.service.ObjectTypeService#getCurrentYearIncomeTransferObjectType()
      */
     public String getCurrentYearIncomeTransferObjectType() {
@@ -163,7 +152,6 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
     }
 
     /**
-     * 
      * @see org.kuali.kfs.coa.service.ObjectTypeService#getNominalActivityClosingAllowedObjectTypes(java.lang.Integer)
      */
     public List<String> getNominalActivityClosingAllowedObjectTypes(Integer fiscalYear) {
@@ -208,7 +196,7 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
         cumulativeBalanceForwardsObjectTypes.add(option.getFinObjTypeCshNotIncomeCd());
         return cumulativeBalanceForwardsObjectTypes;
     }
-    
+
     /**
      * @param objectTypeDao The objectTypeDao to set.
      */

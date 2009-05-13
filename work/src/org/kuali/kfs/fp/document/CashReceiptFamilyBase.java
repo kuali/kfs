@@ -119,12 +119,8 @@ abstract public class CashReceiptFamilyBase extends AccountingDocumentBase {
                     if (isDebit(al)) {
                         total = total.subtract(amount);
                     }
-                    else if (!isDebit(al)) { // in this context, if it's not a debit, it's a credit
+                    else { // in this context, if it's not a debit, it's a credit
                         total = total.add(amount);
-                    }
-                    else {
-                        LOG.error("could not determine credit/debit for accounting line");
-                        return KualiDecimal.ZERO;
                     }
                 }
             }
@@ -175,14 +171,13 @@ abstract public class CashReceiptFamilyBase extends AccountingDocumentBase {
     public AccountingLineParser getAccountingLineParser() {
         return new BasicFormatWithLineDescriptionAccountingLineParser();
     }
-    
+
     /**
      * Returns true if accounting line is debit
      * 
      * @param financialDocument
      * @param accountingLine
-     * @param true if accountline line 
-     * 
+     * @param true if accountline line
      * @see IsDebitUtils#isDebitConsideringType(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
      * @see org.kuali.rice.kns.rule.AccountingLineRule#isDebit(org.kuali.rice.kns.document.FinancialDocument,
      *      org.kuali.rice.kns.bo.AccountingLine)
@@ -191,16 +186,15 @@ abstract public class CashReceiptFamilyBase extends AccountingDocumentBase {
         // error corrections are not allowed
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
         isDebitUtils.disallowErrorCorrectionDocumentCheck(this);
-        return isDebitUtils.isDebitConsideringType(this, (AccountingLine)postable);
+        return isDebitUtils.isDebitConsideringType(this, (AccountingLine) postable);
     }
-    
+
     /**
      * Overrides to set the entry's description to the description from the accounting line, if a value exists.
      * 
      * @param financialDocument submitted accounting document
      * @param accountingLine accounting line in accounting document
      * @param explicitEntry general ledger pending entry
-     * 
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.rice.kns.document.FinancialDocument,
      *      org.kuali.rice.kns.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */

@@ -26,8 +26,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
@@ -52,7 +50,6 @@ import org.kuali.kfs.module.purap.document.validation.event.AttributedContinuePu
 import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
@@ -110,29 +107,29 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private String recurringPaymentTypeCode;
     private boolean receivingDocumentRequiredIndicator;
     private boolean paymentRequestPositiveApprovalIndicator;
-    
+
     // TAX EDIT AREA FIELDS
     private String taxClassificationCode;
     private String taxCountryCode;
     private String taxNQIId;
-    private BigDecimal taxFederalPercent;       // number is in whole form so 5% is 5.00
-    private BigDecimal taxStatePercent;         // number is in whole form so 5% is 5.00
+    private BigDecimal taxFederalPercent; // number is in whole form so 5% is 5.00
+    private BigDecimal taxStatePercent; // number is in whole form so 5% is 5.00
     private KualiDecimal taxSpecialW4Amount;
     private Boolean taxGrossUpIndicator;
     private Boolean taxExemptTreatyIndicator;
     private Boolean taxForeignSourceIndicator;
     private Boolean taxUSAIDPerDiemIndicator;
     private Boolean taxOtherExemptIndicator;
-    
+
     // NOT PERSISTED IN DB
     private String vendorShippingTitleCode;
     private Date purchaseOrderEndDate;
     private String primaryVendorName;
-    
+
     // BELOW USED BY ROUTING
     private Integer requisitionIdentifier;
     private boolean awaitingReceiving;
-    
+
     // REFERENCE OBJECTS
     private PaymentTermType vendorPaymentTerms;
     private ShippingPaymentTerms vendorShippingPaymentTerms;
@@ -140,7 +137,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private RecurringPaymentType recurringPaymentType;
 
     private boolean isCreatedByElectronicInvoice = false;
-    
+
     /**
      * Default constructor.
      */
@@ -158,34 +155,29 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
 
     public Integer getPostingYearPriorOrCurrent() {
         if (SpringContext.getBean(PaymentRequestService.class).allowBackpost(this)) {
-            //allow prior; use it
+            // allow prior; use it
             return SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear() - 1;
         }
-        //don't allow prior; use CURRENT
+        // don't allow prior; use CURRENT
         return SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
     }
 
-    
+
     /**
-     * Overrides the method in PurchasingAccountsPayableDocumentBase to add the criteria
-     * specific to Payment Request Document.
+     * Overrides the method in PurchasingAccountsPayableDocumentBase to add the criteria specific to Payment Request Document.
      * 
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#isInquiryRendered()
      */
     @Override
     public boolean isInquiryRendered() {
-        if ( isPostingYearPrior() && 
-             ( getStatusCode().equals(PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED) ||
-               getStatusCode().equals(PurapConstants.PaymentRequestStatuses.AUTO_APPROVED) ||
-               getStatusCode().equals(PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE) ||
-               getStatusCode().equals(PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS) ) )  {
-               return false;            
+        if (isPostingYearPrior() && (getStatusCode().equals(PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED) || getStatusCode().equals(PurapConstants.PaymentRequestStatuses.AUTO_APPROVED) || getStatusCode().equals(PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE) || getStatusCode().equals(PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS))) {
+            return false;
         }
         else {
             return true;
         }
     }
-    
+
     public Integer getRequisitionIdentifier() {
         return requisitionIdentifier;
     }
@@ -201,12 +193,12 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public void populateDocumentForRouting() {
         this.setRequisitionIdentifier(getPurchaseOrderDocument().getRequisitionIdentifier());
         /**
-         * PurapDocumentIdentifier will be null for PREQ created in EInvoice process. 
+         * PurapDocumentIdentifier will be null for PREQ created in EInvoice process.
          */
-        if (!isCreatedByElectronicInvoice()){
+        if (!isCreatedByElectronicInvoice()) {
             this.setAwaitingReceiving(SpringContext.getBean(PaymentRequestService.class).isAwaitingReceiving(this.getPurapDocumentIdentifier()));
         }
-        super.populateDocumentForRouting();                
+        super.populateDocumentForRouting();
     }
 
     public Date getInvoiceDate() {
@@ -243,8 +235,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }
 
     public PaymentTermType getVendorPaymentTerms() {
-        if (ObjectUtils.isNull(vendorPaymentTerms) ||
-            !StringUtils.equalsIgnoreCase(getVendorPaymentTermsCode(),vendorPaymentTerms.getVendorPaymentTermsCode())) {
+        if (ObjectUtils.isNull(vendorPaymentTerms) || !StringUtils.equalsIgnoreCase(getVendorPaymentTermsCode(), vendorPaymentTerms.getVendorPaymentTermsCode())) {
             refreshReferenceObject(VendorPropertyConstants.VENDOR_PAYMENT_TERMS);
         }
         return vendorPaymentTerms;
@@ -332,7 +323,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public void setSpecialHandlingInstructionLine3Text(String specialHandlingInstructionLine3Text) {
         this.specialHandlingInstructionLine3Text = specialHandlingInstructionLine3Text;
     }
-    
+
     public Timestamp getPaymentPaidTimestamp() {
         return paymentPaidTimestamp;
     }
@@ -417,7 +408,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * Gets the paymentRequestPositiveApprovalIndicator attribute. 
+     * Gets the paymentRequestPositiveApprovalIndicator attribute.
+     * 
      * @return Returns the paymentRequestPositiveApprovalIndicator.
      */
     public boolean isPaymentRequestPositiveApprovalIndicator() {
@@ -426,6 +418,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
 
     /**
      * Sets the paymentRequestPositiveApprovalIndicator attribute value.
+     * 
      * @param paymentRequestPositiveApprovalIndicator The paymentRequestPositiveApprovalIndicator to set.
      */
     public void setPaymentRequestPositiveApprovalIndicator(boolean paymentRequestPositiveApprovalIndicator) {
@@ -433,7 +426,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * Gets the receivingDocumentRequiredIndicator attribute. 
+     * Gets the receivingDocumentRequiredIndicator attribute.
+     * 
      * @return Returns the receivingDocumentRequiredIndicator.
      */
     public boolean isReceivingDocumentRequiredIndicator() {
@@ -442,6 +436,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
 
     /**
      * Sets the receivingDocumentRequiredIndicator attribute value.
+     * 
      * @param receivingDocumentRequiredIndicator The receivingDocumentRequiredIndicator to set.
      */
     public void setReceivingDocumentRequiredIndicator(boolean receivingDocumentRequiredIndicator) {
@@ -510,12 +505,12 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             this.setPaymentRequestCostSource(po.getPurchaseOrderCostSource());
             this.setPaymentRequestCostSourceCode(po.getPurchaseOrderCostSourceCode());
         }
-        
+
         if (po.getVendorShippingPaymentTerms() != null) {
             this.setVendorShippingPaymentTerms(po.getVendorShippingPaymentTerms());
             this.setVendorShippingPaymentTermsCode(po.getVendorShippingPaymentTermsCode());
         }
-        
+
         if (po.getVendorPaymentTerms() != null) {
             this.setVendorPaymentTermsCode(po.getVendorPaymentTermsCode());
             this.setVendorPaymentTerms(po.getVendorPaymentTerms());
@@ -530,15 +525,15 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         this.setVendorDetailAssignedIdentifier(po.getVendorDetailAssignedIdentifier());
         this.setVendorCustomerNumber(po.getVendorCustomerNumber());
         this.setVendorName(po.getVendorName());
-        
-        //set original vendor
+
+        // set original vendor
         this.setOriginalVendorHeaderGeneratedIdentifier(po.getVendorHeaderGeneratedIdentifier());
-        this.setOriginalVendorDetailAssignedIdentifier(po.getVendorDetailAssignedIdentifier());        
-        
-        //set alternate vendor info as well
+        this.setOriginalVendorDetailAssignedIdentifier(po.getVendorDetailAssignedIdentifier());
+
+        // set alternate vendor info as well
         this.setAlternateVendorHeaderGeneratedIdentifier(po.getAlternateVendorHeaderGeneratedIdentifier());
         this.setAlternateVendorDetailAssignedIdentifier(po.getAlternateVendorDetailAssignedIdentifier());
-        
+
         // populate preq vendor address with the default remit address type for the vendor if found
         String userCampus = GlobalVariables.getUserSession().getPerson().getCampusCode();
         VendorAddress vendorAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(po.getVendorHeaderGeneratedIdentifier(), po.getVendorDetailAssignedIdentifier(), VendorConstants.AddressTypes.REMIT, userCampus);
@@ -557,8 +552,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             this.setVendorStateCode(po.getVendorStateCode());
             this.setVendorPostalCode(po.getVendorPostalCode());
             this.setVendorCountryCode(po.getVendorCountryCode());
-            
-            boolean blankAttentionLine = StringUtils.equalsIgnoreCase("Y",SpringContext.getBean(KualiConfigurationService.class).getParameterValue(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.BLANK_ATTENTION_LINE_FOR_PO_TYPE_ADDRESS));
+
+            boolean blankAttentionLine = StringUtils.equalsIgnoreCase("Y", SpringContext.getBean(KualiConfigurationService.class).getParameterValue(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.BLANK_ATTENTION_LINE_FOR_PO_TYPE_ADDRESS));
 
             if (blankAttentionLine) {
                 setVendorAttentionName(StringUtils.EMPTY);
@@ -577,7 +572,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                 PaymentRequestItem paymentRequestItem = new PaymentRequestItem(poi, this, expiredOrClosedAccountList);
                 this.getItems().add(paymentRequestItem);
                 PurchasingCapitalAssetItem purchasingCAMSItem = po.getPurchasingCapitalAssetItemByItemIdentifier(poi.getItemIdentifier());
-                if(purchasingCAMSItem!=null) {
+                if (purchasingCAMSItem != null) {
                     paymentRequestItem.setCapitalAssetTransactionTypeCode(purchasingCAMSItem.getCapitalAssetTransactionTypeCode());
                 }
             }
@@ -597,7 +592,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(PaymentRequestDocument.class, PurapParameterConstants.PURAP_OVERRIDE_PREQ_DOC_TITLE)) {
             return getCustomDocumentTitle();
         }
-        
+
         return this.buildDocumentTitle(super.getDocumentTitle());
     }
 
@@ -873,7 +868,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public KualiDecimal getLineItemPreTaxTotal() {
         return this.getTotalPreTaxDollarAmountAboveLineItems();
     }
-    
+
     public KualiDecimal getLineItemTaxAmount() {
         return this.getTotalTaxAmountAboveLineItems();
     }
@@ -881,7 +876,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public KualiDecimal getGrandTotal() {
         return this.getTotalDollarAmount();
     }
-    
+
     public KualiDecimal getGrandTotalExcludingDiscount() {
         String[] discountCode = new String[] { PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE };
         return this.getTotalDollarAmountWithExclusions(discountCode, true);
@@ -895,7 +890,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public void setGrandTotalExcludingDiscount(KualiDecimal amount) {
         // do nothing
     }
-    
+
     public KualiDecimal getGrandPreTaxTotal() {
         return this.getTotalPreTaxDollarAmount();
     }
@@ -905,7 +900,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         return this.getTotalPreTaxDollarAmountWithExclusions(discountCode, true);
     }
 
-    public KualiDecimal getGrandTaxAmount(){
+    public KualiDecimal getGrandTaxAmount() {
         return this.getTotalTaxAmount();
     }
 
@@ -945,7 +940,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         Person user = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(getAccountsPayableRequestCancelIdentifier());
         if (user != null) {
             personName = user.getName();
-        } else {
+        }
+        else {
             personName = "";
         }
 
@@ -1053,14 +1049,14 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public void prepareForSave(KualiDocumentEvent event) {
         KualiWorkflowDocument workflowDocument = this.getDocumentHeader().getWorkflowDocument();
         String workflowDocumentTitle = this.buildDocumentTitle(workflowDocument.getTitle());
-        
-        try {            
+
+        try {
             this.getDocumentHeader().getWorkflowDocument().setTitle(workflowDocumentTitle);
         }
         catch (WorkflowException e) {
             LOG.error("fail to access Workflow." + e);
         }
-        
+
 
         // first populate, then call super
         if (event instanceof AttributedContinuePurapEvent) {
@@ -1097,57 +1093,58 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         }
         return item;
     }
-    
+
     public String getPrimaryVendorName() {
-        
-        if(primaryVendorName == null){
-            VendorDetail vd = SpringContext.getBean(VendorService.class).getVendorDetail(
-                    this.getOriginalVendorHeaderGeneratedIdentifier(), this.getOriginalVendorDetailAssignedIdentifier());
-        
-            if (vd != null){
+
+        if (primaryVendorName == null) {
+            VendorDetail vd = SpringContext.getBean(VendorService.class).getVendorDetail(this.getOriginalVendorHeaderGeneratedIdentifier(), this.getOriginalVendorDetailAssignedIdentifier());
+
+            if (vd != null) {
                 primaryVendorName = vd.getVendorName();
             }
         }
-        
+
         return primaryVendorName;
     }
 
     /**
      * @deprecated
      */
-    public void setPrimaryVendorName(String primaryVendorName){
+    public void setPrimaryVendorName(String primaryVendorName) {
     }
-    
+
     /**
      * Forces general ledger entries to be approved, does not wait for payment request document final approval.
      * 
-     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)
+     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.sys.document.AccountingDocument,
+     *      org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)
      */
     @Override
     public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
         super.customizeExplicitGeneralLedgerPendingEntry(postable, explicitEntry);
 
-        SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(this, (AccountingLine)postable, explicitEntry, getPurchaseOrderIdentifier(), getDebitCreditCodeForGLEntries(), PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT, isGenerateEncumbranceEntries());
+        SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(this, (AccountingLine) postable, explicitEntry, getPurchaseOrderIdentifier(), getDebitCreditCodeForGLEntries(), PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT, isGenerateEncumbranceEntries());
 
         // PREQs do not wait for document final approval to post GL entries; here we are forcing them to be APPROVED
         explicitEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
     }
 
     /**
-     * Provides answers to the following splits:
-     * PurchaseWasReceived
-     * VendorIsEmployeeOrNonResidentAlien
+     * Provides answers to the following splits: PurchaseWasReceived VendorIsEmployeeOrNonResidentAlien
      * 
      * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#answerSplitNodeQuestion(java.lang.String)
      */
     @Override
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        if (nodeName.equals(PurapWorkflowConstants.REQUIRES_IMAGE_ATTACHMENT)) return requiresAccountsPayableReviewRouting();
-        if (nodeName.equals(PurapWorkflowConstants.PURCHASE_WAS_RECEIVED)) return isAwaitingReceiving();
-        if (nodeName.equals(PurapWorkflowConstants.VENDOR_IS_EMPLOYEE_OR_NON_RESIDENT_ALIEN)) return isVendorEmployeeOrNonResidentAlien();
-        throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
+        if (nodeName.equals(PurapWorkflowConstants.REQUIRES_IMAGE_ATTACHMENT))
+            return requiresAccountsPayableReviewRouting();
+        if (nodeName.equals(PurapWorkflowConstants.PURCHASE_WAS_RECEIVED))
+            return isAwaitingReceiving();
+        if (nodeName.equals(PurapWorkflowConstants.VENDOR_IS_EMPLOYEE_OR_NON_RESIDENT_ALIEN))
+            return isVendorEmployeeOrNonResidentAlien();
+        throw new UnsupportedOperationException("Cannot answer split question for this node you call \"" + nodeName + "\"");
     }
-        
+
     private boolean isVendorEmployeeOrNonResidentAlien() {
         String vendorHeaderGeneratedId = this.getVendorHeaderGeneratedIdentifier().toString();
         if (StringUtils.isBlank(vendorHeaderGeneratedId)) {
@@ -1164,7 +1161,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
 
         return true;
     }
-    
+
     public boolean isAwaitingReceiving() {
         return awaitingReceiving;
     }
@@ -1284,36 +1281,27 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public boolean isPaymentRequestedCancelIndicatorForSearching() {
         return paymentRequestedCancelIndicator;
     }
-    
+
     /**
      * @return the payment request positive approval indicator
      */
     public boolean getPaymentRequestPositiveApprovalIndicatorForSearching() {
         return paymentRequestPositiveApprovalIndicator;
     }
-    
+
     /**
      * @return the receiving document required indicator
      */
     public boolean getReceivingDocumentRequiredIndicatorForSearching() {
         return receivingDocumentRequiredIndicator;
     }
-    
-    @Override
-    public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.afterLookup(persistenceBroker);
-        if (ObjectUtils.isNull(this.getDocumentHeader().getDocumentNumber())) {
-            this.refreshReferenceObject(KFSPropertyConstants.DOCUMENT_HEADER);
-        }
-    }
-    
-    public String getRequestCancelIndicatorForResult(){
+
+
+    public String getRequestCancelIndicatorForResult() {
         return isPaymentRequestedCancelIndicator() ? "Yes" : "No";
     }
-    
-    public String getPaidIndicatorForResult(){
+
+    public String getPaidIndicatorForResult() {
         return getPaymentPaidTimestamp() != null ? "Yes" : "No";
     }
 }
-
-

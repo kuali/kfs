@@ -233,11 +233,15 @@ public class BusinessObjectReportHelper {
                 try {
                     Object propertyValue = retrievePropertyValue(businessObject, attributeName);
                     
-                    Formatter formatter = Formatter.getFormatter(propertyValue.getClass());
-                    if(ObjectUtils.isNotNull(formatter) && ObjectUtils.isNotNull(propertyValue)) {
-                        propertyValue = formatter.format(propertyValue);
-                    }
-                    else {
+                    if (ObjectUtils.isNotNull(propertyValue)) {
+                        Formatter formatter = Formatter.getFormatter(propertyValue.getClass());
+                        if(ObjectUtils.isNotNull(formatter) && ObjectUtils.isNotNull(propertyValue)) {
+                            propertyValue = formatter.format(propertyValue);
+                        }
+                        else {
+                            propertyValue = StringUtils.EMPTY;
+                        }
+                    } else {
                         propertyValue = StringUtils.EMPTY;
                     }
                     

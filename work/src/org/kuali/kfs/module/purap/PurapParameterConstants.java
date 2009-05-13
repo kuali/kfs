@@ -79,6 +79,9 @@ public class PurapParameterConstants implements ParameterKeyConstants {
     
     public static final String LINE_ITEM_IMPORT = "LINE_ITEM_IMPORT";
     
+    public static final String OBJECT_SUB_TYPES_REQUIRING_QUANTITY = "OBJECT_SUB_TYPES_REQUIRING_QUANTITY";
+    public static final String PURCHASING_OBJECT_SUB_TYPES = "PURCHASING_OBJECT_SUB_TYPES";
+    
     public static class CapitalAsset {
         // used in CAB module service
         public static final String PURCHASING_OBJECT_SUB_TYPES = "PURCHASING_OBJECT_SUB_TYPES";

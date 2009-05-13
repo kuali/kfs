@@ -33,12 +33,6 @@ public interface PurchasingService {
     public void setupCapitalAssetSystem(PurchasingDocument purDoc);
 
     
-    /**
-     * 
-     * Proation for Trade in and Full Order Discount miscellaneous items.
-     * @param purDoc
-     */
-    public void prorateForTradeInAndFullOrderDiscount(PurchasingDocument purDoc);
     public String getDefaultAssetTypeCodeNotThisFiscalYear();
     /**
      * 

@@ -230,5 +230,12 @@ public interface PurapService {
     * @param newUseTaxIndicatorValue useTaxIndicator to change to
     */
    public void updateUseTaxIndicator(PurchasingAccountsPayableDocument purapDocument, boolean newUseTaxIndicatorValue);
+   
+   /**
+    * 
+    * Proation for Trade in and Full Order Discount miscellaneous items.
+    * @param purDoc
+    */
+   public void prorateForTradeInAndFullOrderDiscount(PurchasingAccountsPayableDocument purDoc);
 }
 

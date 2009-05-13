@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.purap.document.service.impl;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -27,23 +26,18 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
-import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.service.PurchasingDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
-import org.kuali.kfs.module.purap.util.PurApItemUtils;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.service.impl.PersistenceServiceStructureImplBase;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.springframework.transaction.annotation.Transactional;
@@ -155,79 +149,6 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
         if (purDoc.getCapitalAssetSystemTypeCode() != null && (purDoc.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetTabStrings.ONE_SYSTEM) || purDoc.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetTabStrings.MULTIPLE_SYSTEMS))) {
             if (purDoc.getPurchasingCapitalAssetSystems().size() == 0) {
                 purDoc.getPurchasingCapitalAssetSystems().add(resultSystem);
-            }
-        }
-    }
-
-    /**
-     * @see org.kuali.kfs.module.purap.document.service.PurchasingService#prorateForTradeInAndFullOrderDiscount(org.kuali.kfs.module.purap.document.PurchasingDocument)
-     */
-    public void prorateForTradeInAndFullOrderDiscount(PurchasingDocument purDoc) {
-        //TODO: are we throwing sufficient errors in this method?
-        PurApItem fullOrderDiscount = null;
-        PurApItem tradeIn = null;
-        KualiDecimal totalAmount = KualiDecimal.ZERO;
-
-        List<PurApAccountingLine> distributedAccounts = null;
-        List<SourceAccountingLine> summaryAccounts = null;
-
-        // iterate through below the line and grab FoD and TrdIn.
-        for (PurApItem item : purDoc.getItems()) {
-            if (item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE)) {
-                fullOrderDiscount = item;
-            }
-            else if (item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE)) {
-                tradeIn = item;
-            }
-        }
-        // If Discount is not null or zero get proration list for all non misc items and set (if not empty?)
-        if (fullOrderDiscount != null && fullOrderDiscount.getExtendedPrice().isNonZero()) {
-            // empty
-            GlobalVariables.getMessageList().add("Full order discount accounts cleared and regenerated");
-            fullOrderDiscount.getSourceAccountingLines().clear();
-            totalAmount = purDoc.getTotalDollarAmountAboveLineItems();
-            //Before we generate account summary, we should update the account amounts first.
-            purapAccountingService.updateAccountAmounts(purDoc);
-            summaryAccounts = purapAccountingService.generateSummary(PurApItemUtils.getAboveTheLineOnly(purDoc.getItems()));
-            if (summaryAccounts.size() == 0) {
-                if (purDoc.shouldGiveErrorForEmptyAccountsProration()) {
-                    GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_SUMMARY_ACCOUNTS_LIST_EMPTY, "full order discount");    
-                }
-            } else {
-                distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, 2, fullOrderDiscount.getAccountingLineClass());
-                for (PurApAccountingLine distributedAccount : distributedAccounts) {
-                    BigDecimal percent = distributedAccount.getAccountLinePercent();
-                    BigDecimal roundedPercent = new BigDecimal(Math.round(percent.doubleValue()));
-                    distributedAccount.setAccountLinePercent(roundedPercent);
-                }
-                fullOrderDiscount.setSourceAccountingLines(distributedAccounts);
-            }
-        } else if(fullOrderDiscount!=null && fullOrderDiscount.getExtendedPrice().isZero()) {
-           fullOrderDiscount.getSourceAccountingLines().clear();
-        }
-        
-        // If Discount is not null or zero get proration list for all non misc items and set (if not empty?)
-        if (tradeIn != null && tradeIn.getExtendedPrice().isNonZero()) {
-            tradeIn.getSourceAccountingLines().clear();
-
-            totalAmount = purDoc.getTotalDollarAmountForTradeIn();
-
-            //Before we generate account summary, we should update the account amounts first.
-            purapAccountingService.updateAccountAmounts(purDoc);
-            summaryAccounts = purapAccountingService.generateSummary(purDoc.getTradeInItems());
-            if (summaryAccounts.size() == 0) {
-                if (purDoc.shouldGiveErrorForEmptyAccountsProration()) {
-                    GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_SUMMARY_ACCOUNTS_LIST_EMPTY, "trade in");    
-                }
-            }
-            else {
-                distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, 2, tradeIn.getAccountingLineClass());
-                for (PurApAccountingLine distributedAccount : distributedAccounts) {
-                    BigDecimal percent = distributedAccount.getAccountLinePercent();
-                    BigDecimal roundedPercent = new BigDecimal(Math.round(percent.doubleValue()));
-                    distributedAccount.setAccountLinePercent(roundedPercent);
-                }
-                tradeIn.setSourceAccountingLines(distributedAccounts);
             }
         }
     }

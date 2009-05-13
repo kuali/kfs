@@ -302,6 +302,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
     protected void customCalculate(PurchasingAccountsPayableDocument apDoc) {
         PaymentRequestDocument preqDoc = (PaymentRequestDocument) apDoc;
 
+        SpringContext.getBean(PurapService.class).prorateForTradeInAndFullOrderDiscount(preqDoc);
         // calculation just for the tax area, only at tax review stage
         // by now, the general calculation shall have been done.
         if (preqDoc.getStatusCode().equals(PaymentRequestStatuses.AWAITING_TAX_REVIEW)) {
@@ -347,6 +348,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
     
     public ActionForward route (ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PaymentRequestDocument preq = ((PaymentRequestForm)form).getPaymentRequestDocument();
+        SpringContext.getBean(PurapService.class).prorateForTradeInAndFullOrderDiscount(preq);
         SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(preq);
         if (preq.isClosePurchaseOrderIndicator()) {
             PurchaseOrderDocument po = preq.getPurchaseOrderDocument();
@@ -368,6 +370,9 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#approve(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PaymentRequestDocument preq = ((PaymentRequestForm)form).getPaymentRequestDocument();
+        
+        SpringContext.getBean(PurapService.class).prorateForTradeInAndFullOrderDiscount(preq);
         // if tax is required but not yet calculated, return and prompt user to calculate
         if (requiresCalculateTax((PaymentRequestForm)form)) {
             GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_APPROVE_REQUIRES_CALCULATE);
@@ -377,7 +382,6 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         // enforce calculating tax again upon approval, just in case user changes tax data without calculation
         // other wise there will be a loophole, because the taxCalculated indicator is already set upon first calculation
         // and thus system wouldn't know it's not re-calculated after tax data are changed
-        PaymentRequestDocument preq = ((PaymentRequestForm)form).getPaymentRequestDocument();
         if (SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedPreCalculateAccountsPayableEvent(preq))) {
             // pre-calculation rules succeed, calculate tax again and go ahead with approval
             customCalculate(preq);

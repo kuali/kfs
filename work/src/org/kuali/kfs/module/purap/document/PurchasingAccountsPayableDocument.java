@@ -316,4 +316,6 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument, P
      * @return
      */
     public boolean isInquiryRendered();
+    
+    public boolean shouldGiveErrorForEmptyAccountsProration();
 }

@@ -1163,7 +1163,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         SpringContext.getBean(PurapService.class).calculateTax(purDoc);
 
       // call prorateDiscountTradeIn
-        SpringContext.getBean(PurchasingService.class).prorateForTradeInAndFullOrderDiscount(purDoc);
+        SpringContext.getBean(PurapService.class).prorateForTradeInAndFullOrderDiscount(purDoc);
         customCalculate(purDoc);
         
         return super.calculate(mapping, form, request, response);
@@ -1217,7 +1217,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
         PurchasingDocument purDoc = (PurchasingDocument) purchasingForm.getDocument();
         // call prorateDiscountTradeIn
-        SpringContext.getBean(PurchasingService.class).prorateForTradeInAndFullOrderDiscount(purDoc);
+        SpringContext.getBean(PurapService.class).prorateForTradeInAndFullOrderDiscount(purDoc);
         return super.route(mapping, form, request, response);        
     }
 
@@ -1232,8 +1232,17 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
         PurchasingDocument purDoc = (PurchasingDocument) purchasingForm.getDocument();
         // call prorateDiscountTradeIn
-        SpringContext.getBean(PurchasingService.class).prorateForTradeInAndFullOrderDiscount(purDoc);
+        SpringContext.getBean(PurapService.class).prorateForTradeInAndFullOrderDiscount(purDoc);
         return super.approve(mapping, form, request, response);        
+    }
+    
+    @Override
+    public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
+        PurchasingDocument purDoc = (PurchasingDocument) purchasingForm.getDocument();
+        // call prorateDiscountTradeIn
+        SpringContext.getBean(PurapService.class).prorateForTradeInAndFullOrderDiscount(purDoc);
+        return super.approve(mapping, form, request, response);   
     }
     
 }

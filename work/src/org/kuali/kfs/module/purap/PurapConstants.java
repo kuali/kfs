@@ -100,6 +100,9 @@ public class PurapConstants extends JSTLConstants {
     public static final String REQ_REASON_NOT_APO = "Requisition did not become an APO because: ";
     public static final String REQ_UNABLE_TO_CREATE_NOTE = "Unable to create a note on this document.";
     
+    public static final String TRADE_IN_OBJECT_CODE_FOR_CAPITAL_ASSET_OBJECT_SUB_TYPE = "7070";
+    public static final String TRADE_IN_OBJECT_CODE_FOR_CAPITAL_LEASE_OBJECT_SUB_TYPE = "7099";
+    
     // PDF KFSConstants
     public static final String IMAGE_TEMP_PATH = "PDF_IMAGE_TEMP_PATH";
     public static final String PDF_DIRECTORY = "PDF_DIRECTORY";

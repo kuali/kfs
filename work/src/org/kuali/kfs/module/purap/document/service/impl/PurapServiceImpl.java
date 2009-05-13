@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.service.impl;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
@@ -38,6 +40,7 @@ import org.kuali.kfs.module.purap.businessobject.CreditMemoView;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.LineItemReceivingView;
 import org.kuali.kfs.module.purap.businessobject.OrganizationParameter;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
@@ -59,7 +62,10 @@ import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.service.LogicContainer;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
+import org.kuali.kfs.module.purap.service.PurapAccountingService;
+import org.kuali.kfs.module.purap.util.PurApItemUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TaxDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
@@ -103,6 +109,7 @@ public class PurapServiceImpl implements PurapService {
     private UniversityDateService universityDateService;
     private VendorService vendorService;
     private TaxService taxService; 
+    private PurapAccountingService purapAccountingService;
     
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.businessObjectService = boService;
@@ -1146,5 +1153,121 @@ public class PurapServiceImpl implements PurapService {
         }
     }
 
+    public void prorateForTradeInAndFullOrderDiscount(PurchasingAccountsPayableDocument purDoc) {
+        
+        if (purDoc instanceof VendorCreditMemoDocument){
+            throw new RuntimeException("This method not applicable for VCM documents");
+        }
+        
+        //TODO: are we throwing sufficient errors in this method?
+        PurApItem fullOrderDiscount = null;
+        PurApItem tradeIn = null;
+        KualiDecimal totalAmount = KualiDecimal.ZERO;
+
+        List<PurApAccountingLine> distributedAccounts = null;
+        List<SourceAccountingLine> summaryAccounts = null;
+
+        // iterate through below the line and grab FoD and TrdIn.
+        for (PurApItem item : purDoc.getItems()) {
+            if (item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE)) {
+                fullOrderDiscount = item;
+            }
+            else if (item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE)) {
+                tradeIn = item;
+            }
+        }
+        // If Discount is not null or zero get proration list for all non misc items and set (if not empty?)
+        if (fullOrderDiscount != null && 
+            fullOrderDiscount.getExtendedPrice() != null && 
+            fullOrderDiscount.getExtendedPrice().isNonZero()) {
+            
+            // empty
+            GlobalVariables.getMessageList().add("Full order discount accounts cleared and regenerated");
+            fullOrderDiscount.getSourceAccountingLines().clear();
+            totalAmount = purDoc.getTotalDollarAmountAboveLineItems();
+            //Before we generate account summary, we should update the account amounts first.
+            purapAccountingService.updateAccountAmounts(purDoc);
+            summaryAccounts = purapAccountingService.generateSummary(PurApItemUtils.getAboveTheLineOnly(purDoc.getItems()));
+            if (summaryAccounts.size() == 0) {
+                if (purDoc.shouldGiveErrorForEmptyAccountsProration()) {
+                    GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_SUMMARY_ACCOUNTS_LIST_EMPTY, "full order discount");
+                }
+            } else {
+                distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, 2, fullOrderDiscount.getAccountingLineClass());
+                for (PurApAccountingLine distributedAccount : distributedAccounts) {
+                    BigDecimal percent = distributedAccount.getAccountLinePercent();
+                    BigDecimal roundedPercent = new BigDecimal(Math.round(percent.doubleValue()));
+                    distributedAccount.setAccountLinePercent(roundedPercent);
+                }
+                fullOrderDiscount.setSourceAccountingLines(distributedAccounts);
+            }
+        } else if(fullOrderDiscount != null && 
+                 (fullOrderDiscount.getExtendedPrice() == null || fullOrderDiscount.getExtendedPrice().isZero())) {
+           fullOrderDiscount.getSourceAccountingLines().clear();
+        }
+        
+        KualiDecimal tradeIdPrice = KualiDecimal.ZERO;
+        if (tradeIn instanceof PaymentRequestItem){
+            if((((PaymentRequestItem)tradeIn).getPurchaseOrderItemUnitPrice()) != null){
+                tradeIdPrice = new KualiDecimal(((PaymentRequestItem)tradeIn).getPurchaseOrderItemUnitPrice());
+            }
+        }else{
+            tradeIdPrice = tradeIn.getExtendedPrice();
+        }
+        
+        // If tradeIn is not null or zero get proration list for all non misc items and set (if not empty?)
+        if (tradeIn != null && tradeIdPrice.isNonZero()) {
+            
+            tradeIn.getSourceAccountingLines().clear();
+
+            totalAmount = purDoc.getTotalDollarAmountForTradeIn();
+
+            //Before we generate account summary, we should update the account amounts first.
+            purapAccountingService.updateAccountAmounts(purDoc);
+
+            //Before generating the summary, lets replace the object code in a cloned accounts collection sothat we can 
+            //consolidate all the modified object codes during summary generation.
+            List clonedTradeInItems = new ArrayList();
+            List objectSubTypesRequiringQty = SpringContext.getBean(KualiConfigurationService.class).getParameterValues(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.OBJECT_SUB_TYPES_REQUIRING_QUANTITY);
+            List purchasingObjectSubTypes = SpringContext.getBean(KualiConfigurationService.class).getParameterValues("KFS-CAB", "Document", PurapParameterConstants.PURCHASING_OBJECT_SUB_TYPES);
+            
+            for(PurApItem item : purDoc.getTradeInItems()){
+                PurApItem cloneItem = (PurApItem)ObjectUtils.deepCopy(item);
+                List<PurApAccountingLine> sourceAccountingLines = cloneItem.getSourceAccountingLines();
+                for(PurApAccountingLine accountingLine : sourceAccountingLines){
+                    if(objectSubTypesRequiringQty.contains(accountingLine.getObjectCode().getFinancialObjectSubTypeCode())){
+                        accountingLine.setFinancialObjectCode(PurapConstants.TRADE_IN_OBJECT_CODE_FOR_CAPITAL_ASSET_OBJECT_SUB_TYPE);
+                    }else if(purchasingObjectSubTypes.contains(accountingLine.getObjectCode().getFinancialObjectSubTypeCode())){
+                        accountingLine.setFinancialObjectCode(PurapConstants.TRADE_IN_OBJECT_CODE_FOR_CAPITAL_LEASE_OBJECT_SUB_TYPE);
+                    }
+                }
+                clonedTradeInItems.add(cloneItem);
+            }
+            
+            summaryAccounts = purapAccountingService.generateSummary(clonedTradeInItems);
+            if (summaryAccounts.size() == 0) {
+                if (purDoc.shouldGiveErrorForEmptyAccountsProration()) {
+                    GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_SUMMARY_ACCOUNTS_LIST_EMPTY, "trade in");    
+                }
+            }
+            else {
+                distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, 2, tradeIn.getAccountingLineClass());
+                for (PurApAccountingLine distributedAccount : distributedAccounts) {
+                    BigDecimal percent = distributedAccount.getAccountLinePercent();
+                    BigDecimal roundedPercent = new BigDecimal(Math.round(percent.doubleValue()));
+                    distributedAccount.setAccountLinePercent(roundedPercent);
+                }
+                tradeIn.setSourceAccountingLines(distributedAccounts);
+            }
+        }
+    }
+
+    public PurapAccountingService getPurapAccountingService() {
+        return purapAccountingService;
+    }
+
+    public void setPurapAccountingService(PurapAccountingService purapAccountingService) {
+        this.purapAccountingService = purapAccountingService;
+    }
 }
 

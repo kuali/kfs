@@ -163,6 +163,7 @@
         <property name="universityDateService" ref="universityDateService"/>
         <property name="vendorService" ref="vendorService"/>
         <property name="taxService" ref="taxService"/>
+        <property name="purapAccountingService" ref="purapAccountingService"/>
     </bean>
     
     <bean id="purchasingService" class="org.kuali.kfs.module.purap.document.service.impl.PurchasingServiceImpl">

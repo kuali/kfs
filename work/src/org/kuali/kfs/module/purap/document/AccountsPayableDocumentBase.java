@@ -602,5 +602,9 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     public String getDocumentType() {
         return SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(this.getClass());
     }
+    
+    public boolean shouldGiveErrorForEmptyAccountsProration() {
+        return true;
+    }
 }
 

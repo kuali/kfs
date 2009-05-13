@@ -42,8 +42,10 @@
     	<c:set var="splittingItemSelectionMode" value="true" scope="request"/>
     </c:if>
          
-    <font color="red"><bean:message key="${PurapConstants.WARNING_PURCHASEORDER_NUMBER_DONT_DISCLOSE}" /></font>
-    <br><br>
+    <c:if test="${!KualiForm.document.isApproved}">
+    	<font color="red"><bean:message key="${PurapConstants.WARNING_PURCHASEORDER_NUMBER_DONT_DISCLOSE}" /></font>
+    	<br><br>
+    </c:if>
      
     <c:choose> 
 	<c:when test="${KualiForm.document.assigningSensitiveData}">

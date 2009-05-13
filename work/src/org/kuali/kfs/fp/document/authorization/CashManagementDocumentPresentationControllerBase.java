@@ -191,7 +191,7 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
      */
     public boolean canOpenCashDrawer(Document document) {
         final CashDrawer cashDrawer = retrieveCashDrawer(document);
-        return isCashDrawerClosed(cashDrawer) && noExistCashDrawerMaintLocks(cashDrawer, document.getDocumentNumber());
+        return cashDrawer.isClosed() && noExistCashDrawerMaintLocks(cashDrawer, document.getDocumentNumber());
     }
     
     /**
@@ -203,15 +203,6 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
         final CashManagementDocument cmDoc = (CashManagementDocument)document;
         final CashDrawer cashDrawer = SpringContext.getBean(CashDrawerService.class).getByCampusCode(cmDoc.getCampusCode());
         return cashDrawer;
-    }
-    
-    /**
-     * Determines if the cash drawer's status is closed
-     * @param cashDrawer the cash drawer to check
-     * @return true if the given cash drawer's status is closed, false otherwise
-     */
-    protected boolean isCashDrawerClosed(CashDrawer cashDrawer) {
-        return cashDrawer.getStatusCode().equals(KFSConstants.CashDrawerConstants.STATUS_CLOSED);
     }
     
     /**

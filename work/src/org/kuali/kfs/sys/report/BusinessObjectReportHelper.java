@@ -211,7 +211,8 @@ public class BusinessObjectReportHelper {
      * "EMPTY_CELL" entry is an empty string.
      * 
      * @param businessObject for which to return the values
-     * @return the values
+     * @param allowColspan indicate whether colspan definition can be applied
+     * @return the values being put into the table cells
      */
     public List<String> getTableCellValues(BusinessObject businessObject, boolean allowColspan) {
         List<String> tableCellValues = new ArrayList<String>();
@@ -240,6 +241,12 @@ public class BusinessObjectReportHelper {
         return tableCellValues;
     }
 
+    /**
+     * get the format string for all cells in a table row. Colspan definition will be applied if allowColspan is true 
+     * 
+     * @param allowColspan indicate whether colspan definition can be applied
+     * @return
+     */
     public String getTableCellFormat(boolean allowColspan) {
         List<Integer> cellWidthList = this.getTableCellWidth();
         
@@ -274,9 +281,9 @@ public class BusinessObjectReportHelper {
     }
 
     /**
-     * get the width of all table cells
+     * apply the colspan definition on the default width of the table cells
      * 
-     * @return the width of all table cells. The width is in the order defined as the orderedPropertyNameToHeaderLabelMap
+     * @param the default width of the table cells
      */
     public void applyColspanOnCellWidth(List<Integer> cellWidthList) {
         int indexOfCurrentCell = 0;
@@ -299,9 +306,9 @@ public class BusinessObjectReportHelper {
     }
     
     /**
-     * get the width of all table cells
+     * apply the colspan definition on the default values of the table cells. The values will be removed if their positions are taken by others.
      * 
-     * @return the width of all table cells. The width is in the order defined as the orderedPropertyNameToHeaderLabelMap
+     * @param the default values of the table cells
      */
     public void applyColspanOnCellValues(List<String> cellValues) {
         String REMOVE_ME = "REMOVE-ME-!";
@@ -330,9 +337,10 @@ public class BusinessObjectReportHelper {
     }
 
     /**
-     * This method...
+     * get the values that can be fed into a predefined table. If the values are not enought to occupy the table cells, a number of empty values are provided.
      * 
-     * @param businessObject
+     * @param businessObject the given business object whose property values will be collected 
+     * @param allowColspan indicate whether colspan definition can be applied
      * @return
      */
     public List<String> getTableCellValuesPaddingWithEmptyCell(BusinessObject businessObject, boolean allowColspan) {
@@ -345,7 +353,7 @@ public class BusinessObjectReportHelper {
     }
 
     /**
-     * get the width of all table cells
+     * get the width of all table cells according to the defintion
      * 
      * @return the width of all table cells. The width is in the order defined as the orderedPropertyNameToHeaderLabelMap
      */

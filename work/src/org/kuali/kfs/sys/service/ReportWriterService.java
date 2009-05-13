@@ -18,6 +18,7 @@ package org.kuali.kfs.sys.service;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.report.BusinessObjectReportHelper;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -108,4 +109,10 @@ public interface ReportWriterService {
      * @param businessObject the given business object
      */
     public void writeTableRowWithColspan(BusinessObject businessObject);
+
+    /**
+     * write a separation line in a table
+     * @param businessObject the given business object
+     */
+    public void writeTableRowSeparationLine(BusinessObject businessObject);
 }

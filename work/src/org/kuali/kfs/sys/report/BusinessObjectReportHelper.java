@@ -27,6 +27,13 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.format.BigDecimalFormatter;
+import org.kuali.rice.kns.web.format.CurrencyFormatter;
+import org.kuali.rice.kns.web.format.Formatter;
+import org.kuali.rice.kns.web.format.IntegerFormatter;
+import org.kuali.rice.kns.web.format.KualiIntegerCurrencyFormatter;
+import org.kuali.rice.kns.web.format.LongFormatter;
+import org.kuali.rice.kns.web.format.PercentageFormatter;
 
 /**
  * Helper class for business objects to assist formatting them for error reporting. Utilizes spring injection for modularization and
@@ -45,6 +52,10 @@ public class BusinessObjectReportHelper {
 
     private int columnCount = 0;
     private Map<String, Integer> columnSpanDefinition;
+    
+    public final static String LEFT_ALIGNMENT = "LEFT"; 
+    public final static String RIGHT_ALIGNMENT = "RIGHT"; 
+    public final static String LINE_BREAK = "\n";
 
     /**
      * Returns the values in a list of the passed in business object in order of the spring definition.
@@ -87,7 +98,18 @@ public class BusinessObjectReportHelper {
      * @return
      */
     protected int retrievePropertyValueMaximumLength(Class<? extends BusinessObject> businessObjectClass, String propertyName) {
-        return dataDictionaryService.getAttributeMaxLength(dataDictionaryBusinessObjectClass, propertyName);
+        return dataDictionaryService.getAttributeMaxLength(businessObjectClass, propertyName);
+    }
+    
+    /**
+     * Returns the maximum length of a value for a given propery, can be overridden to allow for pseudo-properties
+     * 
+     * @param businessObjectClass
+     * @param propertyName
+     * @return
+     */
+    protected Class<? extends Formatter> retrievePropertyFormatterClass(Class<? extends BusinessObject> businessObjectClass, String propertyName) {
+        return dataDictionaryService.getAttributeFormatter(businessObjectClass, propertyName);
     }
 
     /**
@@ -168,31 +190,15 @@ public class BusinessObjectReportHelper {
      * 
      * @return the primary information that can define a table structure
      */
-    public Map<String, String> getTableDefintion() {
-        String tableHeaderLineFormat = StringUtils.EMPTY;
-        String tableCellFormat = StringUtils.EMPTY;
-        String separatorLine = StringUtils.EMPTY;
-        String singleRowFormat = StringUtils.EMPTY;
-
-        // build the formatter for a single row
+    public Map<String, String> getTableDefintion() {       
         List<Integer> cellWidthList = this.getTableCellWidth();
-        for (int index = 0; index < this.columnCount; index++) {
-            Integer cellWidth = cellWidthList.get(index);
-
-            separatorLine = separatorLine + StringUtils.rightPad(StringUtils.EMPTY, cellWidth, KFSConstants.DASH) + " ";
-            singleRowFormat = singleRowFormat + "%-" + cellWidth + "s ";
-        }
-
-        // build the formatters for mutiple rows
-        int numberOfCell = cellWidthList.size();
-        int rowCount = (int) Math.ceil(numberOfCell * 1.0 / columnCount);
-        for (int index = 0; index < rowCount; index++) {
-            tableHeaderLineFormat = tableHeaderLineFormat + singleRowFormat + "\n" + separatorLine + "\n";
-
-            tableCellFormat = tableCellFormat + singleRowFormat + "\n";
-        }
+        
+        String separatorLine = this.getSepartorLine(cellWidthList);       
+        String tableCellFormat = this.getTableCellFormat(false, true, null);
+        String tableHeaderLineFormat = this.getTableCellFormat(false, false, separatorLine);
 
         // fill in the header labels
+        int numberOfCell = cellWidthList.size();
         List<String> tableHeaderLabelValues = new ArrayList<String>(orderedPropertyNameToHeaderLabelMap.values());
         this.paddingTableCellValues(numberOfCell, tableHeaderLabelValues);
 
@@ -245,10 +251,14 @@ public class BusinessObjectReportHelper {
      * get the format string for all cells in a table row. Colspan definition will be applied if allowColspan is true 
      * 
      * @param allowColspan indicate whether colspan definition can be applied
-     * @return
+     * @param allowRightAlignment indicate whether the right alignment can be applied
+     * @param separatorLine the separation line for better look
+     * 
+     * @return the format string for all cells in a table row
      */
-    public String getTableCellFormat(boolean allowColspan) {
+    public String getTableCellFormat(boolean allowColspan, boolean allowRightAlignment, String separatorLine) {
         List<Integer> cellWidthList = this.getTableCellWidth();
+        List<String> cellAlignmentList = this.getTableCellAlignment();
         
         if(allowColspan && ObjectUtils.isNotNull(this.columnSpanDefinition)) {
             this.applyColspanOnCellWidth(cellWidthList);
@@ -257,9 +267,9 @@ public class BusinessObjectReportHelper {
         int numberOfCell = cellWidthList.size();
         int rowCount = (int) Math.ceil(numberOfCell * 1.0 / columnCount);
 
-        String tableCellFormat = StringUtils.EMPTY;
+        StringBuffer tableCellFormat = new StringBuffer();
         for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
-            String singleRowFormat = StringUtils.EMPTY;
+            StringBuffer singleRowFormat = new StringBuffer();
             
             for (int columnIndex = 0; columnIndex < this.columnCount; columnIndex++) {
                 int index = columnCount * rowIndex + columnIndex; 
@@ -269,15 +279,35 @@ public class BusinessObjectReportHelper {
                 }
                 
                 int width = cellWidthList.get(index);
+                String alignment = (allowRightAlignment && cellAlignmentList.get(index).equals(RIGHT_ALIGNMENT)) ? StringUtils.EMPTY : "-";
                 if(width > 0) {
-                    singleRowFormat = singleRowFormat + "%-" + width + "s ";
+                    singleRowFormat = singleRowFormat.append("%").append(alignment).append(width).append("s ");
                 }
             }
             
-            tableCellFormat = tableCellFormat + singleRowFormat + "\n";
+            tableCellFormat = tableCellFormat.append(singleRowFormat).append(LINE_BREAK);
+            if(StringUtils.isNotBlank(separatorLine)) {
+                tableCellFormat = tableCellFormat.append(separatorLine).append(LINE_BREAK);
+            }
         }
 
-        return tableCellFormat;
+        return tableCellFormat.toString();
+    }
+    
+    /**
+     * get the separator line
+     * @param cellWidthList the given cell width list
+     * @return the separator line
+     */
+    public String getSepartorLine(List<Integer> cellWidthList) {
+        StringBuffer separatorLine = new StringBuffer();
+        
+        for (int index = 0; index < this.columnCount; index++) {
+            Integer cellWidth = cellWidthList.get(index);
+            separatorLine = separatorLine.append(StringUtils.rightPad(StringUtils.EMPTY, cellWidth, KFSConstants.DASH)).append(" ");
+        }
+        
+        return separatorLine.toString();
     }
 
     /**
@@ -413,9 +443,39 @@ public class BusinessObjectReportHelper {
 
         return cellWidthList;
     }
+    
+    /**
+     * get the alignment defintions of all table cells in one row according to the property's formatter class
+     * 
+     * @return the alignment defintions of all table cells in one row according to the property's formatter class
+     */
+    public List<String> getTableCellAlignment() {
+        List<String> cellWidthList = new ArrayList<String>();
+        List<Class<? extends Formatter>> numberFormatters = this.getNumberFormatters();
+        
+        for (Map.Entry<String, String> entry : orderedPropertyNameToHeaderLabelMap.entrySet()) {
+            String attributeName = entry.getKey();
+            
+            boolean isNumber = false;
+            if (!attributeName.startsWith(KFSConstants.ReportConstants.EMPTY_CELL_ENTRY_KEY_PREFIX)) {
+                try {
+                    Class formatterClass = this.retrievePropertyFormatterClass(dataDictionaryBusinessObjectClass, attributeName);
+                    
+                    isNumber = numberFormatters.contains(formatterClass);
+                }
+                catch (Exception e) {
+                    throw new RuntimeException("Failed getting propertyName=" + attributeName + " from businessObjecName=" + dataDictionaryBusinessObjectClass.getName(), e);
+                }
+            }
+
+            cellWidthList.add(isNumber ? RIGHT_ALIGNMENT : LEFT_ALIGNMENT);
+        }
+        
+        return cellWidthList;
+    }
 
     // put empty strings into the table cell values if the values are not enough to feed the table
-    private void paddingTableCellValues(int numberOfCell, List<String> tableCellValues) {
+    protected void paddingTableCellValues(int numberOfCell, List<String> tableCellValues) {
         int reminder = columnCount - numberOfCell % columnCount;
         if (reminder < columnCount) {
             List<String> paddingObject = new ArrayList<String>(reminder);
@@ -425,6 +485,24 @@ public class BusinessObjectReportHelper {
 
             tableCellValues.addAll(paddingObject);
         }
+    }
+    
+    /**
+     * get formatter classes defined for numbers
+     * 
+     * @return the formatter classes defined for numbers
+     */
+    protected List<Class<? extends Formatter>> getNumberFormatters(){
+        List<Class<? extends Formatter>> numberFormatters = new ArrayList<Class<? extends Formatter>>();
+        
+        numberFormatters.add(BigDecimalFormatter.class);
+        numberFormatters.add(CurrencyFormatter.class); 
+        numberFormatters.add(KualiIntegerCurrencyFormatter.class);
+        numberFormatters.add(PercentageFormatter.class);
+        numberFormatters.add(IntegerFormatter.class);
+        numberFormatters.add(LongFormatter.class);
+        
+        return numberFormatters;
     }
 
     /**

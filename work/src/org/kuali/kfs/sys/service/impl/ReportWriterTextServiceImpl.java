@@ -338,15 +338,22 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
         String[] headerLines = this.getMultipleFormattedMessageLines(tableHeaderFormat, new Object());
         this.writeMultipleFormattedMessageLines(headerLines);
     }
+    
+    /**
+     * @see org.kuali.kfs.sys.service.ReportWriterService#writeTableRow(org.kuali.rice.kns.bo.BusinessObject)
+     */
+    public void writeTableRowSeparationLine(BusinessObject businessObject) {
+        BusinessObjectReportHelper businessObjectReportHelper = getBusinessObjectReportHelper(businessObject);
+        Map<String, String> tableDefinition = businessObjectReportHelper.getTableDefintion();
+
+        String separationLine = tableDefinition.get(KFSConstants.ReportConstants.SEPARATOR_LINE_KEY);
+        this.writeFormattedMessageLine(separationLine);
+    }
 
     /**
      * @see org.kuali.kfs.sys.service.ReportWriterService#writeTableRow(org.kuali.rice.kns.bo.BusinessObject)
      */
     public void writeTableRow(BusinessObject businessObject) {
-        if (newPage) {
-            writeTableHeader(businessObject);
-            newPage = false;
-        }
         BusinessObjectReportHelper businessObjectReportHelper = getBusinessObjectReportHelper(businessObject);
         Map<String, String> tableDefinition = businessObjectReportHelper.getTableDefintion();
 
@@ -364,7 +371,7 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
         BusinessObjectReportHelper businessObjectReportHelper = getBusinessObjectReportHelper(businessObject);
         Map<String, String> tableDefinition = businessObjectReportHelper.getTableDefintion();
 
-        String tableCellFormat = businessObjectReportHelper.getTableCellFormat(true);
+        String tableCellFormat = businessObjectReportHelper.getTableCellFormat(true, true, StringUtils.EMPTY);
         List<String> tableCellValues = businessObjectReportHelper.getTableCellValuesPaddingWithEmptyCell(businessObject, true);
 
         String[] rowMessageLines = this.getMultipleFormattedMessageLines(tableCellFormat, tableCellValues.toArray());

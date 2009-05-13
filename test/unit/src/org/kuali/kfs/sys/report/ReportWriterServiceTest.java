@@ -54,17 +54,21 @@ public class ReportWriterServiceTest extends KualiTestBase {
         ((ReportWriterTextServiceImpl) colspanTableReportWriterService).initialize();
         
         List<GlSummary> summaryList = this.getTestData(20);
+        colspanTableReportWriterService.writeTableHeader(summaryList.get(0));
         
-        int index = 0;
+        int index = 1;
         for(GlSummary summary : summaryList) {
             colspanTableReportWriterService.writeTableRow(summary);
             
-            if(index++ % 5 == 0) {
+            if(index % 5 == 0) {
                 GlSummary subTotal = new GlSummary();
                 subTotal.setFundGroup("Sub Totals (AC):");
                 
-                colspanTableReportWriterService.writeTableRowWithColspan(subTotal);
+                colspanTableReportWriterService.writeTableRowWithColspan(subTotal);                
+                colspanTableReportWriterService.writeTableRowSeparationLine(summary);
             }
+            
+            index++;
         }
         
         GlSummary grandTotal = new GlSummary();

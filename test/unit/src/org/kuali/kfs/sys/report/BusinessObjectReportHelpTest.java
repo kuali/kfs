@@ -54,10 +54,10 @@ public class BusinessObjectReportHelpTest extends KualiTestBase {
     }
     
     public void testGetTableCellFormat() throws Exception {        
-        String tabelCellFormatWithoutColspan = summaryReportHelper.getTableCellFormat(false);
+        String tabelCellFormatWithoutColspan = summaryReportHelper.getTableCellFormat(false, true, null);
         System.out.println("===Without Colspan: " + tabelCellFormatWithoutColspan);
         
-        String tabelCellFormatWithColspan = summaryReportHelper.getTableCellFormat(true);
+        String tabelCellFormatWithColspan = summaryReportHelper.getTableCellFormat(true, true, null);
         System.out.println("===With Colspan:    " + tabelCellFormatWithColspan);
     }
 }

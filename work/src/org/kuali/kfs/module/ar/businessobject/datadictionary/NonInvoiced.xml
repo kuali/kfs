@@ -53,7 +53,7 @@
     </property>
   </bean>
   <bean id="NonInvoiced-chartOfAccountsCode" parent="NonInvoiced-chartOfAccountsCode-parentBean" />
-
+  
   <bean id="NonInvoiced-chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="chartOfAccountsCode" />
     <property name="forceUppercase" value="true" />
@@ -65,8 +65,10 @@
     </property>
     <property name="required" value="true" />
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+     <bean parent="SelectControlDefinition"
+      		p:includeBlankRow="true"
+            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SimpleChartValuesFinder"
+            p:includeKeyInLabel="false" />
     </property>
   </bean>
   <bean id="NonInvoiced-documentNumber" parent="NonInvoiced-documentNumber-parentBean" />

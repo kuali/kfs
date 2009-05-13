@@ -45,6 +45,11 @@ public class PurchaseOrderRemoveHoldDocument extends PurchaseOrderDocument {
         // do not set the accounts in sourceAccountingLines; this document should not create GL entries
     }
 
+    @Override
+    public Long[] getWorkflowEngineDocumentIdsToLock() {
+        return super.getWorkflowEngineDocumentIdsToLock();
+    }
+
     /**
      * When Purchase Order Remove Payment Hold document has been Processed through Workflow, the PO status changes to "OPEN".
      * 

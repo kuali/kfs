@@ -100,6 +100,11 @@ public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument {
         return total;
     }
     
+    @Override
+    public Long[] getWorkflowEngineDocumentIdsToLock() {
+        return super.getWorkflowEngineDocumentIdsToLock();
+    }
+
     /**
      * When Purchase Order Retransmit document has been Processed through Workflow, the PO status remains to "OPEN" and the last
      * transmit date is updated.

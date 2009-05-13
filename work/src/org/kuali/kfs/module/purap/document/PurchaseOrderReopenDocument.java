@@ -59,6 +59,10 @@ public class PurchaseOrderReopenDocument extends PurchaseOrderDocument {
         setGeneralLedgerPendingEntries(new ArrayList());
     }
 
+    @Override
+    public Long[] getWorkflowEngineDocumentIdsToLock() {
+        return super.getWorkflowEngineDocumentIdsToLock();
+    }
 
     /**
      * When Purchase Order Reopen document has been processed through Workflow, the general ledger entries are created and the PO

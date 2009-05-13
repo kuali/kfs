@@ -63,6 +63,11 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
         customPrepareForSave(event);
     }
 
+    @Override
+    public Long[] getWorkflowEngineDocumentIdsToLock() {
+        return super.getWorkflowEngineDocumentIdsToLock();
+    }
+
     /**
      * When Purchase Order Amendment document has been Processed through Workflow, the general ledger entries are created and the PO
      * status remains "OPEN".

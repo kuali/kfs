@@ -59,6 +59,7 @@ import org.kuali.kfs.module.purap.businessobject.PurchaseOrderSensitiveData;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderView;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentFrequency;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetSystem;
@@ -561,6 +562,34 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         return (PurchaseOrderVendorStipulation) purchaseOrderVendorStipulations.get(index);
     }
 
+    @Override
+    public Long[] getWorkflowEngineDocumentIdsToLock() {
+        List<String> docIdStrings = new ArrayList<String>();
+        docIdStrings.add(getDocumentNumber());
+        
+        List<PurchaseOrderView> relatedPoViews = getRelatedViews().getRelatedPurchaseOrderViews();
+        for (PurchaseOrderView poView : relatedPoViews) {
+            docIdStrings.add(poView.getDocumentNumber());
+        }
+        
+        //  convert our easy to use List<String> to a Long[]
+        Long[] docIds = new Long[docIdStrings.size()];
+        for (int i = 0; i < docIdStrings.size(); i++) {
+            docIds[i] = new Long(docIdStrings.get(i));
+        }
+        LOG.info("***** getWorkflowEngineDocumentIdsToLock(" + this.documentNumber + ") = '" + printArray(docIds) + "'");
+        return docIds;
+    }
+    
+    // Only used for debugging in the getWorkflowEngineDocumentIdsToLock above
+    private String printArray(Long[] docIds) {
+        StringBuffer sb = new StringBuffer("[");
+        for (int i = 0; i < docIds.length; i++) {
+            sb.append(new Long(docIds[i]).toString() + ",");
+        }
+        return sb.append("]").toString();
+    }
+    
     /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#handleRouteStatusChange()
      */

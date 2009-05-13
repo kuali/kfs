@@ -45,6 +45,12 @@ public class PurchaseOrderPaymentHoldDocument extends PurchaseOrderDocument {
         // do not set the accounts in sourceAccountingLines; this document should not create GL entries
     }
 
+    @Override
+    public Long[] getWorkflowEngineDocumentIdsToLock() {
+        Long[] docIds = super.getWorkflowEngineDocumentIdsToLock();
+        return docIds;
+    }
+
     /**
      * When Purchase Order Payment Hold document has been Processed through Workflow, the PO status changes to "Payment Hold".
      * 

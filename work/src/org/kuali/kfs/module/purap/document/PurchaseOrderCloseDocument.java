@@ -58,6 +58,11 @@ public class PurchaseOrderCloseDocument extends PurchaseOrderDocument {
         setGeneralLedgerPendingEntries(new ArrayList());
     }
 
+    @Override
+    public Long[] getWorkflowEngineDocumentIdsToLock() {
+        return super.getWorkflowEngineDocumentIdsToLock();
+    }
+
     /**
      * When Purchase Order Close document has been Processed through Workflow, the general ledger entries are created and the PO
      * status changes to "CLOSED".

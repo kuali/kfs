@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -375,6 +376,24 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     private void updateStatusAndSave(String statusCode) {
         SpringContext.getBean(PurapService.class).updateStatus(this, statusCode);
         SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
+    }
+
+    @Override
+    public Long[] getWorkflowEngineDocumentIdsToLock() {
+        List<String> docIdStrings = new ArrayList<String>();
+        docIdStrings.add(getDocumentNumber());
+        
+        //  PROCESSED
+        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+            // creates a new PO but no way to know what the docID will be ahead of time
+        }
+        
+        //  convert our easy to use List<String> to a Long[]
+        Long[] docIds = new Long[docIdStrings.size()];
+        for (int i = 0; i < docIdStrings.size(); i++) {
+            docIds[i] = new Long(docIdStrings.get(i));
+        }
+        return docIds;
     }
 
     /**

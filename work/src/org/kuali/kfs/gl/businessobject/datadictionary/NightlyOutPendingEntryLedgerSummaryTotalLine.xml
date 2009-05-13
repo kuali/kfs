@@ -12,6 +12,7 @@
     <property name="objectLabel" value="Nightly Out Pending Entry Ledger Summary Total Line" />
         <property name="attributes">
       <list>
+      	<ref bean="NightlyOutPendingEntryLedgerSummaryTotalLine-summary" />
         <ref bean="NightlyOutPendingEntryLedgerSummaryTotalLine-recordCount" />
         <ref bean="NightlyOutPendingEntryLedgerSummaryTotalLine-debitAmount" />
         <ref bean="NightlyOutPendingEntryLedgerSummaryTotalLine-debitCount" />
@@ -21,6 +22,13 @@
         <ref bean="NightlyOutPendingEntryLedgerSummaryTotalLine-budgetCount" />
       </list>
     </property>
+  </bean>
+  
+  <bean id="NightlyOutPendingEntryLedgerSummaryTotalLine-summary" parent="NightlyOutPendingEntryLedgerSummaryTotalLine-summary-parentBean" />
+
+  <bean id="NightlyOutPendingEntryLedgerSummaryTotalLine-summary-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
+  	<property name="name" value="summary" />
+  	<property name="maxLength" value="21" />
   </bean>
 
   <bean id="NightlyOutPendingEntryLedgerSummaryTotalLine-recordCount" parent="NightlyOutPendingEntryLedgerSummaryTotalLine-recordCount-parentBean" />

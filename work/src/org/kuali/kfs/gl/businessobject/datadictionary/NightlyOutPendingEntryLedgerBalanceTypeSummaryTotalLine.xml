@@ -12,6 +12,7 @@
     <property name="objectLabel" value="Nightly Out Pending Entry Ledger Balance Summary Detail Line" />
         <property name="attributes">
       <list>
+      	<ref bean="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-summary" />
         <ref bean="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-financialBalanceTypeCode" />
         <ref bean="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-recordCount" />
         <ref bean="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-debitAmount" />
@@ -23,6 +24,10 @@
       </list>
     </property>
   </bean>
+  
+  <bean id="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-summary" parent="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-summary-parentBean" />
+
+  <bean id="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-summary-parentBean" abstract="true" parent="NightlyOutPendingEntryLedgerSummaryTotalLine-summary" />
   
   <bean id="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-financialBalanceTypeCode" parent="NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine-financialBalanceTypeCode-parentBean" />
 

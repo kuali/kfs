@@ -15,6 +15,12 @@
  */
 package org.kuali.kfs.gl.businessobject;
 
+import java.text.MessageFormat;
+
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+
 /**
  * Holds summary information for the Pending Entry Ledger report
  */
@@ -35,5 +41,13 @@ public class NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine extends Nig
      */
     public String getFinancialBalanceTypeCode() {
         return financialBalanceTypeCode;
+    }
+    
+    /**
+     * @return the summary for this balance type summary total line
+     */
+    public String getSummary() {
+        final String message = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.MESSAGE_REPORT_NIGHTLY_OUT_LEDGER_BALANCE_TYPE_TOTAL);
+        return MessageFormat.format(message, financialBalanceTypeCode);
     }
 }

@@ -33,7 +33,6 @@ import org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerBalanceTypeSu
 import org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryDetailLine;
 import org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryTotalLine;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
-import org.kuali.kfs.gl.businessobject.OriginEntryGroupFileIterator;
 import org.kuali.kfs.gl.businessobject.OriginEntryLite;
 import org.kuali.kfs.gl.businessobject.PendingEntrySummary;
 import org.kuali.kfs.gl.service.NightlyOutService;
@@ -147,13 +146,6 @@ public class NightlyOutServiceImpl implements NightlyOutService {
         
         writePendingEntryReport(outputFile, pendingEntryListReportWriterService);
         writeSummaryReport(outputFile, pendingEntrySummaryReportWriterService);
-        
-        // Print reports
-        // shawn - we need to change this to make it use file system?
-        //reportService.generatePendingEntryReport(today, group);
-        
-        // shawn - temporary commented out  
-        //reportService.generatePendingEntryLedgerSummaryReport(today, group);
     }
     
     /**
@@ -168,7 +160,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
         
         int entryCount = 0;
         String suppressKey = "";
-        OriginEntryGroupFileIterator groupIterator = new OriginEntryGroupFileIterator(originEntryOutputFileName);
+        OriginEntryFileIterator groupIterator = new OriginEntryFileIterator(new File(originEntryOutputFileName));
         while (groupIterator.hasNext()) {
             final OriginEntry entry = groupIterator.next();
             pendingEntrySummary.setOriginEntry(entry);
@@ -236,7 +228,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
         Map<String, NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine> balanceTypeTotals = new LinkedHashMap<String, NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine>();
         Map<String, NightlyOutPendingEntryLedgerSummaryDetailLine> details = new LinkedHashMap<String, NightlyOutPendingEntryLedgerSummaryDetailLine>();
         
-        OriginEntryGroupFileIterator groupIterator = new OriginEntryGroupFileIterator(originEntryOutputFileName);
+        OriginEntryFileIterator groupIterator = new OriginEntryFileIterator(new File(originEntryOutputFileName));
         while (groupIterator.hasNext()) {
             final OriginEntry entry = groupIterator.next();
             

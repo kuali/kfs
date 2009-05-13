@@ -664,6 +664,17 @@
 			<ref bean="glSufficientFundRebuildDao" />
 		</property>
 	</bean>
+	
+	<bean id="sufficientFundRebuildReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/gl"/>
+		<property name="fileNamePrefix" value="sufficient_funds_"/>
+        <property name="title" value="SUFFICIENT FUNDS REBUILDER REPORT"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.gl.businessobject.SufficientFundRebuild" value="sufficientFundRebuildReportHelper"/>
+        	</map>
+        </property>
+    </bean>
 
 	<bean id="glSufficientFundsRebuilderService" class="org.kuali.kfs.gl.batch.service.impl.SufficientFundsRebuilderServiceImpl">
 		<property name="dateTimeService">
@@ -684,16 +695,13 @@
 		<property name="optionsDao">
 			<ref bean="optionsDao" />
 		</property>
-		<property name="reportService">
-			<ref bean="reportService" />
-		</property>
+		<property name="reportWriterService" ref="sufficientFundRebuildReportWriterService" />
 		<property name="accountService">
 			<ref bean="accountService" />
 		</property>
 		<property name="sufficientFundsService">
 			<ref bean="sufficientFundsService" />
 		</property>
-		<property name="reportDirectoryName" value="${reports.directory}"/>
 	</bean>
 
 	<bean id="glPosterService" abstract="true" class="org.kuali.kfs.gl.batch.service.impl.PosterServiceImpl">
@@ -1504,7 +1512,12 @@
 		</property>
 	</bean>
 
-	<bean id="sufficientFundsRebuilderStep" class="org.kuali.kfs.gl.batch.SufficientFundsRebuilderStep" parent="step">
+	<bean id="sufficientFundsRebuilderStep" class="org.kuali.kfs.gl.batch.SufficientFundsRebuilderStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="sufficientFundRebuildReportWriterService" />
+			</list>
+		</property>
 		<property name="sufficientFundsRebuilderService">
 			<ref bean="glSufficientFundsRebuilderService" />
 		</property>
@@ -2176,6 +2189,7 @@
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryTotalLine" />
 	    <property name="orderedPropertyNameToHeaderLabelMap">
     		<map>
+    			<entry key="summary" value=" " />
     			<entry key="recordCount" value="Record Count"/>
     			<entry key="debitAmount" value="Debit Amount"/>
     			<entry key="debitCount" value="Debit Count" />
@@ -2185,14 +2199,14 @@
     			<entry key="budgetCount" value="No D/C Code Count" />
     		</map>
 	    </property>
-	    <property name="columnCount" value="7" />
+	    <property name="columnCount" value="8" />
 	</bean>
 	
 	<bean id="nightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLineReportHelper" parent="businessObjectReportHelper">
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine" />
 	    <property name="orderedPropertyNameToHeaderLabelMap">
     		<map>
-    			<entry key="financialBalanceTypeCode" value="Bal Typ"/>
+    			<entry key="summary" value=" " />
     			<entry key="recordCount" value="Record Count"/>
     			<entry key="debitAmount" value="Debit Amount"/>
     			<entry key="debitCount" value="Debit Count" />

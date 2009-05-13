@@ -17,7 +17,10 @@ package org.kuali.kfs.gl.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -115,4 +118,10 @@ public class NightlyOutPendingEntryLedgerSummaryTotalLine extends TransientBusin
         return null;
     }
     
+    /**
+     * @return the summary for this summary total line
+     */
+    public String getSummary() {
+        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.MESSAGE_REPORT_NIGHTLY_OUT_LEDGER_TOTAL);
+    }
 }

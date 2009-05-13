@@ -35,16 +35,15 @@ import org.kuali.kfs.gl.businessobject.SufficientFundBalances;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
 import org.kuali.kfs.gl.dataaccess.BalanceDao;
 import org.kuali.kfs.gl.dataaccess.SufficientFundBalancesDao;
-import org.kuali.kfs.gl.report.Summary;
-import org.kuali.kfs.gl.report.TextReportHelper;
-import org.kuali.kfs.gl.service.ReportService;
 import org.kuali.kfs.gl.service.SufficientFundRebuildService;
 import org.kuali.kfs.gl.service.SufficientFundsService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.OptionsDao;
+import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -66,15 +65,15 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
     private SufficientFundsService sufficientFundsService;
     private SufficientFundRebuildService sufficientFundRebuildService;
     private OptionsDao optionsDao;
-    private ReportService reportService;
     private AccountService accountService;
+    private ReportWriterService reportWriterService;
 
     private Date runDate;
     private SystemOptions options;
 
     Map batchError;
     List reportSummary;
-    List transactionErrors;
+    List<Message> transactionErrors;
 
     private Integer universityFiscalYear;
     private int sfrbRecordsConvertedCount = 0;
@@ -88,8 +87,6 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
 
 
     private SufficientFundBalances currentSfbl = null;
-    private TextReportHelper<SufficientFundRebuild> textReportHelper;
-    private String reportDirectoryName; 
 
     /**
      * Constructs a SufficientFundsRebuilderServiceImpl instance
@@ -121,34 +118,21 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
         
         //need to add time info - batch util?
         runDate = new Date(dateTimeService.getCurrentDate().getTime());
-        String reportFileName = reportDirectoryName + File.separator + "labor_scrubber_report_" + runDate.toString() + ".txt" ;
-        PrintStream reportPrintStream;
-        try {
-            reportPrintStream = new PrintStream(reportFileName);
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("SufficientFundsRebuildServiceImpl - rebuildSufficientFunds Stopped: " + e.getMessage(), e);
-        }
-        
-        textReportHelper = new TextReportHelper<SufficientFundRebuild>("SUFFICIENT FUNDS REBUILDER REPORT", reportPrintStream, dateTimeService, new SufficientFundRebuild());
-        textReportHelper.writeErrorHeader();
-        
-        
-        
         
         // Get all the O types and convert them to A types
-        LOG.debug("rebuildSufficientFunds() Converting O types to A types");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("rebuildSufficientFunds() Converting O types to A types");
+        }
         for (Iterator iter = sufficientFundRebuildService.getAllObjectEntries().iterator(); iter.hasNext();) {
             SufficientFundRebuild sfrb = (SufficientFundRebuild) iter.next();
             ++sfrbRecordsReadCount;
 
-            transactionErrors = new ArrayList();
+            transactionErrors = new ArrayList<Message>();
 
             convertOtypeToAtypes(sfrb);
 
             if (transactionErrors.size() > 0) {
-                //batchError.put(sfrb, transactionErrors);
-                textReportHelper.writeErrors(sfrb, transactionErrors);
+                reportWriterService.writeError(sfrb, transactionErrors);
             }
             else {
                 sufficientFundRebuildService.delete(sfrb);
@@ -161,13 +145,12 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
             SufficientFundRebuild sfrb = (SufficientFundRebuild) iter.next();
             ++sfrbRecordsReadCount;
 
-            transactionErrors = new ArrayList();
+            transactionErrors = new ArrayList<Message>();
 
             calculateSufficientFundsByAccount(sfrb);
 
             if (transactionErrors.size() > 0) {
-                //batchError.put(sfrb, transactionErrors);
-                textReportHelper.writeErrors(sfrb, transactionErrors);
+                reportWriterService.writeError(sfrb, transactionErrors);
             }
 
             sufficientFundRebuildService.delete(sfrb);
@@ -182,35 +165,27 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
 
             if ((!KFSConstants.SF_TYPE_ACCOUNT.equals(sfrb.getAccountFinancialObjectTypeCode())) && (!KFSConstants.SF_TYPE_OBJECT.equals(sfrb.getAccountFinancialObjectTypeCode()))) {
                 ++sfrbRecordsReadCount;
-                transactionErrors = new ArrayList();
+                transactionErrors = new ArrayList<Message>();
                 addTransactionError(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_INVALID_SF_OBJECT_TYPE_CODE));
                 ++warningCount;
                 ++sfrbNotDeletedCount;
-                //batchError.put(sfrb, transactionErrors);
-                textReportHelper.writeErrors(sfrb, transactionErrors);
+                reportWriterService.writeError(sfrb, transactionErrors);
             }
         }
 
         // write out report and errors
-        LOG.debug("rebuildSufficientFunds() Create report");
-//        reportSummary.add(new Summary(1, "SFRB records converted from Object to Account", new Integer(sfrbRecordsConvertedCount)));
-//        reportSummary.add(new Summary(2, "Post conversion SFRB records read", new Integer(sfrbRecordsReadCount)));
-//        reportSummary.add(new Summary(3, "SFRB records deleted", new Integer(sfrbRecordsDeletedCount)));
-//        reportSummary.add(new Summary(4, "SFRB records kept due to errors", new Integer(sfrbNotDeletedCount)));
-//        reportSummary.add(new Summary(6, "SFBL records added", new Integer(sfblInsertedCount)));
-//        reportSummary.add(new Summary(7, "SFBL records updated", new Integer(sfblUpdatedCount)));
-//        reportService.generateSufficientFundsReport(batchError, reportSummary, runDate, 0);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("rebuildSufficientFunds() Create report");
+        }
         
         // write out statistics
-        textReportHelper.writeStatisticsHeader();
-        reportPrintStream.printf("                                   SFRB RECORDS CONVERTED FROM OBJECT TO ACCOUNT  %,9d\n", sfrbRecordsConvertedCount);
-        reportPrintStream.printf("                                   POST CONVERSION SFRB RECORDS READ              %,9d\n", sfrbRecordsReadCount);
-        reportPrintStream.printf("                                   SFRB RECORDS DELETED                           %,9d\n", sfrbRecordsDeletedCount);
-        reportPrintStream.printf("                                   SFRB RECORDS KEPT DUE TO ERRORS                %,9d\n", sfrbNotDeletedCount);
-        reportPrintStream.printf("                                   SFBL RECORDS DELETED                           %,9d\n", sfblDeletedCount);
-        reportPrintStream.printf("                                   SFBL RECORDS ADDED                             %,9d\n", sfblInsertedCount);
-        reportPrintStream.printf("                                   SFBL RECORDS UDPATED                           %,9d\n", sfblUpdatedCount);
-        reportPrintStream.close();
+        reportWriterService.writeStatisticLine("                                   SFRB RECORDS CONVERTED FROM OBJECT TO ACCOUNT  %,9d\n", sfrbRecordsConvertedCount);
+        reportWriterService.writeStatisticLine("                                   POST CONVERSION SFRB RECORDS READ              %,9d\n", sfrbRecordsReadCount);
+        reportWriterService.writeStatisticLine("                                   SFRB RECORDS DELETED                           %,9d\n", sfrbRecordsDeletedCount);
+        reportWriterService.writeStatisticLine("                                   SFRB RECORDS KEPT DUE TO ERRORS                %,9d\n", sfrbNotDeletedCount);
+        reportWriterService.writeStatisticLine("                                   SFBL RECORDS DELETED                           %,9d\n", sfblDeletedCount);
+        reportWriterService.writeStatisticLine("                                   SFBL RECORDS ADDED                             %,9d\n", sfblInsertedCount);
+        reportWriterService.writeStatisticLine("                                   SFBL RECORDS UDPATED                           %,9d\n", sfblUpdatedCount);
     }
 
     /**
@@ -447,7 +422,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
      * @param errorMessage the error message to keep
      */
     private void addTransactionError(String errorMessage) {
-        transactionErrors.add(errorMessage);
+        transactionErrors.add(new Message(errorMessage, Message.TYPE_WARNING));
     }
 
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -474,8 +449,8 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
         this.optionsDao = optionsDao;
     }
 
-    public void setReportService(ReportService sfrs) {
-        reportService = sfrs;
+    public void setReportWriterService(ReportWriterService sfrs) {
+        reportWriterService = sfrs;
     }
 
     public void setAccountService(AccountService accountService) {
@@ -484,9 +459,5 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
 
     public void setSufficientFundsService(SufficientFundsService sfs) {
         sufficientFundsService = sfs;
-    }
-
-    public void setReportDirectoryName(String reportDirectoryName) {
-        this.reportDirectoryName = reportDirectoryName;
     }
 }

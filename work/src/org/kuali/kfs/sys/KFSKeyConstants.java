@@ -860,4 +860,7 @@ public class KFSKeyConstants {
 
     public static final String WORKFLOW_DIRECTORY = "data.xml.root.location";
     public static final String INGESTION_DIRECTORY = "ingestion";
+    
+    public static final String MESSAGE_REPORT_NIGHTLY_OUT_LEDGER_TOTAL = "message.report.nightlyOut.ledger.total";
+    public static final String MESSAGE_REPORT_NIGHTLY_OUT_LEDGER_BALANCE_TYPE_TOTAL = "message.report.nightlyOut.ledger.balanceType.total";
 }

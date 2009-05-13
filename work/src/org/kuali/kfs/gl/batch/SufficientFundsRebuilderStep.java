@@ -18,26 +18,35 @@ package org.kuali.kfs.gl.batch;
 import java.util.Date;
 
 import org.kuali.kfs.gl.batch.service.SufficientFundsRebuilderService;
-import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
+import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 
 /**
  * A step to run the process that rebuilds information that supports sufficient funds inquiries
  */
-public class SufficientFundsRebuilderStep extends AbstractStep {
+public class SufficientFundsRebuilderStep extends AbstractWrappedBatchStep {
     private SufficientFundsRebuilderService sufficientFundsRebuilderService;
 
     /**
-     * Runs the sufficient funds rebuilder step.
-     * 
-     * @param jobName the name of the job this step is being run as part of
-     * @param jobRunDate the time/date the job was started
-     * @return true if the job completed successfully, false if otherwise
-     * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String)
+     * Return a proper batch executor
+     * @see org.kuali.kfs.sys.batch.AbstractWrappedBatchStep#getCustomBatchExecutor()
      */
-    public boolean execute(String jobName, Date jobRunDate) {
-        sufficientFundsRebuilderService.rebuildSufficientFunds();
-        return true;
+    @Override
+    protected CustomBatchExecutor getCustomBatchExecutor() {
+        return new CustomBatchExecutor() {
+            /**
+             * Runs the sufficient funds rebuilder step.
+             * 
+             * @return true if the job completed successfully, false if otherwise
+             * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String)
+             */
+            public boolean execute() {
+                sufficientFundsRebuilderService.rebuildSufficientFunds();
+                return true;
+            }
+        };
     }
+
 
     /**
      * Sets the sufficientFundsRebuilderService, allowing the injection of an implementation of that service

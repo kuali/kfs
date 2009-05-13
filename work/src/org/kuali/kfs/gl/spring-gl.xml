@@ -1578,7 +1578,11 @@
 		<property name="filePath" value="${reports.directory}/gl"/>
 		<property name="fileNamePrefix" value="scrubberJob_collector_"/>
         <property name="title" value="GL SCRUBBER REPORT"/>
-        <!-- the report does not print out BO's, therefore classToBusinessObjectReportHelperBeanNames not needed-->
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.gl.businessobject.OriginEntryFull" value="transactionReportHelper"/>
+        	</map>
+        </property>
     </bean>
 	
 	<bean id="scrubberStep" class="org.kuali.kfs.gl.batch.ScrubberStep" parent="wrappedStep">

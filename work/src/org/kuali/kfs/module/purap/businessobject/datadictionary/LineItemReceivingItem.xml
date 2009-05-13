@@ -107,6 +107,7 @@
             p:rows="1"
             p:cols="45" />
     </property>
+    <property name="required" value="true" />
   </bean>
   <bean id="LineItemReceivingItem-itemLineNumber" parent="LineItemReceivingItem-itemLineNumber-parentBean" />
 
@@ -207,6 +208,7 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
+    <property name="required" value="true" />
   </bean>
   <bean id="LineItemReceivingItem-purchaseOrderIdentifier" parent="LineItemReceivingItem-purchaseOrderIdentifier-parentBean" />
 

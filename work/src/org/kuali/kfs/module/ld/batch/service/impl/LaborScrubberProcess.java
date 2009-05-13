@@ -58,11 +58,9 @@ import org.kuali.kfs.module.ld.batch.service.LaborReportService;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
 import org.kuali.kfs.module.ld.util.ReportRegistry;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
-import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
@@ -189,7 +187,7 @@ public class LaborScrubberProcess {
         this.errorFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
         this.expiredFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         runDate = calculateRunDate(dateTimeService.getCurrentDate());
-        this.reportFileName = reportDirectoryName + File.separator + "labor_scrubber_report_" + runDate.toString() + ".txt" ;
+        this.reportFileName = reportDirectoryName + File.separator + "labor_scrubber_report_" + dateTimeService.toDateTimeStringForFilename(runDate) + ".txt" ;
         
         
         scrubEntries(true, documentNumber);
@@ -214,7 +212,7 @@ public class LaborScrubberProcess {
         this.errorFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
         this.expiredFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
         runDate = calculateRunDate(dateTimeService.getCurrentDate());
-        this.reportFileName = reportDirectoryName + File.separator + "labor_scrubber_report_" + runDate.toString() + ".txt" ;
+        this.reportFileName = reportDirectoryName + File.separator + "labor_scrubber_report_" + dateTimeService.toDateTimeStringForFilename(runDate) + ".txt" ;
         
         scrubEntries(false, null);
     }
@@ -802,7 +800,7 @@ public class LaborScrubberProcess {
         String validOutputFilename = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
         String errorOutputFilename = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_ERROR_SORTED_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         runDate = calculateRunDate(dateTimeService.getCurrentDate());
-        reportFileName = reportDirectoryName + File.separator + "labor_demerger_report_" + runDate.toString() + ".txt" ;
+        reportFileName = reportDirectoryName + File.separator + "labor_demerger_report_" + dateTimeService.toDateTimeStringForFilename(runDate) + ".txt" ;
         
         // Without this step, the job fails with Optimistic Lock Exceptions
         persistenceService.clearCache();

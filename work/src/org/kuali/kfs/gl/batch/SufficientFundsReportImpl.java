@@ -27,6 +27,7 @@ import java.util.Map;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
 import org.kuali.kfs.gl.report.Summary;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 
 import com.lowagie.text.Document;
@@ -48,6 +49,8 @@ public class SufficientFundsReportImpl extends PdfPageEventHelper implements Suf
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsReportImpl.class);
     private KualiConfigurationService configurationService;
 
+    private DateTimeService dateTimeService;
+    
     /**
      * Constructs a SufficientFundsReportImpl instance
      */
@@ -84,8 +87,7 @@ public class SufficientFundsReportImpl extends PdfPageEventHelper implements Suf
 
         try {
             String filename = destinationDirectory + "/" + fileprefix + "_";
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
-            filename = filename + sdf.format(runDate);
+            filename = filename + dateTimeService.toDateTimeStringForFilename(runDate);
             filename = filename + ".pdf";
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filename));
             writer.setPageEvent(helper);
@@ -228,6 +230,15 @@ public class SufficientFundsReportImpl extends PdfPageEventHelper implements Suf
         }
     }
 
+    /**
+     * Sets the dateTimeService attribute value.
+     * 
+     * @param dateTimeService The dateTimeService to set.
+     */
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+    
     /**
      * Sets the configurationService attribute value.
      * 

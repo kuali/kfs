@@ -17,7 +17,6 @@ package org.kuali.kfs.gl.batch.service.impl;
 
 import java.io.FileOutputStream;
 import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -308,8 +307,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
             helper.title = title;
 
             String filename = destinationDirectory + "/" + fileprefix + "_";
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
-            filename = filename + sdf.format(runDate);
+            filename = filename + dateTimeService.toDateTimeStringForFilename(runDate);
             filename = filename + ".pdf";
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filename));
             writer.setPageEvent(helper);

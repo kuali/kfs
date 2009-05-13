@@ -17,7 +17,6 @@ package org.kuali.kfs.gl.report;
 
 import java.io.FileOutputStream;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -27,6 +26,8 @@ import java.util.TreeMap;
 
 import org.kuali.kfs.gl.businessobject.LedgerEntry;
 import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 import com.lowagie.text.Document;
@@ -111,9 +112,10 @@ public class LedgerReport {
         pageHelper.setTitle(title);
 
         try {
+            DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+            
             String filename = destinationDirectory + "/" + fileprefix + "_";
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
-            filename = filename + sdf.format(reportingDate);
+            filename = filename + dateTimeService.toDateTimeStringForFilename(reportingDate);
             filename = filename + PDF_FILE_EXTENSION;
 
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filename));

@@ -17,7 +17,6 @@ package org.kuali.kfs.gl.report;
 
 import java.io.FileOutputStream;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
@@ -25,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.DateTimeService;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.Font;
@@ -99,9 +100,10 @@ public class TransactionReportGenerator {
         pageHelper.setTitle(title);
 
         try {
+            DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+            
             String filename = destinationDirectory + "/" + reportNamePrefix + "_";
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
-            filename = filename + sdf.format(reportingDate);
+            filename = filename + dateTimeService.toDateTimeStringForFilename(reportingDate);
             filename = filename + PDF_FILE_EXTENSION;
 
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filename));

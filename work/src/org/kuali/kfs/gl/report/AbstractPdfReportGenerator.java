@@ -16,8 +16,10 @@
 package org.kuali.kfs.gl.report;
 
 import java.io.FileOutputStream;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.DateTimeService;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
@@ -32,7 +34,6 @@ import com.lowagie.text.pdf.PdfWriter;
 public abstract class AbstractPdfReportGenerator {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AbstractPdfReportGenerator.class);
     public static final String PDF_FILE_EXTENSION = ".pdf";
-    private static String REPORT_FILE_DATE_FORMAT = "yyyyMMdd_HHmmss";
 
     // generate the PDF report with the given information
     /**
@@ -82,9 +83,10 @@ public abstract class AbstractPdfReportGenerator {
      * @return
      */
     protected String generateReportFileName(String reportNamePrefix, String destinationDirectory, Date reportingDate) {
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+        
         String reportFilename = destinationDirectory + "/" + reportNamePrefix + "_";
-        SimpleDateFormat dateFormat = new SimpleDateFormat(REPORT_FILE_DATE_FORMAT);
-        reportFilename = reportFilename + dateFormat.format(reportingDate);
+        reportFilename = reportFilename + dateTimeService.toDateTimeStringForFilename(reportingDate);
         reportFilename = reportFilename + PDF_FILE_EXTENSION;
 
         return reportFilename;

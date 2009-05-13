@@ -16,9 +16,6 @@
 package org.kuali.kfs.gl.batch;
 
 import java.io.File;
-import java.sql.Timestamp;
-import java.text.FieldPosition;
-import java.text.SimpleDateFormat;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.batch.service.CollectorHelperService;
@@ -61,19 +58,13 @@ public class CollectorInputFileType extends BatchInputFileTypeBase {
      */
     public String getFileName(String principalName, Object parsedFileContents, String userIdentifier) {
         CollectorBatch collectorBatch = (CollectorBatch) parsedFileContents;
-        Timestamp currentTimestamp = dateTimeService.getCurrentTimestamp();
-
-        StringBuffer buf = new StringBuffer();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
-        formatter.setLenient(false);
-        formatter.format(currentTimestamp, buf, new FieldPosition(0));
-
+        
         String fileName = "gl_idbilltrans_" + collectorBatch.getChartOfAccountsCode() + collectorBatch.getOrganizationCode();
         fileName += "_" + principalName;
         if (StringUtils.isNotBlank(userIdentifier)) {
             fileName += "_" + userIdentifier;
         }
-        fileName += "_" + buf.toString();
+        fileName += "_" + dateTimeService.toDateTimeStringForFilename(dateTimeService.getCurrentDate());
 
         // remove spaces in filename
         fileName = StringUtils.remove(fileName, " ");

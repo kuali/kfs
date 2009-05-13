@@ -28,6 +28,8 @@ import java.util.Map;
 
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.DateTimeService;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -138,9 +140,10 @@ public class TransactionReport {
         helper.title = title;
 
         try {
+            DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+            
             String filename = destinationDirectory + "/" + fileprefix + "_";
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
-            filename = filename + sdf.format(runDate);
+            filename = filename + dateTimeService.toDateTimeStringForFilename(runDate);
             filename = filename + ".pdf";
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filename));
             writer.setPageEvent(helper);

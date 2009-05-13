@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.ld.report;
 
 import java.io.FileOutputStream;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -27,6 +26,8 @@ import org.kuali.kfs.gl.businessobject.options.SearchOperatorsFinder;
 import org.kuali.kfs.gl.document.service.CorrectionDocumentService;
 import org.kuali.kfs.gl.report.PDFPageHelper;
 import org.kuali.kfs.module.ld.document.LaborCorrectionDocument;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.DateTimeService;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.Font;
@@ -44,7 +45,6 @@ import com.lowagie.text.pdf.PdfWriter;
  */
 public class LaborCorrectionOnlineReport {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborCorrectionOnlineReport.class);
-    public static final String DATE_FORMAT_STRING = "yyyyMMdd_HHmmss";
 
     /**
      * Generate report
@@ -69,10 +69,11 @@ public class LaborCorrectionOnlineReport {
         pageHelper.setTitle("Labor Ledger Correction Process Report " + cDocument.getDocumentNumber());
 
         try {
+            DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+            
             String filename = reportsDirectory + "/llcp_" + cDocument.getDocumentNumber() + "_";
-            SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_STRING);
 
-            filename = filename + sdf.format(runDate);
+            filename = filename + dateTimeService.toDateTimeStringForFilename(runDate);
             filename = filename + ".pdf";
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filename));
             writer.setPageEvent(pageHelper);

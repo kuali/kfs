@@ -24,6 +24,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.gl.businessobject.GlSummary;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 import com.lowagie.text.Document;
@@ -149,9 +151,10 @@ public class BalanceEncumbranceReport {
         }
 
         try {
+            DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+            
             String filename = destinationDirectory + "/" + fileprefix + "_";
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
-            filename = filename + sdf.format(runDate);
+            filename = filename + dateTimeService.toDateTimeStringForFilename(runDate);
             filename = filename + ".pdf";
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filename));
             writer.setPageEvent(helper);

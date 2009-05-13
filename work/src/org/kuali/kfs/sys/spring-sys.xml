@@ -516,7 +516,11 @@
         </property>
     </bean>
     
-    <bean id="reportGenerationService" class="org.kuali.kfs.sys.service.impl.ReportGenerationServiceImpl" />
+    <bean id="reportGenerationService" class="org.kuali.kfs.sys.service.impl.ReportGenerationServiceImpl">
+        <property name="dateTimeService">
+            <ref bean="dateTimeService"/>
+        </property>
+    </bean>
     
     <bean id="accountingLineAuthorizationTransformer" class="org.kuali.kfs.sys.document.service.impl.AccountingLineAuthorizationTransformerImpl" />
     

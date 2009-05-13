@@ -16,7 +16,6 @@
 package org.kuali.kfs.fp.batch;
 
 import java.io.File;
-import java.sql.Timestamp;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
@@ -46,13 +45,11 @@ public class ProcurementCardInputFileType extends BatchInputFileTypeBase {
      *      java.lang.String)
      */
     public String getFileName(String principalName, Object parsedFileContents, String userIdentifier) {
-        Timestamp currentTimestamp = dateTimeService.getCurrentTimestamp();
-
         String fileName = "pcdo_" + principalName;
         if (StringUtils.isNotBlank(userIdentifier)) {
             fileName += "_" + userIdentifier;
         }
-        fileName += "_" + dateTimeService.toString(currentTimestamp, "yyyyMMdd_HHmmss");
+        fileName += "_" + dateTimeService.toDateTimeStringForFilename(dateTimeService.getCurrentDate());
 
         // remove spaces in filename
         fileName = StringUtils.remove(fileName, " ");

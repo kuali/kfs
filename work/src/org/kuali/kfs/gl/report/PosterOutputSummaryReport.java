@@ -18,13 +18,14 @@ package org.kuali.kfs.gl.report;
 import java.awt.Color;
 import java.io.FileOutputStream;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 import com.lowagie.text.Chunk;
@@ -76,9 +77,10 @@ public class PosterOutputSummaryReport {
         pageHelper.setTitle(title);
 
         try {
+            DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+            
             String filename = destinationDirectory + "/" + fileprefix + "_";
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
-            filename = filename + sdf.format(reportingDate);
+            filename = filename + dateTimeService.toDateTimeStringForFilename(reportingDate);
             filename = filename + PDF_FILE_EXTENSION;
 
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filename));

@@ -90,8 +90,6 @@ public class ReportServiceImpl implements ReportService {
     private KualiConfigurationService kualiConfigurationService;
     private PersistenceService persistenceService;
 
-    public static final String DATE_FORMAT_STRING = "yyyyMMdd_HHmmss";
-
     /**
      * Constructs a ReportServiceImpl instance
      */
@@ -631,9 +629,7 @@ public class ReportServiceImpl implements ReportService {
 
         try {
             String filename = reportsDirectory + "/glcp_" + cDocument.getDocumentNumber() + "_";
-            SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_STRING);
-
-            filename = filename + sdf.format(runDate);
+            filename = filename + dateTimeService.toDateTimeStringForFilename(runDate);
             filename = filename + ".pdf";
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filename));
             writer.setPageEvent(helper);

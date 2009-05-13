@@ -36,7 +36,7 @@ public class LaborFileRenameStep extends AbstractStep {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start(jobName);
         String filePath = batchFileDirectoryName + File.separator;
-        List<String> fileNameList = new ArrayList();
+        List<String> fileNameList = new ArrayList<String>();
         fileNameList.add(LaborConstants.BatchFileSystem.NIGHTLY_OUT_FILE);
         fileNameList.add(LaborConstants.BatchFileSystem.BACKUP_FILE);
         fileNameList.add(LaborConstants.BatchFileSystem.SCRUBBER_INPUT_FILE);
@@ -50,21 +50,10 @@ public class LaborFileRenameStep extends AbstractStep {
         fileNameList.add(LaborConstants.BatchFileSystem.POSTER_VALID_OUTPUT_FILE);
         fileNameList.add(LaborConstants.BatchFileSystem.POSTER_ERROR_OUTPUT_FILE);
         
-        //TODO: Shawn - need to change it to filename +  01-22-2009.12-43-43 (mm-dd-yyyy.hh-mm-ss)
-        String timeInfo = jobRunDate.toString();
-        String timeString = jobRunDate.toString();
-        String year = timeString.substring(timeString.length() - 4, timeString.length());
-        String month = timeString.substring(4, 7);
-        String day = timeString.substring(8, 10);
-        String hour = timeString.substring(11, 13);
-        String min = timeString.substring(14, 16);
-        String sec = timeString.substring(17, 19);
-        
         for (String fileName : fileNameList){
-            
             File file = new File(filePath + fileName + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
             if (file.exists()) {
-                String changedFileName = filePath + fileName + "." + year + "-" + month + "-" + day + "." + hour + "-" + min + "-" + sec;
+                String changedFileName = filePath + fileName + "." + getDateTimeService().toDateTimeStringForFilename(jobRunDate);
                 file.renameTo(new File(changedFileName + GeneralLedgerConstants.BatchFileSystem.EXTENSION));
             }
         }

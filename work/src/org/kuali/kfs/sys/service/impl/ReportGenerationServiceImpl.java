@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -38,6 +37,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.service.ReportGenerationService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.ui.jasperreports.JasperReportsUtils;
 
@@ -47,6 +47,8 @@ import org.springframework.ui.jasperreports.JasperReportsUtils;
 public class ReportGenerationServiceImpl implements ReportGenerationService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReportGenerationServiceImpl.class);
 
+    protected DateTimeService dateTimeService;
+    
     public final static String PARAMETER_NAME_SUBREPORT_DIR = ReportGeneration.PARAMETER_NAME_SUBREPORT_DIR;
     public final static String PARAMETER_NAME_SUBREPORT_TEMPLATE_NAME = ReportGeneration.PARAMETER_NAME_SUBREPORT_TEMPLATE_NAME;
 
@@ -145,7 +147,7 @@ public class ReportGenerationServiceImpl implements ReportGenerationService {
      *      java.lang.String)
      */
     public String buildFullFileName(Date runDate, String directory, String fileName, String extension) {
-        String runtimeStamp = new SimpleDateFormat("yyyyMMdd_HHmmssSSS").format(runDate);
+        String runtimeStamp = dateTimeService.toDateTimeStringForFilename(runDate);
         String fileNamePattern = "{0}" + SEPARATOR + "{1}_{2}{3}";
 
         return MessageFormat.format(fileNamePattern, directory, fileName, runtimeStamp, extension);
@@ -229,5 +231,14 @@ public class ReportGenerationServiceImpl implements ReportGenerationService {
         String realTemplateNameWithoutExtension = lastIndex > 0 ? realTemplateName.substring(0, lastIndex) : realTemplateName;
 
         return realTemplateNameWithoutExtension;
+    }
+
+    /**
+     * Sets the DateTimeService
+     * 
+     * @param dateTimeService The dateTimeService to set.
+     */
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 }

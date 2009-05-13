@@ -21,7 +21,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.kfs.gl.GeneralLedgerConstants;
-import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.springframework.util.StopWatch;
 
@@ -30,14 +29,14 @@ import org.springframework.util.StopWatch;
  */
 public class FileRenameStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FileRenameStep.class);
-    private String batchFileDirectoryName;
     
+    private String batchFileDirectoryName;
     
     public boolean execute(String jobName, Date jobRunDate) {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start(jobName);
         String filePath = batchFileDirectoryName + File.separator;
-        List<String> fileNameList = new ArrayList();
+        List<String> fileNameList = new ArrayList<String>();
         fileNameList.add(GeneralLedgerConstants.BatchFileSystem.NIGHTLY_OUT_FILE);
         fileNameList.add(GeneralLedgerConstants.BatchFileSystem.COLLECTOR_SCRUBBER_INPUT_FILE);
         fileNameList.add(GeneralLedgerConstants.BatchFileSystem.COLLECTOR_SCRUBBER_VALID_OUTPUT_FILE);
@@ -62,19 +61,10 @@ public class FileRenameStep extends AbstractStep {
         fileNameList.add(GeneralLedgerConstants.BatchFileSystem.ICR_POSTER_INPUT_FILE);
         fileNameList.add(GeneralLedgerConstants.BatchFileSystem.ICR_POSTER_ERROR_OUTPUT_FILE);
         
-        //TODO: Shawn - need to change it to filename +  01-22-2009.12-43-43 (mm-dd-yyyy.hh-mm-ss)
-        String timeString = jobRunDate.toString();
-        String year = timeString.substring(timeString.length() - 4, timeString.length());
-        String month = timeString.substring(4, 7);
-        String day = timeString.substring(8, 10);
-        String hour = timeString.substring(11, 13);
-        String min = timeString.substring(14, 16);
-        String sec = timeString.substring(17, 19);
-        
         for (String fileName : fileNameList){
             File file = new File(filePath + fileName + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
             if (file.exists()) {
-                String changedFileName = filePath + fileName + "." + year + "-" + month + "-" + day + "." + hour + "-" + min + "-" + sec;
+                String changedFileName = filePath + fileName + "." + getDateTimeService().toDateTimeStringForFilename(jobRunDate);
                 file.renameTo(new File(changedFileName + GeneralLedgerConstants.BatchFileSystem.EXTENSION));
             }
         }

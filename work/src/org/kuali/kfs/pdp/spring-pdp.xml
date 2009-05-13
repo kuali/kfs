@@ -381,7 +381,7 @@
 		<property name="kualiCodeService" ref="kualiCodeService" />
 		<property name="bankService" ref="bankService" />
 		<property name="originationCodeService" ref="originationCodeService" />
-		<property name="workflowInfoService" ref="workflowInfoService" />
+		<!-- property name="workflowInfoService" ref="workflowInfoService" /-->
 	</bean>
 	
 	<bean id="paymentInputFileType" class="org.kuali.kfs.pdp.batch.PaymentInputFileType">

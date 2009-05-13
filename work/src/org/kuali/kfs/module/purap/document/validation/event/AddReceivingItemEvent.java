@@ -15,9 +15,11 @@
  */
 package org.kuali.kfs.module.purap.document.validation.event;
 
+import org.kuali.kfs.module.purap.businessobject.LineItemReceivingItem;
 import org.kuali.kfs.module.purap.businessobject.ReceivingItem;
 import org.kuali.kfs.module.purap.document.ReceivingDocument;
 import org.kuali.kfs.module.purap.document.validation.AddReceivingItemRule;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.BusinessRule;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
@@ -25,10 +27,12 @@ import org.kuali.rice.kns.rule.event.KualiDocumentEventBase;
 
 public class AddReceivingItemEvent extends KualiDocumentEventBase implements KualiDocumentEvent {
 
-    private ReceivingItem item;
+    private LineItemReceivingItem item;
     
-    public AddReceivingItemEvent(String errorPathPrefix, Document document, ReceivingItem item) {
+    public AddReceivingItemEvent(String errorPathPrefix, Document document, LineItemReceivingItem item) {
+        
         super("adding item to document " + getDocumentId(document), errorPathPrefix, document);
+        this.item = item;
     }    
     
     public Class getRuleInterfaceClass() {
@@ -36,14 +40,14 @@ public class AddReceivingItemEvent extends KualiDocumentEventBase implements Kua
     }
 
     public boolean invokeRuleMethod(BusinessRule rule) {        
-        return ((AddReceivingItemRule) rule).processAddReceivingItemRules((ReceivingDocument)document, item);
+        return ((AddReceivingItemRule) rule).processAddReceivingItemRules((ReceivingDocument)document, item, KFSConstants.EMPTY_STRING);
     }
 
     public ReceivingItem getItem() {
         return item;
     }
 
-    public void setItem(ReceivingItem item) {
+    public void setItem(LineItemReceivingItem item) {
         this.item = item;
     }
 

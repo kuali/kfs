@@ -57,8 +57,6 @@ import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.kfs.sys.service.OriginationCodeService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kew.doctype.service.DocumentTypeService;
-import org.kuali.rice.kew.dto.DocumentTypeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.KualiCodeBase;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -66,7 +64,8 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.workflow.service.WorkflowInfoService;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
+import org.kuali.rice.kns.workflow.service.impl.KualiWorkflowInfoImpl;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -87,7 +86,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
     private KualiCodeService kualiCodeService;
     private BankService bankService;
     private OriginationCodeService originationCodeService;
-    private WorkflowInfoService workflowInfoService;
+    private KualiWorkflowInfo workflowInfoService;
 
     /**
      * @see org.kuali.kfs.pdp.batch.service.PaymentFileValidationService#doHardEdits(org.kuali.kfs.pdp.businessobject.PaymentFile,
@@ -226,7 +225,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
                 // validate doc type if given
                 if (StringUtils.isNotBlank(paymentDetail.getFinancialDocumentTypeCode())) {
                     try {
-                        if (!workflowInfoService.getWorkflowInfo().isCurrentActiveDocumentType(paymentDetail.getFinancialDocumentTypeCode())) {
+                        if (!workflowInfoService.isCurrentActiveDocumentType(paymentDetail.getFinancialDocumentTypeCode())) {
                             errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_INVALID_DOC_TYPE, Integer.toString(groupCount), Integer.toString(detailCount), paymentDetail.getFinancialDocumentTypeCode());
                         }
                     }
@@ -771,7 +770,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
      * 
      * @return Returns the workflowInfoService.
      */
-    protected WorkflowInfoService getWorkflowInfoService() {
+    protected KualiWorkflowInfo getWorkflowInfoService() {
         return workflowInfoService;
     }
 
@@ -780,7 +779,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
      * 
      * @param workflowInfoService The workflowInfoService to set.
      */
-    public void setWorkflowInfoService(WorkflowInfoService workflowInfoService) {
+    public void setWorkflowInfoService(KualiWorkflowInfo workflowInfoService) {
         this.workflowInfoService = workflowInfoService;
     }
 

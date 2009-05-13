@@ -177,6 +177,7 @@ public class PurapConstants extends JSTLConstants {
     public static final String VENDOR_ERRORS = "document.vendor*,document.purchaseOrderVendorChoiceCode,document.alternateVendorName,document.shipmentReceivedDate";
     public static final String ADDITIONAL_TAB_ERRORS = "document.requestor*,document.institution*,document.purchaseOrderTransmissionMethodCode,document.purchaseOrderCostSourceCode,document.purchaseOrderTotalLimit";
     public static final String ITEM_TAB_ERRORS = "document.item*,newPurchasingItemLine*,itemQuantity";
+    public static final String LINEITEM_TAB_ERRORS = "document.item*,newLineItemReceivingItemLine*";
     public static final String ITEM_TAB_ERROR_PROPERTY = ITEM_TAB_ERRORS; // used to be "newPurchasingItemLine"
     public static final String ACCOUNT_SUMMARY_TAB_ERRORS = "document.accountSummary*";
     public static final String ACCOUNT_DISTRIBUTION_ERROR_KEY = "accountDistribution";

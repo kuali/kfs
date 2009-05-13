@@ -26,7 +26,7 @@ import org.apache.commons.lang.StringUtils;
 public class LedgerEntryHolder {
     private Map ledgerEntries;
     private Map subtotals;
-    private LedgerEntry grandTotal;
+    private LedgerEntryForReporting grandTotal;
 
     private static final String GRAND_TOTAL = "Grand Total";
     private static final String SUB_TOTAL = "Subtotal";
@@ -37,7 +37,7 @@ public class LedgerEntryHolder {
     public LedgerEntryHolder() {
         ledgerEntries = new HashMap();
         subtotals = new HashMap();
-        grandTotal = new LedgerEntry(null, null, null, GRAND_TOTAL);
+        grandTotal = new LedgerEntryForReporting(null, null, null, GRAND_TOTAL);
     }
 
     /**
@@ -47,7 +47,7 @@ public class LedgerEntryHolder {
      * @param newLedgerEntry the given ledger entry
      * @param calculateTotals indicate if the subtotals and grand total need to be calculated
      */
-    public void insertLedgerEntry(LedgerEntry newLedgerEntry, boolean calculateTotal) {
+    public void insertLedgerEntry(LedgerEntryForReporting newLedgerEntry, boolean calculateTotal) {
         Integer fiscalYear = newLedgerEntry.getFiscalYear();
         String periodCode = newLedgerEntry.getPeriod();
 
@@ -60,7 +60,7 @@ public class LedgerEntryHolder {
             ledgerEntries.put(keyOfLedgerEntry, newLedgerEntry);
         }
         else {
-            LedgerEntry ledgerEntry = (LedgerEntry) ledgerEntries.get(keyOfLedgerEntry);
+            LedgerEntryForReporting ledgerEntry = (LedgerEntryForReporting) ledgerEntries.get(keyOfLedgerEntry);
             ledgerEntry.add(newLedgerEntry);
         }
 
@@ -76,20 +76,20 @@ public class LedgerEntryHolder {
      * 
      * @param newLedgerEntry a new ledger entry to add to the holder
      */
-    private void updateSubtotal(LedgerEntry newLedgerEntry) {
+    private void updateSubtotal(LedgerEntryForReporting newLedgerEntry) {
         String groupingKey = newLedgerEntry.getBalanceType();
 
         if (StringUtils.isBlank(groupingKey)) {
             return;
         }
 
-        LedgerEntry ledgerEntry = null;
+        LedgerEntryForReporting ledgerEntry = null;
         if (!subtotals.containsKey(groupingKey)) {
-            ledgerEntry = new LedgerEntry(null, "", newLedgerEntry.getBalanceType(), SUB_TOTAL);
+            ledgerEntry = new LedgerEntryForReporting(null, "", newLedgerEntry.getBalanceType(), SUB_TOTAL);
             subtotals.put(groupingKey, ledgerEntry);
         }
         else {
-            ledgerEntry = (LedgerEntry) subtotals.get(groupingKey);
+            ledgerEntry = (LedgerEntryForReporting) subtotals.get(groupingKey);
         }
         ledgerEntry.add(newLedgerEntry);
     }
@@ -99,7 +99,7 @@ public class LedgerEntryHolder {
      * 
      * @param newLedgerEntry entry to help update the grand total
      */
-    private void updateGrandTotal(LedgerEntry newLedgerEntry) {
+    private void updateGrandTotal(LedgerEntryForReporting newLedgerEntry) {
         this.grandTotal.add(newLedgerEntry);
     }
 
@@ -108,7 +108,7 @@ public class LedgerEntryHolder {
      * 
      * @return Returns the grandTotal.
      */
-    public LedgerEntry getGrandTotal() {
+    public LedgerEntryForReporting getGrandTotal() {
         return grandTotal;
     }
 

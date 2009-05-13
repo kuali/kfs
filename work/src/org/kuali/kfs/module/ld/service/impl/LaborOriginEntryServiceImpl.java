@@ -33,7 +33,7 @@ import java.util.Map;
 
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.impl.OriginEntryFileIterator;
-import org.kuali.kfs.gl.businessobject.LedgerEntry;
+import org.kuali.kfs.gl.businessobject.LedgerEntryForReporting;
 import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;

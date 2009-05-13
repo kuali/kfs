@@ -21,7 +21,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 /**
  * A representation of LedgerEntries, which are summaries that show up on Ledger Reports created by the scrubber and poster.
  */
-public class LedgerEntry {
+public class LedgerEntryForReporting {
 
     private String balanceType;
     private String originCode;
@@ -38,7 +38,7 @@ public class LedgerEntry {
     /**
      * Constructs a LedgerEntry.java.
      */
-    public LedgerEntry() {
+    public LedgerEntryForReporting() {
         this(null, null, null, null);
     }
 
@@ -50,7 +50,7 @@ public class LedgerEntry {
      * @param balanceType
      * @param originCode
      */
-    public LedgerEntry(Integer fiscalYear, String period, String balanceType, String originCode) {
+    public LedgerEntryForReporting(Integer fiscalYear, String period, String balanceType, String originCode) {
         this.fiscalYear = fiscalYear;
         this.period = period;
         this.balanceType = balanceType;
@@ -66,7 +66,7 @@ public class LedgerEntry {
      * 
      * @param addend the given ledger entry to be added into current one
      */
-    public void add(LedgerEntry addend) {
+    public void add(LedgerEntryForReporting addend) {
         this.creditAmount = this.creditAmount.add(addend.getCreditAmount());
         this.creditCount += addend.getCreditCount();
 
@@ -85,7 +85,7 @@ public class LedgerEntry {
      * @param entrySummary an entry summary to turn into a ledger entry
      * @return a LedgerEntry created from the entrySummary array
      */
-    public static LedgerEntry buildLedgerEntry(Object[] entrySummary) {
+    public static LedgerEntryForReporting buildLedgerEntry(Object[] entrySummary) {
         // extract the data from an array and use them to populate a ledger entry
         Object oFiscalYear = entrySummary[0];
         Object oPeriodCode = entrySummary[1];
@@ -104,7 +104,7 @@ public class LedgerEntry {
         int count = oCount != null ? Integer.parseInt(oCount.toString()) : 0;
 
         // construct a ledger entry with the information fetched from the given array
-        LedgerEntry ledgerEntry = new LedgerEntry(fiscalYear, periodCode, balanceType, originCode);
+        LedgerEntryForReporting ledgerEntry = new LedgerEntryForReporting(fiscalYear, periodCode, balanceType, originCode);
         if (KFSConstants.GL_CREDIT_CODE.equals(debitCreditCode)) {
             ledgerEntry.setCreditAmount(amount);
             ledgerEntry.setCreditCount(count);

@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.Iterator;
 
 import org.kuali.kfs.coa.service.AccountingPeriodService;
-import org.kuali.kfs.gl.businessobject.LedgerEntry;
+import org.kuali.kfs.gl.businessobject.LedgerEntryForReporting;
 import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
 import org.kuali.kfs.gl.businessobject.Reversal;
 import org.kuali.kfs.gl.businessobject.Transaction;
@@ -86,7 +86,7 @@ public class ReversalServiceImpl implements ReversalService {
         Iterator reversalsIterator = reversalDao.getByDate(before);
         while (reversalsIterator.hasNext()) {
             Reversal reversal = (Reversal) reversalsIterator.next();
-            LedgerEntry ledgerEntry = buildLedgerEntryFromReversal(reversal);
+            LedgerEntryForReporting ledgerEntry = buildLedgerEntryFromReversal(reversal);
             ledgerEntryHolder.insertLedgerEntry(ledgerEntry, true);
         }
         return ledgerEntryHolder;
@@ -99,8 +99,8 @@ public class ReversalServiceImpl implements ReversalService {
      * @param reversal reversal to build LedgerEntry with
      * @return a new LedgerEntry, populated by the reversal
      */
-    private LedgerEntry buildLedgerEntryFromReversal(Reversal reversal) {
-        LedgerEntry entry = new LedgerEntry(universityDateService.getFiscalYear(reversal.getFinancialDocumentReversalDate()), accountingPeriodService.getByDate(reversal.getFinancialDocumentReversalDate()).getUniversityFiscalPeriodCode(), reversal.getFinancialBalanceTypeCode(), reversal.getFinancialSystemOriginationCode());
+    private LedgerEntryForReporting buildLedgerEntryFromReversal(Reversal reversal) {
+        LedgerEntryForReporting entry = new LedgerEntryForReporting(universityDateService.getFiscalYear(reversal.getFinancialDocumentReversalDate()), accountingPeriodService.getByDate(reversal.getFinancialDocumentReversalDate()).getUniversityFiscalPeriodCode(), reversal.getFinancialBalanceTypeCode(), reversal.getFinancialSystemOriginationCode());
         if (KFSConstants.GL_CREDIT_CODE.equals(reversal.getTransactionDebitCreditCode())) {
             entry.setCreditAmount(reversal.getTransactionLedgerEntryAmount());
             entry.setCreditCount(1);

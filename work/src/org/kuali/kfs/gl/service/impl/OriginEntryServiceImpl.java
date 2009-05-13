@@ -34,7 +34,7 @@ import java.util.Map;
 
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.impl.OriginEntryFileIterator;
-import org.kuali.kfs.gl.businessobject.LedgerEntry;
+import org.kuali.kfs.gl.businessobject.LedgerEntryForReporting;
 import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
@@ -125,7 +125,7 @@ public class OriginEntryServiceImpl implements OriginEntryService {
      * @param entrySummary a collection of java.lang.Objects, which is what OJB report queries return
      * @return a LedgerEntry holding the given report summarization data
      */
-    public static LedgerEntry buildLedgerEntry(Object[] entrySummary) {
+    public static LedgerEntryForReporting buildLedgerEntry(Object[] entrySummary) {
         // extract the data from an array and use them to populate a ledger entry
         Object oFiscalYear = entrySummary[0];
         Object oPeriodCode = entrySummary[1];
@@ -144,7 +144,7 @@ public class OriginEntryServiceImpl implements OriginEntryService {
         int count = oCount != null ? Integer.parseInt(oCount.toString()) : 0;
 
         // construct a ledger entry with the information fetched from the given array
-        LedgerEntry ledgerEntry = new LedgerEntry(fiscalYear, periodCode, balanceType, originCode);
+        LedgerEntryForReporting ledgerEntry = new LedgerEntryForReporting(fiscalYear, periodCode, balanceType, originCode);
         if (KFSConstants.GL_CREDIT_CODE.equals(debitCreditCode)) {
             ledgerEntry.setCreditAmount(amount);
             ledgerEntry.setCreditCount(count);

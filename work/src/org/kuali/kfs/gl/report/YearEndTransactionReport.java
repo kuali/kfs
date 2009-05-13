@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import org.kuali.kfs.gl.businessobject.LedgerEntry;
+import org.kuali.kfs.gl.businessobject.LedgerEntryForReporting;
 import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.Transaction;
@@ -428,12 +428,12 @@ public class YearEndTransactionReport {
 
         String tempBalanceType = "--";
         for (Iterator reportIter = entryCollection.iterator(); reportIter.hasNext();) {
-            LedgerEntry ledgerEntry = (LedgerEntry) reportIter.next();
+            LedgerEntryForReporting ledgerEntry = (LedgerEntryForReporting) reportIter.next();
 
             // add the subtotal rows
             if (!ledgerEntry.getBalanceType().equals(tempBalanceType)) {
                 if (subtotalMap.containsKey(tempBalanceType)) {
-                    LedgerEntry subtotal = (LedgerEntry) subtotalMap.get(tempBalanceType);
+                    LedgerEntryForReporting subtotal = (LedgerEntryForReporting) subtotalMap.get(tempBalanceType);
                     this.addLedgerSectionRow(ledgerEntryTable, subtotal, totalFieldFont, true);
                 }
                 tempBalanceType = ledgerEntry.getBalanceType();
@@ -442,7 +442,7 @@ public class YearEndTransactionReport {
 
             // deal with the subtotal after adding the last row
             if (!reportIter.hasNext() && subtotalMap.containsKey(tempBalanceType)) {
-                LedgerEntry subtotal = (LedgerEntry) subtotalMap.get(tempBalanceType);
+                LedgerEntryForReporting subtotal = (LedgerEntryForReporting) subtotalMap.get(tempBalanceType);
                 this.addLedgerSectionRow(ledgerEntryTable, subtotal, totalFieldFont, true);
             }
         }
@@ -518,7 +518,7 @@ public class YearEndTransactionReport {
      * @param textFont font for text
      * @param isTotal used to determine if total row is added
      */
-    private void addLedgerSectionRow(PdfPTable ledgerEntryTable, LedgerEntry ledgerEntry, Font textFont, boolean isTotal) {
+    private void addLedgerSectionRow(PdfPTable ledgerEntryTable, LedgerEntryForReporting ledgerEntry, Font textFont, boolean isTotal) {
         PdfPCell cell = null;
         if (isTotal) {
             String balanceType = ledgerEntry.getBalanceType() != null ? "(" + ledgerEntry.getBalanceType() + ")" : "";

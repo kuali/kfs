@@ -22,7 +22,7 @@
           <stringProp name="LoopController.loops">5</stringProp>
         </elementProp>
         <longProp name="ThreadGroup.end_time">1187728739000</longProp>
-        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">stopthread</stringProp>
         <stringProp name="ThreadGroup.ramp_time">300</stringProp>
       </ThreadGroup>
       <hashTree>
@@ -106,17 +106,15 @@
           <boolProp name="CookieManager.clearEachIteration">false</boolProp>
         </CookieManager>
         <hashTree/>
-        <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="Per-user/thread parameters" enabled="true">
-          <collectionProp name="UserParameters.names">
-            <stringProp name="-265713450">username</stringProp>
+        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Name" enabled="true">
+          <collectionProp name="Arguments.arguments">
+            <elementProp name="username" elementType="Argument">
+              <stringProp name="Argument.name">username</stringProp>
+              <stringProp name="Argument.value">khuntley</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
           </collectionProp>
-          <collectionProp name="UserParameters.thread_values">
-            <collectionProp name="2051813379">
-              <stringProp name="-1231992094">khuntley</stringProp>
-            </collectionProp>
-          </collectionProp>
-          <boolProp name="UserParameters.per_iteration">true</boolProp>
-        </UserParameters>
+        </Arguments>
         <hashTree/>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Recorded HTTP requests " enabled="false"/>
         <hashTree>
@@ -2506,13 +2504,6 @@
                     <stringProp name="Argument.metadata">=</stringProp>
                     <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   </elementProp>
-                  <elementProp name="methodToCall.route.y" elementType="HTTPArgument">
-                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                    <stringProp name="Argument.name">methodToCall.route.y</stringProp>
-                    <stringProp name="Argument.value">9</stringProp>
-                    <stringProp name="Argument.metadata">=</stringProp>
-                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                  </elementProp>
                   <elementProp name="tabStatesSize" elementType="HTTPArgument">
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
                     <stringProp name="Argument.name">tabStatesSize</stringProp>
@@ -4454,13 +4445,6 @@
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
                     <stringProp name="Argument.name">methodToCall.approve.x</stringProp>
                     <stringProp name="Argument.value">41</stringProp>
-                    <stringProp name="Argument.metadata">=</stringProp>
-                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                  </elementProp>
-                  <elementProp name="methodToCall.approve.y" elementType="HTTPArgument">
-                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                    <stringProp name="Argument.name">methodToCall.approve.y</stringProp>
-                    <stringProp name="Argument.value">9</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                     <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   </elementProp>
@@ -6444,13 +6428,6 @@
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
                     <stringProp name="Argument.name">methodToCall.approve.x</stringProp>
                     <stringProp name="Argument.value">47</stringProp>
-                    <stringProp name="Argument.metadata">=</stringProp>
-                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                  </elementProp>
-                  <elementProp name="methodToCall.approve.y" elementType="HTTPArgument">
-                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                    <stringProp name="Argument.name">methodToCall.approve.y</stringProp>
-                    <stringProp name="Argument.value">9</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                     <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   </elementProp>

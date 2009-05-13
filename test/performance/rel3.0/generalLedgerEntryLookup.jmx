@@ -23,7 +23,7 @@
         </elementProp>
         <longProp name="ThreadGroup.end_time">1187728739000</longProp>
         <stringProp name="ThreadGroup.on_sample_error">stopthread</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">300</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">120</stringProp>
       </ThreadGroup>
       <hashTree>
         <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="URL parameters for localhost:8080/kfs-dev" enabled="true">
@@ -106,17 +106,15 @@
           <boolProp name="CookieManager.clearEachIteration">false</boolProp>
         </CookieManager>
         <hashTree/>
-        <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="Per-user/thread parameters" enabled="true">
-          <collectionProp name="UserParameters.names">
-            <stringProp name="-265713450">username</stringProp>
+        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Name" enabled="true">
+          <collectionProp name="Arguments.arguments">
+            <elementProp name="username" elementType="Argument">
+              <stringProp name="Argument.name">username</stringProp>
+              <stringProp name="Argument.value">khuntley</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
           </collectionProp>
-          <collectionProp name="UserParameters.thread_values">
-            <collectionProp name="2051813379">
-              <stringProp name="-1231992094">khuntley</stringProp>
-            </collectionProp>
-          </collectionProp>
-          <boolProp name="UserParameters.per_iteration">true</boolProp>
-        </UserParameters>
+        </Arguments>
         <hashTree/>
         <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="GLEL variables" enabled="true">
           <collectionProp name="Arguments.arguments">
@@ -127,7 +125,7 @@
             </elementProp>
             <elementProp name="balanceTypeCode" elementType="Argument">
               <stringProp name="Argument.metadata">=</stringProp>
-              <stringProp name="Argument.value">AC</stringProp>
+              <stringProp name="Argument.value">EX</stringProp>
               <stringProp name="Argument.name">balanceTypeCode</stringProp>
             </elementProp>
             <elementProp name="chartCode" elementType="Argument">
@@ -137,12 +135,12 @@
             </elementProp>
             <elementProp name="accountNumber" elementType="Argument">
               <stringProp name="Argument.name">accountNumber</stringProp>
-              <stringProp name="Argument.value">1023200</stringProp>
+              <stringProp name="Argument.value">0211101</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
             </elementProp>
             <elementProp name="fiscalPeriod" elementType="Argument">
               <stringProp name="Argument.name">fiscalPeriod</stringProp>
-              <stringProp name="Argument.value">10</stringProp>
+              <stringProp name="Argument.value">BB</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
             </elementProp>
           </collectionProp>

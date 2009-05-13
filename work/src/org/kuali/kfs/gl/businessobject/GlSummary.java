@@ -21,25 +21,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * This class represents a G/L Summary object which contains monthly amounts
  */
 public class GlSummary extends Balance{
-    private String fundGroup;
     
-    private KualiDecimal accountLineAnnualBalanceAmount;
-    private KualiDecimal beginningBalanceLineAmount;
-    private KualiDecimal contractsGrantsBeginningBalanceAmount;
-    private KualiDecimal month1Amount;
-    private KualiDecimal month2Amount;
-    private KualiDecimal month3Amount;
-    private KualiDecimal month4Amount;
-    private KualiDecimal month5Amount;
-    private KualiDecimal month6Amount;
-    private KualiDecimal month7Amount;
-    private KualiDecimal month8Amount;
-    private KualiDecimal month9Amount;
-    private KualiDecimal month10Amount;
-    private KualiDecimal month11Amount;
-    private KualiDecimal month12Amount;
-    private KualiDecimal month13Amount;
-
     public GlSummary() {
         super();
     }
@@ -66,40 +48,40 @@ public class GlSummary extends Balance{
     }
 
     public void add(GlSummary anotherSummary) {
-        beginningBalanceLineAmount = beginningBalanceLineAmount.add(anotherSummary.beginningBalanceLineAmount);
-        contractsGrantsBeginningBalanceAmount = contractsGrantsBeginningBalanceAmount.add(anotherSummary.contractsGrantsBeginningBalanceAmount);
-        accountLineAnnualBalanceAmount = accountLineAnnualBalanceAmount.add(anotherSummary.accountLineAnnualBalanceAmount);
-        month1Amount = month1Amount.add(anotherSummary.month1Amount);
-        month2Amount = month2Amount.add(anotherSummary.month2Amount);
-        month3Amount = month3Amount.add(anotherSummary.month3Amount);
-        month4Amount = month4Amount.add(anotherSummary.month4Amount);
-        month5Amount = month5Amount.add(anotherSummary.month5Amount);
-        month6Amount = month6Amount.add(anotherSummary.month6Amount);
-        month7Amount = month7Amount.add(anotherSummary.month7Amount);
-        month8Amount = month8Amount.add(anotherSummary.month8Amount);
-        month9Amount = month9Amount.add(anotherSummary.month9Amount);
-        month10Amount = month10Amount.add(anotherSummary.month10Amount);
-        month11Amount = month11Amount.add(anotherSummary.month11Amount);
-        month12Amount = month12Amount.add(anotherSummary.month12Amount);
-        month13Amount = month13Amount.add(anotherSummary.month13Amount);
+        setBeginningBalanceLineAmount(getBeginningBalanceLineAmount().add(anotherSummary.getBeginningBalanceLineAmount()));
+        setContractsGrantsBeginningBalanceAmount(getContractsGrantsBeginningBalanceAmount().add(anotherSummary.getContractsGrantsBeginningBalanceAmount()));
+        setAccountLineAnnualBalanceAmount(getAccountLineAnnualBalanceAmount().add(anotherSummary.getAccountLineAnnualBalanceAmount()));
+        setMonth1Amount(getMonth1Amount().add(anotherSummary.getMonth1Amount()));
+        setMonth2Amount(getMonth2Amount().add(anotherSummary.getMonth2Amount()));
+        setMonth3Amount(getMonth3Amount().add(anotherSummary.getMonth3Amount()));
+        setMonth4Amount(getMonth4Amount().add(anotherSummary.getMonth4Amount()));
+        setMonth5Amount(getMonth5Amount().add(anotherSummary.getMonth5Amount()));
+        setMonth6Amount(getMonth6Amount().add(anotherSummary.getMonth6Amount()));
+        setMonth7Amount(getMonth7Amount().add(anotherSummary.getMonth7Amount()));
+        setMonth8Amount(getMonth8Amount().add(anotherSummary.getMonth8Amount()));
+        setMonth9Amount(getMonth9Amount().add(anotherSummary.getMonth9Amount()));
+        setMonth10Amount(getMonth10Amount().add(anotherSummary.getMonth10Amount()));
+        setMonth11Amount(getMonth11Amount().add(anotherSummary.getMonth11Amount()));
+        setMonth12Amount(getMonth12Amount().add(anotherSummary.getMonth12Amount()));
+        setMonth13Amount(getMonth13Amount().add(anotherSummary.getMonth13Amount()));
     }
 
     public KualiDecimal getYearBalance() {
         KualiDecimal yearbalance = KualiDecimal.ZERO;
         
-        yearbalance = yearbalance.add(this.month1Amount);
-        yearbalance = yearbalance.add(this.month2Amount);
-        yearbalance = yearbalance.add(this.month3Amount);
-        yearbalance = yearbalance.add(this.month4Amount);
-        yearbalance = yearbalance.add(this.month5Amount);
-        yearbalance = yearbalance.add(this.month6Amount);
-        yearbalance = yearbalance.add(this.month7Amount);
-        yearbalance = yearbalance.add(this.month8Amount);
-        yearbalance = yearbalance.add(this.month9Amount);
-        yearbalance = yearbalance.add(this.month10Amount);
-        yearbalance = yearbalance.add(this.month11Amount);
-        yearbalance = yearbalance.add(this.month12Amount);
-        yearbalance = yearbalance.add(this.month13Amount);
+        yearbalance = yearbalance.add(this.getMonth1Amount());
+        yearbalance = yearbalance.add(this.getMonth2Amount());
+        yearbalance = yearbalance.add(this.getMonth3Amount());
+        yearbalance = yearbalance.add(this.getMonth4Amount());
+        yearbalance = yearbalance.add(this.getMonth5Amount());
+        yearbalance = yearbalance.add(this.getMonth6Amount());
+        yearbalance = yearbalance.add(this.getMonth7Amount());
+        yearbalance = yearbalance.add(this.getMonth8Amount());
+        yearbalance = yearbalance.add(this.getMonth9Amount());
+        yearbalance = yearbalance.add(this.getMonth10Amount());
+        yearbalance = yearbalance.add(this.getMonth11Amount());
+        yearbalance = yearbalance.add(this.getMonth12Amount());
+        yearbalance = yearbalance.add(this.getMonth13Amount());
         
         return yearbalance;
     }

@@ -368,15 +368,7 @@ public class VendorServiceImpl implements VendorService {
     public VendorContract getVendorB2BContract(VendorDetail vendorDetail, String campus) {
         return vendorDao.getVendorB2BContract(vendorDetail, campus);
     }
-
-    /**
-     * @see org.kuali.kfs.vnd.document.service.VendorService#isB2BVendor(org.kuali.kfs.vnd.businessobject.VendorDetail)
-     *
-    public boolean isB2BVendor(VendorDetail vendorDetail) {
-        return vendorDao.isB2BVendor(vendorDetail);
-    }
-    */
-    
+  
     public void setPersonService(org.kuali.rice.kim.service.PersonService personService) {
         this.personService = personService;
     }

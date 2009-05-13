@@ -62,7 +62,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
     private transient List depositHelpers;
     private CashDrawerSummary cashDrawerSummary;
     private List<CashieringItemInProcess> recentlyClosedItemsInProcess;
-    private transient Boolean shouldAllowCashDrawerOpen = null;
+    private transient CashManagementDocumentPresentationController cmDocPrezController;
 
     /**
      * Constructs a CashManagementForm.
@@ -181,11 +181,10 @@ public class CashManagementForm extends KualiDocumentFormBase {
      * @return true if the cash drawer can currently be opened, false otherwise
      */
     public boolean getAllowOpenCashDrawer() {
-        if (shouldAllowCashDrawerOpen == null) {
-            CashManagementDocumentPresentationController cmDocPrezController = createCashManagementDocumentPresentationController();
-            shouldAllowCashDrawerOpen = new Boolean(cmDocPrezController.canOpenCashDrawer(getDocument()));
+        if (cmDocPrezController == null) {
+            cmDocPrezController = createCashManagementDocumentPresentationController();
         }
-        return shouldAllowCashDrawerOpen.booleanValue();
+        return cmDocPrezController.canOpenCashDrawer(getDocument());
     }
     
     /**

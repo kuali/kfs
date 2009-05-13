@@ -22,10 +22,17 @@ import org.kuali.rice.kns.util.KualiDecimal;
  */
 public class GlSummary extends Balance{
     
+    /**
+     * Constructs a GlSummary.java.
+     */
     public GlSummary() {
         super();
     }
 
+    /**
+     * Constructs a GlSummary.java.
+     * @param data
+     */
     public GlSummary(Object[] data) {
         this.setFundGroup((String) data[0]);
 
@@ -47,6 +54,9 @@ public class GlSummary extends Balance{
         this.setMonth13Amount((KualiDecimal) data[16]);
     }
 
+    /**
+     * @param anotherSummary
+     */
     public void add(GlSummary anotherSummary) {
         setBeginningBalanceLineAmount(getBeginningBalanceLineAmount().add(anotherSummary.getBeginningBalanceLineAmount()));
         setContractsGrantsBeginningBalanceAmount(getContractsGrantsBeginningBalanceAmount().add(anotherSummary.getContractsGrantsBeginningBalanceAmount()));
@@ -66,6 +76,10 @@ public class GlSummary extends Balance{
         setMonth13Amount(getMonth13Amount().add(anotherSummary.getMonth13Amount()));
     }
 
+    /**
+     * @see org.kuali.kfs.gl.businessobject.Balance#getYearBalance()
+     */
+    @Override
     public KualiDecimal getYearBalance() {
         KualiDecimal yearbalance = KualiDecimal.ZERO;
         
@@ -85,4 +99,20 @@ public class GlSummary extends Balance{
         
         return yearbalance;
     }
+
+    /**
+     * @see org.kuali.kfs.gl.businessobject.Balance#getYearToDayBalance()
+     */
+    @Override
+    public KualiDecimal getYearToDayBalance() {
+        KualiDecimal yearToDayBalance = KualiDecimal.ZERO;
+        
+        yearToDayBalance = yearToDayBalance.add(this.getAccountLineAnnualBalanceAmount());
+        yearToDayBalance = yearToDayBalance.add(this.getBeginningBalanceLineAmount());
+        yearToDayBalance = yearToDayBalance.add(this.getContractsGrantsBeginningBalanceAmount());        
+        
+        return yearToDayBalance;
+    }
+    
+    
 }

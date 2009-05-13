@@ -44,6 +44,8 @@
         <ref bean="Balance-timestamp" />
         
         <ref bean="Balance-fundGroup" />
+        <ref bean="Balance-yearBalance" />
+        <ref bean="Balance-yearToDayBalance" />
         <ref bean="Balance-dummyBusinessObject.consolidationOption" />
         <ref bean="Balance-dummyBusinessObject.pendingEntryOption" />
         <ref bean="Balance-dummyBusinessObject.amountViewOption" />
@@ -217,6 +219,21 @@
     <property name="label" value="Year End" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
+  
+  <bean id="Balance-yearBalance" parent="Balance-yearBalance-parentBean" />
+  <bean id="Balance-yearBalance-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="yearBalance" />
+    <property name="label" value="Year Balance" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+  </bean>
+
+  <bean id="Balance-yearToDayBalance" parent="Balance-yearToDayBalance-parentBean" />
+  <bean id="Balance-yearToDayBalance-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="yearToDayBalance" />
+    <property name="label" value="YTD Balance" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+  </bean>  
+  
   <bean id="Balance-timestamp" parent="Balance-timestamp-parentBean" />
 
   <bean id="Balance-timestamp-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">

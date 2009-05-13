@@ -21,10 +21,10 @@ import java.util.Map;
 
 import org.kuali.kfs.gl.businessobject.GlSummary;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.batch.service.WrappingBatchService;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.kfs.sys.service.impl.ReportWriterTextServiceImpl;
 
 @ConfigureContext
 public class ReportWriterServiceTest extends KualiTestBase {
@@ -32,26 +32,25 @@ public class ReportWriterServiceTest extends KualiTestBase {
     
     private ReportWriterService tableReportWriterService;
     private ReportWriterService colspanTableReportWriterService;
-    Map<String, ReportWriterService> businessObjectReportHelperBeans;
 
     @Override
     public void setUp() throws Exception {
         super.setUp();
 
-        businessObjectReportHelperBeans = SpringContext.getBeansOfType(ReportWriterService.class);
+        Map<String, ReportWriterService> businessObjectReportHelperBeans = SpringContext.getBeansOfType(ReportWriterService.class);
+        tableReportWriterService = businessObjectReportHelperBeans.get("tableReportWriterService");
+        colspanTableReportWriterService = businessObjectReportHelperBeans.get("colspanTableReportWriterService");
     }
     
-    public void testWriteTable() throws Exception{        
-        tableReportWriterService = businessObjectReportHelperBeans.get("tableReportWriterService");
-        ((ReportWriterTextServiceImpl) tableReportWriterService).initialize();
+    public void testWriteTable() throws Exception{             
+        ((WrappingBatchService) tableReportWriterService).initialize();
         
         List<GlSummary> summaryList = this.getTestData(40);
         tableReportWriterService.writeTable(summaryList, true, false);
     }
     
     public void testWriteRowWithColspan() throws Exception{
-        colspanTableReportWriterService = businessObjectReportHelperBeans.get("colspanTableReportWriterService");
-        ((ReportWriterTextServiceImpl) colspanTableReportWriterService).initialize();
+        ((WrappingBatchService) colspanTableReportWriterService).initialize();
         
         List<GlSummary> summaryList = this.getTestData(20);
         colspanTableReportWriterService.writeTableHeader(summaryList.get(0));
@@ -60,15 +59,13 @@ public class ReportWriterServiceTest extends KualiTestBase {
         for(GlSummary summary : summaryList) {
             colspanTableReportWriterService.writeTableRow(summary);
             
-            if(index % 5 == 0) {
+            if(index++ % 5 == 0) {
                 GlSummary subTotal = new GlSummary();
                 subTotal.setFundGroup("Sub Totals (AC):");
                 
                 colspanTableReportWriterService.writeTableRowWithColspan(subTotal);                
                 colspanTableReportWriterService.writeTableRowSeparationLine(summary);
             }
-            
-            index++;
         }
         
         GlSummary grandTotal = new GlSummary();
@@ -80,7 +77,7 @@ public class ReportWriterServiceTest extends KualiTestBase {
         List<GlSummary> summaryList = new ArrayList<GlSummary>();
         for(int i = 0; i < countOfData; i++) {
             GlSummary summary = new GlSummary();
-            summary.setFundGroup("G" + i);
+            summary.setFundGroup("FG-" + i);
             
             summaryList.add(summary);
         }

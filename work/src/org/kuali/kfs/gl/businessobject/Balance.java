@@ -799,6 +799,8 @@ public class Balance extends PersistableBusinessObjectBase {
     }
     
     private String fundGroup; // a transient attribute
+    private KualiDecimal yearBalance = KualiDecimal.ZERO; // a transient attribute
+    private KualiDecimal yearToDayBalance = KualiDecimal.ZERO; // a transient attribute
 
     /**
      * Gets the fundGroup attribute. 
@@ -814,5 +816,37 @@ public class Balance extends PersistableBusinessObjectBase {
      */
     public void setFundGroup(String fundGroup) {
         this.fundGroup = fundGroup;
+    }
+
+    /**
+     * Gets the yearBalance attribute. 
+     * @return Returns the yearBalance.
+     */
+    public KualiDecimal getYearBalance() {
+        return yearBalance;
+    }
+
+    /**
+     * Sets the yearBalance attribute value.
+     * @param yearBalance The yearBalance to set.
+     */
+    public void setYearBalance(KualiDecimal yearBalance) {
+        this.yearBalance = yearBalance;
+    }
+
+    /**
+     * Gets the yearToDayBalance attribute. 
+     * @return Returns the yearToDayBalance.
+     */
+    public KualiDecimal getYearToDayBalance() {
+        return yearToDayBalance;
+    }
+
+    /**
+     * Sets the yearToDayBalance attribute value.
+     * @param yearToDayBalance The yearToDayBalance to set.
+     */
+    public void setYearToDayBalance(KualiDecimal yearToDayBalance) {
+        this.yearToDayBalance = yearToDayBalance;
     }    
 }

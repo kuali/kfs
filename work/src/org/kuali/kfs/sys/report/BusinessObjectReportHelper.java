@@ -232,7 +232,16 @@ public class BusinessObjectReportHelper {
             else {
                 try {
                     Object propertyValue = retrievePropertyValue(businessObject, attributeName);
-                    tableCellValues.add(ObjectUtils.isNotNull(propertyValue) ? propertyValue.toString() : StringUtils.EMPTY);
+                    
+                    Formatter formatter = Formatter.getFormatter(propertyValue.getClass());
+                    if(ObjectUtils.isNotNull(formatter) && ObjectUtils.isNotNull(propertyValue)) {
+                        propertyValue = formatter.format(propertyValue);
+                    }
+                    else {
+                        propertyValue = StringUtils.EMPTY;
+                    }
+                    
+                    tableCellValues.add(propertyValue.toString());
                 }
                 catch (Exception e) {
                     throw new RuntimeException("Failed getting propertyName=" + entry.getKey() + " from businessObjecName=" + dataDictionaryBusinessObjectClass.getName(), e);
@@ -260,7 +269,7 @@ public class BusinessObjectReportHelper {
         List<Integer> cellWidthList = this.getTableCellWidth();
         List<String> cellAlignmentList = this.getTableCellAlignment();
         
-        if(allowColspan && ObjectUtils.isNotNull(this.columnSpanDefinition)) {
+        if(allowColspan) {
             this.applyColspanOnCellWidth(cellWidthList);
         }
 
@@ -316,6 +325,10 @@ public class BusinessObjectReportHelper {
      * @param the default width of the table cells
      */
     public void applyColspanOnCellWidth(List<Integer> cellWidthList) {
+        if(ObjectUtils.isNull(columnSpanDefinition)) {
+            return;
+        }
+        
         int indexOfCurrentCell = 0;
         for (Map.Entry<String, String> entry : orderedPropertyNameToHeaderLabelMap.entrySet()) {
             String attributeName = entry.getKey();
@@ -341,6 +354,10 @@ public class BusinessObjectReportHelper {
      * @param the default values of the table cells
      */
     public void applyColspanOnCellValues(List<String> cellValues) {
+        if(ObjectUtils.isNull(columnSpanDefinition)) {
+            return;
+        }
+        
         String REMOVE_ME = "REMOVE-ME-!";
         
         int indexOfCurrentCell = 0;

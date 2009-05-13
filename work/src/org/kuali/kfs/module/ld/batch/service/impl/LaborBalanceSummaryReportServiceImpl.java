@@ -27,11 +27,14 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.batch.PosterSummaryReportStep;
+import org.kuali.kfs.gl.businessobject.GlSummary;
 import org.kuali.kfs.module.ld.batch.service.LaborBalanceSummaryReportService;
-import org.kuali.kfs.module.ld.batch.service.LaborReportService;
-import org.kuali.kfs.module.ld.util.ReportRegistry;
+import org.kuali.kfs.module.ld.businessobject.LaborBalanceSummary;
+import org.kuali.kfs.module.ld.service.LaborLedgerBalanceService;
+import org.kuali.kfs.sys.batch.service.WrappingBatchService;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 
@@ -41,10 +44,14 @@ import org.kuali.rice.kns.service.ParameterService;
 public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummaryReportService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborBalanceSummaryReportServiceImpl.class);
 
-    private LaborReportService laborReportService;
     private DateTimeService dateTimeService;
     private OptionsService optionsService;
     private ParameterService parameterService;
+    
+    private LaborLedgerBalanceService laborLedgerBalanceService;
+    private ReportWriterService laborActualBalanceSummaryReportWriterService;
+    private ReportWriterService laborBudgetBalanceSummaryReportWriterService;
+    private ReportWriterService laborEncumbranceSummaryReportWriterService;
 
     /**
      * @see org.kuali.kfs.module.ld.batch.service.LaborBalanceSummaryReportService#generateBalanceSummaryReports()
@@ -87,17 +94,36 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
             LOG.fatal("The data for " + fiscalYear + "have NOT been setup.");
             return;
         }
-
-        String reportsDirectory = ReportRegistry.getReportsDirectory();
         
-        List<String> actualsBalanceTypes = this.getActualBalanceTypes(fiscalYear);
-        laborReportService.generateMonthlyBalanceSummaryReport(fiscalYear, actualsBalanceTypes, ReportRegistry.LABOR_ACTUAL_BALANCE_SUMMARY, reportsDirectory, runDate);
+        List<String> actualsBalanceTypes = this.getActualBalanceTypes(fiscalYear);   
+        this.writeSummaryReport(fiscalYear, actualsBalanceTypes, laborActualBalanceSummaryReportWriterService);
 
         List<String> budgetBalanceTypes = this.getBudgetBalanceTypes(fiscalYear);
-        laborReportService.generateMonthlyBalanceSummaryReport(fiscalYear, budgetBalanceTypes, ReportRegistry.LABOR_BUDGET_BALANCE_SUMMARY, reportsDirectory, runDate);
+        this.writeSummaryReport(fiscalYear, budgetBalanceTypes, laborBudgetBalanceSummaryReportWriterService);
 
         List<String> encumbranceBalanceTypes = this.getEncumbranceBalanceTypes(fiscalYear);
-        laborReportService.generateBalanceSummaryReport(fiscalYear, encumbranceBalanceTypes, ReportRegistry.LABOR_ENCUMBRANCE_SUMMARY, reportsDirectory, runDate);
+        this.writeSummaryReport(fiscalYear, encumbranceBalanceTypes, laborEncumbranceSummaryReportWriterService);
+    }
+
+    private void writeSummaryReport(Integer fiscalYear, List<String> balanceTypes, ReportWriterService reportWriterService) {
+        List<LaborBalanceSummary> balanceSummary = laborLedgerBalanceService.findBalanceSummary(fiscalYear, balanceTypes);
+        List<GlSummary> summaryList = new ArrayList<GlSummary>(balanceSummary);
+        
+        GlSummary totals = new LaborBalanceSummary();
+        for(GlSummary summaryLine : summaryList) {
+            totals.add(summaryLine);
+        }        
+        totals.setFundGroup("Total");
+        
+        ((WrappingBatchService)reportWriterService).initialize();
+        reportWriterService.writeSubTitle("Balance Type of " + balanceTypes + " for Fiscal Year " + fiscalYear);
+        reportWriterService.writeNewLines(1);
+        
+        reportWriterService.writeTableRowSeparationLine(totals);
+        reportWriterService.writeTable(summaryList, true, false);
+        
+        reportWriterService.writeTableRowSeparationLine(totals);
+        reportWriterService.writeTableRow(totals);
     }
 
     /**
@@ -207,16 +233,6 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
         this.dateTimeService = dateTimeService;
     }
 
-
-    /**
-     * Sets the laborReportService attribute value.
-     * 
-     * @param laborReportService The laborReportService to set.
-     */
-    public void setLaborReportService(LaborReportService laborReportService) {
-        this.laborReportService = laborReportService;
-    }
-
     /**
      * Sets the optionsService attribute value.
      * 
@@ -226,7 +242,43 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
         this.optionsService = optionsService;
     }
 
+    /**
+     * Sets the parameterService attribute value.
+     * @param parameterService The parameterService to set.
+     */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+    
+    /**
+     * Sets the laborLedgerBalanceService attribute value.
+     * @param laborLedgerBalanceService The laborLedgerBalanceService to set.
+     */
+    public void setLaborLedgerBalanceService(LaborLedgerBalanceService laborLedgerBalanceService) {
+        this.laborLedgerBalanceService = laborLedgerBalanceService;
+    }
+
+    /**
+     * Sets the laborActualBalanceSummaryReportWriterService attribute value.
+     * @param laborActualBalanceSummaryReportWriterService The laborActualBalanceSummaryReportWriterService to set.
+     */
+    public void setLaborActualBalanceSummaryReportWriterService(ReportWriterService laborActualBalanceSummaryReportWriterService) {
+        this.laborActualBalanceSummaryReportWriterService = laborActualBalanceSummaryReportWriterService;
+    }
+
+    /**
+     * Sets the laborBudgetBalanceSummaryReportWriterService attribute value.
+     * @param laborBudgetBalanceSummaryReportWriterService The laborBudgetBalanceSummaryReportWriterService to set.
+     */
+    public void setLaborBudgetBalanceSummaryReportWriterService(ReportWriterService laborBudgetBalanceSummaryReportWriterService) {
+        this.laborBudgetBalanceSummaryReportWriterService = laborBudgetBalanceSummaryReportWriterService;
+    }
+
+    /**
+     * Sets the laborEncumbranceSummaryReportWriterService attribute value.
+     * @param laborEncumbranceSummaryReportWriterService The laborEncumbranceSummaryReportWriterService to set.
+     */
+    public void setLaborEncumbranceSummaryReportWriterService(ReportWriterService laborEncumbranceSummaryReportWriterService) {
+        this.laborEncumbranceSummaryReportWriterService = laborEncumbranceSummaryReportWriterService;
     }
 }

@@ -34,7 +34,7 @@ public class BusinessObjectReportHelpTest extends KualiTestBase {
         super.setUp();
 
         Map<String, BusinessObjectReportHelper> businessObjectReportHelperBeans = SpringContext.getBeansOfType(BusinessObjectReportHelper.class);
-        summaryReportHelper = businessObjectReportHelperBeans.get("summaryReportHelper");
+        summaryReportHelper = businessObjectReportHelperBeans.get("summaryReportHelperForTesting");
     }
 
     public void testGetTableDefintion() throws Exception {

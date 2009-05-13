@@ -289,13 +289,17 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     @Override
     public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
-        if (ObjectUtils.isNotNull(this.getPurchaseOrderDocument().getPurapDocumentIdentifier())) {
-            getDocInfo().add(new HeaderField("DataDictionary.PurchaseOrderDocument.attributes.purapDocumentIdentifier", ((PurchaseOrderDocument) this.getDocument()).getPurapDocumentIdentifier().toString()));
+        if (ObjectUtils.isNotNull(getPurchaseOrderDocument().getPurapDocumentIdentifier())) {
+            String poIDstr = getPurchaseOrderDocument().getPurapDocumentIdentifier().toString();
+            if (!getPurchaseOrderDocument().getIsApproved()) {
+                poIDstr += " UNAPPROVED";
+            }
+            getDocInfo().add(new HeaderField("DataDictionary.PurchaseOrderDocument.attributes.purapDocumentIdentifier", poIDstr));
         }
         else {
             getDocInfo().add(new HeaderField("DataDictionary.PurchaseOrderDocument.attributes.purapDocumentIdentifier", "Not Available"));
         }
-        if (ObjectUtils.isNotNull(this.getPurchaseOrderDocument().getStatus())) {
+        if (ObjectUtils.isNotNull(getPurchaseOrderDocument().getStatus())) {
             getDocInfo().add(new HeaderField("DataDictionary.PurchaseOrderDocument.attributes.statusCode", ((PurchaseOrderDocument) this.getDocument()).getStatus().getStatusDescription()));
         }
         else {

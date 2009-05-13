@@ -29,7 +29,7 @@
 </c:if>
 <c:set var="tabindexOverrideBase" value="20" />
 
-<kul:tab tabTitle="Items" defaultOpen="true" tabErrorKey="${PurapConstants.ITEM_TAB_ERRORS}">
+<kul:tab tabTitle="Items" defaultOpen="true" tabErrorKey="${PurapConstants.LINEITEM_TAB_ERRORS}">
 	<div class="tab-container" align=center>
 	<table cellpadding="0" cellspacing="0" class="datatable" summary="Items Section">
 		<tr>
@@ -195,13 +195,13 @@
 				    attributeEntry="${itemAttributes.itemCatalogNumber}"
 				    property="document.item[${ctr}].itemCatalogNumber"
 				    extraReadOnlyProperty="document.item[${ctr}].itemCatalogNumber"
-				    readOnly="${true}" />
+				    readOnly="${not (fullEntryMode)}" />
 			</td>
 			<td class="infoline">
 				<kul:htmlControlAttribute
 				    attributeEntry="${itemAttributes.itemDescription}"
 				    property="document.item[${ctr}].itemDescription"
-				    readOnly="${true}" />
+				    readOnly="${not (fullEntryMode)}" />
 			</td>
 			<td class="infoline">
 			    <kul:htmlControlAttribute
@@ -214,11 +214,17 @@
 	                attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" 
 	                property="document.item[${ctr}].itemUnitOfMeasureCode"
 	                onblur="loadItemUnitOfMeasureInfo( 'document.item[${ctr}].itemUnitOfMeasureCode', 'document.item[${ctr}].itemUnitOfMeasure.itemUnitOfMeasureDescription' );${onblur}"
-	                readOnly="${true}"
+	                readOnly="${not (fullEntryMode)}"
 	                tabindexOverride="${tabindexOverrideBase + 0}"/>
-	            <div id="document.item[${ctr}].itemUnitOfMeasure.itemUnitOfMeasureDescription.div" class="fineprint">
-	                <html:hidden write="true" property="document.item[${ctr}].itemUnitOfMeasure.itemUnitOfMeasureDescription"/>&nbsp;  
-	            </div>     
+	                <c:if test="${fullEntryMode}">
+	                	<kul:lookup boClassName="org.kuali.kfs.sys.businessobject.UnitOfMeasure" 
+                                fieldConversions="itemUnitOfMeasureCode:document.item[${ctr}].itemUnitOfMeasureCode"
+                                lookupParameters="'Y':active"/>
+                    </c:if> 
+	            	<div id="document.item[${ctr}].itemUnitOfMeasure.itemUnitOfMeasureDescription.div" class="fineprint">
+	                	<html:hidden write="true" property="document.item[${ctr}].itemUnitOfMeasure.itemUnitOfMeasureDescription"/>&nbsp;  
+	            	</div>   
+	            	
 		    </td>
 
 			<c:if test="${KualiForm.stateFinal == false}">

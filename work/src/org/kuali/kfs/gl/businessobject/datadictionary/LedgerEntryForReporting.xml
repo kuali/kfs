@@ -4,8 +4,8 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="Entry" parent="Entry-parentBean" />
-  <bean id="Entry-parentBean" abstract="true" parent="BusinessObjectEntry">
+  <bean id="LedgerEntryForReporting" parent="LedgerEntryForReporting-parentBean" />
+  <bean id="LedgerEntryForReporting-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.gl.businessobject.LedgerEntryForReporting" />
     <property name="objectLabel" value="Ledger Entry For Reporting" />
     <property name="attributes" >

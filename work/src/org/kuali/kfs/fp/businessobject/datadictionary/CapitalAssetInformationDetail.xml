@@ -63,19 +63,19 @@
   <bean id="CapitalAssetInformationDetail-campusCode" parent="CapitalAssetInformationDetail-campusCode-parentBean" /> 
   <bean id="CapitalAssetInformationDetail-campusCode-parentBean" abstract="true" parent="Room-campusCode">
   	<property name="name" value="campusCode"/>
-  	<property name="required" value="false" />
+  	<property name="required" value="true" />
   </bean>
   
   <bean id="CapitalAssetInformationDetail-buildingCode" parent="CapitalAssetInformationDetail-buildingCode-parentBean" /> 
   <bean id="CapitalAssetInformationDetail-buildingCode-parentBean" abstract="true" parent="Room-buildingCode">
    	<property name="name" value="buildingCode"/>
-  	<property name="required" value="false" />
+  	<property name="required" value="true" />
   </bean>
   
   <bean id="CapitalAssetInformationDetail-buildingRoomNumber" parent="CapitalAssetInformationDetail-buildingRoomNumber-parentBean" /> 
   <bean id="CapitalAssetInformationDetail-buildingRoomNumber-parentBean" abstract="true" parent="Room-buildingRoomNumber">
 	<property name="name" value="buildingRoomNumber"/>
-	<property name="required" value="false" />
+	<property name="required" value="true" />
   </bean>
   
   <bean id="CapitalAssetInformationDetail-buildingSubRoomNumber" parent="CapitalAssetInformationDetail-buildingSubRoomNumber-parentBean" /> 

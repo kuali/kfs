@@ -119,6 +119,7 @@ public class LedgerSummaryReport {
             List<NightlyOutPendingEntryLedgerSummaryDetailLine> detailList = new ArrayList<NightlyOutPendingEntryLedgerSummaryDetailLine>(details.values());
             Collections.sort(detailList, NightlyOutPendingEntryLedgerSummaryDetailLine.getStandardComparator());
         
+            reportWriterService.writeTableHeader(detailList.get(0));
             String currentBalanceType = detailList.get(0).getFinancialBalanceTypeCode();
             for (NightlyOutPendingEntryLedgerSummaryDetailLine detailLine : detailList) {
                 if (!detailLine.getFinancialBalanceTypeCode().equals(currentBalanceType)) {

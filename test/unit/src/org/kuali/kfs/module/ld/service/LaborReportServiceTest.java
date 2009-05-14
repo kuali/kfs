@@ -116,17 +116,6 @@ public class LaborReportServiceTest extends KualiTestBase {
 //        //laborReportService.generateInputSummaryReport(groups, ReportRegistry.LABOR_POSTER_INPUT, reportsDirectory, today);
     }
 
-    public void testGenerateErrorTransactionListing() throws Exception {
-//        String testTarget = "generateErrorTransactionListing.";
-//        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
-
-//        laborReportService.generateErrorTransactionListing(invalidGroup, ReportRegistry.LABOR_POSTER_ERROR, reportsDirectory, today);
-//
-//        businessObjectService.save(getInputDataList(testTarget + "testData", numberOfTestData, invalidGroup));
-//        businessObjectService.save(getInputDataList(testTarget + "testData", numberOfTestData, invalidGroup));
-//        laborReportService.generateErrorTransactionListing(invalidGroup, ReportRegistry.LABOR_POSTER_ERROR, reportsDirectory, today);
-    }
-
     public void testGenerateOutputSummaryReportByGroups() throws Exception {
 //        String testTarget = "generateOutputSummaryReport.";
 //        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));

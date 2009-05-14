@@ -91,19 +91,6 @@ public class LaborReportServiceImpl implements LaborReportService {
 //    }
 
     /**
-     * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateErrorTransactionListing(org.kuali.kfs.gl.businessobject.OriginEntryGroup,
-     *      org.kuali.kfs.module.ld.util.ReportRegistry, java.lang.String, java.util.Date)
-     */
-    //TODO: Shawn - will clean up after all reports are done
-//    public void generateErrorTransactionListing(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
-//        LOG.info("generateErrorTransactionListing() started");
-//
-//        Iterator entries = laborOriginEntryService.getEntriesByGroup(group);
-//        TransactionListingReport transactionListingReport = new TransactionListingReport();
-//        transactionListingReport.generateReport(entries, runDate, reportInfo.reportTitle(), reportInfo.reportFilename(), reportsDirectory);
-//    }
-
-    /**
      * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateStatisticsReport(java.util.List, java.util.Map,
      *      org.kuali.kfs.module.ld.util.ReportRegistry, java.lang.String, java.util.Date)
      */

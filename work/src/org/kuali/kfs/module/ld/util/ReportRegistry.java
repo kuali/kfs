@@ -23,7 +23,7 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
  * This is a registry of the reports. The registry typically holds the key elements of a report: its file name and title.
  */
 public enum ReportRegistry {
-    LABOR_POSTER_INPUT("labor_poster_main_ledger", "Main Labor Poster Input Transactions"), LABOR_POSTER_STATISTICS("labor_poster_main", "Labor Poster Report"), LABOR_POSTER_ERROR("labor_poster_main_error_list", "Main Labor Poster Error Transaction Listing"), LABOR_POSTER_OUTPUT("labor_poster_output_summary", "Labor Poster Output Summary"), LABOR_POSTER_OUTPUT_BY_SINGLE_GROUP("labor_poster_single_group_output_summary", "Labor Poster Output Summary"), LABOR_POSTER_GL_SUMMARY("labor_poster_gl_summary", "Labor Poster General Ledger Summary"), LABOR_POSTER_GL_SUMMARY_INPUT("labor_poster_gl_summary_ledger", "Labor Poster General Ledger Summary Input Transactions"),
+    LABOR_POSTER_INPUT("labor_poster_main_ledger", "Main Labor Poster Input Transactions"), LABOR_POSTER_STATISTICS("labor_poster_main", "Labor Poster Report"), LABOR_POSTER_OUTPUT("labor_poster_output_summary", "Labor Poster Output Summary"), LABOR_POSTER_OUTPUT_BY_SINGLE_GROUP("labor_poster_single_group_output_summary", "Labor Poster Output Summary"), LABOR_POSTER_GL_SUMMARY("labor_poster_gl_summary", "Labor Poster General Ledger Summary"), LABOR_POSTER_GL_SUMMARY_INPUT("labor_poster_gl_summary_ledger", "Labor Poster General Ledger Summary Input Transactions"),
 
     LABOR_ACTUAL_BALANCE_SUMMARY("labor_summary_act", "Labor Actual Balance Summary"), LABOR_BUDGET_BALANCE_SUMMARY("labor_summary_bud", "Labor Budget Balance Summary"), LABOR_ENCUMBRANCE_SUMMARY("labor_summary_enc", "Labor Encumbrance Summary"),
 

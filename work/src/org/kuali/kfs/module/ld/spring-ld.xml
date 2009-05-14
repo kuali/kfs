@@ -333,6 +333,9 @@
         <property name="reportWriterService">
             <ref bean="laborPosterReportWriterService" />
         </property>
+        <property name="errorReportWriterService">
+            <ref bean="laborPosterErrorListingReportWriterService" />
+        </property>
         <property name="laborPosterTransactionValidator">
             <ref bean="laborPosterTransactionValidator" />
         </property>
@@ -595,11 +598,23 @@
        	</property>
     </bean>
 	
+	<bean id="laborPosterErrorListingReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/ld"/>
+		<property name="fileNamePrefix" value="labor_poster_main_error_list_"/>
+        <property name="title" value="Main Labor Poster Error Transaction Listing"/>
+		<property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.module.ld.businessobject.LaborOriginEntry" value="laborTransactionListingReportHelper"/>
+        	</map>
+       	</property>
+    </bean>
+	
 	<bean id="laborPosterStep" class="org.kuali.kfs.module.ld.batch.LaborPosterStep" parent="wrappedStep">
 		<property name="wrappingBatchServices">
 			<list>
 				<ref bean="laborAccountingCycleCachingService" />
 				<ref bean="laborPosterReportWriterService" />
+				<ref bean="laborPosterErrorListingReportWriterService" />
 			</list>
 		</property>
 		<property name="laborPosterService" ref="laborPosterService" />
@@ -1296,6 +1311,9 @@
 	</bean>
 
 	<bean id="laborTransactionReportHelper" parent="transactionReportHelper">
+	</bean>
+
+	<bean id="laborTransactionListingReportHelper" parent="transactionListingReportHelper">
 	</bean>
 
 	<bean id="laborLedgerBalanceHistoryReportHelper" parent="ledgerBalanceHistoryReportHelper">

@@ -35,6 +35,7 @@ import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.report.Summary;
+import org.kuali.kfs.gl.report.TransactionListingReport;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborConstants.Poster;
@@ -43,6 +44,7 @@ import org.kuali.kfs.module.ld.batch.service.LaborPosterService;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.document.validation.impl.TransactionFieldValidator;
 import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
+import org.kuali.kfs.module.ld.service.impl.LaborOriginEntryFileIterator;
 import org.kuali.kfs.module.ld.util.LaborLedgerUnitOfWork;
 import org.kuali.kfs.module.ld.util.ReportRegistry;
 import org.kuali.kfs.sys.KFSConstants;
@@ -70,6 +72,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     private OriginEntryGroupService originEntryGroupService;
 
     private ReportWriterService reportWriterService;
+    private ReportWriterService errorReportWriterService;
     private DateTimeService dateTimeService;
     private VerifyTransaction laborPosterTransactionValidator;
     private ParameterService parameterService;
@@ -199,10 +202,9 @@ public class LaborPosterServiceImpl implements LaborPosterService {
             reportWriterService.writeStatisticLine("LLGL RECORDS INSERTED (LD_LBR_GL_ENTRY_T)  %,9d", reportSummary.get(laborGLLedgerEntryPoster.getDestinationName() + "," + KFSConstants.OperationType.INSERT));
             reportWriterService.writeStatisticLine("WARNING RECORDS WRITTEN                    %,9d", numberOfErrorOriginEntry);
             
-            // shawn - need to change to use file??
-            // laborReportService.generateErrorTransactionListing(invalidGroup, ReportRegistry.LABOR_POSTER_ERROR, reportsDirectory,
-            // runDate);
-
+            // Generate Error Listing Report
+            //laborReportService.generateStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_STATISTICS, reportsDirectory, runDate);
+            new TransactionListingReport().generateReport(errorReportWriterService, new LaborOriginEntryFileIterator(new File(postErrFileName)));
         }
         catch (IOException ioe) {
             LOG.error("postLaborLedgerEntries stopped due to: " + ioe.getMessage(), ioe);
@@ -545,6 +547,15 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      */
     public void setReportWriterService(ReportWriterService reportWriterService) {
         this.reportWriterService = reportWriterService;
+    }
+    
+    /**
+     * Sets the errorReportWriterService
+     * 
+     * @param errorReportWriterService The errorReportWriterService to set.
+     */
+    public void setErrorReportWriterService(ReportWriterService errorReportWriterService) {
+        this.errorReportWriterService = errorReportWriterService;
     }
     
     /**

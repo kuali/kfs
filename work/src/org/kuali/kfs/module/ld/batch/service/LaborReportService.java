@@ -53,17 +53,7 @@ public interface LaborReportService {
      * @param runDate the datetime of the repor generation
      */
     //public void generateInputSummaryReport(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
-
-    /**
-     * Generate error transaction listing as a report
-     * 
-     * @param group the given origin entry group
-     * @param reportInfo the primary elements of a report, such as report title and report file name
-     * @param reportsDirectory the directory in file system that is used to contain reports
-     * @param runDate the datetime of the repor generation
-     */
-    //public void generateErrorTransactionListing(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
-
+    
     /**
      * Generate statistics report with the given information
      * 

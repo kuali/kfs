@@ -159,7 +159,7 @@
         <property name="shortLabel" value="Number"/>
         <property name="maxLength" value="20"/>
         <property name="validationPattern">
-            <bean parent="PhoneNumberValidationPattern" />
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
         </property>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="22"/>

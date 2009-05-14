@@ -265,6 +265,9 @@
     <reference-descriptor name="vendorShippingTitle" class-ref="org.kuali.kfs.vnd.businessobject.ShippingTitle" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorShippingTitleCode" />
     </reference-descriptor>
+    <reference-descriptor name="vendorCampus" class-ref="org.kuali.kfs.vnd.businessobject.CampusParameter" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >
+    	<foreignkey field-ref="vendorCampusCode" />
+    </reference-descriptor>    
     <collection-descriptor name="vendorContractOrganizations"  element-class-ref="org.kuali.kfs.vnd.businessobject.VendorContractOrganization" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <orderby name="chartOfAccountsCode" sort="ASC" />
         <orderby name="organizationCode" sort="ASC" />
@@ -359,6 +362,9 @@
     <reference-descriptor name="vendorAddress" class-ref="org.kuali.kfs.vnd.businessobject.VendorAddress" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorAddressGeneratedIdentifier" />
     </reference-descriptor>
+    <reference-descriptor name="vendorCampus" class-ref="org.kuali.kfs.vnd.businessobject.CampusParameter" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >
+    	<foreignkey field-ref="vendorCampusCode" />
+    </reference-descriptor>    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.vnd.businessobject.VendorSupplierDiversity" table="PUR_VNDR_SUPP_DVRST_T">
@@ -585,6 +591,9 @@
     <reference-descriptor name="contractManager" class-ref="org.kuali.kfs.vnd.businessobject.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="contractManagerCode" />
     </reference-descriptor>
+    <reference-descriptor name="campus" class-ref="org.kuali.kfs.vnd.businessobject.CampusParameter" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >
+    	<foreignkey field-ref="campusCode" />
+    </reference-descriptor>    
 </class-descriptor>
 
 </descriptor-repository>

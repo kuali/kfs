@@ -35,11 +35,12 @@
 
   <bean id="NightlyOutPendingEntryLedgerSummaryTotalLine-recordCount-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
   	<property name="name" value="recordCount" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.IntegerFormatter" />  
   </bean>
 
   <bean id="NightlyOutPendingEntryLedgerSummaryTotalLine-debitAmount" parent="NightlyOutPendingEntryLedgerSummaryTotalLine-debitAmount-parentBean" />
 
-  <bean id="NightlyOutPendingEntryLedgerSummaryTotalLine-debitAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  <bean id="NightlyOutPendingEntryLedgerSummaryTotalLine-debitAmount-parentBean" abstract="true" parent="GeneralLedgerPendingEntry-transactionLedgerEntryAmount">
   	<property name="name" value="debitAmount" />
   </bean>
 
@@ -47,11 +48,12 @@
 
   <bean id="NightlyOutPendingEntryLedgerSummaryTotalLine-debitCount-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
   	<property name="name" value="debitCount" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.IntegerFormatter" />  
   </bean>
 
   <bean id="NightlyOutPendingEntryLedgerSummaryTotalLine-creditAmount" parent="NightlyOutPendingEntryLedgerSummaryTotalLine-creditAmount-parentBean" />
 
-  <bean id="NightlyOutPendingEntryLedgerSummaryTotalLine-creditAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  <bean id="NightlyOutPendingEntryLedgerSummaryTotalLine-creditAmount-parentBean" abstract="true" parent="GeneralLedgerPendingEntry-transactionLedgerEntryAmount">
   	<property name="name" value="creditAmount" />
   </bean>
 
@@ -59,11 +61,12 @@
 
   <bean id="NightlyOutPendingEntryLedgerSummaryTotalLine-creditCount-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
   	<property name="name" value="creditCount" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.IntegerFormatter" />  
   </bean>
 
   <bean id="NightlyOutPendingEntryLedgerSummaryTotalLine-budgetAmount" parent="NightlyOutPendingEntryLedgerSummaryTotalLine-budgetAmount-parentBean" />
 
-  <bean id="NightlyOutPendingEntryLedgerSummaryTotalLine-budgetAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  <bean id="NightlyOutPendingEntryLedgerSummaryTotalLine-budgetAmount-parentBean" abstract="true" parent="GeneralLedgerPendingEntry-transactionLedgerEntryAmount">
   	<property name="name" value="budgetAmount" />
   </bean>
 
@@ -71,5 +74,6 @@
 
   <bean id="NightlyOutPendingEntryLedgerSummaryTotalLine-budgetCount-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
   	<property name="name" value="budgetCount" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.IntegerFormatter" />  
   </bean>
 </beans>

@@ -27,18 +27,18 @@ import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntryLite;
-import org.kuali.kfs.gl.businessobject.OriginEntrySource;
+import org.kuali.kfs.gl.report.LedgerSummaryReport;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.batch.service.LaborNightlyOutService;
-import org.kuali.kfs.module.ld.batch.service.LaborReportService;
 import org.kuali.kfs.module.ld.businessobject.LaborGeneralLedgerEntry;
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService;
-import org.kuali.kfs.module.ld.util.ReportRegistry;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.sys.batch.service.WrappingBatchService;
+import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,12 +52,14 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
 
     private LaborLedgerPendingEntryService laborLedgerPendingEntryService;
     private OriginEntryGroupService originEntryGroupService;
-    private LaborReportService laborReportService;
 
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
     private String batchFileDirectoryName;
     private String batchGlFileDirectoryName;
+    
+    private ReportWriterService laborPendingEntryLedgerReportWriterService;
+    private ReportWriterService laborGLEntryReportWriterService;
 
     /**
      * @see org.kuali.kfs.module.ld.batch.service.LaborNightlyOutService#deleteCopiedPendingLedgerEntries()
@@ -83,13 +85,11 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
             throw new RuntimeException(e);
         }
         
-        String reportDirectory = ReportRegistry.getReportsDirectory();
         //TODO: Shawn - might need to change this part to use file not collection
         Collection<OriginEntryLite> group = new ArrayList();
         Iterator<LaborLedgerPendingEntry> pendingEntries = laborLedgerPendingEntryService.findApprovedPendingLedgerEntries();
         
-        
-        
+        LedgerSummaryReport nightlyOutLedgerSummaryReport = new LedgerSummaryReport();
         while (pendingEntries != null && pendingEntries.hasNext()) {
             LaborLedgerPendingEntry pendingEntry = pendingEntries.next();
             LaborOriginEntry entry = new LaborOriginEntry(pendingEntry);
@@ -100,6 +100,7 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
             
             try {
                 outputFilePs.printf("%s\n", entry.getLine());
+                nightlyOutLedgerSummaryReport.summarizeEntry(entry);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -109,7 +110,7 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
                 pendingEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED);
                 pendingEntry.setTransactionDate(runDate);
                 businessObjectService.save(pendingEntry);
-            }
+            } 
         }
         
         outputFilePs.close();
@@ -125,8 +126,8 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
             }
         }
         
-        //TODO: Shawn - need to change to use file
-        //laborReportService.generateInputSummaryReport(group, ReportRegistry.LABOR_PENDING_ENTRY_SUMMARY, reportDirectory, runDate);
+        ((WrappingBatchService)laborPendingEntryLedgerReportWriterService).initialize();
+        nightlyOutLedgerSummaryReport.writeReport(laborPendingEntryLedgerReportWriterService);
     }
 
     /**
@@ -143,10 +144,6 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
      * @see org.kuali.kfs.module.ld.batch.service.LaborNightlyOutService#copyLaborGenerealLedgerEntries()
      */
     public void copyLaborGenerealLedgerEntries() {
-        
-        Date runDate = dateTimeService.getCurrentSqlDate();
-        String reportDirectory = ReportRegistry.getReportsDirectory();
-
         String outputFile = batchGlFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.LABOR_GL_ENTRY_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         PrintStream outputFilePs;
         
@@ -162,6 +159,7 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
         Collection<LaborGeneralLedgerEntry> generalLedgerEntries = businessObjectService.findAll(LaborGeneralLedgerEntry.class);
         int numberOfGLEntries = generalLedgerEntries.size();
 
+        LedgerSummaryReport laborGLSummaryReport = new LedgerSummaryReport();
         for (LaborGeneralLedgerEntry entry : generalLedgerEntries) {
             OriginEntryFull originEntry = new OriginEntryFull();
             ObjectUtil.buildObject(originEntry, entry);
@@ -169,6 +167,7 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
             //write to file
             try {
                 outputFilePs.printf("%s\n", originEntry.getLine());
+                laborGLSummaryReport.summarizeEntry(originEntry);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -188,8 +187,8 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
             }
         }
         
-        //TODO: Shawn - commented out for report
-        //laborReportService.generateGLSummaryReport(group, ReportRegistry.LABOR_GL_SUMMARY, reportDirectory, runDate);
+        ((WrappingBatchService)laborGLEntryReportWriterService).initialize();
+        laborGLSummaryReport.writeReport(laborGLEntryReportWriterService);
     }
 
     /*
@@ -278,15 +277,6 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
     }
 
     /**
-     * Sets the laborReportService attribute value.
-     * 
-     * @param laborReportService The laborReportService to set.
-     */
-    public void setLaborReportService(LaborReportService laborReportService) {
-        this.laborReportService = laborReportService;
-    }
-
-    /**
      * Sets the originEntryGroupService attribute value.
      * 
      * @param originEntryGroupService The originEntryGroupService to set.
@@ -301,5 +291,21 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
 
     public void setBatchGlFileDirectoryName(String batchGlFileDirectoryName) {
         this.batchGlFileDirectoryName = batchGlFileDirectoryName;
+    }
+
+    /**
+     * Sets the laborPendingEntryLedgerReportWriterService attribute value.
+     * @param laborPendingEntryLedgerReportWriterService The laborPendingEntryLedgerReportWriterService to set.
+     */
+    public void setLaborPendingEntryLedgerReportWriterService(ReportWriterService laborPendingEntryLedgerReportWriterService) {
+        this.laborPendingEntryLedgerReportWriterService = laborPendingEntryLedgerReportWriterService;
+    }
+
+    /**
+     * Sets the laborGLEntryReportWriterService attribute value.
+     * @param laborGLEntryReportWriterService The laborGLEntryReportWriterService to set.
+     */
+    public void setLaborGLEntryReportWriterService(ReportWriterService laborGLEntryReportWriterService) {
+        this.laborGLEntryReportWriterService = laborGLEntryReportWriterService;
     }
 }

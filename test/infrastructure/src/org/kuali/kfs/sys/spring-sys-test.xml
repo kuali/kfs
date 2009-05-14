@@ -141,4 +141,40 @@
             </map>
         </property>        
     </bean>
+    
+    <bean id="testLedgerReportWriterService" parent="reportWriterService">
+        <property name="filePath" value="${reports.directory}"/>
+        <property name="fileNamePrefix" value="ledger_report_test_"/>
+        <property name="title" value="Test Ledger Report"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+            <map>
+                <entry key="org.kuali.kfs.gl.businessobject.LedgerEntryForReporting" value="ledgerReportHelperForTesting"/>
+            </map>
+        </property>
+    </bean>
+       
+    <bean id="ledgerReportHelperForTesting" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.LedgerEntryForReporting" />
+        <property name="columnCount" value="11" />
+        <property name="orderedPropertyNameToHeaderLabelMap">
+            <map>
+                <entry key="balanceType" value="BAL TYP"/>
+                <entry key="originCode" value="ORIGIN"/>
+                <entry key="fiscalYear" value="YEAR"/>
+                <entry key="period" value="PERIOD"/>
+                <entry key="recordCount" value="REC CNT"/>
+                <entry key="debitAmount" value="DEBIT AMT"/>
+                <entry key="debitCount" value="DEBIT CNT"/>
+                <entry key="creditAmount" value="CREDIT AMT"/>
+                <entry key="creditCount" value="CREDIT CNT"/>
+                <entry key="noDCAmount" value="No D/C AMT"/>
+                <entry key="noDCCount" value="NO D/C CNT"/>
+            </map>
+        </property>
+        <property name="columnSpanDefinition">
+            <map>
+                <entry key="balanceType" value="4"/>
+            </map>
+        </property>        
+    </bean>    
 </beans>

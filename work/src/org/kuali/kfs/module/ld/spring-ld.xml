@@ -223,9 +223,6 @@
         <property name="originEntryGroupService">
             <ref bean="originEntryGroupService" />
         </property>               
-        <property name="laborReportService">
-            <ref bean="laborReportService" />
-        </property>
 
         <property name="dateTimeService">
             <ref bean="dateTimeService" />
@@ -235,7 +232,36 @@
         </property>
         <property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
         <property name="batchGlFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
+        
+        <property name="laborGLEntryReportWriterService" ref="laborGLEntryReportWriterService" />
+        <property name="laborPendingEntryLedgerReportWriterService" ref="laborPendingEntryLedgerReportWriterService" />
     </bean>
+    
+    <bean id="laborGLEntryReportWriterService" parent="reportWriterService">
+        <property name="filePath" value="${reports.directory}/ld"/>
+        <property name="fileNamePrefix" value="labor_gl_summary_ledger_"/>
+        <property name="title" value="Labor General Ledger Summary"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+            <map>
+                <entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryTotalLine" value="nightlyOutPendingEntryLedgerSummaryTotalLineReportHelper" />
+                <entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine" value="nightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLineReportHelper" />
+                <entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryDetailLine" value="nightlyOutPendingEntryLedgerSummaryDetailLineReportHelper" />
+            </map>
+        </property>
+    </bean>  
+
+    <bean id="laborPendingEntryLedgerReportWriterService" parent="reportWriterService">
+        <property name="filePath" value="${reports.directory}/ld"/>
+        <property name="fileNamePrefix" value="labor_pending_entry_summary_"/>
+        <property name="title" value="Labor Pending Ledger Entry Summary"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+            <map>
+                <entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryTotalLine" value="nightlyOutPendingEntryLedgerSummaryTotalLineReportHelper" />
+                <entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine" value="nightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLineReportHelper" />
+                <entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryDetailLine" value="nightlyOutPendingEntryLedgerSummaryDetailLineReportHelper" />
+            </map>
+        </property>
+    </bean>      
 
 	<bean id="laborScrubberService" class="org.kuali.kfs.module.ld.batch.service.impl.LaborScrubberServiceImpl">
 		<property name="flexibleOffsetAccountService">

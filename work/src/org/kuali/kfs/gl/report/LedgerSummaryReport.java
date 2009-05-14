@@ -123,12 +123,17 @@ public class LedgerSummaryReport {
             String currentBalanceType = detailList.get(0).getFinancialBalanceTypeCode();
             for (NightlyOutPendingEntryLedgerSummaryDetailLine detailLine : detailList) {
                 if (!detailLine.getFinancialBalanceTypeCode().equals(currentBalanceType)) {
-                    reportWriterService.writeTableRow(balanceTypeTotals.get(currentBalanceType));
+                    NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine subTitleLine = balanceTypeTotals.get(currentBalanceType);
+                    
+                    reportWriterService.writeTableRow(subTitleLine);
+                    reportWriterService.writeTableRowSeparationLine(subTitleLine);
                     currentBalanceType = detailLine.getFinancialBalanceTypeCode();
                 }
                 reportWriterService.writeTableRow(detailLine);
             }
             reportWriterService.writeTableRow(balanceTypeTotals.get(detailList.get(detailList.size()-1).getFinancialBalanceTypeCode()));
+            
+            reportWriterService.writeTableRowSeparationLine(ledgerTotalLine);
             reportWriterService.writeTableRow(ledgerTotalLine);
         }
     }

@@ -16,12 +16,13 @@
 package org.kuali.kfs.gl.businessobject;
 
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * A representation of LedgerEntries, which are summaries that show up on Ledger Reports created by the scrubber and poster.
  */
-public class LedgerEntryForReporting {
+public class LedgerEntryForReporting implements BusinessObject{
 
     private String balanceType;
     private String originCode;
@@ -343,4 +344,7 @@ public class LedgerEntryForReporting {
 
         return ledgerEntryDescription.toString();
     }
+
+    public void prepareForWorkflow() {}
+    public void refresh() { }
 }

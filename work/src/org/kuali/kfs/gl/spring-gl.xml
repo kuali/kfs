@@ -1702,7 +1702,7 @@
         	</map>
        	</property>
     </bean>
-    
+
 	<bean id="posterReversalErrorListingReportWriterService" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/gl"/>
 		<property name="fileNamePrefix" value="poster_reversal_error_list_"/>
@@ -2234,15 +2234,15 @@
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.PendingEntrySummary" />
 	    <property name="orderedPropertyNameToHeaderLabelMap">
     		<map>
-    			<entry key="documentTypeCode" value="Doc Type"/>
-    			<entry key="documentNumber" value="Document Number"/>
+    			<entry key="documentTypeCode" value="DOC TYPE"/>
+    			<entry key="documentNumber" value="DOC NUMBER"/>
     			<entry key="balanceTypeCode" value="BT"/>
     			<entry key="chartOfAccountsCode" value="COA"/>
-    			<entry key="accountNumber" value="Account Number"/>
-    			<entry key="financialObjectCode" value="Obj Cd"/>
-    			<entry key="creditAmount" value="Credit" />
-    			<entry key="debitAmount" value="Debit" />
-    			<entry key="budgetAmount" value="Blank" />
+    			<entry key="accountNumber" value="ACCOUNT NUMBER"/>
+    			<entry key="financialObjectCode" value="OBJ CD"/>
+    			<entry key="creditAmount" value="CREDIT" />
+    			<entry key="debitAmount" value="DEBIT" />
+    			<entry key="budgetAmount" value="BLANK" />
     		</map>
 	    </property>
 	    <property name="columnCount" value="9" />
@@ -2253,13 +2253,13 @@
 	    <property name="orderedPropertyNameToHeaderLabelMap">
     		<map>
     			<entry key="summary" value=" " />
-    			<entry key="recordCount" value="Record Count"/>
-    			<entry key="debitAmount" value="Debit Amount"/>
-    			<entry key="debitCount" value="Debit Count" />
-    			<entry key="creditAmount" value="Credit Amount"/>
-    			<entry key="creditCount" value="Credit Count" />
-    			<entry key="budgetAmount" value="No D/C Code Amount"/>
-    			<entry key="budgetCount" value="No D/C Code Count" />
+    			<entry key="recordCount" value="REC CNT"/>
+    			<entry key="debitAmount" value="DEBIT AMT"/>
+    			<entry key="debitCount" value="DEBIT CNT" />
+    			<entry key="creditAmount" value="CREDIT AMT"/>
+    			<entry key="creditCount" value="CREDIT CNT" />
+    			<entry key="budgetAmount" value="NO D/C AMT"/>
+    			<entry key="budgetCount" value="NO D/C CNT" />
     		</map>
 	    </property>
 	    <property name="columnCount" value="8" />
@@ -2269,14 +2269,14 @@
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine" />
 	    <property name="orderedPropertyNameToHeaderLabelMap">
     		<map>
-    			<entry key="summary" value=" " />
-    			<entry key="recordCount" value="Record Count"/>
-    			<entry key="debitAmount" value="Debit Amount"/>
-    			<entry key="debitCount" value="Debit Count" />
-    			<entry key="creditAmount" value="Credit Amount"/>
-    			<entry key="creditCount" value="Credit Count" />
-    			<entry key="budgetAmount" value="No D/C Code Amount"/>
-    			<entry key="budgetCount" value="No D/C Code Count" />
+                <entry key="summary" value=" " />
+    			<entry key="recordCount" value="REC CNT"/>
+    			<entry key="debitAmount" value="DEBIT AMT"/>
+    			<entry key="debitCount" value="DEBIT CNT" />
+    			<entry key="creditAmount" value="CREDIT AMT"/>
+    			<entry key="creditCount" value="CREDIT CNT" />
+    			<entry key="budgetAmount" value="NO D/C AMT"/>
+    			<entry key="budgetCount" value="NO D/C CNT" />
     		</map>
 	    </property>
 	    <property name="columnCount" value="8" />
@@ -2286,17 +2286,17 @@
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryDetailLine" />
 	    <property name="orderedPropertyNameToHeaderLabelMap">
     		<map>
-    			<entry key="financialBalanceTypeCode" value="Bal Typ"/>
-    			<entry key="financialSystemOriginationCode" value="Orig"/>
-    			<entry key="universityFiscalYear" value="Year"/>
-    			<entry key="universityAccountPeriodCode" value="Prd"/>
-    			<entry key="recordCount" value="Record Count"/>
-    			<entry key="debitAmount" value="Debit Amount"/>
-    			<entry key="debitCount" value="Debit Count" />
-    			<entry key="creditAmount" value="Credit Amount"/>
-    			<entry key="creditCount" value="Credit Count" />
-    			<entry key="budgetAmount" value="No D/C Code Amount"/>
-    			<entry key="budgetCount" value="No D/C Code Count" />
+    			<entry key="financialBalanceTypeCode" value="BAL TYP"/>
+    			<entry key="financialSystemOriginationCode" value="ORIG"/>
+    			<entry key="universityFiscalYear" value="YEAR"/>
+    			<entry key="universityAccountPeriodCode" value="PRD"/>
+    			<entry key="recordCount" value="REC CNT"/>
+    			<entry key="debitAmount" value="DEBIT AMT"/>
+    			<entry key="debitCount" value="DEBIT CNT" />
+    			<entry key="creditAmount" value="CREDIT AMT"/>
+    			<entry key="creditCount" value="CREDIT CNT" />
+    			<entry key="budgetAmount" value="NO D/C AMT"/>
+    			<entry key="budgetCount" value="NO D/C CNT" />
     		</map>
 	    </property>
 	    <property name="columnCount" value="11" />

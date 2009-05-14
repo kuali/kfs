@@ -41,7 +41,8 @@ public class LaborNightlyOutStep extends AbstractStep {
             laborNightlyOutService.copyApprovedPendingLedgerEntries();
         }
         catch (Exception e) {
-            LOG.fatal(e);
+            LOG.fatal(e.getStackTrace());
+            e.printStackTrace();
             return false;
         }
         return true;

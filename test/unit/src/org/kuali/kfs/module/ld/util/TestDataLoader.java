@@ -27,6 +27,7 @@ import java.util.Properties;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.module.ld.businessobject.LaborGeneralLedgerEntry;
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
@@ -35,6 +36,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.SpringContextForBatchRunner;
 import org.kuali.kfs.sys.TestDataPreparator;
+import org.kuali.kfs.sys.context.Log4jConfigurer;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class TestDataLoader {
@@ -60,6 +62,8 @@ public class TestDataLoader {
         fieldNames = properties.getProperty("fieldNames");
         fieldLength = properties.getProperty("fieldLength");
         deliminator = properties.getProperty("deliminator");
+        
+        Log4jConfigurer.configureLogging(false);
 
         SpringContextForBatchRunner.initializeApplicationContext();
         keyFieldList = Arrays.asList(StringUtils.split(fieldNames, deliminator));
@@ -87,6 +91,16 @@ public class TestDataLoader {
 
         businessObjectService.save(originEntries);
         return originEntries.size();
+    }
+    
+    public int loadTransactionIntoGLEntryTable() {
+        int numberOfInputData = Integer.valueOf(properties.getProperty("numOfData"));
+        int[] fieldLength = this.getFieldLength(fieldLengthList);
+        
+        List<LaborGeneralLedgerEntry> laborGLEntries = this.loadInputData(LaborGeneralLedgerEntry.class, "data", numberOfInputData, keyFieldList, fieldLength);
+        businessObjectService.save(laborGLEntries);
+        
+        return laborGLEntries.size();
     }
 
     private int loadInputData(String propertyKeyPrefix, int numberOfInputData, List<String> keyFieldList, int[] fieldLength) {
@@ -170,6 +184,11 @@ public class TestDataLoader {
             if (ArrayUtils.contains(args, "pending")) {
                 int numOfData = testDataLoader.loadTransactionIntoPendingEntryTable();
                 System.out.println("Number of Pending Entries = " + numOfData);
+            }
+            
+            if (ArrayUtils.contains(args, "glentry")) {
+                int numOfData = testDataLoader.loadTransactionIntoGLEntryTable();
+                System.out.println("Number of Labor GL Entries = " + numOfData);
             }
         }
         System.exit(0);

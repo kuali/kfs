@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.gl.businessobject.GlSummary;
+import org.kuali.kfs.gl.businessobject.LedgerEntryForReporting;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.batch.service.WrappingBatchService;
 import org.kuali.kfs.sys.context.KualiTestBase;
@@ -32,6 +33,7 @@ public class ReportWriterServiceTest extends KualiTestBase {
     
     private ReportWriterService tableReportWriterService;
     private ReportWriterService colspanTableReportWriterService;
+    private ReportWriterService ledgerReportWriterService;
 
     @Override
     public void setUp() throws Exception {
@@ -40,6 +42,7 @@ public class ReportWriterServiceTest extends KualiTestBase {
         Map<String, ReportWriterService> businessObjectReportHelperBeans = SpringContext.getBeansOfType(ReportWriterService.class);
         tableReportWriterService = businessObjectReportHelperBeans.get("tableReportWriterService");
         colspanTableReportWriterService = businessObjectReportHelperBeans.get("colspanTableReportWriterService");
+        ledgerReportWriterService = businessObjectReportHelperBeans.get("testLedgerReportWriterService");
     }
     
     public void testWriteTable() throws Exception{             
@@ -71,6 +74,28 @@ public class ReportWriterServiceTest extends KualiTestBase {
         GlSummary grandTotal = new GlSummary();
         grandTotal.setFundGroup("Grand Totals (AC):");
         colspanTableReportWriterService.writeTableRowWithColspan(grandTotal);
+    }
+    
+    public void testLedgerReport() throws Exception{             
+        ((WrappingBatchService) ledgerReportWriterService).initialize();
+        
+        List<LedgerEntryForReporting> ledgerEntries = this.getLedgerEntryTestData(40);
+        ledgerReportWriterService.writeTable(ledgerEntries, true, false);
+    }
+
+    private List<LedgerEntryForReporting> getLedgerEntryTestData(int countOfData) {
+        List<LedgerEntryForReporting> ledgerEntries = new ArrayList<LedgerEntryForReporting>();
+        for(int i = 0; i < countOfData; i++) {
+            LedgerEntryForReporting entry = new LedgerEntryForReporting();
+            entry.setBalanceType("Bal-" + i);
+            entry.setFiscalYear(2000 + i);
+            entry.setOriginCode("0" + i);
+            entry.setPeriod("P-" + i);
+            
+            ledgerEntries.add(entry);
+        }
+        
+        return ledgerEntries;
     }
 
     private List<GlSummary> getTestData(int countOfData) {

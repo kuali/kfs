@@ -691,6 +691,8 @@
         <property name="statisticsLabel" value="                                    S T A T I S T I C S                                    " />
         <property name="statisticsLeftPadding" value="                             " />
         <property name="pageLabel" value="PAGE:" />
+        <!-- Next line in a java \n newline character in XML notation since we're injecting it via Spring. -->
+        <property name="newLineCharacter" value="&#xA;" />
         <property name="dateTimeService">
             <ref bean="dateTimeService" />
         </property>

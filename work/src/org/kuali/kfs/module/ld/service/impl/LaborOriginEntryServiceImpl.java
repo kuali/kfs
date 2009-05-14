@@ -15,15 +15,11 @@
  */
 package org.kuali.kfs.module.ld.service.impl;
 
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -32,29 +28,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.gl.GeneralLedgerConstants;
-import org.kuali.kfs.gl.batch.service.impl.OriginEntryFileIterator;
-import org.kuali.kfs.gl.businessobject.LedgerEntryForReporting;
-import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
-import org.kuali.kfs.gl.businessobject.OriginEntryFull;
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
-import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.gl.businessobject.OriginEntryStatistics;
-import org.kuali.kfs.gl.dataaccess.OriginEntryDao;
-import org.kuali.kfs.gl.report.PosterOutputSummaryEntry;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.impl.OriginEntryServiceImpl;
-import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
-import org.kuali.kfs.module.ld.businessobject.LaborTransaction;
-import org.kuali.kfs.module.ld.dataaccess.LaborOriginEntryDao;
 import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
-import org.kuali.kfs.module.ld.util.LaborLedgerUnitOfWork;
+import org.kuali.kfs.module.ld.util.LaborOriginEntryFileIterator;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
-import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.Guid;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
 

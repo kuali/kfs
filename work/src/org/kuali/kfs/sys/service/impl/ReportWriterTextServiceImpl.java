@@ -61,6 +61,7 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
     protected String statisticsLabel;
     protected String statisticsLeftPadding;
     protected String pageLabel;
+    protected String newLineCharacter;
     protected DateTimeService dateTimeService;
 
     /**
@@ -256,7 +257,7 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
      * @see org.kuali.kfs.sys.service.ReportWriterService#writeFormattedMessageLine(java.lang.String, java.lang.Object[])
      */
     public void writeFormattedMessageLine(String format, Object... args) {
-        String message = String.format(format + "\n", args);
+        String message = String.format(format + newLineCharacter, args);
 
         // Log we are writing out of bounds. Would be nice to show message here but not so sure if it's wise to dump that data into
         // logs
@@ -277,7 +278,7 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
      */
     public void pageBreak() {
         // Intentionally not using writeFormattedMessageLine here since it would loop trying to page break ;)
-        printStream.printf("%c\n", 12);
+        printStream.printf("%c" + newLineCharacter, 12);
         page++;
         line = INITIAL_LINE_NUMBER;
         newPage = true;
@@ -477,7 +478,7 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
      */
     public String[] getMultipleFormattedMessageLines(String format, Object... args) {
         String message = String.format(format, args);
-        return StringUtils.split(message, "\n");
+        return StringUtils.split(message, newLineCharacter);
     }
 
     /**
@@ -577,6 +578,15 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
      */
     public void setPageLabel(String pageLabel) {
         this.pageLabel = pageLabel;
+    }
+    
+    /**
+     * Sets the newLineCharacter
+     * 
+     * @param newLineCharacter The newLineCharacter to set.
+     */
+    public void setNewLineCharacter(String newLineCharacter) {
+        this.newLineCharacter = newLineCharacter;
     }
 
     /**

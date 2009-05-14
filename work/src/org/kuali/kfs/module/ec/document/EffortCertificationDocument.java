@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
@@ -71,6 +72,9 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
 
     private List<EffortCertificationDetail> effortCertificationDetailLines;
     private List<EffortCertificationDetail> summarizedDetailLines;
+    
+    private Person ledgerPerson;
+    
 
     /**
      * Default constructor.
@@ -227,6 +231,28 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
         this.employee = employee;
     }
 
+    /**
+     * Gets the Person
+     * 
+     * @return Returns the Person
+     */
+    public Person getLedgerPerson() {
+        if(ledgerPerson == null || !StringUtils.equals(ledgerPerson.getEmployeeId(), emplid)) {
+            ledgerPerson = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(emplid);
+        }
+        
+        return ledgerPerson;
+    }
+
+    /**
+     * Sets the ledgerPerson
+     * 
+     * @param ledgerPerson The ledgerPerson to set.
+     */
+    public void setLedgerPerson(Person ledgerPerson) {
+        this.ledgerPerson = ledgerPerson;
+    }
+    
     /**
      * Gets the options attribute.
      * 

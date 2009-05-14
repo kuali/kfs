@@ -1212,7 +1212,9 @@ public class PurapServiceImpl implements PurapService {
                 tradeIdPrice = new KualiDecimal(((PaymentRequestItem)tradeIn).getPurchaseOrderItemUnitPrice());
             }
         }else{
-            tradeIdPrice = tradeIn.getExtendedPrice();
+            if (tradeIn != null){
+                tradeIdPrice = tradeIn.getExtendedPrice();
+            }
         }
         
         // If tradeIn is not null or zero get proration list for all non misc items and set (if not empty?)

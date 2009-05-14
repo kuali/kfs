@@ -74,10 +74,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="CampusParameter-campusCode-parentBean" abstract="true" parent="Campus-campusCode">
       <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder"
-            p:includeKeyInLabel="false" />
-    </property>
+          <bean parent="TextControlDefinition"
+                p:size="45" />
+      </property>
   </bean>  
   <bean id="CampusParameter-campus.campusName" parent="CampusParameter-campus.campusName-parentBean" />
 

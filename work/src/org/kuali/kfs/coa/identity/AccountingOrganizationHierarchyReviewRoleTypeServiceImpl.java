@@ -21,6 +21,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.role.dto.DelegateInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.KimDelegationTypeService;
@@ -67,4 +68,14 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
     public AttributeSet convertQualificationAttributesToRequired(AttributeSet qualificationAttributes) {
         return qualificationAttributes;
     }
+
+    @Override
+    public List<String> getUniqueAttributes(String kimTypeId){
+        List<String> uniqueAttributes = new ArrayList<String>();
+        uniqueAttributes.add(KimAttributes.DOCUMENT_TYPE_NAME);
+        uniqueAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+        uniqueAttributes.add(KfsKimAttributes.ORGANIZATION_CODE);
+        return uniqueAttributes;
+    }
+
 }

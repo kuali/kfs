@@ -21,11 +21,10 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.RiceKeyConstants;
 
 
 /**
@@ -121,5 +120,11 @@ public class FinancialSystemUserRoleTypeServiceImpl extends KimRoleTypeServiceBa
         }
         return errorMap;
     }
-        
+
+    @Override
+    public List<String> getUniqueAttributes(String kimTypeId){
+        List<String> uniqueAttributes = new ArrayList<String>();
+        uniqueAttributes.add(KimAttributes.NAMESPACE_CODE);
+        return uniqueAttributes;
+    }
 }

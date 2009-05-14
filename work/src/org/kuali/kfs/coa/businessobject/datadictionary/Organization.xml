@@ -250,6 +250,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="Organization-responsibilityCenterCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="responsibilityCenterCode" />
     <property name="label" value="Responsibility Center Code" />
+    <property name="forceUppercase" value="true" />
     <property name="shortLabel" value="RC" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >
@@ -267,6 +268,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="Organization-organizationPhysicalCampusCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationPhysicalCampusCode" />
     <property name="label" value="Organization Physical Campus Code" />
+    <property name="forceUppercase" value="true" />
     <property name="shortLabel" value="Physical Campus" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >

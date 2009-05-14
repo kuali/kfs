@@ -786,17 +786,29 @@
 		<property name="reportWriterService">
 			<ref bean="posterReportWriterService" />
 		</property>
+		<property name="errorReportWriterService">
+			<ref bean="posterErrorListingReportWriterService" />
+		</property>
 	</bean>
 
 	<bean id="glPosterIndirectCostRecoveryEntriesService" parent="glPosterService">
 		<property name="reportWriterService">
 			<ref bean="posterIndirectCostRecoveryEntriesReportWriterService" />
 		</property>
+		<property name="errorReportWriterService">
+			<ref bean="posterIndirectCostRecoveryEntriesErrorListingReportWriterService" />
+		</property>
 	</bean>
 	
 	<bean id="glPosterReversalService" parent="glPosterService">
 		<property name="reportWriterService">
 			<ref bean="posterReversalReportWriterService" />
+		</property>
+		<property name="errorReportWriterService">
+			<ref bean="posterReversalErrorListingReportWriterService" />
+		</property>
+		<property name="reversalReportWriterService">
+			<ref bean="posterReversalListingReportWriterService" />
 		</property>
 	</bean>
 	
@@ -1624,11 +1636,23 @@
        	</property>
     </bean>
 
+	<bean id="posterErrorListingReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/gl"/>
+		<property name="fileNamePrefix" value="poster_main_error_list_"/>
+        <property name="title" value="Main Poster Error Transaction Listing"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.gl.businessobject.OriginEntryFull" value="transactionListingReportHelper"/>
+        	</map>
+       	</property>
+    </bean>
+    
 	<bean id="posterEntriesStep" class="org.kuali.kfs.gl.batch.PosterEntriesStep" parent="wrappedStep">
 		<property name="wrappingBatchServices">
 			<list>
 				<ref bean="accountingCycleCachingService" />
 				<ref bean="posterReportWriterService" />
+				<ref bean="posterErrorListingReportWriterService" />
 			</list>
 		</property>
 		<property name="posterService" ref="glPosterEntriesService" />
@@ -1646,11 +1670,23 @@
        	</property>
     </bean>
 
+	<bean id="posterIndirectCostRecoveryEntriesErrorListingReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/gl"/>
+		<property name="fileNamePrefix" value="poster_icr_error_list_"/>
+        <property name="title" value="ICR Poster Error Transaction Listing"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.gl.businessobject.OriginEntryFull" value="transactionListingReportHelper"/>
+        	</map>
+       	</property>
+    </bean>
+
 	<bean id="posterIndirectCostRecoveryEntriesStep" class="org.kuali.kfs.gl.batch.PosterIndirectCostRecoveryEntriesStep" parent="wrappedStep">
 		<property name="wrappingBatchServices">
 			<list>
 				<ref bean="accountingCycleCachingService" />
 				<ref bean="posterIndirectCostRecoveryEntriesReportWriterService" />
+				<ref bean="posterIndirectCostRecoveryEntriesErrorListingReportWriterService" />
 			</list>
 		</property>
 		<property name="posterService" ref="glPosterIndirectCostRecoveryEntriesService" />
@@ -1666,12 +1702,36 @@
         	</map>
        	</property>
     </bean>
+    
+	<bean id="posterReversalErrorListingReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/gl"/>
+		<property name="fileNamePrefix" value="poster_reversal_error_list_"/>
+        <property name="title" value="Reversal Poster Error Transaction Listing"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.gl.businessobject.Reversal" value="transactionListingReportHelper"/>
+        	</map>
+       	</property>
+    </bean>
+    
+    <bean id="posterReversalListingReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/gl"/>
+		<property name="fileNamePrefix" value="poster_reversal_list_"/>
+        <property name="title" value="Reversal Poster Transaction Listing"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.gl.businessobject.Reversal" value="transactionListingReportHelper"/>
+        	</map>
+       	</property>
+    </bean>
 
 	<bean id="posterReversalStep" class="org.kuali.kfs.gl.batch.PosterReversalStep" parent="wrappedStep">
 		<property name="wrappingBatchServices">
 			<list>
 				<ref bean="accountingCycleCachingService" />
 				<ref bean="posterReversalReportWriterService" />
+				<ref bean="posterReversalErrorListingReportWriterService" />
+				<ref bean="posterReversalListingReportWriterService" />
 			</list>
 		</property>
 		<property name="posterService" ref="glPosterReversalService" />

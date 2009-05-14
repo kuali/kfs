@@ -50,49 +50,81 @@ import com.lowagie.text.pdf.PdfWriter;
 public class TransactionListingReport {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransactionListingReport.class);
 
+    protected int transactionCount;
+    protected KualiDecimal debitTotal;
+    protected KualiDecimal creditTotal;
+    protected KualiDecimal budgetTotal;
+    
     public TransactionListingReport() {
         super();
+        
+        transactionCount = 0;
+        debitTotal = KualiDecimal.ZERO;
+        creditTotal = KualiDecimal.ZERO;
+        budgetTotal = KualiDecimal.ZERO;
     }
+    
+    /**
+     * This will write a transaction to the report. It collects data in order for this to be a listing, hence it is the developers responsibility
+     * to call generateStatistics after printing the listing.
+     * 
+     * @param reportWriterService destination report
+     * @param transaction Transaction to be printed
+     */
+    public void generateReport(ReportWriterService reportWriterService, Transaction transaction) {
+        LOG.debug("generateReport() started");
 
+        if (transaction != null) {
+            if (transactionCount == 0) {
+                reportWriterService.writeTableHeader(transaction);
+            }
+            
+            reportWriterService.writeTableRow(transaction);
+            
+            if (KFSConstants.GL_DEBIT_CODE.equals(transaction.getTransactionDebitCreditCode())) {
+                debitTotal = debitTotal.add(transaction.getTransactionLedgerEntryAmount());
+            }
+            if (KFSConstants.GL_CREDIT_CODE.equals(transaction.getTransactionDebitCreditCode())) {
+                creditTotal = creditTotal.add(transaction.getTransactionLedgerEntryAmount());
+            }
+            if (!KFSConstants.GL_CREDIT_CODE.equals(transaction.getTransactionDebitCreditCode()) && !KFSConstants.GL_DEBIT_CODE.equals(transaction.getTransactionDebitCreditCode())) {
+                budgetTotal = budgetTotal.add(transaction.getTransactionLedgerEntryAmount());
+            }
+            transactionCount++;
+        }
+    }
+    
+    /**
+     * Writes the statistics to the report that were collected by this class
+     * 
+     * @param reportWriterService destination report
+     */
+    public void generateStatistics(ReportWriterService reportWriterService) {
+        LOG.debug("generateStatistics() started");
+        
+        reportWriterService.writeStatisticLine("Total Transactions                %,9d", transactionCount);
+        reportWriterService.writeStatisticLine("Total Debit Amount                %,9.2f", debitTotal.doubleValue());
+        reportWriterService.writeStatisticLine("Total Credit Amount               %,9.2f", creditTotal.doubleValue());
+        reportWriterService.writeStatisticLine("Total Budget Amount               %,9.2f", budgetTotal.doubleValue());
+    }
+    
     /**
      * This will generate a report on the transactions passed to it
      * 
+     * @param reportWriterService destination report
      * @param transactions Transactions sorted properly
-     * @param runDate date report is run
-     * @param title title of report
-     * @param fileprefix file prefix of file
-     * @param destinationDirectory directory where file resides
      */
-    public void generateReport(ReportWriterService reportWriterService, Iterator<? extends Transaction> transactions, Date runDate) {
+    public void generateReport(ReportWriterService reportWriterService, Iterator<? extends Transaction> transactions) {
         LOG.debug("generateReport() started");
-
-        int transactionCount = 0;
-        KualiDecimal debitTotal = KualiDecimal.ZERO;
-        KualiDecimal creditTotal = KualiDecimal.ZERO;
-        KualiDecimal budgetTotal = KualiDecimal.ZERO;
 
         if (transactions != null) {
             while (transactions.hasNext()) {
                 Transaction tran = (Transaction) transactions.next();
 
-                reportWriterService.writeTableRow(tran);
-                
-                if (KFSConstants.GL_DEBIT_CODE.equals(tran.getTransactionDebitCreditCode())) {
-                    debitTotal = debitTotal.add(tran.getTransactionLedgerEntryAmount());
-                }
-                if (KFSConstants.GL_CREDIT_CODE.equals(tran.getTransactionDebitCreditCode())) {
-                    creditTotal = creditTotal.add(tran.getTransactionLedgerEntryAmount());
-                }
-                if (!KFSConstants.GL_CREDIT_CODE.equals(tran.getTransactionDebitCreditCode()) && !KFSConstants.GL_DEBIT_CODE.equals(tran.getTransactionDebitCreditCode())) {
-                    budgetTotal = budgetTotal.add(tran.getTransactionLedgerEntryAmount());
-                }
-                transactionCount++;
+                this.generateReport(reportWriterService, tran);
             }
         }
 
-        reportWriterService.writeStatisticLine("Total Transactions                %,9d", transactionCount);
-        reportWriterService.writeStatisticLine("Total Debit Amount                %,9.2f", debitTotal.doubleValue());
-        reportWriterService.writeStatisticLine("Total Credit Amount               %,9.2f", creditTotal.doubleValue());
-        reportWriterService.writeStatisticLine("Total Budget Amount               %,9.2f", budgetTotal.doubleValue());
+        this.generateStatistics(reportWriterService);
     }
 }

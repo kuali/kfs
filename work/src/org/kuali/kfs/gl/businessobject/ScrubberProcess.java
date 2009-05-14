@@ -53,7 +53,6 @@ import org.kuali.kfs.gl.batch.service.impl.FilteringOriginEntryFileIterator;
 import org.kuali.kfs.gl.batch.service.impl.OriginEntryFileIterator;
 import org.kuali.kfs.gl.batch.service.impl.FilteringOriginEntryFileIterator.OriginEntryFilter;
 import org.kuali.kfs.gl.report.CollectorReportData;
-import org.kuali.kfs.gl.report.TextReportHelper;
 import org.kuali.kfs.gl.report.TransactionListingReport;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.OriginEntryService;
@@ -1998,7 +1997,7 @@ public class ScrubberProcess {
     protected void generateScrubberTransactionListingReport(String documentNumber, String inputFileName) {
         ((DocumentNumberAwareReportWriterService) scrubberListingReportWriterService).setDocumentNumber(documentNumber);
         ((WrappingBatchService) scrubberListingReportWriterService).initialize();
-        new TransactionListingReport().generateReport(scrubberListingReportWriterService, new OriginEntryFileIterator(new File(inputFileName)), runDate);
+        new TransactionListingReport().generateReport(scrubberListingReportWriterService, new OriginEntryFileIterator(new File(inputFileName)));
         ((WrappingBatchService) scrubberListingReportWriterService).destroy();
     }
     
@@ -2015,11 +2014,11 @@ public class ScrubberProcess {
             }
         };
         Iterator<OriginEntryFull> blankBalanceOriginEntries = new FilteringOriginEntryFileIterator(new File(inputFileName), blankBalanceTypeFilter);
-        new TransactionListingReport().generateReport(scrubberBadBalanceListingReportWriterService, blankBalanceOriginEntries, runDate);   
+        new TransactionListingReport().generateReport(scrubberBadBalanceListingReportWriterService, blankBalanceOriginEntries);   
     }
     
     protected void generateDemergerRemovedTransactionsReport(String errorFileName) {
         OriginEntryFileIterator removedTransactions = new OriginEntryFileIterator(new File(errorFileName));
-        new TransactionListingReport().generateReport(demergerRemovedTransactionsListingReportWriterService, removedTransactions, runDate);
+        new TransactionListingReport().generateReport(demergerRemovedTransactionsListingReportWriterService, removedTransactions);
     }
 }

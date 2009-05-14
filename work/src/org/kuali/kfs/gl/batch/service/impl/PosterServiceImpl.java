@@ -61,6 +61,7 @@ import org.kuali.kfs.gl.businessobject.Reversal;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.dataaccess.ExpenditureTransactionDao;
 import org.kuali.kfs.gl.dataaccess.ReversalDao;
+import org.kuali.kfs.gl.report.TransactionListingReport;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.gl.service.ReportService;
@@ -119,7 +120,10 @@ public class PosterServiceImpl implements PosterService {
     private BusinessObjectService businessObjectService;
     private PersistenceStructureService persistenceStructureService;
     private ReportWriterService reportWriterService;
+    private ReportWriterService errorReportWriterService;
+    private ReportWriterService reversalReportWriterService;
     
+    private File OUTPUT_ERR_FILE;
     private PrintStream OUTPUT_ERR_FILE_ps;
     private PrintStream OUTPUT_GLE_FILE_ps;
     private String batchFileDirectoryName;
@@ -136,7 +140,8 @@ public class PosterServiceImpl implements PosterService {
         try{
             INPUT_GLE_FILE = new FileReader(batchFileDirectoryName + File.separator +  GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
             INPUT_GLE_FILE_br = new BufferedReader(INPUT_GLE_FILE);
-            OUTPUT_ERR_FILE_ps = new PrintStream(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.POSTER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);    
+            OUTPUT_ERR_FILE = new File(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.POSTER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);    
+            OUTPUT_ERR_FILE_ps = new PrintStream(OUTPUT_ERR_FILE);
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();
             throw new RuntimeException("PosterMainEntries Stopped: " + e1.getMessage(), e1);
@@ -152,7 +157,8 @@ public class PosterServiceImpl implements PosterService {
         Date runDate = dateTimeService.getCurrentSqlDate();
         try{
             OUTPUT_GLE_FILE_ps = new PrintStream(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.REVERSAL_POSTER_VALID_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
-            OUTPUT_ERR_FILE_ps = new PrintStream(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.REVERSAL_POSTER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
+            OUTPUT_ERR_FILE = new File(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.REVERSAL_POSTER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
+            OUTPUT_ERR_FILE_ps = new PrintStream(OUTPUT_ERR_FILE);
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();
             throw new RuntimeException("PosterReversalEntries Stopped: " + e1.getMessage(), e1);
@@ -169,7 +175,8 @@ public class PosterServiceImpl implements PosterService {
         try{
         INPUT_GLE_FILE = new FileReader(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.ICR_POSTER_INPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
         INPUT_GLE_FILE_br = new BufferedReader(INPUT_GLE_FILE);
-        OUTPUT_ERR_FILE_ps = new PrintStream(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.ICR_POSTER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
+        OUTPUT_ERR_FILE = new File(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.ICR_POSTER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
+        OUTPUT_ERR_FILE_ps = new PrintStream(OUTPUT_ERR_FILE);
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();
             throw new RuntimeException("PosterIcrEntries Stopped: " + e1.getMessage(), e1);
@@ -188,7 +195,6 @@ public class PosterServiceImpl implements PosterService {
         Date executionDate = new Date(dateTimeService.getCurrentDate().getTime());
         Date runDate = new Date(runDateService.calculateRunDate(executionDate).getTime());
         UniversityDate runUniversityDate = universityDateDao.getByPrimaryKey(runDate);
-        Iterator reversalTransactions = null;
 
         // Build the summary map so all the possible combinations of destination & operation
         // are included in the summary part of the report.
@@ -241,20 +247,27 @@ public class PosterServiceImpl implements PosterService {
                 LOG.debug("postEntries() Processing reversal transactions");
                 
                 final String GL_REVERSAL_T = MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(Reversal.class).getFullTableName();
-                reversalTransactions = reversalDao.getByDate(runDate);
+                Iterator reversalTransactions = reversalDao.getByDate(runDate);
+                TransactionListingReport reversalListingReport = new TransactionListingReport();
                 while (reversalTransactions.hasNext()) {
                     ecount++;
                     Transaction tran = (Transaction) reversalTransactions.next();
                     addReporting(reportSummary, GL_REVERSAL_T, GeneralLedgerConstants.SELECT_CODE);
 
-                    postTransaction(tran, mode, reportSummary, OUTPUT_ERR_FILE_ps, runUniversityDate, GL_REVERSAL_T);
+                    boolean posted = postTransaction(tran, mode, reportSummary, OUTPUT_ERR_FILE_ps, runUniversityDate, GL_REVERSAL_T);
+                    
+                    if (posted) {
+                        reversalListingReport.generateReport(reversalReportWriterService, tran);
+                    }
+                    
                     if (ecount % 1000 == 0) {
                         LOG.info("postEntries() Posted Entry " + ecount);
                     }
                 }
                 
+                OUTPUT_ERR_FILE_ps.close();
                 reportWriterService.writeStatisticLine("GLRV RECORDS READ (GL_REVERSAL_T)          %,9d", reportSummary.get("GL_REVERSAL_T,S"));
-                //reportService.generatePosterReversalTransactionsListing(executionDate, runDate, validGroup);
+                reversalListingReport.generateStatistics(reversalReportWriterService);
             }
             
             //PDF version had this abstracted to print I/U/D for each table in 7 posters, but some statistics are meaningless (i.e. GLEN is never updated), so un-abstracted here
@@ -288,7 +301,7 @@ public class PosterServiceImpl implements PosterService {
         LOG.info("postEntries() done, total count = " + ecount);
         // Generate the reports
         //reportService.generatePosterStatisticsReport(executionDate, runDate, reportSummary, transactionPosters, reportError, mode);
-        //reportService.generatePosterErrorTransactionListing(executionDate, runDate, invalidGroup, mode);
+        new TransactionListingReport().generateReport(errorReportWriterService, new OriginEntryFileIterator(OUTPUT_ERR_FILE));
     }
 
     /**
@@ -301,8 +314,9 @@ public class PosterServiceImpl implements PosterService {
      * @param invalidGroup the group to save invalid entries to
      * @param validGroup the gorup to save valid posted entries into
      * @param runUniversityDate the university date of this poster run
+     * @return whether the transaction was posted or not. Useful if calling class attempts to report on the transaction
      */
-    private void postTransaction(Transaction tran, int mode, Map<String,Integer> reportSummary, PrintStream invalidGroup, UniversityDate runUniversityDate, String line) {
+    private boolean postTransaction(Transaction tran, int mode, Map<String,Integer> reportSummary, PrintStream invalidGroup, UniversityDate runUniversityDate, String line) {
 
         List<Message> errors = new ArrayList();
         Transaction originalTransaction = tran;
@@ -424,8 +438,12 @@ public class PosterServiceImpl implements PosterService {
                         reversalDao.delete((Reversal) originalTransaction);
                         addReporting(reportSummary, MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(Reversal.class).getFullTableName(), GeneralLedgerConstants.DELETE_CODE);
                     }
+                    
+                    return true;
                 }
             }
+            
+            return false;
         }
         catch (IOException ioe) {
             LOG.error("PosterServiceImpl Stopped: " + ioe.getMessage());
@@ -1048,4 +1066,11 @@ public class PosterServiceImpl implements PosterService {
         this.reportWriterService = reportWriterService;
     }
 
+    public void setErrorReportWriterService(ReportWriterService errorReportWriterService) {
+        this.errorReportWriterService = errorReportWriterService;
+    }
+
+    public void setReversalReportWriterService(ReportWriterService reversalReportWriterService) {
+        this.reversalReportWriterService = reversalReportWriterService;
+    }
 }

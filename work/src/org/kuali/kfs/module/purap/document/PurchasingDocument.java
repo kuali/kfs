@@ -36,10 +36,10 @@ import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
 import org.kuali.kfs.module.purap.businessobject.RequisitionSource;
 import org.kuali.kfs.module.purap.document.service.PurchasingDocumentSpecificService;
 import org.kuali.kfs.module.purap.util.ItemParser;
+import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.businessobject.PurchaseOrderCostSource;
 import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 
@@ -378,12 +378,12 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
      */
     public void setChartOfAccounts(Chart chartOfAccounts);
 
-    public Campus getDeliveryCampus();
+    public CampusParameter getDeliveryCampus();
 
     /**
      * @deprecated
      */
-    public void setDeliveryCampus(Campus deliveryCampus);
+    public void setDeliveryCampus(CampusParameter deliveryCampus);
 
     public Chart getNonInstitutionFundOrgChartOfAccounts();
 

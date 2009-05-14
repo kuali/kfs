@@ -617,7 +617,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                 // grab the first account
                 PurApAccountingLine theAccount = getFirstAccount();
                 // setup variables
-                String deliveryCampus = StringUtils.trimToEmpty((getProcessingCampus() != null ? getProcessingCampus().getCampusShortName() : ""));
+                String deliveryCampus = StringUtils.trimToEmpty((getProcessingCampus() != null ? getProcessingCampus().getCampus().getCampusShortName() : ""));
                 String accountNumber = (theAccount != null ? StringUtils.trimToEmpty(theAccount.getAccountNumber()) : "");
                 String department = (theAccount != null ? StringUtils.trimToEmpty((((theAccount.getAccount() != null) && (theAccount.getAccount().getOrganization() != null)) ? theAccount.getAccount().getOrganization().getOrganizationName() : "")) : "");
                 documentTitle = new StringBuffer("Vendor: ").append(vendorName).append(" PO: ").append(poNumber).append(" Account Number: ").append(accountNumber).append(" Dept: ").append(department).append(" Delivery Campus: ").append(deliveryCampus).toString();

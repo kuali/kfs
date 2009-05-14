@@ -37,7 +37,6 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.CountryService;
@@ -117,13 +116,13 @@ public class FaxServiceImpl implements FaxService {
             LOG.debug("faxPurchaseOrderPdf() ended");
         }
 
-        Campus deliveryCampus = pdfParameters.getCampusParameter().getCampus();
+        CampusParameter deliveryCampus = pdfParameters.getCampusParameter();
 
         if (deliveryCampus == null) {
             GlobalVariables.getErrorMap().putError("errors", "pdf.error", "delivery campus is null.");
             LOG.debug("faxPurchaseOrderPdf() ended");
         }
-        String campusName = deliveryCampus.getCampusName();
+        String campusName = deliveryCampus.getCampus().getCampusName();
         if (campusName == null) {
             LOG.debug("faxPurchaseOrderPdf() ended");
             throw new RuntimeException("Campus Information is missing - campusName: " + campusName);

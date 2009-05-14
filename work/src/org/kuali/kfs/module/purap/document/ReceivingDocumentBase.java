@@ -30,15 +30,14 @@ import org.kuali.kfs.module.purap.util.PurApRelatedViews;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.entity.KimPrincipal;
 import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
@@ -89,7 +88,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     private String alternateVendorNumber;
     private boolean sensitive;
 
-    private Campus deliveryCampus;
+    private CampusParameter deliveryCampus;
     private Country vendorCountry;
     private Carrier carrier;
     private VendorDetail vendorDetail;
@@ -359,14 +358,14 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
         this.deliveryRequiredDateReasonCode = deliveryRequiredDateReasonCode;
     }
 
-    public Campus getDeliveryCampus() {
-        return deliveryCampus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, deliveryCampus, "deliveryCampus");
+    public CampusParameter getDeliveryCampus() {
+        return deliveryCampus;
     }
 
     /**
      * @deprecated
      */
-    public void setDeliveryCampus(Campus deliveryCampus) {
+    public void setDeliveryCampus(CampusParameter deliveryCampus) {
         this.deliveryCampus = deliveryCampus;
     }
 

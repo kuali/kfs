@@ -237,7 +237,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
             String accountNumber = accountingLine != null ? accountingLine.getAccountNumber() : "";
             String chartCode = getChartOfAccountsCode();
             String orgCode = getOrganizationCode();
-            String deliveryCampus = getDeliveryCampus() != null ? getDeliveryCampus().getCampusShortName() : "";
+            String deliveryCampus = getDeliveryCampus() != null ? getDeliveryCampus().getCampus().getCampusShortName() : "";
             String documentTitle = "";
          
             String[] nodeNames = getDocumentHeader().getWorkflowDocument().getNodeNames();

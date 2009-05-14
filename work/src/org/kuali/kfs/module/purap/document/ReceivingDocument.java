@@ -19,11 +19,10 @@ import java.sql.Date;
 
 import org.kuali.kfs.module.purap.businessobject.Carrier;
 import org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason;
-import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
-import org.kuali.rice.kns.bo.Country;
+import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.document.TransactionalDocument;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -152,7 +151,7 @@ public interface ReceivingDocument extends TransactionalDocument, PurapItemOpera
 
     public void setDeliveryRequiredDateReasonCode(String deliveryRequiredDateReasonCode);
 
-    public Campus getDeliveryCampus();
+    public CampusParameter getDeliveryCampus();
 
     public Carrier getCarrier();
 

@@ -25,10 +25,8 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -61,7 +59,7 @@ public class VendorContract extends PersistableBusinessObjectBase implements Ven
     private List<VendorContractOrganization> vendorContractOrganizations;
 
     private VendorDetail vendorDetail;
-    private Campus vendorCampus;
+    private CampusParameter vendorCampus;
     private ContractManager contractManager;
     private PurchaseOrderCostSource purchaseOrderCostSource;
     private PaymentTermType vendorPaymentTerms;
@@ -244,8 +242,8 @@ public class VendorContract extends PersistableBusinessObjectBase implements Ven
     }
 
 
-    public Campus getVendorCampus() {
-        return vendorCampus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, vendorCampus, "vendorCampus");
+    public CampusParameter getVendorCampus() {
+        return vendorCampus;
     }
 
     /**
@@ -254,7 +252,7 @@ public class VendorContract extends PersistableBusinessObjectBase implements Ven
      * @param vendorCampus The vendorCampus to set.
      * @deprecated
      */
-    public void setVendorCampus(Campus vendorCampus) {
+    public void setVendorCampus(CampusParameter vendorCampus) {
         this.vendorCampus = vendorCampus;
     }
 

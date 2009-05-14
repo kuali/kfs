@@ -18,10 +18,8 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Campus;
+import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.KualiModuleService;
 
 /**
  * Billing Address Business Object.
@@ -39,7 +37,7 @@ public class BillingAddress extends PersistableBusinessObjectBase {
     private String billingPhoneNumber;
     private boolean active;
 
-    private Campus billingCampus;
+    private CampusParameter billingCampus;
 
     /**
      * Default constructor.
@@ -120,14 +118,14 @@ public class BillingAddress extends PersistableBusinessObjectBase {
         this.billingPhoneNumber = billingPhoneNumber;
     }
 
-    public Campus getBillingCampus() {
-        return billingCampus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, billingCampus, "billingCampus");
+    public CampusParameter getBillingCampus() {
+        return billingCampus;
     }
 
     /**
      * @deprecated
      */
-    public void setBillingCampus(Campus billingCampus) {
+    public void setBillingCampus(CampusParameter billingCampus) {
         this.billingCampus = billingCampus;
     }
 

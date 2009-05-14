@@ -49,20 +49,19 @@ import org.kuali.kfs.module.purap.document.service.ReceivingAddressService;
 import org.kuali.kfs.module.purap.util.ItemParser;
 import org.kuali.kfs.module.purap.util.ItemParserBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
 import org.kuali.kfs.vnd.businessobject.PurchaseOrderCostSource;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
 import org.kuali.rice.kns.service.CountryService;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -154,7 +153,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private RecurringPaymentType recurringPaymentType;
     private Organization organization;
     private Chart chartOfAccounts;
-    private Campus deliveryCampus;
+    private CampusParameter deliveryCampus;
     private Chart nonInstitutionFundOrgChartOfAccounts;
     private Organization nonInstitutionFundOrganization;
     private Account nonInstitutionFundAccount;
@@ -900,8 +899,8 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         return chartOfAccounts;
     }
 
-    public Campus getDeliveryCampus() {
-        return deliveryCampus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, deliveryCampus, "deliveryCampus");
+    public CampusParameter getDeliveryCampus() {
+        return deliveryCampus;
     }
 
     public DeliveryRequiredDateReason getDeliveryRequiredDateReason() {
@@ -964,7 +963,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     /**
      * @deprecated
      */
-    public void setDeliveryCampus(Campus deliveryCampus) {
+    public void setDeliveryCampus(CampusParameter deliveryCampus) {
         this.deliveryCampus = deliveryCampus;
     }
 

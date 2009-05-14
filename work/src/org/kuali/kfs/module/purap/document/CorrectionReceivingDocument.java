@@ -12,8 +12,8 @@ import org.kuali.kfs.module.purap.businessobject.ReceivingItem;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -220,7 +220,7 @@ public class CorrectionReceivingDocument extends ReceivingDocumentBase {
     }
 
     @Override
-    public Campus getDeliveryCampus() {
+    public CampusParameter getDeliveryCampus() {
         return getLineItemReceivingDocument().getDeliveryCampus();
     }
 

@@ -36,13 +36,12 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -82,7 +81,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     protected PurApItemUseTax offsetUseTax;
 
     // REFERENCE OBJECTS
-    private Campus processingCampus;
+    private CampusParameter processingCampus;
     private transient PurchaseOrderDocument purchaseOrderDocument;
     private Bank bank;
     
@@ -318,8 +317,8 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         this.noteLine3Text = noteLine3Text;
     }
 
-    public Campus getProcessingCampus() {
-        return processingCampus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, processingCampus, "processingCampus");
+    public CampusParameter getProcessingCampus() {
+        return processingCampus;
     }
 
     public String getChartOfAccountsCode() {
@@ -410,7 +409,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
      * @deprecated
      * @param processingCampus
      */
-    public void setProcessingCampus(Campus processingCampus) {
+    public void setProcessingCampus(CampusParameter processingCampus) {
         this.processingCampus = processingCampus;
     }
 

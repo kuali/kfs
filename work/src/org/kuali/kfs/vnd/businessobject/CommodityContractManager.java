@@ -2,11 +2,8 @@ package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
-import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.KualiModuleService;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -17,7 +14,7 @@ public class CommodityContractManager extends PersistableBusinessObjectBase {
 	private String campusCode;
 	private Integer contractManagerCode;
 
-    private Campus campus;
+    private CampusParameter campus;
     private CommodityCode commodityCode;
     private ContractManager contractManager;
     
@@ -52,8 +49,8 @@ public class CommodityContractManager extends PersistableBusinessObjectBase {
 		this.contractManagerCode = contractManagerCode;
 	}
 
-	public Campus getCampus() { 
-        return campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, campus, "campus");
+	public CampusParameter getCampus() { 
+        return campus;
 	}
 
 	/**
@@ -62,7 +59,7 @@ public class CommodityContractManager extends PersistableBusinessObjectBase {
 	 * @param campus The campus to set.
 	 * @deprecated
 	 */
-	public void setCampus(Campus campus) {
+	public void setCampus(CampusParameter campus) {
 		this.campus = campus;
 	}
 

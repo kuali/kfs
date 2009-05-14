@@ -358,6 +358,10 @@
     <reference-descriptor name="capitalAssetSystemState" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="capitalAssetSystemStateCode" />
     </reference-descriptor>
+    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.kfs.vnd.businessobject.CampusParameter" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >
+    	<foreignkey field-ref="deliveryCampusCode" />
+    </reference-descriptor>  
+    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.FundingSource" table="PUR_FND_SRC_T">
@@ -599,6 +603,9 @@
     <reference-descriptor name="capitalAssetSystemState" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="capitalAssetSystemStateCode" />
     </reference-descriptor>
+    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.kfs.vnd.businessobject.CampusParameter" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >
+    	<foreignkey field-ref="deliveryCampusCode" />
+    </reference-descriptor>      
     <!-- SPECIFIC TO PO DOCUMENT -->
     <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
@@ -832,7 +839,9 @@
     <reference-descriptor name="capitalAssetSystemState" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="capitalAssetSystemStateCode" />
     </reference-descriptor>
-    
+    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.kfs.vnd.businessobject.CampusParameter" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >
+    	<foreignkey field-ref="deliveryCampusCode" />
+    </reference-descriptor>      
     <!-- SPECIFIC TO PO DOCUMENT -->
     <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
@@ -1067,7 +1076,9 @@
     <reference-descriptor name="capitalAssetSystemState" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="capitalAssetSystemStateCode" />
     </reference-descriptor>
-    
+    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.kfs.vnd.businessobject.CampusParameter" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >
+    	<foreignkey field-ref="deliveryCampusCode" />
+    </reference-descriptor>      
     <!-- SPECIFIC TO PO DOCUMENT -->
     <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
@@ -1303,7 +1314,9 @@
     <reference-descriptor name="capitalAssetSystemState" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="capitalAssetSystemStateCode" />
     </reference-descriptor>
-    
+    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.kfs.vnd.businessobject.CampusParameter" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >
+    	<foreignkey field-ref="deliveryCampusCode" />
+    </reference-descriptor>      
     <!-- SPECIFIC TO PO DOCUMENT -->
     <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
@@ -1538,7 +1551,9 @@
     <reference-descriptor name="capitalAssetSystemState" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="capitalAssetSystemStateCode" />
     </reference-descriptor>
-    
+    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.kfs.vnd.businessobject.CampusParameter" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >
+    	<foreignkey field-ref="deliveryCampusCode" />
+    </reference-descriptor>      
     <!-- SPECIFIC TO PO DOCUMENT -->
     <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
@@ -1773,7 +1788,9 @@
     <reference-descriptor name="capitalAssetSystemState" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="capitalAssetSystemStateCode" />
     </reference-descriptor>
-    
+    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.kfs.vnd.businessobject.CampusParameter" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >
+    	<foreignkey field-ref="deliveryCampusCode" />
+    </reference-descriptor>      
     <!-- SPECIFIC TO PO DOCUMENT -->
     <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
@@ -2008,7 +2025,9 @@
     <reference-descriptor name="capitalAssetSystemState" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="capitalAssetSystemStateCode" />
     </reference-descriptor>
-    
+    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.kfs.vnd.businessobject.CampusParameter" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >
+    	<foreignkey field-ref="deliveryCampusCode" />
+    </reference-descriptor>      
     <!-- SPECIFIC TO PO DOCUMENT -->
     <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
@@ -2243,7 +2262,9 @@
     <reference-descriptor name="capitalAssetSystemState" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="capitalAssetSystemStateCode" />
     </reference-descriptor>
-    
+    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.kfs.vnd.businessobject.CampusParameter" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >
+    	<foreignkey field-ref="deliveryCampusCode" />
+    </reference-descriptor>      
     <!-- SPECIFIC TO PO DOCUMENT -->
     <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
@@ -2478,7 +2499,9 @@
     <reference-descriptor name="capitalAssetSystemState" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="capitalAssetSystemStateCode" />
     </reference-descriptor>
-    
+    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.kfs.vnd.businessobject.CampusParameter" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >
+    	<foreignkey field-ref="deliveryCampusCode" />
+    </reference-descriptor>      
     <!-- SPECIFIC TO PO DOCUMENT -->
     <reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="purchaseOrderVendorChoiceCode" />
@@ -2635,6 +2658,9 @@
     <reference-descriptor name="bank" class-ref="org.kuali.kfs.sys.businessobject.Bank" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >
     	<foreignkey field-ref="bankCode" />
     </reference-descriptor>
+    <reference-descriptor name="processingCampus" class-ref="org.kuali.kfs.vnd.businessobject.CampusParameter" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >
+    	<foreignkey field-ref="processingCampusCode" />
+    </reference-descriptor>    
    <!--  
    <reference-descriptor name="incomeClass" class-ref="org.kuali.kfs.fp.businessobject.TaxIncomeClassCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
     	<foreignkey field-ref="taxClassificationCode" />
@@ -3162,6 +3188,10 @@
         <foreignkey field-ref="invoiceLoadSummaryIdentifier"/>
     </reference-descriptor>
 
+    <reference-descriptor name="purchaseOrderDeliveryCampus" class-ref="org.kuali.kfs.vnd.businessobject.CampusParameter" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >
+    	<foreignkey field-ref="purchaseOrderDeliveryCampusCode" />
+    </reference-descriptor>  
+    
     <collection-descriptor auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true"
         element-class-ref="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectItem" name="invoiceRejectItems">
         <orderby name="invoiceItemLineNumber" sort="ASC"/>
@@ -3503,6 +3533,9 @@
     <reference-descriptor name="bank" class-ref="org.kuali.kfs.sys.businessobject.Bank" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >
     	<foreignkey field-ref="bankCode" />
     </reference-descriptor>
+    <reference-descriptor name="processingCampus" class-ref="org.kuali.kfs.vnd.businessobject.CampusParameter" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >
+    	<foreignkey field-ref="processingCampusCode" />
+    </reference-descriptor>  
     <collection-descriptor name="items" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.CreditMemoItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="purapDocumentIdentifier" />
         <query-customizer class="org.kuali.kfs.module.purap.dataaccess.impl.PurapItemQueryCustomizer">
@@ -3714,6 +3747,9 @@
     <reference-descriptor name="lineItemReceivingStatus" class-ref="org.kuali.kfs.module.purap.businessobject.LineItemReceivingStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="lineItemReceivingStatusCode" />
     </reference-descriptor>
+    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.kfs.vnd.businessobject.CampusParameter" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >
+    	<foreignkey field-ref="deliveryCampusCode" />
+    </reference-descriptor>     
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.LineItemReceivingItem" table="PUR_RCVNG_LN_ITM_T">
@@ -3769,6 +3805,9 @@
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
+    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.kfs.vnd.businessobject.CampusParameter" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >
+    	<foreignkey field-ref="deliveryCampusCode" />
+    </reference-descriptor>     
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.CorrectionReceivingItem" table="PUR_RCVNG_COR_ITM_T">
@@ -4058,6 +4097,10 @@
         <foreignkey field-ref="alternateVendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="alternateVendorDetailAssignedIdentifier" />
     </reference-descriptor>
+    
+    <reference-descriptor name="deliveryCampus" class-ref="org.kuali.kfs.vnd.businessobject.CampusParameter" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >
+    	<foreignkey field-ref="deliveryCampusCode" />
+    </reference-descriptor> 
     
 </class-descriptor> 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.CreditMemoItemUseTax" table="AP_CRDT_MEMO_ITM_USE_TAX_T">

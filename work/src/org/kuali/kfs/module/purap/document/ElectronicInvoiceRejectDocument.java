@@ -26,10 +26,9 @@ import org.kuali.kfs.module.purap.util.PurApRelatedViews;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.document.SessionDocument;
-import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -141,7 +140,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
 
     private String vendorNumber;
     
-    private Campus purchaseOrderDeliveryCampus;
+    private CampusParameter purchaseOrderDeliveryCampus;
     
     /**
    * 
@@ -1850,8 +1849,8 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
         return getPurchaseOrderDeliveryCampusCode();
     }
 
-    public Campus getPurchaseOrderDeliveryCampus() {
-        return purchaseOrderDeliveryCampus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, purchaseOrderDeliveryCampus, "purchaseOrderDeliveryCampus");
+    public CampusParameter getPurchaseOrderDeliveryCampus() {
+        return purchaseOrderDeliveryCampus;
     }
     
     public Date getAccountsPayableApprovalDateForSearch(){

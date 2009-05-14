@@ -31,10 +31,10 @@ import org.kuali.kfs.coa.businessobject.AccountDelegateModelDetail;
 import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.FinancialSystemGlobalMaintainable;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
-import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
@@ -43,7 +43,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
  * 
  * @see OrganizationRoutingModelName
  */
-public class AccountDelegateGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
+public class AccountDelegateGlobalMaintainableImpl extends FinancialSystemGlobalMaintainable {
 
     /**
      * This method is used for the creation of a delegate from a {@link OrganizationRoutingModelName}
@@ -59,7 +59,7 @@ public class AccountDelegateGlobalMaintainableImpl extends KualiGlobalMaintainab
         // then let's see if we've actually got a model record
         if (!StringUtils.isBlank(globalDelegate.getModelName()) && !StringUtils.isBlank(globalDelegate.getModelChartOfAccountsCode()) && !StringUtils.isBlank(globalDelegate.getModelOrganizationCode())) {
             Map pkMap = new HashMap();
-            pkMap.put("organizationRoutingModelName", globalDelegate.getModelName());
+            pkMap.put("accountDelegateModelName", globalDelegate.getModelName());
             pkMap.put("chartOfAccountsCode", globalDelegate.getModelChartOfAccountsCode());
             pkMap.put("organizationCode", globalDelegate.getModelOrganizationCode());
 

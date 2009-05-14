@@ -81,21 +81,16 @@ public class AssetPresentationController extends FinancialSystemMaintenanceDocum
             fields.addAll(Arrays.asList(CamsConstants.Asset.FABRICATION_INFORMATION_FIELDS));
         }
 
-        AssetAuthorizer documentAuthorizer = (AssetAuthorizer) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(document);
-        boolean isAuthorized = documentAuthorizer.isAuthorized(document, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.EDIT_WHEN_TAGGED_PRIOR_FISCAL_YEAR, GlobalVariables.getUserSession().getPerson().getPrincipalId());
-
         Asset asset = (Asset) document.getNewMaintainableObject().getBusinessObject();
-        if (asset.isTagged() && isAuthorized) {
-            // if tag was created in a prior fiscal year, set tag number, asset type code and description as view only
-            if (SpringContext.getBean(AssetService.class).isAssetTaggedInPriorFiscalYear(asset)) {
+        // if tag was created in a prior fiscal year, set tag number, asset type code and description as view only
+        if (SpringContext.getBean(AssetService.class).isAssetTaggedInPriorFiscalYear(asset)) {
+            AssetAuthorizer documentAuthorizer = (AssetAuthorizer) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(document);
+            boolean isAuthorized = documentAuthorizer.isAuthorized(document, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.EDIT_WHEN_TAGGED_PRIOR_FISCAL_YEAR, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+            if (!isAuthorized) {
                 fields.addAll(SpringContext.getBean(ParameterService.class).getParameterValues(Asset.class, CamsConstants.Parameters.EDITABLE_FIELDS_WHEN_TAGGED_PRIOR_FISCAL_YEAR));
-            }
-            else {
-                // Set the Tag Number as view only
-                fields.add(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER);
-            }
+            }                
         }
-
+        
         return fields;
     }
 

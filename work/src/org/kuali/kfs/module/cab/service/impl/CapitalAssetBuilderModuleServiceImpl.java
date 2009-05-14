@@ -1685,9 +1685,9 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param documentNumber
      * @return
      */
-    private Integer getPurchaseOrderIdentifier(String documentNumber) {
+    private Integer getPurchaseOrderIdentifier(String camsDocumentNumber) {
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(CabPropertyConstants.PurchasingAccountsPayableItemAsset.CAMS_DOCUMENT_NUMBER, documentNumber);
+        fieldValues.put(CabPropertyConstants.PurchasingAccountsPayableItemAsset.CAMS_DOCUMENT_NUMBER, camsDocumentNumber);
         Collection<PurchasingAccountsPayableItemAsset> matchingItems = this.getBusinessObjectService().findMatching(PurchasingAccountsPayableItemAsset.class, fieldValues);
 
         for (PurchasingAccountsPayableItemAsset item : matchingItems) {
@@ -1695,6 +1695,20 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 item.refreshReferenceObject(CabPropertyConstants.PurchasingAccountsPayableItemAsset.PURCHASING_ACCOUNTS_PAYABLE_DOCUMENT);
             }
             return item.getPurchasingAccountsPayableDocument().getPurchaseOrderIdentifier();
+        }
+        return null;
+    }
+
+    /**
+     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#getCurrentPurchaseOrderDocumentNumber(java.lang.String)
+     */
+    public String getCurrentPurchaseOrderDocumentNumber(String camsDocumentNumber) {
+        Integer poId = getPurchaseOrderIdentifier(camsDocumentNumber);
+        if (poId != null) {
+            PurchaseOrderDocument poDocument = getPurApInfoService().getCurrentDocumentForPurchaseOrderIdentifier(poId);
+            if (ObjectUtils.isNotNull(poDocument)) {
+                return poDocument.getDocumentNumber();
+            }
         }
         return null;
     }

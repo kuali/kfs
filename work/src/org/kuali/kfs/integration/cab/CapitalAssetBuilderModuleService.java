@@ -27,6 +27,14 @@ import org.kuali.rice.kns.bo.DocumentHeader;
 public interface CapitalAssetBuilderModuleService {
 
     /**
+     * Get current Purchase Order Document number for given CAMS Document Number
+     * 
+     * @param camsDocumentNumber
+     * @return
+     */
+    String getCurrentPurchaseOrderDocumentNumber(String camsDocumentNumber);
+
+    /**
      * validate the capitalAssetManagementAsset data associated with the given accounting document
      * 
      * @param accountingDocument the given accounting document
@@ -35,23 +43,23 @@ public interface CapitalAssetBuilderModuleService {
      */
     public boolean validateFinancialProcessingData(AccountingDocument accountingDocument, CapitalAssetInformation capitalAssetInformation);
 
-    
+
     public boolean validatePurchasingData(AccountingDocument accountingDocument);
-    
+
     public boolean validateAccountsPayableData(AccountingDocument accountingDocument);
 
     public boolean doesAccountingLineFailAutomaticPurchaseOrderRules(AccountingLine accountingLine);
-    
+
     public boolean doesDocumentFailAutomaticPurchaseOrderRules(AccountingDocument accountingDocument);
 
     public boolean doesItemNeedCapitalAsset(String itemTypeCode, List accountingLines);
-    
+
     public boolean validateUpdateCAMSView(AccountingDocument accountingDocumen);
 
     public boolean validateAddItemCapitalAssetBusinessRules(ItemCapitalAsset asset);
 
     public boolean warningObjectLevelCapital(AccountingDocument accountingDocument);
-    
+
     public boolean validateItemCapitalAssetWithErrors(String recurringPaymentTypeCode, ExternalPurApItem item, boolean apoCheck);
 
     public List<CapitalAssetBuilderAssetTransactionType> getAllAssetTransactionTypes();
@@ -73,5 +81,5 @@ public interface CapitalAssetBuilderModuleService {
      *         otherwise, false
      */
     public boolean hasCapitalAssetObjectSubType(AccountingDocument accountingDocument);
-    
+
 }

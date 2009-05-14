@@ -102,10 +102,11 @@ public class CamsConstants extends JSTLConstants {
         public static final String ASSET_FABRICATION = "FR";
         public static final String ASSET_LOCATION_GLOBAL = "ALOC";
         public static final String ASSET_BARCODE_INVENTORY_ERROR = "BCIE";
-        public static final String ASSET_SEPARATE = "ASEP"; // Will be used for lock purposed only                
-		public static final String ASSET_PAYMENT_FROM_CAB = "MPAYCAB";    
-	    public static final String ASSET_FP_INQUIRY = "AFPINQ";        
-        public static final String ASSET_PREQ_INQUIRY = "APREQINQ";        
+        // Below docTypes will be used for locking purposed only
+        public static final String ASSET_SEPARATE = "ASEP";
+        public static final String ASSET_PAYMENT_FROM_CAB = "MPAYCAB";
+        public static final String ASSET_FP_INQUIRY = "AFPINQ";
+        public static final String ASSET_PREQ_INQUIRY = "APREQINQ";
     }
 
     public static class PaymentDocumentTypeCodes {

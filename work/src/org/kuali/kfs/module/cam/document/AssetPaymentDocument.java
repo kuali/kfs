@@ -18,6 +18,7 @@ package org.kuali.kfs.module.cam.document;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
@@ -54,6 +55,21 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         this.setAssetPaymentAssetDetail(new TypedArrayList(AssetPaymentAssetDetail.class));
     }
 
+    /**
+     * Lock on purchase order document since post processor will update PO document by adding notes.
+     * 
+     * @see org.kuali.rice.kns.document.DocumentBase#getWorkflowEngineDocumentIdsToLock()
+     */
+    @Override
+    public Long[] getWorkflowEngineDocumentIdsToLock() {
+        if (this.isCapitalAssetBuilderOriginIndicator()) {
+            String poDocId = SpringContext.getBean(CapitalAssetBuilderModuleService.class).getCurrentPurchaseOrderDocumentNumber(this.getDocumentNumber());
+            if (StringUtils.isNotBlank(poDocId)) {
+                return new Long[] { new Long(poDocId) };
+            }
+        }
+        return null;
+    }
 
     /**
      * Determines if the given AccountingLine (as a GeneralLedgerPostable) is a credit or a debit, in terms of GLPE generation

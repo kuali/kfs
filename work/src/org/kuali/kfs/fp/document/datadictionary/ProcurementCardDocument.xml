@@ -69,6 +69,7 @@
 	  <property name="importedLinePropertyPrefix" value="target"/>
 	  <property name="totals" ref="ProcurementCard-targetGroupTotals"/>
 	  <property name="errorKey" value="document.transactionEntries*,*targetAccountingLines*,*newTargetLine*"/>
+	  <property name="accountingLineGroupClass" value="org.kuali.kfs.fp.document.web.ProcurementCardAccoutingLineGroupImpl"/>
   </bean>
   
   <bean id="ProcurementCard-accountingLineView" parent="ProcurementCard-accountingLineView-parent"/> 

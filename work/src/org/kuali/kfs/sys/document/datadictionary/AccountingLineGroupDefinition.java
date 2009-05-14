@@ -16,11 +16,13 @@
 package org.kuali.kfs.sys.document.datadictionary;
 
 import java.util.List;
+import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.AccountingLineParser;
+import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer;
+import org.kuali.kfs.sys.document.web.DefaultAccountingLineGroupImpl;
+import org.kuali.kfs.sys.document.web.RenderableAccountingLineContainer;
 import org.kuali.rice.kns.datadictionary.DataDictionaryDefinitionBase;
 import org.kuali.rice.kns.datadictionary.exception.AttributeValidationException;
 
@@ -39,6 +41,7 @@ public class AccountingLineGroupDefinition extends DataDictionaryDefinitionBase 
     private boolean topHeadersAfterFirstLineHiding = true;
     private boolean headerRendering = true;
     private boolean importingAllowed = true;
+    private Class<? extends DefaultAccountingLineGroupImpl> accountingLineGroupClass = org.kuali.kfs.sys.document.web.DefaultAccountingLineGroupImpl.class;
     
     private List<? extends AccountingLineViewActionDefinition> accountingLineGroupActions;
     
@@ -279,5 +282,46 @@ public class AccountingLineGroupDefinition extends DataDictionaryDefinitionBase 
      */
     public void setImportingAllowed(boolean importingAllowed) {
         this.importingAllowed = importingAllowed;
+    }
+
+    /**
+     * Gets the accountingLineGroupClass attribute. 
+     * @return Returns the accountingLineGroupClass.
+     */
+    public Class<? extends DefaultAccountingLineGroupImpl> getAccountingLineGroupClass() {
+        return accountingLineGroupClass;
+    }
+
+    /**
+     * Sets the accountingLineGroupClass attribute value.
+     * @param accountingLineGroupClass The accountingLineGroupClass to set.
+     */
+    public void setAccountingLineGroupClass(Class<? extends DefaultAccountingLineGroupImpl> accountingLineGroupClass) {
+        this.accountingLineGroupClass = accountingLineGroupClass;
+    }
+    
+    /**
+     * Creates a new accounting line group for this definition
+     * @param accountingDocument the document which owns or will own the accounting line being rendered
+     * @param containers the containers within this group
+     * @param collectionPropertyName the property name of the collection of accounting lines owned by this group
+     * @param errors a List of errors keys for errors on the page
+     * @param displayedErrors a Map of errors that have already been displayed
+     * @param canEdit determines if the page can be edited or not
+     * @return a newly created and initialized accounting line group
+     */
+    public DefaultAccountingLineGroupImpl createAccountingLineGroup(AccountingDocument accountingDocument, List<RenderableAccountingLineContainer> containers, String collectionPropertyName, String collectionItemPropertyName, List errors, Map displayedErrors, boolean canEdit) {
+        DefaultAccountingLineGroupImpl accountingLineGroup = null;
+        try {
+            accountingLineGroup = getAccountingLineGroupClass().newInstance();
+            accountingLineGroup.initialize(this, accountingDocument, containers, collectionPropertyName, collectionItemPropertyName, errors, displayedErrors, canEdit);
+        }
+        catch (InstantiationException ie) {
+            throw new RuntimeException("Could not initialize new AccountingLineGroup implementation of class: "+getAccountingLineGroupClass().getName(), ie);
+        }
+        catch (IllegalAccessException iae) {
+            throw new RuntimeException("Could not initialize new AccountingLineGroup implementation of class: "+getAccountingLineGroupClass().getName(), iae);
+        }
+        return accountingLineGroup;
     }
 }

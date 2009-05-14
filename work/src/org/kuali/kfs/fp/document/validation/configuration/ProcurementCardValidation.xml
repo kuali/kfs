@@ -32,7 +32,7 @@
 	
 	<bean id="ProcurementCard-addAccountingLineValidation" parent="ProcurementCard-addAccountingLineValidation-parentBean" scope="prototype" />	
 	<bean id="ProcurementCard-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-		<property name="validations">
+	  	<property name="validations">
 			<list>
                 <bean parent="AccountingDocument-AddAccountingLine-DefaultValidation" scope="prototype" />
                 
@@ -89,18 +89,14 @@
 					</property>
 				</bean>
 			</list>
-		</property>
+		</property> 
 	</bean>
 	
 	<bean id="ProcurementCard-updateAccountingLineValidation" parent="ProcurementCard-updateAccountingLineValidation-parentBean" scope="prototype" />	
 	<bean id="ProcurementCard-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-		<property name="validations">
+	  	<property name="validations">
   			<list>
-                <bean parent="AccountingDocument-UpdateAccountingLine-DefaultValidation" scope="prototype">
-                    <property name="quitOnFail" value="true" />
-                </bean>
-                
-				<bean parent="ProcurementCard-newAccountingLineBranchingValidation" scope="prototype">
+			 	<bean parent="ProcurementCard-newAccountingLineBranchingValidation" scope="prototype">
 					<property name="branchMap">
 						<map>
 							<entry>
@@ -130,7 +126,11 @@
 							</bean>
 						</list>
 					</property>
-				</bean>
+				</bean> 
+			
+			  	<bean parent="AccountingDocument-UpdateAccountingLine-DefaultValidation" scope="prototype">
+                    <property name="quitOnFail" value="true" />
+                </bean>
 			
 				<bean parent="ProcurementCard-objectCodeValidation" scope="prototype">
 					<property name="parameterProperties">
@@ -154,8 +154,9 @@
 					</property>
                     <property name="quitOnFail" value="true" />
 				</bean>
+				
 			</list>
-		</property>
+		</property> 
 	</bean>
 	
 	<bean id="ProcurementCard-reviewAccountingLineValidation" parent="ProcurementCard-reviewAccountingLineValidation-parentBean" scope="prototype" />	

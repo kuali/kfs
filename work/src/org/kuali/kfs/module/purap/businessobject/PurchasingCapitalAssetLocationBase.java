@@ -20,11 +20,9 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.sys.businessobject.Building;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -44,7 +42,7 @@ public abstract class PurchasingCapitalAssetLocationBase extends PersistableBusi
     private String capitalAssetPostalCode;
     private String capitalAssetCountryCode;
     
-    private Campus campus;
+    private CampusParameter campus;
 
     public PurchasingCapitalAssetLocationBase() {
         super();
@@ -150,11 +148,11 @@ public abstract class PurchasingCapitalAssetLocationBase extends PersistableBusi
         this.capitalAssetCountryCode = capitalAssetCountryCode;
     }
 
-    public Campus getCampus() { 
-        return campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, campus, "campus");
+    public CampusParameter getCampus() { 
+        return campus;
     }
 
-    public void setCampus(Campus campus) {
+    public void setCampus(CampusParameter campus) {
     	this.campus = campus;
     }
     

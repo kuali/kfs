@@ -3913,6 +3913,10 @@
 	<field-descriptor name="capitalAssetStateCode" column="CPTL_AST_ST_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="capitalAssetPostalCode" column="CPTL_AST_PSTL_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="capitalAssetCountryCode" column="CPTL_AST_CNTRY_CD" jdbc-type="VARCHAR"/>
+    <reference-descriptor name="campus" class-ref="org.kuali.kfs.vnd.businessobject.CampusParameter" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >
+    	<foreignkey field-ref="campusCode" />
+    </reference-descriptor>
+
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetLocation" table="PUR_PO_CPTL_AST_LOC_T">
@@ -3933,6 +3937,9 @@
     <reference-descriptor name="purchaseOrderCapitalAssetSystem" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetSystem" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="capitalAssetSystemIdentifier" />
     </reference-descriptor> 	
+    <reference-descriptor name="campus" class-ref="org.kuali.kfs.vnd.businessobject.CampusParameter" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >
+    	<foreignkey field-ref="campusCode" />
+    </reference-descriptor>    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState" table="PUR_CPTL_AST_SYS_ST_T">
@@ -3956,7 +3963,7 @@
     </reference-descriptor>    
     <reference-descriptor name="purchasingCapitalAssetSystem" class-ref="org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetSystem" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <foreignkey field-ref="capitalAssetSystemIdentifier" />
-    </reference-descriptor>           
+    </reference-descriptor>            
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetItem" table="PUR_PO_CPTL_AST_ITM_T">

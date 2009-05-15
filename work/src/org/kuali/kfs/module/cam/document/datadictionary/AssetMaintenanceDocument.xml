@@ -21,7 +21,7 @@
         <ref bean="AssetMaintenanceDocument-Warranty"/>
         <ref bean="AssetMaintenanceDocument-RepairHistory"/>
         <ref bean="AssetMaintenanceDocument-Components"/>
-		<ref bean="AssetMaintenanceDocument-ViewRelatedDocumentLink"/>        
+		<ref bean="AssetMaintenanceDocument-ViewRelatedDocumentLink"/>       
       </list>
     </property>
     <property name="defaultExistenceChecks">
@@ -402,11 +402,11 @@
      	<bean parent="MaintainableFieldDefinition" p:name="assetEquipmentLoanOrReturnDocumentLookup"/>	                        
      	<bean parent="MaintainableFieldDefinition" p:name="assetLocationDocumentLookup"/>	                        
      	<bean parent="MaintainableFieldDefinition" p:name="assetMergeOrRetirementDocumentLookup"/>	                        
+     	<bean parent="MaintainableFieldDefinition" p:name="camsComplexMaintenanceDocumentLookup"/>	                        
       </list>
 	</property>
   </bean>
   
-
   
   <bean id="AssetMaintenanceDocument-workflowAttributes" parent="AssetMaintenanceDocument-workflowAttributes-parentBean"/>
 	

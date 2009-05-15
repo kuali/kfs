@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.cab.CabKeyConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.Pretag;
 import org.kuali.kfs.module.cab.businessobject.PretagDetail;
@@ -39,12 +40,14 @@ import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 
 /**
@@ -92,8 +95,20 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
+        
+        // get the documentAuthorizer for this document
+        MaintenanceDocumentAuthorizer documentAuthorizer = (MaintenanceDocumentAuthorizer) getDocumentHelperService().getDocumentAuthorizer(document);
+        
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        boolean success = true;
+        if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()){
+            success &= documentAuthorizer.canCreateOrMaintain((MaintenanceDocument)document, GlobalVariables.getUserSession().getPerson());
+            if (!success) {
+                putFieldError(CabPropertyConstants.Pretag.CHART_OF_ACCOUNTS_CODE, CabKeyConstants.CHART_ORG_DISALLOWED_BY_CURRENT_USER);
+            }
+        }
 
-        return processPretagValidation() & super.processCustomRouteDocumentBusinessRules(document);
+        return success & super.processCustomRouteDocumentBusinessRules(document);
     }
 
     /**

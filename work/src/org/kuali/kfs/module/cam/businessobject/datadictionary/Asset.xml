@@ -162,6 +162,7 @@
 		<ref bean="Asset-relatedDocument-assetEquipmentLoanOrReturnDocumentLookup"/>
 		<ref bean="Asset-relatedDocument-assetLocationDocumentLookup"/>
 		<ref bean="Asset-relatedDocument-assetMergeOrRetirementDocumentLookup"/>
+		<ref bean="Asset-relatedDocument-camsComplexMaintenanceDocumentLookup"/>
 
       </list>
     </property>
@@ -358,6 +359,21 @@
 <bean id="Asset-relatedDocument-assetMergeOrRetirementDocumentLookup-parentBean" abstract="true" parent="AttributeDefinition">
 	<property name="name" value="assetMergeOrRetirementDocumentLookup" />
 	<property name="label" value="Asset Retirement Global or Merge" />
+    <property name="maxLength" value="1000" />
+    <property name="required" value="false"/>    
+	<property name="control" >
+		<bean parent="LinkControlDefinition"
+			p:styleClass="globalLinks"
+			p:target="_blank"
+			p:hrefText="click here"
+		/>
+	</property>
+</bean>
+
+<bean id="Asset-relatedDocument-camsComplexMaintenanceDocumentLookup" parent="Asset-relatedDocument-camsComplexMaintenanceDocumentLookup-parentBean" />
+<bean id="Asset-relatedDocument-camsComplexMaintenanceDocumentLookup-parentBean" abstract="true" parent="AttributeDefinition">
+	<property name="name" value="camsComplexMaintenanceDocumentLookup" />
+	<property name="label" value="Asset Maintenance, Fabrication, Location, Create, Separate, Retirement or Merge" />
     <property name="maxLength" value="1000" />
     <property name="required" value="false"/>    
 	<property name="control" >

@@ -55,4 +55,6 @@ public class CabKeyConstants {
         public static final String ERROR_ASSET_ACTIVE_CAPITAL_ASSET_REQUIRED = "error.asset.active.capital.asset.required";
         
     }
+    
+    public static final String CHART_ORG_DISALLOWED_BY_CURRENT_USER = "chart.org.disallowed.by.current.user";
 }

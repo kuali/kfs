@@ -155,6 +155,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     private String assetEquipmentLoanOrReturnDocumentLookup;
     private String assetLocationDocumentLookup;
     private String assetMergeOrRetirementDocumentLookup;
+    private String camsComplexMaintenanceDocumentLookup;
     private boolean tagged;
 
     /**
@@ -2105,6 +2106,23 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
 
         return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
     }
+
+
+    /**
+     * Gets the camsComplexMaintenanceDocumentLookup attribute.
+     * 
+     * @return Returns the camsComplexMaintenanceDocumentLookup.
+     */
+    public String getCamsComplexMaintenanceDocumentLookup() {
+        if (this.getCapitalAssetNumber() == null)
+            return "";
+
+        Properties params = buildDocumentLookupLinkProperties();
+        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, "CAMM");
+
+        return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
+    }
+
 
     /**
      * override this method so we can remove the offcampus location

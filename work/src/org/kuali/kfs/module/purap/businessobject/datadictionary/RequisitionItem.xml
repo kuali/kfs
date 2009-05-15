@@ -64,7 +64,7 @@
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="5" />
+            p:size="1" />
     </property>
   </bean>
   <bean id="RequisitionItem-itemUnitOfMeasureCode" parent="RequisitionItem-itemUnitOfMeasureCode-parentBean" />
@@ -80,7 +80,7 @@
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="10" />
+            p:size="5" />
     </property>
   </bean>
   
@@ -97,7 +97,7 @@
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="10" />
+            p:size="1" />
     </property>
   </bean>
   <bean id="RequisitionItem-itemAssignedToTradeInIndicator" parent="RequisitionItem-itemAssignedToTradeInIndicator-parentBean" />
@@ -105,7 +105,7 @@
   <bean id="RequisitionItem-itemAssignedToTradeInIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="itemAssignedToTradeInIndicator" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Item Assigned To Trade In Indicator" />
+    <property name="label" value="Assigned To Trade In" />
     <property name="shortLabel" value="Assigned To Trade In" />
     <property name="maxLength" value="1" />
     <property name="control" >
@@ -116,7 +116,7 @@
 
   <bean id="RequisitionItem-extendedPrice-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="extendedPrice" />
-    <property name="label" value="Extended Price" />
+    <property name="label" value="Extended Cost" />
     <property name="shortLabel" value="Extended Cost" />
   </bean>
   <bean id="RequisitionItem-itemUnitPrice" parent="RequisitionItem-itemUnitPrice-parentBean" />
@@ -131,7 +131,7 @@
   <bean id="RequisitionItem-itemTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="itemTypeCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Item Type Code" />
+    <property name="label" value="Item Type" />
     <property name="shortLabel" value="Item Type" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >
@@ -149,7 +149,7 @@
   <bean id="RequisitionItem-itemCatalogNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="itemCatalogNumber" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Item Catalog Number" />
+    <property name="label" value="Catalog #" />
     <property name="shortLabel" value="Catalog #" />
     <property name="maxLength" value="30" />
     <property name="validationPattern" >
@@ -256,7 +256,7 @@
   <bean id="RequisitionItem-itemRestrictedIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="itemRestrictedIndicator" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Item Restricted Indicator" />
+    <property name="label" value="Restricted" />
     <property name="shortLabel" value="Restricted" />
     <property name="maxLength" value="1" />
     <property name="control" >

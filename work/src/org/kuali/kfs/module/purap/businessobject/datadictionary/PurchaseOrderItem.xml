@@ -87,7 +87,7 @@
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="10" />
+            p:size="5" />
     </property>
   </bean>
   <bean id="PurchaseOrderItem-purapDocumentIdentifier" parent="PurchaseOrderItem-purapDocumentIdentifier-parentBean" />
@@ -103,7 +103,7 @@
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="10" />
+            p:size="1" />
     </property>
   </bean>
   <bean id="PurchaseOrderItem-itemAssignedToTradeInIndicator" parent="PurchaseOrderItem-itemAssignedToTradeInIndicator-parentBean" />
@@ -111,7 +111,7 @@
   <bean id="PurchaseOrderItem-itemAssignedToTradeInIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="itemAssignedToTradeInIndicator" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Item Assigned To Trade In Indicator" />
+    <property name="label" value="Assigned To Trade In" />
     <property name="shortLabel" value="Assigned To Trade In" />
     <property name="maxLength" value="1" />
     <property name="control" >
@@ -122,7 +122,7 @@
 
   <bean id="PurchaseOrderItem-extendedPrice-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="extendedPrice" />
-    <property name="label" value="Extended Price" />
+    <property name="label" value="Extended Cost" />
     <property name="shortLabel" value="Extended Cost" />
   </bean>
   <bean id="PurchaseOrderItem-itemUnitPrice" parent="PurchaseOrderItem-itemUnitPrice-parentBean" />
@@ -137,7 +137,7 @@
   <bean id="PurchaseOrderItem-itemTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="itemTypeCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Item Type Code" />
+    <property name="label" value="Item Type" />
     <property name="shortLabel" value="Item Type" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >
@@ -155,7 +155,7 @@
   <bean id="PurchaseOrderItem-itemCatalogNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="itemCatalogNumber" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Item Catalog Number" />
+    <property name="label" value="Catalog #" />
     <property name="shortLabel" value="Catalog #" />
     <property name="maxLength" value="30" />
     <property name="validationPattern" >

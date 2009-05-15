@@ -16,12 +16,10 @@
 package org.kuali.kfs.module.ld.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -33,10 +31,7 @@ import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.report.BalanceEncumbranceReport;
 import org.kuali.kfs.gl.report.BalanceReport;
 import org.kuali.kfs.gl.report.LedgerReport;
-import org.kuali.kfs.gl.report.PosterOutputSummaryEntry;
-import org.kuali.kfs.gl.report.PosterOutputSummaryReport;
 import org.kuali.kfs.gl.report.Summary;
-import org.kuali.kfs.gl.report.TransactionListingReport;
 import org.kuali.kfs.gl.report.TransactionReport;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.OriginEntryService;
@@ -61,34 +56,6 @@ public class LaborReportServiceImpl implements LaborReportService {
     private OriginEntryService originEntryService;
     private OriginEntryGroupService originEntryGroupService;
     private LaborLedgerBalanceService laborLedgerBalanceService;
-
-    /**
-     * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateInputSummaryReport(java.util.Collection,
-     *      org.kuali.kfs.module.ld.util.ReportRegistry, java.lang.String, java.util.Date)
-     */
-//    public void generateInputSummaryReport(Collection<OriginEntryGroup> groups, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
-//        LOG.info("generateInputSummaryReport() started");
-//
-//        LedgerEntryHolder ledgerEntries;
-//        ledgerEntries = groups.size() > 0 ? laborOriginEntryService.getSummariedEntriesByGroups(groups) : new LedgerEntryHolder();
-//
-//        LedgerReport ledgerReport = new LedgerReport();
-//        ledgerReport.generateReport(ledgerEntries, runDate, reportInfo.reportTitle(), reportInfo.reportFilename(), reportsDirectory);
-//    }
-
-    /**
-     * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateInputSummaryReport(org.kuali.kfs.gl.businessobject.OriginEntryGroup,
-     *      org.kuali.kfs.module.ld.util.ReportRegistry, java.lang.String, java.util.Date)
-     */
-    //TODO: Shawn - will clean up after all reports are done
-//    public void generateInputSummaryReport(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
-//        LOG.info("generateInputSummaryReport() started");
-//
-//        List<OriginEntryGroup> groups = new ArrayList<OriginEntryGroup>();
-//        groups.add(group);
-//
-//        this.generateInputSummaryReport(groups, reportInfo, reportsDirectory, runDate);
-//    }
 
     /**
      * @see org.kuali.kfs.module.ld.batch.service.LaborReportService#generateStatisticsReport(java.util.List, java.util.Map,

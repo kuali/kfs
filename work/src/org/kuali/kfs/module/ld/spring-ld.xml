@@ -359,9 +359,12 @@
         <property name="reportWriterService">
             <ref bean="laborPosterReportWriterService" />
         </property>
-        <property name="errorReportWriterService">
+        <property name="errorListingReportWriterService">
             <ref bean="laborPosterErrorListingReportWriterService" />
         </property>
+		<property name="ledgerSummaryReportWriterService">
+			<ref bean="laborPosterLedgerSummaryReportWriterService" />
+		</property>        
         <property name="laborPosterTransactionValidator">
             <ref bean="laborPosterTransactionValidator" />
         </property>
@@ -467,7 +470,7 @@
             </map>
         </property>
     </bean>
-
+      
     <bean id="laborReportService" class="org.kuali.kfs.module.ld.service.impl.LaborReportServiceImpl">
         <property name="laborOriginEntryService">
             <ref bean="laborOriginEntryService" />
@@ -591,12 +594,26 @@
        	</property>
     </bean>
 	
+    <bean id="laborPosterLedgerSummaryReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/ld"/>
+		<property name="fileNamePrefix" value="labor_poster_main_ledger_"/>
+        <property name="title" value="Main Labor Poster Input Transactions"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryTotalLine" value="nightlyOutPendingEntryLedgerSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine" value="nightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryDetailLine" value="nightlyOutPendingEntryLedgerSummaryDetailLineReportHelper" />
+        	</map>
+       	</property>
+    </bean>
+    	
 	<bean id="laborPosterStep" class="org.kuali.kfs.module.ld.batch.LaborPosterStep" parent="wrappedStep">
 		<property name="wrappingBatchServices">
 			<list>
 				<ref bean="laborAccountingCycleCachingService" />
 				<ref bean="laborPosterReportWriterService" />
 				<ref bean="laborPosterErrorListingReportWriterService" />
+				<ref bean="laborPosterLedgerSummaryReportWriterService" />
 			</list>
 		</property>
 		<property name="laborPosterService" ref="laborPosterService" />

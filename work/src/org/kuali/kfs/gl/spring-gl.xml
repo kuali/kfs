@@ -786,8 +786,11 @@
 		<property name="reportWriterService">
 			<ref bean="posterReportWriterService" />
 		</property>
-		<property name="errorReportWriterService">
+		<property name="errorListingReportWriterService">
 			<ref bean="posterErrorListingReportWriterService" />
+		</property>
+		<property name="ledgerSummaryReportWriterService">
+			<ref bean="posterLedgerSummaryReportWriterService" />
 		</property>
 	</bean>
 
@@ -795,8 +798,11 @@
 		<property name="reportWriterService">
 			<ref bean="posterIndirectCostRecoveryEntriesReportWriterService" />
 		</property>
-		<property name="errorReportWriterService">
+		<property name="errorListingReportWriterService">
 			<ref bean="posterIndirectCostRecoveryEntriesErrorListingReportWriterService" />
+		</property>
+		<property name="ledgerSummaryReportWriterService">
+			<ref bean="posterIndirectCostRecoveryEntriesLedgerSummaryReportWriterService" />
 		</property>
 	</bean>
 	
@@ -804,11 +810,14 @@
 		<property name="reportWriterService">
 			<ref bean="posterReversalReportWriterService" />
 		</property>
-		<property name="errorReportWriterService">
+		<property name="errorListingReportWriterService">
 			<ref bean="posterReversalErrorListingReportWriterService" />
 		</property>
 		<property name="reversalReportWriterService">
 			<ref bean="posterReversalListingReportWriterService" />
+		</property>
+		<property name="ledgerSummaryReportWriterService">
+			<ref bean="posterReversalLedgerSummaryReportWriterService" />
 		</property>
 	</bean>
 	
@@ -1647,12 +1656,26 @@
        	</property>
     </bean>
     
+    <bean id="posterLedgerSummaryReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/gl"/>
+		<property name="fileNamePrefix" value="poster_main_ledger_"/>
+        <property name="title" value="Main Poster Input Transactions"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryTotalLine" value="nightlyOutPendingEntryLedgerSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine" value="nightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryDetailLine" value="nightlyOutPendingEntryLedgerSummaryDetailLineReportHelper" />
+        	</map>
+       	</property>
+    </bean>
+    
 	<bean id="posterEntriesStep" class="org.kuali.kfs.gl.batch.PosterEntriesStep" parent="wrappedStep">
 		<property name="wrappingBatchServices">
 			<list>
 				<ref bean="accountingCycleCachingService" />
 				<ref bean="posterReportWriterService" />
 				<ref bean="posterErrorListingReportWriterService" />
+				<ref bean="posterLedgerSummaryReportWriterService" />
 			</list>
 		</property>
 		<property name="posterService" ref="glPosterEntriesService" />
@@ -1681,12 +1704,26 @@
        	</property>
     </bean>
 
+    <bean id="posterIndirectCostRecoveryEntriesLedgerSummaryReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/gl"/>
+		<property name="fileNamePrefix" value="poster_icr_ledger_"/>
+        <property name="title" value="ICR Poster Input Transactions"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryTotalLine" value="nightlyOutPendingEntryLedgerSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine" value="nightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryDetailLine" value="nightlyOutPendingEntryLedgerSummaryDetailLineReportHelper" />
+        	</map>
+       	</property>
+    </bean>
+
 	<bean id="posterIndirectCostRecoveryEntriesStep" class="org.kuali.kfs.gl.batch.PosterIndirectCostRecoveryEntriesStep" parent="wrappedStep">
 		<property name="wrappingBatchServices">
 			<list>
 				<ref bean="accountingCycleCachingService" />
 				<ref bean="posterIndirectCostRecoveryEntriesReportWriterService" />
 				<ref bean="posterIndirectCostRecoveryEntriesErrorListingReportWriterService" />
+				<ref bean="posterIndirectCostRecoveryEntriesLedgerSummaryReportWriterService" />
 			</list>
 		</property>
 		<property name="posterService" ref="glPosterIndirectCostRecoveryEntriesService" />
@@ -1725,6 +1762,19 @@
        	</property>
     </bean>
 
+    <bean id="posterReversalLedgerSummaryReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/gl"/>
+		<property name="fileNamePrefix" value="poster_reversal_ledger_"/>
+        <property name="title" value="Reversal Poster Input Transactions"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryTotalLine" value="nightlyOutPendingEntryLedgerSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine" value="nightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryDetailLine" value="nightlyOutPendingEntryLedgerSummaryDetailLineReportHelper" />
+        	</map>
+       	</property>
+    </bean>
+
 	<bean id="posterReversalStep" class="org.kuali.kfs.gl.batch.PosterReversalStep" parent="wrappedStep">
 		<property name="wrappingBatchServices">
 			<list>
@@ -1732,6 +1782,7 @@
 				<ref bean="posterReversalReportWriterService" />
 				<ref bean="posterReversalErrorListingReportWriterService" />
 				<ref bean="posterReversalListingReportWriterService" />
+				<ref bean="posterReversalLedgerSummaryReportWriterService" />
 			</list>
 		</property>
 		<property name="posterService" ref="glPosterReversalService" />

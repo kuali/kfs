@@ -34,6 +34,7 @@ import org.kuali.kfs.gl.batch.service.VerifyTransaction;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.gl.report.LedgerSummaryReport;
 import org.kuali.kfs.gl.report.Summary;
 import org.kuali.kfs.gl.report.TransactionListingReport;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
@@ -71,7 +72,8 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     private OriginEntryGroupService originEntryGroupService;
 
     private ReportWriterService reportWriterService;
-    private ReportWriterService errorReportWriterService;
+    private ReportWriterService errorListingReportWriterService;
+    private ReportWriterService ledgerSummaryReportWriterService;
     private DateTimeService dateTimeService;
     private VerifyTransaction laborPosterTransactionValidator;
     private ParameterService parameterService;
@@ -144,6 +146,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         int numberOfSelectedOriginEntry = 0;
         LaborOriginEntry laborOriginEntry = new LaborOriginEntry();
         LaborLedgerUnitOfWork laborLedgerUnitOfWork = new LaborLedgerUnitOfWork();
+        LedgerSummaryReport ledgerSummaryReport = new LedgerSummaryReport();
         
         reportSummary.put(laborLedgerEntryPoster.getDestinationName() + "," + KFSConstants.OperationType.INSERT, new Integer(0));
         reportSummary.put(laborLedgerBalancePoster.getDestinationName() + "," + KFSConstants.OperationType.INSERT, new Integer(0));
@@ -170,6 +173,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
                         }
                         if (postSingleEntryIntoLaborLedger(laborOriginEntry, reportSummary,  runDate, currentLine)) {
                             summarizeLaborGLEntries(laborOriginEntry, laborLedgerUnitOfWork, runDate, lineNumber);
+                            ledgerSummaryReport.summarizeEntry(laborOriginEntry);
                             numberOfSelectedOriginEntry++;
                             laborOriginEntry = null;
                         }
@@ -197,8 +201,8 @@ public class LaborPosterServiceImpl implements LaborPosterService {
             reportWriterService.writeStatisticLine("WARNING RECORDS WRITTEN                    %,9d", numberOfErrorOriginEntry);
             
             // Generate Error Listing Report
-            //laborReportService.generateStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_STATISTICS, reportsDirectory, runDate);
-            new TransactionListingReport().generateReport(errorReportWriterService, new LaborOriginEntryFileIterator(new File(postErrFileName)));
+            ledgerSummaryReport.writeReport(ledgerSummaryReportWriterService);
+            new TransactionListingReport().generateReport(errorListingReportWriterService, new LaborOriginEntryFileIterator(new File(postErrFileName)));
         }
         catch (IOException ioe) {
             LOG.error("postLaborLedgerEntries stopped due to: " + ioe.getMessage(), ioe);
@@ -436,14 +440,23 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     }
     
     /**
-     * Sets the errorReportWriterService
+     * Sets the errorListingReportWriterService
      * 
-     * @param errorReportWriterService The errorReportWriterService to set.
+     * @param errorListingReportWriterService The errorListingReportWriterService to set.
      */
-    public void setErrorReportWriterService(ReportWriterService errorReportWriterService) {
-        this.errorReportWriterService = errorReportWriterService;
+    public void setErrorListingReportWriterService(ReportWriterService errorListingReportWriterService) {
+        this.errorListingReportWriterService = errorListingReportWriterService;
     }
     
+    /**
+     * Sets the ledgerSummaryReportWriterService
+     * 
+     * @param ledgerSummaryReportWriterService The ledgerSummaryReportWriterService to set.
+     */
+    public void setLedgerSummaryReportWriterService(ReportWriterService ledgerSummaryReportWriterService) {
+        this.ledgerSummaryReportWriterService = ledgerSummaryReportWriterService;
+    }
+
     /**
      * Sets the laborPosterTransactionValidator attribute value.
      * 

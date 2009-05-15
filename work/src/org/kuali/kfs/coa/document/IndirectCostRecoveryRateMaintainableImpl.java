@@ -20,10 +20,10 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
+import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.kns.util.ObjectUtils;
 
-public class IndirectCostRecoveryRateMaintainableImpl extends KualiMaintainableImpl {
+public class IndirectCostRecoveryRateMaintainableImpl extends FinancialSystemMaintainable {
 
     private Integer indirectCostRecoveryRateNextEntryNumber;
     

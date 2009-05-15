@@ -20,18 +20,18 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Maintainable implementation for the chart maintenance document
  */
-public class ChartMaintainableImpl extends KualiMaintainableImpl {
+public class ChartMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * Override to push chart manager id into KIM

@@ -19,8 +19,8 @@ import java.util.Map;
 
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteLanguage;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.service.DateTimeService;
 
 /* 
@@ -28,7 +28,7 @@ import org.kuali.rice.kns.service.DateTimeService;
  * maintenance page to override the behavior when the PurchaseOrderQuoteLanguage 
  * maintenance document is copied.
 */
-public class PurchaseOrderQuoteLanguageMaintainableImpl extends KualiMaintainableImpl {
+public class PurchaseOrderQuoteLanguageMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * Overrides the method in KualiMaintainableImpl to invoke the

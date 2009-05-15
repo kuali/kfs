@@ -21,11 +21,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.TaxRegion;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.web.ui.Section;
 
-public class TaxRegionMaintainableImpl extends KualiMaintainableImpl {
+public class TaxRegionMaintainableImpl extends FinancialSystemMaintainable {
 
     
     /**

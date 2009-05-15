@@ -18,10 +18,10 @@ package org.kuali.kfs.module.cab.document;
 import java.util.Map;
 
 import org.kuali.kfs.module.cab.businessobject.Pretag;
+import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 
-public class PreTagMaintainableImpl extends KualiMaintainableImpl {
+public class PreTagMaintainableImpl extends FinancialSystemMaintainable {
     @Override
     public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> parameters) {
         super.processAfterCopy(document, parameters);

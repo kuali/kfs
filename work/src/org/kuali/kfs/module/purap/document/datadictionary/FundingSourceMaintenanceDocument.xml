@@ -5,7 +5,7 @@
   <bean id="FundingSourceMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.FundingSource"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.FundingSourceRule"/>
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemMaintainable"/>
     <property name="maintainableSections">
       <list>
         <ref bean="FundingSourceMaintenanceDocument-EditFundingSource"/>

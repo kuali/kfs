@@ -21,12 +21,12 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.SubObjectTrickleDownInactivationService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.kns.document.MaintenanceLock;
-import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 
-public class ObjectCodeMaintainableImpl extends KualiMaintainableImpl {
+public class ObjectCodeMaintainableImpl extends FinancialSystemMaintainable {
 
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {

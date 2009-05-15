@@ -79,5 +79,43 @@
   <bean id="ChartMaintenanceDocument-workflowAttributes" parent="ChartMaintenanceDocument-workflowAttributes-parentBean"/>
   
   <bean id="ChartMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
+  
+  <!--
+  <property name="searchingTypeDefinitions">
+    		<list>
+    			
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Chart"/>
+    						<property name="attributeName" value="finChartOfAccountDescription"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>finChartOfAccountDescription</value>
+    					</list>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Chart"/>
+    						<property name="attributeName" value="finCoaManagerPrincipalId"/>
+    						<property name="showAttributeInSearchCriteria" value="true" />
+    						<property name="showAttributeInResultSet" value="true" />
+    						
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>finCoaManagerPrincipalId</value>
+    					</list>
+    				</property>
+    			</bean>
+    			
+    		</list>
+    	</property>
+  -->
   </bean>
 </beans>

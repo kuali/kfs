@@ -20,12 +20,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.management.relation.RoleInfo;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.identity.OrgReviewRole;
 import org.kuali.kfs.coa.identity.OrgReviewRoleLookupableHelperServiceImpl;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.entity.KimPrincipal;
@@ -59,7 +58,6 @@ import org.kuali.rice.kns.datadictionary.KimNonDataDictionaryAttributeDefinition
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.exception.KualiException;
-import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.SequenceAccessorService;
@@ -68,7 +66,7 @@ import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
 
-public class OrgReviewRoleMaintainableImpl extends KualiMaintainableImpl {
+public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
 
     private transient SequenceAccessorService sequenceAccessorService;
     private transient RoleService roleService;

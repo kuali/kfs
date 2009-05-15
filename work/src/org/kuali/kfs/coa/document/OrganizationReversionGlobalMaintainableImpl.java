@@ -29,9 +29,9 @@ import org.kuali.kfs.coa.businessobject.OrganizationReversionGlobalOrganization;
 import org.kuali.kfs.coa.service.OrganizationReversionService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.FinancialSystemGlobalMaintainable;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceLock;
-import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
@@ -41,7 +41,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * isRelationshipRefreshable - makes sure that {@code organizationReversionGlobalDetails} isn't wiped out accidentally
  * processGlobalsAfterRetrieve - provides special handling for the details (which aren't a true collection)
  */
-public class OrganizationReversionGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
+public class OrganizationReversionGlobalMaintainableImpl extends FinancialSystemGlobalMaintainable {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionGlobalMaintainableImpl.class);
 
     /**

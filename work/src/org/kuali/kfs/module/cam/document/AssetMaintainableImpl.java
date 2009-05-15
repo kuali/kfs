@@ -36,11 +36,11 @@ import org.kuali.kfs.module.cam.document.service.RetirementInfoService;
 import org.kuali.kfs.module.cam.service.AssetLockService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
-import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -53,7 +53,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
  * This class implements custom data preparation for displaying asset edit screen.
  */
 
-public class AssetMaintainableImpl extends KualiMaintainableImpl {
+public class AssetMaintainableImpl extends FinancialSystemMaintainable {
     private Asset newAsset;
     private Asset copyAsset;
     private boolean fabricationOn;

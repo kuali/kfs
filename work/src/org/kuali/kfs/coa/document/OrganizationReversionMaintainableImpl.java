@@ -28,9 +28,9 @@ import org.kuali.kfs.coa.businessobject.OrganizationReversionDetail;
 import org.kuali.kfs.coa.service.OrganizationReversionDetailTrickleDownInactivationService;
 import org.kuali.kfs.coa.service.OrganizationReversionService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -45,7 +45,7 @@ import org.kuali.rice.kns.web.ui.Section;
  * details with each category isRelationshipRefreshable - makes sure that {@code organizationReversionGlobalDetails} isn't wiped out
  * accidentally
  */
-public class OrganizationReversionMaintainableImpl extends KualiMaintainableImpl {
+public class OrganizationReversionMaintainableImpl extends FinancialSystemMaintainable {
     private transient OrganizationReversionService organizationReversionService;
 
     /**

@@ -18,11 +18,10 @@ package org.kuali.kfs.coa.document;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.kfs.coa.businessobject.OrganizationReversion;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionCategory;
 import org.kuali.kfs.coa.service.OrganizationReversionDetailTrickleDownInactivationService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
+import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -30,7 +29,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 /**
  * A Maintainable for the Organization Reversion Category maintenance document
  */
-public class OrganizationReversionCategoryMaintainableImpl extends KualiMaintainableImpl {
+public class OrganizationReversionCategoryMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * Determines if this maint doc is inactivating an organization reversion category

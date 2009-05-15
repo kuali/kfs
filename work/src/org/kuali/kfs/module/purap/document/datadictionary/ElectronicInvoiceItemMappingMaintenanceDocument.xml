@@ -15,7 +15,7 @@
     <!-- 
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.ElectronicInvoiceItemMappingRule"/>
     -->
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemMaintainable"/>
     <property name="maintainableSections">
       <list>
         <ref bean="ElectronicInvoiceItemMappingMaintenanceDocument-EditInvoiceItemType"/>

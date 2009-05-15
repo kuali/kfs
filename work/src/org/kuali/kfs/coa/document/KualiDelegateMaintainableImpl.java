@@ -23,10 +23,10 @@ import java.util.Map;
 import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.core.service.EncryptionService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
-import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.service.BusinessObjectAuthorizationService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -37,7 +37,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * This class is a special implementation of Maintainable specifically for Account Delegates. It was created to correctly update the
  * default Start Date on edits and copies, ala JIRA #KULRNE-62.
  */
-public class KualiDelegateMaintainableImpl extends KualiMaintainableImpl {
+public class KualiDelegateMaintainableImpl extends FinancialSystemMaintainable {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiDelegateMaintainableImpl.class);
 
     /**

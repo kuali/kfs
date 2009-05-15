@@ -19,8 +19,8 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.kfs.vnd.VendorUtils;
-import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
@@ -29,7 +29,7 @@ import org.kuali.rice.kns.util.KNSConstants;
  * maintenance page to override the behavior when the PurchaseOrderQuoteLanguage 
  * maintenance document is copied.
 */
-public class PurchaseOrderQuoteListMaintainableImpl extends KualiMaintainableImpl {
+public class PurchaseOrderQuoteListMaintainableImpl extends FinancialSystemMaintainable {
     @Override
     public Map populateNewCollectionLines( Map fieldValues ) {
         String collName = "quoteListVendors.vendorDetail.vendorNumber";

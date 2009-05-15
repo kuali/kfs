@@ -23,10 +23,10 @@ import org.kuali.kfs.module.purap.businessobject.ReceivingAddress;
 import org.kuali.kfs.module.purap.document.service.ReceivingAddressService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.core.service.EncryptionService;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.MaintenanceLock;
-import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.service.BusinessObjectAuthorizationService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -34,11 +34,11 @@ import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
- * ReceivingAddressMaintainableImpl is a special implementation of KualiMaintainableImpl for ReceivingAddresss. 
+ * ReceivingAddressMaintainableImpl is a special implementation of FinancialSystemMaintainable for ReceivingAddresss. 
  * It generates extra locks for other receiving addresses related to the one being updated in the maintenance document,
  * and updates the ones affected during post-processing to enforce certain contraints among these objects. 
  */
-public class ReceivingAddressMaintainableImpl extends KualiMaintainableImpl {
+public class ReceivingAddressMaintainableImpl extends FinancialSystemMaintainable {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReceivingAddressMaintainableImpl.class);
     
     /**

@@ -17,10 +17,10 @@ package org.kuali.kfs.module.ar.document;
 
 import java.util.List;
 
+import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.kns.document.MaintenanceLock;
-import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 
-public class CustomerInvoiceItemCodeMaintainableImpl extends KualiMaintainableImpl {
+public class CustomerInvoiceItemCodeMaintainableImpl extends FinancialSystemMaintainable {
     
     public List<MaintenanceLock> generateMaintenanceLocks() {
         

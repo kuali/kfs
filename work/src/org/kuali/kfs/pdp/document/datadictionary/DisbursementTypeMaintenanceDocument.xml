@@ -4,7 +4,7 @@
 
   <bean id="DisbursementTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.DisbursementType"/>
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+    <property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemMaintainable"/>
     <property name="maintainableSections">
       <list>
         <ref bean="DisbursementTypeMaintenanceDocument-EditDisbursementType"/>

@@ -78,6 +78,8 @@ public class PurapPropertyConstants {
     public static final String VENDOR_STATE_CODE = "vendorStateCode";
     public static final String VENDOR_ADDRESS_ID = "vendorAddressGeneratedIdentifier";
     public static final String DELIVERY_CAMPUS_CODE = "deliveryCampusCode";
+    public static final String DELIVERY_POSTAL_CODE = "deliveryPostalCode";
+    public static final String DELIVERY_STATE_CODE = "deliveryStateCode";
     
     // PURCHASING DOCUMENT BASE
     public static final String RECURRING_PAYMENT_TYPE_CODE = "recurringPaymentTypeCode";
@@ -114,8 +116,14 @@ public class PurapPropertyConstants {
     public static final String CAPITAL_ASSET_LOCATION_ROOM = "buildingRoomNumber";
     
     // Receiving Address
-    public static final String RCVNG_ADDR_DFLT_IND = "defaultIndicator";
-    public static final String RCVNG_ADDR_ACTIVE = "active";
+    public static final String RECEIVING_ADDRESS_DEFAULT_INDICATOR = "defaultIndicator";
+    public static final String RECEIVING_ADDRESS_ACTIVE = "active";
+    public static final String RECEIVING_ADDRESS_STATE = "receivingStateCode";
+    public static final String RECEIVING_ADDRESS_POSTAL_CODE = "receivingPostalCode";
+
+    // Billing Address
+    public static final String BILLING_ADDRESS_STATE = "billingStateCode";
+    public static final String BILLING_ADDRESS_POSTAL_CODE = "billingPostalCode";
 
     // AP DOCUMENT BASE
     public static final String PURCHASE_ORDER_IDENTIFIER = "purchaseOrderIdentifier";

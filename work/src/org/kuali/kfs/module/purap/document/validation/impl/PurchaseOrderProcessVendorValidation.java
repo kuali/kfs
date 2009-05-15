@@ -22,16 +22,12 @@ import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PODocumentsStrings;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.service.PostalCodeValidationService;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.VendorConstants.VendorTypes;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kns.datadictionary.validation.fieldlevel.ZipcodeValidationPattern;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -39,6 +35,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class PurchaseOrderProcessVendorValidation extends PurchasingProcessVendorValidation {
 
     private DataDictionaryService dataDictionaryService;
+    private PostalCodeValidationService postalCodeValidationService;
     
     /**
      * Validation for the Stipulation tab.
@@ -53,35 +50,15 @@ public class PurchaseOrderProcessVendorValidation extends PurchasingProcessVendo
         errorMap.addToErrorPath(PurapConstants.VENDOR_ERRORS);
         boolean valid = super.validate(event);
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument) purapDocument;
+
         // check to see if the vendor exists in the database, i.e. its ID is not null
         Integer vendorHeaderID = poDocument.getVendorHeaderGeneratedIdentifier();
         if (ObjectUtils.isNull(vendorHeaderID)) {
             valid = false;
             errorMap.putError(VendorPropertyConstants.VENDOR_NAME, PurapKeyConstants.ERROR_NONEXIST_VENDOR);
         }
-        if (StringUtils.isBlank(poDocument.getVendorCountryCode())) {
-            valid = false;
-            String countryLabel = dataDictionaryService.getAttributeLabel(PurchaseOrderDocument.class, PurapPropertyConstants.VENDOR_COUNTRY_CODE);
-            errorMap.putError(PurapPropertyConstants.VENDOR_COUNTRY_CODE, KFSKeyConstants.ERROR_REQUIRED, countryLabel);
-        }
-        else if (poDocument.getVendorCountryCode().equals(KFSConstants.COUNTRY_CODE_UNITED_STATES)) {
-            if (StringUtils.isBlank(poDocument.getVendorStateCode())) {
-                valid = false;
-                String stateLabel = dataDictionaryService.getAttributeLabel(PurchaseOrderDocument.class, PurapPropertyConstants.VENDOR_STATE_CODE);
-                errorMap.putError(PurapPropertyConstants.VENDOR_STATE_CODE, KFSKeyConstants.ERROR_REQUIRED_FOR_US, stateLabel);
-            }
-            ZipcodeValidationPattern zipPattern = new ZipcodeValidationPattern();
-            if (StringUtils.isBlank(poDocument.getVendorPostalCode())) {
-                valid = false;
-                String postalCodeLabel = dataDictionaryService.getAttributeLabel(PurchaseOrderDocument.class, PurapPropertyConstants.VENDOR_POSTAL_CODE);
-                errorMap.putError(PurapPropertyConstants.VENDOR_POSTAL_CODE, KFSKeyConstants.ERROR_REQUIRED_FOR_US, postalCodeLabel);
-            }
-            else if (!zipPattern.matches(poDocument.getVendorPostalCode())) {
-                valid = false;
-                errorMap.putError(PurapPropertyConstants.VENDOR_POSTAL_CODE, PurapKeyConstants.ERROR_POSTAL_CODE_INVALID);
-            }
-        }
-               
+
+        postalCodeValidationService.validateAddress(poDocument.getVendorCountryCode(), poDocument.getVendorStateCode(), poDocument.getVendorPostalCode(), PurapPropertyConstants.VENDOR_STATE_CODE, PurapPropertyConstants.VENDOR_POSTAL_CODE);
         
         // Do checks for alternate payee vendor.
         Integer alternateVendorHdrGeneratedId = poDocument.getAlternateVendorHeaderGeneratedIdentifier();
@@ -103,6 +80,7 @@ public class PurchaseOrderProcessVendorValidation extends PurchasingProcessVendo
                 valid &= false;
             }
         }
+
         errorMap.clearErrorPath();
         return valid;
     }
@@ -115,4 +93,8 @@ public class PurchaseOrderProcessVendorValidation extends PurchasingProcessVendo
         this.dataDictionaryService = dataDictionaryService;
     }
     
+    public void setPostalCodeValidationService(PostalCodeValidationService postalCodeValidationService) {
+        this.postalCodeValidationService = postalCodeValidationService;
+    }
+
 }

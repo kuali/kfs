@@ -41,6 +41,7 @@ import org.kuali.kfs.module.purap.document.dataaccess.RequisitionDao;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.PostalCodeValidationService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.vnd.businessobject.VendorCommodityCode;
 import org.kuali.kfs.vnd.businessobject.VendorContract;
@@ -76,6 +77,7 @@ public class RequisitionServiceImpl implements RequisitionService {
     private KualiConfigurationService kualiConfigurationService;
     private ParameterService parameterService;
     private org.kuali.rice.kim.service.PersonService personService;
+    private PostalCodeValidationService postalCodeValidationService;
     private PurapService purapService;
     private RequisitionDao requisitionDao;
     private UniversityDateService universityDateService;
@@ -208,6 +210,14 @@ public class RequisitionServiceImpl implements RequisitionService {
             }
         }
         
+        //if vendor address isn't complete, no APO
+        if (StringUtils.isBlank(requisition.getVendorLine1Address()) ||
+                StringUtils.isBlank(requisition.getVendorCityName()) ||
+                StringUtils.isBlank(requisition.getVendorCountryCode()) ||
+                !postalCodeValidationService.validateAddress(requisition.getVendorCountryCode(), requisition.getVendorStateCode(), requisition.getVendorPostalCode(), "", "")) {
+            return "Requistion does not contain a complete vendor address";
+        }
+
         // These are needed for commodity codes. They are put in here so that
         // we don't have to loop through items too many times.
         String purchaseOrderRequiresCommodityCode = parameterService.getParameterValue(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);
@@ -389,6 +399,10 @@ public class RequisitionServiceImpl implements RequisitionService {
 
     public void setCapitalAssetBuilderModuleService(CapitalAssetBuilderModuleService capitalAssetBuilderModuleService) {
         this.capitalAssetBuilderModuleService = capitalAssetBuilderModuleService;
+    }
+
+    public void setPostalCodeValidationService(PostalCodeValidationService postalCodeValidationService) {
+        this.postalCodeValidationService = postalCodeValidationService;
     }
 
 }

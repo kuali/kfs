@@ -98,7 +98,7 @@ public class ReceivingAddressPreRules extends MaintenancePreRulesBase {
          * Give error: Can't unset the default address; you must set another default address to replace this one. 
          */
         else if ( stayActive && unsetDefault ) {
-            putFieldError(PurapPropertyConstants.RCVNG_ADDR_DFLT_IND, PurapKeyConstants.ERROR_RCVNG_ADDR_UNSET_DFLT);
+            putFieldError(PurapPropertyConstants.RECEIVING_ADDRESS_DEFAULT_INDICATOR, PurapKeyConstants.ERROR_RCVNG_ADDR_UNSET_DFLT);
             abortRulesCheck();
             return false;
         }
@@ -107,7 +107,7 @@ public class ReceivingAddressPreRules extends MaintenancePreRulesBase {
          * you must set another default address first.
          */
         else if ( unsetActive && wasDefault && existOther ) {            
-            putFieldError(PurapPropertyConstants.RCVNG_ADDR_ACTIVE, PurapKeyConstants.ERROR_RCVNG_ADDR_DEACTIVATE_DFLT);
+            putFieldError(PurapPropertyConstants.RECEIVING_ADDRESS_ACTIVE, PurapKeyConstants.ERROR_RCVNG_ADDR_DEACTIVATE_DFLT);
             abortRulesCheck();
             return false;
         }         

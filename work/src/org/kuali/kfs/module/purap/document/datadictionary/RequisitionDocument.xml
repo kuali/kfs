@@ -550,18 +550,17 @@
 
   <bean id="RequisitionDocument-deliveryStateCode-parentBean" abstract="true" parent="VendorGenericAttributes-stateCode">
     <property name="name" value="deliveryStateCode"/>
-    <property name="required" value="true"/>
   </bean>
   <bean id="RequisitionDocument-deliveryPostalCode" parent="RequisitionDocument-deliveryPostalCode-parentBean"/>
 
   <bean id="RequisitionDocument-deliveryPostalCode-parentBean" abstract="true" parent="VendorGenericAttributes-zipCode">
     <property name="name" value="deliveryPostalCode"/>
-    <property name="required" value="true"/>
   </bean>
   <bean id="RequisitionDocument-deliveryCountryCode" parent="RequisitionDocument-deliveryCountryCode-parentBean"/>
 
   <bean id="RequisitionDocument-deliveryCountryCode-parentBean" abstract="true" parent="VendorGenericAttributes-countryCode">
     <property name="name" value="deliveryCountryCode"/>
+    <property name="required" value="true"/>
   </bean>
   <bean id="RequisitionDocument-deliveryInstructionText" parent="RequisitionDocument-deliveryInstructionText-parentBean"/>
 

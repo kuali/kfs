@@ -47,6 +47,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="label" value="State" />
     <property name="shortLabel" value="State" />
     <property name="maxLength" value="2" />
+    <property name="required" value="false" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
@@ -189,6 +190,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 	p:sourceAttributeName="postalCode">
     <property name="name" value="zipCode" />
     <property name="required" value="false" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
   </bean>
   <bean id="VendorGenericAttributes-cityName" parent="VendorGenericAttributes-cityName-parentBean" />
 

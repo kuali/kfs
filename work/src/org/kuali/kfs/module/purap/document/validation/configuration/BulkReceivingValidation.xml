@@ -27,6 +27,7 @@
   		<property name="validations">
   			<list>
   				<bean parent="BulkReceivingDocument-purchaseOrderIdValidation" scope="prototype" />
+                <bean parent="BulkReceivingDocument-deliveryValidation" scope="prototype" />
   			</list>
   		</property>
   	</bean>

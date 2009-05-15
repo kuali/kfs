@@ -248,6 +248,7 @@
   
   <bean id="BulkReceivingDocument-deliveryCountryCode-parentBean" abstract="true" parent="VendorGenericAttributes-countryCode">
     <property name="name" value="deliveryCountryCode"/>
+    <property name="required" value="true"/>
   </bean>
 
   <bean id="BulkReceivingDocument-deliveryInstructionText" parent="BulkReceivingDocument-deliveryInstructionText-parentBean"/>
@@ -286,14 +287,12 @@
 
   <bean id="BulkReceivingDocument-deliveryPostalCode-parentBean" abstract="true" parent="VendorGenericAttributes-zipCode">
     <property name="name" value="deliveryPostalCode"/>
-    <property name="required" value="true"/>
   </bean>
   
   <bean id="BulkReceivingDocument-deliveryStateCode" parent="BulkReceivingDocument-deliveryStateCode-parentBean"/>
 
   <bean id="BulkReceivingDocument-deliveryStateCode-parentBean" abstract="true" parent="VendorGenericAttributes-stateCode">
     <property name="name" value="deliveryStateCode"/>
-    <property name="required" value="true"/>
   </bean>
   
   <bean id="BulkReceivingDocument-deliveryToEmailAddress" parent="BulkReceivingDocument-deliveryToEmailAddress-parentBean"/>

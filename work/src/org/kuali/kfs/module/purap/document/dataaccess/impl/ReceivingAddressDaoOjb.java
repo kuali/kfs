@@ -45,7 +45,7 @@ public class ReceivingAddressDaoOjb extends PlatformAwareDaoBaseOjb implements R
             criteria.addIsNull(KFSPropertyConstants.ORGANIZATION_CODE);
         else
             criteria.addEqualTo(KFSPropertyConstants.ORGANIZATION_CODE, orgCode);
-        criteria.addEqualTo(PurapPropertyConstants.RCVNG_ADDR_ACTIVE, true);
+        criteria.addEqualTo(PurapPropertyConstants.RECEIVING_ADDRESS_ACTIVE, true);
         Query query = new QueryByCriteria(ReceivingAddress.class, criteria);
         
         LOG.debug("Leaving findActiveByChartOrg(String,String)");
@@ -64,8 +64,8 @@ public class ReceivingAddressDaoOjb extends PlatformAwareDaoBaseOjb implements R
             criteria.addIsNull(KFSPropertyConstants.ORGANIZATION_CODE);
         else
             criteria.addEqualTo(KFSPropertyConstants.ORGANIZATION_CODE, orgCode);
-        criteria.addEqualTo(PurapPropertyConstants.RCVNG_ADDR_DFLT_IND, true);
-        criteria.addEqualTo(PurapPropertyConstants.RCVNG_ADDR_ACTIVE, true);
+        criteria.addEqualTo(PurapPropertyConstants.RECEIVING_ADDRESS_DEFAULT_INDICATOR, true);
+        criteria.addEqualTo(PurapPropertyConstants.RECEIVING_ADDRESS_ACTIVE, true);
         Query query = new QueryByCriteria(ReceivingAddress.class, criteria);
         
         LOG.debug("Leaving findDefaultByChartOrg(String,String)");
@@ -84,7 +84,7 @@ public class ReceivingAddressDaoOjb extends PlatformAwareDaoBaseOjb implements R
             criteria.addIsNull(KFSPropertyConstants.ORGANIZATION_CODE);
         else
             criteria.addEqualTo(KFSPropertyConstants.ORGANIZATION_CODE, orgCode);
-        criteria.addEqualTo(PurapPropertyConstants.RCVNG_ADDR_ACTIVE, true);
+        criteria.addEqualTo(PurapPropertyConstants.RECEIVING_ADDRESS_ACTIVE, true);
         Query query = new QueryByCriteria(ReceivingAddress.class, criteria);
         
         LOG.debug("Leaving countActiveByChartOrg(String,String)");

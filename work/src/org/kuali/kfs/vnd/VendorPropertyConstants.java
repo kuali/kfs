@@ -106,4 +106,8 @@ public class VendorPropertyConstants {
     //Purchase order cost source
     public static final String ITEM_UNIT_PRICE_UPPER_VARIANCE_PERCENT = "itemUnitPriceUpperVariancePercent";
     public static final String ITEM_UNIT_PRICE_LOWER_VARIANCE_PERCENT = "itemUnitPriceLowerVariancePercent";
+    
+    public static final String PURCHASING_DEPARTMENT_STATE = "purchasingDepartmentStateCode";
+    public static final String PURCHASING_DEPARTMENT_POSTAL_CODE = "purchasingDepartmentZipCode";
+
 }

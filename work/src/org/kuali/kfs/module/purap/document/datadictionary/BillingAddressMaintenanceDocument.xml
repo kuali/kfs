@@ -4,6 +4,7 @@
 
   <bean id="BillingAddressMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.BillingAddress"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.BillingAddressRule"/>
     <property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemMaintainable"/>
     <property name="maintainableSections">
       <list>
@@ -39,8 +40,8 @@
         <bean parent="MaintainableFieldDefinition" p:name="billingLine1Address" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="billingLine2Address"/>
         <bean parent="MaintainableFieldDefinition" p:name="billingCityName" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="billingStateCode" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="billingPostalCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="billingStateCode" />
+        <bean parent="MaintainableFieldDefinition" p:name="billingPostalCode" />
         <bean parent="MaintainableFieldDefinition" p:name="billingCountryCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="billingPhoneNumber" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>

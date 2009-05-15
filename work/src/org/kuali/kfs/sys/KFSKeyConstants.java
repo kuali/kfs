@@ -861,6 +861,10 @@ public class KFSKeyConstants {
     public static final String WORKFLOW_DIRECTORY = "data.xml.root.location";
     public static final String INGESTION_DIRECTORY = "ingestion";
     
+    public static final String ERROR_US_REQUIRES_STATE = "error.USRequiresState.required";
+    public static final String ERROR_US_REQUIRES_ZIP = "error.USRequiresZip.required";
+    public static final String ERROR_POSTAL_CODE_INVALID = "error.postalCode.invalid";
+
     public static final String MESSAGE_REPORT_NIGHTLY_OUT_LEDGER_TOTAL = "message.report.nightlyOut.ledger.total";
     public static final String MESSAGE_REPORT_NIGHTLY_OUT_LEDGER_BALANCE_TYPE_TOTAL = "message.report.nightlyOut.ledger.balanceType.total";
 }

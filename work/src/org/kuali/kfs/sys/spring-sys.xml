@@ -565,6 +565,8 @@
 		</property>
 	</bean>
 	
+    <bean id="postalCodeValidationService" class="org.kuali.kfs.sys.service.impl.PostalCodeValidationServiceImpl" />
+    
 	<bean id="segmentedLookupResultsService" class="org.kuali.kfs.sys.service.impl.SegmentedLookupResultsServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />

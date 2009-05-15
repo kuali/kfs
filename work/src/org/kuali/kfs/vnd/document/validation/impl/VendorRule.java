@@ -32,6 +32,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.PostalCodeValidationService;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorKeyConstants;
 import org.kuali.kfs.vnd.VendorParameterConstants;
@@ -890,32 +891,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
      * @return boolean false if the country is United States and there is no state or zip code
      */
     boolean checkAddressCountryEmptyStateZip(VendorAddress address) {
-
-        boolean valid = true;
-        boolean noPriorErrMsg = true;
-
-        Country country = address.getVendorCountry();
-        if (ObjectUtils.isNotNull(country) && StringUtils.equals(KFSConstants.COUNTRY_CODE_UNITED_STATES, country.getPostalCountryCode())) {
-
-            if ((ObjectUtils.isNull(address.getVendorState()) || StringUtils.isEmpty(address.getVendorState().getPostalStateCode()))) {
-                GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_ADDRESS_STATE, VendorKeyConstants.ERROR_US_REQUIRES_STATE);
-                valid &= false;
-                noPriorErrMsg = false;
-            }
-            // The error message here will be the same for both, and should not be repeated (KULPURAP-516).
-            if (noPriorErrMsg && StringUtils.isEmpty(address.getVendorZipCode())) {
-                GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_ADDRESS_ZIP, VendorKeyConstants.ERROR_US_REQUIRES_ZIP);
-                valid &= false;
-            }
-            
-            // Check to see if the zipcode is in allowed format - KULPURAP-1088
-            ZipcodeValidationPattern zipPattern = new ZipcodeValidationPattern();
-            if (!zipPattern.matches(StringUtils.defaultString(address.getVendorZipCode()))) {
-                valid &= false;
-                GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_ADDRESS_ZIP, VendorKeyConstants.ERROR_POSTAL_CODE_INVALID);
-            }
-        }
-        return valid;
+        return SpringContext.getBean(PostalCodeValidationService.class).validateAddress(address.getVendorCountryCode(), address.getVendorStateCode(), address.getVendorZipCode(), VendorPropertyConstants.VENDOR_ADDRESS_STATE, VendorPropertyConstants.VENDOR_ADDRESS_ZIP);
     }
 
     /**

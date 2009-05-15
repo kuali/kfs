@@ -144,6 +144,7 @@
         <property name="kualiConfigurationService" ref="kualiConfigurationService"/>
         <property name="parameterService" ref="parameterService"/>
         <property name="personService" ref="personService"/>
+        <property name="postalCodeValidationService" ref="postalCodeValidationService"/>
     	<property name="purapService" ref="purapService"/>
         <property name="requisitionDao" ref="requisitionDao"/>
     	<property name="ruleService" ref="kualiRuleService"/>

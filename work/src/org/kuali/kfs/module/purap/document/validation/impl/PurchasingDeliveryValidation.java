@@ -26,6 +26,7 @@ import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.service.PostalCodeValidationService;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -36,6 +37,7 @@ public class PurchasingDeliveryValidation extends GenericValidation {
 
     DateTimeService dateTimeService;
     BusinessObjectService businessObjectService;
+    PostalCodeValidationService postalCodeValidationService;
     
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
@@ -51,6 +53,8 @@ public class PurchasingDeliveryValidation extends GenericValidation {
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.DELIVERY_REQUIRED_DATE, PurapKeyConstants.ERROR_DELIVERY_REQUIRED_DATE_IN_THE_PAST);
             }
         }
+        
+        postalCodeValidationService.validateAddress(purDocument.getDeliveryCountryCode(), purDocument.getDeliveryStateCode(), purDocument.getDeliveryPostalCode(), PurapPropertyConstants.DELIVERY_STATE_CODE, PurapPropertyConstants.DELIVERY_POSTAL_CODE);
         
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("campusCode", purDocument.getDeliveryCampusCode());
@@ -77,6 +81,10 @@ public class PurchasingDeliveryValidation extends GenericValidation {
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    public void setPostalCodeValidationService(PostalCodeValidationService postalCodeValidationService) {
+        this.postalCodeValidationService = postalCodeValidationService;
     }
 
     

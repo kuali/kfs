@@ -169,6 +169,7 @@
 	<bean id="Purchasing-deliveryValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingDeliveryValidation" abstract="true">
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="businessObjectService" ref="businessObjectService" />
+        <property name="postalCodeValidationService" ref="postalCodeValidationService" />
 	</bean>
 
     <bean id="Purchasing-processTotalCostValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingProcessTotalCostValidation" abstract="true"/>
@@ -364,6 +365,7 @@
         <property name="vendorService" ref="vendorService" />
         <property name="dataDictionaryService" ref="dataDictionaryService" />
         <property name="parameterService" ref="parameterService" />
+        <property name="postalCodeValidationService" ref="postalCodeValidationService" />
     </bean>
 
 	<bean id="PurchaseOrder-accountingLineAccessibleValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderAccountingLineAccessibleValidation" abstract="true">
@@ -662,7 +664,9 @@
 
 	<bean id="PaymentRequest-cancelValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestCancelValidation" abstract="true"/>
 	
-	<bean id="PaymentRequest-vendorValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestVendorValidation" abstract="true"/>
+	<bean id="PaymentRequest-vendorValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestVendorValidation" abstract="true">
+	        <property name="postalCodeValidationService" ref="postalCodeValidationService" />
+	</bean>
 
 	<bean id="PaymentRequest-reviewValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestReviewValidation" abstract="true">
 		<property name="universityDateService" ref="universityDateService" />
@@ -882,4 +886,8 @@
 		<property name="dictionaryValidationService" ref="dictionaryValidationService" />
 	</bean>
 	
+    <bean id="BulkReceivingDocument-deliveryValidation" class="org.kuali.kfs.module.purap.document.validation.impl.BulkReceivingDeliveryValidation" abstract="true">
+        <property name="postalCodeValidationService" ref="postalCodeValidationService" />
+    </bean>
+
 </beans>

@@ -627,18 +627,17 @@
 
   <bean id="PurchaseOrderDocument-deliveryStateCode-parentBean" abstract="true" parent="VendorGenericAttributes-stateCode">
     <property name="name" value="deliveryStateCode"/>
-    <property name="required" value="true"/>
   </bean>
   <bean id="PurchaseOrderDocument-deliveryPostalCode" parent="PurchaseOrderDocument-deliveryPostalCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-deliveryPostalCode-parentBean" abstract="true" parent="VendorGenericAttributes-zipCode">
     <property name="name" value="deliveryPostalCode"/>
-    <property name="required" value="true"/>
   </bean>
   <bean id="PurchaseOrderDocument-deliveryCountryCode" parent="PurchaseOrderDocument-deliveryCountryCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-deliveryCountryCode-parentBean" abstract="true" parent="VendorGenericAttributes-countryCode">
     <property name="name" value="deliveryCountryCode"/>
+    <property name="required" value="true"/>
   </bean>
   <bean id="PurchaseOrderDocument-deliveryInstructionText" parent="PurchaseOrderDocument-deliveryInstructionText-parentBean"/>
 

@@ -4,6 +4,7 @@
 
   <bean id="CampusParameterMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.CampusParameter"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.vnd.document.validation.impl.CampusParameterRule"/>
     <property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemMaintainable"/>
     <property name="maintainableSections">
       <list>

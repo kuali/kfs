@@ -107,6 +107,8 @@ public class CamsConstants extends JSTLConstants {
         public static final String ASSET_PAYMENT_FROM_CAB = "MPAYCAB";
         public static final String ASSET_FP_INQUIRY = "AFPINQ";
         public static final String ASSET_PREQ_INQUIRY = "APREQINQ";
+        // Below used for view related document links 
+        public static final String COMPLEX_MAINTENANCE_DOC_BASE = "CAMM";
     }
 
     public static class PaymentDocumentTypeCodes {

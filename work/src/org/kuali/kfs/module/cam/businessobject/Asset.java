@@ -2118,7 +2118,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
             return "";
 
         Properties params = buildDocumentLookupLinkProperties();
-        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, "CAMM");
+        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.COMPLEX_MAINTENANCE_DOC_BASE);
 
         return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
     }

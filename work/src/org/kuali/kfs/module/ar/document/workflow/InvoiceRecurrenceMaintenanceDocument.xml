@@ -9,7 +9,7 @@
           <start name="AdHoc" nextNode="InvoiceRecurrenceIsInactivating"/>
           <split name="InvoiceRecurrenceIsInactivating" nextNode="Account">
             <branch name="True">
-              <requests name="Initiator" nextNode="JoinInvoiceRecurrenceIsInactivating"/>
+              <requests name="RecurrenceCreator" nextNode="JoinInvoiceRecurrenceIsInactivating"/>
             </branch>
             <branch name="False">
               <simple name="NoOpInvoiceRecurrenceIsInactivating" nextNode="JoinInvoiceRecurrenceIsInactivating"/>

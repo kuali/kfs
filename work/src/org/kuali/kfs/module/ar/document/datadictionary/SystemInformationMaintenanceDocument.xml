@@ -10,7 +10,9 @@
         <ref bean="SystemInformationMaintenanceDocument-EditSystemInformation"/>
         <ref bean="SystemInformationMaintenanceDocument-EditObjectCodes"/>
         <ref bean="SystemInformationMaintenanceDocument-EditUniversityClearingAccount"/>
+<!--
         <ref bean="SystemInformationMaintenanceDocument-EditWireAccount"/>
+-->
         <ref bean="SystemInformationMaintenanceDocument-EditRemitToInformation"/>
       </list>
     </property>
@@ -40,9 +42,11 @@
         <bean parent="ReferenceDefinition" p:attributeName="universityClearingAccount" p:attributeToHighlightOnFail="universityClearingAccountNumber"/>
         <bean parent="ReferenceDefinition" p:attributeName="universityClearingChartOfAccounts" p:attributeToHighlightOnFail="universityClearingChartOfAccountsCode"/>
         <bean parent="ReferenceDefinition" p:attributeName="universityClearingSubAccount" p:attributeToHighlightOnFail="universityClearingSubAccountNumber"/>              
+<!--
         <bean parent="ReferenceDefinition" p:attributeName="wireAccount" p:attributeToHighlightOnFail="wireAccountNumber"/>
         <bean parent="ReferenceDefinition" p:attributeName="wireChartOfAccounts" p:attributeToHighlightOnFail="wireChartOfAccountsCode"/>
         <bean parent="ReferenceDefinition" p:attributeName="wireSubAccount" p:attributeToHighlightOnFail="wireSubAccountNumber"/>                  
+-->
         <bean parent="ReferenceDefinition" p:attributeName="universityFiscalYearObject" p:attributeToHighlightOnFail="universityFiscalYear"/>
         <bean parent="ReferenceDefinition" p:attributeName="financialDocumentInitiator" p:attributeToHighlightOnFail="financialDocumentInitiator.principalName"/>                
       	<bean parent="ReferenceDefinition" p:attributeName="orgRemitToZipCode" p:attributeToHighlightOnFail="organizationRemitToZipCode"/>
@@ -112,6 +116,7 @@
     </property>
   </bean>
 
+<!--
   <bean id="SystemInformationMaintenanceDocument-EditWireAccount" parent="SystemInformationMaintenanceDocument-EditWireAccount-parentBean"/>
   <bean id="SystemInformationMaintenanceDocument-EditWireAccount-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Edit Wire Account"/>
@@ -126,6 +131,7 @@
       </list>
     </property>
   </bean>
+-->
   
   <bean id="SystemInformationMaintenanceDocument-EditRemitToInformation" parent="SystemInformationMaintenanceDocument-EditRemitToInformation-parentBean"/>
   <bean id="SystemInformationMaintenanceDocument-EditRemitToInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">

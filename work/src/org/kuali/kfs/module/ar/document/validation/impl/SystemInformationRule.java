@@ -67,7 +67,7 @@ public class SystemInformationRule extends MaintenanceDocumentRuleBase {
         LOG.info("Entering processCustomApproveDocumentBusinessRules()");
 
         success &= checkClearingAccountIsActive();
-        success &= checkWireAccountIsActive();
+//        success &= checkWireAccountIsActive();
         success &= checkLockboxNumberIsUnique();
 
         return success;
@@ -91,7 +91,7 @@ public class SystemInformationRule extends MaintenanceDocumentRuleBase {
         LOG.info("Entering processCustomRouteDocumentBusinessRules()");
 
         success &= checkClearingAccountIsActive();
-        success &= checkWireAccountIsActive();
+//        success &= checkWireAccountIsActive();
         success &= checkLockboxNumberIsUnique();
 
         return success;
@@ -115,7 +115,7 @@ public class SystemInformationRule extends MaintenanceDocumentRuleBase {
         LOG.info("Entering processCustomSaveDocumentBusinessRules()");
 
         success &= checkClearingAccountIsActive();
-        success &= checkWireAccountIsActive();
+//        success &= checkWireAccountIsActive();
         success &= checkLockboxNumberIsUnique();
 
         //return success;
@@ -148,31 +148,31 @@ public class SystemInformationRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
-    /**
-     * This checks to see if the account is active
-     *
-     * @return true if the account is active or false otherwise
-     */
-    protected boolean checkWireAccountIsActive() {
-
-        LOG.info("Entering checkWireAccountIsActive()");
-        boolean success = true;
-
-        AccountService accountService = SpringContext.getBean(AccountService.class);
-        Account wireAccount = accountService.getByPrimaryId(newSystemInformation.getWireChartOfAccountsCode(), newSystemInformation.getWireAccountNumber());
-
-        // check wire account is not in-active
-        if (ObjectUtils.isNull(wireAccount)) {
-            return false;
-        }
-        
-        if (!wireAccount.isActive()) {
-            success &= false;
-            putGlobalError(ArKeyConstants.SystemInformation.ERROR_WIRE_ACCOUNT_INACTIVE);
-        }
-
-        return success;
-    }
+//    /**
+//     * This checks to see if the account is active
+//     *
+//     * @return true if the account is active or false otherwise
+//     */
+//    protected boolean checkWireAccountIsActive() {
+//
+//        LOG.info("Entering checkWireAccountIsActive()");
+//        boolean success = true;
+//
+//        AccountService accountService = SpringContext.getBean(AccountService.class);
+//        Account wireAccount = accountService.getByPrimaryId(newSystemInformation.getWireChartOfAccountsCode(), newSystemInformation.getWireAccountNumber());
+//
+//        // check wire account is not in-active
+//        if (ObjectUtils.isNull(wireAccount)) {
+//            return false;
+//        }
+//        
+//        if (!wireAccount.isActive()) {
+//            success &= false;
+//            putGlobalError(ArKeyConstants.SystemInformation.ERROR_WIRE_ACCOUNT_INACTIVE);
+//        }
+//
+//        return success;
+//    }
     
     /**
     *

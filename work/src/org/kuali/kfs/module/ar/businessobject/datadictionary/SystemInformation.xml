@@ -36,11 +36,13 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="SystemInformation-universityClearingAccountNumber" />
         <ref bean="SystemInformation-universityClearingObjectCode" />
         <ref bean="SystemInformation-universityClearingSubObjectCode" />
+<!--
         <ref bean="SystemInformation-wireSubAccountNumber" />
         <ref bean="SystemInformation-wireChartOfAccountsCode" />
         <ref bean="SystemInformation-wireAccountNumber" />
         <ref bean="SystemInformation-wireObjectCode" />
         <ref bean="SystemInformation-wireSubObjectCode" />        
+-->
         <ref bean="SystemInformation-organizationCheckPayableToName" />
         <ref bean="SystemInformation-organizationRemitToAddressName" />
         <ref bean="SystemInformation-organizationRemitToLine1StreetAddress" />
@@ -282,6 +284,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="shortLabel" value="Unappl Pmnt SubObj Cd" />
   </bean>
   
+<!-- 
   <bean id="SystemInformation-wireSubAccountNumber" parent="SystemInformation-wireSubAccountNumber-parentBean" />
   <bean id="SystemInformation-wireSubAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="wireSubAccountNumber" />
@@ -323,6 +326,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="label" value="Sub Object Code" />
     <property name="shortLabel" value="Wire Sub Object Code" />
   </bean>
+-->
   
   <bean id="SystemInformation-universityFederalEmployerIdentificationNumber" parent="SystemInformation-universityFederalEmployerIdentificationNumber-parentBean" />
   <bean id="SystemInformation-universityFederalEmployerIdentificationNumber-parentBean" abstract="true" parent="AttributeDefinition">
@@ -433,6 +437,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
              </list>
           </property>
         </bean> 
+<!--
 		<bean parent="InquirySectionDefinition">
 			<property name="title" value="Wire Account" />
 			<property name="numberOfColumns" value="1" />
@@ -451,6 +456,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             </list>
           </property>
         </bean>     
+-->
 		<bean parent="InquirySectionDefinition">
 			<property name="title" value="Remit To Information" />
 			<property name="numberOfColumns" value="1" />

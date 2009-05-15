@@ -899,11 +899,13 @@
 	<field-descriptor name="organizationRemitToZipCode" column="ORG_REMIT_ZIP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationCheckPayableToName" column="ORG_CHCK_PAY_TO_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialDocumentInitiatorIdentifier" column="FDOC_INITIATOR_ID" jdbc-type="VARCHAR"/>
+<!-- 
 	<field-descriptor name="wireChartOfAccountsCode" column="WIRE_COA_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="wireAccountNumber" column="WIRE_ACCT_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="wireSubAccountNumber" column="WIRE_SUB_ACCT_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="wireObjectCode" column="WIRE_OBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="wireSubObjectCode" column="WIRE_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
+-->
 
 	<reference-descriptor name="creditCardFinancialObject" class-ref="org.kuali.kfs.coa.businessobject.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="universityFiscalYear" />
@@ -951,6 +953,7 @@
 	<reference-descriptor name="universityClearingChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="universityClearingChartOfAccountsCode" />
 	</reference-descriptor>
+<!--
 	<reference-descriptor name="wireChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="wireChartOfAccountsCode" />
 	</reference-descriptor>
@@ -975,6 +978,7 @@
 		<foreignkey field-ref="wireObjectCode" />
 		<foreignkey field-ref="wireSubObjectCode" />
 	</reference-descriptor>
+-->
 	<reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>

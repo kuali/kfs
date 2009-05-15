@@ -27,6 +27,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.Summarizable;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.impl.PersistenceStructureServiceImpl;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * 
@@ -605,5 +606,13 @@ public class ObjectCode extends PersistableBusinessObjectBase implements Summari
 
     public String getName() {
         return this.financialObjectCodeName;
+    }
+    
+    /**
+     * Determines if this object code reports to itself
+     * @return true if the object code reports to itself, false otherwise
+     */
+    public boolean isReportingToSelf() {
+        return ObjectUtils.nullSafeEquals(this.getChartOfAccountsCode(), this.getReportsToChartOfAccountsCode()) && ObjectUtils.nullSafeEquals(this.getFinancialObjectCode(), this.getReportsToFinancialObjectCode());
     }
 }

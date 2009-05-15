@@ -49,6 +49,7 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
     
     private static final String INDIRECT_COST_TYPES_PARAMETER = "INDIRECT_COST_TYPES";
     private static final String INDIRECT_COST_FISCAL_PERIODS_PARAMETER = "INDIRECT_COST_FISCAL_PERIODS";
+    private static final String ICR_EXCLUSIONS_AT_TRANSACTION_AND_TOP_LEVEL_ONLY_PARAMETER_NAME = "ICR_EXCLUSIONS_AT_TRANSACTION_AND_TOP_LEVEL_ONLY_IND";
 
     private IndirectCostRecoveryExclusionAccountDao indirectCostRecoveryExclusionAccountDao;
     private IndirectCostRecoveryExclusionTypeDao indirectCostRecoveryExclusionTypeDao;
@@ -129,69 +130,114 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
                 return false;
             }
 
-            // Do we exclude this account from ICR because account/object is in the table?
-            IndirectCostRecoveryExclusionAccount excAccount = indirectCostRecoveryExclusionAccountDao.getByPrimaryKey(account.getChartOfAccountsCode(), account.getAccountNumber(), objectCode.getChartOfAccountsCode(), objectCode.getFinancialObjectCode());
-            if (excAccount != null) {
-                // No need to post this
-                LOG.debug("isIcrTransaction() ICR Excluded account - not posted");
-                return false;
-            }
+            // do we have an exclusion by type or by account?  then we don't have to post no expenditure transaction
+            final boolean selfAndTopLevelOnly = getParameterService().getIndicatorParameter(PosterIndirectCostRecoveryEntriesStep.class, PostExpenditureTransaction.ICR_EXCLUSIONS_AT_TRANSACTION_AND_TOP_LEVEL_ONLY_PARAMETER_NAME);
+            if (excludedByType(indirectCostRecoveryTypeCode, objectCode, selfAndTopLevelOnly)) return false;
+            if (excludedByAccount(account, objectCode, selfAndTopLevelOnly)) return false;
 
-            // How about if we just look based on account?
-            if (indirectCostRecoveryExclusionAccountDao.existByAccount(account.getChartOfAccountsCode(), account.getAccountNumber())) {
-                return true;
-            }
-            else {
-                // If the ICR type code is empty or excluded by the KFS-GL / Poster Indirect Cost Recoveries Step / INDIRECT_COST_TYPES parameter, don't post
-                if ((!StringUtils.hasText(indirectCostRecoveryTypeCode)) || !getParameterService().getParameterEvaluator(PosterIndirectCostRecoveryEntriesStep.class, PostExpenditureTransaction.INDIRECT_COST_TYPES_PARAMETER, indirectCostRecoveryTypeCode).evaluationSucceeds()) {
-                    // No need to post this
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("isIcrTransaction() ICR type is null or excluded by the KFS-GL / Poster Indirect Cost Recoveries Step / INDIRECT_COST_TYPES parameter - not posted");
-                    }
-                    return false;
-                }
-
-                // If the type is excluded, don't post. First step finds the top level object code...
-                ObjectCode currentObjectCode = objectCode;
-                boolean foundIt = false;
-                while (!foundIt) {
-                    if (currentObjectCode.getChartOfAccountsCode().equals(currentObjectCode.getReportsToChartOfAccountsCode()) && currentObjectCode.getFinancialObjectCode().equals(currentObjectCode.getReportsToFinancialObjectCode())) {
-                        foundIt = true;
-                    }
-                    else {
-                        currentObjectCode.setReportsToFinancialObject(accountingCycleCachingService.getObjectCode(currentObjectCode.getUniversityFiscalYear(), currentObjectCode.getReportsToChartOfAccountsCode(), currentObjectCode.getReportsToFinancialObjectCode()));
-                        if (ObjectUtils.isNull(currentObjectCode.getReportsToFinancialObject())) {
-                            foundIt = true;
-                        }
-                        else {
-                            currentObjectCode = currentObjectCode.getReportsToFinancialObject();
-                        }
-                    }
-                }
-                // second step checks if the top level object code is to be excluded...
-                IndirectCostRecoveryExclusionType excType = indirectCostRecoveryExclusionTypeDao.getByPrimaryKey(indirectCostRecoveryTypeCode, currentObjectCode.getChartOfAccountsCode(), currentObjectCode.getFinancialObjectCode());
-                
-                if(excType != null && excType.isActive()) {
-                	if(ObjectUtils.isNotNull(excType.getIndirectCostRecoveryType())) {
-                		if(excType.getIndirectCostRecoveryType().isActive()) {
-                			// No need to post this
-                            LOG.debug("isIcrTransaction() ICR Excluded type - not posted");
-                            return false;
-                		}
-                	} else {
-            			// No need to post this
-                        LOG.debug("isIcrTransaction() ICR Excluded type - not posted");
-                        return false;
-                	}
-                }
-                return true;
-            }
+            return true;  // still here?  then I guess we don't have an exclusion
         }
         else {
             // Don't need to post anything
             LOG.debug("isIcrTransaction() invalid period code - not posted");
             return false;
         }
+    }
+    
+    /**
+     * Determines if there's an exclusion by type record existing for the given ICR type code and object code or object codes within the object code's reportsTo hierarchy
+     * @param indirectCostRecoveryTypeCode the ICR type code to check
+     * @param objectCode the object code to check for, as well as check the reports-to hierarchy
+     * @param selfAndTopLevelOnly whether only the given object code and the top level object code should be checked
+     * @return true if the transaction with the given ICR type code and object code have an exclusion by type record, false otherwise
+     */
+    protected boolean excludedByType(String indirectCostRecoveryTypeCode, ObjectCode objectCode, boolean selfAndTopLevelOnly) {
+        if (hasExclusionByType(indirectCostRecoveryTypeCode, objectCode)) return true;
+        
+        ObjectCode currentObjectCode = getReportsToObjectCode(objectCode);
+        while (currentObjectCode != null && !currentObjectCode.isReportingToSelf()) {
+            if (!selfAndTopLevelOnly && hasExclusionByType(indirectCostRecoveryTypeCode, currentObjectCode)) return true;
+            
+            currentObjectCode = getReportsToObjectCode(currentObjectCode);
+        }
+        if (currentObjectCode != null && hasExclusionByType(indirectCostRecoveryTypeCode, currentObjectCode)) return true; // we must be top level if the object code isn't null
+        
+        return false;
+    }
+    
+    /**
+     * Determines if the given object code and indirect cost recovery type code have an exclusion by type record associated with them
+     * @param indirectCostRecoveryTypeCode the indirect cost recovery type code to check
+     * @param objectCode the object code to check
+     * @return true if there's an exclusion by type record for this type code and object code
+     */
+    protected boolean hasExclusionByType(String indirectCostRecoveryTypeCode, ObjectCode objectCode) {
+        final IndirectCostRecoveryExclusionType excType = indirectCostRecoveryExclusionTypeDao.getByPrimaryKey(indirectCostRecoveryTypeCode, objectCode.getChartOfAccountsCode(), objectCode.getFinancialObjectCode());
+        return !ObjectUtils.isNull(excType) && excType.isActive();
+    }
+    
+    /**
+     * Determine if the given account and object code have an exclusion by account associated which should prevent this transaction from posting an ExpenditureTransaction
+     * @param account account to check
+     * @param objectCode object code to check
+     * @param selfAndTopLevelOnly if only the given object code and the top level object code should seek exclusion by account records or not
+     * @return true if the given account and object code have an associated exclusion by account, false otherwise
+     */
+    protected boolean excludedByAccount(Account account, ObjectCode objectCode, boolean selfAndTopLevelOnly) {
+        if (hasExclusionByAccount(account, objectCode)) return true;
+        
+        ObjectCode currentObjectCode = getReportsToObjectCode(objectCode);
+        while (currentObjectCode != null && !currentObjectCode.isReportingToSelf()) {
+            if (!selfAndTopLevelOnly && hasExclusionByAccount(account, currentObjectCode)) return true;
+            
+            currentObjectCode = getReportsToObjectCode(currentObjectCode);
+        }
+        if (currentObjectCode != null && hasExclusionByAccount(account, currentObjectCode)) return true; // we must be top level if we got this far
+        
+        return false;
+    }
+    
+    /**
+     * Determines if there's an exclusion by account record for the given account and object code
+     * @param account the account to check
+     * @param objectCode the object code to check
+     * @return true if the given account and object code have an exclusion by account record, false otherwise
+     */
+    protected boolean hasExclusionByAccount(Account account, ObjectCode objectCode) {
+        final IndirectCostRecoveryExclusionAccount excAccount = indirectCostRecoveryExclusionAccountDao.getByPrimaryKey(account.getChartOfAccountsCode(), account.getAccountNumber(), objectCode.getChartOfAccountsCode(), objectCode.getFinancialObjectCode());
+        return !ObjectUtils.isNull(excAccount);
+    }
+    
+    /**
+     * Determines if the given object code has a valid reports-to hierarchy
+     * @param objectCode the object code to check
+     * @return true if the object code has a valid reports-to hierarchy with no nulls; false otherwise
+     */
+    protected boolean hasValidObjectCodeReportingHierarchy(ObjectCode objectCode) {
+        ObjectCode currentObjectCode = objectCode;
+        while (hasValidReportsToFields(currentObjectCode) && !currentObjectCode.isReportingToSelf()) {
+            currentObjectCode = getReportsToObjectCode(currentObjectCode);
+        }
+        if (!hasValidReportsToFields(currentObjectCode)) return false;
+        return true;
+    }
+    
+    /**
+     * Determines if the given object code has all the fields it would need for a strong and healthy reports to hierarchy
+     * @param objectCode the object code to give a little check
+     * @return true if everything is good, false if the object code has a bad, rotted reports to hierarchy
+     */
+    protected boolean hasValidReportsToFields(ObjectCode objectCode) {
+        return !org.apache.commons.lang.StringUtils.isBlank(objectCode.getReportsToChartOfAccountsCode()) && !org.apache.commons.lang.StringUtils.isBlank(objectCode.getReportsToFinancialObjectCode());
+    }
+    
+    /**
+     * Uses the caching DAO instead of regular OJB to find the reports-to object code
+     * @param objectCode the object code to get the reporter of
+     * @return the reports to object code, or, if that is impossible, null
+     */
+    protected ObjectCode getReportsToObjectCode(ObjectCode objectCode) {
+       return accountingCycleCachingService.getObjectCode(objectCode.getUniversityFiscalYear(), objectCode.getReportsToChartOfAccountsCode(), objectCode.getReportsToFinancialObjectCode()); 
     }
 
     /**
@@ -207,7 +253,11 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
         LOG.debug("post() started");
 
         try {
-            if (isIcrTransaction(t.getObjectType(), t.getAccount(), t.getSubAccountNumber(), t.getFinancialObject(), t.getUniversityFiscalPeriodCode())) {
+            if (!hasValidObjectCodeReportingHierarchy(t.getFinancialObject())) {
+                // I agree with the commenter below...this seems totally lame
+                return GeneralLedgerConstants.ERROR_CODE + ": Warning - excluding transaction from Indirect Cost Recovery because "+t.getFinancialObject().toString()+" has an invalid reports to hierarchy";
+            }
+            else if (isIcrTransaction(t.getObjectType(), t.getAccount(), t.getSubAccountNumber(), t.getFinancialObject(), t.getUniversityFiscalPeriodCode())) {
                 return postTransaction(t, mode);
             }
         }

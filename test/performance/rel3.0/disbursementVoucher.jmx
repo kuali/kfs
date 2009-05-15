@@ -4518,8 +4518,8 @@
                 </collectionProp>
               </HeaderManager>
               <hashTree/>
-              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Wait 10 sec" enabled="true">
-                <stringProp name="ConstantTimer.delay">10000</stringProp>
+              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Wait 30 sec" enabled="true">
+                <stringProp name="ConstantTimer.delay">30000</stringProp>
               </ConstantTimer>
               <hashTree/>
             </hashTree>
@@ -6356,8 +6356,8 @@
                 </collectionProp>
               </HeaderManager>
               <hashTree/>
-              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Wait 10 sec" enabled="true">
-                <stringProp name="ConstantTimer.delay">10000</stringProp>
+              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Wait 30 sec" enabled="true">
+                <stringProp name="ConstantTimer.delay">30000</stringProp>
               </ConstantTimer>
               <hashTree/>
             </hashTree>
@@ -8009,8 +8009,8 @@
                 </collectionProp>
               </HeaderManager>
               <hashTree/>
-              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Wait 10 sec" enabled="true">
-                <stringProp name="ConstantTimer.delay">10000</stringProp>
+              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Wait 30 sec" enabled="true">
+                <stringProp name="ConstantTimer.delay">30000</stringProp>
               </ConstantTimer>
               <hashTree/>
             </hashTree>

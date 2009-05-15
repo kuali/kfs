@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cam.document.service.impl;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -446,7 +447,10 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
             asset.setSalvageAmount(kualiDecimalUtils.safeMultiply(assetGlobal.getSeparateSourceCapitalAsset().getSalvageAmount(), separateRatio));
             asset.setReplacementAmount(kualiDecimalUtils.safeMultiply(assetGlobal.getSeparateSourceCapitalAsset().getReplacementAmount(), separateRatio));
             asset.setFabricationEstimatedTotalAmount(kualiDecimalUtils.safeMultiply(assetGlobal.getSeparateSourceCapitalAsset().getFabricationEstimatedTotalAmount(), separateRatio));
-            asset.setLastInventoryDate(new Timestamp(assetGlobal.getLastInventoryDate().getTime()));
+            Date lastInventoryDate = assetGlobal.getLastInventoryDate();
+            if (lastInventoryDate != null) {
+                asset.setLastInventoryDate(new Timestamp(lastInventoryDate.getTime()));
+            }
         }
 
         return asset;

@@ -52,18 +52,6 @@
 					<value>PurchaseOrderReopen-approveDocumentValidation</value>
 				</entry>		
 				<entry>
-					<key><value>org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent</value></key>
-					<value>PurchaseOrderReopen-addAccountingLineValidation</value>
-				</entry>
-				<entry>
-					<key><value>org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent</value></key>
-					<value>PurchaseOrderReopen-updateAccountingLineValidation</value>
-				</entry>	
-				<entry>
-					<key><value>org.kuali.kfs.sys.document.validation.event.ReviewAccountingLineEvent</value></key>
-					<value>PurchaseOrderReopen-reviewAccountingLineValidation</value>
-				</entry>
-				<entry>
 					<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedAddPurchasingAccountsPayableItemEvent</value></key>
 					<value>PurchaseOrderReopen-addPurchasingAccountsPayableItemValidation</value>				
 				</entry>

@@ -85,58 +85,7 @@
   				
   			</list>  			
   		</property>
-  	</bean>
-
-    <!-- Add Accounting Line Event -->
-	<bean id="PurchaseOrderReopen-addAccountingLineValidation" parent="PurchaseOrderReopen-addAccountingLineValidation-parentBean" scope="prototype" />
-  
-	<bean id="PurchaseOrderReopen-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-  		<property name="validations">
-  			<list>
-				<bean parent="AccountingDocument-AddAccountingLine-DefaultValidation" scope="prototype">
-					<property name="quitOnFail" value="true" />
-				</bean>
-  				<bean parent="Purchasing-accountingLinePercentValidation" scope="prototype">
-					<property name="parameterProperties">
-						<bean parent="validationFieldConversion">
-							<property name="sourceEventProperty" value="accountingLine" />
-							<property name="targetValidationProperty" value="updatedAccountingLine" />
-						</bean>
-					</property>
-  				</bean>																
-			</list>
-  		</property>
-	</bean>
-
-	<!-- Update Accounting Line Event -->
-    <bean id="PurchaseOrderReopen-updateAccountingLineValidation" parent="PurchaseOrderReopen-updateAccountingLineValidation-parentBean" scope="prototype" />
-  
-	<bean id="PurchaseOrderReopen-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-  		<property name="validations">
-  			<list>
-  				<bean parent="AccountingDocument-UpdateAccountingLine-DefaultValidation" scope="prototype"/>
-  				<bean parent="Purchasing-updateAccountingLineValidation" scope="prototype">
-					<property name="parameterProperties">
-						<bean parent="validationFieldConversion">
-							<property name="sourceEventProperty" value="accountingLine" />
-							<property name="targetValidationProperty" value="updatedAccountingLine" />
-						</bean>
-					</property>
-  				</bean>								
-			</list>
-  		</property>
-	</bean>
-
-	<!-- Review Accounting Line Event -->
-	<bean id="PurchaseOrderReopen-reviewAccountingLineValidation" parent="PurchaseOrderReopen-reviewAccountingLineValidation-parentBean" scope="prototype" />
-  
-	<bean id="PurchaseOrderReopen-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-  		<property name="validations">
-  			<list>
-  				<bean parent="AccountingDocument-ReviewAccountingLine-DefaultValidation" scope="prototype"/>  				
-			</list>
-		</property>
-	</bean>												
+  	</bean>										
 	
 	<!-- Add Item Event -->
 	<bean id="PurchaseOrderReopen-addPurchasingAccountsPayableItemValidation" parent="PurchaseOrderReopen-addPurchasingAccountsPayableItemValidation-parentBean" scope="prototype" />

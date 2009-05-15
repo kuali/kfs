@@ -46,7 +46,6 @@ import org.kuali.kfs.module.ld.document.validation.impl.TransactionFieldValidato
 import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
 import org.kuali.kfs.module.ld.util.LaborLedgerUnitOfWork;
 import org.kuali.kfs.module.ld.util.LaborOriginEntryFileIterator;
-import org.kuali.kfs.module.ld.util.ReportRegistry;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
@@ -92,8 +91,6 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     int numberOfErrorOriginEntry;
 
     private String batchFileDirectoryName;
-
-    // private Map<Transaction, List<Message>> laborLedgerEntriesErrorMap = new HashMap<Transaction, List<Message>>();
     private Map<Transaction, List<Message>> errorMap = new HashMap<Transaction, List<Message>>();
 
     /**
@@ -104,8 +101,6 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         
         Date runDate = dateTimeService.getCurrentSqlDate();
         this.postLaborLedgerEntries(runDate);
-        //this.postLaborGLEntries(outputFileName, runDate);
-
     }
 
     /**
@@ -117,7 +112,6 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      */
     private void postLaborLedgerEntries(Date runDate) {
         LOG.info("postLaborLedgerEntries() started..........................");
-        String reportsDirectory = ReportRegistry.getReportsDirectory();
         numberOfErrorOriginEntry = 0;
         // change file name to FIS
 
@@ -301,114 +295,6 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     private String updateLedgerBalance(LaborOriginEntry originEntry, Date postDate) {
         return laborLedgerBalancePoster.post(originEntry, 0, postDate);
     }
-
-    /**
-     * post the valid origin entries in the given group into General Ledger
-     * 
-     * @param validGroup the origin entry group that contains the valid transactions determined in the Labor Poster
-     * @param runDate the data when the process is running
-     */
-    
-    //We don't need this method anymore because make LaborPoster as 1 step
-//    private void postLaborGLEntries(String outputFileName, Date runDate) {
-//        LOG.info("postLaborGLEntries() started");
-//
-//        String reportsDirectory = ReportRegistry.getReportsDirectory();
-//        reportSummary = this.buildReportSummaryForLaborGLPosting(reportSummary);
-//
-//        // TODO: check and make a code here from getConsolidatedEntryCollectionByGroup
-//        // Collection<LaborOriginEntry> entries = laborOriginEntryService.getConsolidatedEntryCollectionByGroup(validGroup);
-//        // int numberOfOriginEntries = laborOriginEntryService.getCountOfEntriesInSingleGroup(validGroup);
-//        int numberOfOriginEntries = 0;
-//        int numberOfSelectedOriginEntry = 0;
-//
-//        Collection<LaborOriginEntry> entryCollection = new ArrayList();
-//        List<Message> errors = new ArrayList();
-//
-//        FileReader GLE_FILE;
-//        try {
-//            GLE_FILE = new FileReader(outputFileName);
-//        }
-//        catch (FileNotFoundException e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//        BufferedReader GLE_FILE_br = new BufferedReader(GLE_FILE);
-//        int lineNumber = 0;
-//        LaborOriginEntry laborOriginEntry = new LaborOriginEntry();
-//        boolean errorsLoading = false;
-//        int loadedCount = 0;
-//        LaborLedgerUnitOfWork laborLedgerUnitOfWork = new LaborLedgerUnitOfWork();
-//
-//        try {
-//            String currentLine = GLE_FILE_br.readLine();
-//            while (currentLine != null) {
-//                lineNumber++;
-//                if (!StringUtils.isEmpty(currentLine) && !StringUtils.isBlank(currentLine.trim())) {
-//                    try {
-//                        laborOriginEntry = new LaborOriginEntry();
-//                        laborOriginEntry.setFromTextFileForBatch(currentLine, lineNumber);
-//                    }
-//                    catch (LoadException e) {
-//                        errorsLoading = true;
-//                    }
-//
-//
-//                    // shawn - setup below two fields before making consolidated list
-//                    laborOriginEntry.setTransactionLedgerEntryDescription(getTransactionDescription(laborOriginEntry));
-//                    laborOriginEntry.setTransactionEncumbranceUpdateCode(this.getEncumbranceUpdateCode(laborOriginEntry));
-//
-//                    if (laborLedgerUnitOfWork.canContain(laborOriginEntry)) {
-//                        laborLedgerUnitOfWork.addEntryIntoUnit(laborOriginEntry);
-//                    }
-//                    else {
-//                        // laborLedgerUnitOfWork.resetLaborLedgerUnitOfWork(laborOriginEntry,
-//                        // LaborConstants.consolidationAttributesOfOriginEntry());
-//                        laborLedgerUnitOfWork.resetLaborLedgerUnitOfWork(laborOriginEntry);
-//                        entryCollection.add(laborLedgerUnitOfWork.getWorkingEntry());
-//                    }
-//
-//                    loadedCount++;
-//                    if (loadedCount % 1000 == 0) {
-//                        LOG.info(loadedCount + " " + laborOriginEntry.toString());
-//                    }
-//                }
-//                currentLine = GLE_FILE_br.readLine();
-//            }
-//
-//            GLE_FILE_br.close();
-//            GLE_FILE.close();
-//        }
-//        catch (IOException e) {
-//            // FIXME: do whatever should be done here
-//            LOG.error("postLaborGLEntries stopped due to: " + e.getMessage(), e);
-//            throw new RuntimeException(e);
-//        }
-//
-//        for (LaborOriginEntry originEntryForGL : entryCollection) {
-//            try {
-//                errors = this.isPostableForLaborGLEntry(originEntryForGL);
-//                if (errors.isEmpty()) {
-//                    String operationType = laborGLLedgerEntryPoster.post(originEntryForGL, 0, runDate);
-//                    Summary.updateReportSummary(reportSummary, laborGLLedgerEntryPoster.getDestinationName(), operationType, STEP, 0);
-//                    numberOfSelectedOriginEntry++;
-//                }
-//
-//            }
-//            catch (RuntimeException ioe) {
-//                // catch here again, it should be from postSingleEntryIntoLaborLedger
-//                LOG.error("postLaborGLEntries stopped due to: " + ioe.getMessage() + " on line number : " + loadedCount, ioe);
-//                throw new RuntimeException("Unable to execute: " + ioe.getMessage() + " on line number : " + loadedCount, ioe);
-//            }
-//        }
-//
-//        numberOfOriginEntries = lineNumber;
-//        int numberOfBypassedOriginEntry = numberOfOriginEntries - numberOfSelectedOriginEntry;
-//
-//        Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, KFSConstants.OperationType.BYPASS, numberOfBypassedOriginEntry, 0);
-//        // Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, KFSConstants.OperationType.REPORT_ERROR, errorMap.size(), 0);
-//        laborReportService.generateStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_GL_SUMMARY, reportsDirectory, runDate);
-//    }
 
     /**
      * determine if the given origin entry can be posted back to Labor GL entry

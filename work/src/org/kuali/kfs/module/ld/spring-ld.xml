@@ -467,50 +467,6 @@
             </map>
         </property>
     </bean>
-      
-    <bean id="summaryReportHelper" parent="businessObjectReportHelper">
-        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.Balance" />
-        <property name="columnCount" value="7" />
-        <property name="orderedPropertyNameToHeaderLabelMap">
-            <map>
-                <entry key="fundGroup" value="FUND GROUP"/>
-                <entry key="beginningBalanceLineAmount" value="BEGINNING BAL"/>
-                <entry key="accountLineAnnualBalanceAmount" value="ANNUAL BAL"/>
-                <entry key="month1Amount" value="ACCUM AMT FOR JUL"/>
-                <entry key="month2Amount" value="ACCUM AMT FOR AUG"/>                
-                <entry key="month3Amount" value="ACCUM AMT FOR SEP"/>
-                <entry key="month4Amount" value="ACCUM AMT FOR OCT"/>
-                
-                <entry key="EMPTY_CELL1" value=""/>
-                <entry key="month5Amount" value="ACCUM AMT FOR NOV"/>
-                <entry key="month6Amount" value="ACCUM AMT FOR DEC"/>
-                <entry key="month7Amount" value="ACCUM AMT FOR JAN"/>
-                <entry key="month8Amount" value="ACCUM AMT FOR FEB"/>
-                <entry key="month9Amount" value="ACCUM AMT FOR MAR"/>
-                <entry key="month10Amount" value="ACCUM AMT FOR APR"/>
-                
-                <entry key="EMPTY_CELL2" value=""/>
-                <entry key="month11Amount" value="ACCUM AMT FOR MAY"/>
-                <entry key="month12Amount" value="ACCUM AMT FOR JUN"/>
-                <entry key="month13Amount" value="ACCUM AMT FOR CLOSE"/>
-                <entry key="yearBalance" value="ACCTG PER ACCUM AMT"/>
-            </map>
-        </property>        
-    </bean>
-    
-    <bean id="yearToDaySummaryReportHelper" parent="businessObjectReportHelper">
-        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.Balance" />
-        <property name="columnCount" value="5" />
-        <property name="orderedPropertyNameToHeaderLabelMap">
-            <map>
-                <entry key="fundGroup" value="FUND GROUP"/>
-                <entry key="beginningBalanceLineAmount" value="BEGINNING BAL"/>
-                <entry key="accountLineAnnualBalanceAmount" value="ANNUAL BAL"/>
-                <entry key="contractsGrantsBeginningBalanceAmount" value="CG BEGINNING BAL"/>
-                <entry key="yearToDayBalance" value="YTD Balance"/>
-            </map>
-        </property>        
-    </bean>
 
     <bean id="laborReportService" class="org.kuali.kfs.module.ld.service.impl.LaborReportServiceImpl">
         <property name="laborOriginEntryService">

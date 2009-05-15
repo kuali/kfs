@@ -197,7 +197,7 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         List<RoleResponsibilityImpl> roleResponsibilities = ((List<RoleResponsibilityImpl>)getBusinessObjectService().findMatching(RoleResponsibilityImpl.class, criteria));
         //Assuming that there is only 1 responsibility for both the org review roles
         if(roleResponsibilities!=null && roleResponsibilities.size()>0){
-            return getUIDocumentService().getRoleMemberResponsibilityActionImpls(roleMemberImpl.getRoleMemberId(), roleResponsibilities.get(0).getRoleResponsibilityId());
+            return getUIDocumentService().getRoleMemberResponsibilityActionImpls(roleMemberImpl.getRoleMemberId());
         }
         return null;
     }
@@ -852,7 +852,7 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         if(roleResponsibilities==null || roleResponsibilities.size()<1)
             throw new KualiException("The Org Review Role id:"+roleMember.getRoleId()+" does not have any responsibility associated with it");
 
-        List<RoleResponsibilityActionImpl> origRoleRspActions = getUIDocumentService().getRoleMemberResponsibilityActionImpls(roleMember.getRoleMemberId(), roleResponsibilities.get(0).getRoleResponsibilityId());
+        List<RoleResponsibilityActionImpl> origRoleRspActions = getUIDocumentService().getRoleMemberResponsibilityActionImpls(roleMember.getRoleMemberId());
         if(origRoleRspActions!=null && origRoleRspActions.size()>0)
             roleRspAction = origRoleRspActions.get(0);
         else{

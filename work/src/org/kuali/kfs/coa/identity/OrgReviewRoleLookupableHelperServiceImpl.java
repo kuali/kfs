@@ -403,7 +403,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         List<RoleResponsibilityImpl> roleResponsibilities = ((List<RoleResponsibilityImpl>)getBusinessObjectService().findMatching(RoleResponsibilityImpl.class, criteria));
         //Assuming that there is only 1 responsibility for both the org review roles
         if(roleResponsibilities!=null && roleResponsibilities.size()>0){
-            return getUiDocumentService().getRoleMemberResponsibilityActionImpls(roleMemberImpl.getRoleMemberId(), roleResponsibilities.get(0).getRoleResponsibilityId());
+            return getUiDocumentService().getRoleMemberResponsibilityActionImpls(roleMemberImpl.getRoleMemberId());
         }
         return null;
     }

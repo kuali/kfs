@@ -73,5 +73,8 @@ public class FilteringOriginEntryFileIterator extends OriginEntryFileIterator {
             super.fetchNextEntry();
         }
         while (nextEntry != null && !filter.accept(nextEntry));
+        if (nextEntry != null && !filter.accept(nextEntry)) {
+            nextEntry = null;
+        }
     }   
 }

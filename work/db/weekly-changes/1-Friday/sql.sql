@@ -33,3 +33,4 @@ ALTER TABLE KRIM_ROLE_RSP_ACTN_T
 -- make the role rsp actn rows for org review apply to all responsibilities assigned to the role
 update krim_role_rsp_actn_t set role_rsp_id = '*' where role_mbr_id in (select role_mbr_id from krim_role_mbr_t where role_id = '7')
 /
+drop sequence GL_ID_BILL_T_SEQ;

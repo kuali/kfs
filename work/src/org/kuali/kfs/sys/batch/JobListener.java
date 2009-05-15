@@ -105,7 +105,7 @@ public class JobListener implements org.quartz.JobListener {
     }
 
     private String getLogFileUrl(String nestedDiagnosticContext) {
-        return new StringBuffer(configurationService.getPropertyString(KFSConstants.HTDOCS_LOGS_URL_KEY)).append(nestedDiagnosticContext.toString()).append(".log").toString();
+        return new StringBuffer(configurationService.getPropertyString(KFSConstants.HTDOCS_REPORTS_URL_KEY)).append(nestedDiagnosticContext.toString()).append(".log").toString();
     }
 
     private void notify(JobExecutionContext jobExecutionContext, String jobStatus) {

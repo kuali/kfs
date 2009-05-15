@@ -291,6 +291,7 @@ public class CollectorBatch implements Serializable {
                 idDetail.setVersionNumber(foundIdDetail.getVersionNumber());
             }
             numSavedDetails++;
+            idDetail.setCreateSequence(""+numSavedDetails);
             collectorDetailService.save(idDetail);
         }
         collectorReportData.setNumSavedDetails(this, numSavedDetails);
@@ -391,6 +392,7 @@ public class CollectorBatch implements Serializable {
         // idBilling.setCreateSequence(String.valueOf(RandomUtils.nextInt(2)));
         // idBilling.setInterDepartmentalBillingSequenceNumber(String.valueOf(RandomUtils.nextInt(2)));
         idDetail.setCreateDate(new Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+        
     }
 
     /**

@@ -16,8 +16,8 @@
             </branch>
             <join name="JoinInvoiceRecurrenceIsInactivating"/>
           </split>
-          <requests name="Account" nextNode="Management"/>
-          <requests name="Management"/>
+          <requests name="Account" nextNode="Recurrence"/>
+          <requests name="Recurrence"/>
         </routePath>
       </routePaths>
       <routeNodes>
@@ -30,7 +30,7 @@
           <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
           <activationType>P</activationType>
         </role>
-        <role name="Management">
+        <role name="Recurrence">
           <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
           <activationType>P</activationType>
         </role>

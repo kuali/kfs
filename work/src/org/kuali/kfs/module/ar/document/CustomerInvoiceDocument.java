@@ -62,6 +62,8 @@ import org.kuali.rice.kns.util.TypedArrayList;
 public class CustomerInvoiceDocument extends AccountingDocumentBase implements AmountTotaling, Copyable, Correctable, Comparable<CustomerInvoiceDocument> {
 
     private static final String HAS_RECCURENCE_NODE = "HasReccurence";
+    private static final String BATCH_GENERATED_NODE = "BatchGenerated";
+
     private String invoiceHeaderText;
     private String invoiceAttentionLineText;
     private Date invoiceDueDate;
@@ -1915,12 +1917,24 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         if (HAS_RECCURENCE_NODE.equals(nodeName)) {
             return hasRecurrence();
         }
+        if (BATCH_GENERATED_NODE.equals(nodeName)) {
+            return isBatchGenerated();
+        }
         throw new UnsupportedOperationException("answerSplitNode('" + nodeName + "') was called but no handler for nodeName specified.");
     }
 
     /**
      * 
-     * This method...
+     * Determines whether this document was generated from a recurrence batch.  Returns true if so, false if not.
+     * @return
+     */
+    private boolean isBatchGenerated() {
+        return recurredInvoiceIndicator;
+    }
+    
+    /**
+     * 
+     * Determines whether this document has a Recurrence filled out enough to create an INVR doc.
      * @return
      */
     private boolean hasRecurrence() {

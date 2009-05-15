@@ -18,11 +18,25 @@
             </branch>
             <join name="Join"/>
           </split>
+          <split name="BatchGenerated">
+            <branch name="True">
+              <requests name="Initiator" nextNode="Recurrence"/>
+              <requests name="Recurrence" nextNode="Join"/>
+            </branch>
+            <branch name="False">
+              <simple name="NoOp" nextNode="Join2"/>
+            </branch>
+            <join name="Join2"/>
+          </split>
         </routePath>
       </routePaths>
       <routeNodes>
         <start name="AdHoc"/>
         <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="Initiator">
           <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
           <activationType>P</activationType>
         </role>
@@ -37,6 +51,7 @@
           <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
         </simple>
         <join name="Join"/>
+        <join name="Join2"/>
       </routeNodes>
     </documentType>
   </documentTypes>

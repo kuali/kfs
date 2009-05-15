@@ -29,6 +29,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class PurchaseOrderAmendmentDocumentPresentationController extends PurchaseOrderDocumentPresentationController {
     
+    @Override
     protected boolean canEdit(Document document) {
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
         // po amend docs in CGIP status are only editable when in Initiated or Saved status

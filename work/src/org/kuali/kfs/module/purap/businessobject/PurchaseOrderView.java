@@ -34,6 +34,7 @@ public class PurchaseOrderView extends AbstractRelatedView {
     private String recurringPaymentTypeCode;
     private String vendorChoiceCode;
     private Timestamp recurringPaymentEndDate;
+    private Timestamp purchaseOrderInitialOpenTimestamp;
     
     private List<Note> notes;
 
@@ -79,6 +80,14 @@ public class PurchaseOrderView extends AbstractRelatedView {
 
     public void setRecurringPaymentEndDate(Timestamp recurringPaymentEndDate) {
         this.recurringPaymentEndDate = recurringPaymentEndDate;
+    }
+
+    public Timestamp getPurchaseOrderInitialOpenTimestamp() {
+        return purchaseOrderInitialOpenTimestamp;
+    }
+
+    public void setPurchaseOrderInitialOpenTimestamp(Timestamp purchaseOrderInitialOpenTimestamp) {
+        this.purchaseOrderInitialOpenTimestamp = purchaseOrderInitialOpenTimestamp;
     }
 
     /**
@@ -137,10 +146,10 @@ public class PurchaseOrderView extends AbstractRelatedView {
     }
         
     /**
-     * Check if the purchase order this view represents is approved, i.e. its status is either OPEN or CLOSED.
-     * @return true if the purchase order is approved; false otherwise.
+     * Checks whether the purchase order view needs a warning to be displayed, i.e. it never has been opened.
+     * @return true if the purchase order needs a warning; false otherwise.
      */
-    public boolean getIsApproved() {
-        return PurchaseOrderStatuses.OPEN.equals(purchaseOrderStatusCode) || PurchaseOrderStatuses.CLOSED.equals(purchaseOrderStatusCode);
+    public boolean getNeedWarning() {
+        return getPurchaseOrderInitialOpenTimestamp() == null;
     }
 }

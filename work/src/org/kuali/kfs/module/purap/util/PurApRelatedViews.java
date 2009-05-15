@@ -84,6 +84,9 @@ public class PurApRelatedViews {
      * @return  A list of <PurchaseOrderView> with newer POs in the front.
      */
     public List<PurchaseOrderView> getRelatedPurchaseOrderViews() {
+        if (relatedPurchaseOrderViews != null)
+            return relatedPurchaseOrderViews;
+        
         // Obtain a list which is sorted by workflow document ID descending.
         relatedPurchaseOrderViews = updateRelatedView(PurchaseOrderView.class, relatedPurchaseOrderViews, true);
         
@@ -121,6 +124,9 @@ public class PurApRelatedViews {
      * @see org.kuali.kfs.module.purap.businessobject.PurchaseOrderView
      */
     public List<PurchaseOrderViewGroup> getGroupedRelatedPurchaseOrderViews() {
+        if (groupedRelatedPurchaseOrderViews != null)
+            return groupedRelatedPurchaseOrderViews;
+        
         /*
          * This extra layer of grouping is necessary in order to display the notes for a group of 
          * related POChange documents (which should have identical POID) after that group, 
@@ -149,6 +155,7 @@ public class PurApRelatedViews {
                 groupedRelatedPurchaseOrderViews.add(group);
             }
         }
+        
         return groupedRelatedPurchaseOrderViews;    
     }    
     
@@ -216,6 +223,9 @@ public class PurApRelatedViews {
      * @return  A list of ReceivingCorrectionViewGroups.
      */
     public List<ReceivingViewGroup> getGroupedRelatedReceivingViews() {
+        if (groupedRelatedReceivingViews != null)
+            return groupedRelatedReceivingViews;
+        
         groupedRelatedReceivingViews = new ArrayList<ReceivingViewGroup>();
         PurapService purapService = SpringContext.getBean(PurapService.class);
         List<LineItemReceivingView> liviews = purapService.getRelatedViews(LineItemReceivingView.class, accountsPayablePurchasingDocumentLinkIdentifier);

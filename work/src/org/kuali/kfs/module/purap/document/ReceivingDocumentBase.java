@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.businessobject.Carrier;
 import org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason;
 import org.kuali.kfs.module.purap.businessobject.LineItemReceivingStatus;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderView;
 import org.kuali.kfs.module.purap.businessobject.SensitiveData;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
@@ -660,6 +661,20 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     
     public String getDocumentTitleForResult() throws WorkflowException{
         return SpringContext.getBean(KualiWorkflowInfo.class).getDocType(this.getDocumentHeader().getWorkflowDocument().getDocumentType()).getDocTypeLabel();
+    }
+    
+    /**
+     * Checks whether the related purchase order views need a warning to be displayed, 
+     * i.e. if at least one of the purchase orders has never been opened.
+     * @return true if at least one related purchase order needs a warning; false otherwise
+     */
+    public boolean getNeedWarningRelatedPOs() {
+        List<PurchaseOrderView> poViews = getRelatedViews().getRelatedPurchaseOrderViews();
+        for (PurchaseOrderView poView : poViews) {
+            if (poView.getNeedWarning())
+                return true;
+        }
+        return false;
     }
     
 }

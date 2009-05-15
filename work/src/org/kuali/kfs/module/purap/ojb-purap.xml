@@ -3397,6 +3397,7 @@
     <field-descriptor name="recurringPaymentTypeCode" column="RECUR_PMT_TYP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="vendorChoiceCode" column="PO_VNDR_CHC_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="recurringPaymentEndDate" column="PO_END_DT" jdbc-type="TIMESTAMP"/>
+    <field-descriptor name="purchaseOrderInitialOpenTimestamp" column="PO_INIT_OPEN_DT" jdbc-type="TIMESTAMP"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.PaymentRequestView" table="AP_PMT_RQST_T">

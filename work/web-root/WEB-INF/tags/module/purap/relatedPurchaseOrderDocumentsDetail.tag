@@ -22,6 +22,11 @@
 <c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
 <c:set var="isATypeOfPODoc" value="${KualiForm.document.isATypeOfPODoc}" />
 
+<c:if test="${KualiForm.document.needWarningRelatedPOs}">
+	<font color="red"><bean:message key="${PurapConstants.WARNING_PURCHASEORDER_NUMBER_DONT_DISCLOSE}" /></font>
+    <br>
+</c:if>
+	
 <logic:notEmpty name="KualiForm" property="${groupList}">	   		
 	<logic:iterate id="group" name="KualiForm" property="${groupList}" indexId="groupCtr">
 		<c:forEach items="${group.views}" var="view" varStatus="viewCtr">					
@@ -30,7 +35,7 @@
 			        <c:when test="${view.purchaseOrderCurrentIndicator}">
         	            <h3> ${view.documentLabel} - 
         	            	<a href="<c:out value="${view.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${view.purapDocumentIdentifier}" /></a>
-        	            	<c:if test="${!view.isApproved}" >
+        	            	<c:if test="${view.needWarning}" >
         	            		&nbsp;<font color="#FF8080">UNAPPROVED</font>
         	            	</c:if>
         	            </h3>

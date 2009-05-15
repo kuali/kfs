@@ -291,7 +291,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         super.populateHeaderFields(workflowDocument);
         if (ObjectUtils.isNotNull(getPurchaseOrderDocument().getPurapDocumentIdentifier())) {
             String poIDstr = getPurchaseOrderDocument().getPurapDocumentIdentifier().toString();
-            if (!getPurchaseOrderDocument().getIsApproved()) {
+            if (getPurchaseOrderDocument().getNeedWarning()) {
                 poIDstr += " UNAPPROVED";
             }
             getDocInfo().add(new HeaderField("DataDictionary.PurchaseOrderDocument.attributes.purapDocumentIdentifier", poIDstr));

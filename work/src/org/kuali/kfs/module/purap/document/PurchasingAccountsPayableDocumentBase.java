@@ -32,6 +32,7 @@ import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineParser;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderView;
 import org.kuali.kfs.module.purap.businessobject.SensitiveData;
 import org.kuali.kfs.module.purap.businessobject.Status;
 import org.kuali.kfs.module.purap.document.service.PurapService;
@@ -1092,6 +1093,20 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
             }
         }
         return sourceAccountingLines;
+    }
+    
+    /**
+     * Checks whether the related purchase order views need a warning to be displayed, 
+     * i.e. if at least one of the purchase orders has never been opened.
+     * @return true if at least one related purchase order needs a warning; false otherwise
+     */
+    public boolean getNeedWarningRelatedPOs() {
+        List<PurchaseOrderView> poViews = getRelatedViews().getRelatedPurchaseOrderViews();
+        for (PurchaseOrderView poView : poViews) {
+            if (poView.getNeedWarning())
+                return true;
+        }
+        return false;
     }
     
 }

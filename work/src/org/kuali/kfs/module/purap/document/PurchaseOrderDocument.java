@@ -1654,11 +1654,11 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     }
     
     /**
-     * Checks if the purchase order this view represents is approved, i.e. its status is either OPEN or CLOSED.
-     * @return true if the purchase order is approved; false otherwise.
+     * Checks whether the purchase order needs a warning to be displayed, i.e. it never has been opened.
+     * @return true if the purchase order needs a warning; false otherwise.
      */
-    public boolean getIsApproved() {
-        return PurchaseOrderStatuses.OPEN.equals(getStatusCode()) || PurchaseOrderStatuses.CLOSED.equals(getStatusCode());
+    public boolean getNeedWarning() {
+        return getPurchaseOrderInitialOpenTimestamp() == null;
     }
-    
+
 }

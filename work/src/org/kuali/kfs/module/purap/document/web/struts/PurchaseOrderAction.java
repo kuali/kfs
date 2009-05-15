@@ -1665,6 +1665,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 cancelNote.setNoteText(reasonPrefix + reason);
                 document.addNote(cancelNote);
                 document.setStatusCode(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
+                //For KULPURAP-4075 - being required to add notes about changing po status even though i'm not changing status
+                document.setStatusChange(null);
                 SpringContext.getBean(PurapService.class).saveDocumentNoValidation(document);
             }
         }

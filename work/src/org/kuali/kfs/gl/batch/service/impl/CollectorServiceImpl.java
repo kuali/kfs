@@ -42,6 +42,7 @@ import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.gl.service.impl.CollectorScrubberStatus;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
+import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -62,6 +63,7 @@ public class CollectorServiceImpl implements CollectorService {
     private String batchFileDirectoryName;
     private String collectorFileDirectoryName;
     
+    private ReportWriterService collectorReportWriterService;
 
     /**
      * performs collection
@@ -70,7 +72,7 @@ public class CollectorServiceImpl implements CollectorService {
      */
     public CollectorReportData performCollection() {
         List<String> fileNamesToLoad = batchInputFileService.listInputFileNamesWithDoneFile(collectorInputFileType);
-        List<String> processedFiles = new ArrayList();
+        List<String> processedFiles = new ArrayList<String>();
 
         Date executionDate = dateTimeService.getCurrentSqlDate();
 
@@ -252,20 +254,6 @@ public class CollectorServiceImpl implements CollectorService {
      * @param collectorScrubberStatuses a List of CollectorScrubberStatus records
      */
     protected void updateCollectorReportDataWithExecutionStatistics(CollectorReportData collectorReportData, List<CollectorScrubberStatus> collectorScrubberStatuses) {
-        //TODO: Shawn - Jeff might do
-        
-        //        Collection<OriginEntryGroup> inputGroups = new ArrayList<OriginEntryGroup>();
-//
-//        // NOTE: this implementation does not support the use of multiple origin entry group service/origin entry services
-//        for (CollectorScrubberStatus collectorScrubberStatus : collectorScrubberStatuses) {
-//            inputGroups.add(collectorScrubberStatus.getValidGroup());
-//        }
-//
-//        if (inputGroups.size() > 0 && collectorScrubberStatuses.size() > 0) {
-//            OriginEntryService collectorScrubberOriginEntryService = collectorScrubberStatuses.get(0).getOriginEntryService();
-//            LedgerEntryHolder ledgerEntryHolder = collectorScrubberOriginEntryService.getSummaryByGroupId(inputGroups);
-//            collectorReportData.setLedgerEntryHolder(ledgerEntryHolder);
-//        }
     }
 
     public RunDateService getRunDateService() {
@@ -282,5 +270,14 @@ public class CollectorServiceImpl implements CollectorService {
 
     public void setCollectorFileDirectoryName(String collectorFileDirectoryName) {
         this.collectorFileDirectoryName = collectorFileDirectoryName;
+    }
+    
+
+    /**
+     * Sets the collectorReportWriterService attribute value.
+     * @param collectorReportWriterService The collectorReportWriterService to set.
+     */
+    public void setCollectorReportWriterService(ReportWriterService collectorReportWriterService) {
+        this.collectorReportWriterService = collectorReportWriterService;
     }
 }

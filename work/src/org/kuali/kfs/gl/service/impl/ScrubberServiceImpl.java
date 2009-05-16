@@ -62,8 +62,6 @@ public class ScrubberServiceImpl implements ScrubberService {
     private ReportWriterService scrubberBadBalanceListingReportWriterService;
     
     private ReportWriterService scrubberReportOnlyWriterService;
-    private ReportWriterService collectorScrubberReportWriterService;
-    private ReportWriterService collectorDemergerReportWriterService;
     private ReportWriterService demergerRemovedTransactionsListingReportWriterService;
     
     private String batchFileDirectoryName;
@@ -113,7 +111,7 @@ public class ScrubberServiceImpl implements ScrubberService {
      */
     public void scrubCollectorBatch(ScrubberStatus scrubberStatus, CollectorBatch batch, CollectorReportData collectorReportData) {
         // this service is especially developed to support collector scrubbing, demerger, and report generation
-        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, accountingCycleCachingService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, collectorFileDirectoryName, reportDirectoryName, collectorScrubberReportWriterService, null, null, collectorDemergerReportWriterService, null);
+        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, accountingCycleCachingService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, collectorFileDirectoryName, reportDirectoryName, null, null, null, null, null);
         sp.scrubCollectorBatch(scrubberStatus, batch, collectorReportData);
     }
     
@@ -306,38 +304,6 @@ public class ScrubberServiceImpl implements ScrubberService {
      */
     public void setScrubberReportOnlyWriterService(ReportWriterService scrubberReportOnlyWriterService) {
         this.scrubberReportOnlyWriterService = scrubberReportOnlyWriterService;
-    }
-
-    /**
-     * Gets the collectorScrubberReportWriterService attribute. 
-     * @return Returns the collectorScrubberReportWriterService.
-     */
-    public ReportWriterService getCollectorScrubberReportWriterService() {
-        return collectorScrubberReportWriterService;
-    }
-
-    /**
-     * Sets the collectorScrubberReportWriterService attribute value.
-     * @param collectorScrubberReportWriterService The collectorScrubberReportWriterService to set.
-     */
-    public void setCollectorScrubberReportWriterService(ReportWriterService collectorScrubberReportWriterService) {
-        this.collectorScrubberReportWriterService = collectorScrubberReportWriterService;
-    }
-
-    /**
-     * Gets the collectorDemergerReportWriterService attribute. 
-     * @return Returns the collectorDemergerReportWriterService.
-     */
-    public ReportWriterService getCollectorDemergerReportWriterService() {
-        return collectorDemergerReportWriterService;
-    }
-
-    /**
-     * Sets the collectorDemergerReportWriterService attribute value.
-     * @param collectorDemergerReportWriterService The collectorDemergerReportWriterService to set.
-     */
-    public void setCollectorDemergerReportWriterService(ReportWriterService collectorDemergerReportWriterService) {
-        this.collectorDemergerReportWriterService = collectorDemergerReportWriterService;
     }
 
     /**

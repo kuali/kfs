@@ -61,8 +61,8 @@ public class CollectorReportData {
     private SortedMap<String, ErrorMap> errorsForBatchName;
     private Map<String, Boolean> validationStatuses;
 
-    private LedgerEntryHolder ledgerEntryHolder;
-
+    private LedgerSummaryReport ledgerSummaryReport;
+    
     private int numPersistedBatches;
     private int numNotPersistedBatches;
 
@@ -79,12 +79,12 @@ public class CollectorReportData {
         numDetailAccountValuesChangedForBatchName = new HashMap<String, Integer>();
         numDetailDeletedForBatchName = new HashMap<String, Integer>();
         totalsOnInputOriginEntriesAssociatedWithErrorGroupForBatchName = new HashMap<String, Map<DocumentGroupData, OriginEntryTotals>>();
-        ledgerEntryHolder = null;
         numInputDetailsForBatchName = new HashMap<String, Integer>();
         numSavedDetailsForBatchName = new HashMap<String, Integer>();
         errorsForBatchName = new TreeMap<String, ErrorMap>();
         validationStatuses = new HashMap<String, Boolean>();
-
+        ledgerSummaryReport = new LedgerSummaryReport();
+        
         numPersistedBatches = 0;
         numNotPersistedBatches = 0;
     }
@@ -281,24 +281,6 @@ public class CollectorReportData {
         return totalsOnInputOriginEntriesAssociatedWithErrorGroupForBatchName.get(batch.getBatchName());
     }
 
-    /**
-     * Gets the ledgerEntryHolder attribute.
-     * 
-     * @return Returns the ledgerEntryHolder.
-     */
-    public LedgerEntryHolder getLedgerEntryHolder() {
-        return ledgerEntryHolder;
-    }
-
-    /**
-     * Sets the ledgerEntryHolder attribute value.
-     * 
-     * @param ledgerEntryHolder The ledgerEntryHolder to set.
-     */
-    public void setLedgerEntryHolder(LedgerEntryHolder ledgerEntryHolder) {
-        this.ledgerEntryHolder = ledgerEntryHolder;
-    }
-
     public void setNumInputDetails(CollectorBatch batch) {
         throwExceptionIfBatchNotAdded(batch);
 
@@ -398,5 +380,13 @@ public class CollectorReportData {
         throwExceptionIfBatchNotAdded(batch);
 
         return (Boolean) validationStatuses.get(batch.getBatchName()).booleanValue();
+    }
+
+    /**
+     * Gets the ledgerSummaryReport attribute. 
+     * @return Returns the ledgerSummaryReport.
+     */
+    public LedgerSummaryReport getLedgerSummaryReport() {
+        return ledgerSummaryReport;
     }
 }

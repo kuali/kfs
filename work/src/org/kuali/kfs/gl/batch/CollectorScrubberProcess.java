@@ -30,8 +30,6 @@ import org.kuali.kfs.gl.businessobject.CollectorDetail;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.report.CollectorReportData;
-import org.kuali.kfs.gl.service.OriginEntryGroupService;
-import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.gl.service.ScrubberService;
 import org.kuali.kfs.gl.service.impl.CollectorScrubberStatus;
 import org.kuali.kfs.gl.service.impl.ScrubberStatus;
@@ -53,8 +51,6 @@ public class CollectorScrubberProcess {
     protected String validFileName;
     protected String errorFileName;
     protected String expiredFileName;
-    protected OriginEntryService originEntryService;
-    protected OriginEntryGroupService originEntryGroupService;
     protected KualiConfigurationService kualiConfigurationService;
     protected PersistenceService persistenceService;
     protected CollectorReportData collectorReportData;
@@ -84,8 +80,6 @@ public class CollectorScrubberProcess {
      */
     public CollectorScrubberProcess(CollectorBatch batch, KualiConfigurationService kualiConfigurationService, PersistenceService persistenceService, ScrubberService scrubberService, CollectorReportData collectorReportData, DateTimeService dateTimeService, String collectorFileDirectoryName) {
         this.batch = batch;
-        this.originEntryService = originEntryService;
-        this.originEntryGroupService = originEntryGroupService;
         this.kualiConfigurationService = kualiConfigurationService;
         this.persistenceService = persistenceService;
         this.collectorReportData = collectorReportData;
@@ -110,7 +104,6 @@ public class CollectorScrubberProcess {
                 
         step.execute(getClass().getName(), dateTimeService.getCurrentDate());
         
-        
         CollectorScrubberStatus collectorScrubberStatus = new CollectorScrubberStatus();
         // extract the group BOs form the scrubber
 
@@ -130,9 +123,6 @@ public class CollectorScrubberProcess {
         // the FileName that contains all of the origin entries from the scrubber expired FileName (expired accounts)
         expiredFileName = scrubberStatus.getExpiredFileName();
         collectorScrubberStatus.setExpiredFileName(expiredFileName);
-
-        collectorScrubberStatus.setOriginEntryGroupService(originEntryGroupService);
-        collectorScrubberStatus.setOriginEntryService(originEntryService);
 
         // TODO: Shawn - I will have scrberr1, so run with this file
         retrieveErrorDocumentGroups();

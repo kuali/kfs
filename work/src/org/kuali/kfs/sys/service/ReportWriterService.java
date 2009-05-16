@@ -78,6 +78,8 @@ public interface ReportWriterService {
      * @param args
      */
     public void writeFormattedMessageLine(String format, Object ... args);
+
+    public void writeMultipleFormattedMessageLines(String format, Object... args);
     
     /**
      * Write table header into a report for the given business object

@@ -469,6 +469,11 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
         this.writeMultipleFormattedMessageLines(messageLines, null, false);
     }
 
+    public void writeMultipleFormattedMessageLines(String format, Object... args) {
+        String[] messageLines = getMultipleFormattedMessageLines(format, args);
+        writeMultipleFormattedMessageLines(messageLines);
+    }
+        
     /**
      * This method...
      * 

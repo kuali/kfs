@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -53,8 +54,8 @@ import org.kuali.kfs.gl.batch.service.impl.FilteringOriginEntryFileIterator;
 import org.kuali.kfs.gl.batch.service.impl.OriginEntryFileIterator;
 import org.kuali.kfs.gl.batch.service.impl.FilteringOriginEntryFileIterator.OriginEntryFilter;
 import org.kuali.kfs.gl.report.CollectorReportData;
+import org.kuali.kfs.gl.report.LedgerSummaryReport;
 import org.kuali.kfs.gl.report.TransactionListingReport;
-import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.gl.service.ScrubberReportData;
 import org.kuali.kfs.gl.service.ScrubberValidator;
@@ -111,7 +112,6 @@ public class ScrubberProcess {
     /* Services required */
     private FlexibleOffsetAccountService flexibleOffsetAccountService;
     private OriginEntryService originEntryService;
-    private OriginEntryGroupService originEntryGroupService;
     private DateTimeService dateTimeService;
     private OffsetDefinitionService offsetDefinitionService;
     private ObjectCodeService objectCodeService;
@@ -128,19 +128,19 @@ public class ScrubberProcess {
     private ReportWriterService demergerRemovedTransactionsListingReportWriterService;
     private ReportWriterService demergerReportWriterService;
 
-    // this will only be populated when in collector mode, otherwise the memory requirements will be huge
+    // these three members will only be populated when in collector mode, otherwise the memory requirements will be huge
     private Map<OriginEntry, OriginEntry> unscrubbedToUnscrubbedEntries;
-
+    private Map<Transaction, List<Message>> scrubberReportErrors;
+    private LedgerSummaryReport ledgerSummaryReport;
+    
+    private ScrubberReportData scrubberReport;
+    private DemergerReportData demergerReport;
+    
     /* These are all different forms of the run date for this job */
     private Date runDate;
     private Calendar runCal;
     private UniversityDate universityRunDate;
     private String offsetString;
-
-    /* These are the output groups */
-    private OriginEntryGroup validGroup;
-    private OriginEntryGroup errorGroup;
-    private OriginEntryGroup expiredGroup;
 
     /* Unit Of Work info */
     private UnitOfWorkInfo unitOfWork;
@@ -202,6 +202,7 @@ public class ScrubberProcess {
         this.scrubberBadBalanceListingReportWriterService = scrubberBadBalanceListingReportWriterService;
         this.demergerReportWriterService = demergerReportWriterService;
         this.demergerRemovedTransactionsListingReportWriterService = demergerRemovedTransactionsListingReportWriterService;
+        this.scrubberReportErrors = new IdentityHashMap<Transaction, List<Message>>();
     }
 
     /**
@@ -263,7 +264,9 @@ public class ScrubberProcess {
         this.errorFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_SCRUBBER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         this.expiredFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_SCRUBBER_EXPIRED_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         runDate = calculateRunDate(dateTimeService.getCurrentDate());
-       
+        
+        this.ledgerSummaryReport = collectorReportData.getLedgerSummaryReport();
+        
         // sort input file
         String scrubberSortInputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         String scrubberSortOutputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_SCRUBBER_INPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
@@ -279,12 +282,10 @@ public class ScrubberProcess {
         performDemerger();
         
         // the scrubber process has just updated several member variables of this class. Store these values for the collector report
-        /*collectorReportData.setBatchOriginEntryScrubberErrors(batch, scrubberReportErrors);
+        collectorReportData.setBatchOriginEntryScrubberErrors(batch, scrubberReportErrors);
         collectorReportData.setScrubberReportData(batch, scrubberReport);
-        collectorReportData.setDemergerReportData(batch, demergerReport);*/
+        collectorReportData.setDemergerReportData(batch, demergerReport);
 
-        scrubberStatus.setUnscrubbedToScrubbedEntries(unscrubbedToUnscrubbedEntries);
-        
         // report purpose - commented out.  If we need, the put string values for fileNames.
         scrubberStatus.setInputFileName(GeneralLedgerConstants.BatchFileSystem.COLLECTOR_SCRUBBER_INPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
         scrubberStatus.setValidFileName(GeneralLedgerConstants.BatchFileSystem.COLLECTOR_DEMERGER_VAILD_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
@@ -314,7 +315,7 @@ public class ScrubberProcess {
         
         setOffsetString();
         setDescriptions();
-        ScrubberReportData scrubberReport = new ScrubberReportData();
+        scrubberReport = new ScrubberReportData();
         
         processGroup(reportOnlyMode, scrubberReport);
 
@@ -359,7 +360,7 @@ public class ScrubberProcess {
         // Without this step, the job fails with Optimistic Lock Exceptions
         persistenceService.clearCache();
 
-        DemergerReportData demergerReport = new DemergerReportData();
+        demergerReport = new DemergerReportData();
         
         //shawn - set runDate here again, because demerger is calling outside from scrubber
         runDate = calculateRunDate(dateTimeService.getCurrentDate());
@@ -419,7 +420,6 @@ public class ScrubberProcess {
             throw new RuntimeException(e);
         }
 
-        Collection<OriginEntryFull> validEntryCollection = new ArrayList();
         int validSaved = 0;
         int errorSaved = 0;
         
@@ -463,6 +463,7 @@ public class ScrubberProcess {
                        // Read all the transactions in the valid group and update the cost share transactions
                        String updatedValidLine = checkAndSetTransactionTypeCostShare(financialBalanceTypeCode, desc, currentValidLine);
                        createOutputEntry(updatedValidLine, OUTPUT_DEMERGER_GLE_FILE_ps);
+                       handleDemergerSaveValidEntry(updatedValidLine);
                        validSaved++;
                        currentValidLine = INPUT_GLE_FILE_br.readLine();
                        validReadLine++;
@@ -479,6 +480,7 @@ public class ScrubberProcess {
                        // Read all the transactions in the valid group and update the cost share transactions
                        String updatedValidLine = checkAndSetTransactionTypeCostShare(financialBalanceTypeCode, desc, currentValidLine);
                        createOutputEntry(updatedValidLine, OUTPUT_DEMERGER_GLE_FILE_ps);
+                       handleDemergerSaveValidEntry(updatedValidLine);
                        validSaved++;
                        currentValidLine = INPUT_GLE_FILE_br.readLine();
                        validReadLine++;
@@ -740,7 +742,7 @@ public class ScrubberProcess {
                             if (te1 != null) {
                                 List errors = new ArrayList();
                                 errors.add(te1.message);
-                                scrubberReportWriterService.writeError(te1.transaction, errors);
+                                handleTransactionErrors(te1.transaction, errors);
                                 saveValidTransaction = false;
                                 saveErrorTransaction = true;
                             }
@@ -796,13 +798,13 @@ public class ScrubberProcess {
                                 scrubberReport.incrementErrorRecordWritten();
                                 unitOfWork.errorsFound = true;
     
-                                scrubberReportWriterService.writeError(te.transaction, te.message);
+                                handleTransactionError(te.transaction, te.message);
                             }
                             scrubCostShareAmount = KualiDecimal.ZERO;
                         }
     
                         if (transactionErrors.size() > 0) {
-                            scrubberReportWriterService.writeError(OriginEntryFull.copyFromOriginEntryable(scrubbedEntry), transactionErrors);
+                            handleTransactionErrors(OriginEntryFull.copyFromOriginEntryable(scrubbedEntry), transactionErrors);
                         }
 
                         lastEntry = scrubbedEntry;
@@ -811,7 +813,7 @@ public class ScrubberProcess {
                 else {
                     // Error transaction
                     saveErrorTransaction = true;
-                    scrubberReportWriterService.writeError(OriginEntryFull.copyFromOriginEntryable(unscrubbedEntry), transactionErrors);
+                    handleTransactionErrors(OriginEntryFull.copyFromOriginEntryable(unscrubbedEntry), transactionErrors);
                 }
     
                 if (saveValidTransaction) {
@@ -843,20 +845,7 @@ public class ScrubberProcess {
             OUTPUT_ERR_FILE_ps.close();
             OUTPUT_EXP_FILE_ps.close();
             
-            // constants? key constants? 
-            // should be moved to textReportHelper?
-            scrubberReportWriterService.writeStatisticLine("                                        UNSCRUBBED RECORDS READ              %,9d\n", scrubberReport.getNumberOfUnscrubbedRecordsRead());
-            scrubberReportWriterService.writeStatisticLine("                                        SCRUBBED RECORDS WRITTEN             %,9d\n", scrubberReport.getNumberOfScrubbedRecordsWritten());
-            scrubberReportWriterService.writeStatisticLine("                                        ERROR RECORDS WRITTEN                %,9d\n", scrubberReport.getNumberOfErrorRecordsWritten());
-            scrubberReportWriterService.writeStatisticLine("                                        OFFSET ENTRIES GENERATED             %,9d\n", scrubberReport.getNumberOfOffsetEntriesGenerated());
-            scrubberReportWriterService.writeStatisticLine("                                        CAPITALIZATION ENTRIES GENERATED     %,9d\n", scrubberReport.getNumberOfCapitalizationEntriesGenerated());
-            scrubberReportWriterService.writeStatisticLine("                                        LIABILITY ENTRIES GENERATED          %,9d\n", scrubberReport.getNumberOfLiabilityEntriesGenerated());
-            scrubberReportWriterService.writeStatisticLine("                                        PLANT INDEBTEDNESS ENTRIES GENERATED %,9d\n", scrubberReport.getNumberOfPlantIndebtednessEntriesGenerated());
-            scrubberReportWriterService.writeStatisticLine("                                        COST SHARE ENTRIES GENERATED         %,9d\n", scrubberReport.getNumberOfCostShareEntriesGenerated());
-            scrubberReportWriterService.writeStatisticLine("                                        COST SHARE ENC ENTRIES GENERATED     %,9d\n", scrubberReport.getNumberOfCostShareEncumbrancesGenerated());
-            scrubberReportWriterService.writeStatisticLine("                                        TOTAL OUTPUT RECORDS WRITTEN         %,9d\n", scrubberReport.getTotalNumberOfRecordsWritten());
-            scrubberReportWriterService.writeStatisticLine("                                        EXPIRED ACCOUNTS FOUND               %,9d\n", scrubberReport.getNumberOfExpiredAccountsFound());
-            
+            handleEndOfScrubberReport(scrubberReport);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -2020,5 +2009,55 @@ public class ScrubberProcess {
     protected void generateDemergerRemovedTransactionsReport(String errorFileName) {
         OriginEntryFileIterator removedTransactions = new OriginEntryFileIterator(new File(errorFileName));
         new TransactionListingReport().generateReport(demergerRemovedTransactionsListingReportWriterService, removedTransactions);
+    }
+    
+    protected void handleTransactionError(Transaction errorTransaction, Message message) {
+        if (collectorMode) {
+            List<Message> messages = scrubberReportErrors.get(errorTransaction);
+            if (messages == null) {
+                messages = new ArrayList<Message>();
+                scrubberReportErrors.put(errorTransaction, messages);
+            }
+            messages.add(message);
+        }
+        else {
+            scrubberReportWriterService.writeError(errorTransaction, message);
+        }
+    }
+    
+    protected void handleTransactionErrors(Transaction errorTransaction, List<Message> messages) {
+        if (collectorMode) {
+            for (Message message : messages) {
+                handleTransactionError(errorTransaction, message);
+            }
+        }
+        else {
+            scrubberReportWriterService.writeError(errorTransaction, messages);
+        }
+    }
+    
+    protected void handleEndOfScrubberReport(ScrubberReportData scrubberReport) {
+        if (!collectorMode) {
+            // constants? key constants? 
+            // should be moved to textReportHelper?
+            scrubberReportWriterService.writeStatisticLine("                                        UNSCRUBBED RECORDS READ              %,9d\n", scrubberReport.getNumberOfUnscrubbedRecordsRead());
+            scrubberReportWriterService.writeStatisticLine("                                        SCRUBBED RECORDS WRITTEN             %,9d\n", scrubberReport.getNumberOfScrubbedRecordsWritten());
+            scrubberReportWriterService.writeStatisticLine("                                        ERROR RECORDS WRITTEN                %,9d\n", scrubberReport.getNumberOfErrorRecordsWritten());
+            scrubberReportWriterService.writeStatisticLine("                                        OFFSET ENTRIES GENERATED             %,9d\n", scrubberReport.getNumberOfOffsetEntriesGenerated());
+            scrubberReportWriterService.writeStatisticLine("                                        CAPITALIZATION ENTRIES GENERATED     %,9d\n", scrubberReport.getNumberOfCapitalizationEntriesGenerated());
+            scrubberReportWriterService.writeStatisticLine("                                        LIABILITY ENTRIES GENERATED          %,9d\n", scrubberReport.getNumberOfLiabilityEntriesGenerated());
+            scrubberReportWriterService.writeStatisticLine("                                        PLANT INDEBTEDNESS ENTRIES GENERATED %,9d\n", scrubberReport.getNumberOfPlantIndebtednessEntriesGenerated());
+            scrubberReportWriterService.writeStatisticLine("                                        COST SHARE ENTRIES GENERATED         %,9d\n", scrubberReport.getNumberOfCostShareEntriesGenerated());
+            scrubberReportWriterService.writeStatisticLine("                                        COST SHARE ENC ENTRIES GENERATED     %,9d\n", scrubberReport.getNumberOfCostShareEncumbrancesGenerated());
+            scrubberReportWriterService.writeStatisticLine("                                        TOTAL OUTPUT RECORDS WRITTEN         %,9d\n", scrubberReport.getTotalNumberOfRecordsWritten());
+            scrubberReportWriterService.writeStatisticLine("                                        EXPIRED ACCOUNTS FOUND               %,9d\n", scrubberReport.getNumberOfExpiredAccountsFound());
+        }
+    }
+    
+    protected void handleDemergerSaveValidEntry(String entryString) {
+        if (collectorMode) {
+            OriginEntry tempEntry = new OriginEntryFull(entryString);
+            ledgerSummaryReport.summarizeEntry(tempEntry);
+        }
     }
 }

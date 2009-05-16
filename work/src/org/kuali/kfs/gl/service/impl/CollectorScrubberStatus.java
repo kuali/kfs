@@ -16,8 +16,6 @@
 package org.kuali.kfs.gl.service.impl;
 
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
-import org.kuali.kfs.gl.service.OriginEntryGroupService;
-import org.kuali.kfs.gl.service.OriginEntryService;
 
 /**
  * This class represents the status for origin entries through the different origin entry groups (i.e. input, valid, error, and expired) 
@@ -27,9 +25,6 @@ public class CollectorScrubberStatus {
     private String validFileName;
     private String errorFileName;
     private String expiredFileName;
-
-    private OriginEntryGroupService originEntryGroupService;
-    private OriginEntryService originEntryService;
 
     /**
      * Gets the errorFileName attribute.
@@ -83,42 +78,6 @@ public class CollectorScrubberStatus {
      */
     public void setInputFileName(String inputFileName) {
         this.inputFileName = inputFileName;
-    }
-
-    /**
-     * Gets the StringService attribute.
-     * 
-     * @return Returns the originEntryGroupService.
-     */
-    public OriginEntryGroupService getOriginEntryGroupService() {
-        return originEntryGroupService;
-    }
-
-    /**
-     * Sets the originEntryGroupService attribute value.
-     * 
-     * @param originEntryGroupService The originEntryGroupService to set.
-     */
-    public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
-        this.originEntryGroupService = originEntryGroupService;
-    }
-
-    /**
-     * Gets the originEntryService attribute.
-     * 
-     * @return Returns the originEntryService.
-     */
-    public OriginEntryService getOriginEntryService() {
-        return originEntryService;
-    }
-
-    /**
-     * Sets the originEntryService attribute value.
-     * 
-     * @param originEntryService The originEntryService to set.
-     */
-    public void setOriginEntryService(OriginEntryService originEntryService) {
-        this.originEntryService = originEntryService;
     }
 
     /**

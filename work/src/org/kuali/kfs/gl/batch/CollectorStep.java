@@ -30,24 +30,23 @@ import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchEx
  * in CollectorService 4) Stores origin group, gl entries, and id billings for each batch 5) Sends email to workgroup listed in the
  * batch file header with process results 6) Cleans up .done files
  */
-public class CollectorStep extends AbstractStep {
+public class CollectorStep extends AbstractWrappedBatchStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectorStep.class);
 
     private CollectorService collectorService;
     private CollectorReportService collectorReportService;
 
-    /**
-     * Controls the collector process.
-     * @param jobName the name of the job
-     * @param jobRunDate when the job has been run
-     * @return true if the next step in the job should proceed, false otherwise
-     * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String, java.util.Date)
-     */
-    public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-        CollectorReportData collectorReportData = collectorService.performCollection();
-        collectorReportService.sendEmails(collectorReportData);
-        collectorReportService.generateCollectorRunReports(collectorReportData);
-        return true;
+    
+    @Override
+    protected CustomBatchExecutor getCustomBatchExecutor() {
+        return new CustomBatchExecutor() {
+            public boolean execute() {
+                CollectorReportData collectorReportData = collectorService.performCollection();
+                collectorReportService.sendEmails(collectorReportData);
+                collectorReportService.generateCollectorRunReports(collectorReportData);
+                return true;
+            }
+        };
     }
 
     /**

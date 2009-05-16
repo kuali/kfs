@@ -36,6 +36,7 @@ import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.report.CollectorReportData;
 import org.kuali.kfs.gl.report.LedgerReport;
+import org.kuali.kfs.gl.report.LedgerSummaryReport;
 import org.kuali.kfs.gl.report.Summary;
 import org.kuali.kfs.gl.report.TransactionReport;
 import org.kuali.kfs.gl.report.TransactionReport.PageHelper;
@@ -44,6 +45,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
+import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.mail.InvalidAddressException;
 import org.kuali.rice.kns.mail.MailMessage;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -79,11 +81,11 @@ public class CollectorReportServiceImpl implements CollectorReportService {
     private KualiConfigurationService configurationService;
     private MailService mailService;
 
+    private ReportWriterService collectorReportWriterService;
+
     private Font headerFont;
     private Font textFont;
     private int textFontSize;
-
-    private String directoryName;
 
     /**
      * Constructs a CollectorReportServiceImpl instance
@@ -124,41 +126,20 @@ public class CollectorReportServiceImpl implements CollectorReportService {
      * @see org.kuali.kfs.gl.batch.service.CollectorReportService#generateCollectorRunReports(org.kuali.kfs.gl.report.CollectorReportData)
      */
     public void generateCollectorRunReports(CollectorReportData collectorReportData) {
-        try {
-            Document document = openPdfWriter(getDirectoryName(), "collector", dateTimeService.getCurrentDate(), "Collector reports");
-            appendCollectorHeaderInformation(document, collectorReportData);
-
-            document.newPage();
-            appendScrubberReport(document, collectorReportData);
-
-            document.newPage();
-            appendDemergerReport(document, collectorReportData);
-
-            document.newPage();
-            appendDeletedOriginEntryAndDetailReport(document, collectorReportData);
-
-            document.newPage();
-            appendDetailChangedAccountReport(document, collectorReportData);
-
-            document.newPage();
-            appendLedgerReport(document, collectorReportData);
-
-            document.close();
-        }
-        catch (DocumentException e) {
-            LOG.error("Error generating reports.", e);
-            throw new RuntimeException("Error generating reports.", e);
-        }
+        appendCollectorHeaderInformation(collectorReportData);
+        appendScrubberReport(collectorReportData);
+        appendDemergerReport(collectorReportData);
+        appendDeletedOriginEntryAndDetailReport(collectorReportData);
+        appendDetailChangedAccountReport(collectorReportData);
+        appendLedgerReport(collectorReportData);
     }
 
     /**
-     * Appends Collector header information to a given PDF document
+     * Appends Collector header information to the report writer
      * 
-     * @param document a PDF document to write to
      * @param collectorReportData data gathered from the run of the Collector
-     * @throws DocumentException thrown if something goes wrong with writing to the PDF document
      */
-    protected void appendCollectorHeaderInformation(Document document, CollectorReportData collectorReportData) throws DocumentException {
+    protected void appendCollectorHeaderInformation(CollectorReportData collectorReportData) {
         Iterator<CollectorBatch> batchIter = collectorReportData.getAddedBatches();
         OriginEntryTotals aggregateOriginEntryTotals = new OriginEntryTotals();
         int aggregateTotalRecordsCountFromTrailer = 0;
@@ -166,26 +147,14 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         int aggregateNumSavedDetails = 0;
 
         if (!collectorReportData.getAllUnparsableBatchNames().isEmpty()) {
-            Paragraph unparsableBatchNames = new Paragraph();
-            unparsableBatchNames.setAlignment(Paragraph.ALIGN_LEFT);
-            unparsableBatchNames.setFirstLineIndent(0);
-            unparsableBatchNames.setIndentationLeft(20);
-            unparsableBatchNames.setLeading(textFontSize);
-            unparsableBatchNames.add(new Phrase("The following files could not be parsed:", textFont));
+            collectorReportWriterService.writeFormattedMessageLine("The following files could not be parsed:\n\n");
             for (String unparsableBatchName : collectorReportData.getAllUnparsableBatchNames()) {
                 List<String> batchErrors = translateErrorsFromErrorMap(collectorReportData.getErrorMapForBatchName(unparsableBatchName));
-                unparsableBatchNames.add(new Phrase("\n        " + unparsableBatchName + "\n", textFont));
-                com.lowagie.text.List errorMessageList = new com.lowagie.text.List(false, 20);
-                errorMessageList.setListSymbol(new Chunk("-", headerFont));
-                errorMessageList.setIndentationLeft(50);
+                collectorReportWriterService.writeFormattedMessageLine("        " + unparsableBatchName + "\n");
                 for (String errorMessage : batchErrors) {
-                    ListItem listItem = new ListItem("ERROR MESSAGE: " + errorMessage, textFont);
-                    listItem.setLeading(textFontSize);
-                    errorMessageList.add(listItem);
+                    collectorReportWriterService.writeFormattedMessageLine("        - ERROR MESSAGE: " + errorMessage);
                 }
-                unparsableBatchNames.add(errorMessageList);
             }
-            document.add(unparsableBatchNames);
         }
 
         while (batchIter.hasNext()) {
@@ -218,37 +187,31 @@ public class CollectorReportServiceImpl implements CollectorReportService {
                 }
             }
 
-            Paragraph summary = new Paragraph();
-            summary.setAlignment(Paragraph.ALIGN_LEFT);
-            summary.setFirstLineIndent(0);
-            summary.setLeading(textFontSize);
-            summary.add(new Phrase("Header  *********************************************************************", textFont));
-            summary.add(new Phrase(buf.toString(), textFont));
+            collectorReportWriterService.writeFormattedMessageLine("Header  *********************************************************************");
+            collectorReportWriterService.writeMultipleFormattedMessageLines(buf.toString());
 
             String validationErrors = getValidationStatus(errorMessages, false, 15);
             if (StringUtils.isNotBlank(validationErrors)) {
-                summary.add(new Phrase(validationErrors, textFont));
+                collectorReportWriterService.writeMultipleFormattedMessageLines(validationErrors, textFont);
             }
-            document.add(summary);
         }
 
-        Paragraph totals = new Paragraph();
-        totals.setLeading(textFontSize);
-        totals.add(new Phrase("\n\n***** Totals for Creation of GLE Data  *****\n", textFont));
-        totals.add(new Phrase("      Total Records Read     " + StringUtils.leftPad(Integer.toString(aggregateTotalRecordsCountFromTrailer), 9, '0') + "\n", textFont));
-        totals.add(new Phrase("      Total Groups Read      " + StringUtils.leftPad(Integer.toString(collectorReportData.getNumPersistedBatches()), 9, '0') + "\n", textFont));
-        totals.add(new Phrase("      Total Groups Bypassed  " + StringUtils.leftPad(Integer.toString(collectorReportData.getNumNotPersistedBatches()), 9, '0') + "\n", textFont));
-        totals.add(new Phrase("      Total WWW Records Out  " + StringUtils.leftPad(Integer.toString(aggregateNumInputDetails), 9, '0') + "\n", textFont));
+        collectorReportWriterService.writeNewLines(2);
+        collectorReportWriterService.writeFormattedMessageLine("***** Totals for Creation of GLE Data  *****");
+        collectorReportWriterService.writeFormattedMessageLine("      Total Records Read     %09d", aggregateTotalRecordsCountFromTrailer);
+        collectorReportWriterService.writeFormattedMessageLine("      Total Groups Read      %09d", collectorReportData.getNumPersistedBatches());
+        collectorReportWriterService.writeFormattedMessageLine("      Total Groups Bypassed  %09d", collectorReportData.getNumNotPersistedBatches());
+        collectorReportWriterService.writeFormattedMessageLine("      Total WWW Records Out  %09d", aggregateNumInputDetails);
         int aggregateOriginEntryCountFromParsedData = aggregateOriginEntryTotals.getNumCreditEntries() + aggregateOriginEntryTotals.getNumDebitEntries() + aggregateOriginEntryTotals.getNumOtherEntries();
-        totals.add(new Phrase("      Total GLE Records Out  " + StringUtils.leftPad(Integer.toString(aggregateOriginEntryCountFromParsedData), 9, '0') + "\n", textFont));
-        totals.add(new Phrase("      Total GLE Debits       " + StringUtils.leftPad(CURRENCY_SYMBOL + aggregateOriginEntryTotals.getDebitAmount(), 19, ' ') + "\n", textFont));
-        totals.add(new Phrase("      Debit Count            " + StringUtils.leftPad(Integer.toString(aggregateOriginEntryTotals.getNumDebitEntries()), 9, '0') + "\n", textFont));
-        totals.add(new Phrase("      Total GLE Credits      " + StringUtils.leftPad(CURRENCY_SYMBOL + aggregateOriginEntryTotals.getCreditAmount(), 19, ' ') + "\n", textFont));
-        totals.add(new Phrase("      Debit Count            " + StringUtils.leftPad(Integer.toString(aggregateOriginEntryTotals.getNumCreditEntries()), 9, '0') + "\n", textFont));
-        totals.add(new Phrase("      Total GLE Not C or D   " + StringUtils.leftPad(CURRENCY_SYMBOL + aggregateOriginEntryTotals.getOtherAmount(), 19, ' ') + "\n", textFont));
-        totals.add(new Phrase("      Not C or D Count       " + StringUtils.leftPad(Integer.toString(aggregateOriginEntryTotals.getNumOtherEntries()), 9, '0') + "\n\n", textFont));
-        totals.add(new Phrase("Inserted " + aggregateNumSavedDetails + " detail records into gl_id_bill_t\n", textFont));
-        document.add(totals);
+        collectorReportWriterService.writeFormattedMessageLine("      Total GLE Records Out  %09d", aggregateOriginEntryCountFromParsedData);
+        collectorReportWriterService.writeFormattedMessageLine("      Total GLE Debits       %19s", CURRENCY_SYMBOL + aggregateOriginEntryTotals.getDebitAmount());
+        collectorReportWriterService.writeFormattedMessageLine("      Debit Count            %09d", aggregateOriginEntryTotals.getNumDebitEntries());
+        collectorReportWriterService.writeFormattedMessageLine("      Total GLE Credits      %19s", CURRENCY_SYMBOL + aggregateOriginEntryTotals.getCreditAmount());
+        collectorReportWriterService.writeFormattedMessageLine("      Debit Count            %09d", aggregateOriginEntryTotals.getNumCreditEntries());
+        collectorReportWriterService.writeFormattedMessageLine("      Total GLE Not C or D   %19s", CURRENCY_SYMBOL + aggregateOriginEntryTotals.getOtherAmount());
+        collectorReportWriterService.writeFormattedMessageLine("      Not C or D Count       %09d", aggregateOriginEntryTotals.getNumOtherEntries());
+        collectorReportWriterService.writeNewLines(1);
+        collectorReportWriterService.writeFormattedMessageLine("Inserted %d detail records into gl_id_bill_t", aggregateNumSavedDetails);
     }
 
     /**
@@ -364,90 +327,87 @@ public class CollectorReportServiceImpl implements CollectorReportService {
     }
 
     /**
-     * Writes the results of the Scrubber's run on the Collector data to the report PDF
+     * Writes the results of the Scrubber's run on the Collector data to the report writer
      * 
-     * @param document the PDF document to write to
      * @param collectorReportData data gathered from the run of the Collector
-     * @throws DocumentException thrown if the PDF cannot be written to for some reason
      */
-    protected void appendScrubberReport(Document document, CollectorReportData collectorReportData) throws DocumentException {
+    protected void appendScrubberReport(CollectorReportData collectorReportData) {
         Iterator<CollectorBatch> batchIter = collectorReportData.getAddedBatches();
         ScrubberReportData aggregateScrubberReportData = new ScrubberReportData();
         Map<Transaction, List<Message>> aggregateScrubberErrors = new LinkedHashMap<Transaction, List<Message>>();
 
+        collectorReportWriterService.pageBreak();
+        
         while (batchIter.hasNext()) {
             CollectorBatch batch = batchIter.next();
 
             ScrubberReportData batchScrubberReportData = collectorReportData.getScrubberReportData(batch);
             if (batchScrubberReportData != null) {
-                // if some validation error occured during batch load, the scrubber wouldn't have been run, so there'd be no data
+                // if some validation error occurred during batch load, the scrubber wouldn't have been run, so there'd be no data
                 aggregateScrubberReportData.incorporateReportData(batchScrubberReportData);
             }
 
             Map<Transaction, List<Message>> batchScrubberReportErrors = collectorReportData.getBatchOriginEntryScrubberErrors(batch);
             if (batchScrubberReportErrors != null) {
-                // if some validation error occured during batch load, the scrubber wouldn't have been run, so there'd be a null map
+                // if some validation error occurred during batch load, the scrubber wouldn't have been run, so there'd be a null map
                 aggregateScrubberErrors.putAll(batchScrubberReportErrors);
             }
         }
 
         List<Transaction> transactions = new ArrayList<Transaction>(aggregateScrubberErrors.keySet());
-
-        TransactionReport transactionReport = new TransactionReport();
         List<Summary> summaries = buildScrubberReportSummary(aggregateScrubberReportData);
-
-        transactionReport.appendReport(document, headerFont, textFont, transactions, aggregateScrubberErrors, summaries, dateTimeService.getCurrentDate());
+        for (Transaction errorTrans : aggregateScrubberErrors.keySet()) {
+            List<Message> errors = aggregateScrubberErrors.get(errorTrans);
+            collectorReportWriterService.writeError(errorTrans, errors);
+        }
+        collectorReportWriterService.writeStatisticLine("UNSCRUBBED RECORDS READ                     %,9d", aggregateScrubberReportData.getNumberOfUnscrubbedRecordsRead());
+        collectorReportWriterService.writeStatisticLine("SCRUBBED RECORDS WRITTEN                    %,9d", aggregateScrubberReportData.getNumberOfScrubbedRecordsWritten());
+        collectorReportWriterService.writeStatisticLine("ERROR RECORDS WRITTEN                       %,9d", aggregateScrubberReportData.getNumberOfErrorRecordsWritten());
+        collectorReportWriterService.writeStatisticLine("TOTAL OUTPUT RECORDS WRITTEN                %,9d", aggregateScrubberReportData.getTotalNumberOfRecordsWritten());
+        collectorReportWriterService.writeStatisticLine("EXPIRED ACCOUNTS FOUND                      %,9d", aggregateScrubberReportData.getNumberOfExpiredAccountsFound());
     }
 
     /**
      * Writes the report of the demerger run against the Collector data 
      * 
-     * @param document a PDF document to write to
      * @param collectorReportData data gathered from the run of the Collector
      * @throws DocumentException the exception thrown if the PDF cannot be written to
      */
-    protected void appendDemergerReport(Document document, CollectorReportData collectorReportData) throws DocumentException {
+    protected void appendDemergerReport(CollectorReportData collectorReportData) {
         Iterator<CollectorBatch> batchIter = collectorReportData.getAddedBatches();
         DemergerReportData aggregateDemergerReportData = new DemergerReportData();
         ScrubberReportData aggregateScrubberReportData = new ScrubberReportData();
 
         while (batchIter.hasNext()) {
             CollectorBatch batch = batchIter.next();
-
-            ScrubberReportData batchScrubberReportData = collectorReportData.getScrubberReportData(batch);
-            if (batchScrubberReportData != null) {
-                aggregateScrubberReportData.incorporateReportData(batchScrubberReportData);
-
-                DemergerReportData batchDemergerReportData = collectorReportData.getDemergerReportData(batch);
-                if (batchDemergerReportData != null) {
-                    aggregateDemergerReportData.incorporateReportData(batchDemergerReportData);
-                }
+            DemergerReportData batchDemergerReportData = collectorReportData.getDemergerReportData(batch);
+            if (batchDemergerReportData != null) {
+                aggregateDemergerReportData.incorporateReportData(batchDemergerReportData);
             }
         }
 
-        List<Summary> summaries = buildDemergerReportSummary(aggregateScrubberReportData, aggregateDemergerReportData);
-        List<Transaction> emptyTrans = Collections.emptyList();
-        Map<Transaction, List<Message>> emptyErrors = Collections.emptyMap();
-
-        TransactionReport transactionReport = new TransactionReport();
-        transactionReport.appendReport(document, headerFont, textFont, emptyTrans, emptyErrors, summaries, dateTimeService.getCurrentDate());
+        collectorReportWriterService.pageBreak();
+        collectorReportWriterService.writeStatisticLine("ERROR RECORDS READ                          %,9d", aggregateDemergerReportData.getErrorTransactionsRead());
+        collectorReportWriterService.writeStatisticLine("VALID RECORDS READ                          %,9d", aggregateDemergerReportData.getValidTransactionsRead());
+        collectorReportWriterService.writeStatisticLine("ERROR RECORDS REMOVED FROM PROCESSING       %,9d", aggregateDemergerReportData.getErrorTransactionsSaved());
+        collectorReportWriterService.writeStatisticLine("VALID RECORDS ENTERED INTO ORIGIN ENTRY     %,9d", aggregateDemergerReportData.getValidTransactionsSaved());
     }
 
     /**
      * Writes information about origin entry and details to the report
      * 
-     * @param document a PDF document to write to
      * @param collectorReportData data gathered from the run of the Collector
      * @throws DocumentException the exception thrown if the PDF cannot be written to
      */
-    protected void appendDeletedOriginEntryAndDetailReport(Document document, CollectorReportData collectorReportData) throws DocumentException {
+    protected void appendDeletedOriginEntryAndDetailReport(CollectorReportData collectorReportData) {
         // figure out how many billing details were removed/bypassed in all of the batches
         Iterator<CollectorBatch> batchIter = collectorReportData.getAddedBatches();
         int aggregateNumDetailsDeleted = 0;
 
         StringBuilder buf = new StringBuilder();
 
-        buf.append("ID-Billing detail data matched with GLE errors to remove documents with errors\n");
+        collectorReportWriterService.pageBreak();
+        collectorReportWriterService.writeFormattedMessageLine("ID-Billing detail data matched with GLE errors to remove documents with errors");
         while (batchIter.hasNext()) {
             CollectorBatch batch = batchIter.next();
 
@@ -456,7 +416,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
                 aggregateNumDetailsDeleted += batchNumDetailsDeleted.intValue();
             }
         }
-        buf.append("Total-Recs-Bypassed  ").append(aggregateNumDetailsDeleted).append("\n");
+        collectorReportWriterService.writeFormattedMessageLine("Total-Recs-Bypassed  %d", aggregateNumDetailsDeleted);
 
         batchIter = collectorReportData.getAddedBatches();
         int aggregateTransactionCount = 0;
@@ -471,33 +431,28 @@ public class CollectorReportServiceImpl implements CollectorReportService {
                     // collector)
                     // was specific about treating only a code of 'D' as a debit
 
-                    buf.append("Message sent to ").append(StringUtils.rightPad(batch.getWorkgroupName(), 50, ' ')).append("for Document ").append(errorDocumentGroupEntry.getKey().getDocumentNumber()).append("\n");
+                    collectorReportWriterService.writeFormattedMessageLine("Message sent to %s for Document %s", batch.getWorkgroupName(), errorDocumentGroupEntry.getKey().getDocumentNumber());
                     int documentTransactionCount = errorDocumentGroupEntry.getValue().getNumCreditEntries() + errorDocumentGroupEntry.getValue().getNumDebitEntries() + errorDocumentGroupEntry.getValue().getNumOtherEntries();
                     aggregateTransactionCount += documentTransactionCount;
                     aggregateDebitAmount = aggregateDebitAmount.add(errorDocumentGroupEntry.getValue().getDebitAmount());
-                    buf.append("Total Transactions ").append(documentTransactionCount).append(" for Total Debit Amount ").append(CURRENCY_SYMBOL).append(errorDocumentGroupEntry.getValue().getDebitAmount()).append("\n");
+                    collectorReportWriterService.writeFormattedMessageLine("Total Transactions %d for Total Debit Amount %s%s", documentTransactionCount, CURRENCY_SYMBOL, errorDocumentGroupEntry.getValue().getDebitAmount());
                 }
             }
         }
-        buf.append("Total Error Records ").append(aggregateTransactionCount).append("\n");
-        buf.append("Total Debit Dollars ").append(CURRENCY_SYMBOL).append(aggregateDebitAmount).append("\n");
-        Paragraph report = new Paragraph(buf.toString(), textFont);
-        report.setLeading(textFontSize);
-        document.add(report);
-
+        collectorReportWriterService.writeFormattedMessageLine("Total Error Records %d", aggregateTransactionCount);
+        collectorReportWriterService.writeFormattedMessageLine("Total Debit Dollars %s%s", CURRENCY_SYMBOL, aggregateDebitAmount);
     }
 
     /**
      * Writes information about what details where changed in the Collector to the report
      * 
-     * @param document a PDF document to write to
      * @param collectorReportData data gathered from the run of the Collector
      * @throws DocumentException the exception thrown if the PDF cannot be written to
      */
-    protected void appendDetailChangedAccountReport(Document document, CollectorReportData collectorReportData) throws DocumentException {
+    protected void appendDetailChangedAccountReport(CollectorReportData collectorReportData) {
         StringBuilder buf = new StringBuilder();
 
-        buf.append("ID-Billing Detail Records with Account Numbers Changed Due to Change of Corresponding GLE Data\nTot-Recs-Changed ");
+        collectorReportWriterService.writeFormattedMessageLine("ID-Billing Detail Records with Account Numbers Changed Due to Change of Corresponding GLE Data");
         Iterator<CollectorBatch> batchIter = collectorReportData.getAddedBatches();
         int aggregateNumDetailAccountValuesChanged = 0;
         while (batchIter.hasNext()) {
@@ -508,10 +463,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
                 aggregateNumDetailAccountValuesChanged += batchNumDetailAccountValuesChanged;
             }
         }
-        buf.append(aggregateNumDetailAccountValuesChanged);
-        Paragraph report = new Paragraph(buf.toString(), textFont);
-        report.setLeading(textFontSize);
-        document.add(report);
+        collectorReportWriterService.writeFormattedMessageLine("Tot-Recs-Changed %d", aggregateNumDetailAccountValuesChanged);
     }
 
     /**
@@ -570,29 +522,15 @@ public class CollectorReportServiceImpl implements CollectorReportService {
     /**
      * Adds the ledger report to this Collector report
      * 
-     * @param document the PDF document that the report is being written to
      * @param collectorReportData the data from the Collector run
      * @throws DocumentException thrown if it is impossible to write to the report
      */
-    protected void appendLedgerReport(Document document, CollectorReportData collectorReportData) throws DocumentException {
-        LedgerEntryHolder ledgerEntryHolder = collectorReportData.getLedgerEntryHolder();
-        Paragraph header = new Paragraph();
-        header.setAlignment(Paragraph.ALIGN_CENTER);
+    protected void appendLedgerReport(CollectorReportData collectorReportData) {
+        collectorReportWriterService.writeSubTitle("GENERAL LEDGER INPUT TRANSACTIONS FROM COLLECTOR");
+        collectorReportWriterService.writeNewLines(1);
 
-        header.add(new Phrase("GENERAL LEDGER INPUT TRANSACTIONS FROM COLLECTOR\n\n", headerFont));
-        document.add(header);
-
-        if (ledgerEntryHolder != null) {
-            LedgerReport ledgerReport = new LedgerReport();
-            PdfPTable reportContents = ledgerReport.drawPdfTable(ledgerEntryHolder);
-            document.add(reportContents);
-        }
-        else {
-            Paragraph noDataMessage = new Paragraph();
-            noDataMessage.setAlignment(Paragraph.ALIGN_CENTER);
-            noDataMessage.add(new Phrase("\n\nNO DATA/ORIGIN ENTRIES FOUND.", textFont));
-            document.add(noDataMessage);
-        }
+        LedgerSummaryReport ledgerSummaryReport = collectorReportData.getLedgerSummaryReport();
+        ledgerSummaryReport.writeReport(collectorReportWriterService);
     }
 
     /**
@@ -601,12 +539,12 @@ public class CollectorReportServiceImpl implements CollectorReportService {
      * @return List<String> of error message text
      */
     protected List<String> translateErrorsFromErrorMap(ErrorMap errorMap) {
-        List<String> collectorErrors = new ArrayList();
+        List<String> collectorErrors = new ArrayList<String>();
 
-        for (Iterator iter = errorMap.getPropertiesWithErrors().iterator(); iter.hasNext();) {
-            String errorKey = (String) iter.next();
+        for (Iterator<String> iter = errorMap.getPropertiesWithErrors().iterator(); iter.hasNext();) {
+            String errorKey = iter.next();
 
-            for (Iterator iter2 = errorMap.getMessages(errorKey).iterator(); iter2.hasNext();) {
+            for (Iterator<ErrorMessage> iter2 = errorMap.getMessages(errorKey).iterator(); iter2.hasNext();) {
                 ErrorMessage errorMessage = (ErrorMessage) iter2.next();
                 String messageText = configurationService.getPropertyString(errorMessage.getErrorKey());
                 collectorErrors.add(MessageFormat.format(messageText, (Object[]) errorMessage.getMessageParameters()));
@@ -614,24 +552,6 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         }
 
         return collectorErrors;
-    }
-
-    /**
-     * Gets the directoryName attribute.
-     * 
-     * @return Returns the directoryName.
-     */
-    public String getDirectoryName() {
-        return directoryName;
-    }
-
-    /**
-     * Sets the directoryName attribute value.
-     * 
-     * @param directoryName The directoryName to set.
-     */
-    public void setDirectoryName(String directoryName) {
-        this.directoryName = directoryName;
     }
 
     /**
@@ -850,5 +770,13 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+
+    /**
+     * Sets the collectorReportWriterService attribute value.
+     * @param collectorReportWriterService The collectorReportWriterService to set.
+     */
+    public void setCollectorReportWriterService(ReportWriterService collectorReportWriterService) {
+        this.collectorReportWriterService = collectorReportWriterService;
     }
 }

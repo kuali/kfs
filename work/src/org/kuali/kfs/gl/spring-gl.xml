@@ -498,7 +498,10 @@
 		<property name="mailService">
 			<ref bean="mailService"/>
 		</property>
-		<property name="directoryName" value="${reports.directory}"/>
+		<property name="collectorReportWriterService">
+			<!-- this report writer should be initialized by the collectorStep bean -->
+			<ref bean="collectorReportWriterService"/>
+		</property>
 	</bean>
 
 	<bean id="glCashOrganizationReversionCategoryLogic" class="org.kuali.kfs.gl.batch.service.impl.CashOrganizationReversionCategoryLogic" />
@@ -621,8 +624,6 @@
 		<property name="scrubberListingReportWriterService" ref="scrubberListingReportWriterService" />
 		<property name="scrubberBadBalanceListingReportWriterService" ref="scrubberBadBalanceListingReportWriterService" />
 		<property name="scrubberReportOnlyWriterService" ref="scrubberReportOnlyWriterService" />
-		<property name="collectorScrubberReportWriterService" ref="collectorScrubberReportWriterService" />
-		<property name="collectorDemergerReportWriterService" ref="collectorDemergerReportWriterService"/>
 		<property name="demergerRemovedTransactionsListingReportWriterService" ref="demergerRemovedTransactionsListingReportWriterService" />
 	</bean>
 	
@@ -1586,13 +1587,6 @@
         <!-- the report does not print out BO's, therefore classToBusinessObjectReportHelperBeanNames not needed-->
     </bean>
     
-    <bean id="collectorDemergerReportWriterService" parent="reportWriterService">
-		<property name="filePath" value="${reports.directory}/gl"/>
-		<property name="fileNamePrefix" value="collector_demerger_report_"/>
-        <property name="title" value="GL DEMERGER REPORT"/>
-        <!-- the report does not print out BO's, therefore classToBusinessObjectReportHelperBeanNames not needed-->
-    </bean>
-    
     <bean id="scrubberReportWriterService" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/gl"/>
 		<property name="fileNamePrefix" value="scrubberJob_"/>
@@ -1610,14 +1604,17 @@
         <property name="title" value="GL SCRUBBER REPORT"/>
         <!-- the report does not print out BO's, therefore classToBusinessObjectReportHelperBeanNames not needed-->
     </bean>
-    
-    <bean id="collectorScrubberReportWriterService" parent="reportWriterService">
+
+    <bean id="collectorReportWriterService" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/gl"/>
-		<property name="fileNamePrefix" value="scrubberJob_collector_"/>
-        <property name="title" value="GL SCRUBBER REPORT"/>
+		<property name="fileNamePrefix" value="collector_"/>
+        <property name="title" value="Collector Reports"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
         		<entry key="org.kuali.kfs.gl.businessobject.OriginEntryFull" value="transactionReportHelper"/>
+        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryDetailLine" value="nightlyOutPendingEntryLedgerSummaryDetailLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine" value="nightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryTotalLine" value="nightlyOutPendingEntryLedgerSummaryTotalLineReportHelper" />
         	</map>
         </property>
     </bean>
@@ -1920,12 +1917,17 @@
 		</property>
 	</bean>
 	
-	<bean id="collectorStep" class="org.kuali.kfs.gl.batch.CollectorStep" parent="step">
+	<bean id="collectorStep" class="org.kuali.kfs.gl.batch.CollectorStep" parent="wrappedStep">
 		<property name="collectorService">
 			<ref bean="glCollectorService" />
 		</property>
 		<property name="collectorReportService">
 			<ref bean="glCollectorReportService" />
+		</property>
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="collectorReportWriterService" />
+			</list>
 		</property>
 	</bean>
 	
@@ -1944,8 +1946,6 @@
 		<property name="wrappingBatchServices">
 			<list>
 				<ref bean="accountingCycleCachingService" />
-				<ref bean="collectorScrubberReportWriterService" />
-				<ref bean="collectorDemergerReportWriterService" />
 			</list>
 		</property>
 		<property name="scrubberService" ref="glScrubberService" />

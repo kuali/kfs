@@ -379,7 +379,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.CountryValuesFinder"
+            p:valuesFinderClass="org.kuali.rice.kns.bo.options.CountryValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>

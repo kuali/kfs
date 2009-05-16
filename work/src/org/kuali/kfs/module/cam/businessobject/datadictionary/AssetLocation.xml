@@ -116,7 +116,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="control" >
       <bean parent="SelectControlDefinition"
       		p:includeBlankRow="true"
-            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.CountryValuesFinder" />
+            p:valuesFinderClass="org.kuali.rice.kns.bo.options.CountryValuesFinder" />
     </property>
   </bean>
   

@@ -904,7 +904,7 @@
       <bean parent="AnyCharacterValidationPattern"/>
     </property>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.CountryNotRestrictedValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.bo.options.CountryNotRestrictedValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   <bean id="PaymentRequestDocument-taxGrossUpIndicator" parent="PaymentRequestDocument-taxGrossUpIndicator-parentBean"/>

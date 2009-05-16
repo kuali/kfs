@@ -207,7 +207,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="shortLabel" value="Code" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.StateValuesFinder" />
+            p:valuesFinderClass="org.kuali.rice.kns.bo.options.StateValuesFinder" />
     </property>
   </bean>
   
@@ -224,7 +224,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="label" value="Country Code" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.CountryValuesFinder" />
+            p:valuesFinderClass="org.kuali.rice.kns.bo.options.CountryValuesFinder" />
     </property>
   </bean>
   

@@ -53,7 +53,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.StateValuesFinder"
+            p:valuesFinderClass="org.kuali.rice.kns.bo.options.StateValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -226,7 +226,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.CountryNotRestrictedValuesFinder"
+            p:valuesFinderClass="org.kuali.rice.kns.bo.options.CountryNotRestrictedValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>

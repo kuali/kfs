@@ -132,7 +132,7 @@
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.CountryNotRestrictedValuesFinder"
+            p:valuesFinderClass="org.kuali.rice.kns.bo.options.CountryNotRestrictedValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -205,7 +205,7 @@
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.StateValuesFinder"
+            p:valuesFinderClass="org.kuali.rice.kns.bo.options.StateValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>

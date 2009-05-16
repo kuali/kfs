@@ -132,17 +132,17 @@
           <property name="summaryTitle" value="Asset Retired"/>
           <property name="summaryFields">
             <list>
-              <bean parent="MaintainableFieldDefinition" p:name="capitalAssetNumber"/>
+              <bean parent="MaintainableFieldDefinition" p:name="capitalAssetNumber" />
             </list>
           </property>
           <property name="duplicateIdentificationFields">
           	<list>
-          		<bean parent="MaintainableFieldDefinition" p:name="capitalAssetNumber"/>
+          		<bean parent="MaintainableFieldDefinition" p:name="capitalAssetNumber" />
           	</list>
           </property>
           <property name="maintainableFields">
             <list>
-              <bean parent="MaintainableFieldDefinition" p:name="capitalAssetNumber" p:readOnlyAfterAdd="true" p:template="capitalAssetNumber"/>
+              <bean parent="MaintainableFieldDefinition" p:name="capitalAssetNumber" p:readOnlyAfterAdd="true" p:template="capitalAssetNumber" p:required="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="asset.organizationOwnerChartOfAccountsCode" p:unconditionallyReadOnly="true" p:template="organizationOwnerChartOfAccountsCode"/>
               <bean parent="MaintainableFieldDefinition" p:name="asset.organizationOwnerAccountNumber" p:unconditionallyReadOnly="true" p:template="organizationOwnerAccountNumber"/>
               <bean parent="MaintainableFieldDefinition" p:name="asset.organizationOwnerAccount.organizationCode" p:unconditionallyReadOnly="true" p:template="organizationOwnerAccount.organizationCode"/>

@@ -58,7 +58,7 @@
 						</td>
 					</c:otherwise>
 				</c:choose>				
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${equipAttributes.loanDate}" readOnly="true"/></th>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${equipAttributes.loanDate}" /></th>
 			   	<c:choose>
 		            <c:when test="${readOnly or !displayNewLoanTab}">
 		                <td class="grid" width="25%"><kul:htmlControlAttribute attributeEntry="${equipAttributes.loanDate}" property="document.loanDate" readOnly="true" />

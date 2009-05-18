@@ -44,9 +44,9 @@ public class LaborLedgerEntryPoster implements PostTransaction {
         // ObjectUtil.buildObject(ledgerEntry, transaction);
 
         try {
-            ledgerEntry.setTransactionLedgerEntrySequenceNumber(getLaborAccountingCycleCachingService().getMaxSequenceNumber(ledgerEntry) + 1);
+            ledgerEntry.setTransactionLedgerEntrySequenceNumber(getLaborAccountingCycleCachingService().getMaxLaborSequenceNumber(ledgerEntry) + 1);
             ledgerEntry.setTransactionPostingDate(new Date(postDate.getTime()));
-            getLaborAccountingCycleCachingService().insertEntry(ledgerEntry);
+            getLaborAccountingCycleCachingService().insertLedgerEntry(ledgerEntry);
         }
         catch (Exception e) {
             throw new RuntimeException(e);

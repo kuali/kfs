@@ -26,6 +26,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
@@ -40,6 +41,8 @@ import org.kuali.kfs.module.purap.document.validation.event.AttributedPreCalcula
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.util.PurQuestionCallback;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.util.KimConstants;
@@ -96,6 +99,38 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         PaymentRequestForm preqForm = (PaymentRequestForm) form;
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) preqForm.getDocument();
 
+        boolean poNotNull = true;
+       
+        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
+        
+      //check for a po id
+        if (ObjectUtils.isNull(paymentRequestDocument.getPurchaseOrderIdentifier())) {
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.PURCHASE_ORDER_ID);
+            poNotNull = false;
+        }
+
+        if (ObjectUtils.isNull(paymentRequestDocument.getInvoiceDate())) {
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.INVOICE_DATE, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.INVOICE_DATE);
+            poNotNull = false;
+        }
+
+        if (ObjectUtils.isNull(paymentRequestDocument.getInvoiceNumber())) {
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.INVOICE_NUMBER, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.INVOICE_NUMBER);
+            poNotNull = false;
+        }
+        
+        if (ObjectUtils.isNull(paymentRequestDocument.getVendorInvoiceAmount())) {
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_INVOICE_AMOUNT, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.VENDOR_INVOICE_AMOUNT);
+            poNotNull = false;
+        }
+        
+        //exit early as the po is null, no need to proceed further until this is taken care of
+        if(poNotNull == false){
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+        
+        
         PurchaseOrderDocument po = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(paymentRequestDocument.getPurchaseOrderIdentifier());
         if (ObjectUtils.isNotNull(po)) {
             // TODO figure out a more straightforward way to do this.  ailish put this in so the link id would be set and the perm check would work
@@ -105,6 +140,11 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
             if (!SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(paymentRequestDocument).isAuthorizedByTemplate(paymentRequestDocument, KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, GlobalVariables.getUserSession().getPrincipalId())) {
                 throw buildAuthorizationException("initiate document", paymentRequestDocument);
             }
+        } 
+        
+        if(!SpringContext.getBean(PaymentRequestService.class).isPurchaseOrderValidForPaymentRequestDocumentCreation(paymentRequestDocument,po))
+        {
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         
         // perform duplicate check which will forward to a question prompt if one is found

@@ -322,6 +322,15 @@ public interface PurchaseOrderService extends PurchasingDocumentSpecificService 
     public boolean isNewUnorderedItem(PurchaseOrderItem poItem);
     
     /**
+     * Determines if a purchase order item is newly added on 
+     * the Purchase Order Amendment Document. 
+     * 
+     * @param poItem
+     * @return
+     */
+    public boolean isNewItemForAmendment(PurchaseOrderItem poItem);
+    
+    /**
      * Used to provide sublists of the list of the original PO's items according to whether they
      * are marked to be moved or not.  Retrieving the item from the hash with the key of 'movingPOItems'
      * will retrieve those Items which should move, using 'remainingPOItems'.

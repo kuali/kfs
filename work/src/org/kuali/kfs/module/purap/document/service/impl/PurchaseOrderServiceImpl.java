@@ -1420,6 +1420,22 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return itemAdded;
     }
 
+    public boolean isNewItemForAmendment(PurchaseOrderItem poItem){
+        
+        boolean itemAdded = false;
+        
+        //only check, active, above the line, unordered items
+        if (poItem.isItemActiveIndicator() && poItem.getItemType().isLineItemIndicator()) {
+            
+            //if the item identifier is null its new, or if the item doesn't exist on the current purchase order it's new
+            if( poItem.getItemIdentifier() == null || !purchaseOrderDao.itemExistsOnPurchaseOrder(poItem.getItemLineNumber(), purchaseOrderDao.getDocumentNumberForCurrentPurchaseOrder(poItem.getPurchaseOrder().getPurapDocumentIdentifier()) )){
+                itemAdded = true;                 
+            }                
+        }
+        
+        return itemAdded;
+    }
+    
     /**
      * Sends an FYI to fiscal officers for new unordered items.
      * 

@@ -17,6 +17,7 @@ package org.kuali.kfs.module.purap.document.authorization;
 
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -42,7 +43,9 @@ public class PurchaseOrderAccountingLineAuthorizer extends PurapAccountingLineAu
             AccountingLine accountingLine){
         PurApAccountingLine purapAccount = (PurApAccountingLine)accountingLine;
         PurchaseOrderItem poItem = (PurchaseOrderItem)purapAccount.getPurapItem();
-
+        PurchaseOrderDocument po = (PurchaseOrderDocument)accountingDocument;
+        
+        
         if (poItem != null) {
             if (!poItem.isItemActiveIndicator()) {
                 return false;
@@ -51,6 +54,11 @@ public class PurchaseOrderAccountingLineAuthorizer extends PurapAccountingLineAu
             if (poItem.getItemInvoicedTotalAmount() != null && poItem.getItemInvoicedTotalAmount().compareTo(new KualiDecimal(0)) != 0) {
                 return false;
             }
+            
+            if (po.getContainsUnpaidPaymentRequestsOrCreditMemos() && !poItem.isNewItemForAmendment()) {
+                return false;
+            }
+            
         }
         return super.allowAccountingLinesAreEditable(accountingDocument, accountingLine);
     }

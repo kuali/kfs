@@ -345,7 +345,7 @@
 					    <kul:htmlControlAttribute
 						    attributeEntry="${itemAttributes.itemQuantity}"
 						    property="document.item[${ctr}].itemQuantity"
-						    readOnly="${not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null))))}" 
+						    readOnly="${not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}" 
 						    tabindexOverride="${tabindexOverrideBase + 0}"/>
 					</td>
                     <td class="infoline" >
@@ -353,9 +353,9 @@
                             attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" 
                             property="document.item[${ctr}].itemUnitOfMeasureCode"
                             onblur="loadItemUnitOfMeasureInfo( 'document.item[${ctr}].itemUnitOfMeasureCode', 'document.item[${ctr}].itemUnitOfMeasure.itemUnitOfMeasureDescription' );${onblur}"
-                            readOnly="${not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null)))) or lockB2BEntry}"
+                            readOnly="${not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)))) or lockB2BEntry}"
                             tabindexOverride="${tabindexOverrideBase + 0}"/>
-                        <c:if test="${!(not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null)))) or lockB2BEntry)}">   
+                        <c:if test="${!(not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)))) or lockB2BEntry)}">   
                             <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.UnitOfMeasure" 
                                 fieldConversions="itemUnitOfMeasureCode:document.item[${ctr}].itemUnitOfMeasureCode"
                                 lookupParameters="'Y':active"/>    
@@ -368,7 +368,7 @@
 					    <kul:htmlControlAttribute
 						    attributeEntry="${itemAttributes.itemCatalogNumber}"
 						    property="document.item[${ctr}].itemCatalogNumber"
-						    readOnly="${not ( (fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null)))) or lockB2BEntry}" 
+						    readOnly="${not ( (fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)))) or lockB2BEntry}" 
 						    tabindexOverride="${tabindexOverrideBase + 0}"/>
 				    </td>
 				    <c:if test="${displayCommodityCodeFields}">
@@ -377,9 +377,9 @@
                                 attributeEntry="${itemAttributes.purchasingCommodityCode}" 
                                 property="document.item[${ctr}].purchasingCommodityCode"
                                 onblur="loadCommodityCodeInfo( 'document.item[${ctr}].purchasingCommodityCode', 'document.item[${ctr}].commodityCode.commodityDescription' );${onblur}"
-                                readOnly="${not ( (fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null))))}"
+                                readOnly="${not ( (fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}"
                                 tabindexOverride="${tabindexOverrideBase + 0}"/>
-                            <c:if test="${!(not ( (fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null)))) or lockB2BEntry)}">   
+                            <c:if test="${!(not ( (fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)))) or lockB2BEntry)}">   
                                 <kul:lookup boClassName="org.kuali.kfs.vnd.businessobject.CommodityCode" 
                                     fieldConversions="purchasingCommodityCode:document.item[${ctr}].purchasingCommodityCode"
                                     lookupParameters="'Y':active"/>    
@@ -393,7 +393,7 @@
 						 <kul:htmlControlAttribute
 						    attributeEntry="${itemAttributes.itemDescription}"
 						    property="document.item[${ctr}].itemDescription"
-						    readOnly="${not ( (fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null)))) or lockB2BEntry}" 
+						    readOnly="${not ( (fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)))) or lockB2BEntry}" 
 						    tabindexOverride="${tabindexOverrideBase + 0}"/>
 						<!-- removing until KFSMI-1867 is fixed -->
 						<!-- kul:expandedTextArea 
@@ -406,7 +406,7 @@
 					        <kul:htmlControlAttribute
 						        attributeEntry="${itemAttributes.itemUnitPrice}"
 						        property="document.item[${ctr}].itemUnitPrice"
-						        readOnly="${not ( (fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null)))) or lockB2BEntry}" 
+						        readOnly="${not ( (fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)))) or lockB2BEntry}" 
 						        tabindexOverride="${tabindexOverrideBase + 0}"/>
 						</div>
 					</td>
@@ -423,7 +423,7 @@
 					        <kul:htmlControlAttribute
 						        attributeEntry="${itemAttributes.itemTaxAmount}"
 						        property="document.item[${ctr}].itemTaxAmount" 
-						        readOnly="${(lockTaxAmountEntry or (not ( (fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null)))) or lockB2BEntry))}" 
+						        readOnly="${(lockTaxAmountEntry or (not ( (fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)))) or lockB2BEntry))}" 
 						        tabindexOverride="${tabindexOverrideBase + 0}"/>
 					    	</div>
 						</td>					
@@ -441,7 +441,7 @@
 						    <kul:htmlControlAttribute
 							    attributeEntry="${itemAttributes.itemRestrictedIndicator}"
 							    property="document.item[${ctr}].itemRestrictedIndicator"
-							    readOnly="${not ( (fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null))))}" 
+							    readOnly="${not ( (fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}" 
 							    tabindexOverride="${tabindexOverrideBase + 0}"/>
 					    	</div>
 						</td>
@@ -452,7 +452,7 @@
 						    <kul:htmlControlAttribute
 							    attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}"
 							    property="document.item[${ctr}].itemAssignedToTradeInIndicator"
-							    readOnly="${not ( (fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null))))}" 
+							    readOnly="${not ( (fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}" 
 							    tabindexOverride="${tabindexOverrideBase + 0}"/>
                             </div>
 						</td>
@@ -460,7 +460,7 @@
 					<c:if test="${( (fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemInvoicedTotalAmount == null)) or (amendmentEntry) or (isATypeOfPODoc and ! itemLine.itemActiveIndicator) or (not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator)))}">
 						<td class="infoline" rowspan="2">
 						    <div align="center">						    	
-						    	<c:if test="${(fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemInvoicedTotalAmount == null)}">
+						    	<c:if test="${(fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemInvoicedTotalAmount == null or itemLine.newItemForAmendment)}">
 						        <html:image
 							        property="methodToCall.deleteItem.line${ctr}"
 							        src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif"
@@ -505,7 +505,7 @@
 				<c:choose>
                 <c:when test="${amendmentEntry}">                
                     <c:choose>
-	    			    <c:when test="${ (itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null)) )}">
+	    			    <c:when test="${ (itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)) )}">
 				    <c:set target="${KualiForm.accountingLineEditingMode}" property="fullEntry" value="true" />
 					<purap:purapGeneralAccounting
 						accountPrefix="document.item[${ctr}]." 

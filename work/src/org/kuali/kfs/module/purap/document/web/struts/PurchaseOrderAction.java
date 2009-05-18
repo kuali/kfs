@@ -1541,45 +1541,88 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         }
         
         // use question framework to make sure they REALLY want to complete the quote...
-        String message = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_CONFIRM_AWARD);
-        String vendorRow = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_CONFIRM_AWARD_ROW);
-
-        String tempRows = "";
+        // KULPURAP-4027: since the html table tags are not supported for now, the awarded vendor info is displayed without them.   
+//        String message = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_CONFIRM_AWARD);
+//        String vendorRow = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_CONFIRM_AWARD_ROW);
+//
+//        String tempRows = "";
+//        for (PurchaseOrderVendorQuote poQuote : document.getPurchaseOrderVendorQuotes()) {
+//            String tempRow = vendorRow;
+//            tempRow = StringUtils.replace(tempRow, "{0}", poQuote.getVendorName());
+//            if (poQuote.getPurchaseOrderQuoteAwardTimestamp() == null) {
+//                if (awardedQuote.getVendorNumber().equals(poQuote.getVendorNumber())) {
+//                    tempRow = StringUtils.replace(tempRow, "{1}", SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().toString());
+//                }
+//                else {
+//                    tempRow = StringUtils.replace(tempRow, "{1}", "");
+//                }
+//            }
+//            else {
+//                tempRow = StringUtils.replace(tempRow, "{1}", poQuote.getPurchaseOrderQuoteAwardTimestamp().toString());
+//            }
+//            if (poQuote.getPurchaseOrderQuoteStatusCode() != null) {
+//                poQuote.refreshReferenceObject(PurapPropertyConstants.PURCHASE_ORDER_QUOTE_STATUS);
+//                tempRow = StringUtils.replace(tempRow, "{2}", poQuote.getPurchaseOrderQuoteStatus().getStatusDescription());
+//            }
+//            else {
+//                tempRow = StringUtils.replace(tempRow, "{2}", "N/A");
+//            }
+//            if (poQuote.getPurchaseOrderQuoteRankNumber() != null) {
+//                tempRow = StringUtils.replace(tempRow, "{3}", poQuote.getPurchaseOrderQuoteRankNumber());
+//            }
+//            else {
+//                tempRow = StringUtils.replace(tempRow, "{3}", "N/A");
+//            }
+//            tempRows += tempRow;
+//        }
+//        message = StringUtils.replace(message, "{0}", tempRows);
+        // KULPURAP-4027: without the html table tags
+        StringBuffer awardedVendorInfo = new StringBuffer(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_CONFIRM_AWARD));
+        int awardNbr = 0;
         for (PurchaseOrderVendorQuote poQuote : document.getPurchaseOrderVendorQuotes()) {
-            String tempRow = vendorRow;
-            tempRow = StringUtils.replace(tempRow, "{0}", poQuote.getVendorName());
+            
+            // vendor name
+            awardedVendorInfo.append(++awardNbr + ". ").append("Vendor Name: ");
+            awardedVendorInfo.append(poQuote.getVendorName()).append("[br]");
+            
+            // awarded date
+            awardedVendorInfo.append("Awarded Date: ");
             if (poQuote.getPurchaseOrderQuoteAwardTimestamp() == null) {
                 if (awardedQuote.getVendorNumber().equals(poQuote.getVendorNumber())) {
-                    tempRow = StringUtils.replace(tempRow, "{1}", SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().toString());
-                }
-                else {
-                    tempRow = StringUtils.replace(tempRow, "{1}", "");
+                    awardedVendorInfo.append(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().toString());
                 }
             }
             else {
-                tempRow = StringUtils.replace(tempRow, "{1}", poQuote.getPurchaseOrderQuoteAwardTimestamp().toString());
+                awardedVendorInfo.append(poQuote.getPurchaseOrderQuoteAwardTimestamp().toString());
             }
+            awardedVendorInfo.append("[br]");
+            
+            // quote status
+            awardedVendorInfo.append("Quote Status: ");
             if (poQuote.getPurchaseOrderQuoteStatusCode() != null) {
                 poQuote.refreshReferenceObject(PurapPropertyConstants.PURCHASE_ORDER_QUOTE_STATUS);
-                tempRow = StringUtils.replace(tempRow, "{2}", poQuote.getPurchaseOrderQuoteStatus().getStatusDescription());
+                awardedVendorInfo.append(poQuote.getPurchaseOrderQuoteStatus().getStatusDescription());
             }
             else {
-                tempRow = StringUtils.replace(tempRow, "{2}", "N/A");
+                awardedVendorInfo.append("N/A");
             }
+            awardedVendorInfo.append("[br]");
+            
+            // rank
+            awardedVendorInfo.append("Rank: ");
             if (poQuote.getPurchaseOrderQuoteRankNumber() != null) {
-                tempRow = StringUtils.replace(tempRow, "{3}", poQuote.getPurchaseOrderQuoteRankNumber());
+                awardedVendorInfo.append(poQuote.getPurchaseOrderQuoteRankNumber());
             }
             else {
-                tempRow = StringUtils.replace(tempRow, "{3}", "N/A");
+                awardedVendorInfo.append("N/A");
             }
-            tempRows += tempRow;
+            awardedVendorInfo.append("[br][br]");               
         }
-        message = StringUtils.replace(message, "{0}", tempRows);
-
+        
         Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (question == null) {
             // ask question if not already asked
-            return performQuestionWithoutInput(mapping, form, request, response, PODocumentsStrings.CONFIRM_AWARD_QUESTION, message, KFSConstants.CONFIRMATION_QUESTION, PODocumentsStrings.CONFIRM_AWARD_RETURN, "");
+            return performQuestionWithoutInput(mapping, form, request, response, PODocumentsStrings.CONFIRM_AWARD_QUESTION, awardedVendorInfo.toString(), KFSConstants.CONFIRMATION_QUESTION, PODocumentsStrings.CONFIRM_AWARD_RETURN, "");
         }
         else {
             Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);

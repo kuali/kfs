@@ -207,10 +207,12 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
                     // KULCOA-1116 - Check if CG CS and CG ICR are empty, if not throw an error
                     if (checkCgCostSharingIsEmpty() == false) {
                         putFieldError("a21SubAccount.costShareChartOfAccountCode", KFSKeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_NON_FUNDED_ACCT_CS_INVALID, new String[] { SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingAttributeLabel(), SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingValueForMessage() });
+                        success = false;
                     }
 
                     if (checkCgIcrIsEmpty() == false) {
                         putFieldError("a21SubAccount.indirectCostRecoveryTypeCode", KFSKeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_NON_FUNDED_ACCT_ICR_INVALID, new String[] { SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingAttributeLabel(), SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingValueForMessage() });
+                        success = false;
                     }
 
                     // KULRNE-4660 - this isn't the child of a CG account; sub account must be ICR type
@@ -221,6 +223,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
                         a21SubAccountRefreshed = true;
                         if (StringUtils.isEmpty(newSubAccount.getA21SubAccount().getSubAccountTypeCode()) || !newSubAccount.getA21SubAccount().getSubAccountTypeCode().equals(KFSConstants.SubAccountType.EXPENSE)) {
                             putFieldError("a21SubAccount.subAccountTypeCode", KFSKeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_NON_FUNDED_ACCT_SUB_ACCT_TYPE_CODE_INVALID, new String[] { SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingAttributeLabel(), SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingValueForMessage() });
+                            success = false;
                         }
                     }
 
@@ -394,10 +397,12 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
      * @return true if the cost sharing values passed in are empty, otherwise false.
      */
     protected boolean checkCgCostSharingIsEmpty() {
-
         boolean success = true;
 
         A21SubAccount newA21SubAccount = newSubAccount.getA21SubAccount();
+        if (ObjectUtils.isNull(newA21SubAccount)) {
+            return success;
+        }
 
         success &= StringUtils.isEmpty(newA21SubAccount.getCostShareChartOfAccountCode());
         success &= StringUtils.isEmpty(newA21SubAccount.getCostShareSourceAccountNumber());
@@ -412,10 +417,12 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
      * @return true if the ICR values passed in are empty, otherwise false.
      */
     protected boolean checkCgIcrIsEmpty() {
-
         boolean success = true;
-
+        
         A21SubAccount newA21SubAccount = newSubAccount.getA21SubAccount();
+        if (ObjectUtils.isNull(newA21SubAccount)) {
+            return success;
+        }
 
         success &= StringUtils.isEmpty(newA21SubAccount.getFinancialIcrSeriesIdentifier());
         success &= StringUtils.isEmpty(newA21SubAccount.getIndirectCostRecoveryChartOfAccountsCode());

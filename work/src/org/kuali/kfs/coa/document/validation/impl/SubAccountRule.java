@@ -62,18 +62,19 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
      * <li>{@link SubAccountRule#checkCgRules(MaintenanceDocument)}</li>
      * </ul>
      * This rule fails on business rule failures
+     * 
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         LOG.info("Entering processCustomApproveDocumentBusinessRules()");
 
         // check that all sub-objects whose keys are specified have matching objects in the db
-        checkForPartiallyEnteredReportingFields();
+        boolean success = checkForPartiallyEnteredReportingFields();
 
         // process CG rules if appropriate
-        checkCgRules(document);
+        success &= checkCgRules(document);
 
-        return true;
+        return success;
     }
 
     /**
@@ -84,11 +85,12 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
      * <li>{@link SubAccountRule#checkCgRules(MaintenanceDocument)}</li>
      * </ul>
      * This rule fails on business rule failures
+     * 
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         LOG.info("Entering processCustomRouteDocumentBusinessRules()");
-        
+
         boolean success = true;
 
         // check that all sub-objects whose keys are specified have matching objects in the db
@@ -108,6 +110,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
      * <li>{@link SubAccountRule#checkCgRules(MaintenanceDocument)}</li>
      * </ul>
      * This rule does not fail on business rule failures
+     * 
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
@@ -142,8 +145,8 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * This checks that the reporting fields are entered altogether or none at all
+     * 
      * @return false if only one reporting field filled out and not all of them, true otherwise
      */
     protected boolean checkForPartiallyEnteredReportingFields() {
@@ -175,13 +178,14 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
-     * This checks to make sure that if cgAuthorized is false it succeeds immediately, otherwise it checks that all the 
-     * information for CG is correctly entered and identified including:
+     * This checks to make sure that if cgAuthorized is false it succeeds immediately, otherwise it checks that all the information
+     * for CG is correctly entered and identified including:
      * <ul>
-     * <li>If the {@link SubFundGroup} isn't for Contracts and Grants then check to make sure that the cost share and ICR fields are not empty</li>
+     * <li>If the {@link SubFundGroup} isn't for Contracts and Grants then check to make sure that the cost share and ICR fields are
+     * not empty</li>
      * <li>If it isn't a child of CG, then the SubAccount must be of type ICR</li>
      * </ul>
+     * 
      * @param document
      * @return true if the user is not authorized to change CG fields, otherwise it checks the above conditions
      */
@@ -190,9 +194,9 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
 
         // short circuit if this person isnt authorized for any CG fields
-        if (!getCgAuthorized()) {
+        /*if (!getCgAuthorized()) {
             return success;
-        }
+        }*/
 
         // short circuit if the parent account is NOT part of a CG fund group
         boolean a21SubAccountRefreshed = false;
@@ -213,8 +217,8 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
 
                     // KULRNE-4660 - this isn't the child of a CG account; sub account must be ICR type
                     if (!ObjectUtils.isNull(newSubAccount.getA21SubAccount())) {
-                        //KFSMI-798 - refresh() changed to refreshNonUpdateableReferences()
-                        //All references for A21SubAccount are non-updatable
+                        // KFSMI-798 - refresh() changed to refreshNonUpdateableReferences()
+                        // All references for A21SubAccount are non-updatable
                         newSubAccount.getA21SubAccount().refreshNonUpdateableReferences();
                         a21SubAccountRefreshed = true;
                         if (StringUtils.isEmpty(newSubAccount.getA21SubAccount().getSubAccountTypeCode()) || !newSubAccount.getA21SubAccount().getSubAccountTypeCode().equals(KFSConstants.SubAccountType.EXPENSE)) {
@@ -264,11 +268,11 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * This checks that if the cost share information is filled out that it is valid and exists, or if fields are missing (such as
+     * the chart of accounts code and account number) an error is recorded
      * 
-     * This checks that if the cost share information is filled out that it is valid and exists, or if fields are missing 
-     * (such as the chart of accounts code and account number) an error is recorded
-     * @return true if all cost share fields filled out correctly, false if the chart of accounts code and account number for
-     * cost share are missing
+     * @return true if all cost share fields filled out correctly, false if the chart of accounts code and account number for cost
+     *         share are missing
      */
     protected boolean checkCgCostSharingRules() {
 
@@ -322,31 +326,30 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * This checks that if the ICR information is entered that it is valid for this fiscal year and that all of its fields are valid
+     * as well (such as account)
      * 
-     * This checks that if the ICR information is entered that it is valid for this fiscal year and that
-     * all of its fields are valid as well (such as account)
      * @return true if the ICR information is filled in and it is valid
      */
     protected boolean checkCgIcrRules() {
+        A21SubAccount a21 = newSubAccount.getA21SubAccount();
+        if(ObjectUtils.isNull(a21)) {
+            return true;
+        }
 
         boolean success = true;
 
-        A21SubAccount a21 = newSubAccount.getA21SubAccount();
-
-        // check required fields
-        /*
-         * success &= checkEmptyBOField("a21SubAccount.indirectCostRecoveryTypeCode", a21.getIndirectCostRecoveryTypeCode(), "ICR
-         * Type Code"); success &= checkEmptyBOField("a21SubAccount.indirectCostRecoveryChartOfAccountsCode",
-         * a21.getIndirectCostRecoveryChartOfAccountsCode(), "ICR Chart of Accounts Code"); success &=
-         * checkEmptyBOField("a21SubAccount.indirectCostRecoveryAccountNumber", a21.getIndirectCostRecoveryAccountNumber(), "ICR
-         * Account Number"); success &= checkEmptyBOField("a21SubAccount.financialIcrSeriesIdentifier",
-         * a21.getFinancialIcrSeriesIdentifier(), "Financial ICR Series ID");
-         */
-
+        // check required fields       
+        // success &= checkEmptyBOField("a21SubAccount.indirectCostRecoveryTypeCode", a21.getIndirectCostRecoveryTypeCode(), "ICR Type Code"); 
+        // success &= checkEmptyBOField("a21SubAccount.indirectCostRecoveryChartOfAccountsCode", a21.getIndirectCostRecoveryChartOfAccountsCode(), "ICR Chart of Accounts Code"); 
+        // success &= checkEmptyBOField("a21SubAccount.indirectCostRecoveryAccountNumber", a21.getIndirectCostRecoveryAccountNumber(), "ICR Account Number"); 
+        // success &= checkEmptyBOField("a21SubAccount.financialIcrSeriesIdentifier", a21.getFinancialIcrSeriesIdentifier(), "Financial ICR Series ID");
+        
         // existence check for ICR Type Code
         if (StringUtils.isNotEmpty(a21.getIndirectCostRecoveryTypeCode())) {
             if (ObjectUtils.isNull(a21.getIndirectCostRecoveryType())) {
                 putFieldError("a21SubAccount.indirectCostRecoveryTypeCode", KFSKeyConstants.ERROR_EXISTENCE, "ICR Type Code: " + a21.getIndirectCostRecoveryTypeCode());
+                success = false;
             }
         }
 
@@ -356,32 +359,15 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
             String icrSeriesId = a21.getFinancialIcrSeriesIdentifier();
             
             Map<String, String> pkMap = new HashMap<String, String>();
+            pkMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear.toString());
             pkMap.put(KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER, icrSeriesId);
-            Collection<IndirectCostRecoveryRateDetail> icrRateDetails = getBoService().findMatching(IndirectCostRecoveryRateDetail.class, pkMap);
             
-            boolean anyFound = false;
-            boolean anyFoundInThisFy = false;
-            if (ObjectUtils.isNotNull(icrRateDetails) && !icrRateDetails.isEmpty()){
-                anyFound = true;
-                
-                for(IndirectCostRecoveryRateDetail icrRateDetail : icrRateDetails) {
-                    if(icrRateDetail.getUniversityFiscalYear().equals(fiscalYear) && ObjectUtils.isNotNull(icrRateDetail.getIndirectCostRecoveryRate())){                                
-                        anyFoundInThisFy = true;
-                        break;
-                    }
-                }
-            }
-
-            // if there is one found, but not for this fiscal year, complain
-            // about this to the user
-            if (anyFound && !anyFoundInThisFy) {
-                putFieldError(KFSPropertyConstants.A21_SUB_ACCOUNT + "." + KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER, KFSKeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_ICR_FIN_SERIES_ID_EXISTS_BUT_NOT_FOR_THIS_FY, new String[] { a21.getFinancialIcrSeriesIdentifier(), fiscalYear.toString() });
-            }
-
-            // if one isnt found at all, complain about that
-            if (!anyFound) {
+            IndirectCostRecoveryRateDetail icrRateDetail = (IndirectCostRecoveryRateDetail)getBoService().findByPrimaryKey(IndirectCostRecoveryRateDetail.class, pkMap);
+            if (ObjectUtils.isNull(icrRateDetail)){
                 String label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(A21SubAccount.class, KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER);
-                putFieldError(KFSPropertyConstants.A21_SUB_ACCOUNT + "." + KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER, KFSKeyConstants.ERROR_EXISTENCE, label + " (" + a21.getFinancialIcrSeriesIdentifier() + ")");
+                putFieldError(KFSPropertyConstants.A21_SUB_ACCOUNT + "." + KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER, KFSKeyConstants.ERROR_EXISTENCE, label + " (" + fiscalYear + "," + icrSeriesId + ")");
+                
+                success = false;
             }
         }
 
@@ -389,6 +375,8 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         if (StringUtils.isNotEmpty(a21.getIndirectCostRecoveryChartOfAccountsCode()) && StringUtils.isNotEmpty(a21.getIndirectCostRecoveryAccountNumber())) {
             if (ObjectUtils.isNull(a21.getIndirectCostRecoveryAccount())) {
                 putFieldError("a21SubAccount.indirectCostRecoveryAccountNumber", KFSKeyConstants.ERROR_EXISTENCE, "ICR Account: " + a21.getIndirectCostRecoveryChartOfAccountsCode() + "-" + a21.getIndirectCostRecoveryAccountNumber());
+                
+                success = false;
             }
         }
 
@@ -476,8 +464,8 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * This compares two string values to see if the newValue has changed from the oldValue
+     * 
      * @param oldValue - original value
      * @param newValue - new value
      * @return true if the two fields are different from each other
@@ -505,8 +493,8 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
 
 
     /**
-     * 
      * This method retrieves the label name for a specific property
+     * 
      * @param propertyName - property to retrieve label for (from the DD)
      * @return the label
      */
@@ -523,4 +511,3 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
     }
 
 }
-

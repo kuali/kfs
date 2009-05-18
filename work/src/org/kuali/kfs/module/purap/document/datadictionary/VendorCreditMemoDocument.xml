@@ -565,6 +565,7 @@
     <property name="name" value="documentChartOfAccountsCodeForSearching"/>
     <property name="label" value="PO Chart Code"/>
     <property name="shortLabel" value="Chart Code"/>
+    <property name="required" value="false"/>
   </bean>
   
   <bean id="VendorCreditMemoDocument-documentOrganizationCodeForSearching" parent="VendorCreditMemoDocument-documentOrganizationCodeForSearching-parentBean"/>
@@ -573,6 +574,7 @@
     <property name="name" value="documentOrganizationCodeForSearching"/>
     <property name="label" value="PO Organization Code"/>
     <property name="shortLabel" value="Organization Code"/>
+    <property name="required" value="false"/>
   </bean>
   
   <bean id="VendorCreditMemoDocument-processingCampusCodeForSearch" parent="VendorCreditMemoDocument-processingCampusCodeForSearch-parentBean" />

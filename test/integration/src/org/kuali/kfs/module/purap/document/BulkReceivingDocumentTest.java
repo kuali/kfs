@@ -55,7 +55,6 @@ public class BulkReceivingDocumentTest extends KualiTestBase {
         assertTrue("Document should now be final.", doc.getDocumentHeader().getWorkflowDocument().stateIsFinal());
     }
     
-    @RelatesTo(JiraIssue.KULPURAP3647)
     @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public final void testRouteDocumentWithPO() 
     throws Exception {

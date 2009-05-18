@@ -67,6 +67,7 @@
   <bean id="PurchasingAccountsPayableItemAsset-accountsPayableLineItemDescription-parentBean" abstract="true" parent="PurchaseOrderItem-itemDescription">
     <property name="name" value="accountsPayableLineItemDescription" />
     <property name="label" value="Asset Description" />
+    <property name="required" value="true" />
   </bean>
   
   <bean id="PurchasingAccountsPayableItemAsset-accountsPayableItemQuantity" parent="PurchasingAccountsPayableItemAsset-accountsPayableItemQuantity-parentBean" />

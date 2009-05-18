@@ -85,6 +85,10 @@ public class PdpKeyConstants {
     public static final String EXTRACT_TRANSACTION_SERVICE_REPORT_FILENAME = "pdp.extractTransactions.reportFilename";
     
     public static final String ERROR_ONE_BANK_PER_DISBURSEMENT_TYPE_CODE = "error.pdp.customerProfile.duplicateBankPerDisburementTypeCode";
+ 
+    // KFSMI-3771
+    public static final String ERROR_PDP_CHECK_BANK_REQUIRED = "error.pdp.customerProfile.checkBank.required";
+    public static final String ERROR_PDP_ACH_BANK_REQUIRED = "error.pdp.customerProfile.achBank.required";
     
     public static class BatchConstants{
         public static class ErrorMessages{
@@ -206,6 +210,7 @@ public class PdpKeyConstants {
             public static final String ERROR_FORMAT_BANK_MISSING = "format.bank.missing";
             public static final String ERROR_FORMAT_DISBURSEMENT_EXHAUSTED = "format.disb.exhausted";
             public static final String ERROR_FORMAT_DISBURSEMENT_MISSING = "format.disb.missing";
+
         }
     }
     

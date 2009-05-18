@@ -15,14 +15,11 @@
  */
 package org.kuali.kfs.gl.batch.service.impl;
 
-import java.io.File;
-import java.io.FilenameFilter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.BalanceHistory;
 import org.kuali.kfs.gl.businessobject.Entry;
@@ -123,55 +120,6 @@ public abstract class BalancingServiceImplTestBase extends KualiTestBase {
         OriginEntry originEntry = balancingService.getOriginEntry(INPUT_TRANSACTIONS[0], 0);
         assertNotNull(originEntry);
         assertEquals(2009, originEntry.getUniversityFiscalYear().intValue());
-    }
-    
-    public void testGetNewestDataFile() {
-        final String testFilename = "testGetNewestDataFile";
-        final String testFilenameUnmatched = "testUmatchedGetNewestDataFile";
-        
-        // Use a filename filter matching testFilename. This shouldn't impact the logic as long as we're consistently testing with this one
-        FilenameFilter filenameFilter = new FilenameFilter() {
-            public boolean accept(File dir, String name) {
-                return (name.startsWith(testFilename) &&
-                        name.endsWith(GeneralLedgerConstants.BatchFileSystem.EXTENSION));
-            }
-        };
-        
-        assertNull("Shouldn't have found any files of name " + testFilename, balancingService.getNewestDataFile(filenameFilter));
-        
-        try {
-            LOG.debug("Create three test files. Sleeping briefly between each to ensure unique timestamps.");
-            String filePathA = balancingService.batchFileDirectoryName + File.separator + testFilename + "FileA" + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-            TestUtils.writeFile(filePathA, this.INPUT_TRANSACTIONS);
-            this.addGeneratedFile(filePathA);
-            Thread.sleep(1000);
-            String filePathB = balancingService.batchFileDirectoryName + File.separator + testFilename + "FileB" + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
-            TestUtils.writeFile(filePathB, this.INPUT_TRANSACTIONS);
-            this.addGeneratedFile(filePathB);
-            Thread.sleep(1000);
-            String filePathC = balancingService.batchFileDirectoryName + File.separator + testFilename + "FileC" + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-            TestUtils.writeFile(filePathC, this.INPUT_TRANSACTIONS);
-            this.addGeneratedFile(filePathC);
-            Thread.sleep(1000);
-            String filePathUnmatched = balancingService.batchFileDirectoryName + File.separator + testFilenameUnmatched + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-            TestUtils.writeFile(filePathUnmatched, this.INPUT_TRANSACTIONS);
-            this.addGeneratedFile(filePathUnmatched);
-        } catch (InterruptedException e) {
-            assertTrue("No reason that this job should have gotten interrupted.", false);
-        }
-        
-        File newestFile = balancingService.getNewestDataFile(filenameFilter);
-        assertNotNull("We just created a few files but none was found, filename=" + testFilename, newestFile);
-        assertTrue("Was expecting last file created. Not the case, found: " + newestFile.getName(), newestFile.getName().contains("FileC"));
-        
-        LOG.debug("Cleanup files after ourselves." + testFilename);
-        File directory = new File(balancingService.batchFileDirectoryName);
-        File[] directoryListing = directory.listFiles(filenameFilter);
-        for (int i = 0; i < directoryListing.length; i++) {
-            File file = directoryListing[i];
-            assertTrue("Delete failed. Shouldn't.", file.delete());
-        }
-        assertTrue("Delete failed. Shouldn't.", new File(balancingService.batchFileDirectoryName + File.separator + testFilenameUnmatched + GeneralLedgerConstants.BatchFileSystem.EXTENSION).delete());
     }
     
     public void testIsFilesReady() {

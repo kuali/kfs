@@ -40,6 +40,7 @@ import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.dataaccess.AccountBalanceDao;
 import org.kuali.kfs.gl.dataaccess.BalancingDao;
 import org.kuali.kfs.gl.dataaccess.EncumbranceDao;
+import org.kuali.kfs.sys.FileUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -78,7 +79,7 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
             }
         };
         
-        posterInputFile = this.getNewestDataFile(filenameFilter);
+        posterInputFile = FileUtil.getNewestFile(new File(batchFileDirectoryName), filenameFilter);
         
         return posterInputFile;
     }
@@ -99,7 +100,7 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
             }
         };
         
-        posterErrorOutputFile = this.getNewestDataFile(filenameFilter);
+        posterErrorOutputFile = FileUtil.getNewestFile(new File(batchFileDirectoryName), filenameFilter);
         
         return posterErrorOutputFile;
     }

@@ -18,7 +18,6 @@ package org.kuali.kfs.gl.batch.service.impl;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FilenameFilter;
 import java.lang.reflect.ParameterizedType;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -39,8 +38,6 @@ import org.kuali.kfs.gl.dataaccess.LedgerEntryHistoryBalancingDao;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -175,34 +172,6 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
         this.customPrintRowCountHistory(startUniversityFiscalYear);
         
         return true;
-    }
-    
-    /**
-     * In batchFileDirectoryName looks for a pattern matching filenameFilter and returns the filename with the highest lastModified()
-     * @param filenameFilter to filter filenames in batchFileDirectoryName for
-     * @return File with highest lastModified()
-     */
-    protected File getNewestDataFile(FilenameFilter filenameFilter) {
-        File newestFile = null;
-        
-        File directory = new File(batchFileDirectoryName);
-        File[] directoryListing = directory.listFiles(filenameFilter);
-        if (directoryListing == null || directoryListing.length == 0) {
-            return null;
-        } else {
-            for (int i = 0; i < directoryListing.length; i++) {
-                File file = directoryListing[i];
-                if (newestFile == null) {
-                    newestFile = file;
-                } else {
-                    if (newestFile.lastModified() < file.lastModified()){
-                        newestFile = file;                        
-                    }
-                }
-            }
-        }
-        
-        return newestFile;
     }
     
     /**

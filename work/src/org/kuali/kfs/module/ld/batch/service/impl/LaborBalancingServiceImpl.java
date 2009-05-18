@@ -34,6 +34,7 @@ import org.kuali.kfs.module.ld.businessobject.LaborBalanceHistory;
 import org.kuali.kfs.module.ld.businessobject.LaborEntryHistory;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
+import org.kuali.kfs.sys.FileUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -66,7 +67,7 @@ public class LaborBalancingServiceImpl extends BalancingServiceBaseImpl<LaborEnt
             }
         };
         
-        laborPosterInputFile = this.getNewestDataFile(filenameFilter);
+        laborPosterInputFile = FileUtil.getNewestFile(new File(batchFileDirectoryName), filenameFilter);
         
         return laborPosterInputFile;
     }
@@ -87,7 +88,7 @@ public class LaborBalancingServiceImpl extends BalancingServiceBaseImpl<LaborEnt
             }
         };
         
-        laborPosterErrorOutputFile = this.getNewestDataFile(filenameFilter);
+        laborPosterErrorOutputFile = FileUtil.getNewestFile(new File(batchFileDirectoryName), filenameFilter);
         
         return laborPosterErrorOutputFile;
     }

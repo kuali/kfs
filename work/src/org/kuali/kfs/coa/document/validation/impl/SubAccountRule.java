@@ -400,13 +400,11 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
 
         A21SubAccount newA21SubAccount = newSubAccount.getA21SubAccount();
-        if (ObjectUtils.isNull(newA21SubAccount)) {
-            return success;
+        if (ObjectUtils.isNotNull(newA21SubAccount)) {
+            success &= StringUtils.isEmpty(newA21SubAccount.getCostShareChartOfAccountCode());
+            success &= StringUtils.isEmpty(newA21SubAccount.getCostShareSourceAccountNumber());
+            success &= StringUtils.isEmpty(newA21SubAccount.getCostShareSourceSubAccountNumber());
         }
-
-        success &= StringUtils.isEmpty(newA21SubAccount.getCostShareChartOfAccountCode());
-        success &= StringUtils.isEmpty(newA21SubAccount.getCostShareSourceAccountNumber());
-        success &= StringUtils.isEmpty(newA21SubAccount.getCostShareSourceSubAccountNumber());
 
         return success;
     }
@@ -420,16 +418,14 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         
         A21SubAccount newA21SubAccount = newSubAccount.getA21SubAccount();
-        if (ObjectUtils.isNull(newA21SubAccount)) {
-            return success;
+        if (ObjectUtils.isNotNull(newA21SubAccount)) {
+            success &= StringUtils.isEmpty(newA21SubAccount.getFinancialIcrSeriesIdentifier());
+            success &= StringUtils.isEmpty(newA21SubAccount.getIndirectCostRecoveryChartOfAccountsCode());
+            success &= StringUtils.isEmpty(newA21SubAccount.getIndirectCostRecoveryAccountNumber());
+            success &= StringUtils.isEmpty(newA21SubAccount.getIndirectCostRecoveryTypeCode());
+            // this is a boolean, so create any value if set to true, meaning a user checked the box, otherwise assume it's empty
+            success &= StringUtils.isEmpty(newA21SubAccount.getOffCampusCode() ? "1" : "");
         }
-
-        success &= StringUtils.isEmpty(newA21SubAccount.getFinancialIcrSeriesIdentifier());
-        success &= StringUtils.isEmpty(newA21SubAccount.getIndirectCostRecoveryChartOfAccountsCode());
-        success &= StringUtils.isEmpty(newA21SubAccount.getIndirectCostRecoveryAccountNumber());
-        success &= StringUtils.isEmpty(newA21SubAccount.getIndirectCostRecoveryTypeCode());
-        // this is a boolean, so create any value if set to true, meaning a user checked the box, otherwise assume it's empty
-        success &= StringUtils.isEmpty(newA21SubAccount.getOffCampusCode() ? "1" : "");
 
         return success;
     }

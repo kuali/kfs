@@ -46,7 +46,7 @@ public class PurchaseOrderAccountingLineAuthorizer extends PurapAccountingLineAu
         PurchaseOrderDocument po = (PurchaseOrderDocument)accountingDocument;
         
         
-        if (poItem != null) {
+        if (poItem != null && !poItem.getItemType().isAdditionalChargeIndicator()) {
             if (!poItem.isItemActiveIndicator()) {
                 return false;
             }

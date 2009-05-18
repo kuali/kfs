@@ -32,6 +32,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.PurapConstants.ItemTypeCodes;
@@ -67,6 +68,7 @@ import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.kfs.module.purap.util.PurApItemUtils;
 import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -1612,6 +1614,61 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
         LOG.debug("allowBackpost() not within range to allow backpost; posting entry to current FY");
         return false;
+    }
+    
+    public boolean isPurchaseOrderValidForPaymentRequestDocumentCreation(PaymentRequestDocument paymentRequestDocument,PurchaseOrderDocument po){
+        Integer POID = paymentRequestDocument.getPurchaseOrderIdentifier();
+        boolean valid = true;
+        
+        PurchaseOrderDocument purchaseOrderDocument = paymentRequestDocument.getPurchaseOrderDocument();
+        if (ObjectUtils.isNull(purchaseOrderDocument)) {
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_EXIST);
+            valid &= false;
+        }
+        else if (purchaseOrderDocument.isPendingActionIndicator()) {
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_PENDING_ACTION);
+            valid &= false;
+        }
+        else if (!StringUtils.equals(purchaseOrderDocument.getStatusCode(), PurapConstants.PurchaseOrderStatuses.OPEN)) {
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_OPEN);
+            valid &= false;
+            // if the PO is pending and it is not a Retransmit, we cannot generate a Payment Request for it
+        }
+        else {
+            // Verify that there exists at least 1 item left to be invoiced
+            valid &= encumberedItemExistsForInvoicing(purchaseOrderDocument);
+        }
+        
+        return valid;
+    }
+    
+    private boolean encumberedItemExistsForInvoicing(PurchaseOrderDocument document) {
+        boolean zeroDollar = true;
+        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
+        for (PurchaseOrderItem poi : (List<PurchaseOrderItem>) document.getItems()) {
+            // Quantity-based items
+            if (poi.getItemType().isLineItemIndicator() && poi.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+                KualiDecimal encumberedQuantity = poi.getItemOutstandingEncumberedQuantity() == null ? KualiDecimal.ZERO : poi.getItemOutstandingEncumberedQuantity();
+                if (encumberedQuantity.compareTo(KualiDecimal.ZERO) == 1) {
+                    zeroDollar = false;
+                    break;
+                }
+            }
+            // Service Items or Below-the-line Items
+            else if (poi.getItemType().isAmountBasedGeneralLedgerIndicator() || poi.getItemType().isAdditionalChargeIndicator()) {
+                KualiDecimal encumberedAmount = poi.getItemOutstandingEncumberedAmount() == null ? KualiDecimal.ZERO : poi.getItemOutstandingEncumberedAmount();
+                if (encumberedAmount.compareTo(KualiDecimal.ZERO) == 1) {
+                    zeroDollar = false;
+                    break;
+                }
+            }
+        }
+        if (zeroDollar) {
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_NO_ITEMS_TO_INVOICE);
+        }
+        GlobalVariables.getErrorMap().clearErrorPath();
+        return !zeroDollar;
     }
     
 }

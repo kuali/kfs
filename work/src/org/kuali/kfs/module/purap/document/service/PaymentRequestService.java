@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
@@ -362,5 +363,7 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
      * @return
      */
     public boolean allowBackpost(PaymentRequestDocument paymentRequestDocument);
+    
+    public boolean isPurchaseOrderValidForPaymentRequestDocumentCreation(PaymentRequestDocument paymentRequestDocument,PurchaseOrderDocument po);
 }
 

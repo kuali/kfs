@@ -110,7 +110,7 @@ public class PendingEntrySummary extends TransientBusinessObjectBase {
      * @return the amount for the wrapped entry, or null if the entry represents either a debit or a credt
      */
     public KualiDecimal getBudgetAmount() {
-        return originEntry.getTransactionDebitCreditCode().equals(KFSConstants.GL_BUDGET_CODE) ? originEntry.getTransactionLedgerEntryAmount() : null;
+        return (originEntry.getTransactionDebitCreditCode().equals(KFSConstants.GL_BUDGET_CODE) || originEntry.getTransactionDebitCreditCode().equals(KFSConstants.EMPTY_STRING)) ? originEntry.getTransactionLedgerEntryAmount() : null;
     }
 
     /**

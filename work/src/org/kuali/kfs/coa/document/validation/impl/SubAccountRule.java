@@ -15,9 +15,7 @@
  */
 package org.kuali.kfs.coa.document.validation.impl;
 
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;

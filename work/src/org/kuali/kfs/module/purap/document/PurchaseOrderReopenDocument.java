@@ -19,6 +19,7 @@ package org.kuali.kfs.module.purap.document;
 import static org.kuali.kfs.sys.KFSConstants.GL_DEBIT_CODE;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurapDocTypeCodes;
@@ -60,7 +61,7 @@ public class PurchaseOrderReopenDocument extends PurchaseOrderDocument {
     }
 
     @Override
-    public Long[] getWorkflowEngineDocumentIdsToLock() {
+    public List<Long> getWorkflowEngineDocumentIdsToLock() {
         return super.getWorkflowEngineDocumentIdsToLock();
     }
 

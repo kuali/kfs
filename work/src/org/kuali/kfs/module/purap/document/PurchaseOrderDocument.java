@@ -563,7 +563,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     }
 
     @Override
-    public Long[] getWorkflowEngineDocumentIdsToLock() {
+    public List<Long> getWorkflowEngineDocumentIdsToLock() {
         List<String> docIdStrings = new ArrayList<String>();
         docIdStrings.add(getDocumentNumber());
         
@@ -573,19 +573,19 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         }
         
         //  convert our easy to use List<String> to a Long[]
-        Long[] docIds = new Long[docIdStrings.size()];
+        List<Long> docIds = new ArrayList<Long>();
         for (int i = 0; i < docIdStrings.size(); i++) {
-            docIds[i] = new Long(docIdStrings.get(i));
+            docIds.add(new Long(docIdStrings.get(i)));
         }
-        LOG.info("***** getWorkflowEngineDocumentIdsToLock(" + this.documentNumber + ") = '" + printArray(docIds) + "'");
+        LOG.info("***** getWorkflowEngineDocumentIdsToLock(" + this.documentNumber + ") = '" + printList(docIds) + "'");
         return docIds;
     }
     
     // Only used for debugging in the getWorkflowEngineDocumentIdsToLock above
-    private String printArray(Long[] docIds) {
+    private String printList(List<Long> docIds) {
         StringBuffer sb = new StringBuffer("[");
-        for (int i = 0; i < docIds.length; i++) {
-            sb.append(new Long(docIds[i]).toString() + ",");
+        for (int i = 0; i < docIds.size(); i++) {
+            sb.append(new Long(docIds.get(i)).toString() + ",");
         }
         return sb.append("]").toString();
     }

@@ -2,6 +2,7 @@ package org.kuali.kfs.module.ar.document;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -1047,11 +1048,13 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     }
 
     @Override
-    public Long[] getWorkflowEngineDocumentIdsToLock() {
+    public List<Long> getWorkflowEngineDocumentIdsToLock() {
         //  add the invoice number of the Error Corrected doc, if this is an error correction
         if (this.isInvoiceReversal()) {
             if (StringUtils.isNotBlank(getDocumentHeader().getFinancialDocumentInErrorNumber())) {
-                return new Long[] { new Long(getDocumentHeader().getFinancialDocumentInErrorNumber()) };
+                List<Long> documentIds = new ArrayList<Long>();
+                documentIds.add(new Long(getDocumentHeader().getFinancialDocumentInErrorNumber()));
+                return documentIds;
             }
         }
         return null;

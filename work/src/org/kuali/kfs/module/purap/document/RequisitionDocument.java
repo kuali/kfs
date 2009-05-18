@@ -379,7 +379,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     @Override
-    public Long[] getWorkflowEngineDocumentIdsToLock() {
+    public List<Long> getWorkflowEngineDocumentIdsToLock() {
         List<String> docIdStrings = new ArrayList<String>();
         docIdStrings.add(getDocumentNumber());
         
@@ -389,9 +389,9 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         }
         
         //  convert our easy to use List<String> to a Long[]
-        Long[] docIds = new Long[docIdStrings.size()];
+        List<Long> docIds = new ArrayList<Long>();
         for (int i = 0; i < docIdStrings.size(); i++) {
-            docIds[i] = new Long(docIdStrings.get(i));
+            docIds.add(new Long(docIdStrings.get(i)));
         }
         return docIds;
     }

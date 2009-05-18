@@ -101,7 +101,7 @@ public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument {
     }
     
     @Override
-    public Long[] getWorkflowEngineDocumentIdsToLock() {
+    public List<Long> getWorkflowEngineDocumentIdsToLock() {
         return super.getWorkflowEngineDocumentIdsToLock();
     }
 

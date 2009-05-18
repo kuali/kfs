@@ -842,14 +842,14 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     }
     
     @Override
-    public Long[] getWorkflowEngineDocumentIdsToLock() {
+    public List<Long> getWorkflowEngineDocumentIdsToLock() {
         List<String> docIdStrings = getInvoiceNumbersToUpdateOnFinal();
         if (docIdStrings == null || docIdStrings.isEmpty()) {
             return null;
         }
-        Long[] docIds = new Long[docIdStrings.size()];
+        List<Long> docIds = new ArrayList<Long>();
         for (int i = 0; i < docIdStrings.size(); i++) { // damn I miss ruby sometimes
-            docIds[i] = new Long(docIdStrings.get(i));
+            docIds.add(new Long(docIdStrings.get(i)));
         }
         return docIds;
     }

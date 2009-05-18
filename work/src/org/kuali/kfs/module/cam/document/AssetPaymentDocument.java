@@ -61,11 +61,13 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
      * @see org.kuali.rice.kns.document.DocumentBase#getWorkflowEngineDocumentIdsToLock()
      */
     @Override
-    public Long[] getWorkflowEngineDocumentIdsToLock() {
+    public List<Long> getWorkflowEngineDocumentIdsToLock() {
         if (this.isCapitalAssetBuilderOriginIndicator()) {
             String poDocId = SpringContext.getBean(CapitalAssetBuilderModuleService.class).getCurrentPurchaseOrderDocumentNumber(this.getDocumentNumber());
             if (StringUtils.isNotBlank(poDocId)) {
-                return new Long[] { new Long(poDocId) };
+                List<Long> documentIds = new ArrayList<Long>();
+                documentIds.add(new Long(poDocId));
+                return documentIds;
             }
         }
         return null;

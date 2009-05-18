@@ -16,6 +16,8 @@
 
 package org.kuali.kfs.module.purap.document;
 
+import java.util.List;
+
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
@@ -46,7 +48,7 @@ public class PurchaseOrderRemoveHoldDocument extends PurchaseOrderDocument {
     }
 
     @Override
-    public Long[] getWorkflowEngineDocumentIdsToLock() {
+    public List<Long> getWorkflowEngineDocumentIdsToLock() {
         return super.getWorkflowEngineDocumentIdsToLock();
     }
 

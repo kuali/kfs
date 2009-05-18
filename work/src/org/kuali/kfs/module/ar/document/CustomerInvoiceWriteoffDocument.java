@@ -268,9 +268,11 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
     }
 
     @Override
-    public Long[] getWorkflowEngineDocumentIdsToLock() {
+    public List<Long> getWorkflowEngineDocumentIdsToLock() {
         if (StringUtils.isNotBlank(getFinancialDocumentReferenceInvoiceNumber())) {
-            return new Long[] { new Long(getFinancialDocumentReferenceInvoiceNumber()) };
+            List<Long> documentIds = new ArrayList<Long>();
+            documentIds.add(new Long(getFinancialDocumentReferenceInvoiceNumber()));
+            return documentIds;
         }
         return null;
         

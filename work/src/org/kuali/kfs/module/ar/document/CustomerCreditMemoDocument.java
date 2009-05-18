@@ -491,10 +491,12 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
     }
     
     @Override
-    public Long[] getWorkflowEngineDocumentIdsToLock() {
+    public List<Long> getWorkflowEngineDocumentIdsToLock() {
         // a credit memo wont always update the source invoice, but sometimes it will so we include it here
         if (StringUtils.isNotBlank(getFinancialDocumentReferenceInvoiceNumber())) {
-            return new Long[] { new Long(getFinancialDocumentReferenceInvoiceNumber()) };
+            List<Long> documentIds = new ArrayList<Long>();
+            documentIds.add(new Long(getFinancialDocumentReferenceInvoiceNumber()));
+            return documentIds;
         }
         return null;
     }

@@ -325,6 +325,7 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         return SpringContext.getBean(PurchaseOrderService.class).isNewUnorderedItem(this);
     }
     
+    @Override
     public boolean isNewItemForAmendment() {
         return SpringContext.getBean(PurchaseOrderService.class).isNewItemForAmendment(this);
     }

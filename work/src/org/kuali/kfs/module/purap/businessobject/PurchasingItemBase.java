@@ -118,4 +118,7 @@ public abstract class PurchasingItemBase extends PurApItemBase implements Purcha
         this.itemUnitOfMeasure = itemUnitOfMeasure;
     }
 
+    public boolean isNewItemForAmendment() {
+        return false;
+    }
 }

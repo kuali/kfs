@@ -20,6 +20,7 @@ import java.sql.Date;
 import org.kuali.kfs.gl.batch.service.PostTransaction;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.module.ld.batch.service.LaborAccountingCycleCachingService;
 import org.kuali.kfs.module.ld.businessobject.LaborTransaction;
 import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
 import org.kuali.kfs.module.ld.service.LaborLedgerEntryService;
@@ -32,7 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class LaborLedgerEntryPoster implements PostTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerEntryPoster.class);
-    private LaborLedgerEntryService laborLedgerEntryService;
+    private LaborAccountingCycleCachingService laborAccountingCycleCachingService;
 
     /**
      * @see org.kuali.kfs.gl.batch.service.PostTransaction#post(org.kuali.kfs.gl.businessobject.Transaction, int, java.util.Date)
@@ -43,9 +44,9 @@ public class LaborLedgerEntryPoster implements PostTransaction {
         // ObjectUtil.buildObject(ledgerEntry, transaction);
 
         try {
-            ledgerEntry.setTransactionLedgerEntrySequenceNumber(laborLedgerEntryService.getMaxSequenceNumber(ledgerEntry) + 1);
+            ledgerEntry.setTransactionLedgerEntrySequenceNumber(getLaborAccountingCycleCachingService().getMaxSequenceNumber(ledgerEntry) + 1);
             ledgerEntry.setTransactionPostingDate(new Date(postDate.getTime()));
-            laborLedgerEntryService.save(ledgerEntry);
+            getLaborAccountingCycleCachingService().insertEntry(ledgerEntry);
         }
         catch (Exception e) {
             throw new RuntimeException(e);
@@ -62,11 +63,18 @@ public class LaborLedgerEntryPoster implements PostTransaction {
     }
 
     /**
-     * Sets the laborLedgerEntryService attribute value.
-     * 
-     * @param laborLedgerEntryService The laborLedgerEntryService to set.
+     * Gets the laborAccountingCycleCachingService attribute. 
+     * @return Returns the laborAccountingCycleCachingService.
      */
-    public void setLaborLedgerEntryService(LaborLedgerEntryService laborledgerEntryService) {
-        this.laborLedgerEntryService = laborledgerEntryService;
+    public LaborAccountingCycleCachingService getLaborAccountingCycleCachingService() {
+        return laborAccountingCycleCachingService;
+    }
+
+    /**
+     * Sets the laborAccountingCycleCachingService attribute value.
+     * @param laborAccountingCycleCachingService The laborAccountingCycleCachingService to set.
+     */
+    public void setLaborAccountingCycleCachingService(LaborAccountingCycleCachingService laborAccountingCycleCachingService) {
+        this.laborAccountingCycleCachingService = laborAccountingCycleCachingService;
     }
 }

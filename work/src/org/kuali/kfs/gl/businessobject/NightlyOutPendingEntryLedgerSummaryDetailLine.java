@@ -90,7 +90,7 @@ public class NightlyOutPendingEntryLedgerSummaryDetailLine extends NightlyOutPen
      * @return all of them magically put together, to form a Map key.  Like Voltron, but more financially oriented
      */
     private static String makeKey(String balanceTypeCode, String financialSystemOriginationCode, Integer universityFiscalYear, String universityAccountingPeriodCode) {
-        return StringUtils.join(new String[] {balanceTypeCode, financialSystemOriginationCode,universityFiscalYear.toString(),universityAccountingPeriodCode}, ':');
+        return StringUtils.join(new String[] {balanceTypeCode, financialSystemOriginationCode,universityFiscalYear == null ? "" : universityFiscalYear.toString(),universityAccountingPeriodCode}, ':');
     }
     
     /**

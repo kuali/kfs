@@ -33,21 +33,42 @@ public class PendingEntrySummary extends TransientBusinessObjectBase {
      * @return the document number of the wrapped entry
      */
     public String getDocumentNumber() {
-        return (!suppress) ? StringUtils.join(new String[] { originEntry.getFinancialSystemOriginationCode(),originEntry.getDocumentNumber()}, '-') : "";
+        return (!suppress) ? getConstantDocumentNumber() : "";
+    }
+    
+    /**
+     * @return the document number of the wrapped entry - even if suppressed
+     */
+    public String getConstantDocumentNumber() {
+        return StringUtils.join(new String[] { originEntry.getFinancialSystemOriginationCode(),originEntry.getDocumentNumber()}, '-');
     }
     
     /**
      * @return the document type code of the wrapped entry
      */
     public String getDocumentTypeCode() {
-        return (!suppress) ? originEntry.getFinancialDocumentTypeCode() : "";
+        return (!suppress) ? getConstantDocumentTypeCode() : "";
+    }
+    
+    /**
+     * @return the document type code, even if suppressed
+     */
+    public String getConstantDocumentTypeCode() {
+        return originEntry.getFinancialDocumentTypeCode();
     }
     
     /**
      * @return the balance type code of the wrapped entry
      */
     public String getBalanceTypeCode() {
-        return (!suppress) ? originEntry.getFinancialBalanceTypeCode() : "";
+        return (!suppress) ? getConstantBalanceTypeCode() : "";
+    }
+    
+    /**
+     * @return the balance type code, even if suppressed
+     */
+    public String getConstantBalanceTypeCode() {
+        return originEntry.getFinancialBalanceTypeCode();
     }
     
     /**

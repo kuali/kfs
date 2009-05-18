@@ -487,8 +487,8 @@
     </bean>
 
     <bean id="laborLedgerEntryPoster" class="org.kuali.kfs.module.ld.batch.service.impl.LaborLedgerEntryPoster">
-        <property name="laborLedgerEntryService">
-            <ref bean="laborLedgerEntryService" />
+        <property name="laborAccountingCycleCachingService">
+            <ref bean="laborAccountingCycleCachingService" />
         </property>
     </bean>
 

@@ -264,10 +264,10 @@ public class NightlyOutServiceImpl implements NightlyOutService {
          * @param docTypeTotals the Map of doc type line total helpers to add the summary to
          */
         protected void addPendingEntryToDocumentType(PendingEntrySummary pendingEntrySummary, Map<String, EntryReportDocumentTypeTotalLine> docTypeTotals) {
-            EntryReportDocumentTypeTotalLine docTypeTotal = docTypeTotals.get(pendingEntrySummary.getDocumentTypeCode());
+            EntryReportDocumentTypeTotalLine docTypeTotal = docTypeTotals.get(pendingEntrySummary.getConstantDocumentTypeCode());
             if (docTypeTotal == null) {
-                docTypeTotal = new EntryReportDocumentTypeTotalLine(pendingEntrySummary.getDocumentTypeCode());
-                docTypeTotals.put(pendingEntrySummary.getDocumentTypeCode(), docTypeTotal);
+                docTypeTotal = new EntryReportDocumentTypeTotalLine(pendingEntrySummary.getConstantDocumentTypeCode());
+                docTypeTotals.put(pendingEntrySummary.getConstantDocumentTypeCode(), docTypeTotal);
             }
             addSummaryToTotal(pendingEntrySummary, docTypeTotal);
         }
@@ -296,12 +296,12 @@ public class NightlyOutServiceImpl implements NightlyOutService {
         public void writeReportFooter(ReportWriterService reportWriterService) {
             final CurrencyFormatter formatter = new CurrencyFormatter();
             final int amountLength = getDataDictionaryService().getAttributeMaxLength(Entry.class, KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT);
-            reportWriterService.writeFormattedMessageLine("                                               Total: %-"+amountLength+"s %-"+amountLength+"s %-"+amountLength+"s", formatter.format(totalLine.getCreditAmount()), formatter.format(totalLine.getDebitAmount()), formatter.format(totalLine.getBudgetAmount()));
+            reportWriterService.writeFormattedMessageLine("                                          Total: %"+amountLength+"s %"+amountLength+"s %"+amountLength+"s", formatter.format(totalLine.getCreditAmount()), formatter.format(totalLine.getDebitAmount()), formatter.format(totalLine.getBudgetAmount()));
             for (String documentTypeCode : documentTypeTotals.keySet()) {
                 final EntryReportDocumentTypeTotalLine docTypeTotal = documentTypeTotals.get(documentTypeCode);
-                reportWriterService.writeFormattedMessageLine("            Totals for Document Type %4s Cnt %6d: %-"+amountLength+"s %-"+amountLength+"s %-"+amountLength+"s",documentTypeCode, docTypeTotal.getEntryCount(), formatter.format(docTypeTotal.getCreditAmount()), formatter.format(docTypeTotal.getDebitAmount()), formatter.format(docTypeTotal.getBudgetAmount()));
+                reportWriterService.writeFormattedMessageLine("       Totals for Document Type %4s Cnt %6d: %"+amountLength+"s %"+amountLength+"s %"+amountLength+"s",documentTypeCode, docTypeTotal.getEntryCount(), formatter.format(docTypeTotal.getCreditAmount()), formatter.format(docTypeTotal.getDebitAmount()), formatter.format(docTypeTotal.getBudgetAmount()));
             }
-            reportWriterService.writeFormattedMessageLine("                             Grand Totals Cnt %6d: %-"+amountLength+"s %-"+amountLength+"s %-"+amountLength+"s", new Integer(entryCount), formatter.format(totalLine.getCreditAmount()), formatter.format(totalLine.getDebitAmount()), formatter.format(totalLine.getBudgetAmount()));
+            reportWriterService.writeFormattedMessageLine("                        Grand Totals Cnt %6d: %"+amountLength+"s %"+amountLength+"s %"+amountLength+"s", new Integer(entryCount), formatter.format(totalLine.getCreditAmount()), formatter.format(totalLine.getDebitAmount()), formatter.format(totalLine.getBudgetAmount()));
         }
         
         /**

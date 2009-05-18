@@ -60,24 +60,41 @@ public abstract class PurapDocumentPreRulesBase extends PromptBeforeValidationBa
             return true;
         }
         
-        String questionText = "";
+        StringBuffer questionText = new StringBuffer();
         if (StringUtils.isBlank(event.getQuestionContext())) {
             if (!SpringContext.getBean(CapitalAssetBuilderModuleService.class).warningObjectLevelCapital(purapDocument)) {
                 proceed &= false;
-                questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(
-                        PurapKeyConstants.REQ_QUESTION_FIX_CAPITAL_ASSET_WARNINGS)+"<br/><br/>";
+                questionText.append(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(
+                        PurapKeyConstants.REQ_QUESTION_FIX_CAPITAL_ASSET_WARNINGS));
+
                 MessageList warnings =  GlobalVariables.getMessageList();
                 if ( !warnings.isEmpty() ) {
-                    questionText += "<table class=\"datatable\">";
+                    questionText.append("[p]");
                     for ( ErrorMessage warning :  warnings ) {
-                        questionText += "<tr><td align=left valign=middle class=\"datacell\">"+warning+"</td></tr>";
+                        // KULPURAP-4036: the following two lines should be used but org.kuali.rice.kns.util.ErrorMessage (line 83) has a bug
+                        //questionText.append(warning);
+                        //questionText.append("[br]");                        
+                        // so, to remove parenthesis in case no params exist   
+                        questionText.append(warning.getErrorKey());
+                        String[] params = warning.getMessageParameters();
+                        if (params != null && params.length > 0) {
+                            questionText.append("(");
+                            for (int i = 0; i < params.length; ++i) {
+                                if (i > 0) {
+                                    questionText.append(", ");
+                                }
+                                questionText.append(params[i]);
+                            }
+                            questionText.append(")");
+                        }
                     }
-                    questionText += "</table>";
+                    questionText.append("[/p]");
                 }                                                        
             }
         }
+        
         if (!proceed || ((ObjectUtils.isNotNull(question)) && (question.equals(PurapConstants.FIX_CAPITAL_ASSET_WARNINGS)))) {
-            proceed = askOrAnalyzeYesNoQuestion(PurapConstants.FIX_CAPITAL_ASSET_WARNINGS, questionText);
+            proceed = askOrAnalyzeYesNoQuestion(PurapConstants.FIX_CAPITAL_ASSET_WARNINGS, questionText.toString());
         }
         // Set a marker to record that this method has been used.
         event.setQuestionContext(PurapConstants.FIX_CAPITAL_ASSET_WARNINGS);

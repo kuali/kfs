@@ -100,6 +100,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements Inactivate
         setBankPhoneSuffixNumber(getField(fileData, 145, 4));
         setBankInstitutionStatusCode(getField(fileData, 149, 1));
         setBankDataViewCode(getField(fileData, 150, 1));
+        setActive(true);
     }
 
     private String getField(String data, int startChar, int length) {

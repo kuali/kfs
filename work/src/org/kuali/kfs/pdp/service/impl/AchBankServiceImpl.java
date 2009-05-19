@@ -50,29 +50,20 @@ public class AchBankServiceImpl implements AchBankService {
      */
     public boolean reloadTable(String filename) {
         LOG.debug("reloadTable() started");
+        
+        // clear out previous records
+        businessObjectService.deleteMatching(ACHBank.class, new HashMap());
 
         BufferedReader inputStream = null;
-
         try {
             inputStream = new BufferedReader(new FileReader(filename));
 
             String str = null;
             while ((str = inputStream.readLine()) != null) {
-                if (StringUtils.isBlank(str)) {
-                    continue;
+                if (StringUtils.isNotBlank(str)) {
+                    ACHBank ab = new ACHBank(str);
+                    this.businessObjectService.save(ab);
                 }
-                
-                String bankRoutingNumber = getField(str, 1, 9);
-
-                Map fieldValues = new HashMap();
-                fieldValues.put(PdpPropertyConstants.BANK_ROUTING_NUMBER, bankRoutingNumber);
-                ACHBank tableBank = (ACHBank) this.businessObjectService.findByPrimaryKey(ACHBank.class, fieldValues);
-                
-                ACHBank ab = new ACHBank(str);
-                if (tableBank != null) {
-                    ab.setVersionNumber(tableBank.getVersionNumber());
-                }
-                this.businessObjectService.save(ab);
             }
         }
         catch (FileNotFoundException fnfe) {
@@ -93,11 +84,8 @@ public class AchBankServiceImpl implements AchBankService {
                 }
             }
         }
+        
         return true;
-    }
-
-    private String getField(String data, int startChar, int length) {
-        return data.substring(startChar - 1, startChar + length - 1).trim();
     }
 
     /**

@@ -130,6 +130,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
     private PurchaseOrderService purchaseOrderService;
     private PaymentRequestService paymentRequestService;
     private KualiConfigurationService kualiConfigurationService;
+    private DateTimeService dateTimeService;
     
     public ElectronicInvoiceLoad loadElectronicInvoices() {
 
@@ -1501,7 +1502,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             ElectronicInvoiceRejectReason rejectReason = matchingService.createRejectReason(PurapConstants.ElectronicInvoice.INVOICE_DATE_INVALID,null,orderHolder.getFileName());
             orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_FILE_DATE,PurapKeyConstants.ERROR_REJECT_INVOICE_DATE_INVALID);
             return;
-        }else if (orderHolder.getInvoiceDate().after(new java.util.Date())) {
+        }else if (orderHolder.getInvoiceDate().after(dateTimeService.getCurrentDate())) {
             ElectronicInvoiceRejectReason rejectReason = matchingService.createRejectReason(PurapConstants.ElectronicInvoice.INVOICE_DATE_GREATER,null,orderHolder.getFileName()); 
             orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_FILE_DATE,PurapKeyConstants.ERROR_REJECT_INVOICE_DATE_GREATER);
             return;
@@ -1581,5 +1582,10 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+    
 }
 

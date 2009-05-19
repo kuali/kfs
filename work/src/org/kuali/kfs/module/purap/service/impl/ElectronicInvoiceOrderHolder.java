@@ -17,6 +17,7 @@ package org.kuali.kfs.module.purap.service.impl;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,10 +40,8 @@ import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
-import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
 import org.kuali.kfs.module.purap.util.ElectronicInvoiceUtils;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -608,10 +607,16 @@ public class ElectronicInvoiceOrderHolder {
     }
     
     public Date getInvoiceProcessedDate(){
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
         if (isRejectDocumentHolder()){
-            return ElectronicInvoiceUtils.getSQLDate(rejectDocument.getInvoiceProcessTimestamp());
+            try {
+                return dateTimeService.convertToSqlDate(rejectDocument.getInvoiceProcessTimestamp());
+            }
+            catch (ParseException e) {
+                throw new RuntimeException("ParseException thrown when trying to convert a Timestamp to SqlDate.", e);
+            }
         }else{
-            return SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
+            return dateTimeService.getCurrentSqlDate();
         }
     }
     

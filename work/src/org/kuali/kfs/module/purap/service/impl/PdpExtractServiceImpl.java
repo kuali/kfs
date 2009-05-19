@@ -67,6 +67,7 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.springframework.transaction.annotation.Transactional;
@@ -184,7 +185,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
         Totals totals = new Totals();
 
-        java.sql.Date onOrBeforePaymentRequestPayDate = new java.sql.Date(purapRunDateService.calculateRunDate(processRunDate).getTime());
+        java.sql.Date onOrBeforePaymentRequestPayDate = DateUtils.convertToSqlDate(purapRunDateService.calculateRunDate(processRunDate));
 
         List<String> preqsWithOutstandingCreditMemos = new ArrayList<String>();
 
@@ -353,7 +354,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             paymentRequests = paymentRequestService.getImmediatePaymentRequestsToExtract(campusCode);
         }
         else {
-            java.sql.Date onOrBeforePaymentRequestPayDate = new java.sql.Date(purapRunDateService.calculateRunDate(processRunDate).getTime());
+            java.sql.Date onOrBeforePaymentRequestPayDate = DateUtils.convertToSqlDate(purapRunDateService.calculateRunDate(processRunDate));
             paymentRequests = paymentRequestService.getPaymentRequestsToExtractSpecialPayments(campusCode, onOrBeforePaymentRequestPayDate);
         }
 
@@ -930,7 +931,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             paymentRequests = paymentRequestService.getImmediatePaymentRequestsToExtract(null);
         }
         else {
-            java.sql.Date onOrBeforePaymentRequestPayDate = new java.sql.Date(purapRunDateService.calculateRunDate(processRunDate).getTime());
+            java.sql.Date onOrBeforePaymentRequestPayDate = DateUtils.convertToSqlDate(purapRunDateService.calculateRunDate(processRunDate));
             paymentRequests = paymentRequestService.getPaymentRequestsToExtract(onOrBeforePaymentRequestPayDate);
         }
 

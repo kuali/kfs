@@ -55,7 +55,7 @@ public class ElectronicInvoiceUtils {
                 try {
                     java.util.Date javaDate = SpringContext.getBean(DateTimeService.class).convertToDate(invoiceDateString);
                     javaDate = DateUtils.addMonths(javaDate, -1);
-                    return getSQLDate(javaDate);
+                    return org.kuali.rice.kns.util.DateUtils.convertToSqlDate(javaDate);
                 }
                 catch (ParseException e) {
                     return null;
@@ -89,21 +89,13 @@ public class ElectronicInvoiceUtils {
             // try to parse date
             SimpleDateFormat sdf = new SimpleDateFormat(PurapConstants.ElectronicInvoice.CXML_SIMPLE_DATE_FORMAT, Locale.US);
             try {
-                return getSQLDate(sdf.parse(stringToParse));
+                return org.kuali.rice.kns.util.DateUtils.convertToSqlDate(sdf.parse(stringToParse));
             }
             catch (ParseException e) {
                 return null;
             }
         }
         
-    }
-    
-    public static Date getSQLDate(java.util.Date date){
-        if (date != null){
-            return new java.sql.Date(date.getTime());
-        }else{
-            return null;
-        }
     }
     
     public static String getDateDisplayText(java.util.Date date) {

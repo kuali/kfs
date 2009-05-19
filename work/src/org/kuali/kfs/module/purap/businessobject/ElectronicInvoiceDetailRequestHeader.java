@@ -13,6 +13,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.module.purap.util.ElectronicInvoiceUtils;
 import org.kuali.kfs.module.purap.util.cxml.CxmlExtrinsic;
+import org.kuali.rice.kns.util.DateUtils;
 
 public class ElectronicInvoiceDetailRequestHeader {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceDetailRequestHeader.class);
@@ -21,7 +22,7 @@ public class ElectronicInvoiceDetailRequestHeader {
   private String purpose = "standard";
   private String operation = "new";
   private String invoiceDateString;
-  private Date invoiceDate;
+  private java.util.Date invoiceDate;
 
   private boolean isInformationOnly;
   private boolean isHeaderInvoiceIndicator;
@@ -30,7 +31,7 @@ public class ElectronicInvoiceDetailRequestHeader {
   private boolean isShippingInLine;
   private boolean isDiscountInLine;
   private String shippingDateString;
-  private Date shippingDate;
+  private java.util.Date shippingDate;
   private String invoiceCustomerNumber;
   
   private List invoicePartnerContacts = new ArrayList();
@@ -189,7 +190,7 @@ public class ElectronicInvoiceDetailRequestHeader {
    */
   public java.sql.Date getInvoiceDate() {
       if (invoiceDate != null){
-          return new java.sql.Date(invoiceDate.getTime());
+          return DateUtils.convertToSqlDate(invoiceDate);
       }else{
           return null;
       }

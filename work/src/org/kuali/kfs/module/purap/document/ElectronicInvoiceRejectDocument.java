@@ -6,6 +6,7 @@ package org.kuali.kfs.module.purap.document;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +30,7 @@ import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kns.document.SessionDocument;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -150,7 +152,8 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     }
 
     public void setFileLevelData(ElectronicInvoice ei) {
-        this.invoiceProcessTimestamp = new Timestamp((new Date()).getTime());
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+        this.invoiceProcessTimestamp = dateTimeService.getCurrentTimestamp();
         this.invoiceFileHeaderTypeIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isHeaderInvoiceIndicator());
         this.invoiceFileInformationOnlyIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isInformationOnly());
         this.invoiceFileTaxInLineIndicator = new Boolean(ei.getInvoiceDetailRequestHeader().isTaxInLine());
@@ -1855,7 +1858,13 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     
     public Date getAccountsPayableApprovalDateForSearch(){
         if (getAccountsPayableApprovalTimestamp() != null){
-            return new Date(getAccountsPayableApprovalTimestamp().getTime());
+            DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+            try {
+                return dateTimeService.convertToSqlDate(getAccountsPayableApprovalTimestamp());
+            }
+            catch (ParseException e) {
+                throw new RuntimeException("ParseException thrown when trying to convert Timestamp to sqlDate.", e);
+            }
         }
         return null;
     }

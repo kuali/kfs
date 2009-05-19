@@ -18,6 +18,7 @@ package org.kuali.kfs.module.purap.document.web.struts;
 import java.io.ByteArrayOutputStream;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,7 +84,6 @@ import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.UrlFactory;
-import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.BlankFormFile;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -1423,6 +1423,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      * @return An ActionForward
      */
     public ActionForward initiateQuote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
         if (!PurchaseOrderStatuses.IN_PROCESS.equals(document.getStatusCode())) {
@@ -1430,12 +1431,18 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_NOT_IN_PROCESS);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        Date currentSqlDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
+        Calendar currentCalendar = dateTimeService.getCurrentCalendar();
+        Date currentSqlDate = new java.sql.Date(currentCalendar.getTimeInMillis());
         document.setPurchaseOrderQuoteInitializationDate(currentSqlDate);
         document.setStatusCode(PurchaseOrderStatuses.QUOTE);
         document.setStatusChange(PurchaseOrderStatuses.QUOTE);
         document.refreshReferenceObject(PurapPropertyConstants.STATUS);
-        Date expDate = new Date(currentSqlDate.getTime() + (10 * 24 * 60 * 60 * 1000)); // add 10 days - TODO: make this a parameter!!!
+        
+        //TODO this needs to be done better, and probably make it a parameter
+        Calendar expCalendar = (Calendar) currentCalendar.clone();
+        expCalendar.add(Calendar.DAY_OF_MONTH, 10);
+        java.sql.Date expDate = new java.sql.Date(expCalendar.getTimeInMillis());
+
         document.setPurchaseOrderQuoteDueDate(expDate);
         document.getPurchaseOrderVendorQuotes().clear();
         SpringContext.getBean(PurapService.class).saveDocumentNoValidation(document);

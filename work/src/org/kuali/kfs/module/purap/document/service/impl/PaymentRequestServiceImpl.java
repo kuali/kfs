@@ -594,12 +594,12 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#calculatePayDate(java.sql.Date, org.kuali.kfs.vnd.businessobject.PaymentTermType)
      */
-    public Date calculatePayDate(Date invoiceDate, PaymentTermType terms) {
+    public java.sql.Date calculatePayDate(Date invoiceDate, PaymentTermType terms) {
         LOG.debug("calculatePayDate() started");
         // calculate the invoice + processed calendar
         Calendar invoicedDateCalendar = dateTimeService.getCalendar(invoiceDate);
         Calendar processedDateCalendar = dateTimeService.getCurrentCalendar();
-        
+
         // add default number of days to processed
         String defaultDays = parameterService.getParameterValue(PaymentRequestDocument.class, PurapParameterConstants.PURAP_PREQ_PAY_DATE_DEFAULT_NUMBER_OF_DAYS);
         processedDateCalendar.add(Calendar.DAY_OF_MONTH, Integer.parseInt(defaultDays));
@@ -634,12 +634,12 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @param processedDateCalendar  The other date to be used in determining which date is later.
      * @return                       The date which is the later of the two given dates in the input parameters.
      */
-    private Date returnLaterDate(Calendar invoicedDateCalendar, Calendar processedDateCalendar) {
+    private java.sql.Date returnLaterDate(Calendar invoicedDateCalendar, Calendar processedDateCalendar) {
         if (invoicedDateCalendar.after(processedDateCalendar)) {
-            return new Date(invoicedDateCalendar.getTimeInMillis());
+            return new java.sql.Date(invoicedDateCalendar.getTimeInMillis());
         }
         else {
-            return new Date(processedDateCalendar.getTimeInMillis());
+            return new java.sql.Date(processedDateCalendar.getTimeInMillis());
         }
     }
 

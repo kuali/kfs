@@ -19,7 +19,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.StringBufferInputStream;
-import java.util.Date;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -42,6 +41,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.PaymentTermType;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
@@ -57,11 +57,12 @@ public class ElectronicInvoiceTestAction extends KualiAction {
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
         
         //get parameters - are we doing upload xml or create based on PO?
         String action = request.getParameter("action");
         
-        String currDate = ElectronicInvoiceUtils.getDateDisplayText(new Date()); // getting date in kfs format
+        String currDate = ElectronicInvoiceUtils.getDateDisplayText(dateTimeService.getCurrentDate()); // getting date in kfs format
         
         if ("postXML".equalsIgnoreCase(action)) {
             // get the file and send the contents to the eInvoice mechanism and display the results
@@ -188,7 +189,7 @@ public class ElectronicInvoiceTestAction extends KualiAction {
                 "          <InvoiceDetailOrder>\n" +
                 "              <InvoiceDetailOrderInfo>\n" +
                 "                  <OrderReference\n" +
-                "                      orderDate=\"" + ElectronicInvoiceUtils.getDateDisplayText(new Date()) + "\" orderID=\"" + po.getPurapDocumentIdentifier() + "\"> <!--orderDate=Curr date,orderID=PO#-->\n" +
+                "                      orderDate=\"" + ElectronicInvoiceUtils.getDateDisplayText(dateTimeService.getCurrentDate()) + "\" orderID=\"" + po.getPurapDocumentIdentifier() + "\"> <!--orderDate=Curr date,orderID=PO#-->\n" +
                 "                      <DocumentReference payloadID=\"NA\" /> <!--HardCoded-->\n" +
                 "                  </OrderReference>\n" +
                 "              </InvoiceDetailOrderInfo>\n" +

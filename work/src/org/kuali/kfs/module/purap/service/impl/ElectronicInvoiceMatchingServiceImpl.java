@@ -43,6 +43,7 @@ import org.kuali.kfs.vnd.businessobject.PurchaseOrderCostSource;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -54,6 +55,7 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
     private Map<String,ElectronicInvoiceRejectReasonType> rejectReasonTypes;
     private VendorService vendorService;
     private TaxService taxService;
+    private DateTimeService dateTimeService;
     
     String upperVariancePercentString;
     String lowerVariancePercentString; 
@@ -145,7 +147,7 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
             ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.INVOICE_DATE_INVALID,null,orderHolder.getFileName());
             orderHolder.addInvoiceHeaderRejectReason(rejectReason,invoiceDateField,PurapKeyConstants.ERROR_REJECT_INVOICE_DATE_INVALID);
             return;
-        }else if (orderHolder.getInvoiceDate().after(new java.util.Date())) {
+        }else if (orderHolder.getInvoiceDate().after(dateTimeService.getCurrentDate())) {
             ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.INVOICE_DATE_GREATER,null,orderHolder.getFileName()); 
             orderHolder.addInvoiceOrderRejectReason(rejectReason,invoiceDateField,PurapKeyConstants.ERROR_REJECT_INVOICE_DATE_GREATER);
             return;
@@ -654,6 +656,10 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
 
     public void setTaxService(TaxService taxService) {
         this.taxService = taxService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 
 }

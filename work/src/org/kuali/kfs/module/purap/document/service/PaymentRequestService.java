@@ -21,13 +21,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
-import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
 import org.kuali.kfs.vnd.businessobject.PaymentTermType;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -90,7 +89,7 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
      * @param terms        The payment term type to be used in the pay date calculation.
      * @return             The resulting pay date given the invoice date and the terms.
      */
-    public Date calculatePayDate(Date invoiceDate, PaymentTermType terms);
+    public java.sql.Date calculatePayDate(Date invoiceDate, PaymentTermType terms);
 
     /**
      * Marks a payment request on hold.

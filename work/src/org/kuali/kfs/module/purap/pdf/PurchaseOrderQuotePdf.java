@@ -18,8 +18,8 @@ package org.kuali.kfs.module.purap.pdf;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.sql.Date;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -208,6 +208,7 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
      */
     private void createPOQuotePdf(PurchaseOrderDocument po, PurchaseOrderVendorQuote poqv, String campusName, String contractManagerCampusCode, String logoImage, Document document, PdfWriter writer, String environment) throws DocumentException {
         LOG.debug("createQuotePdf() started for po number " + po.getPurapDocumentIdentifier());
+        
         // These have to be set because they are used by the onOpenDocument() and onStartPage() methods.
         this.campusName = campusName;
         this.po = po;
@@ -291,16 +292,20 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
         p = new Paragraph();
         p.add(new Chunk("\n     R.Q. Number: ", ver_8_bold));
         p.add(new Chunk(po.getPurapDocumentIdentifier() + "\n", cour_10_normal));
-        Date requestDate = getDateTimeService().getCurrentSqlDate();
+        java.sql.Date requestDate = getDateTimeService().getCurrentSqlDate();
         if (poqv.getPurchaseOrderQuoteTransmitTimestamp() != null) {
-            requestDate = (new Date(poqv.getPurchaseOrderQuoteTransmitTimestamp().getTime()));
+            try {
+                requestDate = getDateTimeService().convertToSqlDate(poqv.getPurchaseOrderQuoteTransmitTimestamp());
+            }
+            catch (ParseException e) {
+                throw new RuntimeException("ParseException thrown when trying to convert from Timestamp to SqlDate.", e);
+            }
         }
         p.add(new Chunk("     R.Q. Date: ", ver_8_bold));
         p.add(new Chunk(sdf.format(requestDate) + "\n", cour_10_normal));
         p.add(new Chunk("     RESPONSE MUST BE RECEIVED BY: ", ver_8_bold));
         if (po.getPurchaseOrderQuoteDueDate() != null) {
-            Date dueDate = (new Date(po.getPurchaseOrderQuoteDueDate().getTime()));
-            p.add(new Chunk(sdf.format(dueDate) + "\n\n", cour_10_normal));
+            p.add(new Chunk(sdf.format(po.getPurchaseOrderQuoteDueDate()) + "\n\n", cour_10_normal));
         }
         else {
             p.add(new Chunk("N/A\n\n", cour_10_normal));

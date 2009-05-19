@@ -469,10 +469,10 @@ public class PurapServiceImpl implements PurapService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.PurapService#getDateFromOffsetFromToday(int)
      */
-    public Date getDateFromOffsetFromToday(int offsetDays) {
+    public java.sql.Date getDateFromOffsetFromToday(int offsetDays) {
         Calendar calendar = dateTimeService.getCurrentCalendar();
         calendar.add(Calendar.DATE, offsetDays);
-        return new Date(calendar.getTimeInMillis());
+        return new java.sql.Date(calendar.getTimeInMillis());
     }
 
     /**
@@ -514,7 +514,7 @@ public class PurapServiceImpl implements PurapService {
 
         Calendar calendar = dateTimeService.getCurrentCalendar();
         calendar.add(Calendar.YEAR, -1);
-        Date yearAgo = new Date(calendar.getTimeInMillis());
+        java.sql.Date yearAgo = new java.sql.Date(calendar.getTimeInMillis());
         int diffFromYearAgo = dateTimeService.dateDiff(compareDate, yearAgo, false);
         return (diffFromYearAgo > 0);
     }

@@ -20,6 +20,7 @@ import java.util.Date;
 import org.kuali.kfs.module.purap.service.PdpExtractService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.DateUtils;
 
 public class ExtractPdpStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ExtractPdpStep.class);
@@ -37,7 +38,7 @@ public class ExtractPdpStep extends AbstractStep {
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         LOG.debug("execute() started");
 
-        pdpExtractService.extractPayments(new java.sql.Date(jobRunDate.getTime()));
+        pdpExtractService.extractPayments(DateUtils.convertToSqlDate(jobRunDate));
         return true;
     }
 

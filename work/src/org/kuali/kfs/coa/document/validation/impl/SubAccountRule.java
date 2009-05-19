@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.coa.document.validation.impl;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -356,20 +357,28 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
 
         // existence check for Financial Series ID
         if (StringUtils.isNotEmpty(a21.getFinancialIcrSeriesIdentifier())) {            
-            Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+            String fiscalYear = StringUtils.EMPTY + SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
             String icrSeriesId = a21.getFinancialIcrSeriesIdentifier();
             
             Map<String, String> pkMap = new HashMap<String, String>();
-            pkMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear.toString());
+            pkMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
             pkMap.put(KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER, icrSeriesId);
+            Collection<IndirectCostRecoveryRateDetail> icrRateDetails = getBoService().findMatching(IndirectCostRecoveryRateDetail.class, pkMap);
             
-            int countOfIcrRateDetails = getBoService().countMatching(IndirectCostRecoveryRateDetail.class, pkMap);
-            if (countOfIcrRateDetails<=0){
+            if (ObjectUtils.isNull(icrRateDetails) || icrRateDetails.isEmpty()) {
                 String label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(A21SubAccount.class, KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER);
                 putFieldError(KFSPropertyConstants.A21_SUB_ACCOUNT + "." + KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER, KFSKeyConstants.ERROR_EXISTENCE, label + " (" + icrSeriesId + ")");
-                
                 success = false;
             }
+            else {
+                for(IndirectCostRecoveryRateDetail icrRateDetail : icrRateDetails) {
+                    if(ObjectUtils.isNull(icrRateDetail.getIndirectCostRecoveryRate())){                                
+                        putFieldError(KFSPropertyConstants.A21_SUB_ACCOUNT + "." + KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_RATE_NOT_FOUND, new String[]{fiscalYear, icrSeriesId});
+                        success = false;
+                        break;
+                    }
+                }
+            }            
         }
 
         // existence check for ICR Account

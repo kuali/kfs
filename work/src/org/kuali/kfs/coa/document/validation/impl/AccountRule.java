@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountDescription;
 import org.kuali.kfs.coa.businessobject.AccountGuideline;
@@ -694,7 +695,8 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
                     Collection<IndirectCostRecoveryRateDetail> icrRateDetails = getBoService().findMatching(IndirectCostRecoveryRateDetail.class, pkMap);
                     
                     if (ObjectUtils.isNull(icrRateDetails) || icrRateDetails.isEmpty()) {
-                        putFieldError(KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER, KFSKeyConstants.ERROR_EXISTENCE, "financialIcrSeriesIdentifier");
+                        String label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Account.class, KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER);
+                        putFieldError(KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER, KFSKeyConstants.ERROR_EXISTENCE, label + " (" + icrSeriesId + ")");
                         result &= false;
                     }
                     else {
@@ -703,7 +705,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
                                 putFieldError(KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_RATE_NOT_FOUND, new String[]{fiscalYear, icrSeriesId});
                                 result &= false;
                                 break;
-                }
+                            }
                         }
                     }
                 }

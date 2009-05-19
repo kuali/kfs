@@ -50,14 +50,16 @@ public class ACHPayeeLookupableHelperServiceImpl extends DisbursementPayeeLookup
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         List<DisbursementPayee> searchResults = new ArrayList<DisbursementPayee>();
-        
+
         String payeeTypeCode = fieldValues.get(KFSPropertyConstants.PAYEE_TYPE_CODE);
-        if (StringUtils.isNotBlank(fieldValues.get(KFSPropertyConstants.VENDOR_NUMBER)) || StringUtils.isNotBlank(fieldValues.get(KFSPropertyConstants.VENDOR_NAME)) ||
-                (StringUtils.isNotBlank(payeeTypeCode) && PdpConstants.PayeeIdTypeCodes.VENDOR_ID.equals(payeeTypeCode)) ) {
+        if (StringUtils.isBlank(payeeTypeCode)) {
+            GlobalVariables.getErrorMap().putInfo(KFSPropertyConstants.PAYEE_TYPE_CODE, PdpKeyConstants.MESSAGE_PDP_ACH_PAYEE_LOOKUP_NO_PAYEE_TYPE);
+        }
+        
+        if (StringUtils.isNotBlank(fieldValues.get(KFSPropertyConstants.VENDOR_NUMBER)) || StringUtils.isNotBlank(fieldValues.get(KFSPropertyConstants.VENDOR_NAME)) || (StringUtils.isNotBlank(payeeTypeCode) && PdpConstants.PayeeIdTypeCodes.VENDOR_ID.equals(payeeTypeCode))) {
             searchResults.addAll(this.getVendorsAsPayees(fieldValues));
         }
-        else if (StringUtils.isNotBlank(fieldValues.get(KIMPropertyConstants.Person.EMPLOYEE_ID)) || StringUtils.isNotBlank(fieldValues.get(KIMPropertyConstants.Person.ENTITY_ID)) ||
-                (StringUtils.isNotBlank(payeeTypeCode) && PdpConstants.PayeeIdTypeCodes.ENTITY_ID.equals(payeeTypeCode)) ) {
+        else if (StringUtils.isNotBlank(fieldValues.get(KIMPropertyConstants.Person.EMPLOYEE_ID)) || StringUtils.isNotBlank(fieldValues.get(KIMPropertyConstants.Person.ENTITY_ID)) || (StringUtils.isNotBlank(payeeTypeCode) && (PdpConstants.PayeeIdTypeCodes.EMPLOYEE.equals(payeeTypeCode) || PdpConstants.PayeeIdTypeCodes.ENTITY.equals(payeeTypeCode)))) {
             searchResults.addAll(this.getPersonAsPayees(fieldValues));
         }
         else {
@@ -75,40 +77,51 @@ public class ACHPayeeLookupableHelperServiceImpl extends DisbursementPayeeLookup
 
         return results;
     }
-    
+
 
     /**
      * Override to set entity id as the payee id and set the pdp payee type
      * 
-     * @see org.kuali.kfs.fp.businessobject.lookup.DisbursementPayeeLookupableHelperServiceImpl#getPayeeFromPerson(org.kuali.rice.kim.bo.Person, java.util.Map)
+     * @see org.kuali.kfs.fp.businessobject.lookup.DisbursementPayeeLookupableHelperServiceImpl#getPayeeFromPerson(org.kuali.rice.kim.bo.Person,
+     *      java.util.Map)
      */
     @Override
     protected DisbursementPayee getPayeeFromPerson(Person personDetail, Map<String, String> fieldValues) {
         DisbursementPayee payee = super.getPayeeFromPerson(personDetail, fieldValues);
-        
+
+        String payeeTypeCode = (String) fieldValues.get(KFSPropertyConstants.PAYEE_TYPE_CODE);
+
         ACHPayee achPayee = new ACHPayee();
+
+        if (PdpConstants.PayeeIdTypeCodes.ENTITY.equals(payeeTypeCode)) {
+            achPayee.setPayeeIdNumber(personDetail.getEntityId());
+            achPayee.setPayeeTypeCode(PdpConstants.PayeeIdTypeCodes.ENTITY);
+        }
+        else {
+            achPayee.setPayeeIdNumber(personDetail.getEmployeeId());
+            achPayee.setPayeeTypeCode(PdpConstants.PayeeIdTypeCodes.EMPLOYEE);
+        }
         
-        achPayee.setPayeeIdNumber(personDetail.getEntityId());
-        achPayee.setPayeeTypeCode(PdpConstants.PayeeIdTypeCodes.ENTITY_ID);
         achPayee.setPayeeName(payee.getPayeeName());
         achPayee.setPrincipalId(payee.getPrincipalId());
         achPayee.setTaxNumber(payee.getTaxNumber());
         achPayee.setAddress(payee.getAddress());
         achPayee.setActive(payee.isActive());
-        
+
         return achPayee;
     }
 
 
     /**
-     * @see org.kuali.kfs.fp.businessobject.lookup.DisbursementPayeeLookupableHelperServiceImpl#getPayeeFromVendor(org.kuali.kfs.vnd.businessobject.VendorDetail, java.util.Map)
+     * @see org.kuali.kfs.fp.businessobject.lookup.DisbursementPayeeLookupableHelperServiceImpl#getPayeeFromVendor(org.kuali.kfs.vnd.businessobject.VendorDetail,
+     *      java.util.Map)
      */
     @Override
     protected DisbursementPayee getPayeeFromVendor(VendorDetail vendorDetail, Map<String, String> fieldValues) {
         DisbursementPayee payee = super.getPayeeFromVendor(vendorDetail, fieldValues);
-        
+
         ACHPayee achPayee = new ACHPayee();
-        
+
         achPayee.setPayeeIdNumber(payee.getPayeeIdNumber());
         achPayee.setPayeeTypeCode(PdpConstants.PayeeIdTypeCodes.VENDOR_ID);
         achPayee.setPayeeName(payee.getPayeeName());
@@ -116,7 +129,7 @@ public class ACHPayeeLookupableHelperServiceImpl extends DisbursementPayeeLookup
         achPayee.setTaxNumber(payee.getTaxNumber());
         achPayee.setAddress(payee.getAddress());
         achPayee.setActive(payee.isActive());
-        
+
         return achPayee;
     }
 
@@ -145,10 +158,10 @@ public class ACHPayeeLookupableHelperServiceImpl extends DisbursementPayeeLookup
 
             GlobalVariables.getErrorMap().putError(KIMPropertyConstants.Person.ENTITY_ID, messageKey, entityIdLabel, vendorNameLabel, vendorNumberLabel);
         }
-        
+
         boolean isEmployeeInfoEntered = StringUtils.isNotBlank(employeeId) || StringUtils.isNotBlank(entityId);
         boolean payeeTypeEntered = StringUtils.isNotBlank(payeeTypeCode);
-        
+
         if (payeeTypeEntered && PdpConstants.PayeeIdTypeCodes.VENDOR_ID.equals(payeeTypeCode) && isEmployeeInfoEntered) {
             String messageKey = PdpKeyConstants.ERROR_PAYEE_LOOKUP_VENDOR_EMPLOYEE_CONFUSION;
 
@@ -156,9 +169,9 @@ public class ACHPayeeLookupableHelperServiceImpl extends DisbursementPayeeLookup
             String entityIdLabel = this.getAttribueLabel(KIMPropertyConstants.Person.ENTITY_ID);
             String payeeTypeLabel = this.getAttribueLabel(KFSPropertyConstants.PAYEE_TYPE_CODE);
 
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.PAYEE_TYPE_CODE, messageKey, payeeTypeLabel, payeeTypeCode, employeeIdLabel, entityIdLabel); 
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.PAYEE_TYPE_CODE, messageKey, payeeTypeLabel, payeeTypeCode, employeeIdLabel, entityIdLabel);
         }
-        else if (payeeTypeEntered && PdpConstants.PayeeIdTypeCodes.ENTITY_ID.equals(payeeTypeCode) && isVendorInfoEntered) {
+        else if (payeeTypeEntered && (PdpConstants.PayeeIdTypeCodes.EMPLOYEE.equals(payeeTypeCode) || PdpConstants.PayeeIdTypeCodes.ENTITY.equals(payeeTypeCode)) && isVendorInfoEntered) {
             String messageKey = PdpKeyConstants.ERROR_PAYEE_LOOKUP_VENDOR_EMPLOYEE_CONFUSION;
 
             String vendorNameLabel = this.getAttribueLabel(KFSPropertyConstants.VENDOR_NAME);

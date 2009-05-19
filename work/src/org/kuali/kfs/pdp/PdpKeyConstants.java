@@ -70,6 +70,7 @@ public class PdpKeyConstants {
     public static final String MESSAGE_PDP_ACH_ADVICE_EMAIL_BANKAMOUNT = "message.pdp.achAdvice.email.bankAmount";
     public static final String MESSAGE_PDP_ACH_ADVICE_EMAIL_NONOTES = "message.pdp.achAdvice.email.noNotes";
     public static final String MESSAGE_PDP_ACH_ADVICE_INVALID_EMAIL_ADDRESS = "message.pdp.achAdvice.email.invalidEmailAddress";
+    public static final String MESSAGE_PDP_ACH_PAYEE_LOOKUP_NO_PAYEE_TYPE = "message.pdp.payeeLookup.noPayeeTypeSelection";
     
     public static final String DAILY_REPORT_SERVICE_FILE_PREFIX = "pdp.dailyReportService.dailyReportFilePrefix";
     public static final String DAILY_REPORT_SERVICE_REPORT_TITLE = "pdp.dailyReportService.reportTitle";

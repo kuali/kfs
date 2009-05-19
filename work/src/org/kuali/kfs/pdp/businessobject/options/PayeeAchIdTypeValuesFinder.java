@@ -36,7 +36,7 @@ public class PayeeAchIdTypeValuesFinder extends KeyValuesBase {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", ""));
         for (PayeeType element : boList) {
-            if (PdpConstants.PayeeIdTypeCodes.VENDOR_ID.equals(element.getCode()) || PdpConstants.PayeeIdTypeCodes.ENTITY_ID.equals(element.getCode())) {
+            if (PdpConstants.PayeeIdTypeCodes.VENDOR_ID.equals(element.getCode()) || PdpConstants.PayeeIdTypeCodes.EMPLOYEE.equals(element.getCode()) || PdpConstants.PayeeIdTypeCodes.ENTITY.equals(element.getCode())) {
                 keyValues.add(new KeyLabelPair(element.getCode(), element.getName()));
             }
         }

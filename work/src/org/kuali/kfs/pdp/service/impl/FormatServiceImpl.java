@@ -325,7 +325,7 @@ public class FormatServiceImpl implements FormatService {
         // determine whether payment should be ACH or Check
         PayeeACHAccount payeeAchAccount = null;
         boolean isCheck = true;
-        if (PdpConstants.PayeeIdTypeCodes.VENDOR_ID.equals(paymentGroup.getPayeeIdTypeCd()) || PdpConstants.PayeeIdTypeCodes.ENTITY_ID.equals(paymentGroup.getPayeeIdTypeCd())) {
+        if (PdpConstants.PayeeIdTypeCodes.VENDOR_ID.equals(paymentGroup.getPayeeIdTypeCd()) || PdpConstants.PayeeIdTypeCodes.EMPLOYEE.equals(paymentGroup.getPayeeIdTypeCd()) || PdpConstants.PayeeIdTypeCodes.ENTITY.equals(paymentGroup.getPayeeIdTypeCd())) {
             if (StringUtils.isNotBlank(paymentGroup.getPayeeId()) && !paymentGroup.getPymtAttachment() && !paymentGroup.getProcessImmediate() && !paymentGroup.getPymtSpecialHandling() && (customer.getAchTransactionType() != null) && noNegativeDetails) {
                 LOG.debug("performFormat() Checking ACH");
                 payeeAchAccount = achService.getAchInformation(paymentGroup.getPayeeIdTypeCd(), paymentGroup.getPayeeId(), customer.getAchTransactionType());

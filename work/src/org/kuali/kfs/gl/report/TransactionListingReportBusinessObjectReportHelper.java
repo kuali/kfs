@@ -15,24 +15,30 @@
  */
 package org.kuali.kfs.gl.report;
 
-import org.kuali.kfs.gl.businessobject.Entry;
-import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.report.BusinessObjectReportHelper;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class TransactionListingReportBusinessObjectReportHelper extends BusinessObjectReportHelper {
+    protected static final int TRANSACTION_LEDGER_ENTRY_DESCRIPTION_MAX_LENGTH = 31;
+    
     /**
      * @see org.kuali.kfs.sys.report.BusinessObjectReportHelper#retrievePropertyValue(org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
      */
     @Override
     protected Object retrievePropertyValue(BusinessObject businessObject, String propertyName) {
-        if ("debitAmount".equals(propertyName) && businessObject instanceof Transaction) {
+        if ("debitOrBudgetAmount".equals(propertyName) && businessObject instanceof Transaction) {
             Transaction e = (Transaction) businessObject;
             if (KFSConstants.GL_DEBIT_CODE.equals(e.getTransactionDebitCreditCode())) {
+                // return the debit amount
+                return e.getTransactionLedgerEntryAmount();
+            } else if (!KFSConstants.GL_DEBIT_CODE.equals(e.getTransactionDebitCreditCode()) &&
+                    !KFSConstants.GL_CREDIT_CODE.equals(e.getTransactionDebitCreditCode())) {
+                // return the budget amount
                 return e.getTransactionLedgerEntryAmount();
             }
             return KualiDecimal.ZERO;
@@ -44,13 +50,15 @@ public class TransactionListingReportBusinessObjectReportHelper extends Business
             }
             return KualiDecimal.ZERO;
         }
-        if ("budgetAmount".equals(propertyName) && businessObject instanceof Transaction) {
+        // Truncate the description
+        if ("transactionLedgerEntryDescription".equals(propertyName) && businessObject instanceof Transaction) {
             Transaction e = (Transaction) businessObject;
-            if (!KFSConstants.GL_DEBIT_CODE.equals(e.getTransactionDebitCreditCode()) &&
-                    !KFSConstants.GL_CREDIT_CODE.equals(e.getTransactionDebitCreditCode())) {
-                return e.getTransactionLedgerEntryAmount();
+            if (ObjectUtils.isNull(e.getTransactionLedgerEntryDescription()) ||
+                    (e.getTransactionLedgerEntryDescription().length() <= TRANSACTION_LEDGER_ENTRY_DESCRIPTION_MAX_LENGTH)) {
+                return e.getTransactionLedgerEntryDescription();
+            } else {
+                return e.getTransactionLedgerEntryDescription().substring(0, TRANSACTION_LEDGER_ENTRY_DESCRIPTION_MAX_LENGTH);
             }
-            return KualiDecimal.ZERO;
         }
         return super.retrievePropertyValue(businessObject, propertyName);
     }
@@ -60,8 +68,11 @@ public class TransactionListingReportBusinessObjectReportHelper extends Business
      */
     @Override
     protected int retrievePropertyValueMaximumLength(Class<? extends BusinessObject> businessObjectClass, String propertyName) {
-        if ("debitAmount".equals(propertyName) || "creditAmount".equals(propertyName) || "budgetAmount".equals(propertyName)) {
+        if ("debitOrBudgetAmount".equals(propertyName) || "creditAmount".equals(propertyName)) {
             return super.retrievePropertyValueMaximumLength(businessObjectClass, KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT);
+        }
+        if ("transactionLedgerEntryDescription".equals(propertyName)) {
+            return TRANSACTION_LEDGER_ENTRY_DESCRIPTION_MAX_LENGTH;
         }
         return super.retrievePropertyValueMaximumLength(businessObjectClass, propertyName);
     }

@@ -38,7 +38,7 @@ public class BusinessObjectReportHelpTest extends KualiTestBase {
     }
 
     public void testGetTableDefintion() throws Exception {
-        Map<String, String> tableDefintion = summaryReportHelper.getTableDefintion();
+        Map<String, String> tableDefintion = summaryReportHelper.getTableDefinition();
 
         System.out.println(tableDefintion.get(KFSConstants.ReportConstants.TABLE_HEADER_LINE_KEY));
         System.out.println(tableDefintion.get(KFSConstants.ReportConstants.SEPARATOR_LINE_KEY));

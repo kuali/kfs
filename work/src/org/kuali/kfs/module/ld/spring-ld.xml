@@ -1355,7 +1355,7 @@
         <property name="title" value="Labor Scrubber Input Transactions with Bad Balance Types" />
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
-        		<entry key="org.kuali.kfs.module.ld.businessobject.LaborOriginEntry" value="transactionListingReportHelper"/>
+        		<entry key="org.kuali.kfs.module.ld.businessobject.LaborOriginEntry" value="laborTransactionListingReportHelper"/>
         	</map>
         </property>
     </bean>	    
@@ -1366,7 +1366,7 @@
         <property name="title" value="Labor Error Listing - Transactions Removed From the Scrubber" />
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
-        		<entry key="org.kuali.kfs.module.ld.businessobject.LaborOriginEntry" value="transactionListingReportHelper"/>
+        		<entry key="org.kuali.kfs.module.ld.businessobject.LaborOriginEntry" value="laborTransactionListingReportHelper"/>
         	</map>
         </property>
     </bean>	    
@@ -1377,7 +1377,7 @@
         <property name="title" value="Labor Output Transaction Listing From the Scrubber"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
-        		<entry key="org.kuali.kfs.module.ld.businessobject.LaborOriginEntry" value="transactionListingReportHelper"/>
+        		<entry key="org.kuali.kfs.module.ld.businessobject.LaborOriginEntry" value="laborTransactionListingReportHelper"/>
         	</map>
         </property>
     </bean>	

@@ -190,7 +190,7 @@ public class BusinessObjectReportHelper {
      * 
      * @return the primary information that can define a table structure
      */
-    public Map<String, String> getTableDefintion() {       
+    public Map<String, String> getTableDefinition() {       
         List<Integer> cellWidthList = this.getTableCellWidth();
         
         String separatorLine = this.getSepartorLine(cellWidthList);       
@@ -204,12 +204,12 @@ public class BusinessObjectReportHelper {
 
         String tableHeaderLine = String.format(tableHeaderLineFormat, tableHeaderLabelValues.toArray());
 
-        Map<String, String> tableDefintion = new HashMap<String, String>();
-        tableDefintion.put(KFSConstants.ReportConstants.TABLE_HEADER_LINE_KEY, tableHeaderLine);
-        tableDefintion.put(KFSConstants.ReportConstants.SEPARATOR_LINE_KEY, separatorLine);
-        tableDefintion.put(KFSConstants.ReportConstants.TABLE_CELL_FORMAT_KEY, tableCellFormat);
+        Map<String, String> tableDefinition = new HashMap<String, String>();
+        tableDefinition.put(KFSConstants.ReportConstants.TABLE_HEADER_LINE_KEY, tableHeaderLine);
+        tableDefinition.put(KFSConstants.ReportConstants.SEPARATOR_LINE_KEY, separatorLine);
+        tableDefinition.put(KFSConstants.ReportConstants.TABLE_CELL_FORMAT_KEY, tableCellFormat);
 
-        return tableDefintion;
+        return tableDefinition;
     }
 
     /**
@@ -404,7 +404,7 @@ public class BusinessObjectReportHelper {
     }
 
     /**
-     * get the width of all table cells according to the defintion
+     * get the width of all table cells according to the definition
      * 
      * @return the width of all table cells. The width is in the order defined as the orderedPropertyNameToHeaderLabelMap
      */
@@ -466,9 +466,9 @@ public class BusinessObjectReportHelper {
     }
     
     /**
-     * get the alignment defintions of all table cells in one row according to the property's formatter class
+     * get the alignment definitions of all table cells in one row according to the property's formatter class
      * 
-     * @return the alignment defintions of all table cells in one row according to the property's formatter class
+     * @return the alignment definitions of all table cells in one row according to the property's formatter class
      */
     public List<String> getTableCellAlignment() {
         List<String> cellWidthList = new ArrayList<String>();
@@ -480,7 +480,7 @@ public class BusinessObjectReportHelper {
             boolean isNumber = false;
             if (!attributeName.startsWith(KFSConstants.ReportConstants.EMPTY_CELL_ENTRY_KEY_PREFIX)) {
                 try {
-                    Class formatterClass = this.retrievePropertyFormatterClass(dataDictionaryBusinessObjectClass, attributeName);
+                    Class<? extends Formatter> formatterClass = this.retrievePropertyFormatterClass(dataDictionaryBusinessObjectClass, attributeName);
                     
                     isNumber = numberFormatters.contains(formatterClass);
                 }

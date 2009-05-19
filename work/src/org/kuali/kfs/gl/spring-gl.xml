@@ -2222,12 +2222,11 @@
     			<entry key="financialSystemOriginationCode" value="ORIG"/>
     			<entry key="documentNumber" value="DOC #"/>
     			<entry key="transactionLedgerEntryDescription" value="DESC"/>
-    			<entry key="debitAmount" value="Debit Amount"/>
+    			<entry key="debitOrBudgetAmount" value="Debit or Budget Amt"/>
     			<entry key="creditAmount" value="Credit Amount"/>
-    			<entry key="budgetAmount" value="Budget Amount"/>
     		</map>
 	    </property>
-	    <property name="columnCount" value="14"/>
+	    <property name="columnCount" value="13"/>
 	</bean>
 
 	<bean id="sufficientFundRebuildReportHelper" parent="businessObjectReportHelper">

@@ -333,7 +333,7 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
     public void writeTableHeader(BusinessObject businessObject) {
         BusinessObjectReportHelper businessObjectReportHelper = getBusinessObjectReportHelper(businessObject);
 
-        Map<String, String> tableDefinition = businessObjectReportHelper.getTableDefintion();
+        Map<String, String> tableDefinition = businessObjectReportHelper.getTableDefinition();
         String tableHeaderFormat = tableDefinition.get(KFSConstants.ReportConstants.TABLE_HEADER_LINE_KEY);
 
         String[] headerLines = this.getMultipleFormattedMessageLines(tableHeaderFormat, new Object());
@@ -345,7 +345,7 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
      */
     public void writeTableRowSeparationLine(BusinessObject businessObject) {
         BusinessObjectReportHelper businessObjectReportHelper = getBusinessObjectReportHelper(businessObject);
-        Map<String, String> tableDefinition = businessObjectReportHelper.getTableDefintion();
+        Map<String, String> tableDefinition = businessObjectReportHelper.getTableDefinition();
 
         String separationLine = tableDefinition.get(KFSConstants.ReportConstants.SEPARATOR_LINE_KEY);
         this.writeFormattedMessageLine(separationLine);
@@ -356,7 +356,7 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
      */
     public void writeTableRow(BusinessObject businessObject) {
         BusinessObjectReportHelper businessObjectReportHelper = getBusinessObjectReportHelper(businessObject);
-        Map<String, String> tableDefinition = businessObjectReportHelper.getTableDefintion();
+        Map<String, String> tableDefinition = businessObjectReportHelper.getTableDefinition();
 
         String tableCellFormat = tableDefinition.get(KFSConstants.ReportConstants.TABLE_CELL_FORMAT_KEY);
         List<String> tableCellValues = businessObjectReportHelper.getTableCellValuesPaddingWithEmptyCell(businessObject, false);
@@ -370,7 +370,7 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
      */
     public void writeTableRowWithColspan(BusinessObject businessObject) {
         BusinessObjectReportHelper businessObjectReportHelper = getBusinessObjectReportHelper(businessObject);
-        Map<String, String> tableDefinition = businessObjectReportHelper.getTableDefintion();
+        Map<String, String> tableDefinition = businessObjectReportHelper.getTableDefinition();
 
         String tableCellFormat = businessObjectReportHelper.getTableCellFormat(true, true, StringUtils.EMPTY);
         List<String> tableCellValues = businessObjectReportHelper.getTableCellValuesPaddingWithEmptyCell(businessObject, true);
@@ -391,7 +391,7 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
         this.writeTableHeader(firstBusinessObject);
 
         BusinessObjectReportHelper businessObjectReportHelper = getBusinessObjectReportHelper(businessObjects.get(0));
-        Map<String, String> tableDefinition = businessObjectReportHelper.getTableDefintion();
+        Map<String, String> tableDefinition = businessObjectReportHelper.getTableDefinition();
         String tableHeaderFormat = tableDefinition.get(KFSConstants.ReportConstants.TABLE_HEADER_LINE_KEY);
         String[] headerLines = this.getMultipleFormattedMessageLines(tableHeaderFormat, new Object());
 

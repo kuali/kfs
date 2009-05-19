@@ -498,7 +498,10 @@ public class PurapConstants extends JSTLConstants {
             }
 
             public static boolean isFullDocumentEntryCompleted(String status) {
-                return !getByStatusCode(status).fullEntryAllowed;
+                if (StringUtils.isNotBlank(status)) {
+                    return !getByStatusCode(status).fullEntryAllowed;                    
+                }
+                return false;
             }
 
             public static STATUS_ORDER getPreviousStatus(String statusCode) {

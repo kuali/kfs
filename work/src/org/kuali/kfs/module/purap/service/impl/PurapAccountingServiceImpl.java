@@ -511,47 +511,30 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         for (PurApItem currentItem : items) {
             if (PurApItemUtils.checkItemActive(currentItem)) {
                 List<PurApAccountingLine> sourceAccountingLines = currentItem.getSourceAccountingLines();
-                if(!useTaxIncluded) {
+                
+                if (!useTaxIncluded) {
                     //if no use tax set the source accounting lines to a clone so we can update
                     //them to be based on the non tax amount
-                    //TODO: do we still need the clone with the totaling stuff
                     PurApItem cloneItem = (PurApItem)ObjectUtils.deepCopy(currentItem);
                     sourceAccountingLines = cloneItem.getSourceAccountingLines();
                     updateAccountAmountsWithTotal(sourceAccountingLines, currentItem.getTotalRemitAmount());
                 }
+                
                 for (PurApAccountingLine account : sourceAccountingLines) {
-                    boolean thisAccountAlreadyInSet = false;
+                    // getting the total to set on the account
+                    KualiDecimal total = KualiDecimal.ZERO;
                     if (accountMap.containsKey(account)) {
-                      KualiDecimal total = accountMap.get(account);
-                      if (useAlternateAmount) {
-                          total = total.add(account.getAlternateAmountForGLEntryCreation());
-                      } else {
-                          total = total.add(account.getAmount());
-                      }
-                      accountMap.put(account,total);
-                    } else {
-                        //FIXME: with this map we may not need the deep copy anymore since we are not setting anything -
-                        //on the object
-                      PurApAccountingLine accountToAdd = (PurApAccountingLine) ObjectUtils.deepCopy(account);
-                      accountMap.put(accountToAdd,account.getAmount());
+                        total = accountMap.get(account);
                     }
-//                    for (Iterator<PurApAccountingLine> iter = accountMap.keySet().iterator(); iter.hasNext();) {
-//                        PurApAccountingLine alreadyAddedAccount = (PurApAccountingLine) iter.next();
-//                        if (alreadyAddedAccount.accountStringsAreEqual(account)) {
-//                            if (useAlternateAmount) {
-//                                alreadyAddedAccount.setAlternateAmountForGLEntryCreation(alreadyAddedAccount.getAlternateAmountForGLEntryCreation().add(account.getAlternateAmountForGLEntryCreation()));
-//                            }
-//                            else {
-//                                alreadyAddedAccount.setAmount(alreadyAddedAccount.getAmount().add(account.getAmount()));
-//                            }
-//                            thisAccountAlreadyInSet = true;
-//                            break;
-//                        }
-//                    }
-//                    if (!thisAccountAlreadyInSet) {
-//                        PurApAccountingLine accountToAdd = (PurApAccountingLine) ObjectUtils.deepCopy(account);
-//                        accountMap.add(accountToAdd);
-//                    }
+                    
+                    if (useAlternateAmount) {
+                        total = total.add(account.getAlternateAmountForGLEntryCreation());
+                    }
+                    else {
+                        total = total.add(account.getAmount());
+                    }
+
+                    accountMap.put(account, total);
                 }
             }
         }
@@ -569,10 +552,6 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             KualiDecimal sourceLineTotal = accountMap.get(accountToConvert);
             SourceAccountingLine sourceLine = accountToConvert.generateSourceAccountingLine();
             sourceLine.setAmount(sourceLineTotal);
-            //always total now since setting total appropriately above
-//            if (useAlternateAmount) {
-//                sourceLine.setAmount(accountToConvert.getAlternateAmountForGLEntryCreation());
-//            }
             sourceAccounts.add(sourceLine);
         }
         

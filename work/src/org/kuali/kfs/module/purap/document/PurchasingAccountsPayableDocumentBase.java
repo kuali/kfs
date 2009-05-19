@@ -1085,14 +1085,14 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      */
     @Override
     public List getSourceAccountingLines() {
-        List<AccountingLine> sourceAccountingLines = new ArrayList<AccountingLine>();
-        for (Object itemAsObject : this.getItems()) {
-            final PurApItem item = (PurApItem)itemAsObject;
-            for (PurApAccountingLine accountingLine : item.getSourceAccountingLines()) {
-                sourceAccountingLines.add(accountingLine);
-            }
+        if (ObjectUtils.isNotNull(sourceAccountingLines) && !sourceAccountingLines.isEmpty()) {
+            // do nothing because acct lines have already been set
+            return sourceAccountingLines;
         }
-        return sourceAccountingLines;
+        else {
+            SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);
+            return SpringContext.getBean(PurapAccountingService.class).generateSummary(getItems());
+        }
     }
     
     /**

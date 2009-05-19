@@ -30,18 +30,16 @@
       <list>
         <bean parent="RelationshipDefinition">
           <property name="objectAttributeName" value="ledgerPerson" />
-          <property name="supportAttributes" >
+          <property name="primitiveAttributes" >
             <list>
-              <bean parent="SupportAttributeDefinition"
-                    p:identifier="true"
+              <bean parent="PrimitiveAttributeDefinition"
                     p:sourceName="emplid"
-                    p:targetName="employeeId" />                   
+                    p:targetName="employeeId" />
             </list>
           </property>
         </bean>
       </list>
     </property>
-    
     <property name="workflowAttributes">
     	<ref bean="EffortCertificationDocument-workflowAttributes"/>
     </property>

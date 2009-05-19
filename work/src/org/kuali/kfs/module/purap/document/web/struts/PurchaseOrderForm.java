@@ -527,6 +527,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         boolean can = PurchaseOrderStatuses.OPEN.equals(getPurchaseOrderDocument().getStatusCode());
         can = can && getPurchaseOrderDocument().isPurchaseOrderCurrentIndicator() && !getPurchaseOrderDocument().isPendingActionIndicator();
         can = can && getPurchaseOrderDocument().getPurchaseOrderLastTransmitTimestamp() != null;
+        can = can && !PurapConstants.RequisitionSources.B2B.equals(getPurchaseOrderDocument().getRequisitionSourceCode());
         can = can && !editingMode.containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB);
         
         if (!can) {

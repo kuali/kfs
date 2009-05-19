@@ -142,12 +142,20 @@
 		               <div align="right"><kul:htmlAttributeLabel attributeEntry="${camsItemAttributes.capitalAssetTransactionTypeCode}" /></div>
 		            </th>
 				    <td class="datacell">
-				    	<c:choose>
+				    <c:choose>
 							<c:when test="${!empty KualiForm.document.purchasingCapitalAssetItems and ( (KualiForm.purchasingItemCapitalAssetAvailability eq availabilityOnce) or (KualiForm.purchasingCapitalAssetSystemCommentsAvailability eq availabilityOnce) or (KualiForm.purchasingCapitalAssetSystemDescriptionAvailability eq availabilityOnce) or (KualiForm.purchasingCapitalAssetSystemAvailability eq availabilityOnce) )}">
-								<kul:htmlControlAttribute attributeEntry="${camsItemAttributes.capitalAssetTransactionTypeCode}" property="document.purchasingCapitalAssetItems[${ctr}].capitalAssetTransactionTypeCode" readOnly="${!itemActive or !(fullEntryMode or amendmentEntry)}" tabindexOverride="${tabindexOverrideBase + 9}"/>
+								<kul:htmlControlAttribute attributeEntry="${camsItemAttributes.capitalAssetTransactionTypeCode}" 									
+									property="document.purchasingCapitalAssetItems[${ctr}].capitalAssetTransactionTypeCode"
+									extraReadOnlyProperty="document.purchasingCapitalAssetItems[${ctr}].capitalAssetTransactionType.capitalAssetTransactionTypeDescription" 
+									readOnly="${!itemActive or !(fullEntryMode or amendmentEntry)}" 
+									tabindexOverride="${tabindexOverrideBase + 9}"/>
 							</c:when>
 							<c:otherwise>
-								<kul:htmlControlAttribute attributeEntry="${camsItemAttributes.capitalAssetTransactionTypeCode}" property="document.purchasingCapitalAssetItems[${ctr}].capitalAssetTransactionTypeCode" readOnly="${!itemActive or !(fullEntryMode or amendmentEntry)}" tabindexOverride="${tabindexOverrideBase + 0}"/>
+								<kul:htmlControlAttribute attributeEntry="${camsItemAttributes.capitalAssetTransactionTypeCode}"									 
+									property="document.purchasingCapitalAssetItems[${ctr}].capitalAssetTransactionTypeCode" 
+									extraReadOnlyProperty="document.purchasingCapitalAssetItems[${ctr}].capitalAssetTransactionType.capitalAssetTransactionTypeDescription"
+									readOnly="${!itemActive or !(fullEntryMode or amendmentEntry)}" 
+									tabindexOverride="${tabindexOverrideBase + 0}"/>
 							</c:otherwise>
 						</c:choose>
 					</td>

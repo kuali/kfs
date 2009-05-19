@@ -53,7 +53,7 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
      * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.kns.document.Document)
      */
     @Override
-    public boolean doRules(Document document) {
+    public boolean doPrompts(Document document) {
         boolean preRulesOK = true;
 
         PaymentRequestDocument preq = (PaymentRequestDocument) document;
@@ -70,7 +70,7 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
                 return false;
             }
         }
-        preRulesOK &= super.doRules(document);
+        preRulesOK &= super.doPrompts(document);
         return preRulesOK;
     }
 

@@ -42,7 +42,8 @@ public abstract class AccountsPayableDocumentPreRulesBase extends PurapDocumentP
      * 
      * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.kns.document.Document)
      */
-    public boolean doRules(Document document) {
+    @Override
+    public boolean doPrompts(Document document){
 
         boolean preRulesOK = true;
 

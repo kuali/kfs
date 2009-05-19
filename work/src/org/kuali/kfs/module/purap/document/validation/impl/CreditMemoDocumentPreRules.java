@@ -41,8 +41,8 @@ public class CreditMemoDocumentPreRules extends AccountsPayableDocumentPreRulesB
      * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.kns.document.Document)
      */
     @Override
-    public boolean doRules(Document document) {
-        return super.doRules(document);
+    public boolean doPrompts(Document document) {
+        return super.doPrompts(document);
     }
 
     /**
@@ -86,7 +86,7 @@ public class CreditMemoDocumentPreRules extends AccountsPayableDocumentPreRulesB
         }
         
 //        questionTextBuffer.append("<tr><td class=\"leftTd\">Grand Total:</td><td class=\"rightTd\">" + (String)cf.format(cm.getGrandTotal()) + "</td></tr></table>");
-        questionTextBuffer.append("Grand Total: ").append((String)cf.format(cm.getGrandTotal())).append("br][br]");
+        questionTextBuffer.append("Grand Total: ").append((String)cf.format(cm.getGrandTotal())).append("[br][br]");
 
         return questionTextBuffer.toString();
         

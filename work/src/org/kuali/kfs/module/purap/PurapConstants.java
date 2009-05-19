@@ -467,8 +467,18 @@ public class PurapConstants extends JSTLConstants {
         // Note it doesn't make much sense to compare auto_approved and dept_approved but this is
         // easier than two enums plus this should primarily be used for user enterred areas
         public enum STATUS_ORDER {
-            CANCELLED_IN_PROCESS(PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS, false), CANCELLED_POST_AP_APPROVE(PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE, false), INITIATE(PurapConstants.PaymentRequestStatuses.INITIATE, true), IN_PROCESS(PurapConstants.PaymentRequestStatuses.IN_PROCESS, true), AWAITING_ACCOUNTS_PAYABLE_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW, false), AWAITING_RECEIVING_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_RECEIVING_REVIEW, false), AWAITING_SUB_ACCT_MGR_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW, false), AWAITING_FISCAL_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_FISCAL_REVIEW, false), AWAITING_ORG_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_ORG_REVIEW, false), AWAITING_TAX_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_TAX_REVIEW, false), DEPARTMENT_APPROVED(
-                    PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED, false), AUTO_APPROVED(PurapConstants.PaymentRequestStatuses.AUTO_APPROVED, false), ;
+            CANCELLED_IN_PROCESS(PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS, false), 
+            CANCELLED_POST_AP_APPROVE(PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE, false), 
+            INITIATE(PurapConstants.PaymentRequestStatuses.INITIATE, true), 
+            IN_PROCESS(PurapConstants.PaymentRequestStatuses.IN_PROCESS, true), 
+            AWAITING_ACCOUNTS_PAYABLE_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW, false), 
+            AWAITING_RECEIVING_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_RECEIVING_REVIEW, false), 
+            AWAITING_SUB_ACCT_MGR_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW, false), 
+            AWAITING_FISCAL_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_FISCAL_REVIEW, false), 
+            AWAITING_ORG_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_ORG_REVIEW, false), 
+            AWAITING_TAX_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_TAX_REVIEW, false), 
+            DEPARTMENT_APPROVED(PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED, false), 
+            AUTO_APPROVED(PurapConstants.PaymentRequestStatuses.AUTO_APPROVED, false), ;
 
             private String statusCode = new String();
             private boolean fullEntryAllowed = false;

@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ld.batch.service.impl;
 
-import static org.kuali.kfs.gl.businessobject.OriginEntrySource.LABOR_YEAR_END_BALANCE_FORWARD;
 import static org.kuali.kfs.module.ld.LaborConstants.DestinationNames.LEDGER_BALANCE;
 import static org.kuali.kfs.module.ld.LaborConstants.DestinationNames.ORIGN_ENTRY;
 
@@ -31,7 +30,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.gl.GeneralLedgerConstants;
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.report.Summary;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
@@ -47,7 +45,6 @@ import org.kuali.kfs.module.ld.businessobject.LedgerBalanceForYearEndBalanceForw
 import org.kuali.kfs.module.ld.service.LaborLedgerBalanceService;
 import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
 import org.kuali.kfs.module.ld.util.DebitCreditUtil;
-import org.kuali.kfs.module.ld.util.ReportRegistry;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
@@ -105,7 +102,6 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * @see org.kuali.kfs.module.ld.batch.service.LaborYearEndBalanceForwardService#forwardBalance(java.lang.Integer, java.lang.Integer)
      */
     public void forwardBalance(Integer fiscalYear, Integer newFiscalYear) {
-        String reportsDirectory = ReportRegistry.getReportsDirectory();
         Date runDate = dateTimeService.getCurrentSqlDate();
 
         List<Summary> reportSummary = new ArrayList<Summary>();
@@ -125,7 +121,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
         reportSummary.add(new Summary(reportSummary.size() + LINE_INTERVAL, "", 0));
         Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, KFSConstants.OperationType.INSERT, numberOfSelectedBalance, 0);
 
-        laborReportService.generateStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_YEAR_END_STATISTICS, reportsDirectory, runDate);
+        laborReportService.generateStatisticsReport(reportSummary, errorMap, SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.REPORTS_DIRECTORY_KEY), runDate);
         
         //TODO: Shawn - report
         //laborReportService.generateOutputSummaryReport(balanceForwardsFileName, ReportRegistry.LABOR_YEAR_END_OUTPUT, reportsDirectory, runDate);

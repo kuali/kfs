@@ -243,9 +243,9 @@
         <property name="title" value="Labor General Ledger Summary"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
             <map>
-                <entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryTotalLine" value="nightlyOutPendingEntryLedgerSummaryTotalLineReportHelper" />
-                <entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine" value="nightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLineReportHelper" />
-                <entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryDetailLine" value="nightlyOutPendingEntryLedgerSummaryDetailLineReportHelper" />
+                <entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryTotalLine" value="ledgerSummaryTotalLineReportHelper" />
+                <entry key="org.kuali.kfs.gl.businessobject.LedgerBalanceTypeSummaryTotalLine" value="ledgerBalanceTypeSummaryTotalLineReportHelper" />
+                <entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryDetailLine" value="ledgerSummaryDetailLineReportHelper" />
             </map>
         </property>
     </bean>  
@@ -256,9 +256,9 @@
         <property name="title" value="Labor Pending Ledger Entry Summary"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
             <map>
-                <entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryTotalLine" value="nightlyOutPendingEntryLedgerSummaryTotalLineReportHelper" />
-                <entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine" value="nightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLineReportHelper" />
-                <entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryDetailLine" value="nightlyOutPendingEntryLedgerSummaryDetailLineReportHelper" />
+                <entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryTotalLine" value="ledgerSummaryTotalLineReportHelper" />
+                <entry key="org.kuali.kfs.gl.businessobject.LedgerBalanceTypeSummaryTotalLine" value="ledgerBalanceTypeSummaryTotalLineReportHelper" />
+                <entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryDetailLine" value="ledgerSummaryDetailLineReportHelper" />
             </map>
         </property>
     </bean>      
@@ -291,17 +291,31 @@
 		<property name="persistenceService">
 			<ref bean="persistenceService" />
 		</property>
-		<property name="laborReportService">
-			<ref bean="laborReportService" />
-		</property>
 		<property name="scrubberValidator">
 			<ref bean="laborScrubberValidator" />
 		</property>
         <property name="laborAccountingCycleCachingService">
 		  	<ref bean="laborAccountingCycleCachingService" />
 		</property>
+        <property name="laborMainReportWriterService">
+		  	<ref bean="laborMainReportWriterService" />
+		</property>		
+        <property name="laborLedgerReportWriterService">
+		  	<ref bean="laborLedgerReportWriterService" />
+		</property>	
+        <property name="laborBadBalanceTypeReportWriterService">
+		  	<ref bean="laborBadBalanceTypeReportWriterService" />
+		</property>	
+        <property name="laborErrorListingReportWriterService">
+		  	<ref bean="laborErrorListingReportWriterService" />
+		</property>	
+        <property name="laborGeneratedTransactionsReportWriterService">
+		  	<ref bean="laborGeneratedTransactionsReportWriterService" />
+		</property>	
+        <property name="laborDemergerReportWriterService">
+		  	<ref bean="laborDemergerReportWriterService" />
+		</property>											
 		<property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
-		<property name="reportDirectoryName" value="${reports.directory}"/>
 	</bean>
 	
     <bean id="laborScrubberValidator" class="org.kuali.kfs.module.ld.batch.service.impl.ScrubberValidatorImpl">
@@ -471,19 +485,7 @@
         </property>
     </bean>
       
-    <bean id="laborReportService" class="org.kuali.kfs.module.ld.service.impl.LaborReportServiceImpl">
-        <property name="laborOriginEntryService">
-            <ref bean="laborOriginEntryService" />
-        </property>
-        <property name="originEntryGroupService">
-            <ref bean="originEntryGroupService" />
-        </property>
-        <property name="originEntryService">
-            <ref bean="originEntryService" />
-        </property>
-        <property name="laborLedgerBalanceService">
-			<ref bean="laborLedgerBalanceService" />
-		</property>	
+    <bean id="laborReportService" class="org.kuali.kfs.module.ld.batch.service.impl.LaborReportServiceImpl">
     </bean>
 
     <bean id="laborLedgerEntryPoster" class="org.kuali.kfs.module.ld.batch.service.impl.LaborLedgerEntryPoster">
@@ -567,6 +569,10 @@
 	    <property name="wrappingBatchServices">
 			<list>
 				<ref bean="laborAccountingCycleCachingService" />
+				<ref bean="laborMainReportWriterService" />
+				<ref bean="laborLedgerReportWriterService" />
+				<ref bean="laborBadBalanceTypeReportWriterService" />
+				<ref bean="laborErrorListingReportWriterService" />
 			</list>
 		</property>
 		<property name="laborScrubberService" ref="laborScrubberService" />
@@ -600,9 +606,9 @@
         <property name="title" value="Main Labor Poster Input Transactions"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
-        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryTotalLine" value="nightlyOutPendingEntryLedgerSummaryTotalLineReportHelper" />
-        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine" value="nightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLineReportHelper" />
-        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryDetailLine" value="nightlyOutPendingEntryLedgerSummaryDetailLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryTotalLine" value="ledgerSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerBalanceTypeSummaryTotalLine" value="ledgerBalanceTypeSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryDetailLine" value="ledgerSummaryDetailLineReportHelper" />
         	</map>
        	</property>
     </bean>
@@ -684,7 +690,12 @@
 		</property>
 	</bean>	
 	
-	<bean id="laborDemergerStep" class="org.kuali.kfs.module.ld.batch.LaborDemergerStep" parent="step">
+	<bean id="laborDemergerStep" class="org.kuali.kfs.module.ld.batch.LaborDemergerStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="laborDemergerReportWriterService" />
+			</list>
+		</property>
 		<property name="laborScrubberService">
 			<ref bean="laborScrubberService" />
 		</property>
@@ -1143,9 +1154,12 @@
 		<property name="laborOriginEntryService">
 			<ref bean="laborOriginEntryService" />
 		</property>
-			<property name="originEntryGroupService">
+		<property name="originEntryGroupService">
 			<ref bean="originEntryGroupService" />
 		</property>
+		<property name="laborCorrectionDocumentReportWriterService">
+			<ref bean="laborCorrectionReportWriterService" />
+		</property>		
 		<property name="llcpDirectoryName" value="${staging.directory}/ld/correctionProcess"/>
 		<property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
 	</bean>
@@ -1303,6 +1317,9 @@
 		<property name="wrappingBatchServices">
 			<list>
 				<ref bean="laborAccountingCycleCachingService" />
+				<ref bean="laborMainReportWriterService" />
+				<ref bean="laborLedgerReportWriterService" />
+				<ref bean="laborGeneratedTransactionsReportWriterService" />
 			</list>
 		</property>
 		<property name="laborCorrectionDocumentService" ref="laborCorrectionDocumentService" />
@@ -1320,5 +1337,73 @@
 	
 	<bean id="laborLedgerEntryHistoryReportHelper" parent="ledgerEntryHistoryReportHelper">
 	</bean>
+	
+	<bean id="laborMainReportWriterService" class="org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/ld"/>
+		<property name="fileNamePrefix" value="labor_scrubber_report_"/>
+        <property name="title" value="LABOR SCRUBBER REPORT"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.module.ld.businessobject.LaborOriginEntry" value="transactionReportHelper"/>
+        	</map>
+        </property>
+    </bean>	
+    
+	<bean id="laborBadBalanceTypeReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/ld"/>
+		<property name="fileNamePrefix" value="labor_scrubber_badbal_"/>
+        <property name="title" value="Labor Scrubber Input Transactions with Bad Balance Types" />
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.module.ld.businessobject.LaborOriginEntry" value="transactionListingReportHelper"/>
+        	</map>
+        </property>
+    </bean>	    
 
+	<bean id="laborErrorListingReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/ld"/>
+		<property name="fileNamePrefix" value="labor_scrubber_error_listing_"/>
+        <property name="title" value="Labor Error Listing - Transactions Removed From the Scrubber" />
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.module.ld.businessobject.LaborOriginEntry" value="transactionListingReportHelper"/>
+        	</map>
+        </property>
+    </bean>	    
+    
+	<bean id="laborGeneratedTransactionsReportWriterService" class="org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/ld"/>
+		<property name="fileNamePrefix" value="labor_scrubber_listing_"/>
+        <property name="title" value="Labor Output Transaction Listing From the Scrubber"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.module.ld.businessobject.LaborOriginEntry" value="transactionListingReportHelper"/>
+        	</map>
+        </property>
+    </bean>	
+    
+ 	<bean id="laborLedgerReportWriterService" class="org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/ld"/>
+		<property name="fileNamePrefix" value="labor_scrubber_ledger_"/>
+        <property name="title" value="Labor Ledger Report"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryTotalLine" value="ledgerSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerBalanceTypeSummaryTotalLine" value="ledgerBalanceTypeSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryDetailLine" value="ledgerSummaryDetailLineReportHelper" />
+        	</map>
+        </property>
+    </bean> 
+    
+ 	<bean id="laborDemergerReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/ld"/>
+		<property name="fileNamePrefix" value="labor_demerger_report_"/>
+        <property name="title" value="LABOR DEMERGER REPORT" />
+    </bean>	  
+    
+  	<bean id="laborCorrectionReportWriterService" class="org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/ld"/>
+		<property name="fileNamePrefix" value="llcp_"/>
+        <property name="title" value="Labor Ledger Correction Process Report" />
+    </bean>	            
 </beans>

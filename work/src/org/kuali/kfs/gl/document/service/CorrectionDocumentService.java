@@ -243,5 +243,12 @@ public interface CorrectionDocumentService {
     public String getBatchFileDirectoryName();
     
     public String getGlcpDirectoryName();
+    
+    /**
+     * Generate a text report for the given correction document
+     * 
+     * @param document GLCP document to report on
+     */
+    public void generateCorrectionReport(GeneralLedgerCorrectionProcessDocument document);
 
 }

@@ -40,8 +40,10 @@ import org.kuali.kfs.gl.dataaccess.CorrectionChangeDao;
 import org.kuali.kfs.gl.dataaccess.CorrectionChangeGroupDao;
 import org.kuali.kfs.gl.dataaccess.CorrectionCriteriaDao;
 import org.kuali.kfs.gl.document.CorrectionDocumentUtils;
+import org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument;
 import org.kuali.kfs.gl.document.service.impl.CorrectionDocumentServiceImpl;
 import org.kuali.kfs.gl.document.web.CorrectionDocumentEntryMetadata;
+import org.kuali.kfs.gl.report.CorrectionDocumentReport;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.module.ld.LaborPropertyConstants;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
@@ -50,6 +52,7 @@ import org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService;
 import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
 import org.kuali.kfs.module.ld.util.LaborOriginEntryFileIterator;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.service.DocumentNumberAwareReportWriterService;
 import org.kuali.rice.kns.dao.DocumentDao;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.web.comparator.NumericValueComparator;
@@ -70,6 +73,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
     private LaborOriginEntryService laborOriginEntryService;
     private String llcpDirectoryName;
     private String batchFileDirectoryName;
+    private DocumentNumberAwareReportWriterService laborCorrectionDocumentReportWriterService;
 
     protected static final String INPUT_ORIGIN_ENTRIES_FILE_SUFFIX = "-input.txt";
     protected static final String OUTPUT_ORIGIN_ENTRIES_FILE_SUFFIX = "-output.txt";
@@ -966,6 +970,14 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
         return cachedColumns;
     }
 
+    /**
+     * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#generateCorrectionReport(org.kuali.kfs.module.ld.document.LaborCorrectionDocument)
+     */
+    public void generateCorrectionReport(LaborCorrectionDocument document) {
+        CorrectionDocumentReport correctionReport = new CorrectionDocumentReport();
+        correctionReport.generateReport(laborCorrectionDocumentReportWriterService, document);
+    }
+
     public void setBatchFileDirectoryName(String batchFileDirectoryName) {
         this.batchFileDirectoryName = batchFileDirectoryName;
     }
@@ -974,5 +986,18 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
         return batchFileDirectoryName;
     }
 
+    /**
+     * @return Returns the laborCorrectionDocumentReportWriterService.
+     */
+    protected DocumentNumberAwareReportWriterService getLaborCorrectionDocumentReportWriterService() {
+        return laborCorrectionDocumentReportWriterService;
+    }
+
+    /**
+     * @param laborCorrectionDocumentReportWriterService The laborCorrectionDocumentReportWriterService to set.
+     */
+    public void setLaborCorrectionDocumentReportWriterService(DocumentNumberAwareReportWriterService laborCorrectionDocumentReportWriterService) {
+        this.laborCorrectionDocumentReportWriterService = laborCorrectionDocumentReportWriterService;
+    }
 
 }

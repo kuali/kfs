@@ -1236,6 +1236,9 @@
 		<property name="originEntryGroupService">
 			<ref bean="originEntryGroupService" />
 		</property>
+		<property name="glCorrectionDocumentReportWriterService">
+			<ref bean="generalLedgerCorrectionReportWriterService" />
+		</property>		
 		<property name="glcpDirectoryName" value="${staging.directory}/gl/correctionProcess"/>
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 	</bean>
@@ -1604,7 +1607,7 @@
         <property name="title" value="GL SCRUBBER REPORT"/>
         <!-- the report does not print out BO's, therefore classToBusinessObjectReportHelperBeanNames not needed-->
     </bean>
-
+    
     <bean id="collectorReportWriterService" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/gl"/>
 		<property name="fileNamePrefix" value="collector_"/>
@@ -1612,9 +1615,9 @@
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
         		<entry key="org.kuali.kfs.gl.businessobject.OriginEntryFull" value="transactionReportHelper"/>
-        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryDetailLine" value="nightlyOutPendingEntryLedgerSummaryDetailLineReportHelper" />
-        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine" value="nightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLineReportHelper" />
-        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryTotalLine" value="nightlyOutPendingEntryLedgerSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryDetailLine" value="ledgerSummaryDetailLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerBalanceTypeSummaryTotalLine" value="ledgerBalanceTypeSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryTotalLine" value="ledgerSummaryTotalLineReportHelper" />
         	</map>
         </property>
     </bean>
@@ -1659,9 +1662,9 @@
         <property name="title" value="Main Poster Input Transactions"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
-        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryTotalLine" value="nightlyOutPendingEntryLedgerSummaryTotalLineReportHelper" />
-        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine" value="nightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLineReportHelper" />
-        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryDetailLine" value="nightlyOutPendingEntryLedgerSummaryDetailLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryTotalLine" value="ledgerSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerBalanceTypeSummaryTotalLine" value="ledgerBalanceTypeSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryDetailLine" value="ledgerSummaryDetailLineReportHelper" />
         	</map>
        	</property>
     </bean>
@@ -1707,9 +1710,9 @@
         <property name="title" value="ICR Poster Input Transactions"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
-        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryTotalLine" value="nightlyOutPendingEntryLedgerSummaryTotalLineReportHelper" />
-        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine" value="nightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLineReportHelper" />
-        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryDetailLine" value="nightlyOutPendingEntryLedgerSummaryDetailLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryTotalLine" value="ledgerSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerBalanceTypeSummaryTotalLine" value="ledgerBalanceTypeSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryDetailLine" value="ledgerSummaryDetailLineReportHelper" />
         	</map>
        	</property>
     </bean>
@@ -1765,9 +1768,9 @@
         <property name="title" value="Reversal Poster Input Transactions"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
-        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryTotalLine" value="nightlyOutPendingEntryLedgerSummaryTotalLineReportHelper" />
-        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine" value="nightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLineReportHelper" />
-        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryDetailLine" value="nightlyOutPendingEntryLedgerSummaryDetailLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryTotalLine" value="ledgerSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerBalanceTypeSummaryTotalLine" value="ledgerBalanceTypeSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryDetailLine" value="ledgerSummaryDetailLineReportHelper" />
         	</map>
        	</property>
     </bean>
@@ -1838,9 +1841,9 @@
         <property name="title" value="GLPE Statistics Report"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
-        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryTotalLine" value="nightlyOutPendingEntryLedgerSummaryTotalLineReportHelper" />
-        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine" value="nightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLineReportHelper" />
-        		<entry key="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryDetailLine" value="nightlyOutPendingEntryLedgerSummaryDetailLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryTotalLine" value="ledgerSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerBalanceTypeSummaryTotalLine" value="ledgerBalanceTypeSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryDetailLine" value="ledgerSummaryDetailLineReportHelper" />
         	</map>
         </property>
     </bean>
@@ -2153,7 +2156,7 @@
 		</property>
 	</bean>
 	
-	<bean id="generalLedgerPreparedStatementCachingDao" parent="preparedStatementCachingDao" class="org.kuali.kfs.gl.batch.dataaccess.impl.LedgerPreparedStatementCachingDaoJdbc" />
+	<bean id="generalLedgerPreparedStatementCachingDao" parent="preparedStatementCachingDao" class="org.kuali.kfs.gl.batch.dataaccess.impl.LedgerPreparedStatementCachingDaoJdbc" /> 
 	
 	<bean id="posterOutputSummaryService" class="org.kuali.kfs.gl.service.impl.PosterOutputSummaryServiceImpl">
 		<property name="accountingCycleCachingService" ref="accountingCycleCachingService"/>
@@ -2322,8 +2325,8 @@
 	    <property name="columnCount" value="9" />
 	</bean>
 	
-	<bean id="nightlyOutPendingEntryLedgerSummaryTotalLineReportHelper" parent="businessObjectReportHelper">
-        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryTotalLine" />
+	<bean id="ledgerSummaryTotalLineReportHelper" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.LedgerSummaryTotalLine" />
 	    <property name="orderedPropertyNameToHeaderLabelMap">
     		<map>
     			<entry key="summary" value=" " />
@@ -2339,8 +2342,8 @@
 	    <property name="columnCount" value="8" />
 	</bean>
 	
-	<bean id="nightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLineReportHelper" parent="businessObjectReportHelper">
-        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine" />
+	<bean id="ledgerBalanceTypeSummaryTotalLineReportHelper" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.LedgerBalanceTypeSummaryTotalLine" />
 	    <property name="orderedPropertyNameToHeaderLabelMap">
     		<map>
                 <entry key="summary" value=" " />
@@ -2356,8 +2359,8 @@
 	    <property name="columnCount" value="8" />
 	</bean>
 	
-	<bean id="nightlyOutPendingEntryLedgerSummaryDetailLineReportHelper" parent="businessObjectReportHelper">
-        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryDetailLine" />
+	<bean id="ledgerSummaryDetailLineReportHelper" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.LedgerSummaryDetailLine" />
 	    <property name="orderedPropertyNameToHeaderLabelMap">
     		<map>
     			<entry key="financialBalanceTypeCode" value="BAL TYP"/>
@@ -2375,7 +2378,7 @@
 	    </property>
 	    <property name="columnCount" value="11" />
 	</bean>
-	
+
 	<bean id="posterOutputSummaryEntryReportHelper" parent="businessObjectReportHelper">
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.PosterOutputSummaryEntry" />
 	    <property name="orderedPropertyNameToHeaderLabelMap">
@@ -2483,6 +2486,12 @@
        	</property>
     </bean>
     
+   	<bean id="generalLedgerCorrectionReportWriterService" class="org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/gl"/>
+		<property name="fileNamePrefix" value="glcp_"/>
+        <property name="title" value="General Ledger Correction Process Report" />
+    </bean>	
+    
     <bean id="summaryReportHelper" parent="businessObjectReportHelper">
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.Balance" />
         <property name="columnCount" value="7" />
@@ -2511,7 +2520,7 @@
                 <entry key="yearBalance" value="ACCTG PER ACCUM AMT"/>
             </map>
         </property>        
-    </bean>
+    </bean>   
     
     <bean id="yearToDaySummaryReportHelper" parent="businessObjectReportHelper">
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.Balance" />
@@ -2525,5 +2534,5 @@
                 <entry key="yearToDayBalance" value="YTD Balance"/>
             </map>
         </property>        
-    </bean>    
+    </bean>           
 </beans>

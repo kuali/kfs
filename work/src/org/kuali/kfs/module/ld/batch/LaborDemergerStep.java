@@ -19,27 +19,26 @@ import java.util.Date;
 
 import org.kuali.kfs.module.ld.batch.service.LaborScrubberService;
 import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
+import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 
 /**
- * Labor scrubber Batch Step.
+ * Labor Demerger Batch Step.
  */
-public class LaborDemergerStep extends AbstractStep {
+public class LaborDemergerStep extends AbstractWrappedBatchStep {
     private LaborScrubberService laborScrubberService;
-
-    /**
-     * @param jobName
-     * @param jobRunDate
-     * @return boolean when success
-     * @see org.kuali.kfs.batch.Step#execute(String, Date)
-     */
-    public boolean execute(String jobName, Date jobRunDate) {
-        laborScrubberService.performDemerger();
-        return true;
+    
+    @Override
+    protected CustomBatchExecutor getCustomBatchExecutor() {
+        return new CustomBatchExecutor() {
+            public boolean execute() {
+                laborScrubberService.performDemerger();
+                return true;
+            }
+        };
     }
 
     /**
-     * Sets the labor scrubber service
-     * 
      * @param laborScrubberService
      */
     public void setLaborScrubberService(LaborScrubberService laborScrubberService) {

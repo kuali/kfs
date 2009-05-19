@@ -22,16 +22,16 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
- * Holds summary information for the Pending Entry Ledger report
+ * Holds summary information for the Ledger report
  */
-public class NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine extends NightlyOutPendingEntryLedgerSummaryTotalLine {
+public class LedgerBalanceTypeSummaryTotalLine extends LedgerSummaryTotalLine {
     private String financialBalanceTypeCode;
     
     /**
-     * Constructs a NightlyOutServiceImpl
+     * Constructs a LedgerBalanceTypeSummaryTotalLine
      * @param balanceType the balance type summarized by this total line summarizer
      */
-    public NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine(String balanceType) {
+    public LedgerBalanceTypeSummaryTotalLine(String balanceType) {
         this.financialBalanceTypeCode = balanceType;
     }
 

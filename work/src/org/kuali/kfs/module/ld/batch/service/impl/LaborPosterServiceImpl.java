@@ -456,7 +456,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     public void setLedgerSummaryReportWriterService(ReportWriterService ledgerSummaryReportWriterService) {
         this.ledgerSummaryReportWriterService = ledgerSummaryReportWriterService;
     }
-
+    
     /**
      * Sets the laborPosterTransactionValidator attribute value.
      * 

@@ -1,0 +1,79 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="LedgerSummaryTotalLine" parent="LedgerSummaryTotalLine-parentBean" />
+
+  <bean id="LedgerSummaryTotalLine-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.gl.businessobject.LedgerSummaryTotalLine" />
+    
+    <property name="objectLabel" value="Ledger Summary Total Line" />
+        <property name="attributes">
+      <list>
+      	<ref bean="LedgerSummaryTotalLine-summary" />
+        <ref bean="LedgerSummaryTotalLine-recordCount" />
+        <ref bean="LedgerSummaryTotalLine-debitAmount" />
+        <ref bean="LedgerSummaryTotalLine-debitCount" />
+        <ref bean="LedgerSummaryTotalLine-creditAmount" />
+        <ref bean="LedgerSummaryTotalLine-creditCount" />
+        <ref bean="LedgerSummaryTotalLine-budgetAmount" />
+        <ref bean="LedgerSummaryTotalLine-budgetCount" />
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="LedgerSummaryTotalLine-summary" parent="LedgerSummaryTotalLine-summary-parentBean" />
+
+  <bean id="LedgerSummaryTotalLine-summary-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
+  	<property name="name" value="summary" />
+  	<property name="maxLength" value="21" />
+  </bean>
+
+  <bean id="LedgerSummaryTotalLine-recordCount" parent="LedgerSummaryTotalLine-recordCount-parentBean" />
+
+  <bean id="LedgerSummaryTotalLine-recordCount-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
+  	<property name="name" value="recordCount" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.IntegerFormatter" />  
+  </bean>
+
+  <bean id="LedgerSummaryTotalLine-debitAmount" parent="LedgerSummaryTotalLine-debitAmount-parentBean" />
+
+  <bean id="LedgerSummaryTotalLine-debitAmount-parentBean" abstract="true" parent="GeneralLedgerPendingEntry-transactionLedgerEntryAmount">
+  	<property name="name" value="debitAmount" />
+  </bean>
+
+  <bean id="LedgerSummaryTotalLine-debitCount" parent="LedgerSummaryTotalLine-debitCount-parentBean" />
+
+  <bean id="LedgerSummaryTotalLine-debitCount-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
+  	<property name="name" value="debitCount" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.IntegerFormatter" />  
+  </bean>
+
+  <bean id="LedgerSummaryTotalLine-creditAmount" parent="LedgerSummaryTotalLine-creditAmount-parentBean" />
+
+  <bean id="LedgerSummaryTotalLine-creditAmount-parentBean" abstract="true" parent="GeneralLedgerPendingEntry-transactionLedgerEntryAmount">
+  	<property name="name" value="creditAmount" />
+  </bean>
+
+  <bean id="LedgerSummaryTotalLine-creditCount" parent="LedgerSummaryTotalLine-creditCount-parentBean" />
+
+  <bean id="LedgerSummaryTotalLine-creditCount-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
+  	<property name="name" value="creditCount" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.IntegerFormatter" />  
+  </bean>
+
+  <bean id="LedgerSummaryTotalLine-budgetAmount" parent="LedgerSummaryTotalLine-budgetAmount-parentBean" />
+
+  <bean id="LedgerSummaryTotalLine-budgetAmount-parentBean" abstract="true" parent="GeneralLedgerPendingEntry-transactionLedgerEntryAmount">
+  	<property name="name" value="budgetAmount" />
+  </bean>
+
+  <bean id="LedgerSummaryTotalLine-budgetCount" parent="LedgerSummaryTotalLine-budgetCount-parentBean" />
+
+  <bean id="LedgerSummaryTotalLine-budgetCount-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
+  	<property name="name" value="budgetCount" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.IntegerFormatter" />  
+  </bean>
+</beans>

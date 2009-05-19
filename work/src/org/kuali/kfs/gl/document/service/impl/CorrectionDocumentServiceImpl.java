@@ -47,9 +47,12 @@ import org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument;
 import org.kuali.kfs.gl.document.dataaccess.CorrectionDocumentDao;
 import org.kuali.kfs.gl.document.service.CorrectionDocumentService;
 import org.kuali.kfs.gl.document.web.CorrectionDocumentEntryMetadata;
+import org.kuali.kfs.gl.report.CorrectionDocumentReport;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.service.DocumentNumberAwareReportWriterService;
+import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.dao.DocumentDao;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.web.comparator.NumericValueComparator;
@@ -74,6 +77,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
     private OriginEntryService originEntryService;
     private String glcpDirectoryName;
     protected OriginEntryGroupService originEntryGroupService;
+    private DocumentNumberAwareReportWriterService glCorrectionDocumentReportWriterService;
 
     protected static final String INPUT_ORIGIN_ENTRIES_FILE_SUFFIX = "-input.txt";
     protected static final String OUTPUT_ORIGIN_ENTRIES_FILE_SUFFIX = "-output.txt";
@@ -903,6 +907,14 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
             return name.contains(CORRECTION_FILE_FILTER);
         }
     }
+    
+    /**
+     * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#generateCorrectionReport(org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument)
+     */
+    public void generateCorrectionReport(GeneralLedgerCorrectionProcessDocument document) {
+        CorrectionDocumentReport correctionReport = new CorrectionDocumentReport();
+        correctionReport.generateReport(glCorrectionDocumentReportWriterService, document);
+    }
 
     /**
      * Gets the name of the directory to save all these temporary files in
@@ -1003,4 +1015,20 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
     public String getBatchFileDirectoryName() {
         return batchFileDirectoryName;
     }
+
+    /**
+     * @return Returns the glCorrectionDocumentReportWriterService.
+     */
+    protected DocumentNumberAwareReportWriterService getGlCorrectionDocumentReportWriterService() {
+        return glCorrectionDocumentReportWriterService;
+    }
+
+    /**
+     * @param glCorrectionDocumentReportWriterService The glCorrectionDocumentReportWriterService to set.
+     */
+    public void setGlCorrectionDocumentReportWriterService(DocumentNumberAwareReportWriterService glCorrectionDocumentReportWriterService) {
+        this.glCorrectionDocumentReportWriterService = glCorrectionDocumentReportWriterService;
+    }
+
+    
 }

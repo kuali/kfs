@@ -59,7 +59,6 @@ public class LaborCorrectionDocument extends GeneralLedgerCorrectionProcessDocum
 
             String correctionType = doc.getCorrectionTypeCode();
             if (LaborCorrectionDocumentService.CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING.equals(correctionType)) {
-                // originEntryGroupService.dontProcessGroup(doc.getCorrectionInputGroupId());
                 String dataFileName = doc.getCorrectionInputFileName();
                 String doneFileName = dataFileName.replace(GeneralLedgerConstants.BatchFileSystem.EXTENSION, GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION);
                 originEntryGroupService.deleteFile(doneFileName);
@@ -80,9 +79,11 @@ public class LaborCorrectionDocument extends GeneralLedgerCorrectionProcessDocum
                 step.setDocumentId(docId);
                 step.execute(getClass().getName(), dateTimeService.getCurrentDate());
                 step.setDocumentId(null);
+                
+                laborCorrectionDocumentService.generateCorrectionReport(this);
             }
             else {
-                LOG.error("GLCP doc " + doc.getDocumentNumber() + " has an unknown correction type code: " + correctionType);
+                LOG.error("LLCP doc " + doc.getDocumentNumber() + " has an unknown correction type code: " + correctionType);
             }
         }
     }

@@ -21,9 +21,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine;
-import org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryDetailLine;
-import org.kuali.kfs.gl.businessobject.NightlyOutPendingEntryLedgerSummaryTotalLine;
+import org.kuali.kfs.gl.businessobject.LedgerBalanceTypeSummaryTotalLine;
+import org.kuali.kfs.gl.businessobject.LedgerSummaryDetailLine;
+import org.kuali.kfs.gl.businessobject.LedgerSummaryTotalLine;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.service.ReportWriterService;
@@ -32,17 +32,17 @@ import org.kuali.kfs.sys.service.ReportWriterService;
  * Helper class which can summarize entries by balance type and then print out a ledger summary report
  */
 public class LedgerSummaryReport {
-    private NightlyOutPendingEntryLedgerSummaryTotalLine ledgerTotalLine;
-    private Map<String, NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine> balanceTypeTotals;
-    Map<String, NightlyOutPendingEntryLedgerSummaryDetailLine> details;
+    private LedgerSummaryTotalLine ledgerTotalLine;
+    private Map<String, LedgerBalanceTypeSummaryTotalLine> balanceTypeTotals;
+    Map<String, LedgerSummaryDetailLine> details;
     
     /**
      * Constructs a LedgerSummaryReport
      */
     public LedgerSummaryReport() {
-        ledgerTotalLine = new NightlyOutPendingEntryLedgerSummaryTotalLine();
-        balanceTypeTotals = new LinkedHashMap<String, NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine>();
-        details = new LinkedHashMap<String, NightlyOutPendingEntryLedgerSummaryDetailLine>();
+        ledgerTotalLine = new LedgerSummaryTotalLine();
+        balanceTypeTotals = new LinkedHashMap<String, LedgerBalanceTypeSummaryTotalLine>();
+        details = new LinkedHashMap<String, LedgerSummaryDetailLine>();
     }
     
     /**
@@ -50,8 +50,8 @@ public class LedgerSummaryReport {
      * @param entry an entry to summarize
      */
     public void summarizeEntry(OriginEntry entry) {
-        NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine balanceTypeTotal = getBalanceTypeSummaryTotalLine(entry, balanceTypeTotals);
-        NightlyOutPendingEntryLedgerSummaryDetailLine detailLine = getDetailLine(entry, details);
+        LedgerBalanceTypeSummaryTotalLine balanceTypeTotal = getBalanceTypeSummaryTotalLine(entry, balanceTypeTotals);
+        LedgerSummaryDetailLine detailLine = getDetailLine(entry, details);
         addEntryToLedgerSummaries(entry, ledgerTotalLine, balanceTypeTotal, detailLine);
     }
     
@@ -61,11 +61,11 @@ public class LedgerSummaryReport {
      * @param balanceTypeTotals the Map of balance type summarizers
      * @return the proper balance type summarizer
      */
-    protected NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine getBalanceTypeSummaryTotalLine(OriginEntry entry, Map<String, NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine> balanceTypeTotals) {
+    protected LedgerBalanceTypeSummaryTotalLine getBalanceTypeSummaryTotalLine(OriginEntry entry, Map<String, LedgerBalanceTypeSummaryTotalLine> balanceTypeTotals) {
         final String balanceTypeCode = entry.getFinancialBalanceTypeCode();
-        NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine balanceTypeTotal = balanceTypeTotals.get(balanceTypeCode);
+        LedgerBalanceTypeSummaryTotalLine balanceTypeTotal = balanceTypeTotals.get(balanceTypeCode);
         if (balanceTypeTotal == null) {
-            balanceTypeTotal = new NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine(balanceTypeCode);
+            balanceTypeTotal = new LedgerBalanceTypeSummaryTotalLine(balanceTypeCode);
             balanceTypeTotals.put(balanceTypeCode, balanceTypeTotal);
         }
         return balanceTypeTotal;
@@ -77,11 +77,11 @@ public class LedgerSummaryReport {
      * @param detailLines a Map of detail line summarizers
      * @return the proper detail line summarizer
      */
-    protected NightlyOutPendingEntryLedgerSummaryDetailLine getDetailLine(OriginEntry entry, Map<String, NightlyOutPendingEntryLedgerSummaryDetailLine> detailLines) {
-        final String key = NightlyOutPendingEntryLedgerSummaryDetailLine.getKeyString(entry);
-        NightlyOutPendingEntryLedgerSummaryDetailLine detailLine = detailLines.get(key);
+    protected LedgerSummaryDetailLine getDetailLine(OriginEntry entry, Map<String, LedgerSummaryDetailLine> detailLines) {
+        final String key = LedgerSummaryDetailLine.getKeyString(entry);
+        LedgerSummaryDetailLine detailLine = detailLines.get(key);
         if (detailLine == null) {
-            detailLine = new NightlyOutPendingEntryLedgerSummaryDetailLine(entry.getFinancialBalanceTypeCode(), entry.getFinancialSystemOriginationCode(), entry.getUniversityFiscalYear(), entry.getUniversityFiscalPeriodCode());
+            detailLine = new LedgerSummaryDetailLine(entry.getFinancialBalanceTypeCode(), entry.getFinancialSystemOriginationCode(), entry.getUniversityFiscalYear(), entry.getUniversityFiscalPeriodCode());
             detailLines.put(detailLine.getKey(), detailLine);
         }
         return detailLine;
@@ -94,7 +94,7 @@ public class LedgerSummaryReport {
      * @param balanceTypeTotal the total for the entries with the same balance type as the origin entry to add the amount to
      * @param detailLine the proper detail amount to add the amoun tto
      */
-    protected void addEntryToLedgerSummaries(OriginEntry originEntry, NightlyOutPendingEntryLedgerSummaryTotalLine totalLine, NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine balanceTypeTotal, NightlyOutPendingEntryLedgerSummaryDetailLine detailLine) {
+    protected void addEntryToLedgerSummaries(OriginEntry originEntry, LedgerSummaryTotalLine totalLine, LedgerBalanceTypeSummaryTotalLine balanceTypeTotal, LedgerSummaryDetailLine detailLine) {
         if (originEntry.getTransactionDebitCreditCode().equals(KFSConstants.GL_DEBIT_CODE)) {
             totalLine.addDebitAmount(originEntry.getTransactionLedgerEntryAmount());
             balanceTypeTotal.addDebitAmount(originEntry.getTransactionLedgerEntryAmount());
@@ -116,14 +116,14 @@ public class LedgerSummaryReport {
      */
     public void writeReport(ReportWriterService reportWriterService) {
         if (details.size() > 0) {
-            List<NightlyOutPendingEntryLedgerSummaryDetailLine> detailList = new ArrayList<NightlyOutPendingEntryLedgerSummaryDetailLine>(details.values());
-            Collections.sort(detailList, NightlyOutPendingEntryLedgerSummaryDetailLine.getStandardComparator());
+            List<LedgerSummaryDetailLine> detailList = new ArrayList<LedgerSummaryDetailLine>(details.values());
+            Collections.sort(detailList, LedgerSummaryDetailLine.getStandardComparator());
         
             reportWriterService.writeTableHeader(detailList.get(0));
             String currentBalanceType = detailList.get(0).getFinancialBalanceTypeCode();
-            for (NightlyOutPendingEntryLedgerSummaryDetailLine detailLine : detailList) {
+            for (LedgerSummaryDetailLine detailLine : detailList) {
                 if (!detailLine.getFinancialBalanceTypeCode().equals(currentBalanceType)) {
-                    NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine subTitleLine = balanceTypeTotals.get(currentBalanceType);
+                    LedgerBalanceTypeSummaryTotalLine subTitleLine = balanceTypeTotals.get(currentBalanceType);
                     
                     reportWriterService.writeTableRow(subTitleLine);
                     reportWriterService.writeTableRowSeparationLine(subTitleLine);

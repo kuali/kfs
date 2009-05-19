@@ -51,9 +51,16 @@ public class ScrubberListingReportWriterTextServiceImpl extends ReportWriterText
 
     @Override
     protected String generateFullFilePath() {
-        if (StringUtils.isBlank(documentNumber)) {
-            throw new RuntimeException("document number is blank");
+//        if (StringUtils.isBlank(documentNumber)) {
+//            throw new RuntimeException("document number is blank");
+//        }
+        
+        String fullFilePath = filePath + File.separator + this.fileNamePrefix;
+        if (StringUtils.isNotBlank(documentNumber)) {
+            fullFilePath += documentNumber + "_";
         }
-        return filePath + File.separator + this.fileNamePrefix + documentNumber + "_" + dateTimeService.toDateTimeStringForFilename(dateTimeService.getCurrentDate()) + fileNameSuffix;
+        fullFilePath += dateTimeService.toDateTimeStringForFilename(dateTimeService.getCurrentDate()) + fileNameSuffix;
+        
+        return fullFilePath;
     }
 }

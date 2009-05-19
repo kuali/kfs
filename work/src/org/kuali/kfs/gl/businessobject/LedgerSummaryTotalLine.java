@@ -26,7 +26,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 /**
  * Summarizes Pending Entry data for the GLPE pending entry report.
  */
-public class NightlyOutPendingEntryLedgerSummaryTotalLine extends TransientBusinessObjectBase {
+public class LedgerSummaryTotalLine extends TransientBusinessObjectBase {
     private KualiDecimal debitAmount = new KualiDecimal("0");
     private int debitCount = 0;
     private KualiDecimal creditAmount = new KualiDecimal("0");

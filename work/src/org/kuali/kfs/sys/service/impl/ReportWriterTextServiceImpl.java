@@ -232,7 +232,7 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
             this.modeStatistics = true;
 
             // If nothing has been written to the report we don't want to page break
-            if (!(page == initialPageNumber && line == INITIAL_LINE_NUMBER)) {
+            if (!(page == initialPageNumber && line == INITIAL_LINE_NUMBER + 2)) {
                 this.pageBreak();
             }
 

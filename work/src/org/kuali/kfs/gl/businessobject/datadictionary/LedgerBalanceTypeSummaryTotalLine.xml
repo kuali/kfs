@@ -1,0 +1,66 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="LedgerBalanceTypeSummaryTotalLine" parent="LedgerBalanceTypeSummaryTotalLine-parentBean" />
+
+  <bean id="LedgerBalanceTypeSummaryTotalLine-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.gl.businessobject.LedgerBalanceTypeSummaryTotalLine" />
+    
+    <property name="objectLabel" value="Ledger Balance Summary Detail Line" />
+        <property name="attributes">
+      <list>
+      	<ref bean="LedgerBalanceTypeSummaryTotalLine-summary" />
+        <ref bean="LedgerBalanceTypeSummaryTotalLine-financialBalanceTypeCode" />
+        <ref bean="LedgerBalanceTypeSummaryTotalLine-recordCount" />
+        <ref bean="LedgerBalanceTypeSummaryTotalLine-debitAmount" />
+        <ref bean="LedgerBalanceTypeSummaryTotalLine-debitCount" />
+        <ref bean="LedgerBalanceTypeSummaryTotalLine-creditAmount" />
+        <ref bean="LedgerBalanceTypeSummaryTotalLine-creditCount" />
+        <ref bean="LedgerBalanceTypeSummaryTotalLine-budgetAmount" />
+        <ref bean="LedgerBalanceTypeSummaryTotalLine-budgetCount" />
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="LedgerBalanceTypeSummaryTotalLine-summary" parent="LedgerBalanceTypeSummaryTotalLine-summary-parentBean" />
+
+  <bean id="LedgerBalanceTypeSummaryTotalLine-summary-parentBean" abstract="true" parent="LedgerSummaryTotalLine-summary" />
+  
+  <bean id="LedgerBalanceTypeSummaryTotalLine-financialBalanceTypeCode" parent="LedgerBalanceTypeSummaryTotalLine-financialBalanceTypeCode-parentBean" />
+
+  <bean id="LedgerBalanceTypeSummaryTotalLine-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
+  	<property name="name" value="financialBalanceTypeCode" />
+  </bean>
+
+  <bean id="LedgerBalanceTypeSummaryTotalLine-recordCount" parent="LedgerBalanceTypeSummaryTotalLine-recordCount-parentBean" />
+
+  <bean id="LedgerBalanceTypeSummaryTotalLine-recordCount-parentBean" abstract="true" parent="LedgerSummaryTotalLine-recordCount" />
+
+  <bean id="LedgerBalanceTypeSummaryTotalLine-debitAmount" parent="LedgerBalanceTypeSummaryTotalLine-debitAmount-parentBean" />
+
+  <bean id="LedgerBalanceTypeSummaryTotalLine-debitAmount-parentBean" abstract="true" parent="LedgerSummaryTotalLine-debitAmount" />
+
+  <bean id="LedgerBalanceTypeSummaryTotalLine-debitCount" parent="LedgerBalanceTypeSummaryTotalLine-debitCount-parentBean" />
+
+  <bean id="LedgerBalanceTypeSummaryTotalLine-debitCount-parentBean" abstract="true" parent="LedgerSummaryTotalLine-debitCount" />
+
+  <bean id="LedgerBalanceTypeSummaryTotalLine-creditAmount" parent="LedgerBalanceTypeSummaryTotalLine-creditAmount-parentBean" />
+
+  <bean id="LedgerBalanceTypeSummaryTotalLine-creditAmount-parentBean" abstract="true" parent="LedgerSummaryTotalLine-creditAmount" />
+
+  <bean id="LedgerBalanceTypeSummaryTotalLine-creditCount" parent="LedgerBalanceTypeSummaryTotalLine-creditCount-parentBean" />
+
+  <bean id="LedgerBalanceTypeSummaryTotalLine-creditCount-parentBean" abstract="true" parent="LedgerSummaryTotalLine-creditCount" />
+
+  <bean id="LedgerBalanceTypeSummaryTotalLine-budgetAmount" parent="LedgerBalanceTypeSummaryTotalLine-budgetAmount-parentBean" />
+
+  <bean id="LedgerBalanceTypeSummaryTotalLine-budgetAmount-parentBean" abstract="true" parent="LedgerSummaryTotalLine-budgetAmount" />
+
+  <bean id="LedgerBalanceTypeSummaryTotalLine-budgetCount" parent="LedgerBalanceTypeSummaryTotalLine-budgetCount-parentBean" />
+
+  <bean id="LedgerBalanceTypeSummaryTotalLine-budgetCount-parentBean" abstract="true" parent="LedgerSummaryTotalLine-budgetCount" />
+  
+</beans>

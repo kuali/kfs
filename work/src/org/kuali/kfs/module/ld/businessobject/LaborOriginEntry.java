@@ -29,7 +29,6 @@ import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
-import org.kuali.kfs.gl.exception.LoadException;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -199,12 +198,7 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntry, La
      * @param line
      */
     public LaborOriginEntry(String line) {
-        try {
-            setFromTextFileForBatch(line, 0);
-        }
-        catch (LoadException e) {
-            LOG.error("OriginEntryFull() Error loading line", e);
-        }
+        setFromTextFileForBatch(line, 0);
     }
 
     /**
@@ -810,7 +804,7 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntry, La
      * Sets the entries from text file.
      */
     
-    public List<Message> setFromTextFileForBatch(String line, int lineNumber) throws LoadException {
+    public List<Message> setFromTextFileForBatch(String line, int lineNumber)  {
         List<Message> returnList = new ArrayList();
         
         // Just in case

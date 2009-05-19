@@ -20,21 +20,21 @@ import java.util.Comparator;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * Holds summary data for the Nightly Out job's pending entry ledger summary report
+ * Holds summary data for the ledger summary report
  */
-public class NightlyOutPendingEntryLedgerSummaryDetailLine extends NightlyOutPendingEntryLedgerBalanceTypeSummaryTotalLine {
+public class LedgerSummaryDetailLine extends LedgerBalanceTypeSummaryTotalLine {
     private String financialSystemOriginationCode;
     private Integer universityFiscalYear;
     private String universityAccountPeriodCode; 
     
     /**
-     * Constructs a NightlyOutPendingEntryLedgerSummaryDetailLine
+     * Constructs a LedgerSummaryDetailLine
      * @param balanceTypeCode
      * @param financialSystemOriginationCode
      * @param universityFiscalYear
      * @param universityAccountPeriodCode
      */
-    public NightlyOutPendingEntryLedgerSummaryDetailLine(String balanceTypeCode, String financialSystemOriginationCode, Integer universityFiscalYear, String universityAccountPeriodCode) {
+    public LedgerSummaryDetailLine(String balanceTypeCode, String financialSystemOriginationCode, Integer universityFiscalYear, String universityAccountPeriodCode) {
         super(balanceTypeCode);
         this.financialSystemOriginationCode = financialSystemOriginationCode;
         this.universityFiscalYear = universityFiscalYear;
@@ -69,7 +69,7 @@ public class NightlyOutPendingEntryLedgerSummaryDetailLine extends NightlyOutPen
      * @return gets a "key" for this summary line - just a convenient key for Maps which might hold these
      */
     public String getKey() {
-        return NightlyOutPendingEntryLedgerSummaryDetailLine.makeKey(this.getFinancialBalanceTypeCode(),this.getFinancialSystemOriginationCode(),this.getUniversityFiscalYear(),this.getUniversityAccountPeriodCode());
+        return LedgerSummaryDetailLine.makeKey(this.getFinancialBalanceTypeCode(),this.getFinancialSystemOriginationCode(),this.getUniversityFiscalYear(),this.getUniversityAccountPeriodCode());
     }
     
     /**
@@ -78,7 +78,7 @@ public class NightlyOutPendingEntryLedgerSummaryDetailLine extends NightlyOutPen
      * @return the "key" for a summary line which would include totals from entries like the given origin entry
      */
     public static String getKeyString(OriginEntry entry) {
-        return NightlyOutPendingEntryLedgerSummaryDetailLine.makeKey(entry.getFinancialBalanceTypeCode(), entry.getFinancialSystemOriginationCode(), entry.getUniversityFiscalYear(), entry.getUniversityFiscalPeriodCode());
+        return LedgerSummaryDetailLine.makeKey(entry.getFinancialBalanceTypeCode(), entry.getFinancialSystemOriginationCode(), entry.getUniversityFiscalYear(), entry.getUniversityFiscalPeriodCode());
     }
     
     /**
@@ -96,15 +96,15 @@ public class NightlyOutPendingEntryLedgerSummaryDetailLine extends NightlyOutPen
     /**
      * @return a standard comparator for comparing NightlyOutPendingEntryLedgerSummaryDetailLine objects
      */
-    public static Comparator<NightlyOutPendingEntryLedgerSummaryDetailLine> getStandardComparator() {
-        return new Comparator<NightlyOutPendingEntryLedgerSummaryDetailLine>() {
+    public static Comparator<LedgerSummaryDetailLine> getStandardComparator() {
+        return new Comparator<LedgerSummaryDetailLine>() {
             /**
              * Compares two NightlyOutPendingEntryLedgerSummaryDetailLine objects
              * @param tweedleDee the first NightlyOutPendingEntryLedgerSummaryDetailLine object
              * @param tweedleDum the second NightlyOutPendingEntryLedgerSummaryDetailLine other
              * @return the standard 0 for equals, greater than 0 for greater than, less than 0 for less than
              */
-            public int compare(NightlyOutPendingEntryLedgerSummaryDetailLine tweedleDee, NightlyOutPendingEntryLedgerSummaryDetailLine tweedleDum) {
+            public int compare(LedgerSummaryDetailLine tweedleDee, LedgerSummaryDetailLine tweedleDum) {
                 if (shouldCompare(tweedleDee.getFinancialBalanceTypeCode(), tweedleDum.getFinancialBalanceTypeCode())) {
                     return tweedleDee.getFinancialBalanceTypeCode().compareTo(tweedleDum.getFinancialBalanceTypeCode());
                 } else if (shouldCompare(tweedleDee.getFinancialSystemOriginationCode(), tweedleDum.getFinancialSystemOriginationCode())) {

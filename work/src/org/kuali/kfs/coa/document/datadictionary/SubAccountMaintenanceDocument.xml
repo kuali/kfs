@@ -95,7 +95,7 @@
     <property name="title" value="Edit CG ICR"/>
     <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.financialIcrSeriesIdentifier"/>
+        <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.financialIcrSeriesIdentifier" p:overrideFieldConversions="financialIcrSeriesIdentifier:a21SubAccount.financialIcrSeriesIdentifier" p:overrideLookupClass="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail"/>
         <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.indirectCostRecoveryChartOfAccountsCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.indirectCostRecoveryAccountNumber"/>
         <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.indirectCostRecoveryTypeCode"/>

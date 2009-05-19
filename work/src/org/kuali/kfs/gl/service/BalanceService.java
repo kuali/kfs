@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.gl.businessobject.Balance;
+import org.kuali.kfs.gl.businessobject.GlSummary;
 
 /**
  * An interface which declares methods needed for using Balance
@@ -132,7 +133,7 @@ public interface BalanceService {
      * @param balanceTypeCodes
      * @return a list of summarized GL balances
      */
-    public List getGlSummary(int universityFiscalYear, List<String> balanceTypeCodes);
+    public List<GlSummary> getGlSummary(int universityFiscalYear, List<String> balanceTypeCodes);
 
     /**
      * This method returns the total count of balances for a fiscal year

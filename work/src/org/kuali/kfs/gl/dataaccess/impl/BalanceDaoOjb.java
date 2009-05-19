@@ -71,7 +71,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      * @return iterator of reported on java.lang.Object arrays with the report data
      * @see org.kuali.kfs.gl.dataaccess.BalanceDao#getGlSummary(int, java.util.List)
      */
-    public Iterator getGlSummary(int universityFiscalYear, List<String> balanceTypeCodes) {
+    public Iterator<Object[]> getGlSummary(int universityFiscalYear, List<String> balanceTypeCodes) {
         LOG.debug("getGlSummary() started");
 
         Criteria c = new Criteria();

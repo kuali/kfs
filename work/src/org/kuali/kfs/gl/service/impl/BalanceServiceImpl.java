@@ -71,14 +71,14 @@ public class BalanceServiceImpl implements BalanceService {
      * @return a list of summarized GL balances
      * @see org.kuali.kfs.gl.service.BalanceService#getGlSummary(int, java.util.List)
      */
-    public List getGlSummary(int universityFiscalYear, List<String> balanceTypeCodes) {
+    public List<GlSummary> getGlSummary(int universityFiscalYear, List<String> balanceTypeCodes) {
         LOG.debug("getGlSummary() started");
 
-        List sum = new ArrayList();
+        List<GlSummary> sum = new ArrayList<GlSummary>();
 
-        Iterator i = balanceDao.getGlSummary(universityFiscalYear, balanceTypeCodes);
+        Iterator<Object[]> i = balanceDao.getGlSummary(universityFiscalYear, balanceTypeCodes);
         while (i.hasNext()) {
-            Object[] data = (Object[]) i.next();
+            Object[] data = i.next();
             sum.add(new GlSummary(data));
         }
         return sum;

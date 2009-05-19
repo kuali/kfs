@@ -15,44 +15,17 @@
  */
 package org.kuali.kfs.gl.service;
 
-import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.gl.businessobject.DemergerReportData;
-import org.kuali.kfs.gl.businessobject.ExpenditureTransaction;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
-import org.kuali.kfs.gl.businessobject.Transaction;
-import org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument;
-import org.kuali.kfs.sys.Message;
-import org.kuali.kfs.sys.businessobject.SystemOptions;
 
 /**
  * An interface of methods that allow all of the GL processes generate reports about their runs
  */
 
 public interface ReportService {
-
-    /**
-     * Generates the GL Summary report
-     * 
-     * @param runDate the run date of the poster service that should be reported
-     * @param options the options of the fiscal year the poster was run
-     * @param reportType the type of the report that should be generated
-     */
-    public void generateGlSummary(Date runDate, SystemOptions year, String reportType);
-
-    /**
-     * Generates GL Encumbrance Summary report
-     * 
-     * @param runDate the run date of the poster service that should be reported
-     * @param options the options of the fiscal year the poster was run
-     * @param reportType the type of the report that should be generated
-     */
-    public void generateGlEncumbranceSummary(Date runDate, SystemOptions year, String reportType);
-    
     /**
      * Generates the Balance Forward Year-End job Report
      * 

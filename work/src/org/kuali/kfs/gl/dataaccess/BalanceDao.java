@@ -36,7 +36,7 @@ public interface BalanceDao {
      * @param balanceTypeCodes a list of balance type codes of balances to search for
      * @return iterator of reported on java.lang.Object arrays with the report data
      */
-    public Iterator getGlSummary(int universityFiscalYear, List<String> balanceTypeCodes);
+    public Iterator<Object[]> getGlSummary(int universityFiscalYear, List<String> balanceTypeCodes);
 
     /**
      * Given a transaction, finds the balance record it would affect

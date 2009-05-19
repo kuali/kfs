@@ -1373,6 +1373,39 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         }
     }
 
+    public void removeIneligibleAdditionalCharges(PaymentRequestDocument document){
+
+        List<PaymentRequestItem> itemsToRemove = new ArrayList<PaymentRequestItem>();
+        
+        for (PaymentRequestItem item : (List<PaymentRequestItem>) document.getItems()) {
+
+            //if no extended price and its an order discount or trade in, remove
+            if (ObjectUtils.isNull(item.getPurchaseOrderItemUnitPrice()) &&
+                (ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE.equals(item.getItemTypeCode()) || ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE.equals(item.getItemTypeCode())) ){            
+                itemsToRemove.add(item);
+                continue;
+            }
+            
+            //if a payment terms discount exists but not set on teh doc, remove
+            if (StringUtils.equals(item.getItemTypeCode(), PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE)) {
+                PaymentTermType pt = document.getVendorPaymentTerms();
+                if ((pt != null) && (pt.getVendorPaymentTermsPercent() != null) && (BigDecimal.ZERO.compareTo(pt.getVendorPaymentTermsPercent()) != 0)) {
+                    //discount ok
+                }else{
+                    //remove discount
+                    itemsToRemove.add(item);
+                }                
+                continue;                
+            }
+
+        }
+        
+        //remove items marked for removal
+        for (PaymentRequestItem item : (List<PaymentRequestItem>) itemsToRemove) {
+            document.getItems().remove(item);
+        }
+    }
+    
     public void changeVendor(PaymentRequestDocument preq, Integer headerId, Integer detailId) {
         
         VendorDetail primaryVendor = vendorService.getVendorDetail(
@@ -1578,7 +1611,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                 
         //if receiving document required and a receiving line document hasn't been generated
         // still awaiting receiving
-        if(preq.isReceivingDocumentRequiredIndicator() && hasLineItemReceivingDocument == false && determineReceivingRequirements(preq) == false){
+        if(preq.isReceivingDocumentRequiredIndicator() && hasLineItemReceivingDocument == false){
            isAwaitingReceiving = true; 
         }
         

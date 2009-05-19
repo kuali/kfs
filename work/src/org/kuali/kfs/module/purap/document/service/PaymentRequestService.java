@@ -364,5 +364,12 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
     public boolean allowBackpost(PaymentRequestDocument paymentRequestDocument);
     
     public boolean isPurchaseOrderValidForPaymentRequestDocumentCreation(PaymentRequestDocument paymentRequestDocument,PurchaseOrderDocument po);
+    
+    /**
+     * Removes additional charge items that are not eligible on the payment request document.
+     * 
+     * @param document
+     */
+    public void removeIneligibleAdditionalCharges(PaymentRequestDocument document);
 }
 

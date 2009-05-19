@@ -46,6 +46,7 @@ import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecif
 import org.kuali.kfs.module.purap.document.service.AccountsPayableService;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.document.service.impl.PaymentRequestServiceImpl;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedContinuePurapEvent;
 import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
@@ -581,6 +582,9 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         SpringContext.getBean(PurapService.class).addBelowLineItems(this);
         this.setAccountsPayablePurchasingDocumentLinkIdentifier(po.getAccountsPayablePurchasingDocumentLinkIdentifier());
 
+        //fix up below the line items
+        SpringContext.getBean(PaymentRequestService.class).removeIneligibleAdditionalCharges(this);
+        
         this.refreshNonUpdateableReferences();
     }
 

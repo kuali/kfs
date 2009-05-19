@@ -107,10 +107,6 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
             return false;
         }
 
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        if (workflowDocument.stateIsEnroute() || workflowDocument.stateIsException()) {
-            return false; 
-        }
         return super.canEdit(document);
     }
 

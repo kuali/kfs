@@ -22,10 +22,12 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.impl.KimAttributes;
-import org.kuali.rice.kim.bo.role.dto.DelegateInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.support.KimDelegationTypeService;
+import org.kuali.rice.kim.bo.types.impl.KimAttributeImpl;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.RiceKeyConstants;
 
 public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends OrganizationHierarchyReviewRoleTypeServiceImpl {
 
@@ -76,6 +78,53 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
         uniqueAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
         uniqueAttributes.add(KfsKimAttributes.ORGANIZATION_CODE);
         return uniqueAttributes;
+    }
+
+    @Override
+    public AttributeSet validateUnmodifiableAttributes(
+            String kimTypeId, AttributeSet originalAttributeSet, AttributeSet newAttributeSet){
+        AttributeSet validationErrors = super.validateUnmodifiableAttributes(kimTypeId, originalAttributeSet, newAttributeSet);
+        String toAmountRoleMember = getAttributeValue(originalAttributeSet, KfsKimAttributes.TO_AMOUNT);
+        String toAmountDelegationMember = getAttributeValue(newAttributeSet, KfsKimAttributes.TO_AMOUNT);
+        List<String> attributeErrors = null;
+        KimAttributeImpl attributeImpl;
+        if(isGreaterNumber(toAmountDelegationMember, toAmountRoleMember)){
+            attributeImpl = getAttributeImpl(KfsKimAttributes.TO_AMOUNT);
+            GlobalVariables.getErrorMap().putError(
+                    KfsKimAttributes.TO_AMOUNT, RiceKeyConstants.ERROR_DELEGATION_TO_AMOUNT_GREATER, 
+                    dataDictionaryService.getAttributeLabel(attributeImpl.getComponentName(), KfsKimAttributes.TO_AMOUNT));
+            attributeErrors = extractErrorsFromGlobalVariablesErrorMap(KfsKimAttributes.TO_AMOUNT);
+        }
+        if(attributeErrors!=null){
+            for(String err:attributeErrors){
+                validationErrors.put(KfsKimAttributes.TO_AMOUNT, err);
+            }
+        }
+        
+        String fromAmountRoleMember = getAttributeValue(originalAttributeSet, KfsKimAttributes.FROM_AMOUNT);
+        String fromAmountDelegationMember = getAttributeValue(newAttributeSet, KfsKimAttributes.FROM_AMOUNT);
+        if(isGreaterNumber(fromAmountDelegationMember, fromAmountRoleMember)){
+            attributeImpl = getAttributeImpl(KfsKimAttributes.FROM_AMOUNT);
+            GlobalVariables.getErrorMap().putError(
+                    KfsKimAttributes.FROM_AMOUNT, RiceKeyConstants.ERROR_DELEGATION_FROM_AMOUNT_LESSER, 
+                    dataDictionaryService.getAttributeLabel(attributeImpl.getComponentName(), KfsKimAttributes.FROM_AMOUNT));
+            attributeErrors = extractErrorsFromGlobalVariablesErrorMap(KfsKimAttributes.FROM_AMOUNT);
+        }
+        if(attributeErrors!=null){
+            for(String err:attributeErrors){
+                validationErrors.put(KfsKimAttributes.FROM_AMOUNT, err);
+            }
+        }
+        return validationErrors;
+    }
+
+    private boolean isGreaterNumber(String numberStr1, String numberStr2){
+        if(StringUtils.isEmpty(numberStr1) || StringUtils.isEmpty(numberStr2)){
+            throw new ValidationException("null numbers");
+        }
+        int number1 = Integer.parseInt(numberStr1);
+        int number2 = Integer.parseInt(numberStr2);
+        return number1>number2;
     }
 
 }

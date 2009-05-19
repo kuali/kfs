@@ -28,7 +28,7 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
-import org.kuali.kfs.gl.report.PosterOutputSummaryEntry;
+import org.kuali.kfs.gl.businessobject.PosterOutputSummaryEntry;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.testdata.LaborTestDataPropertyConstants;

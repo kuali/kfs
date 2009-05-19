@@ -311,7 +311,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         }
         
         // if the document is inactivating an account delegate, don't bother validating the user
-        if (((AccountDelegate)document.getOldMaintainableObject().getBusinessObject()).isAccountDelegateActiveIndicator() && !((AccountDelegate)document.getNewMaintainableObject().getBusinessObject()).isAccountDelegateActiveIndicator()) {
+        if (document.getOldMaintainableObject() != null && document.getOldMaintainableObject().getBusinessObject() != null && ((AccountDelegate)document.getOldMaintainableObject().getBusinessObject()).isAccountDelegateActiveIndicator() && !((AccountDelegate)document.getNewMaintainableObject().getBusinessObject()).isAccountDelegateActiveIndicator()) {
             return success;
         }
 

@@ -366,7 +366,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
             int countOfIcrRateDetails = getBoService().countMatching(IndirectCostRecoveryRateDetail.class, pkMap);
             if (countOfIcrRateDetails<=0){
                 String label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(A21SubAccount.class, KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER);
-                putFieldError(KFSPropertyConstants.A21_SUB_ACCOUNT + "." + KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER, KFSKeyConstants.ERROR_EXISTENCE, label + " (" + fiscalYear + "-" + icrSeriesId + ")");
+                putFieldError(KFSPropertyConstants.A21_SUB_ACCOUNT + "." + KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER, KFSKeyConstants.ERROR_EXISTENCE, label + " (" + icrSeriesId + ")");
                 
                 success = false;
             }

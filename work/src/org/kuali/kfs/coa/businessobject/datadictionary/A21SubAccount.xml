@@ -1,8 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="A21SubAccount" parent="A21SubAccount-parentBean" />
 
@@ -32,7 +34,6 @@
 
 
   <bean id="A21SubAccount-chartOfAccountsCode" parent="A21SubAccount-chartOfAccountsCode-parentBean" />
-
   <bean id="A21SubAccount-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
     <property name="forceUppercase" value="true" />
     <property name="control" >
@@ -41,10 +42,10 @@
             p:includeKeyInLabel="false" />
     </property>
   </bean>
+  
   <bean id="A21SubAccount-accountNumber" parent="A21SubAccount-accountNumber-parentBean" />
-
-  <bean id="A21SubAccount-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-  </bean>
+  <bean id="A21SubAccount-accountNumber-parentBean" abstract="true" parent="Account-accountNumber"/>
+  
   <bean id="A21SubAccount-subAccountNumber" parent="A21SubAccount-subAccountNumber-parentBean" >
     	<property name="forceUppercase" value="true" />
   </bean>
@@ -74,20 +75,11 @@
   </bean>
   
   <bean id="A21SubAccount-financialIcrSeriesIdentifier" parent="A21SubAccount-financialIcrSeriesIdentifier-parentBean" />
-
-  <bean id="A21SubAccount-financialIcrSeriesIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="A21SubAccount-financialIcrSeriesIdentifier-parentBean" abstract="true" parent="IndirectCostRecoveryRate-financialIcrSeriesIdentifier">
     <property name="name" value="financialIcrSeriesIdentifier" />
-    <property name="label" value="Indirect Cost Rate" />
-    <property name="shortLabel" value="Indr Cost Rate" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
-    </property>
+    <property name="label" value="Indirect Cost Rate Id" />
   </bean>
+  
   <bean id="A21SubAccount-indirectCostRecoveryChartOfAccountsCode" parent="A21SubAccount-indirectCostRecoveryChartOfAccountsCode-parentBean" />
 
   <bean id="A21SubAccount-indirectCostRecoveryChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">

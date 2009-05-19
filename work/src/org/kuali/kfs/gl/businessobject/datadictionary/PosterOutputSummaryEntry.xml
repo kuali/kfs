@@ -1,0 +1,60 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="PosterOutputSummaryEntry" parent="PosterOutputSummaryEntry-parentBean" />
+
+  <bean id="PosterOutputSummaryEntry-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.gl.businessobject.PosterOutputSummaryEntry" />
+    
+    <property name="objectLabel" value="Poster Output Summary Line" />
+    <property name="attributes">
+      <list>
+        <ref bean="PosterOutputSummaryEntry-fundGroup" />
+        <ref bean="PosterOutputSummaryEntry-fiscalPeriodCode" />
+        <ref bean="PosterOutputSummaryEntry-universityFiscalYear" />
+        <ref bean="PosterOutputSummaryEntry-balanceTypeCode" />
+        <ref bean="PosterOutputSummaryEntry-creditAmount" />
+        <ref bean="PosterOutputSummaryEntry-debitAmount" />
+        <ref bean="PosterOutputSummaryEntry-budgetAmount" />
+        <ref bean="PosterOutputSummaryEntry-netAmount" />
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="PosterOutputSummaryEntry-fundGroup" parent="PosterOutputSummaryEntry-fundGroup-parentBean" />
+
+  <bean id="PosterOutputSummaryEntry-fundGroup-parentBean" abstract="true" parent="FundGroup-code">
+  	<property name="name" value="fundGroup" />
+  </bean>
+
+  <bean id="PosterOutputSummaryEntry-fiscalPeriodCode" parent="PosterOutputSummaryEntry-fiscalPeriodCode-parentBean" />
+
+  <bean id="PosterOutputSummaryEntry-fiscalPeriodCode-parentBean" abstract="true" parent="PosterOutputSummaryBalanceTypeFiscalYearAndPeriodTotal-fiscalPeriodCode" />
+
+  <bean id="PosterOutputSummaryEntry-universityFiscalYear" parent="PosterOutputSummaryEntry-universityFiscalYear-parentBean" />
+
+  <bean id="PosterOutputSummaryEntry-universityFiscalYear-parentBean" abstract="true" parent="PosterOutputSummaryBalanceTypeFiscalYearTotal-universityFiscalYear" />
+
+  <bean id="PosterOutputSummaryEntry-balanceTypeCode" parent="PosterOutputSummaryEntry-balanceTypeCode-parentBean" />
+
+  <bean id="PosterOutputSummaryEntry-balanceTypeCode-parentBean" abstract="true" parent="PosterOutputSummaryBalanceTypeTotal-balanceTypeCode" />
+
+  <bean id="PosterOutputSummaryEntry-creditAmount" parent="PosterOutputSummaryEntry-creditAmount-parentBean" />
+
+  <bean id="PosterOutputSummaryEntry-creditAmount-parentBean" abstract="true" parent="PosterOutputSummaryTotal-creditAmount" />
+
+  <bean id="PosterOutputSummaryEntry-debitAmount" parent="PosterOutputSummaryEntry-debitAmount-parentBean" />
+
+  <bean id="PosterOutputSummaryEntry-debitAmount-parentBean" abstract="true" parent="PosterOutputSummaryTotal-debitAmount" />
+
+  <bean id="PosterOutputSummaryEntry-budgetAmount" parent="PosterOutputSummaryEntry-budgetAmount-parentBean" />
+
+  <bean id="PosterOutputSummaryEntry-budgetAmount-parentBean" abstract="true" parent="PosterOutputSummaryTotal-budgetAmount" />
+
+  <bean id="PosterOutputSummaryEntry-netAmount" parent="PosterOutputSummaryEntry-netAmount-parentBean" />
+
+  <bean id="PosterOutputSummaryEntry-netAmount-parentBean" abstract="true" parent="PosterOutputSummaryTotal-netAmount" />
+</beans>

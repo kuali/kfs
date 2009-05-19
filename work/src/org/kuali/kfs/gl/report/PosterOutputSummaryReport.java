@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2007 The Kuali Foundation.
+ * Copyright 2009 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,342 +15,136 @@
  */
 package org.kuali.kfs.gl.report;
 
-import java.awt.Color;
-import java.io.FileOutputStream;
-import java.text.DecimalFormat;
-import java.util.Date;
-import java.util.Iterator;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
+import org.kuali.kfs.gl.businessobject.OriginEntry;
+import org.kuali.kfs.gl.businessobject.PosterOutputSummaryBalanceTypeFiscalYearAndPeriodTotal;
+import org.kuali.kfs.gl.businessobject.PosterOutputSummaryBalanceTypeFiscalYearTotal;
+import org.kuali.kfs.gl.businessobject.PosterOutputSummaryBalanceTypeTotal;
+import org.kuali.kfs.gl.businessobject.PosterOutputSummaryEntry;
+import org.kuali.kfs.gl.businessobject.PosterOutputSummaryTotal;
+import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.gl.service.PosterOutputSummaryService;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.kfs.sys.service.ReportWriterService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
-import com.lowagie.text.Chunk;
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Element;
-import com.lowagie.text.Font;
-import com.lowagie.text.FontFactory;
-import com.lowagie.text.PageSize;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.Phrase;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfWriter;
+import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
- * This class represents the functionality needed to generate a Poster Output Summary Report
+ * A class which builds up the data and then reports the PosterOutputSummary report
  */
 public class PosterOutputSummaryReport {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterOutputSummaryReport.class);
-    public static final String PDF_FILE_EXTENSION = ".pdf";
-
-    private Font headerFont = FontFactory.getFont(FontFactory.COURIER, Font.DEFAULTSIZE, Font.BOLD);
-    private Font textFont = FontFactory.getFont(FontFactory.COURIER, Font.DEFAULTSIZE, Font.NORMAL);
-    private Font hiddenFieldFont = FontFactory.getFont(FontFactory.COURIER, 1, Font.NORMAL, new Color(0xFF, 0xFF, 0xFF));
-
-    private static final int TYPE_DETAIL = 1;
-    private static final int TYPE_YEAR_PERIOD_BALANCE_SUBTOTAL = 2;
-    private static final int TYPE_YEAR_BALANCE_SUBTOTAL = 3;
-    private static final int TYPE_BALANCE_SUBTOTAL = 4;
-    private static final int TYPE_TOTAL = 5;
-
+    private Map<String, PosterOutputSummaryEntry> posterOutputSummaryEntries;
+    private PosterOutputSummaryTotal posterOutputSummaryTotal;
+    private PosterOutputSummaryService posterOutputSummaryService;
+    
     /**
-     * This method generates report based on the given map of entries
-     * 
-     * @param posterInputSummaryEntryHolder the given entry map
-     * @param reportingDate the reporting date
-     * @param title the report title
-     * @param fileprefix the prefix of the generated report file
-     * @param destinationDirectory the directory where the report is located
+     * Constructs a PosterOutputSummaryReport
      */
-    public void generateReport(Map<String, PosterOutputSummaryEntry> data, Date reportingDate, String title, String fileprefix, String destinationDirectory) {
-        LOG.debug("generateReport() started");
-        Document document = new Document(PageSize.A4.rotate());
-
-        PDFPageHelper pageHelper = new PDFPageHelper();
-        pageHelper.setRunDate(reportingDate);
-        pageHelper.setHeaderFont(headerFont);
-        pageHelper.setTitle(title);
-
-        try {
-            DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+    public PosterOutputSummaryReport() {
+        posterOutputSummaryTotal = new PosterOutputSummaryTotal();
+        posterOutputSummaryEntries = new LinkedHashMap<String, PosterOutputSummaryEntry>();
+    }
+    
+    /**
+     * Summarizes a transaction for this report
+     * @param transaction the transaction to summarize
+     */
+    public void summarize(Transaction transaction) {
+        getPosterOutputSummaryService().summarize(transaction, posterOutputSummaryEntries);
+    }
+    
+    /**
+     * Summarizes an origin entry for this report
+     * @param originEntry the origin entry to summarize
+     */
+    public void summarize(OriginEntry originEntry) {
+        getPosterOutputSummaryService().summarize(originEntry, posterOutputSummaryEntries);
+    }
+    
+    /**
+     * Writes the report to the given reportWriterService
+     * @param reportWriterService the reportWriterService to write the report to
+     */
+    public void writeReport(ReportWriterService reportWriterService) {
+        List<PosterOutputSummaryEntry> entries = new ArrayList<PosterOutputSummaryEntry>(posterOutputSummaryEntries.values());
+        
+        if (entries.size() > 0) {
+            Collections.sort(entries, getPosterOutputSummaryService().getEntryComparator());
+            final KualiConfigurationService configurationService = SpringContext.getBean(KualiConfigurationService.class);
             
-            String filename = destinationDirectory + "/" + fileprefix + "_";
-            filename = filename + dateTimeService.toDateTimeStringForFilename(reportingDate);
-            filename = filename + PDF_FILE_EXTENSION;
-
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filename));
-            writer.setPageEvent(pageHelper);
-
-            document.open();
-
-            if (data.size() == 0) {
-                document.add(buildEmptyTable());
+            String currentBalanceTypeCode = entries.get(0).getBalanceTypeCode();
+            PosterOutputSummaryBalanceTypeTotal balanceTypeTotal = new PosterOutputSummaryBalanceTypeTotal(currentBalanceTypeCode);
+            Integer currentFiscalYear = entries.get(0).getUniversityFiscalYear();
+            PosterOutputSummaryBalanceTypeFiscalYearTotal balanceTypeFiscalYearTotal = new PosterOutputSummaryBalanceTypeFiscalYearTotal(currentBalanceTypeCode, currentFiscalYear);
+            String currentFiscalPeriod = entries.get(0).getFiscalPeriodCode();
+            PosterOutputSummaryBalanceTypeFiscalYearAndPeriodTotal balanceTypeFiscalYearAndPeriodTotal = new PosterOutputSummaryBalanceTypeFiscalYearAndPeriodTotal(currentBalanceTypeCode, currentFiscalYear, currentFiscalPeriod);
+        
+            final String titleMessage = configurationService.getPropertyString(KFSKeyConstants.MESSAGE_REPORT_POSTER_OUTPUT_SUMMARY_TITLE_LINE);
+            String formattedTitle = MessageFormat.format(titleMessage, entries.get(0).getUniversityFiscalYear(), entries.get(0).getBalanceTypeCode());
+            
+            reportWriterService.writeFormattedMessageLine(formattedTitle);
+            reportWriterService.writeTableHeader(entries.get(0));
+            
+            for (PosterOutputSummaryEntry entry : entries) {
+                if (!entry.getBalanceTypeCode().equals(currentBalanceTypeCode)) {
+                    reportWriterService.writeTableRow(balanceTypeFiscalYearAndPeriodTotal);
+                    reportWriterService.writeTableRow(balanceTypeFiscalYearTotal);
+                    reportWriterService.writeTableRow(balanceTypeTotal);
+                    
+                    balanceTypeFiscalYearAndPeriodTotal = new PosterOutputSummaryBalanceTypeFiscalYearAndPeriodTotal(entry.getBalanceTypeCode(), entry.getUniversityFiscalYear(), entry.getFiscalPeriodCode());
+                    balanceTypeFiscalYearTotal = new PosterOutputSummaryBalanceTypeFiscalYearTotal(entry.getBalanceTypeCode(), entry.getUniversityFiscalYear());
+                    balanceTypeTotal = new PosterOutputSummaryBalanceTypeTotal(entry.getBalanceTypeCode());
+                    currentBalanceTypeCode = entry.getBalanceTypeCode();
+                    
+                    // new top-level header for balance types
+                    reportWriterService.pageBreak();
+                    formattedTitle = MessageFormat.format(titleMessage, currentFiscalYear, currentBalanceTypeCode);
+                    reportWriterService.writeFormattedMessageLine(formattedTitle);
+                    reportWriterService.writeTableHeader(entry);
+                } else if (!entry.getUniversityFiscalYear().equals(currentFiscalYear)) {
+                    reportWriterService.writeTableRow(balanceTypeFiscalYearAndPeriodTotal);
+                    reportWriterService.writeTableRow(balanceTypeFiscalYearTotal);
+                    
+                    balanceTypeFiscalYearAndPeriodTotal = new PosterOutputSummaryBalanceTypeFiscalYearAndPeriodTotal(entry.getBalanceTypeCode(), entry.getUniversityFiscalYear(), entry.getFiscalPeriodCode());
+                    balanceTypeFiscalYearTotal = new PosterOutputSummaryBalanceTypeFiscalYearTotal(entry.getBalanceTypeCode(), entry.getUniversityFiscalYear());
+                    currentFiscalYear = entry.getUniversityFiscalYear();
+                } else if (!entry.getFiscalPeriodCode().equals(currentFiscalPeriod)) {
+                    reportWriterService.writeTableRow(balanceTypeFiscalYearAndPeriodTotal);
+                    
+                    balanceTypeFiscalYearAndPeriodTotal = new PosterOutputSummaryBalanceTypeFiscalYearAndPeriodTotal(entry.getBalanceTypeCode(), entry.getUniversityFiscalYear(), entry.getFiscalPeriodCode());
+                    currentFiscalPeriod = entry.getFiscalPeriodCode();
+                }
+                
+                reportWriterService.writeTableRow(entry);
+                balanceTypeFiscalYearAndPeriodTotal.addAmount(entry);
+                balanceTypeFiscalYearTotal.addAmount(entry);
+                balanceTypeTotal.addAmount(entry);
+                posterOutputSummaryTotal.addAmount(entry);
             }
-            else {
-                printReport(data, document);
-            }
-        }
-        catch (Exception de) {
-            LOG.error("generateReport() Error creating PDF report", de);
-            de.printStackTrace();
-            throw new RuntimeException("Report Generation Failed");
-        }
-        finally {
-            closeDocument(document);
+            
+            reportWriterService.writeTableRow(balanceTypeFiscalYearAndPeriodTotal);
+            reportWriterService.writeTableRow(balanceTypeFiscalYearTotal);
+            reportWriterService.writeTableRow(balanceTypeTotal);
+            reportWriterService.writeNewLines(1);
+            reportWriterService.writeTableRow(posterOutputSummaryTotal);
         }
     }
-
+    
     /**
-     * This method returns a new PDF Table for this report
-     * 
-     * @return PdfPTable a new table for this report
+     * @return an implementation of the PosterOutputSummaryService
      */
-    private PdfPTable newTable() {
-        PdfPTable entryTable = new PdfPTable(new float[] { 5, 5, 5, 7, 7, 7, 7 });
-        entryTable.setHeaderRows(1);
-        entryTable.setWidthPercentage(100);
-
-        addHeader(entryTable, headerFont);
-        return entryTable;
-    }
-
-    /**
-     * This method populates the information for the poster output summary report
-     * 
-     * @param data map containing poster output summary entries
-     * @param document document object representing actually PDF
-     * @throws DocumentException if there are any problems creating actual PDF document
-     */
-    private void printReport(Map<String, PosterOutputSummaryEntry> data, Document document) throws DocumentException {
-
-        PdfPTable entryTable = newTable();
-
-        PosterOutputSummaryEntry subTotalPeriodBalanceYear = new PosterOutputSummaryEntry();
-        PosterOutputSummaryEntry subTotalBalanceYear = new PosterOutputSummaryEntry();
-        PosterOutputSummaryEntry subTotalBalance = new PosterOutputSummaryEntry();
-        PosterOutputSummaryEntry total = new PosterOutputSummaryEntry();
-
-        Set sortedSet = new TreeSet(data.keySet());
-
-        boolean first = true;
-        for (Iterator reportIter = sortedSet.iterator(); reportIter.hasNext();) {
-            String key = (String) reportIter.next();
-            PosterOutputSummaryEntry entry = data.get(key);
-
-            if (first) {
-                first = false;
-                subTotalPeriodBalanceYear.setUniversityFiscalYear(entry.getUniversityFiscalYear());
-                subTotalPeriodBalanceYear.setBalanceTypeCode(entry.getBalanceTypeCode());
-                subTotalPeriodBalanceYear.setFiscalPeriodCode(entry.getFiscalPeriodCode());
-
-                subTotalBalanceYear.setUniversityFiscalYear(entry.getUniversityFiscalYear());
-                subTotalBalanceYear.setBalanceTypeCode(entry.getBalanceTypeCode());
-
-                subTotalBalance.setBalanceTypeCode(entry.getBalanceTypeCode());
-
-                Paragraph paragraph = new Paragraph("Fiscal Year: " + entry.getUniversityFiscalYear() + " Balance Type Code: " + entry.getBalanceTypeCode(), headerFont);
-                paragraph.setSpacingAfter(10);
-
-                document.add(paragraph);
-            }
-
-            // Do we need to print a subtotal?
-            String balanceTypeCode = entry.getBalanceTypeCode();
-            Integer fiscalYear = entry.getUniversityFiscalYear();
-            String fiscalPeriod = entry.getFiscalPeriodCode();
-
-            boolean newPage = false;
-
-            if ((!fiscalPeriod.equals(subTotalPeriodBalanceYear.getFiscalPeriodCode())) || (!balanceTypeCode.equals(subTotalPeriodBalanceYear.getBalanceTypeCode())) || (!fiscalYear.equals(subTotalPeriodBalanceYear.getUniversityFiscalYear()))) {
-                addRow(entryTable, subTotalPeriodBalanceYear, headerFont, PosterOutputSummaryReport.TYPE_YEAR_PERIOD_BALANCE_SUBTOTAL);
-                subTotalPeriodBalanceYear = new PosterOutputSummaryEntry();
-                subTotalPeriodBalanceYear.setUniversityFiscalYear(entry.getUniversityFiscalYear());
-                subTotalPeriodBalanceYear.setBalanceTypeCode(entry.getBalanceTypeCode());
-                subTotalPeriodBalanceYear.setFiscalPeriodCode(entry.getFiscalPeriodCode());
-            }
-
-            if ((!balanceTypeCode.equals(subTotalBalanceYear.getBalanceTypeCode())) || (!fiscalYear.equals(subTotalBalanceYear.getUniversityFiscalYear()))) {
-                addRow(entryTable, subTotalBalanceYear, headerFont, PosterOutputSummaryReport.TYPE_YEAR_BALANCE_SUBTOTAL);
-                subTotalBalanceYear = new PosterOutputSummaryEntry();
-                subTotalBalanceYear.setUniversityFiscalYear(fiscalYear);
-                subTotalBalanceYear.setBalanceTypeCode(balanceTypeCode);
-
-                newPage = true;
-            }
-            if (!balanceTypeCode.equals(subTotalBalance.getBalanceTypeCode())) {
-                addRow(entryTable, subTotalBalance, headerFont, PosterOutputSummaryReport.TYPE_BALANCE_SUBTOTAL);
-                subTotalBalance = new PosterOutputSummaryEntry();
-                subTotalBalance.setBalanceTypeCode(balanceTypeCode);
-            }
-            if (newPage) {
-                document.add(entryTable);
-                document.add(Chunk.NEXTPAGE);
-
-                Paragraph paragraph = new Paragraph("Fiscal Year: " + entry.getUniversityFiscalYear() + " Balance Type Code: " + entry.getBalanceTypeCode(), headerFont);
-                paragraph.setSpacingAfter(10);
-
-                document.add(paragraph);
-
-                entryTable = newTable();
-            }
-
-            addRow(entryTable, entry, textFont, PosterOutputSummaryReport.TYPE_DETAIL);
-            total.add(entry);
-            subTotalBalance.add(entry);
-            subTotalBalanceYear.add(entry);
-            subTotalPeriodBalanceYear.add(entry);
+    public PosterOutputSummaryService getPosterOutputSummaryService() {
+        if (posterOutputSummaryService == null) {
+            posterOutputSummaryService = SpringContext.getBean(PosterOutputSummaryService.class);
         }
-
-        addRow(entryTable, subTotalPeriodBalanceYear, headerFont, PosterOutputSummaryReport.TYPE_YEAR_PERIOD_BALANCE_SUBTOTAL);
-        addRow(entryTable, subTotalBalanceYear, headerFont, PosterOutputSummaryReport.TYPE_YEAR_BALANCE_SUBTOTAL);
-        addRow(entryTable, subTotalBalance, headerFont, PosterOutputSummaryReport.TYPE_BALANCE_SUBTOTAL);
-        addRow(entryTable, total, headerFont, PosterOutputSummaryReport.TYPE_TOTAL);
-
-        document.add(entryTable);
-    }
-
-    /**
-     * Returns an empty table
-     * 
-     * @return PdfPTable an empty table
-     */
-    private PdfPTable buildEmptyTable() {
-        float[] tableWidths = { 100 };
-
-        PdfPTable ledgerEntryTable = new PdfPTable(tableWidths);
-        ledgerEntryTable.setWidthPercentage(100);
-        PdfPCell cell = new PdfPCell(new Phrase("No entries found!", headerFont));
-        ledgerEntryTable.addCell(cell);
-
-        return ledgerEntryTable;
-    }
-
-    /**
-     * Adds a table header
-     * 
-     * @param entryTable PdfPTable
-     * @param headerFont
-     */
-    private void addHeader(PdfPTable entryTable, Font headerFont) {
-
-        PdfPCell cell = new PdfPCell(new Phrase("Fiscal Year", headerFont));
-        entryTable.addCell(cell);
-
-        cell = new PdfPCell(new Phrase("Period Code", headerFont));
-        entryTable.addCell(cell);
-
-        cell = new PdfPCell(new Phrase("Fund Group", headerFont));
-        entryTable.addCell(cell);
-
-        cell = new PdfPCell(new Phrase("Debit Amount", headerFont));
-        entryTable.addCell(cell);
-
-        cell = new PdfPCell(new Phrase("Credit Amount", headerFont));
-        entryTable.addCell(cell);
-
-        cell = new PdfPCell(new Phrase("Budget Amount", headerFont));
-        entryTable.addCell(cell);
-
-        cell = new PdfPCell(new Phrase("Net Amount", headerFont));
-        entryTable.addCell(cell);
-    }
-
-    /**
-     * Add a row with the given ledger entry into PDF table
-     * 
-     * @param entryTable PdfPTable where row is being added too
-     * @param entry poster output summary entry
-     * @param textFont font for text
-     * @param type total type (i.e. year period balance subtotal, year balance subtotal, balance subtotal, total, or detail)
-     */
-    private void addRow(PdfPTable entryTable, PosterOutputSummaryEntry entry, Font textFont, int type) {
-        PdfPCell cell = null;
-
-        if (type == PosterOutputSummaryReport.TYPE_YEAR_PERIOD_BALANCE_SUBTOTAL) {
-            cell = new PdfPCell(new Phrase("Subtotal(" + entry.getFiscalPeriodCode() + ", " + entry.getUniversityFiscalYear() + ", " + entry.getBalanceTypeCode() + ")", textFont));
-            cell.setColspan(3);
-            entryTable.addCell(cell);
-        }
-        else if (type == PosterOutputSummaryReport.TYPE_YEAR_BALANCE_SUBTOTAL) {
-            cell = new PdfPCell(new Phrase("Subtotal(" + entry.getUniversityFiscalYear() + ", " + entry.getBalanceTypeCode() + ")", textFont));
-            cell.setColspan(3);
-            entryTable.addCell(cell);
-        }
-        else if (type == PosterOutputSummaryReport.TYPE_BALANCE_SUBTOTAL) {
-            cell = new PdfPCell(new Phrase("Subtotal(" + entry.getBalanceTypeCode() + ")", textFont));
-            cell.setColspan(3);
-            entryTable.addCell(cell);
-        }
-        else if (type == PosterOutputSummaryReport.TYPE_TOTAL) {
-            cell = new PdfPCell(new Phrase("Total", textFont));
-            cell.setColspan(3);
-            entryTable.addCell(cell);
-        }
-        else if (type == PosterOutputSummaryReport.TYPE_DETAIL) {
-            Integer fiscalYear = entry.getUniversityFiscalYear();
-            String stringFiscalYear = (fiscalYear != null) ? fiscalYear.toString() : "";
-            cell = new PdfPCell(new Phrase(stringFiscalYear, textFont));
-            entryTable.addCell(cell);
-
-            cell = new PdfPCell(new Phrase(entry.getFiscalPeriodCode(), textFont));
-            entryTable.addCell(cell);
-
-            cell = new PdfPCell(new Phrase(entry.getFundGroup(), textFont));
-            entryTable.addCell(cell);
-        }
-
-        cell = new PdfPCell(new Phrase(this.formatNumber(entry.getDebitAmount()), textFont));
-        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-        entryTable.addCell(cell);
-
-        cell = new PdfPCell(new Phrase(this.formatNumber(entry.getCreditAmount()), textFont));
-        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-        entryTable.addCell(cell);
-
-        cell = new PdfPCell(new Phrase(this.formatNumber(entry.getBudgetAmount()), textFont));
-        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-        entryTable.addCell(cell);
-
-        cell = new PdfPCell(new Phrase(this.formatNumber(entry.getNetAmount()), textFont));
-        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-        entryTable.addCell(cell);
-    }
-
-    /**
-     * Format the given number based on its type: Integer or BigDecimal
-     * @param number
-     * @return String formatted BigDecimal or Integer as a String
-     */
-    private String formatNumber(Number number) {
-        DecimalFormat decimalFormat = new DecimalFormat();
-
-        if (number instanceof Integer) {
-            decimalFormat.applyPattern("###,###");
-        }
-        else if (number instanceof KualiDecimal) {
-            decimalFormat.applyPattern("###,###,###,##0.00");
-        }
-        return decimalFormat.format(number);
-    }
-
-    /**
-     * Close the document and release the resource
-     * 
-     * @param document document to be closed
-     */
-    private void closeDocument(Document document) {
-        try {
-            if ((document != null) && document.isOpen()) {
-                document.close();
-            }
-        }
-        catch (Throwable t) {
-            LOG.error("generateReport() Exception closing report", t);
-        }
+        
+        return posterOutputSummaryService;
     }
 }

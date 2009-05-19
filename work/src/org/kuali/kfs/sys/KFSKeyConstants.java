@@ -867,4 +867,10 @@ public class KFSKeyConstants {
 
     public static final String MESSAGE_REPORT_NIGHTLY_OUT_LEDGER_TOTAL = "message.report.nightlyOut.ledger.total";
     public static final String MESSAGE_REPORT_NIGHTLY_OUT_LEDGER_BALANCE_TYPE_TOTAL = "message.report.nightlyOut.ledger.balanceType.total";
+    
+    public static final String MESSAGE_REPORT_POSTER_OUTPUT_SUMMARY_TOTAL = "message.report.poster.output.summary.total";
+    public static final String MESSAGE_REPORT_POSTER_OUTPUT_SUMMARY_BALANCE_TYPE_TOTAL = "message.report.poster.output.summary.balanceType.total";
+    public static final String MESSAGE_REPORT_POSTER_OUTPUT_SUMMARY_BALANCE_TYPE_FISCAL_YEAR_TOTAL = "message.report.poster.output.summary.balanceType.fiscalYear.total";
+    public static final String MESSAGE_REPORT_POSTER_OUTPUT_SUMMARY_BALANCE_TYPE_FISCAL_YEAR_AND_PERIOD_TOTAL = "message.report.poster.output.summary.balanceType.fiscalYear.fiscalPeriod.total";
+    public static final String MESSAGE_REPORT_POSTER_OUTPUT_SUMMARY_TITLE_LINE = "message.report.poster.output.summary.titleLine";
 }

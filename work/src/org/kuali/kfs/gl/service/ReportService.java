@@ -164,13 +164,4 @@ public interface ReportService {
      * @param runDate the date the GLCP was created
      */
     public void correctionOnlineReport(GeneralLedgerCorrectionProcessDocument cDocument, Date runDate);
-
-    /**
-     * Poster output Summary Report: a summary of the three poster runs (pulling in the transactions from the main, reversal, and
-     * ICR posters) which we use for balancing.
-     * 
-     * @param runDate the date the poster run that is being reported on occurred
-     * @param groups the origin entry groups created by the poster during its run
-     */
-    public void generatePosterOutputTransactionSummaryReport(Date runDate, Collection groups);
 }

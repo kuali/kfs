@@ -1806,6 +1806,21 @@
 		<property name="posterService" ref="glPosterIndirectCostRecoveryGenerationService" />
 	</bean>
 	
+	<bean id="posterOutputSummaryReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/gl"/>
+		<property name="fileNamePrefix" value="poster_output_summary_"/>
+        <property name="title" value="Poster Output Summary"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.gl.businessobject.PosterOutputSummaryEntry" value="posterOutputSummaryEntryReportHelper"/>
+        		<entry key="org.kuali.kfs.gl.businessobject.PosterOutputSummaryBalanceTypeFiscalYearAndPeriodTotal" value="posterOutputSummaryBalanceTypeFiscalYearAndPeriodTotalReportHelper"/>
+        		<entry key="org.kuali.kfs.gl.businessobject.PosterOutputSummaryBalanceTypeFiscalYearTotal" value="posterOutputSummaryBalanceTypeFiscalYearTotalReportHelper"/>
+        		<entry key="org.kuali.kfs.gl.businessobject.PosterOutputSummaryBalanceTypeTotal" value="posterOutputSummaryBalanceTypeTotal"/>
+        		<entry key="org.kuali.kfs.gl.businessobject.PosterOutputSummaryTotal" value="posterOutputSummaryTotal"/>
+        	</map>
+       	</property>
+    </bean>
+	
 	<bean id="generalLegerPendingEntryListReportWriterService" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/gl"/>
 		<property name="fileNamePrefix" value="glpe_list_"/>
@@ -1881,16 +1896,20 @@
 		</property>
 	</bean>
 	
-	<bean id="posterSummaryReportStep" class="org.kuali.kfs.gl.batch.PosterSummaryReportStep" parent="step">
-		<property name="reportService">
-			<ref bean="reportService" />
+	<bean id="posterSummaryReportStep" class="org.kuali.kfs.gl.batch.PosterSummaryReportStep" parent="wrappedStep">
+	<property name="wrappingBatchServices">
+			<list>
+				<ref bean="posterOutputSummaryReportWriterService"/>
+				<ref bean="accountingCycleCachingService"/>
+			</list>
 		</property>
 		<property name="optionsService">
 			<ref bean="optionsService" />
 		</property>
-		<property name="originEntryGroupService">
-			<ref bean="originEntryGroupService" />
-		</property>
+		<property name="reportService" ref="reportService" />
+		<property name="posterOutputSummaryReportWriterService" ref="posterOutputSummaryReportWriterService" />
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
+		<property name="reversalService" ref="reversalService" />
 	</bean>
 
 	<bean id="createBackupGroupStep" class="org.kuali.kfs.gl.batch.CreateBackupGroupStep" parent="step">
@@ -2134,7 +2153,11 @@
 		</property>
 	</bean>
 	
-	<bean id="generalLedgerPreparedStatementCachingDao" parent="preparedStatementCachingDao" class="org.kuali.kfs.gl.batch.dataaccess.impl.LedgerPreparedStatementCachingDaoJdbc" /> 
+	<bean id="generalLedgerPreparedStatementCachingDao" parent="preparedStatementCachingDao" class="org.kuali.kfs.gl.batch.dataaccess.impl.LedgerPreparedStatementCachingDaoJdbc" />
+	
+	<bean id="posterOutputSummaryService" class="org.kuali.kfs.gl.service.impl.PosterOutputSummaryServiceImpl">
+		<property name="accountingCycleCachingService" ref="accountingCycleCachingService"/>
+	</bean> 
 	
 	<bean id="accountingCycleCachingService" class="org.kuali.kfs.gl.batch.service.impl.AccountingCycleCachingServiceImpl">
 		<property name="universityDateService" ref="universityDateService" />
@@ -2351,6 +2374,78 @@
     		</map>
 	    </property>
 	    <property name="columnCount" value="11" />
+	</bean>
+	
+	<bean id="posterOutputSummaryEntryReportHelper" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.PosterOutputSummaryEntry" />
+	    <property name="orderedPropertyNameToHeaderLabelMap">
+    		<map>
+    			<entry key="universityFiscalYear" value="Fiscal Year" />
+    			<entry key="fiscalPeriodCode" value="Period Code" />
+    			<entry key="fundGroup" value="Fund Group"/>
+    			<entry key="debitAmount" value="Debit Amount"/>
+    			<entry key="creditAmount" value="Credit Amount"/>
+    			<entry key="budgetAmount" value="Budget Amount"/>
+    			<entry key="netAmount" value="Net Amount" />
+    		</map>
+	    </property>
+	    <property name="columnCount" value="7" />
+	</bean>
+	
+	<bean id="posterOutputSummaryBalanceTypeFiscalYearAndPeriodTotalReportHelper" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.PosterOutputSummaryBalanceTypeFiscalYearAndPeriodTotal" />
+	    <property name="orderedPropertyNameToHeaderLabelMap">
+    		<map>
+    			<entry key="summary" value=" " />
+    			<entry key="debitAmount" value="Debit Amount"/>
+    			<entry key="creditAmount" value="Credit Amount"/>
+    			<entry key="budgetAmount" value="Budget Amount"/>
+    			<entry key="netAmount" value="Net Amount" />
+    		</map>
+	    </property>
+	    <property name="columnCount" value="5" />
+	</bean>
+	
+	<bean id="posterOutputSummaryBalanceTypeFiscalYearTotalReportHelper" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.PosterOutputSummaryBalanceTypeFiscalYearTotal" />
+	    <property name="orderedPropertyNameToHeaderLabelMap">
+    		<map>
+    			<entry key="summary" value=" " />
+    			<entry key="debitAmount" value="Debit Amount"/>
+    			<entry key="creditAmount" value="Credit Amount"/>
+    			<entry key="budgetAmount" value="Budget Amount"/>
+    			<entry key="netAmount" value="Net Amount" />
+    		</map>
+	    </property>
+	    <property name="columnCount" value="5" />
+	</bean>
+	
+	<bean id="posterOutputSummaryBalanceTypeTotal" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.PosterOutputSummaryBalanceTypeTotal" />
+	    <property name="orderedPropertyNameToHeaderLabelMap">
+    		<map>
+    			<entry key="summary" value=" " />
+    			<entry key="debitAmount" value="Debit Amount"/>
+    			<entry key="creditAmount" value="Credit Amount"/>
+    			<entry key="budgetAmount" value="Budget Amount"/>
+    			<entry key="netAmount" value="Net Amount" />
+    		</map>
+	    </property>
+	    <property name="columnCount" value="5" />
+	</bean>
+	
+	<bean id="posterOutputSummaryTotal" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.PosterOutputSummaryTotal" />
+	    <property name="orderedPropertyNameToHeaderLabelMap">
+    		<map>
+    			<entry key="summary" value=" " />
+    			<entry key="debitAmount" value="Debit Amount"/>
+    			<entry key="creditAmount" value="Credit Amount"/>
+    			<entry key="budgetAmount" value="Budget Amount"/>
+    			<entry key="netAmount" value="Net Amount" />
+    		</map>
+	    </property>
+	    <property name="columnCount" value="5" />
 	</bean>
 
 	<bean id="batchFileService" class="org.kuali.kfs.gl.batch.service.impl.BatchFileServiceImpl" singleton="false" />

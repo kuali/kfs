@@ -15,21 +15,12 @@
  */
 package org.kuali.kfs.module.ld.service;
 
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.sql.Date;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
-import org.kuali.kfs.gl.businessobject.OriginEntryFull;
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntryStatistics;
-import org.kuali.kfs.gl.report.PosterOutputSummaryEntry;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
-import org.kuali.kfs.module.ld.businessobject.LaborTransaction;
 
 /**
  * Defines methods that must be implemented by classes providing a LaborOriginEntryServiceImpl.

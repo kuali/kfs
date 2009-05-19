@@ -42,7 +42,6 @@ import org.kuali.kfs.gl.report.BalanceEncumbranceReport;
 import org.kuali.kfs.gl.report.BalanceReport;
 import org.kuali.kfs.gl.report.ExpenditureTransactionReport;
 import org.kuali.kfs.gl.report.LedgerReport;
-import org.kuali.kfs.gl.report.PosterOutputSummaryReport;
 import org.kuali.kfs.gl.report.Summary;
 import org.kuali.kfs.gl.report.TransactionReport;
 import org.kuali.kfs.gl.report.YearEndTransactionReport;
@@ -676,26 +675,6 @@ public class ReportServiceImpl implements ReportService {
         finally {
             document.close();
         }
-    }
-
-    /**
-     * Poster output Summary Report: a summary of the three poster runs (pulling in the transactions from the main, reversal, and
-     * ICR posters) which we use for balancing.
-     * 
-     * @param runDate the date the poster run that is being reported on occurred
-     * @param groups the origin entry groups created by the poster during its run
-     * @see org.kuali.kfs.gl.service.ReportService#generatePosterInputTransactionSummaryReport(java.util.Date,
-     *      java.util.Collection)
-     */
-    public void generatePosterOutputTransactionSummaryReport(Date runDate, Collection groups) {
-        LOG.debug("generatePosterInputTransactionSummaryReport() started");
-
-        if (groups.size() <= 0) {
-            return;
-        }
-
-        PosterOutputSummaryReport posterInputSummaryReport = new PosterOutputSummaryReport();
-        posterInputSummaryReport.generateReport(originEntryService.getPosterOutputSummaryByGroupId(groups), runDate, "Poster Output Summary", "poster_output_summary", reportsDirectory);
     }
 
     public void setOriginEntryService(OriginEntryService originEntryService) {

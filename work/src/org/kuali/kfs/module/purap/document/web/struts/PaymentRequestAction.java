@@ -342,6 +342,9 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
     protected void customCalculate(PurchasingAccountsPayableDocument apDoc) {
         PaymentRequestDocument preqDoc = (PaymentRequestDocument) apDoc;
 
+        // set amounts on any empty
+        preqDoc.updateExtendedPriceOnItems();
+
         SpringContext.getBean(PurapService.class).prorateForTradeInAndFullOrderDiscount(preqDoc);
         // calculation just for the tax area, only at tax review stage
         // by now, the general calculation shall have been done.
@@ -350,9 +353,6 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
             return;
         }
         
-        // set amounts on any empty
-        preqDoc.updateExtendedPriceOnItems();
-
         // notice we're ignoring whether the boolean, because these are just warnings they shouldn't halt anything
         SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedCalculateAccountsPayableEvent(preqDoc));
         SpringContext.getBean(PaymentRequestService.class).calculatePaymentRequest(preqDoc, true);

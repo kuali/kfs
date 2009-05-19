@@ -257,7 +257,7 @@ public class PurapWorkflowConstants {
 
     public static class CreditMemoDocument {
         public enum NodeDetailEnum implements NodeDetails {
-            ADHOC_REVIEW(DOC_ADHOC_NODE_NAME, null, PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS, false), ACCOUNTS_PAYABLE_REVIEW("Accounts Payable Review", PurapConstants.CreditMemoStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW, PurapConstants.CreditMemoStatuses.CANCELLED_PRIOR_TO_AP_APPROVAL, false), ;
+            ADHOC_REVIEW(DOC_ADHOC_NODE_NAME, null, PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS, false), ACCOUNTS_PAYABLE_REVIEW("ImageAttachment", PurapConstants.CreditMemoStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW, PurapConstants.CreditMemoStatuses.CANCELLED_PRIOR_TO_AP_APPROVAL, false), ;
 
             private final String name;
             private final String awaitingStatusCode;

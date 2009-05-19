@@ -305,8 +305,13 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         final Person accountDelegate = newDelegate.getAccountDelegate();
 
-        // if the user doesnt exist, then do nothing, it'll fail the existence test elsewhere
+        // if the user doesn't exist, then do nothing, it'll fail the existence test elsewhere
         if (ObjectUtils.isNull(accountDelegate)) {
+            return success;
+        }
+        
+        // if the document is inactivating an account delegate, don't bother validating the user
+        if (((AccountDelegate)document.getOldMaintainableObject().getBusinessObject()).isAccountDelegateActiveIndicator() && !((AccountDelegate)document.getNewMaintainableObject().getBusinessObject()).isAccountDelegateActiveIndicator()) {
             return success;
         }
 

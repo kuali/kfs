@@ -65,20 +65,28 @@ public class CreditMemoDocumentPreRules extends AccountsPayableDocumentPreRulesB
         VendorCreditMemoDocument cm = (VendorCreditMemoDocument) accountsPayableDocument;
         StringBuffer questionTextBuffer = new StringBuffer("");
         questionTextBuffer.append(questionText);
-        questionTextBuffer.append( "<style type=\"text/css\"> table.questionTable {border-collapse: collapse;} td.leftTd { border-bottom:1px solid #000000; border-right:1px solid #000000; padding:3px; width:300px; } td.rightTd { border-bottom:1px solid #000000; border-left:1px solid #000000; padding:3px; width:300px; } </style>" );
-                    
-        questionTextBuffer.append("<br/><br/>Summary Detail Below:<br/><br/><table class=\"questionTable\" align=\"center\">");
-        questionTextBuffer.append("<tr><td class=\"leftTd\">Credit Memo Amount entered on start screen:</td><td class=\"rightTd\">" + (String)cf.format(cm.getInitialAmount()) + "</td></tr>");
-        questionTextBuffer.append("<tr><td class=\"leftTd\">Total credit processed prior to restocking fee:</td><td class=\"rightTd\">" + (String)cf.format(cm.getGrandPreTaxTotalExcludingRestockingFee()) + "</td></tr>");
-
+        // KULPURAP-3744: remove the html table tags
+//        questionTextBuffer.append( "<style type=\"text/css\"> table.questionTable {border-collapse: collapse;} td.leftTd { border-bottom:1px solid #000000; border-right:1px solid #000000; padding:3px; width:300px; } td.rightTd { border-bottom:1px solid #000000; border-left:1px solid #000000; padding:3px; width:300px; } </style>" );
+//                    
+//        questionTextBuffer.append("<br/><br/>Summary Detail Below:<br/><br/><table class=\"questionTable\" align=\"center\">");
+//        questionTextBuffer.append("<tr><td class=\"leftTd\">Credit Memo Amount entered on start screen:</td><td class=\"rightTd\">" + (String)cf.format(cm.getInitialAmount()) + "</td></tr>");
+//        questionTextBuffer.append("<tr><td class=\"leftTd\">Total credit processed prior to restocking fee:</td><td class=\"rightTd\">" + (String)cf.format(cm.getGrandPreTaxTotalExcludingRestockingFee()) + "</td></tr>");
+        
+        questionTextBuffer.append("[br][br][b]Summary Detail Below[/b][br][br]");
+        questionTextBuffer.append("Credit Memo Amount entered on start screen: ").append((String)cf.format(cm.getInitialAmount())).append("[br]");
+        questionTextBuffer.append("Total credit processed prior to restocking fee: ").append((String)cf.format(cm.getGrandPreTaxTotalExcludingRestockingFee())).append("[br]");
+        
         //if sales tax is enabled, show additional summary lines
         boolean salesTaxInd = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.ENABLE_SALES_TAX_IND);                
         if(salesTaxInd){
-            questionTextBuffer.append("<tr><td class=\"leftTd\">Grand Total Prior to Tax:</td><td class=\"rightTd\">" + (String)cf.format(cm.getGrandPreTaxTotal()) + "</td></tr>");
-            questionTextBuffer.append("<tr><td class=\"leftTd\">Grand Total Tax :</td><td class=\"rightTd\">" + (String)cf.format(cm.getGrandTaxAmount()) + "</td></tr>");
+//            questionTextBuffer.append("<tr><td class=\"leftTd\">Grand Total Prior to Tax:</td><td class=\"rightTd\">" + (String)cf.format(cm.getGrandPreTaxTotal()) + "</td></tr>");
+//            questionTextBuffer.append("<tr><td class=\"leftTd\">Grand Total Tax :</td><td class=\"rightTd\">" + (String)cf.format(cm.getGrandTaxAmount()) + "</td></tr>");
+            questionTextBuffer.append("Grand Total Prior to Tax: ").append((String)cf.format(cm.getGrandPreTaxTotal())).append("[br]");
+            questionTextBuffer.append("Grand Total Tax: ").append((String)cf.format(cm.getGrandTaxAmount())).append("[br]");
         }
         
-        questionTextBuffer.append("<tr><td class=\"leftTd\">Grand Total:</td><td class=\"rightTd\">" + (String)cf.format(cm.getGrandTotal()) + "</td></tr></table>");
+//        questionTextBuffer.append("<tr><td class=\"leftTd\">Grand Total:</td><td class=\"rightTd\">" + (String)cf.format(cm.getGrandTotal()) + "</td></tr></table>");
+        questionTextBuffer.append("Grand Total: ").append((String)cf.format(cm.getGrandTotal())).append("br][br]");
 
         return questionTextBuffer.toString();
         

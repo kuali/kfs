@@ -80,10 +80,11 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
         return uniqueAttributes;
     }
 
-    @Override
+//    @Override
     public AttributeSet validateUnmodifiableAttributes(
             String kimTypeId, AttributeSet originalAttributeSet, AttributeSet newAttributeSet){
-        AttributeSet validationErrors = super.validateUnmodifiableAttributes(kimTypeId, originalAttributeSet, newAttributeSet);
+        //AttributeSet validationErrors = super.validateUnmodifiableAttributes(kimTypeId, originalAttributeSet, newAttributeSet);
+        AttributeSet validationErrors = new AttributeSet();
         String toAmountRoleMember = getAttributeValue(originalAttributeSet, KfsKimAttributes.TO_AMOUNT);
         String toAmountDelegationMember = getAttributeValue(newAttributeSet, KfsKimAttributes.TO_AMOUNT);
         List<String> attributeErrors = null;
@@ -91,7 +92,7 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
         if(isGreaterNumber(toAmountDelegationMember, toAmountRoleMember)){
             attributeImpl = getAttributeImpl(KfsKimAttributes.TO_AMOUNT);
             GlobalVariables.getErrorMap().putError(
-                    KfsKimAttributes.TO_AMOUNT, RiceKeyConstants.ERROR_DELEGATION_TO_AMOUNT_GREATER, 
+                    KfsKimAttributes.TO_AMOUNT, "RiceKeyConstants.ERROR_DELEGATION_TO_AMOUNT_GREATER", 
                     dataDictionaryService.getAttributeLabel(attributeImpl.getComponentName(), KfsKimAttributes.TO_AMOUNT));
             attributeErrors = extractErrorsFromGlobalVariablesErrorMap(KfsKimAttributes.TO_AMOUNT);
         }
@@ -106,7 +107,7 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
         if(isGreaterNumber(fromAmountDelegationMember, fromAmountRoleMember)){
             attributeImpl = getAttributeImpl(KfsKimAttributes.FROM_AMOUNT);
             GlobalVariables.getErrorMap().putError(
-                    KfsKimAttributes.FROM_AMOUNT, RiceKeyConstants.ERROR_DELEGATION_FROM_AMOUNT_LESSER, 
+                    KfsKimAttributes.FROM_AMOUNT, "RiceKeyConstants.ERROR_DELEGATION_FROM_AMOUNT_LESSER", 
                     dataDictionaryService.getAttributeLabel(attributeImpl.getComponentName(), KfsKimAttributes.FROM_AMOUNT));
             attributeErrors = extractErrorsFromGlobalVariablesErrorMap(KfsKimAttributes.FROM_AMOUNT);
         }

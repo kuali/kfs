@@ -114,12 +114,16 @@ public class PosterSummaryReportStep extends AbstractWrappedBatchStep {
                 
                 // summarize all the entries for the main poster
                 File mainPosterFile = FileUtil.getNewestFile(new File(batchFileDirectoryName), new RegexFileFilter((GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE + "\\.[0-9_\\-]+\\" + GeneralLedgerConstants.BatchFileSystem.EXTENSION)));
-                OriginEntryFileIterator mainPosterIterator = new OriginEntryFileIterator(mainPosterFile);
-                while (mainPosterIterator.hasNext()) {
-                    final OriginEntry originEntry = mainPosterIterator.next();
-                    posterOutputSummaryReport.summarize(originEntry);
+                if (mainPosterFile != null && mainPosterFile.exists()) {
+                    OriginEntryFileIterator mainPosterIterator = new OriginEntryFileIterator(mainPosterFile);
+                    while (mainPosterIterator.hasNext()) {
+                        final OriginEntry originEntry = mainPosterIterator.next();
+                        posterOutputSummaryReport.summarize(originEntry);
+                    }
+                } else {
+                    LOG.warn("Could not Main Poster Input file with prefix "+GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE+" for tabulation in the Poster Output Summary Report");
                 }
-                // summarize today's reverals
+                // summarize today's reversals
                 Iterator<?> reversalsIterator = getReversalService().getByDate(runDate);
                 while (reversalsIterator.hasNext()) {
                     final Reversal reversal = (Reversal)reversalsIterator.next();
@@ -127,10 +131,14 @@ public class PosterSummaryReportStep extends AbstractWrappedBatchStep {
                 }
                 // summarize the icr poster
                 File icrPosterFile = FileUtil.getNewestFile(new File(batchFileDirectoryName), new RegexFileFilter(GeneralLedgerConstants.BatchFileSystem.ICR_POSTER_INPUT_FILE + "\\.[0-9_\\-]+\\" + GeneralLedgerConstants.BatchFileSystem.EXTENSION));
-                OriginEntryFileIterator icrIterator = new OriginEntryFileIterator(icrPosterFile);
-                while (icrIterator.hasNext()) {
-                    final OriginEntry originEntry = icrIterator.next();
-                    posterOutputSummaryReport.summarize(originEntry);
+                if (icrPosterFile != null && icrPosterFile.exists()) {
+                    OriginEntryFileIterator icrIterator = new OriginEntryFileIterator(icrPosterFile);
+                    while (icrIterator.hasNext()) {
+                        final OriginEntry originEntry = icrIterator.next();
+                        posterOutputSummaryReport.summarize(originEntry);
+                    }
+                } else {
+                    LOG.warn("Could not Indirect Cost Recovery Poster Input file with prefix "+GeneralLedgerConstants.BatchFileSystem.ICR_POSTER_INPUT_FILE+" for tabulation in the Poster Output Summary Report");
                 }
                 
                 posterOutputSummaryReport.writeReport(posterOutputSummaryReportWriterService);

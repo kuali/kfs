@@ -53,9 +53,6 @@
   						</list>
   					</property>
   				</bean>
-  				<bean parent="AssetPayment-lockValidation" scope="prototype">								
-					<property name="quitOnFail" value="true" />
-				</bean>  
 				<bean parent="AssetPayment-accountingLineCountValidation" scope="prototype">								
 					<property name="quitOnFail" value="true" />
 				</bean>										
@@ -65,6 +62,9 @@
 				<bean parent="AssetPayment-assetValidation" scope="prototype">
 					<property name="quitOnFail" value="true" />					
 				</bean>														
+  				<bean parent="AssetPayment-lockValidation" scope="prototype">								
+					<property name="quitOnFail" value="true" />
+				</bean>  
   			</list>
   		</property>
     </bean>

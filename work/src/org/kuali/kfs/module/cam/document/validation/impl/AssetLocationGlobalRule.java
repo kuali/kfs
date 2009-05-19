@@ -16,14 +16,17 @@
 
 package org.kuali.kfs.module.cam.document.validation.impl;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetLocationGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetLocationGlobalDetail;
@@ -38,6 +41,7 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Business rules applicable to AssetLocationGlobal documents.
@@ -51,6 +55,17 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
      * Constructs an AssetLocationGlobalRule
      */
     public AssetLocationGlobalRule() {
+    }
+
+    /**
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
+     */
+    @Override
+    protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
+        boolean valid = super.processCustomSaveDocumentBusinessRules(document);
+        AssetLocationGlobal assetLocationGlobal = (AssetLocationGlobal) document.getNewMaintainableObject().getBusinessObject();
+        valid &= !getCapitalAssetManagementModuleService().isAssetLocked(retrieveAssetNumberForLocking(assetLocationGlobal), DocumentTypeName.ASSET_LOCATION_GLOBAL, document.getDocumentNumber());
+        return valid;
     }
 
     /**
@@ -86,8 +101,48 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
                 index++;
             }
         }
+        success &= super.processCustomRouteDocumentBusinessRules(documentCopy);
 
-        return success & super.processCustomRouteDocumentBusinessRules(documentCopy);
+        KualiWorkflowDocument workflowDoc = documentCopy.getDocumentHeader().getWorkflowDocument();
+        // adding asset locks
+        if (!GlobalVariables.getErrorMap().hasErrors() && (workflowDoc.stateIsInitiated() || workflowDoc.stateIsSaved())) {
+            success &= setAssetLocks(documentCopy);
+        }
+
+        return success;
+    }
+
+    /**
+     * retrieve asset numbers need to be locked.
+     * 
+     * @param assetLocationGlobal
+     * @return
+     */
+    private List<Long> retrieveAssetNumberForLocking(AssetLocationGlobal assetLocationGlobal) {
+        List<Long> capitalAssetNumbers = new ArrayList<Long>();
+        for (AssetLocationGlobalDetail locationDetail : assetLocationGlobal.getAssetLocationGlobalDetails()) {
+            if (locationDetail.getCapitalAssetNumber() != null) {
+                capitalAssetNumbers.add(locationDetail.getCapitalAssetNumber());
+            }
+        }
+        return capitalAssetNumbers;
+    }
+
+    /**
+     * Locking for asset numbers.
+     * 
+     * @param documentCopy
+     * @param assetLocationGlobal
+     * @return
+     */
+    private boolean setAssetLocks(MaintenanceDocument document) {
+        AssetLocationGlobal assetLocationGlobal = (AssetLocationGlobal) document.getNewMaintainableObject().getBusinessObject();
+
+        return this.getCapitalAssetManagementModuleService().storeAssetLocks(retrieveAssetNumberForLocking(assetLocationGlobal), document.getDocumentNumber(), DocumentTypeName.ASSET_LOCATION_GLOBAL, null);
+    }
+
+    protected CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
+        return SpringContext.getBean(CapitalAssetManagementModuleService.class);
     }
 
     /**
@@ -201,7 +256,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
 
         if (StringUtils.isNotBlank(assetLocationGlobalDetail.getCampusCode())) {
-            //assetLocationGlobalDetail.refreshReferenceObject("campus");
+            // assetLocationGlobalDetail.refreshReferenceObject("campus");
 
             if (ObjectUtils.isNull(assetLocationGlobalDetail.getCampus())) {
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAMPUS_CODE, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_CAMPUS_CODE, new String[] { assetLocationGlobalDetail.getCampusCode(), assetLocationGlobalDetail.getCapitalAssetNumber().toString() });
@@ -253,7 +308,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
         return success;
     }
-    
+
     /**
      * Validate tag number.
      * 
@@ -267,10 +322,10 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_TAG_NUMBER_REQUIRED);
             success = false;
         }
-        
+
         return success;
     }
-    
+
     /**
      * Validate duplicate tag number. This method also calls {@link AssetService}.
      * 

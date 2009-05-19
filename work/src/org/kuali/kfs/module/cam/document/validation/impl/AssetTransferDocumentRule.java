@@ -93,9 +93,24 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
                 throw new ValidationException("General Ledger GLPE generation failed");
             }
         }
+
         return valid;
     }
 
+    /**
+     * Retrieve asset number need to be locked.
+     * 
+     * @param document
+     * @return
+     */
+    protected List<Long> retrieveAssetNumberForLocking(Document document) {
+        AssetTransferDocument assetTransferDocument = (AssetTransferDocument) document;
+        List<Long> assetNumbers = new ArrayList<Long>();
+        if (assetTransferDocument.getAsset().getCapitalAssetNumber() != null) {
+            assetNumbers.add(assetTransferDocument.getAsset().getCapitalAssetNumber());
+        }
+        return assetNumbers;
+    }
 
     private boolean validateAssetObjectCodeDefn(AssetTransferDocument assetTransferDocument, Asset asset) {
 
@@ -212,15 +227,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         if (!super.processCustomRouteDocumentBusinessRules(document) || GlobalVariables.getErrorMap().hasErrors())
             return false;
 
-        AssetTransferDocument assetTransferDocument = (AssetTransferDocument) document;
-        Asset asset = assetTransferDocument.getAsset();
-        List<Long> assetNumbers = new ArrayList<Long>();
-        if (asset.getCapitalAssetNumber() != null) {
-            assetNumbers.add(asset.getCapitalAssetNumber());
-        }
-        if (this.getAssetLockService().isAssetLocked(assetNumbers, CamsConstants.DocumentTypeName.ASSET_TRANSFER, document.getDocumentNumber())) {
-            return false;
-        }
+        Asset asset = ((AssetTransferDocument)document).getAsset();
         boolean valid = true;
         if (SpringContext.getBean(AssetService.class).isAssetRetired(asset)) {
             valid &= false;
@@ -230,6 +237,9 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         if (valid) {
             valid &= applyRules(document);
         }
+
+        // only generate error message if asset is locked by other document without stop saving
+        valid &= !this.getAssetLockService().isAssetLocked(retrieveAssetNumberForLocking(document), CamsConstants.DocumentTypeName.ASSET_TRANSFER, document.getDocumentNumber());
 
         return valid;
     }

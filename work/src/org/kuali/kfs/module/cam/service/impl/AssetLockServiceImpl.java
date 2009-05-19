@@ -247,6 +247,9 @@ public class AssetLockServiceImpl implements AssetLockService {
      * @see org.kuali.kfs.module.cam.service.AssetLockService#isAssetLockedByDocument(java.lang.String, java.lang.String)
      */
     public boolean isAssetLockedByCurrentDocument(String documentNumber, String lockingInformation) {
+        if (StringUtils.isBlank(documentNumber)) {
+            return false;
+        }
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(CabPropertyConstants.CapitalAssetLock.DOCUMENT_NUMBER, documentNumber);
         if (StringUtils.isNotBlank(lockingInformation)) {

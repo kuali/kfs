@@ -19,6 +19,7 @@ import static org.kuali.kfs.module.cam.CamsKeyConstants.ERROR_INVALID_ASSET_WARR
 import static org.kuali.kfs.module.cam.CamsPropertyConstants.Asset.ASSET_WARRANTY_WARRANTY_NUMBER;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,11 +30,14 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetComponent;
+import org.kuali.kfs.module.cam.businessobject.AssetFabrication;
 import org.kuali.kfs.module.cam.businessobject.AssetLocation;
 import org.kuali.kfs.module.cam.businessobject.AssetRepairHistory;
 import org.kuali.kfs.module.cam.businessobject.AssetWarranty;
@@ -46,7 +50,6 @@ import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
 import org.kuali.kfs.module.cam.document.service.RetirementInfoService;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService.LocationField;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -59,6 +62,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * AssetRule for Asset edit.
@@ -131,8 +135,35 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
                 assetDateService.checkAndUpdateLastInventoryDate(oldAsset, newAsset);
                 assetDateService.checkAndUpdateDepreciationDate(oldAsset, newAsset);
             }
+
+            valid &= checkAssetLocked(document);
         }
         return valid;
+    }
+
+    /**
+     * Check if asset is locked by other document.
+     * 
+     * @param document
+     * @param valid
+     * @return
+     */
+    private boolean checkAssetLocked(MaintenanceDocument document) {
+        Asset asset = (Asset) document.getNewMaintainableObject().getBusinessObject();
+        return !getCapitalAssetManagementModuleService().isAssetLocked(retrieveAssetNumberForLocking(asset), CamsConstants.DocumentTypeName.ASSET_EDIT, document.getDocumentNumber());
+    }
+
+    /**
+     * Retrieve asset numbers need to be locked.
+     * 
+     * @return
+     */
+    private List<Long> retrieveAssetNumberForLocking(Asset asset) {
+        List<Long> capitalAssetNumbers = new ArrayList<Long>();
+        if (asset.getCapitalAssetNumber() != null) {
+            capitalAssetNumbers.add(asset.getCapitalAssetNumber());
+        }
+        return capitalAssetNumbers;
     }
 
     /**
@@ -476,6 +507,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
+        boolean valid = super.processCustomRouteDocumentBusinessRules(document);
         initializeAttributes(document);
         if (SpringContext.getBean(AssetService.class).isAssetFabrication(document) && newAsset.getCapitalAssetNumber() == null) {
             newAsset.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
@@ -483,7 +515,28 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             newAsset.setLastInventoryDate(new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().getTime()));
             oldAsset.setLastInventoryDate(new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().getTime()));
         }
-        return true;
+
+        KualiWorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
+        // adding asset locks for asset edit only
+        if (newAsset instanceof Asset && !(newAsset instanceof AssetFabrication) && !GlobalVariables.getErrorMap().hasErrors() && (workflowDoc.stateIsInitiated() || workflowDoc.stateIsSaved())) {
+            valid &= setAssetLock(document);
+        }
+        return valid;
+    }
+
+    /**
+     * Locking asset number
+     * 
+     * @param document
+     * @return
+     */
+    private boolean setAssetLock(MaintenanceDocument document) {
+        Asset asset = (Asset) document.getNewMaintainableObject().getBusinessObject();
+        return this.getCapitalAssetManagementModuleService().storeAssetLocks(retrieveAssetNumberForLocking(asset), document.getDocumentNumber(), DocumentTypeName.ASSET_EDIT, null);
+    }
+
+    protected CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
+        return SpringContext.getBean(CapitalAssetManagementModuleService.class);
     }
 
     /**

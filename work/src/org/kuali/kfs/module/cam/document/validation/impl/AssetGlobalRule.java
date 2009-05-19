@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cam.document.validation.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -25,9 +26,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
+import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
@@ -312,7 +315,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             success &= validateLocation(assetGlobal, assetGlobalDetail);
 
             // qty. of assets (unique) to be created
-            success &= validateLocationQuantity(line);            
+            success &= validateLocationQuantity(line);
         }
         else if (StringUtils.isNotBlank(collectionName) && collectionName.contains(CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS)) {
             // handle unique information
@@ -331,13 +334,12 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             }
         }
 
-        
 
-       // only for "Asset Separate" document
-       if (getAssetGlobalService().isAssetSeparate(assetGlobal)) {
-           // total cost must be > 0
-          success &= validateTotalCostAmount(assetGlobal);
-       }
+        // only for "Asset Separate" document
+        if (getAssetGlobalService().isAssetSeparate(assetGlobal)) {
+            // total cost must be > 0
+            success &= validateTotalCostAmount(assetGlobal);
+        }
         return success;
     }
 
@@ -433,8 +435,8 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         }
 
         success &= validateObjectCode(assetPaymentDetail.getObjectCode(), assetGlobal);
-        
-        
+
+
         return success;
     }
 
@@ -454,7 +456,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.AMOUNT, CamsKeyConstants.AssetGlobal.ERROR_INVALID_PAYMENT_AMOUNT);
             success = false;
         }
-        
+
         // amount can not be zero for any user
         if (assetPaymentDetail.getAmount().isZero()) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.AMOUNT, CamsKeyConstants.AssetGlobal.ERROR_INVALID_PAYMENT_AMOUNT);
@@ -488,20 +490,20 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Validates the posted date
-     * payment posted date can't be a future date
+     * Validates the posted date payment posted date can't be a future date
      * 
      * @param assetPaymentDetail
      * @return boolean
      */
     private boolean validatePostedDate(AssetPaymentDetail assetPaymentDetail) {
         boolean valid = true;
-        Date currentDate= SpringContext.getBean(DateTimeService.class).getCurrentDate();
-        
+        Date currentDate = SpringContext.getBean(DateTimeService.class).getCurrentDate();
+
         if (!getAssetPaymentService().extractPostedDatePeriod(assetPaymentDetail)) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR, CamsKeyConstants.AssetGlobal.ERROR_UNIVERSITY_NOT_DEFINED_FOR_DATE, new String[] { assetPaymentDetail.getExpenditureFinancialDocumentPostedDate().toString() });
             valid &= false;
-        } else if (assetPaymentDetail.getExpenditureFinancialDocumentPostedDate().compareTo(currentDate) > 0) {
+        }
+        else if (assetPaymentDetail.getExpenditureFinancialDocumentPostedDate().compareTo(currentDate) > 0) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, CamsKeyConstants.Payment.ERROR_INVALID_DOC_POST_DATE);
             valid = false;
         }
@@ -892,7 +894,20 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             }
         }
 
+        // locking for asset separate when save
+        if (success && getAssetGlobalService().isAssetSeparate(assetGlobal)) {
+            success &= setAssetLock(document, assetGlobal);
+        }
         return success;
+    }
+
+    private boolean setAssetLock(MaintenanceDocument document, AssetGlobal assetGlobal) {
+        List<Long> capitalAssetNumbers = new ArrayList<Long>();
+        if (assetGlobal.getSeparateSourceCapitalAssetNumber() != null) {
+            capitalAssetNumbers.add(assetGlobal.getSeparateSourceCapitalAssetNumber());
+        }
+
+        return SpringContext.getBean(CapitalAssetManagementModuleService.class).storeAssetLocks(capitalAssetNumbers, document.getDocumentNumber(), DocumentTypeName.ASSET_SEPARATE, null);
     }
 
     /**

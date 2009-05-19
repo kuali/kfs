@@ -29,7 +29,6 @@ import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
-import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.service.AssetLockService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -46,6 +45,20 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
 
     private AssetLockService assetLockService;
 
+    /**
+     * Retrieve asset number need to be locked.
+     * 
+     * @param document
+     * @return
+     */
+    protected List<Long> retrieveAssetNumberForLocking(Document document) {
+        EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument = (EquipmentLoanOrReturnDocument) document;
+        List<Long> assetNumbers = new ArrayList<Long>();
+        if (equipmentLoanOrReturnDocument.getCapitalAssetNumber() != null) {
+            assetNumbers.add(equipmentLoanOrReturnDocument.getCapitalAssetNumber());
+        }
+        return assetNumbers;
+    }
 
     /**
      * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
@@ -57,18 +70,10 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
         }
 
         EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument = (EquipmentLoanOrReturnDocument) document;
-        List<Long> assetNumbers = new ArrayList<Long>();
-        if (equipmentLoanOrReturnDocument.getCapitalAssetNumber() != null) {
-            assetNumbers.add(equipmentLoanOrReturnDocument.getCapitalAssetNumber());
-        }
-        // we could remove the lock check since we'll check it again when postProcessSave. The difference here is the error messages
-        // will show up without document saved.
-        if (getAssetLockService().isAssetLocked(assetNumbers, CamsConstants.DocumentTypeName.ASSET_EQUIPMENT_LOAN_OR_RETURN, equipmentLoanOrReturnDocument.getDocumentNumber())) {
-            return false;
-        }
-
         boolean valid = processValidation(equipmentLoanOrReturnDocument);
 
+        // check if asset is locked by other document and display error message when save
+        valid &= !getAssetLockService().isAssetLocked(retrieveAssetNumberForLocking(document), CamsConstants.DocumentTypeName.ASSET_EQUIPMENT_LOAN_OR_RETURN, document.getDocumentNumber());
         return valid;
     }
 

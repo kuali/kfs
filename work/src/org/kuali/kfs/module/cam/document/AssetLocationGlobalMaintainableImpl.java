@@ -22,9 +22,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
-import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
 import org.kuali.kfs.module.cam.businessobject.Asset;
-import org.kuali.kfs.module.cam.businessobject.AssetLocationGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetLocationGlobalDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.DocumentHeader;
@@ -103,19 +101,20 @@ public class AssetLocationGlobalMaintainableImpl extends KualiGlobalMaintainable
      */
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {
-        AssetLocationGlobal assetLocationGlobal = (AssetLocationGlobal) getBusinessObject();
-        List<Long> capitalAssetNumbers = new ArrayList<Long>();
-        for (AssetLocationGlobalDetail locationDetail : assetLocationGlobal.getAssetLocationGlobalDetails()) {
-            if (locationDetail.getCapitalAssetNumber() != null) {
-                capitalAssetNumbers.add(locationDetail.getCapitalAssetNumber());
-            }
-        }
-
-        this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, documentNumber, DocumentTypeName.ASSET_LOCATION_GLOBAL, null);
+//        AssetLocationGlobal assetLocationGlobal = (AssetLocationGlobal) getBusinessObject();
+//        List<Long> capitalAssetNumbers = new ArrayList<Long>();
+//        for (AssetLocationGlobalDetail locationDetail : assetLocationGlobal.getAssetLocationGlobalDetails()) {
+//            if (locationDetail.getCapitalAssetNumber() != null) {
+//                capitalAssetNumbers.add(locationDetail.getCapitalAssetNumber());
+//            }
+//        }
+//
+//        this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, documentNumber, DocumentTypeName.ASSET_LOCATION_GLOBAL, null);
 
         return new ArrayList<MaintenanceLock>();
     }
 
+    
     protected CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
         return SpringContext.getBean(CapitalAssetManagementModuleService.class);
     }

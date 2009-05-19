@@ -385,16 +385,16 @@ public class AssetGlobalMaintainableImpl extends FinancialSystemGlobalMaintainab
      */
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {
-        AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
-        AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
-        if (assetGlobalService.isAssetSeparate(assetGlobal)) {
-            List<Long> capitalAssetNumbers = new ArrayList<Long>();
-            if (assetGlobal.getSeparateSourceCapitalAssetNumber() != null) {
-                capitalAssetNumbers.add(assetGlobal.getSeparateSourceCapitalAssetNumber());
-            }
-
-            this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, documentNumber, DocumentTypeName.ASSET_SEPARATE, null);
-        }
+//        AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
+//        AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
+//        if (assetGlobalService.isAssetSeparate(assetGlobal)) {
+//            List<Long> capitalAssetNumbers = new ArrayList<Long>();
+//            if (assetGlobal.getSeparateSourceCapitalAssetNumber() != null) {
+//                capitalAssetNumbers.add(assetGlobal.getSeparateSourceCapitalAssetNumber());
+//            }
+//
+//            this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, documentNumber, DocumentTypeName.ASSET_SEPARATE, null);
+//        }
 
         return new ArrayList<MaintenanceLock>();
     }

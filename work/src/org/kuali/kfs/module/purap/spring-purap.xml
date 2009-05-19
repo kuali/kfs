@@ -322,6 +322,27 @@
         <property name="purchasingService" ref="purchasingService"/>
         <property name="purapService" ref="purapService"/>
         <property name="vendorService" ref="vendorService"/>
+        <property name="b2bEnvironment">
+        	<value>${b2b.environment}</value>
+        </property>
+        <property name="b2bPunchoutURL">
+        	<value>${b2b.punch.out.url}</value>
+        </property>
+        <property name="b2bPunchbackURL">
+        	<value>${b2b.punch.back.url}</value>
+        </property>
+        <property name="b2bUserAgent">
+        	<value>${b2b.user.agent}</value>
+        </property>
+        <property name="b2bShoppingPassword">
+        	<value>${b2b.shopping.password}</value>
+        </property>
+        <property name="b2bPurchaseOrderURL">
+        	<value>${b2b.purchase.order.url}</value>
+        </property>
+        <property name="b2bPurchaseOrderPassword">
+        	<value>${b2b.purchase.order.password}</value>
+        </property>
 	</bean>
 
     <bean id="b2bPurchaseOrderService" class="org.kuali.kfs.module.purap.document.service.impl.B2BPurchaseOrderSciquestServiceImpl">
@@ -329,6 +350,27 @@
         <property name="requisitionService" ref="requisitionService"/>
         <property name="parameterService" ref="parameterService"/>
         <property name="personService" ref="personService"/>
+        <property name="b2bEnvironment">
+        	<value>${b2b.environment}</value>
+        </property>
+        <property name="b2bPunchoutURL">
+        	<value>${b2b.punch.out.url}</value>
+        </property>
+        <property name="b2bPunchbackURL">
+        	<value>${b2b.punch.back.url}</value>
+        </property>
+        <property name="b2bUserAgent">
+        	<value>${b2b.user.agent}</value>
+        </property>
+        <property name="b2bShoppingPassword">
+        	<value>${b2b.shopping.password}</value>
+        </property>
+        <property name="b2bPurchaseOrderURL">
+        	<value>${b2b.purchase.order.url}</value>
+        </property>
+        <property name="b2bPurchaseOrderPassword">
+        	<value>${b2b.purchase.order.password}</value>
+        </property>
     </bean>
 
     <bean id="b2bDao" class="org.kuali.kfs.module.purap.dataaccess.impl.B2BDaoImpl"/>

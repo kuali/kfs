@@ -34,7 +34,6 @@ import org.kuali.kfs.module.purap.util.cxml.PurchaseOrderResponse;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -50,6 +49,14 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
     private ParameterService parameterService;
     private org.kuali.rice.kim.service.PersonService personService;
 
+    // injected values
+    private String b2bEnvironment;
+    private String b2bPunchoutURL;
+    private String b2bPunchbackURL;
+    private String b2bUserAgent;
+    private String b2bShoppingPassword;
+    private String b2bPurchaseOrderURL;
+    private String b2bPurchaseOrderPassword;
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.B2BPurchaseOrderService#sendPurchaseOrder(org.kuali.kfs.module.purap.document.PurchaseOrderDocument)
@@ -72,13 +79,9 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
         KualiWorkflowDocument reqWorkflowDoc = r.getDocumentHeader().getWorkflowDocument();
 
       //FIXME hjs (sciquest)        
-//        String password = parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PO_PASSWORD);
-//        String punchoutUrl = parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PO_URL);
-        String password = "p01mport";
-        String punchoutUrl = "http://sciwmtest.sciquest.com/invoke/wm.tn/receive";
-        LOG.debug("sendPurchaseOrder(): punchoutUrl is " + punchoutUrl);
+        LOG.debug("sendPurchaseOrder(): punchoutUrl is " + b2bPunchoutURL);
 
-        String validateErrors = verifyCxmlPOData(purchaseOrder, reqWorkflowDoc.getInitiatorNetworkId(), password, contractManager, contractManagerEmail, vendorDuns);
+        String validateErrors = verifyCxmlPOData(purchaseOrder, reqWorkflowDoc.getInitiatorNetworkId(), b2bPurchaseOrderPassword, contractManager, contractManagerEmail, vendorDuns);
         if (!StringUtils.isEmpty(validateErrors)) {
             return validateErrors;
         }
@@ -87,10 +90,10 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
 
         try {
             LOG.debug("sendPurchaseOrder() Generating cxml");
-            String cxml = getCxml(purchaseOrder, reqWorkflowDoc.getInitiatorNetworkId(), password, contractManager, contractManagerEmail, vendorDuns);
+            String cxml = getCxml(purchaseOrder, reqWorkflowDoc.getInitiatorNetworkId(), b2bPurchaseOrderPassword, contractManager, contractManagerEmail, vendorDuns);
 
             LOG.info("sendPurchaseOrder() Sending cxml\n" + cxml);
-            String responseCxml = b2bDao.sendPunchOutRequest(cxml, punchoutUrl);
+            String responseCxml = b2bDao.sendPunchOutRequest(cxml, b2bPunchoutURL);
 
             LOG.info("sendPurchaseOrder(): Response cXML for po number " + purchaseOrder.getPurapDocumentIdentifier() + ":" + responseCxml);
 
@@ -471,6 +474,34 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
 
     public void setB2bDao(B2BDao b2bDao) {
         this.b2bDao = b2bDao;
+    }
+
+    public void setB2bEnvironment(String environment) {
+        b2bEnvironment = environment;
+    }
+
+    public void setB2bPunchoutURL(String punchoutURL) {
+        b2bPunchoutURL = punchoutURL;
+    }
+
+    public void setB2bPunchbackURL(String punchbackURL) {
+        b2bPunchbackURL = punchbackURL;
+    }
+
+    public void setB2bUserAgent(String userAgent) {
+        b2bUserAgent = userAgent;
+    }
+
+    public void setB2bShoppingPassword(String password) {
+        b2bShoppingPassword = password;
+    }
+
+    public void setB2bPurchaseOrderURL(String purchaseOrderURL) {
+        b2bPurchaseOrderURL = purchaseOrderURL;
+    }
+
+    public void setB2bPurchaseOrderPassword(String purchaseOrderPassword) {
+        b2bPurchaseOrderPassword = purchaseOrderPassword;
     }
 
 }

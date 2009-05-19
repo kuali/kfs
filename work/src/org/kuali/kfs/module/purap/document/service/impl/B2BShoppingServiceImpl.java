@@ -78,27 +78,25 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
     private PurchasingService purchasingService;
     private PurapService purapService;
     private VendorService vendorService;
-
+    
+    // injected values
+    private String b2bEnvironment;
+    private String b2bPunchoutURL;
+    private String b2bPunchbackURL;
+    private String b2bUserAgent;
+    private String b2bShoppingPassword;
+    private String b2bPurchaseOrderURL;
+    private String b2bPurchaseOrderPassword;
 
     private B2BInformation getB2bShoppingConfigurationInformation() {
         B2BInformation b2b = new B2BInformation();
 
-        String basePath = kualiConfigurationService.getPropertyString(KFSConstants.APPLICATION_URL_KEY);
-        Properties parameters = new Properties();
-        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, PurapConstants.B2B_PUNCHBACK_METHOD_TO_CALL);
-        String punchbackUrl = UrlFactory.parameterizeUrl(basePath + "/b2b.do", parameters);
-
         //FIXME hjs (Sciquest)
-//        b2b.setPunchoutURL(parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PUNCHOUT_URL));
-//        b2b.setPunchbackURL(parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PUNCHBACK_URL));
-//        b2b.setEnvironment(parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.ENVIRONMENT));
-//        b2b.setUserAgent(parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.USER_AGENT));
-//        b2b.setPassword(parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PASSWORD));
-        b2b.setPunchoutURL("http://usertest.sciquest.com/apps/Router/ExternalAuth/cXML/KualiDemo");
-        b2b.setPunchbackURL(punchbackUrl);
-        b2b.setEnvironment("test");
-        b2b.setUserAgent("kfs");
-        b2b.setPassword("c#m1");
+        b2b.setPunchoutURL(b2bPunchoutURL);
+        b2b.setPunchbackURL(b2bPunchbackURL);
+        b2b.setEnvironment(b2bEnvironment);
+        b2b.setUserAgent(b2bUserAgent);
+        b2b.setPassword(b2bShoppingPassword);
         return b2b;
     }
 
@@ -362,6 +360,34 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
 
     public void setPersistenceService(PersistenceService persistenceService) {
         this.persistenceService = persistenceService;
+    }
+
+    public void setB2bEnvironment(String environment) {
+        b2bEnvironment = environment;
+    }
+
+    public void setB2bPunchoutURL(String punchoutURL) {
+        b2bPunchoutURL = punchoutURL;
+    }
+
+    public void setB2bPunchbackURL(String punchbackURL) {
+        b2bPunchbackURL = punchbackURL;
+    }
+
+    public void setB2bUserAgent(String userAgent) {
+        b2bUserAgent = userAgent;
+    }
+
+    public void setB2bShoppingPassword(String password) {
+        b2bShoppingPassword = password;
+    }
+
+    public void setB2bPurchaseOrderURL(String purchaseOrderURL) {
+        b2bPurchaseOrderURL = purchaseOrderURL;
+    }
+
+    public void setB2bPurchaseOrderPassword(String purchaseOrderPassword) {
+        b2bPurchaseOrderPassword = purchaseOrderPassword;
     }
 
 }

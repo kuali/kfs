@@ -18,6 +18,7 @@ package org.kuali.kfs.coa.identity;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.doctype.service.DocumentTypeService;
 import org.kuali.rice.kew.service.KEWServiceLocator;
@@ -41,7 +42,9 @@ public class OrganizationHierarchyReviewRoleTypeServiceImpl extends Organization
             if (roleQualifier.containsKey(KfsKimAttributes.DOCUMENT_TYPE_NAME)) {
                 potentialParentDocumentTypeNames.add(roleQualifier.get(KfsKimAttributes.DOCUMENT_TYPE_NAME));
             }
-            return potentialParentDocumentTypeNames.isEmpty() || qualification.get(KfsKimAttributes.DOCUMENT_TYPE_NAME).equalsIgnoreCase(roleQualifier.get(KfsKimAttributes.DOCUMENT_TYPE_NAME)) || (KimCommonUtils.getClosestParentDocumentTypeName(getDocumentTypeService().findByName(qualification.get(KfsKimAttributes.DOCUMENT_TYPE_NAME)), potentialParentDocumentTypeNames) != null);
+            return potentialParentDocumentTypeNames.isEmpty() 
+                    || StringUtils.equalsIgnoreCase( qualification.get(KfsKimAttributes.DOCUMENT_TYPE_NAME), roleQualifier.get(KfsKimAttributes.DOCUMENT_TYPE_NAME)) 
+                    || (KimCommonUtils.getClosestParentDocumentTypeName(getDocumentTypeService().findByName(qualification.get(KfsKimAttributes.DOCUMENT_TYPE_NAME)), potentialParentDocumentTypeNames) != null);
         }
         return false;
     }

@@ -172,25 +172,33 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
         
         StringBuffer questionTextBuffer = new StringBuffer("");        
         questionTextBuffer.append(questionText);
-        questionTextBuffer.append( "<style type=\"text/css\"> table.questionTable {border-collapse: collapse;} td.leftTd { border-bottom:1px solid #000000; border-right:1px solid #000000; padding:3px; width:300px; } td.rightTd { border-bottom:1px solid #000000; border-left:1px solid #000000; padding:3px; width:300px; } </style>" );
-                    
-        questionTextBuffer.append("<br/><br/>Summary Detail Below:<br/><br/><table class=\"questionTable\" align=\"center\">");
-        questionTextBuffer.append("<tr><td class=\"leftTd\">Vendor Invoice Amount entered on start screen:</td><td class=\"rightTd\">" + (String)cf.format(preq.getInitialAmount()) + "</td></tr>");
-        questionTextBuffer.append("<tr><td class=\"leftTd\">Invoice Total Prior to Additional Charges:</td><td class=\"rightTd\">" + (String)cf.format(preq.getTotalPreTaxDollarAmountAboveLineItems()) + "</td></tr>");
+//        questionTextBuffer.append( "<style type=\"text/css\"> table.questionTable {border-collapse: collapse;} td.leftTd { border-bottom:1px solid #000000; border-right:1px solid #000000; padding:3px; width:300px; } td.rightTd { border-bottom:1px solid #000000; border-left:1px solid #000000; padding:3px; width:300px; } </style>" );
+//                    
+//        questionTextBuffer.append("<br/><br/>Summary Detail Below:<br/><br/><table class=\"questionTable\" align=\"center\">");
+//        questionTextBuffer.append("<tr><td class=\"leftTd\">Vendor Invoice Amount entered on start screen:</td><td class=\"rightTd\">" + (String)cf.format(preq.getInitialAmount()) + "</td></tr>");
+//        questionTextBuffer.append("<tr><td class=\"leftTd\">Invoice Total Prior to Additional Charges:</td><td class=\"rightTd\">" + (String)cf.format(preq.getTotalPreTaxDollarAmountAboveLineItems()) + "</td></tr>");
+        
+        questionTextBuffer.append("[br][br][b]Summary Detail Below[/b][br][br]");
+        questionTextBuffer.append("Vendor Invoice Amount entered on start screen: ").append((String)cf.format(preq.getInitialAmount())).append("[br]");
+        questionTextBuffer.append("Invoice Total Prior to Additional Charges: ").append((String)cf.format(preq.getTotalPreTaxDollarAmountAboveLineItems())).append("[br]");
 
         //only add this line if payment request has a discount
         if( preq.isDiscount() ){
-            questionTextBuffer.append("<tr><td class=\"leftTd\">Total Before Discount:</td><td class=\"rightTd\">" + (String)cf.format(preq.getGrandPreTaxTotalExcludingDiscount()) + "</td></tr>");
+            //questionTextBuffer.append("<tr><td class=\"leftTd\">Total Before Discount:</td><td class=\"rightTd\">" + (String)cf.format(preq.getGrandPreTaxTotalExcludingDiscount()) + "</td></tr>");
+            questionTextBuffer.append("Total Before Discount: ").append((String)cf.format(preq.getGrandPreTaxTotalExcludingDiscount())).append("[br]");
         }
         
         //if sales tax is enabled, show additional summary lines
         boolean salesTaxInd = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.ENABLE_SALES_TAX_IND);                
         if(salesTaxInd){
-            questionTextBuffer.append("<tr><td class=\"leftTd\">Grand Total Prior to Tax:</td><td class=\"rightTd\">" + (String)cf.format(preq.getGrandPreTaxTotal()) + "</td></tr>");
-            questionTextBuffer.append("<tr><td class=\"leftTd\">Grand Total Tax:</td><td class=\"rightTd\">" + (String)cf.format(preq.getGrandTaxAmount()) + "</td></tr>");
+//            questionTextBuffer.append("<tr><td class=\"leftTd\">Grand Total Prior to Tax:</td><td class=\"rightTd\">" + (String)cf.format(preq.getGrandPreTaxTotal()) + "</td></tr>");
+//            questionTextBuffer.append("<tr><td class=\"leftTd\">Grand Total Tax:</td><td class=\"rightTd\">" + (String)cf.format(preq.getGrandTaxAmount()) + "</td></tr>");
+            questionTextBuffer.append("Grand Total Prior to Tax: ").append((String)cf.format(preq.getGrandPreTaxTotal())).append("[br]");
+            questionTextBuffer.append("Grand Total Tax: ").append((String)cf.format(preq.getGrandTaxAmount())).append("[br]");
         }
         
-        questionTextBuffer.append("<tr><td class=\"leftTd\">Grand Total:</td><td class=\"rightTd\">" + (String)cf.format(preq.getGrandTotal()) + "</td></tr></table>");
+//        questionTextBuffer.append("<tr><td class=\"leftTd\">Grand Total:</td><td class=\"rightTd\">" + (String)cf.format(preq.getGrandTotal()) + "</td></tr></table>");
+        questionTextBuffer.append("Grand Total: ").append((String)cf.format(preq.getGrandTotal())).append("[br][br]");
                         
         return questionTextBuffer.toString();
         

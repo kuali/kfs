@@ -115,15 +115,20 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
         }        
         totals.setFundGroup("Total");
         
-        ((WrappingBatchService)reportWriterService).initialize();
-        reportWriterService.writeSubTitle("Balance Type of " + balanceTypes + " for Fiscal Year " + fiscalYear);
-        reportWriterService.writeNewLines(1);
-        
-        reportWriterService.writeTableRowSeparationLine(totals);
-        reportWriterService.writeTable(summaryList, true, false);
-        
-        reportWriterService.writeTableRowSeparationLine(totals);
-        reportWriterService.writeTableRow(totals);
+        try {
+            ((WrappingBatchService)reportWriterService).initialize();
+            reportWriterService.writeSubTitle("Balance Type of " + balanceTypes + " for Fiscal Year " + fiscalYear);
+            reportWriterService.writeNewLines(1);
+            
+            reportWriterService.writeTableRowSeparationLine(totals);
+            reportWriterService.writeTable(summaryList, true, false);
+            
+            reportWriterService.writeTableRowSeparationLine(totals);
+            reportWriterService.writeTableRow(totals);
+        }
+        finally {
+            ((WrappingBatchService)reportWriterService).destroy();
+        }
     }
 
     /**

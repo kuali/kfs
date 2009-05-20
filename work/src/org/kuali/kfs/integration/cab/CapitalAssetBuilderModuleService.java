@@ -81,5 +81,9 @@ public interface CapitalAssetBuilderModuleService {
      *         otherwise, false
      */
     public boolean hasCapitalAssetObjectSubType(AccountingDocument accountingDocument);
+    
+    public boolean validateAllFieldRequirementsByChart(AccountingDocument accountingDocument);
+    
+    public boolean validatePurchasingObjectSubType(AccountingDocument accountingDocument);
 
 }

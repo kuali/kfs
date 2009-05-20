@@ -20,6 +20,7 @@ import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
@@ -36,6 +37,17 @@ public class PurchasingCapitalAssetValidation extends GenericValidation {
         GlobalVariables.getErrorMap().clearErrorPath();
         boolean valid = true;
         PurchasingDocument purchasingDocument = (PurchasingDocument)event.getDocument();
+        
+        boolean isPurchasingObjectSubType = capitalAssetBuilderModuleService.validatePurchasingObjectSubType(purchasingDocument);
+        boolean isAllFieldRequirementsByChart = capitalAssetBuilderModuleService.validateAllFieldRequirementsByChart(purchasingDocument);
+        
+        if (!isPurchasingObjectSubType && !isAllFieldRequirementsByChart){
+            if (StringUtils.isBlank(purchasingDocument.getCapitalAssetSystemTypeCode()) || 
+                    StringUtils.isBlank(purchasingDocument.getCapitalAssetSystemStateCode())){
+                GlobalVariables.getErrorMap().putError("newPurchasingItemCapitalAssetLine", PurapKeyConstants.ERROR_CAPITAL_ASSET_REQD_FOR_PUR_OBJ_SUB_TYPE);
+                return false;
+            }
+        }
         
         //We only need to do capital asset validations if the capital asset system type
         //code is not blank.

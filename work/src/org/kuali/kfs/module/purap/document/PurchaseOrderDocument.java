@@ -92,8 +92,10 @@ import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
 import org.kuali.rice.kew.dto.ReportCriteriaDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.entity.KimPrincipal;
 import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -145,6 +147,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     private Integer contractManagerCode;
     private Date purchaseOrderQuoteInitializationDate;
     private Date purchaseOrderQuoteAwardedDate;
+    private String assignedUserId;
     
     // COLLECTIONS
     private List<PurchaseOrderVendorStipulation> purchaseOrderVendorStipulations;
@@ -296,7 +299,25 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         }
         return null;
     }
-    
+            
+    public String getAssignedUserName() {      
+        // assignedUserId is either null or returned from lookup (thus valid)
+        if (StringUtils.isEmpty(assignedUserId))
+            return null;  
+        Person person = SpringContext.getBean(PersonService.class).getPerson(assignedUserId);
+        if (person == null)
+            return null;
+        return person.getName();
+    }
+
+    public String getAssignedUserId() {
+        return assignedUserId;
+    }
+
+    public void setAssignedUserId(String assignedUserIdentifier) {
+        this.assignedUserId = assignedUserIdentifier;
+    }
+
     public boolean getAssigningSensitiveData() {
         return assigningSensitiveData;
     }

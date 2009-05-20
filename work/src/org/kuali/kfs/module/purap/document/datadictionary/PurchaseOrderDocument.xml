@@ -165,6 +165,7 @@
         <ref bean="PurchaseOrderDocument-chartAndOrgCodeForResult"/>
         <ref bean="PurchaseOrderDocument-documentTitleForResult"/>
         <ref bean="PurchaseOrderDocument-deliveryCampusCodeForSearch"/>
+        <ref bean="PurchaseOrderDocument-assignedUserName"/>
       </list>
     </property>
     <property name="validationMap" ref="PurchaseOrderDocument-validations"/>
@@ -236,6 +237,18 @@
 
   <bean id="PurchaseOrderDocument-contractManagerName-parentBean" abstract="true" parent="PurApGenericAttributes-contractManager">
     <property name="name" value="contractManagerName"/>
+  </bean>
+  <bean id="PurchaseOrderDocument-assignedUserName" parent="PurchaseOrderDocument-assignedUserName-parentBean"/>
+
+  <bean id="PurchaseOrderDocument-assignedUserName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="assignedUserName" />
+    <property name="label" value="Assigned To User" />
+    <property name="shortLabel" value="Assignee" />
+    <property name="maxLength" value="36" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="36" />
+    </property>
   </bean>
   <bean id="PurchaseOrderDocument-versionNumber" parent="PurchaseOrderDocument-versionNumber-parentBean"/>
 

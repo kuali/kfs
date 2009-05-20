@@ -761,8 +761,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 // Copy all fields over from the current document except the items and the above-specified fields.
                 PurApObjectUtils.populateFromBaseWithSuper(currentDocument, newDocument, uncopyableFields, classesToExclude);
                 newDocument.getDocumentHeader().setDocumentDescription(currentDocument.getDocumentHeader().getDocumentDescription());
-                newDocument.getDocumentHeader().setOrganizationDocumentNumber(currentDocument.getDocumentHeader().getOrganizationDocumentNumber());
-    
+                newDocument.getDocumentHeader().setOrganizationDocumentNumber(currentDocument.getDocumentHeader().getOrganizationDocumentNumber());   
                 newDocument.setPurchaseOrderCurrentIndicator(true);
                 newDocument.setPendingActionIndicator(false);
                 

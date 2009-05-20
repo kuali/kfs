@@ -140,16 +140,18 @@
                         fieldConversions="contractManagerName:document.contractManager.contractManagerName,contractManagerCode:document.contractManagerCode" />
                 </c:if>                     
             </td>
-	        <th align=right valign=middle class="bord-l-b">
-	            <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderConfirmedIndicator}" /></div>
-		    </th>
-		    <td align=left valign=middle class="datacell">
-		       	<kul:htmlControlAttribute 
-		            property="document.purchaseOrderConfirmedIndicator"
-		            attributeEntry="${documentAttributes.purchaseOrderConfirmedIndicator}" 
-	                readOnly="${not (fullEntryMode or amendmentEntry)}" 
-	                tabindexOverride="${tabindexOverrideBase + 5}" />
-		    </td> 
+            <th align=right valign=middle class="bord-l-b">
+                <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.assignedUserName}" /></div>
+            </th>
+            <td align=left valign=middle class="datacell">
+            	<kul:htmlControlAttribute 
+                    property="document.assignedUserName" 
+                    attributeEntry="${documentAttributes.assignedUserName}" 
+                    readOnly="true" tabindexOverride="${tabindexOverrideBase + 0}" />
+                <c:if test="${fullEntryMode or amendmentEntry}"  >
+                    <kul:lookup boClassName="org.kuali.rice.kim.bo.Person" fieldConversions="principalId:document.assignedUserId" /></div>
+                </c:if>                     
+            </td>
 		</tr>
 	</c:if>
 
@@ -167,8 +169,18 @@
                 <html:image property="methodToCall.changeUseTaxIndicator" src="${ConfigProperties.externalizable.images.url}tinybutton-${useTaxIndicatorButton}.gif" alt="Change Use Tax Indicator" title="Change Use Tax Indicator" styleClass="tinybutton"  tabindex="${tabindexOverrideBase + 0}" />
             </c:if>
         </td>
-        <th align=right valign=middle class="bord-l-b">&nbsp;</th>
-        <td align=left valign=middle class="datacell">&nbsp;</td>
+		<c:if test="${purchaseOrder}">
+	        <th align=right valign=middle class="bord-l-b">
+	            <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderConfirmedIndicator}" /></div>
+		    </th>
+		    <td align=left valign=middle class="datacell">
+		       	<kul:htmlControlAttribute 
+		            property="document.purchaseOrderConfirmedIndicator"
+		            attributeEntry="${documentAttributes.purchaseOrderConfirmedIndicator}" 
+	                readOnly="${not (fullEntryMode or amendmentEntry)}" 
+	                tabindexOverride="${tabindexOverrideBase + 5}" />
+		    </td> 
+		</c:if>
     </tr>  
     </c:if>
 

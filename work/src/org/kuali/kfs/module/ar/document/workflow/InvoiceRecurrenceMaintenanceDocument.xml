@@ -22,7 +22,7 @@
       </routePaths>
       <routeNodes>
         <start name="AdHoc"/>
-        <role name="Initiator">
+        <role name="RecurrenceCreator">
           <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
           <activationType>P</activationType>
         </role>

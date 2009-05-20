@@ -279,6 +279,9 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);
 
         if (event instanceof RouteDocumentEvent || event instanceof ApproveDocumentEvent) {
+            if (this instanceof VendorCreditMemoDocument && ((VendorCreditMemoDocument)this).isSourceVendor()){
+                return;
+            }
             SpringContext.getBean(PurapServiceImpl.class).calculateTax(this);
         }
         // These next 5 lines are temporary changes so that we can use PurApOjbCollectionHelper for release 2.

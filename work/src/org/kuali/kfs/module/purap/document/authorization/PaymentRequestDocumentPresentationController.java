@@ -97,8 +97,11 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
     protected boolean canEdit(Document document) {
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
 
-        if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(paymentRequestDocument) &&
-                !PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals(paymentRequestDocument.getStatusCode())) {
+        //  fiscal officer review gets the doc editable once its enroute, but no one else does
+        if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(paymentRequestDocument)) {
+            if (PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals(paymentRequestDocument.getStatusCode())) {
+                return true;
+            }
             return false;
         }
 

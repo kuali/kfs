@@ -167,16 +167,20 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
             editModes.add(PaymentRequestEditMode.EDIT_PRE_EXTRACT);
         }
 
-        // if use tax, don't allow editing of tax fields
-        if (paymentRequestDocument.isUseTaxIndicator()) {
-            editModes.add(PaymentRequestEditMode.CLEAR_ALL_TAXES);
-            editModes.add(PaymentRequestEditMode.LOCK_TAX_AMOUNT_ENTRY);
-        }
-
         // See if purap tax is enabled
         boolean salesTaxInd = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.ENABLE_SALES_TAX_IND);
         if (salesTaxInd) {
             editModes.add(PaymentRequestEditMode.PURAP_TAX_ENABLED);
+
+            if (paymentRequestDocument.isUseTaxIndicator()) {
+                // if use tax, don't allow editing of tax fields
+                editModes.add(PaymentRequestEditMode.LOCK_TAX_AMOUNT_ENTRY);
+            }
+            else {
+                // display the "clear all taxes" button if doc is not using use tax
+                editModes.add(PaymentRequestEditMode.CLEAR_ALL_TAXES);
+                
+            }
         }
 
         // tax area tab is editable while waiting for tax review

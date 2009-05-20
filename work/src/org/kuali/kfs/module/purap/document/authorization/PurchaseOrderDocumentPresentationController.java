@@ -186,16 +186,19 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
             editModes.add(PurchaseOrderEditMode.ALLOW_POSTING_YEAR_ENTRY);
         }
 
-        // if use tax, don't allow editing of tax fields
-        if (poDocument.isUseTaxIndicator()) {
-            editModes.add(PurapAuthorizationConstants.CreditMemoEditMode.CLEAR_ALL_TAXES);
-            editModes.add(PurapAuthorizationConstants.PurchaseOrderEditMode.LOCK_TAX_AMOUNT_ENTRY);
-        }
-
         // check if purap tax is enabled
         boolean salesTaxInd = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.ENABLE_SALES_TAX_IND);                
-        if(salesTaxInd){
+        if (salesTaxInd) {
             editModes.add(PurapAuthorizationConstants.PURAP_TAX_ENABLED);
+
+            if (poDocument.isUseTaxIndicator()) {
+                // if use tax, don't allow editing of tax fields
+                editModes.add(PurchaseOrderEditMode.LOCK_TAX_AMOUNT_ENTRY);
+            }
+            else {
+                // display the "clear all taxes" button if doc is not using use tax
+                editModes.add(PurchaseOrderEditMode.CLEAR_ALL_TAXES);
+            }
         }
 
         // set display mode for Receiving Address section according to parameter value

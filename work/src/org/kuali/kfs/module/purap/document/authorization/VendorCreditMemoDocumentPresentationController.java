@@ -126,17 +126,20 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
         if (!vendorCreditMemoDocument.isSourceDocumentPaymentRequest()) {
             editModes.add(CreditMemoEditMode.LOCK_VENDOR_ENTRY);
         }
-        
-        // only allow tax editing and display the "clear all taxes" button if doc is not using use tax
-        if (vendorCreditMemoDocument.isUseTaxIndicator()) {
-            editModes.add(CreditMemoEditMode.CLEAR_ALL_TAXES);
-            editModes.add(CreditMemoEditMode.LOCK_TAX_AMOUNT_ENTRY);
-        }
 
         // See if purap tax is enabled
         boolean salesTaxInd = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.ENABLE_SALES_TAX_IND);
         if (salesTaxInd) {
             editModes.add(PurapAuthorizationConstants.PURAP_TAX_ENABLED);
+            
+            if (vendorCreditMemoDocument.isUseTaxIndicator()) {
+                // only allow tax editing if doc is not using use tax
+                editModes.add(CreditMemoEditMode.LOCK_TAX_AMOUNT_ENTRY);
+            }
+            else {
+                // display the "clear all taxes" button if doc is not using use tax
+                editModes.add(CreditMemoEditMode.CLEAR_ALL_TAXES);
+            }
         }
 
         // Remove editBank edit mode if the document has been extracted

@@ -82,24 +82,27 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
         boolean salesTaxInd = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.ENABLE_SALES_TAX_IND);
         if (salesTaxInd) {
             editModes.add(PurapAuthorizationConstants.PURAP_TAX_ENABLED);
-        }
 
-        // only allow tax editing and display the "clear all taxes" button if doc is not using use tax
-        if (reqDocument.isUseTaxIndicator()) {
-            editModes.add(PurapAuthorizationConstants.RequisitionEditMode.CLEAR_ALL_TAXES);
-            editModes.add(PurapAuthorizationConstants.RequisitionEditMode.LOCK_TAX_AMOUNT_ENTRY);
+            if (reqDocument.isUseTaxIndicator()) {
+                // don't allow tax editing if doc using use tax
+                editModes.add(RequisitionEditMode.LOCK_TAX_AMOUNT_ENTRY);
+            }
+            else {
+                // display the "clear all taxes" button if doc is not using use tax
+                editModes.add(RequisitionEditMode.CLEAR_ALL_TAXES);
+            }
         }
 
         // set display mode for Receiving Address section according to parameter value
         boolean displayReceivingAddress = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.ENABLE_RECEIVING_ADDRESS_IND);                
         if (displayReceivingAddress) {
-            editModes.add(PurapAuthorizationConstants.RequisitionEditMode.DISPLAY_RECEIVING_ADDRESS);
+            editModes.add(RequisitionEditMode.DISPLAY_RECEIVING_ADDRESS);
         }
             
         // set display mode for Address to Vendor section according to parameter value 
         boolean lockAddressToVendor = !SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(PurapConstants.PURAP_NAMESPACE, "Requisition", PurapParameterConstants.ENABLE_ADDRESS_TO_VENDOR_SELECTION_IND);                
         if (lockAddressToVendor) {
-            editModes.add(PurapAuthorizationConstants.RequisitionEditMode.LOCK_ADDRESS_TO_VENDOR);
+            editModes.add(RequisitionEditMode.LOCK_ADDRESS_TO_VENDOR);
         }
 
         // CONTENT ROUTE LEVEL - Approvers can edit full detail on Requisition except they cannot change the CHART/ORG.
@@ -112,7 +115,7 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
         else if (reqDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.ACCOUNT_REVIEW)) {
 
             // remove FULL_ENTRY because FO cannot edit rest of doc; only their own acct lines
-            editModes.add(PurapAuthorizationConstants.RequisitionEditMode.RESTRICT_FISCAL_ENTRY);
+            editModes.add(RequisitionEditMode.RESTRICT_FISCAL_ENTRY);
 
             List lineList = new ArrayList();
             for (Iterator iter = reqDocument.getItems().iterator(); iter.hasNext();) {
@@ -121,9 +124,9 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
                 // If FO has deleted the last accounting line for an item, set entry mode to full so they can add another one
                 
                 if (item.getSourceAccountingLines().size() == 0) {
-                    editModes.add(PurapAuthorizationConstants.RequisitionEditMode.RESTRICT_FISCAL_ENTRY);
+                    editModes.add(RequisitionEditMode.RESTRICT_FISCAL_ENTRY);
                     //FIXME hjs-this is a problem because we can't put the id in the map anymore
-//                    editModeMap.put(PurapAuthorizationConstants.RequisitionEditMode.ALLOW_ITEM_ENTRY, item.getItemIdentifier());
+//                    editModeMap.put(RequisitionEditMode.ALLOW_ITEM_ENTRY, item.getItemIdentifier());
                 }
             }
 

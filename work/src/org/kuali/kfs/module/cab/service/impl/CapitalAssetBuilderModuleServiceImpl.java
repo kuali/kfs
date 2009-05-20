@@ -105,6 +105,8 @@ import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.Parameter;
+import org.kuali.rice.kns.datadictionary.AttributeDefinition;
+import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -361,6 +363,55 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
         return valid;
     }
+    
+    /**
+     * Validates all the field requirements by chart. It obtains a List of parameters where the parameter names are like
+     * "CHARTS_REQUIRING%" then loop through these parameters. If any of the parameter's values is null, then return false
+     * @param accountingDocument
+     * @return
+     */
+    public boolean validateAllFieldRequirementsByChart(AccountingDocument accountingDocument) {
+        PurchasingDocument purchasingDocument = (PurchasingDocument) accountingDocument;
+        String documentType = (purchasingDocument instanceof RequisitionDocument) ? "REQUISITION" : "PURCHASE_ORDER";
+        boolean valid = true;
+        List<Parameter> results = new ArrayList<Parameter>();
+        Map<String,String> criteria = new HashMap<String,String>();
+        criteria.put(CabPropertyConstants.Parameter.PARAMETER_NAMESPACE_CODE, CabConstants.Parameters.NAMESPACE);
+        criteria.put(CabPropertyConstants.Parameter.PARAMETER_DETAIL_TYPE_CODE, CabConstants.Parameters.DETAIL_TYPE_DOCUMENT);
+        criteria.put(CabPropertyConstants.Parameter.PARAMETER_NAME, "CHARTS_REQUIRING%" + documentType);
+        results.addAll(SpringContext.getBean(ParameterService.class).retrieveParametersGivenLookupCriteria(criteria));
+        for (Parameter parameter : results) {
+            if (ObjectUtils.isNotNull(parameter)) {
+                if (parameter.getParameterValue() != null){
+                    return false;
+                }
+            }
+        }
+        return valid;
+    }
+    
+    /**
+     * Validates for PURCHASING_OBJECT_SUB_TYPES parameter. If at least one object code of any accounting line entered is of
+     * this type, then return false.
+     * @param accountingDocument
+     * @return
+     */
+    public boolean validatePurchasingObjectSubType(AccountingDocument accountingDocument) {
+        boolean valid = true;
+        PurchasingDocument purchasingDocument = (PurchasingDocument) accountingDocument;
+        for (PurApItem item : purchasingDocument.getItems()) {
+            String itemTypeCode = item.getItemTypeCode();
+            List accountingLines = item.getSourceAccountingLines();
+            for (Iterator iterator = accountingLines.iterator(); iterator.hasNext();) {
+                PurApAccountingLine accountingLine = (PurApAccountingLine) iterator.next();
+                accountingLine.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
+                if (isCapitalAssetObjectCode(accountingLine.getObjectCode())) {
+                    return false;
+                }
+            }
+        }
+        return valid;
+    }
 
     /**
      * Validates field requirement by chart for one or multiple system types.
@@ -525,6 +576,19 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 // if this collection doesn't contain anything, when it's supposed to contain some strings with values, return
                 // false.
                 errorKey.append(mappedNames[0]);
+                String mappedNameStr = (String)mappedNames[0];
+                String methodToInvoke = "get" + (mappedNameStr.substring(0, 1)).toUpperCase() + mappedNameStr.substring(1, mappedNameStr.length()-1) + "Class";
+                Class offendingClass;
+                try {
+                    offendingClass = (Class)bean.getClass().getMethod(methodToInvoke, null).invoke(bean, null);
+                }
+                catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+                BusinessObjectEntry boe = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(offendingClass.getSimpleName());
+                List<AttributeDefinition> offendingAttributes = boe.getAttributes();
+                AttributeDefinition offendingAttribute = offendingAttributes.get(0);
+                String fieldName = SpringContext.getBean(DataDictionaryService.class).getAttributeShortLabel(offendingClass, offendingAttribute.getName());
                 GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, (String) mappedNames[0]);
                 return false;
             }

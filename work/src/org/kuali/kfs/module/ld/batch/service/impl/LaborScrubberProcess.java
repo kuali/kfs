@@ -229,17 +229,18 @@ public class LaborScrubberProcess {
         LOG.debug("scrubEntries() started");
 
         if (reportOnlyMode) {
-            this.laborMainReportWriterService.setDocumentNumber(documentNumber);
-            this.laborLedgerReportWriterService.setDocumentNumber(documentNumber);
-            this.laborGeneratedTransactionsReportWriterService.setDocumentNumber(documentNumber);
+            laborMainReportWriterService.setDocumentNumber(documentNumber);
+            laborLedgerReportWriterService.setDocumentNumber(documentNumber);
+            laborGeneratedTransactionsReportWriterService.setDocumentNumber(documentNumber);
         }
+        ((WrappingBatchService) laborMainReportWriterService).initialize();
+        ((WrappingBatchService) laborLedgerReportWriterService).initialize();
+        ((WrappingBatchService) laborGeneratedTransactionsReportWriterService).initialize();
 
         // setup an object to hold the "default" date information
         runDate = calculateRunDate(dateTimeService.getCurrentDate());
         runCal = Calendar.getInstance();
         runCal.setTime(runDate);
-
-        // TODO: ledger summary reports
 
         universityRunDate = laborAccountingCycleCachingService.getUniversityDate(runDate);
         if (universityRunDate == null) {
@@ -259,6 +260,10 @@ public class LaborScrubberProcess {
             generateScrubberBadBalanceTypeListingReport();
             generateScrubberErrorListingReport();
         }
+        
+        ((WrappingBatchService) laborMainReportWriterService).destroy();
+        ((WrappingBatchService) laborLedgerReportWriterService).destroy();
+        ((WrappingBatchService) laborGeneratedTransactionsReportWriterService).destroy();
     }
 
     /**

@@ -569,8 +569,6 @@
 	    <property name="wrappingBatchServices">
 			<list>
 				<ref bean="laborAccountingCycleCachingService" />
-				<ref bean="laborMainReportWriterService" />
-				<ref bean="laborLedgerReportWriterService" />
 				<ref bean="laborBadBalanceTypeReportWriterService" />
 				<ref bean="laborErrorListingReportWriterService" />
 			</list>
@@ -1317,9 +1315,6 @@
 		<property name="wrappingBatchServices">
 			<list>
 				<ref bean="laborAccountingCycleCachingService" />
-				<ref bean="laborMainReportWriterService" />
-				<ref bean="laborLedgerReportWriterService" />
-				<ref bean="laborGeneratedTransactionsReportWriterService" />
 			</list>
 		</property>
 		<property name="laborCorrectionDocumentService" ref="laborCorrectionDocumentService" />

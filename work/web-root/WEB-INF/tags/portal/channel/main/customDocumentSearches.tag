@@ -17,9 +17,7 @@
 
 <channel:portalChannelTop channelTitle="Custom Document Searches" />
 <div class="body">
-	<portal:portalLink displayTitle="true" title="Financial Processing Transactions" url="${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=FP" /><br />
-	<portal:portalLink displayTitle="true" title="Labor Distribution Transactions" url="${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=LD" /><br />
-	<portal:portalLink displayTitle="true" title="Purchasing/Accounts Payable Transactions" url="${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=PRAP" /><br /><br />
+	<portal:portalLink displayTitle="true" title="Financial Transactions" url="${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=KFST" /><br /><br />
  	<strong>Accounts Receivable</strong><br/>
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title='Customer Invoices' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=INV'/></li>

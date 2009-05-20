@@ -21,13 +21,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
-import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetDepreciationConvention;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
@@ -66,6 +66,25 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 public class AssetGlobalMaintainableImpl extends FinancialSystemGlobalMaintainable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalMaintainableImpl.class);
     private static final String REQUIRES_REVIEW = "RequiresReview";
+
+    /**
+     * Lock on purchase order document since post processor will update PO document by adding notes.
+     * 
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getWorkflowEngineDocumentIdsToLock()
+     */
+    @Override
+    public List<Long> getWorkflowEngineDocumentIdsToLock() {
+        AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
+        if (ObjectUtils.isNotNull(assetGlobal) && assetGlobal.isCapitalAssetBuilderOriginIndicator()) {
+            String poDocId = SpringContext.getBean(CapitalAssetBuilderModuleService.class).getCurrentPurchaseOrderDocumentNumber(this.documentNumber);
+            if (StringUtils.isNotBlank(poDocId)) {
+                List<Long> documentIds = new ArrayList<Long>();
+                documentIds.add(new Long(poDocId));
+                return documentIds;
+            }
+        }
+        return null;
+    }
 
     /**
      * If the Add Asset Global document is submit from CAB, bypass all the approvers.
@@ -378,24 +397,13 @@ public class AssetGlobalMaintainableImpl extends FinancialSystemGlobalMaintainab
 
 
     /**
-     * Creates locking representation for this global document. The locking is only applicable for assets that are being split. The
-     * assets that are being created do not need to be locked since they don't exist yet.
+     * We are using a substitute mechanism for asset locking which can lock on assets when rule check passed. Return empty list from
+     * this method.
      * 
      * @see org.kuali.rice.kns.maintenance.Maintainable#generateMaintenanceLocks()
      */
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {
-//        AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
-//        AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
-//        if (assetGlobalService.isAssetSeparate(assetGlobal)) {
-//            List<Long> capitalAssetNumbers = new ArrayList<Long>();
-//            if (assetGlobal.getSeparateSourceCapitalAssetNumber() != null) {
-//                capitalAssetNumbers.add(assetGlobal.getSeparateSourceCapitalAssetNumber());
-//            }
-//
-//            this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, documentNumber, DocumentTypeName.ASSET_SEPARATE, null);
-//        }
-
         return new ArrayList<MaintenanceLock>();
     }
 

@@ -24,7 +24,6 @@ import java.util.Map;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
-import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetFabrication;
 import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinder;
@@ -38,9 +37,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.routeheader.service.WorkflowDocumentService;
 import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.maintenance.Maintainable;
@@ -72,33 +69,20 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
         FINANCIAL_DOC_NAME_MAP.put(KFSConstants.FinancialDocumentTypeCodes.PROCUREMENT_CARD, KFSConstants.FinancialDocumentTypeNames.PROCUREMENT_CARD);
     }
 
+    /**
+     * We are using a substitute mechanism for asset locking which can lock on assets when rule check passed. Return empty list from
+     * this method.
+     * 
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#generateMaintenanceLocks()
+     */
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {
-//        if (!this.getCapitalAssetManagementModuleService().isAssetLockedByCurrentDocument(documentNumber, null)) {
-//            // If it is asset edit, add the lock for asset number. For Fabrication, won't lock for asset not created yet.
-//            try {
-//                Document document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentNumber);
-//                KualiWorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
-//                if (workflowDoc.stateIsInitiated()) {
-//                    if (this.getBusinessObject() instanceof Asset && !(this.getBusinessObject() instanceof AssetFabrication)) {
-//                        List<Long> capitalAssetNumbers = new ArrayList<Long>();
-//                        Asset asset = (Asset) this.getBusinessObject();
-//                        if (asset.getCapitalAssetNumber() != null) {
-//                            capitalAssetNumbers.add(asset.getCapitalAssetNumber());
-//                        }
-//
-//                        this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, documentNumber, DocumentTypeName.ASSET_EDIT, null);
-//                    }
-//                }
-//            }
-//            catch (WorkflowException e) {
-//                // TODO Auto-generated catch block
-//                e.printStackTrace();
-//            }
-//        }
         return new ArrayList<MaintenanceLock>();
     }
 
+    /**
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#handleRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
+     */
     @Override
     public void handleRouteStatusChange(DocumentHeader documentHeader) {
         super.handleRouteStatusChange(documentHeader);

@@ -50,7 +50,6 @@ import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
-import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.Document;
@@ -894,7 +893,8 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             }
         }
 
-        // locking for asset separate when save
+        // Creates locking representation for this global document. The locking is only applicable for assets that are being split.
+        // The assets that are being created do not need to be locked since they don't exist yet.
         if (success && getAssetGlobalService().isAssetSeparate(assetGlobal)) {
             success &= setAssetLock(document, assetGlobal);
         }

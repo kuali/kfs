@@ -95,22 +95,12 @@ public class AssetLocationGlobalMaintainableImpl extends KualiGlobalMaintainable
     }
 
     /**
-     * Add locks for asset number in location details
+     * We are using a substitute mechanism for asset locking which can lock on assets when rule check passed. Return empty list from this method.
      * 
      * @see org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl#generateMaintenanceLocks()
      */
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {
-//        AssetLocationGlobal assetLocationGlobal = (AssetLocationGlobal) getBusinessObject();
-//        List<Long> capitalAssetNumbers = new ArrayList<Long>();
-//        for (AssetLocationGlobalDetail locationDetail : assetLocationGlobal.getAssetLocationGlobalDetails()) {
-//            if (locationDetail.getCapitalAssetNumber() != null) {
-//                capitalAssetNumbers.add(locationDetail.getCapitalAssetNumber());
-//            }
-//        }
-//
-//        this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, documentNumber, DocumentTypeName.ASSET_LOCATION_GLOBAL, null);
-
         return new ArrayList<MaintenanceLock>();
     }
 

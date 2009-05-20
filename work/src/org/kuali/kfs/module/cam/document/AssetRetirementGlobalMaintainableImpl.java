@@ -25,7 +25,6 @@ import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
-import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
@@ -76,27 +75,13 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
     }
 
     /**
-     * This creates the particular locking representation for this global document.
+     * We are using a substitute mechanism for asset locking which can lock on assets when rule check passed. Return empty list from
+     * this method.
      * 
      * @see org.kuali.rice.kns.maintenance.Maintainable#generateMaintenanceLocks()
      */
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {
-//        AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
-//        List<Long> capitalAssetNumbers = new ArrayList<Long>();
-//
-//        if (getAssetRetirementService().isAssetRetiredByMerged(assetRetirementGlobal) && assetRetirementGlobal.getMergedTargetCapitalAssetNumber() != null) {
-//            capitalAssetNumbers.add(assetRetirementGlobal.getMergedTargetCapitalAssetNumber());
-//        }
-//
-//        for (AssetRetirementGlobalDetail retirementDetail : assetRetirementGlobal.getAssetRetirementGlobalDetails()) {
-//            if (retirementDetail.getCapitalAssetNumber() != null) {
-//                capitalAssetNumbers.add(retirementDetail.getCapitalAssetNumber());
-//            }
-//        }
-//        // get asset locks
-//        this.getCapitalAssetManagementModuleService().storeAssetLocks(capitalAssetNumbers, documentNumber, DocumentTypeName.ASSET_RETIREMENT_GLOBAL, null);
-
         return new ArrayList<MaintenanceLock>();
     }
 

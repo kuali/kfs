@@ -8,9 +8,41 @@
     <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetFabrication" />
     <property name="allowsNewOrCopy" value="true" />
     <property name="documentTypeName" value="FR" />
+	<property name="maintainableSections">
+	  <list>
+  		<ref bean="AssetMaintenanceDocument-AssetDetailInformation" /> 
+  		<ref bean="AssetMaintenanceDocument-AssetLocation" /> 
+  		<ref bean="AssetMaintenanceDocument-OrganizationInformation" /> 
+  		<ref bean="AssetMaintenanceDocument-PaymentInformation" /> 
+  		<ref bean="AssetMaintenanceDocument-AssetPaymentLink" /> 
+  		<ref bean="AssetFabricationMaintenanceDocument-FabricationInformation" /> 
+  		<ref bean="AssetMaintenanceDocument-LandInformation" /> 
+  		<ref bean="AssetMaintenanceDocument-AssetDepreciationInformation" /> 
+  		<ref bean="AssetMaintenanceDocument-ViewAssetSeparateHistory" /> 
+  		<ref bean="AssetMaintenanceDocument-ViewEquipmentLoanInformation" /> 
+  		<ref bean="AssetMaintenanceDocument-Warranty" /> 
+  		<ref bean="AssetMaintenanceDocument-RepairHistory" /> 
+  		<ref bean="AssetMaintenanceDocument-Components" /> 
+  		<ref bean="AssetMaintenanceDocument-ViewRelatedDocumentLink" /> 
+  	  </list>
+    </property>
+
     <property name="workflowAttributes" >
       <ref bean="AssetFabricationMaintenanceDocument-workflowAttributes" />
     </property>
+  </bean>
+  
+  <bean id="AssetFabricationMaintenanceDocument-FabricationInformation" parent="AssetFabricationMaintenanceDocument-FabricationInformation-parentBean" /> 
+  <bean id="AssetFabricationMaintenanceDocument-FabricationInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="fabricationInformation" /> 
+    <property name="title" value="Fabrication Information" /> 
+    <property name="maintainableItems">
+    <list>
+      <bean parent="MaintainableFieldDefinition" p:name="estimatedFabricationCompletionDate" p:required="true" /> 
+      <bean parent="MaintainableFieldDefinition" p:name="fabricationEstimatedTotalAmount" p:required="true" /> 
+      <bean parent="MaintainableFieldDefinition" p:name="fabricationEstimatedRetentionYears" p:required="true" /> 
+    </list>
+  </property>
   </bean>
 
   <bean id="AssetFabricationMaintenanceDocument-workflowAttributes" parent="AssetFabricationMaintenanceDocument-workflowAttributes-parentBean" />

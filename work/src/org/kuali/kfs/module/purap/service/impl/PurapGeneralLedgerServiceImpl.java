@@ -401,7 +401,15 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             }
 
             // Manually save preq summary accounts
-            saveAccountsPayableSummaryAccounts(summaryAccounts, preq.getPurapDocumentIdentifier(), PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT);
+            if (MODIFY_PAYMENT_REQUEST.equals(processType)) {
+                //for modify, regenerate the summary from the doc
+                List<SummaryAccount> summaryAccountsForModify = purapAccountingService.generateSummaryAccountsWithNoZeroTotalsNoUseTax(preq);
+                saveAccountsPayableSummaryAccounts(summaryAccountsForModify, preq.getPurapDocumentIdentifier(), PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT);
+            }
+            else {
+                //for create and cancel, use the summary accounts
+                saveAccountsPayableSummaryAccounts(summaryAccounts, preq.getPurapDocumentIdentifier(), PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT);
+            }
 
             // manually save cm account change tables (CAMS needs this)
             if (CREATE_PAYMENT_REQUEST.equals(processType) || MODIFY_PAYMENT_REQUEST.equals(processType)) {

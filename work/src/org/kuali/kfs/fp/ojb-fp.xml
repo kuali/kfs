@@ -1267,7 +1267,6 @@
     <field-descriptor name="incomeTaxTypeCode" column="INC_TAX_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="incomeTaxPercent" column="INC_TAX_PCT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <reference-descriptor name="incomeClass" class-ref="org.kuali.kfs.fp.businessobject.TaxIncomeClassCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">

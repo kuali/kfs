@@ -58,7 +58,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="subAccountNumber" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="subAccountName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.subAccountTypeCode" p:defaultValue="EX" p:required="true" p:webUILeaveFieldFunction="clearICR"/>
+        <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.subAccountTypeCode" p:defaultValue="EX" p:required="true" p:webUILeaveFieldFunction="resetICRAccount"/>
       </list>
     </property>
   </bean>

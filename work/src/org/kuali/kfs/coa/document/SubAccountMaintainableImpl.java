@@ -17,6 +17,7 @@ package org.kuali.kfs.coa.document;
 
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.service.A21SubAccountService;
@@ -27,6 +28,7 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentRestrictions;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class...
@@ -43,7 +45,7 @@ public class SubAccountMaintainableImpl extends FinancialSystemMaintainable {
 
         Person person = GlobalVariables.getUserSession().getPerson();
         MaintenanceDocumentRestrictions restrictions = getBusinessObjectAuthorizationService().getMaintenanceDocumentRestrictions(document, person);
-        if (!restrictions.isHiddenSectionId(KFSConstants.SUB_ACCOUNT_EDIT_CG_ICR_SECTION_ID) && !restrictions.isReadOnlySectionId(KFSConstants.SUB_ACCOUNT_EDIT_CG_ICR_SECTION_ID)) {
+        if (StringUtils.equals(refreshCaller, "accountLookupable") && !restrictions.isHiddenSectionId(KFSConstants.SUB_ACCOUNT_EDIT_CG_ICR_SECTION_ID) && !restrictions.isReadOnlySectionId(KFSConstants.SUB_ACCOUNT_EDIT_CG_ICR_SECTION_ID)) {
             SubAccount subAccount = (SubAccount) this.getBusinessObject();
             this.populateCGIcrFields(subAccount);
         }
@@ -54,8 +56,10 @@ public class SubAccountMaintainableImpl extends FinancialSystemMaintainable {
         A21SubAccount a21SubAccount = subAccount.getA21SubAccount();
         String chartOfAccountsCode = subAccount.getChartOfAccountsCode();
         String accountNumber = subAccount.getAccountNumber();
-               
-        A21SubAccountService a21SubAccountService = SpringContext.getBean(A21SubAccountService.class);
-        a21SubAccountService.populateCgIcrAccount(a21SubAccount, chartOfAccountsCode, accountNumber);
+        
+        if (ObjectUtils.isNotNull(a21SubAccount) && (!StringUtils.equals(chartOfAccountsCode, a21SubAccount.getChartOfAccountsCode()) || !StringUtils.equals(accountNumber, a21SubAccount.getAccountNumber()))) {                  
+            A21SubAccountService a21SubAccountService = SpringContext.getBean(A21SubAccountService.class);
+            a21SubAccountService.populateCgIcrAccount(a21SubAccount, chartOfAccountsCode, accountNumber);
+        }
     }
 }

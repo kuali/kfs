@@ -26,7 +26,6 @@ import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
- * 
  * This class is the default implementation of the A21SubAccountService
  */
 
@@ -36,45 +35,47 @@ public class A21SubAccountServiceImpl implements A21SubAccountService {
     private A21SubAccountDao a21SubAccountDao;
     private AccountService accountService;
 
-    /** 
+    /**
      * @see org.kuali.kfs.coa.service.A21SubAccountService#getByPrimaryKey(java.lang.String, java.lang.String, java.lang.String)
      */
     public A21SubAccount getByPrimaryKey(String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
         return a21SubAccountDao.getByPrimaryKey(chartOfAccountsCode, accountNumber, subAccountNumber);
     }
-    
+
     /**
-     * @see org.kuali.kfs.coa.service.A21SubAccountService#buildCgIcrAccount(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.coa.service.A21SubAccountService#buildCgIcrAccount(java.lang.String, java.lang.String, java.lang.String,
+     *      java.lang.String)
      */
     public A21SubAccount buildCgIcrAccount(String chartOfAccountsCode, String accountNumber, String subAccountNumber, String subAccountTypeCode) {
         if (StringUtils.isEmpty(chartOfAccountsCode) || StringUtils.isEmpty(accountNumber) || StringUtils.equals(subAccountTypeCode, KFSConstants.SubAccountType.COST_SHARE)) {
             return null;
         }
-        
+
         A21SubAccount a21SubAccount = new A21SubAccount();
         a21SubAccount.setSubAccountNumber(subAccountNumber);
         a21SubAccount.setSubAccountTypeCode(subAccountTypeCode);
-        
+
         this.populateCgIcrAccount(a21SubAccount, chartOfAccountsCode, accountNumber);
-        
+
         return a21SubAccount;
     }
-    
+
     /**
-     * @see org.kuali.kfs.coa.service.A21SubAccountService#populateCgIcrAccount(org.kuali.kfs.coa.businessobject.A21SubAccount, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.coa.service.A21SubAccountService#populateCgIcrAccount(org.kuali.kfs.coa.businessobject.A21SubAccount,
+     *      java.lang.String, java.lang.String)
      */
     public void populateCgIcrAccount(A21SubAccount a21SubAccount, String chartOfAccountsCode, String accountNumber) {
         Account account = accountService.getByPrimaryIdWithCaching(chartOfAccountsCode, accountNumber);
 
         if (ObjectUtils.isNotNull(account) && ObjectUtils.isNotNull(a21SubAccount) && !StringUtils.equals(a21SubAccount.getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
             a21SubAccount.setChartOfAccountsCode(account.getChartOfAccountsCode());
-            a21SubAccount.setAccountNumber(account.getAccountNumber());           
+            a21SubAccount.setAccountNumber(account.getAccountNumber());
             a21SubAccount.setFinancialIcrSeriesIdentifier(account.getFinancialIcrSeriesIdentifier());
-            
+
             a21SubAccount.setIndirectCostRecoveryChartOfAccountsCode(account.getIndirectCostRcvyFinCoaCode());
             a21SubAccount.setIndirectCostRecoveryAccountNumber(account.getIndirectCostRecoveryAcctNbr());
             a21SubAccount.setIndirectCostRecoveryTypeCode(account.getAcctIndirectCostRcvyTypeCd());
-            
+
             a21SubAccount.setOffCampusCode(account.isAccountOffCampusIndicator());
         }
     }
@@ -85,7 +86,7 @@ public class A21SubAccountServiceImpl implements A21SubAccountService {
     public void setA21SubAccountDao(A21SubAccountDao subAccountDao) {
         this.a21SubAccountDao = subAccountDao;
     }
-    
+
     /**
      * Sets the accountService attribute value.
      * 

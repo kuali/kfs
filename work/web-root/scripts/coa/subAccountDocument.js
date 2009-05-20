@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-function clearICR( subAccountTypeCodeField ) {
+function resetICRAccount( subAccountTypeCodeField ) {
 	var subAccountTypeCodeFieldPrefix = findElPrefix( subAccountTypeCodeField.name );
 	var accountFieldPrefix = findElPrefix(subAccountTypeCodeFieldPrefix);
 	var acctFieldName = accountFieldPrefix + ".accountNumber";
@@ -35,16 +35,14 @@ function updateCgIcrAccount(acctFieldName) {
 	var chartCode = getElementValue( fieldPrefix + ".chartOfAccountsCode" );
 	var subAccountTypeCode = getElementValue( fieldPrefix + ".a21SubAccount.subAccountTypeCode" );
 	
-	if ( accountNumber != "" && chartCode != "") {
-		var dwrReply = {
-			callback:updateCgIcrAccount_Callback,
-			errorHandler:function( errorMessage ) { 
-				window.status = errorMessage;
-			}
-		};
-		
-		A21SubAccountService.buildCgIcrAccount( chartCode, accountNumber, null, subAccountTypeCode, dwrReply );
-	}
+	var dwrReply = {
+		callback:updateCgIcrAccount_Callback,
+		errorHandler:function( errorMessage ) { 
+			window.status = errorMessage;
+		}
+	};
+	
+	A21SubAccountService.buildCgIcrAccount( chartCode, accountNumber, null, subAccountTypeCode, dwrReply );
 }
 
 function updateCgIcrAccount_Callback( data ) {

@@ -189,7 +189,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     }
 
     public ItemType getItemType() {
-        if (ObjectUtils.isNull(itemType)) {
+        if (ObjectUtils.isNull(itemType) || !itemType.getItemTypeCode().equals(itemTypeCode)) {
             refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
         }
         return itemType;

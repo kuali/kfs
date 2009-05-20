@@ -44,6 +44,18 @@ public class ReportWriterServiceTest extends KualiTestBase {
         colspanTableReportWriterService = businessObjectReportHelperBeans.get("colspanTableReportWriterService");
         ledgerReportWriterService = businessObjectReportHelperBeans.get("testLedgerReportWriterService");
     }
+
+    /**
+     * @see junit.framework.TestCase#tearDown()
+     */
+    @Override
+    protected void tearDown() throws Exception {
+        super.tearDown();
+        
+        ((WrappingBatchService) tableReportWriterService).destroy();
+        ((WrappingBatchService) colspanTableReportWriterService).destroy();
+        ((WrappingBatchService) ledgerReportWriterService).destroy();
+    }
     
     public void testWriteTable() throws Exception{             
         ((WrappingBatchService) tableReportWriterService).initialize();

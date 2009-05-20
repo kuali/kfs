@@ -20,7 +20,9 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.AccountDelegate;
+import org.kuali.kfs.coa.service.AccountDelegateService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
@@ -37,8 +39,8 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * This class is a special implementation of Maintainable specifically for Account Delegates. It was created to correctly update the
  * default Start Date on edits and copies, ala JIRA #KULRNE-62.
  */
-public class KualiDelegateMaintainableImpl extends FinancialSystemMaintainable {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiDelegateMaintainableImpl.class);
+public class AccountDelegateMaintainableImpl extends FinancialSystemMaintainable {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountDelegateMaintainableImpl.class);
 
     /**
      * This method will reset AccountDelegate's Start Date to the current timestamp on edits and copies
@@ -87,6 +89,19 @@ public class KualiDelegateMaintainableImpl extends FinancialSystemMaintainable {
         return locks;
     }
 
+    @Override
+    public String getLockingDocumentId() {
+        // TODO Auto-generated method stub
+       String lock = super.getLockingDocumentId();
+       if (StringUtils.isNotBlank(lock))
+           return lock;
+       else {
+           AccountDelegateService accountDelegateService = SpringContext.getBean(AccountDelegateService.class);
+           lock = accountDelegateService.getLockingDocumentId(this, this.documentNumber);
+           return lock;
+       }
+    }
+    
     /**
      * This method creates a maintenance lock for the field names supplied
      * 
@@ -155,5 +170,11 @@ public class KualiDelegateMaintainableImpl extends FinancialSystemMaintainable {
             }
         }
         return String.valueOf(fieldValue);
+    }
+    
+    public MaintenanceLock createGlobalAccountLock() {
+        
+        String[] fields = {"chartOfAccountsCode", "accountNumber"};
+        return createMaintenanceLock(fields);
     }
 }

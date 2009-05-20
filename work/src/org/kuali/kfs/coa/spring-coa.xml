@@ -231,6 +231,12 @@
 			<ref bean="dateTimeService"/>
 		</property>
 	</bean>
+	
+	<bean id="accountDelegateDao" parent="platformAwareDao"
+		class="org.kuali.kfs.coa.dataaccess.impl.AccountDelegateDaoOjb" />
+		
+	<bean id="accountDelegateGlobalDao" parent="platformAwareDao"
+		class="org.kuali.kfs.coa.dataaccess.impl.AccountDelegateGlobalDaoOjb" />
 
 	<bean id="chartDao" parent="platformAwareDao"
 		class="org.kuali.kfs.coa.dataaccess.impl.ChartDaoOjb">
@@ -626,7 +632,15 @@
         </property>
     </bean>
     
-    <bean id="accountDelegateService" class="org.kuali.kfs.coa.service.impl.AccountDelegateServiceImpl" />
+    <bean id="accountDelegateService" class="org.kuali.kfs.coa.service.impl.AccountDelegateServiceImpl">
+    	<property name="accountDelegateDao">
+            <ref bean="accountDelegateDao" />
+        </property>
+        <property name="accountDelegateGlobalDao">
+            <ref bean="accountDelegateGlobalDao" />
+        </property>
+    </bean>
+    
 	
 	<bean id="chartLedgerReferenceValuePreparedStatementCachingDao" parent="preparedStatementCachingDao" class="org.kuali.kfs.coa.batch.dataaccess.impl.LedgerReferenceValuePreparedStatementCachingDaoJdbc" /> 
 </beans>

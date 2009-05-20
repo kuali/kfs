@@ -29,6 +29,7 @@ import org.kuali.kfs.coa.businessobject.AccountDelegateGlobalDetail;
 import org.kuali.kfs.coa.businessobject.AccountDelegateModel;
 import org.kuali.kfs.coa.businessobject.AccountDelegateModelDetail;
 import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
+import org.kuali.kfs.coa.service.AccountDelegateService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemGlobalMaintainable;
@@ -36,6 +37,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global delegates
@@ -79,6 +81,19 @@ public class AccountDelegateGlobalMaintainableImpl extends FinancialSystemGlobal
         }
     }
 
+    @Override
+    public String getLockingDocumentId() {
+       String lock = super.getLockingDocumentId();
+       if (StringUtils.isNotBlank(lock))
+           return lock;
+       else {
+           AccountDelegateService accountDelegateService = SpringContext.getBean(AccountDelegateService.class);
+           lock = accountDelegateService.getLockingDocumentId(this, this.documentNumber);
+           return lock;
+       }
+    }
+    
+    
     /**
      * This creates the particular locking representation for this global document.
      * 
@@ -94,63 +109,84 @@ public class AccountDelegateGlobalMaintainableImpl extends FinancialSystemGlobal
         Set<String> lockingRepresentations = new HashSet<String>();
 
         MaintenanceLock maintenanceLock;
-        for (AccountGlobalDetail accountGlobalDetail : delegateGlobal.getAccountGlobalDetails()) {
-            for (AccountDelegateGlobalDetail delegateGlobalDetail : delegateGlobal.getDelegateGlobals()) {
-                StringBuilder lockRep = new StringBuilder();
-                lockRep.append(AccountDelegate.class.getName());
-                lockRep.append(KFSConstants.Maintenance.AFTER_CLASS_DELIM);
-                lockRep.append("chartOfAccountsCode");
-                lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
-                lockRep.append(accountGlobalDetail.getChartOfAccountsCode());
-                lockRep.append(KFSConstants.Maintenance.AFTER_VALUE_DELIM);
-                lockRep.append("accountNumber");
-                lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
-                lockRep.append(accountGlobalDetail.getAccountNumber());
-                lockRep.append(KFSConstants.Maintenance.AFTER_VALUE_DELIM);
-                lockRep.append("financialDocumentTypeCode");
-                lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
-                lockRep.append(delegateGlobalDetail.getFinancialDocumentTypeCode());
-                lockRep.append(KFSConstants.Maintenance.AFTER_VALUE_DELIM);
-                lockRep.append("accountDelegateSystemId");
-                lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
-                lockRep.append(delegateGlobalDetail.getAccountDelegateUniversalId());
-                // FIXME above is a bit dangerous b/c it hard codes the attribute names, which could change (particularly
-                // accountDelegateSystemId) - guess they should either be constants or obtained by looping through Delegate keys;
-                // however, I copied this from elsewhere which had them hard-coded, so I'm leaving it for now
+        if (ObjectUtils.isNotNull(delegateGlobal)) {
+            for (AccountGlobalDetail accountGlobalDetail : delegateGlobal.getAccountGlobalDetails()) {
+                for (AccountDelegateGlobalDetail delegateGlobalDetail : delegateGlobal.getDelegateGlobals()) {
+                    StringBuilder lockRep = new StringBuilder();
+                    lockRep.append(AccountDelegate.class.getName());
+                    lockRep.append(KFSConstants.Maintenance.AFTER_CLASS_DELIM);
+                    lockRep.append("chartOfAccountsCode");
+                    lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+                    lockRep.append(accountGlobalDetail.getChartOfAccountsCode());
+                    lockRep.append(KFSConstants.Maintenance.AFTER_VALUE_DELIM);
+                    lockRep.append("accountNumber");
+                    lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+                    lockRep.append(accountGlobalDetail.getAccountNumber());
+                    lockRep.append(KFSConstants.Maintenance.AFTER_VALUE_DELIM);
+                    lockRep.append("financialDocumentTypeCode");
+                    lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+                    lockRep.append(delegateGlobalDetail.getFinancialDocumentTypeCode());
+                    lockRep.append(KFSConstants.Maintenance.AFTER_VALUE_DELIM);
+                    lockRep.append("accountDelegateSystemId");
+                    lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+                    lockRep.append(delegateGlobalDetail.getAccountDelegateUniversalId());
+                    // FIXME above is a bit dangerous b/c it hard codes the attribute names, which could change (particularly
+                    // accountDelegateSystemId) - guess they should either be constants or obtained by looping through Delegate keys;
+                    // however, I copied this from elsewhere which had them hard-coded, so I'm leaving it for now
 
-                if (!lockingRepresentations.contains(lockRep.toString())) {
-                    maintenanceLock = new MaintenanceLock();
-                    maintenanceLock.setDocumentNumber(delegateGlobal.getDocumentNumber());
-                    maintenanceLock.setLockingRepresentation(lockRep.toString());
-                    maintenanceLocks.add(maintenanceLock);
-                    lockingRepresentations.add(lockRep.toString());
-                }
+                    if (!lockingRepresentations.contains(lockRep.toString())) {
+                        maintenanceLock = new MaintenanceLock();
+                        maintenanceLock.setDocumentNumber(delegateGlobal.getDocumentNumber());
+                        maintenanceLock.setLockingRepresentation(lockRep.toString());
+                        maintenanceLocks.add(maintenanceLock);
+                        lockingRepresentations.add(lockRep.toString());
+                    }
 
-                lockRep = new StringBuilder();
-                lockRep.append(AccountDelegate.class.getName());
-                lockRep.append(KFSConstants.Maintenance.AFTER_CLASS_DELIM);
-                lockRep.append("chartOfAccountsCode");
-                lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
-                lockRep.append(accountGlobalDetail.getChartOfAccountsCode());
-                lockRep.append(KFSConstants.Maintenance.AFTER_VALUE_DELIM);
-                lockRep.append("accountNumber");
-                lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
-                lockRep.append(accountGlobalDetail.getAccountNumber());
-                lockRep.append(KFSConstants.Maintenance.AFTER_VALUE_DELIM);
-                lockRep.append("financialDocumentTypeCode");
-                lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
-                lockRep.append(delegateGlobalDetail.getFinancialDocumentTypeCode());
-                lockRep.append(KFSConstants.Maintenance.AFTER_VALUE_DELIM);
-                lockRep.append("accountsDelegatePrmrtIndicator");
-                lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
-                lockRep.append("true");
+                    lockRep = new StringBuilder();
+                    lockRep.append(AccountDelegate.class.getName());
+                    lockRep.append(KFSConstants.Maintenance.AFTER_CLASS_DELIM);
+                    lockRep.append("chartOfAccountsCode");
+                    lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+                    lockRep.append(accountGlobalDetail.getChartOfAccountsCode());
+                    lockRep.append(KFSConstants.Maintenance.AFTER_VALUE_DELIM);
+                    lockRep.append("accountNumber");
+                    lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+                    lockRep.append(accountGlobalDetail.getAccountNumber());
+                    lockRep.append(KFSConstants.Maintenance.AFTER_VALUE_DELIM);
+                    lockRep.append("financialDocumentTypeCode");
+                    lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+                    lockRep.append(delegateGlobalDetail.getFinancialDocumentTypeCode());
+                    lockRep.append(KFSConstants.Maintenance.AFTER_VALUE_DELIM);
+                    lockRep.append("accountsDelegatePrmrtIndicator");
+                    lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+                    lockRep.append("true");
 
-                if (!lockingRepresentations.contains(lockRep.toString())) {
-                    maintenanceLock = new MaintenanceLock();
-                    maintenanceLock.setDocumentNumber(delegateGlobal.getDocumentNumber());
-                    maintenanceLock.setLockingRepresentation(lockRep.toString());
-                    maintenanceLocks.add(maintenanceLock);
-                    lockingRepresentations.add(lockRep.toString());
+                    if (!lockingRepresentations.contains(lockRep.toString())) {
+                        maintenanceLock = new MaintenanceLock();
+                        maintenanceLock.setDocumentNumber(delegateGlobal.getDocumentNumber());
+                        maintenanceLock.setLockingRepresentation(lockRep.toString());
+                        maintenanceLocks.add(maintenanceLock);
+                        lockingRepresentations.add(lockRep.toString());
+                    }
+
+                    lockRep = new StringBuilder();
+                    lockRep.append(AccountDelegate.class.getName());
+                    lockRep.append(KFSConstants.Maintenance.AFTER_CLASS_DELIM);
+                    lockRep.append("chartOfAccountsCode");
+                    lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+                    lockRep.append(accountGlobalDetail.getChartOfAccountsCode());
+                    lockRep.append(KFSConstants.Maintenance.AFTER_VALUE_DELIM);
+                    lockRep.append("accountNumber");
+                    lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+                    lockRep.append(accountGlobalDetail.getAccountNumber());
+
+                    if (!lockingRepresentations.contains(lockRep.toString())) {
+                        maintenanceLock = new MaintenanceLock();
+                        maintenanceLock.setDocumentNumber(delegateGlobal.getDocumentNumber());
+                        maintenanceLock.setLockingRepresentation(lockRep.toString());
+                        maintenanceLocks.add(maintenanceLock);
+                        lockingRepresentations.add(lockRep.toString());
+                    }
                 }
             }
         }

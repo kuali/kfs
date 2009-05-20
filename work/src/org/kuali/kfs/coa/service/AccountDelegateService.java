@@ -15,6 +15,10 @@
  */
 package org.kuali.kfs.coa.service;
 
+import org.kuali.kfs.coa.document.AccountDelegateGlobalMaintainableImpl;
+import org.kuali.kfs.coa.document.AccountDelegateMaintainableImpl;
+import org.kuali.rice.kns.maintenance.Maintainable;
+
 /**
  * An interface of services to support account delegate logic
  */
@@ -27,4 +31,9 @@ public interface AccountDelegateService {
      * @return true if the document type code is within the KFS application space, false otherwise
      */
     public abstract boolean isFinancialSystemDocumentType(String documentTypeCode);
+    
+    public String getLockingDocumentId(AccountDelegateGlobalMaintainableImpl global, String docNumber);
+    
+    public String getLockingDocumentId(AccountDelegateMaintainableImpl delegate, String docNumber);
+
 }

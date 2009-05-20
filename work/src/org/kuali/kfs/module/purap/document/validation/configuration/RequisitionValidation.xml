@@ -48,6 +48,10 @@
 					<property name="quitOnFail" value="false" />
 				</bean>  
 				
+				<bean parent="Purchasing-processReceivingValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  										
+				
 				<bean parent="Requisition-processAdditionalValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
 				</bean>  															

@@ -67,12 +67,6 @@ public class PurchasingNewIndividualItemValidation extends PurchasingAccountsPay
             valid &= itemQuantityValidation.validate(event);
 
             valid &= validateCommodityCodes(getItemForValidation(), commodityCodeIsRequired());      
-            if (((PurchasingDocument)event.getDocument()).isReceivingDocumentRequiredIndicator()){
-                if (getItemForValidation().getItemType().isAmountBasedGeneralLedgerIndicator()){
-                    GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_RECEIVING_REQUIRED);
-                    valid &= false;
-                }
-            }
         }
         else {
             // No accounts can be entered on below-the-line items that have no unit cost.

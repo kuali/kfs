@@ -569,8 +569,8 @@
   <bean id="GenericAttributes-financialSystemDocumentTypeCode" parent="GenericAttributes-financialSystemDocumentTypeCode-parentBean" />
 
   <bean id="GenericAttributes-financialSystemDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-name">
-    <property name="shortLabel" value="Doc Type Code" />
-    <property name="label" value="Document Type Code" />
+    <property name="shortLabel" value="Doc Type" />
+    <property name="label" value="Document Type Name" />
     <property name="name" value="financialSystemDocumentTypeCode" />
   </bean>
   

@@ -23,7 +23,13 @@
         <value>organization.organizationCode</value>
       </list>
     </property>
-    
+    <property name="defaultExistenceChecks">
+      <dd:defaultExistenceChecks>
+      	<dd:check boAttribute="chart" attributeToHighlightOnFail="chartOfAccountsCode"/>
+      	<dd:check boAttribute="organization" attributeToHighlightOnFail="organizationCode"/>
+      </dd:defaultExistenceChecks>
+    </property>
+
     <property name="documentTypeName" value="ORR"/>
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.OrgReviewRoleRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>

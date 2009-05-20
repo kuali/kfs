@@ -67,9 +67,22 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="relationships" >
       <list>
         <bean parent="RelationshipDefinition">
+   			<property name="objectAttributeName" value="chart" />
+	        <property name="primitiveAttributes" >
+	        	<list>
+	            	<bean parent="PrimitiveAttributeDefinition"
+	                    p:sourceName="chartOfAccountsCode"
+	                    p:targetName="chartOfAccountsCode" />
+	            </list>
+	        </property>
+   		</bean>
+        <bean parent="RelationshipDefinition">
    			<property name="objectAttributeName" value="organization" />
 	        <property name="primitiveAttributes" >
 	        	<list>
+	            	<bean parent="PrimitiveAttributeDefinition"
+	                    p:sourceName="chartOfAccountsCode"
+	                    p:targetName="chartOfAccountsCode" />
 	            	<bean parent="PrimitiveAttributeDefinition"
 	                    p:sourceName="organizationCode"
 	                    p:targetName="organizationCode" />
@@ -396,10 +409,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="lookupFields" >
       <list>
           <bean parent="FieldDefinition" p:attributeName="financialSystemDocumentTypeCode" />
-          <bean parent="FieldDefinition" p:attributeName="chart.chartOfAccountsCode" p:forceLookup="true" />
-          <bean parent="FieldDefinition" p:attributeName="organization.organizationCode" p:forceLookup="true" />
+          <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" p:forceLookup="true" />
+          <bean parent="FieldDefinition" p:attributeName="organizationCode" p:forceLookup="true" />
           <bean parent="FieldDefinition" p:attributeName="principalMemberPrincipalId" />
        	  <bean parent="FieldDefinition" p:attributeName="principalMemberPrincipalName" />
+  	      <bean parent="FieldDefinition" p:attributeName="person.name" p:hidden="true" />
           <bean parent="FieldDefinition" p:attributeName="roleMemberRoleId" />
           <bean parent="FieldDefinition" p:attributeName="roleMemberRoleNamespaceCode" />
        	  <bean parent="FieldDefinition" p:attributeName="roleMemberRoleName" p:forceLookup="true" />

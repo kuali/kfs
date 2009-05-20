@@ -20,6 +20,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.gl.businessobject.CollectorDetail;
@@ -28,8 +29,6 @@ import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.gl.report.CollectorReportData;
-import org.kuali.kfs.gl.service.CollectorDetailService;
-import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
@@ -270,31 +269,24 @@ public class CollectorBatch implements Serializable {
             // update the version number to prevent OptimisticLockingExceptions
             persistHeader.setVersionNumber(foundHeader.getVersionNumber());
         }
-        //TODO: Shawn - we don't need this part here becuase we already created a file and ran scrubber. 
-//        SpringContext.getBean(BusinessObjectService.class).save(persistHeader);
-//
-//        OriginEntryService originEntryService = SpringContext.getBean(OriginEntryService.class);
-//        for (OriginEntryFull entry : this.originEntries) {
-//            entry.setGroup(originEntryGroup);
-//
-//            // don't need to worry about previous origin entries existing in the DB because there'll never be a
-//            // duplicate record because a sequence # is a key
-//            originEntryService.save(entry);
-//        }
 
-        CollectorDetailService collectorDetailService = SpringContext.getBean(CollectorDetailService.class);
-        int numSavedDetails = 0;
-        for (CollectorDetail idDetail : this.collectorDetails) {
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);        
+        int countOfdetails = collectorDetails.size();
+        
+        for (int numSavedDetails = 0; numSavedDetails < countOfdetails; numSavedDetails++) {
+            CollectorDetail idDetail = this.collectorDetails.get(numSavedDetails);           
             setDefaultsCollectorDetail(idDetail);
-            CollectorDetail foundIdDetail = (CollectorDetail) SpringContext.getBean(BusinessObjectService.class).retrieve(idDetail);
+            idDetail.setCreateSequence(StringUtils.EMPTY + numSavedDetails);
+            
+            CollectorDetail foundIdDetail = (CollectorDetail) businessObjectService.retrieve(idDetail);
             if (foundIdDetail != null) {
                 idDetail.setVersionNumber(foundIdDetail.getVersionNumber());
             }
-            numSavedDetails++;
-            idDetail.setCreateSequence(""+numSavedDetails);
-            collectorDetailService.save(idDetail);
+
+            businessObjectService.save(idDetail);
         }
-        collectorReportData.setNumSavedDetails(this, numSavedDetails);
+        
+        collectorReportData.setNumSavedDetails(this, countOfdetails);
     }
 
     /**

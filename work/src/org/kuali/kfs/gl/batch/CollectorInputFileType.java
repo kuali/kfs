@@ -59,7 +59,7 @@ public class CollectorInputFileType extends BatchInputFileTypeBase {
     public String getFileName(String principalName, Object parsedFileContents, String userIdentifier) {
         CollectorBatch collectorBatch = (CollectorBatch) parsedFileContents;
         
-        String fileName = "gl_idbilltrans_" + collectorBatch.getChartOfAccountsCode() + collectorBatch.getOrganizationCode();
+        String fileName = "gl_collector_" + collectorBatch.getChartOfAccountsCode() + collectorBatch.getOrganizationCode();
         fileName += "_" + principalName;
         if (StringUtils.isNotBlank(userIdentifier)) {
             fileName += "_" + userIdentifier;

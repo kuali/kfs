@@ -130,7 +130,10 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
      * @see org.kuali.kfs.sys.batch.service.WrappingBatchService#destroy()
      */
     public void destroy() {
-        printStream.close();
+        if(printStream != null) {        
+            printStream.close();
+            printStream = null;
+        }
 
         // reset variables that track state
         page = initialPageNumber;

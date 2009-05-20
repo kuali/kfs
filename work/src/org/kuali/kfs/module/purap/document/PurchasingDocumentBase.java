@@ -49,6 +49,7 @@ import org.kuali.kfs.module.purap.document.service.ReceivingAddressService;
 import org.kuali.kfs.module.purap.util.ItemParser;
 import org.kuali.kfs.module.purap.util.ItemParserBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
 import org.kuali.kfs.vnd.businessobject.PurchaseOrderCostSource;
@@ -1273,8 +1274,12 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     
     public boolean getHasB2BVendor() {
         if (getVendorHeaderGeneratedIdentifier() != null) {
+            refreshReferenceObject(VendorPropertyConstants.VENDOR_DETAIL);
             String campusCode = GlobalVariables.getUserSession().getPerson().getCampusCode();
-            return SpringContext.getBean(VendorService.class).getVendorB2BContract(getVendorDetail(), campusCode) != null;
+            VendorDetail vendorDetail = getVendorDetail();
+            if (vendorDetail == null || StringUtils.isEmpty(campusCode))
+                return false; // this should never happen
+            return SpringContext.getBean(VendorService.class).getVendorB2BContract(vendorDetail, campusCode) != null;
         }
         return false;
     }

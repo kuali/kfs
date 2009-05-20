@@ -23,6 +23,7 @@ public class VendorPropertyConstants {
     public static final String DATA_OBJ_MAINT_CD_ACTIVE_IND = "dataObjectMaintenanceCodeActiveIndicator";
 
     public static final String VENDOR_HEADER_PREFIX = "vendorHeader.";
+    public static final String VENDOR_DETAIL = "vendorDetail";
     public static final String VENDOR_NUMBER = "vendorNumber";
     public static final String VENDOR_DUNS_NUMBER = "vendorDunsNumber";
     public static final String VENDOR_PARENT_INDICATOR = "vendorParentIndicator";

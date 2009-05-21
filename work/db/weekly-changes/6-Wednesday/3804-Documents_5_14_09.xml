@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8'?> 
+<data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>INV</name>
+      <parent>AR</parent>
+      <docHandler>${application.url}/arCustomerInvoiceDocument.do?methodToCall=docHandler</docHandler>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="HasReccurence"/>
+          <split name="HasReccurence">
+            <branch name="True">
+              <requests name="Account" nextNode="Recurrence"/>
+              <requests name="Recurrence" nextNode="Join"/>
+            </branch>
+            <branch name="False">
+              <simple name="NoOp" nextNode="Join"/>
+            </branch>
+            <join name="Join"/>
+          </split>
+          <split name="BatchGenerated">
+            <branch name="True">
+              <requests name="Initiator" nextNode="Recurrence"/>
+              <requests name="Recurrence" nextNode="Join"/>
+            </branch>
+            <branch name="False">
+              <simple name="NoOp" nextNode="Join2"/>
+            </branch>
+            <join name="Join2"/>
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="Initiator">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="Recurrence">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <split name="HasReccurence">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <simple name="NoOp">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <join name="Join"/>
+        <join name="Join2"/>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>INVR</name>
+      <parent>ARM</parent>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="InvoiceRecurrenceIsInactivating"/>
+          <split name="InvoiceRecurrenceIsInactivating" nextNode="Account">
+            <branch name="True">
+              <requests name="RecurrenceCreator" nextNode="JoinInvoiceRecurrenceIsInactivating"/>
+            </branch>
+            <branch name="False">
+              <simple name="NoOpInvoiceRecurrenceIsInactivating" nextNode="JoinInvoiceRecurrenceIsInactivating"/>
+            </branch>
+            <join name="JoinInvoiceRecurrenceIsInactivating"/>
+          </split>
+          <requests name="Account" nextNode="Recurrence"/>
+          <requests name="Recurrence"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="RecurrenceCreator">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="Recurrence">
+          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <split name="InvoiceRecurrenceIsInactivating">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <simple name="NoOpInvoiceRecurrenceIsInactivating">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <join name="JoinInvoiceRecurrenceIsInactivating"/>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>

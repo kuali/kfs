@@ -32,7 +32,7 @@
 </c:if>
 
 <c:if test="${amendmentEntry}">
-	<c:if test="${KualiForm.document.receivingDocumentRequiredIndicator eq 'true'}">	
+	<c:if test="${KualiForm.readOnlyReceivingRequired eq 'true'}">	
 		<c:set var="readOnlyReceivingRequired" value="true" />
 	</c:if>
 </c:if>

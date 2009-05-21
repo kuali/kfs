@@ -237,6 +237,21 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         return account;
     }
 
+    public boolean isReadOnlyReceivingRequired() {
+        
+        PurchaseOrderDocument poDoc = getPurchaseOrderDocument();
+        
+        if (poDoc instanceof PurchaseOrderAmendmentDocument){
+            if (!poDoc.isReceivingDocumentRequiredIndicator()){
+                return SpringContext.getBean(PaymentRequestService.class).hasActivePaymentRequestsForPurchaseOrder(poDoc.getPurapDocumentIdentifier());
+            }else{
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * Returns the new Purchase Order Vendor Stipulation Line and resets it.
      * 
@@ -878,6 +893,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         
         return extraButtons;
     }
-    
+
 }
 

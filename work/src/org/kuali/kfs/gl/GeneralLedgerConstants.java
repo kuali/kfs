@@ -228,8 +228,8 @@ public class GeneralLedgerConstants {
         static final public String COLLECTOR_SCRUBBER_ERROR_OUTPUT_FILE = "col_scrberr1";
         static final public String COLLECTOR_SCRUBBER_EXPIRED_OUTPUT_FILE = "col_expaccts";
         static final public String COLLECTOR_SCRUBBER_ERROR_SORTED_FILE = "col_sorterr1";
-        static final public String COLLECTOR_DEMERGER_VAILD_OUTPUT_FILE = "gl_scrbout2";
-        static final public String COLLECTOR_DEMERGER_ERROR_OUTPUT_FILE = "gl_scrberr2";
+        static final public String COLLECTOR_DEMERGER_VAILD_OUTPUT_FILE = "col_scrbout2";
+        static final public String COLLECTOR_DEMERGER_ERROR_OUTPUT_FILE = "col_scrberr2";
         
         static final public String PRE_SCRUBBER_FILE = "gl_prescrub";
         static final public String SCRUBBER_INPUT_FILE = "gl_sortscrb";

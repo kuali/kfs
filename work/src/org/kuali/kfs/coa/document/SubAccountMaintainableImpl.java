@@ -45,7 +45,10 @@ public class SubAccountMaintainableImpl extends FinancialSystemMaintainable {
 
         Person person = GlobalVariables.getUserSession().getPerson();
         MaintenanceDocumentRestrictions restrictions = getBusinessObjectAuthorizationService().getMaintenanceDocumentRestrictions(document, person);
-        if (StringUtils.equals(refreshCaller, "accountLookupable") && !restrictions.isHiddenSectionId(KFSConstants.SUB_ACCOUNT_EDIT_CG_ICR_SECTION_ID) && !restrictions.isReadOnlySectionId(KFSConstants.SUB_ACCOUNT_EDIT_CG_ICR_SECTION_ID)) {
+        boolean canEdit = !restrictions.isHiddenSectionId(KFSConstants.SUB_ACCOUNT_EDIT_CG_ICR_SECTION_ID) && !restrictions.isReadOnlySectionId(KFSConstants.SUB_ACCOUNT_EDIT_CG_ICR_SECTION_ID);
+        
+        // after account lookup, refresh the CG ICR account fields
+        if (StringUtils.equals(refreshCaller, "accountLookupable") && fieldValues.containsKey("document.newMaintainableObject.accountNumber") && canEdit) {
             SubAccount subAccount = (SubAccount) this.getBusinessObject();
             this.populateCGIcrFields(subAccount);
         }

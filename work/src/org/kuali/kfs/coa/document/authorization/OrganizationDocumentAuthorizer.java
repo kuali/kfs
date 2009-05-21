@@ -140,4 +140,13 @@ public class OrganizationDocumentAuthorizer extends FinancialSystemMaintenanceDo
         LOG.info("User '" + user.getPrincipalName() + "' has access to the Plant fields.");
         return true;
     }
+    
+    @Override
+    protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
+        // TODO Auto-generated method stub
+        super.addRoleQualification(businessObject, attributes);
+        if ( businessObject != null && businessObject instanceof Organization ) {
+            attributes.put( KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, ((Organization)businessObject).getChartOfAccountsCode() );
+        }
+    }
 }

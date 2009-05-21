@@ -95,7 +95,7 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
 
         String fromAmountRoleMember = getAttributeValue(originalAttributeSet, KfsKimAttributes.FROM_AMOUNT);
         String fromAmountDelegationMember = getAttributeValue(newAttributeSet, KfsKimAttributes.FROM_AMOUNT);
-        if(!isGreaterNumber(fromAmountDelegationMember, fromAmountRoleMember)){
+        if(isLesserNumber(fromAmountDelegationMember, fromAmountRoleMember)){
             attributeImpl = getAttributeImpl(KfsKimAttributes.FROM_AMOUNT);
             GlobalVariables.getErrorMap().putError(
                     KfsKimAttributes.FROM_AMOUNT, RiceKeyConstants.ERROR_DELEGATION_FROM_AMOUNT_LESSER, 
@@ -128,6 +128,18 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
         return validationErrors;
     }
 
+    private boolean isLesserNumber(String numberStr1, String numberStr2){
+        if(StringUtils.isBlank(numberStr1) ) {
+            numberStr1 = "0";
+        }
+        if(StringUtils.isBlank(numberStr2) ) {
+            numberStr2 = "0";
+        }
+        int number1 = Integer.parseInt(numberStr1);
+        int number2 = Integer.parseInt(numberStr2);
+        return number1 < number2;
+    }
+
     private boolean isGreaterNumber(String numberStr1, String numberStr2){
         if(StringUtils.isBlank(numberStr1) ) {
             numberStr1 = "0";
@@ -137,7 +149,7 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
         }
         int number1 = Integer.parseInt(numberStr1);
         int number2 = Integer.parseInt(numberStr2);
-        return number1>=number2;
+        return number1 > number2;
     }
 
 }

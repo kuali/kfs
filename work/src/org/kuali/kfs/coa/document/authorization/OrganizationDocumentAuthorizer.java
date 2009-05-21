@@ -41,18 +41,7 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 public class OrganizationDocumentAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationDocumentAuthorizer.class);
-    
-//    @Override
-//    public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActions) {
-//       
-//        Set<String> myDocumentActions = super.getDocumentActions(document, user, documentActions);
-//        boolean isAuthorized = isAuthorizedByTemplate(document, KNSConstants.KUALI_RICE_WORKFLOW_NAMESPACE, KimConstants.PermissionTemplateNames.MODIFY_FIELD, user.getPrincipalId());
-//        if (!isAuthorized){
-//            myDocumentActions.remove(KNSConstants.KUALI_ACTION_CAN_BLANKET_APPROVE);
-//        }
-//        return myDocumentActions;
-//    }    
-   
+      
     @Override
     public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActions) {
 
@@ -91,7 +80,7 @@ public class OrganizationDocumentAuthorizer extends FinancialSystemMaintenanceDo
     /**
      * This method tests whether the specified user is part of the group that grants authorization to the Plant fields.
      * 
-     * @param user - the user to test
+     * @param user - the user to test, document to get plant fund account
      * @return true if user is part of the group, false otherwise
      */
     protected boolean isPlantAuthorized(Person user, Document document) 
@@ -128,25 +117,7 @@ public class OrganizationDocumentAuthorizer extends FinancialSystemMaintenanceDo
             return false;
         }
         
-//        permissionDetails.put(KfsKimAttributes.PROPERTY_NAME, KFSPropertyConstants.ORGANIZATION_PLANT_ACCOUNT_NUMBER);
-//        identityManagementService = SpringContext.getBean(IdentityManagementService.class);
-//       isAuthorized = identityManagementService.isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, roleQualifiers);
-//        if (!isAuthorized) 
-//       {
-//            LOG.info("User '" + user.getPrincipalName() + "' has no access to the Plant account.");
-//           return true;
-//        }
-
         LOG.info("User '" + user.getPrincipalName() + "' has access to the Plant fields.");
         return true;
-    }
-    
-    @Override
-    protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
-        // TODO Auto-generated method stub
-        super.addRoleQualification(businessObject, attributes);
-        if ( businessObject != null && businessObject instanceof Organization ) {
-            attributes.put( KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, ((Organization)businessObject).getChartOfAccountsCode() );
-        }
     }
 }

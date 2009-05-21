@@ -1,3 +1,5 @@
+set serverout on
+
 /* KULDBA to Demo */
 /* Disable constraints for the duration of this script */
 DECLARE 
@@ -18,145 +20,39 @@ END;
 TRUNCATE TABLE krns_maint_lock_t
 /
 
--- check parm table for IU hosts/emails
-
--- INVALID_FILE_TO_ADDRESSES
--- HARD_EDIT_TO_EMAIL_ADDRESSES
--- SOFT_EDIT_TO_EMAIL_ADDRESSES
--- TAX_CANCEL_TO_EMAIL_ADDRESSES
--- TAX_GROUP_TO_EMAIL_ADDRESSES
--- NO_PAYMENT_FILE_TO_EMAIL_ADDRESSES
---UPDATE krns_parm_t
---	SET txt = 'knoreceipt-l@indiana.edu'
- -- WHERE sh_parm_typ_cd <> 'HELP'
---    AND sh_parm_nm LIKE '%ADDRESSES'
---/
-
 -- clean out non release 3.0 documents and associated entries
 
-
 DELETE FROM ca_acct_delegate_t
-    WHERE fdoc_typ_cd NOT IN ( SELECT fs_doc_typ_cd FROM fs_doc_typ_cd_t )
+    WHERE fdoc_typ_cd NOT IN ( SELECT DOC_TYP_NM FROM KREW_DOC_TYP_T )
 /
 
 DELETE FROM gl_offset_defn_t
-    WHERE fdoc_typ_cd NOT IN ( SELECT fs_doc_typ_cd FROM fs_doc_typ_cd_t )
+    WHERE fdoc_typ_cd NOT IN ( SELECT DOC_TYP_NM FROM KREW_DOC_TYP_T )
 /    
 
 -- NOTE: this will leave the balance table out of sync with the GL entries
 DELETE FROM gl_entry_t
-    WHERE fdoc_typ_cd NOT IN ( SELECT fs_doc_typ_cd FROM fs_doc_typ_cd_t )
+    WHERE fdoc_typ_cd NOT IN ( SELECT DOC_TYP_NM FROM KREW_DOC_TYP_T )
 /    
 
 DELETE FROM gl_encumbrance_t
-    WHERE fdoc_typ_cd NOT IN ( SELECT fs_doc_typ_cd FROM fs_doc_typ_cd_t )
+    WHERE fdoc_typ_cd NOT IN ( SELECT DOC_TYP_NM FROM KREW_DOC_TYP_T )
 /    
 
 DELETE FROM ld_ldgr_entr_t
-    WHERE fdoc_typ_cd NOT IN ( SELECT fs_doc_typ_cd FROM fs_doc_typ_cd_t )
+    WHERE fdoc_typ_cd NOT IN ( SELECT DOC_TYP_NM FROM KREW_DOC_TYP_T )
 /    
 
 DELETE FROM ca_org_rtng_mdl_t
-    WHERE fdoc_typ_cd NOT IN ( SELECT fs_doc_typ_cd FROM fs_doc_typ_cd_t )
+    WHERE fdoc_typ_cd NOT IN ( SELECT DOC_TYP_NM FROM KREW_DOC_TYP_T )
 /    
 
-
--- Clean up workflow document types and versions
-
---DELETE
-----  SELECT *
---  FROM KREW_RTE_NODE_LNK_T a
---  WHERE from_rte_node_id IN ( SELECT rte_node_id FROM KREW_RTE_NODE_T
---  WHERE doc_typ_id IN (SELECT doc_typ_id FROM KREW_DOC_TYP_T
---    WHERE doc_typ_nm LIKE 'Fake%'
---       OR doc_typ_nm LIKE 'Test%'
---       OR doc_typ_nm LIKE 'MyTest%'
---       OR doc_typ_nm LIKE '%TEST%'
---       OR doc_typ_nm LIKE 'aintenance%'
---		OR cur_ind = 0
---)
---)
---/
---
---DELETE
-----  SELECT *
---  FROM KREW_RTE_NODE_CFG_PARM_T a
---  WHERE RTE_NODE_CFG_PARM_ID IN ( SELECT rte_node_id FROM KREW_RTE_NODE_T
---  WHERE doc_typ_id IN (SELECT doc_typ_id FROM KREW_DOC_TYP_T
---    WHERE doc_typ_nm LIKE 'Fake%'
---       OR doc_typ_nm LIKE 'Test%'
---       OR doc_typ_nm LIKE 'MyTest%'
---       OR doc_typ_nm LIKE '%TEST%'
---       OR doc_typ_nm LIKE 'aintenance%'
---		OR cur_ind = 0
---)
---)
---OR RTE_NODE_CFG_PARM_ID NOT IN ( SELECT rte_node_id FROM KREW_RTE_NODE_T )
---/
---
---DELETE
---  FROM KREW_RTE_NODE_LNK_T a
---  WHERE to_rte_node_id IN ( SELECT rte_node_id FROM KREW_RTE_NODE_T
---  WHERE doc_typ_id IN (SELECT doc_typ_id FROM KREW_DOC_TYP_T
---    WHERE doc_typ_nm LIKE 'Fake%'
---       OR doc_typ_nm LIKE 'Test%'
---       OR doc_typ_nm LIKE 'MyTest%'
---       OR doc_typ_nm LIKE '%TEST%'
---       OR doc_typ_nm LIKE 'aintenance%'
---		OR cur_ind = 0
---)
---)
---/
---
---DELETE
---  FROM KREW_RTE_NODE_T a
---  WHERE doc_typ_id IN (SELECT doc_typ_id FROM KREW_DOC_TYP_T
---    WHERE doc_typ_nm LIKE 'Fake%'
---       OR doc_typ_nm LIKE 'Test%'
---       OR doc_typ_nm LIKE 'MyTest%'
---       OR doc_typ_nm LIKE '%TEST%'
---       OR doc_typ_nm LIKE 'aintenance%'
---		OR cur_ind = 0
---)
---/
---
----- clear out bad document types
---DELETE 
-----SELECT *
---FROM KREW_DOC_TYP_T
---    WHERE doc_typ_nm LIKE 'Fake%'
---       OR doc_typ_nm LIKE 'Test%'
---       OR doc_typ_nm LIKE 'MyTest%'
---       OR doc_typ_nm LIKE '%TEST%'
---       OR doc_typ_nm LIKE 'aintenance%'
---		OR cur_ind = 0
-----)
---/
 
 -- delete old version document types
 DELETE FROM KREW_DOC_TYP_T
     WHERE cur_ind = 0
 /
 
--- remove some old rule attributes
---DELETE FROM KREW_RULE_ATTR_T WHERE 
---rule_attrib_lbl_txt = 'foo'
- --OR
---  rule_attrib_nm LIKE 'KualiReporting%'
---/
-
--- delete non-phase 1 rule templates
---DELETE
---  FROM KREW_RULE_TMPL_ATTR_T
--- WHERE rule_tmpl_id IN (SELECT a.rule_tmpl_id
---                          FROM en_rule_tmpl_t a
---                         WHERE rule_tmpl_nm LIKE 'Test%' OR rule_tmpl_nm LIKE 'KualiReporting%')
---/  
-
---DELETE
---  FROM en_rule_tmpl_attrib_t
---  WHERE NOT EXISTS ( SELECT rule_attrib_id FROM en_rule_attrib_t )
---/
 
 DELETE
   FROM KREW_RULE_TMPL_OPTN_T
@@ -165,52 +61,11 @@ DELETE
                          WHERE nm LIKE 'Test%' OR nm LIKE 'KualiReporting%')
 /
 
---DELETE
---  FROM en_rule_tmpl_t
---  WHERE rule_tmpl_nm LIKE 'Test%' OR rule_tmpl_nm LIKE 'KualiReporting%'
---/ 
---
-
-
 COMMIT
 /
 
-/* Re-enable constraints */
-DECLARE 
-   CURSOR constraint_cursor IS 
-      SELECT table_name, constraint_name 
-         FROM user_constraints 
-         WHERE constraint_type = 'R'
-           AND status <> 'ENABLED';
-BEGIN 
-   FOR r IN constraint_cursor LOOP
-      execute immediate 'ALTER TABLE '||r.table_name||' ENABLE CONSTRAINT '||r.constraint_name; 
-   END LOOP; 
-END;
-/
 
-
-----------------------------------------------------------
-
-
-
-set serverout on
-
-/* Disable constraints for the duration of this script */
-DECLARE 
-   CURSOR constraint_cursor IS 
-      SELECT table_name, constraint_name 
-         FROM user_constraints 
-         WHERE constraint_type = 'R'
-           AND status = 'ENABLED';
-BEGIN 
-   FOR r IN constraint_cursor LOOP
-      execute immediate 'ALTER TABLE '||r.table_name||' DISABLE CONSTRAINT '||r.constraint_name; 
-   END LOOP; 
-END;
-/
-
-/*  Clear out tables we don't need rows in  */
+/*  Clear out tables we don't need data in  */
 
 DECLARE
   CURSOR tables_to_empty IS
@@ -296,6 +151,7 @@ DECLARE
 	, 'FS_ORIGIN_CODE_T'
 	, 'FS_TAX_REGION_TYPE_T'
 	, 'GL_ORIGIN_ENTRY_SRC_T'
+	, 'KR_COUNTY_T'
 	, 'KR_COUNTRY_T'
 	, 'KR_POSTAL_CODE_T'
 	, 'KR_STATE_T'
@@ -424,7 +280,7 @@ DELETE FROM KRIM_DLGN_MBR_T WHERE MBR_TYP_CD='P';
 
 DELETE FROM KRIM_ROLE_RSP_ACTN_T WHERE ROLE_MBR_ID <> '*';
 /
-DELETE FROM KRIM_ROLE_MBR_ATTR_DATA_T WHERE TARGET_PRIMARY_KEY NOT IN (SELECT ROLE_MBR_ID from KRIM_ROLE_MBR_T where MBR_TYP_CD='R')
+DELETE FROM KRIM_ROLE_MBR_ATTR_DATA_T WHERE ROLE_MBR_ID NOT IN (SELECT ROLE_MBR_ID from KRIM_ROLE_MBR_T where MBR_TYP_CD='R')
 /
 /* RE-INSERT to user and workgroup member table (admin) */
 INSERT INTO krim_prncpl_t
@@ -631,113 +487,93 @@ VALUES
 INSERT INTO KRIM_ROLE_MBR_T
 ("ROLE_MBR_ID",OBJ_ID,"ROLE_ID","MBR_ID")
 VALUES
-('37',SYS_GUID(),'79','3')
+('36',SYS_GUID(),'79','3')
 /
 
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T
-("ATTR_DATA_ID",OBJ_ID,"MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
+("ATTR_DATA_ID",OBJ_ID,"ROLE_MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
 VALUES
-('1',SYS_GUID(),'3','27','22','01')
+('1',SYS_GUID(),'6','26','22','01')
 /
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T
-("ATTR_DATA_ID",OBJ_ID,"MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
+("ATTR_DATA_ID",OBJ_ID,"ROLE_MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
 VALUES
-('2',SYS_GUID(),'3','27','24','0001')
+('2',SYS_GUID(),'6','26','23','0001')
 /
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T
-("ATTR_DATA_ID",OBJ_ID,"MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
+("ATTR_DATA_ID",OBJ_ID,"ROLE_MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
 VALUES
-('3',SYS_GUID(),'3','26','22','01')
+('3',SYS_GUID(),'4','17','12','01')
 /
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T
-("ATTR_DATA_ID",OBJ_ID,"MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
+("ATTR_DATA_ID",OBJ_ID,"ROLE_MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
 VALUES
-('4',SYS_GUID(),'3','26','23','0001')
+('4',SYS_GUID(),'5','17','12','01')
 /
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T
-("ATTR_DATA_ID",OBJ_ID,"MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
+("ATTR_DATA_ID",OBJ_ID,"ROLE_MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
 VALUES
-('5',SYS_GUID(),'3','26','23','0001')
+('5',SYS_GUID(),'12','34','32','99')
 /
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T
-("ATTR_DATA_ID",OBJ_ID,"MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
+("ATTR_DATA_ID",OBJ_ID,"ROLE_MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
 VALUES
-('6',SYS_GUID(),'3','17','12','01')
+('6',SYS_GUID(),'15','27','22','01')
 /
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T
-("ATTR_DATA_ID",OBJ_ID,"MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
+("ATTR_DATA_ID",OBJ_ID,"ROLE_MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
 VALUES
-('7',SYS_GUID(),'3','26','22','01')
+('7',SYS_GUID(),'15','27','24','0001')
 /
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T
-("ATTR_DATA_ID",OBJ_ID,"MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
+("ATTR_DATA_ID",OBJ_ID,"ROLE_MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
 VALUES
-('8',SYS_GUID(),'3','26','23','0001')
+('8',SYS_GUID(),'19','25','22','01')
 /
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T
-("ATTR_DATA_ID",OBJ_ID,"MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
+("ATTR_DATA_ID",OBJ_ID,"ROLE_MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
 VALUES
-('9',SYS_GUID(),'3','34','32','99')
+('9',SYS_GUID(),'29','36','4','KFS-SYS')
 /
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T
-("ATTR_DATA_ID",OBJ_ID,"MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
+("ATTR_DATA_ID",OBJ_ID,"ROLE_MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
 VALUES
-('10',SYS_GUID(),'3','27','22','01')
+('10',SYS_GUID(),'29','36','22','01')
 /
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T
-("ATTR_DATA_ID",OBJ_ID,"MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
+("ATTR_DATA_ID",OBJ_ID,"ROLE_MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
 VALUES
-('11',SYS_GUID(),'3','27','24','0001')
+('11',SYS_GUID(),'29','36','24','0001')
 /
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T
-("ATTR_DATA_ID",OBJ_ID,"MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
+("ATTR_DATA_ID",OBJ_ID,"ROLE_MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
 VALUES
-('12',SYS_GUID(),'3','25','22','01')
+('12',SYS_GUID(),'34','29','22','01')
 /
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T
-("ATTR_DATA_ID",OBJ_ID,"MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
+("ATTR_DATA_ID",OBJ_ID,"ROLE_MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
 VALUES
-('13',SYS_GUID(),'3','36','4','KFS-SYS')
+('13',SYS_GUID(),'34','29','24','0001')
 /
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T
-("ATTR_DATA_ID",OBJ_ID,"MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
+("ATTR_DATA_ID",OBJ_ID,"ROLE_MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
 VALUES
-('14',SYS_GUID(),'3','36','22','01')
+('14',SYS_GUID(),'34','29','13','ACCT')
 /
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T
-("ATTR_DATA_ID",OBJ_ID,"MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
+("ATTR_DATA_ID",OBJ_ID,"ROLE_MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
 VALUES
-('15',SYS_GUID(),'3','36','24','0001')
+('15',SYS_GUID(),'35','27','22','01')
 /
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T
-("ATTR_DATA_ID",OBJ_ID,"MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
+("ATTR_DATA_ID",OBJ_ID,"ROLE_MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
 VALUES
-('16',SYS_GUID(),'3','29','22','01')
+('16',SYS_GUID(),'35','27','24','0001')
 /
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T
-("ATTR_DATA_ID",OBJ_ID,"MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
+("ATTR_DATA_ID",OBJ_ID,"ROLE_MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
 VALUES
-('17',SYS_GUID(),'3','29','24','0001')
-/
-INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T
-("ATTR_DATA_ID",OBJ_ID,"MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
-VALUES
-('18',SYS_GUID(),'3','29','13','ACCT')
-/
-INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T
-("ATTR_DATA_ID",OBJ_ID,"MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
-VALUES
-('19',SYS_GUID(),'3','27','22','01')
-/
-INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T
-("ATTR_DATA_ID",OBJ_ID,"MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
-VALUES
-('20',SYS_GUID(),'3','27','24','0001')
-/
-INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T
-("ATTR_DATA_ID",OBJ_ID,"MBR_ID","KIM_TYP_ID","KIM_ATTR_DEFN_ID","ATTR_VAL")
-VALUES
-('21',SYS_GUID(),'3','25','22','0001')
+('17',SYS_GUID(),'36','25','22','0001')
 /
 
 INSERT INTO CA_CHART_T
@@ -754,83 +590,16 @@ VALUES
 COMMIT
 /
 
---alter table ca_org_t add constraint ca_org_tr5 foreign key (fin_coa_cd, org_dflt_acct_nbr) references ca_account_t (fin_coa_cd, account_nbr)
---/
---alter table ca_org_t add constraint ca_org_tr3 foreign key (org_plnt_coa_cd, org_plnt_acct_nbr) references ca_account_t (fin_coa_cd, account_nbr)
---/
---alter table ca_org_t add constraint ca_org_tr10 foreign key (cmp_plnt_coa_cd, cmp_plnt_acct_nbr) references ca_account_t(fin_coa_cd, account_nbr)
---/
-
-
 
 /* Workflow Constants, Document Types & Rules */
 
--- remove rules with IU data
---DELETE 
---    FROM EN_RULE_BASE_VAL_T
---    WHERE rule_tmpl_id IN (
---        SELECT RULE_TMPL_ID
---            FROM EN_RULE_TMPL_T
---            WHERE RULE_TMPL_ID IN (
---                SELECT RULE_TMPL_ID
---                    FROM EN_RULE_TMPL_ATTRIB_T
---                    WHERE RULE_ATTRIB_ID IN ( 
---                        SELECT rule_attrib_id 
---                            FROM EN_RULE_ATTRIB_T
---                            WHERE RULE_ATTRIB_NM LIKE '%Campus%'
---                               OR RULE_ATTRIB_NM LIKE '%Content%'
---                               OR RULE_ATTRIB_NM LIKE '%HigherEd%'
---                               OR RULE_ATTRIB_NM LIKE '%Chart%'
---                               OR RULE_ATTRIB_NM LIKE '%FundGroup%'
---                               OR RULE_ATTRIB_NM LIKE '%ObjectCode%'
---                               OR RULE_ATTRIB_NM LIKE '%ProjectCode%'
---                               OR RULE_ATTRIB_NM LIKE '%SubAccount%'
---                               OR RULE_ATTRIB_NM LIKE '%OrgReview%' 
---                               OR RULE_ATTRIB_NM = 'KualiPurchaseOrderRemoveHoldNotification'
---                               OR RULE_ATTRIB_NM = 'KualiPurchaseOrderContractAndGrantsAttribute'
---                               OR RULE_ATTRIB_NM = 'KualiPurchaseOrderBudgetAttribute'
---                    )
---            )
---    )
---    OR RULE_TMPL_ID NOT IN ( SELECT RULE_TMPL_ID FROM EN_RULE_TMPL_T )
---/
---DELETE FROM KREW_RULE_EXT_T 
---    WHERE RULE_BASE_VAL_ID NOT IN ( SELECT RULE_BASE_VAL_ID FROM EN_RULE_BASE_VAL_T )
---/
---DELETE FROM KREW_RULE_EXT_VAL_T 
---    WHERE RULE_EXT_ID NOT IN ( SELECT RULE_EXT_ID FROM EN_RULE_EXT_T )
---/
---DELETE FROM KREW_RULE_RSP_T
---    WHERE RULE_BASE_VAL_ID NOT IN ( SELECT RULE_BASE_VAL_ID FROM EN_RULE_BASE_VAL_T )
---/
+
 -- Clean up person responsibility references
 UPDATE KREW_RULE_RSP_T
     SET NM = '1'
     WHERE TYP = 'F'
 /
 
---DELETE
---    FROM EN_WRKGRP_T
---    WHERE (
---        WRKGRP_NM LIKE 'KUALI\_DV\_%' ESCAPE '\'
---        OR WRKGRP_NM LIKE '%-Content' ESCAPE '\'
---        OR WRKGRP_NM LIKE 'KUALI\_BRSR%' ESCAPE '\'
---        OR WRKGRP_NM LIKE 'KUALI\_CONTENT%' ESCAPE '\'
---   )
---   AND WRKGRP_NM NOT IN ( 'KUALI_DV_TRAV', 'KUALI_DV_FRN', 'KUALI_DV_WIRE', 'KUALI_DV_PYAUDIT', 'KUALI_DV_TAXGRP' )
---/
---
---DELETE FROM EN_WRKGRP_EXT_T
---    WHERE ( WRKGRP_ID, WRKGRP_VER_NBR ) NOT IN ( SELECT WRKGRP_ID, WRKGRP_VER_NBR FROM EN_WRKGRP_T )
---/
---DELETE FROM EN_WRKGRP_MBR_T
---    WHERE ( WRKGRP_ID, WRKGRP_VER_NBR ) NOT IN ( SELECT WRKGRP_ID, WRKGRP_VER_NBR FROM EN_WRKGRP_T )
---/
---DELETE FROM EN_WRKGRP_EXT_DTA_T
---    WHERE WRKGRP_EXT_ID NOT IN ( SELECT WRKGRP_EXT_ID FROM EN_WRKGRP_EXT_T )
---/
---COMMIT
---/
 
 /*  System Parameters & Rules  */
 -- blank out rules which contain values from other emptied tables
@@ -863,12 +632,9 @@ UPDATE KREW_RULE_RSP_T
 COMMIT
 /
 
-
-
 /*  Reference Data  */
 
 /* One origin code */
---insert into FS_ORIGIN_CODE_T values ('01',sys_guid(),1,'KULSTG','KUL','KUL',0,0,'0','0',0,0,0,0,'Y')
 DELETE FROM FS_ORIGIN_CODE_T
    WHERE FS_ORIGIN_CD NOT IN ( '01', 'EU', 'MF', 'PD' )
 /

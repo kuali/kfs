@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.impl.KimAttributes;
@@ -30,7 +31,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.RiceKeyConstants;
 
 public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends OrganizationHierarchyReviewRoleTypeServiceImpl {
-
+    private static final Logger LOG = Logger.getLogger(AccountingOrganizationHierarchyReviewRoleTypeServiceImpl.class);
     /**
      * Create role type service - org.kuali.kfs.coa.identity.AccountingOrganizationHierarchyReviewRoleTypeService for
      * KFS-COA/"Organization: Always Hierarchical, Document Type & Accounting" Attributes: Chart Code (required) Organization Code
@@ -43,11 +44,15 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
      *      org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
     public boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
-        return doesOverrideCodeMatch(qualification, roleQualifier) && isValidTotalAmount(qualification, roleQualifier) && super.performMatch(qualification, roleQualifier);
+        return doesOverrideCodeMatch(qualification, roleQualifier) 
+                && isValidTotalAmount(qualification, roleQualifier) 
+                && super.performMatch(qualification, roleQualifier);
     }
 
     private boolean doesOverrideCodeMatch(AttributeSet qualification, AttributeSet roleQualifier) {
-        return StringUtils.isBlank(qualification.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE)) || StringUtils.isBlank(roleQualifier.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE)) || qualification.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE).equals(roleQualifier.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE));
+        return StringUtils.isBlank(qualification.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE)) 
+                || StringUtils.isBlank(roleQualifier.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE)) 
+                || qualification.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE).equals(roleQualifier.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE));
     }
 
     private boolean isValidTotalAmount(AttributeSet qualification, AttributeSet roleQualifier) {
@@ -62,6 +67,7 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
         }
         catch (Exception ex) {
             isValidTotalAmount = false;
+            LOG.error( "Exception comparing document amount to role qualifiers.", ex );
         }
         return isValidTotalAmount;
     }

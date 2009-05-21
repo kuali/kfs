@@ -83,7 +83,7 @@
           </td>
           <th colspan="2"> <div align="left">
 		  <c:choose>
-			<c:when test="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}">
+			<c:when test="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}">
 				<a href="${KualiForm.disputeURL}" target="_blank"><img src="${ConfigProperties.externalizable.images.url}buttonsmall_dispute.gif"/></a>
 			</c:when>
 			<c:otherwise>&nbsp;</c:otherwise>

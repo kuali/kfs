@@ -20,6 +20,7 @@ import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.dataaccess.ProjectCodeDao;
 import org.kuali.kfs.coa.service.ProjectCodeService;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.kns.util.spring.CacheNoCopy;
 
 /**
  * This class is the service implementation for the ProjectCode structure. This is the default implementation, that is delivered
@@ -36,6 +37,8 @@ public class ProjectCodeServiceImpl implements ProjectCodeService {
      * 
      * @see org.kuali.kfs.coa.service.ProjectCodeService#getByPrimaryId(java.lang.String)
      */
+    //   KFSMI-2612
+    @CacheNoCopy
     public ProjectCode getByPrimaryId(String projectCode) {
         return projectCodeDao.getByPrimaryId(projectCode);
     }

@@ -21,6 +21,7 @@ import org.kuali.kfs.sys.dataaccess.KualiCodeDao;
 import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kns.bo.KualiCode;
+import org.kuali.rice.kns.util.spring.CacheNoCopy;
 
 /**
  * This class is the service implementation for the KualiCodeBase structure. This is the default implementation, that is delivered
@@ -38,6 +39,8 @@ public class KualiCodeServiceImpl implements KualiCodeService {
      * @param code - code to search for
      * @return KualiCodeBase
      */
+    //   KFSMI-2612 
+    @CacheNoCopy
     public KualiCode getByCode(Class queryClass, String code) {
         return kualiCodeDao.getByCode(queryClass, code);
     }

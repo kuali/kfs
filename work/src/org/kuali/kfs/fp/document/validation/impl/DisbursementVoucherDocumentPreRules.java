@@ -16,6 +16,7 @@
 package org.kuali.kfs.fp.document.validation.impl;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -29,14 +30,11 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.validation.impl.BankCodeValidation;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterEvaluator;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
@@ -50,7 +48,6 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
      * 
      * @param document submitted document
      * @return true if pre-rules execute successfully
-     * 
      * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
@@ -65,7 +62,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
         preRulesOK &= checkWireTransferTabState(dvDocument);
 
         preRulesOK &= checkForeignDraftTabState(dvDocument);
-        
+
         preRulesOK &= checkBankCodeActive(dvDocument);
 
         return preRulesOK;
@@ -95,22 +92,16 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
         if (!hasNonEmployeeTravelValues(dvNonEmplTrav)) {
             return true;
         }
-        
-        String paymentReasonCode = dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode();
-        ParameterEvaluator travelNonEmplPaymentReasonEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(DisbursementVoucherDocument.class, NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM, paymentReasonCode);
-        
-        if(!travelNonEmplPaymentReasonEvaluator.evaluationSucceeds() || dvDocument.getDvPayeeDetail().isEmployee()){
-            String nonEmplTravReasonStr = StringUtils.EMPTY;
-            
-            List<KeyLabelPair> reasons = new PaymentReasonValuesFinder().getKeyValues();
-            for (KeyLabelPair reason : reasons) {
-                if (paymentReasonCode!= null && paymentReasonCode.equals(reason.getKey())) {
-                    nonEmplTravReasonStr = reason.getLabel();
-                }
-            }
 
-            Object[] args = { "payment reason", "'" + dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonName() + "'", "Non-Employee Travel", "'" + nonEmplTravReasonStr + "'" };
-            
+        String paymentReasonCode = dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode();
+        List<String> nonEmpltravelPaymentReasonCodes = SpringContext.getBean(ParameterService.class).getParameterValues(DisbursementVoucherDocument.class, NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM);
+
+        if (nonEmpltravelPaymentReasonCodes == null || !nonEmpltravelPaymentReasonCodes.contains(paymentReasonCode) || dvDocument.getDvPayeeDetail().isEmployee()) {
+            String nonEmplTravReasonStr = getValidPaymentReasonsAsString(nonEmpltravelPaymentReasonCodes);
+
+            String paymentReasonName = dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonName();
+            Object[] args = { "payment reason", "'" + paymentReasonName + "'", "Non-Employee Travel", nonEmplTravReasonStr };
+
             String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.QUESTION_CLEAR_UNNEEDED_TAB);
             questionText = MessageFormat.format(questionText, args);
 
@@ -227,8 +218,8 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
     }
 
     /**
-     * Returns true if foreign draft tab contains any data in any fields. 
-     * NOTE: Currently does not validate based on only required fields. Checks all fields within tab for data.
+     * Returns true if foreign draft tab contains any data in any fields. NOTE: Currently does not validate based on only required
+     * fields. Checks all fields within tab for data.
      * 
      * @param dvForeignDraft disbursement foreign draft object
      * @return True if foreign draft tab contains any data in any fields.
@@ -285,17 +276,16 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
 
         return tabStatesOK;
     }
-    
+
     /**
-     * If bank specification is enabled, prompts user to use the continuation bank code when the
-     * given bank code is inactive
+     * If bank specification is enabled, prompts user to use the continuation bank code when the given bank code is inactive
      * 
      * @param dvDocument document containing bank code
      * @return true
      */
     private boolean checkBankCodeActive(DisbursementVoucherDocument dvDocument) {
         boolean continueRules = true;
-        
+
         // if bank specification is not enabled, no need to validate bank
         if (!SpringContext.getBean(BankService.class).isBankSpecificationEnabled()) {
             return continueRules;
@@ -363,4 +353,26 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
         dvWireTransfer.setDisbursementVoucherPayeeAccountName(null);
     }
 
+    /**
+     * put the valid payement reason codes along with their description together
+     * 
+     * @param validPaymentReasonCodes the given valid payement reason codes
+     * @return the valid payement reason codes along with their description as a string
+     */
+    private String getValidPaymentReasonsAsString(List<String> validPaymentReasonCodes) {
+        List<String> payementReasonString = new ArrayList<String>();
+
+        if (validPaymentReasonCodes == null || validPaymentReasonCodes.isEmpty()) {
+            return StringUtils.EMPTY;
+        }
+
+        List<KeyLabelPair> reasons = new PaymentReasonValuesFinder().getKeyValues();
+        for (KeyLabelPair reason : reasons) {
+            if (validPaymentReasonCodes.contains(reason.getKey())) {
+                payementReasonString.add(reason.getLabel());
+            }
+        }
+
+        return payementReasonString.toString();
+    }
 }

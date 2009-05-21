@@ -15,11 +15,8 @@
  */
 package org.kuali.kfs.gl.batch.service.impl;
 
-import java.io.FileOutputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -31,15 +28,11 @@ import org.kuali.kfs.gl.batch.CollectorBatch;
 import org.kuali.kfs.gl.batch.CollectorStep;
 import org.kuali.kfs.gl.batch.service.CollectorReportService;
 import org.kuali.kfs.gl.businessobject.DemergerReportData;
-import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.report.CollectorReportData;
-import org.kuali.kfs.gl.report.LedgerReport;
 import org.kuali.kfs.gl.report.LedgerSummaryReport;
 import org.kuali.kfs.gl.report.Summary;
-import org.kuali.kfs.gl.report.TransactionReport;
-import org.kuali.kfs.gl.report.TransactionReport.PageHelper;
 import org.kuali.kfs.gl.service.ScrubberReportData;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -56,18 +49,6 @@ import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-import com.lowagie.text.Chunk;
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Font;
-import com.lowagie.text.FontFactory;
-import com.lowagie.text.ListItem;
-import com.lowagie.text.PageSize;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.Phrase;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfWriter;
-
 /**
  * The base implementation of the CollectorReportService
  */
@@ -83,17 +64,10 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
     private ReportWriterService collectorReportWriterService;
 
-    private Font headerFont;
-    private Font textFont;
-    private int textFontSize;
-
     /**
      * Constructs a CollectorReportServiceImpl instance
      */
     public CollectorReportServiceImpl() {
-        textFontSize = 8;
-        headerFont = FontFactory.getFont(FontFactory.COURIER, 8, Font.BOLD);
-        textFont = FontFactory.getFont(FontFactory.COURIER, textFontSize, Font.NORMAL);
     }
 
     /**
@@ -192,7 +166,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
             String validationErrors = getValidationStatus(errorMessages, false, 15);
             if (StringUtils.isNotBlank(validationErrors)) {
-                collectorReportWriterService.writeMultipleFormattedMessageLines(validationErrors, textFont);
+                collectorReportWriterService.writeMultipleFormattedMessageLines(validationErrors);
             }
         }
 
@@ -248,45 +222,6 @@ public class CollectorReportServiceImpl implements CollectorReportService {
             appendAmountCountLine(buf, "Group Debits      = ", Integer.toString(totals.getNumDebitEntries()), CURRENCY_SYMBOL + totals.getDebitAmount().toString());
             appendAmountCountLine(buf, "Group Not C/D     = ", Integer.toString(totals.getNumOtherEntries()), CURRENCY_SYMBOL + totals.getOtherAmount().toString());
             appendAmountCountLine(buf, "Valid Group Count = ", batch.getTotalRecords().toString(), CURRENCY_SYMBOL + batch.getTotalAmount());
-        }
-    }
-
-    /**
-     * This opens a PDF document to write the report on
-     * 
-     * @param destinationDirectory the directory where the report should be written to
-     * @param fileprefix the beginning of the file name
-     * @param runDate the date when the Collector was run (to name the file after)
-     * @param title the title of this report
-     * @return a PDF document to write to
-     */
-    protected Document openPdfWriter(String destinationDirectory, String fileprefix, Date runDate, String title) {
-        try {
-            Document document = new Document(PageSize.A4.rotate());
-
-            PageHelper helper = new PageHelper();
-            helper.runDate = runDate;
-            helper.headerFont = headerFont;
-            helper.title = title;
-
-            String filename = destinationDirectory + "/" + fileprefix + "_";
-            filename = filename + dateTimeService.toDateTimeStringForFilename(runDate);
-            filename = filename + ".pdf";
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filename));
-            writer.setPageEvent(helper);
-
-            document.open();
-
-            return document;
-        }
-        catch (Exception e) {
-            LOG.error("Exception caught trying to create new PDF document", e);
-            if (e instanceof RuntimeException) {
-                throw (RuntimeException) e;
-            }
-            else {
-                throw new RuntimeException(e);
-            }
         }
     }
 
@@ -355,7 +290,6 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         }
 
         List<Transaction> transactions = new ArrayList<Transaction>(aggregateScrubberErrors.keySet());
-        List<Summary> summaries = buildScrubberReportSummary(aggregateScrubberReportData);
         for (Transaction errorTrans : aggregateScrubberErrors.keySet()) {
             List<Message> errors = aggregateScrubberErrors.get(errorTrans);
             collectorReportWriterService.writeError(errorTrans, errors);
@@ -482,24 +416,6 @@ public class CollectorReportServiceImpl implements CollectorReportService {
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
-    }
-
-    /**
-     * Generate the header for the scrubber status report.
-     * 
-     * @param scrubberReport the data gathered from the run of the scrubber to include in the report
-     * @return list of report summaries to be printed
-     */
-    protected List<Summary> buildScrubberReportSummary(ScrubberReportData scrubberReport) {
-        List<Summary> reportSummary = new ArrayList<Summary>();
-
-        reportSummary.add(new Summary(2, "UNSCRUBBED RECORDS READ", new Integer(scrubberReport.getNumberOfUnscrubbedRecordsRead())));
-        reportSummary.add(new Summary(3, "SCRUBBED RECORDS WRITTEN", new Integer(scrubberReport.getNumberOfScrubbedRecordsWritten())));
-        reportSummary.add(new Summary(4, "ERROR RECORDS WRITTEN", new Integer(scrubberReport.getNumberOfErrorRecordsWritten())));
-        reportSummary.add(new Summary(11, "TOTAL OUTPUT RECORDS WRITTEN", new Integer(scrubberReport.getTotalNumberOfRecordsWritten())));
-        reportSummary.add(new Summary(12, "EXPIRED ACCOUNTS FOUND", new Integer(scrubberReport.getNumberOfExpiredAccountsFound())));
-
-        return reportSummary;
     }
 
     /**

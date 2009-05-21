@@ -126,8 +126,12 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
             }
         }
         
-        ((WrappingBatchService)laborPendingEntryLedgerReportWriterService).initialize();
-        nightlyOutLedgerSummaryReport.writeReport(laborPendingEntryLedgerReportWriterService);
+        try {
+            ((WrappingBatchService)laborPendingEntryLedgerReportWriterService).initialize();
+            nightlyOutLedgerSummaryReport.writeReport(laborPendingEntryLedgerReportWriterService);            
+        } finally {
+            ((WrappingBatchService)laborPendingEntryLedgerReportWriterService).destroy();
+        }
     }
 
     /**
@@ -187,8 +191,12 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
             }
         }
         
-        ((WrappingBatchService)laborGLEntryReportWriterService).initialize();
-        laborGLSummaryReport.writeReport(laborGLEntryReportWriterService);
+        try {
+            ((WrappingBatchService)laborGLEntryReportWriterService).initialize();
+            laborGLSummaryReport.writeReport(laborGLEntryReportWriterService);            
+        } finally {
+            ((WrappingBatchService)laborGLEntryReportWriterService).destroy();
+        }
     }
 
     /*

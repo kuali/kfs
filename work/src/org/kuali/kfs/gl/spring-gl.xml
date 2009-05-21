@@ -617,10 +617,10 @@
 		  	<ref bean="accountingCycleCachingService" />
 		</property>
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
-		<property name="reportDirectoryName" value="${reports.directory}"/>
 		<property name="collectorFileDirectoryName" value="${staging.directory}/gl/collector"/>
 		<property name="demergerReportWriterService" ref="demergerReportWriterService" />
 		<property name="scrubberReportWriterService" ref="scrubberReportWriterService" />
+		<property name="scrubberLedgerReportWriterService" ref="scrubberLedgerReportWriterService" />
 		<property name="scrubberListingReportWriterService" ref="scrubberListingReportWriterService" />
 		<property name="scrubberBadBalanceListingReportWriterService" ref="scrubberBadBalanceListingReportWriterService" />
 		<property name="scrubberReportOnlyWriterService" ref="scrubberReportOnlyWriterService" />
@@ -1569,9 +1569,9 @@
         <!-- the report does not print out BO's, therefore classToBusinessObjectReportHelperBeanNames not needed-->
     </bean>
     
-    <bean id="scrubberReportWriterService" parent="reportWriterService">
+    <bean id="scrubberReportWriterService" class="org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/gl"/>
-		<property name="fileNamePrefix" value="scrubberJob_"/>
+		<property name="fileNamePrefix" value="scrubber_"/>
         <property name="title" value="GL SCRUBBER REPORT"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
@@ -1580,9 +1580,22 @@
         </property>
     </bean>
     
-    <bean id="scrubberReportOnlyWriterService" parent="reportWriterService">
+    <bean id="scrubberLedgerReportWriterService" class="org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/gl"/>
-		<property name="fileNamePrefix" value="scrubberJob_reportOnly_"/>
+		<property name="fileNamePrefix" value="scrubber_ledger_"/>
+        <property name="title" value="Ledger Report"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryTotalLine" value="ledgerSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerBalanceTypeSummaryTotalLine" value="ledgerBalanceTypeSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryDetailLine" value="ledgerSummaryDetailLineReportHelper" />
+        	</map>
+        </property>
+    </bean>
+
+    <bean id="scrubberReportOnlyWriterService" class="org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/gl"/>
+		<property name="fileNamePrefix" value="scrubber_reportOnly_"/>
         <property name="title" value="GL SCRUBBER REPORT"/>
         <!-- the report does not print out BO's, therefore classToBusinessObjectReportHelperBeanNames not needed-->
     </bean>
@@ -1605,7 +1618,6 @@
 		<property name="wrappingBatchServices">
 			<list>
 				<ref bean="accountingCycleCachingService" />
-				<ref bean="scrubberReportWriterService" />
 				<ref bean="scrubberBadBalanceListingReportWriterService" />
 			</list>
 		</property>
@@ -1974,7 +1986,6 @@
 		<property name="wrappingBatchServices">
 			<list>
 				<ref bean="accountingCycleCachingService" />
-				<ref bean="scrubberReportOnlyWriterService" />
 			</list>
 		</property>
 		<property name="correctionDocumentService" ref="correctionDocumentService" />

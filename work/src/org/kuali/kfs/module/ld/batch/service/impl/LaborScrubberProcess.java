@@ -26,7 +26,6 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -41,14 +40,10 @@ import org.kuali.kfs.coa.service.OffsetDefinitionService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.ObjectHelper;
 import org.kuali.kfs.gl.batch.ScrubberStep;
-import org.kuali.kfs.gl.batch.service.impl.OriginEntryFileIterator;
 import org.kuali.kfs.gl.businessobject.DemergerReportData;
-import org.kuali.kfs.gl.businessobject.LedgerEntry;
-import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntryStatistics;
 import org.kuali.kfs.gl.businessobject.Transaction;
-import org.kuali.kfs.gl.exception.LoadException;
 import org.kuali.kfs.gl.report.LedgerSummaryReport;
 import org.kuali.kfs.gl.report.TransactionListingReport;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
@@ -56,14 +51,12 @@ import org.kuali.kfs.gl.service.ScrubberReportData;
 import org.kuali.kfs.gl.service.ScrubberValidator;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.batch.service.LaborAccountingCycleCachingService;
-import org.kuali.kfs.module.ld.batch.service.LaborReportService;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
 import org.kuali.kfs.module.ld.util.FilteringLaborOriginEntryFileIterator;
 import org.kuali.kfs.module.ld.util.LaborOriginEntryFileIterator;
 import org.kuali.kfs.module.ld.util.FilteringLaborOriginEntryFileIterator.LaborOriginEntryFilter;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.batch.service.WrappingBatchService;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
@@ -77,7 +70,6 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterEvaluator;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.util.BeanPropertyComparator;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -140,7 +132,7 @@ public class LaborScrubberProcess {
     private UnitOfWorkInfo unitOfWork;
     private KualiDecimal scrubCostShareAmount;
     private ScrubberReportData scrubberReport;
-
+    
     /* Description names */
     private String offsetDescription;
     private String capitalizationDescription;
@@ -233,9 +225,6 @@ public class LaborScrubberProcess {
             laborLedgerReportWriterService.setDocumentNumber(documentNumber);
             laborGeneratedTransactionsReportWriterService.setDocumentNumber(documentNumber);
         }
-        ((WrappingBatchService) laborMainReportWriterService).initialize();
-        ((WrappingBatchService) laborLedgerReportWriterService).initialize();
-        ((WrappingBatchService) laborGeneratedTransactionsReportWriterService).initialize();
 
         // setup an object to hold the "default" date information
         runDate = calculateRunDate(dateTimeService.getCurrentDate());
@@ -249,21 +238,27 @@ public class LaborScrubberProcess {
         setOffsetString();
         setDescriptions();
 
-        scrubberReport = new ScrubberReportData();
-        processGroup();
-
-        // Run the reports
-        if (reportOnlyMode) {
-            generateScrubberTransactionsOnline();
+        try {
+            ((WrappingBatchService) laborMainReportWriterService).initialize();
+            ((WrappingBatchService) laborLedgerReportWriterService).initialize();
+            ((WrappingBatchService) laborGeneratedTransactionsReportWriterService).initialize();
+            
+            scrubberReport = new ScrubberReportData();
+            processGroup();
+    
+            // Run the reports
+            if (reportOnlyMode) {
+                generateScrubberTransactionsOnline();
+            }
+            else {
+                generateScrubberBadBalanceTypeListingReport();
+                generateScrubberErrorListingReport();
+            }
+        } finally {
+            ((WrappingBatchService) laborMainReportWriterService).destroy();
+            ((WrappingBatchService) laborLedgerReportWriterService).destroy();
+            ((WrappingBatchService) laborGeneratedTransactionsReportWriterService).destroy();
         }
-        else {
-            generateScrubberBadBalanceTypeListingReport();
-            generateScrubberErrorListingReport();
-        }
-        
-        ((WrappingBatchService) laborMainReportWriterService).destroy();
-        ((WrappingBatchService) laborLedgerReportWriterService).destroy();
-        ((WrappingBatchService) laborGeneratedTransactionsReportWriterService).destroy();
     }
 
     /**

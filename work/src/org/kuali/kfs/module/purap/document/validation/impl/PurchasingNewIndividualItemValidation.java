@@ -51,8 +51,10 @@ public class PurchasingNewIndividualItemValidation extends PurchasingAccountsPay
         boolean valid = true;
         valid &= super.validate(event);
         String recurringPaymentTypeCode = ((PurchasingDocument)event.getDocument()).getRecurringPaymentTypeCode(); 
-        valid &= capitalAssetBuilderModuleService.validateItemCapitalAssetWithErrors(recurringPaymentTypeCode, getItemForValidation(), false);
-        
+        //Capital asset validations are only done on line items (not additional charge items).
+        if (!getItemForValidation().getItemType().isAdditionalChargeIndicator()) {
+            valid &= capitalAssetBuilderModuleService.validateItemCapitalAssetWithErrors(recurringPaymentTypeCode, getItemForValidation(), false);
+        }
         unitOfMeasureValidation.setItemForValidation(getItemForValidation());
         valid &= unitOfMeasureValidation.validate(event);
 

@@ -156,8 +156,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         boolean valid = true;
         for (PurApItem purApItem : apDocument.getItems()) {
             AccountsPayableItem accountsPayableItem = (AccountsPayableItem) purApItem;
-            // only run on ap items that were cams items
-            if (StringUtils.isNotEmpty(accountsPayableItem.getCapitalAssetTransactionTypeCode())) {
+            // only run on ap items that were line items (not additional charge items) and were cams items
+            if ((!accountsPayableItem.getItemType().isAdditionalChargeIndicator()) && StringUtils.isNotEmpty(accountsPayableItem.getCapitalAssetTransactionTypeCode())) {
                 valid &= validateAccountsPayableItem(accountsPayableItem);
             }
         }

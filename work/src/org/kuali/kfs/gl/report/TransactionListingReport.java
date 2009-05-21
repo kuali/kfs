@@ -15,32 +15,12 @@
  */
 package org.kuali.kfs.gl.report;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Iterator;
 
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.report.BusinessObjectReportHelper;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.util.KualiDecimal;
-
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Element;
-import com.lowagie.text.ExceptionConverter;
-import com.lowagie.text.Font;
-import com.lowagie.text.FontFactory;
-import com.lowagie.text.PageSize;
-import com.lowagie.text.Phrase;
-import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPageEventHelper;
-import com.lowagie.text.pdf.PdfWriter;
 
 /**
  * This class prints out a transaction listing report. This is different from a transaction report in that this lists all the

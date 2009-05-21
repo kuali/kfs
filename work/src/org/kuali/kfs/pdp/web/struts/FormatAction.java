@@ -69,12 +69,19 @@ public class FormatAction extends KualiAction {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PdpAuthorizationService authorizationService = SpringContext.getBean(PdpAuthorizationService.class);
+        
+        FormatForm formatForm = (FormatForm) form;
+        
         Person kualiUser = GlobalVariables.getUserSession().getPerson();
         String methodToCall = findMethodToCall(form, request);
 
         if (!authorizationService.hasFormatPermission(kualiUser.getPrincipalId())) {
             throw new AuthorizationException(kualiUser.getPrincipalName(), methodToCall, kualiUser.getCampusCode());
         }
+
+        formatForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
+        formatForm.registerNextMethodToCallIsRefresh(true);
+        
         return super.execute(mapping, form, request, response);
     }
 

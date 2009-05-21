@@ -129,12 +129,15 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
     }
 
     private boolean isGreaterNumber(String numberStr1, String numberStr2){
-        if(StringUtils.isEmpty(numberStr1) || StringUtils.isEmpty(numberStr2)){
-            throw new ValidationException("null numbers");
+        if(StringUtils.isBlank(numberStr1) ) {
+            numberStr1 = "0";
+        }
+        if(StringUtils.isBlank(numberStr2) ) {
+            numberStr2 = "0";
         }
         int number1 = Integer.parseInt(numberStr1);
         int number2 = Integer.parseInt(numberStr2);
-        return number1>number2;
+        return number1>=number2;
     }
 
 }

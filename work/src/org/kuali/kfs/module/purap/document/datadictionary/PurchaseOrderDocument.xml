@@ -240,15 +240,10 @@
   </bean>
   <bean id="PurchaseOrderDocument-assignedUserName" parent="PurchaseOrderDocument-assignedUserName-parentBean"/>
 
-  <bean id="PurchaseOrderDocument-assignedUserName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="PurchaseOrderDocument-assignedUserName-parentBean" abstract="true" parent="PersonImpl-name">
     <property name="name" value="assignedUserName" />
     <property name="label" value="Assigned To User" />
-    <property name="shortLabel" value="Assignee" />
-    <property name="maxLength" value="36" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="36" />
-    </property>
+    <property name="required" value="false" />
   </bean>
   <bean id="PurchaseOrderDocument-versionNumber" parent="PurchaseOrderDocument-versionNumber-parentBean"/>
 

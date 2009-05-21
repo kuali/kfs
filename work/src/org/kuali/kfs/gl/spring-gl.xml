@@ -1069,15 +1069,6 @@
 		</property>
 	</bean>
 
-	<bean id="glSufficientFundsReport" class="org.kuali.kfs.gl.batch.SufficientFundsReportImpl">
-	    <property name="dateTimeService">
-	       <ref bean="dateTimeService"/>
-	    </property>
-		<property name="configurationService">
-			<ref bean="kualiConfigurationService" />
-		</property>
-	</bean>
-
 	<bean id="glVerifyTransaction" class="org.kuali.kfs.gl.batch.service.impl.VerifyTransactionImpl">
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />

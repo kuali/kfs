@@ -69,19 +69,15 @@ import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * 
  * This class is a service that calculates the depreciation amount for each asset that has a eligible asset payment.
  * <p>
  * When an error occurs running this process, a pdf file will be created with the error message. However, this doesn't mean that
  * this process automatically leaves all the records as they were right before running the program. If the process fails, is
- * suggested to do the following before trying to run the process again:
- * 
- * a.)Delete gl pending entry depreciation entries: DELETE FROM GL_PENDING_ENTRY_T WHERE FDOC_TYP_CD = 'DEPR'
- * 
- * b.)Substract from the accumulated depreciation amount the depreciation calculated for the fiscal month that was ran, and then
- * reset the depreciation amount field for the fiscal month that was ran. ex: Assuming that the fiscal month = 8 then: UPDATE
- * CM_AST_PAYMENT_T SET AST_ACUM_DEPR1_AMT = AST_ACUM_DEPR1_AMT - AST_PRD8_DEPR1_AMT, AST_PRD8_DEPR1_AMT=0
- * 
+ * suggested to do the following before trying to run the process again: a.)Delete gl pending entry depreciation entries: DELETE
+ * FROM GL_PENDING_ENTRY_T WHERE FDOC_TYP_CD = 'DEPR' b.)Substract from the accumulated depreciation amount the depreciation
+ * calculated for the fiscal month that was ran, and then reset the depreciation amount field for the fiscal month that was ran. ex:
+ * Assuming that the fiscal month = 8 then: UPDATE CM_AST_PAYMENT_T SET AST_ACUM_DEPR1_AMT = AST_ACUM_DEPR1_AMT -
+ * AST_PRD8_DEPR1_AMT, AST_PRD8_DEPR1_AMT=0
  */
 @Transactional
 public class AssetDepreciationServiceImpl implements AssetDepreciationService {
@@ -104,7 +100,6 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
     private String errorMsg = "";
 
     /**
-     * 
      * @see org.kuali.kfs.module.cam.batch.service.AssetDepreciationService#runDepreciation()
      */
     public void runDepreciation() {
@@ -118,14 +113,13 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
 
         String depreciationDateParameter = null;
         DateFormat dateFormat = new SimpleDateFormat(CamsConstants.DateFormats.YEAR_MONTH_DAY);
-        
+
         try {
             LOG.info("*******" + CamsConstants.Depreciation.DEPRECIATION_BATCH + " HAS BEGUN *******");
 
             /*
              * Getting the system parameter "DEPRECIATION_DATE" When this parameter is used to determine which fiscal month and year
              * is going to be depreciated If blank then the system will take the system date to determine the fiscal period
-             * 
              */
             if (parameterService.parameterExists(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.DEPRECIATION_RUN_DATE_PARAMETER)) {
                 depreciationDateParameter = ((List<String>) parameterService.getParameterValues(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.DEPRECIATION_RUN_DATE_PARAMETER)).get(0).trim();
@@ -135,8 +129,8 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             }
 
             // ***************** GET RID OF THESE LINES WHEN DONE TESTING **********
-            //depreciationDateParameter = "2009-03-13";
-            //currentDate.setTime(dateFormat.parse("2009-03-13"));
+            depreciationDateParameter = "2009-04-30";
+            currentDate.setTime(dateFormat.parse("2009-04-30"));
             // ********************************************************************
 
             // This validates the system parameter depreciation_date has a valid format of YYYY-MM-DD.
@@ -198,7 +192,6 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
     }
 
     /**
-     * 
      * This method calculates the base amount adding the PrimaryDepreciationBaseAmount field of each asset
      * 
      * @param depreciableAssetsCollection collection of assets and assets payments that are eligible for depreciation
@@ -215,11 +208,12 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         Long lastAssetNumber;
         try {
             for (AssetPayment depreciableAsset : depreciableAssetsCollection) {
-                assetNumber=depreciableAsset.getCapitalAssetNumber();                    
+                assetNumber = depreciableAsset.getCapitalAssetNumber();
                 if (assetsBaseAmount.containsKey(assetNumber)) {
-                    baseAmount = assetsBaseAmount.get(assetNumber).add(depreciableAsset.getPrimaryDepreciationBaseAmount()) ;
-                } else {
-                    baseAmount = depreciableAsset.getPrimaryDepreciationBaseAmount();                        
+                    baseAmount = assetsBaseAmount.get(assetNumber).add(depreciableAsset.getPrimaryDepreciationBaseAmount());
+                }
+                else {
+                    baseAmount = depreciableAsset.getPrimaryDepreciationBaseAmount();
                 }
                 assetsBaseAmount.put(assetNumber, baseAmount);
             }
@@ -233,7 +227,6 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
     }
 
     /**
-     * 
      * This method calculates the depreciation of each asset payment, creates the depreciation transactions that will be stored in
      * the general ledger pending entry table
      * 
@@ -260,7 +253,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         boolean documentCreated = false;
 
         try {
-            LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"Getting the parameters for the plant fund object sub types.");            
+            LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting the parameters for the plant fund object sub types.");
 
             // Getting system parameters needed.
             if (parameterService.parameterExists(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.DEPRECIATION_ORGANIZATON_PLANT_FUND_SUB_OBJECT_TYPES)) {
@@ -282,9 +275,9 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             Collection<AssetObjectCode> objectCodes = depreciableAssetsDao.getAssetObjectCodes(fiscalYear);
 
             // Reading asset payments
-            LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"Reading collection with eligible asset payments.");                        
+            LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Reading collection with eligible asset payments.");
             for (AssetPayment assetPayment : depreciableAssetsCollection) {
-                LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"Processing asset#:"+assetPayment.getCapitalAssetNumber()+" - Seq#:"+assetPayment.getPaymentSequenceNumber());
+                LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Processing asset#:" + assetPayment.getCapitalAssetNumber() + " - Seq#:" + assetPayment.getPaymentSequenceNumber());
 
                 // Getting the asset
                 Asset asset = assetPayment.getAsset();
@@ -306,7 +299,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
 
                 // Reading the list of asset object codes in order to get the accumulated and expense object code that are going
                 // to be stored in the glpe depreciation transaction.
-                LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"Getting the accumulated object code and expense object code of each asset payment.");                                        
+                LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting the accumulated object code and expense object code of each asset payment.");
                 for (AssetObjectCode assetObjectCodes : objectCodes) {
                     boolean found = false;
                     List<ObjectCode> objectCodesList = assetObjectCodes.getObjectCode();
@@ -322,8 +315,8 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                         break;
                 }
 
-                LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"Getting the accumulated object code and expense object code of each asset payment.");                                        
-
+                LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting the accumulated object code and expense object code of each asset payment.");
+                
                 monthsElapsed = new Double(0);
                 String transactionType = KFSConstants.GL_DEBIT_CODE;
 
@@ -340,11 +333,11 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 monthsElapsed = new Double(depreciationDate.get(Calendar.MONTH) - assetDepreciationDate.get(Calendar.MONTH) + (depreciationDate.get(Calendar.YEAR) - assetDepreciationDate.get(Calendar.YEAR)) * 12) + 1;
 
                 // Calculating depreciation accumulated depreciation amount.
-                LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"Calculating depreciation - Asset:"+assetPayment.getCapitalAssetNumber());
+                LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Calculating depreciation - Asset:" + assetPayment.getCapitalAssetNumber());
 
                 // **************************************************************************************************************
                 // CALCULATING ACCUMULATED DEPRECIATION BASED ON FORMULA FOR SINGLE LINE AND SALVAGE VALUE DEPRECIATION METHODS.
-                // **************************************************************************************************************                                
+                // **************************************************************************************************************
                 if (ObjectUtils.isNull(assetPayment.getPrimaryDepreciationBaseAmount()))
                     assetPayment.setPrimaryDepreciationBaseAmount(new KualiDecimal(0));
 
@@ -354,9 +347,9 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 // If the month elapse >= to the life of the asset (in months) then, the accumulated depreciation should be:
                 if (monthsElapsed.compareTo(assetLifeInMonths) >= 0) {
                     if (asset.getPrimaryDepreciationMethodCode().equals(CamsConstants.Asset.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE))
-                        accumulatedDepreciationAmount =  assetPayment.getPrimaryDepreciationBaseAmount(); 
+                        accumulatedDepreciationAmount = assetPayment.getPrimaryDepreciationBaseAmount();
                     else if (asset.getPrimaryDepreciationMethodCode().equals(CamsConstants.Asset.DEPRECIATION_METHOD_SALVAGE_VALUE_CODE))
-                        accumulatedDepreciationAmount = assetPayment.getPrimaryDepreciationBaseAmount().subtract((assetPayment.getPrimaryDepreciationBaseAmount().divide(baseAmount)).multiply(asset.getSalvageAmount()));                    
+                        accumulatedDepreciationAmount = assetPayment.getPrimaryDepreciationBaseAmount().subtract((assetPayment.getPrimaryDepreciationBaseAmount().divide(baseAmount)).multiply(asset.getSalvageAmount()));
                 } // If the month elapse < to the life of the asset (in months) then....
                 else {
                     if (asset.getPrimaryDepreciationMethodCode().equals(CamsConstants.Asset.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE))
@@ -369,17 +362,8 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 KualiDecimal transactionAmount = accumulatedDepreciationAmount.subtract(assetPayment.getAccumulatedPrimaryDepreciationAmount());
 
 
-                DateFormat dateFormat = new SimpleDateFormat(CamsConstants.DateFormats.YEAR_MONTH_DAY);                
-                LOG.info("Asset#: "+assetPayment.getCapitalAssetNumber()+
-                        " - Payment sequence#:"+assetPayment.getPaymentSequenceNumber()+
-                        " - Asset Depreciation date:"+dateFormat.format(assetDepreciationDate.getTime())+
-                        " - Life:"+assetLifeInMonths + 
-                        " - Depreciation base amt:"+assetPayment.getPrimaryDepreciationBaseAmount()+
-                        " - Accumulated depreciation:"+assetPayment.getAccumulatedPrimaryDepreciationAmount()+
-                        " - Month Elapsed:"+monthsElapsed+ 
-                        " - Calculated accum depreciation:"+accumulatedDepreciationAmount+
-                        " - Depreciation amount:"+transactionAmount.toString()+
-                        " - Depreciation Method:"+asset.getPrimaryDepreciationMethodCode());
+                DateFormat dateFormat = new SimpleDateFormat(CamsConstants.DateFormats.YEAR_MONTH_DAY);
+                LOG.info("Asset#: " + assetPayment.getCapitalAssetNumber() + " - Payment sequence#:" + assetPayment.getPaymentSequenceNumber() + " - Asset Depreciation date:" + dateFormat.format(assetDepreciationDate.getTime()) + " - Life:" + assetLifeInMonths + " - Depreciation base amt:" + assetPayment.getPrimaryDepreciationBaseAmount() + " - Accumulated depreciation:" + assetPayment.getAccumulatedPrimaryDepreciationAmount() + " - Month Elapsed:" + monthsElapsed + " - Calculated accum depreciation:" + accumulatedDepreciationAmount + " - Depreciation amount:" + transactionAmount.toString() + " - Depreciation Method:" + asset.getPrimaryDepreciationMethodCode());
 
                 if (transactionAmount.compareTo(new KualiDecimal(0)) == -1)
                     transactionType = KFSConstants.GL_CREDIT_CODE;
@@ -398,9 +382,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 }
 
                 // Saving depreciation amount in the asset payment table
-                depreciableAssetsDao.updateAssetPayments(assetPayment.getCapitalAssetNumber().toString(),
-                        assetPayment.getPaymentSequenceNumber().toString(), transactionAmount, accumulatedDepreciationAmount,
-                        fiscalMonth);
+                depreciableAssetsDao.updateAssetPayments(assetPayment.getCapitalAssetNumber().toString(), assetPayment.getPaymentSequenceNumber().toString(), transactionAmount, accumulatedDepreciationAmount, fiscalMonth);
 
                 // if the asset has a depreciation amount > than 0 then, create its debits and credits.
                 if (!transactionAmount.isZero()) {
@@ -420,7 +402,6 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
     }
 
     /**
-     * 
      * This method stores in a collection of business objects the depreciation transaction that later on will be passed to the
      * processGeneralLedgerPendingEntry method in order to store the records in gl pending entry table
      * 
@@ -473,20 +454,18 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
     }
 
     /**
-     * 
      * This method stores the depreciation transactions in the general pending entry table and creates a new documentHeader entry.
      * <p>
      * 
      * @param trans SortedMap with the transactions
      * @return none
-     * 
      */
     private void processGeneralLedgerPendingEntry(SortedMap<String, AssetDepreciationTransaction> trans) {
         LOG.debug("populateExplicitGeneralLedgerPendingEntry(AccountingDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper, GeneralLedgerPendingEntry) - start");
 
         String financialSystemDocumentTypeCodeCode;
         try {
-            KualiWorkflowDocument workflowDocument = workflowDocumentService.createWorkflowDocument("DEPR", GlobalVariables.getUserSession().getPerson());
+            KualiWorkflowDocument workflowDocument = workflowDocumentService.createWorkflowDocument(CamsConstants.DocumentTypeName.ASSET_DEPRECIATION, GlobalVariables.getUserSession().getPerson());
 
             // **************************************************************************************************
             // Create a new document header object
@@ -610,4 +589,3 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         this.dataDictionaryService = dataDictionaryService;
     }
 }
-

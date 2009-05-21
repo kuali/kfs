@@ -93,6 +93,7 @@ public class CamsConstants extends JSTLConstants {
 
     public static class DocumentTypeName {
         // CAM doc
+        public static final String ASSET_DEPRECIATION = "DEPR";
         public static final String ASSET_TRANSFER = "AT";
         public static final String ASSET_EQUIPMENT_LOAN_OR_RETURN = "ELR";
         public static final String ASSET_PAYMENT = "MPAY";

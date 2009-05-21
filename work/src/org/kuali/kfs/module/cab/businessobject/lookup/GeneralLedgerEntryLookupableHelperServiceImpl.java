@@ -66,14 +66,14 @@ public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupab
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
         if (entry.isActive()) {
             AnchorHtmlData processLink = new AnchorHtmlData("../cabGlLine.do?methodToCall=process&" + CabPropertyConstants.GeneralLedgerEntry.GENERAL_LEDGER_ACCOUNT_IDENTIFIER + "=" + entry.getGeneralLedgerAccountIdentifier(), "process", "process");
-            processLink.setTarget(KFSConstants.NEW_WINDOW_URL_TARGET);
+            processLink.setTarget(entry.getGeneralLedgerAccountIdentifier().toString());
             anchorHtmlDataList.add(processLink);
         }
         else {
             List<GeneralLedgerEntryAsset> generalLedgerEntryAssets = entry.getGeneralLedgerEntryAssets();
             if (!generalLedgerEntryAssets.isEmpty()) {
                 AnchorHtmlData viewDocLink = new AnchorHtmlData("../cabGlLine.do?methodToCall=viewDoc&" + "documentNumber" + "=" + generalLedgerEntryAssets.get(0).getCapitalAssetManagementDocumentNumber(), "viewDoc", generalLedgerEntryAssets.get(0).getCapitalAssetManagementDocumentNumber());
-                viewDocLink.setTarget(KFSConstants.NEW_WINDOW_URL_TARGET);
+                viewDocLink.setTarget(generalLedgerEntryAssets.get(0).getCapitalAssetManagementDocumentNumber());
                 anchorHtmlDataList.add(viewDocLink);
             }
             else {
@@ -92,7 +92,7 @@ public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupab
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         // update status code from user input value to DB value.
         updateStatusCodeCriteria(fieldValues);
-        
+
         List<? extends BusinessObject> searchResults = super.getSearchResults(fieldValues);
         if (searchResults == null || searchResults.isEmpty()) {
             return searchResults;

@@ -100,6 +100,7 @@
 		</c:if>
 		</div>
 	</kul:tabTop>
+	
 	<kul:tab tabTitle="GL Entry Processing" defaultOpen="true">
 		<div class="tab-container" align=center>
 		<c:set var="entryAttributes"	value="${DataDictionary.GeneralLedgerEntry.attributes}" />
@@ -129,8 +130,9 @@
 			<tr>
 				<td class="grid">
 					<c:choose> 
-					<c:when test="${entry.generalLedgerAccountIdentifier == KualiForm.primaryGlAccountId}">
+					<c:when test="${entry.generalLedgerAccountIdentifier == KualiForm.primaryGlAccountId && entry.active}">
 						<html:checkbox property="relatedGlEntry[${pos}].selected" disabled="true" />
+						<c:set var="allowSubmit" value="true" />
 					</c:when>
 					<c:when test="${!entry.active}">
 						<a href="cabGlLine.do?methodToCall=viewDoc&documentNumber=${entry.generalLedgerEntryAssets[0].capitalAssetManagementDocumentNumber}" target="${entry.generalLedgerEntryAssets[0].capitalAssetManagementDocumentNumber}">						
@@ -138,6 +140,7 @@
 					</c:when>
 					<c:otherwise> 
 						<html:checkbox styleId="glselect" property="relatedGlEntry[${pos}].selected"/>
+						<c:set var="allowSubmit" value="true" />
 					</c:otherwise>
 					</c:choose>
 				</td>
@@ -196,9 +199,11 @@
 	</kul:tab>
 	<kul:panelFooter />
 	<div id="globalbuttons" class="globalbuttons">
-        <c:if test="${not readOnly}">	        
-	    	<html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_createasset.gif" property="methodToCall.submitAssetGlobal" title="Add Assets" alt="Add Assets"/>
-	    	<html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_applypayment.gif" property="methodToCall.submitPaymentGlobal" title="Add Payments" alt="Add Payments"/>
+        <c:if test="${not readOnly}">
+        	<c:if test="${!empty allowSubmit}">	        
+	    		<html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_createasset.gif" property="methodToCall.submitAssetGlobal" title="Add Assets" alt="Add Assets"/>
+	    		<html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_applypayment.gif" property="methodToCall.submitPaymentGlobal" title="Add Payments" alt="Add Payments"/>
+	    	</c:if>
 	    	<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_reload.gif" property="methodToCall.reload" title="Reload" alt="Reload"/>
 	        <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" styleClass="globalbuttons" property="methodToCall.cancel" title="Cancel" alt="Cancel"/>
         </c:if>		

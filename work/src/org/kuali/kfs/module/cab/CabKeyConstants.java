@@ -57,4 +57,5 @@ public class CabKeyConstants {
     }
     
     public static final String CHART_ORG_DISALLOWED_BY_CURRENT_USER = "chart.org.disallowed.by.current.user";
+    public static final String WARNING_GL_PROCESSED = "warning.gl.processed";
 }

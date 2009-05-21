@@ -29,6 +29,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.module.cab.CabConstants;
+import org.kuali.kfs.module.cab.CabKeyConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.document.service.GlAndPurApHelperService;
@@ -40,7 +41,9 @@ import org.kuali.rice.kew.dto.RouteHeaderDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 
 /**
@@ -61,7 +64,12 @@ public class GlLineAction extends CabActionBase {
     public ActionForward process(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         GlLineForm glLineForm = (GlLineForm) form;
         GeneralLedgerEntry entry = findGeneralLedgerEntry(request);
-        prepareRecordsForDisplay(glLineForm, entry);
+        if (ObjectUtils.isNotNull(entry)) {
+            prepareRecordsForDisplay(glLineForm, entry);
+        }
+        if (!entry.isActive()) {
+            GlobalVariables.getMessageList().add(CabKeyConstants.WARNING_GL_PROCESSED);
+        }
         return mapping.findForward(RiceConstants.MAPPING_BASIC);
     }
 
@@ -98,7 +106,7 @@ public class GlLineAction extends CabActionBase {
     protected GeneralLedgerEntry findGeneralLedgerEntry(HttpServletRequest request) {
         String glAcctId = request.getParameter(CabPropertyConstants.GeneralLedgerEntry.GENERAL_LEDGER_ACCOUNT_IDENTIFIER);
         Long cabGlEntryId = Long.valueOf(glAcctId);
-        return findGeneralLedgerEntry(cabGlEntryId);
+        return findGeneralLedgerEntry(cabGlEntryId, false);
     }
 
 
@@ -116,11 +124,16 @@ public class GlLineAction extends CabActionBase {
     public ActionForward submitAssetGlobal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         GlLineForm glLineForm = (GlLineForm) form;
         GlLineService glLineService = SpringContext.getBean(GlLineService.class);
-        GeneralLedgerEntry defaultGeneralLedgerEntry = findGeneralLedgerEntry(glLineForm.getPrimaryGlAccountId());
+        GeneralLedgerEntry defaultGeneralLedgerEntry = findGeneralLedgerEntry(glLineForm.getPrimaryGlAccountId(), true);
         List<GeneralLedgerEntry> submitList = prepareSubmitList(glLineForm, defaultGeneralLedgerEntry);
         if (submitList.isEmpty()) {
             form.reset(mapping, request);
             return mapping.findForward(RiceConstants.MAPPING_BASIC);
+        }
+
+        // set the default as the first entry in the list if it's null
+        if (ObjectUtils.isNull(defaultGeneralLedgerEntry)) {
+            defaultGeneralLedgerEntry = submitList.get(0);
         }
 
         Document maintDoc = glLineService.createAssetGlobalDocument(submitList, defaultGeneralLedgerEntry);
@@ -137,7 +150,7 @@ public class GlLineAction extends CabActionBase {
 
         for (GeneralLedgerEntry generalLedgerEntry : relatedGlEntries) {
             if (!generalLedgerEntry.isSelected()) {
-                GeneralLedgerEntry entry = findGeneralLedgerEntry(generalLedgerEntry.getGeneralLedgerAccountIdentifier());
+                GeneralLedgerEntry entry = findGeneralLedgerEntry(generalLedgerEntry.getGeneralLedgerAccountIdentifier(), true);
                 if (entry != null && entry.isActive()) {
                     pendingList.add(entry);
                 }
@@ -147,7 +160,7 @@ public class GlLineAction extends CabActionBase {
             glLineForm.reset(mapping, request);
             glLineForm.setPrimaryGlAccountId(pendingList.get(0).getGeneralLedgerAccountIdentifier());
             glLineForm.setCurrDocNumber(maintDoc.getDocumentNumber());
-            GeneralLedgerEntry entry = findGeneralLedgerEntry(pendingList.get(0).getGeneralLedgerAccountIdentifier());
+            GeneralLedgerEntry entry = findGeneralLedgerEntry(pendingList.get(0).getGeneralLedgerAccountIdentifier(), true);
             prepareRecordsForDisplay(glLineForm, entry);
         }
     }
@@ -166,14 +179,14 @@ public class GlLineAction extends CabActionBase {
         List<GeneralLedgerEntry> submitList = new ArrayList<GeneralLedgerEntry>();
         if (defaultGeneralLedgerEntry != null) {
             defaultGeneralLedgerEntry.setSelected(true);
-            // submitList.add(defaultGeneralLedgerEntry);
-            List<GeneralLedgerEntry> relatedGlEntries = glLineForm.getRelatedGlEntries();
-            for (GeneralLedgerEntry generalLedgerEntry : relatedGlEntries) {
-                if (generalLedgerEntry.isSelected()) {
-                    GeneralLedgerEntry entry = findGeneralLedgerEntry(generalLedgerEntry.getGeneralLedgerAccountIdentifier());
-                    if (entry != null && entry.isActive()) {
-                        submitList.add(entry);
-                    }
+        }
+        
+        List<GeneralLedgerEntry> relatedGlEntries = glLineForm.getRelatedGlEntries();
+        for (GeneralLedgerEntry generalLedgerEntry : relatedGlEntries) {
+            if (generalLedgerEntry.isSelected()) {
+                GeneralLedgerEntry entry = findGeneralLedgerEntry(generalLedgerEntry.getGeneralLedgerAccountIdentifier(), true);
+                if (entry != null && entry.isActive()) {
+                    submitList.add(entry);
                 }
             }
         }
@@ -194,12 +207,17 @@ public class GlLineAction extends CabActionBase {
     public ActionForward submitPaymentGlobal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         GlLineService glLineService = SpringContext.getBean(GlLineService.class);
         GlLineForm glLineForm = (GlLineForm) form;
-        GeneralLedgerEntry defaultGeneralLedgerEntry = findGeneralLedgerEntry(glLineForm.getPrimaryGlAccountId());
+        GeneralLedgerEntry defaultGeneralLedgerEntry = findGeneralLedgerEntry(glLineForm.getPrimaryGlAccountId(), true);
 
         List<GeneralLedgerEntry> submitList = prepareSubmitList(glLineForm, defaultGeneralLedgerEntry);
         if (submitList.isEmpty()) {
             form.reset(mapping, request);
             return mapping.findForward(RiceConstants.MAPPING_BASIC);
+        }
+
+        // set the default as the first entry in the list if it's null
+        if (ObjectUtils.isNull(defaultGeneralLedgerEntry)) {
+            defaultGeneralLedgerEntry = submitList.get(0);
         }
 
         Document document = glLineService.createAssetPaymentDocument(submitList, defaultGeneralLedgerEntry);
@@ -248,11 +266,13 @@ public class GlLineAction extends CabActionBase {
      * @param generalLedgerEntryId Entry Id
      * @return GeneralLedgerEntry
      */
-    protected GeneralLedgerEntry findGeneralLedgerEntry(Long generalLedgerEntryId) {
+    protected GeneralLedgerEntry findGeneralLedgerEntry(Long generalLedgerEntryId, boolean requireNew) {
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
         Map<String, Object> pkeys = new HashMap<String, Object>();
         pkeys.put(CabPropertyConstants.GeneralLedgerEntry.GENERAL_LEDGER_ACCOUNT_IDENTIFIER, generalLedgerEntryId);
-        pkeys.put(CabPropertyConstants.GeneralLedgerEntry.ACTIVITY_STATUS_CODE, CabConstants.ActivityStatusCode.NEW);
+        if (requireNew) {
+            pkeys.put(CabPropertyConstants.GeneralLedgerEntry.ACTIVITY_STATUS_CODE, CabConstants.ActivityStatusCode.NEW);
+        }
         GeneralLedgerEntry entry = (GeneralLedgerEntry) boService.findByPrimaryKey(GeneralLedgerEntry.class, pkeys);
         return entry;
     }
@@ -290,7 +310,7 @@ public class GlLineAction extends CabActionBase {
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         GlLineForm glLineForm = (GlLineForm) form;
         glLineForm.getRelatedGlEntries().clear();
-        GeneralLedgerEntry entry = findGeneralLedgerEntry(glLineForm.getPrimaryGlAccountId());
+        GeneralLedgerEntry entry = findGeneralLedgerEntry(glLineForm.getPrimaryGlAccountId(), false);
         if (entry != null) {
             prepareRecordsForDisplay(glLineForm, entry);
         }

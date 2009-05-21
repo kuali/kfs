@@ -32,7 +32,6 @@
         <ref bean="PaymentRequestAccount-overrideCode" />
         <ref bean="PaymentRequestAccount-amount" />
         <ref bean="PaymentRequestAccount-subAccountNumber" />
-        <ref bean="PaymentRequestAccount-referenceTypeCode" />
         <ref bean="PaymentRequestAccount-projectCode" />
         <ref bean="PaymentRequestAccount-financialSubObjectCode" />
         <ref bean="PaymentRequestAccount-documentNumber" />
@@ -191,14 +190,6 @@
 
   <bean id="PaymentRequestAccount-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
     <property name="label" value="Sub-Account Code" />
-    <property name="required" value="false" />
-  </bean>
-  <bean id="PaymentRequestAccount-referenceTypeCode" parent="PaymentRequestAccount-referenceTypeCode-parentBean" />
-
-  <bean id="PaymentRequestAccount-referenceTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
-    <property name="name" value="referenceTypeCode" />
-    <property name="label" value="Reference Type Code" />
-    <property name="shortLabel" value="Ref Type Code" />
     <property name="required" value="false" />
   </bean>
   <bean id="PaymentRequestAccount-projectCode" parent="PaymentRequestAccount-projectCode-parentBean" />

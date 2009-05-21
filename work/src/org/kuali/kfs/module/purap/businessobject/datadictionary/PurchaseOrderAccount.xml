@@ -32,7 +32,6 @@
         <ref bean="PurchaseOrderAccount-overrideCode" />
         <ref bean="PurchaseOrderAccount-amount" />
         <ref bean="PurchaseOrderAccount-subAccountNumber" />
-        <ref bean="PurchaseOrderAccount-referenceTypeCode" />
         <ref bean="PurchaseOrderAccount-projectCode" />
         <ref bean="PurchaseOrderAccount-financialSubObjectCode" />
         <ref bean="PurchaseOrderAccount-documentNumber" />
@@ -191,14 +190,6 @@
 
   <bean id="PurchaseOrderAccount-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
     <property name="label" value="Sub-Account Code" />
-    <property name="required" value="false" />
-  </bean>
-  <bean id="PurchaseOrderAccount-referenceTypeCode" parent="PurchaseOrderAccount-referenceTypeCode-parentBean" />
-
-  <bean id="PurchaseOrderAccount-referenceTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
-    <property name="name" value="referenceTypeCode" />
-    <property name="label" value="Reference Type Code" />
-    <property name="shortLabel" value="Ref Type Code" />
     <property name="required" value="false" />
   </bean>
   <bean id="PurchaseOrderAccount-projectCode" parent="PurchaseOrderAccount-projectCode-parentBean" />

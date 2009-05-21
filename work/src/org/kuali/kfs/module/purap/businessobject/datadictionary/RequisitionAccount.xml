@@ -32,7 +32,6 @@
         <ref bean="RequisitionAccount-overrideCode" />
         <ref bean="RequisitionAccount-amount" />
         <ref bean="RequisitionAccount-subAccountNumber" />
-        <ref bean="RequisitionAccount-referenceTypeCode" />
         <ref bean="RequisitionAccount-projectCode" />
         <ref bean="RequisitionAccount-financialSubObjectCode" />
         <ref bean="RequisitionAccount-documentNumber" />
@@ -190,14 +189,6 @@
 
   <bean id="RequisitionAccount-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
     <property name="label" value="Sub-Account Code" />
-    <property name="required" value="false" />
-  </bean>
-  <bean id="RequisitionAccount-referenceTypeCode" parent="RequisitionAccount-referenceTypeCode-parentBean" />
-
-  <bean id="RequisitionAccount-referenceTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
-    <property name="name" value="referenceTypeCode" />
-    <property name="label" value="Reference Type Code" />
-    <property name="shortLabel" value="Ref Type Code" />
     <property name="required" value="false" />
   </bean>
   <bean id="RequisitionAccount-projectCode" parent="RequisitionAccount-projectCode-parentBean" />

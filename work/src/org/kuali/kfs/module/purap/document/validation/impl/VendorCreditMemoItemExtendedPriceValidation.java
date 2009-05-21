@@ -19,7 +19,7 @@ import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -30,11 +30,13 @@ public class VendorCreditMemoItemExtendedPriceValidation extends GenericValidati
 
     private DataDictionaryService dataDictionaryService;
     private CreditMemoItem itemForValidation;
-    private String errorKey;
 
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
         VendorCreditMemoDocument cmDocument = (VendorCreditMemoDocument)event.getDocument();
+        
+        String errorKeyPrefix = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + (itemForValidation.getItemLineNumber() - 1) + "].";
+        String errorKey = errorKeyPrefix + PurapPropertyConstants.EXTENDED_PRICE;
         
         if (itemForValidation.getExtendedPrice() != null) {
             if (itemForValidation.getExtendedPrice().isNegative()) {
@@ -81,14 +83,6 @@ public class VendorCreditMemoItemExtendedPriceValidation extends GenericValidati
 
     public void setItemForValidation(CreditMemoItem itemForValidation) {
         this.itemForValidation = itemForValidation;
-    }
-
-    public String getErrorKey() {
-        return errorKey;
-    }
-
-    public void setErrorKey(String errorKey) {
-        this.errorKey = errorKey;
     }
 
 }

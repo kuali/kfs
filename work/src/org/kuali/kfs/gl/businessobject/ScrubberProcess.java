@@ -172,7 +172,7 @@ public class ScrubberProcess {
     private String validFile;
     private String errorFile;
     private String expiredFile;
-
+    
     /**
      * These parameters are all the dependencies.
      */
@@ -323,17 +323,17 @@ public class ScrubberProcess {
             ((WrappingBatchService) scrubberReportWriterService).initialize();
             ((WrappingBatchService) scrubberLedgerReportWriterService).initialize();
             
-            processGroup(reportOnlyMode, scrubberReport);
-    
-            if (reportOnlyMode) {
-                generateScrubberTransactionListingReport(documentNumber, inputFile);
-            }
-            else if (collectorMode) {
-                // defer report generation for later
-            }
-            else {
-                generateScrubberBlankBalanceTypeCodeReport(inputFile);
-            }
+        processGroup(reportOnlyMode, scrubberReport);
+
+        if (reportOnlyMode) {
+            generateScrubberTransactionListingReport(documentNumber, inputFile);
+        }
+        else if (collectorMode) {
+            // defer report generation for later
+        }
+        else {
+            generateScrubberBlankBalanceTypeCodeReport(inputFile);
+        }
         } finally {
             ((WrappingBatchService) scrubberReportWriterService).destroy();
             ((WrappingBatchService) scrubberLedgerReportWriterService).destroy();
@@ -437,7 +437,7 @@ public class ScrubberProcess {
                 try{
                    //validLine is null means that errorLine is not null 
                    if (org.apache.commons.lang.StringUtils.isEmpty(currentValidLine)) {
-                       String errorDesc = currentErrorLine.substring(51, 91);
+                       String errorDesc = currentErrorLine.substring(56, 96);
                        String errorFinancialBalanceTypeCode = currentErrorLine.substring(25, 27);
                        
                        if (!checkingBypassEntry(errorFinancialBalanceTypeCode, errorDesc, demergerReport)){
@@ -450,7 +450,7 @@ public class ScrubberProcess {
                    }
                    
                    String financialBalanceTypeCode = currentValidLine.substring(25, 27);
-                   String desc = currentValidLine.substring(51, 91);
+                   String desc = currentValidLine.substring(56, 96);
                    
                    //errorLine is null means that validLine is not null
                    if (org.apache.commons.lang.StringUtils.isEmpty(currentErrorLine)) {
@@ -464,10 +464,10 @@ public class ScrubberProcess {
                        continue;
                    }
                    
-                   String compareStringFromValidEntry = currentValidLine.substring(31, 46); 
-                   String compareStringFromErrorEntry = currentErrorLine.substring(31, 46);
+                   String compareStringFromValidEntry = currentValidLine.substring(31, 51); 
+                   String compareStringFromErrorEntry = currentErrorLine.substring(31, 51);
                    
-                   String errorDesc = currentErrorLine.substring(51, 91);
+                   String errorDesc = currentErrorLine.substring(56, 96);
                    String errorFinancialBalanceTypeCode = currentErrorLine.substring(25, 27);
                    
                    if (compareStringFromValidEntry.compareTo(compareStringFromErrorEntry) < 0){
@@ -1985,11 +1985,11 @@ public class ScrubberProcess {
     protected void generateScrubberTransactionListingReport(String documentNumber, String inputFileName) {
         try {
             scrubberListingReportWriterService.setDocumentNumber(documentNumber);
-            ((WrappingBatchService) scrubberListingReportWriterService).initialize();
-            new TransactionListingReport().generateReport(scrubberListingReportWriterService, new OriginEntryFileIterator(new File(inputFileName)));
+        ((WrappingBatchService) scrubberListingReportWriterService).initialize();
+        new TransactionListingReport().generateReport(scrubberListingReportWriterService, new OriginEntryFileIterator(new File(inputFileName)));
         } finally {
-            ((WrappingBatchService) scrubberListingReportWriterService).destroy();            
-        }
+        ((WrappingBatchService) scrubberListingReportWriterService).destroy();
+    }
     }
     
     /**

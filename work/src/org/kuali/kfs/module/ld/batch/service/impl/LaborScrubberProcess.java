@@ -132,7 +132,7 @@ public class LaborScrubberProcess {
     private UnitOfWorkInfo unitOfWork;
     private KualiDecimal scrubCostShareAmount;
     private ScrubberReportData scrubberReport;
-    
+
     /* Description names */
     private String offsetDescription;
     private String capitalizationDescription;
@@ -148,8 +148,7 @@ public class LaborScrubberProcess {
     /**
      * These parameters are all the dependencies.
      */
-    public LaborScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, LaborAccountingCycleCachingService laborAccountingCycleCachingService, LaborOriginEntryService laborOriginEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService kualiConfigurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, ScrubberValidator scrubberValidator, String batchFileDirectoryName, 
-            DocumentNumberAwareReportWriterService laborMainReportWriterService, DocumentNumberAwareReportWriterService laborLedgerReportWriterService, ReportWriterService laborBadBalanceTypeReportWriterService, ReportWriterService laborErrorListingReportWriterService, DocumentNumberAwareReportWriterService laborGeneratedTransactionsReportWriterService, ReportWriterService laborDemergerReportWriterService ) {
+    public LaborScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, LaborAccountingCycleCachingService laborAccountingCycleCachingService, LaborOriginEntryService laborOriginEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService kualiConfigurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, ScrubberValidator scrubberValidator, String batchFileDirectoryName, DocumentNumberAwareReportWriterService laborMainReportWriterService, DocumentNumberAwareReportWriterService laborLedgerReportWriterService, ReportWriterService laborBadBalanceTypeReportWriterService, ReportWriterService laborErrorListingReportWriterService, DocumentNumberAwareReportWriterService laborGeneratedTransactionsReportWriterService, ReportWriterService laborDemergerReportWriterService) {
         super();
         this.flexibleOffsetAccountService = flexibleOffsetAccountService;
         this.laborAccountingCycleCachingService = laborAccountingCycleCachingService;
@@ -226,17 +225,17 @@ public class LaborScrubberProcess {
             laborGeneratedTransactionsReportWriterService.setDocumentNumber(documentNumber);
         }
 
-        // setup an object to hold the "default" date information
-        runDate = calculateRunDate(dateTimeService.getCurrentDate());
-        runCal = Calendar.getInstance();
-        runCal.setTime(runDate);
+            // setup an object to hold the "default" date information
+            runDate = calculateRunDate(dateTimeService.getCurrentDate());
+            runCal = Calendar.getInstance();
+            runCal.setTime(runDate);
 
-        universityRunDate = laborAccountingCycleCachingService.getUniversityDate(runDate);
-        if (universityRunDate == null) {
-            throw new IllegalStateException(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_UNIV_DATE_NOT_FOUND));
-        }
-        setOffsetString();
-        setDescriptions();
+            universityRunDate = laborAccountingCycleCachingService.getUniversityDate(runDate);
+            if (universityRunDate == null) {
+                throw new IllegalStateException(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_UNIV_DATE_NOT_FOUND));
+            }
+            setOffsetString();
+            setDescriptions();
 
         try {
             ((WrappingBatchService) laborMainReportWriterService).initialize();
@@ -245,7 +244,7 @@ public class LaborScrubberProcess {
             
             scrubberReport = new ScrubberReportData();
             processGroup();
-    
+
             // Run the reports
             if (reportOnlyMode) {
                 generateScrubberTransactionsOnline();
@@ -336,7 +335,7 @@ public class LaborScrubberProcess {
         int lineNumber = 0;
         int loadedCount = 0;
         boolean errorsLoading = false;
-        
+
         LedgerSummaryReport laborLedgerSummaryReport = new LedgerSummaryReport();
         LaborOriginEntry unscrubbedEntry = new LaborOriginEntry();
         List<Message> tmperrors = new ArrayList();
@@ -434,7 +433,7 @@ public class LaborScrubberProcess {
                             saveErrorTransaction = true;
                             this.laborMainReportWriterService.writeError(unscrubbedEntry, transactionErrors);
                         }
-                        
+
                         laborLedgerSummaryReport.summarizeEntry(unscrubbedEntry);
 
                         if (saveValidTransaction) {
@@ -472,7 +471,7 @@ public class LaborScrubberProcess {
             this.laborMainReportWriterService.writeStatisticLine("ERROR RECORDS WRITTEN                %,9d", scrubberReport.getNumberOfErrorRecordsWritten());
             this.laborMainReportWriterService.writeStatisticLine("TOTAL OUTPUT RECORDS WRITTEN         %,9d", scrubberReport.getTotalNumberOfRecordsWritten());
             this.laborMainReportWriterService.writeStatisticLine("EXPIRED ACCOUNTS FOUND               %,9d", scrubberReport.getNumberOfExpiredAccountsFound());
-            
+
             laborLedgerSummaryReport.writeReport(this.laborLedgerReportWriterService);
         }
         catch (IOException ioe) {
@@ -835,8 +834,8 @@ public class LaborScrubberProcess {
                 }
 
                 if (ArrayUtils.contains(documentTypesBeProcessed, documentTypeCode)) {
-                    String compareStringFromValidEntry = currentValidLine.substring(31, 46);
-                    String compareStringFromErrorEntry = currentErrorLine.substring(31, 46);
+                    String compareStringFromValidEntry = currentValidLine.substring(31, 51);
+                    String compareStringFromErrorEntry = currentErrorLine.substring(31, 51);
 
                     if (compareStringFromValidEntry.compareTo(compareStringFromErrorEntry) < 0) {
                         createOutputEntry(currentValidLine, OUTPUT_DEMERGER_GLE_FILE_ps);
@@ -910,7 +909,7 @@ public class LaborScrubberProcess {
         }
         return false;
     }
-    
+
     /**
      * Generates a transaction listing report for labor origin entries that were valid
      */
@@ -918,7 +917,7 @@ public class LaborScrubberProcess {
         Iterator<LaborOriginEntry> generatedTransactions = new LaborOriginEntryFileIterator(new File(validFile));
         new TransactionListingReport().generateReport(laborGeneratedTransactionsReportWriterService, generatedTransactions);
     }
-    
+
     /**
      * Generates a transaction listing report for labor origin entries with bad balance types
      */
@@ -928,11 +927,11 @@ public class LaborScrubberProcess {
                 return org.apache.commons.lang.StringUtils.isNotBlank(originEntry.getFinancialBalanceTypeCode());
             }
         };
-        
+
         Iterator<LaborOriginEntry> blankBalanceOriginEntries = new FilteringLaborOriginEntryFileIterator(new File(inputFile), blankBalanceTypeFilter);
-        new TransactionListingReport().generateReport(laborBadBalanceTypeReportWriterService, blankBalanceOriginEntries);   
+        new TransactionListingReport().generateReport(laborBadBalanceTypeReportWriterService, blankBalanceOriginEntries);
     }
-  
+
     /**
      * Generates a transaction listing report for labor origin entries with errors
      */
@@ -941,52 +940,52 @@ public class LaborScrubberProcess {
         new TransactionListingReport().generateReport(laborErrorListingReportWriterService, removedTransactions);
     }
 
-//    protected Collection<LaborOriginEntry> getBadBalanceEntries(String fileName) {
-//        Collection<LaborOriginEntry> returnCollection = getFileOriginEntries(fileName);
-//
-//        Collection<LaborOriginEntry> badBalanceEntries = new ArrayList<LaborOriginEntry>();
-//        for (LaborOriginEntry originEntry : returnCollection) {
-//            if (isBadBalanceEntry(originEntry)) {
-//                badBalanceEntries.add(originEntry);
-//            }
-//        }
-//
-//        List sortColumns = new ArrayList();
-//        sortColumns.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
-//        sortColumns.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
-//        sortColumns.add(KFSPropertyConstants.ACCOUNT_NUMBER);
-//        sortColumns.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
-//        sortColumns.add(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
-//        sortColumns.add(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
-//        sortColumns.add(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE);
-//        sortColumns.add(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
-//        sortColumns.add(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE);
-//        sortColumns.add(KFSPropertyConstants.DOCUMENT_NUMBER);
-//
-//        Collections.sort((List) badBalanceEntries, new BeanPropertyComparator(sortColumns, true));
-//
-//        return badBalanceEntries;
-//    }
-//
-//    protected Collection<LaborOriginEntry> getFileTransactionsWithDefaultSort(String fileName) {
-//        Collection<LaborOriginEntry> returnCollection = getFileOriginEntries(fileName);
-//
-//        List sortColumns = new ArrayList();
-//        sortColumns.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
-//        sortColumns.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
-//        sortColumns.add(KFSPropertyConstants.ACCOUNT_NUMBER);
-//        sortColumns.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
-//        sortColumns.add(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
-//        sortColumns.add(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
-//        sortColumns.add(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE);
-//        sortColumns.add(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
-//        sortColumns.add(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE);
-//        sortColumns.add(KFSPropertyConstants.DOCUMENT_NUMBER);
-//        sortColumns.add(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC);
-//
-//        Collections.sort((List) returnCollection, new BeanPropertyComparator(sortColumns, true));
-//
-//        return returnCollection;
-//    }
+    // protected Collection<LaborOriginEntry> getBadBalanceEntries(String fileName) {
+    // Collection<LaborOriginEntry> returnCollection = getFileOriginEntries(fileName);
+    //
+    // Collection<LaborOriginEntry> badBalanceEntries = new ArrayList<LaborOriginEntry>();
+    // for (LaborOriginEntry originEntry : returnCollection) {
+    // if (isBadBalanceEntry(originEntry)) {
+    // badBalanceEntries.add(originEntry);
+    // }
+    // }
+    //
+    // List sortColumns = new ArrayList();
+    // sortColumns.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+    // sortColumns.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+    // sortColumns.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+    // sortColumns.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+    // sortColumns.add(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
+    // sortColumns.add(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
+    // sortColumns.add(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE);
+    // sortColumns.add(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
+    // sortColumns.add(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE);
+    // sortColumns.add(KFSPropertyConstants.DOCUMENT_NUMBER);
+    //
+    // Collections.sort((List) badBalanceEntries, new BeanPropertyComparator(sortColumns, true));
+    //
+    // return badBalanceEntries;
+    // }
+    //
+    // protected Collection<LaborOriginEntry> getFileTransactionsWithDefaultSort(String fileName) {
+    // Collection<LaborOriginEntry> returnCollection = getFileOriginEntries(fileName);
+    //
+    // List sortColumns = new ArrayList();
+    // sortColumns.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+    // sortColumns.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+    // sortColumns.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+    // sortColumns.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+    // sortColumns.add(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
+    // sortColumns.add(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
+    // sortColumns.add(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE);
+    // sortColumns.add(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
+    // sortColumns.add(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE);
+    // sortColumns.add(KFSPropertyConstants.DOCUMENT_NUMBER);
+    // sortColumns.add(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC);
+    //
+    // Collections.sort((List) returnCollection, new BeanPropertyComparator(sortColumns, true));
+    //
+    // return returnCollection;
+    // }
 
 }

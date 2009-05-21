@@ -788,10 +788,6 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                     accountTotal = accountTotal.add(calcAmount);
 
                 }
-                if (!accountTotal.equals(item.getTotalAmount())) {
-                    GlobalVariables.getErrorMap().putError(item.getItemIdentifierString(), PurapKeyConstants.ERROR_ITEM_ACCOUNTING_DOLLAR_TOTAL, identifier, accountTotal.toString(), item.getTotalAmount()+"");
-                    LOG.debug("Invalid Totals");
-                }
             }
         }
     }

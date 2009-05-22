@@ -23,3 +23,6 @@ update krim_dlgn_mbr_t set dlgn_mbr_id = '4', role_mbr_id = '*' where dlgn_mbr_i
 /
 update krim_dlgn_mbr_t set role_mbr_id = '1292' where dlgn_mbr_id in ('1', '2')
 /
+
+update krns_parm_t set TXT = 'A=N' where parm_nm = 'VALID_ASSET_STATUSES_BY_ACQUISITION_TYPE'
+/

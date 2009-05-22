@@ -141,7 +141,7 @@
 		<!-- BEGIN TOTAL SECTION -->
 		<c:if test="${purapTaxEnabled}">
 		<tr>
-			<td align=right width='75%' colspan="6" scope="row" class="datacell">
+			<td align=right width='75%' colspan="8" scope="row" class="datacell">
 			    <div align="right">
 					<c:if test="${(empty isCreditMemo or !isCreditMemo) and purapTaxEnabled and KualiForm.document.useTaxIndicator}" >
 					<b>[Vendor Remit Amount]</b>
@@ -163,7 +163,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td align=right width='75%' colspan="6" scope="row" class="datacell">
+			<td align=right width='75%' colspan="8" scope="row" class="datacell">
 			    <div align="right">
 			        <b><kul:htmlAttributeLabel attributeEntry="${documentAttributes.grandTaxAmount}" skipHelpUrl="true" /></b>&nbsp;
 			    </div>
@@ -183,7 +183,7 @@
 		</c:if>
 
 		<tr>
-			<td align=right width='75%' colspan="6" scope="row" class="datacell">
+			<td align=right width='75%' colspan="8" scope="row" class="datacell">
 			    <div align="right">
 					<c:if test="${(empty isCreditMemo or !isCreditMemo) and purapTaxEnabled and !KualiForm.document.useTaxIndicator}" >
 					<b>[Vendor Remit Amount]</b>

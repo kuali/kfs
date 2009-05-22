@@ -32,16 +32,15 @@ import org.kuali.rice.kim.bo.role.impl.KimDelegationImpl;
 import org.kuali.rice.kim.bo.role.impl.KimDelegationMemberImpl;
 import org.kuali.rice.kim.bo.role.impl.RoleMemberAttributeDataImpl;
 import org.kuali.rice.kim.bo.role.impl.RoleMemberImpl;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.bo.ui.KimDocumentRoleMember;
 import org.kuali.rice.kim.bo.ui.RoleDocumentDelegationMember;
 import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kim.service.UiDocumentService;
 import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 
 /**
  * This class represents the business rules for the maintenance of {@link AccountGlobal} business objects
@@ -70,24 +69,6 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
     
-    protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
-        boolean valid = super.processRouteDocument(document);
-        OrgReviewRole orr = (OrgReviewRole)((MaintenanceDocument)document).getNewMaintainableObject().getBusinessObject();
-        OrgReviewRoleLookupableHelperServiceImpl lookupableHelperService = new OrgReviewRoleLookupableHelperServiceImpl();
-        lookupableHelperService.validateDocumentType(orr.getFinancialSystemDocumentTypeCode());
-        if(!orr.hasAnyMember()){
-            valid = false;
-            putFieldError("principalMemberPrincipalName", KFSKeyConstants.NO_MEMBER_SELECTED);
-        } else if(orr.isDelegate()){
-            // Save delegation(s)
-            validateDelegation(document);
-        } else{
-            // Save role member(s)
-            validateRoleMember(document);
-        }
-        return valid;
-    }
-
     protected boolean validateDelegation(Document document){
         boolean valid = true;
         String roleId;
@@ -160,6 +141,7 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
         if(!((MaintenanceDocument)document).isEdit()){
             if(orr.getRoleNamesToConsider()==null)
                 orr.setRoleNamesToConsider();
+            boolean attributesUnique = true;
             for(String roleName: orr.getRoleNamesToConsider()){
                 roleId = KIMServiceLocator.getRoleService().getRoleIdByName(
                         KFSConstants.SysKimConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);
@@ -175,7 +157,9 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
                     member = orr.getRoleMemberOfType(roleMembershipInfo.getMemberTypeCode());
                     if(member!=null && StringUtils.isNotEmpty(member.getMemberName())){
                         memberId = getUiDocumentService().getMemberIdByName(member.getMemberTypeCode(), member.getMemberNamespaceCode(), member.getMemberName());
-                        if(member!=null && StringUtils.isNotEmpty(memberId) && memberId.equals(roleMembershipInfo.getMemberId())){
+                        attributesUnique = areAttributesUnique(orr, roleMembershipInfo);
+                        if(!attributesUnique && member!=null && StringUtils.isNotEmpty(memberId) && memberId.equals(roleMembershipInfo.getMemberId()) && 
+                                member.getMemberTypeCode().equals(roleMembershipInfo.getMemberTypeCode())){
                            putFieldError(orr.getMemberFieldName(member), KFSKeyConstants.ALREADY_ASSIGNED_MEMBER);
                            valid = false;
                         }
@@ -184,6 +168,27 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
             }
         }
         return valid;
+    }
+
+    private boolean areAttributesUnique(OrgReviewRole orr, RoleMembershipInfo roleMembership){
+        String docTypeName = orr.getFinancialSystemDocumentTypeCode();
+        String chartOfAccountCode = orr.getChartOfAccountsCode();
+        String organizationCode = orr.getOrganizationCode();
+        AttributeSet attributeSet = roleMembership.getQualifier();
+        boolean uniqueAttributes = 
+            !StringUtils.equals(docTypeName, getAttributeValue(attributeSet, KfsKimAttributes.DOCUMENT_TYPE_NAME)) ||
+            !StringUtils.equals(chartOfAccountCode, getAttributeValue(attributeSet, KfsKimAttributes.CHART_OF_ACCOUNTS_CODE)) ||
+            !StringUtils.equals(organizationCode, getAttributeValue(attributeSet, KfsKimAttributes.ORGANIZATION_CODE));
+        return uniqueAttributes;
+    }
+    
+    protected String getAttributeValue(AttributeSet aSet, String attributeName){
+        if(StringUtils.isEmpty(attributeName)) return null;
+        for(String attributeNameKey: aSet.keySet()){
+            if(attributeName.equals(attributeNameKey))
+                return aSet.get(attributeNameKey);
+        }
+        return null;
     }
 
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {

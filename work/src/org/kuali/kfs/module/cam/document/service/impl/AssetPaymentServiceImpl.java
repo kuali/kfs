@@ -160,10 +160,10 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
             int assetIndex = 0;
             // Creating a new payment record for each asset that has payments.
             for (AssetPaymentAssetDetail assetPaymentAssetDetail : assetPaymentAssetDetails) {
-                
+
                 if (assetPaymentAssetDetail.getPreviousTotalCostAmount() == null)
                     assetPaymentAssetDetail.setPreviousTotalCostAmount(new KualiDecimal(0));
-                
+
                 maxSequenceNo = getMaxSequenceNumber(assetPaymentAssetDetail.getCapitalAssetNumber());
 
                 // Doing the re-distribution of the cost based on the previous total cost of each asset compared with the total
@@ -181,7 +181,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
                 KualiDecimal totalAmount = KualiDecimal.ZERO;
                 KualiDecimal amount = KualiDecimal.ZERO;
                 for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetailLines) {
-                    
+
                     if (paymentCount == 1) {
                         amount = unallocatedAmount;
                     }
@@ -195,7 +195,9 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
                     assetPayment.setCapitalAssetNumber(assetPaymentAssetDetail.getCapitalAssetNumber());
                     assetPayment.setTransferPaymentCode(CamsConstants.AssetPayment.TRANSFER_PAYMENT_CODE_N);
                     assetPayment.setPaymentSequenceNumber(++maxSequenceNo);
-                    assetPayment.setDocumentNumber(document.getDocumentNumber());
+                    if (StringUtils.isBlank(assetPayment.getDocumentNumber())) {
+                        assetPayment.setDocumentNumber(document.getDocumentNumber());
+                    }
                     assetPayment.setAccountChargeAmount(amount);
 
                     KualiDecimal baseAmount = KualiDecimal.ZERO;
@@ -252,18 +254,18 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
         List<AssetPaymentAssetDetail> assetPaymentAssetDetails = document.getAssetPaymentAssetDetail();
         int assetCount = assetPaymentAssetDetails.size();
         KualiDecimal totalAmount = KualiDecimal.ZERO;
-        //Get the grand total amount
+        // Get the grand total amount
         for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetailLines) {
             totalAmount = totalAmount.add(assetPaymentDetail.getAmount());
         }
 
-        //Distribute the grand total amount for each asset and save it in the list
+        // Distribute the grand total amount for each asset and save it in the list
         try {
             Double totalHistoricalCost = new Double(document.getAssetsTotalHistoricalCost().toString());
             KualiDecimal unallocatedTotal = totalAmount;
             for (AssetPaymentAssetDetail assetPaymentAssetDetail : assetPaymentAssetDetails) {
 
-                Double previousTotalCostAmount = new Double(assetPaymentAssetDetail.getPreviousTotalCostAmount() == null? "0" : assetPaymentAssetDetail.getPreviousTotalCostAmount().toString());
+                Double previousTotalCostAmount = new Double(assetPaymentAssetDetail.getPreviousTotalCostAmount() == null ? "0" : assetPaymentAssetDetail.getPreviousTotalCostAmount().toString());
                 Double percentage = new Double(0);
                 if (totalHistoricalCost.compareTo(new Double(0)) != 0)
                     percentage = (previousTotalCostAmount / totalHistoricalCost);
@@ -276,7 +278,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
                 }
                 else {
                     assetCount--;
-                    amount = new KualiDecimal(totalAmount.doubleValue() * percentage.doubleValue());                    
+                    amount = new KualiDecimal(totalAmount.doubleValue() * percentage.doubleValue());
                     unallocatedTotal = unallocatedTotal.subtract(amount);
                 }
                 assetPaymentTotalList.add(amount);
@@ -285,7 +287,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
         catch (Exception e) {
             throw new RuntimeException(e);
         }
-        
+
         return assetPaymentTotalList;
     }
 

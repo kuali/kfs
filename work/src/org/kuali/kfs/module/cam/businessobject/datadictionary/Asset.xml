@@ -2181,6 +2181,8 @@
                     p:attributeName="assetLocationDocumentLookup" />
               <bean parent="FieldDefinition"
                     p:attributeName="assetMergeOrRetirementDocumentLookup" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="camsComplexMaintenanceDocumentLookup" />
             </list>
           </property>
         </bean>

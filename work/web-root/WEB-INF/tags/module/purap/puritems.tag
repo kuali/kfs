@@ -568,7 +568,7 @@
 
 		<c:if test="${purapTaxEnabled}">
 		<tr>
-			<th align=right width='75%' colspan=8 scope="row">
+			<th align=right width='75%' colspan=10 scope="row">
 			    <div align="right">
 			        <kul:htmlAttributeLabel attributeEntry="${DataDictionary.RequisitionDocument.attributes.totalPreTaxDollarAmount}" />
 			    </div>
@@ -585,7 +585,7 @@
 		</tr>
 
 		<tr>
-			<th align=right width='75%' colspan=8 scope="row">
+			<th align=right width='75%' colspan=10 scope="row">
 			    <div align="right">
 			        <kul:htmlAttributeLabel attributeEntry="${DataDictionary.RequisitionDocument.attributes.totalTaxAmount}" />
 			    </div>
@@ -603,7 +603,7 @@
 		</c:if>
 
 		<tr>
-			<th align=right width='75%' colspan=8 scope="row">
+			<th align=right width='75%' colspan=10 scope="row">
 			    <div align="right">
 			        <kul:htmlAttributeLabel attributeEntry="${DataDictionary.RequisitionDocument.attributes.totalDollarAmount}" />
 			    </div>
@@ -620,7 +620,7 @@
 		</tr>
 
 		<tr>
-			<th align=right width='75%' colspan=8 scope="row">
+			<th align=right width='75%' colspan=10 scope="row">
 			    <c:if test="${displayRequisitionFields}">
 				    <div align="right">
 				        <kul:htmlAttributeLabel attributeEntry="${DataDictionary.RequisitionDocument.attributes.organizationAutomaticPurchaseOrderLimit}" />

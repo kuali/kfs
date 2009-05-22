@@ -1109,38 +1109,47 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
                 && ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentInitiatorUserIdentifier()))) {
         }
         else {
+            // set new user session to recurrence initiator
+            String initiator = this.getCustomerInvoiceRecurrenceDetails().getDocumentInitiatorUserPersonUserIdentifier();
+            UserSession currentSession = GlobalVariables.getUserSession();
+            GlobalVariables.setUserSession(new UserSession(initiator));
+
+            // populate InvoiceRecurrence business object
+            InvoiceRecurrence newInvoiceRecurrence = new InvoiceRecurrence();
+            newInvoiceRecurrence.setInvoiceNumber(this.getCustomerInvoiceRecurrenceDetails().getInvoiceNumber());
+            newInvoiceRecurrence.setCustomerNumber(this.getCustomerInvoiceRecurrenceDetails().getCustomerNumber());
+            newInvoiceRecurrence.setDocumentRecurrenceBeginDate(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate());
+            newInvoiceRecurrence.setDocumentRecurrenceEndDate(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceEndDate());
+            newInvoiceRecurrence.setDocumentRecurrenceIntervalCode(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceIntervalCode());
+            newInvoiceRecurrence.setDocumentTotalRecurrenceNumber(this.getCustomerInvoiceRecurrenceDetails().getDocumentTotalRecurrenceNumber());
+            newInvoiceRecurrence.setDocumentInitiatorUserIdentifier(this.getCustomerInvoiceRecurrenceDetails().getDocumentInitiatorUserIdentifier());
+            newInvoiceRecurrence.setActive(this.getCustomerInvoiceRecurrenceDetails().isActive());
+
+            // create a new InvoiceRecurrenceMaintenanceDocument
+            MaintenanceDocument invoiceRecurrenceMaintDoc = null;
             try {
-                // set new user session to recurrence initiator
-                String initiator = this.getCustomerInvoiceRecurrenceDetails().getDocumentInitiatorUserPersonUserIdentifier();
-                UserSession currentSession = GlobalVariables.getUserSession();
-                GlobalVariables.setUserSession(new UserSession(initiator));
+                invoiceRecurrenceMaintDoc = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument(getInvoiceRecurrenceMaintenanceDocumentTypeName());
+            }
+            catch (WorkflowException e1) {
+                throw new RuntimeException("Cannot create new Invoice Recurrence Maintenance Document.");
+            }
+            invoiceRecurrenceMaintDoc.getDocumentHeader().setDocumentDescription("Automatically created from Invoice");
+            invoiceRecurrenceMaintDoc.getNewMaintainableObject().setBusinessObject(newInvoiceRecurrence);
 
-                // populate InvoiceRecurrence business object
-                InvoiceRecurrence newInvoiceRecurrence = new InvoiceRecurrence();
-                newInvoiceRecurrence.setInvoiceNumber(this.getCustomerInvoiceRecurrenceDetails().getInvoiceNumber());
-                newInvoiceRecurrence.setCustomerNumber(this.getCustomerInvoiceRecurrenceDetails().getCustomerNumber());
-                newInvoiceRecurrence.setDocumentRecurrenceBeginDate(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate());
-                newInvoiceRecurrence.setDocumentRecurrenceEndDate(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceEndDate());
-                newInvoiceRecurrence.setDocumentRecurrenceIntervalCode(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceIntervalCode());
-                newInvoiceRecurrence.setDocumentTotalRecurrenceNumber(this.getCustomerInvoiceRecurrenceDetails().getDocumentTotalRecurrenceNumber());
-                newInvoiceRecurrence.setDocumentInitiatorUserIdentifier(this.getCustomerInvoiceRecurrenceDetails().getDocumentInitiatorUserIdentifier());
-                newInvoiceRecurrence.setActive(this.getCustomerInvoiceRecurrenceDetails().isActive());
-
-                // create a new InvoiceRecurrenceMaintenanceDocument
-                MaintenanceDocument invoiceRecurrenceMaintDoc = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument(getInvoiceRecurrenceMaintenanceDocumentTypeName());
-                invoiceRecurrenceMaintDoc.getDocumentHeader().setDocumentDescription("Automatically created from Invoice");
-                invoiceRecurrenceMaintDoc.getNewMaintainableObject().setBusinessObject(newInvoiceRecurrence);
-
+            try {
                 // blanket approve the INVR, bypassing everything
-                invoiceRecurrenceMaintDoc.getDocumentHeader().getWorkflowDocument().blanketApprove("Blanket Approved by the creating Invoice Document #" + getDocumentNumber());
-                
-                // return the session to the original initiator
-                GlobalVariables.setUserSession(currentSession);
-                
+                //invoiceRecurrenceMaintDoc.getDocumentHeader().getWorkflowDocument().blanketApprove("Blanket Approved by the creating Invoice Document #" + getDocumentNumber());
+                //TODO temporarily just do regular route until we can get blanket approve perms setup for KFS
+                SpringContext.getBean(DocumentService.class).saveDocument(invoiceRecurrenceMaintDoc);
+                invoiceRecurrenceMaintDoc.getDocumentHeader().getWorkflowDocument().routeDocument("Automatically created and routed by CustomerInvoiceDocument #" + getDocumentNumber() + ".");
             }
             catch (WorkflowException e) {
-                throw new RuntimeException("Cannot find Invoice Recurrence Maintenance Document with id " + this.getDocumentHeader().getFinancialDocumentInErrorNumber());
+                throw new RuntimeException("Cannot route Invoice Recurrence Maintenance Document with id " + invoiceRecurrenceMaintDoc.getDocumentNumber() + ".");
             }
+            
+            // return the session to the original initiator
+            GlobalVariables.setUserSession(currentSession);
+                
         }
     }
     

@@ -22,11 +22,13 @@ import java.util.Map;
 import org.kuali.kfs.gl.businessobject.AccountBalance;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class CANNOT be used by 2 processes simultaneously. It is for very specific batch processes that should not run at the same
  * time, and initialize and destroy must be called and the beginning and end of each process that uses it.
  */
+@Transactional
 public abstract class AbstractBatchTransactionalCachingService implements WrappingBatchService {
     protected Map<String,BusinessObject> referenceValueCache;
     protected Map<Class,PreviousValueReference> previousValueCache;

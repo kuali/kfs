@@ -24,6 +24,7 @@ import org.kuali.kfs.coa.document.AccountDelegateGlobalMaintainableImpl;
 import org.kuali.kfs.coa.document.AccountDelegateMaintainableImpl;
 import org.kuali.kfs.coa.service.AccountDelegateService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kew.dto.DocumentTypeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.WorkflowInfo;
@@ -32,6 +33,7 @@ import org.kuali.rice.kns.document.MaintenanceLock;
 /**
  * The default implementation of AccountDelegateService.
  */
+@NonTransactional
 public class AccountDelegateServiceImpl implements AccountDelegateService {
 
     private AccountDelegateDao accountDelegateDao;

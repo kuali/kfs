@@ -353,8 +353,27 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
             managedLists.add(this.getItems());
         }
         return managedLists;
+    }    
+    
+    /**
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#buildListOfDeletionAwareLists()
+     *
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = new ArrayList();
+        if (allowDeleteAwareCollection) {            
+            List<PurApAccountingLine> purapAccountsList = new ArrayList<PurApAccountingLine>();
+            for (Object itemAsObject : this.getItems()) {
+                final PurApItem item = (PurApItem)itemAsObject;
+                purapAccountsList.addAll(item.getSourceAccountingLines());
+            }
+            managedLists.add(purapAccountsList);
+            managedLists.add(this.getItems());
+        }
+        return managedLists;
     }
-
+    */
+    
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
@@ -1093,8 +1112,18 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
             return sourceAccountingLines;
         }
         else {
+            /*
             SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);
             return SpringContext.getBean(PurapAccountingService.class).generateSummary(getItems());
+            */
+            List<AccountingLine> sourceAccountingLines = new ArrayList<AccountingLine>();
+            for (Object itemAsObject : this.getItems()) {
+                final PurApItem item = (PurApItem)itemAsObject;
+                for (PurApAccountingLine accountingLine : item.getSourceAccountingLines()) {
+                    sourceAccountingLines.add(accountingLine);
+                }
+            }
+            return sourceAccountingLines;            
         }
     }
     

@@ -35,7 +35,6 @@ import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
-import org.kuali.kfs.module.purap.document.service.CreditMemoService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.fixture.PurapAccountingServiceFixture;
 import org.kuali.kfs.module.purap.fixture.RequisitionDocumentFixture;
@@ -44,6 +43,8 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.suite.RelatesTo;
+import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -426,7 +427,7 @@ public class PurapAccountingServiceTest extends KualiTestBase {
     /*
      * Tests of generateSummaryWithNoZeroTotalsUsingAlternateAmount(List<PurApItem> items)
      */
-    
+    @RelatesTo(JiraIssue.KULPURAP4144)
     public void testGenerateSummaryWithNoZeroTotalsUsingAlternateAmount_OneItem_OneAccount() {
         PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.REQ_SUMMARY_ONE_ITEM_ONE_ACCOUNT;
         List<SourceAccountingLine> originalSourceAccounts = fixture.getSourceAccountingLineList();
@@ -443,6 +444,7 @@ public class PurapAccountingServiceTest extends KualiTestBase {
         checkAccountConsolidation(sourceLines,originalSourceAccounts);
     }
     
+    @RelatesTo(JiraIssue.KULPURAP4144)
     public void testGenerateSummaryWithNoZeroTotalsUsingAlternateAmount_OneItem_TwoAccounts() {
         PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.REQ_SUMMARY_ONE_ITEM_TWO_ACCOUNTS;
         List<SourceAccountingLine> originalSourceAccounts = fixture.getSourceAccountingLineList();
@@ -459,6 +461,7 @@ public class PurapAccountingServiceTest extends KualiTestBase {
         checkAccountConsolidation(sourceLines,originalSourceAccounts);
     }
     
+    @RelatesTo(JiraIssue.KULPURAP4144)
     public void testGenerateSummaryWithNoZeroTotalsUsingAlternateAmount_TwoItems_OneAccount() {
         PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.REQ_SUMMARY_TWO_ITEMS_ONE_ACCOUNT;
         List<SourceAccountingLine> originalSourceAccounts = fixture.getSourceAccountingLineList();

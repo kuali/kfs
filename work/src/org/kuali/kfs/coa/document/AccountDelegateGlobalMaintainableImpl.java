@@ -40,7 +40,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
- * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global delegates
+ * This class overrides the base {@link FinancialSystemGlobalMaintainable} to generate the specific maintenance locks for Global delegates
  * and to help with using delegate models
  * 
  * @see OrganizationRoutingModelName
@@ -57,6 +57,8 @@ public class AccountDelegateGlobalMaintainableImpl extends FinancialSystemGlobal
         super.setupNewFromExisting( document, parameters );
 
         AccountDelegateGlobal globalDelegate = (AccountDelegateGlobal) this.getBusinessObject();
+        globalDelegate.setVersionNumber(1L);
+        this.setBusinessObject(globalDelegate);
         // 1. if model name, chart of accounts, and org code are all present
         // then let's see if we've actually got a model record
         if (!StringUtils.isBlank(globalDelegate.getModelName()) && !StringUtils.isBlank(globalDelegate.getModelChartOfAccountsCode()) && !StringUtils.isBlank(globalDelegate.getModelOrganizationCode())) {

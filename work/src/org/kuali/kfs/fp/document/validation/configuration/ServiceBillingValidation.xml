@@ -122,7 +122,7 @@
 					</property>
 					<property name="quitOnFail" value="true" />
 				</bean>
-				<bean parent="AccountingDocument-accountingLineAccessibleValidation" scope="prototype">
+				<bean parent="ServiceBilling-accountingLineAccessibleValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
 							<bean parent="validationFieldConversion">

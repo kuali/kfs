@@ -1374,4 +1374,9 @@ public class OrgReviewRole extends RoleImpl {
         this.namespaceCode = namespaceCode;
     }
 
+    @Override
+    public Long getVersionNumber(){
+        return 1L;
+    }
+
 }

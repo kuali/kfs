@@ -741,7 +741,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
 
             // everything in the below list requires correcting entries to be written to the GL
             if (NodeDetailEnum.getNodesRequiringCorrectingGeneralLedgerEntries().contains(currentNode)) {
-                if (NodeDetailEnum.ACCOUNT_REVIEW.getName().equals(currentNode)) {
+                if (NodeDetailEnum.ACCOUNT_REVIEW.getName().equals(currentNode) || NodeDetailEnum.VENDOR_TAX_APPROVE.getName().equals(currentNode)) {
                     SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesModifyPaymentRequest(this);
                 }
             }

@@ -18,7 +18,7 @@ package org.kuali.kfs.module.purap;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 
 /**
  * Holds Workflow constants for PURAP documents
@@ -181,8 +181,14 @@ public class PurapWorkflowConstants {
 
     public static class PaymentRequestDocument {
         public enum NodeDetailEnum implements NodeDetails {
-            ADHOC_REVIEW(DOC_ADHOC_NODE_NAME, null, PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS, false), ACCOUNTS_PAYABLE_REVIEW("ImageAttachment", PurapConstants.PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS, false), AWAITING_RECEIVING_REVIEW("PurchaseWasReceived", PurapConstants.PaymentRequestStatuses.AWAITING_RECEIVING_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE, false), SUB_ACCOUNT_REVIEW("SubAccount", PurapConstants.PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE, false), ACCOUNT_REVIEW("Account", PurapConstants.PaymentRequestStatuses.AWAITING_FISCAL_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE, true), ORG_REVIEW("AccountingOrganizationHierarchy", PurapConstants.PaymentRequestStatuses.AWAITING_ORG_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE, false), VENDOR_TAX_REVIEW("VendorIsEmployeeOrNonResidentAlien",
-                    PurapConstants.PaymentRequestStatuses.AWAITING_TAX_REVIEW, PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE, false), ;
+            ADHOC_REVIEW(DOC_ADHOC_NODE_NAME, null, PaymentRequestStatuses.CANCELLED_IN_PROCESS, false), 
+            ACCOUNTS_PAYABLE_REVIEW("ImageAttachment", PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW, PaymentRequestStatuses.CANCELLED_IN_PROCESS, false), 
+            AWAITING_RECEIVING_REVIEW("PurchaseWasReceived", PaymentRequestStatuses.AWAITING_RECEIVING_REVIEW, PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE, false), 
+            SUB_ACCOUNT_REVIEW("SubAccount", PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW, PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE, false), 
+            ACCOUNT_REVIEW("Account", PaymentRequestStatuses.AWAITING_FISCAL_REVIEW, PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE, true), 
+            ORG_REVIEW("AccountingOrganizationHierarchy", PaymentRequestStatuses.AWAITING_ORG_REVIEW, PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE, false), 
+            VENDOR_TAX_REVIEW("VendorIsEmployeeOrNonResidentAlien", PaymentRequestStatuses.AWAITING_TAX_REVIEW, PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE, false),
+            VENDOR_TAX_APPROVE("Tax", PaymentRequestStatuses.DEPARTMENT_APPROVED, PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE, true);
 
             private final String name;
             private final String awaitingStatusCode;

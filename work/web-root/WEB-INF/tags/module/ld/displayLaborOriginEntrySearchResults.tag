@@ -48,7 +48,7 @@
                 <c:forEach items="${KualiForm.tableRenderColumnMetadata}" var="column" varStatus="columnLoopStatus">
                     <td class="sortable" style="text-align: center;">
                         <c:if test="${column.sortable}">
-							<c:set var="sortButtonName" value="methodToCall.sort.${columnLoopStatus.index}.anchor${currentTabIndex}.x" />
+							<c:set var="sortButtonName" value="methodToCall.sort.${columnLoopStatus.index}.anchor${currentTabIndex}" />
 								   ${kfunc:registerEditableProperty(KualiForm, sortButtonName)}
 								   <input type="image" tabindex="${tabindex}" name="${sortButtonName}"
 										  src="${ConfigProperties.kr.externalizable.images.url}${imageName}" alt="Sort column ${column.columnTitle}" 

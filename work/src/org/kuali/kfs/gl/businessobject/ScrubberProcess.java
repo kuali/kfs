@@ -2001,7 +2001,7 @@ public class ScrubberProcess {
              * @see org.kuali.kfs.gl.batch.service.impl.FilteringOriginEntryFileIterator.OriginEntryFilter#accept(org.kuali.kfs.gl.businessobject.OriginEntryFull)
              */
             public boolean accept(OriginEntryFull originEntry) {
-                return org.apache.commons.lang.StringUtils.isNotBlank(originEntry.getFinancialBalanceTypeCode());
+                return org.apache.commons.lang.StringUtils.isBlank(originEntry.getFinancialBalanceTypeCode());
             }
         };
         Iterator<OriginEntryFull> blankBalanceOriginEntries = new FilteringOriginEntryFileIterator(new File(inputFileName), blankBalanceTypeFilter);

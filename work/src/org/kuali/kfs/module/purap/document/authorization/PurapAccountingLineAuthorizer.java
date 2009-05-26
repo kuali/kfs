@@ -193,9 +193,10 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
     public boolean determineEditPermissionOnField(AccountingDocument accountingDocument, 
                                                   AccountingLine accountingLine, 
                                                   String accountingLineCollectionProperty, 
-                                                  String fieldName) {
+                                                  String fieldName,
+                                                  boolean editablePage) {
         
-        boolean isEditable = super.determineEditPermissionOnField(accountingDocument, accountingLine, accountingLineCollectionProperty,fieldName);
+        boolean isEditable = super.determineEditPermissionOnField(accountingDocument, accountingLine, accountingLineCollectionProperty,fieldName,editablePage);
         
         if (isEditable){
             isEditable = allowAccountingLinesAreEditable(accountingDocument,accountingLine);

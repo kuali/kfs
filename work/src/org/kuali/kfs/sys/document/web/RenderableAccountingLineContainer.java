@@ -351,7 +351,8 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
      */
     public boolean isFieldModifyable(String fieldName) {
         Person currentUser = GlobalVariables.getUserSession().getPerson();
-        return getForm().getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT) && accountingLineAuthorizer.hasEditPermissionOnField(getAccountingDocument(), accountingLine, this.accountingLineProperty, fieldName, currentUser);
+        final boolean pageIsEditable = getForm().getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT);
+        return accountingLineAuthorizer.hasEditPermissionOnField(getAccountingDocument(), accountingLine, this.accountingLineProperty, fieldName, editableLine, pageIsEditable, currentUser);
     }
 
     /**

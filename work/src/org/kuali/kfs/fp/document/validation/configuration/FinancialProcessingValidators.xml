@@ -281,7 +281,7 @@
 	</bean>		
 
 	<bean id="DisbursementVoucher-accountingLineAccessibleValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherAccountingLineAccessibleValidation" abstract="true" >
-		<property name="accountService" ref="accountService" />
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
 	</bean>
 
 	<bean id="DisbursementVoucher-accountingLineCountValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherAccountingLineCountValidation" abstract="true" />

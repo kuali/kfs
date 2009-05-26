@@ -39,8 +39,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class DisbursementVoucherAccountingLineAccessibleValidation extends AccountingLineAccessibleValidation {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherAccountingLineAccessibleValidation.class);
-
-    private AccountService accountService;
+    private AccountingLine oldAccountingLineForValidation;
 
     /**
      * Validates that the given accounting line is accessible for editing by the current user. <strong>This method expects a
@@ -56,19 +55,24 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
         AccountingDocument accountingDocument = this.getAccountingDocumentForValidation();
         AccountingLine accountingLineForValidation = this.getAccountingLineForValidation();
 
-        AccountingLineAuthorizer accountingLineAuthorizer = new AccountingLineAuthorizerBase();
-        boolean isAccessible = accountingLineAuthorizer.hasEditPermissionOnField(accountingDocument, accountingLineForValidation, (accountingLineForValidation.isSourceAccountingLine() ? KFSConstants.PermissionAttributeValue.SOURCE_ACCOUNTING_LINES.value : KFSConstants.PermissionAttributeValue.TARGET_ACCOUNTING_LINES.value), KFSPropertyConstants.ACCOUNT_NUMBER, financialSystemUser);
+        final AccountingLineAuthorizer accountingLineAuthorizer = lookupAccountingLineAuthorizer();
+        final boolean lineIsAccessible = accountingLineAuthorizer.hasEditPermissionOnAccountingLine(accountingDocument, accountingLineForValidation, getAccountingLineCollectionProperty(), financialSystemUser);
+        boolean isAccessible = accountingLineAuthorizer.hasEditPermissionOnField(accountingDocument, accountingLineForValidation, getAccountingLineCollectionProperty(), KFSPropertyConstants.ACCOUNT_NUMBER, lineIsAccessible, true, financialSystemUser);
 
         // get the authorizer class to check for special conditions routing and if the user is part of a particular workgroup
         // but only if the document is enroute
         KualiWorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
         if (!isAccessible && workflowDocument.stateIsEnroute()) {
-
-            // if approval is requested and the user has required edit permission, then the line is accessible
-            List<String> candidateEditModes = this.getCandidateEditModes();
-            if (workflowDocument.isApprovalRequested() && this.hasRequiredEditMode(accountingDocument, financialSystemUser, candidateEditModes)) {
-                isAccessible = true;
-            }
+        	
+        	if (oldAccountingLineForValidation == null || accountUnchanged(accountingLineForValidation, oldAccountingLineForValidation)) {
+        		isAccessible = true;
+        	} else {
+                // if approval is requested and the user has required edit permission, then the line is accessible
+                List<String> candidateEditModes = this.getCandidateEditModes();
+                if (workflowDocument.isApprovalRequested() && this.hasRequiredEditMode(accountingDocument, financialSystemUser, candidateEditModes)) {
+                    isAccessible = true;
+                }
+        	}
         }
 
         // report errors if the current user can have no access to the account
@@ -123,13 +127,22 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
 
         return candidateEdiModes;
     }
+    
+    /**
+     * Determines if the two given accounting lines have not have their account changed
+     * @param pollux the first accounting line to check
+     * @param castor the second accounting line to check
+     * @return true if the account is the same for the two, false otherwise
+     */
+    protected boolean accountUnchanged(AccountingLine pollux, AccountingLine castor) {
+    	return ((pollux.getChartOfAccountsCode() == null && castor.getChartOfAccountsCode() == null) || (pollux.getChartOfAccountsCode() != null && pollux.getChartOfAccountsCode().equals(castor.getChartOfAccountsCode()))) && ((pollux.getAccountNumber() == null && castor.getAccountNumber() == null) || (pollux.getAccountNumber() != null && pollux.getAccountNumber().equals(castor.getAccountNumber()))); 
+    }
 
     /**
-     * Sets the accountService attribute value.
-     * 
-     * @param accountService The accountService to set.
+     * Sets the oldAccountingLineForValidation attribute value.
+     * @param oldAccountingLineForValidation The oldAccountingLineForValidation to set.
      */
-    public void setAccountService(AccountService accountService) {
-        this.accountService = accountService;
+    public void setOldAccountingLineForValidation(AccountingLine oldAccountingLineForValidation) {
+        this.oldAccountingLineForValidation = oldAccountingLineForValidation;
     }
 }

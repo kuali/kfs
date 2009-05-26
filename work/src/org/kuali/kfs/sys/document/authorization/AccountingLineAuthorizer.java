@@ -79,10 +79,12 @@ public interface AccountingLineAuthorizer {
      * @param accountingLine the given accounting line in the document
      * @param accountingLineCollectionProperty the property of the collection the given accounting line is in
      * @param fieldName the name of a field in the given accounting line
+     * @param editableLine whether the parent line of this field is editable
+     * @param editablePage whether the parent page of this field is editable
      * @param currentUser the current user
      * @return true if the the current user has permission to edit the given field in the given accounting line; otherwsie, false
      */
-    public abstract boolean hasEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, String fieldName, Person currentUser);
+    public abstract boolean hasEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, String fieldName, boolean editableLine, boolean editablePage, Person currentUser);
     
     /**
      * determine whether the current user has permission to edit the given accounting line as a whole

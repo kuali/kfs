@@ -77,7 +77,9 @@ public class AccountingLineAccessibleValidation extends GenericValidation {
                 return true;
         }
         
-        final boolean isAccessible = lookupAccountingLineAuthorizer().hasEditPermissionOnField(accountingDocumentForValidation, accountingLineForValidation, getAccountingLineCollectionProperty(), KFSPropertyConstants.ACCOUNT_NUMBER, currentUser);
+        final AccountingLineAuthorizer accountingLineAuthorizer = lookupAccountingLineAuthorizer();
+        final boolean lineIsAccessible = accountingLineAuthorizer.hasEditPermissionOnAccountingLine(accountingDocumentForValidation, accountingLineForValidation, getAccountingLineCollectionProperty(), currentUser);
+        final boolean isAccessible = accountingLineAuthorizer.hasEditPermissionOnField(accountingDocumentForValidation, accountingLineForValidation, getAccountingLineCollectionProperty(), KFSPropertyConstants.ACCOUNT_NUMBER, lineIsAccessible, true, currentUser);
 
         // report errors
         if (!isAccessible) {

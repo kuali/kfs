@@ -156,11 +156,13 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @param accountingDocument the given accounting document
      * @param accountingLine the given accounting line in the document
      * @param fieldName the name of a field in the given accounting line
+     * @param editableLine whether the parent line of this field is editable
+     * @param editablePage whether the parent page of this field is editable
      * @param currentUser the current user
      * @return true if the the current user has permission to edit the given field in the given accounting line; otherwsie, false
      */
-    public final boolean hasEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, String fieldName, Person currentUser) {
-        if (!determineEditPermissionOnField(accountingDocument, accountingLine, accountingLineCollectionProperty, fieldName)) {
+    public final boolean hasEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, String fieldName, boolean editableLine, boolean editablePage, Person currentUser) {
+        if (!determineEditPermissionOnField(accountingDocument, accountingLine, accountingLineCollectionProperty, fieldName, editablePage)) {
             return false;
         }
         
@@ -169,12 +171,8 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
             return true;
         }
 
-        // examine whether the whole line can be editable
-        final String lineFieldName = getKimHappyPropertyNameForField(accountingLineCollectionProperty);
-        boolean hasEditPermissionOnField = this.determineEditPermissionByFieldName(accountingDocument, accountingLine, lineFieldName, currentUser);
-
         // examine whether the given field can be editable
-        hasEditPermissionOnField |= this.determineEditPermissionByFieldName(accountingDocument, accountingLine, getKimHappyPropertyNameForField(accountingLineCollectionProperty+"."+fieldName), currentUser);
+        boolean hasEditPermissionOnField = editableLine || this.determineEditPermissionByFieldName(accountingDocument, accountingLine, getKimHappyPropertyNameForField(accountingLineCollectionProperty+"."+fieldName), currentUser);
 
         return hasEditPermissionOnField;
     }
@@ -185,9 +183,13 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @param accountingLine the accounting line to test
      * @param accountingLineCollectionProperty the property that the accounting line lives in
      * @param fieldName the name of the field we are testing
+     * @param editableLine whether the parent line of this field is editable
+     * @param editablePage whether the parent page of this field is editable
      * @return true if the field can be edited (subject to subsequence KIM check); false otherwise
      */
-    public boolean determineEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, String fieldName) {
+    public boolean determineEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, String fieldName, boolean editablePage) {
+        if (!editablePage) return false; // no edits by default on non editable pages
+        
         final FinancialSystemDocumentHeader documentHeader = (FinancialSystemDocumentHeader) accountingDocument.getDocumentHeader();
         final KualiWorkflowDocument workflowDocument = documentHeader.getWorkflowDocument();
 

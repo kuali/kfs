@@ -41,7 +41,7 @@ public class LaborExpenseTransferAccountingLineAuthorizer extends AccountingLine
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#determineEditPermissionOnField(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, java.lang.String)
      */
     @Override
-    public boolean determineEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, String fieldName) {
+    public boolean determineEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, String fieldName, boolean editablePage) {
         
         if (fieldName.equals(KFSPropertyConstants.AMOUNT)) {
             return true;
@@ -51,7 +51,7 @@ public class LaborExpenseTransferAccountingLineAuthorizer extends AccountingLine
             return true;
         }
         
-        return super.determineEditPermissionOnField(accountingDocument, accountingLine, accountingLineCollectionProperty, fieldName);
+        return super.determineEditPermissionOnField(accountingDocument, accountingLine, accountingLineCollectionProperty, fieldName, editablePage);
     }
     
     /**

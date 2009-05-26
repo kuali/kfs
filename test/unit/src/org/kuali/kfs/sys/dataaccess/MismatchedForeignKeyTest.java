@@ -22,7 +22,7 @@ import java.util.Map;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.dbplatform.KualiDBPlatformOracle;
+import org.kuali.rice.core.database.platform.OracleDatabasePlatform;
 
 @ConfigureContext
 public class MismatchedForeignKeyTest extends KualiTestBase {
@@ -46,7 +46,7 @@ public class MismatchedForeignKeyTest extends KualiTestBase {
      * select occurrences where foreign key columns do not match the parent columns in data types or sizes.
      */
     public void testExistingMismatchedForeignKeys() {
-        if ( unitTestSqlDao.getDbPlatform() instanceof KualiDBPlatformOracle ) {
+        if ( unitTestSqlDao.getDbPlatform() instanceof OracleDatabasePlatform ) {
         final List rows = unitTestSqlDao.sqlSelect("SELECT c.table_name AS child_table_name, cc.column_name AS child_column_name, " +
         "rc.table_name AS parent_table_name, rcc.column_name AS parent_column_name, " +
         "DECODE( cols.data_type, 'NUMBER', DECODE( cols.data_precision, NULL, cols.data_type, " + 

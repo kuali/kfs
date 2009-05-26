@@ -81,11 +81,11 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
     }
 
     /**
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#handleRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
      */
     @Override
-    public void handleRouteStatusChange(DocumentHeader documentHeader) {
-        super.handleRouteStatusChange(documentHeader);
+    public void doRouteStatusChange(DocumentHeader documentHeader) {
+        super.doRouteStatusChange(documentHeader);
         KualiWorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();
         // release lock for asset edit...
         if ((this.getBusinessObject() instanceof Asset && !(this.getBusinessObject() instanceof AssetFabrication)) && (workflowDoc.stateIsCanceled() || workflowDoc.stateIsDisapproved() || workflowDoc.stateIsProcessed() || workflowDoc.stateIsFinal())) {

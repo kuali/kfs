@@ -100,6 +100,7 @@ import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.MailService;
@@ -619,7 +620,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         for (PurApItem item : (List<PurApItem>) newPurchaseOrderChangeDocument.getItems()) {
             item.getSourceAccountingLines().iterator();
             // we only need to do this once to apply to all items, so we can break out of the loop now
-            Integer itemIdentifier = new Integer(SpringContext.getBean(SequenceAccessorService.class).getNextAvailableSequenceNumber("PO_ITM_ID").toString());
+            SequenceAccessorService sas = KNSServiceLocator.getSequenceAccessorService();
+            Integer itemIdentifier = sas.getNextAvailableSequenceNumber("PO_ITM_ID", PurApItem.class).intValue(); 
             item.setItemIdentifier(itemIdentifier); 
         }
 

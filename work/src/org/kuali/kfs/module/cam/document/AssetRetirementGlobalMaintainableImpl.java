@@ -171,11 +171,11 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
     }
 
     /**
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#handleRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
      */
     @Override
-    public void handleRouteStatusChange(DocumentHeader documentHeader) {
-        super.handleRouteStatusChange(documentHeader);
+    public void doRouteStatusChange(DocumentHeader documentHeader) {
+        super.doRouteStatusChange(documentHeader);
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
 
         if (documentHeader.getWorkflowDocument().stateIsEnroute()) {
@@ -206,7 +206,7 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
             }
 
         }
-        new AssetRetirementGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) documentHeader).handleRouteStatusChange(assetRetirementGlobal.getGeneralLedgerPendingEntries());
+        new AssetRetirementGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) documentHeader).doRouteStatusChange(assetRetirementGlobal.getGeneralLedgerPendingEntries());
 
         // release the lock when document status changed as following...
         KualiWorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();

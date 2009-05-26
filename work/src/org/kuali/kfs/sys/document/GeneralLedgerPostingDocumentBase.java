@@ -27,6 +27,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
@@ -112,11 +113,11 @@ public class GeneralLedgerPostingDocumentBase extends LedgerPostingDocumentBase 
     /**
      * Override to call super and then iterate over all GLPEs and update the approved code appropriately.
      * 
-     * @see Document#handleRouteStatusChange()
+     * @see Document#doRouteStatusChange()
      */
     @Override
-    public void handleRouteStatusChange() {
-        super.handleRouteStatusChange();
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        super.doRouteStatusChange(statusChangeEvent);
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             changeGeneralLedgerPendingEntriesApprovedStatusCode(); // update all glpes for doc and set their status to approved
         }

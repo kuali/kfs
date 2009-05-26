@@ -20,6 +20,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.exception.WorkflowRuntimeException;
 import org.kuali.rice.kim.bo.Person;
@@ -108,10 +109,10 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
     /**
      * This is the default implementation which checks for a different workflow statuses, and updates the Kuali status accordingly.
      * 
-     * @see org.kuali.rice.kns.document.Document#handleRouteStatusChange()
+     * @see org.kuali.rice.kns.document.Document#doRouteStatusChange()
      */
     @Override
-    public void handleRouteStatusChange() {
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         if (getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
             getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CANCELLED);
         }
@@ -126,7 +127,7 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
         }
         LOG.info("Status is: " + getDocumentHeader().getFinancialDocumentStatusCode());
         
-        super.handleRouteStatusChange();
+        super.doRouteStatusChange(statusChangeEvent);
     }
     
     public boolean answerSplitNodeQuestion(String nodeName) {

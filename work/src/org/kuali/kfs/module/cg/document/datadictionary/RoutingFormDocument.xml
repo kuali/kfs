@@ -15,7 +15,6 @@
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cg.document.authorization.RoutingFormDocumentPresentationController"/>
     
     <property name="sessionDocument" value="true"/> 
-    <property name="allowsNoteDelete" value="true"/>
     <property name="displayTopicFieldInNotes" value="true"/>
     <property name="headerNavigationList">
       <list>

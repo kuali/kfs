@@ -32,6 +32,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.AmountTotaling;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
@@ -139,11 +140,11 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#handleRouteStatusChange()
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#doRouteStatusChange()
      */
     @Override
-    public void handleRouteStatusChange() {
-        super.handleRouteStatusChange();
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        super.doRouteStatusChange(statusChangeEvent);
         KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
 
         // Update asset payment table with the approved asset detail records.

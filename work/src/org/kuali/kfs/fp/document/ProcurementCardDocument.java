@@ -27,7 +27,6 @@ import org.kuali.kfs.fp.businessobject.ProcurementCardSourceAccountingLine;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTransactionDetail;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
@@ -39,17 +38,17 @@ import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.FinancialSystemMaintenanceDocument;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
+import org.kuali.rice.core.exception.RiceRuntimeException;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * This is the Procurement Card Document Class. The procurement cards distributes expenses from clearing accounts. It is a two-sided
@@ -230,10 +229,24 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
         return m;
     }
 
+    // TODO: this is a duplicate method.  Is this check important?
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) throws Exception {
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        
+        // Updating for rice-1.0.0 api changes.  doRouteStatusChange() went away, so 
+        // that functionality needs to be a part of doRouteStatusChange now.
+        // handleRouteStatusChange did not happen on a save
+        if (!KEWConstants.ACTION_TAKEN_SAVED_CD.equals(statusChangeEvent.getDocumentEventCode())) {
+            this.getCapitalAssetManagementModuleService().deleteDocumentAssetLocks(this);
+        }
+        
         if (KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(statusChangeEvent.getNewRouteStatus())) {
-            Document retrievedDocument = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(statusChangeEvent.getRouteHeaderId().toString());
+            Document retrievedDocument;
+            try {  
+                retrievedDocument = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(statusChangeEvent.getRouteHeaderId().toString());
+            } catch (WorkflowException e) {
+                throw new RiceRuntimeException(e);
+            }
             String financialStatusCode = null;
             if (retrievedDocument instanceof FinancialSystemTransactionalDocument) {
                 financialStatusCode = ((FinancialSystemTransactionalDocument) retrievedDocument).getDocumentHeader().getFinancialDocumentStatusCode();
@@ -245,7 +258,7 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
             }
         }
     }
-
+    
     /**
      * On procurement card documents, positive source amounts are credits, negative source amounts are debits.
      * 
@@ -281,18 +294,6 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
     public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
         this.capitalAssetInformation = capitalAssetInformation;
     }
-
-
-    /**
-     * 
-     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#handleRouteStatusChange()
-     */
-    @Override
-    public void handleRouteStatusChange() {
-        super.handleRouteStatusChange();        
-        this.getCapitalAssetManagementModuleService().deleteDocumentAssetLocks(this);        
-    }
-
 
     /**
      * 

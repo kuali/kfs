@@ -53,6 +53,7 @@ import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
@@ -855,8 +856,8 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     }
 
     @Override
-    public void handleRouteStatusChange() {
-        super.handleRouteStatusChange();
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        super.doRouteStatusChange(statusChangeEvent);
         
         if(getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);

@@ -62,7 +62,8 @@ public class CustomerServiceImpl implements CustomerService {
      */
     public String getNextCustomerNumber(Customer newCustomer) {
         try {
-            Long customerNumberSuffix = sequenceAccessorService.getNextAvailableSequenceNumber(CUSTOMER_NUMBER_SEQUENCE);
+            Long customerNumberSuffix = sequenceAccessorService.getNextAvailableSequenceNumber(
+                    CUSTOMER_NUMBER_SEQUENCE, Customer.class);
             String customerNumberPrefix = newCustomer.getCustomerName().substring(0, 3);
             String customerNumber = customerNumberPrefix + String.valueOf(customerNumberSuffix);
     

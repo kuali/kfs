@@ -33,6 +33,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.entity.KimPrincipal;
@@ -479,8 +480,8 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     }
 
     @Override
-    public void handleRouteStatusChange() {
-        super.handleRouteStatusChange();
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        super.doRouteStatusChange(statusChangeEvent);
         if(!(this instanceof BulkReceivingDocument)){
             if(this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
                 //delete unentered items and update po totals and save po

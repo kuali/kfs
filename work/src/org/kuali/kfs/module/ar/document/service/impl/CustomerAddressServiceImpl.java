@@ -129,9 +129,10 @@ public class CustomerAddressServiceImpl implements CustomerAddressService {
      */
     public Integer getNextCustomerAddressIdentifier() {
 
-        Long nextCustomerAddressIdentifier = sequenceAccessorService.getNextAvailableSequenceNumber(CUST_ADDR_ID_SEQ);
+        Long nextId = sequenceAccessorService.getNextAvailableSequenceNumber(
+                CUST_ADDR_ID_SEQ, CustomerAddress.class);
 
-        return nextCustomerAddressIdentifier.intValue();
+        return nextId.intValue();
 
     }
 

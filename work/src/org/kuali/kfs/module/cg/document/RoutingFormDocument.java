@@ -55,6 +55,7 @@ import org.kuali.kfs.module.cg.document.service.RoutingFormResearchRiskService;
 import org.kuali.kfs.module.cg.document.service.RoutingFormService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -183,8 +184,8 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     }
 
     @Override
-    public void handleRouteStatusChange() {
-        super.handleRouteStatusChange();
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        super.doRouteStatusChange(statusChangeEvent);
 
         if (super.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             this.refreshReferenceObject("contractGrantProposal");

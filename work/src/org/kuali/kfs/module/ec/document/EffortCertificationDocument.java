@@ -31,6 +31,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.UserSession;
@@ -313,13 +314,13 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
     }
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#handleRouteStatusChange()
+     * @see org.kuali.rice.kns.document.DocumentBase#doRouteStatusChange()
      */
     @Override
-    public void handleRouteStatusChange() {
-        LOG.debug("handleRouteStatusChange() start...");
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        LOG.debug("doRouteStatusChange() start...");
 
-        super.handleRouteStatusChange();
+        super.doRouteStatusChange(statusChangeEvent);
         KualiWorkflowDocument workflowDocument = this.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.stateIsFinal()) {
             GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));

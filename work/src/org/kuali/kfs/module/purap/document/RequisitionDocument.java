@@ -58,6 +58,7 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.kfs.vnd.service.PhoneNumberService;
 import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.dto.ReportCriteriaDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -397,12 +398,12 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#handleRouteStatusChange()
+     * @see org.kuali.rice.kns.document.DocumentBase#doRouteStatusChange()
      */
     @Override
-    public void handleRouteStatusChange() {
-        LOG.debug("handleRouteStatusChange() started");
-        super.handleRouteStatusChange();
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        LOG.debug("doRouteStatusChange() started");
+        super.doRouteStatusChange(statusChangeEvent);
         try {
             // DOCUMENT PROCESSED
             if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
@@ -433,16 +434,16 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         catch (WorkflowException e) {
             logAndThrowRuntimeException("Error saving routing data while saving document with id " + getDocumentNumber(), e);
         }
-        LOG.debug("handleRouteStatusChange() ending");
+        LOG.debug("doRouteStatusChange() ending");
     }
 
     /**
      * @see org.kuali.rice.kns.document.DocumentBase#handleRouteLevelChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteLevelChangeDTO)
      */
     @Override
-    public void handleRouteLevelChange(DocumentRouteLevelChangeDTO change) {
+    public void doRouteLevelChange(DocumentRouteLevelChangeDTO change) {
         LOG.debug("handleRouteLevelChange() started");
-        super.handleRouteLevelChange(change);
+        super.doRouteLevelChange(change);
         try {
             String newNodeName = change.getNewNodeName();
             if (StringUtils.isNotBlank(newNodeName)) {

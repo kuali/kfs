@@ -49,6 +49,7 @@ import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -213,9 +214,9 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
      * reversal date.
      */
     @Override
-    public void handleRouteStatusChange() {
-        LOG.debug("In handleRouteStatusChange() for AV documents");
-        super.handleRouteStatusChange();
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        LOG.debug("In doRouteStatusChange() for AV documents");
+        super.doRouteStatusChange(statusChangeEvent);
 
         if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) { // only do this stuff if the document has been
             // processed and approved

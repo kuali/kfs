@@ -25,6 +25,7 @@ import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.bo.PostalCode;
@@ -573,11 +574,11 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
     /**
      * If the document final, unlock the document
      * 
-     * @see org.kuali.rice.kns.document.DocumentBase#handleRouteStatusChange()
+     * @see org.kuali.rice.kns.document.DocumentBase#doRouteStatusChange()
      */
     @Override
-    public void handleRouteStatusChange() {
-        super.handleRouteStatusChange();
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        super.doRouteStatusChange(statusChangeEvent);
 
         KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
 

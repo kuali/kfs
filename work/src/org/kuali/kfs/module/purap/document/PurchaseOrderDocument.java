@@ -89,6 +89,7 @@ import org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO;
 import org.kuali.rice.kew.docsearch.SearchAttributeCriteriaComponent;
 import org.kuali.rice.kew.dto.ActionTakenEventDTO;
 import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.dto.ReportCriteriaDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -101,6 +102,7 @@ import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -395,8 +397,9 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         if (ObjectUtils.isNull(getPurapDocumentIdentifier())) {
             // need retrieve the next available PO id to save in GL entries (only do if purap id is null which should be on first
             // save)
-            Long poSequenceNumber = SpringContext.getBean(SequenceAccessorService.class).getNextAvailableSequenceNumber("PO_ID");
-            setPurapDocumentIdentifier(new Integer(poSequenceNumber.intValue()));
+            SequenceAccessorService sas = KNSServiceLocator.getSequenceAccessorService();
+            Long poSequenceNumber = sas.getNextAvailableSequenceNumber("PO_ID", this.getClass());
+            setPurapDocumentIdentifier(poSequenceNumber.intValue());
         }
 
         // Set outstanding encumbered quantity/amount on items
@@ -612,12 +615,12 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     }
     
     /**
-     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#handleRouteStatusChange()
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#doRouteStatusChange()
      */
     @Override
-    public void handleRouteStatusChange() {
-        LOG.debug("handleRouteStatusChange() started");
-        super.handleRouteStatusChange();
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        LOG.debug("doRouteStatusChange() started");
+        super.doRouteStatusChange(statusChangeEvent);
 
         // child classes need to call super, but we don't want to inherit the post-processing done by this PO class other than to the Split
         if (PurchaseOrderDocument.class.getName().equals(this.getClass().getName()) || PurchaseOrderSplitDocument.class.getName().equals(this.getClass().getName())) { 
@@ -693,9 +696,9 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
      * @see org.kuali.rice.kns.document.DocumentBase#handleRouteLevelChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteLevelChangeDTO)
      */
     @Override
-    public void handleRouteLevelChange(DocumentRouteLevelChangeDTO levelChangeEvent) {
+    public void doRouteLevelChange(DocumentRouteLevelChangeDTO levelChangeEvent) {
         LOG.debug("handleRouteLevelChange() started");
-        super.handleRouteLevelChange(levelChangeEvent);
+        super.doRouteLevelChange(levelChangeEvent);
 
         LOG.debug("handleRouteLevelChange() started");
         String newNodeName = levelChangeEvent.getNewNodeName();

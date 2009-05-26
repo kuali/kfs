@@ -20,6 +20,7 @@ import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedContinuePurapEvent;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
@@ -141,8 +142,8 @@ public class LineItemReceivingDocument extends ReceivingDocumentBase {
     }
 
     @Override
-    public void handleRouteStatusChange() {
-        super.handleRouteStatusChange();
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        super.doRouteStatusChange(statusChangeEvent);
         // DOCUMENT CANCELED
         // If the document is canceled then set the line item receiving 
         // status code to CANC.
@@ -152,7 +153,7 @@ public class LineItemReceivingDocument extends ReceivingDocumentBase {
     }
     
     @Override
-    public void handleRouteLevelChange(DocumentRouteLevelChangeDTO change) {
+    public void doRouteLevelChange(DocumentRouteLevelChangeDTO change) {
         //If the new node is Outstanding Transactions then we want to set the line item
         //receiving status code to APOO.
         if (StringUtils.equals(PurapConstants.LineItemReceivingDocumentStrings.AWAITING_PO_OPEN_STATUS, change.getNewNodeName())){

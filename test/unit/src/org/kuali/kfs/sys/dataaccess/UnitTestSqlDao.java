@@ -17,7 +17,7 @@ package org.kuali.kfs.sys.dataaccess;
 
 import java.util.List;
 
-import org.kuali.rice.kns.dbplatform.KualiDBPlatform;
+import org.kuali.rice.core.database.platform.DatabasePlatform;
 
 /**
  * 
@@ -46,5 +46,5 @@ public interface UnitTestSqlDao {
      */
     public void clearCache();
     
-    public KualiDBPlatform getDbPlatform();
+    public DatabasePlatform getDbPlatform();
 }

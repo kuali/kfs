@@ -22,6 +22,7 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 
 /**
@@ -56,11 +57,11 @@ public class PurchaseOrderPaymentHoldDocument extends PurchaseOrderDocument {
     /**
      * When Purchase Order Payment Hold document has been Processed through Workflow, the PO status changes to "Payment Hold".
      * 
-     * @see org.kuali.kfs.module.purap.document.PurchaseOrderDocument#handleRouteStatusChange()
+     * @see org.kuali.kfs.module.purap.document.PurchaseOrderDocument#doRouteStatusChange()
      */
     @Override
-    public void handleRouteStatusChange() {
-        super.handleRouteStatusChange();
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        super.doRouteStatusChange(statusChangeEvent);
 
         // DOCUMENT PROCESSED
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {

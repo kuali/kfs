@@ -375,24 +375,26 @@
         </property>
 	</bean>
 	
-	<bean id="oracleIndicator" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-    	<property name="staticField"><value>org.kuali.rice.kns.dbplatform.ConfigurableKualiDBPlatformFactory.ORACLE_PLATFORM</value>
-    	</property>
-	</bean>
+	<!-- oracleIndicator and mySQLIndicator were originally pulling their
+	     values from ConfigurableKualiDBPlatformFactory which no longer
+	     exists.  As a stopgap, I've modified these bean definitions to
+	     set their values manually, but this needs to be addressed in a
+	     more generic fashion, rather than having platform-specific code in
+	     the implementation. -->
+	<bean id="oracleIndicator" class="java.lang.String">
+        <constructor-arg value="Oracle9i"/>
+    </bean>
 	
-	<bean id="mySqlIndicator" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-    	<property name="staticField"><value>org.kuali.rice.kns.dbplatform.ConfigurableKualiDBPlatformFactory.MY_SQL_PLATFORM</value>
-    	</property>
-	</bean>
+	<bean id="mySqlIndicator" class="java.lang.String">
+        <constructor-arg value="MySQL"/>
+    </bean>
 	
 	<bean id="bcBudgetConstructionDaoBase" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.bc.document.dataaccess.impl.BudgetConstructionDaoJdbcBase">
 	    <property name="parameterService">
 	       <ref bean="parameterService"/>
 	    </property> 
 	    <property name="ojbPlatform" value="${datasource.ojb.platform}"/>
-	    <property name="ojbOraclePlatform">
-	    <ref bean="oracleIndicator" />
-	    </property>
+	    <property name="ojbOraclePlatform" ref="oracleIndicator"/>
 	</bean>
 	
 	<bean id="bcOrganizationSalarySettingSearchDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.kfs.module.bc.document.dataaccess.impl.OrganizationSalarySettingSearchDaoJdbc">
@@ -970,12 +972,8 @@
     
 	<bean id="budgetConstructionBatchHelperDao" parent="platformAwareDao" class="org.kuali.kfs.module.bc.batch.dataaccess.impl.BudgetConstructionBatchHelperDaoOjb">
 	    <property name="ojbPlatform" value="${datasource.ojb.platform}"/>
-	    <property name="ojbOraclePlatform">
-	    <ref bean="oracleIndicator" />
-	    </property>
-	    <property name="ojbMySqlPlatform">
-	    <ref bean="mySqlIndicator" />
-	    </property>
+	    <property name="ojbOraclePlatform" ref="oracleIndicator"/>
+	    <property name="ojbMySqlPlatform" ref="mySqlIndicator"/>
 	</bean>
 
     <bean id="budgetConstructionLockDao" parent="platformAwareDao" class="org.kuali.kfs.module.bc.document.dataaccess.impl.BudgetConstructionLockDaoOjb">

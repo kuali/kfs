@@ -26,9 +26,11 @@ import org.kuali.kfs.coa.identity.OrgReviewRoleLookupableHelperServiceImpl;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kew.role.KimRoleRecipient;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.entity.KimPrincipal;
 import org.kuali.rice.kim.bo.group.dto.GroupInfo;
+import org.kuali.rice.kim.bo.role.KimDelegationMember;
 import org.kuali.rice.kim.bo.role.dto.KimRoleInfo;
 import org.kuali.rice.kim.bo.role.impl.KimDelegationImpl;
 import org.kuali.rice.kim.bo.role.impl.KimDelegationMemberAttributeDataImpl;
@@ -609,7 +611,11 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
     }
 
     private String getDelegationId(){
-        return getSequenceAccessorService().getNextAvailableSequenceNumber(KimConstants.SequenceNames.KRIM_DLGN_ID_S).toString();
+    	SequenceAccessorService sas = getSequenceAccessorService();
+    	Long nextSeq = sas.getNextAvailableSequenceNumber(
+                KimConstants.SequenceNames.KRIM_DLGN_ID_S,
+                KimDelegationImpl.class);
+        return nextSeq.toString();
     }
 
     public boolean isDelegationPrimary(String delegationTypeCode){
@@ -635,19 +641,35 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
     }
     
     private String getRoleMemberId(){
-        return getSequenceAccessorService().getNextAvailableSequenceNumber(KimConstants.SequenceNames.KRIM_ROLE_MBR_ID_S).toString();
+        SequenceAccessorService sas = getSequenceAccessorService();
+        Long nextSeq = sas.getNextAvailableSequenceNumber(
+        		KimConstants.SequenceNames.KRIM_ROLE_MBR_ID_S,
+                KimDocumentRoleMember.class);
+        return nextSeq.toString();
     }
 
     private String getDelegationMemberId(){
-        return getSequenceAccessorService().getNextAvailableSequenceNumber(KimConstants.SequenceNames.KRIM_DLGN_MBR_ID_S).toString();
+        SequenceAccessorService sas = getSequenceAccessorService();
+        Long nextSeq = sas.getNextAvailableSequenceNumber(
+        		KimConstants.SequenceNames.KRIM_DLGN_MBR_ID_S,
+        		KimDelegationMemberImpl.class);
+        return nextSeq.toString();
     }
 
     private String getRoleRspActionId(){
-        return getSequenceAccessorService().getNextAvailableSequenceNumber(KimConstants.SequenceNames.KRIM_ROLE_RSP_ACTN_ID_S).toString();
+        SequenceAccessorService sas = getSequenceAccessorService();
+        Long nextSeq = sas.getNextAvailableSequenceNumber(
+        		KimConstants.SequenceNames.KRIM_ROLE_RSP_ACTN_ID_S,
+        		RoleResponsibilityActionImpl.class);
+        return nextSeq.toString();        
     }
     
     private String getRoleMemberAttributeDataId(){
-        return getSequenceAccessorService().getNextAvailableSequenceNumber(KimConstants.SequenceNames.KRIM_ATTR_DATA_ID_S).toString();
+        SequenceAccessorService sas = getSequenceAccessorService();
+        Long nextSeq = sas.getNextAvailableSequenceNumber(
+        		KimConstants.SequenceNames.KRIM_ATTR_DATA_ID_S,
+                RoleMemberAttributeDataImpl.class);
+        return nextSeq.toString(); 
     }
 
     private List<String> getRolesToSaveFor(List<String> roleNamesToConsider, String reviewRolesIndicator){

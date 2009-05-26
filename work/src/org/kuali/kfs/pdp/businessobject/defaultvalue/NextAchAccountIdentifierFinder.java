@@ -16,8 +16,9 @@
 package org.kuali.kfs.pdp.businessobject.defaultvalue;
 
 import org.kuali.kfs.pdp.PdpConstants;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.pdp.businessobject.AchAccountNumber;
 import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 
 /**
@@ -38,6 +39,9 @@ public class NextAchAccountIdentifierFinder implements ValueFinder {
      * @return Long
      */
     public static Long getLongValue() {
-        return SpringContext.getBean(SequenceAccessorService.class).getNextAvailableSequenceNumber(PdpConstants.ACH_ACCOUNT_IDENTIFIER_SEQUENCE_NAME);
+        SequenceAccessorService sas = KNSServiceLocator.getSequenceAccessorService();
+        return sas.getNextAvailableSequenceNumber(
+                PdpConstants.ACH_ACCOUNT_IDENTIFIER_SEQUENCE_NAME,
+                AchAccountNumber.class);
     }
 }

@@ -64,8 +64,8 @@ public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
     }
     
     @Override
-    public void handleRouteStatusChange(DocumentHeader documentHeader) {
-        super.handleRouteStatusChange(documentHeader);
+    public void doRouteStatusChange(DocumentHeader documentHeader) {
+        super.doRouteStatusChange(documentHeader);
         
         // if new customer was created => dates have been already updated
         if (getMaintenanceAction().equalsIgnoreCase(KNSConstants.MAINTENANCE_NEW_ACTION))

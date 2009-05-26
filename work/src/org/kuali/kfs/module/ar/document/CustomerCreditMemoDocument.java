@@ -31,6 +31,7 @@ import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.TaxService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.BlanketApproveDocumentEvent;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
@@ -507,11 +508,11 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
      * 1) Apply amounts to writeoff invoice
      * 2) Mark off invoice indiciator
      *
-     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#handleRouteStatusChange()
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#doRouteStatusChange()
      */
     @Override
-    public void handleRouteStatusChange(){
-        super.handleRouteStatusChange();
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent){
+        super.doRouteStatusChange(statusChangeEvent);
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             
             //have to populate because not all the customer credit memo details are populated while doc is in workflow

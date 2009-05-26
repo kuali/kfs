@@ -30,6 +30,7 @@ import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -187,11 +188,11 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
      * This method defers to its parent's version of handleRouteStatusChange, but then, if the document is processed, it creates ElectronicPaymentClaim records
      * for any qualifying accountings lines in the document.
      * 
-     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#handleRouteStatusChange()
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#doRouteStatusChange()
      */
     @Override
-    public void handleRouteStatusChange() {
-        super.handleRouteStatusChange();
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        super.doRouteStatusChange(statusChangeEvent);
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             SpringContext.getBean(ElectronicPaymentClaimingService.class).generateElectronicPaymentClaimRecords(this);
         }

@@ -40,6 +40,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.exception.ValidationException;
@@ -422,13 +423,13 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     /**
      * Override to set the document status to VERIFIED ("V") when the document is FINAL. When the Cash Management document that this
      * is associated with is FINAL approved, this status will be set to APPROVED ("A") to be picked up by the GL for processing.
-     * That's done in the handleRouteStatusChange() method in the CashManagementDocument.
+     * That's done in the doRouteStatusChange() method in the CashManagementDocument.
      * 
-     * @see org.kuali.rice.kns.document.Document#handleRouteStatusChange()
+     * @see org.kuali.rice.kns.document.Document#doRouteStatusChange()
      */
     @Override
-    public void handleRouteStatusChange() {
-        super.handleRouteStatusChange();        
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        super.doRouteStatusChange(statusChangeEvent);        
         KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
         
         // Workflow Status of PROCESSED --> Kuali Doc Status of Verified

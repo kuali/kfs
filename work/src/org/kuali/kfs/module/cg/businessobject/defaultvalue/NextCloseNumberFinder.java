@@ -15,8 +15,9 @@
  */
 package org.kuali.kfs.module.cg.businessobject.defaultvalue;
 
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.cg.document.CloseDocument;
 import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 
 /**
@@ -37,7 +38,8 @@ public class NextCloseNumberFinder implements ValueFinder {
      * @return
      */
     public static Long getLongValue() {
-        return SpringContext.getBean(SequenceAccessorService.class).getNextAvailableSequenceNumber("CG_PRPSL_CLOSE_NBR_SEQ");
+        SequenceAccessorService sas = KNSServiceLocator.getSequenceAccessorService();        
+        return sas.getNextAvailableSequenceNumber("CG_PRPSL_CLOSE_NBR_SEQ", CloseDocument.class);
     }
 
 }

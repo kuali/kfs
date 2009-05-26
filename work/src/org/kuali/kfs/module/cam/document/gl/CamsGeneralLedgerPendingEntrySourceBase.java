@@ -94,7 +94,7 @@ public abstract class CamsGeneralLedgerPendingEntrySourceBase implements General
         this.documentHeader = documentHeader;
     }
 
-    public void handleRouteStatusChange(List<GeneralLedgerPendingEntry> glPendingEntries) {
+    public void doRouteStatusChange(List<GeneralLedgerPendingEntry> glPendingEntries) {
         if (glPendingEntries == null || glPendingEntries.isEmpty()) {
             return;
         }

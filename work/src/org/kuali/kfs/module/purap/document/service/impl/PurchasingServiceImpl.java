@@ -113,7 +113,8 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
         if (purapItem.getItemIdentifier() == null) {
             ClassDescriptor cd = this.getClassDescriptor(purapItem.getClass());
             String sequenceName = cd.getFieldDescriptorByName(PurapPropertyConstants.ITEM_IDENTIFIER).getSequenceName();
-            Integer itemIdentifier = new Integer(sequenceAccessorService.getNextAvailableSequenceNumber(sequenceName).toString());
+                        
+            Integer itemIdentifier = sequenceAccessorService.getNextAvailableSequenceNumber(sequenceName, PurApItem.class).intValue();
             purapItem.setItemIdentifier(itemIdentifier);
         }
         PurchasingCapitalAssetItem camsItem = purchasingDocumentSpecificService.createCamsItem(purDoc, purapItem);

@@ -31,6 +31,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 
 /**
@@ -68,11 +69,11 @@ public class PurchaseOrderVoidDocument extends PurchaseOrderDocument {
      * When Purchase Order Void document has been processed through Workflow, the general ledger entries are created and the PO
      * status changes to "VOID".
      * 
-     * @see org.kuali.kfs.module.purap.document.PurchaseOrderDocument#handleRouteStatusChange()
+     * @see org.kuali.kfs.module.purap.document.PurchaseOrderDocument#doRouteStatusChange()
      */
     @Override
-    public void handleRouteStatusChange() {
-        super.handleRouteStatusChange();
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        super.doRouteStatusChange(statusChangeEvent);
 
         // DOCUMENT PROCESSED
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {

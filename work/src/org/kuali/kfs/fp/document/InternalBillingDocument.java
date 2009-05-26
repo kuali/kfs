@@ -32,6 +32,7 @@ import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
@@ -207,11 +208,11 @@ public class InternalBillingDocument extends AccountingDocumentBase implements C
 
     /**
      * 
-     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#handleRouteStatusChange()
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#doRouteStatusChange()
      */
     @Override
-    public void handleRouteStatusChange() {
-        super.handleRouteStatusChange();        
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        super.doRouteStatusChange(statusChangeEvent);        
         this.getCapitalAssetManagementModuleService().deleteDocumentAssetLocks(this);        
     }
 

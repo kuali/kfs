@@ -14,6 +14,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -54,12 +55,12 @@ public class CorrectionReceivingDocument extends ReceivingDocumentBase {
     }
     
     @Override
-    public void handleRouteStatusChange() {
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         
         if(this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             SpringContext.getBean(ReceivingService.class).completeCorrectionReceivingDocument(this);
         }
-        super.handleRouteStatusChange();
+        super.doRouteStatusChange(statusChangeEvent);
     }
     
     /**

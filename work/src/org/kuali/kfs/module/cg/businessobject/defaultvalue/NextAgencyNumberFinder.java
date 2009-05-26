@@ -15,8 +15,10 @@
  */
 package org.kuali.kfs.module.cg.businessobject.defaultvalue;
 
+import org.kuali.kfs.module.cg.businessobject.Agency;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 
 /**
@@ -38,6 +40,7 @@ public class NextAgencyNumberFinder implements ValueFinder {
      */
     public static Long getLongValue() {
         // no constant because this is the only place the sequence name is used
-        return SpringContext.getBean(SequenceAccessorService.class).getNextAvailableSequenceNumber("CG_AGENCY_NBR_SEQ");
+        SequenceAccessorService sas = KNSServiceLocator.getSequenceAccessorService();        
+        return sas.getNextAvailableSequenceNumber("CG_AGENCY_NBR_SEQ", Agency.class);
     }
 }

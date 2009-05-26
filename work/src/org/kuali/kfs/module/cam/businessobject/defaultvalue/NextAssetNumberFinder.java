@@ -15,8 +15,9 @@
  */
 package org.kuali.kfs.module.cam.businessobject.defaultvalue;
 
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 
 /**
@@ -37,6 +38,7 @@ public class NextAssetNumberFinder implements ValueFinder {
      * @return
      */
     public static Long getLongValue() {
-        return SpringContext.getBean(SequenceAccessorService.class).getNextAvailableSequenceNumber("CPTLAST_NBR_SEQ");
+        SequenceAccessorService sas = KNSServiceLocator.getSequenceAccessorService();        
+        return sas.getNextAvailableSequenceNumber("CPTLAST_NBR_SEQ", Asset.class);
     }
 }

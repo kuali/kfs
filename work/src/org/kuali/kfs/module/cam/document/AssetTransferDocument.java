@@ -40,6 +40,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Country;
@@ -469,11 +470,11 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#handleRouteStatusChange()
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#doRouteStatusChange()
      */
     @Override
-    public void handleRouteStatusChange() {
-        super.handleRouteStatusChange();
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        super.doRouteStatusChange(statusChangeEvent);
 
         KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.stateIsProcessed()) {

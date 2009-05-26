@@ -36,6 +36,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -819,10 +820,10 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
      * to trace who has modified the document we override the routine below from Document we record the processed document state. a
      * budget construction document will never be "cancelled" or "disapproved"
      * 
-     * @see org.kuali.rice.kns.document.Document#handleRouteStatusChange()
+     * @see org.kuali.rice.kns.document.Document#doRouteStatusChange()
      */
     @Override
-    public void handleRouteStatusChange() {
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         if (getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
             getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.ENROUTE);
         }

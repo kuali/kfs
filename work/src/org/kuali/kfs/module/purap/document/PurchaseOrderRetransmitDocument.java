@@ -24,6 +24,7 @@ import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -109,11 +110,11 @@ public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument {
      * When Purchase Order Retransmit document has been Processed through Workflow, the PO status remains to "OPEN" and the last
      * transmit date is updated.
      * 
-     * @see org.kuali.kfs.module.purap.document.PurchaseOrderDocument#handleRouteStatusChange()
+     * @see org.kuali.kfs.module.purap.document.PurchaseOrderDocument#doRouteStatusChange()
      */
     @Override
-    public void handleRouteStatusChange() {
-        super.handleRouteStatusChange();
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        super.doRouteStatusChange(statusChangeEvent);
 
         // DOCUMENT PROCESSED
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {

@@ -642,14 +642,14 @@ public class AssetGlobalMaintainableImpl extends FinancialSystemGlobalMaintainab
     }
 
     /**
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#handleRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
      */
     @Override
-    public void handleRouteStatusChange(DocumentHeader documentHeader) {
-        super.handleRouteStatusChange(documentHeader);
+    public void doRouteStatusChange(DocumentHeader documentHeader) {
+        super.doRouteStatusChange(documentHeader);
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
         List<GeneralLedgerPendingEntry> generalLedgerPendingEntries = assetGlobal.getGeneralLedgerPendingEntries();
-        new AssetGlobalGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) documentHeader).handleRouteStatusChange(generalLedgerPendingEntries);
+        new AssetGlobalGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) documentHeader).doRouteStatusChange(generalLedgerPendingEntries);
 
         // release lock for separate source asset...We don't include stateIsFinal since document always go to 'processed' first.
         KualiWorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();

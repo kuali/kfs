@@ -47,8 +47,8 @@ public class LaborCorrectionDocument extends GeneralLedgerCorrectionProcessDocum
      * @see org.kuali.rice.kns.document.DocumentBase#handleRouteLevelChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteLevelChangeDTO)
      */
     @Override
-    public void handleRouteLevelChange(DocumentRouteLevelChangeDTO change) {
-        //super.handleRouteLevelChange(change);
+    public void doRouteLevelChange(DocumentRouteLevelChangeDTO change) {
+        //super.doRouteLevelChange(change);
         if (StringUtils.equals(change.getNewNodeName(), AUTO_APPROVE_ROUTE_LEVEL_NAME)) {
             String docId = getDocumentHeader().getDocumentNumber();
             // this code is performed asynchronously

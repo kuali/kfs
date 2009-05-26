@@ -65,6 +65,7 @@ import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.dto.ActionTakenEventDTO;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
@@ -672,12 +673,12 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#handleRouteStatusChange()
+     * @see org.kuali.rice.kns.document.DocumentBase#doRouteStatusChange()
      */
     @Override
-    public void handleRouteStatusChange() {
-        LOG.debug("handleRouteStatusChange() started");
-        super.handleRouteStatusChange();
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        LOG.debug("doRouteStatusChange() started");
+        super.doRouteStatusChange(statusChangeEvent);
         try {
             // DOCUMENT PROCESSED
             if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {

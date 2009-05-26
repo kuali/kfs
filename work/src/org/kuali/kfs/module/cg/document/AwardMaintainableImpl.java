@@ -247,11 +247,11 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
      * This method overrides the parent method to check the status of the award document and change the linked
      * {@link ProposalStatus} to A (Approved) if the {@link Award} is now in approved status.
      * 
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#handleRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
      */
     @Override
-    public void handleRouteStatusChange(DocumentHeader header) {
-        super.handleRouteStatusChange(header);
+    public void doRouteStatusChange(DocumentHeader header) {
+        super.doRouteStatusChange(header);
 
         Award award = getAward();
         KualiWorkflowDocument workflowDoc = header.getWorkflowDocument();

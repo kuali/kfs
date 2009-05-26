@@ -48,6 +48,7 @@ import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.CampusImpl;
 import org.kuali.rice.kns.exception.ValidationException;
@@ -308,11 +309,11 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
     }
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#handleRouteStatusChange()
+     * @see org.kuali.rice.kns.document.DocumentBase#doRouteStatusChange()
      */
     @Override
-    public void handleRouteStatusChange() {
-        super.handleRouteStatusChange();
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        super.doRouteStatusChange(statusChangeEvent);
 
         KualiWorkflowDocument kwd = getDocumentHeader().getWorkflowDocument();
 

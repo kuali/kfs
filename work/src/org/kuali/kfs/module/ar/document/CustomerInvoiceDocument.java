@@ -43,6 +43,7 @@ import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.TaxService;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.document.Copyable;
@@ -1065,11 +1066,11 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      * discounts, create corresponding invoice paid applied rows 3) If the document is a reversal, in addition to reversing paid
      * applied rows, update the open paid applied indicator
      * 
-     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#handleRouteStatusChange()
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#doRouteStatusChange()
      */
     @Override
-    public void handleRouteStatusChange() {
-        super.handleRouteStatusChange();
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        super.doRouteStatusChange(statusChangeEvent);
         
         //  fast-exit if status != P
         if (!getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {

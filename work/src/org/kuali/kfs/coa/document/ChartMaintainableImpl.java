@@ -36,10 +36,10 @@ public class ChartMaintainableImpl extends FinancialSystemMaintainable {
     /**
      * Override to push chart manager id into KIM
      * 
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#handleRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
      */
     @Override
-    public void handleRouteStatusChange(DocumentHeader documentHeader) {
+    public void doRouteStatusChange(DocumentHeader documentHeader) {
         KualiWorkflowDocument workflowDocument = documentHeader.getWorkflowDocument();
 
         if (workflowDocument.stateIsProcessed()) {
@@ -62,7 +62,7 @@ public class ChartMaintainableImpl extends FinancialSystemMaintainable {
             roleManagementService.flushRoleCaches();
         }
 
-        super.handleRouteStatusChange(documentHeader);
+        super.doRouteStatusChange(documentHeader);
     }
 
 }

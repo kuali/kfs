@@ -128,11 +128,11 @@ public class ReceivingAddressMaintainableImpl extends FinancialSystemMaintainabl
      * Checks if there's any active receiving address set to default other than this one; 
      * if so, set them to non-default. 
      * 
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#handleRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
      */
     @Override
-    public void handleRouteStatusChange(DocumentHeader header) {
-        super.handleRouteStatusChange(header);
+    public void doRouteStatusChange(DocumentHeader header) {
+        super.doRouteStatusChange(header);
 
         ReceivingAddress ra = (ReceivingAddress) getBusinessObject();
         // proceed only if this bo is active and default.

@@ -193,9 +193,9 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
      * @see org.kuali.rice.kns.document.DocumentBase#handleRouteLevelChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteLevelChangeDTO)
      */
     @Override
-    public void handleRouteLevelChange(DocumentRouteLevelChangeDTO levelChangeEvent) {
+    public void doRouteLevelChange(DocumentRouteLevelChangeDTO levelChangeEvent) {
         LOG.debug("handleRouteLevelChange() started");
-        super.handleRouteLevelChange(levelChangeEvent);
+        super.doRouteLevelChange(levelChangeEvent);
         String newNodeName = levelChangeEvent.getNewNodeName();
         if (processNodeChange(newNodeName, levelChangeEvent.getOldNodeName())) {
             if (StringUtils.isNotBlank(newNodeName)) {

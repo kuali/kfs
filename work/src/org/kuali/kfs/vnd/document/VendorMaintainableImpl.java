@@ -119,8 +119,8 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
     }
 
     @Override
-    public void handleRouteStatusChange(DocumentHeader header) {
-        super.handleRouteStatusChange(header);
+    public void doRouteStatusChange(DocumentHeader header) {
+        super.doRouteStatusChange(header);
         VendorDetail vendorDetail = (VendorDetail) getBusinessObject();
         KualiWorkflowDocument workflowDoc = header.getWorkflowDocument();
 

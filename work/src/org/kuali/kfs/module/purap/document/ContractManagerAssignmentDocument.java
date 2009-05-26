@@ -31,6 +31,7 @@ import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.sys.DynamicCollectionComparator;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.dto.NetworkIdDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -105,10 +106,10 @@ public class ContractManagerAssignmentDocument extends FinancialSystemTransactio
     }
 
     @Override
-    public void handleRouteStatusChange() {
-        LOG.debug("handleRouteStatusChange() Entering method.");
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        LOG.debug("doRouteStatusChange() Entering method.");
 
-        super.handleRouteStatusChange();
+        super.doRouteStatusChange(statusChangeEvent);
 
         if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             boolean isSuccess = true;
@@ -134,7 +135,7 @@ public class ContractManagerAssignmentDocument extends FinancialSystemTransactio
                 }
             }
         }
-        LOG.debug("handleRouteStatusChange() Leaving method.");
+        LOG.debug("doRouteStatusChange() Leaving method.");
     }
 
     private String getCurrentRouteNodeName(KualiWorkflowDocument wd) throws WorkflowException {

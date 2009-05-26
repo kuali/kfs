@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
@@ -82,13 +84,11 @@ public class PurchasingProcessVendorValidation extends PurchasingAccountsPayable
         }
 
         // make sure that the vendor is of allowed type
-        String[] allowedVendorTypes = parameterService.getParameterValues(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapRuleConstants.PURAP_VENDOR_TYPE_ALLOWED_ON_REQ_AND_PO).toArray(new String[] {});
-        if (allowedVendorTypes != null){
-            for (int i = 0; i < allowedVendorTypes.length; i++) {
-                if (ObjectUtils.isNotNull(vendorHeader) && ObjectUtils.isNotNull(vendorHeader.getVendorTypeCode()) && !vendorHeader.getVendorTypeCode().equals(allowedVendorTypes[i])) {
+        List<String> allowedVendorTypes = parameterService.getParameterValues(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapRuleConstants.PURAP_VENDOR_TYPE_ALLOWED_ON_REQ_AND_PO);
+        if (allowedVendorTypes != null && !allowedVendorTypes.isEmpty()){
+           if (ObjectUtils.isNotNull(vendorHeader) && ObjectUtils.isNotNull(vendorHeader.getVendorTypeCode()) && ! allowedVendorTypes.contains(vendorHeader.getVendorTypeCode())) {
                     valid &= false;
                     errorMap.putError(VendorPropertyConstants.VENDOR_NAME, PurapKeyConstants.ERROR_INVALID_VENDOR_TYPE);
-                }
             }
         }
 

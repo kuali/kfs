@@ -4,18 +4,12 @@
 
   <bean id="YearEndTransferOfFundsDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
     <property name="allowsErrorCorrection" value="true"/>
-    
-    
-    
-    
-    
     <property name="documentTypeName" value="YETF"/>
     <property name="documentClass" value="org.kuali.kfs.fp.document.YearEndTransferOfFundsDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase"/>
     <property name="sessionDocument" value="true"/>
     <property name="allowsCopy" value="true"/>
-
     <property name="accountingLineGroups">
     	<map>
     		<entry>
@@ -32,6 +26,7 @@
     <property name="workflowAttributes">
       <ref bean="YearEndTransferOfFundsDocument-workflowAttributes"/>
     </property>
+    <property name="validationMap" ref="YearEndTransferOfFundsDocument-validations" />
   </bean>
   
   <!-- Validations -->

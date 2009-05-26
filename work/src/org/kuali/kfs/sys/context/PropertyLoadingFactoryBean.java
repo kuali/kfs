@@ -31,21 +31,22 @@ public class PropertyLoadingFactoryBean implements FactoryBean {
     private static final String SECURITY_PROPERTY_FILE_NAME_KEY = "security.property.file";
     private static final String CONFIGURATION_FILE_NAME = "configuration";
     private static final Properties BASE_PROPERTIES = new Properties();
+    private Properties props = new Properties();
     private boolean testMode;
     private boolean secureMode;
 
     public Object getObject() throws Exception {
         loadBaseProperties();
+        props.putAll(BASE_PROPERTIES);
         if (secureMode) {
-            loadPropertyList(SECURITY_PROPERTY_FILE_NAME_KEY);
-        }
-        else {
-            loadPropertyList(PROPERTY_FILE_NAMES_KEY);
+            loadPropertyList(props,SECURITY_PROPERTY_FILE_NAME_KEY);
+        } else {
+            loadPropertyList(props,PROPERTY_FILE_NAMES_KEY);
             if (testMode) {
-                loadPropertyList(PROPERTY_TEST_FILE_NAMES_KEY);
+                loadPropertyList(props,PROPERTY_TEST_FILE_NAMES_KEY);
             }            
         }
-        return BASE_PROPERTIES;
+        return props;
     }
 
     public Class getObjectType() {
@@ -56,18 +57,18 @@ public class PropertyLoadingFactoryBean implements FactoryBean {
         return true;
     }
 
-    private void loadPropertyList(String listPropertyName) {
+    private static void loadPropertyList(Properties props, String listPropertyName) {
         for (String propertyFileName : getBaseListProperty(listPropertyName)) {
-            loadProperties(propertyFileName);
+            loadProperties(props,propertyFileName);
         }
     }
 
-    private static void loadProperties(String propertyFileName) {
+    private static void loadProperties( Properties props, String propertyFileName) {
         InputStream propertyFileInputStream = null;
         try {
             try {
                 propertyFileInputStream = new DefaultResourceLoader(ClassLoaderUtils.getDefaultClassLoader()).getResource(propertyFileName).getInputStream();
-                BASE_PROPERTIES.load(propertyFileInputStream);
+                props.load(propertyFileInputStream);
             }
             finally {
                 if (propertyFileInputStream != null) {
@@ -92,7 +93,7 @@ public class PropertyLoadingFactoryBean implements FactoryBean {
 
     protected static void loadBaseProperties() {
         if (BASE_PROPERTIES.isEmpty()) {
-            loadProperties(new StringBuffer("classpath:").append(CONFIGURATION_FILE_NAME).append(".properties").toString());
+            loadProperties(BASE_PROPERTIES, new StringBuffer("classpath:").append(CONFIGURATION_FILE_NAME).append(".properties").toString());
         }
     }
 

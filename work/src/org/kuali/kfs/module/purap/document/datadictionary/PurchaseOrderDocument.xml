@@ -12,6 +12,7 @@
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderDocumentPreRules"/>
     <property name="attachmentTypesValuesFinderClass" value="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderAttachmentTypeValuesFinder"/>
     <property name="allowsCopy" value="true"/>
+    <property name="allowsNoteFYI" value="true"/>
     <property name="potentiallySensitive" value="true"/>
 
     <property name="workflowAttributes">

@@ -12,6 +12,7 @@
     <property name="attachmentTypesValuesFinderClass" value="org.kuali.kfs.module.purap.businessobject.options.VendorCreditMemoAttachmentTypeValuesFinder"/>    
     <property name="sessionDocument" value="true"/>
     <property name="potentiallySensitive" value="true"/>
+    <property name="allowsNoteFYI" value="true"/>
     <property name="workflowAttributes">
     	<ref bean="VendorCreditMemoDocument-workflowAttributes"/>
     </property>

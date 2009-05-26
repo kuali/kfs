@@ -99,5 +99,6 @@
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/jaxen-1.1.1.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-api-1.0.0-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-impl-1.0.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/bcprov-jdk15-133.jar"/>
 	<classpathentry kind="output" path="work/web-root/WEB-INF/classes"/>
 </classpath>

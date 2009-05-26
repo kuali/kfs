@@ -285,6 +285,7 @@
 		<echo file="${security.property.file}" message="${security}"  />
 		<mkdir dir="${logs.directory}" />
 		<echo file="${logs.directory}/${ant.project.name}.log" message="" />
+		<copy file="${build.external.directory}/${keystore.filename}" tofile="${keystore.file}"/>
 		<copy todir="${external.work.directory}">
 			<fileset dir="${build.work.directory}" />
 			<filterset>

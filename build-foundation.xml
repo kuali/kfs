@@ -28,6 +28,15 @@ are intended for use only by Kuali Foundation developers.
 	<target name="make-source" />
 
 	<target name="modularization-test" depends="make-source">
+        <javac destdir="${war.classes.directory}" debug="true" nowarn="true" optimize="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
+            <classpath refid="compile.tests.classpath" />
+            <src path="${test.infrastructure.source.directory}" />
+            <src path="${test.unit.source.directory}" />
+            <src path="${test.integration.source.directory}" />
+        </javac>
+        <copy todir="${war.classes.directory}">
+            <fileset dir="${test.infrastructure.source.directory}" includes="${non.java.resources}" />
+        </copy>
     	<java classname="org.kuali.kfs.sys.context.CheckModularization" fork="true" resultproperty="context.test.results">
 			<jvmarg value="-Xms${run.tests.min.memory}" />
 			<jvmarg value="-Xmx${run.tests.max.memory}" />
@@ -39,7 +48,7 @@ are intended for use only by Kuali Foundation developers.
 		</java>
  		<verifydesign design="work/src/design.xml">
 			<path>
-				<fileset dir="${war.classes.directory}/org/kuali/kfs" includes="**/*.class" />
+				<fileset dir="${war.classes.directory}/org/kuali/kfs" includes="**/*.class" excludes="**/*Test.class,**/*Fixture.class" />
       		</path>
     	</verifydesign>
 		<condition property="context.test.failed" value="true">

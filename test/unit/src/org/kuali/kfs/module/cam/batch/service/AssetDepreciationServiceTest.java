@@ -21,23 +21,16 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
-import org.kuali.kfs.module.cam.batch.service.impl.AssetDepreciationServiceImpl;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.document.dataaccess.AssetDepreciationUtilDao;
-import org.kuali.kfs.module.cam.document.dataaccess.DepreciableAssetsDao;
 import org.kuali.kfs.module.cam.fixture.AssetDepreciationServiceFixture;
-import org.kuali.kfs.module.ld.batch.service.LaborYearEndBalanceForwardService;
 import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
@@ -47,7 +40,6 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.springframework.transaction.annotation.Transactional;
 
 @ConfigureContext(session = UserNameFixture.kfs)
 //@ConfigureContext(session = UserNameFixture.kfs, shouldCommitTransactions=true)
@@ -69,7 +61,6 @@ public class AssetDepreciationServiceTest extends KualiTestBase {
     private BusinessObjectService businessObjectService;    
     private ParameterService parameterService;
     private AssetDepreciationUtilDao assetDepreciationUtilDao;
-    private LaborYearEndBalanceForwardService laborYearEndBalanceForwardService;
     private String depreciationDateParameter;
     private UniversityDateDao  universityDateDao;
     List<AssetPayment> assetPaymentsToInsert;

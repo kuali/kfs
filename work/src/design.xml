@@ -12,6 +12,7 @@
 	<package name="jasper" package="net.sf.jasperreports" subpackages="include" needdeclarations="false" />
 	<package name="sax" package="org.xml" subpackages="include" needdeclarations="false"/>
 	<package name="opensymphony" package="com.opensymphony" subpackages="include" needdeclarations="false"/>
+    <package name="junit" package="junit" subpackages="include" needdeclarations="false"/>
 	
   <!-- Core Kuali packages that all optional modules can depend on -->
 	<package name="quartz" package="org.quartz" subpackages="include" />

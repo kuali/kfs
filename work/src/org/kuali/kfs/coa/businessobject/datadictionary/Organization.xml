@@ -76,20 +76,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             <list>
               <bean parent="PrimitiveAttributeDefinition"
                     p:sourceName="organizationManagerUniversalId"
-                    p:targetName="principalId" />
-            </list>
-          </property>
-          <property name="supportAttributes" >
-            <list>
-              <bean parent="SupportAttributeDefinition"
-                    p:identifier="true"
-                    p:sourceName="organizationManagerUniversal.principalName"
                     p:targetName="principalName" />
-              <bean parent="SupportAttributeDefinition"
-                    p:sourceName="organizationManagerUniversal.name"
-                    p:targetName="name" />
             </list>
           </property>
+          
         </bean>
         <bean parent="RelationshipDefinition">
           <property name="objectAttributeName" value="organizationExtension.hrmsPersonnelApproverUniversal" />
@@ -97,20 +87,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             <list>
               <bean parent="PrimitiveAttributeDefinition"
                     p:sourceName="organizationExtension.hrmsPersonnelApproverUniversalId"
-                    p:targetName="principalId" />
-            </list>
-          </property>
-          <property name="supportAttributes" >
-            <list>
-              <bean parent="SupportAttributeDefinition"
-                    p:identifier="true"
-                    p:sourceName="organizationExtension.hrmsPersonnelApproverUniversal.principalName"
                     p:targetName="principalName" />
-              <bean parent="SupportAttributeDefinition"
-                    p:sourceName="organizationExtension.hrmsPersonnelApproverUniversal.name"
-                    p:targetName="name" />
             </list>
           </property>
+          
         </bean>
         <bean parent="RelationshipDefinition">
           <property name="objectAttributeName" value="organizationExtension.fiscalApproverUniversal" />
@@ -118,20 +98,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             <list>
               <bean parent="PrimitiveAttributeDefinition"
                     p:sourceName="organizationExtension.fiscalApproverUniversalId"
-                    p:targetName="principalId" />
-            </list>
-          </property>
-          <property name="supportAttributes" >
-            <list>
-              <bean parent="SupportAttributeDefinition"
-                    p:identifier="true"
-                    p:sourceName="organizationExtension.fiscalApproverUniversal.principalName"
                     p:targetName="principalName" />
-              <bean parent="SupportAttributeDefinition"
-                    p:sourceName="organizationExtension.fiscalApproverUniversal.name"
-                    p:targetName="name" />
             </list>
           </property>
+          
         </bean>
         <dd:relationship objectAttribute="postalZip">
         	<dd:primitiveAttribute source="organizationCountryCode" target="postalCountryCode" />
@@ -220,9 +190,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="label" value="Organization Manager UserID" />
     <property name="shortLabel" value="Manager UserID" />
     <property name="required" value="true" />
-    <property name="control" >
+  <!--  <property name="control" >
       <bean parent="HiddenControlDefinition" />
-    </property>
+    </property> -->
   </bean>
   <bean id="Organization-organizationManagerUniversal.principalName" parent="Organization-organizationManagerUniversal.principalName-parentBean" />
 

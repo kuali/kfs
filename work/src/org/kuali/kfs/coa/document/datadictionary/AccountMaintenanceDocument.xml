@@ -42,10 +42,6 @@
       </list>
     </property>
     
-    
-    
-    
-    
     <property name="documentTypeName" value="ACCT"/>
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.AccountRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
@@ -183,6 +179,63 @@
     			<entry key="SubFund" value-ref="AccountMaintenanceDocument-RoutingType-SubFund"/>
     		</map>
 		</property>
+		
+		<property name="searchingTypeDefinitions">
+    		<list>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Account"/>
+    						<property name="attributeName" value="organizationCode"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>organizationCode</value>
+    					</list>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Account"/>
+    						<property name="attributeName" value="accountFiscalOfficerSystemIdentifier"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>accountFiscalOfficerSystemIdentifier</value>
+    					</list>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Account"/>
+    						<property name="attributeName" value="accountsSupervisorySystemsIdentifier"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>accountsSupervisorySystemsIdentifier</value>
+    					</list>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Account"/>
+    						<property name="attributeName" value="accountManagerSystemIdentifier"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>accountManagerSystemIdentifier</value>
+    					</list>
+    				</property>
+    			</bean>
+    		</list>
+    	</property>
 	</bean>
 	
 	<bean id="AccountMaintenanceDocument-RoutingAttribute-Chart" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">

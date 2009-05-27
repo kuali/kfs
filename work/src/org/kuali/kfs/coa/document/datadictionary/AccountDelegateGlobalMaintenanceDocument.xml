@@ -125,6 +125,7 @@
     			<entry key="OrganizationHierarchy" value-ref="AccountDelegateGlobalMaintenanceDocument-RoutingType-OrganizationHierarchy"/>
     		</map>
 		</property>
+		
 	</bean>
 	
 	<bean id="AccountDelegateGlobalMaintenanceDocument-RoutingAttribute-Chart" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">

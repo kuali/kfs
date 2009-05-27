@@ -134,6 +134,7 @@
 
   <bean id="ObjectCode-financialObjectLevelCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialObjectLevelCode" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Level Code" />
     <property name="shortLabel" value="Level Code" />
     <property name="maxLength" value="4" />
@@ -184,6 +185,7 @@
 
   <bean id="ObjectCode-financialObjectTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialObjectTypeCode" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Object Type Code" />
     <property name="shortLabel" value="Object Type" />
     <property name="maxLength" value="2" />
@@ -200,6 +202,7 @@
 
   <bean id="ObjectCode-financialObjectSubTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialObjectSubTypeCode" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Object Sub-Type Code" />
     <property name="shortLabel" value="Object Sub-Type Code" />
     <property name="maxLength" value="2" />
@@ -236,6 +239,7 @@
 
   <bean id="ObjectCode-financialBudgetAggregationCd-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialBudgetAggregationCd" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Budget Aggregation Code" />
     <property name="shortLabel" value="BudgetAggCde" />
     <property name="maxLength" value="1" />

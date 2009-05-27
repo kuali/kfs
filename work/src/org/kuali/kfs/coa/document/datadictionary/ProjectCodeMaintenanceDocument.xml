@@ -69,6 +69,36 @@
     		</map>
     	
 		</property>
+		<property name="searchingTypeDefinitions">
+    		<list>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.ProjectCode"/>
+    						<property name="attributeName" value="chartOfAccountsCode"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>chartOfAccountsCode</value>
+    					</list>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.ProjectCode"/>
+    						<property name="attributeName" value="organizationCode"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>organizationCode</value>
+    					</list>
+    				</property>
+    			</bean>
+    		</list>
+    	</property>
 	</bean>
 	
 	<bean id="ProjectCodeMaintenanceDocument-RoutingAttribute-Chart" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">

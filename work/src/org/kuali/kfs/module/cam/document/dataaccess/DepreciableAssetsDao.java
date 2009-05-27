@@ -83,5 +83,16 @@ public interface DepreciableAssetsDao {
      * Setter for Kuali Configuration Service
      * @param kcs
      */
-    public void setKualiConfigurationService(KualiConfigurationService kcs);    
+    public void setKualiConfigurationService(KualiConfigurationService kcs);
+    
+    
+    /**
+     * 
+     * updates every asset posting year, posting period and depreciation date. This update will take place
+     * when the fiscal period is equals 12 (last fiscal month of the year).
+     *  
+     * @param fiscalMonth
+     * @param fiscalYear
+     */
+    public void updateAssets(Integer fiscalMonth, Integer fiscalYear);    
 }

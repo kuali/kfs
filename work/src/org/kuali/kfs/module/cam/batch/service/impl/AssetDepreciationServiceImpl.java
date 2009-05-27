@@ -129,8 +129,8 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             }
 
             // ***************** GET RID OF THESE LINES WHEN DONE TESTING **********
-            //depreciationDateParameter = "2009-06-30";
-            //currentDate.setTime(dateFormat.parse("2009-06-30"));
+            depreciationDateParameter = "2009-06-30";
+            currentDate.setTime(dateFormat.parse("2009-06-30"));
             // ********************************************************************
 
             // This validates the system parameter depreciation_date has a valid format of YYYY-MM-DD.
@@ -263,10 +263,9 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             if (parameterService.parameterExists(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.DEPRECIATION_CAMPUS_PLANT_FUND_OBJECT_SUB_TYPES)) {
                 campusPlantFundObjectSubType = parameterService.getParameterValues(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.DEPRECIATION_CAMPUS_PLANT_FUND_OBJECT_SUB_TYPES);
             }
-
             
             // Updating asset depreciation date, posting period and posting year
-            //depreciableAssetsDao.updateAssets(fiscalMonth,fiscalYear);
+            depreciableAssetsDao.updateAssets(fiscalMonth,fiscalYear);
             
             // Initializing the asset payment table.
             depreciableAssetsDao.initializeAssetPayment(fiscalMonth);

@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -40,8 +41,11 @@ import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail;
 import org.kuali.kfs.module.cam.document.AssetTransferDocument;
 import org.kuali.kfs.module.cam.document.dataaccess.DepreciableAssetsDao;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.UniversityDate;
+import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.bo.DocumentHeader;
@@ -59,6 +63,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
     private DateTimeService dateTimeService;
     private OptionsService optionsService;
     private BusinessObjectService businessObjectService;
+    private UniversityDateDao universityDateDao;
 
     private Criteria assetCriteria = new Criteria();
     private String errorMsg = new String();
@@ -135,6 +140,44 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         LOG.debug("initializeAssetPayments() -  ended");
     }
 
+    
+    /**
+     * 
+     * @see org.kuali.kfs.module.cam.document.dataaccess.DepreciableAssetsDao#updateAssets(java.lang.Integer, java.lang.Integer)
+     */
+    public void updateAssets(Integer fiscalMonth, Integer fiscalYear) {
+        LOG.debug("updateAssetInformation() -  started");
+
+        // If we are in the last month of the fiscal year
+        if (fiscalMonth == 12) {
+            LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Fiscal period/month = 12. Checking whether there are assets with creation date > 07/01/<fiscal year>.");
+
+            //Getting last date of fiscal year
+            UniversityDate lastFiscalYearDate = universityDateDao.getLastFiscalYearDate(fiscalYear);
+            if (lastFiscalYearDate == null) {
+                throw new IllegalStateException(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_UNIV_DATE_NOT_FOUND));
+            }
+
+            Criteria criteria = new Criteria();
+            criteria.addGreaterThan(CamsPropertyConstants.Asset.CREATE_DATE, lastFiscalYearDate.getUniversityDate());
+            
+            QueryByCriteria q = QueryFactory.newQuery(Asset.class, criteria);
+            Collection<Asset> assets = getPersistenceBrokerTemplate().getCollectionByQuery(q);
+
+            for (Asset asset: assets) {
+                if (asset!= null) {
+                    asset.setDepreciationDate(lastFiscalYearDate.getUniversityDate());
+                    asset.setFinancialDocumentPostingPeriodCode(fiscalMonth.toString());
+                    asset.setFinancialDocumentPostingYear(fiscalYear);
+
+                    LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Updating asset depreciation date - Asset:" + asset.getCapitalAssetNumber() + " - Depreciation date:"+lastFiscalYearDate.getUniversityDate());
+                    getPersistenceBrokerTemplate().store(asset);                
+                }
+            }
+        }
+        LOG.debug("updateAssetInformation() -  ended");
+    }
+    
     /**
      * @see org.kuali.module.cams.dao.CamsDepreciableAssetsDao#updateAssetPayments(java.util.List)
      */
@@ -939,4 +982,9 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+    
+    public void setUniversityDateDao(UniversityDateDao universityDateDao) {
+        this.universityDateDao = universityDateDao;
+    }
+    
 } // end of class

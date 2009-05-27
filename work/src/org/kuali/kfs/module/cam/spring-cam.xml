@@ -132,7 +132,9 @@
      	<property name="businessObjectService">
             <ref bean="businessObjectService" />
       	</property>
-		                				                		
+		<property name="universityDateDao">
+			<ref bean="universityDateDao" />
+		</property>		                				                		
 	</bean>	
 
     <bean id="assetDepreciationStep" class="org.kuali.kfs.module.cam.batch.AssetDepreciationStep" parent="step">

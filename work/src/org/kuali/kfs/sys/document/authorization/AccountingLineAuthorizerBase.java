@@ -211,17 +211,6 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      */
     public final boolean hasEditPermissionOnAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, Person currentUser) {        
         if (determineEditPermissionOnLine(accountingDocument, accountingLine, accountingLineCollectionProperty)) {
-            // the fields in a new line should be always editable
-            if (accountingLine.getSequenceNumber() == null) {
-                return true;
-            }
-            
-            // check the initiation permission on the document if it is in the state of preroute
-            KualiWorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
-            if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
-                boolean hasEditLinePermission = workflowDocument.userIsInitiator(currentUser);
-                return hasEditLinePermission;
-            }
             
             // examine whether the whole line can be editable via KIM check
             final String lineFieldName = getKimHappyPropertyNameForField(accountingLineCollectionProperty);
@@ -238,7 +227,18 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @return true if the line as a whole can be edited, false otherwise
      */
     public boolean determineEditPermissionOnLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty) {
-       
+        // the fields in a new line should be always editable
+        if (accountingLine.getSequenceNumber() == null) {
+            return true;
+        }
+        
+        // check the initiation permission on the document if it is in the state of preroute
+        KualiWorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
+        if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
+            boolean hasEditLinePermission = workflowDocument.userIsInitiator(GlobalVariables.getUserSession().getPerson());
+            return hasEditLinePermission;
+        }
+        
         if (accountingDocument instanceof Correctable) {
             String errorDocumentNumber = ((FinancialSystemDocumentHeader)accountingDocument.getDocumentHeader()).getFinancialDocumentInErrorNumber();
             if (StringUtils.isNotBlank(errorDocumentNumber))

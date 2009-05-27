@@ -64,12 +64,16 @@ public class LaborScrubberSortStep extends AbstractStep {
             sb1.append(string1.substring(31, 51));
             sb1.append(string1.substring(4, 18));
             sb1.append(string1.substring(25, 27));
+            sb1.append(string1.substring(183, 193));
+            sb1.append(string1.substring(0, 4));
             sb1.append(string1.substring(29, 31));
             
             StringBuffer sb2 = new StringBuffer();
             sb2.append(string2.substring(31, 51));
             sb2.append(string2.substring(4, 18));
             sb2.append(string2.substring(25, 27));
+            sb2.append(string2.substring(183, 193));
+            sb2.append(string2.substring(0, 4));
             sb2.append(string2.substring(29, 31));
             return sb1.toString().compareTo(sb2.toString());
         }

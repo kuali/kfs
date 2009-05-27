@@ -144,6 +144,9 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
                 if (afReason.getAppointmentFundingReasonAmount() == null){
                     afReason.setAppointmentFundingReasonAmount(KualiInteger.ZERO);
                 }
+                if (afReason.getAppointmentFundingReasonCode() != null){
+                    afReason.refreshReferenceObject(BCPropertyConstants.APPOINTMENT_FUNDING_REASON);
+                }
             }
         }
         else {

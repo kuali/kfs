@@ -31,6 +31,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
@@ -227,6 +228,11 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
+        // check special case where emplid is vacant and force funding duration to none
+        String emplid = workingAppointmentFunding.getEmplid(); 
+        if (StringUtils.isNotEmpty(emplid) && StringUtils.equals(emplid, BCConstants.VACANT_EMPLID)){
+            workingAppointmentFunding.setAppointmentFundingDurationCode(BCConstants.AppointmentFundingDurationCodes.NONE.durationCode);
+        }
         salarySettingService.recalculateDerivedInformation(workingAppointmentFunding);
 
         // validate the new appointment funding line

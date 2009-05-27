@@ -58,6 +58,7 @@ public class BCPropertyConstants {
     public static final String APPOINTMENT_DURATION_CODE = "appointmentDurationCode";
     public static final String APPOINTMENT_TOTAL_INTENDED_AMOUNT = "appointmentTotalIntendedAmount";
     public static final String APPOINTMENT_TOTAL_INTENDED_FTE_QUANTITY = "appointmentTotalIntendedFteQuantity";
+    public static final String APPOINTMENT_FUNDING_REASON = "appointmentFundingReason";
     public static final String APPOINTMENT_FUNDING_REASON_CODE = "appointmentFundingReasonCode";
     public static final String APPOINTMENT_FUNDING_REASON_AMOUNT = "appointmentFundingReasonAmount";
     

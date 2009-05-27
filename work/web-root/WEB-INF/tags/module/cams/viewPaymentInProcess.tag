@@ -25,11 +25,9 @@
 
 <c:if test="${ (fn:length(assetPaymentDetails) > 0) }">
 	<c:set var="assetPaymentAttributes" value="${DataDictionary.AssetPaymentDetail.attributes}" />
-	<c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />
-	
-	<c:set var="totalHistoricalAmount" value="${KualiForm.document.assetsTotalHistoricalCost}"/>
+	<c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />	
+	<c:set var="totalHistoricalAmount" value="${KualiForm.document.assetsTotalHistoricalCost}"/>			
 	<c:set var="documentTotal" value="${KualiForm.document.sourceTotal}" />
-
 	<c:set var="dateFormatPattern" value="MM/dd/yyyy"/>
 	
 	<kul:tab tabTitle="In Process Payments" defaultOpen="${!defaultTabHide}" useCurrentTabIndexAsKey="true">
@@ -60,13 +58,20 @@
 					<c:set var="line" value="${line + 1}"/>
 					<c:set var="object" value="document.sourceAccountingLine[${line}]"/>
 					<c:if test="${totalHistoricalAmount > 0 }">
-						
+						<c:choose>
+							<c:when test="${assetPaymentAssetDetail.previousTotalCostAmount == null}">
+								<c:set var="previousTotalCost" value="${0}" />
+							</c:when>
+							<c:otherwise>
+								<c:set var="previousTotalCost" value="${assetPaymentAssetDetail.previousTotalCostAmount}" />								
+							</c:otherwise>
+						</c:choose>
+											
 						<c:choose>
 							<c:when test="${numberOfUnallocatedPayments == 1}">
 					    	    <c:set var="allocatedAmount" value="${assetPaymentsTotal}"/>
 							</c:when>
-							<c:otherwise>			
-								<c:set var="previousTotalCost" value="${assetPaymentAssetDetail.previousTotalCostAmount}" />
+							<c:otherwise>															
 					    	    <c:set var="percentage" value="${previousTotalCost / totalHistoricalAmount }"/>
 					    	    <c:set var="allocatedAmount" value="${payment.amount * percentage}"/>
 							 	<fmt:formatNumber var="roundAllocatedAmount" value="${payment.amount * percentage }" maxFractionDigits="2" minFractionDigits="2" type="number"/>			 		 				 		 					
@@ -99,7 +104,8 @@
 						<td class="grid"><fmt:formatDate value="${payment.expenditureFinancialDocumentPostedDate}" pattern="${dateFormatPattern}"/>&nbsp;</td>
 						<td class="grid"><c:out value="${payment.postingYear}"/>&nbsp;</td>								
 						<td class="grid"><c:out value="${payment.postingPeriodCode}"/>&nbsp;</td>														
-						<td class="grid"><c:out value="${payment.transferPaymentIndicator}"/>&nbsp;</td>
+						<td class="grid"><kul:htmlControlAttribute property="${object}.transferPaymentIndicator" attributeEntry="${assetPaymentAttributes.transferPaymentIndicator}" readOnly="true"/></td>
+						
 						<td class="grid"><div align="right"><fmt:formatNumber value="${allocatedAmount}" maxFractionDigits="2" minFractionDigits="2"/></div>&nbsp;</td>
 					</tr>
 				</c:forEach>
@@ -110,7 +116,7 @@
 				</tr>									
 				<tr>
 					<kul:htmlAttributeHeaderCell  literalLabel="Historical Cost:" align="right" colspan="15"/></th>
-					<td class="grid" align="right"><div align="right">
+					<td class="grid"><div align="right">
 						<fmt:formatNumber value="${previousTotalCost}" maxFractionDigits="2" minFractionDigits="2"/></div>					
 					</td>					
 				</tr>									

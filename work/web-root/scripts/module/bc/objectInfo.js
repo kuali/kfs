@@ -88,17 +88,17 @@ BudgetObjectInfoUpdator.prototype.loadDurationInfo = function(durationCodeFieldN
 		else {
 			var isDefualtCode = (durationCode == "NONE");								
 			if(isDefualtCode){
+				requestedCsfAmountField.setAttribute('value', '0');
 				requestedCsfAmountField.setAttribute('disabled', true);
-				requestedCsfAmountField.setAttribute('value', emptyString);
 			
+				requestedCsfTimePercentField.setAttribute('value', '0.00');
 				requestedCsfTimePercentField.setAttribute('disabled', true);
-				requestedCsfTimePercentField.setAttribute('value', emptyString);
 	
-				setRecipientValue( fieldNamePrefix + requestedCsfFteQuantitySuffix , emptyString );			
+				setRecipientValue( fieldNamePrefix + requestedCsfFteQuantitySuffix , '0.00000' );			
 			}
 			else{
-				requestedCsfAmountField.setAttribute('disabled', false);
-				requestedCsfTimePercentField.setAttribute('disabled', false);
+				requestedCsfAmountField.removeAttribute('disabled');
+				requestedCsfTimePercentField.removeAttribute('disabled');
 				requestedCsfAmountField.focus();
 			} 
 
@@ -138,7 +138,7 @@ BudgetObjectInfoUpdator.prototype.loadReasonCodeInfo = function(reasonAmountFiel
 			reasonAmountField.setAttribute('disabled', true);
 			reasonAmountField.setAttribute('value', emptyString);
 		} else {
-			reasonAmountField.setAttribute('disabled', false);
+			reasonAmountField.removeAttribute('disabled');
 			reasonAmountField.focus();
 	
 			var dwrReply = {

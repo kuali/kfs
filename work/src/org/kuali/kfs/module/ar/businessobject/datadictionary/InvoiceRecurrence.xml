@@ -51,9 +51,11 @@
               <bean parent="SupportAttributeDefinition"
                     p:sourceName="customerNumber"
                     p:targetName="customerNumber" />
+<!-- 
               <bean parent="SupportAttributeDefinition"
                     p:sourceName="customer.customerName"
                     p:targetName="customer.customerName" />
+-->
             </list>
           </property>
         </bean>
@@ -331,8 +333,8 @@
   <bean id="InvoiceRecurrence-lookupDefinition" parent="InvoiceRecurrence-lookupDefinition-parentBean" />
 
   <bean id="InvoiceRecurrence-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="InvoiceRecurrence Lookup" />
-    <property name="instructions" value="Look up a InvoiceRecurrence" />
+    <property name="title" value="Invoice Recurrence Lookup" />
+    <property name="instructions" value="Look up an Invoice Recurrence" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

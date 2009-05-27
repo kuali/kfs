@@ -67,7 +67,7 @@ public class ScrubberSortStep extends AbstractStep {
             sb1.append(string1.substring(31, 51));
             sb1.append(string1.substring(4, 18));
             sb1.append(string1.substring(25, 27));
-            sb1.append(string1.substring(172, 182));
+            sb1.append(string1.substring(175, 185));
             sb1.append(string1.substring(29, 31));
             
             StringBuffer sb2 = new StringBuffer();

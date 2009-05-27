@@ -68,6 +68,7 @@ public class ScrubberSortStep extends AbstractStep {
             sb1.append(string1.substring(4, 18));
             sb1.append(string1.substring(25, 27));
             sb1.append(string1.substring(175, 185));
+            sb1.append(string1.substring(0, 4));
             sb1.append(string1.substring(29, 31));
             
             StringBuffer sb2 = new StringBuffer();
@@ -75,6 +76,7 @@ public class ScrubberSortStep extends AbstractStep {
             sb2.append(string2.substring(4, 18));
             sb2.append(string2.substring(25, 27));
             sb2.append(string2.substring(175, 185));
+            sb2.append(string2.substring(0, 4));
             sb2.append(string2.substring(29, 31));
             
             return sb1.toString().compareTo(sb2.toString());

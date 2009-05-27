@@ -61,6 +61,7 @@ public class ProposalMaintainableImpl extends FinancialSystemMaintainable {
     @Override
     public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> parameters) {
         getProposal().setProposalNumber(NextProposalNumberFinder.getLongValue());
+        getProposal().setProposalClosingDate(null);
         super.processAfterCopy(document, parameters);
     }
 

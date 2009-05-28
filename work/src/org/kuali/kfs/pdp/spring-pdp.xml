@@ -241,7 +241,12 @@
 		<property name="directoryName" value="${staging.directory}/pdp/bankFederalReserve/" />
 	</bean>
 
-	<bean id="pdpExtractGlTransactionsStep" class="org.kuali.kfs.pdp.batch.ExtractGlTransactionsStep" parent="step">
+	<bean id="pdpExtractGlTransactionsStep" class="org.kuali.kfs.pdp.batch.ExtractGlTransactionsStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="pdpExtractGlTransactionsReportWriterService" />
+			</list>
+		</property>
 		<property name="extractGlTransactionService" ref="pdpExtractGlTransactionService" />
 	</bean>
 
@@ -266,7 +271,7 @@
 	</bean>
 
 	<bean id="pdpDailyReportService" class="org.kuali.kfs.pdp.batch.service.impl.DailyReportServiceImpl">
-		<property name="directoryName" value="${reports.directory}/"/>
+		<property name="directoryName" value="${reports.directory}/pdp"/>
 		<property name="dateTimeService" ref="dateTimeService"/>
 		<property name="paymentDetailDao" ref="pdpPaymentDetailDao"/>
 		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
@@ -292,9 +297,10 @@
 		<property name="originEntryGroupService" ref="originEntryGroupService" />
 		<property name="originEntryService" ref="originEntryService" />
 		<property name="dateTimeService" ref="dateTimeService" />
-		<property name="reportsDirectory" value="${reports.directory}/"/>
+<!-- 		<property name="reportsDirectory" value="${reports.directory}/pdp"/>  -->
 		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
+		<property name="reportWriterService" ref="pdpExtractGlTransactionsReportWriterService" />
 	</bean>
 
 	<bean id="pdpAchBankService" class="org.kuali.kfs.pdp.service.impl.AchBankServiceImpl">
@@ -566,6 +572,20 @@
 	
     <bean id="pdpAuthorizationService" class="org.kuali.kfs.pdp.service.impl.PdpAuthorizationServiceImpl">
 	</bean>
+
+    <bean id="pdpExtractGlTransactionsReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/pdp"/>
+		<property name="fileNamePrefix" value="pdp_ledger_"/>
+        <property name="title" value="PDP Transactions"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryTotalLine" value="ledgerSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerBalanceTypeSummaryTotalLine" value="ledgerBalanceTypeSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryDetailLine" value="ledgerSummaryDetailLineReportHelper" />
+        	</map>
+        </property>
+    </bean>
+
 
 </beans>
 

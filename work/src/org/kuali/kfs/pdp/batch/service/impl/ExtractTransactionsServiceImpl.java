@@ -30,12 +30,14 @@ import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.gl.report.LedgerReport;
+import org.kuali.kfs.gl.report.LedgerSummaryReport;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.batch.service.ExtractTransactionsService;
 import org.kuali.kfs.pdp.businessobject.GlPendingTransaction;
 import org.kuali.kfs.pdp.service.PendingTransactionService;
+import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,9 +50,10 @@ public class ExtractTransactionsServiceImpl implements ExtractTransactionsServic
     private OriginEntryGroupService originEntryGroupService;
     private OriginEntryService originEntryService;
     private DateTimeService dateTimeService;
-    private String reportsDirectory;
+    //private String reportsDirectory;
     private KualiConfigurationService kualiConfigurationService;
     private String batchFileDirectoryName;
+    private ReportWriterService reportWriterService;
 
     /**
      * @see org.kuali.kfs.pdp.batch.service.ExtractTransactionsService#extractGlTransactions()
@@ -84,11 +87,14 @@ public class ExtractTransactionsServiceImpl implements ExtractTransactionsServic
 
 
         Iterator transactions = glPendingTransactionService.getUnextractedTransactions();
+        LedgerSummaryReport extractGlSummaryReport = new LedgerSummaryReport();
         while (transactions.hasNext()) {
             GlPendingTransaction tran = (GlPendingTransaction) transactions.next();
             //write to file
             extractTGlTransactionPS.printf("%s\n", tran.getOriginEntry().getLine());
-
+            
+            extractGlSummaryReport.summarizeEntry(tran.getOriginEntry());
+            
             tran.setProcessInd(true);
             glPendingTransactionService.save(tran);
         }
@@ -115,11 +121,12 @@ public class ExtractTransactionsServiceImpl implements ExtractTransactionsServic
             reportFilename = MessageFormat.format(reportFilename, new Object[] { null });
 
             // Run a report
+            extractGlSummaryReport.writeReport(reportWriterService);
             Collection groups = new ArrayList();
             LedgerEntryHolder ledgerEntries = originEntryService.getSummaryByGroupId(groups);
 
-            LedgerReport ledgerReport = new LedgerReport();
-            ledgerReport.generateReport(ledgerEntries, processDate, reportTitle, reportFilename, reportsDirectory);
+//            LedgerReport ledgerReport = new LedgerReport();
+//            ledgerReport.generateReport(ledgerEntries, processDate, reportTitle, reportFilename, reportsDirectory);
         }
     }
 
@@ -139,9 +146,9 @@ public class ExtractTransactionsServiceImpl implements ExtractTransactionsServic
         this.originEntryService = originEntryService;
     }
 
-    public void setReportsDirectory(String rd) {
-        this.reportsDirectory = rd;
-    }
+//    public void setReportsDirectory(String rd) {
+//        this.reportsDirectory = rd;
+//    }
 
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
@@ -150,4 +157,10 @@ public class ExtractTransactionsServiceImpl implements ExtractTransactionsServic
     public void setBatchFileDirectoryName(String batchFileDirectoryName) {
         this.batchFileDirectoryName = batchFileDirectoryName;
     }
+
+    public void setReportWriterService(ReportWriterService reportWriterService) {
+        this.reportWriterService = reportWriterService;
+    }
+
+    
 }

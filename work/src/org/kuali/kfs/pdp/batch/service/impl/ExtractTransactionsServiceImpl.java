@@ -60,7 +60,7 @@ public class ExtractTransactionsServiceImpl implements ExtractTransactionsServic
 
         Date processDate = dateTimeService.getCurrentSqlDate();
 
-        // TODO - shawn: this should be moved to some kind of util class
+        // add time info to filename - better to move in common place?
         java.util.Date jobRunDate = dateTimeService.getCurrentDate();
         String timeString = jobRunDate.toString();
         String year = timeString.substring(timeString.length() - 4, timeString.length());
@@ -70,7 +70,6 @@ public class ExtractTransactionsServiceImpl implements ExtractTransactionsServic
         String min = timeString.substring(14, 16);
         String sec = timeString.substring(17, 19);
         String fileTimeInfo = "." + year + "-" + month + "-" + day + "." + hour + "-" + min + "-" + sec;
-        // OriginEntryGroup oeg = null;
 
         String extractTGlTransactionFileName = GeneralLedgerConstants.BatchFileSystem.EXTRACT_TRANSACTION_FILE + fileTimeInfo + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         File extractTGlTransactionFile = new File(batchFileDirectoryName + File.separator + extractTGlTransactionFileName);
@@ -87,19 +86,16 @@ public class ExtractTransactionsServiceImpl implements ExtractTransactionsServic
         Iterator transactions = glPendingTransactionService.getUnextractedTransactions();
         while (transactions.hasNext()) {
             GlPendingTransaction tran = (GlPendingTransaction) transactions.next();
-
-            // originEntryService.createEntry(tran.getOriginEntry(), oeg);
+            //write to file
             extractTGlTransactionPS.printf("%s\n", tran.getOriginEntry().getLine());
 
             tran.setProcessInd(true);
             glPendingTransactionService.save(tran);
         }
 
-
         if (extractTGlTransactionPS != null) {
             extractTGlTransactionPS.close();
 
-            // TODO - shawn: this should be moved to some kind of util class
             // create done file
             String extractTGlTransactionDoneFileName = extractTGlTransactionFileName.replace(GeneralLedgerConstants.BatchFileSystem.EXTENSION, GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION);
             File extractTGlTransactionDoneFile = new File(batchFileDirectoryName + File.separator + extractTGlTransactionDoneFileName);
@@ -120,7 +116,6 @@ public class ExtractTransactionsServiceImpl implements ExtractTransactionsServic
 
             // Run a report
             Collection groups = new ArrayList();
-            // groups.add(oeg);
             LedgerEntryHolder ledgerEntries = originEntryService.getSummaryByGroupId(groups);
 
             LedgerReport ledgerReport = new LedgerReport();

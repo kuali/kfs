@@ -717,14 +717,6 @@
     <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.fp.businessobject.OwnershipTypeCode" table="FP_DV_OWNR_TYP_T">
-    <field-descriptor name="code" column="DV_PAYEE_OWNTYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="name" column="DV_PAYEE_OWNTYP_NM" jdbc-type="VARCHAR" />
-    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-</class-descriptor>
-
 <class-descriptor class="org.kuali.kfs.fp.businessobject.TravelMileageRate" table="FP_DV_MLG_T">
     <field-descriptor name="disbursementVoucherMileageEffectiveDate" column="DV_MLG_EFF_DT" jdbc-type="DATE" primarykey="true" index="true" />
     <field-descriptor name="mileageLimitAmount" column="DV_MLG_LMT_AMT" jdbc-type="INTEGER" primarykey="true" index="true" />

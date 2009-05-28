@@ -191,7 +191,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
 
             Account account = detailLine.getAccount();
             String accountFiscalOfficerPersonUserId = account.getAccountFiscalOfficerUser().getPrincipalName();
-            if (StringUtils.isEmpty(accountFiscalOfficerPersonUserId)) {
+            if (StringUtils.isNotEmpty(accountFiscalOfficerPersonUserId)) {
                 String actionRequestOfOfficer = this.getActionRequest(routeLevelName, KFSConstants.RouteLevelNames.ACCOUNT);
                 adHocRoutePersons.add(this.buildAdHocRouteRecipient(accountFiscalOfficerPersonUserId, actionRequestOfOfficer));
             }

@@ -162,7 +162,9 @@ public class EffortCertificationDocumentRuleUtil {
      * @return true if the payroll amount of the given detail line is not negative; otherwise, false
      */
     public static boolean hasNonnegativePayrollAmount(EffortCertificationDetail detailLine) {
-        return isPayrollAmountNonnegative(detailLine.getEffortCertificationPayrollAmount());
+        KualiDecimal payrollAmount = detailLine.getEffortCertificationPayrollAmount();
+        
+        return ObjectUtils.isNotNull(payrollAmount) && isPayrollAmountNonnegative(payrollAmount);
     }
 
     /**
@@ -193,7 +195,9 @@ public class EffortCertificationDocumentRuleUtil {
      * @return true if the given detail line has a valid effort percentage; otherwise, false
      */
     public static boolean hasValidEffortPercent(EffortCertificationDetail detailLine) {
-        return isValidPercent(detailLine.getEffortCertificationCalculatedOverallPercent());
+        Integer effortPercent = detailLine.getEffortCertificationUpdatedOverallPercent();
+        
+        return ObjectUtils.isNotNull(effortPercent) && isValidPercent(effortPercent);
     }
 
     /**

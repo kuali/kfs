@@ -30,6 +30,7 @@ import org.kuali.kfs.module.ec.businessobject.EffortCertificationDocumentBuild;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.kfs.module.ec.document.validation.AddDetailLineRule;
+import org.kuali.kfs.module.ec.document.validation.CheckDetailLineAmountRule;
 import org.kuali.kfs.module.ec.document.validation.LoadDetailLineRule;
 import org.kuali.kfs.module.ec.document.validation.UpdateDetailLineRule;
 import org.kuali.kfs.module.ec.service.EffortCertificationDocumentService;
@@ -51,7 +52,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 /**
  * To define the rules that may be applied to the effort certification document, a transactional document
  */
-public class EffortCertificationDocumentRules extends TransactionalDocumentRuleBase implements AddDetailLineRule<EffortCertificationDocument, EffortCertificationDetail>, UpdateDetailLineRule<EffortCertificationDocument, EffortCertificationDetail>, LoadDetailLineRule<EffortCertificationDocument> {
+public class EffortCertificationDocumentRules extends TransactionalDocumentRuleBase implements AddDetailLineRule<EffortCertificationDocument, EffortCertificationDetail>, UpdateDetailLineRule<EffortCertificationDocument, EffortCertificationDetail>, CheckDetailLineAmountRule<EffortCertificationDocument, EffortCertificationDetail>, LoadDetailLineRule<EffortCertificationDocument> {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocumentRules.class);
 
     private EffortCertificationDocumentService effortCertificationDocumentService = SpringContext.getBean(EffortCertificationDocumentService.class);
@@ -76,13 +77,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
             return false;
         }
 
-        if (!EffortCertificationDocumentRuleUtil.hasNonnegativePayrollAmount(detailLine)) {
-            reportError(EffortPropertyConstants.EFFORT_CERTIFICATION_PAYROLL_AMOUNT, EffortKeyConstants.ERROR_NEGATIVE_PAYROLL_AMOUNT);
-            return false;
-        }
-
-        if (!EffortCertificationDocumentRuleUtil.hasValidEffortPercent(detailLine)) {
-            reportError(EffortPropertyConstants.EFFORT_CERTIFICATION_UPDATED_OVERALL_PERCENT, EffortKeyConstants.ERROR_INVALID_EFFORT_PERCENT);
+        if(!this.processCheckDetailLineAmountRules(document, detailLine)) {
             return false;
         }
 
@@ -100,8 +95,8 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         if (detailLine.isNewLineIndicator() && !EffortCertificationDocumentRuleUtil.canExpiredAccountBeUsed(detailLine)) {
             Account account = detailLine.getAccount();
             Account continuation = account.getContinuationAccount();
-            
-            reportError(EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED, account.getAccountNumber(), continuation.getChartOfAccountsCode(), continuation.getAccountNumber());            
+
+            reportError(EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED, account.getAccountNumber(), continuation.getChartOfAccountsCode(), continuation.getAccountNumber());
             return false;
         }
 
@@ -119,13 +114,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
             return false;
         }
 
-        if (!EffortCertificationDocumentRuleUtil.hasValidEffortPercent(detailLine)) {
-            reportError(EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS, EffortKeyConstants.ERROR_INVALID_EFFORT_PERCENT);
-            return false;
-        }
-
-        if (!EffortCertificationDocumentRuleUtil.hasNonnegativePayrollAmount(detailLine)) {
-            reportError(EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS, EffortKeyConstants.ERROR_NEGATIVE_PAYROLL_AMOUNT);
+        if(!this.processCheckDetailLineAmountRules(document, detailLine)) {
             return false;
         }
 
@@ -216,6 +205,24 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
     }
 
     /**
+     * @see org.kuali.kfs.module.ec.document.validation.CheckDetailLineAmountRule#processCheckDetailLineAmountRules(org.kuali.kfs.module.ec.document.EffortCertificationDocument,
+     *      org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail)
+     */
+    public boolean processCheckDetailLineAmountRules(EffortCertificationDocument effortCertificationDocument, EffortCertificationDetail effortCertificationDetail) {
+        if (!EffortCertificationDocumentRuleUtil.hasValidEffortPercent(effortCertificationDetail)) {
+            reportError(EffortPropertyConstants.EFFORT_CERTIFICATION_UPDATED_OVERALL_PERCENT, EffortKeyConstants.ERROR_INVALID_EFFORT_PERCENT);
+            return false;
+        }
+
+        if (!EffortCertificationDocumentRuleUtil.hasNonnegativePayrollAmount(effortCertificationDetail)) {
+            reportError(EffortPropertyConstants.EFFORT_CERTIFICATION_PAYROLL_AMOUNT, EffortKeyConstants.ERROR_NEGATIVE_PAYROLL_AMOUNT);
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * @see org.kuali.kfs.module.ec.document.validation.LoadDetailLineRule#processLoadDetailLineRules(org.kuali.kfs.module.ec.document.EffortCertificationDocument)
      */
     public boolean processLoadDetailLineRules(EffortCertificationDocument effortCertificationDocument) {
@@ -227,7 +234,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         effortCertificationDocument.refreshReferenceObject(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_DEFINITION);
         EffortCertificationReportDefinition reportDefinition = effortCertificationDocument.getEffortCertificationReportDefinition();
 
-        if ( ObjectUtils.isNull(reportDefinition)) {
+        if (ObjectUtils.isNull(reportDefinition)) {
             reportError(EffortConstants.EFFORT_DETAIL_IMPORT_ERRORS, EffortKeyConstants.ERROR_REPORT_DEFINITION_NOT_EXIST);
             return false;
         }

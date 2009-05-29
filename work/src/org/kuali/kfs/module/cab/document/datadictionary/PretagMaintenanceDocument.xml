@@ -55,7 +55,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="organizationCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="organizationInventoryName"/>
-        <bean parent="MaintainableFieldDefinition" p:name="personUniversal.principalName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="personUniversal.principalName" p:required="false"/>
         <bean parent="MaintainableFieldDefinition" p:name="personUniversal.name" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="organizationText"/>
         <bean parent="MaintainableFieldDefinition" p:name="assetTopsDescription" p:required="true"/>

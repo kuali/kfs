@@ -33,11 +33,12 @@ import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
-import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer;
@@ -122,6 +123,8 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
 
         setupConvenienceObjects();
         success &= checkPurchaseOrderItemExists();
+        success &= checkAssetRepresentativePrincipalNameExists();
+        
         if (newPretag.isActive()) {
             success &= checkTotalDetailCount(newPretag, newDetailLine);
             success &= isAllCampusBuildingRoomValid(newPretag.getPretagDetails());
@@ -134,9 +137,31 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * validate the asset representative principal name.
+     * 
+     * @return boolean false or true
+     */
+    protected boolean checkAssetRepresentativePrincipalNameExists() {
+        boolean valid = true;
+        if (StringUtils.isNotBlank(newPretag.getPersonUniversal().getPrincipalName())) {
+            PersonService personService = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class);
+            Person person = personService.getPersonByPrincipalName(newPretag.getPersonUniversal().getPrincipalName());
+            if (person != null) {
+                newPretag.setPersonUniversal(person);
+                newPretag.setRepresentativeUniversalIdentifier(person.getPrincipalId());
+            }
+            else {
+                putFieldError(CabPropertyConstants.Pretag.REPRESENTATIVE_ID, CamsKeyConstants.PreTag.ERROR_PRE_TAG_INVALID_REPRESENTATIVE_ID, newPretag.getPersonUniversal().getPrincipalName());
+                valid &= false;
+            }
+        }
+        return valid;
+    }
+    
+    /**
      * validate the purchase order item existence in PurAp.
      * 
-     * @return
+     * @return boolean false or true
      */
     protected boolean checkPurchaseOrderItemExists() {
         boolean valid = true;
@@ -262,7 +287,7 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
             KualiDecimal totalNumerOfDetails = new KualiDecimal(totalActiveDetails);
 
             if (pretag.getQuantityInvoiced().compareTo(totalNumerOfDetails) < 0) {
-                GlobalVariables.getErrorMap().putError(CabPropertyConstants.Pretag.CAMPUS_TAG_NUMBER, CamsKeyConstants.ERROR_PRE_TAG_DETAIL_EXCESS, new String[] { pretag.getQuantityInvoiced().toString() + "" + " Total number of detail lines " + totalNumerOfDetails.toString() });
+                GlobalVariables.getErrorMap().putError(CabPropertyConstants.Pretag.CAMPUS_TAG_NUMBER, CamsKeyConstants.PreTag.ERROR_PRE_TAG_DETAIL_EXCESS, new String[] { pretag.getQuantityInvoiced().toString() + "" + " Total number of detail lines " + totalNumerOfDetails.toString() });
                 success &= false;
             }
             else {
@@ -307,7 +332,7 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
             tagMap.put(CabPropertyConstants.Pretag.CAMPUS_TAG_NUMBER, dtl.getCampusTagNumber());
             int matchDetailCount = getMatchDetailCount(tagMap);
             if ((getBoService().countMatching(Asset.class, tagMap) != 0) || (matchDetailCount > 0)) {
-                GlobalVariables.getErrorMap().putError(CabPropertyConstants.Pretag.CAMPUS_TAG_NUMBER, CamsKeyConstants.ERROR_PRE_TAG_NUMBER, new String[] { dtl.getCampusTagNumber() });
+                GlobalVariables.getErrorMap().putError(CabPropertyConstants.Pretag.CAMPUS_TAG_NUMBER, CamsKeyConstants.PreTag.ERROR_PRE_TAG_NUMBER, new String[] { dtl.getCampusTagNumber() });
                 success &= false;
             }
         }

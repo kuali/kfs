@@ -133,7 +133,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="dueDateTypeCode" />
         <bean parent="FieldDefinition"
-              p:defaultValue="true"
+              p:defaultValue="Y"
               p:attributeName="active" />
       </list>
     </property>

@@ -131,7 +131,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="controlAttributeTypeDescription" />
         <bean parent="FieldDefinition"
-              p:defaultValue="true"
+              p:defaultValue="Y"
               p:attributeName="active" />
         <bean parent="FieldDefinition"
               p:attributeName="requiredIndicator" />

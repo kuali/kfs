@@ -118,6 +118,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="taxRegionTypeName" />
         <bean parent="FieldDefinition"
+              p:defaultValue="Y"
               p:attributeName="active" />
       </list>
     </property>

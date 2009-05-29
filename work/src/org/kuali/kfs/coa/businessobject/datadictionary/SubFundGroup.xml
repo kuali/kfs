@@ -231,7 +231,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="financialReportingSortCode" />
         <bean parent="FieldDefinition"
-              p:defaultValue="true"
+              p:defaultValue="Y"
               p:attributeName="active" />
       </list>
     </property>

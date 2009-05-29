@@ -196,7 +196,16 @@ public class ArKeyConstants {
         public static final String FULL_AMOUNT_NOT_APPLIED = "error.document.paymentApplication.fullAmountNotApplied";
         public static final String AMOUNT_TO_BE_APPLIED_EXCEEDS_OPEN_INVOICE_DETAIL_AMOUNT = "error.document.paymentApplication.amountToBeAppliedExceedsOpenInvoiceDetailAmount";
         public static final String AMOUNT_TO_BE_APPLIED_MUST_BE_POSTIIVE = "error.document.paymentApplication.amountToBeAppliedMustBePositive";
-        public static final String NON_AR_AMOUNT_REQUIRED = "error.document.paymentApplication.nonArLineRequired";
+        public static final String NON_AR_CHART_REQUIRED = "error.document.paymentApplication.nonArLineChartRequired";
+        public static final String NON_AR_ACCOUNT_REQUIRED = "error.document.paymentApplication.nonArLineAccountRequired";
+        public static final String NON_AR_OBJECT_CODE_REQUIRED = "error.document.paymentApplication.nonArLineObjectCodeRequired";
+        public static final String NON_AR_CHART_INVALID = "error.document.paymentApplication.nonArLineChartInvalid";
+        public static final String NON_AR_ACCOUNT_INVALID = "error.document.paymentApplication.nonArLineAccountInvalid";
+        public static final String NON_AR_SUB_ACCOUNT_INVALID = "error.document.paymentApplication.nonArLineSubAccountInvalid";
+        public static final String NON_AR_OBJECT_CODE_INVALID = "error.document.paymentApplication.nonArLineObjectCodeInvalid";
+        public static final String NON_AR_SUB_OBJECT_CODE_INVALID = "error.document.paymentApplication.nonArLineSubObjectCodeInvalid";
+        public static final String NON_AR_PROJECT_CODE_INVALID = "error.document.paymentApplication.nonArLineProjectCodeInvalid";
+        public static final String NON_AR_AMOUNT_REQUIRED = "error.document.paymentApplication.nonArLineAmountRequired";
         public static final String NON_AR_AMOUNT_MUST_BE_POSITIVE = "error.document.paymentApplication.nonArLineAmountMustBePositive";
         public static final String CANNOT_APPLY_MORE_THAN_CASH_CONTROL_TOTAL_AMOUNT = "error.document.paymentApplication.quickAppliedExceedsCashControlTotalAmount";
         public static final String INVOICE_DETAIL_CANNOT_APPLY_MORE_THAN_CONTROL_TOTAL_AMOUNT = "error.document.paymentApplication.detailAppliedExceedsCashControlTotalAmount";

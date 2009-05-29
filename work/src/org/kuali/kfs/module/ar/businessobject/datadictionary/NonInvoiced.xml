@@ -1,8 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="NonInvoiced" parent="NonInvoiced-parentBean" />
 
@@ -28,6 +30,28 @@
         <ref bean="NonInvoiced-financialSubObjectCode" />
         <ref bean="NonInvoiced-projectCode" />
         <ref bean="NonInvoiced-subAccountNumber" />
+      </list>
+    </property>
+    <property name="relationships" >
+      <list>
+        <dd:relationship objectAttribute="account">
+            <dd:primitiveAttribute source="accountNumber" target="accountNumber" />
+        </dd:relationship>
+        <dd:relationship objectAttribute="subAccount">
+            <dd:primitiveAttribute source="subAccountNumber" target="subAccountNumber" />
+        </dd:relationship>
+        <dd:relationship objectAttribute="financialObject">
+            <dd:primitiveAttribute source="financialObjectCode" target="financialObjectCode" />
+        </dd:relationship>
+        <dd:relationship objectAttribute="financialSubObject">
+            <dd:primitiveAttribute source="financialSubObjectCode" target="financialSubObjectCode" />
+        </dd:relationship>
+        <dd:relationship objectAttribute="project">
+            <dd:primitiveAttribute source="projectCode" target="projectDescription" />
+        </dd:relationship>
+        <dd:relationship objectAttribute="chartOfAccounts">
+            <dd:primitiveAttribute source="chartOfAccountsCode" target="chartOfAccountsCode" />
+        </dd:relationship>
       </list>
     </property>
   </bean>
@@ -93,9 +117,6 @@
     <property name="name" value="financialDocumentLineAmount" />
     <property name="label" value="Financial Document Line Amount" />
     <property name="shortLabel" value="Amount" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
-    </property>
   </bean>
   <bean id="NonInvoiced-financialDocumentLineNumber" parent="NonInvoiced-financialDocumentLineNumber-parentBean" />
 

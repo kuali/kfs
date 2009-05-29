@@ -400,10 +400,16 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         
         NonInvoiced nonInvoiced = payAppForm.getNonInvoicedAddLine();
         
-        //  dont do anything if the line is null, or the amount is null or zero
-        if (ObjectUtils.isNull(payAppForm.getNonInvoicedAddLine()) ||
-                nonInvoiced.getFinancialDocumentLineAmount() == null ||
-                nonInvoiced.getFinancialDocumentLineAmount().isZero()) {
+        //  dont do anything if the line is null
+        if (ObjectUtils.isNull(payAppForm.getNonInvoicedAddLine())) {
+            return null;
+        }
+        
+        // if the amount is null or zero; display a warning, but don't add the line
+        if(nonInvoiced.getFinancialDocumentLineAmount() == null ||
+           nonInvoiced.getFinancialDocumentLineAmount().isZero()) {
+            GlobalVariables.getErrorMap().putInfo(ArPropertyConstants.PaymentApplicationDocumentFields.NON_INVOICED_LINE_AMOUNT,
+                                                  ArKeyConstants.PaymentApplicationDocumentErrors.NON_AR_AMOUNT_MUST_BE_POSITIVE);
             return null;
         }
         
@@ -415,9 +421,14 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
             nonInvoiced.setChartOfAccountsCode(nonInvoiced.getChartOfAccountsCode().toUpperCase());
         }
         
-        //  run the validations, but ignore the result (ie, add the line anyway, but show messages)
-        PaymentApplicationDocumentRuleUtil.validateNonInvoiced(nonInvoiced, applicationDocument, payAppForm.getTotalFromControl());
-    
+        //  run the validations
+        boolean isValid = PaymentApplicationDocumentRuleUtil.validateNonInvoiced(nonInvoiced, applicationDocument, payAppForm.getTotalFromControl());
+
+        // check the validation results and return null if there were any errors
+        if(!isValid) {
+            return null;
+        }
+        
         return nonInvoiced;
     }
     

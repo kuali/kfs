@@ -169,7 +169,6 @@
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="required" value="true"/>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.BuildingValuesFinder" p:includeKeyInLabel="false"/>
     </property>

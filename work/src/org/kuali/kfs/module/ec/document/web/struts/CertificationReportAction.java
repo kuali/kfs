@@ -17,6 +17,7 @@ package org.kuali.kfs.module.ec.document.web.struts;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +37,7 @@ import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.kfs.module.ec.document.validation.event.AddDetailLineEvent;
 import org.kuali.kfs.module.ec.document.validation.event.CheckDetailLineAmountEvent;
 import org.kuali.kfs.module.ec.document.validation.impl.EffortCertificationDocumentRuleUtil;
+import org.kuali.kfs.module.ec.service.EffortCertificationDocumentService;
 import org.kuali.kfs.module.ec.util.DetailLineGroup;
 import org.kuali.kfs.sys.DynamicCollectionComparator;
 import org.kuali.kfs.sys.KFSConstants;
@@ -44,14 +46,19 @@ import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.DynamicCollectionComparator.SortOrder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.AdHocRoutePerson;
+import org.kuali.rice.kns.bo.AdHocRouteRecipient;
+import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
@@ -387,7 +394,7 @@ public class CertificationReportAction extends EffortCertificationAction {
         int index = 0;
         for (EffortCertificationDetail detailLine : summarizedDetailLines) {
             EffortCertificationDocumentRuleUtil.applyDefaultValues(detailLine);
-            
+
             String errorPathPrefix = KFSPropertyConstants.DOCUMENT + "." + EffortPropertyConstants.SUMMARIZED_DETAIL_LINES + "[" + index + "]";
             isValid &= this.invokeRules(new CheckDetailLineAmountEvent("", errorPathPrefix, effortDocument, detailLine));
 
@@ -525,4 +532,34 @@ public class CertificationReportAction extends EffortCertificationAction {
         BigDecimal persistedPayrollAmount = detailLine.getEffortCertificationPayrollAmount().bigDecimalValue();
         detailLine.setPersistedPayrollAmount(new KualiDecimal(persistedPayrollAmount));
     }
+
+    /**
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#approve(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        EffortCertificationDocument effortDocument = (EffortCertificationDocument) kualiDocumentFormBase.getDocument();
+
+        EffortCertificationDocumentService effortCertificationDocumentService = SpringContext.getBean(EffortCertificationDocumentService.class);        
+        effortCertificationDocumentService.addRouteLooping(effortDocument);
+        
+        ActionForward actionForward = super.approve(mapping, kualiDocumentFormBase, request, response);
+
+        return actionForward;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#insertBONote(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward insertBONote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        kualiDocumentFormBase.getNewNote().setNewCollectionRecord(true);
+        
+        return super.insertBONote(mapping, form, request, response);
+    }
+    
+    
 }

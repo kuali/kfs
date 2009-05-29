@@ -146,10 +146,6 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
 
         valid &= this.processCustomRouteDocumentBusinessRules(effortCertificationDocument);
 
-        if (valid) {
-            effortCertificationDocumentService.addRouteLooping(effortCertificationDocument);
-        }
-
         return valid;
     }
 
@@ -172,9 +168,18 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
             return true;
         }
 
-        if (EffortCertificationDocumentRuleUtil.isPayrollAmountChangedFromOriginal(effortCertificationDocument)) {
+        if (EffortCertificationDocumentRuleUtil.isEffortPercentChangedFromPersisted(effortCertificationDocument)) {
             List<Note> notes = effortCertificationDocument.getDocumentHeader().getBoNotes();
-            if (notes == null || notes.isEmpty()) {
+            
+            boolean noteHasBeenAdded = false;
+            for(Note note : notes) {
+                if(note.isNewCollectionRecord()) {
+                    noteHasBeenAdded = true;
+                    break;
+                }
+            }
+            
+            if (!noteHasBeenAdded) {
                 reportError(EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS, EffortKeyConstants.ERROR_NOTE_REQUIRED_WHEN_EFFORT_CHANGED);
                 return false;
             }

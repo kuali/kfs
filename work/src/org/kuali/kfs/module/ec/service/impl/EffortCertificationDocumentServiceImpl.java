@@ -17,6 +17,7 @@ package org.kuali.kfs.module.ec.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -177,14 +178,14 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
     @Logged
     public void addRouteLooping(EffortCertificationDocument effortCertificationDocument) {
         List<EffortCertificationDetail> detailLines = effortCertificationDocument.getEffortCertificationDetailLines();
-        List<AdHocRoutePerson> adHocRoutePersons = effortCertificationDocument.getAdHocRoutePersons();
+        List<AdHocRoutePerson> adHocRoutePersonList = effortCertificationDocument.getAdHocRoutePersons();
 
         KualiWorkflowDocument workflowDocument = effortCertificationDocument.getDocumentHeader().getWorkflowDocument();
         String routeLevelName = workflowDocument.getCurrentRouteNodeNames();
+        Set<Person> priorApprovers = getPriorApprovers(workflowDocument);
 
         for (EffortCertificationDetail detailLine : detailLines) {
             boolean hasBeenChanged = EffortCertificationDocumentRuleUtil.isPayrollAmountChangedFromPersisted(detailLine);
-
             if (!hasBeenChanged) {
                 continue;
             }
@@ -193,16 +194,74 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
             String accountFiscalOfficerPersonUserId = account.getAccountFiscalOfficerUser().getPrincipalName();
             if (StringUtils.isNotEmpty(accountFiscalOfficerPersonUserId)) {
                 String actionRequestOfOfficer = this.getActionRequest(routeLevelName, KFSConstants.RouteLevelNames.ACCOUNT);
-                adHocRoutePersons.add(this.buildAdHocRouteRecipient(accountFiscalOfficerPersonUserId, actionRequestOfOfficer));
+                AdHocRoutePerson adHocRoutePerson = this.buildAdHocRouteRecipient(accountFiscalOfficerPersonUserId, actionRequestOfOfficer);
+
+                this.addAdHocRoutePerson(adHocRoutePersonList, priorApprovers, adHocRoutePerson);
             }
 
             Person projectDirector = contractsAndGrantsModuleService.getProjectDirectorForAccount(account);
             if (projectDirector != null) {
-                String accountProjectDirectorPersonUserId = projectDirector.getPrincipalId();
+                String accountProjectDirectorPersonUserId = projectDirector.getPrincipalName();
                 String actionRequestOfDirector = this.getActionRequest(routeLevelName, KFSConstants.RouteLevelNames.PROJECT_MANAGEMENT);
-                adHocRoutePersons.add(this.buildAdHocRouteRecipient(accountProjectDirectorPersonUserId, actionRequestOfDirector));
+                AdHocRoutePerson adHocRoutePerson = this.buildAdHocRouteRecipient(accountProjectDirectorPersonUserId, actionRequestOfDirector);
+
+                this.addAdHocRoutePerson(adHocRoutePersonList, priorApprovers, adHocRoutePerson);
             }
         }
+    }
+
+    // add the given ad hoc route person in the list if the person is one of prior approvers and is not in the list
+    private void addAdHocRoutePerson(Collection<AdHocRoutePerson> adHocRoutePersonList, Set<Person> priorApprovers, AdHocRoutePerson adHocRoutePerson) {
+        boolean canBeAdded = false;
+        
+        if (priorApprovers == null) {
+            canBeAdded = true;
+        }
+        else {
+            for (Person approver : priorApprovers) {
+                if (StringUtils.equals(approver.getPrincipalName(), adHocRoutePerson.getId())) {
+                    canBeAdded = true;
+                    break;
+                }
+            }
+        }
+
+        if (canBeAdded) {
+            for (AdHocRoutePerson person : adHocRoutePersonList) {
+                if (this.isSameAdHocRoutePerson(person, adHocRoutePerson)) {
+                    canBeAdded = false;
+                    break;
+                }
+            }
+        }
+
+        if (canBeAdded) {
+            adHocRoutePersonList.add(adHocRoutePerson);
+        }
+    }
+    
+    private boolean isSameAdHocRoutePerson(AdHocRoutePerson person1, AdHocRoutePerson person2) {
+        if(person1 == null || person2 == null) {
+            return false;
+        }
+        
+        boolean isSameAdHocRoutePerson = StringUtils.equals(person1.getId(), person2.getId());
+        isSameAdHocRoutePerson &= person1.getType().equals(person2.getType());
+        isSameAdHocRoutePerson &= StringUtils.equals(person1.getActionRequested(), person2.getActionRequested());
+               
+        return isSameAdHocRoutePerson;
+    }
+
+    private Set<Person> getPriorApprovers(KualiWorkflowDocument workflowDocument) {
+        Set<Person> priorApprovers = null;
+        try {
+            priorApprovers = workflowDocument.getAllPriorApprovers();
+        }
+        catch (WorkflowException e) {
+            e.printStackTrace();
+        }
+
+        return priorApprovers;
     }
 
     /**
@@ -394,6 +453,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
 
     /**
      * Sets the kualiModuleService attribute value.
+     * 
      * @param kualiModuleService The kualiModuleService to set.
      */
     public void setKualiModuleService(KualiModuleService kualiModuleService) {

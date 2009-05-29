@@ -263,6 +263,55 @@ public class EffortCertificationDocumentRuleUtil {
 
         return difference.isNonZero();
     }
+    
+    /**
+     * determine if there is a change on the payroll amount of the given document
+     * 
+     * @param document the given effort certification document
+     * @return true if there is the change on the payroll amount of any detail line in the given document
+     */
+    public static boolean isPayrollAmountChangedFromPersisted(EffortCertificationDocument document) {
+        List<EffortCertificationDetail> detailLines = document.getEffortCertificationDetailLines();
+
+        for (EffortCertificationDetail line : detailLines) {
+            if (isPayrollAmountChangedFromPersisted(line)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
+    /**
+     * determine if there is a change on the payroll amount of the given detail line comparing to its persisted payroll amount
+     * 
+     * @param detailLine the given effort certification detail line
+     * @return true if there is a change on the payroll amount of the given detail line comparing to its persisted payroll amount
+     */
+    public static boolean isEffortPercentChangedFromPersisted(EffortCertificationDetail detailLine) {
+        Integer persistedAmount = detailLine.getPersistedEffortPercent();
+        Integer effortPercent = detailLine.getEffortCertificationUpdatedOverallPercent();
+
+        return !persistedAmount.equals(effortPercent);
+    }
+    
+    /**
+     * determine if there is a change on the payroll amount of the given document
+     * 
+     * @param document the given effort certification document
+     * @return true if there is the change on the payroll amount of any detail line in the given document
+     */
+    public static boolean isEffortPercentChangedFromPersisted(EffortCertificationDocument document) {
+        List<EffortCertificationDetail> detailLines = document.getEffortCertificationDetailLines();
+
+        for (EffortCertificationDetail line : detailLines) {
+            if (isEffortPercentChangedFromPersisted(line)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     /**
      * determine if the given payroll amount is greater than and equal to 0

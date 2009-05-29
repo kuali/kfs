@@ -15,12 +15,15 @@
  */
 package org.kuali.kfs.module.purap.document.authorization;
 
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Accounting line authorizer for Requisition document which allows adding accounting lines at specified nodes
@@ -62,4 +65,25 @@ public class PurchaseOrderAccountingLineAuthorizer extends PurapAccountingLineAu
         }
         return super.allowAccountingLinesAreEditable(accountingDocument, accountingLine);
     }
+
+    @Override
+    public boolean determineEditPermissionOnLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty) {
+     // the fields in a new line should be always editable
+        if (accountingLine.getSequenceNumber() == null) {
+            return true;
+        }
+        
+        // check the initiation permission on the document if it is in the state of preroute, but only if
+        // the PO status is not In Process.
+        KualiWorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
+        PurchaseOrderDocument poDocument = (PurchaseOrderDocument)accountingDocument;
+        if (!poDocument.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.IN_PROCESS) && (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved())) {
+            boolean hasEditLinePermission = workflowDocument.userIsInitiator(GlobalVariables.getUserSession().getPerson());
+            return hasEditLinePermission;
+        }
+        else {
+            return true;
+        }
+    }
+    
 }

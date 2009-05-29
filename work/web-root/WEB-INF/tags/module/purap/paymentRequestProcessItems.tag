@@ -71,7 +71,7 @@
 
 		<!-- BEGIN TOTAL SECTION -->
 		<tr>
-			<td align=right width='75%' colspan="6" scope="row" class="datacell">
+			<td align=right width='75%' colspan="8" scope="row" class="datacell">
 			    <div align="right">
 			        <b><kul:htmlAttributeLabel attributeEntry="${documentAttributes.lineItemTotal}" skipHelpUrl="true"/></b>&nbsp;
 			    </div>
@@ -103,7 +103,7 @@
 			colSpanDescription="${colSpanDescription}" >
 			<jsp:attribute name="specialItemTotalOverride">
 				<tr>
-					<td align=right width='75%' colspan="5" scope="row" class="datacell">
+					<td align=right width='75%' colspan="7" scope="row" class="datacell">
 			 			<div align="right">
 			        		<b><kul:htmlAttributeLabel attributeEntry="${documentAttributes.grandTotalExcludingDiscount}" skipHelpUrl="true" /></b>&nbsp;
 			    		</div>

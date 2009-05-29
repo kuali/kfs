@@ -35,6 +35,17 @@ public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends KimR
     private static final Logger LOG = Logger.getLogger(OrganizationHierarchyAwareRoleTypeServiceBase.class);
     private ChartService chartService;
     private OrganizationService organizationService;
+    private static final String DOCUMENT_TYPE_NAME = "ORGG";
+
+    {
+        workflowRoutingAttributes.add( KfsKimAttributes.CHART_OF_ACCOUNTS_CODE );
+        workflowRoutingAttributes.add( KfsKimAttributes.ORGANIZATION_CODE );
+    }    
+    
+    @Override
+    public String getWorkflowDocumentTypeName() {
+        return DOCUMENT_TYPE_NAME;
+    }
 
     protected boolean isParentOrg(String qualificationChartCode, String qualificationOrgCode, String roleChartCode, String roleOrgCode, boolean descendHierarchy) {
         if (roleChartCode == null && roleOrgCode == null) {

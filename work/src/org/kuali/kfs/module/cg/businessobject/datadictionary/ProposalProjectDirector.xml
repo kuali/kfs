@@ -38,17 +38,6 @@
                     p:targetName="principalId" />
             </list>
           </property>
-          <property name="supportAttributes" >
-            <list>
-              <bean parent="SupportAttributeDefinition"
-                    p:identifier="true"
-                    p:sourceName="projectDirector.principalName"
-                    p:targetName="principalName" />
-              <bean parent="SupportAttributeDefinition"
-                    p:sourceName="projectDirector.name"
-                    p:targetName="name" />
-            </list>
-          </property>
         </bean>
       </list>
     </property>

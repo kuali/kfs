@@ -36,7 +36,7 @@
 	
 	    <c:if test="${empty isCreditMemo or !isCreditMemo}" >
 			<c:set var="mainColumnCount" value="12"/>
-			<c:set var="colSpanItemType" value="4"/>
+			<c:set var="colSpanItemType" value="6"/>
 			<c:set var="colSpanDescription" value="7"/>
 			<c:set var="colSpanExtendedPrice" value="1"/>
 			

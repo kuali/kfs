@@ -17,7 +17,7 @@
           <stringProp name="LoopController.loops">2</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">5</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">60</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">180</stringProp>
         <longProp name="ThreadGroup.start_time">1242765261000</longProp>
         <longProp name="ThreadGroup.end_time">1242765261000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -26,7 +26,7 @@
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
       <hashTree>
-        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="URL parameters for localhost:8080/kfs-dev" enabled="false">
+        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="URL parameters for localhost:8080/kfs-dev" enabled="true">
           <collectionProp name="Arguments.arguments">
             <elementProp name="protocol" elementType="Argument">
               <stringProp name="Argument.metadata">=</stringProp>
@@ -46,31 +46,6 @@
             <elementProp name="port" elementType="Argument">
               <stringProp name="Argument.metadata">=</stringProp>
               <stringProp name="Argument.value">8080</stringProp>
-              <stringProp name="Argument.name">port</stringProp>
-            </elementProp>
-          </collectionProp>
-        </Arguments>
-        <hashTree/>
-        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="URL parameters for findev.ebsp.msu.edu" enabled="false">
-          <collectionProp name="Arguments.arguments">
-            <elementProp name="protocol" elementType="Argument">
-              <stringProp name="Argument.metadata">=</stringProp>
-              <stringProp name="Argument.value">https</stringProp>
-              <stringProp name="Argument.name">protocol</stringProp>
-            </elementProp>
-            <elementProp name="host" elementType="Argument">
-              <stringProp name="Argument.metadata">=</stringProp>
-              <stringProp name="Argument.value">findev.ebsp.msu.edu</stringProp>
-              <stringProp name="Argument.name">host</stringProp>
-            </elementProp>
-            <elementProp name="context" elementType="Argument">
-              <stringProp name="Argument.metadata">=</stringProp>
-              <stringProp name="Argument.value">kfs-dev</stringProp>
-              <stringProp name="Argument.name">context</stringProp>
-            </elementProp>
-            <elementProp name="port" elementType="Argument">
-              <stringProp name="Argument.metadata">=</stringProp>
-              <stringProp name="Argument.value">443</stringProp>
               <stringProp name="Argument.name">port</stringProp>
             </elementProp>
           </collectionProp>
@@ -126,7 +101,7 @@
           </collectionProp>
         </Arguments>
         <hashTree/>
-        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="URL parameters for findev.ebsp.msu.edu" enabled="true">
+        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="URL parameters for findev.ebsp.msu.edu" enabled="false">
           <collectionProp name="Arguments.arguments">
             <elementProp name="protocol" elementType="Argument">
               <stringProp name="Argument.metadata">=</stringProp>

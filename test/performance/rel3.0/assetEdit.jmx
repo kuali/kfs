@@ -11,7 +11,7 @@
       <stringProp name="TestPlan.comments"></stringProp>
     </TestPlan>
     <hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Asset Edit (Only 10 users at a time, else documents will lock  assets from edit)" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Asset Edit (Only 15 users at a time, else documents will lock  assets from edit)" enabled="true">
         <longProp name="ThreadGroup.start_time">1187728739000</longProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
@@ -23,10 +23,10 @@
         </elementProp>
         <longProp name="ThreadGroup.end_time">1187728739000</longProp>
         <stringProp name="ThreadGroup.on_sample_error">stopthread</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">60</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">180</stringProp>
       </ThreadGroup>
       <hashTree>
-        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="URL parameters for localhost:8080/kfs-dev" enabled="false">
+        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="URL parameters for localhost:8080/kfs-dev" enabled="true">
           <collectionProp name="Arguments.arguments">
             <elementProp name="protocol" elementType="Argument">
               <stringProp name="Argument.metadata">=</stringProp>
@@ -101,7 +101,7 @@
           </collectionProp>
         </Arguments>
         <hashTree/>
-        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="URL parameters for findev.ebsp.msu.edu" enabled="true">
+        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="URL parameters for findev.ebsp.msu.edu" enabled="false">
           <collectionProp name="Arguments.arguments">
             <elementProp name="protocol" elementType="Argument">
               <stringProp name="Argument.metadata">=</stringProp>
@@ -564,6 +564,26 @@
               <collectionProp name="-524996227">
                 <stringProp name="1542058">2518</stringProp>
                 <stringProp name="-2096828145">JTAG10</stringProp>
+              </collectionProp>
+              <collectionProp name="1596491936">
+                <stringProp name="46761134">11174</stringProp>
+                <stringProp name="-2096828144">JTAG11</stringProp>
+              </collectionProp>
+              <collectionProp name="1604375293">
+                <stringProp name="46761876">11202</stringProp>
+                <stringProp name="-2096828143">JTAG12</stringProp>
+              </collectionProp>
+              <collectionProp name="1707976854">
+                <stringProp name="46764946">11563</stringProp>
+                <stringProp name="-2096828142">JTAG13</stringProp>
+              </collectionProp>
+              <collectionProp name="1708005617">
+                <stringProp name="46764950">11567</stringProp>
+                <stringProp name="-2096828141">JTAG14</stringProp>
+              </collectionProp>
+              <collectionProp name="1774059823">
+                <stringProp name="46766715">11715</stringProp>
+                <stringProp name="-2096828140">JTAG15</stringProp>
               </collectionProp>
             </collectionProp>
             <boolProp name="UserParameters.per_iteration">false</boolProp>

@@ -23,10 +23,10 @@
         </elementProp>
         <longProp name="ThreadGroup.end_time">1187728739000</longProp>
         <stringProp name="ThreadGroup.on_sample_error">stopthread</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">60</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">180</stringProp>
       </ThreadGroup>
       <hashTree>
-        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="URL parameters for localhost:8080/kfs-dev" enabled="false">
+        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="URL parameters for localhost:8080/kfs-dev" enabled="true">
           <collectionProp name="Arguments.arguments">
             <elementProp name="protocol" elementType="Argument">
               <stringProp name="Argument.metadata">=</stringProp>
@@ -101,7 +101,7 @@
           </collectionProp>
         </Arguments>
         <hashTree/>
-        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="URL parameters for findev.ebsp.msu.edu" enabled="true">
+        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="URL parameters for findev.ebsp.msu.edu" enabled="false">
           <collectionProp name="Arguments.arguments">
             <elementProp name="protocol" elementType="Argument">
               <stringProp name="Argument.metadata">=</stringProp>
@@ -528,6 +528,60 @@
         </hashTree>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Start Asset Separate" enabled="true"/>
         <hashTree>
+          <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="Asset Separate Parameters" enabled="true">
+            <collectionProp name="UserParameters.names">
+              <stringProp name="-1134414895">capitalAssetNumber</stringProp>
+            </collectionProp>
+            <collectionProp name="UserParameters.thread_values">
+              <collectionProp name="475837178">
+                <stringProp name="1516143">1929</stringProp>
+              </collectionProp>
+              <collectionProp name="546474537">
+                <stringProp name="1538336">2156</stringProp>
+              </collectionProp>
+              <collectionProp name="571795221">
+                <stringProp name="1540253">2351</stringProp>
+              </collectionProp>
+              <collectionProp name="571795259">
+                <stringProp name="1540254">2352</stringProp>
+              </collectionProp>
+              <collectionProp name="571830764">
+                <stringProp name="1540350">2385</stringProp>
+              </collectionProp>
+              <collectionProp name="-1714075522">
+                <stringProp name="46760054">11039</stringProp>
+              </collectionProp>
+              <collectionProp name="-1714072013">
+                <stringProp name="46760085">11049</stringProp>
+              </collectionProp>
+              <collectionProp name="-1714045498">
+                <stringProp name="46760108">11051</stringProp>
+              </collectionProp>
+              <collectionProp name="-1714044493">
+                <stringProp name="46760114">11057</stringProp>
+              </collectionProp>
+              <collectionProp name="-1714037513">
+                <stringProp name="46760175">11076</stringProp>
+              </collectionProp>
+              <collectionProp name="444037168">
+                <stringProp name="1508605">1174</stringProp>
+              </collectionProp>
+              <collectionProp name="-1712684609">
+                <stringProp name="46761876">11202</stringProp>
+              </collectionProp>
+              <collectionProp name="-1709342622">
+                <stringProp name="46764946">11563</stringProp>
+              </collectionProp>
+              <collectionProp name="-1709341693">
+                <stringProp name="46764950">11567</stringProp>
+              </collectionProp>
+              <collectionProp name="-1707210911">
+                <stringProp name="46766715">11715</stringProp>
+              </collectionProp>
+            </collectionProp>
+            <boolProp name="UserParameters.per_iteration">false</boolProp>
+          </UserParameters>
+          <hashTree/>
           <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Main Menu - Asset" enabled="true"/>
           <hashTree>
             <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/portal.do" enabled="true">
@@ -2918,62 +2972,6 @@
           <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Wait 5 secs" enabled="true">
             <stringProp name="ConstantTimer.delay">5000</stringProp>
           </ConstantTimer>
-          <hashTree/>
-          <ResultCollector guiclass="AssertionVisualizer" testclass="ResultCollector" testname="Assertion Results" enabled="true">
-            <boolProp name="ResultCollector.error_logging">false</boolProp>
-            <objProp>
-              <name>saveConfig</name>
-              <value class="SampleSaveConfiguration">
-                <time>true</time>
-                <latency>true</latency>
-                <timestamp>true</timestamp>
-                <success>true</success>
-                <label>true</label>
-                <code>true</code>
-                <message>true</message>
-                <threadName>true</threadName>
-                <dataType>true</dataType>
-                <encoding>false</encoding>
-                <assertions>true</assertions>
-                <subresults>true</subresults>
-                <responseData>false</responseData>
-                <samplerData>false</samplerData>
-                <xml>true</xml>
-                <fieldNames>false</fieldNames>
-                <responseHeaders>false</responseHeaders>
-                <requestHeaders>false</requestHeaders>
-                <responseDataOnError>false</responseDataOnError>
-                <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
-                <assertionsResultsToSave>0</assertionsResultsToSave>
-                <bytes>true</bytes>
-              </value>
-            </objProp>
-            <stringProp name="filename"></stringProp>
-          </ResultCollector>
-          <hashTree/>
-          <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="Asset Separate Parameters" enabled="true">
-            <collectionProp name="UserParameters.names">
-              <stringProp name="-1134414895">capitalAssetNumber</stringProp>
-            </collectionProp>
-            <collectionProp name="UserParameters.thread_values">
-              <collectionProp name="475837178">
-                <stringProp name="1516143">1929</stringProp>
-              </collectionProp>
-              <collectionProp name="546474537">
-                <stringProp name="1538336">2156</stringProp>
-              </collectionProp>
-              <collectionProp name="571795221">
-                <stringProp name="1540253">2351</stringProp>
-              </collectionProp>
-              <collectionProp name="571795259">
-                <stringProp name="1540254">2352</stringProp>
-              </collectionProp>
-              <collectionProp name="571830764">
-                <stringProp name="1540350">2385</stringProp>
-              </collectionProp>
-            </collectionProp>
-            <boolProp name="UserParameters.per_iteration">false</boolProp>
-          </UserParameters>
           <hashTree/>
         </hashTree>
         <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">

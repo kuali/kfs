@@ -15,7 +15,7 @@
         <longProp name="ThreadGroup.start_time">1187728739000</longProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
-        <stringProp name="ThreadGroup.num_threads">25</stringProp>
+        <stringProp name="ThreadGroup.num_threads">5</stringProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -23,10 +23,10 @@
         </elementProp>
         <longProp name="ThreadGroup.end_time">1187728739000</longProp>
         <stringProp name="ThreadGroup.on_sample_error">stopthread</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">60</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">180</stringProp>
       </ThreadGroup>
       <hashTree>
-        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="URL parameters for localhost:8080/kfs-dev" enabled="false">
+        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="URL parameters for localhost:8080/kfs-dev" enabled="true">
           <collectionProp name="Arguments.arguments">
             <elementProp name="protocol" elementType="Argument">
               <stringProp name="Argument.metadata">=</stringProp>
@@ -101,7 +101,7 @@
           </collectionProp>
         </Arguments>
         <hashTree/>
-        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="URL parameters for findev.ebsp.msu.edu" enabled="true">
+        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="URL parameters for findev.ebsp.msu.edu" enabled="false">
           <collectionProp name="Arguments.arguments">
             <elementProp name="protocol" elementType="Argument">
               <stringProp name="Argument.metadata">=</stringProp>
@@ -153,6 +153,60 @@
         </UserParameters>
         <hashTree/>
         <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="Asset Payment Parameters" enabled="true">
+          <collectionProp name="UserParameters.names">
+            <stringProp name="-1134414895">capitalAssetNumber</stringProp>
+          </collectionProp>
+          <collectionProp name="UserParameters.thread_values">
+            <collectionProp name="475837178">
+              <stringProp name="1516143">1929</stringProp>
+            </collectionProp>
+            <collectionProp name="546474537">
+              <stringProp name="1538336">2156</stringProp>
+            </collectionProp>
+            <collectionProp name="571795221">
+              <stringProp name="1540253">2351</stringProp>
+            </collectionProp>
+            <collectionProp name="571795259">
+              <stringProp name="1540254">2352</stringProp>
+            </collectionProp>
+            <collectionProp name="571830764">
+              <stringProp name="1540350">2385</stringProp>
+            </collectionProp>
+            <collectionProp name="-1714075522">
+              <stringProp name="46760054">11039</stringProp>
+            </collectionProp>
+            <collectionProp name="-1714072013">
+              <stringProp name="46760085">11049</stringProp>
+            </collectionProp>
+            <collectionProp name="-1714045498">
+              <stringProp name="46760108">11051</stringProp>
+            </collectionProp>
+            <collectionProp name="-1714044493">
+              <stringProp name="46760114">11057</stringProp>
+            </collectionProp>
+            <collectionProp name="-1714037513">
+              <stringProp name="46760175">11076</stringProp>
+            </collectionProp>
+            <collectionProp name="444037168">
+              <stringProp name="1508605">1174</stringProp>
+            </collectionProp>
+            <collectionProp name="-1712684609">
+              <stringProp name="46761876">11202</stringProp>
+            </collectionProp>
+            <collectionProp name="-1709342622">
+              <stringProp name="46764946">11563</stringProp>
+            </collectionProp>
+            <collectionProp name="-1709341693">
+              <stringProp name="46764950">11567</stringProp>
+            </collectionProp>
+            <collectionProp name="-1707210911">
+              <stringProp name="46766715">11715</stringProp>
+            </collectionProp>
+          </collectionProp>
+          <boolProp name="UserParameters.per_iteration">false</boolProp>
+        </UserParameters>
+        <hashTree/>
+        <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="Asset Payment Parameters" enabled="false">
           <collectionProp name="UserParameters.names">
             <stringProp name="-1134414895">capitalAssetNumber</stringProp>
           </collectionProp>
@@ -2603,7 +2657,7 @@
           <hashTree/>
         </hashTree>
         <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
-          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <boolProp name="ResultCollector.error_logging">true</boolProp>
           <objProp>
             <name>saveConfig</name>
             <value class="SampleSaveConfiguration">
@@ -2633,7 +2687,7 @@
           <stringProp name="filename"></stringProp>
         </ResultCollector>
         <hashTree/>
-        <ResultCollector guiclass="AssertionVisualizer" testclass="ResultCollector" testname="Assertion Results" enabled="true">
+        <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
             <name>saveConfig</name>
@@ -2664,17 +2718,6 @@
           </objProp>
           <stringProp name="filename"></stringProp>
         </ResultCollector>
-        <hashTree/>
-        <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults" enabled="true">
-          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-            <collectionProp name="Arguments.arguments"/>
-          </elementProp>
-          <stringProp name="HTTPSampler.domain"></stringProp>
-          <stringProp name="HTTPSampler.port"></stringProp>
-          <stringProp name="HTTPSampler.protocol"></stringProp>
-          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path"></stringProp>
-        </ConfigTestElement>
         <hashTree/>
       </hashTree>
     </hashTree>

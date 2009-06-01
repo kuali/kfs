@@ -14,7 +14,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="attributes">
       <list merge="true">
         <ref bean="CgKimAttributes-researchRiskTypeCode" />
-        <ref bean="CgKimAttributes-questionTypeCode" />
       </list>
     </property>
     <property name="relationships">

@@ -228,13 +228,8 @@
   <bean id="LaborJournalVoucherDetail-subAccountNumber-parentBean" abstract="true" parent="VoucherSourceAccountingLine-subAccountNumber-parentBean"/>
 
   <bean id="LaborJournalVoucherDetail-referenceTypeCode" parent="LaborJournalVoucherDetail-referenceTypeCode-parentBean" />
-  <bean id="LaborJournalVoucherDetail-referenceTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
+  <bean id="LaborJournalVoucherDetail-referenceTypeCode-parentBean" abstract="true" parent="GenericAttributes-referenceTypeCode">
     <property name="name" value="referenceTypeCode" />
-    <property name="label" value="Reference Type Code" />
-    <property name="shortLabel" value="Ref Type Code" />
-    <property name="required" value="false" />
-    
-    
   </bean>
   
   <bean id="LaborJournalVoucherDetail-projectCode" parent="LaborJournalVoucherDetail-projectCode-parentBean" />

@@ -358,6 +358,8 @@ public class PurapServiceImpl implements PurapService {
                 }
             }
         }
+        
+        document.fixItemReferences();
     }
 
     /**
@@ -740,6 +742,15 @@ public class PurapServiceImpl implements PurapService {
      */
     public void saveDocumentNoValidation(Document document) {
         try {
+            // FIXME The following code of refreshing document header is a temporary fix for the issue that
+            // in some cases (seem random) the doc header fields are null; and if doc header is refreshed, the workflow doc becomes null.
+            // The root cause of this is that when some docs are retrieved manually using OJB criteria, ref objs such as doc header or workflow doc
+            // aren't retrieved; the solution would be to add these refreshing when documents are retrieved in those OJB methods.
+            if (document.getDocumentHeader() != null && document.getDocumentHeader().getDocumentNumber() == null) {
+                KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+                document.refreshReferenceObject("documentHeader");               
+                document.getDocumentHeader().setWorkflowDocument(workflowDocument);
+            }
             documentService.saveDocument(document, DocumentSystemSaveEvent.class);
         }
         catch (WorkflowException we) {

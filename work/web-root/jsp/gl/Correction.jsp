@@ -419,12 +419,6 @@
       </c:if>
     </kul:tab>
     <kul:tab tabTitle="Edit Options and Action" defaultOpen="true" tabErrorKey="Edit Options and Action">
-      <c:if test="${KualiForm.deleteFileFlag == true or (KualiForm.dataLoadedFlag == false && !KualiForm.restrictedFunctionalityMode) or ((KualiForm.editMethod != 'C') and (KualiForm.editMethod != 'M' or KualiForm.editableFlag == false))}">
-        <%-- this is the negation of the next if statement, since the form defaults to true for processInBatch, we need to pass along the real value for this attribute --%>
-        <%-- KEEP THESE HIDDENS! --%>
-        <html:hidden property="processInBatch" />
-        <html:hidden property="matchCriteriaOnly" />
-      </c:if>
       <c:if test="${KualiForm.deleteFileFlag == false and (KualiForm.dataLoadedFlag == true || KualiForm.restrictedFunctionalityMode) and ((KualiForm.editMethod == 'C') or (KualiForm.editMethod == 'M' and KualiForm.editableFlag == true))}">
         <div class="tab-container" align="center">
           <table cellpadding=0 class="datatable" summary="">
@@ -436,10 +430,12 @@
                 <td>
                   <center>
                     <html:checkbox styleId="processInBatch" property="processInBatch" /> <STRONG> <label for="processInBatch">Process In Batch</label> </STRONG> &nbsp; &nbsp; &nbsp; &nbsp;  
+                    <input type="hidden" name="processInBatch{CheckboxPresentOnFormAnnotation}" value="true"/>
                     <html:checkbox styleId="matchCriteriaOnly" property="matchCriteriaOnly" /> <STRONG> <label for="matchCriteriaOnly">Output only records which match criteria?</label> </STRONG>
+                    <input type="hidden" name="matchCriteriaOnly{CheckboxPresentOnFormAnnotation}" value="true"/>
                   </center>
                 </td>
-              </tr>
+              </tr>  
               <c:if test="${KualiForm.restrictedFunctionalityMode == false}">
                 <tr>
                   <td>
@@ -465,6 +461,7 @@
                 <td>
                   <center>
                     <html:checkbox styleId="processInBatch" property="processInBatch" /> <STRONG> <label for="processInBatch">Process In Batch</label> </STRONG>
+                    <input type="hidden" name="processInBatch{CheckboxPresentOnFormAnnotation}" value="true"/>
                   </center>
                 </td>
               </tr>

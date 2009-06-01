@@ -37,6 +37,7 @@ import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderRetransmitDocument;
 import org.kuali.kfs.module.purap.exception.PurError;
+import org.kuali.kfs.module.purap.util.PurApDateFormatUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -309,7 +310,7 @@ public class PurchaseOrderPdf extends PurapPdf {
         Collection errors = new ArrayList();
 
         // Date format pattern: MM-dd-yyyy
-        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy", Locale.US);
+        SimpleDateFormat sdf = PurApDateFormatUtils.getSimpleDateFormat(PurapConstants.NamedDateFormats.KUALI_SIMPLE_DATE_FORMAT_2);
 
         // This turns on the page events that handle the header and page numbers.
         PurchaseOrderPdf events = new PurchaseOrderPdf().getPageEvents();

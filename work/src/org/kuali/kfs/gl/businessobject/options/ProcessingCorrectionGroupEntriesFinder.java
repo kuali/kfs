@@ -29,47 +29,27 @@ import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
- * This class returns a list of correction groups with a process flag set to yes key value pairs.
+ * Returns a list of done files in batch origin entry directory
  */
 public class ProcessingCorrectionGroupEntriesFinder extends KeyValuesBase {
 
     /**
-     * Returns a list of key-value pairs of origin entry groups with a process flag set to yes. The key is the correction id, and
-     * the value is the name of the origin entry group
-     * 
-     * @return a List of key value pair options
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> activeLabels = new ArrayList<KeyLabelPair>();
 
-//        OriginEntryGroupService originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
-//
-//
-//        Collection<OriginEntryGroup> groupList = originEntryGroupService.getAllOriginEntryGroup();
-//
-//        List<OriginEntryGroup> sortedGroupList = (List<OriginEntryGroup>) groupList;
-//
-//        OriginEntryGroup.GroupTypeComparator oegTypeComparator = new OriginEntryGroup.GroupTypeComparator();
-//        Collections.sort(sortedGroupList, oegTypeComparator);
-//
-//        for (OriginEntryGroup oeg : sortedGroupList) {
-//            if (oeg.getProcess().booleanValue() & !oeg.getSourceCode().startsWith("L")) {
-//                activeLabels.add(new KeyLabelPair(oeg.getId().toString(), oeg.getName()));
-//            }
-//        }
-
         OriginEntryGroupService originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
         File[] fileList = originEntryGroupService.getAllFileInBatchDirectory();
-        if (fileList != null){
-            for (File file : fileList){
+        if (fileList != null) {
+            for (File file : fileList) {
                 String fileName = file.getName();
-                if (fileName.contains(GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION)){
+                if (fileName.contains(GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION)) {
                     activeLabels.add(new KeyLabelPair(fileName, fileName));
                 }
-            }    
+            }
         }
-        
+
         return activeLabels;
     }
 

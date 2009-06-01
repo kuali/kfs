@@ -128,18 +128,18 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         for(BusinessObjectEntry businessObjectEntry:dataDictionary.getBusinessObjectEntries().values()){
             if ( !businessObjectEntry.getBusinessObjectClass().getName().startsWith("org.kuali.rice")
                     && !ignoreClasses.contains(businessObjectEntry.getBusinessObjectClass())) {
-                List<Class> iList = (List<Class>)Arrays.asList(businessObjectEntry.getBusinessObjectClass().getInterfaces());
-                try {
-                    if(iList.contains(Class.forName("org.kuali.rice.kns.bo.Inactivateable"))){
-                        LookupDefinition lookupDefinition = businessObjectEntry.getLookupDefinition();
-                        if(lookupDefinition != null && !(lookupDefinition.getLookupFieldNames().contains("active") && lookupDefinition.getLookupFieldNames().contains("active"))){
-                            noActiveFieldClassList.add(businessObjectEntry.getBusinessObjectClass());
-                        }
-                    }
-                }
-                catch (ClassNotFoundException e) {
-                    throw(e);
-                }
+//                List<Class> iList = (List<Class>)Arrays.asList(businessObjectEntry.getBusinessObjectClass().getInterfaces());
+//                try {
+//                    if(iList.contains(Class.forName("org.kuali.rice.kns.bo.Inactivateable"))){
+//                        LookupDefinition lookupDefinition = businessObjectEntry.getLookupDefinition();
+//                        if(lookupDefinition != null && !(lookupDefinition.getLookupFieldNames().contains("active") && lookupDefinition.getLookupFieldNames().contains("active"))){
+//                            noActiveFieldClassList.add(businessObjectEntry.getBusinessObjectClass());
+//                        }
+//                    }
+//                }
+//                catch (ClassNotFoundException e) {
+//                    throw(e);
+//                }
             }
         }
         assertEquals(noActiveFieldClassList.toString(), 0, noActiveFieldClassList.size());

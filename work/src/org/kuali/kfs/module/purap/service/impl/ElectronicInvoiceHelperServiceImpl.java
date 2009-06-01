@@ -1265,7 +1265,8 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                 newItem.setItemUnitPrice(discountValueToUse.bigDecimalValue());
                 newItem.setItemTypeCode(PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE);
                 newItem.setExtendedPrice(discountValueToUse);
-                preqDocument.addItem(newItem);
+                newItem.setPurapDocument(preqDocument);
+                preqDocument.addItem(newItem);                
             }
         }
         

@@ -5,13 +5,19 @@
       <name>GLCP</name>
       <parent>GL</parent>
       <docHandler>${application.url}/generalLedgerCorrection.do?methodToCall=docHandler</docHandler>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
       <routePaths>
         <routePath>
-          <start name="AdHoc"/>
+          <start name="AdHoc" nextNode="autoApproveForAsynchronousProcessing" />
+          <simple name="autoApproveForAsynchronousProcessing" />
         </routePath>
       </routePaths>
       <routeNodes>
-        <start name="AdHoc"/>
+        <start name="AdHoc" />
+        <simple name="autoApproveForAsynchronousProcessing">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
       </routeNodes>
     </documentType>
   </documentTypes>

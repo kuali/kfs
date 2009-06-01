@@ -21,15 +21,9 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.sql.Date;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 
 import org.kuali.kfs.gl.GeneralLedgerConstants;
-import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
-import org.kuali.kfs.gl.businessobject.OriginEntrySource;
-import org.kuali.kfs.gl.report.LedgerReport;
 import org.kuali.kfs.gl.report.LedgerSummaryReport;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.OriginEntryService;
@@ -50,7 +44,6 @@ public class ExtractTransactionsServiceImpl implements ExtractTransactionsServic
     private OriginEntryGroupService originEntryGroupService;
     private OriginEntryService originEntryService;
     private DateTimeService dateTimeService;
-    //private String reportsDirectory;
     private KualiConfigurationService kualiConfigurationService;
     private String batchFileDirectoryName;
     private ReportWriterService reportWriterService;
@@ -122,11 +115,6 @@ public class ExtractTransactionsServiceImpl implements ExtractTransactionsServic
 
             // Run a report
             extractGlSummaryReport.writeReport(reportWriterService);
-            Collection groups = new ArrayList();
-            LedgerEntryHolder ledgerEntries = originEntryService.getSummaryByGroupId(groups);
-
-//            LedgerReport ledgerReport = new LedgerReport();
-//            ledgerReport.generateReport(ledgerEntries, processDate, reportTitle, reportFilename, reportsDirectory);
         }
     }
 
@@ -145,10 +133,6 @@ public class ExtractTransactionsServiceImpl implements ExtractTransactionsServic
     public void setOriginEntryService(OriginEntryService originEntryService) {
         this.originEntryService = originEntryService;
     }
-
-//    public void setReportsDirectory(String rd) {
-//        this.reportsDirectory = rd;
-//    }
 
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;

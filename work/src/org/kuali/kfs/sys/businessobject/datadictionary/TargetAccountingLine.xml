@@ -191,23 +191,8 @@
   </bean>
   <bean id="TargetAccountingLine-referenceTypeCode" parent="TargetAccountingLine-referenceTypeCode-parentBean" />
 
-  <bean id="TargetAccountingLine-referenceTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="referenceTypeCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Reference Type Code" />
-    <property name="shortLabel" value="Ref Type Code" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
-    </property>
-    
-    
-  </bean>
+  <bean id="TargetAccountingLine-referenceTypeCode-parentBean" abstract="true" parent="GenericAttributes-referenceTypeCode"/>
+
   <bean id="TargetAccountingLine-projectCode" parent="TargetAccountingLine-projectCode-parentBean" />
 
   <bean id="TargetAccountingLine-projectCode-parentBean" abstract="true" parent="ProjectCode-code">

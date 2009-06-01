@@ -35,6 +35,16 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="LaborJournalVoucherDocument-offsetTypeCodeValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="laborJournalVoucherDocumentForValidation" />
+							</bean>
+						</list>
+					</property>
+				</bean>
 			</list>
 		</property>
 	</bean>
@@ -66,6 +76,16 @@
 		<property name="validations">
 			<list>
 				<bean parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype" />
+				<bean parent="LaborJournalVoucherDocument-offsetTypeCodeValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="laborJournalVoucherDocumentForValidation" />
+							</bean>
+						</list>
+					</property>
+				</bean>
 			</list>
 		</property>
 	</bean>
@@ -75,6 +95,16 @@
 		<property name="validations">
 			<list>
 				<bean parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" />
+				<bean parent="LaborJournalVoucherDocument-offsetTypeCodeValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="laborJournalVoucherDocumentForValidation" />
+							</bean>
+						</list>
+					</property>
+				</bean>
 			</list>
 		</property>
 	</bean>

@@ -28,25 +28,25 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * This class provides services related to the customer invoice document
  */
 public interface CustomerInvoiceDetailService {
-    
+
     /**
-     * This method returns a customer invoice detail for use on the CustomerInvoiceDocumentAction.  If corresponding
-     * organization accounting default exists for billing chart and org, then the customer invoice detail is defaulted
-     * using the organization accounting default values.
+     * This method returns a customer invoice detail for use on the CustomerInvoiceDocumentAction. If corresponding organization
+     * accounting default exists for billing chart and org, then the customer invoice detail is defaulted using the organization
+     * accounting default values.
      * 
      * @return
      */
     public CustomerInvoiceDetail getCustomerInvoiceDetailFromOrganizationAccountingDefault(Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode);
-    
+
     /**
-     * This method returns a customer invoice detail for current user and current fiscal year for use on the CustomerInvoiceDocumentAction.  If corresponding
-     * organization accounting default exists for billing chart and org, then the customer invoice detail is defaulted
-     * using the organization accounting default values.
+     * This method returns a customer invoice detail for current user and current fiscal year for use on the
+     * CustomerInvoiceDocumentAction. If corresponding organization accounting default exists for billing chart and org, then the
+     * customer invoice detail is defaulted using the organization accounting default values.
      * 
      * @return
      */
     public CustomerInvoiceDetail getCustomerInvoiceDetailFromOrganizationAccountingDefaultForCurrentYear();
-    
+
     /**
      * This method ...
      * 
@@ -54,32 +54,35 @@ public interface CustomerInvoiceDetailService {
      * @return
      */
     public List<String> getCustomerInvoiceDocumentNumbersByAccountNumber(String accountNumber);
-    
+
     /**
      * This method returns a customer invoice detail from a customer invoice item code for a current user
+     * 
      * @param invoiceItemCode
      * @return
      */
-    public CustomerInvoiceDetail getCustomerInvoiceDetailFromCustomerInvoiceItemCodeForCurrentUser( String invoiceItemCode );
-    
+    public CustomerInvoiceDetail getCustomerInvoiceDetailFromCustomerInvoiceItemCodeForCurrentUser(String invoiceItemCode);
+
     /**
      * This method...
+     * 
      * @param invoiceItemCode
      * @param chartOfAccountsCode
      * @param organizationCode
      * @return
      */
-    public CustomerInvoiceDetail getCustomerInvoiceDetailFromCustomerInvoiceItemCode( String invoiceItemCode, String chartOfAccountsCode, String organizationCode);
-    
+    public CustomerInvoiceDetail getCustomerInvoiceDetailFromCustomerInvoiceItemCode(String invoiceItemCode, String chartOfAccountsCode, String organizationCode);
+
     /**
      * This method returns a discount customer invoice detail based on a customer invoice detail, the chart of accounts code
+     * 
      * @param customerInvoiceDetail
      * @param chartOfAccountsCode
      * @param organizationCode
      * @return
      */
-    public CustomerInvoiceDetail getDiscountCustomerInvoiceDetail( CustomerInvoiceDetail customerInvoiceDetail, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode );
-    
+    public CustomerInvoiceDetail getDiscountCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode);
+
     /**
      * This method returns a discount customer invoice detail for the current year
      * 
@@ -88,57 +91,70 @@ public interface CustomerInvoiceDetailService {
      * @param organizationCode
      * @return
      */
-    public CustomerInvoiceDetail getDiscountCustomerInvoiceDetailForCurrentYear( CustomerInvoiceDetail customerInvoiceDetail, CustomerInvoiceDocument customerInvoiceDocument );
- 
+    public CustomerInvoiceDetail getDiscountCustomerInvoiceDetailForCurrentYear(CustomerInvoiceDetail customerInvoiceDetail, CustomerInvoiceDocument customerInvoiceDocument);
+
     /**
      * This method returns a customer invoice detail for the current year
      * 
      * @param documentNumber
      * @param sequenceNumber
      * @return
-     */    
-    public CustomerInvoiceDetail getCustomerInvoiceDetail(String documentNumber,Integer sequenceNumber);
-    
+     */
+    public CustomerInvoiceDetail getCustomerInvoiceDetail(String documentNumber, Integer sequenceNumber);
+
     /**
      * This method is used to recalculate a customer invoice detail based on updated values
+     * 
      * @param customerInvoiceDetail
      */
-    public void recalculateCustomerInvoiceDetail( CustomerInvoiceDocument document, CustomerInvoiceDetail customerInvoiceDetail );
-    
+    public void recalculateCustomerInvoiceDetail(CustomerInvoiceDocument document, CustomerInvoiceDetail customerInvoiceDetail);
+
     /**
      * This method is used to update account for corresponding discount line based on parent line's account
+     * 
      * @param parentDiscountCustomerInvoiceDetail
      */
-    public void updateAccountsForCorrespondingDiscount( CustomerInvoiceDetail parentDiscountCustomerInvoiceDetail );
-    
+    public void updateAccountsForCorrespondingDiscount(CustomerInvoiceDetail parentDiscountCustomerInvoiceDetail);
+
     /**
      * This method is used update the accounts receivable object code if receivable options 1 or 2 are selected.
+     * 
      * @param customerInvoiceDetail
      */
-    public void updateAccountsReceivableObjectCode( CustomerInvoiceDetail customerInvoiceDetail );
-    
+    public void updateAccountsReceivableObjectCode(CustomerInvoiceDetail customerInvoiceDetail);
+
     /**
      * This method returns the correct accounts receivable object code based on a receivable parameter.
+     * 
      * @return
      */
-    public String getAccountsReceivableObjectCodeBasedOnReceivableParameter( CustomerInvoiceDetail customerInvoiceDetail);
-    
+    public String getAccountsReceivableObjectCodeBasedOnReceivableParameter(CustomerInvoiceDetail customerInvoiceDetail);
+
     /**
      * This method is used make sure the amounts are calculated correctly and the correct AR object code is in place
+     * 
      * @param customerInvoiceDetail
      */
-    public void prepareCustomerInvoiceDetailForAdd( CustomerInvoiceDetail customerInvoiceDetail, CustomerInvoiceDocument customerInvoiceDocument );
+    public void prepareCustomerInvoiceDetailForAdd(CustomerInvoiceDetail customerInvoiceDetail, CustomerInvoiceDocument customerInvoiceDocument);
 
     /**
      * @param customerInvoiceDocument
      * @return
      */
     public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForInvoice(CustomerInvoiceDocument customerInvoiceDocument);
-    
+
     /**
      * @param customerInvoiceDocumentNumber
      * @return
      */
     public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForInvoice(String customerInvoiceDocumentNumber);
+
+    /**
+     * Cached for better performance...
+     * 
+     * @param customerInvoiceDocumentNumber
+     * @return List of customer invoice details
+     */
+    public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForInvoiceWithCaching(String customerInvoiceDocumentNumber);
 
 }

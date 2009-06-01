@@ -7,17 +7,25 @@
       <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="InvoiceRecurrenceIsInactivating"/>
-          <split name="InvoiceRecurrenceIsInactivating" nextNode="Account">
+          <split name="InvoiceRecurrenceIsInactivating" nextNode="InitiatedBySystemUser">
             <branch name="True">
-              <requests name="RecurrenceCreator" nextNode="JoinInvoiceRecurrenceIsInactivating"/>
+              <requests name="RecurrenceCreator" nextNode="JoinInvoiceRecurrenceIsInactivating" />
             </branch>
             <branch name="False">
-              <simple name="NoOpInvoiceRecurrenceIsInactivating" nextNode="JoinInvoiceRecurrenceIsInactivating"/>
+              <simple name="NoOpInvoiceRecurrenceIsInactivating" nextNode="JoinInvoiceRecurrenceIsInactivating" />
             </branch>
-            <join name="JoinInvoiceRecurrenceIsInactivating"/>
+            <join name="JoinInvoiceRecurrenceIsInactivating" />
           </split>
-          <requests name="Account" nextNode="Recurrence"/>
-          <requests name="Recurrence"/>
+          <split name="InitiatedBySystemUser">
+          	<branch name="True">
+          		<simple name="NoOpInitiatedBySystemUser" nextNode="JoinInitiatedBySystemUser" />
+          	</branch>
+          	<branch name="False">
+	          <requests name="Account" nextNode="Recurrence" />
+	          <requests name="Recurrence" nextNode="JoinInitiatedBySystemUser" />
+          	</branch>
+            <join name="JoinInitiatedBySystemUser"/>
+          </split>
         </routePath>
       </routePaths>
       <routeNodes>
@@ -41,6 +49,13 @@
           <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
         </simple>
         <join name="JoinInvoiceRecurrenceIsInactivating"/>
+        <split name="InitiatedBySystemUser">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <simple name="NoOpInitiatedBySystemUser">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <join name="JoinInitiatedBySystemUser"/>
       </routeNodes>
     </documentType>
   </documentTypes>

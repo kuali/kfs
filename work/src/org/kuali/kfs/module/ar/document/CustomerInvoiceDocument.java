@@ -34,6 +34,7 @@ import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceGLPEService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.TaxDetail;
@@ -1111,9 +1112,8 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         }
         else {
             // set new user session to recurrence initiator
-            String initiator = this.getCustomerInvoiceRecurrenceDetails().getDocumentInitiatorUserPersonUserIdentifier();
             UserSession currentSession = GlobalVariables.getUserSession();
-            GlobalVariables.setUserSession(new UserSession(initiator));
+            GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
 
             // populate InvoiceRecurrence business object
             InvoiceRecurrence newInvoiceRecurrence = new InvoiceRecurrence();

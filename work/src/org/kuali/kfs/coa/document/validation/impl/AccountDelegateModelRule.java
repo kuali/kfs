@@ -16,20 +16,16 @@
 package org.kuali.kfs.coa.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.AccountDelegate;
-import org.kuali.kfs.coa.businessobject.AccountDelegateModelDetail;
 import org.kuali.kfs.coa.businessobject.AccountDelegateModel;
-import org.kuali.kfs.coa.service.AccountDelegateService;
+import org.kuali.kfs.coa.businessobject.AccountDelegateModelDetail;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
+import org.kuali.kfs.sys.document.service.FinancialSystemDocumentTypeService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -115,8 +111,8 @@ public class AccountDelegateModelRule extends MaintenanceDocumentRuleBase {
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
         setupConvenienceObjects();
-        final AccountDelegateService delegateService = SpringContext.getBean(AccountDelegateService.class);
-        return checkSimpleRulesForOrganizationRoutingModel(document, this.model, (AccountDelegateModelDetail) line, delegateService);
+        final FinancialSystemDocumentTypeService documentService = SpringContext.getBean(FinancialSystemDocumentTypeService.class);
+        return checkSimpleRulesForOrganizationRoutingModel(document, this.model, (AccountDelegateModelDetail) line, documentService);
     }
 
     /**
@@ -131,10 +127,10 @@ public class AccountDelegateModelRule extends MaintenanceDocumentRuleBase {
         success &= checkModelNameHasAtLeastOneModel(globalDelegateTemplate);
 
         int line = 0;
-        final AccountDelegateService delegateService = SpringContext.getBean(AccountDelegateService.class);
+        final FinancialSystemDocumentTypeService documentService = SpringContext.getBean(FinancialSystemDocumentTypeService.class);
         for (AccountDelegateModelDetail delegateModel : globalDelegateTemplate.getAccountDelegateModelDetails()) {
             GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_ERROR_PATH + ".accountDelegateModelDetails[" + line + "].");
-            success &= checkSimpleRulesForOrganizationRoutingModel(document, globalDelegateTemplate, delegateModel, delegateService);
+            success &= checkSimpleRulesForOrganizationRoutingModel(document, globalDelegateTemplate, delegateModel, documentService);
             GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_ERROR_PATH + ".accountDelegateModelDetails[" + line + "].");
             line++;
         }
@@ -146,7 +142,7 @@ public class AccountDelegateModelRule extends MaintenanceDocumentRuleBase {
      * 
      * @return true if model passes all the checks, false if otherwise
      */
-    protected boolean checkSimpleRulesForOrganizationRoutingModel(MaintenanceDocument document, AccountDelegateModel globalDelegateTemplate, AccountDelegateModelDetail delegateModel, AccountDelegateService delegateService) {
+    protected boolean checkSimpleRulesForOrganizationRoutingModel(MaintenanceDocument document, AccountDelegateModel globalDelegateTemplate, AccountDelegateModelDetail delegateModel, FinancialSystemDocumentTypeService documentService) {
         boolean success = true;
 
         if (delegateModel.isActive()) {
@@ -154,7 +150,7 @@ public class AccountDelegateModelRule extends MaintenanceDocumentRuleBase {
             success &= checkDelegateToAmountGreaterThanFromAmount(delegateModel);
             success &= checkDelegateUserRules(document, delegateModel);
             success &= checkPrimaryRoutePerDocType(globalDelegateTemplate, delegateModel);
-            success &= checkDelegateDocumentTypeCode(delegateModel.getFinancialDocumentTypeCode(), delegateService);
+            success &= checkDelegateDocumentTypeCode(delegateModel.getFinancialDocumentTypeCode(), documentService);
         }
 
         return success;
@@ -325,8 +321,8 @@ public class AccountDelegateModelRule extends MaintenanceDocumentRuleBase {
      * @param delegateService a helpful instance of the delegate service, so new ones don't have to be created all the time
      * @return true if the document type code is valid, false otherwise
      */
-    protected boolean checkDelegateDocumentTypeCode(String documentTypeCode, AccountDelegateService delegateService) {
-        if (!delegateService.isFinancialSystemDocumentType(documentTypeCode)) {
+    protected boolean checkDelegateDocumentTypeCode(String documentTypeCode, FinancialSystemDocumentTypeService documentService) {
+        if (!documentService.isFinancialSystemDocumentType(documentTypeCode)) {
             putFieldError("financialDocumentTypeCode", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_INVALID_DOC_TYPE, new String[] { documentTypeCode, KFSConstants.ROOT_DOCUMENT_TYPE });
             return false;
         }

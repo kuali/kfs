@@ -381,5 +381,7 @@
 			</list>
 		</property>
 	</bean>
+	
+    <bean id="AccountingDocument-newAccountingLineBranchingValidation" class="org.kuali.kfs.sys.document.validation.impl.AccountingLineBranchingValidation" abstract="true" />
 
 </beans>

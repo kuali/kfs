@@ -24,11 +24,16 @@ import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.AwardAccount;
 import org.kuali.kfs.module.cg.businessobject.AwardOrganization;
 import org.kuali.kfs.module.cg.businessobject.AwardProjectDirector;
+import org.kuali.kfs.module.cg.businessobject.AwardSubcontractor;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -90,8 +95,8 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
     /**
      * checks to see if:
      * <ol>
-     * <li> a proposal has already been awarded
-     * <li> a proposal is inactive
+     * <li>a proposal has already been awarded
+     * <li>a proposal is inactive
      * </ol>
      * 
      * @return
@@ -146,4 +151,126 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         newAwardCopy = (Award) super.getNewBo();
     }
 
+    /**
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
+     *      java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
+     */
+    @Override
+    public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject bo) {
+        boolean success = true;
+
+        if (bo instanceof AwardProjectDirector) {
+            AwardProjectDirector awardProjectDirector = (AwardProjectDirector) bo;
+            success = this.checkAwardProjectDirector(awardProjectDirector);
+        }
+        else if (bo instanceof AwardAccount) {
+            AwardAccount awardAccount = (AwardAccount) bo;
+            success = this.checkAwardAccount(awardAccount);
+        }
+        else if (bo instanceof AwardSubcontractor) {
+            AwardSubcontractor awardSubcontractor = (AwardSubcontractor) bo;
+            success = this.checkAwardSubcontractor(awardSubcontractor);
+        }
+        else if (bo instanceof AwardOrganization) {
+            AwardOrganization awardOrganization = (AwardOrganization) bo;
+            success = this.checkAwardOrganization(awardOrganization);
+        }
+
+        return success;
+    }
+
+    // check if the given award organization exists
+    private boolean checkAwardOrganization(AwardOrganization awardOrganization) {
+        boolean success = true;
+        int originalErrorCount = GlobalVariables.getErrorMap().getErrorCount();
+        String errorPathPrefix = KFSConstants.MAINTENANCE_ADD_PREFIX + KFSPropertyConstants.AWARD_ORGRANIZATIONS + ".";
+
+        this.getDictionaryValidationService().validateBusinessObject(awardOrganization);
+        if (StringUtils.isNotBlank(awardOrganization.getOrganizationCode()) && StringUtils.isNotBlank(awardOrganization.getChartOfAccountsCode())) {
+            awardOrganization.refreshReferenceObject(KFSPropertyConstants.ORGANIZATION);
+
+            if (ObjectUtils.isNull(awardOrganization.getOrganization())) {
+                String label = this.getDataDictionaryService().getAttributeLabel(AwardOrganization.class, KFSPropertyConstants.ORGANIZATION_CODE);
+                String message = label + "(" + awardOrganization.getOrganizationCode() + ")";
+
+                putFieldError(errorPathPrefix + KFSPropertyConstants.ORGANIZATION_CODE, KFSKeyConstants.ERROR_EXISTENCE, message);
+            }
+        }
+
+        success &= GlobalVariables.getErrorMap().getErrorCount() == originalErrorCount;
+
+        return success;
+    }
+
+    // check if the given award subcontrator exists
+    private boolean checkAwardSubcontractor(AwardSubcontractor awardSubcontractor) {
+        boolean success = true;
+        int originalErrorCount = GlobalVariables.getErrorMap().getErrorCount();
+        String errorPathPrefix = KFSConstants.MAINTENANCE_ADD_PREFIX + KFSPropertyConstants.AWARD_SUBCONTRACTORS + ".";
+
+        this.getDictionaryValidationService().validateBusinessObject(awardSubcontractor);
+        if (StringUtils.isNotBlank(awardSubcontractor.getSubcontractorNumber())) {
+            awardSubcontractor.refreshReferenceObject("subcontractor");
+
+            if (ObjectUtils.isNull(awardSubcontractor.getSubcontractor())) {
+                String label = this.getDataDictionaryService().getAttributeLabel(AwardSubcontractor.class, KFSPropertyConstants.SUBCONTRACTOR_NUMBER);
+                String message = label + "(" + awardSubcontractor.getSubcontractorNumber() + ")";
+
+                putFieldError(errorPathPrefix + KFSPropertyConstants.SUBCONTRACTOR_NUMBER, KFSKeyConstants.ERROR_EXISTENCE, message);
+            }
+        }
+
+        success &= GlobalVariables.getErrorMap().getErrorCount() == originalErrorCount;
+
+        return success;
+    }
+
+    // check if the given award account exists
+    private boolean checkAwardAccount(AwardAccount awardAccount) {
+        boolean success = true;
+        int originalErrorCount = GlobalVariables.getErrorMap().getErrorCount();
+        String errorPathPrefix = KFSConstants.MAINTENANCE_ADD_PREFIX + KFSPropertyConstants.AWARD_ACCOUNTS + ".";
+
+        this.getDictionaryValidationService().validateBusinessObject(awardAccount);
+        if (StringUtils.isNotBlank(awardAccount.getAccountNumber()) && StringUtils.isNotBlank(awardAccount.getChartOfAccountsCode())) {
+            awardAccount.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
+
+            if (ObjectUtils.isNull(awardAccount.getAccount())) {
+                String label = this.getDataDictionaryService().getAttributeLabel(AwardAccount.class, KFSPropertyConstants.ACCOUNT_NUMBER);
+                String message = label + "(" + awardAccount.getChartOfAccountsCode() + "-" + awardAccount.getAccountNumber() + ")";
+
+                putFieldError(errorPathPrefix + KFSPropertyConstants.ACCOUNT_NUMBER, KFSKeyConstants.ERROR_EXISTENCE, message);
+            }
+        }
+
+        Person projectDirector = awardAccount.getProjectDirector();
+        if (StringUtils.isBlank(awardAccount.getPrincipalId()) || ObjectUtils.isNull(projectDirector)) {
+            String label = this.getDataDictionaryService().getAttributeLabel(AwardAccount.class, "projectDirector.principalName");
+            String message = label + "(" + awardAccount.getPrincipalId() + ")";
+
+            putFieldError(errorPathPrefix + "projectDirector.principalName", KFSKeyConstants.ERROR_EXISTENCE, message);
+        }
+
+        success &= GlobalVariables.getErrorMap().getErrorCount() == originalErrorCount;
+
+        return success;
+    }
+
+    // check if the given award project director exists
+    private boolean checkAwardProjectDirector(AwardProjectDirector awardProjectDirector) {
+        boolean success = true;
+
+        Person projectDirector = awardProjectDirector.getProjectDirector();
+        if (StringUtils.isBlank(awardProjectDirector.getPrincipalId()) || ObjectUtils.isNull(projectDirector)) {
+            String errorPath = KFSConstants.MAINTENANCE_ADD_PREFIX + KFSPropertyConstants.AWARD_PROJECT_DIRECTORS + "." + "projectDirector.principalName";
+            String label = this.getDataDictionaryService().getAttributeLabel(AwardProjectDirector.class, "projectDirector.principalName");
+            String message = label + "(" + awardProjectDirector.getPrincipalId() + ")";
+            
+            putFieldError(errorPath, KFSKeyConstants.ERROR_EXISTENCE, message);
+
+            success &= false;
+        }
+
+        return success;
+    }
 }

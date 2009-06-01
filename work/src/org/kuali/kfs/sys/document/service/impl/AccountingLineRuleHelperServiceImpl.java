@@ -38,6 +38,8 @@ import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
+import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
+import org.kuali.kfs.sys.document.service.FinancialSystemDocumentTypeService;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.datadictionary.DataDictionary;
@@ -49,6 +51,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHelperService {
     private static Logger LOG = Logger.getLogger(AccountingLineRuleHelperServiceImpl.class);
     private DataDictionaryService dataDictionaryService;
+    private FinancialSystemDocumentTypeService financialSystemDocumentTypeService;
 
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#getAccountLabel()
@@ -435,9 +438,8 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
             valid &= isValidReferenceOriginCode(referenceOrigin, accountingLineEntry);
         }
         if (StringUtils.isNotBlank(accountingLine.getReferenceTypeCode())) {
-//            accountingLine.refreshReferenceObject("referenceFinancialSystemDocumentTypeCode");
             DocumentTypeEBO referenceType = accountingLine.getReferenceFinancialSystemDocumentTypeCode();
-            valid &= isValidReferenceTypeCode(referenceType, accountingLineEntry);
+            valid &= isValidReferenceTypeCode(accountingLine.getReferenceTypeCode(), referenceType, accountingLineEntry);
         }
         valid &= hasRequiredOverrides(accountingLine, accountingLine.getOverrideCode());
         return valid;
@@ -450,18 +452,23 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
      * @param accountingLineEntry
      * @return boolean True if the object is valid; false otherwise.
      */
-    protected static boolean isValidReferenceOriginCode(OriginationCode referenceOriginCode, BusinessObjectEntry accountingLineEntry) {
+    protected boolean isValidReferenceOriginCode(OriginationCode referenceOriginCode, BusinessObjectEntry accountingLineEntry) {
         return checkExistence(referenceOriginCode, accountingLineEntry, KFSPropertyConstants.REFERENCE_ORIGIN_CODE, KFSPropertyConstants.REFERENCE_ORIGIN_CODE);
     }
     
     /**
      * This method will check the reference type code for existence in the system and whether it can actively be used.
      * 
+     * @param documentTypeCode the document type name of the reference document type
      * @param referenceType
      * @param accountingLineEntry
      * @return boolean True if the object is valid; false otherwise.
      */
-    protected static boolean isValidReferenceTypeCode(DocumentTypeEBO referenceType, BusinessObjectEntry accountingLineEntry) {
+    protected boolean isValidReferenceTypeCode(String documentTypeCode, DocumentTypeEBO referenceType, BusinessObjectEntry accountingLineEntry) {
+        if (!StringUtils.isBlank(documentTypeCode) && !getFinancialSystemDocumentTypeService().isCurrentActiveAccountingDocumentType(documentTypeCode)) {
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.REFERENCE_TYPE_CODE, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_NON_ACTIVE_CURRENT_ACCOUNTING_DOCUMENT_TYPE, documentTypeCode);
+            return false;
+        }
         return checkExistence(referenceType, accountingLineEntry, KFSPropertyConstants.REFERENCE_TYPE_CODE, KFSPropertyConstants.REFERENCE_TYPE_CODE);
     }
     
@@ -475,7 +482,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
      * @param propertyName the name of the property within the global error path.
      * @return whether the given Object exists or not
      */
-    private static boolean checkExistence(Object toCheck, BusinessObjectEntry accountingLineEntry, String attributeName, String propertyName) {
+    private boolean checkExistence(Object toCheck, BusinessObjectEntry accountingLineEntry, String attributeName, String propertyName) {
         String label = accountingLineEntry.getAttributeDefinition(attributeName).getShortLabel();
         if (ObjectUtils.isNull(toCheck)) {
             GlobalVariables.getErrorMap().putError(propertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
@@ -494,5 +501,21 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     
     public DataDictionaryService getDataDictionaryService() {
         return this.dataDictionaryService;
+    }
+
+    /**
+     * Gets the financialSystemDocumentTypeService attribute. 
+     * @return Returns the financialSystemDocumentTypeService.
+     */
+    public FinancialSystemDocumentTypeService getFinancialSystemDocumentTypeService() {
+        return financialSystemDocumentTypeService;
+    }
+
+    /**
+     * Sets the financialSystemDocumentTypeService attribute value.
+     * @param financialSystemDocumentTypeService The financialSystemDocumentTypeService to set.
+     */
+    public void setFinancialSystemDocumentTypeService(FinancialSystemDocumentTypeService financialSystemDocumentTypeService) {
+        this.financialSystemDocumentTypeService = financialSystemDocumentTypeService;
     }
 }

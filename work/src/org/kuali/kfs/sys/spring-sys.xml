@@ -479,7 +479,12 @@
     
     <bean id="accountingLineRuleHelperService" class="org.kuali.kfs.sys.document.service.impl.AccountingLineRuleHelperServiceImpl">
     	<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
+    	<property name="financialSystemDocumentTypeService" ref="financialSystemDocumentTypeService" />
     </bean>
+    
+    <bean id="financialSystemDocumentTypeService" class="org.kuali.kfs.sys.document.service.impl.FinancialSystemDocumentTypeServiceImpl">
+  	<property name="dataDictionaryService" ref="dataDictionaryService" />
+  </bean>
     
     <bean id="electronicPaymentClaimingService" class="org.kuali.kfs.sys.service.impl.ElectronicPaymentClaimingServiceImpl">
     	<property name="documentService"><ref bean="documentService" /></property>

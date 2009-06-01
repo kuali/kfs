@@ -261,6 +261,8 @@ public class CollectorBatch implements Serializable {
      * @param collectorReportData report data
      */
     public void setDefaultsAndStore(CollectorReportData collectorReportData) {
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);  
+        
         // persistHeader is used to persist a collector header record into the DB
         CollectorHeader persistHeader = createCollectorHeaderForStorage();
         CollectorHeader foundHeader = retrieveDuplicateHeader();
@@ -269,10 +271,9 @@ public class CollectorBatch implements Serializable {
             // update the version number to prevent OptimisticLockingExceptions
             persistHeader.setVersionNumber(foundHeader.getVersionNumber());
         }
-
-        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);        
+        businessObjectService.save(persistHeader);
+              
         int countOfdetails = collectorDetails.size();
-        
         for (int numSavedDetails = 0; numSavedDetails < countOfdetails; numSavedDetails++) {
             CollectorDetail idDetail = this.collectorDetails.get(numSavedDetails);           
             setDefaultsCollectorDetail(idDetail);

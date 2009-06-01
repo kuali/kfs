@@ -18,7 +18,6 @@ package org.kuali.kfs.module.ar.document.service.impl;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -28,14 +27,12 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode;
-import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableTaxService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -48,6 +45,7 @@ import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.spring.CacheNoCopy;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -90,7 +88,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
         customerInvoiceDetail.setInvoiceItemUnitOfMeasureCode(ArConstants.CUSTOMER_INVOICE_DETAIL_UOM_DEFAULT);
         // KULAR-448 customerInvoiceDetail.setInvoiceItemServiceDate(dateTimeService.getCurrentSqlDate());
         customerInvoiceDetail.setTaxableIndicator(false);
-        
+
         return customerInvoiceDetail;
     }
 
@@ -133,7 +131,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
             customerInvoiceDetail.setInvoiceItemUnitOfMeasureCode(customerInvoiceItemCode.getDefaultUnitOfMeasureCode());
             customerInvoiceDetail.setInvoiceItemQuantity(customerInvoiceItemCode.getItemDefaultQuantity());
             customerInvoiceDetail.setTaxableIndicator(customerInvoiceItemCode.isTaxableIndicator());
-            
+
             // KULAR-448 customerInvoiceDetail.setInvoiceItemServiceDate(dateTimeService.getCurrentSqlDate());
 
             // TODO set sales tax accordingly
@@ -222,7 +220,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
 
         KualiDecimal taxAmount = KualiDecimal.ZERO;
         if (accountsReceivableTaxService.isCustomerInvoiceDetailTaxable(customerInvoiceDocument, customerInvoiceDetail)) {
-            
+
             String postalCode = accountsReceivableTaxService.getPostalCodeForTaxation(customerInvoiceDocument);
             taxAmount = taxService.getTotalSalesTaxAmount(dateTimeService.getCurrentSqlDate(), postalCode, pretaxAmount);
         }
@@ -265,6 +263,17 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getCustomerInvoiceDetailsForInvoice(java.lang.String)
      */
     public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForInvoice(String customerInvoiceDocumentNumber) {
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put("documentNumber", customerInvoiceDocumentNumber);
+
+        return businessObjectService.findMatching(CustomerInvoiceDetail.class, criteria);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getCustomerInvoiceDetailsForInvoiceWithCaching(java.lang.String)
+     */
+    @CacheNoCopy
+    public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForInvoiceWithCaching(String customerInvoiceDocumentNumber) {
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("documentNumber", customerInvoiceDocumentNumber);
 
@@ -370,12 +379,12 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     public void setTaxService(TaxService taxService) {
         this.taxService = taxService;
     }
-    
+
     public AccountsReceivableTaxService getAccountsReceivableTaxService() {
         return accountsReceivableTaxService;
     }
 
     public void setAccountsReceivableTaxService(AccountsReceivableTaxService accountsReceivableTaxService) {
         this.accountsReceivableTaxService = accountsReceivableTaxService;
-    }    
+    }
 }

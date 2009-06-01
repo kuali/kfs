@@ -73,6 +73,7 @@ public class KFSKeyConstants {
     public static final String ERROR_DOCUMENT_ACCOUNTING_PERIOD_CLOSED = "error.document.accountingPeriod.closed";
     public static final String ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS = "error.document.accountingPeriod.twoPeriods";
     public static final String ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS = "error.document.journalVoucher.amountsInCreditAndDebitFields";
+    public static final String ERROR_DOCUMENT_LABOR_JOURNAL_VOUCHER_OFFSET_TYPE_CODE_NON_ACTIVE_CURRENT_ACCOUNTING_DOCUMENT_TYPE = "error.document.laborJournalVoucher.offsetTypeCodeNonActiveCurrentAccountDocumentType";
     public static final String ERROR_DOCUMENT_AV_INCORRECT_FISCAL_YEAR_AVRC = "error.document.auxiliaryVoucher.incorrectFiscalYearAVRC";
     public static final String ERROR_DOCUMENT_AV_INCORRECT_POST_PERIOD_AVRC = "error.document.auxiliaryVoucher.incorrectPostPeriodAVRC";
     public static final String ERROR_DOCUMENT_TOF_OBJECT_SUB_TYPE_NOT_MANDATORY_OR_NON_MANDATORY_TRANSFER = "error.document.transferOfFunds.objectSubTypeCodeNotMandatoryOrNonMandatoryTransfer";
@@ -112,6 +113,7 @@ public class KFSKeyConstants {
     public static final String ERROR_DOCUMENT_ACCOUNTING_LINE_SALES_TAX_REQUIRED = "error.document.accountingLine.salesTaxRequired";
     public static final String ERROR_DOCUMENT_ACCOUNTING_LINE_INVALID_ACCT_OBJ_CD = "error.document.accountingLine.invalidAccountAndObjectCode";
     public static final String ERROR_DOCUMENT_ACCOUNTING_LINE_SALES_TAX_INVALID_ACCOUNT = "error.document.accountingLine.salesTax.invalidAccountChart";
+    public static final String ERROR_DOCUMENT_ACCOUNTING_LINE_NON_ACTIVE_CURRENT_ACCOUNTING_DOCUMENT_TYPE = "error.document.accountingLine.nonActiveCurrentAccountingDocumentType";
 
     // General Maintenance Document Error Messages
     public static final String ERROR_DOCUMENT_AUTHORIZATION_RESTRICTED_FIELD_CHANGED = "error.document.maintenance.authorization.restrictedFieldChanged";
@@ -857,6 +859,7 @@ public class KFSKeyConstants {
     public static final String TO_AMOUNT_OUT_OF_RANGE = "error.member.toamount.outofrange";
     public static final String FROM_AMOUNT_OUT_OF_RANGE = "error.member.fromamount.outofrange";
     public static final String INVALID_DOCTYPE_SELECTED = "error.invalid.doctype.selected";
+    public static final String ERROR_CHART_OR_ORG_NOTEMPTY_ALL_REQUIRED = "error.chart.or.org.notempty.all.required";
 
     public static final String WORKFLOW_DIRECTORY = "data.xml.root.location";
     public static final String INGESTION_DIRECTORY = "ingestion";

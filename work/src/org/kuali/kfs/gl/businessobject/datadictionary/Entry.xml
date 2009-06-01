@@ -131,16 +131,8 @@
   </bean>
   <bean id="Entry-financialDocumentTypeCode" parent="Entry-financialDocumentTypeCode-parentBean" />
 
-  <bean id="Entry-financialDocumentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Entry-financialDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-generalLedgerFinancialSystemDocumentTypeCode">
     <property name="name" value="financialDocumentTypeCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Document Type Code" />
-    <property name="shortLabel" value="Doc. Type Code" />
-    <property name="maxLength" value="4" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
-    </property>
   </bean>
   <bean id="Entry-financialSystemOriginationCode" parent="Entry-financialSystemOriginationCode-parentBean" />
 
@@ -236,16 +228,9 @@
   </bean>
   <bean id="Entry-referenceFinancialDocumentTypeCode" parent="Entry-referenceFinancialDocumentTypeCode-parentBean" />
 
-  <bean id="Entry-referenceFinancialDocumentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Entry-referenceFinancialDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-referenceTypeCode">
     <property name="name" value="referenceFinancialDocumentTypeCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Reference Document Type Code" />
-    <property name="shortLabel" value="Ref Doc Type Code" />
     <property name="maxLength" value="4" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
-    </property>
   </bean>
   <bean id="Entry-referenceFinancialSystemOriginationCode" parent="Entry-referenceFinancialSystemOriginationCode-parentBean" />
 

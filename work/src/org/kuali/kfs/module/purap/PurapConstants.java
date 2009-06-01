@@ -840,6 +840,16 @@ public class PurapConstants extends JSTLConstants {
         public static final String SYSTEM_SWITCHING_QUESTION = "SystemSwitchingQuestion";
     }
 
+    public static class NamedDateFormats {
+        public static String CXML_DATE_FORMAT = "CXML_DATE_FORMAT";
+        public static String CXML_SIMPLE_DATE_FORMAT = "CXML_SIMPLE_DATE_FORMAT";
+        public static String CXML_SIMPLE_TIME_FORMAT = "CXML_SIMPLE_TIME_FORMAT";
+        public static String KUALI_DATE_FORMAT = "KUALI_DATE_FORMAT";
+        public static String KUALI_SIMPLE_DATE_FORMAT = "KUALI_SIMPLE_DATE_FORMAT";
+        public static String KUALI_SIMPLE_DATE_FORMAT_2 = "KUALI_SIMPLE_DATE_FORMAT_2";
+        
+    }
+    
     /**
      * Electronic Invoice Constants
      */
@@ -852,15 +862,6 @@ public class PurapConstants extends JSTLConstants {
         // ELECTRONIC INVOICE REJECT REASON TYPE CODES
         public static String REJECT_REASON_TYPE_FILE = "FILE";
         public static String REJECT_REASON_TYPE_ORDER = "INVC";
-
-        /*
-         * Format below with 0's is so if vendor sends time information we will only check the year, month and date. The only
-         * requirement elsewhere in the code is that the year/month/date come at the beginning of the CXML date format.
-         */
-        public static String CXML_DATE_FORMAT = "0000-00-00";
-        public static String CXML_SIMPLE_DATE_FORMAT = "yyyy-MM-dd";
-        public static String KUALI_DATE_FORMAT = "00/00/0000";
-        public static String KUALI_SIMPLE_DATE_FORMAT = "MM/dd/yyyy";
 
         // ELECTRONIC INVOICE CXML DEPLOYMENT MODE CODE FOR PRODUCTION
         public static String CXML_DEPLOYMENT_MODE_PRODUCTION = "production";

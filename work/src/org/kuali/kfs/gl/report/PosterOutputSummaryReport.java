@@ -87,7 +87,7 @@ public class PosterOutputSummaryReport {
             PosterOutputSummaryBalanceTypeFiscalYearAndPeriodTotal balanceTypeFiscalYearAndPeriodTotal = new PosterOutputSummaryBalanceTypeFiscalYearAndPeriodTotal(currentBalanceTypeCode, currentFiscalYear, currentFiscalPeriod);
         
             final String titleMessage = configurationService.getPropertyString(KFSKeyConstants.MESSAGE_REPORT_POSTER_OUTPUT_SUMMARY_TITLE_LINE);
-            String formattedTitle = MessageFormat.format(titleMessage, entries.get(0).getUniversityFiscalYear(), entries.get(0).getBalanceTypeCode());
+            String formattedTitle = MessageFormat.format(titleMessage, entries.get(0).getUniversityFiscalYear().toString(), entries.get(0).getBalanceTypeCode());
             
             reportWriterService.writeFormattedMessageLine(formattedTitle);
             reportWriterService.writeTableHeader(entries.get(0));
@@ -105,7 +105,7 @@ public class PosterOutputSummaryReport {
                     
                     // new top-level header for balance types
                     reportWriterService.pageBreak();
-                    formattedTitle = MessageFormat.format(titleMessage, currentFiscalYear, currentBalanceTypeCode);
+                    formattedTitle = MessageFormat.format(titleMessage, currentFiscalYear.toString(), currentBalanceTypeCode);
                     reportWriterService.writeFormattedMessageLine(formattedTitle);
                     reportWriterService.writeTableHeader(entry);
                 } else if (!entry.getUniversityFiscalYear().equals(currentFiscalYear)) {

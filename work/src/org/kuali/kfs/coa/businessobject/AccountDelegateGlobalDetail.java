@@ -25,8 +25,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kew.service.impl.KEWModuleService;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.GlobalBusinessObjectDetailBase;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * 
@@ -184,7 +186,7 @@ public class AccountDelegateGlobalDetail extends GlobalBusinessObjectDetailBase 
     }
 
     public Person getAccountDelegate() {
-        accountDelegate = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(accountDelegateUniversalId, accountDelegate);
+        accountDelegate = SpringContext.getBean(PersonService.class).updatePersonIfNecessary(accountDelegateUniversalId, accountDelegate);        
         return accountDelegate;
     }
 

@@ -538,7 +538,9 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
                     if (apDocument.getDocumentSpecificService().poItemEligibleForAp(apDocument, purchaseOrderItem)) {
                         // if eligible and not there - add
                         if (ObjectUtils.isNull(cmItem)) {
-                            cmItems.add(new CreditMemoItem(cm, purchaseOrderItem));
+                            CreditMemoItem cmi = new CreditMemoItem(cm, purchaseOrderItem);
+                            cmi.setPurapDocument(apDocument);
+                            cmItems.add(cmi);
                         }
                         else {
                             // is eligible and on doc, update encumberances
@@ -581,7 +583,9 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
                 if (apDocument.getDocumentSpecificService().poItemEligibleForAp(apDocument, purchaseOrderItem)) {
                     // if eligible and not there - add
                     if (ObjectUtils.isNull(preqItem)) {
-                        preqItems.add(new PaymentRequestItem(purchaseOrderItem, preq));
+                        PaymentRequestItem pri = new PaymentRequestItem(purchaseOrderItem, preq);
+                        pri.setPurapDocument(apDocument);
+                        preqItems.add(pri);
                     }
                     else {
                         updatePossibleAmmendedFields(purchaseOrderItem, preqItem);

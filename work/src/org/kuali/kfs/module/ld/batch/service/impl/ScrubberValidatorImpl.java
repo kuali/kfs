@@ -304,7 +304,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         today.setTime(universityRunDate.getUniversityDate());
 
         long offsetAccountExpirationTime = getAdjustedAccountExpirationDate(account);
-        boolean isAccountExpiredOrClosed = (account.getAccountExpirationDate() != null && isExpired(offsetAccountExpirationTime, today)) || !account.isActive();
+        boolean isAccountExpiredOrClosed = (account.getAccountExpirationDate() != null && isAccountExpired(account, universityRunDate)) || !account.isActive();
         boolean continuationAccountLogicInd = parameterService.getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.CONTINUATION_ACCOUNT_LOGIC_PARAMETER);
 
         if (continuationAccountLogicInd && isAccountExpiredOrClosed) {
@@ -319,7 +319,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                 return null;
             }
 
-            return continuationAccountLogic(account, laborOriginEntry, laborWorkingEntry, today);
+            return continuationAccountLogic(account, laborOriginEntry, laborWorkingEntry, universityRunDate);
         }
 
         return null;
@@ -328,7 +328,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     /**
      * Loops through continuation accounts for 10 tries or until it finds an account that is not expired.
      */
-    private Message continuationAccountLogic(Account expiredClosedAccount, LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, Calendar today) {
+    private Message continuationAccountLogic(Account expiredClosedAccount, LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate) {
         String chartCode = expiredClosedAccount.getContinuationFinChrtOfAcctCd();
         String accountNumber = expiredClosedAccount.getContinuationAccountNumber();
 
@@ -353,7 +353,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
             // check account expiration
             long offsetAccountExpirationTime = getAdjustedAccountExpirationDate(account);
-            if (ObjectUtils.isNotNull(account.getAccountExpirationDate()) && isExpired(offsetAccountExpirationTime, today)) {
+            if (ObjectUtils.isNotNull(account.getAccountExpirationDate()) && isAccountExpired(account, universityRunDate)) {
                 chartCode = account.getContinuationFinChrtOfAcctCd();
                 accountNumber = account.getContinuationAccountNumber();
             }
@@ -443,21 +443,6 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     }
 
     /**
-     * Checking whether or not the account is expired
-     */
-    private boolean isExpired(long offsetAccountExpirationTime, Calendar runCalendar) {
-        Calendar expirationDate = Calendar.getInstance();
-        expirationDate.setTimeInMillis(offsetAccountExpirationTime);
-
-        int expirationYear = expirationDate.get(Calendar.YEAR);
-        int runYear = runCalendar.get(Calendar.YEAR);
-        int expirationDoy = expirationDate.get(Calendar.DAY_OF_YEAR);
-        int runDoy = runCalendar.get(Calendar.DAY_OF_YEAR);
-
-        return (expirationYear < runYear) || (expirationYear == runYear && expirationDoy < runDoy);
-    }
-
-    /**
      * This method changes account to suspenseAccount
      */
     private Message useSuspenseAccount(LaborOriginEntry workingEntry) {
@@ -541,7 +526,14 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         return null;
         
     }
+    
 
+    /**
+     * @see org.kuali.kfs.gl.service.ScrubberValidator#isAccountExpired(org.kuali.kfs.coa.businessobject.Account, org.kuali.kfs.sys.businessobject.UniversityDate)
+     */
+    public boolean isAccountExpired(Account account, UniversityDate universityRunDate) {
+        return scrubberValidator.isAccountExpired(account, universityRunDate);
+    }
 
     public void validateForInquiry(GeneralLedgerPendingEntry entry) {
     }

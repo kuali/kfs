@@ -271,7 +271,7 @@
 	</bean>
 
 	<bean id="pdpDailyReportService" class="org.kuali.kfs.pdp.batch.service.impl.DailyReportServiceImpl">
-		<property name="directoryName" value="${reports.directory}/pdp"/>
+		<property name="directoryName" value="${reports.directory}/pdp/"/>
 		<property name="dateTimeService" ref="dateTimeService"/>
 		<property name="paymentDetailDao" ref="pdpPaymentDetailDao"/>
 		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
@@ -297,7 +297,6 @@
 		<property name="originEntryGroupService" ref="originEntryGroupService" />
 		<property name="originEntryService" ref="originEntryService" />
 		<property name="dateTimeService" ref="dateTimeService" />
-<!-- 		<property name="reportsDirectory" value="${reports.directory}/pdp"/>  -->
 		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 		<property name="reportWriterService" ref="pdpExtractGlTransactionsReportWriterService" />
@@ -340,11 +339,11 @@
 	
 	<bean id="pdpGlPendingTransactionService" class="org.kuali.kfs.pdp.service.impl.PendingTransactionServiceImpl">
 		<property name="glPendingTransactionDao" ref="pdpGlPendingTransactionDao"/>
-		<property name="chartService" ref="chartService"/>
 		<property name="accountingPeriodService" ref="accountingPeriodService"/>
 		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
 		<property name="dateTimeService" ref="dateTimeService"/>
 		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="bankService" ref="bankService"/>
 	</bean>
 
 	<bean id="pdpPaymentDetailService" class="org.kuali.kfs.pdp.service.impl.PaymentDetailServiceImpl">
@@ -573,7 +572,7 @@
     <bean id="pdpAuthorizationService" class="org.kuali.kfs.pdp.service.impl.PdpAuthorizationServiceImpl">
 	</bean>
 
-    <bean id="pdpExtractGlTransactionsReportWriterService" parent="reportWriterService">
+	    <bean id="pdpExtractGlTransactionsReportWriterService" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/pdp"/>
 		<property name="fileNamePrefix" value="pdp_ledger_"/>
         <property name="title" value="PDP Transactions"/>
@@ -584,8 +583,7 @@
         		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryDetailLine" value="ledgerSummaryDetailLineReportHelper" />
         	</map>
         </property>
-    </bean>
-
+	</bean>
 
 </beans>
 

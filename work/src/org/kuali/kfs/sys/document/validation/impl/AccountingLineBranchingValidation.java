@@ -13,14 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.fp.document.validation.impl;
+package org.kuali.kfs.sys.document.validation.impl;
 
-import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.validation.BranchingValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
-public class ProcurementCardNewAccountingLineBranchingValidation extends BranchingValidation {
+public class AccountingLineBranchingValidation extends BranchingValidation {
     
     public static final String IS_NEW_LINE = "isNewLine";
     public static final String IS_OLD_LINE = "isOldLine";

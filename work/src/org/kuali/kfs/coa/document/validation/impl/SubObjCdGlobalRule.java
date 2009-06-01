@@ -27,6 +27,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * 
@@ -205,7 +206,7 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
         getDictionaryValidationService().validateBusinessObject(dtl);
         if (StringUtils.isNotBlank(dtl.getAccountNumber()) && StringUtils.isNotBlank(dtl.getChartOfAccountsCode())) {
             dtl.refreshReferenceObject("account");
-            if (dtl.getAccount() == null) {
+            if (ObjectUtils.isNull(dtl.getAccount())) {
                 GlobalVariables.getErrorMap().putError("accountNumber", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_INVALID_ACCOUNT, new String[] { dtl.getChartOfAccountsCode(), dtl.getAccountNumber() });
             }
         }
@@ -229,7 +230,7 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
             dtl.refreshReferenceObject("financialObject");
             dtl.refreshReferenceObject("universityFiscal");
             dtl.refreshReferenceObject("chartOfAccounts");
-            if (dtl.getChartOfAccounts() == null || dtl.getUniversityFiscal() == null || dtl.getFinancialObject() == null) {
+            if (ObjectUtils.isNull(dtl.getChartOfAccounts()) || ObjectUtils.isNull(dtl.getUniversityFiscal()) || ObjectUtils.isNull(dtl.getFinancialObject())) {
                 GlobalVariables.getErrorMap().putError("financialObjectCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_SUBOBJECTMAINT_INVALID_OBJECT_CODE, new String[] { dtl.getFinancialObjectCode(), dtl.getChartOfAccountsCode(), dtl.getUniversityFiscalYear().toString() });
             }
         }
@@ -355,7 +356,7 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
         boolean success = true;
         String errorPath = KFSConstants.EMPTY_STRING;
         // first must have an actual fiscal year
-        if (socChangeDetail.getUniversityFiscal() == null) {
+        if (ObjectUtils.isNull(socChangeDetail.getUniversityFiscal())) {
             if (add) {
                 errorPath = KFSConstants.MAINTENANCE_ADD_PREFIX + KFSPropertyConstants.SUB_OBJ_CODE_CHANGE_DETAILS + "." + "universityFiscalYear";
                 putFieldError(errorPath, KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_SUBOBJECTMAINT_FISCAL_YEAR_MUST_EXIST);

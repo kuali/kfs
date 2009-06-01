@@ -504,9 +504,7 @@ public class PosterServiceImpl implements PosterService {
                     continue;
                 }
                 
-                //TODO: Shawn - need to ask Jeff. set it null as temp
-                //IndirectCostRecoveryGenerationMetadata icrGenerationMetadata = retrieveSubAccountIndirectCostRecoveryMetadata(et, reportErrors);
-                IndirectCostRecoveryGenerationMetadata icrGenerationMetadata = null;
+                IndirectCostRecoveryGenerationMetadata icrGenerationMetadata = retrieveSubAccountIndirectCostRecoveryMetadata(et);
                 if (icrGenerationMetadata == null) {
                     // ICR information was not set up properly for sub-account, default to using ICR information from the account
                     icrGenerationMetadata = retrieveAccountIndirectCostRecoveryMetadata(et);
@@ -545,9 +543,6 @@ public class PosterServiceImpl implements PosterService {
                             reportWriterService.writeError(et, warnings);
                         }
 
-                        // generateTransactions(et, icrEntry, generatedTransactionAmount, runDate, OUTPUT_GLE_FILE_ps,
-                        // reportErrors);
-                        //TODO: Shawn - need to check with Jeff
                         generateTransactions(et, icrEntry, generatedTransactionAmount, runDate, OUTPUT_GLE_FILE_ps, icrGenerationMetadata);
                         
                         reportOriginEntryGenerated = reportOriginEntryGenerated + 2;
@@ -738,9 +733,7 @@ public class PosterServiceImpl implements PosterService {
      * @param reportErrors
      * @return null if the ET does not have a SubAccount properly set up for ICR
      */
-    protected IndirectCostRecoveryGenerationMetadata retrieveSubAccountIndirectCostRecoveryMetadata(ExpenditureTransaction et, Map<ExpenditureTransaction, List<Message>> reportErrors) {
-        // SubAccount subAccount = subAccountService.getByPrimaryId(et.getChartOfAccountsCode(), et.getAccountNumber(),
-        // et.getSubAccountNumber());
+    protected IndirectCostRecoveryGenerationMetadata retrieveSubAccountIndirectCostRecoveryMetadata(ExpenditureTransaction et) {
         SubAccount subAccount = accountingCycleCachingService.getSubAccount(et.getChartOfAccountsCode(), et.getAccountNumber(), et.getSubAccountNumber());
         if (ObjectUtils.isNotNull(subAccount)) {
             subAccount.setA21SubAccount(accountingCycleCachingService.getA21SubAccount(et.getChartOfAccountsCode(), et.getAccountNumber(), et.getSubAccountNumber()));
@@ -751,6 +744,10 @@ public class PosterServiceImpl implements PosterService {
             if (StringUtils.isBlank(a21SubAccount.getIndirectCostRecoveryTypeCode()) && StringUtils.isBlank(a21SubAccount.getFinancialIcrSeriesIdentifier()) && StringUtils.isBlank(a21SubAccount.getIndirectCostRecoveryChartOfAccountsCode()) && StringUtils.isBlank(a21SubAccount.getIndirectCostRecoveryAccountNumber())) {
                 // all ICR fields were blank, therefore, this sub account was not set up for ICR
                 return null;
+            }
+            // refresh the indirect cost recovery account, accounting cycle style!
+            if (!StringUtils.isBlank(a21SubAccount.getChartOfAccountsCode()) && !StringUtils.isBlank(a21SubAccount.getAccountNumber())) {
+                a21SubAccount.setIndirectCostRecoveryAccount(accountingCycleCachingService.getAccount(a21SubAccount.getChartOfAccountsCode(), a21SubAccount.getAccountNumber()));
             }
 
             // these fields will be used to construct warning messages
@@ -767,7 +764,7 @@ public class PosterServiceImpl implements PosterService {
             if (StringUtils.isBlank(a21SubAccount.getIndirectCostRecoveryTypeCode()) || ObjectUtils.isNull(a21SubAccount.getIndirectCostRecoveryType())) {
                 String errorFieldName = dataDictionaryService.getAttributeShortLabel(A21SubAccount.class, KFSPropertyConstants.INDIRECT_COST_RECOVERY_TYPE_CODE);
                 String warningMessage = MessageFormat.format(warningMessagePattern, errorFieldName, subAccountBOLabel, subAccountValue, accountBOLabel, accountValue);
-                addIndirectCostRecoveryReportError(et, Message.TYPE_WARNING, warningMessage, reportErrors);
+                reportWriterService.writeError(et, new Message(warningMessage, Message.TYPE_WARNING));
                 subAccountOK = false;
             }
 
@@ -779,7 +776,7 @@ public class PosterServiceImpl implements PosterService {
                 if (indirectCostRecoveryRate == null) {
                     String errorFieldName = dataDictionaryService.getAttributeShortLabel(A21SubAccount.class, KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER);
                     String warningMessage = MessageFormat.format(warningMessagePattern, errorFieldName, subAccountBOLabel, subAccountValue, accountBOLabel, accountValue);
-                    addIndirectCostRecoveryReportError(et, Message.TYPE_WARNING, warningMessage, reportErrors);
+                    reportWriterService.writeError(et, new Message(warningMessage, Message.TYPE_WARNING));
                     subAccountOK = false;
                 }
             }
@@ -787,7 +784,7 @@ public class PosterServiceImpl implements PosterService {
             if (StringUtils.isBlank(a21SubAccount.getIndirectCostRecoveryChartOfAccountsCode()) || StringUtils.isBlank(a21SubAccount.getIndirectCostRecoveryAccountNumber()) || ObjectUtils.isNull(a21SubAccount.getIndirectCostRecoveryAccount())) {
                 String errorFieldName = dataDictionaryService.getAttributeShortLabel(A21SubAccount.class, KFSPropertyConstants.INDIRECT_COST_RECOVERY_CHART_OF_ACCOUNTS_CODE) + "/" + dataDictionaryService.getAttributeShortLabel(A21SubAccount.class, KFSPropertyConstants.INDIRECT_COST_RECOVERY_ACCOUNT_NUMBER);
                 String warningMessage = MessageFormat.format(warningMessagePattern, errorFieldName, subAccountBOLabel, subAccountValue, accountBOLabel, accountValue);
-                addIndirectCostRecoveryReportError(et, Message.TYPE_WARNING, warningMessage, reportErrors);
+                reportWriterService.writeError(et, new Message(warningMessage, Message.TYPE_WARNING));
                 subAccountOK = false;
             }
 
@@ -809,30 +806,14 @@ public class PosterServiceImpl implements PosterService {
         Account account = et.getAccount();
 
         IndirectCostRecoveryGenerationMetadata metadata = new IndirectCostRecoveryGenerationMetadata();
+        
         metadata.setFinancialIcrSeriesIdentifier(account.getFinancialIcrSeriesIdentifier());
         metadata.setIndirectCostRecoveryTypeCode(account.getAcctIndirectCostRcvyTypeCd());
         metadata.setIndirectCostRecoveryChartOfAccountsCode(account.getIndirectCostRcvyFinCoaCode());
         metadata.setIndirectCostRecoveryAccountNumber(account.getIndirectCostRecoveryAcctNbr());
         metadata.setIndirectCostRecoveryAccount(account.getIndirectCostRecoveryAcct());
-        return metadata;
-    }
 
-    /**
-     * Registers an error or warning message to an {@link ExpenditureTransaction}, and does not overwrite any other error messages
-     * associated with it.
-     * 
-     * @param et the {@link ExpenditureTransaction} being processed that needs to be associated with a message
-     * @param messageType one of {@link Message#TYPE_FATAL} or {@link Message#TYPE_WARNING}, probably the latter
-     * @param messageText the message text
-     * @param reportErrors the mappings of {@link ExpenditureTransaction}s to messages
-     */
-    protected void addIndirectCostRecoveryReportError(ExpenditureTransaction et, int messageType, String messageText, Map<ExpenditureTransaction, List<Message>> reportErrors) {
-        List<Message> messages = reportErrors.get(et);
-        if (messages == null) {
-            messages = new ArrayList<Message>();
-            reportErrors.put(et, messages);
-        }
-        messages.add(new Message(messageText, messageType));
+        return metadata;
     }
 
     /**

@@ -202,7 +202,7 @@
   </bean>
   <bean id="LedgerEntry-financialDocumentTypeCode" parent="LedgerEntry-financialDocumentTypeCode-parentBean" />
 
-  <bean id="LedgerEntry-financialDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
+  <bean id="LedgerEntry-financialDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-generalLedgerFinancialSystemDocumentTypeCode">
     <property name="name" value="financialDocumentTypeCode" />
   </bean>
   <bean id="LedgerEntry-financialSystemOriginationCode" parent="LedgerEntry-financialSystemOriginationCode-parentBean" />
@@ -464,19 +464,9 @@
   </bean>
   <bean id="LedgerEntry-referenceFinancialDocumentTypeCode" parent="LedgerEntry-referenceFinancialDocumentTypeCode-parentBean" />
 
-  <bean id="LedgerEntry-referenceFinancialDocumentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="LedgerEntry-referenceFinancialDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-referenceTypeCode">
     <property name="name" value="referenceFinancialDocumentTypeCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Reference Document Type Code" />
-    <property name="shortLabel" value="Code" />
     <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
-    </property>
   </bean>
   <bean id="LedgerEntry-referenceFinancialSystemOriginationCode" parent="LedgerEntry-referenceFinancialSystemOriginationCode-parentBean" />
 

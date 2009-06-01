@@ -34,7 +34,6 @@ import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
-import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetComponent;
 import org.kuali.kfs.module.cam.businessobject.AssetFabrication;
@@ -519,7 +518,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      */
     private boolean setAssetLock(MaintenanceDocument document) {
         Asset asset = (Asset) document.getNewMaintainableObject().getBusinessObject();
-        return this.getCapitalAssetManagementModuleService().storeAssetLocks(retrieveAssetNumberForLocking(asset), document.getDocumentNumber(), DocumentTypeName.ASSET_EDIT, null);
+        return this.getCapitalAssetManagementModuleService().storeAssetLocks(retrieveAssetNumberForLocking(asset), document.getDocumentNumber(), CamsConstants.DocumentTypeName.ASSET_EDIT, null);
     }
 
     protected CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {

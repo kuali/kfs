@@ -32,11 +32,11 @@ public class CustomerInvoiceDocumentAuthorizer extends AccountingDocumentAuthori
     @Override
     protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
         super.addRoleQualification(businessObject, attributes);
-        
+
         CustomerInvoiceDocument document = (CustomerInvoiceDocument) businessObject;
         CustomerInvoiceDocumentService invoiceDocService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
-        Collection<CustomerInvoiceDetail> invoiceDetails = invoiceDocService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(document);
-        
+        Collection<CustomerInvoiceDetail> invoiceDetails = invoiceDocService.getCustomerInvoiceDetailsForCustomerInvoiceDocumentWithCaching(document);
+
         for (CustomerInvoiceDetail invoiceDetail : invoiceDetails) {
             if (StringUtils.isNotBlank(invoiceDetail.getChartOfAccountsCode()) && StringUtils.isNotBlank(invoiceDetail.getAccountNumber())) {
                 attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, invoiceDetail.getChartOfAccountsCode());
@@ -44,6 +44,5 @@ public class CustomerInvoiceDocumentAuthorizer extends AccountingDocumentAuthori
             }
         }
     }
-    
-}
 
+}

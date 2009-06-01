@@ -84,8 +84,12 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     p:shortLabel="Override Code" />
 
   <bean id="KfsKimAttributes-subFundGroupCode" parent="SubFundGroup-subFundGroupCode" />
-  <bean id="KfsKimAttributes-purchasingCommodityCode" parent="CommodityCode-purchasingCommodityCode" />
-  <bean id="KfsKimAttributes-contractManagerCode" parent="ContractManager-contractManagerCode" />
+  <bean id="KfsKimAttributes-purchasingCommodityCode" parent="CommodityCode-purchasingCommodityCode">
+    <property name="required" value="true" />
+  </bean>
+  <bean id="KfsKimAttributes-contractManagerCode" parent="ContractManager-contractManagerCode" >
+    <property name="required" value="true" />
+  </bean>
 
   <bean id="KfsKimAttributes-customerProfileId" parent="KfsKimAttributes-customerProfileId-parentBean" />
   <bean id="KfsKimAttributes-customerProfileId-parentBean" abstract="true" parent="CustomerProfile-id"
@@ -100,12 +104,15 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.VendorTypeValuesFinder"
             p:includeKeyInLabel="true" />
     </property>
+    <property name="required" value="true" />
   </bean>
   <bean id="KfsKimAttributes-contractsAndGrantsAccountResponsibilityId" parent="Account-contractsAndGrantsAccountResponsibilityId" />
 
   <bean id="KfsKimAttributes-disbursementVoucherPaymentMethodCode" parent="KfsKimAttributes-disbursementVoucherPaymentMethodCode-parentBean" />
   <bean id="KfsKimAttributes-disbursementVoucherPaymentMethodCode-parentBean" abstract="true" parent="DisbursementVoucherDocument-disbVchrPaymentMethodCode"
-  	p:name="disbursementVoucherPaymentMethodCode" />
+  	p:name="disbursementVoucherPaymentMethodCode">
+  	<property name="required" value="true"/>
+  </bean>
 
   <bean id="KfsKimAttributes-subAccountNumber" parent="SubAccount-subAccountNumber" />
 
@@ -125,6 +132,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="KfsKimAttributes-descendHierarchy-parentBean" abstract="true" parent="GenericAttributes-genericBoolean"
     p:name="descendHierarchy"
     p:label="Descends Hierarchy"
-    p:shortLabel="Descends Hierarchy" />
+    p:shortLabel="Descends Hierarchy"
+    p:required="true" />
 
 </beans>

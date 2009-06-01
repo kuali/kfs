@@ -9,6 +9,7 @@
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>        
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderDocumentPresentationController"/>
+	<property name="documentSearchGeneratorClass" value="org.kuali.kfs.module.purap.document.workflow.PurchaseOrderWarningSearchGenerator"/>
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderDocumentPreRules"/>
     <property name="attachmentTypesValuesFinderClass" value="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderAttachmentTypeValuesFinder"/>
     <property name="allowsCopy" value="true"/>

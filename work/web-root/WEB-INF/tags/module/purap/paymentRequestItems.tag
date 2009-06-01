@@ -27,6 +27,7 @@
 <c:set var="clearAllTaxes" value="${(not empty KualiForm.editingMode['clearAllTaxes'])}" />
 <c:set var="purapTaxEnabled" value="${(not empty KualiForm.editingMode['purapTaxEnabled'])}" />
 <c:set var="tabindexOverrideBase" value="50" />
+<c:set var="fullDocEntryCompleted" value="${(not empty KualiForm.editingMode['fullDocumentEntryCompleted'])}" />
 
 <c:set var="descriptionColSpan" value="3"/>
 <c:if test="${purapTaxEnabled}">
@@ -132,7 +133,7 @@
 			        <kul:htmlControlAttribute
 				        attributeEntry="${itemAttributes.itemQuantity}"
 				        property="document.item[${ctr}].itemQuantity"
-				        readOnly="${ not (fullEntryMode) or (KualiForm.document.items[ctr].itemType.amountBasedGeneralLedgerIndicator) }" 
+				        readOnly="${ (not (fullEntryMode) or (fullDocEntryCompleted)) or (KualiForm.document.items[ctr].itemType.amountBasedGeneralLedgerIndicator) }" 
 				        tabindexOverride="${tabindexOverrideBase + 0}" />				        
 				</div>
 			</td>
@@ -142,7 +143,7 @@
                         <kul:htmlControlAttribute
                             attributeEntry="${itemAttributes.itemUnitPrice}"
                             property="document.item[${ctr}].itemUnitPrice"
-                            readOnly="${not (fullEntryMode) }" 
+                            readOnly="${(not (fullEntryMode) or (fullDocEntryCompleted))}" 
                             tabindexOverride="${tabindexOverrideBase + 0}" />
                     </c:if>
                     <c:if test="${KualiForm.document.items[ctr].itemType.amountBasedGeneralLedgerIndicator}">
@@ -158,7 +159,7 @@
 			        <kul:htmlControlAttribute
 				        attributeEntry="${itemAttributes.extendedPrice}"
 				        property="document.item[${ctr}].extendedPrice" 
-				        readOnly="${not (fullEntryMode)}" 
+				        readOnly="${(not (fullEntryMode) or (fullDocEntryCompleted))}" 
 				        tabindexOverride="${tabindexOverrideBase + 0}" />
 			    </div>
 			</td>

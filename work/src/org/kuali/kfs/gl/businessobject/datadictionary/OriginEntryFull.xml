@@ -134,13 +134,8 @@
   </bean>
   <bean id="OriginEntryFull-financialDocumentTypeCode" parent="OriginEntryFull-financialDocumentTypeCode-parentBean" />
 
-  <bean id="OriginEntryFull-financialDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
+  <bean id="OriginEntryFull-financialDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-generalLedgerFinancialSystemDocumentTypeCode">
     <property name="name" value="financialDocumentTypeCode" />
-    <property name="shortLabel" value="DocTypCd" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
-    </property>
   </bean>
   <bean id="OriginEntryFull-transactionEncumbranceUpdateCode" parent="OriginEntryFull-transactionEncumbranceUpdateCode-parentBean" />
 
@@ -244,14 +239,9 @@
   </bean>
   <bean id="OriginEntryFull-referenceFinancialDocumentTypeCode" parent="OriginEntryFull-referenceFinancialDocumentTypeCode-parentBean" />
 
-  <bean id="OriginEntryFull-referenceFinancialDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
+  <bean id="OriginEntryFull-referenceFinancialDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-referenceTypeCode">
     <property name="name" value="referenceFinancialDocumentTypeCode" />
-    <property name="label" value="Reference Document Type Code" />
-    <property name="shortLabel" value="RefDocTypCd" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
-    </property>
+    <property name="maxLength" value="4" />
   </bean>
   <bean id="OriginEntryFull-referenceFinancialSystemOriginationCode" parent="OriginEntryFull-referenceFinancialSystemOriginationCode-parentBean" />
 

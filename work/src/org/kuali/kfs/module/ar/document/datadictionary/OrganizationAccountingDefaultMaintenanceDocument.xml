@@ -49,6 +49,7 @@
     
     <property name="documentTypeName" value="OADF"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.OrganizationAccountingDefaultRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.OrganizationAccountingDefaultMaintenanceDocumentAuthorizer"/>
     <property name="workflowAttributes">
     	<ref bean="OrganizationAccountingDefaultMaintenanceDocument-workflowAttributes"/>
     </property>

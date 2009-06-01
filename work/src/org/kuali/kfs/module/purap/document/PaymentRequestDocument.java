@@ -586,6 +586,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         //fix up below the line items
         SpringContext.getBean(PaymentRequestService.class).removeIneligibleAdditionalCharges(this);
         
+        this.fixItemReferences();
         this.refreshNonUpdateableReferences();
     }
 
@@ -742,7 +743,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
 
             // everything in the below list requires correcting entries to be written to the GL
             if (NodeDetailEnum.getNodesRequiringCorrectingGeneralLedgerEntries().contains(currentNode)) {
-                if (NodeDetailEnum.ACCOUNT_REVIEW.getName().equals(currentNode) || NodeDetailEnum.VENDOR_TAX_APPROVE.getName().equals(currentNode)) {
+                if (NodeDetailEnum.ACCOUNT_REVIEW.getName().equals(currentNode) || NodeDetailEnum.VENDOR_TAX_REVIEW.getName().equals(currentNode)) {
                     SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesModifyPaymentRequest(this);
                 }
             }

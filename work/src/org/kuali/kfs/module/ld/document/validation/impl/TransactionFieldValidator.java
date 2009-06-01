@@ -251,7 +251,7 @@ public class TransactionFieldValidator {
      * @return null if the document type code is valid; otherwise, return error message
      */
     public static Message checkFinancialDocumentTypeCode(LaborTransaction transaction) {
-        if (StringUtils.isBlank(transaction.getFinancialDocumentTypeCode()) || !getAccountingCycleCachingService().isCurrentActiveDocumentType(transaction.getFinancialDocumentTypeCode())) {
+        if (StringUtils.isBlank(transaction.getFinancialDocumentTypeCode()) || !getAccountingCycleCachingService().isCurrentActiveAccountingDocumentType(transaction.getFinancialDocumentTypeCode())) {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_DOCUMENT_TYPE_NOT_FOUND, transaction.getFinancialDocumentTypeCode(), Message.TYPE_FATAL);
         }
         return null;

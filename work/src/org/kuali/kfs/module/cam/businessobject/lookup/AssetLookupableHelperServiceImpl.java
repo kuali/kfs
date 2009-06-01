@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.cam.businessobject.lookup;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -32,16 +33,15 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
@@ -52,7 +52,8 @@ import org.kuali.rice.kns.web.ui.Row;
 public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetLookupableHelperServiceImpl.class);
 
-    AssetService assetService;
+    protected AssetService assetService;
+    private PersonService personService;
 
     /**
      * Custom action urls for Asset.
@@ -221,6 +222,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
 
     /**
      * Overridden to fix a field conversion
+     * 
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getRows()
      */
     @Override
@@ -231,6 +233,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
 
     /**
      * Overridden to fix a field conversion
+     * 
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#setRows()
      */
     @Override
@@ -238,7 +241,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         super.setRows();
         convertOrganizationOwnerAccountField();
     }
-    
+
     /**
      * Goes through all the rows, making sure that problematic field conversions are fixed
      */
@@ -260,14 +263,53 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
             i += 1;
         }
     }
-    
+
     /**
-     * Fixes the field conversions - replaces "organizationOwnerAccount.chartOfAccountsCode" with "organizationOwnerChartOfAccountsCode"
+     * Fixes the field conversions - replaces "organizationOwnerAccount.chartOfAccountsCode" with
+     * "organizationOwnerChartOfAccountsCode"
+     * 
      * @param fieldConversions the original field conversions
      * @return the fixed field conversions
      */
     protected String fixProblematicField(String problemChildField) {
-        if (StringUtils.isBlank(problemChildField)) return problemChildField;
+        if (StringUtils.isBlank(problemChildField))
+            return problemChildField;
         return problemChildField.replace(CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNTS_COA_CODE, CamsPropertyConstants.Asset.ORGANIZATION_OWNER_CHART_OF_ACCOUNTS_CODE);
+    }
+
+    @Override
+    protected List<? extends BusinessObject> getSearchResultsHelper(Map<String, String> fieldValues, boolean unbounded) {
+        // perform the lookup on the asset representative first
+        String principalName = fieldValues.get(CamsPropertyConstants.Asset.REP_USER_AUTH_ID);
+        if (StringUtils.isNotBlank(principalName)) {
+            Person person = personService.getPersonByPrincipalName(principalName);
+
+            if (person == null) {
+                return Collections.EMPTY_LIST;
+            }
+            // place the universal ID into the fieldValues map and remove the dummy attribute
+            fieldValues.put(CamsPropertyConstants.Asset.REPRESENTATIVE_UNIVERSAL_IDENTIFIER, person.getPrincipalId());
+            fieldValues.remove(CamsPropertyConstants.Asset.REP_USER_AUTH_ID);
+        }
+
+        return super.getSearchResultsHelper(fieldValues, unbounded);
+    }
+
+    /**
+     * Gets the personService attribute.
+     * 
+     * @return Returns the personService.
+     */
+    public PersonService getPersonService() {
+        return personService;
+    }
+
+    /**
+     * Sets the personService attribute value.
+     * 
+     * @param personService The personService to set.
+     */
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
     }
 }

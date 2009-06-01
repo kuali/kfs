@@ -187,9 +187,8 @@ public class PurapWorkflowConstants {
             SUB_ACCOUNT_REVIEW("SubAccount", PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW, PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE, false), 
             ACCOUNT_REVIEW("Account", PaymentRequestStatuses.AWAITING_FISCAL_REVIEW, PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE, true), 
             ORG_REVIEW("AccountingOrganizationHierarchy", PaymentRequestStatuses.AWAITING_ORG_REVIEW, PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE, false), 
-            VENDOR_TAX_REVIEW("VendorIsEmployeeOrNonResidentAlien", PaymentRequestStatuses.AWAITING_TAX_REVIEW, PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE, false),
-            VENDOR_TAX_APPROVE("Tax", PaymentRequestStatuses.DEPARTMENT_APPROVED, PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE, true);
-
+            VENDOR_TAX_REVIEW("Tax", PaymentRequestStatuses.AWAITING_TAX_REVIEW, PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE, true);
+            
             private final String name;
             private final String awaitingStatusCode;
             private final String disapprovedStatusCode;

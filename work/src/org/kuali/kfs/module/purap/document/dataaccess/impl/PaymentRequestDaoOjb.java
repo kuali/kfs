@@ -337,7 +337,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
      * @param qbc - query with criteria
      * @return - list of payment requests
      */
-    private List getPaymentRequestsByQueryByCriteria(QueryByCriteria qbc) {
+    private List<PaymentRequestDocument> getPaymentRequestsByQueryByCriteria(QueryByCriteria qbc) {
         LOG.debug("getPaymentRequestsByQueryByCriteria() started");
         List l = (List) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
         return l;
@@ -351,7 +351,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
      * @param invoiceNumber - invoice number as entered by AP
      * @return - List of payment requests.
      */
-    public List getActivePaymentRequestsByVendorNumberInvoiceNumber(Integer vendorHeaderGeneratedId, Integer vendorDetailAssignedId, String invoiceNumber) {
+    public List<PaymentRequestDocument> getActivePaymentRequestsByVendorNumberInvoiceNumber(Integer vendorHeaderGeneratedId, Integer vendorDetailAssignedId, String invoiceNumber) {
         LOG.debug("getActivePaymentRequestsByVendorNumberInvoiceNumber() started");
         Criteria criteria = new Criteria();
         criteria.addEqualTo("vendorHeaderGeneratedIdentifier", vendorHeaderGeneratedId);
@@ -365,7 +365,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
      * @see org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao#getActivePaymentRequestsByPOIdInvoiceAmountInvoiceDate(java.lang.Integer,
      *      org.kuali.rice.kns.util.KualiDecimal, java.sql.Date)
      */
-    public List getActivePaymentRequestsByPOIdInvoiceAmountInvoiceDate(Integer poId, KualiDecimal vendorInvoiceAmount, Date invoiceDate) {
+    public List<PaymentRequestDocument> getActivePaymentRequestsByPOIdInvoiceAmountInvoiceDate(Integer poId, KualiDecimal vendorInvoiceAmount, Date invoiceDate) {
         LOG.debug("getActivePaymentRequestsByVendorNumberInvoiceNumber() started");
         Criteria criteria = new Criteria();
         criteria.addEqualTo("purchaseOrderIdentifier", poId);

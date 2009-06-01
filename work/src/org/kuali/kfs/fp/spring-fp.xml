@@ -339,6 +339,7 @@
 
 	<bean id="budgetAdjustmentAccountingLineRuleHelperService" class="org.kuali.kfs.fp.document.service.impl.BudgetAdjustmentAccountingLineRuleHelperServiceImpl">
 			<property name="dataDictionaryService" ref="dataDictionaryService" />
+			<property name="financialSystemDocumentTypeService" ref="financialSystemDocumentTypeService" />
 	</bean>
 
 	<bean id="cashDetailTypeCodeService" class="org.kuali.kfs.fp.service.impl.CashDetailTypeCodeServiceImpl">

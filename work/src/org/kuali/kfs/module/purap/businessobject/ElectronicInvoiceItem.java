@@ -10,13 +10,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
-import org.kuali.kfs.module.purap.util.ElectronicInvoiceUtils;
+import org.kuali.kfs.module.purap.util.PurApDateFormatUtils;
 import org.kuali.kfs.module.purap.util.cxml.CxmlExtrinsic;
 
 
@@ -171,7 +170,7 @@ public class ElectronicInvoiceItem {
   public void setShippingDateString(String shippingDateString) {
     this.shippingDateString = shippingDateString;
     if ( (shippingDateString != null) && (!("".equals(shippingDateString))) ) {
-      SimpleDateFormat sdf = new SimpleDateFormat(PurapConstants.ElectronicInvoice.CXML_DATE_FORMAT, Locale.US);
+      SimpleDateFormat sdf = PurApDateFormatUtils.getSimpleDateFormat(PurapConstants.NamedDateFormats.CXML_DATE_FORMAT);
       try {
         this.shippingDate = sdf.parse(shippingDateString);
       } catch (ParseException e) {

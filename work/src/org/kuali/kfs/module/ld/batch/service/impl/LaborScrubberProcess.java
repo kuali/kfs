@@ -225,23 +225,25 @@ public class LaborScrubberProcess {
             laborGeneratedTransactionsReportWriterService.setDocumentNumber(documentNumber);
         }
 
-            // setup an object to hold the "default" date information
-            runDate = calculateRunDate(dateTimeService.getCurrentDate());
-            runCal = Calendar.getInstance();
-            runCal.setTime(runDate);
+        // setup an object to hold the "default" date information
+        runDate = calculateRunDate(dateTimeService.getCurrentDate());
+        runCal = Calendar.getInstance();
+        runCal.setTime(runDate);
 
-            universityRunDate = laborAccountingCycleCachingService.getUniversityDate(runDate);
-            if (universityRunDate == null) {
-                throw new IllegalStateException(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_UNIV_DATE_NOT_FOUND));
-            }
-            setOffsetString();
-            setDescriptions();
+        universityRunDate = laborAccountingCycleCachingService.getUniversityDate(runDate);
+        if (universityRunDate == null) {
+            throw new IllegalStateException(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_UNIV_DATE_NOT_FOUND));
+        }
+        setOffsetString();
+        setDescriptions();
 
         try {
             ((WrappingBatchService) laborMainReportWriterService).initialize();
             ((WrappingBatchService) laborLedgerReportWriterService).initialize();
-            ((WrappingBatchService) laborGeneratedTransactionsReportWriterService).initialize();
-            
+            if (reportOnlyMode) {
+                ((WrappingBatchService) laborGeneratedTransactionsReportWriterService).initialize();
+            }
+
             scrubberReport = new ScrubberReportData();
             processGroup();
 
@@ -253,10 +255,13 @@ public class LaborScrubberProcess {
                 generateScrubberBadBalanceTypeListingReport();
                 generateScrubberErrorListingReport();
             }
-        } finally {
+        }
+        finally {
             ((WrappingBatchService) laborMainReportWriterService).destroy();
             ((WrappingBatchService) laborLedgerReportWriterService).destroy();
-            ((WrappingBatchService) laborGeneratedTransactionsReportWriterService).destroy();
+            if (reportOnlyMode) {
+                ((WrappingBatchService) laborGeneratedTransactionsReportWriterService).destroy();
+            }
         }
     }
 
@@ -384,7 +389,7 @@ public class LaborScrubberProcess {
 
                         // Expired account?
                         Account unscrubbedEntryAccount = laborAccountingCycleCachingService.getAccount(unscrubbedEntry.getChartOfAccountsCode(), unscrubbedEntry.getAccountNumber());
-                        if (ObjectUtils.isNotNull(unscrubbedEntry.getAccount()) && !unscrubbedEntry.getAccount().isActive()) {
+                        if (ObjectUtils.isNotNull(unscrubbedEntry.getAccount()) && (scrubberValidator.isAccountExpired(unscrubbedEntryAccount, universityRunDate) || unscrubbedEntryAccount.isClosed())) {
                             // Make a copy of it so OJB doesn't just update the row in the original
                             // group. It needs to make a new one in the expired group
                             LaborOriginEntry expiredEntry = new LaborOriginEntry(scrubbedEntry);
@@ -795,8 +800,12 @@ public class LaborScrubberProcess {
         }
 
         Collection<LaborOriginEntry> validEntryCollection = new ArrayList();
-        int validLine = 0;
-        int errorLine = 0;
+
+        int validRead = 0;
+        int errorRead = 0;
+        
+        int validSaved = 0;
+        int errorSaved = 0;
 
         boolean errorsLoading = false;
         LaborOriginEntry laborOriginEntry = null;
@@ -813,7 +822,8 @@ public class LaborScrubberProcess {
                 if (StringUtils.isEmpty(currentValidLine)) {
                     createOutputEntry(currentErrorLine, OUTPUT_DEMERGER_ERR_FILE_ps);
                     currentErrorLine = INPUT_ERR_FILE_br.readLine();
-                    errorLine++;
+                    errorRead++;
+                    errorSaved++;
 
                     continue;
                 }
@@ -822,14 +832,14 @@ public class LaborScrubberProcess {
                 if (StringUtils.isEmpty(currentErrorLine)) {
                     createOutputEntry(currentValidLine, OUTPUT_DEMERGER_GLE_FILE_ps);
                     currentValidLine = INPUT_GLE_FILE_br.readLine();
-                    validLine++;
+                    validRead++;
+                    validSaved++;
 
                     continue;
                 }
 
                 String documentTypeCode = currentErrorLine.substring(31, 35);
                 if (documentTypeCode != null) {
-                    // org.springframework.util.StringUtils.trimAllWhitespace(documentTypeCode);
                     documentTypeCode = documentTypeCode.trim();
                 }
 
@@ -840,25 +850,29 @@ public class LaborScrubberProcess {
                     if (compareStringFromValidEntry.compareTo(compareStringFromErrorEntry) < 0) {
                         createOutputEntry(currentValidLine, OUTPUT_DEMERGER_GLE_FILE_ps);
                         currentValidLine = INPUT_GLE_FILE_br.readLine();
-                        validLine++;
+                        validRead++;
+                        validSaved++;
 
                     }
                     else if (compareStringFromValidEntry.compareTo(compareStringFromErrorEntry) > 0) {
                         createOutputEntry(currentErrorLine, OUTPUT_DEMERGER_ERR_FILE_ps);
                         currentErrorLine = INPUT_ERR_FILE_br.readLine();
-                        errorLine++;
+                        errorRead++;
+                        errorSaved++;
                     }
                     else {
                         createOutputEntry(currentValidLine, OUTPUT_DEMERGER_ERR_FILE_ps);
                         currentValidLine = INPUT_GLE_FILE_br.readLine();
-                        errorLine++;
+                        validRead++;
+                        errorSaved++;
                     }
 
                     continue;
                 }
                 createOutputEntry(currentErrorLine, OUTPUT_DEMERGER_ERR_FILE_ps);
                 currentErrorLine = INPUT_ERR_FILE_br.readLine();
-                errorLine++;
+                errorRead++;
+                errorSaved++;
             }
 
             INPUT_GLE_FILE_br.close();
@@ -868,12 +882,15 @@ public class LaborScrubberProcess {
 
         }
         catch (Exception e) {
-            LOG.error("performDemerger() stopped due to: " + e.getMessage(), e);
+            LOG.error("performDemerger() s" +
+            		"topped due to: " + e.getMessage(), e);
             throw new RuntimeException("performDemerger() stopped due to: " + e.getMessage(), e);
         }
 
-        demergerReport.setValidTransactionsSaved(validLine);
-        demergerReport.setErrorTransactionWritten(errorLine);
+        demergerReport.setValidTransactionsRead(validRead);
+        demergerReport.setValidTransactionsSaved(validSaved);
+        demergerReport.setErrorTransactionsRead(errorRead);
+        demergerReport.setErrorTransactionWritten(errorSaved);
 
         this.laborDemergerReportWriterService.writeStatisticLine("SCRUBBER ERROR TRANSACTIONS READ       %,9d", demergerReport.getErrorTransactionsRead());
         this.laborDemergerReportWriterService.writeStatisticLine("SCRUBBER VALID TRANSACTIONS READ       %,9d", demergerReport.getValidTransactionsRead());
@@ -924,7 +941,7 @@ public class LaborScrubberProcess {
     protected void generateScrubberBadBalanceTypeListingReport() {
         LaborOriginEntryFilter blankBalanceTypeFilter = new LaborOriginEntryFilter() {
             public boolean accept(LaborOriginEntry originEntry) {
-                return org.apache.commons.lang.StringUtils.isNotBlank(originEntry.getFinancialBalanceTypeCode());
+                return org.apache.commons.lang.StringUtils.isBlank(originEntry.getFinancialBalanceTypeCode());
             }
         };
 

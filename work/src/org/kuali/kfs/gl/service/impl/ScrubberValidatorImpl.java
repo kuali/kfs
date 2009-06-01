@@ -332,11 +332,9 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
         Calendar today = Calendar.getInstance();
         today.setTime(universityRunDate.getUniversityDate());
-
-        long offsetAccountExpirationTime = getAdjustedAccountExpirationDate(originEntryAccount);
-
-        if (isExpired(offsetAccountExpirationTime, today) || !originEntryAccount.isActive()) {
-            Message error = continuationAccountLogic(originEntry, workingEntry, today, accountingCycleCachingService);
+        
+        if (isAccountExpired(originEntryAccount, universityRunDate) || !originEntryAccount.isActive()) {
+            Message error = continuationAccountLogic(originEntry, workingEntry, universityRunDate, accountingCycleCachingService);
             if (error != null) {
                 return error;
             }
@@ -351,10 +349,10 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      * 
      * @param originEntry the origin entry being scrubbed
      * @param workingEntry the scrubbed version of the origin entry
-     * @param today the run date of the scrubber (to test against expiration dates)
+     * @param universityRunDate the run date of the scrubber (to test against expiration dates)
      * @return a Message if an error was encountered, otherwise null
      */
-    private Message continuationAccountLogic(OriginEntry originEntry, OriginEntry workingEntry, Calendar today, AccountingCycleCachingService accountingCycleCachingService) {
+    private Message continuationAccountLogic(OriginEntry originEntry, OriginEntry workingEntry, UniversityDate universityRunDate, AccountingCycleCachingService accountingCycleCachingService) {
 
         List checkedAccountNumbers = new ArrayList();
 
@@ -402,13 +400,9 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                     // on for another iteration of the loop.
                     checkedAccountNumbers.add(chartCode + accountNumber);
 
-                    // Add 3 months to the expiration date if it's a contract and grant account.
-                    long offsetAccountExpirationTime = getAdjustedAccountExpirationDate(continuationAccount);
-
                     // Check that the account has not expired.
-
                     // If the account has expired go around for another iteration.
-                    if (isExpired(offsetAccountExpirationTime, today)) {
+                    if (isAccountExpired(continuationAccount, universityRunDate)) {
                         chartCode = continuationAccount.getContinuationFinChrtOfAcctCd();
                         accountNumber = continuationAccount.getContinuationAccountNumber();
                     }
@@ -656,7 +650,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      */
     private Message validateDocumentType(OriginEntry originEntry, OriginEntry workingEntry, AccountingCycleCachingService accountingCycleCachingService) {
         LOG.debug("validateDocumentType() started");
-        if ((originEntry.getFinancialDocumentTypeCode() == null) || !accountingCycleCachingService.isCurrentActiveDocumentType(originEntry.getFinancialDocumentTypeCode())) {
+        if ((originEntry.getFinancialDocumentTypeCode() == null) || !accountingCycleCachingService.isCurrentActiveAccountingDocumentType(originEntry.getFinancialDocumentTypeCode())) {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_DOCUMENT_TYPE_NOT_FOUND, originEntry.getFinancialDocumentTypeCode(), Message.TYPE_FATAL);
         }
         workingEntry.setFinancialDocumentTypeCode(originEntry.getFinancialDocumentTypeCode());
@@ -1016,7 +1010,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             workingEntry.setReferenceFinancialDocumentNumber(originEntry.getReferenceFinancialDocumentNumber());
 
             if (!typeCodeNullIndicator){
-                if (accountingCycleCachingService.isCurrentActiveDocumentType(originEntry.getReferenceFinancialDocumentTypeCode())) {
+                if (accountingCycleCachingService.isCurrentActiveAccountingDocumentType(originEntry.getReferenceFinancialDocumentTypeCode())) {
                     workingEntry.setReferenceFinancialDocumentTypeCode(originEntry.getReferenceFinancialDocumentTypeCode());
                 }
                 else {
@@ -1120,17 +1114,19 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         return null;
     }
 
-
     /**
-     * 
-     * This method...
-     * @param offsetAccountExpirationTime
-     * @param runCalendar
-     * @return
+     * @see org.kuali.kfs.gl.service.ScrubberValidator#isAccountExpired(org.kuali.kfs.coa.businessobject.Account, org.kuali.kfs.sys.businessobject.UniversityDate)
      */
-    private boolean isExpired(long offsetAccountExpirationTime, Calendar runCalendar) {
-
+    public boolean isAccountExpired(Account account, UniversityDate universityRunDate) {
+        if (account.getAccountExpirationDate() == null) {
+            return false;
+        }
+        
+        Calendar runCalendar = Calendar.getInstance();
+        runCalendar.setTime(universityRunDate.getUniversityDate());
+        
         Calendar expirationDate = Calendar.getInstance();
+        long offsetAccountExpirationTime = getAdjustedAccountExpirationDate(account);
         expirationDate.setTimeInMillis(offsetAccountExpirationTime);
 
         int expirationYear = expirationDate.get(Calendar.YEAR);

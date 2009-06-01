@@ -51,7 +51,7 @@ public class ScrubberReportData {
         numberOfPlantIndebtednessEntriesGenerated += anotherReport.numberOfPlantIndebtednessEntriesGenerated;
         numberOfCostShareEntriesGenerated += anotherReport.numberOfCostShareEntriesGenerated;
         numberOfCostShareEncumbrancesGenerated += anotherReport.numberOfCostShareEncumbrancesGenerated;
-        numberOfExpiredAccountsFound += numberOfExpiredAccountsFound;
+        numberOfExpiredAccountsFound += anotherReport.numberOfExpiredAccountsFound;
     }
 
     /**

@@ -26,9 +26,7 @@ import static org.kuali.rice.kns.util.KualiDecimal.ZERO;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -39,8 +37,6 @@ import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.SubObjectCodeService;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.kfs.module.purap.businessobject.AccountsPayableSummaryAccount;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
@@ -50,10 +46,10 @@ import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
-import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
@@ -695,11 +691,30 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         }// endfor
 
         po.setSourceAccountingLines(purapAccountingService.generateSummaryWithNoZeroTotalsUsingAlternateAmount(po.getItemsActiveOnly()));
-        generalLedgerPendingEntryService.generateGeneralLedgerPendingEntries(po);
-        saveGLEntries(po.getGeneralLedgerPendingEntries());
-        LOG.debug("generateEntriesClosePurchaseOrder() gl entries created; exit method");
+        if (shouldGenerateGLPEForPurchaseOrder(po)) {
+            generalLedgerPendingEntryService.generateGeneralLedgerPendingEntries(po);
+            saveGLEntries(po.getGeneralLedgerPendingEntries());
+            LOG.debug("generateEntriesClosePurchaseOrder() gl entries created; exit method");
+        }
+        LOG.debug("generateEntriesClosePurchaseOrder() no gl entries created because the amount is 0; exit method");
     }
 
+    /**
+     * We should not generate general ledger pending entries for Purchase Order Close Document and
+     * Purchase Order Reopen Document with $0 amount. 
+     * 
+     * @param po
+     * @return
+     */
+    private boolean shouldGenerateGLPEForPurchaseOrder(PurchaseOrderDocument po) {
+        for (SourceAccountingLine acct : (List<SourceAccountingLine>)po.getSourceAccountingLines()) {
+            if (acct.getAmount().abs().compareTo(new KualiDecimal(0)) > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     /**
      * @see org.kuali.kfs.module.purap.service.PurapGeneralLedgerService#generateEntriesReopenPurchaseOrder(org.kuali.kfs.module.purap.document.PurchaseOrderDocument)
      */
@@ -760,9 +775,12 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         }// endfor
 
         po.setSourceAccountingLines(purapAccountingService.generateSummaryWithNoZeroTotalsUsingAlternateAmount(po.getItemsActiveOnly()));
-        generalLedgerPendingEntryService.generateGeneralLedgerPendingEntries(po);
-        saveGLEntries(po.getGeneralLedgerPendingEntries());
-        LOG.debug("generateEntriesReopenPurchaseOrder() gl entries created; exit method");
+        if (shouldGenerateGLPEForPurchaseOrder(po)) {
+            generalLedgerPendingEntryService.generateGeneralLedgerPendingEntries(po);
+            saveGLEntries(po.getGeneralLedgerPendingEntries());
+            LOG.debug("generateEntriesReopenPurchaseOrder() gl entries created; exit method");
+        }
+        LOG.debug("generateEntriesReopenPurchaseOrder() no gl entries created because the amount is 0; exit method");
     }
 
     /**

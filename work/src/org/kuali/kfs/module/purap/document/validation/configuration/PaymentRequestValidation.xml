@@ -57,7 +57,20 @@
 					</property>
 				</bean>
 
+				<bean parent="PaymentRequest-fullDocumentEntryCompletedBranchingValidation" scope="prototype">
+					<property name="branchMap">
+						<map>
+							<entry>
+								<key><value>notFullDocumentEntry</value></key>
 				<bean parent="PurchasingAccountsPayable-newProcessItemValidation-parentBean" scope="prototype"/>				
+							</entry>		
+							<entry>							
+								<key><value>fullDocumentEntry</value></key>
+								<bean parent="PaymentRequest-newProcessItemValidation-parentBean" scope="prototype" />								
+							</entry>									
+						</map>
+					</property>
+				</bean>	 	
 
 				<bean parent="PurchasingAccountsPayable-processAccountSummaryValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
@@ -134,7 +147,20 @@
 					</property>
 				</bean>
 
+				<bean parent="PaymentRequest-fullDocumentEntryCompletedBranchingValidation" scope="prototype">
+					<property name="branchMap">
+						<map>
+							<entry>
+								<key><value>notFullDocumentEntry</value></key>
 				<bean parent="PurchasingAccountsPayable-newProcessItemValidation-parentBean" scope="prototype"/>				
+							</entry>		
+							<entry>							
+								<key><value>fullDocumentEntry</value></key>
+								<bean parent="PaymentRequest-newProcessItemValidation-parentBean" scope="prototype" />								
+							</entry>									
+						</map>
+					</property>
+				</bean>	 	
 
 				<bean parent="PurchasingAccountsPayable-processAccountSummaryValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
@@ -201,6 +227,37 @@
 	<bean id="PaymentRequest-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
+				<bean parent="AccountingDocument-newAccountingLineBranchingValidation" scope="prototype">
+					<property name="branchMap">
+						<map>
+							<entry>
+								<key><value>isNewLine</value></key>
+								<bean parent="AccountingDocument-alwaysTrueValidation" scope="prototype" />
+							</entry>
+							<entry>
+								<key><value>isOldLine</value></key>
+								<bean parent="PurchasingAccountsPayable-fixErrorPathValidation" scope="prototype">
+									<property name="parameterProperties">
+										<list>
+											<bean parent="validationFieldConversion">
+												<property name="sourceEventProperty" value="accountingLine" />
+												<property name="targetValidationProperty" value="accountingLineForValidation" />
+											</bean>
+										</list>
+									</property>
+								</bean>
+							</entry>
+						</map>
+					</property>
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="accountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+							</bean>
+						</list>
+					</property>
+				</bean>  			
 				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
 					<property name="validations">
 						<list>
@@ -260,6 +317,37 @@
 	<bean id="PaymentRequest-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
+				<bean parent="AccountingDocument-newAccountingLineBranchingValidation" scope="prototype">
+					<property name="branchMap">
+						<map>
+							<entry>
+								<key><value>isNewLine</value></key>
+								<bean parent="AccountingDocument-alwaysTrueValidation" scope="prototype" />
+							</entry>
+							<entry>
+								<key><value>isOldLine</value></key>
+								<bean parent="PurchasingAccountsPayable-fixErrorPathValidation" scope="prototype">
+									<property name="parameterProperties">
+										<list>
+											<bean parent="validationFieldConversion">
+												<property name="sourceEventProperty" value="accountingLine" />
+												<property name="targetValidationProperty" value="accountingLineForValidation" />
+											</bean>
+										</list>
+									</property>
+								</bean>
+							</entry>
+						</map>
+					</property>
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="accountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+							</bean>
+						</list>
+					</property>
+				</bean>  	  			
 				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
 					<property name="validations">
 						<list>
@@ -319,6 +407,37 @@
 	<bean id="PaymentRequest-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
+				<bean parent="AccountingDocument-newAccountingLineBranchingValidation" scope="prototype">
+					<property name="branchMap">
+						<map>
+							<entry>
+								<key><value>isNewLine</value></key>
+								<bean parent="AccountingDocument-alwaysTrueValidation" scope="prototype" />
+							</entry>
+							<entry>
+								<key><value>isOldLine</value></key>
+								<bean parent="PurchasingAccountsPayable-fixErrorPathValidation" scope="prototype">
+									<property name="parameterProperties">
+										<list>
+											<bean parent="validationFieldConversion">
+												<property name="sourceEventProperty" value="accountingLine" />
+												<property name="targetValidationProperty" value="accountingLineForValidation" />
+											</bean>
+										</list>
+									</property>
+								</bean>
+							</entry>
+						</map>
+					</property>
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="accountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+							</bean>
+						</list>
+					</property>
+				</bean>  			
 				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
 					<property name="parameterProperties">
 						<bean parent="validationFieldConversion">
@@ -517,7 +636,20 @@
 					</property>
 				</bean>
 
+				<bean parent="PaymentRequest-fullDocumentEntryCompletedBranchingValidation" scope="prototype">
+					<property name="branchMap">
+						<map>
+							<entry>
+								<key><value>notFullDocumentEntry</value></key>
 				<bean parent="PurchasingAccountsPayable-newProcessItemValidation-parentBean" scope="prototype"/>				
+							</entry>		
+							<entry>							
+								<key><value>fullDocumentEntry</value></key>
+								<bean parent="PaymentRequest-newProcessItemValidation-parentBean" scope="prototype" />								
+							</entry>									
+						</map>
+					</property>
+				</bean>	 	
 
 				<bean parent="PurchasingAccountsPayable-processAccountSummaryValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />

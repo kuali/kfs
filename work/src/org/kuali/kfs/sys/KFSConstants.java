@@ -1206,6 +1206,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     }
     
     public static final String ROOT_DOCUMENT_TYPE = "KFS";
+    public static final String FINANCIAL_SYSTEM_LEDGER_ONLY_ROOT_DOCUMENT_TYPE = "FSLO";
     
     public static class COAConstants{
         public static final String FINANCIAL_SYSTEM_DOCUMENT = "KFS";
@@ -1233,6 +1234,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String TABLE_HEADER_LINE_KEY = "tableHeaderLine";
         public static final String SEPARATOR_LINE_KEY = "separatorLine";
         public static final String TABLE_CELL_FORMAT_KEY = "tableCellFormat";
+        public static final String[] FORMAT_ESCAPE_CHARACTERS = new String[]{"%", "\\"};
     }
 }
 

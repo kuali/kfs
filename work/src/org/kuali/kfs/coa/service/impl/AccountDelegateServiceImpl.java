@@ -39,37 +39,6 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
     private AccountDelegateDao accountDelegateDao;
     private AccountDelegateGlobalDao accountDelegateGlobalDao;
 
-    /**
-     * Makes sure the doc type represented by the code either is or is a child of the
-     * root doc type for the application (in the distribution, this is "KFS").
-     * @see org.kuali.kfs.coa.service.AccountDelegateService#isFinancialSystemDocumentType(java.lang.String)
-     */
-    public boolean isFinancialSystemDocumentType(String documentTypeCode) {
-        return isFinancialSystemDocumentType(documentTypeCode, new WorkflowInfo());
-    }
-
-    /**
-     * Does the logic isFinancialSystemDocumentType(String documentTypeCode) is supposed to, without
-     * creating a bunch of wasted WorkflowInfo objects (though at the cost of building one useless WorkflowInfo
-     * object if we're handed the root type right off the bat).
-     * @param documentTypeCode the document type to check
-     * @param workflowInfo a workflowInfo object to help us
-     * @return true if the doc type is in the Financial System document space, false otherwise
-     */
-    protected boolean isFinancialSystemDocumentType(String documentTypeCode, WorkflowInfo workflowInfo) {
-        if (StringUtils.isBlank(documentTypeCode)) return false;
-        if (documentTypeCode.equals(KFSConstants.ROOT_DOCUMENT_TYPE)) return true;
-        try {
-            if (!workflowInfo.isCurrentActiveDocumentType(documentTypeCode)) return false;
-
-            final DocumentTypeDTO documentType = workflowInfo.getDocType(documentTypeCode);
-            if (StringUtils.isBlank(documentType.getDocTypeParentName())) return false;
-            return isFinancialSystemDocumentType(documentType.getDocTypeParentName(), workflowInfo);
-        } catch (WorkflowException we) {
-            throw new RuntimeException("Could not retrieve document type "+documentTypeCode, we);
-        }
-    }
-
     public String getLockingDocumentId(AccountDelegateGlobalMaintainableImpl global, String docNumber) {
         String lockingDocId = null;
         List<MaintenanceLock> maintenanceLocks = global.generateMaintenanceLocks();

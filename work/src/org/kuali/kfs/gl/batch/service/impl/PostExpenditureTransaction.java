@@ -152,6 +152,15 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
      * @return true if the transaction with the given ICR type code and object code have an exclusion by type record, false otherwise
      */
     protected boolean excludedByType(String indirectCostRecoveryTypeCode, ObjectCode objectCode, boolean selfAndTopLevelOnly) {
+        // If the ICR type code is empty or excluded by the KFS-GL / Poster Indirect Cost Recoveries Step / INDIRECT_COST_TYPES parameter, don't post
+        if ((!StringUtils.hasText(indirectCostRecoveryTypeCode)) || !getParameterService().getParameterEvaluator(PosterIndirectCostRecoveryEntriesStep.class, PostExpenditureTransaction.INDIRECT_COST_TYPES_PARAMETER, indirectCostRecoveryTypeCode).evaluationSucceeds()) {
+            // No need to post this
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("isIcrTransaction() ICR type is null or excluded by the KFS-GL / Poster Indirect Cost Recoveries Step / INDIRECT_COST_TYPES parameter - not posted");
+            }
+            return true;
+        }
+        
         if (hasExclusionByType(indirectCostRecoveryTypeCode, objectCode)) return true;
         
         ObjectCode currentObjectCode = getReportsToObjectCode(objectCode);

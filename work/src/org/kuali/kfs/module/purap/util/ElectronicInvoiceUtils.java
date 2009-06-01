@@ -20,7 +20,6 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
@@ -45,12 +44,12 @@ public class ElectronicInvoiceUtils {
             // get a copy of given date with 0's for all numbers to check format
             formattedDateString = invoiceDateString.replaceAll("\\d", "0");
 
-            if (PurapConstants.ElectronicInvoice.CXML_DATE_FORMAT.equals(formattedDateString)) {
+            if (PurApDateFormatUtils.getFormattingString(PurapConstants.NamedDateFormats.CXML_DATE_FORMAT).equals(formattedDateString)) {
                 // Date is in 0000-00-00 format
                 formatInvalid = false;
                 stringToParse = invoiceDateString;
             }
-            else if (PurapConstants.ElectronicInvoice.KUALI_DATE_FORMAT.equals(formattedDateString)) {
+            else if (PurApDateFormatUtils.getFormattingString(PurapConstants.NamedDateFormats.KUALI_DATE_FORMAT).equals(formattedDateString)) {
                 //We need to minus the month by one since the date string has 1 month added for display purposes 
                 try {
                     java.util.Date javaDate = SpringContext.getBean(DateTimeService.class).convertToDate(invoiceDateString);
@@ -61,14 +60,14 @@ public class ElectronicInvoiceUtils {
                     return null;
                 }
             }
-            else if (PurapConstants.ElectronicInvoice.CXML_DATE_FORMAT.length() != formattedDateString.length()) {
+            else if (PurApDateFormatUtils.getFormattingString(PurapConstants.NamedDateFormats.CXML_DATE_FORMAT).length() != formattedDateString.length()) {
                 // strings are not the same length... must parse down given string from cXML for validation
-                formattedDateString = formattedDateString.substring(0, PurapConstants.ElectronicInvoice.CXML_DATE_FORMAT.length());
+                formattedDateString = formattedDateString.substring(0, PurApDateFormatUtils.getFormattingString(PurapConstants.NamedDateFormats.CXML_DATE_FORMAT).length());
                 // strings should now be same length
-                if (PurapConstants.ElectronicInvoice.CXML_DATE_FORMAT.equals(formattedDateString)) {
+                if (PurApDateFormatUtils.getFormattingString(PurapConstants.NamedDateFormats.CXML_DATE_FORMAT).equals(formattedDateString)) {
                     // if strings are equal we can process date
                     formatInvalid = false;
-                    stringToParse = invoiceDateString.substring(0, PurapConstants.ElectronicInvoice.CXML_DATE_FORMAT.length());
+                    stringToParse = invoiceDateString.substring(0, PurApDateFormatUtils.getFormattingString(PurapConstants.NamedDateFormats.CXML_DATE_FORMAT).length());
                 }
                 else {
                     // strings are same size and both only use 0 characters so date is invalid
@@ -87,7 +86,7 @@ public class ElectronicInvoiceUtils {
         }
         else {
             // try to parse date
-            SimpleDateFormat sdf = new SimpleDateFormat(PurapConstants.ElectronicInvoice.CXML_SIMPLE_DATE_FORMAT, Locale.US);
+            SimpleDateFormat sdf = PurApDateFormatUtils.getSimpleDateFormat(PurapConstants.NamedDateFormats.CXML_SIMPLE_DATE_FORMAT);
             try {
                 return org.kuali.rice.kns.util.DateUtils.convertToSqlDate(sdf.parse(stringToParse));
             }

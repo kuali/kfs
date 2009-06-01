@@ -71,8 +71,9 @@ public class AssetPaymentPostingDateValidation extends GenericValidation {
             if (universityDate == null) {
                 String label = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE).getLabel();
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, KFSKeyConstants.ERROR_EXISTENCE, label);
-                valid = false;
+                return false;
             }
+            
             // Validating the fiscal year extracted from posted document date is not greater than the current fiscal year.
             Integer currentFiscalYear = universityDateService.getCurrentFiscalYear();
             if (universityDate.getUniversityFiscalYear().compareTo(currentFiscalYear) > 0) {

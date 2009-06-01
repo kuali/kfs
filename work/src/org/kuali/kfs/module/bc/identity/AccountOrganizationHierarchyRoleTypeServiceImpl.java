@@ -23,8 +23,10 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizat
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kim.bo.types.dto.AttributeDefinitionMap;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
+import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 
 public class AccountOrganizationHierarchyRoleTypeServiceImpl extends KimRoleTypeServiceBase {
     public static final String DESCEND_HIERARCHY_TRUE_VALUE = "Y";
@@ -107,4 +109,19 @@ public class AccountOrganizationHierarchyRoleTypeServiceImpl extends KimRoleType
         this.budgetDocumentService = budgetDocumentService;
     }
 
+    /**
+     * @see org.kuali.rice.kim.service.support.impl.KimTypeServiceBase#getAttributeDefinitions(java.lang.String)
+     */
+    @Override
+    public AttributeDefinitionMap getAttributeDefinitions(String kimTypId) {
+        AttributeDefinitionMap map = super.getAttributeDefinitions(kimTypId);
+        
+        for (AttributeDefinition definition : map.values()) {
+            if (KFSPropertyConstants.ORGANIZATION_CODE.equals(definition.getName())) {
+                definition.setRequired(Boolean.FALSE);
+            }
+        }
+        
+        return map;
+    }
 }

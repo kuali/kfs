@@ -312,7 +312,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
             // loop over all AccountGlobalDetail records
             detail.refreshReferenceObject("account");
             Account account = detail.getAccount();
-            if (account != null) {
+            if (ObjectUtils.isNotNull(account)){
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("old-Supervisor: " + account.getAccountSupervisoryUser());
                     LOG.debug("old-FiscalOfficer: " + account.getAccountFiscalOfficerUser());
@@ -437,7 +437,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
 
         // load the object by keys
         Account account = (Account) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Account.class, detail.getPrimaryKeys());
-        if (account != null) {
+        if (ObjectUtils.isNotNull(account)) {
             Date oldExpDate = account.getAccountExpirationDate();
 
             // When updating an account expiration date, the date must be today or later

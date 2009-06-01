@@ -49,8 +49,6 @@ public class FormatForm extends KualiForm {
         super();
         customers = new ArrayList<CustomerProfile>();
         ranges = new ArrayList<DisbursementNumberRange>();
-        registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
-        registerNextMethodToCallIsRefresh(true);
     }
 
     /**

@@ -481,8 +481,6 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         if (checkMainDropdown(correctionForm)) {
             // Clear out any entries that were already loaded
             document.setCorrectionInputFileName(null);
-            document.setCorrectionInputFileName(null);
-            document.setCorrectionOutputFileName(null);
             document.setCorrectionOutputFileName(null);
             document.setCorrectionCreditTotalAmount(null);
             document.setCorrectionDebitTotalAmount(null);
@@ -501,20 +499,16 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
             if (CorrectionDocumentService.SYSTEM_DATABASE.equals(correctionForm.getChooseSystem())) {
                 // if users choose database, then get the list of origin entry groups and set the default
-
-                // I shouldn't have to do this query twice, but with the current architecture, I can't find anyway not to do it.
                 CorrectionGroupEntriesFinder f = new CorrectionGroupEntriesFinder();
                 List values = f.getKeyValues();
                 if (values.size() > 0) {
                     
                     String newestScrubberErrorFileName = CorrectionAction.originEntryGroupService.getNewestScrubberErrorFileName();
-                    //if (g != null) {
                     if (newestScrubberErrorFileName != null) {
                         document.setCorrectionInputFileName(newestScrubberErrorFileName);
                     }
                     else {
                         KeyLabelPair klp = (KeyLabelPair) values.get(0);
-                        //document.setCorrectionInputGroupId(Integer.parseInt((String) klp.getKey()));
                         document.setCorrectionInputFileName((String) klp.getKey());
                     }
                 }

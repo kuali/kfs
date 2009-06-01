@@ -69,11 +69,11 @@ public class ExtractStep extends AbstractStep {
                 batchExtractService.saveFPLines(fpLines, processLog);
                 // Save the PO lines
                 HashSet<PurchasingAccountsPayableDocument> purApDocuments = batchExtractService.savePOLines(purapLines, processLog);
-                
+
                 // call allocate additional charges( not including trade-in lines) during batch. if comment out this line, CAB users
                 // will see them on the screen and they will have to manually allocate the additional charge lines.
                 batchExtractService.allocateAdditionalCharges(purApDocuments);
-                
+
                 // Set the log values
                 processLog.setTotalGlCount(elgibleGLEntries.size());
                 processLog.setNonPurApGlCount(fpLines.size());
@@ -89,6 +89,7 @@ public class ExtractStep extends AbstractStep {
                 processLog.setSuccess(false);
                 processLog.setErrorMessage("No GL records were found for CAB processing.");
             }
+            processLog.setFinishTime(dateTimeService.getCurrentTimestamp());
         }
         catch (Throwable e) {
             processLog.setSuccess(false);

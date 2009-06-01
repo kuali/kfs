@@ -217,7 +217,7 @@ public class GeneralLedgerConstants {
         static final public String ENTERPRISE_FEED = "gl_glentry_entp";
         static final public String COLLECTOR_OUTPUT = "gl_glentry_coll";
         //TODO: Shawn - Should I move it to OriginEntrySource??
-        static final public String SCRUBBER_ERROR_PREFIX = "scrberr1";
+        static final public String SCRUBBER_ERROR_PREFIX = "scrberr2";
 
         static final public String BACKUP_FILE = "gl_glbackup";
         

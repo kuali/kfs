@@ -85,7 +85,9 @@
 
   <bean id="Reversal-financialDocumentTypeCode" parent="Reversal-financialDocumentTypeCode-parentBean" />
 
-  <bean id="Reversal-financialDocumentTypeCode-parentBean" abstract="true" parent="Entry-financialDocumentTypeCode" />
+  <bean id="Reversal-financialDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-generalLedgerFinancialSystemDocumentTypeCode">
+  	<property name="name" value="financialDocumentTypeCode" />
+  </bean>
 
   <bean id="Reversal-financialSystemOriginationCode" parent="Reversal-financialSystemOriginationCode-parentBean" />
 
@@ -129,7 +131,10 @@
 
   <bean id="Reversal-referenceFinancialDocumentTypeCode" parent="Reversal-referenceFinancialDocumentTypeCode-parentBean" />
 
-  <bean id="Reversal-referenceFinancialDocumentTypeCode-parentBean" abstract="true" parent="Entry-referenceFinancialDocumentTypeCode" />
+  <bean id="Reversal-referenceFinancialDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-referenceTypeCode">
+  	<property name="name" value="referenceFinancialDocumentTypeCode" />
+  	<property name="maxLength" value="4" />
+  </bean>
 
   <bean id="Reversal-referenceFinancialSystemOriginationCode" parent="Reversal-referenceFinancialSystemOriginationCode-parentBean" />
 

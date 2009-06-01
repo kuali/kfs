@@ -266,14 +266,8 @@
   </bean>
   <bean id="ExpenseTransferSourceAccountingLine-referenceTypeCode" parent="ExpenseTransferSourceAccountingLine-referenceTypeCode-parentBean" />
 
-  <bean id="ExpenseTransferSourceAccountingLine-referenceTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
-    <property name="name" value="referenceTypeCode" />
-    <property name="label" value="Reference Type Code" />
-    <property name="shortLabel" value="Ref Type Code" />
-    <property name="required" value="false" />
-    
-    
-  </bean>
+  <bean id="ExpenseTransferSourceAccountingLine-referenceTypeCode-parentBean" abstract="true" parent="GenericAttributes-referenceTypeCode"/>
+
   <bean id="ExpenseTransferSourceAccountingLine-projectCode" parent="ExpenseTransferSourceAccountingLine-projectCode-parentBean" />
 
   <bean id="ExpenseTransferSourceAccountingLine-projectCode-parentBean" abstract="true" parent="ProjectCode-code">

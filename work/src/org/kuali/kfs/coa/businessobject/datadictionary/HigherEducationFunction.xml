@@ -84,47 +84,23 @@
             p:size="47" />
     </property>
   </bean>
+  
   <bean id="HigherEducationFunction-finUnivBdgtOfficeFunctionCd" parent="HigherEducationFunction-finUnivBdgtOfficeFunctionCd-parentBean" />
-
-  <bean id="HigherEducationFunction-finUnivBdgtOfficeFunctionCd-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="HigherEducationFunction-finUnivBdgtOfficeFunctionCd-parentBean" abstract="true" parent="UniversityBudgetOfficeFunction-financialUniversityBudgetOfficeFunctionCode">
     <property name="name" value="finUnivBdgtOfficeFunctionCd" />
-    <property name="label" value="University Budget Office Function Code" />
-    <property name="shortLabel" value="UBO" />
-    <property name="maxLength" value="3" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
-    </property>
   </bean>
+  
   <bean id="HigherEducationFunction-finAicpaFunctionCode" parent="HigherEducationFunction-finAicpaFunctionCode-parentBean" />
-
-  <bean id="HigherEducationFunction-finAicpaFunctionCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="HigherEducationFunction-finAicpaFunctionCode-parentBean" abstract="true" parent="AICPAFunction-financialAicpaFunctionCode">
     <property name="name" value="finAicpaFunctionCode" />
-    <property name="label" value="AICPA Function Code" />
-    <property name="shortLabel" value="AICPA" />
-    <property name="maxLength" value="3" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
-    </property>
   </bean>
+  
   <bean id="HigherEducationFunction-financialFederalFunctionCode" parent="HigherEducationFunction-financialFederalFunctionCode-parentBean" />
-
-  <bean id="HigherEducationFunction-financialFederalFunctionCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialFederalFunctionCode" />
-    <property name="label" value="Federal Function Code" />
-    <property name="shortLabel" value="Fed" />
-    <property name="maxLength" value="3" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
-    </property>
+  <bean id="HigherEducationFunction-financialFederalFunctionCode-parentBean" abstract="true" parent="FederalFunction-financialFederalFunctionCode" >
+      <property name="name" value="financialFederalFunctionCode" />
   </bean>
-  <bean id="HigherEducationFunction-active" parent="HigherEducationFunction-active-parentBean" />
 
+  <bean id="HigherEducationFunction-active" parent="HigherEducationFunction-active-parentBean" />
   <bean id="HigherEducationFunction-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>

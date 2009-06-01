@@ -571,6 +571,8 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         for (CapitalAssetSystem capitalAssetSystem : requisitionDocument.getPurchasingCapitalAssetSystems()) {
             this.getPurchasingCapitalAssetSystems().add(new PurchaseOrderCapitalAssetSystem((RequisitionCapitalAssetSystem)capitalAssetSystem));
         }
+        
+        this.fixItemReferences();
     }
 
     /**

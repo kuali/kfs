@@ -15,6 +15,7 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 <c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />
+<c:set var="requiredCapitalAssetNumber" value="* Asset Number" />
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 <c:set var="tabKey" value="${kfunc:generateTabKey(subTabTitle)}"/>
 
@@ -28,7 +29,7 @@
 			</tr>
 			<c:if test="${!readOnly}">
 			    <tr>
-				    <th width="10%"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.capitalAssetNumber}" /></th>
+				    <th width="10%">${requiredCapitalAssetNumber }</th>
 					<td class="infoline" valign="top" width="84%">															   
 						<kul:htmlControlAttribute attributeEntry="${assetAttributes.capitalAssetNumber}" property="capitalAssetNumber"/>				
 						<kul:multipleValueLookup boClassName="org.kuali.kfs.module.cam.businessobject.Asset" lookedUpCollectionName="assetPaymentAssetDetail"/>

@@ -43,7 +43,7 @@
 		  <ref bean="GenericAttributes-routingAttributeTitle"/>
 		  <ref bean="GenericAttributes-financialDocumentStatusName"/>
 		  <ref bean="GenericAttributes-financialSystemDocumentTypeCode"/>
-		  <ref bean="GenericAttributes-referenceDocumentTypeCode" />
+		  <ref bean="GenericAttributes-referenceTypeCode" />
 	    </list>
 	  </property>
     </bean>
@@ -577,12 +577,21 @@
     </property>
   </bean>
   
-  <bean id="GenericAttributes-referenceDocumentTypeCode" parent="GenericAttributes-referenceDocumentTypeCode-parentBean" />
+  <bean id="GenericAttributes-referenceTypeCode" parent="GenericAttributes-referenceTypeCode-parentBean" />
 
-  <bean id="GenericAttributes-referenceDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-name">
+  <bean id="GenericAttributes-referenceTypeCode-parentBean" abstract="true" parent="DocumentType-name">
     <property name="shortLabel" value="Ref Doc Type Code" />
     <property name="label" value="Reference Document Type Code" />
-    <property name="name" value="referenceDocumentTypeCode" />
+    <property name="name" value="referenceTypeCode" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
   </bean>
   
+  <bean id="GenericAttributes-generalLedgerFinancialSystemDocumentTypeCode" parent="GenericAttributes-generalLedgerFinancialSystemDocumentTypeCode-parentBean" />
+  
+  <bean id="GenericAttributes-generalLedgerFinancialSystemDocumentTypeCode-parentBean" parent="GenericAttributes-financialSystemDocumentTypeCode" abstract="true">
+  	<property name="maxLength" value="4" />
+  </bean>
 </beans>

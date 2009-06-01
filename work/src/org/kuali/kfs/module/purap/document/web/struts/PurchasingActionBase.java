@@ -420,6 +420,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             }
             if (allPassed) {
                 purDocument.getItems().addAll(itemLinePosition, importedItems);
+                purDocument.fixItemReferences();
             }
         }
         catch (ItemParserException e) {
@@ -1158,12 +1159,13 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
         PurchasingDocument purDoc = (PurchasingDocument) purchasingForm.getDocument();
 
+        //call prorateDiscountTradeIn
+        SpringContext.getBean(PurapService.class).prorateForTradeInAndFullOrderDiscount(purDoc);
+        
         boolean defaultUseTaxIndicatorValue = SpringContext.getBean(PurchasingService.class).getDefaultUseTaxIndicatorValue(purDoc);
         SpringContext.getBean(PurapService.class).updateUseTaxIndicator(purDoc, defaultUseTaxIndicatorValue);
         SpringContext.getBean(PurapService.class).calculateTax(purDoc);
 
-      // call prorateDiscountTradeIn
-        SpringContext.getBean(PurapService.class).prorateForTradeInAndFullOrderDiscount(purDoc);
         customCalculate(purDoc);
         
         return super.calculate(mapping, form, request, response);

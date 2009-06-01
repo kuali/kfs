@@ -46,7 +46,7 @@ import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 
 public interface AccountingCycleCachingService extends WrappingBatchService {
-    public boolean isCurrentActiveDocumentType(String documentTypeCode);
+    public boolean isCurrentActiveAccountingDocumentType(String documentTypeCode);
 
     public SystemOptions getSystemOptions(Integer fiscalYear);
 

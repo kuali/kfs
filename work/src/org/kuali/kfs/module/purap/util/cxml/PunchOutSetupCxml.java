@@ -7,7 +7,9 @@ package org.kuali.kfs.module.purap.util.cxml;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.B2BInformation;
+import org.kuali.kfs.module.purap.util.PurApDateFormatUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -32,8 +34,8 @@ public class PunchOutSetupCxml {
   public String getPunchOutSetupRequestMessage() {
     StringBuffer cxml = new StringBuffer();
     Date d = SpringContext.getBean(DateTimeService.class).getCurrentDate();
-    SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
-    SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss.sss");
+    SimpleDateFormat date = PurApDateFormatUtils.getSimpleDateFormat(PurapConstants.NamedDateFormats.CXML_SIMPLE_DATE_FORMAT);
+    SimpleDateFormat time = PurApDateFormatUtils.getSimpleDateFormat(PurapConstants.NamedDateFormats.CXML_SIMPLE_TIME_FORMAT);
 
     // doing as two parts b/c they want a T instead of space
     // between them, and SimpleDateFormat doesn't allow putting the

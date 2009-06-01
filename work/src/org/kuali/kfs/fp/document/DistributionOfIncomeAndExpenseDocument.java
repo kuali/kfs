@@ -51,8 +51,8 @@ public class DistributionOfIncomeAndExpenseDocument extends AccountingDocumentBa
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DistributionOfIncomeAndExpenseDocument.class);
     private List<ElectronicPaymentClaim> electronicPaymentClaims;
     
-    private CapitalAssetInformation capitalAssetInformation;
-    private CapitalAssetManagementModuleService capitalAssetManagementModuleService;
+    private transient CapitalAssetInformation capitalAssetInformation;
+    private transient CapitalAssetManagementModuleService capitalAssetManagementModuleService;
 
     
     /**

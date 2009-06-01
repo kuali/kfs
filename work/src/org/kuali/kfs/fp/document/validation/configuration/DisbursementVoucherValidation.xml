@@ -287,7 +287,7 @@
 								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
 							</bean>
 							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="accountingLine" />
+								<property name="sourceEventProperty" value="updatedAccountingLine" />
 								<property name="targetValidationProperty" value="accountingLineForValidation" />
 							</bean>
 						</list>
@@ -376,7 +376,7 @@
 				</bean>
 			</list>
 		</property>
-	</bean>		
+	</bean>
 	
 	<bean id="DisbursementVoucher-checkUpdatedAccountingLine" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
@@ -428,4 +428,5 @@
 			</list>
 		</property>
 	</bean>
+	
 </beans>

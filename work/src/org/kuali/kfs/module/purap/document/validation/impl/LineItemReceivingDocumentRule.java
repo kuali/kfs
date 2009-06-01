@@ -60,6 +60,10 @@ public class LineItemReceivingDocumentRule extends DocumentRuleBase implements C
         valid &= isAtLeastOneItemEntered(lineItemReceivingDocument);
         valid &= validateItemUnitOfMeasure(lineItemReceivingDocument);
         
+        //  makes sure all of the lines adhere to the rule that quantityDamaged and 
+        // quantityReturned cannot (each) equal more than the quantityReceived
+        valid &= validateAllReceivingLinesHaveSaneQuantities(lineItemReceivingDocument);
+        
         return valid;
     }
     /**
@@ -173,8 +177,45 @@ public class LineItemReceivingDocumentRule extends DocumentRuleBase implements C
      * @see org.kuali.kfs.module.purap.document.validation.AddReceivingItemRule#processAddReceivingItemRules(org.kuali.kfs.module.purap.document.ReceivingDocument, org.kuali.kfs.module.purap.businessobject.ReceivingItem)
      */
     public boolean processAddReceivingItemRules(ReceivingDocument document, LineItemReceivingItem item,String errorPathPrefix) {
-        boolean valid = SpringContext.getBean(DictionaryValidationService.class).isBusinessObjectValid(item,errorPathPrefix);
+        boolean valid = true;
+        
+        valid &= SpringContext.getBean(DictionaryValidationService.class).isBusinessObjectValid(item,errorPathPrefix);
+        
+        //  test that the amount entered in the QuantityReturned and/or QuantityDamaged fields dont 
+        // either equal more than the QuantityReceived.  In other words, you can only return or mark as 
+        // damaged those that are received.  It doesnt make sense to receive 2 but return 3.  
+        valid &= validateQuantityReturnedNotMoreThanReceived(document, item, errorPathPrefix, new Integer(0));
+        valid &= validateQuantityDamagedNotMoreThanReceived(document, item, errorPathPrefix, new Integer(0));
+        
         return valid;
     }
 
+    private boolean validateQuantityReturnedNotMoreThanReceived(ReceivingDocument document, LineItemReceivingItem item, String errorPathPrefix, Integer lineNumber) {
+        if (item.getItemReturnedTotalQuantity().isGreaterThan(item.getItemReceivedTotalQuantity())) {
+            GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_RECEIVING_LINE_QTYRETURNED_GT_QTYRECEIVED, (lineNumber.intValue() == 0 ? "Add Line" : lineNumber.toString()));
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateQuantityDamagedNotMoreThanReceived(ReceivingDocument document, LineItemReceivingItem item, String errorPathPrefix, Integer lineNumber) {
+        if (item.getItemDamagedTotalQuantity().isGreaterThan(item.getItemReceivedTotalQuantity())) {
+            GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_RECEIVING_LINE_QTYDAMAGED_GT_QTYRECEIVED, (lineNumber.intValue() == 0 ? "Add Line" : lineNumber.toString()));
+            return false;
+        }
+        return true;
+    }
+    
+    private boolean validateAllReceivingLinesHaveSaneQuantities(ReceivingDocument document) {
+        GlobalVariables.getErrorMap().clearErrorPath();
+        boolean valid = true;
+        for (int i = 0; i < document.getItems().size(); i++) {
+            LineItemReceivingItem item = (LineItemReceivingItem) document.getItems().get(i);
+            
+            valid &= validateQuantityReturnedNotMoreThanReceived(document, item, "", new Integer(i + 1));
+            valid &= validateQuantityDamagedNotMoreThanReceived(document, item, "", new Integer(i + 1));
+        }
+        return valid;
+    }
+    
 }

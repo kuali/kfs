@@ -16,10 +16,12 @@
 package org.kuali.kfs.module.purap.document.web.struts;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
+import org.kuali.kfs.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionAccount;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetLocation;
@@ -28,6 +30,7 @@ import org.kuali.kfs.module.purap.businessobject.RequisitionItemCapitalAsset;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -130,4 +133,19 @@ public class RequisitionForm extends PurchasingFormBase {
     public void setShopUrl(String shopUrl) {
         this.shopUrl = shopUrl;
     }
+
+    @Override
+    public List<ExtraButton> getExtraButtons() {
+        super.getExtraButtons();
+        for (int i = 0; i < extraButtons.size(); i++) {
+            ExtraButton extraButton = extraButtons.get(i);
+            if ("methodToCall.calculate".equalsIgnoreCase(extraButton.getExtraButtonProperty()) && 
+                    getRequisitionDocument().isDocumentStoppedInRouteNode(NodeDetailEnum.ORG_REVIEW)) {
+                extraButtons.remove(i);
+                return extraButtons;
+            }
+        }
+        return extraButtons;
+    }
+
 }

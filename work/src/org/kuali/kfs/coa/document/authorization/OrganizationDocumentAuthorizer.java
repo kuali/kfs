@@ -34,27 +34,24 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+
 /**
- * Document Authorizer for the Organization document. 
+ * Document Authorizer for the Organization document.
  */
-
 public class OrganizationDocumentAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
-
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationDocumentAuthorizer.class);
-      
+
     @Override
     public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActions) {
-
         Set<String> myDocumentActions = super.getDocumentActions(document, user, documentActions);
-        
-        
-        if (checkPlantAttributes(document))
-        {
+
+        if (checkPlantAttributes(document)) {
             myDocumentActions.remove(KNSConstants.KUALI_ACTION_CAN_BLANKET_APPROVE);
         }
+
         return myDocumentActions;
-    }    
-    
+    }
+
     /**
      * This checks to see if a user is authorized for plant fields modification. If not then it returns true (without activating
      * fields). If the org does not have to report to itself then it checks to see if the plant fields have been filled out
@@ -62,62 +59,44 @@ public class OrganizationDocumentAuthorizer extends FinancialSystemMaintenanceDo
      * 
      * @return false if user can edit plant fields but they have not been filled out correctly
      */
-    protected boolean checkPlantAttributes(Document document) 
-    {
-        boolean success = false;
-        
+    protected boolean checkPlantAttributes(Document document) {
         // get user
         Person user = GlobalVariables.getUserSession().getPerson();
-        
-        // if not authroized to edit plant fields, exit with true
-        if (isPlantAuthorized(user, document) == false) 
-        {
+
+        // if not authorized to edit plant fields, exit with true
+        if (isPlantAuthorized(user, document) == false) {
             return true;
         }
-        return success;
+
+        return false;
     }
-    
+
     /**
      * This method tests whether the specified user is part of the group that grants authorization to the Plant fields.
      * 
      * @param user - the user to test, document to get plant fund account
      * @return true if user is part of the group, false otherwise
      */
-    protected boolean isPlantAuthorized(Person user, Document document) 
-    {                
+    protected boolean isPlantAuthorized(Person user, Document document) {
         String principalId = user.getPrincipalId();
-        String namespaceCode = KFSConstants.ParameterNamespaces.CHART;
+        String namespaceCode = KFSConstants.ParameterNamespaces.KNS;
+        String permissionTemplateName = KimConstants.PermissionTemplateNames.MODIFY_FIELD;
         
-        String permissionTemplateName = KimConstants.PermissionTemplateNames.EDIT_DOCUMENT;
         AttributeSet roleQualifiers = new AttributeSet();
-        
-        MaintenanceDocument organizationBusinessObject = (MaintenanceDocument) document;
-        BusinessObject businessObject = (BusinessObject)organizationBusinessObject.getNewMaintainableObject().getBusinessObject();
-        
-        Organization organization = null;
-        if (businessObject instanceof MaintenanceDocument) {
-            organization = (Organization) ((MaintenanceDocument) businessObject).getNewMaintainableObject().getBusinessObject();
-        }
-        else {
-            organization = (Organization) businessObject;
-        }
-        
-        String plantAccountNumber = organization.getCampusPlantAccountNumber();
-        roleQualifiers.put(KfsKimAttributes.ACCOUNT_NUMBER,  plantAccountNumber);        
-        
+
         AttributeSet permissionDetails = new AttributeSet();
         permissionDetails.put(KfsKimAttributes.COMPONENT_NAME, Organization.class.getSimpleName());
         permissionDetails.put(KfsKimAttributes.PROPERTY_NAME, KFSPropertyConstants.ORGANIZATION_PLANT_ACCOUNT_NUMBER);
 
         IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
         Boolean isAuthorized = identityManagementService.isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, roleQualifiers);
-        if (!isAuthorized) 
-        {
-            LOG.info("User '" + user.getPrincipalName() + "' has no access to the Plant Chart.");
-            return false;
+        if (!isAuthorized) {
+            LOG.debug("User '" + user.getPrincipalName() + "' has no access to the Plant Chart.");
         }
-        
-        LOG.info("User '" + user.getPrincipalName() + "' has access to the Plant fields.");
-        return true;
+        else {
+            LOG.debug("User '" + user.getPrincipalName() + "' has access to the Plant fields.");
+        }
+
+        return isAuthorized;
     }
 }

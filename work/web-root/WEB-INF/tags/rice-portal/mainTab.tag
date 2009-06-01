@@ -15,12 +15,11 @@
 --%>
 <%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp"%>
 
-<td class="content" valign="top">
-
-
-<mainChannel:sampleTravelApplication />
-
-</td>
+<c:if test="${ConfigProperties.portal.show.sample.app eq 'true'}">
+	<td class="content" valign="top">
+	    <mainChannel:sampleTravelApplication />
+	</td>
+</c:if>
 <td class="content" valign="top">
 <mainChannel:KNSMaintenanceDocuments />
 <mainChannel:workflow />

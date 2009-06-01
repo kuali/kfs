@@ -28,7 +28,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
-import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.coa.service.OffsetDefinitionService;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.businessobject.GlPendingTransaction;
@@ -38,8 +37,11 @@ import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.dataaccess.PendingTransactionDao;
 import org.kuali.kfs.pdp.service.PendingTransactionService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -60,13 +62,13 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
     private static String FDOC_TYP_CD_CANCEL_REISSUE_CHECK = "CHKR";
     private static String FDOC_TYP_CD_CANCEL_ACH = "ACHC";
     private static String FDOC_TYP_CD_CANCEL_CHECK = "CHKC";
-    private BusinessObjectService businessObjectService;
 
     private PendingTransactionDao glPendingTransactionDao;
-    private ChartService chartService;
     private AccountingPeriodService accountingPeriodService;
     private DateTimeService dateTimeService;
     private KualiConfigurationService kualiConfigurationService;
+    private BusinessObjectService businessObjectService;
+    private BankService bankService;
 
     public PendingTransactionServiceImpl() {
         super();
@@ -195,11 +197,92 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
             SpringContext.getBean(FlexibleOffsetAccountService.class).updateOffset(glPendingTransaction);
 
             this.businessObjectService.save(glPendingTransaction);
-            
+
             sequenceHelper.increment();
+
+            if (bankService.isBankSpecificationEnabled()) {
+                this.populateBankOffsetEntry(paymentGroup, glPendingTransaction, sequenceHelper);
+            }
         }
     }
     
+    /**
+     * Generates the bank offset for an entry (when enabled in the system)
+     * 
+     * @param paymentGroup PaymentGroup for which entries are being generated, contains the Bank
+     * @param glPendingTransaction PDP entry created for payment detail
+     * @param sequenceHelper holds current entry sequence value
+     */
+    protected void populateBankOffsetEntry(PaymentGroup paymentGroup, GlPendingTransaction glPendingTransaction, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        GlPendingTransaction bankPendingTransaction = new GlPendingTransaction();
+
+        bankPendingTransaction.setSequenceNbr(new KualiInteger(sequenceHelper.getSequenceCounter()));
+        bankPendingTransaction.setFdocRefTypCd(null);
+        bankPendingTransaction.setFsRefOriginCd(null);
+        bankPendingTransaction.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
+        bankPendingTransaction.setTransactionDt(glPendingTransaction.getTransactionDt());
+        bankPendingTransaction.setUniversityFiscalYear(glPendingTransaction.getUniversityFiscalYear());
+        bankPendingTransaction.setUnivFiscalPrdCd(glPendingTransaction.getUnivFiscalPrdCd());
+        bankPendingTransaction.setFinancialDocumentTypeCode(glPendingTransaction.getFinancialDocumentTypeCode());
+        bankPendingTransaction.setFsOriginCd(glPendingTransaction.getFsOriginCd());
+        bankPendingTransaction.setFdocNbr(glPendingTransaction.getFdocNbr());
+
+        Bank bank = paymentGroup.getBank();
+        bankPendingTransaction.setChartOfAccountsCode(bank.getCashOffsetFinancialChartOfAccountCode());
+        bankPendingTransaction.setAccountNumber(bank.getCashOffsetAccountNumber());
+        if (StringUtils.isBlank(bank.getCashOffsetSubAccountNumber())) {
+            bankPendingTransaction.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
+        }
+        else {
+            bankPendingTransaction.setSubAccountNumber(bank.getCashOffsetSubAccountNumber());
+        }
+
+        bankPendingTransaction.setFinancialObjectCode(bank.getCashOffsetObjectCode());
+        if (StringUtils.isBlank(bank.getCashOffsetSubObjectCode())) {
+            bankPendingTransaction.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
+        }
+        else {
+            bankPendingTransaction.setFinancialSubObjectCode(bank.getCashOffsetSubObjectCode());
+        }
+        bankPendingTransaction.setProjectCd(KFSConstants.getDashProjectCode());
+
+        if (KFSConstants.GL_CREDIT_CODE.equals(glPendingTransaction.getDebitCrdtCd())) {
+            bankPendingTransaction.setDebitCrdtCd(KFSConstants.GL_DEBIT_CODE);
+        }
+        else {
+            bankPendingTransaction.setDebitCrdtCd(KFSConstants.GL_CREDIT_CODE);
+        }
+        bankPendingTransaction.setAmount(glPendingTransaction.getAmount());
+        
+        String description = kualiConfigurationService.getPropertyString(KFSKeyConstants.Bank.DESCRIPTION_GLPE_BANK_OFFSET);
+        bankPendingTransaction.setDescription(description);
+        bankPendingTransaction.setOrgDocNbr(glPendingTransaction.getOrgDocNbr());
+        bankPendingTransaction.setOrgReferenceId(null);
+        bankPendingTransaction.setFdocRefNbr(null);
+
+        this.businessObjectService.save(bankPendingTransaction);
+
+        sequenceHelper.increment();
+    }
+
+    /**
+     * Gets the bankService attribute.
+     * 
+     * @return Returns the bankService.
+     */
+    protected BankService getBankService() {
+        return bankService;
+    }
+
+    /**
+     * Sets the bankService attribute value.
+     * 
+     * @param bankService The bankService to set.
+     */
+    public void setBankService(BankService bankService) {
+        this.bankService = bankService;
+    }
+
     /**
      * Sets the glPendingTransactionDao attribute value.
      * 
@@ -207,15 +290,6 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
      */
     public void setGlPendingTransactionDao(PendingTransactionDao glPendingTransactionDao) {
         this.glPendingTransactionDao = glPendingTransactionDao;
-    }
-
-    /**
-     * Sets the chartService attribute value.
-     * 
-     * @param chartService The chartService to set.
-     */
-    public void setChartService(ChartService chartService) {
-        this.chartService = chartService;
     }
 
     /**
@@ -269,8 +343,8 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
     public void clearExtractedTransactions() {
         glPendingTransactionDao.clearExtractedTransactions();
     }
-    
-     /**
+
+    /**
      * Sets the business object service
      * 
      * @param businessObjectService
@@ -278,5 +352,5 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
+
 }

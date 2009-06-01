@@ -60,5 +60,9 @@
 	
 	<bean id="LaborJournalVoucherDocument-laborJournalVoucherPositionCodeExistenceCheckValidation" abstract="true" class="org.kuali.kfs.module.ld.document.validation.impl.LaborJournalVoucherPositionCodeExistenceCheckValidation" ></bean>
 	
-	<bean id="LaborJournalVoucherDocument-laborJournalVoucherExternalEncumbranceValidation" abstract="true" class="org.kuali.kfs.module.ld.document.validation.impl.LaborJournalVoucherExternalEncumbranceValidation" ></bean>	
+	<bean id="LaborJournalVoucherDocument-laborJournalVoucherExternalEncumbranceValidation" abstract="true" class="org.kuali.kfs.module.ld.document.validation.impl.LaborJournalVoucherExternalEncumbranceValidation" ></bean>
+	
+	<bean id="LaborJournalVoucherDocument-offsetTypeCodeValidation" abstract="true" class="org.kuali.kfs.module.ld.document.validation.impl.LaborJournalVoucherOffsetTypeCodeValidation">
+		<property name="financialSystemDocumentTypeService" ref="financialSystemDocumentTypeService" />
+	</bean>	
 </beans>

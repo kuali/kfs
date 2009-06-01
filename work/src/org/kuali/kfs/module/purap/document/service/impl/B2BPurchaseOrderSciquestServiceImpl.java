@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.dataaccess.B2BDao;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
@@ -29,6 +30,7 @@ import org.kuali.kfs.module.purap.document.service.B2BPurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.module.purap.exception.B2BConnectionException;
 import org.kuali.kfs.module.purap.exception.CxmlParseError;
+import org.kuali.kfs.module.purap.util.PurApDateFormatUtils;
 import org.kuali.kfs.module.purap.util.cxml.B2BParserHelper;
 import org.kuali.kfs.module.purap.util.cxml.PurchaseOrderResponse;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -93,7 +95,7 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
             String cxml = getCxml(purchaseOrder, reqWorkflowDoc.getInitiatorNetworkId(), b2bPurchaseOrderPassword, contractManager, contractManagerEmail, vendorDuns);
 
             LOG.info("sendPurchaseOrder() Sending cxml\n" + cxml);
-            String responseCxml = b2bDao.sendPunchOutRequest(cxml, b2bPunchoutURL);
+            String responseCxml = b2bDao.sendPunchOutRequest(cxml, b2bPurchaseOrderURL);
 
             LOG.info("sendPurchaseOrder(): Response cXML for po number " + purchaseOrder.getPurapDocumentIdentifier() + ":" + responseCxml);
 
@@ -152,8 +154,8 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
 
         // Timestamp - it doesn't matter what's in the timezone, just that it's there (need "T" space between date/time)
         Date d = SpringContext.getBean(DateTimeService.class).getCurrentDate();
-        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss.sss");
+        SimpleDateFormat date = PurApDateFormatUtils.getSimpleDateFormat(PurapConstants.NamedDateFormats.CXML_SIMPLE_DATE_FORMAT);
+        SimpleDateFormat time = PurApDateFormatUtils.getSimpleDateFormat(PurapConstants.NamedDateFormats.CXML_SIMPLE_TIME_FORMAT);
         cxml.append("    <Timestamp>").append(date.format(d)).append("T").append(time.format(d)).append("+05:30").append("</Timestamp>\n");
 
         cxml.append("    <Authentication>\n");

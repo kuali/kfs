@@ -72,7 +72,7 @@
 				<value>purchasingPreDisbursementImmediatesExtractJobTrigger</value>
 				<value>electronicInvoiceExtractJobTrigger</value>
 				<value>faxPendingDocumentTrigger</value>
-				<value>purapMassRequisitionJobTrigger</value>
+				<!-- value>purapMassRequisitionJobTrigger</value -->
 			</list>
 		</property>
 		<property name="externalizableBusinessObjectImplementations">
@@ -105,15 +105,19 @@
 	<!--  override accounting service -->
     <bean id="purapAccountingLineRuleHelperService" class="org.kuali.kfs.module.purap.service.impl.PurapAccountingLineRuleHelperServiceImpl">
     	<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
+    	<property name="financialSystemDocumentTypeService" ref="financialSystemDocumentTypeService" />
     </bean>
     <bean id="purchasingAccountingLineRuleHelperService" class="org.kuali.kfs.module.purap.service.impl.PurchasingAccountingLineRuleHelperServiceImpl">
     	<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
+    	<property name="financialSystemDocumentTypeService" ref="financialSystemDocumentTypeService" />
     </bean>        
     <bean id="vendorCreditMemoAccountingLineRuleHelperService" class="org.kuali.kfs.module.purap.service.impl.VendorCreditMemoAccountingLineRuleHelperServiceImpl">
     	<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
+    	<property name="financialSystemDocumentTypeService" ref="financialSystemDocumentTypeService" />
     </bean>        
     <bean id="paymentRequestAccountingLineRuleHelperService" class="org.kuali.kfs.module.purap.service.impl.PaymentRequestAccountingLineRuleHelperServiceImpl">
     	<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
+    	<property name="financialSystemDocumentTypeService" ref="financialSystemDocumentTypeService" />
     </bean>                
 	<!--  end override -->
     

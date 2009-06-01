@@ -19,9 +19,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.document.LedgerPostingDocument;
 import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentDao;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
+import org.kuali.rice.kew.dto.DocumentTypeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kns.dao.DocumentDao;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.impl.DocumentServiceImpl;
@@ -54,5 +59,4 @@ public class FinancialSystemDocumentServiceImpl extends DocumentServiceImpl impl
         }
         super.setDocumentDao(documentDao);
     }
-    
 }

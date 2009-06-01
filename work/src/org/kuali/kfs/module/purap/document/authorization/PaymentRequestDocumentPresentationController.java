@@ -96,10 +96,12 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
     @Override
     protected boolean canEdit(Document document) {
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
-
+        boolean fullDocEntryCompleted = SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(paymentRequestDocument);
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        
         //  fiscal officer review gets the doc editable once its enroute, but no one else does
-        if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(paymentRequestDocument)) {
-            if (PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals(paymentRequestDocument.getStatusCode())) {
+        if (fullDocEntryCompleted) {
+            if (paymentRequestDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.ACCOUNT_REVIEW)) {
                 return true;
             }
             return false;
@@ -110,6 +112,10 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
             return false;
         }
 
+        //  in general, the doc should not be editable once its enroute
+        if (workflowDocument.stateIsEnroute() || workflowDocument.stateIsException()) {
+            return false; 
+        }
         return super.canEdit(document);
     }
 
@@ -184,10 +190,15 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
         }
 
         // tax area tab is editable while waiting for tax review
+        if (paymentRequestDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.VENDOR_TAX_REVIEW)) {
+            editModes.add(PaymentRequestEditMode.TAX_AREA_EDITABLE);
+        }
+        /*
         if (PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals(paymentRequestDocument.getStatusCode())) {
             editModes.add(PaymentRequestEditMode.TAX_AREA_EDITABLE);
         }
-
+        */
+        
         // the tax tab is viewable to everyone after tax is approved
         if (PaymentRequestStatuses.DEPARTMENT_APPROVED.equals(paymentRequestDocument.getStatusCode()) &&
                 // if and only if the preq has gone through tax review would TaxClassificationCode be non-empty
@@ -211,10 +222,6 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
                     }
                 }
             }
-        }
-
-        if (paymentRequestDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.VENDOR_TAX_REVIEW)) {
-            editModes.add(PaymentRequestEditMode.TAX_AREA_EDITABLE);
         }
 
         // Remove editBank edit mode if the document has been extracted

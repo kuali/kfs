@@ -88,7 +88,8 @@
   </bean>
   <bean id="PurchasingAccountsPayableProcessingReport-financialDocumentTypeCode" parent="PurchasingAccountsPayableProcessingReport-financialDocumentTypeCode-parentBean" />
 
-  <bean id="PurchasingAccountsPayableProcessingReport-financialDocumentTypeCode-parentBean" abstract="true" parent="GeneralLedgerEntry-financialDocumentTypeCode">
+  <bean id="PurchasingAccountsPayableProcessingReport-financialDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
+  	<property name="name" value="financialDocumentTypeCode" />
   	<property name="label" value="Document Type" />
     <property name="control">
     	<bean parent="SelectControlDefinition"

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.fp.document.web;
+package org.kuali.kfs.sys.document.web;
 
 import java.util.Iterator;
 import java.util.List;
@@ -25,36 +25,26 @@ import javax.servlet.jsp.tagext.Tag;
 import org.kuali.kfs.sys.document.web.DefaultAccountingLineGroupImpl;
 import org.kuali.kfs.sys.document.web.renderers.GroupErrorsRenderer;
 
-public class ProcurementCardAccoutingLineGroupImpl extends DefaultAccountingLineGroupImpl {
-
-
-
+/**
+ * Extension to override rendering of errors to first verify the error key starts with the give collection name.
+ */
+public class CollectionAccountingLineGroupImpl extends DefaultAccountingLineGroupImpl {
 
     /**
      * Renders any errors for the group
+     * 
      * @param pageContext the page context where the errors will be rendered on
      * @param parentTag the parent tag requesting the rendering
      */
     @Override
     protected void renderErrors(PageContext pageContext, Tag parentTag) throws JspException {
-
-        /*
-         * We need to match up the error with the proper transaction group since we have multiple 
-         * AccountingLineGroups. Without this logic, any error will be printed in the header of 
-         * each AccountingLineGroup. This will attempt to find the correct Transaction to place the
-         * errors in. propName should evaluate to document.transactionEntries[XX].targetAccountingLines
-         * and the errorlist should evaluate to document.transactionEntries[XX].targetAccountingLines[YY]
-         * 
-         */
-        
         String propName = getCollectionPropertyName();
         List errors = getErrors();
         for (Iterator itr = errors.iterator(); itr.hasNext();) {
-            String error = (String)itr.next();
+            String error = (String) itr.next();
             if (error.startsWith(propName)) {
-
                 GroupErrorsRenderer errorRenderer = new GroupErrorsRenderer();
-                errorRenderer.setErrorKeyMatch(getGroupDefinition().getErrorKey());
+                errorRenderer.setErrorKeyMatch(error);
                 errorRenderer.setColSpan(getWidthInCells());
                 errorRenderer.setErrorPropertyList(getErrors());
                 errorRenderer.setSectionTitle(getGroupDefinition().getGroupLabel());

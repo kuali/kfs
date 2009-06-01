@@ -27,10 +27,11 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Locale;
 
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.util.PurApDateFormatUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.DateTimeService;
 
@@ -282,7 +283,7 @@ public class PurchaseOrderQuoteRequestsPdf extends PdfPageEventHelper {
         headerTable.addCell(cell);
 
         // Date format pattern: MM-dd-yyyy
-        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy", Locale.US);
+        SimpleDateFormat sdf = PurApDateFormatUtils.getSimpleDateFormat(PurapConstants.NamedDateFormats.KUALI_SIMPLE_DATE_FORMAT_2);
         Date today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
         cell = new PdfPCell(new Paragraph("Printed: " + sdf.format(today), cellTextFont));
         cell.setBorderWidth(0);

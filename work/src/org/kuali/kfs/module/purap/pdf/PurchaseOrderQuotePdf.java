@@ -39,6 +39,7 @@ import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.exception.PurError;
+import org.kuali.kfs.module.purap.util.PurApDateFormatUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -217,7 +218,7 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
 
         NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.US);
         // Date format pattern: MM-dd-yyyy
-        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy", Locale.US);
+        SimpleDateFormat sdf = PurApDateFormatUtils.getSimpleDateFormat(PurapConstants.NamedDateFormats.KUALI_SIMPLE_DATE_FORMAT_2);
 
         CampusParameter campusParameter = getCampusParameter(contractManagerCampusCode);
         String purchasingAddressFull = getPurchasingAddressFull(campusParameter);

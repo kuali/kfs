@@ -53,8 +53,8 @@ public class InternalBillingDocument extends AccountingDocumentBase implements C
     private List items;
     private Integer nextItemLineNumber;
     
-    private CapitalAssetInformation capitalAssetInformation;
-    private CapitalAssetManagementModuleService capitalAssetManagementModuleService;
+    private transient CapitalAssetInformation capitalAssetInformation;
+    private transient CapitalAssetManagementModuleService capitalAssetManagementModuleService;
 
     /**
      * Initializes the array lists and some basic info.

@@ -1,8 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="AccountDelegateGlobalDetail" parent="AccountDelegateGlobalDetail-parentBean" />
 
@@ -31,37 +33,15 @@
     </property>
     <property name="relationships" >
       <list>
-        <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="accountDelegate" />
-          <property name="primitiveAttributes" >
-            <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="accountDelegateUniversalId"
-                    p:targetName="principalId" />
-            </list>
-          </property>
-          <property name="supportAttributes" >
-            <list>
-              <bean parent="SupportAttributeDefinition"
-                    p:identifier="true"
-                    p:sourceName="accountDelegate.principalName"
-                    p:targetName="principalName" />
-              <bean parent="SupportAttributeDefinition"
-                    p:sourceName="accountDelegate.name"
-                    p:targetName="name" />
-            </list>
-          </property>
-          </bean>
-          <bean parent="RelationshipDefinition">
-   			<property name="objectAttributeName" value="financialSystemDocumentTypeCode" />
-	        <property name="primitiveAttributes" >
-	        	<list>
-	            	<bean parent="PrimitiveAttributeDefinition"
-	                    p:sourceName="financialDocumentTypeCode"
-	                    p:targetName="name" />
-	            </list>
-	        </property>
-   		</bean>
+        <dd:relationship objectAttribute="accountDelegate">
+            <dd:primitiveAttribute source="accountDelegateUniversalId" target="principalId" />
+            <dd:supportAttribute source="accountDelegate.principalName" target="principalName" identifier="true" />
+            <dd:supportAttribute source="accountDelegate.name" target="name" />
+        </dd:relationship>
+
+        <dd:relationship objectAttribute="financialSystemDocumentTypeCode">
+            <dd:primitiveAttribute source="financialDocumentTypeCode" target="name" />
+        </dd:relationship>
       </list>
     </property>
   </bean>

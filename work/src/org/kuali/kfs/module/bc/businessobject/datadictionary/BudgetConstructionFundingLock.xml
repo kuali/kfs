@@ -54,19 +54,10 @@
   </bean>
   <bean id="BudgetConstructionFundingLock-appointmentFundingLockUserId" parent="BudgetConstructionFundingLock-appointmentFundingLockUserId-parentBean" />
 
-  <bean id="BudgetConstructionFundingLock-appointmentFundingLockUserId-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="BudgetConstructionFundingLock-appointmentFundingLockUserId-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="appointmentFundingLockUserId" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Appointment Funding Lock User Id" />
     <property name="shortLabel" value="Id" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
-    </property>
     
     
   </bean>

@@ -29,8 +29,7 @@ import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
- * Entries Finder for Processing Correction Labor Group. Returns a list of correction groups with a process flag set to yes key
- * value pairs.
+ * Returns a list of done files in batch origin entry directory
  */
 public class ProcessingCorrectionLaborGroupEntriesFinder extends KeyValuesBase {
 
@@ -39,31 +38,18 @@ public class ProcessingCorrectionLaborGroupEntriesFinder extends KeyValuesBase {
      */
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> activeLabels = new ArrayList<KeyLabelPair>();
-//        OriginEntryGroupService originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
-//        Collection<OriginEntryGroup> groupList = originEntryGroupService.getAllOriginEntryGroup();
-//        List<OriginEntryGroup> sortedGroupList = (List<OriginEntryGroup>) groupList;
-//        OriginEntryGroup.GroupTypeComparator oegTypeComparator = new OriginEntryGroup.GroupTypeComparator();
-//        Collections.sort(sortedGroupList, oegTypeComparator);
-//
-//        for (OriginEntryGroup oeg : sortedGroupList) {
-//            if (oeg.getProcess().booleanValue() & oeg.getSourceCode().startsWith("L")) {
-//                activeLabels.add(new KeyLabelPair(oeg.getId().toString(), oeg.getName()));
-//            }
-//        }
 
         OriginEntryGroupService originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
         File[] fileList = originEntryGroupService.getAllLaborFileInBatchDirectory();
-        if (fileList != null){
-            for (File file : fileList){
+        if (fileList != null) {
+            for (File file : fileList) {
                 String fileName = file.getName();
-                if (fileName.contains(GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION)){
+                if (fileName.contains(GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION)) {
                     activeLabels.add(new KeyLabelPair(fileName, fileName));
                 }
-            }    
+            }
         }
 
-        
-        
         return activeLabels;
     }
 }

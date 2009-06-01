@@ -14,7 +14,6 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
-<%@ taglib uri="/WEB-INF/app.tld" prefix="app"%>
 <c:set var="disbursementNumberRangeAttributes"
 	value="${DataDictionary.DisbursementNumberRange.attributes}" />
 <c:set var="formatResultAttributes"
@@ -25,8 +24,13 @@
 	value="${DataDictionary.AttributeReferenceDummy.attributes}" />
 
 <kul:page headerTitle="Format Disbursement Summary"
-	transactionalDocument="false" showDocumentInfo="false"
+	transactionalDocument="false" showDocumentInfo="false" errorKey="foo"
 	htmlFormAction="pdp/format" docTitle="Format Disbursement Summary">
+	
+	<table width="100%" border="0"><tr><td>	
+	  <kul:errors keyMatch="${Constants.GLOBAL_ERRORS}" errorTitle="Errors Found On Page:"/>
+	</td></tr></table>  
+	</br>
 	
 	<pdp:formatSelectedPayments
 		disbursementNumberRangeAttributes="${disbursementNumberRangeAttributes}"

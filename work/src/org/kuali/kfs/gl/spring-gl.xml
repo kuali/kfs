@@ -1588,7 +1588,11 @@
 		<property name="filePath" value="${reports.directory}/gl"/>
 		<property name="fileNamePrefix" value="scrubber_reportOnly_"/>
         <property name="title" value="GL SCRUBBER REPORT"/>
-        <!-- the report does not print out BO's, therefore classToBusinessObjectReportHelperBeanNames not needed-->
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.gl.businessobject.OriginEntryFull" value="transactionReportHelper"/>
+        	</map>
+        </property>
     </bean>
 
     <bean id="collectorReportWriterService" parent="reportWriterService">
@@ -2183,6 +2187,7 @@
 	
 	<bean id="accountingCycleCachingService" class="org.kuali.kfs.gl.batch.service.impl.AccountingCycleCachingServiceImpl">
 		<property name="universityDateService" ref="universityDateService" />
+		<property name="financialSystemDocumentTypeService" ref="financialSystemDocumentTypeService" />
 		<property name="systemReferenceValueDao" ref="systemLedgerReferenceValuePreparedStatementCachingDao" />
 		<property name="chartReferenceValueDao" ref="chartLedgerReferenceValuePreparedStatementCachingDao" />
 		<property name="ledgerDao" ref="generalLedgerPreparedStatementCachingDao" />

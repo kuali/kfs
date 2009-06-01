@@ -847,6 +847,7 @@ public class KFSPropertyConstants {
     public static final String OBJECT_TYPE_CODE = "objectTypeCode";
     public static final String OFF_CAMPUS_CODE = "offCampusCode";
     public static final String OFFSET_BALANCE_SHEET_OBJECT_CODE_NUMBER = "offsetBalanceSheetObjectCodeNumber";
+    public static final String OFFSET_TYPE_CODE = "offsetTypeCode";
     public static final String OJB_CONCRETE_CLASS = "ojbConcreteClass";
     public static final String OLD_BUSINESS_OBJECT_IN_DOCUMENT = "oldBusinessObjectInDocument";
     public static final String OLD_MAINTAINABLE_OBJECT = KNSPropertyConstants.OLD_MAINTAINABLE_OBJECT;

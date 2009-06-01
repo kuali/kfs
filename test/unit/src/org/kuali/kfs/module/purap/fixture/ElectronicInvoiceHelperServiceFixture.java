@@ -18,6 +18,9 @@ package org.kuali.kfs.module.purap.fixture;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.util.PurApDateFormatUtils;
+
 public class ElectronicInvoiceHelperServiceFixture {
 
     private static String vendorDUNSNumber;
@@ -199,8 +202,8 @@ public class ElectronicInvoiceHelperServiceFixture {
         StringBuffer dateString = new StringBuffer();
         
         Date d = new Date();
-        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss.sss");
+        SimpleDateFormat date = PurApDateFormatUtils.getSimpleDateFormat(PurapConstants.NamedDateFormats.CXML_SIMPLE_DATE_FORMAT);
+        SimpleDateFormat time = PurApDateFormatUtils.getSimpleDateFormat(PurapConstants.NamedDateFormats.CXML_SIMPLE_TIME_FORMAT);
         
         dateString.append("\"" + date.format(d)).append("T");
         if (includeTime){

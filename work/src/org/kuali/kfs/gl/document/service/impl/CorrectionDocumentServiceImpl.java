@@ -724,7 +724,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
 
     public String createOutputFileForProcessing(String docId, java.util.Date today) {
         File outputFile = new File(glcpDirectoryName + File.separator + docId + OUTPUT_ORIGIN_ENTRIES_FILE_SUFFIX);
-        String newFileName = batchFileDirectoryName + File.separator + GLCP_OUTPUT_PREFIX + buildFileExtensionWithDate(today);
+        String newFileName = batchFileDirectoryName + File.separator + GLCP_OUTPUT_PREFIX  + "." + docId + buildFileExtensionWithDate(today);
         File newFile = new File(newFileName);
         FileReader inputFileReader;
         FileWriter newFileWriter;

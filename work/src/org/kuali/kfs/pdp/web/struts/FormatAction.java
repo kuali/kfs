@@ -70,8 +70,6 @@ public class FormatAction extends KualiAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PdpAuthorizationService authorizationService = SpringContext.getBean(PdpAuthorizationService.class);
         
-        FormatForm formatForm = (FormatForm) form;
-        
         Person kualiUser = GlobalVariables.getUserSession().getPerson();
         String methodToCall = findMethodToCall(form, request);
 
@@ -79,9 +77,6 @@ public class FormatAction extends KualiAction {
             throw new AuthorizationException(kualiUser.getPrincipalName(), methodToCall, kualiUser.getCampusCode());
         }
 
-        formatForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
-        formatForm.registerNextMethodToCallIsRefresh(true);
-        
         return super.execute(mapping, form, request, response);
     }
 
@@ -127,10 +122,6 @@ public class FormatAction extends KualiAction {
             formatForm.setRanges(formatSelection.getRangeList());
         }
         
-        // when we return from the lookup, our next request's method to call is going to be refresh
-        formatForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
-        formatForm.registerNextMethodToCallIsRefresh(true);
-
         return mapping.findForward(PdpConstants.MAPPING_SELECTION);
     }
 
@@ -173,10 +164,6 @@ public class FormatAction extends KualiAction {
 
         formatForm.setFormatProcessSummary(formatProcessSummary);
 
-        // when we return from the lookup, our next request's method to call is going to be refresh
-        formatForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
-        formatForm.registerNextMethodToCallIsRefresh(true);
-
         return mapping.findForward(PdpConstants.MAPPING_CONTINUE);
     }
 
@@ -193,10 +180,6 @@ public class FormatAction extends KualiAction {
     public ActionForward continueFormat(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         FormatForm formatForm = (FormatForm) form;
 
-        // when we return from the lookup, our next request's method to call is going to be refresh
-        formatForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
-        formatForm.registerNextMethodToCallIsRefresh(true);
-        
         try {
             KualiInteger processId = formatForm.getFormatProcessSummary().getProcessId();
             formatService.performFormat(processId.intValue());
@@ -229,10 +212,6 @@ public class FormatAction extends KualiAction {
         }
         formatForm.setCustomers(customers);
         
-        // when we return from the lookup, our next request's method to call is going to be refresh
-        formatForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
-        formatForm.registerNextMethodToCallIsRefresh(true);
-
         return mapping.findForward(PdpConstants.MAPPING_SELECTION);
 
     }
@@ -255,10 +234,6 @@ public class FormatAction extends KualiAction {
         if (processId != null) {
             formatService.clearUnfinishedFormat(processId.intValue());
         }
-        // when we return from the lookup, our next request's method to call is going to be refresh
-        formatForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
-        formatForm.registerNextMethodToCallIsRefresh(true);
-
         return mapping.findForward(KNSConstants.MAPPING_PORTAL);
 
     }
@@ -274,7 +249,6 @@ public class FormatAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward clearUnfinishedFormat(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        FormatForm formatForm = (FormatForm) form; 
         
         String processIdParam = request.getParameter(PdpParameterConstants.FormatProcess.PROCESS_ID_PARAM);
         Integer processId = Integer.parseInt(processIdParam);
@@ -282,8 +256,6 @@ public class FormatAction extends KualiAction {
         if (processId != null) {
             formatService.resetFormatPayments(processId);
         }
-        formatForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
-        formatForm.registerNextMethodToCallIsRefresh(true);
 
         return mapping.findForward(KNSConstants.MAPPING_PORTAL);
 

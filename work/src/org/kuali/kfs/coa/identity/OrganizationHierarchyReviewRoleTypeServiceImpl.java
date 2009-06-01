@@ -22,8 +22,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.doctype.service.DocumentTypeService;
 import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.kim.bo.types.dto.AttributeDefinitionMap;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.util.KimCommonUtils;
+import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 
 public class OrganizationHierarchyReviewRoleTypeServiceImpl extends OrganizationHierarchyAwareRoleTypeServiceBase {
     DocumentTypeService documentTypeService;
@@ -55,4 +57,20 @@ public class OrganizationHierarchyReviewRoleTypeServiceImpl extends Organization
         }
         return this.documentTypeService;
     }
+
+    /**
+     * @see org.kuali.rice.kim.service.support.impl.KimTypeServiceBase#getAttributeDefinitions(java.lang.String)
+     */
+    @Override
+    public AttributeDefinitionMap getAttributeDefinitions(String kimTypeId) {
+        AttributeDefinitionMap map = super.getAttributeDefinitions(kimTypeId);
+        for (AttributeDefinition definition : map.values()) {
+            if (KfsKimAttributes.ORGANIZATION_CODE.equals(definition.getName())) {
+                definition.setRequired(Boolean.FALSE);
+            }
+        }
+        return map;
+    }
+    
+    
 }

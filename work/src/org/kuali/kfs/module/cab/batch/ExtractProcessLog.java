@@ -31,9 +31,9 @@ public class ExtractProcessLog {
     private List<Entry> mismatchedGLEntries;
     private String errorMessage;
     private boolean success = true;
-    private Integer totalGlCount;
-    private Integer nonPurApGlCount;
-    private Integer purApGlCount;
+    private Integer totalGlCount = 0;
+    private Integer nonPurApGlCount = 0;
+    private Integer purApGlCount = 0;
     private String statusMessage;
 
     /**

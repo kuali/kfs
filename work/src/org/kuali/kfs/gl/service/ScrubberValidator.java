@@ -15,8 +15,10 @@
  */
 package org.kuali.kfs.gl.service;
 
+import java.util.Calendar;
 import java.util.List;
 
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.gl.batch.service.AccountingCycleCachingService;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.sys.Message;
@@ -43,4 +45,13 @@ public interface ScrubberValidator {
      * @param entry Input transaction
      */
     public void validateForInquiry(GeneralLedgerPendingEntry entry);
+    
+    /**
+     * Performs logic to determine whether an account is expired
+     * 
+     * @param account Account to validate
+     * @param universityRunDate Run date of process
+     * @return true if account is expired, false if not
+     */
+    public boolean isAccountExpired(Account account, UniversityDate universityRunDate);
 }

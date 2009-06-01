@@ -57,7 +57,7 @@ public class LedgerReferenceValuePreparedStatementCachingDaoJdbc extends Abstrac
         sql.put(RETRIEVE_PREFIX + ObjectLevel.class, "select fin_cons_obj_cd from ca_obj_level_t where fin_coa_cd = ? and fin_obj_level_cd = ?");
         sql.put(RETRIEVE_PREFIX + BalanceType.class, "select fin_offst_gnrtn_cd, fin_baltyp_enc_cd, ROW_ACTV_IND from ca_balance_type_t where fin_balance_typ_cd = ?");
         sql.put(RETRIEVE_PREFIX + AccountingPeriod.class, "select row_actv_ind from sh_acct_period_t where univ_fiscal_yr = ? and univ_fiscal_prd_cd = ?");
-        sql.put(RETRIEVE_PREFIX + IndirectCostRecoveryType.class, "select ACCT_ICR_TYP_ACTV_IND from CA_ICR_TYPE_T");
+        sql.put(RETRIEVE_PREFIX + IndirectCostRecoveryType.class, "select ACCT_ICR_TYP_ACTV_IND from CA_ICR_TYPE_T where acct_icr_typ_cd = ?");
     }
 
     @Override

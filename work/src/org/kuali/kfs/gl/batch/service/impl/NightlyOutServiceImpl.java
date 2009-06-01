@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.impl.NightlyOutServiceImpl.EntryListReport.EntryReportDocumentTypeTotalLine;
 import org.kuali.kfs.gl.businessobject.Entry;
@@ -79,7 +80,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
     }
 
     /**
-     * Copies the approved pending ledger entries to orign entry table and generates a report
+     * Copies the approved pending ledger entries to origin entry table and generates a report
      * @see org.kuali.kfs.gl.service.NightlyOutService#copyApprovedPendingLedgerEntries()
      */
     public void copyApprovedPendingLedgerEntries() {
@@ -229,6 +230,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
         private PendingEntrySummary pendingEntrySummary;
         private EntryReportTotalLine totalLine;
         private Map<String, EntryReportDocumentTypeTotalLine> documentTypeTotals;
+        private EntryReportDocumentNumberTotalLine documentNumberTotal;
         private int entryCount = 0;
         private String suppressKey = "";
         
@@ -251,9 +253,21 @@ public class NightlyOutServiceImpl implements NightlyOutService {
             if (pendingEntrySummary.getSuppressableFieldsAsKey().equals(suppressKey)) {
                 pendingEntrySummary.suppressCommonFields(true);
             }
+            else if (StringUtils.isNotBlank(suppressKey)) {
+                writeDocumentTotalLine(documentNumberTotal, reportWriterService);
+                documentNumberTotal = new EntryReportDocumentNumberTotalLine(pendingEntrySummary.getConstantDocumentNumber());
+            }
+            
+            if (StringUtils.isBlank(suppressKey)) {
+                documentNumberTotal = new EntryReportDocumentNumberTotalLine(pendingEntrySummary.getConstantDocumentNumber());
+                reportWriterService.writeTableHeader(pendingEntrySummary);
+            }
             suppressKey = pendingEntrySummary.getSuppressableFieldsAsKey();
+            
             reportWriterService.writeTableRow(pendingEntrySummary);
+            
             addPendingEntryToDocumentType(pendingEntrySummary, documentTypeTotals);
+            addSummaryToTotal(pendingEntrySummary, documentNumberTotal);
             addSummaryToTotal(pendingEntrySummary, totalLine);
             entryCount += 1;
         }
@@ -271,6 +285,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
             }
             addSummaryToTotal(pendingEntrySummary, docTypeTotal);
         }
+        
         
         /**
          * Adds the given summary to the correct credit, debit, or budget total in the total line
@@ -290,17 +305,35 @@ public class NightlyOutServiceImpl implements NightlyOutService {
         }
         
         /**
+         * Writes totals for the document number we just finished writing out
+         * 
+         * @param documentNumberTotal EntryReportDocumentNumberTotalLine containing totals to write
+         * @param reportWriterService ReportWriterService for writing output to report
+         */
+        protected void writeDocumentTotalLine(EntryReportDocumentNumberTotalLine documentNumberTotal, ReportWriterService reportWriterService) {
+            final CurrencyFormatter formatter = new CurrencyFormatter();
+            final int amountLength = getDataDictionaryService().getAttributeMaxLength(Entry.class, KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT);
+            
+            reportWriterService.writeNewLines(1);
+            reportWriterService.writeFormattedMessageLine("                                          Total: %"+amountLength+"s %"+amountLength+"s %"+amountLength+"s", formatter.format(documentNumberTotal.getCreditAmount()), formatter.format(documentNumberTotal.getDebitAmount()), formatter.format(documentNumberTotal.getBudgetAmount()));
+            reportWriterService.writeNewLines(1);
+        }
+        
+        /**
          * Completes the footer summary information for the report
          * @param reportWriterService the reportWriterService to write the footer to
          */
         public void writeReportFooter(ReportWriterService reportWriterService) {
             final CurrencyFormatter formatter = new CurrencyFormatter();
             final int amountLength = getDataDictionaryService().getAttributeMaxLength(Entry.class, KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT);
-            reportWriterService.writeFormattedMessageLine("                                          Total: %"+amountLength+"s %"+amountLength+"s %"+amountLength+"s", formatter.format(totalLine.getCreditAmount()), formatter.format(totalLine.getDebitAmount()), formatter.format(totalLine.getBudgetAmount()));
+          
+            reportWriterService.writeNewLines(1);
             for (String documentTypeCode : documentTypeTotals.keySet()) {
                 final EntryReportDocumentTypeTotalLine docTypeTotal = documentTypeTotals.get(documentTypeCode);
                 reportWriterService.writeFormattedMessageLine("       Totals for Document Type %4s Cnt %6d: %"+amountLength+"s %"+amountLength+"s %"+amountLength+"s",documentTypeCode, docTypeTotal.getEntryCount(), formatter.format(docTypeTotal.getCreditAmount()), formatter.format(docTypeTotal.getDebitAmount()), formatter.format(docTypeTotal.getBudgetAmount()));
             }
+            
+            reportWriterService.writeNewLines(1);
             reportWriterService.writeFormattedMessageLine("                        Grand Totals Cnt %6d: %"+amountLength+"s %"+amountLength+"s %"+amountLength+"s", new Integer(entryCount), formatter.format(totalLine.getCreditAmount()), formatter.format(totalLine.getDebitAmount()), formatter.format(totalLine.getBudgetAmount()));
         }
         
@@ -382,6 +415,66 @@ public class NightlyOutServiceImpl implements NightlyOutService {
             
             /**
              * @return the number of entries associated with the current document type
+             */
+            public int getEntryCount() {
+                return this.entryCount;
+            }
+
+            /**
+             * Overridden to automagically udpate the entry count
+             * @see org.kuali.kfs.gl.batch.service.impl.NightlyOutServiceImpl.EntryReportTotalLine#addBudgetAmount(org.kuali.rice.kns.util.KualiDecimal)
+             */
+            @Override
+            public void addBudgetAmount(KualiDecimal budgetAmount) {
+                super.addBudgetAmount(budgetAmount);
+                entryCount += 1;
+            }
+
+            /**
+             * Overridden to automagically update the entry count
+             * @see org.kuali.kfs.gl.batch.service.impl.NightlyOutServiceImpl.EntryReportTotalLine#addCreditAmount(org.kuali.rice.kns.util.KualiDecimal)
+             */
+            @Override
+            public void addCreditAmount(KualiDecimal creditAmount) {
+                super.addCreditAmount(creditAmount);
+                entryCount += 1;
+            }
+
+            /**
+             * Overridden to automagically update the entry count
+             * @see org.kuali.kfs.gl.batch.service.impl.NightlyOutServiceImpl.EntryReportTotalLine#addDebitAmount(org.kuali.rice.kns.util.KualiDecimal)
+             */
+            @Override
+            public void addDebitAmount(KualiDecimal debitAmount) {
+                super.addDebitAmount(debitAmount);
+                entryCount += 1;
+            }
+        }
+        
+        /**
+         * Summarizes pending entry data per document number
+         */
+        protected class EntryReportDocumentNumberTotalLine extends EntryReportTotalLine {
+            private String documentNumber;
+            private int entryCount = 0;
+            
+            /**
+             * Constructs a NightlyOutServiceImpl
+             * @param documentNumber the document number to total
+             */
+            public EntryReportDocumentNumberTotalLine(String documentNumber) {
+                this.documentNumber = documentNumber;
+            }
+            
+            /**
+             * @return the document number associated with this summarizer
+             */
+            public String getDocumentNumber() {
+                return this.documentNumber;
+            }
+            
+            /**
+             * @return the number of entries associated with the current document number
              */
             public int getEntryCount() {
                 return this.entryCount;

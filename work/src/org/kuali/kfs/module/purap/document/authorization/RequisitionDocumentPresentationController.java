@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.purap.document.authorization;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -26,14 +27,17 @@ import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants.RequisitionEditMode;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionStatuses;
+import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 
 public class RequisitionDocumentPresentationController extends PurchasingAccountsPayableDocumentPresentationController {
@@ -135,4 +139,79 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
         return editModes;
     }
 
+    @Override
+    protected boolean canCopy(Document document) {
+        //  disallow copying until the doc is saved
+        KualiWorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
+        if (workflowDoc.stateIsInitiated() && !workflowDoc.stateIsSaved()) {
+            return false;
+        }
+        return super.canCopy(document);
+    }
+
+    @Override
+    protected boolean canReload(Document document) {
+        RequisitionDocument reqDocument = (RequisitionDocument) document;
+        
+        //  this is a global rule, if the doc is in your queue for ACK, then you lose the reload button
+        KualiWorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
+        if (workflowDoc.isAcknowledgeRequested()) {
+            return false;
+        }
+        
+        //  while in subAccountReview ... sub account approvers do NOT get reload button
+        if (reqDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.SUB_ACCOUNT_REVIEW)) {
+            return false;
+        }
+        //  but the non-approvers do 
+        else if (isDocInRouteNodeNotForCurrentUser(reqDocument, NodeDetailEnum.SUB_ACCOUNT_REVIEW)) {
+            return true;
+        }
+        
+        //  while in AccountingHierarchyOrgReview ... org reviewers do NOT get reload button 
+        else if (reqDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.ORG_REVIEW)) {
+            return false;
+        }
+        // but the non-approvers do
+        else if (isDocInRouteNodeNotForCurrentUser(reqDocument, NodeDetailEnum.ORG_REVIEW)) {
+            return true;
+        }
+
+        //  while in SeparationOfDuties ... approvers do NOT get reload button 
+        else if (reqDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.SEPARATION_OF_DUTIES_REVIEW)) {
+            return false;
+        }
+        // but the non-approvers do
+        else if (isDocInRouteNodeNotForCurrentUser(reqDocument, NodeDetailEnum.SEPARATION_OF_DUTIES_REVIEW)) {
+            return true;
+        }
+
+        return super.canReload(document);
+    }
+
+    @Override
+    protected boolean canSave(Document document) {
+        RequisitionDocument reqDocument = (RequisitionDocument) document;
+
+        //  while in OrgReview ... org reviewers do NOT get reload button 
+        if (reqDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.ORG_REVIEW)) {
+            return false;
+        }
+        return super.canSave(document);
+    }
+
+    private boolean isDocInRouteNodeNotForCurrentUser(Document document, NodeDetails nodeDetails) {
+        List<String> currentRouteLevels = new ArrayList<String>();
+            KualiWorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
+            try {
+                currentRouteLevels = Arrays.asList(document.getDocumentHeader().getWorkflowDocument().getNodeNames());
+            }
+            catch (WorkflowException e) {
+                throw new RuntimeException(e);
+            }
+            if (currentRouteLevels.contains(nodeDetails.getName()) && !workflowDoc.isApprovalRequested()) {
+                return true;
+            }
+            return false;
+    }
 }

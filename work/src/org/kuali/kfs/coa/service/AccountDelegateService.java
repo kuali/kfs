@@ -24,14 +24,6 @@ import org.kuali.rice.kns.maintenance.Maintainable;
  */
 public interface AccountDelegateService {
     
-    /**
-     * Determines if the doc type code is within the financial system and thus can be used on account
-     * delegates. 
-     * @param documentTypeCode the document type code to check
-     * @return true if the document type code is within the KFS application space, false otherwise
-     */
-    public abstract boolean isFinancialSystemDocumentType(String documentTypeCode);
-    
     public String getLockingDocumentId(AccountDelegateGlobalMaintainableImpl global, String docNumber);
     
     public String getLockingDocumentId(AccountDelegateMaintainableImpl delegate, String docNumber);

@@ -198,17 +198,8 @@
   </bean>
   <bean id="GeneralLedgerPendingEntry-referenceFinancialDocumentTypeCode" parent="GeneralLedgerPendingEntry-referenceFinancialDocumentTypeCode-parentBean" />
 
-  <bean id="GeneralLedgerPendingEntry-referenceFinancialDocumentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="GeneralLedgerPendingEntry-referenceFinancialDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-referenceTypeCode">
     <property name="name" value="referenceFinancialDocumentTypeCode" />
-    <property name="label" value="Reference Document Type Code" />
-    <property name="shortLabel" value="Ref Doc Type Code" />
-    <property name="maxLength" value="4" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
-    </property>
-    
-    
   </bean>
   <bean id="GeneralLedgerPendingEntry-referenceFinancialDocumentNumber" parent="GeneralLedgerPendingEntry-referenceFinancialDocumentNumber-parentBean" />
 
@@ -296,17 +287,8 @@
   </bean>
   <bean id="GeneralLedgerPendingEntry-financialDocumentTypeCode" parent="GeneralLedgerPendingEntry-financialDocumentTypeCode-parentBean" />
 
-  <bean id="GeneralLedgerPendingEntry-financialDocumentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="GeneralLedgerPendingEntry-financialDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
     <property name="name" value="financialDocumentTypeCode" />
-    <property name="label" value="Document Type Code" />
-    <property name="shortLabel" value="Doc. Type Code" />
-    <property name="maxLength" value="4" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
-    </property>
-    
-    
   </bean>
   <bean id="GeneralLedgerPendingEntry-transactionDebitCreditCode" parent="GeneralLedgerPendingEntry-transactionDebitCreditCode-parentBean" />
 

@@ -25,15 +25,14 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountDelegate;
-import org.kuali.kfs.coa.service.AccountDelegateService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.service.FinancialSystemDocumentTypeService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -216,8 +215,8 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         }
         
         // do we have a good document type?
-        final AccountDelegateService delegateService = SpringContext.getBean(AccountDelegateService.class);
-        if (!delegateService.isFinancialSystemDocumentType(newDelegate.getFinancialDocumentTypeCode())) {
+        final FinancialSystemDocumentTypeService documentService = SpringContext.getBean(FinancialSystemDocumentTypeService.class);
+        if (!documentService.isFinancialSystemDocumentType(newDelegate.getFinancialDocumentTypeCode())) {
             putFieldError(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_INVALID_DOC_TYPE, new String[] { newDelegate.getFinancialDocumentTypeCode(), KFSConstants.ROOT_DOCUMENT_TYPE });
             success = false;
         }

@@ -50,12 +50,11 @@ import org.kuali.kfs.sys.batch.service.AbstractBatchTransactionalCachingService;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
+import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
+import org.kuali.kfs.sys.document.service.FinancialSystemDocumentTypeService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.service.WorkflowInfo;
 
 public class AccountingCycleCachingServiceImpl extends AbstractBatchTransactionalCachingService implements AccountingCycleCachingService {
-    protected WorkflowInfo workflowInfo;
     protected org.kuali.kfs.sys.batch.dataaccess.LedgerReferenceValuePreparedStatementCachingDao systemReferenceValueDao;
     protected org.kuali.kfs.coa.batch.dataaccess.LedgerReferenceValuePreparedStatementCachingDao chartReferenceValueDao;
     protected LedgerPreparedStatementCachingDao ledgerDao;
@@ -63,10 +62,10 @@ public class AccountingCycleCachingServiceImpl extends AbstractBatchTransactiona
     protected Map<String,Boolean> documentTypeValidCache;
     
     protected UniversityDateService universityDateService;
+    protected FinancialSystemDocumentTypeService financialSystemDocumentTypeService;
 
     public void initialize() {
         super.initialize();
-        workflowInfo = new WorkflowInfo();
         systemReferenceValueDao.initialize();
         chartReferenceValueDao.initialize();
         ledgerDao.initialize();
@@ -80,22 +79,16 @@ public class AccountingCycleCachingServiceImpl extends AbstractBatchTransactiona
 
     public void destroy() {
         super.destroy();
-        workflowInfo = null;
         systemReferenceValueDao.destroy();
         chartReferenceValueDao.destroy();
         ledgerDao.destroy();
         documentTypeValidCache = null;
     }
 
-    public boolean isCurrentActiveDocumentType(String documentTypeCode) {
+    public boolean isCurrentActiveAccountingDocumentType(String documentTypeCode) {
         Boolean documentTypeValid = documentTypeValidCache.get(documentTypeCode);
         if (documentTypeValid == null) {
-            try {
-                documentTypeValid = new Boolean(workflowInfo.isCurrentActiveDocumentType(documentTypeCode));
-            }
-            catch (WorkflowException e) {
-                throw new RuntimeException("AccountingCycleCachingServiceImpl unable to communicate with workflow to check document type: " + documentTypeCode, e);
-            }
+            documentTypeValid = new Boolean(financialSystemDocumentTypeService.isCurrentActiveAccountingDocumentType(documentTypeCode));
             documentTypeValidCache.put(documentTypeCode, documentTypeValid);
         }
         return documentTypeValid.booleanValue();
@@ -430,5 +423,13 @@ public class AccountingCycleCachingServiceImpl extends AbstractBatchTransactiona
 
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
+    }
+
+    /**
+     * Sets the financialSystemDocumentTypeService attribute value.
+     * @param financialSystemDocumentTypeService The financialSystemDocumentTypeService to set.
+     */
+    public void setFinancialSystemDocumentTypeService(FinancialSystemDocumentTypeService financialSystemDocumentTypeService) {
+        this.financialSystemDocumentTypeService = financialSystemDocumentTypeService;
     }
 }

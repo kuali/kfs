@@ -176,6 +176,27 @@ public class OriginEntryTotals {
             }
         }
     }
+    
+    /**
+     * This method adds amount from origin entry and increments number totals for the appropriate type (i.e. credit, debit, or
+     * other).
+     * 
+     * @param entry
+     */
+    public void addToTotals(OriginEntryFull originEntry) {
+        if (KFSConstants.GL_CREDIT_CODE.equals(originEntry.getTransactionDebitCreditCode())) {
+            creditAmount = creditAmount.add(originEntry.getTransactionLedgerEntryAmount());
+            numCreditEntries++;
+        }
+        else if (KFSConstants.GL_DEBIT_CODE.equals(originEntry.getTransactionDebitCreditCode())) {
+            debitAmount = debitAmount.add(originEntry.getTransactionLedgerEntryAmount());
+            numDebitEntries++;
+        }
+        else {
+            otherAmount = otherAmount.add(originEntry.getTransactionLedgerEntryAmount());
+            numOtherEntries++;
+        }
+    }
 
     /**
      * Adds up the values in the parameter totals object to the corresponding fields in this object

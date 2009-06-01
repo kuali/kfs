@@ -141,16 +141,8 @@
   </bean>
   <bean id="Encumbrance-documentTypeCode" parent="Encumbrance-documentTypeCode-parentBean" />
 
-  <bean id="Encumbrance-documentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Encumbrance-documentTypeCode-parentBean" abstract="true" parent="GenericAttributes-generalLedgerFinancialSystemDocumentTypeCode">
     <property name="name" value="documentTypeCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Document Type" />
-    <property name="shortLabel" value="Document Type Code" />
-    <property name="maxLength" value="4" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
-    </property>
   </bean>
   <bean id="Encumbrance-documentNumber" parent="Encumbrance-documentNumber-parentBean" />
 

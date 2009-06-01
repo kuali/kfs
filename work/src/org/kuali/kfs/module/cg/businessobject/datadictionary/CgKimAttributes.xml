@@ -29,7 +29,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
   </bean>
 
-  <bean id="CgKimAttributes-researchRiskTypeCode" parent="ResearchRiskType-researchRiskTypeCode" />
-  <bean id="CgKimAttributes-questionTypeCode" parent="QuestionType-questionTypeCode" />
+  <bean id="CgKimAttributes-researchRiskTypeCode" parent="ResearchRiskType-researchRiskTypeCode">
+    <property name="required" value="true"/>
+  </bean>
+  <bean id="CgKimAttributes-questionTypeCode" parent="QuestionType-questionTypeCode">
+    <property name="required" value="true"/>
+  </bean>
 
 </beans>

@@ -25,13 +25,17 @@ import java.util.List;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.gl.web.util.OriginEntryFileComparator;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
+import edu.emory.mathcs.backport.java.util.Arrays;
+
 /**
- * Entries Finder for Labor Balance Type Code. Returns a list of key values of Labor Origin Entry Groups for LLCP.
+ * Returns list of Labor origin entry filenames
  */
 public class CorrectionLaborGroupEntriesFinder extends KeyValuesBase {
 
@@ -40,45 +44,24 @@ public class CorrectionLaborGroupEntriesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List activeLabels = new ArrayList();
+
         OriginEntryGroupService originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
-
         File[] fileList = originEntryGroupService.getAllLaborFileInBatchDirectory();
-        
-        
-        //TODO: Shawn - need to ask to Sterling for group name sorting.
-//        OriginEntryGroup.GroupTypeComparator oegTypeComparator = new OriginEntryGroup.GroupTypeComparator();
-//        Collections.sort(sortedGroupList, oegTypeComparator);
-        
-        if (fileList != null){
-            for (File file : fileList){
-                String fileName = file.getName();
-                if (fileName.contains(GeneralLedgerConstants.BatchFileSystem.EXTENSION)){
-                    //build display file name with date and size
-                    Date date = new Date(file.lastModified());
-                    String timeInfo = "(" + date.toLocaleString() + ")";
-                    String sizeInfo = "(" +  (new Long(file.length())).toString() + ")";
-                                        
-                    activeLabels.add(new KeyLabelPair(fileName,  timeInfo + " " + fileName + " " + sizeInfo ));
-                }
-                
-                
-            }    
+
+        List<File> sortedFileList = Arrays.asList(fileList);
+        Collections.sort(sortedFileList, new OriginEntryFileComparator());
+
+        for (File file : sortedFileList) {
+            String fileName = file.getName();
+
+            // build display file name with date and size
+            Date date = new Date(file.lastModified());
+            String timeInfo = "(" + SpringContext.getBean(DateTimeService.class).toDateTimeString(date) + ")";
+            String sizeInfo = "(" + (new Long(file.length())).toString() + ")";
+
+            activeLabels.add(new KeyLabelPair(fileName, timeInfo + " " + fileName + " " + sizeInfo));
         }
-        
-        //TODO: Shawn - need to keep this part??
-//        String groupException = "";
-//        for (int i = 0; i < KFSConstants.LLCP_GROUP_FILTER_EXCEPTION.length; i++) {
-//            groupException += KFSConstants.LLCP_GROUP_FILTER_EXCEPTION[i] + " ";
-//        }
 
-        
-//        for (OriginEntryGroup oeg : sortedGroupList) {
-//            if (!oeg.getSourceCode().startsWith("L") || groupException.contains(oeg.getSourceCode())) {
-//                activeLabels.add(new KeyLabelPair(oeg.getId().toString(), oeg.getName()));
-//            }
-//        }
         return activeLabels;
-
-
     }
 }

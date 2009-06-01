@@ -202,14 +202,8 @@
   </bean>
   <bean id="ProcurementCardTargetAccountingLine-referenceTypeCode" parent="ProcurementCardTargetAccountingLine-referenceTypeCode-parentBean" />
 
-  <bean id="ProcurementCardTargetAccountingLine-referenceTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
-    <property name="name" value="referenceTypeCode" />
-    <property name="label" value="Reference Type Code" />
-    <property name="shortLabel" value="Ref Type Code" />
-    <property name="required" value="false" />
-    
-    
-  </bean>
+  <bean id="ProcurementCardTargetAccountingLine-referenceTypeCode-parentBean" abstract="true" parent="GenericAttributes-referenceTypeCode"/>
+  
   <bean id="ProcurementCardTargetAccountingLine-projectCode" parent="ProcurementCardTargetAccountingLine-projectCode-parentBean" />
 
   <bean id="ProcurementCardTargetAccountingLine-projectCode-parentBean" abstract="true" parent="ProjectCode-code">

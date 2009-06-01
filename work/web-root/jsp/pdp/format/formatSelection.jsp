@@ -26,9 +26,14 @@
 	value="${DataDictionary.AttributeReferenceDummy.attributes}" />
 
 <kul:page headerTitle="Format Disbursements"
-	transactionalDocument="false" showDocumentInfo="false"
+	transactionalDocument="false" showDocumentInfo="false" errorKey="foo"
 	htmlFormAction="pdp/format" docTitle="Format Disbursements">
 	<c:if test="${empty ErrorPropertyList}">
+	
+    <table width="100%" border="0"><tr><td>	
+	  <kul:errors keyMatch="${Constants.GLOBAL_ERRORS}" errorTitle="Errors Found On Page:"/>
+	</td></tr></table>  
+	</br>
 
 	<pdp:formatDisbursementRanges
 		disbursementNumberRangeAttributes="${disbursementNumberRangeAttributes}"

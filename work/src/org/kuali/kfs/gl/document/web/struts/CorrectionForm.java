@@ -23,7 +23,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument;
@@ -176,11 +175,15 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
                 throw new RuntimeException("Couldn't find column to sort");
             }
         }
-
+        
         // since the processInBatch option defaults to true, there's no built in POJO way to detect whether it's been unchecked
         // this code takes care of that
         if (StringUtils.isNotBlank(request.getParameter("processInBatch" + KFSConstants.CHECKBOX_PRESENT_ON_FORM_ANNOTATION)) && StringUtils.isBlank(request.getParameter("processInBatch"))) {
             setProcessInBatch(false);
+        }
+        
+        if (StringUtils.isNotBlank(request.getParameter("matchCriteriaOnly" + KFSConstants.CHECKBOX_PRESENT_ON_FORM_ANNOTATION)) && StringUtils.isBlank(request.getParameter("matchCriteriaOnly"))) {
+            setMatchCriteriaOnly(false);
         }
     }
 
@@ -287,17 +290,6 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
      */
     public Integer getAllEntriesSize() {
         return (allEntries == null) ? null : allEntries.size();
-    }
-
-    /**
-     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#reset(org.apache.struts.action.ActionMapping, javax.servlet.http.HttpServletRequest)
-     */
-    @Override
-    public void reset(ActionMapping mapping, HttpServletRequest request) {
-        super.reset(mapping, request);
-        
-        processInBatch = false;
-        matchCriteriaOnly = false;
     }
 
     public GeneralLedgerCorrectionProcessDocument getCorrectionDocument() {

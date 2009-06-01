@@ -465,14 +465,8 @@
   </bean>
   <bean id="BudgetAdjustmentTargetAccountingLine-referenceTypeCode" parent="BudgetAdjustmentTargetAccountingLine-referenceTypeCode-parentBean" />
 
-  <bean id="BudgetAdjustmentTargetAccountingLine-referenceTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
-    <property name="name" value="referenceTypeCode" />
-    <property name="label" value="Reference Type Code" />
-    <property name="shortLabel" value="Ref Type Code" />
-    <property name="required" value="false" />
-    
-    
-  </bean>
+  <bean id="BudgetAdjustmentTargetAccountingLine-referenceTypeCode-parentBean" abstract="true" parent="GenericAttributes-referenceTypeCode"/>
+
   <bean id="BudgetAdjustmentTargetAccountingLine-projectCode" parent="BudgetAdjustmentTargetAccountingLine-projectCode-parentBean" />
 
   <bean id="BudgetAdjustmentTargetAccountingLine-projectCode-parentBean" abstract="true" parent="ProjectCode-code">

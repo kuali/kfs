@@ -268,7 +268,8 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
             LOG.warn("message is out of bounds writing anyway");
         }
 
-        printStream.printf(message);
+        printStream.print(message);
+        printStream.flush();
 
         line++;
         if (line >= pageLength) {
@@ -473,7 +474,8 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
     }
 
     public void writeMultipleFormattedMessageLines(String format, Object... args) {
-        String[] messageLines = getMultipleFormattedMessageLines(format, args);
+        Object[] escapedArgs = escapeArguments(args);
+        String[] messageLines = getMultipleFormattedMessageLines(format, escapedArgs);
         writeMultipleFormattedMessageLines(messageLines);
     }
         
@@ -485,8 +487,48 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
      * @return
      */
     public String[] getMultipleFormattedMessageLines(String format, Object... args) {
-        String message = String.format(format, args);
+        Object[] escapedArgs = escapeArguments(args);
+        String message = String.format(format, escapedArgs);
         return StringUtils.split(message, newLineCharacter);
+    }
+    
+    /**
+     * Iterates through array and escapes special formatting characters 
+     * 
+     * @param args Object array to process      
+     * @return Object array with String members escaped
+     */
+    protected Object[] escapeArguments(Object... args) {
+        Object[] escapedArgs = new Object[args.length];
+        for (int i = 0; i < args.length; i++) {
+            Object arg = args[i];
+            if (arg != null) {
+                String escapedArg = escapeFormatCharacters(arg.toString());
+                escapedArgs[i] = escapedArg;
+            }
+            else {
+                escapedArgs[i] = arg;
+            }
+        }
+        
+        return escapedArgs;
+    }
+
+    /**
+     * Escapes characters in a string that have special meaning for formatting
+     * 
+     * @param replacementString string to escape
+     * @return string with format characters escaped
+     * @see KFSConstants.ReportConstants.FORMAT_ESCAPE_CHARACTERS
+     */
+    protected String escapeFormatCharacters(String replacementString) {
+        String escapedString = replacementString;
+        for (int i = 0; i < KFSConstants.ReportConstants.FORMAT_ESCAPE_CHARACTERS.length; i++) {
+            String characterToEscape = KFSConstants.ReportConstants.FORMAT_ESCAPE_CHARACTERS[i];
+            escapedString = StringUtils.replace(escapedString, characterToEscape, characterToEscape + characterToEscape);
+        }
+
+        return escapedString;
     }
 
     /**

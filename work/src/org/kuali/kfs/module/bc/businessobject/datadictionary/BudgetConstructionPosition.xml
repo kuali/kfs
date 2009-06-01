@@ -289,19 +289,11 @@
   </bean>
   <bean id="BudgetConstructionPosition-positionLockUserIdentifier" parent="BudgetConstructionPosition-positionLockUserIdentifier-parentBean" />
 
-  <bean id="BudgetConstructionPosition-positionLockUserIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="BudgetConstructionPosition-positionLockUserIdentifier-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="positionLockUserIdentifier" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Position Lock User Identifier" />
     <property name="shortLabel" value="Lock User ID" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
-    </property>
+    <property name="required" value="false"/>
     
     
   </bean>

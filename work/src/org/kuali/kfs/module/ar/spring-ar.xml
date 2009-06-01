@@ -60,7 +60,7 @@
 		<property name="triggerNames">
 			<list>
 				<value>lockboxJobTrigger</value>
-				<value>customerInvoiceDocumentBatchJobTrigger</value>
+				<!-- value>customerInvoiceDocumentBatchJobTrigger</value -->
 				<value>invoiceRecurrenceJobTrigger</value>
 			</list>
 		</property>

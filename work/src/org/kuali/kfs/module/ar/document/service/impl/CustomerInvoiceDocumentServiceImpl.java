@@ -80,37 +80,36 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     private CustomerInvoiceRecurrenceDetails customerInvoiceRecurrenceDetails;
     private UniversityDateService universityDateService;
     private PersonService<Person> personService;
-    
+
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentServiceImpl.class);
 
     public void convertDiscountsToPaidApplieds(CustomerInvoiceDocument invoice) {
 
-        // this needs a little explanation.  we have to calculate manually 
-        // whether we've written off the whole thing, because the regular 
-        // code uses the invoice paid applieds to discount, but since those 
-        // are added but not committed in this transaction, they're also not 
+        // this needs a little explanation. we have to calculate manually
+        // whether we've written off the whole thing, because the regular
+        // code uses the invoice paid applieds to discount, but since those
+        // are added but not committed in this transaction, they're also not
         // visible in this transaction, so we do it manually.
         KualiDecimal openAmount = invoice.getOpenAmount();
 
         String invoiceNumber = invoice.getDocumentNumber();
         List<CustomerInvoiceDetail> discounts = invoice.getDiscounts();
 
-        //  retrieve the number of current paid applieds, so we dont have item number overlap
+        // retrieve the number of current paid applieds, so we dont have item number overlap
         Integer paidAppliedItemNumber = 0;
-        
+
         for (CustomerInvoiceDetail discount : discounts) {
-            
-            //   if credit amount is zero, do nothing
+
+            // if credit amount is zero, do nothing
             if (KualiDecimal.ZERO.equals(discount.getAmount())) {
                 continue;
             }
-            
+
             if (paidAppliedItemNumber == 0) {
-                paidAppliedItemNumber = invoicePaidAppliedService.getNumberOfInvoicePaidAppliedsForInvoiceDetail(invoiceNumber, 
-                        discount.getInvoiceItemNumber());
+                paidAppliedItemNumber = invoicePaidAppliedService.getNumberOfInvoicePaidAppliedsForInvoiceDetail(invoiceNumber, discount.getInvoiceItemNumber());
             }
-            
-            //  create and save the paidApplied
+
+            // create and save the paidApplied
             InvoicePaidApplied invoicePaidApplied = new InvoicePaidApplied();
             invoicePaidApplied.setDocumentNumber(invoiceNumber);
             invoicePaidApplied.setPaidAppliedItemNumber(paidAppliedItemNumber++);
@@ -121,14 +120,14 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
             invoicePaidApplied.setInvoiceItemAppliedAmount(discount.getAmount().abs());
             openAmount = openAmount.subtract(discount.getAmount().abs());
             businessObjectService.save(invoicePaidApplied);
-       }
-        
-       //   if its open, but now with a zero openamount, then close it
-       if (KualiDecimal.ZERO.equals(openAmount)) {
-           invoice.setOpenInvoiceIndicator(false);
-           invoice.setClosedDate(dateTimeService.getCurrentSqlDate());
-           documentService.updateDocument(invoice);
-       }
+        }
+
+        // if its open, but now with a zero openamount, then close it
+        if (KualiDecimal.ZERO.equals(openAmount)) {
+            invoice.setOpenInvoiceIndicator(false);
+            invoice.setClosedDate(dateTimeService.getCurrentSqlDate());
+            documentService.updateDocument(invoice);
+        }
     }
 
     public Collection<CustomerInvoiceDocument> getAllOpenCustomerInvoiceDocuments() {
@@ -138,25 +137,25 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     public Collection<CustomerInvoiceDocument> getAllOpenCustomerInvoiceDocumentsWithoutWorkflow() {
         return getAllOpenCustomerInvoiceDocuments(false);
     }
-    
+
     public Collection<CustomerInvoiceDocument> getAllOpenCustomerInvoiceDocuments(boolean includeWorkflowHeaders) {
         Collection<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
-        
-        //  retrieve the set of documents without workflow headers
+
+        // retrieve the set of documents without workflow headers
         invoices = customerInvoiceDocumentDao.getAllOpen();
-        
-        //  if we dont need workflow headers, then we're done
+
+        // if we dont need workflow headers, then we're done
         if (!includeWorkflowHeaders) {
             return invoices;
         }
-        
-        //  make a list of necessary workflow docs to retrieve
+
+        // make a list of necessary workflow docs to retrieve
         List<String> documentHeaderIds = new ArrayList<String>();
         for (CustomerInvoiceDocument invoice : invoices) {
             documentHeaderIds.add(invoice.getDocumentNumber());
         }
 
-        //  get all of our docs with full workflow headers
+        // get all of our docs with full workflow headers
         List<CustomerInvoiceDocument> docs = new ArrayList<CustomerInvoiceDocument>();
         try {
             docs = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds);
@@ -167,20 +166,20 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
 
         return docs;
     }
-    
+
     public Collection<CustomerInvoiceDocument> attachWorkflowHeadersToTheInvoices(Collection<CustomerInvoiceDocument> invoices) {
         List<CustomerInvoiceDocument> docs = new ArrayList<CustomerInvoiceDocument>();
         if (invoices == null || invoices.isEmpty()) {
             return docs;
         }
-        
-        //  make a list of necessary workflow docs to retrieve
+
+        // make a list of necessary workflow docs to retrieve
         List<String> documentHeaderIds = new ArrayList<String>();
         for (CustomerInvoiceDocument invoice : invoices) {
             documentHeaderIds.add(invoice.getDocumentNumber());
         }
 
-        //  get all of our docs with full workflow headers
+        // get all of our docs with full workflow headers
         try {
             docs = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds);
         }
@@ -188,66 +187,72 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
             throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
         }
 
-        return docs;   
+        return docs;
     }
-    
+
     public Collection<CustomerInvoiceDocument> getOpenInvoiceDocumentsByCustomerNumber(String customerNumber) {
         Collection<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
 
         // customer number is not required to be populated, so we need to check that it's not null first
-        if(StringUtils.isNotEmpty(customerNumber)) {
-            //  trim and force-caps the customer number
+        if (StringUtils.isNotEmpty(customerNumber)) {
+            // trim and force-caps the customer number
             customerNumber = customerNumber.trim().toUpperCase();
         }
-        
+
         invoices.addAll(customerInvoiceDocumentDao.getOpenByCustomerNumber(customerNumber));
         return invoices;
     }
-    
+
     public Collection<CustomerInvoiceDocument> getOpenInvoiceDocumentsByCustomerNameByCustomerType(String customerName, String customerTypeCode) {
         Collection<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
-        
-        //  trim and force-caps the customer name
+
+        // trim and force-caps the customer name
         customerName = StringUtils.replace(customerName, KFSConstants.WILDCARD_CHARACTER, KFSConstants.PERCENTAGE_SIGN);
         customerName = customerName.trim();
         if (customerName.indexOf("%") < 0)
             customerName += "%";
-        
-        //  trim and force-caps
+
+        // trim and force-caps
         customerTypeCode = customerTypeCode.trim().toUpperCase();
-        
+
         invoices.addAll(customerInvoiceDocumentDao.getOpenByCustomerNameByCustomerType(customerName, customerTypeCode));
         return invoices;
     }
-    
+
     public Collection<CustomerInvoiceDocument> getOpenInvoiceDocumentsByCustomerName(String customerName) {
         Collection<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
 
-        //  trim and force-caps the customer name
+        // trim and force-caps the customer name
         customerName = StringUtils.replace(customerName, KFSConstants.WILDCARD_CHARACTER, KFSConstants.PERCENTAGE_SIGN);
         customerName = customerName.trim();
         if (customerName.indexOf("%") < 0)
             customerName += "%";
-        
+
         invoices.addAll(customerInvoiceDocumentDao.getOpenByCustomerName(customerName));
         return invoices;
     }
-    
+
     public Collection<CustomerInvoiceDocument> getOpenInvoiceDocumentsByCustomerType(String customerTypeCode) {
         Collection<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
 
-        //  trim and force-caps
+        // trim and force-caps
         customerTypeCode = customerTypeCode.trim().toUpperCase();
-        
+
         invoices.addAll(customerInvoiceDocumentDao.getOpenByCustomerType(customerTypeCode));
         return invoices;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getCustomerInvoiceDetailsForCustomerInvoiceDocument(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
      */
     public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument) {
         return getCustomerInvoiceDetailsForCustomerInvoiceDocument(customerInvoiceDocument.getDocumentNumber());
+    }
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getCustomerInvoiceDetailsForCustomerInvoiceDocumentWithCaching(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
+     */
+    public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForCustomerInvoiceDocumentWithCaching(CustomerInvoiceDocument customerInvoiceDocument) {
+        return customerInvoiceDetailService.getCustomerInvoiceDetailsForInvoiceWithCaching(customerInvoiceDocument.getDocumentNumber());
     }
 
     /**
@@ -256,6 +261,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForCustomerInvoiceDocument(String customerInvoiceDocumentNumber) {
         return customerInvoiceDetailService.getCustomerInvoiceDetailsForInvoice(customerInvoiceDocumentNumber);
     }
+
 
     public KualiDecimal getOpenAmountForCustomerInvoiceDocument(String customerInvoiceDocumentNumber) {
         if (null == customerInvoiceDocumentNumber) {
@@ -269,9 +275,11 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         if (customerInvoiceDocument.isOpenInvoiceIndicator()) {
             Collection<CustomerInvoiceDetail> customerInvoiceDetails = customerInvoiceDocument.getCustomerInvoiceDetailsWithoutDiscounts();
             for (CustomerInvoiceDetail detail : customerInvoiceDetails) {
-                //  note that we're now dealing with conditionally applying discounts 
-                // depending on whether the doc is saved or approved one level down, 
+                // note that we're now dealing with conditionally applying discounts
+                // depending on whether the doc is saved or approved one level down,
                 // in the CustomerInvoiceDetail.getAmountOpen()
+                // FIXME - added by harsha
+                detail.setCustomerInvoiceDocument(customerInvoiceDocument);
                 total = total.add(detail.getAmountOpen());
             }
         }
@@ -279,11 +287,9 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     }
 
     public KualiDecimal getOriginalTotalAmountForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument) {
-        LOG.info("\n\n\n\t\t invoice: " + customerInvoiceDocument.getDocumentNumber() +
-                "\n\t\t 111111111 HEADER TOTAL AMOUNT (should be null): " + customerInvoiceDocument.getDocumentHeader().getFinancialDocumentTotalAmount() +
-                "\n\n");
+        LOG.info("\n\n\n\t\t invoice: " + customerInvoiceDocument.getDocumentNumber() + "\n\t\t 111111111 HEADER TOTAL AMOUNT (should be null): " + customerInvoiceDocument.getDocumentHeader().getFinancialDocumentTotalAmount() + "\n\n");
         customerInvoiceDocument.getDocumentNumber();
-        //original-amount = SpringContext.getBean(FinancialSystemDocumentService.class).get
+        // original-amount = SpringContext.getBean(FinancialSystemDocumentService.class).get
         HashMap criteria = new HashMap();
         criteria.put("documentNumber", customerInvoiceDocument.getDocumentHeader().getDocumentTemplateNumber());
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
@@ -291,9 +297,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         KualiDecimal originalTotalAmount = KualiDecimal.ZERO;
         originalTotalAmount = financialSystemDocumentHeader.getFinancialDocumentTotalAmount();
 
-        LOG.info("\n\n\n\t\t invoice: " + customerInvoiceDocument.getDocumentNumber() +
-                "\n\t\t 333333333333 HEADER TOTAL AMOUNT (should be set now): " + customerInvoiceDocument.getDocumentHeader().getFinancialDocumentTotalAmount() +
-                "\n\n");
+        LOG.info("\n\n\n\t\t invoice: " + customerInvoiceDocument.getDocumentNumber() + "\n\t\t 333333333333 HEADER TOTAL AMOUNT (should be set now): " + customerInvoiceDocument.getDocumentHeader().getFinancialDocumentTotalAmount() + "\n\n");
         return originalTotalAmount;
     }
 
@@ -367,37 +371,37 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         if (StringUtils.isBlank(initiatorPrincipalName)) {
             throw new IllegalArgumentException("The parameter [initiatorPrincipalName] passed in was null or blank.");
         }
-        
-        //  IMPORTANT NOTES ABOUT THIS METHOD
+
+        // IMPORTANT NOTES ABOUT THIS METHOD
         //
-        //  This method behaves differently than the other invoice printing methods.  This is 
-        // because there's no way from within KFS to do a direct DB call to get all the invoices 
-        // you want.  This is because workflow holds the document initiator, and you cant guarantee 
-        // that in a given implementation that you have access to that other db.  It could be on 
+        // This method behaves differently than the other invoice printing methods. This is
+        // because there's no way from within KFS to do a direct DB call to get all the invoices
+        // you want. This is because workflow holds the document initiator, and you cant guarantee
+        // that in a given implementation that you have access to that other db. It could be on
         // another box in another network, and you only have web-services access to the Rice box.
         //
-        //  Given that, we try to minimize the resource hit of this call as much as possible.  First 
-        // we retrieve all invoices that havent been printed (ie, dont have a print date) and that 
-        // are marked for the USER print queue.  At any given time that should be a manageable number of 
-        // documents.  
+        // Given that, we try to minimize the resource hit of this call as much as possible. First
+        // we retrieve all invoices that havent been printed (ie, dont have a print date) and that
+        // are marked for the USER print queue. At any given time that should be a manageable number of
+        // documents.
         //
-        //  Then we walk through them, retrieve the full workflow-populated version of it, and only 
+        // Then we walk through them, retrieve the full workflow-populated version of it, and only
         // return the ones that match the initiator.
         //
-        //  This isnt as performant a solution as the other getPrintableCustomerInvoiceBy... 
+        // This isnt as performant a solution as the other getPrintableCustomerInvoiceBy...
         // methods, but its the best we can do in this release, and it should be manageable.
-        
+
         // 
-        //  attempt to retrieve the initiator person specified, and puke if not found
+        // attempt to retrieve the initiator person specified, and puke if not found
         Person initiator = personService.getPersonByPrincipalName(initiatorPrincipalName);
         if (initiator == null) {
             throw new IllegalArgumentException("The parameter value for initiatorPrincipalName [" + initiatorPrincipalName + "] passed in doesnt map to a person.");
         }
-        
-        //  retrieve all the ready-to-print docs in the user-queue for all users
+
+        // retrieve all the ready-to-print docs in the user-queue for all users
         List<String> printableUserQueueDocNumbers = customerInvoiceDocumentDao.getPrintableCustomerInvoiceDocumentNumbersFromUserQueue();
-        
-        //  get all the documents that might be right, but this set includes documents generated 
+
+        // get all the documents that might be right, but this set includes documents generated
         // by the wrong user
         List<CustomerInvoiceDocument> customerInvoiceDocumentsSuperSet;
         if (printableUserQueueDocNumbers.size() > 0) {
@@ -411,8 +415,8 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         else {
             customerInvoiceDocumentsSuperSet = new ArrayList<CustomerInvoiceDocument>();
         }
-        
-        //  filter only the ones initiated by the correct user
+
+        // filter only the ones initiated by the correct user
         List<CustomerInvoiceDocument> customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
         for (CustomerInvoiceDocument superSetDocument : customerInvoiceDocumentsSuperSet) {
             if (superSetDocument.getDocumentHeader().getWorkflowDocument().userIsInitiator(initiator)) {
@@ -421,11 +425,10 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         }
         return customerInvoiceDocuments;
     }
-    
+
     public List<CustomerInvoiceDocument> getPrintableCustomerInvoiceDocumentsByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode) {
-        List<String> documentHeaderIds = customerInvoiceDocumentDao.getCustomerInvoiceDocumentNumbersByBillingChartAndOrg(
-                chartOfAccountsCode, organizationCode);
-        
+        List<String> documentHeaderIds = customerInvoiceDocumentDao.getCustomerInvoiceDocumentNumbersByBillingChartAndOrg(chartOfAccountsCode, organizationCode);
+
         List<CustomerInvoiceDocument> customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
         if (documentHeaderIds != null && !documentHeaderIds.isEmpty()) {
             try {
@@ -443,9 +446,8 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
      */
     public List<CustomerInvoiceDocument> getPrintableCustomerInvoiceDocumentsByProcessingChartAndOrg(String chartOfAccountsCode, String organizationCode) {
 
-        List<String> documentHeaderIds = customerInvoiceDocumentDao.getCustomerInvoiceDocumentNumbersByProcessingChartAndOrg(
-                chartOfAccountsCode, organizationCode);
-        
+        List<String> documentHeaderIds = customerInvoiceDocumentDao.getCustomerInvoiceDocumentNumbersByProcessingChartAndOrg(chartOfAccountsCode, organizationCode);
+
         List<CustomerInvoiceDocument> customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
         if (documentHeaderIds != null && !documentHeaderIds.isEmpty()) {
             try {
@@ -487,7 +489,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         setupBasicDefaultValuesForCustomerInvoiceDocument(document);
 
         // set up the default values for the AR DOC Header
-        
+
         AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
         accountsReceivableDocumentHeader.setDocumentNumber(document.getDocumentNumber());
         document.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
@@ -733,6 +735,5 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     public void setPersonService(PersonService<Person> personService) {
         this.personService = personService;
     }
-    
-}
 
+}

@@ -30,7 +30,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="PurapKimAttributes-documentSensitive-parentBean" abstract="true" parent="GenericAttributes-genericBoolean"
     p:name="documentSensitive"
     p:label="Sensitive Document"
-    p:shortLabel="Sensitive" />
+    p:shortLabel="Sensitive" 
+    p:required="true"/>
 
   <bean id="PurapKimAttributes-sensitiveDataCode" parent="SensitiveData-sensitiveDataCode" />
 

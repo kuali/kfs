@@ -102,10 +102,9 @@ public class CollectorServiceImpl implements CollectorService {
         
         String collectorEachInputFileName = collectorFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_DEMERGER_VAILD_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         String collectorFinalOutputFileName = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_OUTPUT + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-        //File collectorFinalOutputFile = new File(collectorFinalOutputFileName);
+      
         PrintStream collectorFinalOutputFilePs = null;
         BufferedReader inputFileReader = null;
-        
         try {
             collectorFinalOutputFilePs = new PrintStream(collectorFinalOutputFileName);
                 
@@ -160,8 +159,6 @@ public class CollectorServiceImpl implements CollectorService {
         }
         finally {
             collectorScrubberService.removeTempGroups(collectorScrubberStatuses);
-//            group.setProcess(true);
-//            originEntryGroupService.save(group);
             removeDoneFiles(processedFiles);
             collectorFinalOutputFilePs.close();
         }

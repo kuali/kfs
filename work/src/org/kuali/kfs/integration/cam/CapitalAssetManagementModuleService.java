@@ -17,9 +17,18 @@ package org.kuali.kfs.integration.cam;
 
 import java.util.List;
 
+import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.rice.kns.document.Document;
 
 public interface CapitalAssetManagementModuleService {
+    /**
+     * FP document eligible for asset lock when any of its accounting line is taken into CAB during CAB batch.
+     * 
+     * @param accountingDocument
+     * @return
+     */
+    boolean isFpDocumentEligibleForAssetLock(AccountingDocument accountingDocument, String documentType);
+
     /**
      * Check and store AssetLocks if they are not locked by other blocking documents. Either store all of the asset locks or none of
      * them being stored in case of dead lock. If any of the asset is blocked, the error message will be built including link(s) to
@@ -61,17 +70,17 @@ public interface CapitalAssetManagementModuleService {
      */
     boolean isAssetLocked(List<Long> assetNumbers, String documentTypeName, String excludingDocumentNumber);
 
-    
+
     /**
-     * 
      * Creates the locks for each asset on a documents
+     * 
      * @param document
      */
     public void generateCapitalAssetLock(Document document, String documentTypeNames);
 
     /**
-     * 
      * Deletes the asset locks associated with a particular document
+     * 
      * @param document
      */
     public void deleteDocumentAssetLocks(Document document);

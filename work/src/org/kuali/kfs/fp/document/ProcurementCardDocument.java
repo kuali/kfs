@@ -62,8 +62,8 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
 
     private List transactionEntries;
     
-    private CapitalAssetInformation capitalAssetInformation;
-    private CapitalAssetManagementModuleService capitalAssetManagementModuleService;
+    private transient CapitalAssetInformation capitalAssetInformation;
+    private transient CapitalAssetManagementModuleService capitalAssetManagementModuleService;
 
     /**
      * Default constructor.

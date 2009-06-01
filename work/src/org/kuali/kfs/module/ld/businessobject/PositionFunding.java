@@ -16,7 +16,12 @@
 
 package org.kuali.kfs.module.ld.businessobject;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Labor business object for PositionFunding
@@ -30,6 +35,10 @@ public class PositionFunding extends LaborCalculatedSalaryFoundationTracker {
      * @return Returns the ledgerPerson.
      */
     public Person getLedgerPerson() {
+        if(ledgerPerson == null || !StringUtils.equals(ledgerPerson.getEmployeeId(), this.getEmplid())) {
+            ledgerPerson = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(this.getEmplid());
+        }
+        
         return ledgerPerson;
     }
 
@@ -40,6 +49,19 @@ public class PositionFunding extends LaborCalculatedSalaryFoundationTracker {
      */
     public void setLedgerPerson(Person ledgerPerson) {
         this.ledgerPerson = ledgerPerson;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ld.businessobject.LaborCalculatedSalaryFoundationTracker#getName()
+     */
+    @Override
+    public String getName() {
+        Person person = this.getLedgerPerson();
+        if (ObjectUtils.isNull(person)) {
+            return LaborConstants.BalanceInquiries.UnknownPersonName;
+        }
+        
+        return person.getName();
     }
 }
 

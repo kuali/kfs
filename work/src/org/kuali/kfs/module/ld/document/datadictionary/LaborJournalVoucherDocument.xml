@@ -100,16 +100,11 @@
   </bean>
   <bean id="LaborJournalVoucherDocument-offsetTypeCode" parent="LaborJournalVoucherDocument-offsetTypeCode-parentBean"/>
 
-  <bean id="LaborJournalVoucherDocument-offsetTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="LaborJournalVoucherDocument-offsetTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
     <property name="name" value="offsetTypeCode"/>
-    <property name="forceUppercase" value="false"/>
     <property name="label" value="Offset Type"/>
     <property name="shortLabel" value="Offset Type"/>
     <property name="maxLength" value="4"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:exactLength="4"/>
-    </property>
-    <property name="required" value="true"/>
     <property name="control">
       <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ld.businessobject.options.OffsetOptionFinder" p:includeKeyInLabel="false"/>
     </property>

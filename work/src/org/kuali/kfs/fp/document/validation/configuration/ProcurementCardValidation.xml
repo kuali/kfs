@@ -34,9 +34,7 @@
 	<bean id="ProcurementCard-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 	  	<property name="validations">
 			<list>
-                <bean parent="AccountingDocument-AddAccountingLine-DefaultValidation" scope="prototype" />
-                
-				<bean parent="ProcurementCard-newAccountingLineBranchingValidation" scope="prototype">
+				<bean parent="AccountingDocument-newAccountingLineBranchingValidation" scope="prototype">
 					<property name="branchMap">
 						<map>
 							<entry>
@@ -67,6 +65,8 @@
 						</list>
 					</property>
 				</bean>
+				
+				<bean parent="AccountingDocument-AddAccountingLine-DefaultValidation" scope="prototype" />
 			
 				<bean parent="ProcurementCard-objectCodeValidation" scope="prototype">
 					<property name="parameterProperties">
@@ -96,7 +96,7 @@
 	<bean id="ProcurementCard-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 	  	<property name="validations">
   			<list>
-			 	<bean parent="ProcurementCard-newAccountingLineBranchingValidation" scope="prototype">
+			 	<bean parent="AccountingDocument-newAccountingLineBranchingValidation" scope="prototype">
 					<property name="branchMap">
 						<map>
 							<entry>
@@ -163,7 +163,7 @@
 	<bean id="ProcurementCard-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
-				<bean parent="ProcurementCard-newAccountingLineBranchingValidation" scope="prototype">
+				<bean parent="AccountingDocument-newAccountingLineBranchingValidation" scope="prototype">
 					<property name="branchMap">
 						<map>
 							<entry>

@@ -18,13 +18,11 @@ package org.kuali.kfs.module.ec.document.validation.impl;
 import java.util.Collection;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.module.ec.EffortKeyConstants;
 import org.kuali.kfs.module.ec.EffortPropertyConstants;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportPosition;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -47,7 +45,7 @@ public class EffortCertificationReportDefinitionRule extends MaintenanceDocument
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         LOG.info("processCustomRouteDocumentBusinessRules() start");
         
-        if (!GlobalVariables.getErrorMap().isEmpty()) {
+        if (GlobalVariables.getErrorMap().getErrorCount() > 0) {
             return false;
         }
         

@@ -1615,7 +1615,7 @@
                     p:attributeName="organizationOwnerChartOfAccountsCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="organizationOwnerAccountNumber" />
-              <bean parent="FieldDefinition"
+              <bean parent="FieldDefinition" p:noInquiry="true"
                     p:attributeName="organizationOwnerAccount.organizationCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="agencyNumber" />
@@ -2227,12 +2227,16 @@
               p:attributeName="capitalAssetTypeCode" />
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetDescription" />
+        <!-- 
         <bean parent="FieldDefinition"
               p:attributeName="representativeUniversalIdentifier" />
+         -->
         <bean parent="FieldDefinition"
               p:attributeName="assetRepresentative.principalName" />
+        <!--  
         <bean parent="FieldDefinition"
               p:attributeName="assetRepresentative.name" />
+         -->
         <bean parent="FieldDefinition"
               p:attributeName="organizationInventoryName" />
         <bean parent="FieldDefinition"
@@ -2280,6 +2284,8 @@
         <bean parent="FieldDefinition"
               p:attributeName="campusTagNumber" />
         <bean parent="FieldDefinition"
+              p:attributeName="organizationOwnerAccountNumber" />
+        <bean parent="FieldDefinition" p:noInquiry="true"
               p:attributeName="organizationOwnerAccount.organizationCode" />
         <bean parent="FieldDefinition"
               p:attributeName="buildingCode" />

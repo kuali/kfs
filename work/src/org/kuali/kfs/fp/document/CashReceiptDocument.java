@@ -31,11 +31,7 @@ import org.kuali.kfs.fp.document.validation.event.AddCheckEvent;
 import org.kuali.kfs.fp.document.validation.event.DeleteCheckEvent;
 import org.kuali.kfs.fp.document.validation.event.UpdateCheckEvent;
 import org.kuali.kfs.fp.service.CheckService;
-import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
-import org.kuali.kfs.module.cam.CamsConstants;
-import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
-import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -43,7 +39,6 @@ import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -86,9 +81,9 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     private CurrencyDetail currencyDetail;
     private CoinDetail coinDetail;
 
-    private CapitalAssetInformation capitalAssetInformation;
+    private transient CapitalAssetInformation capitalAssetInformation;
     
-    private CapitalAssetManagementModuleService capitalAssetManagementModuleService;
+    private transient CapitalAssetManagementModuleService capitalAssetManagementModuleService;
     
     
     /**

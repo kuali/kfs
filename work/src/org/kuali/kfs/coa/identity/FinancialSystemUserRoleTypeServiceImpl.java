@@ -20,11 +20,17 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
+import org.kuali.rice.kim.bo.types.dto.AttributeDefinitionMap;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
+import org.kuali.rice.kns.datadictionary.AttributeDefinition;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.RiceKeyConstants;
+
 
 
 /**
@@ -33,7 +39,7 @@ import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
 public class FinancialSystemUserRoleTypeServiceImpl extends KimRoleTypeServiceBase {
     public static final String FINANCIAL_SYSTEM_USER_ROLE_NAME = "User";
     public static final String PERFORM_QUALIFIER_MATCH = "performQualifierMatch";
-
+    
     protected List<String> roleQualifierRequiredAttributes = new ArrayList<String>();
     protected List<String> qualificationRequiredAttributes = new ArrayList<String>();
     {
@@ -105,8 +111,8 @@ public class FinancialSystemUserRoleTypeServiceImpl extends KimRoleTypeServiceBa
      * @see org.kuali.rice.kim.service.support.impl.KimTypeServiceBase#validateAttributes(org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
     @Override
-    public AttributeSet validateAttributes(AttributeSet attributes) {
-        AttributeSet errorMap = super.validateAttributes(attributes);
+    public AttributeSet validateAttributes(String kimTypeId, AttributeSet attributes) {
+        AttributeSet errorMap = super.validateAttributes(kimTypeId, attributes);
         String chartCode = attributes.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
         String organizationCode = attributes.get(KfsKimAttributes.ORGANIZATION_CODE);
         String namespaceCode = attributes.get(KfsKimAttributes.NAMESPACE_CODE);
@@ -117,7 +123,17 @@ public class FinancialSystemUserRoleTypeServiceImpl extends KimRoleTypeServiceBa
             errorMap.remove(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
             errorMap.remove(KfsKimAttributes.ORGANIZATION_CODE);
             errorMap.remove(KfsKimAttributes.NAMESPACE_CODE);
+        } //- if chart or org are specified, chart, org, and namespace are all required 
+          //- none are required if not 
+        else if (StringUtils.isNotEmpty(chartCode) || StringUtils.isNotEmpty(organizationCode)){
+            if(StringUtils.isEmpty(chartCode))
+                errorMap.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.ERROR_CHART_OR_ORG_NOTEMPTY_ALL_REQUIRED);
+            if(StringUtils.isEmpty(organizationCode))
+                errorMap.put(KfsKimAttributes.ORGANIZATION_CODE, KFSKeyConstants.ERROR_CHART_OR_ORG_NOTEMPTY_ALL_REQUIRED);
+            if(StringUtils.isEmpty(namespaceCode))
+                errorMap.put(KfsKimAttributes.NAMESPACE_CODE, KFSKeyConstants.ERROR_CHART_OR_ORG_NOTEMPTY_ALL_REQUIRED);
         }
+
         return errorMap;
     }
 
@@ -127,4 +143,21 @@ public class FinancialSystemUserRoleTypeServiceImpl extends KimRoleTypeServiceBa
         uniqueAttributes.add(KimAttributes.NAMESPACE_CODE);
         return uniqueAttributes;
     }
+
+    /**
+     * @see org.kuali.rice.kim.service.support.impl.KimTypeServiceBase#getAttributeDefinitions(java.lang.String)
+     */
+    @Override
+    public AttributeDefinitionMap getAttributeDefinitions(String kimTypeId) {
+        AttributeDefinitionMap map = super.getAttributeDefinitions(kimTypeId);
+        for (AttributeDefinition definition : map.values()) {
+            if (KfsKimAttributes.NAMESPACE_CODE.equals(definition.getName()) || KfsKimAttributes.CHART_OF_ACCOUNTS_CODE.equals(definition.getName())
+                    || KfsKimAttributes.ORGANIZATION_CODE.equals(definition.getName())) {
+                definition.setRequired(Boolean.FALSE);
+            }
+        }
+        return map;
+    }
+    
+    
 }

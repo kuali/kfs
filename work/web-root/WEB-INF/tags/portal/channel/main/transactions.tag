@@ -32,12 +32,6 @@
         <li><portal:portalLink displayTitle="true" title="Budget Construction Selection" url="budgetBudgetConstructionSelection.do?methodToCall=loadExpansionScreen" /></li>
     </ul>
 
-	<strong>Contracts & Grants</strong><br />
-	    <ul class="chan">
-	        <li><portal:portalLink displayTitle="true" title="Research Budget" url="researchBudgetParameters.do?methodToCall=docHandler&command=initiate&docTypeName=KBD" /></li>
-	        <li><portal:portalLink displayTitle="true" title="Routing Form" url="researchRoutingFormMainPage.do?methodToCall=docHandler&command=initiate&docTypeName=KRFD" /></li>
-		</ul>
-
 	<strong>Financial Processing</strong><br />
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title="Advance Deposit" url="financialAdvanceDeposit.do?methodToCall=docHandler&command=initiate&docTypeName=AD" /></li>

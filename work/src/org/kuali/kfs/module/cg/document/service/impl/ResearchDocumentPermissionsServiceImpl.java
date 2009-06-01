@@ -15,17 +15,8 @@
  */
 package org.kuali.kfs.module.cg.document.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kfs.module.cg.CGConstants;
-import org.kuali.kfs.module.cg.businessobject.AdhocOrg;
-import org.kuali.kfs.module.cg.businessobject.AdhocPerson;
-import org.kuali.kfs.module.cg.businessobject.ResearchAdhocPermissionType;
 import org.kuali.kfs.module.cg.document.service.ResearchDocumentPermissionsService;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.dto.DocumentDetailDTO;
 import org.kuali.rice.kew.dto.ReportCriteriaDTO;
@@ -39,33 +30,6 @@ public class ResearchDocumentPermissionsServiceImpl implements ResearchDocumentP
 
     private BusinessObjectService businessObjectService;
 
-    /**
-     * @see org.kuali.module.kra.budget.service.BudgetPermissionsService#getAdHocPermission(String documentNumber, String
-     *      principalId)
-     */
-    public AdhocPerson getAdHocPerson(String documentNumber, String principalId) {
-        return (AdhocPerson) businessObjectService.retrieve(new AdhocPerson(documentNumber, principalId));
-    }
-
-    /**
-     * @see org.kuali.module.kra.budget.service.PermissionsService#getAdHocOrgs(String documentNumber, String budgetPermissionCode)
-     */
-    public List<AdhocOrg> getAdHocOrgs(String documentNumber, String permissionCode) {
-        Map fieldValues = new HashMap();
-        fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
-        fieldValues.put("permissionCode", permissionCode);
-        return new ArrayList(businessObjectService.findMatching(AdhocOrg.class, fieldValues));
-    }
-
-    /**
-     * @see org.kuali.module.kra.budget.service.PermissionsService#getPermissionType()
-     */
-    public List<ResearchAdhocPermissionType> getPermissionTypes() {
-        List<ResearchAdhocPermissionType> permissionTypeList = new ArrayList<ResearchAdhocPermissionType>();
-        permissionTypeList.add(new ResearchAdhocPermissionType(CGConstants.RoutingFormPermissionTypes.PERMISSION_READ_CODE, CGConstants.RoutingFormPermissionTypes.PERMISSION_READ_DESCRIPTION));
-        permissionTypeList.add(new ResearchAdhocPermissionType(CGConstants.RoutingFormPermissionTypes.PERMISSION_MOD_CODE, CGConstants.RoutingFormPermissionTypes.PERMISSION_MOD_DESCRIPTION));
-        return permissionTypeList;
-    }
 
     /**
      * @see org.kuali.module.kra.budget.service.BudgetPermissionsService#getBudgetPermissionType(String orgXml, String documentType,

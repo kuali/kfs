@@ -21,19 +21,15 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <list merge="true">
         <dd:relationship objectAttribute="researchRiskType">
             <dd:primitiveAttribute source="researchRiskTypeCode" target="researchRiskTypeCode" />
-        </dd:relationship>      
-        <dd:relationship objectAttribute="questionType">
-            <dd:primitiveAttribute source="questionTypeCode" target="questionTypeCode" />
-        </dd:relationship>      
+        </dd:relationship>          
       </list>
     </property>
   </bean>
 
+  
   <bean id="CgKimAttributes-researchRiskTypeCode" parent="ResearchRiskType-researchRiskTypeCode">
     <property name="required" value="true"/>
   </bean>
-  <bean id="CgKimAttributes-questionTypeCode" parent="QuestionType-questionTypeCode">
-    <property name="required" value="true"/>
-  </bean>
+  
 
 </beans>

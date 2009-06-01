@@ -38,7 +38,6 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
     private boolean inStateIndicator;
     private Agency reportsToAgency;
     private AgencyType agencyType;
-    private AgencyExtension agencyExtension;
     private boolean active;
 
     /**
@@ -222,24 +221,6 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
         m.put("agencyNumber", getAgencyNumber());
         return m;
-    }
-
-    /**
-     * Gets the agencyExtension attribute.
-     * 
-     * @return Returns the agencyExtension.
-     */
-    public AgencyExtension getAgencyExtension() {
-        return agencyExtension;
-    }
-
-    /**
-     * Sets the agencyExtension attribute value.
-     * 
-     * @param agencyExtension The agencyExtension to set.
-     */
-    public void setAgencyExtension(AgencyExtension agencyExtension) {
-        this.agencyExtension = agencyExtension;
     }
 
     /**

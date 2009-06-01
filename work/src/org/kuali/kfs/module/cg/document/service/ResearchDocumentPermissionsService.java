@@ -17,8 +17,6 @@ package org.kuali.kfs.module.cg.document.service;
 
 import java.util.List;
 
-import org.kuali.kfs.module.cg.businessobject.AdhocOrg;
-import org.kuali.kfs.module.cg.businessobject.AdhocPerson;
 import org.kuali.kfs.module.cg.businessobject.ResearchAdhocPermissionType;
 
 /**
@@ -26,30 +24,6 @@ import org.kuali.kfs.module.cg.businessobject.ResearchAdhocPermissionType;
  */
 public interface ResearchDocumentPermissionsService {
 
-    /**
-     * Retrieve the AdHocPerson for the given documentNumber and principalId.
-     * 
-     * @param documentNumber
-     * @param principalId
-     * @return AdHocPerson
-     */
-    public AdhocPerson getAdHocPerson(String documentNumber, String principalId);
-
-    /**
-     * Retrieve the ad-hoc orgs for the given documentNumber and budgetPermissionCode.
-     * 
-     * @param documentNumber
-     * @param budgetPermissionCode
-     * @return List<AdHocOrg>
-     */
-    public List<AdhocOrg> getAdHocOrgs(String documentNumber, String permissionCode);
-
-    /**
-     * Get the list of permission types.
-     * 
-     * @return List<BudgetPermissionType>
-     */
-    public List<ResearchAdhocPermissionType> getPermissionTypes();
 
     /**
      * Check whether given user is in the org routing hierarchy.

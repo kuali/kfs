@@ -18,19 +18,11 @@ package org.kuali.kfs.module.cg.document.service;
 import java.util.List;
 
 import org.kuali.kfs.module.cg.businessobject.ResearchRiskType;
-import org.kuali.kfs.module.cg.document.RoutingFormDocument;
 
 /**
  * This interface defines methods that a RoutingFormResearchRiskService must provide
  */
 public interface RoutingFormResearchRiskService {
-
-    /**
-     * Setup research risks in the document.
-     * 
-     * @param routingFormDocument the doc to set up
-     */
-    public void setupResearchRisks(RoutingFormDocument routingFormDocument);
 
     /**
      * Get the list of active research risk types from the database.

@@ -21,11 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.ResearchRiskType;
-import org.kuali.kfs.module.cg.businessobject.RoutingFormResearchRisk;
-import org.kuali.kfs.module.cg.document.RoutingFormDocument;
 import org.kuali.kfs.module.cg.document.service.RoutingFormResearchRiskService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -36,18 +33,7 @@ public class RoutingFormResearchRiskServiceImpl implements RoutingFormResearchRi
 
     private BusinessObjectService businessObjectService;
 
-    /**
-     * @see org.kuali.kfs.module.cg.document.service.RoutingFormResearchRiskService#setupResearchRisks(RoutingFormDocument
-     *      routingFormDocument)
-     */
-    public void setupResearchRisks(RoutingFormDocument routingFormDocument) {
-        List<ResearchRiskType> researchRiskTypes = getAllResearchRiskTypes();
-        List<RoutingFormResearchRisk> researchRisks = new ArrayList<RoutingFormResearchRisk>();
-        for (ResearchRiskType researchRiskType : researchRiskTypes) {
-            researchRisks.add(new RoutingFormResearchRisk(routingFormDocument.getDocumentNumber(), researchRiskType));
-        }
-        routingFormDocument.setRoutingFormResearchRisks(researchRisks);
-    }
+  
 
     /**
      * Get the list of all active research risk types from the database.

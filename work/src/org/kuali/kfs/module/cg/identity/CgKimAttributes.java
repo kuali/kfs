@@ -15,19 +15,15 @@
  */
 package org.kuali.kfs.module.cg.identity;
 
-import org.kuali.kfs.module.cg.businessobject.QuestionType;
 import org.kuali.kfs.module.cg.businessobject.ResearchRiskType;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 
 public class CgKimAttributes extends KfsKimAttributes {
     public static final String RESEARCH_RISK_TYPE_CODE = "researchRiskTypeCode";
-    public static final String QUESTION_TYPE_CODE = "questionTypeCode";
 
     protected String researchRiskTypeCode;
-    protected String questionTypeCode;
 
     protected ResearchRiskType researchRiskType;
-    protected QuestionType questionType;
     
     
     public String getResearchRiskTypeCode() {
@@ -36,24 +32,11 @@ public class CgKimAttributes extends KfsKimAttributes {
     public void setResearchRiskTypeCode(String researchRiskTypeCode) {
         this.researchRiskTypeCode = researchRiskTypeCode;
     }
-    public String getQuestionTypeCode() {
-        return questionTypeCode;
-    }
-    public void setQuestionTypeCode(String questionTypeCode) {
-        this.questionTypeCode = questionTypeCode;
-    }
+   
     public ResearchRiskType getResearchRiskType() {
         return researchRiskType;
     }
     public void setResearchRiskType(ResearchRiskType researchRiskType) {
         this.researchRiskType = researchRiskType;
     }
-    public QuestionType getQuestionType() {
-        return questionType;
-    }
-    public void setQuestionType(QuestionType questionType) {
-        this.questionType = questionType;
-    }
-    
-    
 }

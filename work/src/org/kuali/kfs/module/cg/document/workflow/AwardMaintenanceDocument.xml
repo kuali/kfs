@@ -7,17 +7,12 @@
       <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="OrganizationHierarchy"/>
-          <requests name="OrganizationHierarchy" nextNode="ResearchRisk"/>
-          <requests name="ResearchRisk"/>
+          <requests name="OrganizationHierarchy" />
         </routePath>
       </routePaths>
       <routeNodes>
         <start name="AdHoc"/>
         <role name="OrganizationHierarchy">
-          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-          <activationType>P</activationType>
-        </role>
-        <role name="ResearchRisk">
           <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
           <activationType>P</activationType>
         </role>

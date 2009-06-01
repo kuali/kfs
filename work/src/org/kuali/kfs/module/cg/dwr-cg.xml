@@ -41,14 +41,7 @@
             <param name="beanName" value="cfdaService" />
             <include method="getByPrimaryId" />
         </create>
-	    <convert converter="bean" match="org.kuali.kfs.module.cg.businessobject.Budget">
-            <param name="include" value="documentNumber,budgetName" />
-        </convert>
-        
-        <create creator="spring" javascript="BudgetService">
-            <param name="beanName" value="budgetService" />
-            <include method="getDisplayName" />
-        </create>
+	    
     </allow>
 </dwr>
 

@@ -28,16 +28,4 @@ public class CGPropertyConstants extends JSTLConstants {
     public static final String CONTROL_ATTRIBUTE_TYPE_CODE = "controlAttributeTypeCode";
     public static final String RESEARCH_RISK_TYPE_SORT_NUMBER = "researchRiskTypeSortNumber";
 
-    // Question Type
-    public static final String QUESTION_TYPE_DESCRIPTION = "questionTypeDescription";
-
-    // Indirect Cost Lookup
-    public static final String COST_RATE = "budgetIndirectCostRate";
-    
-    // Routing form 
-    public static final String PERSON_ROLE_CODE = "personRoleCode";
-    public static final String PERSON_TO_BE_NAMED_IND = "personToBeNamedIndicator";
-    
-    // budget user
-    public static final String PERSON_PROJECT_DIRECTOR_IND = "personProjectDirectorIndicator";
 }

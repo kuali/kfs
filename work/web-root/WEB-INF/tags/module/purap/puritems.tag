@@ -53,11 +53,13 @@
 	<c:set var="colSpanItemType" value="6"/>
 	<c:set var="colSpanDescription" value="2"/>
 	<c:set var="colSpanExtendedPrice" value="1"/>
+	<c:set var="colSpanAmountPaid" value="0"/>
 </c:when>
 <c:otherwise>
 	<c:set var="colSpanItemType" value="6"/>
 	<c:set var="colSpanDescription" value="2"/>
 	<c:set var="colSpanExtendedPrice" value="1"/>
+	<c:set var="colSpanAmountPaid" value="1"/>
 </c:otherwise>
 </c:choose>
 
@@ -551,7 +553,8 @@
 				mainColumnCount="${mainColumnCount}" 
 				colSpanItemType="${colSpanItemType}" 
 				colSpanDescription="${colSpanDescription}" 
-				colSpanExtendedPrice="${colSpanExtendedPrice}" />
+				colSpanExtendedPrice="${colSpanExtendedPrice}" 
+				colSpanAmountPaid="${colSpanAmountPaid}" />
 		</c:if>
 		
 		<!-- BEGIN TOTAL SECTION -->

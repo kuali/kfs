@@ -39,10 +39,12 @@
 <%@ attribute name="colSpanItemType" required="true" %>
 <%@ attribute name="colSpanExtendedPrice" required="true" %>
 <%@ attribute name="colSpanDescription" required="true" %>
+<%@ attribute name="colSpanAmountPaid" required="true" %>
 
 <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] && (empty KualiForm.editingMode['restrictFiscalEntry'])}" />
 <c:set var="lockTaxAmountEntry" value="${(not empty KualiForm.editingMode['lockTaxAmountEntry']) || !fullEntryMode}" />
 <c:set var="tabindexOverrideBase" value="50" />
+<c:set var="isATypeOfPODoc" value="${KualiForm.document.isATypeOfPODoc}" />
 
 <c:if test="${empty overrideTitle}">
 	<c:set var="overrideTitle" value="Additional Charges"/>
@@ -95,7 +97,8 @@
 	<c:set var="colSpanDescription" value="${colSpanDescription}" />
 	<c:set var="colSpanExtendedPrice" value="${colSpanExtendedPrice}" />
 	<c:set var="colSpanItemType" value="${colSpanItemType}" />
-	<c:set var="colSpanBlank" value="${mainColumnCount - (colSpanDescription + colSpanExtendedPrice + colSpanItemType)}" />
+	<c:set var="colSpanAmountPaid" value="${colSpanAmountPaid}" />
+	<c:set var="colSpanBlank" value="${mainColumnCount - (colSpanDescription + colSpanExtendedPrice + colSpanItemType + colSpanAmountPaid + 2)}" />
 	
 	<kul:htmlAttributeHeaderCell colspan="${colSpanItemType}"
 		attributeEntry="${itemAttributes.itemTypeCode}" />
@@ -117,11 +120,13 @@
 			<c:if test="${purapTaxEnabled}">
 			    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTaxAmount}" />				
 			    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.totalAmount}" />
-			</c:if>
-				
+			</c:if>					
 			<c:if test="${colSpanBlank > 0}">
 				<th colspan="${colSpanBlank}">&nbsp;</th>
 			</c:if>
+			<c:if test="${isATypeOfPODoc}">
+                <kul:htmlAttributeHeaderCell colspan="${colSpanAmountPaid}" literalLabel="Amount Paid" />
+            </c:if>			
 		</c:when>
 	    <c:otherwise>
 			<kul:htmlAttributeHeaderCell colspan="${colSpanExtendedPrice}"
@@ -221,7 +226,16 @@
 					<td colspan="${colSpanBlank}" class="infoline">
 						&nbsp;
 					</td>					
-					</c:if>					
+					</c:if>		
+					<c:if test="${isATypeOfPODoc}">
+			            <td class="infoline" rowspan="${colSpanExtendedPrice}">
+			                <div align="right">
+					            <kul:htmlControlAttribute
+				                    attributeEntry="${itemAttributes.itemInvoicedTotalAmount}"
+					                property="document.item[${ctr}].itemInvoicedTotalAmount" readOnly="${true}"/>
+			                </div>
+		                </td>
+	                </c:if>								
 				</c:when>
     			<c:otherwise>
 					<td class="infoline" colspan="${colSpanExtendedPrice}">
@@ -250,14 +264,14 @@
 					</td>
 					</c:when>
 					<c:otherwise>
-					<td class="infoline">
-	 				    &nbsp;	 				        
-					</td>				
-					<td class="infoline">
-	 				    &nbsp;
-					</td>					
-					</c:otherwise>					
-					</c:choose>
+   					            <td class="infoline">
+	 				                &nbsp;	 				        
+					            </td>				
+					            <td class="infoline">
+	 				                &nbsp;
+					            </td>
+					        </c:otherwise>
+					    </c:choose>    					
 					
 					<td class="infoline" colspan="${colSpanDescription}">
 						<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="document.item[${ctr}].itemDescription" readOnly="${not (fullEntryMode or amendmentEntry)}" tabindexOverride="${tabindexOverrideBase + 0}"/></td>

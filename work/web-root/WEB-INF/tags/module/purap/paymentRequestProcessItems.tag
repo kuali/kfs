@@ -100,7 +100,8 @@
 			mainColumnCount="${mainColumnCount}"
 			colSpanItemType="${colSpanItemType}" 
 			colSpanExtendedPrice="${colSpanExtendedPrice}"
-			colSpanDescription="${colSpanDescription}" >
+			colSpanDescription="${colSpanDescription}" 
+			colSpanAmountPaid="0">
 			<jsp:attribute name="specialItemTotalOverride">
 				<tr>
 					<td align=right width='75%' colspan="8" scope="row" class="datacell">

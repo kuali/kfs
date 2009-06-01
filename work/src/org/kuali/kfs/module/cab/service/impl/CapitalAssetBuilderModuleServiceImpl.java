@@ -193,7 +193,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         for (Iterator iterator = accountingLines.iterator(); iterator.hasNext();) {
             PurApAccountingLine accountingLine = (PurApAccountingLine) iterator.next();
             accountingLine.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
-            if (isCapitalAssetObjectCode(accountingLine.getObjectCode())) {
+            if (ObjectUtils.isNotNull(accountingLine.getObjectCode()) && isCapitalAssetObjectCode(accountingLine.getObjectCode())) {
                 return true;
             }
         }
@@ -352,7 +352,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
         return valid;
     }
-
+    
     /**
      * Validates all the field requirements by chart. It obtains a List of parameters where the parameter names are like
      * "CHARTS_REQUIRING%" then loop through these parameters. If any of the parameter's values is null, then return false
@@ -365,21 +365,21 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         String documentType = (purchasingDocument instanceof RequisitionDocument) ? "REQUISITION" : "PURCHASE_ORDER";
         boolean valid = true;
         List<Parameter> results = new ArrayList<Parameter>();
-        Map<String, String> criteria = new HashMap<String, String>();
+        Map<String,String> criteria = new HashMap<String,String>();
         criteria.put(CabPropertyConstants.Parameter.PARAMETER_NAMESPACE_CODE, CabConstants.Parameters.NAMESPACE);
         criteria.put(CabPropertyConstants.Parameter.PARAMETER_DETAIL_TYPE_CODE, CabConstants.Parameters.DETAIL_TYPE_DOCUMENT);
         criteria.put(CabPropertyConstants.Parameter.PARAMETER_NAME, "CHARTS_REQUIRING%" + documentType);
         results.addAll(SpringContext.getBean(ParameterService.class).retrieveParametersGivenLookupCriteria(criteria));
         for (Parameter parameter : results) {
             if (ObjectUtils.isNotNull(parameter)) {
-                if (parameter.getParameterValue() != null) {
+                if (parameter.getParameterValue() != null){
                     return false;
                 }
             }
         }
         return valid;
     }
-
+    
     /**
      * Validates for PURCHASING_OBJECT_SUB_TYPES parameter. If at least one object code of any accounting line entered is of this
      * type, then return false.
@@ -396,7 +396,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             for (Iterator iterator = accountingLines.iterator(); iterator.hasNext();) {
                 PurApAccountingLine accountingLine = (PurApAccountingLine) iterator.next();
                 accountingLine.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
-                if (isCapitalAssetObjectCode(accountingLine.getObjectCode())) {
+                if (ObjectUtils.isNotNull(accountingLine.getObjectCode()) && isCapitalAssetObjectCode(accountingLine.getObjectCode())) {
                     return false;
                 }
             }
@@ -567,11 +567,11 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 // if this collection doesn't contain anything, when it's supposed to contain some strings with values, return
                 // false.
                 errorKey.append(mappedNames[0]);
-                String mappedNameStr = (String) mappedNames[0];
-                String methodToInvoke = "get" + (mappedNameStr.substring(0, 1)).toUpperCase() + mappedNameStr.substring(1, mappedNameStr.length() - 1) + "Class";
+                String mappedNameStr = (String)mappedNames[0];
+                String methodToInvoke = "get" + (mappedNameStr.substring(0, 1)).toUpperCase() + mappedNameStr.substring(1, mappedNameStr.length()-1) + "Class";
                 Class offendingClass;
                 try {
-                    offendingClass = (Class) bean.getClass().getMethod(methodToInvoke, null).invoke(bean, null);
+                    offendingClass = (Class)bean.getClass().getMethod(methodToInvoke, null).invoke(bean, null);
                 }
                 catch (Exception ex) {
                     throw new RuntimeException(ex);
@@ -809,15 +809,18 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             // Because of ObjectCodeCurrent, we had to refresh this.
             accountingLine.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
             ObjectCode objectCode = accountingLine.getObjectCode();
-            String capitalOrExpense = objectCodeCapitalOrExpense(objectCode);
-            capitalOrExpenseSet.add(capitalOrExpense); // HashSets accumulate distinct values (and nulls) only.
+                  
+            if(ObjectUtils.isNotNull(objectCode)){
+                String capitalOrExpense = objectCodeCapitalOrExpense(objectCode);
+                capitalOrExpenseSet.add(capitalOrExpense); // HashSets accumulate distinct values (and nulls) only.
 
-            valid &= validateAccountingLinesNotCapitalAndExpense(capitalOrExpenseSet, itemIdentifier, objectCode);
+                valid &= validateAccountingLinesNotCapitalAndExpense(capitalOrExpenseSet, itemIdentifier, objectCode);
 
 
-            // Do the checks involving capital asset transaction type.
-            if (capitalAssetTransactionType != null) {
-                valid &= validateObjectCodeVersusTransactionType(objectCode, capitalAssetTransactionType, itemIdentifier, quantityBased);
+                // Do the checks involving capital asset transaction type.
+                if (capitalAssetTransactionType != null) {
+                    valid &= validateObjectCodeVersusTransactionType(objectCode, capitalAssetTransactionType, itemIdentifier, quantityBased);
+                }
             }
         }
         return valid;

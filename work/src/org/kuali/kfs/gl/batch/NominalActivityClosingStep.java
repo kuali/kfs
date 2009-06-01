@@ -24,63 +24,61 @@ import java.util.Map;
 
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.YearEndService;
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
-import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
-import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
+import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.springframework.util.StopWatch;
 
 /**
  * The step that runs the year end nominal activity closing process.
  */
-public class NominalActivityClosingStep extends AbstractStep {
+public class NominalActivityClosingStep extends AbstractWrappedBatchStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(NominalActivityClosingStep.class);
     private YearEndService yearEndService;
-    private OriginEntryGroupService originEntryGroupService;
 
     public static final String TRANSACTION_DATE_FORMAT_STRING = "yyyy-MM-dd";
 
     /**
-     * Runs the nominal activity process, including retrieving system parameters for the process, creating the origin entry group
-     * for output origin entries, and generating reports based on the run
-     * 
-     * @param jobName the name of the job this step is being run as part of
-     * @param jobRunDate the time/date the job is being run
-     * @return true if the step completed successfully, false if otherwise
-     * @see org.kuali.kfs.sys.batch.Step#performStep()
+     * @see org.kuali.kfs.sys.batch.AbstractWrappedBatchStep#getCustomBatchExecutor()
      */
-    public boolean execute(String jobName, java.util.Date jobRunDate) {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start(jobName);
+    @Override
+    protected CustomBatchExecutor getCustomBatchExecutor() {
+        return new CustomBatchExecutor() {
+            /**
+             * Runs the nominal activity process, including retrieving system parameters for the process, creating the origin entry group
+             * for output origin entries, and generating reports based on the run
+             * @return true if the step completed successfully, false if otherwise
+             * @see org.kuali.kfs.sys.batch.Step#performStep()
+             */
+            public boolean execute() {
+                StopWatch stopWatch = new StopWatch();
+                stopWatch.start("NominalActivityClosingStep");
 
-        Date varTransactionDate;
-        try {
-            DateFormat transactionDateFormat = new SimpleDateFormat(TRANSACTION_DATE_FORMAT_STRING);
-            varTransactionDate = new Date(transactionDateFormat.parse(getParameterService().getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM)).getTime());
-        }
-        catch (ParseException e) {
-            LOG.error("forwardBalances() Unable to parse transaction date", e);
-            throw new IllegalArgumentException("Unable to parse transaction date");
-        }
-        Integer varFiscalYear = new Integer(getParameterService().getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM));
-        //OriginEntryGroup nominalClosingOriginEntryGroup = originEntryGroupService.createGroup(varTransactionDate, OriginEntrySource.YEAR_END_CLOSE_NOMINAL_BALANCES, true, false, true);
-        String nominalClosingFileName = GeneralLedgerConstants.BatchFileSystem.CLOSE_NOMINAL_ACTIVITY_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-        
-        
-        Map nominalClosingJobParameters = new HashMap();
-        nominalClosingJobParameters.put(GeneralLedgerConstants.ColumnNames.UNIV_DT, varTransactionDate);
-        nominalClosingJobParameters.put(GeneralLedgerConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR, varFiscalYear);
-        Map<String, Integer> nominalActivityClosingCounts = new HashMap<String, Integer>();
+                Date varTransactionDate;
+                try {
+                    DateFormat transactionDateFormat = new SimpleDateFormat(TRANSACTION_DATE_FORMAT_STRING);
+                    varTransactionDate = new Date(transactionDateFormat.parse(getParameterService().getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM)).getTime());
+                }
+                catch (ParseException e) {
+                    LOG.error("forwardBalances() Unable to parse transaction date", e);
+                    throw new IllegalArgumentException("Unable to parse transaction date");
+                }
+                Integer varFiscalYear = new Integer(getParameterService().getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM));
+                String nominalClosingFileName = GeneralLedgerConstants.BatchFileSystem.CLOSE_NOMINAL_ACTIVITY_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+                
+                Map nominalClosingJobParameters = new HashMap();
+                nominalClosingJobParameters.put(GeneralLedgerConstants.ColumnNames.UNIV_DT, varTransactionDate);
+                nominalClosingJobParameters.put(GeneralLedgerConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR, varFiscalYear);
+                Map<String, Integer> nominalActivityClosingCounts = new HashMap<String, Integer>();
 
-        yearEndService.closeNominalActivity(nominalClosingFileName, nominalClosingJobParameters, nominalActivityClosingCounts);
-        //TODO: Shawn - report
-        //yearEndService.generateCloseNominalActivityReports(nominalClosingFileName, nominalClosingJobParameters, nominalActivityClosingCounts);
+                yearEndService.closeNominalActivity(nominalClosingFileName, nominalClosingJobParameters);
+                stopWatch.stop();
+                LOG.info("NominalActivityClosingStep took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");
 
-        stopWatch.stop();
-        LOG.info(jobName + " took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");
-
-        return true;
+                return true;
+            }
+        };
     }
 
     /**
@@ -101,15 +99,5 @@ public class NominalActivityClosingStep extends AbstractStep {
      */
     public YearEndService getYearEndService() {
         return yearEndService;
-    }
-
-    /**
-     * Sets the originEntryGroupService attribute value.
-     * 
-     * @param originEntryGroupService The originEntryGroupService to set.
-     * @see org.kuali.kfs.gl.service.OriginEntryGroupService
-     */
-    public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
-        this.originEntryGroupService = originEntryGroupService;
     }
 }

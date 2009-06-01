@@ -25,10 +25,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.AccountIntf;
+import org.kuali.kfs.coa.businessobject.CarryForwardReversionProcessOrganizationInfo;
+import org.kuali.kfs.coa.businessobject.ClosedAccountOrganizationReversion;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.OrganizationReversion;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionCategory;
-import org.kuali.kfs.coa.businessobject.OrganizationReversionDetail;
+import org.kuali.kfs.coa.businessobject.OrganizationReversionCategoryInfo;
 import org.kuali.kfs.coa.service.OrganizationReversionService;
 import org.kuali.kfs.coa.service.PriorYearAccountService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
@@ -39,7 +41,7 @@ import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.OrgReversionUnitOfWork;
 import org.kuali.kfs.gl.businessobject.OrgReversionUnitOfWorkCategoryAmount;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.report.LedgerSummaryReport;
 import org.kuali.kfs.gl.service.BalanceService;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.OriginEntryService;
@@ -50,6 +52,7 @@ import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -82,7 +85,7 @@ public class OrganizationReversionProcess {
     private OrgReversionUnitOfWork unitOfWork;
     private Map<String, OrganizationReversionCategoryLogic> categories;
     private List<OrganizationReversionCategory> categoryList;
-    private OrganizationReversion organizationReversion;
+    private CarryForwardReversionProcessOrganizationInfo organizationReversion;
     private AccountIntf account;
 
     private Map jobParameters;
@@ -111,6 +114,8 @@ public class OrganizationReversionProcess {
     private SystemOptions priorYearOptions;
     private SystemOptions currentYearOptions;
     private Integer paramFiscalYear;
+    
+    private LedgerSummaryReport ledgerReport;
 
     /**
      * Constructs a OrganizationReversionProcess, initializing certain parameters
@@ -221,6 +226,7 @@ public class OrganizationReversionProcess {
                     if (!skipToNextUnitOfWork) {
                         calculateTotals();
                         List<OriginEntryFull> originEntriesToWrite = generateOutputOriginEntries();
+                        summarizeOriginEntries(originEntriesToWrite);
                         if (holdGeneratedOriginEntries) {
                             generatedOriginEntries.addAll(originEntriesToWrite);
                         }
@@ -249,6 +255,7 @@ public class OrganizationReversionProcess {
             try {
                 calculateTotals();
                 List<OriginEntryFull> originEntriesToWrite = generateOutputOriginEntries();
+                summarizeOriginEntries(originEntriesToWrite);
                 if (holdGeneratedOriginEntries) {
                     generatedOriginEntries.addAll(originEntriesToWrite);
                 }
@@ -293,6 +300,10 @@ public class OrganizationReversionProcess {
             // we can't find an organization reversion for this balance? Throw exception
             throw new FatalErrorException("No Organization Reversion found for: " + (Integer) jobParameters.get(KFSConstants.UNIV_FISCAL_YR) + "-" + bal.getChartOfAccountsCode() + "-" + account.getOrganizationCode());
         }
+        
+        if (account.isClosed()) {
+            organizationReversion = new ClosedAccountOrganizationReversion(organizationReversion);
+        }
     }
 
     /**
@@ -319,6 +330,8 @@ public class OrganizationReversionProcess {
         else {
             this.currentYearOptions = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
         }
+        
+        ledgerReport = new LedgerSummaryReport();
     }
 
     /**
@@ -464,7 +477,7 @@ public class OrganizationReversionProcess {
         entry.setChartOfAccountsCode(unitOfWork.chartOfAccountsCode);
         entry.setAccountNumber(unitOfWork.accountNumber);
         entry.setSubAccountNumber(unitOfWork.subAccountNumber);
-        entry.setFinancialObjectCode(organizationReversion.getChartOfAccounts().getFinancialCashObjectCode());
+        entry.setFinancialObjectCode(organizationReversion.getOrganizationChartCashObjectCode());
         entry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         if (entry.getUniversityFiscalYear().equals(paramFiscalYear)) {
             entry.setFinancialBalanceTypeCode(priorYearOptions.getNominalFinancialBalanceTypeCd());
@@ -530,10 +543,10 @@ public class OrganizationReversionProcess {
 
         // Reversion of cash to the cash reversion account in the fiscal year ending (balance type of NB)
         entry = getEntry();
-        entry.setChartOfAccountsCode(unitOfWork.chartOfAccountsCode);
+        entry.setChartOfAccountsCode(organizationReversion.getCashReversionFinancialChartOfAccountsCode());
         entry.setAccountNumber(organizationReversion.getCashReversionAccountNumber());
         entry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
-        entry.setFinancialObjectCode(organizationReversion.getChartOfAccounts().getFinancialCashObjectCode());
+        entry.setFinancialObjectCode(organizationReversion.getCashReversionChartCashObjectCode());
         entry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         entry.setFinancialBalanceTypeCode(DEFAULT_FINANCIAL_BALANCE_TYPE_CODE);
 
@@ -562,7 +575,7 @@ public class OrganizationReversionProcess {
 
         // Reversion of fund balance, starting with the cash reversion account, to match the cash that was reverted (balance type of NB) 
         entry = getEntry();
-        entry.setChartOfAccountsCode(unitOfWork.chartOfAccountsCode);
+        entry.setChartOfAccountsCode(organizationReversion.getCashReversionFinancialChartOfAccountsCode());
         entry.setAccountNumber(organizationReversion.getCashReversionAccountNumber());
         entry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
         entry.setFinancialObjectCode((String) jobParameters.get(KFSConstants.FUND_BAL_OBJECT_CD));
@@ -605,7 +618,7 @@ public class OrganizationReversionProcess {
         int originEntriesCreated = 0;
         for (Iterator<OrganizationReversionCategory> iter = categoryList.iterator(); iter.hasNext();) {
             OrganizationReversionCategory cat = iter.next();
-            OrganizationReversionDetail detail = organizationReversion.getOrganizationReversionDetail(cat.getOrganizationReversionCategoryCode());
+            OrganizationReversionCategoryInfo detail = organizationReversion.getOrganizationReversionDetail(cat.getOrganizationReversionCategoryCode());
             OrgReversionUnitOfWorkCategoryAmount amount = unitOfWork.amounts.get(cat.getOrganizationReversionCategoryCode());
 
             if (!amount.getCarryForward().isZero()) {
@@ -773,14 +786,10 @@ public class OrganizationReversionProcess {
         entry.setTransactionLedgerEntryDescription(FUND_REVERTED_TO_MESSAGE + organizationReversion.getBudgetReversionAccountNumber());
         entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalReversion().negated());
 
-        // 2841 MOVE TRN-LDGR-ENTR-AMT TO WS-AMT-W-PERIOD
-        // 2842 WS-AMT-N.
-        // 2843 MOVE WS-AMT-X TO TRN-AMT-RED-X.
-
         originEntriesToWrite.add(entry);
 
         entry = getEntry();
-        entry.setChartOfAccountsCode(unitOfWork.chartOfAccountsCode);
+        entry.setChartOfAccountsCode(organizationReversion.getBudgetReversionChartOfAccountsCode());
         entry.setAccountNumber(organizationReversion.getBudgetReversionAccountNumber());
         entry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
         entry.setFinancialObjectCode((String) jobParameters.get(KFSConstants.UNALLOC_OBJECT_CD));
@@ -811,11 +820,11 @@ public class OrganizationReversionProcess {
      */
     public void calculateTotals() throws FatalErrorException {
         /*
-         * How this works At the start, in the clearCalculationTotals(), both the unit of work's totalAvailable and totalReversion
+         * How this works: At the start, in the clearCalculationTotals(), both the unit of work's totalAvailable and totalReversion
          * are set to the available amounts from each of the category amounts. Then, as the logic is applied, the totalCarryForward
          * is added to and the totalReversion is subtracted from. Let's look at a simple example: Let's say you've got an amount for
-         * C01, which has $2000 available, no encumbrances, that's all you've got This means that at the end of
-         * clearCalculationTotals(), there's $2000 in totalAvailable, $2000 in totalReversion, and $0 in totalCarryForward Now, C01,
+         * C01, which has $2000 available, no encumbrances, that's all you've got. This means that at the end of
+         * clearCalculationTotals(), there's $2000 in totalAvailable, $2000 in totalReversion, and $0 in totalCarryForward. Now, C01,
          * let's say, is for code A. So, look below at the if that catches Code A. You'll note that it adds the available amount to
          * totalCarryForward, it's own carryForward, the negated available to totalReversion, and that, done, it sets available to
          * $0. With our example, that means that $2000 is in totalCarryForward (and in the amount's carryForward), the
@@ -833,7 +842,7 @@ public class OrganizationReversionProcess {
             OrganizationReversionCategoryLogic logic = categories.get(categoryCode);
             OrgReversionUnitOfWorkCategoryAmount amount = unitOfWork.amounts.get(categoryCode);
 
-            OrganizationReversionDetail detail = organizationReversion.getOrganizationReversionDetail(categoryCode);
+            OrganizationReversionCategoryInfo detail = organizationReversion.getOrganizationReversionDetail(categoryCode);
 
             if (detail == null) {
                 throw new FatalErrorException("Organization Reversion " + organizationReversion.getUniversityFiscalYear() + "-" + organizationReversion.getChartOfAccountsCode() + "-" + organizationReversion.getOrganizationCode() + " does not have a detail for category " + categoryCode);
@@ -918,6 +927,16 @@ public class OrganizationReversionProcess {
         unitOfWork.setTotalAvailable(totalAvailable);
         unitOfWork.setTotalReversion(totalAvailable);
         unitOfWork.setTotalCarryForward(KualiDecimal.ZERO);
+    }
+    
+    /**
+     * Summarizes the given origin entries to the ledger report
+     * @param originEntries the List of originEntries to summarize
+     */
+    protected void summarizeOriginEntries(List<OriginEntryFull> originEntries) {
+        for (OriginEntryFull originEntry: originEntries) {
+            ledgerReport.summarizeEntry(originEntry);
+        }
     }
 
     public OrgReversionUnitOfWork getUnitOfWork() {
@@ -1005,5 +1024,13 @@ public class OrganizationReversionProcess {
     private void incrementCount(String countName, int increment) {
         Integer count = organizationReversionCounts.get(countName);
         organizationReversionCounts.put(countName, new Integer(count.intValue() + increment));
+    }
+    
+    /**
+     * Writes out the encapsulated origin entry ledger report to the given reportWriterService
+     * @param reportWriterService the report to write the ledger summary report to
+     */
+    public void writeLedgerSummaryReport(ReportWriterService reportWriterService) {
+        ledgerReport.writeReport(reportWriterService);
     }
 }

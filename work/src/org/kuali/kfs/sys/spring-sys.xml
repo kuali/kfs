@@ -631,7 +631,7 @@
     </property>
   </bean>
   
-  <bean id="universityDateFiscalYearMaker" class="org.kuali.kfs.sys.batch.dataaccess.impl.UniversityDateFiscalYearMakerImpl" parent="FiscalYearMaker">
+    <bean id="universityDateFiscalYearMaker" class="org.kuali.kfs.sys.batch.dataaccess.impl.UniversityDateFiscalYearMakerImpl" parent="FiscalYearMaker">
 		<property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.UniversityDate" /> 
         <property name="twoYearCopy" value="true" />
 		<property name="businessObjectService">
@@ -697,6 +697,8 @@
         <property name="errorSubTitle" value="ERROR AND STATISTICS REPORT" />
         <property name="statisticsLabel" value="                                    S T A T I S T I C S                                    " />
         <property name="statisticsLeftPadding" value="                             " />
+        <property name="parametersLabel" value="                                    P A R A M E T E R S                                    " />
+        <property name="parametersLeftPadding" value="                             " />
         <property name="pageLabel" value="PAGE:" />
         <!-- Next line in a java \n newline character in XML notation since we're injecting it via Spring. -->
         <property name="newLineCharacter" value="&#xA;" />

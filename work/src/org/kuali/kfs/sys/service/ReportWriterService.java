@@ -59,6 +59,15 @@ public interface ReportWriterService {
     public void writeStatisticLine(String message, Object ... args);
     
     /**
+     * Writes parameter usually placed at the end of the report. If this is the first time this method is called then a parameter header
+     * is written. All messages are indented per PARAMETERS_LEFT_PADDING. If multiple lines are needed, call this method multiple times to
+     * assure pagination works properly
+     * @param message to write
+     * @param args for the message per standard String.format
+     */
+    public abstract void writeParameterLine(String message, Object ... args);
+    
+    /**
      * Writes "lines" number of newlines to the report
      * @param lines number of newlines to write to the report
      */
@@ -70,6 +79,12 @@ public interface ReportWriterService {
      * @param format
      */
     public void writeFormattedMessageLine(String format);
+    
+    /**
+     * Writes a message line, centering it before print it out
+     * @param format the formatted String to display
+     */
+    public void writeCenteredFormattedMessageLine(String format);
     
     /**
      * Pass through to PrintStream.printf except that it also handles pagination. If multiple lines are needed, call this method multiple
@@ -86,6 +101,12 @@ public interface ReportWriterService {
      * @param businessObject the given business object
      */
     public void writeTableHeader(BusinessObject businessObject);
+    
+    /**
+     * Write table header into a report for business objects of the given class
+     * @param businessObjectClass the given class of a business object
+     */
+    public abstract void writeTableHeader(Class<? extends BusinessObject> businessObjectClass);
     
     /**
      * Write table row into a report for the given business object

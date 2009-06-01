@@ -98,4 +98,24 @@ public class MockReportWriterService implements ReportWriterService, WrappingBat
         // nothing to do
     }
 
+    /**
+     * @see org.kuali.kfs.sys.service.ReportWriterService#writeTableHeader(java.lang.Class)
+     */
+    public void writeTableHeader(Class<? extends BusinessObject> businessObjectClass) {
+        // ain't nothing to do, so we ain't doing no thing
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.service.ReportWriterService#writeParameterLine(java.lang.String, java.lang.Object[])
+     */
+    public void writeParameterLine(String message, Object... args) {
+        // not doing anything   
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.service.ReportWriterService#writeCenteredFormattedMessageLine(java.lang.String)
+     */
+    public void writeCenteredFormattedMessageLine(String format) {
+        // my ears are shut, I'm not hearing your message calls!
+    }
 }

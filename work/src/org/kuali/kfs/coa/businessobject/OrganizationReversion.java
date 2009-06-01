@@ -23,12 +23,13 @@ import java.util.List;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * 
  */
-public class OrganizationReversion extends PersistableBusinessObjectBase implements Inactivateable {
+public class OrganizationReversion extends PersistableBusinessObjectBase implements Inactivateable, CarryForwardReversionProcessOrganizationInfo {
 
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;
@@ -69,7 +70,7 @@ public class OrganizationReversion extends PersistableBusinessObjectBase impleme
         this.organizationReversionDetail = organizationReversionDetail;
     }
 
-    public OrganizationReversionDetail getOrganizationReversionDetail(String categoryCode) {
+    public OrganizationReversionCategoryInfo getOrganizationReversionDetail(String categoryCode) {
         for (OrganizationReversionDetail element : organizationReversionDetail) {
             if (element.getOrganizationReversionCategoryCode().equals(categoryCode)) {
                 if (!element.isActive()) {
@@ -413,5 +414,33 @@ public class OrganizationReversion extends PersistableBusinessObjectBase impleme
      */
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    /**
+     * @see org.kuali.kfs.coa.businessobject.CarryForwardReversionProcessOrganizationInfo#getCashReversionChartCashObjectCode()
+     */
+    public String getCashReversionChartCashObjectCode() {
+        if (ObjectUtils.isNull(getCashReversionFinancialChartOfAccounts())) {
+            this.refreshReferenceObject("cashReversionFinancialChartOfAccounts");
+        }
+        if (!ObjectUtils.isNull(getCashReversionFinancialChartOfAccounts())) {
+            return getCashReversionFinancialChartOfAccounts().getFinancialCashObjectCode();
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * @see org.kuali.kfs.coa.businessobject.CarryForwardReversionProcessOrganizationInfo#getOrganizationChartCashObjectCode()
+     */
+    public String getOrganizationChartCashObjectCode() {
+        if (ObjectUtils.isNull(getChartOfAccounts())) {
+            this.refreshReferenceObject("chartOfAccounts");
+        }
+        if (!ObjectUtils.isNull(getChartOfAccounts())) {
+            return getChartOfAccounts().getFinancialCashObjectCode();
+        } else {
+            return null;
+        }
     }
 }

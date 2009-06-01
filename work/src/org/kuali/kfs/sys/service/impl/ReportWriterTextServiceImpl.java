@@ -60,6 +60,8 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
     protected String errorSubTitle;
     protected String statisticsLabel;
     protected String statisticsLeftPadding;
+    private String parametersLabel;
+    private String parametersLeftPadding;
     protected String pageLabel;
     protected String newLineCharacter;
     protected DateTimeService dateTimeService;
@@ -82,6 +84,11 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
     // the statistics
     // section. A developer is responsible for ensuring that themselves
     protected boolean modeStatistics = false;
+    
+    // Ensures that the parameters header isn't written multiple times. Does not check that a user doesn't write other stuff into
+    // the parameters
+    // section. A developer is responsible for ensuring that themselves
+    protected boolean modeParameters = false;
 
     // So that writeError knows when to writeErrorHeader
     protected boolean newPage = true;
@@ -139,6 +146,7 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
         page = initialPageNumber;
         line = INITIAL_LINE_NUMBER;
         modeStatistics = false;
+        modeParameters = false;
         newPage = true;
         businessObjectClass = null;
     }
@@ -248,12 +256,66 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
 
         this.writeFormattedMessageLine(statisticsLeftPadding + message, args);
     }
+    
+    /**
+     * @see org.kuali.kfs.sys.service.ReportWriterService#writeParameterLine(java.lang.String, java.lang.Object[])
+     */
+    public void writeParameterLine(String message, Object... args) {
+        // Statistics header is only written if it hasn't been written before
+        if (!modeParameters) {
+            this.modeParameters = true;
+
+            // If nothing has been written to the report we don't want to page break
+            if (!(page == initialPageNumber && line == INITIAL_LINE_NUMBER + 2)) {
+                this.pageBreak();
+            }
+
+            this.writeFormattedMessageLine("*********************************************************************************************************************************");
+            this.writeFormattedMessageLine("*********************************************************************************************************************************");
+            this.writeFormattedMessageLine("*******************" + getParametersLabel() + "*******************");
+            this.writeFormattedMessageLine("*********************************************************************************************************************************");
+            this.writeFormattedMessageLine("*********************************************************************************************************************************");
+        }
+
+        this.writeFormattedMessageLine(getParametersLeftPadding() + message, args);
+    }
 
     /**
      * @see org.kuali.kfs.sys.service.ReportWriterService#writeFormattedMessageLine(java.lang.String)
      */
     public void writeFormattedMessageLine(String format) {
         this.writeFormattedMessageLine(format, new Object());
+    }
+    
+    /**
+     * @see org.kuali.kfs.sys.service.ReportWriterService#writeFormattedMessageLine(java.lang.String)
+     */
+    public void writeCenteredFormattedMessageLine(String format) {
+        final String centeredFormat = centerString(format, pageWidth);
+        this.writeFormattedMessageLine(format, new Object());
+    }
+    
+    /**
+     * Centers a String within the given width
+     * @param s the String to center
+     * @param width the width to center it within
+     * @return a String, padded with spaces, to be centered 
+     */
+    protected String centerString(String s, int width) {
+        if (s.length() > width) return s;
+        
+        final int halfStringWidth = s.length() / 2;
+        final int halfWholeWidth = width / 2;
+        final int difference = halfWholeWidth - halfStringWidth;
+        
+        StringBuilder paddedString = new StringBuilder(s);
+        for (int i = 0; i < difference; i++) {
+            paddedString.insert(0, ' ');
+        }
+        while (paddedString.length() < width) {
+            paddedString.append(' ');
+        }
+        return paddedString.toString();
     }
 
     /**
@@ -336,6 +398,20 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
      */
     public void writeTableHeader(BusinessObject businessObject) {
         BusinessObjectReportHelper businessObjectReportHelper = getBusinessObjectReportHelper(businessObject);
+
+        Map<String, String> tableDefinition = businessObjectReportHelper.getTableDefinition();
+        String tableHeaderFormat = tableDefinition.get(KFSConstants.ReportConstants.TABLE_HEADER_LINE_KEY);
+
+        String[] headerLines = this.getMultipleFormattedMessageLines(tableHeaderFormat, new Object());
+        this.writeMultipleFormattedMessageLines(headerLines);
+    }
+    
+    /**
+     * Writes out the table header, based on a business object class
+     * @param businessObjectClass the class to write the header out for
+     */
+    public void writeTableHeader(Class<? extends BusinessObject> businessObjectClass) {
+        BusinessObjectReportHelper businessObjectReportHelper = getBusinessObjectReportHelper(businessObjectClass);
 
         Map<String, String> tableDefinition = businessObjectReportHelper.getTableDefinition();
         String tableHeaderFormat = tableDefinition.get(KFSConstants.ReportConstants.TABLE_HEADER_LINE_KEY);
@@ -430,6 +506,21 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
         BusinessObjectReportHelper businessObjectReportHelper = this.businessObjectReportHelpers.get(businessObject.getClass());
         if (ObjectUtils.isNull(businessObjectReportHelper)) {
             throw new RuntimeException(businessObject.getClass().toString() + " is not handled");
+        }
+
+        return businessObjectReportHelper;
+    }
+    
+    /**
+     * get the business report helper for the given business object
+     * 
+     * @param businessObject the given business object
+     * @return the business report helper for the given business object
+     */
+    public BusinessObjectReportHelper getBusinessObjectReportHelper(Class<? extends BusinessObject> businessObjectClass) {
+        BusinessObjectReportHelper businessObjectReportHelper = this.businessObjectReportHelpers.get(businessObjectClass);
+        if (ObjectUtils.isNull(businessObjectReportHelper)) {
+            throw new RuntimeException(businessObjectClass.getName() + " is not handled");
         }
 
         return businessObjectReportHelper;
@@ -656,5 +747,37 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
      */
     public void setClassToBusinessObjectReportHelperBeanNames(Map<Class<? extends BusinessObject>, String> classToBusinessObjectReportHelperBeanNames) {
         this.classToBusinessObjectReportHelperBeanNames = classToBusinessObjectReportHelperBeanNames;
+    }
+
+    /**
+     * Gets the parametersLabel attribute. 
+     * @return Returns the parametersLabel.
+     */
+    public String getParametersLabel() {
+        return parametersLabel;
+    }
+
+    /**
+     * Sets the parametersLabel attribute value.
+     * @param parametersLabel The parametersLabel to set.
+     */
+    public void setParametersLabel(String parametersLabel) {
+        this.parametersLabel = parametersLabel;
+    }
+
+    /**
+     * Gets the parametersLeftPadding attribute. 
+     * @return Returns the parametersLeftPadding.
+     */
+    public String getParametersLeftPadding() {
+        return parametersLeftPadding;
+    }
+
+    /**
+     * Sets the parametersLeftPadding attribute value.
+     * @param parametersLeftPadding The parametersLeftPadding to set.
+     */
+    public void setParametersLeftPadding(String parametersLeftPadding) {
+        this.parametersLeftPadding = parametersLeftPadding;
     }
 }

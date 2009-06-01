@@ -22,9 +22,9 @@ import java.util.Map;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.OrganizationReversionProcessService;
 import org.kuali.kfs.gl.batch.service.YearEndService;
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
+import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.springframework.util.StopWatch;
 
@@ -32,42 +32,44 @@ import org.springframework.util.StopWatch;
  * A step that runs the reversion and carry forward process. The beginning of year version of the process is supposed to be run at
  * the beginning of a fiscal year, and therefore, it uses prior year accounts instead of current year accounts.
  */
-public class OrganizationReversionBeginningOfYearStep extends AbstractStep {
+public class OrganizationReversionBeginningOfYearStep extends AbstractWrappedBatchStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionEndOfYearStep.class);
     private OrganizationReversionProcessService organizationReversionProcessService;
 
     /**
-     * Runs the organization reversion process, retrieving parameter, creating the origin entry group for output entries, and
-     * generating the reports on the process.
-     * 
-     * @param jobName the name of the job this step is being run as part of
-     * @param jobRunDate the time/date the job was started
-     * @return true if the job completed successfully, false if otherwise
-     * @see org.kuali.kfs.sys.batch.Step#execute(String, java.util.Date)
+     * @see org.kuali.kfs.sys.batch.AbstractWrappedBatchStep#getCustomBatchExecutor()
      */
-    public boolean execute(String jobName, Date jobRunDate) {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start(jobName);
+    @Override
+    protected CustomBatchExecutor getCustomBatchExecutor() {
+        return new CustomBatchExecutor() {
+            /**
+             * Runs the organization reversion process, retrieving parameter, creating the origin entry group for output entries, and
+             * generating the reports on the process.
+             * @return true if the job completed successfully, false if otherwise
+             * @see org.kuali.kfs.sys.batch.Step#execute(String, java.util.Date)
+             */
+            public boolean execute() {
+                StopWatch stopWatch = new StopWatch();
+                stopWatch.start("OrganizationReversionBeginningOfYearStep");
 
-        //OriginEntryGroup outputGroup = organizationReversionProcessService.createOrganizationReversionProcessOriginEntryGroup();
-        String organizationReversionPreClosingFileName = GeneralLedgerConstants.BatchFileSystem.ORGANIZATION_REVERSION_PRE_CLOSING_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-        Map jobParameters = organizationReversionProcessService.getJobParameters();
-        Map<String, Integer> organizationReversionCounts = new HashMap<String, Integer>();
+                //OriginEntryGroup outputGroup = organizationReversionProcessService.createOrganizationReversionProcessOriginEntryGroup();
+                String organizationReversionPreClosingFileName = GeneralLedgerConstants.BatchFileSystem.ORGANIZATION_REVERSION_PRE_CLOSING_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+                Map jobParameters = organizationReversionProcessService.getJobParameters();
+                Map<String, Integer> organizationReversionCounts = new HashMap<String, Integer>();
 
-        YearEndService yearEndService = SpringContext.getBean(YearEndService.class);
-        yearEndService.logAllMissingPriorYearAccounts((Integer) jobParameters.get(KFSConstants.UNIV_FISCAL_YR));
-        yearEndService.logAllMissingSubFundGroups((Integer) jobParameters.get(KFSConstants.UNIV_FISCAL_YR));
+                YearEndService yearEndService = SpringContext.getBean(YearEndService.class);
+                yearEndService.logAllMissingPriorYearAccounts((Integer) jobParameters.get(KFSConstants.UNIV_FISCAL_YR));
+                yearEndService.logAllMissingSubFundGroups((Integer) jobParameters.get(KFSConstants.UNIV_FISCAL_YR));
 
-        organizationReversionProcessService.organizationReversionProcessBeginningOfYear(organizationReversionPreClosingFileName, jobParameters, organizationReversionCounts);
-        
-        //TODO: Shawn - report
-        //organizationReversionProcessService.generateOrganizationReversionProcessReports(outputGroup, jobParameters, organizationReversionCounts);
+                organizationReversionProcessService.organizationReversionProcessBeginningOfYear(organizationReversionPreClosingFileName, jobParameters, organizationReversionCounts);
 
-        stopWatch.stop();
-        LOG.info(jobName + " took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");
-        return true;
+                stopWatch.stop();
+                LOG.info("OrganizationReversionBeginningOfYearStep took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");
+                return true;
+            }
+        };
     }
-
+    
     /**
      * Sets the organizationREversionProcessService (not to be confused with the OrganizationReversionService, which doesn't do a
      * process, but which does all the database stuff associated with OrganizationReversion records; it's off in Chart), which

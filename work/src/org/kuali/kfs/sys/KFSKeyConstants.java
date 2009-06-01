@@ -876,4 +876,9 @@ public class KFSKeyConstants {
     public static final String MESSAGE_REPORT_POSTER_OUTPUT_SUMMARY_BALANCE_TYPE_FISCAL_YEAR_TOTAL = "message.report.poster.output.summary.balanceType.fiscalYear.total";
     public static final String MESSAGE_REPORT_POSTER_OUTPUT_SUMMARY_BALANCE_TYPE_FISCAL_YEAR_AND_PERIOD_TOTAL = "message.report.poster.output.summary.balanceType.fiscalYear.fiscalPeriod.total";
     public static final String MESSAGE_REPORT_POSTER_OUTPUT_SUMMARY_TITLE_LINE = "message.report.poster.output.summary.titleLine";
+    public static final String MESSAGE_REPORT_YEAR_END_NOMINAL_ACTIVITY_CLOSING_LEDGER_TITLE_LINE = "message.report.yearEnd.nominalActivityClosing.ledger.titleLine";
+    public static final String MESSAGE_REPORT_YEAR_END_BALANCE_FORWARD_OPEN_ACCOUNT_LEDGER_TITLE_LINE = "message.report.yearEnd.balanceForwarding.openAccount.ledger.titleLine";
+    public static final String MESSAGE_REPORT_YEAR_END_BALANCE_FORWARD_CLOSED_ACCOUNT_LEDGER_TITLE_LINE = "message.report.yearEnd.balanceForwarding.closedAccount.ledger.titleLine";
+    public static final String MESSAGE_REPORT_YEAR_END_ENCUMBRANCE_FORWARDS_LEDGER_TITLE_LINE = "message.report.yearEnd.encumbranceForwards.ledger.titleLine";
+    public static final String MESSAGE_REPORT_YEAR_END_ORGANIZATION_REVERSION_LEDGER_TITLE_LINE = "message.report.yearEnd.organizationReversion.ledger.titleLine";
 }

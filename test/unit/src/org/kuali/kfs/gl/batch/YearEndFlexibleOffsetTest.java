@@ -34,6 +34,7 @@ import org.kuali.kfs.coa.service.OrganizationReversionService;
 import org.kuali.kfs.coa.service.PriorYearAccountService;
 import org.kuali.kfs.fp.businessobject.OffsetAccount;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.batch.service.EncumbranceClosingOriginEntryGenerationService;
 import org.kuali.kfs.gl.batch.service.OrganizationReversionProcessService;
 import org.kuali.kfs.gl.batch.service.OrganizationReversionUnitOfWorkService;
 import org.kuali.kfs.gl.batch.service.impl.CashOrganizationReversionCategoryLogic;
@@ -375,14 +376,16 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
         OriginEntryOffsetPair entryPair;
         toggleFlexibleOffsets(true);
         
+        final EncumbranceClosingOriginEntryGenerationService encumbranceClosingOriginEntryGenerationSerivce = SpringContext.getBean(EncumbranceClosingOriginEntryGenerationService.class);
+        
         // 1. when flexible offsets are turned on, encumbrance forward offsets that should get flexible offsets get them
-        entryPair = EncumbranceClosingOriginEntryFactory.createBeginningBalanceEntryOffsetPair(ENCUMBRANCE_FORWARD_FIXTURE.FLEXIBLE_ENCUMBRANCE.convertToEncumbrance(), fiscalYear, transactionDate);
+        entryPair = encumbranceClosingOriginEntryGenerationSerivce.createBeginningBalanceEntryOffsetPair(ENCUMBRANCE_FORWARD_FIXTURE.FLEXIBLE_ENCUMBRANCE.convertToEncumbrance(), fiscalYear, transactionDate);
         assertChartAndAccount(entryPair.getOffset(), DEFAULT_OFFSET_CHART, DEFAULT_OFFSET_ACCOUNT_NBR);
         // 2. when flexible offsets are turned on, encumbrance forward entries do not get flexible offsets
         assertChartAndAccount(entryPair.getEntry(), DEFAULT_FLEXIBLE_ENCUMBRANCE_CHART, DEFAULT_FLEXIBLE_ENCUMBRANCE_ACCOUNT_NBR);
         
         // 3. when flexible offsets are turned on, encumbrance forward offsets that should not get flexible offsets don't get them
-        entryPair = EncumbranceClosingOriginEntryFactory.createBeginningBalanceEntryOffsetPair(ENCUMBRANCE_FORWARD_FIXTURE.INFLEXIBLE_ENCUMBRANCE.convertToEncumbrance(), fiscalYear, transactionDate);
+        entryPair = encumbranceClosingOriginEntryGenerationSerivce.createBeginningBalanceEntryOffsetPair(ENCUMBRANCE_FORWARD_FIXTURE.INFLEXIBLE_ENCUMBRANCE.convertToEncumbrance(), fiscalYear, transactionDate);
         assertChartAndAccount(entryPair.getOffset(), DEFAULT_NO_FLEXIBLE_ENCUMBRANCE_CHART, DEFAULT_NO_FLEXIBLE_ENCUMBRANCE_ACCOUNT_NBR);
     }
     
@@ -396,8 +399,10 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
         OriginEntryOffsetPair entryPair;
         toggleFlexibleOffsets(false);
         
+        final EncumbranceClosingOriginEntryGenerationService encumbranceClosingOriginEntryGenerationSerivce = SpringContext.getBean(EncumbranceClosingOriginEntryGenerationService.class);
+        
         // 1. when flexible offsets are turned off, encumbrance forward offsets that should get flexible offsets do not get them
-        entryPair = EncumbranceClosingOriginEntryFactory.createBeginningBalanceEntryOffsetPair(ENCUMBRANCE_FORWARD_FIXTURE.FLEXIBLE_ENCUMBRANCE.convertToEncumbrance(), fiscalYear, transactionDate);
+        entryPair = encumbranceClosingOriginEntryGenerationSerivce.createBeginningBalanceEntryOffsetPair(ENCUMBRANCE_FORWARD_FIXTURE.FLEXIBLE_ENCUMBRANCE.convertToEncumbrance(), fiscalYear, transactionDate);
         assertChartAndAccount(entryPair.getEntry(), DEFAULT_FLEXIBLE_ENCUMBRANCE_CHART, DEFAULT_FLEXIBLE_ENCUMBRANCE_ACCOUNT_NBR);
     }
     
@@ -413,17 +418,19 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
         OriginEntryOffsetPair entryPair;
         A21SubAccount a21SubAccount;
         toggleFlexibleOffsets(true);
+        
+        final EncumbranceClosingOriginEntryGenerationService encumbranceClosingOriginEntryGenerationSerivce = SpringContext.getBean(EncumbranceClosingOriginEntryGenerationService.class);
                 
         // 1. when flexible offsets are turned on, encumbrance forward cost share offsets that should get flexible offsets get them
         a21SubAccount = SpringContext.getBean(A21SubAccountService.class).getByPrimaryKey(CS_FLEXIBLE_ENCUMBRANCE_CHART, CS_FLEXIBLE_ENCUMBRANCE_ACCOUNT_NBR, CS_FLEXIBLE_ENCUMBRANCE_SUB_ACCT_NBR);
-        entryPair = EncumbranceClosingOriginEntryFactory.createCostShareBeginningBalanceEntryOffsetPair(ENCUMBRANCE_FORWARD_FIXTURE.FLEXIBLE_COST_SHARE_ENCUMBRANCE.convertToEncumbrance(), transactionDate);
+        entryPair = encumbranceClosingOriginEntryGenerationSerivce.createCostShareBeginningBalanceEntryOffsetPair(ENCUMBRANCE_FORWARD_FIXTURE.FLEXIBLE_COST_SHARE_ENCUMBRANCE.convertToEncumbrance(), transactionDate);
         assertChartAndAccount(entryPair.getOffset(), DEFAULT_OFFSET_CHART, DEFAULT_OFFSET_ACCOUNT_NBR);
         // 2. when flexible offsets are turned on, encumbrance forward cost share entries do not get flexible offsets
         assertChartAndAccount(entryPair.getEntry(), a21SubAccount.getCostShareChartOfAccountCode(), a21SubAccount.getCostShareSourceAccountNumber());
         
         // 3. when flexible offsets are turned on, encumbrance forward cost share offsets that should not get flexible offsets don't get them
         a21SubAccount = SpringContext.getBean(A21SubAccountService.class).getByPrimaryKey(CS_NO_FLEXIBLE_ENCUMBRANCE_CHART, CS_NO_FLEXIBLE_ENCUMBRANCE_ACCOUNT_NBR, CS_NO_FLEXIBLE_ENCUMBRANCE_SUB_ACCT_NBR);
-        entryPair = EncumbranceClosingOriginEntryFactory.createCostShareBeginningBalanceEntryOffsetPair(ENCUMBRANCE_FORWARD_FIXTURE.INFLEXIBLE_COST_SHARE_ENCUMBRANCE.convertToEncumbrance(), transactionDate);
+        entryPair = encumbranceClosingOriginEntryGenerationSerivce.createCostShareBeginningBalanceEntryOffsetPair(ENCUMBRANCE_FORWARD_FIXTURE.INFLEXIBLE_COST_SHARE_ENCUMBRANCE.convertToEncumbrance(), transactionDate);
         assertChartAndAccount(entryPair.getOffset(), a21SubAccount.getCostShareChartOfAccountCode(), a21SubAccount.getCostShareSourceAccountNumber());
     }
     
@@ -437,10 +444,12 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
         OriginEntryOffsetPair entryPair;
         A21SubAccount a21SubAccount;
         toggleFlexibleOffsets(false);
+        
+        final EncumbranceClosingOriginEntryGenerationService encumbranceClosingOriginEntryGenerationSerivce = SpringContext.getBean(EncumbranceClosingOriginEntryGenerationService.class);
                 
         // 1. when flexible offsets are turned off, encumbrance forward cost share offsets that should get flexible offsets don't get them
         a21SubAccount = SpringContext.getBean(A21SubAccountService.class).getByPrimaryKey(CS_FLEXIBLE_ENCUMBRANCE_CHART, CS_FLEXIBLE_ENCUMBRANCE_ACCOUNT_NBR, CS_FLEXIBLE_ENCUMBRANCE_SUB_ACCT_NBR);
-        entryPair = EncumbranceClosingOriginEntryFactory.createCostShareBeginningBalanceEntryOffsetPair(ENCUMBRANCE_FORWARD_FIXTURE.FLEXIBLE_COST_SHARE_ENCUMBRANCE.convertToEncumbrance(), transactionDate);
+        entryPair = encumbranceClosingOriginEntryGenerationSerivce.createCostShareBeginningBalanceEntryOffsetPair(ENCUMBRANCE_FORWARD_FIXTURE.FLEXIBLE_COST_SHARE_ENCUMBRANCE.convertToEncumbrance(), transactionDate);
         assertChartAndAccount(entryPair.getEntry(), a21SubAccount.getCostShareChartOfAccountCode(), a21SubAccount.getCostShareSourceAccountNumber());
     }
     

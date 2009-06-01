@@ -1576,4 +1576,12 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
         }
         return forContractsAndGrants;
     }
+
+    /**
+     * @see org.kuali.kfs.coa.businessobject.AccountIntf#isClosed()
+     */
+    public boolean isClosed() {
+        return !active;
+    }
+    
 }

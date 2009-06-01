@@ -398,16 +398,15 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
+		<property name="configurationService" ref="kualiConfigurationService" />
 		<property name="cashOrganizationReversionCategoryLogic">
 			<ref bean="glCashOrganizationReversionCategoryLogic" />
-		</property>
-		<property name="reportService">
-			<ref bean="reportService" />
 		</property>
 		<property name="orgReversionUnitOfWorkService">
 			<ref bean="glOrgReversionUnitOfWorkService" />
 		</property>
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
+		<property name="organizationReversionReportWriterService" ref="organizationReversionReportWriterService" />
 	</bean>
 	
 	<bean id="glCollectorService" class="org.kuali.kfs.gl.batch.service.impl.CollectorServiceImpl">
@@ -510,21 +509,6 @@
     	<property name="parameterService"> 
         	<ref bean="parameterService" /> 
 		</property> 
-	</bean> 
-
-	<bean id="glEncumbranceClosingRuleHelper" class="org.kuali.kfs.gl.batch.EncumbranceClosingRuleHelper">
-		<property name="a21SubAccountService">
-			<ref bean="a21SubAccountService" />
-		</property>
-		<property name="priorYearAccountService">
-			<ref bean="priorYearAccountService" />
-		</property>
-		<property name="subFundGroupService">
-			<ref bean="subFundGroupService" />
-		</property>
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService" />
-		</property>
 	</bean>
 
 	<bean id="glYearEndService" class="org.kuali.kfs.gl.batch.service.impl.YearEndServiceImpl">
@@ -537,17 +521,11 @@
 		<property name="encumbranceDao">
 			<ref bean="glEncumbranceDao" />
 		</property>
-		<property name="reportService">
-			<ref bean="reportService" />
-		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
 		<property name="balanceService">
 			<ref bean="glBalanceService" />
-		</property>
-		<property name="encumbranceClosingRuleHelper">
-			<ref bean="glEncumbranceClosingRuleHelper" />
 		</property>
 		<property name="balanceTypeService">
 			<ref bean="balanceTypService" />
@@ -574,6 +552,23 @@
 			<bean class="org.kuali.kfs.gl.batch.dataaccess.impl.YearEndDaoJdbc" parent="platformAwareDaoJdbc" />
 		</property>
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
+		<property name="encumbranceClosingOriginEntryGenerationService" ref="glEncumbranceClosingOriginEntryGenerationService" />
+		<property name="nominalActivityClosingReportWriterService" ref="nominalActivityClosingReportWriterService" />
+		<property name="balanceForwardReportWriterService" ref="balanceForwardReportWriterService" />
+		<property name="encumbranceClosingReportWriterService" ref="encumbranceClosingReportWriterService" />
+	</bean>
+	
+	<bean id="glEncumbranceClosingOriginEntryGenerationService" class="org.kuali.kfs.gl.batch.service.impl.EncumbranceClosingOriginEntryGenerationServiceImpl">
+		<property name="parameterService" ref="parameterService" />
+		<property name="offsetDefinitionService" ref="offsetDefinitionService" />
+		<property name="objectCodeService" ref="objectCodeService" />
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
+		<property name="flexibleOffsetAccountService" ref="flexibleOffsetAccountService" />
+		<property name="a21SubAccountService" ref="a21SubAccountService" />
+		<property name="subObjectCodeService" ref="subObjectCodeService" />
+		<property name="optionsService" ref="optionsService" />
+		<property name="priorYearAccountService" ref="priorYearAccountService" />
+		<property name="subFundGroupService" ref="subFundGroupService" />
 	</bean>
 
 	<bean id="glScrubberService" class="org.kuali.kfs.gl.service.impl.ScrubberServiceImpl">
@@ -719,9 +714,6 @@
 		</property>
 		<property name="flexibleOffsetAccountService">
 			<ref bean="flexibleOffsetAccountService" />
-		</property>
-		<property name="reportService">
-			<ref bean="reportService" />
 		</property>
 		<property name="verifyTransaction">
 			<ref bean="glVerifyTransaction" />
@@ -1060,12 +1052,6 @@
 		</property>
 		<property name="indirectCostRecoveryExclusionTypeDao">
 			<ref bean="indirectCostRecoveryExclusionTypeDao" />
-		</property>
-	</bean>
-
-	<bean id="reportService" class="org.kuali.kfs.gl.service.impl.ReportServiceImpl" init-method="init">
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService" />
 		</property>
 	</bean>
 
@@ -1892,30 +1878,36 @@
 		</property>
 	</bean>
 
-	<bean id="encumbranceForwardStep" class="org.kuali.kfs.gl.batch.EncumbranceForwardStep" parent="step">
+	<bean id="encumbranceForwardStep" class="org.kuali.kfs.gl.batch.EncumbranceForwardStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="encumbranceClosingReportWriterService"/>
+			</list>
+		</property>
 		<property name="yearEndService">
 			<ref bean="glYearEndService" />
-		</property>
-		<property name="originEntryGroupService">
-			<ref bean="originEntryGroupService" />
 		</property>
 	</bean>
 
-	<bean id="balanceForwardStep" class="org.kuali.kfs.gl.batch.BalanceForwardStep" parent="step">
+	<bean id="balanceForwardStep" class="org.kuali.kfs.gl.batch.BalanceForwardStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="balanceForwardReportWriterService"/>
+			</list>
+		</property>
 		<property name="yearEndService">
 			<ref bean="glYearEndService" />
-		</property>
-		<property name="originEntryGroupService">
-			<ref bean="originEntryGroupService" />
 		</property>
 	</bean>
 
-	<bean id="nominalActivityClosingStep" class="org.kuali.kfs.gl.batch.NominalActivityClosingStep" parent="step">
+	<bean id="nominalActivityClosingStep" class="org.kuali.kfs.gl.batch.NominalActivityClosingStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="nominalActivityClosingReportWriterService"/>
+			</list>
+		</property>
 		<property name="yearEndService">
 			<ref bean="glYearEndService" />
-		</property>
-		<property name="originEntryGroupService">
-			<ref bean="originEntryGroupService" />
 		</property>
 	</bean>
 	
@@ -1951,13 +1943,23 @@
 		</property>
 	</bean>
 
-	<bean id="organizationReversionClosingStep" class="org.kuali.kfs.gl.batch.OrganizationReversionEndOfYearStep" parent="step">
+	<bean id="organizationReversionClosingStep" class="org.kuali.kfs.gl.batch.OrganizationReversionEndOfYearStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="organizationReversionReportWriterService"/>
+			</list>
+		</property>
 		<property name="organizationReversionProcessService">
 			<ref bean="glOrganizationReversionProcessService" />
 		</property>
 	</bean>
 
-	<bean id="organizationReversionOpeningStep" class="org.kuali.kfs.gl.batch.OrganizationReversionBeginningOfYearStep" parent="step">
+	<bean id="organizationReversionOpeningStep" class="org.kuali.kfs.gl.batch.OrganizationReversionBeginningOfYearStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="organizationReversionReportWriterService"/>
+			</list>
+		</property>
 		<property name="organizationReversionProcessService">
 			<ref bean="glOrganizationReversionProcessService" />
 		</property>
@@ -2555,5 +2557,57 @@
                 <entry key="yearToDayBalance" value="YTD Balance"/>
             </map>
         </property>        
-    </bean>    
+    </bean>
+    
+    <bean id="nominalActivityClosingReportWriterService" class="org.kuali.kfs.sys.service.impl.ReportWriterTextServiceImpl" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/gl"/>
+		<property name="fileNamePrefix" value="year_end_nominal_activity_closing_"/>
+        <property name="title" value="Nominal Activity Closing Report" />
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryTotalLine" value="ledgerSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerBalanceTypeSummaryTotalLine" value="ledgerBalanceTypeSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryDetailLine" value="ledgerSummaryDetailLineReportHelper" />
+        	</map>
+        </property>
+    </bean>	
+    
+    <bean id="balanceForwardReportWriterService" class="org.kuali.kfs.sys.service.impl.ReportWriterTextServiceImpl" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/gl"/>
+		<property name="fileNamePrefix" value="year_end_balance_forward_"/>
+        <property name="title" value="Balance Forward Report" />
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryTotalLine" value="ledgerSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerBalanceTypeSummaryTotalLine" value="ledgerBalanceTypeSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryDetailLine" value="ledgerSummaryDetailLineReportHelper" />
+        	</map>
+        </property>
+    </bean>	
+    
+    <bean id="encumbranceClosingReportWriterService" class="org.kuali.kfs.sys.service.impl.ReportWriterTextServiceImpl" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/gl"/>
+		<property name="fileNamePrefix" value="year_end_encumbrance_closing_"/>
+        <property name="title" value="Encumbrance Closing Report" />
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryTotalLine" value="ledgerSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerBalanceTypeSummaryTotalLine" value="ledgerBalanceTypeSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryDetailLine" value="ledgerSummaryDetailLineReportHelper" />
+        	</map>
+        </property>
+    </bean>	
+    
+    <bean id="organizationReversionReportWriterService" class="org.kuali.kfs.sys.service.impl.ReportWriterTextServiceImpl" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/gl"/>
+		<property name="fileNamePrefix" value="year_end_org_reversion_process_"/>
+        <property name="title" value="Organization Reversion Process Report" />
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryTotalLine" value="ledgerSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerBalanceTypeSummaryTotalLine" value="ledgerBalanceTypeSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryDetailLine" value="ledgerSummaryDetailLineReportHelper" />
+        	</map>
+        </property>
+    </bean>	
 </beans>

@@ -24,70 +24,72 @@ import java.util.Map;
 
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.YearEndService;
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
-import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
-import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
+import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.springframework.util.StopWatch;
 
 /**
  * A step to run the year end process of forwarding encumbrances into the next fiscal year
  */
-public class EncumbranceForwardStep extends AbstractStep {
+public class EncumbranceForwardStep extends AbstractWrappedBatchStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EncumbranceForwardStep.class);
     private YearEndService yearEndService;
-    private OriginEntryGroupService originEntryGroupService;
 
     public static final String TRANSACTION_DATE_FORMAT_STRING = "yyyy-MM-dd";
 
     /**
-     * This step runs the forward encumbrance process, including retrieving the parameters needed to run the job, creating the
-     * origin entry group where output origin entries will go, and having the job's reports generated.
-     * 
-     * @param jobName the name of the job that this step is being run as part of
-     * @param jobRunDate the time/date when the job was started
-     * @return true if the step completed successfully, false if otherwise
-     * @see org.kuali.kfs.sys.batch.Step#performStep()
+     * @see org.kuali.kfs.sys.batch.AbstractWrappedBatchStep#getCustomBatchExecutor()
      */
-    public boolean execute(String jobName, java.util.Date jobRunDate) {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start(jobName);
+    @Override
+    protected CustomBatchExecutor getCustomBatchExecutor() {
+        return new CustomBatchExecutor() {
+            /**
+             * This step runs the forward encumbrance process, including retrieving the parameters needed to run the job, creating the
+             * origin entry group where output origin entries will go, and having the job's reports generated.
+             * 
+             * @return true if the step completed successfully, false if otherwise
+             * @see org.kuali.kfs.sys.batch.Step#performStep()
+             */
+            public boolean execute() {
+                StopWatch stopWatch = new StopWatch();
+                stopWatch.start("EncumbranceForwardStep");
 
-        Map jobParameters = new HashMap();
-        Integer varFiscalYear = null;
-        Date varTransactionDate = null;
+                Map jobParameters = new HashMap();
+                Integer varFiscalYear = null;
+                Date varTransactionDate = null;
 
-        String FIELD_FISCAL_YEAR = GeneralLedgerConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR;
-        String FIELD_TRANSACTION_DATE = GeneralLedgerConstants.ColumnNames.TRANSACTION_DT;
+                String FIELD_FISCAL_YEAR = GeneralLedgerConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR;
+                String FIELD_TRANSACTION_DATE = GeneralLedgerConstants.ColumnNames.TRANSACTION_DT;
 
-        // Get the current fiscal year.
-        varFiscalYear = new Integer(getParameterService().getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM));
+                // Get the current fiscal year.
+                varFiscalYear = new Integer(getParameterService().getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM));
 
-        // Get the current date (transaction date).
-        try {
-            DateFormat transactionDateFormat = new SimpleDateFormat(TRANSACTION_DATE_FORMAT_STRING);
-            varTransactionDate = new Date(transactionDateFormat.parse(getParameterService().getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM)).getTime());
-        }
-        catch (ParseException pe) {
-            LOG.error("Failed to parse TRANSACTION_DT from kualiConfigurationService");
-            throw new RuntimeException("Unable to get transaction date from kualiConfigurationService", pe);
-        }
+                // Get the current date (transaction date).
+                try {
+                    DateFormat transactionDateFormat = new SimpleDateFormat(TRANSACTION_DATE_FORMAT_STRING);
+                    varTransactionDate = new Date(transactionDateFormat.parse(getParameterService().getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM)).getTime());
+                }
+                catch (ParseException pe) {
+                    LOG.error("Failed to parse TRANSACTION_DT from kualiConfigurationService");
+                    throw new RuntimeException("Unable to get transaction date from kualiConfigurationService", pe);
+                }
 
-        jobParameters.put(GeneralLedgerConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR, varFiscalYear);
-        jobParameters.put(GeneralLedgerConstants.ColumnNames.UNIV_DT, varTransactionDate);
+                jobParameters.put(GeneralLedgerConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR, varFiscalYear);
+                jobParameters.put(GeneralLedgerConstants.ColumnNames.UNIV_DT, varTransactionDate);
 
-        //OriginEntryGroup originEntryGroup = originEntryGroupService.createGroup(varTransactionDate, OriginEntrySource.YEAR_END_ENCUMBRANCE_CLOSING, true, false, true);
-        String encumbranceForwardFileName = GeneralLedgerConstants.BatchFileSystem.ENCUMBRANCE_FORWARD_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-        Map<String, Integer> forwardEncumbranceCounts = new HashMap<String, Integer>();
+                String encumbranceForwardFileName = GeneralLedgerConstants.BatchFileSystem.ENCUMBRANCE_FORWARD_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+                Map<String, Integer> forwardEncumbranceCounts = new HashMap<String, Integer>();
 
-        yearEndService.forwardEncumbrances(encumbranceForwardFileName, jobParameters, forwardEncumbranceCounts);
+                yearEndService.forwardEncumbrances(encumbranceForwardFileName, jobParameters, forwardEncumbranceCounts);
 
+                stopWatch.stop();
+                LOG.info("EncumbranceForwardStep took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");
 
-        stopWatch.stop();
-        LOG.info(jobName + " took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");
-
-        return true;
+                return true;
+            }
+        };
     }
 
     /**
@@ -99,15 +101,4 @@ public class EncumbranceForwardStep extends AbstractStep {
     public void setYearEndService(YearEndService yearEndService) {
         this.yearEndService = yearEndService;
     }
-
-    /**
-     * Sets the originEntryGroupService attribute value.
-     * 
-     * @param originEntryGroupService The originEntryGroupService to set.
-     * @see org.kuali.kfs.gl.service.OriginEntryGroupService
-     */
-    public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
-        this.originEntryGroupService = originEntryGroupService;
-    }
-
 }

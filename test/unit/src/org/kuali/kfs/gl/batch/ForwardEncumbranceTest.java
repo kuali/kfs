@@ -21,6 +21,7 @@ import java.util.GregorianCalendar;
 import org.kuali.kfs.coa.service.A21SubAccountService;
 import org.kuali.kfs.coa.service.PriorYearAccountService;
 import org.kuali.kfs.coa.service.SubFundGroupService;
+import org.kuali.kfs.gl.batch.service.EncumbranceClosingOriginEntryGenerationService;
 import org.kuali.kfs.gl.batch.service.impl.OriginEntryOffsetPair;
 import org.kuali.kfs.gl.businessobject.Encumbrance;
 import org.kuali.kfs.gl.businessobject.OriginEntryTestBase;
@@ -28,7 +29,6 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
-import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -118,13 +118,9 @@ public class ForwardEncumbranceTest extends OriginEntryTestBase {
      * Tests that the expected encumbrance fixtures would be selected by the forward encumbrance process
      */
     public void testEncumbranceSelection() {
-        EncumbranceClosingRuleHelper helper = new EncumbranceClosingRuleHelper();
-        helper.setA21SubAccountService(SpringContext.getBean(A21SubAccountService.class));
-        helper.setKualiConfigurationService(kualiConfigurationService);
-        helper.setPriorYearAccountService(SpringContext.getBean(PriorYearAccountService.class));
-        helper.setSubFundGroupService(SpringContext.getBean(SubFundGroupService.class));
+        final EncumbranceClosingOriginEntryGenerationService encumbranceClosingOriginEntryGenerationService = SpringContext.getBean(EncumbranceClosingOriginEntryGenerationService.class);
 
-        assertTrue(helper.anEntryShouldBeCreatedForThisEncumbrance(ENCUMBRANCE_FIXTURE.COST_SHARE_ENCUMBRANCE.convertToEncumbrance()));
+        assertTrue(encumbranceClosingOriginEntryGenerationService.shouldForwardEncumbrance(ENCUMBRANCE_FIXTURE.COST_SHARE_ENCUMBRANCE.convertToEncumbrance()));
     }
 
     /**
@@ -133,19 +129,15 @@ public class ForwardEncumbranceTest extends OriginEntryTestBase {
      * @throws Exception thrown if something goes wrong
      */
     public void testCostShareSelection() throws Exception {
-        EncumbranceClosingRuleHelper helper = new EncumbranceClosingRuleHelper();
-        helper.setA21SubAccountService(SpringContext.getBean(A21SubAccountService.class));
-        helper.setKualiConfigurationService(kualiConfigurationService);
-        helper.setPriorYearAccountService(SpringContext.getBean(PriorYearAccountService.class));
-        helper.setSubFundGroupService(SpringContext.getBean(SubFundGroupService.class));
+        final EncumbranceClosingOriginEntryGenerationService encumbranceClosingOriginEntryGenerationService = SpringContext.getBean(EncumbranceClosingOriginEntryGenerationService.class);
 
         Encumbrance encumbrance = ENCUMBRANCE_FIXTURE.COST_SHARE_ENCUMBRANCE.convertToEncumbrance();
         final Integer postingYear = TestUtils.getFiscalYearForTesting().intValue();
-        OriginEntryOffsetPair entryPair = EncumbranceClosingOriginEntryFactory.createBeginningBalanceEntryOffsetPair(encumbrance, postingYear, new java.sql.Date(new GregorianCalendar().getTimeInMillis()));
+        OriginEntryOffsetPair entryPair = encumbranceClosingOriginEntryGenerationService.createBeginningBalanceEntryOffsetPair(encumbrance, postingYear, new java.sql.Date(new GregorianCalendar().getTimeInMillis()));
 
-        assertTrue(helper.isEncumbranceEligibleForCostShare(entryPair.getEntry(), entryPair.getOffset(), encumbrance, ENCUMBRANCE_FIXTURE.COST_SHARE_ENCUMBRANCE.getObjectType()));
+        assertTrue(encumbranceClosingOriginEntryGenerationService.shouldForwardCostShareForEncumbrance(entryPair.getEntry(), entryPair.getOffset(), encumbrance, ENCUMBRANCE_FIXTURE.COST_SHARE_ENCUMBRANCE.getObjectType()));
 
-        OriginEntryOffsetPair costShareEntryPair = EncumbranceClosingOriginEntryFactory.createCostShareBeginningBalanceEntryOffsetPair(encumbrance, new java.sql.Date(new GregorianCalendar().getTimeInMillis()));
+        OriginEntryOffsetPair costShareEntryPair = encumbranceClosingOriginEntryGenerationService.createCostShareBeginningBalanceEntryOffsetPair(encumbrance, new java.sql.Date(new GregorianCalendar().getTimeInMillis()));
         LOG.info(costShareEntryPair.getEntry().getLine());
         LOG.info(costShareEntryPair.getOffset().getLine());
 

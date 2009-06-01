@@ -25,7 +25,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 /**
  * 
  */
-public class OrganizationReversionDetail extends PersistableBusinessObjectBase implements Inactivateable {
+public class OrganizationReversionDetail extends PersistableBusinessObjectBase implements Inactivateable, OrganizationReversionCategoryInfo {
 
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;
@@ -123,7 +123,6 @@ public class OrganizationReversionDetail extends PersistableBusinessObjectBase i
     public void setOrganizationReversionCategoryCode(String organizationReversionCategoryCode) {
         this.organizationReversionCategoryCode = organizationReversionCategoryCode;
     }
-
 
     /**
      * Gets the organizationReversionCode attribute.

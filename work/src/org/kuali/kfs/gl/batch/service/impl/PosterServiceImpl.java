@@ -66,7 +66,6 @@ import org.kuali.kfs.gl.report.LedgerSummaryReport;
 import org.kuali.kfs.gl.report.TransactionListingReport;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.OriginEntryService;
-import org.kuali.kfs.gl.service.ReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -111,7 +110,6 @@ public class PosterServiceImpl implements PosterService {
     private ExpenditureTransactionDao expenditureTransactionDao;
     private IndirectCostRecoveryRateDetailDao indirectCostRecoveryRateDetailDao;
     private ObjectCodeService objectCodeService;
-    private ReportService reportService;
     private ParameterService parameterService;
     private KualiConfigurationService configurationService;
     private FlexibleOffsetAccountService flexibleOffsetAccountService;
@@ -955,10 +953,6 @@ public class PosterServiceImpl implements PosterService {
 
     public void setObjectCodeService(ObjectCodeService ocs) {
         objectCodeService = ocs;
-    }
-
-    public void setReportService(ReportService rs) {
-        reportService = rs;
     }
 
     public void setConfigurationService(KualiConfigurationService configurationService) {

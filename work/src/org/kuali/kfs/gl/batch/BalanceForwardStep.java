@@ -22,68 +22,66 @@ import java.text.SimpleDateFormat;
 
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.YearEndService;
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
-import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
-import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
+import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.springframework.util.StopWatch;
 
 /**
  * This step runs the balance forward year end process.
  */
-public class BalanceForwardStep extends AbstractStep {
+public class BalanceForwardStep extends AbstractWrappedBatchStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceForwardStep.class);
 
     private YearEndService yearEndService;
-    private OriginEntryGroupService originEntryGroupService;
 
     public static final String TRANSACTION_DATE_FORMAT_STRING = "yyyy-MM-dd";
 
     /**
-     * This step runs the balance forward service, specifically finding the parameters the job needs, creating the origin entry
-     * groups for the output origin entries, and creating the process's reports.
-     * 
-     * @param jobName the name of the job that this step is a part of
-     * @param jobRunDate the time/date the job is run
-     * @return that the job finished successfully
-     * @see org.kuali.kfs.sys.batch.Step#execute(String, java.util.Date)
+     * @see org.kuali.kfs.sys.batch.AbstractWrappedBatchStep#getCustomBatchExecutor()
      */
-    public boolean execute(String jobName, java.util.Date jobRunDate) {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start(jobName);
+    @Override
+    protected CustomBatchExecutor getCustomBatchExecutor() {
+        return new CustomBatchExecutor() {
+            /**
+             * This step runs the balance forward service, specifically finding the parameters the job needs, creating the origin entry
+             * groups for the output origin entries, and creating the process's reports.
+             * @return that the job finished successfully
+             * @see org.kuali.kfs.sys.batch.Step#execute(String, java.util.Date)
+             */
+            public boolean execute() {
+                StopWatch stopWatch = new StopWatch();
+                stopWatch.start("Balance Forward Step");
 
-        Date varTransactionDate;
-        try {
-            DateFormat transactionDateFormat = new SimpleDateFormat(TRANSACTION_DATE_FORMAT_STRING);
-            varTransactionDate = new Date(transactionDateFormat.parse(getParameterService().getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM)).getTime());
-        }
-        catch (ParseException e) {
-            LOG.error("forwardBalances() Unable to parse transaction date", e);
-            throw new IllegalArgumentException("Unable to parse transaction date");
-        }
+                Date varTransactionDate;
+                try {
+                    DateFormat transactionDateFormat = new SimpleDateFormat(TRANSACTION_DATE_FORMAT_STRING);
+                    varTransactionDate = new Date(transactionDateFormat.parse(getParameterService().getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM)).getTime());
+                }
+                catch (ParseException e) {
+                    LOG.error("forwardBalances() Unable to parse transaction date", e);
+                    throw new IllegalArgumentException("Unable to parse transaction date");
+                }
 
-        Integer varFiscalYear = new Integer(getParameterService().getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM));
+                Integer varFiscalYear = new Integer(getParameterService().getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM));
 
-        yearEndService.logAllMissingPriorYearAccounts(varFiscalYear);
-        yearEndService.logAllMissingSubFundGroups(varFiscalYear);
+                yearEndService.logAllMissingPriorYearAccounts(varFiscalYear);
+                yearEndService.logAllMissingSubFundGroups(varFiscalYear);
 
-//        OriginEntryGroup balanceForwardsUnclosedPriorYearAccountGroup = originEntryGroupService.createGroup(varTransactionDate, OriginEntrySource.YEAR_END_BEGINNING_BALANCE, true, false, true);
-//        OriginEntryGroup balanceForwardsClosedPriorYearAccountGroup = originEntryGroupService.createGroup(varTransactionDate, OriginEntrySource.YEAR_END_BEGINNING_BALANCE_PRIOR_YEAR, true, false, true);
+                String balanceForwardsUnclosedFileName = GeneralLedgerConstants.BatchFileSystem.BALANCE_FORWARDS_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
+                String balanceForwardsclosedFileName = GeneralLedgerConstants.BatchFileSystem.BALANCE_FORWARDS_CLOSED_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+                
+                BalanceForwardRuleHelper balanceForwardRuleHelper = new BalanceForwardRuleHelper(varFiscalYear, varTransactionDate, balanceForwardsclosedFileName, balanceForwardsUnclosedFileName);
 
-        String balanceForwardsUnclosedFileName = GeneralLedgerConstants.BatchFileSystem.BALANCE_FORWARDS_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
-        String balanceForwardsclosedFileName = GeneralLedgerConstants.BatchFileSystem.BALANCE_FORWARDS_CLOSED_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-        
-        BalanceForwardRuleHelper balanceForwardRuleHelper = new BalanceForwardRuleHelper(varFiscalYear, varTransactionDate, balanceForwardsclosedFileName, balanceForwardsUnclosedFileName);
+                yearEndService.forwardBalances(balanceForwardsUnclosedFileName, balanceForwardsclosedFileName, balanceForwardRuleHelper);
 
-        yearEndService.forwardBalances(balanceForwardsUnclosedFileName, balanceForwardsclosedFileName, balanceForwardRuleHelper);
-        //TODO: Shawn - report
-        //yearEndService.generateForwardBalanceReports(balanceForwardsUnclosedFileName, balanceForwardsclosedFileName, balanceForwardRuleHelper);
+                stopWatch.stop();
+                LOG.info("Balance Forward Step took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");
 
-        stopWatch.stop();
-        LOG.info(jobName + " took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");
-
-        return true;
+                return true;
+            }
+        };
     }
 
     /**
@@ -94,15 +92,5 @@ public class BalanceForwardStep extends AbstractStep {
      */
     public void setYearEndService(YearEndService yearEndService) {
         this.yearEndService = yearEndService;
-    }
-
-    /**
-     * Sets the originEntryGroupService attribute value.
-     * 
-     * @param originEntryGroupService The originEntryGroupService to set.
-     * @see org.kuali.kfs.gl.service.OriginEntryGroupService
-     */
-    public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
-        this.originEntryGroupService = originEntryGroupService;
     }
 }

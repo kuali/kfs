@@ -27,7 +27,6 @@ import org.kuali.kfs.gl.batch.YearEndFlexibleOffsetTest;
 import org.kuali.kfs.gl.batch.service.CollectorServiceTest;
 import org.kuali.kfs.gl.batch.service.OrganizationReversionCategoryTest;
 import org.kuali.kfs.gl.batch.service.PosterServiceTest;
-import org.kuali.kfs.gl.batch.service.ReportServiceTest;
 import org.kuali.kfs.gl.batch.service.RunDateServiceTest;
 import org.kuali.kfs.gl.batch.service.SufficientFundsRebuilderServiceTest;
 import org.kuali.kfs.gl.businessobject.OriginEntryTest;
@@ -87,7 +86,6 @@ public class AllTests {
         suite.addTestSuite(GeneralLedgerPendingEntryServiceTest.class);
         suite.addTestSuite(NightlyOutServiceTest.class);
         suite.addTestSuite(PosterServiceTest.class);
-        suite.addTestSuite(ReportServiceTest.class);
         suite.addTestSuite(RunDateServiceTest.class);
         suite.addTestSuite(ScrubberFlexibleOffsetTest.class);
         suite.addTestSuite(ScrubberServiceTest.class);

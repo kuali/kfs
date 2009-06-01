@@ -1068,5 +1068,10 @@ public interface AccountIntf {
      * @return Returns the guidelinesAndPurposeSectionBlank.
      */
     public String getGuidelinesAndPurposeSectionBlank();
+    
+    /**
+     * @return if the account like entity is closed or not
+     */
+    public abstract boolean isClosed();
 
 }

@@ -192,7 +192,7 @@ public class YearEndServiceImpl implements YearEndService {
         getNominalActivityClosingReportWriterService().pageBreak();
         
         // finally, put a header on the ledger report and write it
-        getNominalActivityClosingReportWriterService().writeCenteredFormattedMessageLine(configurationService.getPropertyString(KFSKeyConstants.MESSAGE_REPORT_YEAR_END_NOMINAL_ACTIVITY_CLOSING_LEDGER_TITLE_LINE));
+        getNominalActivityClosingReportWriterService().writeSubTitle(configurationService.getPropertyString(KFSKeyConstants.MESSAGE_REPORT_YEAR_END_NOMINAL_ACTIVITY_CLOSING_LEDGER_TITLE_LINE));
         ledgerReport.writeReport(getNominalActivityClosingReportWriterService());
     }
 
@@ -289,10 +289,10 @@ public class YearEndServiceImpl implements YearEndService {
         getBalanceForwardReportWriterService().pageBreak();
         
         // write ledger reports
-        getBalanceForwardReportWriterService().writeCenteredFormattedMessageLine(configurationService.getPropertyString(KFSKeyConstants.MESSAGE_REPORT_YEAR_END_BALANCE_FORWARD_OPEN_ACCOUNT_LEDGER_TITLE_LINE));
+        getBalanceForwardReportWriterService().writeSubTitle(configurationService.getPropertyString(KFSKeyConstants.MESSAGE_REPORT_YEAR_END_BALANCE_FORWARD_OPEN_ACCOUNT_LEDGER_TITLE_LINE));
         balanceForwardRuleHelper.writeOpenAccountBalanceForwardLedgerSummaryReport(getBalanceForwardReportWriterService());
         getBalanceForwardReportWriterService().writeNewLines(4);
-        getBalanceForwardReportWriterService().writeCenteredFormattedMessageLine(configurationService.getPropertyString(KFSKeyConstants.MESSAGE_REPORT_YEAR_END_BALANCE_FORWARD_CLOSED_ACCOUNT_LEDGER_TITLE_LINE));
+        getBalanceForwardReportWriterService().writeSubTitle(configurationService.getPropertyString(KFSKeyConstants.MESSAGE_REPORT_YEAR_END_BALANCE_FORWARD_CLOSED_ACCOUNT_LEDGER_TITLE_LINE));
         balanceForwardRuleHelper.writeClosedAccountBalanceForwardLedgerSummaryReport(getBalanceForwardReportWriterService());
     }
 
@@ -398,7 +398,7 @@ public class YearEndServiceImpl implements YearEndService {
         getEncumbranceClosingReportWriterService().pageBreak();
         
         // write ledger summary report
-        getEncumbranceClosingReportWriterService().writeCenteredFormattedMessageLine(configurationService.getPropertyString(KFSKeyConstants.MESSAGE_REPORT_YEAR_END_ENCUMBRANCE_FORWARDS_LEDGER_TITLE_LINE));
+        getEncumbranceClosingReportWriterService().writeSubTitle(configurationService.getPropertyString(KFSKeyConstants.MESSAGE_REPORT_YEAR_END_ENCUMBRANCE_FORWARDS_LEDGER_TITLE_LINE));
         forwardEncumbranceLedgerReport.writeReport(getEncumbranceClosingReportWriterService());
     }
 

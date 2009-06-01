@@ -81,12 +81,6 @@ public interface ReportWriterService {
     public void writeFormattedMessageLine(String format);
     
     /**
-     * Writes a message line, centering it before print it out
-     * @param format the formatted String to display
-     */
-    public void writeCenteredFormattedMessageLine(String format);
-    
-    /**
      * Pass through to PrintStream.printf except that it also handles pagination. If multiple lines are needed, call this method multiple
      * times to assure pagination works properly
      * @param format

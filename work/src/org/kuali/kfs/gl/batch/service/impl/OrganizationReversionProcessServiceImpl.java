@@ -218,7 +218,7 @@ public class OrganizationReversionProcessServiceImpl implements OrganizationReve
         getOrganizationReversionReportWriterService().pageBreak();
         
         // write ledger report
-        getOrganizationReversionReportWriterService().writeCenteredFormattedMessageLine(getConfigurationService().getPropertyString(KFSKeyConstants.MESSAGE_REPORT_YEAR_END_ORGANIZATION_REVERSION_LEDGER_TITLE_LINE));
+        getOrganizationReversionReportWriterService().writeSubTitle(getConfigurationService().getPropertyString(KFSKeyConstants.MESSAGE_REPORT_YEAR_END_ORGANIZATION_REVERSION_LEDGER_TITLE_LINE));
         organizationReversionProcess.writeLedgerSummaryReport(getOrganizationReversionReportWriterService());
     }
 

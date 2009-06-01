@@ -111,11 +111,4 @@ public class MockReportWriterService implements ReportWriterService, WrappingBat
     public void writeParameterLine(String message, Object... args) {
         // not doing anything   
     }
-
-    /**
-     * @see org.kuali.kfs.sys.service.ReportWriterService#writeCenteredFormattedMessageLine(java.lang.String)
-     */
-    public void writeCenteredFormattedMessageLine(String format) {
-        // my ears are shut, I'm not hearing your message calls!
-    }
 }

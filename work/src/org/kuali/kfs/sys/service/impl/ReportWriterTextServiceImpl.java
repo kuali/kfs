@@ -286,37 +286,6 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
     public void writeFormattedMessageLine(String format) {
         this.writeFormattedMessageLine(format, new Object());
     }
-    
-    /**
-     * @see org.kuali.kfs.sys.service.ReportWriterService#writeFormattedMessageLine(java.lang.String)
-     */
-    public void writeCenteredFormattedMessageLine(String format) {
-        final String centeredFormat = centerString(format, pageWidth);
-        this.writeFormattedMessageLine(format, new Object());
-    }
-    
-    /**
-     * Centers a String within the given width
-     * @param s the String to center
-     * @param width the width to center it within
-     * @return a String, padded with spaces, to be centered 
-     */
-    protected String centerString(String s, int width) {
-        if (s.length() > width) return s;
-        
-        final int halfStringWidth = s.length() / 2;
-        final int halfWholeWidth = width / 2;
-        final int difference = halfWholeWidth - halfStringWidth;
-        
-        StringBuilder paddedString = new StringBuilder(s);
-        for (int i = 0; i < difference; i++) {
-            paddedString.insert(0, ' ');
-        }
-        while (paddedString.length() < width) {
-            paddedString.append(' ');
-        }
-        return paddedString.toString();
-    }
 
     /**
      * @see org.kuali.kfs.sys.service.ReportWriterService#writeFormattedMessageLine(java.lang.String, java.lang.Object[])

@@ -369,12 +369,7 @@ public class EncumbranceClosingOriginEntryGenerationServiceImpl implements Encum
                 }
                 // the sub fund group must exist for the prior year account and the
                 // encumbrance must not be closed.
-                if (priorYearAccount.isForContractsAndGrants()) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
+                return priorYearAccount.isForContractsAndGrants();
             }
             else {
                 // we're still here? because we're an external encumbrance, and we always get forwarded

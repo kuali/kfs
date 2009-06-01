@@ -776,6 +776,12 @@
                           <bean parent="FieldDefinition"
                                 p:attributeName="active" />
                         </list>
+                      </property> 
+                      <property name="summaryFields" >
+                        <list>
+                          <bean parent="FieldDefinition"
+                                p:attributeName="vendorCampusCode" />
+                        </list>
                       </property>
                     </bean>
                   </list>
@@ -851,6 +857,14 @@
                                 p:attributeName="active" />
                         </list>
                       </property>
+                      <property name="summaryFields" >
+                        <list>
+                          <bean parent="FieldDefinition"
+                                p:attributeName="vendorPhoneTypeCode" />                        
+                          <bean parent="FieldDefinition"
+                                p:attributeName="vendorPhoneNumber" />
+                        </list>
+                      </property>                       
                     </bean>
                   </list>
                 </property>
@@ -1108,6 +1122,14 @@
                                 p:attributeName="active" />
                         </list>
                       </property>
+                      <property name="summaryFields" >
+                        <list>
+                          <bean parent="FieldDefinition"
+                                p:attributeName="chartOfAccountsCode" />
+                          <bean parent="FieldDefinition"
+                                p:attributeName="organizationCode" />
+                        </list>
+                      </property> 
                     </bean>
                   </list>
                 </property>

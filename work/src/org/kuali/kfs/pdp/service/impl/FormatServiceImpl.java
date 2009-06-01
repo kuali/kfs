@@ -298,7 +298,6 @@ public class FormatServiceImpl implements FormatService {
      * @param pendingPaymentStatus
      */
     private void processPaymentGroup(PaymentGroup paymentGroup, PaymentProcess paymentProcess, DisbursementType checkDisbursementType, DisbursementType achDisbursementType, PaymentStatus extractedPaymentStatus, PaymentStatus pendingPaymentStatus) {
-
         CustomerProfile customer = paymentGroup.getBatch().getCustomerProfile();
 
         // Set the sort field to be saved in the database
@@ -340,11 +339,15 @@ public class FormatServiceImpl implements FormatService {
             paymentGroup.setPaymentStatus(paymentStatus);
 
             // set bank, use group bank unless not given or not valid for checks
-            if (ObjectUtils.isNull(paymentGroup.getBank()) || !paymentGroup.getBank().isBankCheckIndicator()) {
+            if (ObjectUtils.isNull(paymentGroup.getBank()) || !paymentGroup.getBank().isBankCheckIndicator() || !paymentGroup.getBank().isActive()) {
                 CustomerBank customerBank = customer.getCustomerBankByDisbursementType(PdpConstants.DisbursementTypeCodes.CHECK);
-                if (ObjectUtils.isNotNull(customerBank) && customerBank.isActive()) {
+                if (ObjectUtils.isNotNull(customerBank) && customerBank.isActive() && ObjectUtils.isNotNull(customerBank.getBank()) && customerBank.getBank().isActive()) {
                     paymentGroup.setBankCode(customerBank.getBankCode());
                     paymentGroup.setBank(customerBank.getBank());
+                }
+                else if (ObjectUtils.isNotNull(customerBank) && ObjectUtils.isNotNull(customerBank.getBank()) && ObjectUtils.isNotNull(customerBank.getBank().getContinuationBank()) && customerBank.getBank().getContinuationBank().isActive()) {
+                    paymentGroup.setBankCode(customerBank.getBank().getContinuationBank().getBankCode());
+                    paymentGroup.setBank(customerBank.getBank().getContinuationBank());                 
                 }
             }
 
@@ -362,11 +365,15 @@ public class FormatServiceImpl implements FormatService {
             paymentGroup.setPaymentStatus(paymentStatus);
 
             // set bank, use group bank unless not given or not valid for ACH
-            if (ObjectUtils.isNull(paymentGroup.getBank()) || !paymentGroup.getBank().isBankAchIndicator()) {
+            if (ObjectUtils.isNull(paymentGroup.getBank()) || !paymentGroup.getBank().isBankAchIndicator() || !paymentGroup.getBank().isActive()) {
                 CustomerBank customerBank = customer.getCustomerBankByDisbursementType(PdpConstants.DisbursementTypeCodes.ACH);
-                if (ObjectUtils.isNotNull(customerBank) && customerBank.isActive()) {
+                if (ObjectUtils.isNotNull(customerBank) && customerBank.isActive() && ObjectUtils.isNotNull(customerBank.getBank()) && customerBank.getBank().isActive()) {
                     paymentGroup.setBankCode(customerBank.getBankCode());
                     paymentGroup.setBank(customerBank.getBank());
+                }
+                else if (ObjectUtils.isNotNull(customerBank) && ObjectUtils.isNotNull(customerBank.getBank()) && ObjectUtils.isNotNull(customerBank.getBank().getContinuationBank()) && customerBank.getBank().getContinuationBank().isActive()) {
+                    paymentGroup.setBankCode(customerBank.getBank().getContinuationBank().getBankCode());
+                    paymentGroup.setBank(customerBank.getBank().getContinuationBank());                 
                 }
             }
 

@@ -80,7 +80,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="awardEntryDate" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="awardClosingDate" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="proposalAwardTypeCode" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="proposal.grantNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="proposal.grantNumber" p:noLookup="true" />
         <bean parent="MaintainableFieldDefinition" p:name="grantDescriptionCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="awardPurposeCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="federalFundedAmount" p:unconditionallyReadOnly="true"/>

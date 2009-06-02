@@ -740,7 +740,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="proposalProjectTitle" />
         <bean parent="FieldDefinition"
-              p:attributeName="grantNumber" />
+              p:attributeName="grantNumber" p:noLookup="true"/>
         <bean parent="FieldDefinition"
               p:attributeName="proposalStatusCode" />
         <bean parent="FieldDefinition"

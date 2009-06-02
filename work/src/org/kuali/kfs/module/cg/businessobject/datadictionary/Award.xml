@@ -903,7 +903,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="awardProjectTitle" />
         <bean parent="FieldDefinition"
-              p:attributeName="proposal.grantNumber" />
+              p:attributeName="proposal.grantNumber" p:noLookup="true"/>
         <bean parent="FieldDefinition"
               p:attributeName="grantDescriptionCode" />
         <bean parent="FieldDefinition"

@@ -29,6 +29,8 @@ import org.kuali.kfs.gl.batch.service.ReconciliationParserService;
 import org.kuali.kfs.gl.batch.service.ReconciliationService;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.businessobject.OriginEntryLite;
+import org.kuali.kfs.gl.report.LedgerSummaryReport;
 import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.gl.service.impl.EnterpriseFeederStatusAndErrorMessagesWrapper;
 import org.kuali.kfs.sys.Message;
@@ -64,7 +66,7 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
      * @see org.kuali.module.gl.service.impl.FileEnterpriseFeederHelperService#feedOnFile(java.io.File, java.io.File, java.io.File,
      *      org.kuali.kfs.gl.businessobject.OriginEntryGroup)
      */
-    public void feedOnFile(File doneFile, File dataFile, File reconFile, PrintStream enterpriseFeedPs, String feederProcessName, String reconciliationTableId, EnterpriseFeederStatusAndErrorMessagesWrapper statusAndErrors) {
+    public void feedOnFile(File doneFile, File dataFile, File reconFile, PrintStream enterpriseFeedPs, String feederProcessName, String reconciliationTableId, EnterpriseFeederStatusAndErrorMessagesWrapper statusAndErrors, LedgerSummaryReport ledgerSummaryReport) {
         LOG.info("Processing done file: " + doneFile.getAbsolutePath());
 
         List<Message> errorMessages = statusAndErrors.getErrorMessages();
@@ -119,9 +121,14 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
                 dataFileReader = new BufferedReader(new FileReader(dataFile));
                 String line;
                 int count = 0;
+                
+                // create an entry to temporarily parse each line as it comes in
+                OriginEntryLite tempEntry = new OriginEntryLite();
                 while ((line = dataFileReader.readLine()) != null) {
                     try {
                         enterpriseFeedPs.printf("%s\n", line);
+                        tempEntry.setFromTextFileForBatch(line, count);
+                        ledgerSummaryReport.summarizeEntry(tempEntry);
                     } catch (Exception e) {
                         throw new IOException(e.toString());
                     }

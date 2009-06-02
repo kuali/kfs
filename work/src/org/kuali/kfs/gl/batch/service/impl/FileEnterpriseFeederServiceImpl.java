@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.lang.StringUtils;
@@ -31,9 +32,11 @@ import org.kuali.kfs.gl.batch.service.EnterpriseFeederService;
 import org.kuali.kfs.gl.batch.service.FileEnterpriseFeederHelperService;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntrySource;
+import org.kuali.kfs.gl.report.LedgerSummaryReport;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.impl.EnterpriseFeederStatusAndErrorMessagesWrapper;
 import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.service.DateTimeService;
 
 /**
@@ -53,6 +56,8 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
     private EnterpriseFeederNotificationService enterpriseFeederNotificationService;
     private String reconciliationTableId;
 
+    private ReportWriterService reportWriterService;
+    
     /**
      * Feeds file sets in the directory whose name is returned by the invocation to getDirectoryName()
      * 
@@ -80,8 +85,6 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
                 throw new RuntimeException("enterpriseFeedFile doesn't exist " + enterpriseFeedFileName);
             }
             
-            //OriginEntryGroup originEntryGroup = createNewGroupForFeed(OriginEntrySource.ENTERPRISE_FEED);
-            //LOG.info("New group ID created for enterprise feeder service run: " + originEntryGroup.getId());
             LOG.info("New File created for enterprise feeder service run: " + enterpriseFeedFileName);
 
             File directory = new File(directoryName);
@@ -93,6 +96,10 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
             File[] doneFiles = directory.listFiles(doneFileFilter);
             reorderDoneFiles(doneFiles);
 
+            LedgerSummaryReport ledgerSummaryReport = new LedgerSummaryReport();
+
+            List<EnterpriseFeederStatusAndErrorMessagesWrapper> statusAndErrorsList = new ArrayList<EnterpriseFeederStatusAndErrorMessagesWrapper>();
+            
             for (File doneFile : doneFiles) {
                 File dataFile = null;
                 File reconFile = null;
@@ -105,7 +112,8 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
                     dataFile = getDataFile(doneFile);
                     reconFile = getReconFile(doneFile);
                     
-
+                    statusAndErrors.setFileNames(dataFile, reconFile, doneFile);
+                    
                     if (dataFile == null) {
                         LOG.error("Unable to find data file for done file: " + doneFile.getAbsolutePath());
                         statusAndErrors.getErrorMessages().add(new Message("Unable to find data file for done file: " + doneFile.getAbsolutePath(), Message.TYPE_FATAL));
@@ -120,7 +128,7 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
                         LOG.info("Data file: " + dataFile.getAbsolutePath());
                         LOG.info("Reconciliation File: " + reconFile.getAbsolutePath());
 
-                        fileEnterpriseFeederHelperService.feedOnFile(doneFile, dataFile, reconFile, enterpriseFeedPs, processName, reconciliationTableId, statusAndErrors);
+                        fileEnterpriseFeederHelperService.feedOnFile(doneFile, dataFile, reconFile, enterpriseFeedPs, processName, reconciliationTableId, statusAndErrors, ledgerSummaryReport);
                     }
                 }
                 catch (RuntimeException e) {
@@ -128,6 +136,7 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
                     LOG.error("Caught exception when feeding done file: " + doneFile.getAbsolutePath());
                 }
                 finally {
+                    statusAndErrorsList.add(statusAndErrors);
                     boolean doneFileDeleted = doneFile.delete();
                     if (!doneFileDeleted) {
                         statusAndErrors.getErrorMessages().add(new Message("Unable to delete done file: " + doneFile.getAbsolutePath(), Message.TYPE_FATAL));
@@ -139,16 +148,19 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
             }
             
             enterpriseFeedPs.close();
+            generateReport(statusAndErrorsList, ledgerSummaryReport, glOriginEntryDirectoryName + File.separator + enterpriseFeedFileName);
+            
             String enterpriseFeedDoneFileName = enterpriseFeedFileName.replace(GeneralLedgerConstants.BatchFileSystem.EXTENSION, GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION);
             File enterpriseFeedDoneFile = new File (glOriginEntryDirectoryName + File.separator + enterpriseFeedDoneFileName);
             if (!enterpriseFeedDoneFile.exists()){
                 try {
                     enterpriseFeedDoneFile.createNewFile();
                 } catch (IOException e) {
-                    throw new RuntimeException();
+                    LOG.error("Unable to create done file for enterprise feed output group.", e);
+                    throw new RuntimeException("Unable to create done file for enterprise feed output group.", e);
                 }
             }
-            //markGroupReady(originEntryGroup);
+            
         }
     }
 
@@ -204,16 +216,6 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
         }
         return reconFile;
     }
-
-    /**
-     * This method marks that an origin entry group
-     * 
-     * @param originEntryGroup
-     */
-//    protected void markGroupReady(OriginEntryGroup originEntryGroup) {
-//        originEntryGroup.setProcess(true);
-//        originEntryGroupService.save(originEntryGroup);
-//    }
 
     /**
      * Gets the directoryName attribute.
@@ -325,5 +327,58 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
 
     public void setGlOriginEntryDirectoryName(String glOriginEntryDirectoryName) {
         this.glOriginEntryDirectoryName = glOriginEntryDirectoryName;
+    }
+    
+    protected void generateReport(List<EnterpriseFeederStatusAndErrorMessagesWrapper> statusAndErrorsList, LedgerSummaryReport report, String outputFileName) {
+        reportWriterService.writeFormattedMessageLine("Output File Name:        %s", outputFileName);
+        reportWriterService.writeNewLines(1);
+        generateFilesLoadedStatusReport(statusAndErrorsList);
+        reportWriterService.pageBreak();
+        report.writeReport(reportWriterService);
+    }
+    
+    protected void generateFilesLoadedStatusReport(List<EnterpriseFeederStatusAndErrorMessagesWrapper> statusAndErrorsList) {
+        boolean successfulFileLoaded = false;
+        reportWriterService.writeSubTitle("Files Successfully Loaded");
+        for (EnterpriseFeederStatusAndErrorMessagesWrapper statusAndErrors : statusAndErrorsList) {
+            if (!statusAndErrors.getStatus().isErrorEvent()) {
+                reportWriterService.writeFormattedMessageLine("Data file:               %s", statusAndErrors.getDataFileName());
+                reportWriterService.writeFormattedMessageLine("Reconciliation file:     %s", statusAndErrors.getReconFileName());
+                reportWriterService.writeFormattedMessageLine("Status:                  %s", statusAndErrors.getStatus().getStatusDescription());
+                reportWriterService.writeNewLines(1);
+                
+                successfulFileLoaded = true;
+            }
+        }
+        if (!successfulFileLoaded) {
+            reportWriterService.writeFormattedMessageLine("No files were successfully loaded");
+        }
+        
+        reportWriterService.writeNewLines(2);
+        
+        boolean unsuccessfulFileLoaded = false;
+        reportWriterService.writeSubTitle("Files NOT Successfully Loaded");
+        for (EnterpriseFeederStatusAndErrorMessagesWrapper statusAndErrors : statusAndErrorsList) {
+            if (statusAndErrors.getStatus().isErrorEvent()) {
+                reportWriterService.writeFormattedMessageLine("Data file:               %s", statusAndErrors.getDataFileName() == null ? "" : statusAndErrors.getDataFileName());
+                reportWriterService.writeFormattedMessageLine("Reconciliation file:     %s", statusAndErrors.getReconFileName() == null ? "" : statusAndErrors.getReconFileName());
+                reportWriterService.writeFormattedMessageLine("Status:                  %s", statusAndErrors.getStatus().getStatusDescription());
+                reportWriterService.writeNewLines(1);
+                
+                unsuccessfulFileLoaded = true;
+            }
+        }
+        if (!unsuccessfulFileLoaded) {
+            reportWriterService.writeFormattedMessageLine("All files were successfully loaded");
+        }
+        
+    }
+
+    /**
+     * Sets the reportWriterService attribute value.
+     * @param reportWriterService The reportWriterService to set.
+     */
+    public void setReportWriterService(ReportWriterService reportWriterService) {
+        this.reportWriterService = reportWriterService;
     }
 }

@@ -19,35 +19,24 @@ import java.util.Date;
 
 import org.kuali.kfs.gl.batch.service.EnterpriseFeederService;
 import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
+import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 
 /**
  * This step executes the enterprise feeder
  */
-public class EnterpriseFeedStep extends AbstractStep {
+public class EnterpriseFeedStep extends AbstractWrappedBatchStep {
 
     private EnterpriseFeederService enterpriseFeederService;
 
-    /**
-     * Runs the enterprise feeder process
-     * 
-     * @param jobName the name of the job this step is being execute as part of
-     * @param jobRunDate the time/date when the job was started
-     * @return true if the step completed successfully, false if otherwise
-     * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
-     */
-    public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-        enterpriseFeederService.feed(jobName, true);
-        return true;
-    }
-
-    /**
-     * Gets the enterpriseFeederService attribute.
-     * 
-     * @return Returns the enterpriseFeederService.
-     * @see org.kuali.kfs.gl.batch.service.EnterpriseFeederService
-     */
-    public EnterpriseFeederService getEnterpriseFeederService() {
-        return enterpriseFeederService;
+    @Override
+    protected CustomBatchExecutor getCustomBatchExecutor() {
+        return new CustomBatchExecutor() {
+            public boolean execute() {
+                enterpriseFeederService.feed("enterpriseFeedJob", true);
+                return true;
+            }
+        };
     }
 
     /**

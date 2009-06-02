@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.PrintStream;
 
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
+import org.kuali.kfs.gl.report.LedgerSummaryReport;
 import org.kuali.kfs.gl.service.impl.EnterpriseFeederStatusAndErrorMessagesWrapper;
 
 
@@ -44,5 +45,5 @@ public interface FileEnterpriseFeederHelperService {
      *        of error messages. Implementations of this method may need to throw an exception to force a transaction rollback,
      *        which means that it can't return a value. This parameter allows the method to output status/error information
      */
-    public void feedOnFile(File doneFile, File dataFile, File reconFile, PrintStream enterpriseFeedPs, String feederProcessName, String reconciliationTableId, EnterpriseFeederStatusAndErrorMessagesWrapper statusAndErrors);
+    public void feedOnFile(File doneFile, File dataFile, File reconFile, PrintStream enterpriseFeedPs, String feederProcessName, String reconciliationTableId, EnterpriseFeederStatusAndErrorMessagesWrapper statusAndErrors, LedgerSummaryReport ledgerSummaryReport);
 }

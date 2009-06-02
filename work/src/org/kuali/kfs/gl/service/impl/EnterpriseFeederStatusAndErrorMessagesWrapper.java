@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.gl.service.impl;
 
+import java.io.File;
 import java.util.List;
 
 import org.kuali.kfs.gl.batch.service.impl.EnterpriseFeederStatus;
@@ -28,6 +29,9 @@ import org.kuali.kfs.sys.Message;
 public class EnterpriseFeederStatusAndErrorMessagesWrapper {
     private List<Message> errorMessages;
     private EnterpriseFeederStatus status;
+    private String doneFileName;
+    private String reconFileName;
+    private String dataFileName;
 
     /**
      * Constructs a EnterpriseFeederStatusAndErrorMessagesWrapper, initializing values to null
@@ -73,5 +77,39 @@ public class EnterpriseFeederStatusAndErrorMessagesWrapper {
         this.status = status;
     }
 
+    public void setFileNames(File dataFile, File reconFile, File doneFile) {
+        if (dataFile != null) {
+            dataFileName = dataFile.getName();
+        }
+        if (reconFile != null) {
+            reconFileName = reconFile.getName();
+        }
+        if (doneFile != null) {
+            doneFileName = doneFile.getName();
+        }
+    }
 
+    /**
+     * Gets the doneFileName attribute. 
+     * @return Returns the doneFileName.
+     */
+    public String getDoneFileName() {
+        return doneFileName;
+    }
+
+    /**
+     * Gets the reconFileName attribute. 
+     * @return Returns the reconFileName.
+     */
+    public String getReconFileName() {
+        return reconFileName;
+    }
+
+    /**
+     * Gets the dataFileName attribute. 
+     * @return Returns the dataFileName.
+     */
+    public String getDataFileName() {
+        return dataFileName;
+    }
 }

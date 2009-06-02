@@ -67,15 +67,6 @@ public class OrganizationReversionMaintainableImpl extends FinancialSystemMainta
     }
 
     /**
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#populateBusinessObject(java.util.Map)
-     */
-    @Override
-    public Map populateBusinessObject(Map fieldValues, MaintenanceDocument maintenanceDocument) {
-        Map result = super.populateBusinessObject(fieldValues, maintenanceDocument);
-        return result;
-    }
-
-    /**
      * pre-populate the static list of details with each category
      * 
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#setBusinessObject(org.kuali.rice.kns.bo.BusinessObject)

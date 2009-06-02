@@ -21,6 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.kfs.vnd.VendorUtils;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
@@ -31,7 +32,7 @@ import org.kuali.rice.kns.util.KNSConstants;
 */
 public class PurchaseOrderQuoteListMaintainableImpl extends FinancialSystemMaintainable {
     @Override
-    public Map populateNewCollectionLines( Map fieldValues ) {
+    public Map<String, String> populateNewCollectionLines( Map<String, String> fieldValues, MaintenanceDocument maintenanceDocument, String methodToCall ) {
         String collName = "quoteListVendors.vendorDetail.vendorNumber";
         String vendorNumber = (String)fieldValues.get(collName);
         if (StringUtils.isNotBlank(vendorNumber)) {
@@ -46,7 +47,7 @@ public class PurchaseOrderQuoteListMaintainableImpl extends FinancialSystemMaint
             }
         }
         
-        return super.populateNewCollectionLines(fieldValues);    
+        return super.populateNewCollectionLines(fieldValues, maintenanceDocument, methodToCall);
     }
     
     private void resetPreviousVendorInformationOnAddLine(Map fieldValues, Integer headerId, Integer detailId) {        

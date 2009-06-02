@@ -378,7 +378,11 @@
         </property>
 		<property name="ledgerSummaryReportWriterService">
 			<ref bean="laborPosterLedgerSummaryReportWriterService" />
-		</property>        
+		</property> 
+        <property name="laborGlEntryStatisticsReportWriterService">
+            <ref bean="laborGlEntryStatisticsReportWriterService" />
+        </property> 
+                       
         <property name="laborPosterTransactionValidator">
             <ref bean="laborPosterTransactionValidator" />
         </property>
@@ -597,6 +601,17 @@
         	</map>
        	</property>
     </bean>
+    
+    <bean id="laborGlEntryStatisticsReportWriterService" parent="reportWriterService">
+        <property name="filePath" value="${reports.directory}/ld"/>
+        <property name="fileNamePrefix" value="labor_poster_gl_summary_"/>
+        <property name="title" value="Labor Poster General Ledger Summary"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+            <map>
+                <entry key="org.kuali.kfs.module.ld.businessobject.LaborOriginEntry" value="laborTransactionReportHelper"/>
+            </map>
+        </property>
+    </bean>    
 	
     <bean id="laborPosterLedgerSummaryReportWriterService" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/ld"/>
@@ -618,6 +633,7 @@
 				<ref bean="laborPosterReportWriterService" />
 				<ref bean="laborPosterErrorListingReportWriterService" />
 				<ref bean="laborPosterLedgerSummaryReportWriterService" />
+                <ref bean="laborGlEntryStatisticsReportWriterService" />
 			</list>
 		</property>
 		<property name="laborPosterService" ref="laborPosterService" />

@@ -388,6 +388,9 @@ public class PurApLineAction extends CabActionBase {
         // handle merging lines including merge all situation.
         retrieveUserInputForMerge(mergeLines.get(0), purApForm);
         purApLineService.processMerge(mergeLines, purApLineSession.getActionsTakenHistory(), isMergeAll);
+        // add all other mergeLines except the first one into processedItem list.
+        mergeLines.remove(0);
+        purApLineSession.getProcessedItems().addAll(mergeLines);
         clearForMerge(purApForm);
     }
 
@@ -619,6 +622,7 @@ public class PurApLineAction extends CabActionBase {
             GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_ALLOCATE_NO_TARGET_ACCOUNT);
         }
         else {
+            purApLineSession.getProcessedItems().add(allocateSourceLine);
             // clear select check box
             purApLineService.resetSelectedValue(purApForm.getPurApDocs());
             purApForm.setSelectAll(false);

@@ -52,7 +52,7 @@ public class CapitalAssetManagementModuleServiceImpl implements CapitalAssetMana
      * @see org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService#deleteAssetLocks(java.lang.String, java.lang.String)
      */
     public void deleteAssetLocks(String documentNumber, String lockingInformation) {
-        getAssetLockService().deleteAssetLocks(documentNumber, StringUtils.isBlank(lockingInformation) ? CamsConstants.defaultLockingInformation : lockingInformation);
+        getAssetLockService().deleteAssetLocks(documentNumber, lockingInformation == null ? CamsConstants.defaultLockingInformation : lockingInformation);
     }
 
     protected AssetLockService getAssetLockService() {
@@ -64,7 +64,7 @@ public class CapitalAssetManagementModuleServiceImpl implements CapitalAssetMana
      *      java.lang.String)
      */
     public boolean isAssetLockedByCurrentDocument(String documentNumber, String lockingInformation) {
-        return getAssetLockService().isAssetLockedByCurrentDocument(documentNumber, StringUtils.isBlank(lockingInformation) ? CamsConstants.defaultLockingInformation : lockingInformation);
+        return getAssetLockService().isAssetLockedByCurrentDocument(documentNumber, lockingInformation == null ? CamsConstants.defaultLockingInformation : lockingInformation);
     }
 
     /**
@@ -130,7 +130,6 @@ public class CapitalAssetManagementModuleServiceImpl implements CapitalAssetMana
         // If none of the accounting line eligible for CAB batch, CAB batch won't take the FP document into CAB
         return false;
     }
-
 
     /**
      * This method check if accounting line eligible for CAB batch taking into CAB

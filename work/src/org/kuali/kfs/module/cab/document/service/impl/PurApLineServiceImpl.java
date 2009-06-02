@@ -18,6 +18,7 @@ package org.kuali.kfs.module.cab.document.service.impl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +42,6 @@ import org.kuali.kfs.module.cab.document.service.PurApLineService;
 import org.kuali.kfs.module.cab.document.web.PurApLineSession;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.document.service.AssetService;
-import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -216,31 +216,55 @@ public class PurApLineServiceImpl implements PurApLineService {
         }
     }
 
-    protected void checkAssetLockRemovable(PurchasingAccountsPayableDocument purApdoc, List processedItems) {
-        boolean itemLock = false;
-        // For the time being, only for individual system, each item has its own asset numbers.
-        Map<String, PurchasingAccountsPayableItemAsset> processedItemMap = new HashMap<String, PurchasingAccountsPayableItemAsset>();
-        for (PurchasingAccountsPayableItemAsset itemAsset : purApdoc.getPurchasingAccountsPayableItemAssets()) {
-            if (itemAsset.getLockingInformation() == null) {
-                itemAsset.setLockingInformation(CamsConstants.defaultLockingInformation);
+    /**
+     * Build removable asset lock map from the processedItems list. We need to remove all asset locks hold be items which has been
+     * merged or allocated to other lines.
+     * 
+     * @param processedItems
+     * @return
+     */
+    protected Map<String, Set> getRemovableAssetLocks(List<PurchasingAccountsPayableItemAsset> processedItems) {
+        Map<String, Set> removableAssetLocks = new HashMap<String, Set>();
+
+        for (PurchasingAccountsPayableItemAsset processedItem : processedItems) {
+            // For the time being, only for individual system, each item has its own asset numbers.
+            if (processedItem.getLockingInformation() != null && !CamsConstants.defaultLockingInformation.equals(processedItem.getLockingInformation())) {
+                addAssetLock(removableAssetLocks, processedItem);
             }
-            // maintain processedItemMap with item being fully processed. if item is not fully processed, key will be null
-            if (!processedItemMap.containsKey(itemAsset.getLockingInformation()) || processedItemMap.get(itemAsset.getLockingInformation()) != null) {
-                if (CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS.equalsIgnoreCase(itemAsset.getActivityStatusCode())) {
-                    processedItemMap.put(itemAsset.getLockingInformation(), itemAsset);
+            else if (ObjectUtils.isNotNull(processedItem.getPurchasingAccountsPayableDocument())) {
+                // check other items if they are fully processed and can release the lock
+                List<PurchasingAccountsPayableItemAsset> remainingItems = processedItem.getPurchasingAccountsPayableDocument().getPurchasingAccountsPayableItemAssets();
+                boolean fullyProcessed = true;
+                for (PurchasingAccountsPayableItemAsset itemAsset : remainingItems) {
+                    if (!CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS.equalsIgnoreCase(itemAsset.getActivityStatusCode())) {
+                        fullyProcessed = false;
+                        break;
+                    }
                 }
-                else {
-                    // there is item not processed yet, can't remove lock
-                    processedItemMap.put(itemAsset.getLockingInformation(), null);
+                if (fullyProcessed) {
+                    // All the items are either merged or allocated to other document item. We should remove the asset lock
+                    // retained by this document.
+                    addAssetLock(removableAssetLocks, processedItem);
                 }
             }
         }
-        if (!processedItemMap.isEmpty()) {
-            for (String lockingInformation : processedItemMap.keySet()) {
-                if (processedItemMap.get(lockingInformation) != null) {
-                    processedItems.add(processedItemMap.get(lockingInformation));
-                }
-            }
+
+        processedItems.clear();
+        return removableAssetLocks;
+    }
+
+    protected void addAssetLock(Map<String, Set> removableAssetLocks, PurchasingAccountsPayableItemAsset processedItem) {
+        if (processedItem.getLockingInformation() == null) {
+            processedItem.setLockingInformation(CamsConstants.defaultLockingInformation);
+        }
+        if (removableAssetLocks.containsKey(processedItem.getDocumentNumber())) {
+            Set lockingInfoList = removableAssetLocks.get(processedItem.getDocumentNumber());
+            lockingInfoList.add(processedItem.getLockingInformation());
+        }
+        else {
+            Set lockingInfoList = new HashSet<String>();
+            lockingInfoList.add(processedItem.getLockingInformation());
+            removableAssetLocks.put(processedItem.getDocumentNumber(), lockingInfoList);
         }
     }
 
@@ -913,11 +937,23 @@ public class PurApLineServiceImpl implements PurApLineService {
      *      org.kuali.kfs.module.cab.document.web.PurApLineSession)
      */
     public void processSaveBusinessObjects(List<PurchasingAccountsPayableDocument> purApDocs, PurApLineSession purApLineSession) {
+        // Get removable asset locks which could be generated by allocate or merge when items removed and the lock should be
+        // released.
+        Map<String, Set> removableAssetLocks = getRemovableAssetLocks(purApLineSession.getProcessedItems());
         for (PurchasingAccountsPayableDocument purApDoc : purApDocs) {
             // auto save items(including deleted items) and accounts due to auto-update setting in OJB.
             businessObjectService.save(purApDoc);
-            checkAssetLockRemovable(purApDoc, purApLineSession.getProcessedItems());
         }
+        // remove asset locks
+        for (String lockingDocumentNbr : removableAssetLocks.keySet()) {
+            Set<String> lockingInfoList = removableAssetLocks.get(lockingDocumentNbr);
+            for (String lockingInfo : lockingInfoList) {
+                if (this.getCapitalAssetManagementModuleService().isAssetLockedByCurrentDocument(lockingDocumentNbr, lockingInfo)) {
+                    this.getCapitalAssetManagementModuleService().deleteAssetLocks(lockingDocumentNbr, lockingInfo);
+                }
+            }
+        }
+
         if (purApLineSession != null) {
             // save to action history table
             List<PurchasingAccountsPayableActionHistory> historyList = purApLineSession.getActionsTakenHistory();
@@ -933,16 +969,6 @@ public class PurApLineServiceImpl implements PurApLineService {
                 glUpdateList.clear();
             }
 
-            // for processed documents either by allocate or by merge, remove the asset lock
-            List<PurchasingAccountsPayableItemAsset> processedItems = purApLineSession.getProcessedItems();
-            if (processedItems != null && !processedItems.isEmpty()) {
-                for (PurchasingAccountsPayableItemAsset processedItem : processedItems) {
-                    if (this.getCapitalAssetManagementModuleService().isAssetLockedByCurrentDocument(processedItem.getDocumentNumber(), processedItem.getLockingInformation())) {
-                        this.getCapitalAssetManagementModuleService().deleteAssetLocks(processedItem.getDocumentNumber(), processedItem.getLockingInformation());
-                    }
-                }
-                processedItems.clear();
-            }
         }
     }
 

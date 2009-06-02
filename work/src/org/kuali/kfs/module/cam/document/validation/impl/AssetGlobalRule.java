@@ -54,6 +54,7 @@ import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -907,7 +908,10 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             capitalAssetNumbers.add(assetGlobal.getSeparateSourceCapitalAssetNumber());
         }
 
-        return SpringContext.getBean(CapitalAssetManagementModuleService.class).storeAssetLocks(capitalAssetNumbers, document.getDocumentNumber(), DocumentTypeName.ASSET_SEPARATE, null);
+        if (!SpringContext.getBean(CapitalAssetManagementModuleService.class).storeAssetLocks(capitalAssetNumbers, document.getDocumentNumber(), DocumentTypeName.ASSET_SEPARATE, null)) {
+            throw new ValidationException("Asset " + capitalAssetNumbers.toString() + " is being locked by other documents.");
+        }
+        return true;
     }
 
     /**

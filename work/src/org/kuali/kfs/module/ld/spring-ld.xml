@@ -488,9 +488,6 @@
             </map>
         </property>
     </bean>
-      
-    <bean id="laborReportService" class="org.kuali.kfs.module.ld.batch.service.impl.LaborReportServiceImpl">
-    </bean>
 
     <bean id="laborLedgerEntryPoster" class="org.kuali.kfs.module.ld.batch.service.impl.LaborLedgerEntryPoster">
         <property name="laborAccountingCycleCachingService">
@@ -515,12 +512,6 @@
 	<bean id="laborYearEndBalanceForwardService" class="org.kuali.kfs.module.ld.batch.service.impl.LaborYearEndBalanceForwardServiceImpl">
         <property name="laborLedgerBalanceService">
             <ref bean="laborLedgerBalanceService" />
-        </property>
-        <property name="originEntryGroupService">
-            <ref bean="originEntryGroupService" />
-        </property>
-        <property name="laborOriginEntryService">
-            <ref bean="laborOriginEntryService" />
         </property>        
 
         <property name="optionsService">
@@ -537,9 +528,13 @@
             <ref bean="parameterService" />
         </property>
 
-        <property name="laborReportService">
-            <ref bean="laborReportService" />
+        <property name="laborOutputSummaryReportWriterService">
+            <ref bean="laborOutputSummaryReportWriterService" />
         </property>
+        <property name="laborStatisticsReportWriterService">
+            <ref bean="laborStatisticsReportWriterService" />
+        </property>
+                
         <property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
     </bean>
         	
@@ -645,11 +640,44 @@
 		</property>
 	</bean>
 	  
-    <bean id="laborYearEndBalanceForwardStep" class="org.kuali.kfs.module.ld.batch.LaborYearEndBalanceForwardStep" parent="step">
+    <bean id="laborYearEndBalanceForwardStep" class="org.kuali.kfs.module.ld.batch.LaborYearEndBalanceForwardStep" parent="wrappedStep">
 		<property name="laborYearEndBalanceForwardService">
 			<ref bean="laborYearEndBalanceForwardService" />
 		</property>
+        <property name="wrappingBatchServices">
+            <list>
+                <ref bean="laborOutputSummaryReportWriterService" />
+                <ref bean="laborStatisticsReportWriterService" />
+                <ref bean="accountingCycleCachingService" />
+            </list>
+        </property>        
 	</bean>
+    
+    <bean id="laborStatisticsReportWriterService" parent="reportWriterService">
+        <property name="filePath" value="${reports.directory}/ld"/>
+        <property name="fileNamePrefix" value="labor_year_end_main_"/>
+        <property name="title" value="Labor Year End Ledger Report"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+            <map>
+                <entry key="org.kuali.kfs.module.ld.businessobject.LaborOriginEntry" value="laborTransactionReportHelper"/>
+            </map>
+        </property>
+    </bean> 
+    
+    <bean id="laborOutputSummaryReportWriterService" parent="reportWriterService">
+        <property name="filePath" value="${reports.directory}/ld"/>
+        <property name="fileNamePrefix" value="labor_year_end_output_"/>
+        <property name="title" value="Labor Year End Output Summary"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+            <map>
+        		<entry key="org.kuali.kfs.gl.businessobject.PosterOutputSummaryEntry" value="posterOutputSummaryEntryReportHelper"/>
+        		<entry key="org.kuali.kfs.gl.businessobject.PosterOutputSummaryBalanceTypeFiscalYearAndPeriodTotal" value="posterOutputSummaryBalanceTypeFiscalYearAndPeriodTotalReportHelper"/>
+        		<entry key="org.kuali.kfs.gl.businessobject.PosterOutputSummaryBalanceTypeFiscalYearTotal" value="posterOutputSummaryBalanceTypeFiscalYearTotalReportHelper"/>
+        		<entry key="org.kuali.kfs.gl.businessobject.PosterOutputSummaryBalanceTypeTotal" value="posterOutputSummaryBalanceTypeTotal"/>
+        		<entry key="org.kuali.kfs.gl.businessobject.PosterOutputSummaryTotal" value="posterOutputSummaryTotal"/>
+            </map>
+        </property>
+    </bean>
 	
 	<bean id="laborPurgeEntryStep" class="org.kuali.kfs.module.ld.batch.LaborPurgeEntryStep" parent="step">
 		<property name="laborLedgerEntryService">

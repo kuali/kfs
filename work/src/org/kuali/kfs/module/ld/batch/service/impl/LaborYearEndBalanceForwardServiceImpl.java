@@ -30,20 +30,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.gl.GeneralLedgerConstants;
-import org.kuali.kfs.gl.businessobject.Transaction;
-import org.kuali.kfs.gl.report.Summary;
-import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.gl.businessobject.OriginEntry;
+import org.kuali.kfs.gl.report.PosterOutputSummaryReport;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.LaborConstants.YearEnd;
 import org.kuali.kfs.module.ld.batch.LaborYearEndBalanceForwardStep;
-import org.kuali.kfs.module.ld.batch.service.LaborReportService;
 import org.kuali.kfs.module.ld.batch.service.LaborYearEndBalanceForwardService;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
-import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalanceForYearEndBalanceForward;
 import org.kuali.kfs.module.ld.service.LaborLedgerBalanceService;
-import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
 import org.kuali.kfs.module.ld.util.DebitCreditUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -52,6 +48,7 @@ import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -70,18 +67,15 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborYearEndBalanceForwardServiceImpl.class);
 
     private LaborLedgerBalanceService laborLedgerBalanceService;
-    private OriginEntryGroupService originEntryGroupService;
-    private LaborOriginEntryService laborOriginEntryService;
-
     private OptionsService optionsService;
 
     private BusinessObjectService businessObjectService;
-    private LaborReportService laborReportService;
     private DateTimeService dateTimeService;
     private ParameterService parameterService;
     private String batchFileDirectoryName;
 
-    private final static int LINE_INTERVAL = 2;
+    private ReportWriterService laborOutputSummaryReportWriterService;
+    private ReportWriterService laborStatisticsReportWriterService;
 
     /**
      * @see org.kuali.kfs.module.ld.batch.service.LaborYearEndBalanceForwardService#forwardBalance()
@@ -99,63 +93,33 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
     }
 
     /**
-     * @see org.kuali.kfs.module.ld.batch.service.LaborYearEndBalanceForwardService#forwardBalance(java.lang.Integer, java.lang.Integer)
+     * @see org.kuali.kfs.module.ld.batch.service.LaborYearEndBalanceForwardService#forwardBalance(java.lang.Integer,
+     *      java.lang.Integer)
      */
     public void forwardBalance(Integer fiscalYear, Integer newFiscalYear) {
+        SystemOptions options = optionsService.getOptions(fiscalYear);
         Date runDate = dateTimeService.getCurrentSqlDate();
 
-        List<Summary> reportSummary = new ArrayList<Summary>();
-        Map<Transaction, List<Message>> errorMap = new HashMap<Transaction, List<Message>>();
-        //OriginEntryGroup validGroup = originEntryGroupService.createGroup(runDate, LABOR_YEAR_END_BALANCE_FORWARD, true, false, true);
-        String balanceForwardsFileName = LaborConstants.BatchFileSystem.BALANCE_FORWARDS_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear.toString());
-
-        int numberOfBalance = businessObjectService.countMatching(LedgerBalance.class, fieldValues);
-        int numberOfSelectedBalance = this.processLedgerBalances(fiscalYear, newFiscalYear, balanceForwardsFileName, errorMap, runDate);
-
-        Summary.updateReportSummary(reportSummary, LEDGER_BALANCE, KFSConstants.OperationType.READ, numberOfBalance, 0);
-        Summary.updateReportSummary(reportSummary, LEDGER_BALANCE, KFSConstants.OperationType.SELECT, numberOfSelectedBalance, 0);
-        Summary.updateReportSummary(reportSummary, LEDGER_BALANCE, KFSConstants.OperationType.REPORT_ERROR, errorMap.size(), 0);
-        reportSummary.add(new Summary(reportSummary.size() + LINE_INTERVAL, "", 0));
-        Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, KFSConstants.OperationType.INSERT, numberOfSelectedBalance, 0);
-
-        laborReportService.generateStatisticsReport(reportSummary, errorMap, SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.REPORTS_DIRECTORY_KEY), runDate);
-        
-        //TODO: Shawn - report
-        //laborReportService.generateOutputSummaryReport(balanceForwardsFileName, ReportRegistry.LABOR_YEAR_END_OUTPUT, reportsDirectory, runDate);
-    }
-
-    /**
-     * post the qualified balances into origin entry table for the further labor ledger processing
-     * 
-     * @param balanceIterator the given ledger balances that will be carried forward
-     * @param newFiscalYear the new fiscal year
-     * @param validGroup the group that the posted transaction belongs to
-     * @param errorMap the map that records the error messages
-     * @param runDate the date the transaction is posted
-     * @return the number of qualified balances
-     */
-    private int processLedgerBalances(Integer fiscalYear, Integer newFiscalYear, String balanceForwardsFileName, Map<Transaction, List<Message>> errorMap, Date runDate) {
-        SystemOptions options = optionsService.getOptions(fiscalYear);
+        Map<String, Integer> reportSummary = this.constructReportSummary();
+        PosterOutputSummaryReport posterOutputSummaryReport = new PosterOutputSummaryReport();
 
         List<String> processableBalanceTypeCodes = this.getProcessableBalanceTypeCode(options);
         List<String> processableObjectTypeCodes = this.getProcessableObjectTypeCodes(options);
         List<String> subFundGroupCodes = this.getSubFundGroupProcessed();
         List<String> fundGroupCodes = this.getFundGroupProcessed();
 
-        //create files
+        // create files
+        String balanceForwardsFileName = LaborConstants.BatchFileSystem.BALANCE_FORWARDS_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         File balanceForwardsFile = new File(batchFileDirectoryName + File.separator + balanceForwardsFileName);
         PrintStream balanceForwardsPs = null;
-        
+
         try {
             balanceForwardsPs = new PrintStream(balanceForwardsFile);
-        } catch (FileNotFoundException e) {
+        }
+        catch (FileNotFoundException e) {
             throw new RuntimeException("balanceForwardsFile Files doesn't exist " + balanceForwardsFileName);
         }
-        
-        
+
         // process the selected balances by balance type and object type
         Map<String, String> fieldValues = new HashMap<String, String>();
         int numberOfSelectedBalance = 0;
@@ -174,13 +138,15 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
                     fieldValues.put(LaborConstants.ACCOUNT_FIELDS[1], account.get(1));
 
                     Iterator<LedgerBalanceForYearEndBalanceForward> balanceIterator = laborLedgerBalanceService.findBalancesForFiscalYear(fiscalYear, fieldValues, subFundGroupCodes, fundGroupCodes);
-                    numberOfSelectedBalance += postSelectedBalancesAsOriginEntries(balanceIterator, newFiscalYear, balanceForwardsPs, errorMap, runDate);
+                    numberOfSelectedBalance += postSelectedBalancesAsOriginEntries(balanceIterator, newFiscalYear, balanceForwardsPs, runDate, posterOutputSummaryReport, reportSummary);
                 }
             }
         }
-        
+
+        this.fillStatisticsReportWriter(reportSummary);
+        posterOutputSummaryReport.writeReport(laborOutputSummaryReportWriterService);
+
         balanceForwardsPs.close();
-        return numberOfSelectedBalance;
     }
 
     /**
@@ -193,7 +159,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * @param runDate the date the transaction is posted
      * @return the number of qualified balances
      */
-    private int postSelectedBalancesAsOriginEntries(Iterator<LedgerBalanceForYearEndBalanceForward> balanceIterator, Integer newFiscalYear, PrintStream balanceForwardsPs, Map<Transaction, List<Message>> errorMap, Date runDate) {
+    private int postSelectedBalancesAsOriginEntries(Iterator<LedgerBalanceForYearEndBalanceForward> balanceIterator, Integer newFiscalYear, PrintStream balanceForwardsPs, Date runDate, PosterOutputSummaryReport posterOutputSummaryReport, Map<String, Integer> reportSummary) {
         int numberOfSelectedBalance = 0;
         String description = this.getDescription();
         String originationCode = this.getOriginationCode();
@@ -201,12 +167,14 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
 
         while (balanceIterator != null && balanceIterator.hasNext()) {
             LedgerBalanceForYearEndBalanceForward balance = balanceIterator.next();
+            this.updateReportSummary(reportSummary, LEDGER_BALANCE, KFSConstants.OperationType.READ);
+
             List<Message> errors = null;
 
             boolean isValidBalance = validateBalance(balance, errors);
             LaborOriginEntry laborOriginEntry = new LaborOriginEntry();
             if (isValidBalance) {
-                //laborOriginEntry.setEntryGroupId(validGroup.getId());
+                // laborOriginEntry.setEntryGroupId(validGroup.getId());
                 laborOriginEntry.setUniversityFiscalYear(newFiscalYear);
                 laborOriginEntry.setFinancialDocumentTypeCode(documentTypeCode);
                 laborOriginEntry.setFinancialSystemOriginationCode(originationCode);
@@ -214,14 +182,19 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
 
                 this.postAsOriginEntry(balance, laborOriginEntry, balanceForwardsPs, runDate);
                 numberOfSelectedBalance++;
+
+                posterOutputSummaryReport.summarize((OriginEntry) laborOriginEntry);
+                this.updateReportSummary(reportSummary, LEDGER_BALANCE, KFSConstants.OperationType.SELECT);
+                this.updateReportSummary(reportSummary, LEDGER_BALANCE, KFSConstants.OperationType.INSERT);
             }
             else if (errors != null && !errors.isEmpty()) {
                 ObjectUtil.buildObject(laborOriginEntry, balance);
-                errorMap.put(laborOriginEntry, errors);
+
+                laborStatisticsReportWriterService.writeError(laborOriginEntry, errors);
+                this.updateReportSummary(reportSummary, LEDGER_BALANCE, KFSConstants.OperationType.REPORT_ERROR);
             }
-            laborOriginEntry = null;
-            balance = null;
         }
+
         return numberOfSelectedBalance;
     }
 
@@ -272,11 +245,12 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
             originEntry.setTransactionTotalHours(BigDecimal.ZERO);
             originEntry.setTransactionDate(postingDate);
 
-            //laborOriginEntryService.save(originEntry);
-            
+            // laborOriginEntryService.save(originEntry);
+
             try {
                 balanceForwardsPs.printf("%s\n", originEntry.getLine());
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 throw new RuntimeException(e.toString());
             }
         }
@@ -327,6 +301,38 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
         processableObjectTypeCodes.add(options.getFinObjTypeExpNotExpendCode());
 
         return processableObjectTypeCodes;
+    }
+
+    // fill the report writer with the collected data
+    private Map<String, Integer> constructReportSummary() {
+        Map<String, Integer> reportSummary = new HashMap<String, Integer>();
+        reportSummary.put(LEDGER_BALANCE + "," + KFSConstants.OperationType.READ, 0);
+        reportSummary.put(LEDGER_BALANCE + "," + KFSConstants.OperationType.SELECT, 0);
+        reportSummary.put(LEDGER_BALANCE + "," + KFSConstants.OperationType.REPORT_ERROR, 0);
+        reportSummary.put(ORIGN_ENTRY + "," + KFSConstants.OperationType.INSERT, 0);
+
+        return reportSummary;
+    }
+
+    // fill the gl entry report writer with the collected data
+    private void fillStatisticsReportWriter(Map<String, Integer> glEntryReportSummary) {
+        laborStatisticsReportWriterService.writeStatisticLine("NUMBER OF RECORDS READ              %,9d", glEntryReportSummary.get(LEDGER_BALANCE + "," + KFSConstants.OperationType.READ));
+        laborStatisticsReportWriterService.writeStatisticLine("NUMBER OF RECORDS SELECTED          %,9d", glEntryReportSummary.get(LEDGER_BALANCE + "," + KFSConstants.OperationType.SELECT));
+        laborStatisticsReportWriterService.writeStatisticLine("NUMBER OF RECORDS IN ERROR          %,9d", glEntryReportSummary.get(LEDGER_BALANCE + "," + KFSConstants.OperationType.REPORT_ERROR));
+        laborStatisticsReportWriterService.writeStatisticLine("NUMBER OF RECORDS INSERTED          %,9d", glEntryReportSummary.get(ORIGN_ENTRY + "," + KFSConstants.OperationType.INSERT));
+    }
+
+    // update the entry in the given report summary
+    private void updateReportSummary(Map<String, Integer> reportSummary, String destination, String operation) {
+        String key = destination + "," + operation;
+
+        if (reportSummary.containsKey(key)) {
+            Integer count = reportSummary.get(key);
+            reportSummary.put(key, count + 1);
+        }
+        else {
+            reportSummary.put(key, 1);
+        }
     }
 
     /**
@@ -396,34 +402,25 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
         this.optionsService = optionsService;
     }
 
-    /**
-     * Sets the originEntryGroupService attribute value.
-     * 
-     * @param originEntryGroupService The originEntryGroupService to set.
-     */
-    public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
-        this.originEntryGroupService = originEntryGroupService;
-    }
-
-    /**
-     * Sets the laborReportService attribute value.
-     * 
-     * @param laborReportService The laborReportService to set.
-     */
-    public void setLaborReportService(LaborReportService laborReportService) {
-        this.laborReportService = laborReportService;
-    }
-
-    /**
-     * Sets the laborOriginEntryService attribute value.
-     * 
-     * @param laborOriginEntryService The laborOriginEntryService to set.
-     */
-    public void setLaborOriginEntryService(LaborOriginEntryService laborOriginEntryService) {
-        this.laborOriginEntryService = laborOriginEntryService;
-    }
-
     public void setBatchFileDirectoryName(String batchFileDirectoryName) {
         this.batchFileDirectoryName = batchFileDirectoryName;
+    }
+
+    /**
+     * Sets the laborOutputSummaryReportWriterService attribute value.
+     * 
+     * @param laborOutputSummaryReportWriterService The laborOutputSummaryReportWriterService to set.
+     */
+    public void setLaborOutputSummaryReportWriterService(ReportWriterService laborOutputSummaryReportWriterService) {
+        this.laborOutputSummaryReportWriterService = laborOutputSummaryReportWriterService;
+    }
+
+    /**
+     * Sets the laborStatisticsReportWriterService attribute value.
+     * 
+     * @param laborStatisticsReportWriterService The laborStatisticsReportWriterService to set.
+     */
+    public void setLaborStatisticsReportWriterService(ReportWriterService laborStatisticsReportWriterService) {
+        this.laborStatisticsReportWriterService = laborStatisticsReportWriterService;
     }
 }

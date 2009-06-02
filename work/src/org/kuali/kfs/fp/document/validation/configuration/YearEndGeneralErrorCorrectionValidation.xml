@@ -27,6 +27,10 @@
   	<bean id="YearEndGeneralErrorCorrection-approveDocumentValidation" parent="YearEndGeneralErrorCorrection-approveDocumentValidation-parentBean" scope="prototype" />
   
   	<bean id="YearEndGeneralErrorCorrection-approveDocumentValidation-parentBean" parent="GeneralErrorCorrection-approveDocumentValidation" abstract="true" />
+  	
+  	<bean id="YearEndGeneralErrorCorrection-saveDocumentValidation" parent="YearEndGeneralErrorCorrection-saveDocumentValidation-parentBean" scope="prototype" />
+  
+  	<bean id="YearEndGeneralErrorCorrection-saveDocumentValidation-parentBean" parent="GeneralErrorCorrection-saveDocumentValidation" abstract="true" />
   
 	<bean id="YearEndGeneralErrorCorrection-blanketApproveDocumentValidation" parent="YearEndGeneralErrorCorrection-blanketApproveDocumentValidation-parentBean" scope="prototype" />
   

@@ -28,6 +28,10 @@
 	
 	<bean id="YearEndTransferOfFunds-approveDocumentValidation-parentBean" parent="TransferOfFunds-approveDocumentValidation" abstract="true"/>
 	
+	<bean id="YearEndTransferOfFunds-saveDocumentValidation" parent="YearEndTransferOfFunds-saveDocumentValidation-parentBean" scope="prototype" />
+	
+	<bean id="YearEndTransferOfFunds-saveDocumentValidation-parentBean" parent="TransferOfFunds-saveDocumentValidation" abstract="true"/>
+	
 	<bean id="YearEndTransferOfFunds-blanketApproveDocumentValidation" parent="YearEndTransferOfFunds-blanketApproveDocumentValidation-parentBean" scope="prototype" />
 	
 	<bean id="YearEndTransferOfFunds-blanketApproveDocumentValidation-parentBean" parent="TransferOfFunds-blanketApproveDocumentValidation" abstract="true"/>

@@ -89,6 +89,10 @@
   	<property name="sourceMap">
 		<map>
 			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent</value></key>
+				<value>AuxiliaryVoucher-saveDocumentValidation</value>
+			</entry>
+			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
 				<value>AuxiliaryVoucher-routeDocumentValidation</value>
 			</entry>

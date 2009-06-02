@@ -57,6 +57,7 @@
 	<bean id="CashReceipt-saveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
+				<bean parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" />
 				<bean parent="CashReceiptFamily-accountingLineTotalValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>

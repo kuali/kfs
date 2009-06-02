@@ -4,11 +4,6 @@
 
   <bean id="YearEndGeneralErrorCorrectionDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
     <property name="allowsErrorCorrection" value="true"/>
-    
-    
-    
-    
-    
     <property name="documentTypeName" value="YEGE"/>
     <property name="documentClass" value="org.kuali.kfs.fp.document.YearEndGeneralErrorCorrectionDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
@@ -44,6 +39,10 @@
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
 				<value>YearEndGeneralErrorCorrection-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent</value></key>
+				<value>YearEndGeneralErrorCorrection-saveDocumentValidation</value>
 			</entry>
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>

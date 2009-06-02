@@ -70,6 +70,10 @@
   			</list>
   		</property>
   	</bean>
+  	
+  	<bean id="ServiceBilling-saveDocumentValidation" parent="ServiceBilling-saveDocumentValidation-parentBean" scope="prototype" />
+  
+  	<bean id="ServiceBilling-saveDocumentValidation-parentBean" parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" abstract="true"/>
   
   	<bean id="ServiceBilling-approveDocumentValidation" parent="ServiceBilling-approveDocumentValidation-parentBean" scope="prototype" />
   

@@ -4,11 +4,6 @@
 
   <bean id="GeneralErrorCorrectionDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
     <property name="allowsErrorCorrection" value="true"/>
-    
-    
-    
-    
-    
     <property name="documentTypeName" value="GEC"/>
     <property name="documentClass" value="org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
@@ -46,6 +41,10 @@
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
 				<value>GeneralErrorCorrection-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent</value></key>
+				<value>GeneralErrorCorrection-saveDocumentValidation</value>
 			</entry>
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>

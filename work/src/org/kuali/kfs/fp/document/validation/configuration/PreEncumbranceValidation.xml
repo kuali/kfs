@@ -48,6 +48,10 @@
   			</list>
   		</property>
   	</bean>
+  	
+  	<bean id="PreEncumbrance-saveDocumentValidation" parent="PreEncumbrance-saveDocumentValidation-parentBean" scope="prototype" />
+  
+  	<bean id="PreEncumbrance-saveDocumentValidation-parentBean" parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" abstract="true" />
   
   	<bean id="PreEncumbrance-approveDocumentValidation" parent="PreEncumbrance-approveDocumentValidation-parentBean" scope="prototype" />
   

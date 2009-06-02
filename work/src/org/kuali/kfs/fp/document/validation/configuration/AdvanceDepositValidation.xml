@@ -82,6 +82,7 @@
 	<bean id="AdvanceDeposit-saveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
+				<bean parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" />
 				<bean parent="AccountingDocument-oneSidedRequiredAccountingLinesCountValidation" scope="prototype">
 					<property name="requiredMinimumCount" value="1" />
 					<property name="parameterProperties">

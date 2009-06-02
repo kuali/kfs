@@ -30,6 +30,9 @@
 		</property>
 	</bean>
 	
+	<bean id="ProcurementCard-saveDocumentValidation" parent="ProcurementCard-saveDocumentValidation-parentBean" scope="prototype" />	
+	<bean id="ProcurementCard-saveDocumentValidation-parentBean" parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" abstract="true" />
+	
 	<bean id="ProcurementCard-addAccountingLineValidation" parent="ProcurementCard-addAccountingLineValidation-parentBean" scope="prototype" />	
 	<bean id="ProcurementCard-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 	  	<property name="validations">

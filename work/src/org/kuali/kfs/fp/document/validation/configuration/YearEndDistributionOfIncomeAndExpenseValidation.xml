@@ -23,6 +23,10 @@
 	<bean id="YearEndDistributionOfIncomeAndExpense-routeDocumentValidation" parent="YearEndDistributionOfIncomeAndExpense-routeDocumentValidation-parentBean" scope="prototype" />
   
   	<bean id="YearEndDistributionOfIncomeAndExpense-routeDocumentValidation-parentBean" parent="DistributionOfIncomeAndExpense-routeDocumentValidation" abstract="true"/>
+  	
+  	<bean id="YearEndDistributionOfIncomeAndExpense-saveDocumentValidation" parent="YearEndDistributionOfIncomeAndExpense-saveDocumentValidation-parentBean" scope="prototype" />
+  
+  	<bean id="YearEndDistributionOfIncomeAndExpense-saveDocumentValidation-parentBean" parent="DistributionOfIncomeAndExpense-saveDocumentValidation" abstract="true"/>
   		
   	<bean id="YearEndDistributionOfIncomeAndExpense-approveDocumentValidation" parent="YearEndDistributionOfIncomeAndExpense-approveDocumentValidation-parentBean" scope="prototype" />
   

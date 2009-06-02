@@ -21,6 +21,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -41,6 +42,10 @@ public class AccountingLineGroupTotalsUnchangedValidation extends GenericValidat
      */
     public boolean validate(AttributedDocumentEvent event) {
         AccountingDocument persistedDocument = null;
+        
+        if (event instanceof AttributedSaveDocumentEvent && !accountingDocumentForValidation.getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
+            return true; // only check save document events if the document is enroute
+        }
 
         persistedDocument = retrievePersistedDocument(accountingDocumentForValidation);
 

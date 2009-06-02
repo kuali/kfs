@@ -89,6 +89,10 @@
 		</property>
 	</bean>
 	
+	<bean id="CreditCardReceipt-saveDocumentValidation" parent="CreditCardReceipt-saveDocumentValidation-parentBean" scope="prototype" />
+	
+	<bean id="CreditCardReceipt-saveDocumentValidation-parentBean" parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" abstract="true" />
+	
 	<bean id="CreditCardReceipt-addAccountingLineValidation" parent="CreditCardReceipt-addAccountingLineValidation-parentBean" scope="prototype" />
 	
 	<bean id="CreditCardReceipt-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">

@@ -83,6 +83,10 @@
 		</property>
 	</bean>
 	
+	<bean id="TransferOfFunds-saveDocumentValidation" parent="TransferOfFunds-saveDocumentValidation-parentBean" scope="prototype" />
+	
+	<bean id="TransferOfFunds-saveDocumentValidation-parentBean" parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" abstract="true" />
+	
 	<bean id="TransferOfFunds-approveDocumentValidation" parent="TransferOfFunds-approveDocumentValidation-parentBean" scope="prototype" />
 	
 	<bean id="TransferOfFunds-approveDocumentValidation-parentBean" parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype" abstract="true" />

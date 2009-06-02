@@ -115,6 +115,10 @@
 		</property>
 	</bean>
 	
+	<bean id="AuxiliaryVoucher-saveDocumentValidation" parent="AuxiliaryVoucher-saveDocumentValidation-parentBean" scope="prototype" />
+	
+	<bean id="AuxiliaryVoucher-saveDocumentValidation-parentBean" parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" abstract="true" />
+	
 	<bean id="AuxiliaryVoucher-approveDocumentValidation" parent="AuxiliaryVoucher-approveDocumentValidation-parentBean" />
 	
 	<bean id="AuxiliaryVoucher-approveDocumentValidation-parentBean" parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype" abstract="true" />

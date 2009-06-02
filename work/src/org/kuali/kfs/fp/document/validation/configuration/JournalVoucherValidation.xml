@@ -44,6 +44,7 @@
 	<bean id="JournalVoucher-saveDocumentValidation-parent" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" abstract="true" scope="prototype">
 		<property name="validations">
 			<list>
+				<bean parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" />
 				<bean parent="JournalVoucher-balanceTypeValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>

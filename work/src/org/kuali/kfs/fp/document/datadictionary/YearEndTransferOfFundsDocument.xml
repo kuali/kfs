@@ -41,6 +41,10 @@
 				<value>YearEndTransferOfFunds-routeDocumentValidation</value>
 			</entry>
 			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent</value></key>
+				<value>YearEndTransferOfFunds-saveDocumentValidation</value>
+			</entry>
+			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
 				<value>YearEndTransferOfFunds-approveDocumentValidation</value>
 			</entry>

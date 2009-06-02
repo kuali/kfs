@@ -77,6 +77,10 @@
   			</list> -->
   		</property>
   	</bean>
+  	
+  	<bean id="DistributionOfIncomeAndExpense-saveDocumentValidation" parent="DistributionOfIncomeAndExpense-saveDocumentValidation-parentBean" scope="prototype" />
+  
+  	<bean id="DistributionOfIncomeAndExpense-saveDocumentValidation-parentBean" parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" abstract="true" />
   
   	<bean id="DistributionOfIncomeAndExpense-approveDocumentValidation" parent="DistributionOfIncomeAndExpense-approveDocumentValidation-parentBean" scope="prototype" />
   

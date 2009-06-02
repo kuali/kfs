@@ -47,6 +47,10 @@
   			</list>
   		</property>
   	</bean>
+  	
+  	<bean id="InternalBilling-saveDocumentValidation" parent="InternalBilling-saveDocumentValidation-parentBean" scope="prototype" />
+  
+  	<bean id="InternalBilling-saveDocumentValidation-parentBean" parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" abstract="true" />
   
   	<bean id="InternalBilling-approveDocumentValidation" parent="InternalBilling-approveDocumentValidation-parentBean" scope="prototype" />
   

@@ -313,6 +313,7 @@
 	<bean id="DisbursementVoucher-saveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
+				<bean parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype"/>
 				<bean parent="DisbursementVoucher-nonEmployeeTravelComanyValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>

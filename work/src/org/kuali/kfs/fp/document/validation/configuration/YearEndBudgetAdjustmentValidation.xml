@@ -24,6 +24,10 @@
 
 	<bean id="YearEndBudgetAdjustment-routeDocumentValidation-parentBean" parent="BudgetAdjustment-routeDocumentValidation" abstract="true"/>
 	
+	<bean id="YearEndBudgetAdjustment-saveDocumentValidation" parent="YearEndBudgetAdjustment-saveDocumentValidation-parentBean" scope="prototype" />
+	
+	<bean id="YearEndBudgetAdjustment-saveDocumentValidation-parentBean" parent="BudgetAdjustment-saveDocumentValidation" abstract="true"/>
+	
 	<bean id="YearEndBudgetAdjustment-approveDocumentValidation" parent="YearEndBudgetAdjustment-approveDocumentValidation-parentBean" scope="prototype" />
 	
 	<bean id="YearEndBudgetAdjustment-approveDocumentValidation-parentBean" parent="BudgetAdjustment-approveDocumentValidation" abstract="true"/>

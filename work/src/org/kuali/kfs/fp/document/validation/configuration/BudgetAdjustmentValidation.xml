@@ -59,6 +59,10 @@
 		</property>
 	</bean>
 	
+	<bean id="BudgetAdjustment-saveDocumentValidation" parent="BudgetAdjustment-saveDocumentValidation-parentBean" scope="prototype" />
+	
+	<bean id="BudgetAdjustment-saveDocumentValidation-parentBean" parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" abstract="true" />
+	
 	<bean id="BudgetAdjustment-approveDocumentValidation" parent="BudgetAdjustment-approveDocumentValidation-parentBean" scope="prototype" />
 	
 	<bean id="BudgetAdjustment-approveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">

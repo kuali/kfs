@@ -43,6 +43,10 @@
 				<value>ServiceBilling-routeDocumentValidation</value>
 			</entry>
 			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent</value></key>
+				<value>ServiceBilling-saveDocumentValidation</value>
+			</entry>
+			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
 				<value>ServiceBilling-approveDocumentValidation</value>
 			</entry>

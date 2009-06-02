@@ -3,11 +3,6 @@
   <bean id="CreditCardReceiptDocument" parent="CreditCardReceiptDocument-parentBean"/>
 
   <bean id="CreditCardReceiptDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
-    
-    
-    
-    
-    
     <property name="documentTypeName" value="CCR"/>
     <property name="documentClass" value="org.kuali.kfs.fp.document.CreditCardReceiptDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
@@ -69,6 +64,10 @@
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
 				<value>CreditCardReceipt-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent</value></key>
+				<value>CreditCardReceipt-saveDocumentValidation</value>
 			</entry>
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent</value></key>

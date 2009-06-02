@@ -4,11 +4,6 @@
 
   <bean id="NonCheckDisbursementDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
     <property name="allowsErrorCorrection" value="true"/>
-    
-    
-    
-    
-    
     <property name="documentTypeName" value="ND"/>
     <property name="documentClass" value="org.kuali.kfs.fp.document.NonCheckDisbursementDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
@@ -46,6 +41,10 @@
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
 				<value>NonCheckDisbursement-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent</value></key>
+				<value>NonCheckDisbursement-saveDocumentValidation</value>
 			</entry>
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent</value></key>

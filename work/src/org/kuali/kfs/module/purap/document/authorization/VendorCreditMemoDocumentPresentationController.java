@@ -68,6 +68,12 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
         return false;
     }
 
+    @Override
+    protected boolean canDisapprove(Document document) {
+        //disapprove is never allowed for Credit Memo
+        return false;
+    }
+
     /**
      * 
      * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canEdit(org.kuali.rice.kns.document.Document)

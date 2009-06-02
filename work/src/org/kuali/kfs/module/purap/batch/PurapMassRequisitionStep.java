@@ -68,7 +68,7 @@ public class PurapMassRequisitionStep extends AbstractStep implements TestingSte
     private BusinessObjectService boService;
     private PersistenceStructureService psService;
 
-    private final int NUM_DOCS_TO_CREATE = 25; // number of each document type to create
+    private final int NUM_DOCS_TO_CREATE = 1; // number of each document type to create
     private final int ROUTE_TO_FINAL_SECONDS_LIMIT = 240; // number of seconds to wait for routing of documents to Final.
     private final String RUN_INDICATOR_PARAMETER_NAMESPACE_STEP = "PurapMassRequisitionStep";
     private final String RUN_INDICATOR_PARAMETER_VALUE = "N";
@@ -222,6 +222,7 @@ public class PurapMassRequisitionStep extends AbstractStep implements TestingSte
             reqDoc.setDeliveryCityName("brainy");
             reqDoc.setDeliveryStateCode("CA");
             reqDoc.setDeliveryPostalCode("46202");
+            reqDoc.setDeliveryCountryCode("US");
             reqDoc.setDeliveryToName("front desk");
             reqDoc.setBillingName("THE UNIVERSITY");
             reqDoc.setBillingLine1Address("ACCOUNTS PAYABLE");

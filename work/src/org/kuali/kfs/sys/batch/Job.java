@@ -131,7 +131,7 @@ public class Job implements StatefulJob, InterruptableJob {
 
     public static boolean runStep(ParameterService parameterService, String jobName, int currentStepNumber, Step step, Date jobRunDate) throws InterruptedException, WorkflowException {
         boolean continueJob = true;
-        LOG.info(new StringBuffer("Started processing step: ").append(currentStepNumber).append("=").append(step.getName()));
+        LOG.info(new StringBuffer("Started processing step: ").append(currentStepNumber).append("=").append(step.getName()).append(" for user ").append(GlobalVariables.getUserSession().getPrincipalName()));
         if (parameterService.parameterExists(step.getClass(), STEP_RUN_PARM_NM) && !parameterService.getIndicatorParameter(step.getClass(), STEP_RUN_PARM_NM)) {
             if (LOG.isInfoEnabled()) {
                 LOG.info("Skipping step due to system parameter: " + STEP_RUN_PARM_NM);

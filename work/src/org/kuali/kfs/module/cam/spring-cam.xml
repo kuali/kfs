@@ -164,6 +164,15 @@
 	<bean id="camsReportService" class="org.kuali.kfs.module.cam.batch.service.impl.ReportServiceImpl"></bean>
 <!-- ********* end of report service beans ********** -->
 
+    <bean id="assetStatusLookupableHelperService" class="org.kuali.kfs.module.cam.businessobject.lookup.AssetStatusLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
+    </bean>
+       
+    <bean id="assetStatusLookupable" parent="kualiLookupable">
+        <property name="lookupableHelperService">
+            <ref bean="assetStatusLookupableHelperService" />
+        </property>
+    </bean>
+
 
     <bean id="assetLookupableHelperService" class="org.kuali.kfs.module.cam.businessobject.lookup.AssetLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
     	<property name="assetService" ref="assetService"/>

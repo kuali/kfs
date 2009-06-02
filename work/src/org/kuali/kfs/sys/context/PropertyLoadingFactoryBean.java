@@ -104,4 +104,8 @@ public class PropertyLoadingFactoryBean implements FactoryBean {
     public void setSecureMode(boolean secureMode) {
         this.secureMode = secureMode;
     }
+    
+    public static void clear() {
+        BASE_PROPERTIES.clear();
+    }
 }

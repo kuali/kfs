@@ -25,11 +25,11 @@ public class WebApplicationInitListener extends JstlConstantsInitListener implem
     private static final String JSTL_CONSTANTS_CLASSNAMES_KEY = "jstl.constants.classnames";
     private static final String JSTL_CONSTANTS_MAIN_CLASS = "jstl.constants.main.class";
     private static final String JSTL_MAIN_CLASS_CONTEXT_NAME = "Constants";
-    private Logger log;
+    private static Logger LOG;
 
     public void contextInitialized(ServletContextEvent sce) {
         Log4jConfigurer.configureLogging(true);
-        log = Logger.getLogger(WebApplicationInitListener.class);
+        LOG = Logger.getLogger(WebApplicationInitListener.class);
         SpringContext.initializeApplicationContext();
         for (String jstlConstantsClassname : PropertyLoadingFactoryBean.getBaseListProperty(JSTL_CONSTANTS_CLASSNAMES_KEY)) {
             try {
@@ -41,16 +41,20 @@ public class WebApplicationInitListener extends JstlConstantsInitListener implem
                 }
             }
             catch (Exception e) {
-                log.warn("Unable to load jstl constants class: " + jstlConstantsClassname, e);
+                LOG.warn("Unable to load jstl constants class: " + jstlConstantsClassname, e);
             }
         }
         super.contextInitialized(sce);
-        log.info("Finished web application context initialization");
+        LOG.info("Finished web application context initialization");
     }
 
     public void contextDestroyed(ServletContextEvent sce) {
-        log.info("Started web application context destruction");
-        SpringContext.close();
+        LOG.info("Started web application context destruction");
+        try {
+            SpringContext.close();
+        } catch ( Exception ex ) {
+            LOG.error( "Unable to close down Spring Context." );
+        }
         super.contextDestroyed(sce);
     }
 }

@@ -39,4 +39,10 @@ public class KFSConfigurer extends ModuleConfigurer {
         List<Lifecycle> lifecycles = new LinkedList<Lifecycle>();
         return lifecycles;
     }
+    
+    @Override
+    public void setSpringFileLocations(String springFileLocations) {
+        super.setSpringFileLocations(springFileLocations);
+        System.out.println( "KFSConfigurer: " + springFileLocations );
+    }
 }

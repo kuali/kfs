@@ -1,15 +1,19 @@
 package org.kuali.kfs.sys.context;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Scanner;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -18,12 +22,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.apache.commons.collections.bidimap.TreeBidiMap;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.resourceloader.ContextClassLoaderBinder;
-import org.kuali.rice.core.resourceloader.RiceResourceLoaderFactory;
 import org.kuali.rice.core.util.ClassLoaderUtils;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiModuleService;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.w3c.dom.Document;
@@ -34,9 +34,6 @@ import uk.ltd.getahead.dwr.impl.DTDEntityResolver;
 import uk.ltd.getahead.dwr.util.LogErrorHandler;
 
 public class CheckModularization {
-    private static final String BASE_SPRING_FILESET = "org/kuali/rice/kns/config/KNSSpringBeans.xml,org/kuali/kfs/sys/spring-sys.xml,org/kuali/kfs/coa/spring-coa.xml," + 
-    		"org/kuali/kfs/fp/spring-fp.xml,org/kuali/kfs/gl/spring-gl.xml,org/kuali/kfs/pdp/spring-pdp.xml,org/kuali/kfs/vnd/spring-vnd.xml," + 
-    		"org/kuali/kfs/integration/SpringBeansModules.xml";
 
     private static final Map<String, String> OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX = new HashMap<String, String>();
     static {
@@ -65,69 +62,111 @@ public class CheckModularization {
 //    private String[] allContextFiles;
     private KualiModuleService kualiModuleService;
     
-    private void setUp() {
-        ConfigurableApplicationContext context = null;
+    private static String MODULE_SPRING_PATH_PATTERN = "org/kuali/kfs/module/{0}/spring-{0}.xml";
+    
+//    private void setUp() {
+//        ConfigurableApplicationContext context = null;
+//        try {
+//            SpringContext.initializeTestApplicationContext();
+//            context = SpringContext.applicationContext;
+//            kualiModuleService = (KualiModuleService)context.getBean("kualiModuleService");
+//        }
+//        catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        finally {
+//            stopSpringContext();
+//        }
+//    }
+    
+    /*
+     * open up classpath:configuration.properties - get locations of spring files?
+     * alter the spring.source.files property and re-save
+     * hold original version and restore?
+     * 
+     * use location of config.properties as the class root for scanning source files?
+     * How do you test .class files for symbols?
+     */
+    static String coreSpringFiles; 
+    static String coreSpringTestFiles; 
+    static File configPropertiesFile;
+    public static void main(String[] args) {
+        CheckModularization mt = new CheckModularization();
         try {
-            SpringContext.initializeTestApplicationContext();
-            context = SpringContext.applicationContext;
-            kualiModuleService = (KualiModuleService)context.getBean("kualiModuleService");
+//            mt.setUp();
+            Properties configProps = new Properties();
+            URL propLocation = CheckModularization.class.getClassLoader().getResource("configuration.properties" );
+            System.out.println( "URL: " + propLocation );
+            System.out.println( "Path: " + propLocation.getPath() );
+            configPropertiesFile = new File( propLocation.getPath() );
+            configProps.load( CheckModularization.class.getClassLoader().getResourceAsStream("configuration.properties") );
+            coreSpringFiles = configProps.getProperty("core.spring.source.files");
+            coreSpringTestFiles = configProps.getProperty("core.spring.test.files");
+            
+            // bring up Spring once to get all the configuration information, store by namespace code
+            // list of core namespaces, all others must be independent
+            
+            // test class references
+            mt.testSpring();
+//            if (!(mt.testSpring() & mt.testOjb() & mt.testDwr())) {
+//                System.exit(1);
+//            }
         }
         catch (Exception e) {
             e.printStackTrace();
-        }
-        finally {
-            stopSpring(context);
-        }
-    }
-    
-    public static void main(String[] args) {
-        boolean testSucceeded = true;
-        CheckModularization mt = new CheckModularization();
-        try {
-            mt.setUp();
-            if (!(mt.testSpring() & mt.testOjb() & mt.testDwr())) {
-                System.exit(1);
-            }
-        }
-        catch (Exception e) {
             System.exit(1);
         }
         System.exit(0);
     }
+    
+    
+    protected String buildOptionalModuleSpringFileList( ModuleGroup moduleGroup ) {
+        StringBuffer sb = new StringBuffer();
+        sb.append( MessageFormat.format(MODULE_SPRING_PATH_PATTERN, OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.get( moduleGroup.namespaceCode ) ) );
+        for ( String depMod : moduleGroup.optionalModuleDependencyNamespaceCodes ) {
+            sb.append( ',' );            
+            sb.append( MessageFormat.format(MODULE_SPRING_PATH_PATTERN, OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.get( depMod ) ) );
+        }
+        return sb.toString();
+    }
 
     public boolean testSpring() throws Exception {
         boolean testSucceeded = true;
-//        StringBuffer errorMessage = new StringBuffer("The following optional modules have interdependencies in Spring configuration:");
-//        List<ModuleGroup> optionalModuleGroups = retrieveOptionalModuleGroups();
-//        for (ModuleGroup optionalModuleGroup : optionalModuleGroups) {
-//            testSucceeded = testSucceeded & testOptionalModuleSpringConfiguration(optionalModuleGroup, errorMessage);
-//        }
-//        if (!testSucceeded) {
-//            System.out.print(errorMessage.append("\n\n").toString());
-//        }
+        StringBuffer errorMessage = new StringBuffer("The following optional modules have interdependencies in Spring configuration:");
+        List<ModuleGroup> optionalModuleGroups = retrieveOptionalModuleGroups();
+        for (ModuleGroup optionalModuleGroup : optionalModuleGroups) {
+//            if ( !optionalModuleGroup.namespaceCode.equals( "KFS-AR" ) ) continue;
+            System.out.println( "Testing for optional module group: " + optionalModuleGroup );
+            System.out.println( "Using Base Configuration:   " + coreSpringFiles );
+            String moduleConfigFiles = buildOptionalModuleSpringFileList(optionalModuleGroup);
+            System.out.println( "Module configuration files: " + moduleConfigFiles );
+            testSucceeded = testSucceeded & testOptionalModuleSpringConfiguration(optionalModuleGroup.namespaceCode, coreSpringFiles+","+moduleConfigFiles, errorMessage);
+        }
+        if (!testSucceeded) {
+            System.out.print(errorMessage.append("\n\n").toString());
+        }
         return testSucceeded;
     }
 
-    private boolean testOptionalModuleSpringConfiguration(ModuleGroup optionalModuleGroup, StringBuffer errorMessage) {
-        String springFileSuffix = OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.get(optionalModuleGroup.namespaceCode);
-        ClassPathXmlApplicationContext context = null;
+    private boolean testOptionalModuleSpringConfiguration(String namespaceCode, String springConfigFiles, StringBuffer errorMessage) {
         try {
-            context = new ClassPathXmlApplicationContext(new StringBuffer(BASE_SPRING_FILESET).append(",org/kuali/kfs/module/").append(springFileSuffix).append("/spring-").append(springFileSuffix).append(".xml").toString().split(","));
-            Map<String, DataDictionaryService> ddServiceBeans = context.getBeansOfType(DataDictionaryService.class);
-            if (ddServiceBeans.size() != 1) {
-                throw new RuntimeException("There should only be one DataDictionaryService bean, but " + ddServiceBeans.size() + " were found");
-            }
-            DataDictionaryService dataDictionaryService = ddServiceBeans.entrySet().iterator().next().getValue();
-            // DO NOT allow for concurrent validation of the DD
-            dataDictionaryService.getDataDictionary().parseDataDictionaryConfigurationFiles( false );
+            // update the configuration.properties file
+            Properties configProps = new Properties();
+            configProps.load( new FileInputStream( configPropertiesFile ) );
+            configProps.setProperty( "spring.source.files", springConfigFiles );
+            configProps.setProperty( "spring.test.files", coreSpringTestFiles );
+            configProps.store( new FileOutputStream( configPropertiesFile ), "Testing Module: " + namespaceCode );
+            configProps.load( new FileInputStream( configPropertiesFile ) );
+//            configProps.store( System.out, "Testing Module: " + namespaceCode );
+            SpringContext.initializeTestApplicationContext();
             return true;
-        }
-        catch (Exception e) {
-            errorMessage.append("\n").append(optionalModuleGroup.namespaceCode).append("\n\t").append(e.getMessage());
+        } catch (Exception e) {
+            errorMessage.append("\n").append(namespaceCode).append("\n\t").append(e.getMessage());
+            e.printStackTrace();
             return false;
         }
         finally {
-            stopSpring(context);
+            stopSpringContext();
         }
     }
 
@@ -243,12 +282,12 @@ public class CheckModularization {
             String[] configLocations = null;
             if (isSystemModule) {
                 // if we're testing a system module, then we will only load up the base spring files in our new app context
-                configLocations = BASE_SPRING_FILESET.split(",");
+                configLocations = coreSpringFiles.split(",");
             }
             else {
                 // if we're testing an optional module, then we will need to load up the base spring files as well as the optional module's beans
                 String springFileSuffix = OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.get(moduleGroup.namespaceCode);
-                configLocations = new StringBuffer(BASE_SPRING_FILESET).append(",org/kuali/kfs/module/").append(springFileSuffix).append("/spring-").append(springFileSuffix).append(".xml").toString().split(",");
+                configLocations = new StringBuffer(coreSpringFiles).append(",org/kuali/kfs/module/").append(springFileSuffix).append("/spring-").append(springFileSuffix).append(".xml").toString().split(",");
             }
             context = new ClassPathXmlApplicationContext(configLocations);
             context.refresh();
@@ -345,6 +384,11 @@ public class CheckModularization {
     public class ModuleGroup {
         public String namespaceCode;
         public HashSet<String> optionalModuleDependencyNamespaceCodes = new HashSet<String>();
+        
+        @Override
+        public String toString() {
+            return namespaceCode + (optionalModuleDependencyNamespaceCodes.isEmpty()?"":(" - depends on: " + optionalModuleDependencyNamespaceCodes));
+        }
     }
     
     public List<ModuleGroup> retrieveModuleGroups() throws Exception {
@@ -424,13 +468,11 @@ public class CheckModularization {
         return moduleGroup;
     }
     
-    private void stopSpring(ConfigurableApplicationContext context) {
+    private void stopSpringContext() {
         try {
-            if (context != null) {
-                context.close();
-            }
-        }
-        catch (Exception e) {
+            SpringContext.close();
+            PropertyLoadingFactoryBean.clear();
+        } catch (Exception e) {
             System.out.println("Caught exception shutting down spring");
             e.printStackTrace();
         }

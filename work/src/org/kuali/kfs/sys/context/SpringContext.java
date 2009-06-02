@@ -40,16 +40,19 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.MemoryMonitor;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
+import org.kuali.rice.core.config.ConfigContext;
+import org.kuali.rice.core.config.RiceConfigurer;
 import org.kuali.rice.core.database.XAPoolDataSource;
 import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.resourceloader.RiceResourceLoaderFactory;
+import org.kuali.rice.core.util.RiceConstants;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.cache.MethodCacheInterceptor;
+import org.kuali.rice.kns.util.spring.ClassPathXmlApplicationContext;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import uk.ltd.getahead.dwr.create.SpringCreator;
 
@@ -228,8 +231,23 @@ public class SpringContext {
         initializeApplicationContext(TEST_CONTEXT_DEFINITION, false);
     }
 
-    protected static void close() {
-        applicationContext.close();
+    protected static void close() throws Exception {
+        if ( applicationContext == null ) {
+            applicationContext = RiceResourceLoaderFactory.getSpringResourceLoader().getContext();
+        }
+        RiceConfigurer riceConfigurer = null;
+        try {
+            riceConfigurer = (RiceConfigurer) applicationContext.getBean( "rice" );
+        } catch ( Exception ex ) {
+            LOG.debug( "Unable to get 'rice' bean - attempting to get from the Rice ConfigContext", ex );
+            riceConfigurer = (RiceConfigurer)ConfigContext.getObjectFromConfigHierarchy(RiceConstants.RICE_CONFIGURER_CONFIG_NAME);
+        }
+        if ( riceConfigurer != null ) {
+            riceConfigurer.destroy();
+            ConfigContext.destroy();
+        } else {
+            LOG.error( "Unable to close SpringContext - unable to get a handle to a RiceConfigurer object." );
+        }
     }
 
     private static void verifyProperInitialization() {
@@ -280,7 +298,11 @@ public class SpringContext {
                     (getBean(SchedulerService.class)).initialize();
                 }
                 LOG.info("Starting the scheduler");
-                (getBean(Scheduler.class)).start();
+                try {
+                    (getBean(Scheduler.class)).start();
+                } catch ( NullPointerException ex ) {
+                    LOG.error("Caught NPE while starting the scheduler", ex);
+                }
             }
             catch (NoSuchBeanDefinitionException e) {
                 LOG.info("Not initializing the scheduler because there is no scheduler bean");

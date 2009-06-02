@@ -79,7 +79,9 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
 
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, CabConstants.Actions.START);
-        parameters.put(CabPropertyConstants.PurchasingAccountsPayableDocument.PURCHASE_ORDER_IDENTIFIER, glEntry.getReferenceFinancialDocumentNumber());
+        if (glEntry.getReferenceFinancialDocumentNumber() != null) {
+            parameters.put(CabPropertyConstants.PurchasingAccountsPayableDocument.PURCHASE_ORDER_IDENTIFIER, glEntry.getReferenceFinancialDocumentNumber());
+        }
 
         String href = UrlFactory.parameterizeUrl(CabConstants.CB_INVOICE_LINE_ACTION_URL, parameters);
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
@@ -110,7 +112,7 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
         // search for GeneralLedgerEntry BO.
         Iterator searchResultIterator = purApReportService.findGeneralLedgers(fieldValues);
         // create PurchasingAccountsPayableProcessingReport search result collection.
-        Collection purApReportCollection = buildGlEntrySearchResultCollection(searchResultIterator, active);
+        List<PurchasingAccountsPayableProcessingReport> purApReportList = buildGlEntrySearchResultCollection(searchResultIterator, active);
 
         // purapDocumentIdentifier is the attribute in PurchasingAccountsPayableDocument. We need to generate a new lookup for that
         // BO, then join search results with the generalLedgerCollection to get the correct search result collection.
@@ -122,14 +124,14 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
 
             Map<String, Integer> purApDocNumberMap = buildDocumentNumberMap(purApDocs);
 
-            updatePurApReportCollectionByPurApDocs(purApReportCollection, purApDocNumberMap);
+            purApReportList = updatePurApReportListByPurApDocs(purApReportList, purApDocNumberMap);
         }
         else {
-            addPurapDocumentIdentifier(purApReportCollection);
+            purApReportList = updateResultList(purApReportList);
         }
 
 
-        return buildSearchResultList(purApReportCollection);
+        return buildSearchResultList(purApReportList);
     }
 
     /**
@@ -137,20 +139,21 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
      * 
      * @param purApReportCollection
      */
-    private void addPurapDocumentIdentifier(Collection purApReportCollection) {
+    private List<PurchasingAccountsPayableProcessingReport> updateResultList(List<PurchasingAccountsPayableProcessingReport> purApReportList) {
+        List<PurchasingAccountsPayableProcessingReport> newResultList = new ArrayList<PurchasingAccountsPayableProcessingReport>();
         BusinessObjectService boService = this.getBusinessObjectService();
-        Map pKeys = new HashMap<String, Object>();
+        Map pKeys = new HashMap<String, String>();
 
-        for (Iterator iterator = purApReportCollection.iterator(); iterator.hasNext();) {
-            PurchasingAccountsPayableProcessingReport report = (PurchasingAccountsPayableProcessingReport) iterator.next();
+        for (PurchasingAccountsPayableProcessingReport report : purApReportList) {
             pKeys.put(CabPropertyConstants.PurchasingAccountsPayableDocument.DOCUMENT_NUMBER, report.getDocumentNumber());
             PurchasingAccountsPayableDocument purApDocument = (PurchasingAccountsPayableDocument) boService.findByPrimaryKey(PurchasingAccountsPayableDocument.class, pKeys);
             if (ObjectUtils.isNotNull(purApDocument)) {
                 report.setPurapDocumentIdentifier(purApDocument.getPurapDocumentIdentifier());
+                newResultList.add(report);
             }
             pKeys.clear();
         }
-
+        return newResultList;
     }
 
     /**
@@ -159,13 +162,13 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
      * @param purApReportCollection
      * @return
      */
-    private List<? extends BusinessObject> buildSearchResultList(Collection purApReportCollection) {
+    private List<? extends BusinessObject> buildSearchResultList(List purApReportList) {
         Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(GeneralLedgerEntry.class);
-        Long matchingResultsCount = Long.valueOf(purApReportCollection.size());
+        Long matchingResultsCount = Long.valueOf(purApReportList.size());
         if (matchingResultsCount.intValue() <= searchResultsLimit.intValue()) {
             matchingResultsCount = Long.valueOf(0);
         }
-        return new CollectionIncomplete(purApReportCollection, matchingResultsCount);
+        return new CollectionIncomplete(purApReportList, matchingResultsCount);
     }
 
 
@@ -205,21 +208,17 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
      * @param purApReportCollection
      * @param purApDocNumbers
      */
-    private void updatePurApReportCollectionByPurApDocs(Collection<PurchasingAccountsPayableProcessingReport> purApReportCollection, Map<String, Integer> purApDocNumberMap) {
-        Collection removedReports = new ArrayList<PurchasingAccountsPayableProcessingReport>();
+    private List<PurchasingAccountsPayableProcessingReport> updatePurApReportListByPurApDocs(List<PurchasingAccountsPayableProcessingReport> purApReportList, Map<String, Integer> purApDocNumberMap) {
+        List<PurchasingAccountsPayableProcessingReport> newReportsList = new ArrayList<PurchasingAccountsPayableProcessingReport>();
 
-        for (Iterator iterator = purApReportCollection.iterator(); iterator.hasNext();) {
-            PurchasingAccountsPayableProcessingReport report = (PurchasingAccountsPayableProcessingReport) iterator.next();
-            if (!purApDocNumberMap.containsKey(report.getDocumentNumber())) {
-                removedReports.add(report);
-            }
-            else {
+        for (PurchasingAccountsPayableProcessingReport report : purApReportList) {
+            if (purApDocNumberMap.containsKey(report.getDocumentNumber())) {
                 report.setPurapDocumentIdentifier((Integer) purApDocNumberMap.get(report.getDocumentNumber()));
+                newReportsList.add(report);
             }
-
         }
         // remove from report collection
-        purApReportCollection.removeAll(removedReports);
+        return newReportsList;
     }
 
     /**
@@ -228,8 +227,8 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
      * @param searchResultIterator
      * @return
      */
-    private Collection buildGlEntrySearchResultCollection(Iterator searchResultIterator, String activeSelection) {
-        Collection purApReportCollection = new ArrayList();
+    private List<PurchasingAccountsPayableProcessingReport> buildGlEntrySearchResultCollection(Iterator searchResultIterator, String activeSelection) {
+        List<PurchasingAccountsPayableProcessingReport> purApReportList = new ArrayList();
 
         while (searchResultIterator.hasNext()) {
             Object glEntry = searchResultIterator.next();
@@ -270,11 +269,11 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
                         // set report amount by transactional Amount
                         newReport.setReportAmount(newReport.getAmount());
                     }
-                    purApReportCollection.add(newReport);
+                    purApReportList.add(newReport);
                 }
             }
         }
-        return purApReportCollection;
+        return purApReportList;
     }
 
     /**
@@ -334,8 +333,8 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
             }
         }
         else {
-        	// both processed/non processed: set report amount by transactional amount
-        	newReport.setReportAmount(newReport.getAmount());
+            // both processed/non processed: set report amount by transactional amount
+            newReport.setReportAmount(newReport.getAmount());
         }
     }
 

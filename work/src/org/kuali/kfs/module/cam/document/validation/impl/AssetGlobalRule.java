@@ -894,24 +894,23 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             }
         }
 
-        // Creates locking representation for this global document. The locking is only applicable for assets that are being split.
-        // The assets that are being created do not need to be locked since they don't exist yet.
-        if (success && getAssetGlobalService().isAssetSeparate(assetGlobal)) {
-            success &= setAssetLock(document, assetGlobal);
-        }
         return success;
     }
 
+    /**
+     * Locking on separate source asset number
+     * 
+     * @param document
+     * @param assetGlobal
+     * @return
+     */
     private boolean setAssetLock(MaintenanceDocument document, AssetGlobal assetGlobal) {
         List<Long> capitalAssetNumbers = new ArrayList<Long>();
         if (assetGlobal.getSeparateSourceCapitalAssetNumber() != null) {
             capitalAssetNumbers.add(assetGlobal.getSeparateSourceCapitalAssetNumber());
         }
 
-        if (!SpringContext.getBean(CapitalAssetManagementModuleService.class).storeAssetLocks(capitalAssetNumbers, document.getDocumentNumber(), DocumentTypeName.ASSET_SEPARATE, null)) {
-            throw new ValidationException("Asset " + capitalAssetNumbers.toString() + " is being locked by other documents.");
-        }
-        return true;
+        return SpringContext.getBean(CapitalAssetManagementModuleService.class).storeAssetLocks(capitalAssetNumbers, document.getDocumentNumber(), DocumentTypeName.ASSET_SEPARATE, null);
     }
 
     /**
@@ -978,6 +977,13 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             valid &= checkReferenceExists(assetLocationDetail);
             GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
             index++;
+        }
+
+
+        // Creates locking representation for this global document. The locking is only applicable for assets that are being split.
+        // The assets that are being created do not need to be locked since they don't exist yet.
+        if (valid && getAssetGlobalService().isAssetSeparate(assetGlobal)) {
+            valid &= setAssetLock(maintenanceDocument, assetGlobal);
         }
         return valid && super.processSaveDocument(document);
     }

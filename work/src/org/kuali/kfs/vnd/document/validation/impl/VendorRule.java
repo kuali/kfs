@@ -285,6 +285,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         else {
             // Retrieve the references objects of the vendor header of this vendor.
             List<String> headerFieldNames = getObjectReferencesListFromBOClass(VendorHeader.class);
+            vendor.getVendorHeader().refreshNonUpdateableReferences();
             SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(vendor.getVendorHeader(), headerFieldNames);
 
             // We still need to retrieve all the other references of this vendor in addition to

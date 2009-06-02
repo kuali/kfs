@@ -191,7 +191,7 @@
     				</property>
     				<property name="documentValues">
     					<list>
-    						<value>organizationCode</value>
+    						<value>newMaintainableObject.businessObject.organizationCode</value>
     					</list>
     				</property>
     			</bean>
@@ -204,7 +204,7 @@
     				</property>
     				<property name="documentValues">
     					<list>
-    						<value>accountFiscalOfficerSystemIdentifier</value>
+    						<value>newMaintainableObject.businessObject.accountFiscalOfficerSystemIdentifier</value>
     					</list>
     				</property>
     			</bean>
@@ -217,7 +217,7 @@
     				</property>
     				<property name="documentValues">
     					<list>
-    						<value>accountsSupervisorySystemsIdentifier</value>
+    						<value>newMaintainableObject.businessObject.accountsSupervisorySystemsIdentifier</value>
     					</list>
     				</property>
     			</bean>
@@ -230,7 +230,7 @@
     				</property>
     				<property name="documentValues">
     					<list>
-    						<value>accountManagerSystemIdentifier</value>
+    						<value>newMaintainableObject.businessObject.accountManagerSystemIdentifier</value>
     					</list>
     				</property>
     			</bean>

@@ -147,7 +147,7 @@
     				</property>
     				<property name="documentValues">
     					<list>
-    						<value>organizationManagerUniversalId</value>
+    						<value>newMaintainableObject.businessObject.organizationManagerUniversalId</value>
     					</list>
     				</property>
     			</bean>
@@ -160,7 +160,7 @@
     				</property>
     				<property name="documentValues">
     					<list>
-    						<value>responsibilityCenterCode</value>
+    						<value>newMaintainableObject.businessObject.responsibilityCenterCode</value>
     					</list>
     				</property>
     			</bean>

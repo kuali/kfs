@@ -22,8 +22,8 @@
     
     <property name="documentTypeName" value="AFUN"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
-    <property name="workflowProperties">
-      <ref bean="AICPAFunctionMaintenanceDocument-workflowProperties"/>
+    <property name="workflowAttributes">
+      <ref bean="AICPAFunctionMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
@@ -47,8 +47,8 @@
 <!-- Exported Workflow Properties -->
 
 
-  <bean id="AICPAFunctionMaintenanceDocument-workflowProperties" parent="AICPAFunctionMaintenanceDocument-workflowProperties-parentBean"/>
+  <bean id="AICPAFunctionMaintenanceDocument-workflowAttributes" parent="AICPAFunctionMaintenanceDocument-workflowAttributes-parentBean"/>
 
-  <bean id="AICPAFunctionMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  <bean id="AICPAFunctionMaintenanceDocument-workflowAttributes-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes">
   </bean>
 </beans>

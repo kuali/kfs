@@ -21,9 +21,11 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.commons.collections.bidimap.TreeBidiMap;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.resourceloader.ContextClassLoaderBinder;
 import org.kuali.rice.core.util.ClassLoaderUtils;
 import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.service.ModuleService;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.w3c.dom.Document;
@@ -59,25 +61,12 @@ public class CheckModularization {
         SYSTEM_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.put("KFS-SYS", "sys");
         SYSTEM_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.put("KFS-VND", "vnd");
     }
-//    private String[] allContextFiles;
-    private KualiModuleService kualiModuleService;
+    
+    private static Map<String,List<String>> PACKAGE_PREFIXES_BY_MODULE = new HashMap<String, List<String>>();
+    private static Map<String,List<String>> OJB_FILES_BY_MODULE = new HashMap<String, List<String>>();
+    private static Map<String,List<String>> DWR_FILES_BY_MODULE = new HashMap<String, List<String>>();
     
     private static String MODULE_SPRING_PATH_PATTERN = "org/kuali/kfs/module/{0}/spring-{0}.xml";
-    
-//    private void setUp() {
-//        ConfigurableApplicationContext context = null;
-//        try {
-//            SpringContext.initializeTestApplicationContext();
-//            context = SpringContext.applicationContext;
-//            kualiModuleService = (KualiModuleService)context.getBean("kualiModuleService");
-//        }
-//        catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        finally {
-//            stopSpringContext();
-//        }
-//    }
     
     /*
      * open up classpath:configuration.properties - get locations of spring files?
@@ -93,7 +82,6 @@ public class CheckModularization {
     public static void main(String[] args) {
         CheckModularization mt = new CheckModularization();
         try {
-//            mt.setUp();
             Properties configProps = new Properties();
             URL propLocation = CheckModularization.class.getClassLoader().getResource("configuration.properties" );
             System.out.println( "URL: " + propLocation );
@@ -102,15 +90,63 @@ public class CheckModularization {
             configProps.load( CheckModularization.class.getClassLoader().getResourceAsStream("configuration.properties") );
             coreSpringFiles = configProps.getProperty("core.spring.source.files");
             coreSpringTestFiles = configProps.getProperty("core.spring.test.files");
+
+            try {
+                SpringContext.initializeTestApplicationContext();                
+                KualiModuleService kualiModuleService = (KualiModuleService)SpringContext.getBean(KualiModuleService.class);
+                
+                for ( ModuleService module : kualiModuleService.getInstalledModuleServices() ) {
+                    PACKAGE_PREFIXES_BY_MODULE.put(module.getModuleConfiguration().getNamespaceCode(), module.getModuleConfiguration().getPackagePrefixes() );
+                    OJB_FILES_BY_MODULE.put(module.getModuleConfiguration().getNamespaceCode(), module.getModuleConfiguration().getDatabaseRepositoryFilePaths() );
+                    DWR_FILES_BY_MODULE.put(module.getModuleConfiguration().getNamespaceCode(), module.getModuleConfiguration().getScriptConfigurationFilePaths() );
+                }
+                
+            } catch ( Exception ex ) {
+                ex.printStackTrace();
+            } finally {
+                stopSpringContext();
+            }
             
             // bring up Spring once to get all the configuration information, store by namespace code
             // list of core namespaces, all others must be independent
             
             // test class references
-            mt.testSpring();
-//            if (!(mt.testSpring() & mt.testOjb() & mt.testDwr())) {
-//                System.exit(1);
-//            }
+            boolean testsPassed = true;
+            System.out.println( "**************************************************");
+            System.out.println( "Testing Spring Startup");
+            System.out.println( "**************************************************");
+            if ( !mt.testSpring() ) {
+                System.out.println( "FAILED" );
+                testsPassed = false;
+            } else {
+                System.out.println( "SUCCEEDED" );
+            }
+            System.out.println( "**************************************************");
+            System.out.println( "Testing OJB References");
+            System.out.println( "**************************************************");
+            if ( !mt.testOjb() ) {
+                System.out.println( "FAILED" );
+                testsPassed = false;
+            } else {
+                System.out.println( "SUCCEEDED" );
+            }
+            System.out.println( "**************************************************");
+            System.out.println( "Testing DWR References");
+            System.out.println( "**************************************************");
+            if ( !mt.testDwr() ) {
+                System.out.println( "FAILED" );
+                testsPassed = false;
+            } else {
+                System.out.println( "SUCCEEDED" );
+            }
+            System.out.println( "**************************************************");
+            System.out.println( "Testing DD Class References - NOT IMPLEMENTED YET");
+            System.out.println( "**************************************************");
+//            testsPassed &= mt.testDd();
+            
+            if ( !testsPassed ) {
+                System.exit(1);
+            }
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -132,15 +168,23 @@ public class CheckModularization {
 
     public boolean testSpring() throws Exception {
         boolean testSucceeded = true;
-        StringBuffer errorMessage = new StringBuffer("The following optional modules have interdependencies in Spring configuration:");
+        StringBuffer errorMessage = new StringBuffer();
+        // test the core modules alone
+        System.out.println( "------>Testing for sore modules:");
+        testSucceeded &= testOptionalModuleSpringConfiguration(KFSConstants.ParameterNamespaces.KFS, coreSpringFiles, errorMessage);
+        if ( !testSucceeded ) {
+            errorMessage.insert( 0, "The Core modules have dependencies on the optional modules:\n" );
+        }
+        
+        errorMessage = new StringBuffer("The following optional modules have interdependencies in Spring configuration:\n");
         List<ModuleGroup> optionalModuleGroups = retrieveOptionalModuleGroups();
         for (ModuleGroup optionalModuleGroup : optionalModuleGroups) {
 //            if ( !optionalModuleGroup.namespaceCode.equals( "KFS-AR" ) ) continue;
-            System.out.println( "Testing for optional module group: " + optionalModuleGroup );
-            System.out.println( "Using Base Configuration:   " + coreSpringFiles );
+            System.out.println( "------>Testing for optional module group: " + optionalModuleGroup );
+            System.out.println( "------>Using Base Configuration:   " + coreSpringFiles );
             String moduleConfigFiles = buildOptionalModuleSpringFileList(optionalModuleGroup);
-            System.out.println( "Module configuration files: " + moduleConfigFiles );
-            testSucceeded = testSucceeded & testOptionalModuleSpringConfiguration(optionalModuleGroup.namespaceCode, coreSpringFiles+","+moduleConfigFiles, errorMessage);
+            System.out.println( "------>Module configuration files: " + moduleConfigFiles );
+            testSucceeded &= testOptionalModuleSpringConfiguration(optionalModuleGroup.namespaceCode, coreSpringFiles+","+moduleConfigFiles, errorMessage);
         }
         if (!testSucceeded) {
             System.out.print(errorMessage.append("\n\n").toString());
@@ -187,13 +231,13 @@ public class CheckModularization {
         boolean testSucceeded = true;
         for (String referencedNamespaceCode : OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.keySet()) {
             if (!(moduleGroup.namespaceCode.equals(referencedNamespaceCode) || moduleGroup.optionalModuleDependencyNamespaceCodes.contains(referencedNamespaceCode))) {
-                String firstDatabaseRepositoryFilePath = kualiModuleService.getModuleService(moduleGroup.namespaceCode).getModuleConfiguration().getDatabaseRepositoryFilePaths().iterator().next();
+                String firstDatabaseRepositoryFilePath = OJB_FILES_BY_MODULE.get(moduleGroup.namespaceCode).iterator().next();
                 // the first database repository file path is typically the file that comes shipped with KFS.  If institutions override it, this unit test will not test them
                 Scanner scanner = new Scanner(new File("work/src/" + firstDatabaseRepositoryFilePath));
                 int count = 0;
                 while (scanner.hasNext()) {
                     String token = scanner.next();
-                    String firstPackagePrefix = (kualiModuleService.getModuleService(referencedNamespaceCode).getModuleConfiguration()).getPackagePrefixes().iterator().next();
+                    String firstPackagePrefix = PACKAGE_PREFIXES_BY_MODULE.get( referencedNamespaceCode ).iterator().next();
                     // A module may be responsible for many packages, but the first one should be the KFS built-in package that is *not* the module's integration package
                     if (token.contains(firstPackagePrefix)) {
                         count++;
@@ -229,7 +273,7 @@ public class CheckModularization {
     }
     
     private boolean testDwrModuleConfiguration(ModuleGroup moduleGroup, StringBuffer errorMessage) throws Exception {
-        List<String> dwrFiles = kualiModuleService.getModuleServiceByNamespaceCode(moduleGroup.namespaceCode).getModuleConfiguration().getScriptConfigurationFilePaths();
+        List<String> dwrFiles = DWR_FILES_BY_MODULE.get(moduleGroup.namespaceCode);
         boolean testSucceeded = true;
         if (dwrFiles != null && dwrFiles.size() > 0) {
             // the DWR file delivered with KFS (i.e. the base) should be the first element of the list
@@ -251,7 +295,7 @@ public class CheckModularization {
         List<String> dwrBeanClassNames = retrieveDwrBeanClassNames(dwrDocument);
         for (String referencedNamespaceCode : OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.keySet()) {
             if (!(referencedNamespaceCode.equals(moduleGroup.namespaceCode) || moduleGroup.optionalModuleDependencyNamespaceCodes.contains(referencedNamespaceCode))) {
-                String firstPackagePrefix = (kualiModuleService.getModuleService(referencedNamespaceCode).getModuleConfiguration()).getPackagePrefixes().iterator().next();
+                String firstPackagePrefix = PACKAGE_PREFIXES_BY_MODULE.get(referencedNamespaceCode).iterator().next();
                 // A module may be responsible for many packages, but the first one should be the KFS built-in package that is *not* the module's integration package
                 if (!firstPackagePrefix.endsWith(".")) {
                     firstPackagePrefix = firstPackagePrefix + ".";
@@ -468,7 +512,7 @@ public class CheckModularization {
         return moduleGroup;
     }
     
-    private void stopSpringContext() {
+    protected static void stopSpringContext() {
         try {
             SpringContext.close();
             PropertyLoadingFactoryBean.clear();

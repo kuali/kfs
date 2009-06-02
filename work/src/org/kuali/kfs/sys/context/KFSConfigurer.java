@@ -43,6 +43,5 @@ public class KFSConfigurer extends ModuleConfigurer {
     @Override
     public void setSpringFileLocations(String springFileLocations) {
         super.setSpringFileLocations(springFileLocations);
-        System.out.println( "KFSConfigurer: " + springFileLocations );
     }
 }

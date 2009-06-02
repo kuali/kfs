@@ -40,6 +40,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail;
 import org.kuali.kfs.module.cam.document.AssetTransferDocument;
 import org.kuali.kfs.module.cam.document.dataaccess.DepreciableAssetsDao;
+import org.kuali.kfs.module.cam.util.AssetSeparatePaymentDistributor;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -99,7 +100,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
     /**
      * @see org.kuali.module.cams.dao.CamsDepreciableAssetsDao#updateAssetPayments(java.util.List)
      */
-    public void initializeAssetPayment(Integer fiscalMonth) {
+    public void initializeAssetPayment(Integer fiscalMonth) throws Exception { 
         LOG.debug("initializeAssetPayments() -  started");
 
         Criteria criteria = new Criteria();
@@ -116,8 +117,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
 
             for (AssetPayment assetPayment : assetPayments) {
                 if (assetPayment != null) {
-                    assetPayment.setPreviousYearPrimaryDepreciationAmount(assetPayment.getPeriod1Depreciation1Amount().add(assetPayment.getPeriod2Depreciation1Amount()).add(assetPayment.getPeriod3Depreciation1Amount()).add(assetPayment.getPeriod4Depreciation1Amount()).add(assetPayment.getPeriod5Depreciation1Amount()).add(assetPayment.getPeriod6Depreciation1Amount()).add(assetPayment.getPeriod7Depreciation1Amount()).add(assetPayment.getPeriod8Depreciation1Amount()).add(assetPayment.getPeriod9Depreciation1Amount()).add(assetPayment.getPeriod10Depreciation1Amount()).add(assetPayment.getPeriod11Depreciation1Amount()).add(assetPayment.getPeriod12Depreciation1Amount()));
-
+                    assetPayment.setPreviousYearPrimaryDepreciationAmount(AssetSeparatePaymentDistributor.sumPeriodicDepreciationAmounts(assetPayment));                        
                     assetPayment.setPeriod1Depreciation1Amount(new KualiDecimal(0));
                     assetPayment.setPeriod2Depreciation1Amount(new KualiDecimal(0));
                     assetPayment.setPeriod3Depreciation1Amount(new KualiDecimal(0));
@@ -540,8 +540,10 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
          * it should be stop but, not until part of the pdf report List is populated so it can be written.
          */
         processAlreadyRan = false;
-        if (((KualiDecimal) data[3 + fiscalMonth]).compareTo(new KualiDecimal(0)) != 0)
-            processAlreadyRan = true;
+        if (fiscalMonth > 1) {        
+            if (((KualiDecimal) data[3 + fiscalMonth]).compareTo(new KualiDecimal(0)) != 0)
+                processAlreadyRan = true;
+        }
         // *******************************************************************************************************************************
 
         // Adding monthly depreciation amounts

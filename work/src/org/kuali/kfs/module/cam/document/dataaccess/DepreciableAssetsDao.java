@@ -67,7 +67,7 @@ public interface DepreciableAssetsDao {
      *   
      * @param fiscalMonth
      */
-    public void initializeAssetPayment(Integer fiscalMonth);
+    public void initializeAssetPayment(Integer fiscalMonth) throws Exception ;
 
     /**
      * 

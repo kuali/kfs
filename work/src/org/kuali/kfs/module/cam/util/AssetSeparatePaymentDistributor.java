@@ -360,7 +360,7 @@ public class AssetSeparatePaymentDistributor {
      * @param currPayment Payment
      * @return Sum of payment
      */
-    private KualiDecimal sumPeriodicDepreciationAmounts(AssetPayment currPayment) {
+    public static KualiDecimal sumPeriodicDepreciationAmounts(AssetPayment currPayment) {
         KualiDecimal ytdAmount = KualiDecimal.ZERO;
         try {
             for (PropertyDescriptor propertyDescriptor : assetPaymentProperties) {

@@ -32,11 +32,10 @@ public class AccountOrganizationHierarchyRoleTypeServiceImpl extends KimRoleType
     public static final String DESCEND_HIERARCHY_TRUE_VALUE = "Y";
     public static final String DESCEND_HIERARCHY_FALSE_VALUE = "N";
 
-    protected List<String> roleQualifierRequiredAttributes = new ArrayList<String>();
-    protected List<String> qualificationRequiredAttributes = new ArrayList<String>();
     {
-        roleQualifierRequiredAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
-        roleQualifierRequiredAttributes.add(KfsKimAttributes.ORGANIZATION_CODE);
+        requiredAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+        requiredAttributes.add(KfsKimAttributes.ORGANIZATION_CODE);
+        checkRequiredAttributes = false;
     }
 
     private BudgetDocumentService budgetDocumentService;
@@ -47,9 +46,6 @@ public class AccountOrganizationHierarchyRoleTypeServiceImpl extends KimRoleType
      */
     @Override
     protected boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
-        validateRequiredAttributesAgainstReceived(qualificationRequiredAttributes, qualification, QUALIFICATION_RECEIVED_ATTIBUTES_NAME);
-        validateRequiredAttributesAgainstReceived(roleQualifierRequiredAttributes, roleQualifier, ROLE_QUALIFIERS_RECEIVED_ATTIBUTES_NAME);
-        
         // if no qualification given but the user is assigned an organization then return they have the role
         if ((qualification == null || qualification.isEmpty()) && roleQualifier != null && !roleQualifier.isEmpty()) {
             return true;

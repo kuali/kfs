@@ -21,6 +21,12 @@ import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
 import edu.emory.mathcs.backport.java.util.Arrays;
 
 public class SensitiveDataRoleTypeServiceImpl extends KimRoleTypeServiceBase {
+    
+    {
+        requiredAttributes.add(PurapKimAttributes.SENSITIVE_DATA_CODE);
+        checkRequiredAttributes = true;
+    }
+    
     protected boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
         return Arrays.asList(qualification.get(PurapKimAttributes.SENSITIVE_DATA_CODE).split(";")).contains(roleQualifier.get(PurapKimAttributes.SENSITIVE_DATA_CODE));
     }

@@ -26,9 +26,8 @@ import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
 
 public class ChartRoleTypeServiceImpl extends KimRoleTypeServiceBase {
 
-    protected List<String> requiredAttributes = new ArrayList<String>();
     {
-        requiredAttributes.add(KFSPropertyConstants.KUALI_USER_CHART_OF_ACCOUNTS_CODE);
+        requiredAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
     }
     
     /***
@@ -36,9 +35,6 @@ public class ChartRoleTypeServiceImpl extends KimRoleTypeServiceBase {
      */
     @Override
     public boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
-        validateRequiredAttributesAgainstReceived(requiredAttributes, qualification, QUALIFICATION_RECEIVED_ATTIBUTES_NAME);
-        validateRequiredAttributesAgainstReceived(requiredAttributes, roleQualifier, ROLE_QUALIFIERS_RECEIVED_ATTIBUTES_NAME);
-        
         return StringUtils.equals(qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE), 
                 roleQualifier.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE));
     }

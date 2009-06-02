@@ -37,7 +37,7 @@ public class DocumentTypePermissionTypeServiceTest extends KualiTestBase {
         List<KimPermissionInfo> permissions = 
             buildPermissionlist( new String[] {"REQS"} );
         
-        List<KimPermissionInfo> results = srv.performPermissionMatches(requestedDetails, permissions);
+        List<KimPermissionInfo> results = srv.getMatchingPermissions(requestedDetails, permissions);
         assertEquals( "Wrong number of matches", 1, results.size() );
         assertDocInList( results, "REQS" );
     }
@@ -51,7 +51,7 @@ public class DocumentTypePermissionTypeServiceTest extends KualiTestBase {
         List<KimPermissionInfo> permissions = 
             buildPermissionlist( new String[] {"REQS","PUR","FP","KualiDocument","*"} );
         
-        List<KimPermissionInfo> results = srv.performPermissionMatches(requestedDetails, permissions);
+        List<KimPermissionInfo> results = srv.getMatchingPermissions(requestedDetails, permissions);
         for ( KimPermissionInfo info : results ) {
             System.out.println( info );
         }
@@ -68,7 +68,7 @@ public class DocumentTypePermissionTypeServiceTest extends KualiTestBase {
         List<KimPermissionInfo> permissions = 
             buildPermissionlist( new String[] {"PUR","FP","KualiDocument","*"} );
         
-        List<KimPermissionInfo> results = srv.performPermissionMatches(requestedDetails, permissions);
+        List<KimPermissionInfo> results = srv.getMatchingPermissions(requestedDetails, permissions);
         for ( KimPermissionInfo info : results ) {
             System.out.println( info );
         }
@@ -85,7 +85,7 @@ public class DocumentTypePermissionTypeServiceTest extends KualiTestBase {
         List<KimPermissionInfo> permissions = 
             buildPermissionlist( new String[] {"KualiDocument","*"} );
         
-        List<KimPermissionInfo> results = srv.performPermissionMatches(requestedDetails, permissions);
+        List<KimPermissionInfo> results = srv.getMatchingPermissions(requestedDetails, permissions);
         for ( KimPermissionInfo info : results ) {
             System.out.println( info );
         }
@@ -102,7 +102,7 @@ public class DocumentTypePermissionTypeServiceTest extends KualiTestBase {
         List<KimPermissionInfo> permissions = 
             buildPermissionlist( new String[] {"FinancialProcessingTransactionalDocument","*"} );
         
-        List<KimPermissionInfo> results = srv.performPermissionMatches(requestedDetails, permissions);
+        List<KimPermissionInfo> results = srv.getMatchingPermissions(requestedDetails, permissions);
         for ( KimPermissionInfo info : results ) {
             System.out.println( info );
         }
@@ -119,7 +119,7 @@ public class DocumentTypePermissionTypeServiceTest extends KualiTestBase {
         List<KimPermissionInfo> permissions = 
             buildPermissionlist( new String[] {"FinancialProcessingTransactionalDocument"} );
         
-        List<KimPermissionInfo> results = srv.performPermissionMatches(requestedDetails, permissions);
+        List<KimPermissionInfo> results = srv.getMatchingPermissions(requestedDetails, permissions);
         for ( KimPermissionInfo info : results ) {
             System.out.println( info );
         }

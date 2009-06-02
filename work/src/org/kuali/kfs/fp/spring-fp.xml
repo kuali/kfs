@@ -465,11 +465,7 @@
 	  </property>
 	</bean>
 	
-	<bean id="cashReceiptInitiatorDerivedRoleTypeService" class="org.kuali.kfs.fp.identity.CashReceiptInitiatorDerivedRoleTypeServiceImpl">
-		<property name="roleManagementService">
-			<ref bean="kimRoleManagementService" />
-		</property>
-	</bean>
+	<bean id="cashReceiptInitiatorDerivedRoleTypeService" class="org.kuali.kfs.fp.identity.CashReceiptInitiatorDerivedRoleTypeServiceImpl" />
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 	  <property name="serviceDefinition">
 	    <bean parent="kfsService"

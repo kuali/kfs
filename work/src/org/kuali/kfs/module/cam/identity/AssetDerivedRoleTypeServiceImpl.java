@@ -33,9 +33,9 @@ public class AssetDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBa
 
     private DocumentService documentService;
     
-    protected List<String> requiredAttributes = new ArrayList<String>();
     {
         requiredAttributes.add(KimAttributes.DOCUMENT_NUMBER);
+//        checkRequiredAttributes = true;
     }
 
     /**
@@ -54,7 +54,7 @@ public class AssetDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBa
      */
     @Override
     public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
-        validateRequiredAttributesAgainstReceived(requiredAttributes, qualification, QUALIFICATION_RECEIVED_ATTIBUTES_NAME);
+        validateRequiredAttributesAgainstReceived(qualification);
         
         String documentNumber = qualification.get(KimAttributes.DOCUMENT_NUMBER);
         List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>(1);

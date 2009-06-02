@@ -44,11 +44,11 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
 
     private AccountService accountService;
     private ContractsAndGrantsModuleService contractsAndGrantsModuleService;
-    protected List<String> requiredAttributes = new ArrayList<String>();
     {
         requiredAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
         requiredAttributes.add(KfsKimAttributes.ACCOUNT_NUMBER);
-        requiredAttributes.add(KfsKimAttributes.FINANCIAL_SYSTEM_DOCUMENT_TYPE_CODE);
+        checkRequiredAttributes = false;
+//        requiredAttributes.add(KfsKimAttributes.FINANCIAL_SYSTEM_DOCUMENT_TYPE_CODE);
     }
 
     /**
@@ -64,7 +64,7 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
     @Override
     public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
         // validate received attributes
-        validateRequiredAttributesAgainstReceived(requiredAttributes, qualification, QUALIFICATION_RECEIVED_ATTIBUTES_NAME);
+        validateRequiredAttributesAgainstReceived(qualification);
 
         String chartOfAccountsCode = qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
         String accountNumber = qualification.get(KfsKimAttributes.ACCOUNT_NUMBER);
@@ -142,7 +142,7 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
     }
 
     // build memebership information based on the given role name for the given principal when account information is unavailable
-    private RoleMembershipInfo getRoleMembershipInfoWhenAccountInfoUnavailable(String roleName, String principalId, AttributeSet roleQualifier) {
+    protected RoleMembershipInfo getRoleMembershipInfoWhenAccountInfoUnavailable(String roleName, String principalId, AttributeSet roleQualifier) {
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         RoleMembershipInfo roleMembershipInfo = null;
@@ -208,7 +208,7 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
      * 
      * @return Returns the accountService.
      */
-    public AccountService getAccountService() {
+    protected AccountService getAccountService() {
         if (accountService == null) {
             accountService = SpringContext.getBean(AccountService.class);
         }
@@ -243,7 +243,7 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
         return qualificationAttributes;
     }
 
-    public ContractsAndGrantsModuleService getContractsAndGrantsModuleService() {
+    protected ContractsAndGrantsModuleService getContractsAndGrantsModuleService() {
         if (contractsAndGrantsModuleService == null) {
             contractsAndGrantsModuleService = SpringContext.getBean(ContractsAndGrantsModuleService.class);
         }

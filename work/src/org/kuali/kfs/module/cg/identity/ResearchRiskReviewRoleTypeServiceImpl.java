@@ -40,7 +40,7 @@ public class ResearchRiskReviewRoleTypeServiceImpl extends KimRoleTypeServiceBas
         return false;
     }
     
-    public DocumentTypeService getDocumentTypeService() {
+    protected DocumentTypeService getDocumentTypeService() {
         if (documentTypeService == null) {
             documentTypeService = KEWServiceLocator.getDocumentTypeService();
         }

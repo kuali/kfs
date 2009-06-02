@@ -80,7 +80,7 @@
     				</property>
     				<property name="documentValues">
     					<list>
-    						<value>chartOfAccountsCode</value>
+    						<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
     					</list>
     				</property>
     			</bean>
@@ -93,7 +93,7 @@
     				</property>
     				<property name="documentValues">
     					<list>
-    						<value>organizationCode</value>
+    						<value>newMaintainableObject.businessObject.organizationCode</value>
     					</list>
     				</property>
     			</bean>

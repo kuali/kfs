@@ -58,7 +58,7 @@ public class ChartDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBa
      * Gets the organizationService attribute. 
      * @return Returns the organizationService.
      */
-    public OrganizationService getOrganizationService() {
+    protected OrganizationService getOrganizationService() {
         return organizationService;
     }
 

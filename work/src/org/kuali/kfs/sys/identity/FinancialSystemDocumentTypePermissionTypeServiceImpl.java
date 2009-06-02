@@ -36,13 +36,11 @@ import org.kuali.rice.kns.service.impl.DocumentTypePermissionTypeServiceImpl;
  */
 public class FinancialSystemDocumentTypePermissionTypeServiceImpl extends DocumentTypePermissionTypeServiceImpl {
 
-    private RoleService roleService;
-
     /**
      * @see org.kuali.rice.kns.service.impl.DocumentTypePermissionTypeServiceImpl#performPermissionMatches(org.kuali.rice.kim.bo.types.dto.AttributeSet, java.util.List)
      */
     @Override
-    public List<KimPermissionInfo> performPermissionMatches(AttributeSet requestedDetails,
+    protected List<KimPermissionInfo> performPermissionMatches(AttributeSet requestedDetails,
             List<KimPermissionInfo> permissionsList) {
         String documentTypeName = requestedDetails.get(KfsKimAttributes.DOCUMENT_TYPE_NAME);
         // loop over the permissions, checking the non-document-related ones
@@ -64,17 +62,6 @@ public class FinancialSystemDocumentTypePermissionTypeServiceImpl extends Docume
         }
         // now, filter the list to just those for the current document
         return super.performPermissionMatches( requestedDetails, permissionsList );
-    }
-    
-	
-    /**
-     * @return the RoleService
-     */
-     protected RoleService getRoleService(){
-        if(roleService == null){
-            roleService = KIMServiceLocator.getRoleService();
-        }
-        return roleService;
     }
 
 }

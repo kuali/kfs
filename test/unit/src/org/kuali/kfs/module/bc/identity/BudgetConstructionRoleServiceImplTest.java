@@ -27,7 +27,7 @@ import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kim.service.impl.RoleServiceImpl;
+import org.kuali.rice.kim.service.RoleService;
 
 @ConfigureContext
 public class BudgetConstructionRoleServiceImplTest extends KualiTestBase {
@@ -36,7 +36,8 @@ public class BudgetConstructionRoleServiceImplTest extends KualiTestBase {
     protected Person universityAdministrationBudgetManager;
     protected Person bothManager;
     protected Person nonProcessor;
-    protected RoleServiceImpl roleService;
+    protected RoleService roleService;
+    @SuppressWarnings("unchecked")
     protected PersonService personService;
     
     @Override
@@ -47,7 +48,7 @@ public class BudgetConstructionRoleServiceImplTest extends KualiTestBase {
         // hsoucy is a regional budget manager, a role assigned to the BC Processor role
         bothManager = UserNameFixture.hsoucy.getPerson();
         nonProcessor = UserNameFixture.appleton.getPerson();
-        roleService = SpringContext.getBean( RoleServiceImpl.class );
+        roleService = SpringContext.getBean( RoleService.class );
         personService = SpringContext.getBean(PersonService.class);
     }
     

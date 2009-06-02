@@ -40,23 +40,14 @@ public class FinancialSystemUserRoleTypeServiceImpl extends KimRoleTypeServiceBa
     public static final String FINANCIAL_SYSTEM_USER_ROLE_NAME = "User";
     public static final String PERFORM_QUALIFIER_MATCH = "performQualifierMatch";
     
-    protected List<String> roleQualifierRequiredAttributes = new ArrayList<String>();
-    protected List<String> qualificationRequiredAttributes = new ArrayList<String>();
     {
-        roleQualifierRequiredAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
-        roleQualifierRequiredAttributes.add(KfsKimAttributes.ORGANIZATION_CODE);
-        // roleQualifierRequiredAttributes.add(KfsCoreKimAttributes.NAMESPACE_CODE);
-
-        qualificationRequiredAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
-        qualificationRequiredAttributes.add(KfsKimAttributes.ORGANIZATION_CODE);
-        // qualificationRequiredAttributes.add(KfsCoreKimAttributes.NAMESPACE_CODE);
+        requiredAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+        requiredAttributes.add(KfsKimAttributes.ORGANIZATION_CODE);
+        checkRequiredAttributes = false; // can't check - used in too many places where a chart/org is not present
     }
 
     @Override
     protected boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
-        validateRequiredAttributesAgainstReceived(roleQualifierRequiredAttributes, roleQualifier, ROLE_QUALIFIERS_RECEIVED_ATTIBUTES_NAME);
-        validateRequiredAttributesAgainstReceived(qualificationRequiredAttributes, qualification, QUALIFICATION_RECEIVED_ATTIBUTES_NAME);
-
         // if we can not find the qualifier which tells us to perform the match, just return true
         if (qualification == null || !Boolean.parseBoolean(qualification.get(PERFORM_QUALIFIER_MATCH))) {
             return true;
@@ -75,8 +66,10 @@ public class FinancialSystemUserRoleTypeServiceImpl extends KimRoleTypeServiceBa
 
     @Override
     public List<RoleMembershipInfo> doRoleQualifiersMatchQualification(AttributeSet qualification, List<RoleMembershipInfo> roleMemberList) {
+        AttributeSet translatedQualification = translateInputAttributeSet(qualification);
+        validateRequiredAttributesAgainstReceived(translatedQualification);
         // if we can not find the qualifier which tells us to perform the match, just return all rows
-        if (qualification == null || !Boolean.parseBoolean(qualification.get(PERFORM_QUALIFIER_MATCH))) {
+        if (translatedQualification == null || !Boolean.parseBoolean(translatedQualification.get(PERFORM_QUALIFIER_MATCH))) {
             return roleMemberList;
         }
         // perform special matching to make a match that includes the namespace take priority
@@ -87,7 +80,7 @@ public class FinancialSystemUserRoleTypeServiceImpl extends KimRoleTypeServiceBa
             // if chart and org aren't on the assignment we don't care, since we are only matching to get the default chart/org for
             // a user in FinancialSystemUserServiceImpl
             if (!(StringUtils.isBlank(rmi.getQualifier().get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE)) || StringUtils.isBlank(rmi.getQualifier().get(KfsKimAttributes.ORGANIZATION_CODE)))) {
-                if (StringUtils.equals(qualification.get(KfsKimAttributes.NAMESPACE_CODE), rmi.getQualifier().get(KfsKimAttributes.NAMESPACE_CODE))) {
+                if (StringUtils.equals(translatedQualification.get(KfsKimAttributes.NAMESPACE_CODE), rmi.getQualifier().get(KfsKimAttributes.NAMESPACE_CODE))) {
                     namespaceMatch = rmi;
                 }
                 else if (StringUtils.equals(KFSConstants.ParameterNamespaces.KFS, rmi.getQualifier().get(KfsKimAttributes.NAMESPACE_CODE))) {

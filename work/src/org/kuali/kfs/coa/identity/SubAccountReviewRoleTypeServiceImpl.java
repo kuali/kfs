@@ -26,7 +26,7 @@ import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
 import org.kuali.rice.kim.util.KimCommonUtils;
 
 public class SubAccountReviewRoleTypeServiceImpl extends KimRoleTypeServiceBase {
-    DocumentTypeService documentTypeService;
+    private DocumentTypeService documentTypeService;
     
     @Override
     protected boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
@@ -40,7 +40,7 @@ public class SubAccountReviewRoleTypeServiceImpl extends KimRoleTypeServiceBase 
         return false;
     }
     
-    public DocumentTypeService getDocumentTypeService() {
+    protected DocumentTypeService getDocumentTypeService() {
         if (documentTypeService == null) {
             documentTypeService = KEWServiceLocator.getDocumentTypeService();
         }

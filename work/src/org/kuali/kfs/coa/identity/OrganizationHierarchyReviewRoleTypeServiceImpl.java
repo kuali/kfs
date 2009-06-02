@@ -28,7 +28,7 @@ import org.kuali.rice.kim.util.KimCommonUtils;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 
 public class OrganizationHierarchyReviewRoleTypeServiceImpl extends OrganizationHierarchyAwareRoleTypeServiceBase {
-    DocumentTypeService documentTypeService;
+    private DocumentTypeService documentTypeService;
 
     /**
      * Attributes: Chart Code (required) Organization Code Document Type Name Requirement - Traverse the org hierarchy but not the
@@ -51,7 +51,7 @@ public class OrganizationHierarchyReviewRoleTypeServiceImpl extends Organization
         return false;
     }
 
-    public DocumentTypeService getDocumentTypeService() {
+    protected DocumentTypeService getDocumentTypeService() {
         if (documentTypeService == null) {
             documentTypeService = KEWServiceLocator.getDocumentTypeService();
         }

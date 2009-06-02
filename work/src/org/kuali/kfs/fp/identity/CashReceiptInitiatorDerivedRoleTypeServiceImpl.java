@@ -16,8 +16,10 @@
 package org.kuali.kfs.fp.identity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
@@ -76,27 +78,19 @@ public class CashReceiptInitiatorDerivedRoleTypeServiceImpl extends KimDerivedRo
      * @param roleName the name of the role
      * @return true if the principal is a member of the role, false otherwise
      */
-    final protected boolean hasRoleMembership(String principalId, AttributeSet qualification, String namespaceCode, String roleName) {
-        final String roleId = getRoleManagementService().getRoleIdByName(namespaceCode, roleName);
-        List<String> roleIds = new ArrayList<String>();
-        roleIds.add(roleId);
-        
-        return getRoleManagementService().principalHasRole(principalId, roleIds, qualification);
-    }
-
-    /**
-     * Sets the roleManagementService attribute value.
-     * @param roleManagementService The roleManagementService to set.
-     */
-    public void setRoleManagementService(RoleManagementService roleManagementService) {
-        this.roleManagementService = roleManagementService;
+    protected boolean hasRoleMembership(String principalId, AttributeSet qualification, String namespaceCode, String roleName) {
+        String roleId = getRoleManagementService().getRoleIdByName(namespaceCode, roleName);        
+        return getRoleManagementService().principalHasRole(principalId, Collections.singletonList(roleId), qualification);
     }
 
     /**
      * Gets the roleManagementService attribute. 
      * @return Returns the roleManagementService.
      */
-    public RoleManagementService getRoleManagementService() {
+    protected RoleManagementService getRoleManagementService() {
+        if ( roleManagementService == null) {
+            roleManagementService = SpringContext.getBean(RoleManagementService.class);
+        }
         return roleManagementService;
     }
 }

@@ -109,6 +109,7 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends Ki
     
     @Override
     public boolean hasApplicationRole(String principalId, List<String> groupIds, String namespaceCode, String roleName, AttributeSet qualification) {
+        validateRequiredAttributesAgainstReceived(qualification);
         if (getFinancialSystemUserService().isActiveFinancialSystemUser(principalId)) {
             ChartOrgHolder userOrg = getFinancialSystemUserService().getPrimaryOrganization(principalId, ArConstants.AR_NAMESPACE_CODE);
             if (PROCESSOR_ROLE_NAME.equals(roleName)) {
@@ -122,6 +123,7 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends Ki
     
     @Override
     public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
+        validateRequiredAttributesAgainstReceived(qualification);
         List<RoleMembershipInfo> results = new ArrayList<RoleMembershipInfo>();
         Set<String> principalIds = new HashSet<String>();
         if (PROCESSOR_ROLE_NAME.equals(roleName)) {
@@ -198,7 +200,7 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends Ki
     }
     
 
-    public BusinessObjectService getBusinessObjectService() {
+    protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
@@ -207,7 +209,7 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends Ki
     }
     
 
-    public final FinancialSystemUserService getFinancialSystemUserService() {
+    protected final FinancialSystemUserService getFinancialSystemUserService() {
         if (financialSystemUserService == null) {
             financialSystemUserService = SpringContext.getBean(FinancialSystemUserService.class);
         }

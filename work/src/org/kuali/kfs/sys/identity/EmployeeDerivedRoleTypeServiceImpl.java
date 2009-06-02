@@ -35,13 +35,13 @@ import org.kuali.rice.kim.util.KIMPropertyConstants;
 
 public class EmployeeDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
 
-    private static IdentityManagementService identityManagementService;
-    private static RoleManagementService roleManagementService;
+    private IdentityManagementService identityManagementService;
+    private RoleManagementService roleManagementService;
 
     protected static final String ACTIVE_EMPLOYEE_STATUS_CODE = "A";
     protected static final String ON_LEAVE_EMPLOYEE_STATUS_CODE = "L";
     protected static final String PENDING_EMPLOYEE_STATUS_CODE = "P";
-    protected static final Set ACTIVE_EMPLOYEE_STATUSES = new HashSet();
+    protected static final Set<String> ACTIVE_EMPLOYEE_STATUSES = new HashSet<String>();
     static {
         ACTIVE_EMPLOYEE_STATUSES.add(ACTIVE_EMPLOYEE_STATUS_CODE);
         ACTIVE_EMPLOYEE_STATUSES.add(ON_LEAVE_EMPLOYEE_STATUS_CODE);

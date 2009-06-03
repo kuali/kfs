@@ -238,8 +238,8 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
         String capitalAssetNumber = (String)fieldValues.get(CamsPropertyConstants.AssetRetirementGlobal.CAPITAL_ASSET_NUMBER);
 
         if (StringUtils.isNotBlank(capitalAssetNumber)) {
-                fieldValues.remove(CamsPropertyConstants.AssetRetirementGlobal.CAPITAL_ASSET_NUMBER);
-                fieldValues.put(CamsPropertyConstants.AssetRetirementGlobal.CAPITAL_ASSET_NUMBER, capitalAssetNumber.trim());
+            fieldValues.remove(CamsPropertyConstants.AssetRetirementGlobal.CAPITAL_ASSET_NUMBER);
+            fieldValues.put(CamsPropertyConstants.AssetRetirementGlobal.CAPITAL_ASSET_NUMBER, capitalAssetNumber.trim());
 		}
         return super.populateNewCollectionLines(fieldValues, maintenanceDocument, methodToCall);
      

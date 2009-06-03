@@ -28,6 +28,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetLocationGlobalDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -96,7 +97,8 @@ public class AssetLocationGlobalMaintainableImpl extends KualiGlobalMaintainable
     }
 
     /**
-     * We are using a substitute mechanism for asset locking which can lock on assets when rule check passed. Return empty list from this method.
+     * We are using a substitute mechanism for asset locking which can lock on assets when rule check passed. Return empty list from
+     * this method.
      * 
      * @see org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl#generateMaintenanceLocks()
      */
@@ -106,20 +108,16 @@ public class AssetLocationGlobalMaintainableImpl extends KualiGlobalMaintainable
     }
 
     @Override
-    public Map populateNewCollectionLines( Map fieldValues ) {
-        String sCapitalAssetNumber = (String)fieldValues.get(CamsPropertyConstants.AssetLocationGlobalDetail.CAPITAL_ASSET_NUMBER);
+    public Map<String, String> populateNewCollectionLines( Map<String, String> fieldValues, MaintenanceDocument maintenanceDocument, String methodToCall ) {
+        String capitalAssetNumber = (String) fieldValues.get(CamsPropertyConstants.AssetLocationGlobalDetail.CAPITAL_ASSET_NUMBER);
 
-        if (StringUtils.isNotBlank(sCapitalAssetNumber)) {
-            try {
-                Long capitalAssetNumber = new Long(sCapitalAssetNumber.trim());
+        if (StringUtils.isNotBlank(capitalAssetNumber)) {
                 fieldValues.remove(CamsPropertyConstants.AssetLocationGlobalDetail.CAPITAL_ASSET_NUMBER);
-                fieldValues.put(CamsPropertyConstants.AssetLocationGlobalDetail.CAPITAL_ASSET_NUMBER, capitalAssetNumber);
-            } catch (Exception e){}
+                fieldValues.put(CamsPropertyConstants.AssetLocationGlobalDetail.CAPITAL_ASSET_NUMBER, capitalAssetNumber.trim());
         }
-     
-        return super.populateNewCollectionLines(fieldValues);    
+        return super.populateNewCollectionLines(fieldValues, maintenanceDocument, methodToCall);
     }
-    
+
     protected CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
         return SpringContext.getBean(CapitalAssetManagementModuleService.class);
     }

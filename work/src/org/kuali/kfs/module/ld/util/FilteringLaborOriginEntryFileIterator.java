@@ -22,6 +22,8 @@ import org.kuali.kfs.gl.batch.service.impl.FilteringOriginEntryFileIterator.Orig
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 
 public class FilteringLaborOriginEntryFileIterator extends LaborOriginEntryFileIterator {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FilteringLaborOriginEntryFileIterator.class);
+    
     public static interface LaborOriginEntryFilter {
         public boolean accept(LaborOriginEntry originEntry);
     }
@@ -69,8 +71,8 @@ public class FilteringLaborOriginEntryFileIterator extends LaborOriginEntryFileI
     @Override
     protected void fetchNextEntry() {
         do {
-            super.fetchNextEntry();
+            super.fetchNextEntry();            
         }
-        while (nextEntry != null && filter.accept(nextEntry));
+        while (nextEntry != null && !filter.accept(nextEntry));
     }   
 }

@@ -569,7 +569,6 @@
 			<list>
 				<ref bean="laborAccountingCycleCachingService" />
 				<ref bean="laborBadBalanceTypeReportWriterService" />
-				<ref bean="laborErrorListingReportWriterService" />
 			</list>
 		</property>
 		<property name="laborScrubberService" ref="laborScrubberService" />
@@ -736,6 +735,7 @@
 		<property name="wrappingBatchServices">
 			<list>
 				<ref bean="laborDemergerReportWriterService" />
+                <ref bean="laborErrorListingReportWriterService" />
 			</list>
 		</property>
 		<property name="laborScrubberService">

@@ -178,7 +178,11 @@
                 </c:if>
 				<td class="infoline">
 				   <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="newPurchasingItemLine.itemDescription" tabindexOverride="${tabindexOverrideBase + 0}"/>
-			    </td>
+			       <kul:expandedTextArea 
+						textAreaFieldName="newPurchasingItemLine.itemDescription"
+						action="purapRequisition"
+						textAreaLabel="description" />
+				</td>
 				<td class="infoline">
 				    <div align="right">
 				        <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitPrice}" property="newPurchasingItemLine.itemUnitPrice" tabindexOverride="${tabindexOverrideBase + 0}"/>
@@ -396,11 +400,12 @@
 						    property="document.item[${ctr}].itemDescription"
 						    readOnly="${not ( (fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)))) or lockB2BEntry}" 
 						    tabindexOverride="${tabindexOverrideBase + 0}"/>
-						<!-- removing until KFSMI-1867 is fixed -->
-						<!-- kul:expandedTextArea 
-							textAreaFieldName="document.item[${ctr}].itemDescription"
-							action="purapRequisition"
-							textAreaLabel="description" / -->
+						<c:if test="${!(not ( (fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)))) or lockB2BEntry)}">   
+							<kul:expandedTextArea 
+								textAreaFieldName="document.item[${ctr}].itemDescription"
+								action="purapRequisition"
+								textAreaLabel="description" />
+						</c:if>
 					</td>
 					<td class="infoline">
 					    <div align="right">

@@ -400,20 +400,22 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         
         NonInvoiced nonInvoiced = payAppForm.getNonInvoicedAddLine();
         
-        //  dont do anything if the line is null
-        if (ObjectUtils.isNull(payAppForm.getNonInvoicedAddLine())) {
-            return null;
-        }
-        
-        // if the amount is null or zero; display a warning, but don't add the line
-        if(nonInvoiced.getFinancialDocumentLineAmount() == null ||
+        // if the line or line amount is null or zero, don't add the line.  Additional validation is performed for the amount within the rules
+        // class, so no validation is needed here.
+        //
+        // NOTE: This conditional is in place because the "apply" button on the payment application document functions as a universal button,
+        // and therefore checks each tab where the button resides on the interface and attempts to apply values for that tab.  This functionality
+        // causes this method to be called, regardless of if any values were entered in the "Non-AR" tab of the document.  We want to ignore this 
+        // method being called if there are no values entered in the fields.  
+        //
+        // For the sake of this algorithm, a "Non-AR" accounting line will be ignored if it is null, or if the dollar amount entered is blank or zero.
+        if(ObjectUtils.isNull(payAppForm.getNonInvoicedAddLine()) || 
+           nonInvoiced.getFinancialDocumentLineAmount() == null ||
            nonInvoiced.getFinancialDocumentLineAmount().isZero()) {
-            GlobalVariables.getErrorMap().putInfo(ArPropertyConstants.PaymentApplicationDocumentFields.NON_INVOICED_LINE_AMOUNT,
-                                                  ArKeyConstants.PaymentApplicationDocumentErrors.NON_AR_AMOUNT_MUST_BE_POSITIVE);
             return null;
         }
         
-        //  wire it up for adding
+        //  If we got past the above conditional, wire it up for adding
         nonInvoiced.setFinancialDocumentPostingYear(applicationDocument.getPostingYear());
         nonInvoiced.setDocumentNumber(applicationDocument.getDocumentNumber());
         nonInvoiced.setFinancialDocumentLineNumber(payAppForm.getNextNonInvoicedLineNumber());

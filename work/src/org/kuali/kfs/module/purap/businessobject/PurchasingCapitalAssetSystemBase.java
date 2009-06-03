@@ -56,6 +56,10 @@ public abstract class PurchasingCapitalAssetSystemBase extends PersistableBusine
     }
 
     public String getCapitalAssetSystemDescription() {
+        //This is needed because bean:define would throw error if capitalAssetSystemDescription is empty.
+        if (capitalAssetSystemDescription == null) {
+            capitalAssetSystemDescription = new String(" ");
+        }
         return capitalAssetSystemDescription;
     }
 
@@ -120,6 +124,10 @@ public abstract class PurchasingCapitalAssetSystemBase extends PersistableBusine
     }
 
     public String getCapitalAssetNoteText() {
+        //This is needed because bean:define would throw error if capitalAssetNoteText is empty.
+        if (capitalAssetNoteText == null) {
+            capitalAssetNoteText = new String(" ");
+        }
         return capitalAssetNoteText;
     }
 

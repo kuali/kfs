@@ -72,7 +72,7 @@
 				<value>purchasingPreDisbursementImmediatesExtractJobTrigger</value>
 				<value>electronicInvoiceExtractJobTrigger</value>
 				<value>faxPendingDocumentTrigger</value>
-				<!-- value>purapMassRequisitionJobTrigger</value -->
+				<value>purapMassRequisitionJobTrigger</value>
 			</list>
 		</property>
 		<property name="externalizableBusinessObjectImplementations">

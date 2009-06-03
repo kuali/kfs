@@ -133,24 +133,11 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     protected abstract boolean isAttachmentRequired();
 
     /**
-     * Checks all documents notes for attachments.
+     * Checks all documents notes for attachments and to be overriden by sub class
      * 
      * @return - true if document does not have an image attached, false otherwise
      */
-    private boolean documentHasNoImagesAttached() {
-        List boNotes = this.getDocumentBusinessObject().getBoNotes();
-        if (ObjectUtils.isNotNull(boNotes)) {
-            for (Object obj : boNotes) {
-                Note note = (Note) obj;
-                // may need to refresh this attachment because of a bug - see see KULPURAP-1397
-                note.refreshReferenceObject("attachment");
-                if (ObjectUtils.isNotNull(note.getAttachment()) && PurapConstants.AttachmentTypeCodes.ATTACHMENT_TYPE_INVOICE_IMAGE.equals(note.getAttachment().getAttachmentTypeCode())) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
+    public abstract boolean documentHasNoImagesAttached();
 
     /**
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#populateDocumentForRouting()

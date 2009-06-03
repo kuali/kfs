@@ -192,6 +192,7 @@ public class PurapKeyConstants {
     public static final String ERROR_NEXT_FY_BEGIN_DATE_INVALID = "error.nextFY.beginDate.invalid";
     public static final String WARNING_PURCHASE_ORDER_ENCUMBER_NEXT_FY = "warning.purchaseOrder.encumber.nextFY";
     public static final String WARNING_ENCUMBER_NEXT_FY = "warning.encumber.nextFY";
+    public static final String WARNING_ENCUMBER_PRIOR_FY = "warning.encumber.priorFY";
     public static final String WARNING_CANCEL_REOPEN_PO = "warning.cancel.reOpenPO";
     public static final String WARNING_PAYMENT_REQUEST_PAYDATE_OVER_THRESHOLD_DAYS = "warning.paymentRequest.payDate.over.threshold.days";
     public static final String MESSAGE_PAYMENT_REQUEST_PAYDATE_OVER_THRESHOLD_DAYS = "message.paymentRequest.payDate.over.threshold.days";

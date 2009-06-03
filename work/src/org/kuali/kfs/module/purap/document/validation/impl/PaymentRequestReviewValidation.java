@@ -21,28 +21,31 @@ import java.util.Date;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class PaymentRequestReviewValidation extends GenericValidation {
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestReviewValidation.class);
 
+    private PaymentRequestService paymentRequestService;
     private UniversityDateService universityDateService;
     private PaymentRequestItem itemForValidation;
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestReviewValidation.class);
     
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
-        
         PaymentRequestDocument paymentRequest = (PaymentRequestDocument)event.getDocument();        
         
-        // if FY > current FY, warn user that payment will happen in current year
         Integer fiscalYear = universityDateService.getCurrentFiscalYear();
-        Date closingDate = universityDateService.getLastDateOfFiscalYear(fiscalYear);
-
         if (paymentRequest.getPurchaseOrderDocument().getPostingYear().intValue() > fiscalYear) {
+            // if FY > current FY, warn user that payment will happen in current year
             GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_ENCUMBER_NEXT_FY);
+        }
+        else if (paymentRequest.getPurchaseOrderDocument().getPostingYear().intValue() == fiscalYear && paymentRequestService.allowBackpost(paymentRequest)) {
+            // if FY = current FY and during allow backpost period, warn user that payment will happen in prior year
+            GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_ENCUMBER_PRIOR_FY);
         }
 
         boolean containsAccounts = false;
@@ -95,6 +98,14 @@ public class PaymentRequestReviewValidation extends GenericValidation {
 
     public void setItemForValidation(PaymentRequestItem itemForValidation) {
         this.itemForValidation = itemForValidation;
+    }
+
+    public PaymentRequestService getPaymentRequestService() {
+        return paymentRequestService;
+    }
+
+    public void setPaymentRequestService(PaymentRequestService paymentRequestService) {
+        this.paymentRequestService = paymentRequestService;
     }
 
 }

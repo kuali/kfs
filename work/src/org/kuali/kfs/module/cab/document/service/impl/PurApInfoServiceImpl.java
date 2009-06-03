@@ -373,8 +373,12 @@ public class PurApInfoServiceImpl implements PurApInfoService {
             if (poi != null) {
                 purchasingAccountsPayableItemAsset.setPurchaseOrderItemIdentifier(poi.getItemIdentifier());
             }
+            // if PREQ Credit Memo document
+            VendorCreditMemoDocument cmDoc = (VendorCreditMemoDocument)item.getPurapDocument();
+            if (ObjectUtils.isNotNull(cmDoc) && cmDoc.isSourceDocumentPaymentRequest()) {
+                purchasingAccountsPayableItemAsset.setPaymentRequestIdentifier(cmDoc.getPaymentRequestIdentifier());
+            }
         }
-        pKeys.clear();
     }
 
 

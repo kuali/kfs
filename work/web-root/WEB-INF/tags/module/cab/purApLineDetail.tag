@@ -73,7 +73,12 @@
 		</td>
 	</c:if>	
 			
-	<td class="infoline">${purApDocLine.purapDocumentIdentifier} </td>
+	<td class="infoline">
+		${purApDocLine.purapDocumentIdentifier}
+		<c:if test="${!empty itemLine.paymentRequestIdentifier}">
+		-${itemLine.paymentRequestIdentifier}
+		</c:if>
+	</td>
 	<td class="infoline">${purApDocLine.documentTypeCode}</td>
 	<td class="infoline">${purApDocLine.statusDescription}</td>
 	<c:choose>

@@ -70,6 +70,8 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     private String preTagInquiryUrl;
     private List<Long> approvedAssetNumbers;
+    
+    private Integer paymentRequestIdentifier;
 
     public PurchasingAccountsPayableItemAsset() {
         this.purchasingAccountsPayableLineAssetAccounts = new TypedArrayList(PurchasingAccountsPayableLineAssetAccount.class);
@@ -682,4 +684,22 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
         return (PurchasingAccountsPayableLineAssetAccount) getPurchasingAccountsPayableLineAssetAccounts().get(index);
 
     }
+
+    /**
+     * Gets the paymentRequestIdentifier attribute. 
+     * @return Returns the paymentRequestIdentifier.
+     */
+    public Integer getPaymentRequestIdentifier() {
+        return paymentRequestIdentifier;
+    }
+
+    /**
+     * Sets the paymentRequestIdentifier attribute value.
+     * @param paymentRequestIdentifier The paymentRequestIdentifier to set.
+     */
+    public void setPaymentRequestIdentifier(Integer paymentRequestIdentifier) {
+        this.paymentRequestIdentifier = paymentRequestIdentifier;
+    }
+    
+    
 }

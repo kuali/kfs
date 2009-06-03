@@ -112,8 +112,8 @@ public class AssetLocationGlobalMaintainableImpl extends KualiGlobalMaintainable
         String capitalAssetNumber = (String) fieldValues.get(CamsPropertyConstants.AssetLocationGlobalDetail.CAPITAL_ASSET_NUMBER);
 
         if (StringUtils.isNotBlank(capitalAssetNumber)) {
-                fieldValues.remove(CamsPropertyConstants.AssetLocationGlobalDetail.CAPITAL_ASSET_NUMBER);
-                fieldValues.put(CamsPropertyConstants.AssetLocationGlobalDetail.CAPITAL_ASSET_NUMBER, capitalAssetNumber.trim());
+            fieldValues.remove(CamsPropertyConstants.AssetLocationGlobalDetail.CAPITAL_ASSET_NUMBER);
+            fieldValues.put(CamsPropertyConstants.AssetLocationGlobalDetail.CAPITAL_ASSET_NUMBER, capitalAssetNumber.trim());
         }
         return super.populateNewCollectionLines(fieldValues, maintenanceDocument, methodToCall);
     }

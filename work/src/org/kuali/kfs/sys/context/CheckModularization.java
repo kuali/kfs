@@ -30,10 +30,13 @@ import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.datadictionary.DataDictionary;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
+import org.kuali.rice.kns.datadictionary.InactivationBlockingDefinition;
+import org.kuali.rice.kns.datadictionary.MaintainableCollectionDefinition;
 import org.kuali.rice.kns.datadictionary.MaintainableFieldDefinition;
 import org.kuali.rice.kns.datadictionary.MaintainableItemDefinition;
 import org.kuali.rice.kns.datadictionary.MaintainableSectionDefinition;
 import org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry;
+import org.kuali.rice.kns.datadictionary.TransactionalDocumentEntry;
 import org.kuali.rice.kns.datadictionary.control.ControlDefinition;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiModuleService;
@@ -451,25 +454,41 @@ public class CheckModularization {
         Collection<BusinessObjectEntry> bos = dd.getBusinessObjectEntries().values();
         for ( BusinessObjectEntry bo : bos ) {
             // only check bos for the current module (or all modules if checking the core)
-            if ( "KFS-SYS".equals( moduleGroup.namespaceCode) || doesPackagePrefixMatch( bo.getFullClassName(), PACKAGE_PREFIXES_BY_MODULE.get( moduleGroup.namespaceCode ) ) ) {                
+            if ( ("KFS-SYS".equals( moduleGroup.namespaceCode) 
+                    || doesPackagePrefixMatch( bo.getFullClassName(), PACKAGE_PREFIXES_BY_MODULE.get( moduleGroup.namespaceCode ) ))
+                    && !bo.getFullClassName().startsWith("org.kuali.rice") ) {                               
                 try {
-                    for ( AttributeDefinition ad : bo.getAttributes() ) {
-                        ControlDefinition cd = ad.getControl();
-                        if ( cd.getValuesFinderClass() != null ) {
-                            if ( doesPackagePrefixMatch(cd.getValuesFinderClass().getName(), disallowedPackagesForModule ) ) {
-//                                System.out.println( "DIS-Allowed: " + cd.getValuesFinderClass().getName() );
-                                errorMessage.append( "\n" ).append( moduleGroup.namespaceCode ).append( " - BO: " );
-                                errorMessage.append( bo.getFullClassName() ).append( " / Attrib: " ).append( ad.getName() );
-                                errorMessage.append( " has invalid control value finder: " ).append( cd.getValuesFinderClass().getName() );
-                                testPassed = false;
-                            } else {
-//                                System.out.println( "Allowed: " + cd.getValuesFinderClass().getName() );
+                    if ( bo.getInactivationBlockingDefinitions() != null ) {
+                        for ( InactivationBlockingDefinition ibd : bo.getInactivationBlockingDefinitions() ) {
+                            validateDdBusinessObjectClassReference("Invalid Blocked BO Class", ibd.getBlockedBusinessObjectClass(), moduleGroup.namespaceCode, bo.getFullClassName(), null, disallowedPackagesForModule);
+                            validateDdBusinessObjectClassReference("Invalid Blocking Reference BO Class", ibd.getBlockingReferenceBusinessObjectClass(), moduleGroup.namespaceCode, bo.getFullClassName(), null, disallowedPackagesForModule);
+                            if ( ibd.getInactivationBlockingDetectionServiceBeanName() != null ) {
+                                try {
+                                    SpringContext.getBean( ibd.getInactivationBlockingDetectionServiceBeanName() );
+                                } catch (Exception ex ) {
+                                    addDdBusinessObjectError("Invalid inactivation blocking service", moduleGroup.namespaceCode, bo.getFullClassName(), null, ibd.getInactivationBlockingDetectionServiceBeanName());
+                                }
                             }
                         }
                     }
+                    
+                    for ( AttributeDefinition ad : bo.getAttributes() ) {
+                        try {
+                            ControlDefinition cd = ad.getControl();
+                            validateDdBusinessObjectClassReference("Invalid Formatter Class", ad.getFormatterClass(), moduleGroup.namespaceCode, bo.getFullClassName(), ad.getName(), disallowedPackagesForModule);
+                            if ( cd != null ) {
+                                validateDdBusinessObjectClassReference("Invalid Control Value Finder", cd.getValuesFinderClass(), moduleGroup.namespaceCode, bo.getFullClassName(), ad.getName(), disallowedPackagesForModule);
+                                validateDdBusinessObjectClassReference("Invalid BO class for KeyLabelBusinessObjectValueFinder", cd.getBusinessObjectClass(), moduleGroup.namespaceCode, bo.getFullClassName(), ad.getName(), disallowedPackagesForModule);
+                            }
+                        } catch ( Exception ex ) {
+                            addDdBusinessObjectError("Exception Testing BO", moduleGroup.namespaceCode, bo.getFullClassName(), ad.getName(), ex.getClass().getName() + " : " + ex.getMessage() );
+                            System.err.println( "Exception testing BO: " + bo.getFullClassName() + "/" + ad.getName() );
+                            ex.printStackTrace();
+                            testPassed = false;
+                        }
+                    }
                 } catch( Exception ex ) {
-                    errorMessage.append( "\n" ).append( moduleGroup.namespaceCode ).append( " - Exception testing BO: " );
-                    errorMessage.append( bo.getFullClassName() ).append( " - " ).append( ex.getMessage() );
+                    addDdBusinessObjectError("Exception Testing BO", moduleGroup.namespaceCode, bo.getFullClassName(), null, ex.getClass().getName() + " : " + ex.getMessage() );
                     System.err.println( "Exception testing BO: " + bo.getFullClassName() );
                     ex.printStackTrace();
                     testPassed = false;
@@ -478,16 +497,35 @@ public class CheckModularization {
         }
         
         for ( DocumentEntry de : dd.getDocumentEntries().values() ) {
-            if ( de instanceof MaintenanceDocumentEntry ) {
-                MaintenanceDocumentEntry mde = (MaintenanceDocumentEntry)de;
-                if ( "KFS-SYS".equals( moduleGroup.namespaceCode) || doesPackagePrefixMatch( mde.getBusinessObjectClass().getName(), PACKAGE_PREFIXES_BY_MODULE.get( moduleGroup.namespaceCode ) ) ) {
-                    for ( MaintainableSectionDefinition msd : mde.getMaintainableSections() ) {
-                        for ( MaintainableItemDefinition mid : msd.getMaintainableItems() ) {
-                            if ( mid instanceof MaintainableFieldDefinition ) {
-                                testPassed &= checkMaintainableField( moduleGroup.namespaceCode, de.getDocumentTypeName(), (MaintainableFieldDefinition)mid, disallowedPackagesForModule);
+            if ( (de instanceof MaintenanceDocumentEntry && ("KFS-SYS".equals( moduleGroup.namespaceCode) || doesPackagePrefixMatch( ((MaintenanceDocumentEntry)de).getBusinessObjectClass().getName(), PACKAGE_PREFIXES_BY_MODULE.get( moduleGroup.namespaceCode )) ))
+                    || (de instanceof TransactionalDocumentEntry && ("KFS-SYS".equals( moduleGroup.namespaceCode) || doesPackagePrefixMatch( de.getDocumentClass().getName(), PACKAGE_PREFIXES_BY_MODULE.get( moduleGroup.namespaceCode ))) ) ) {
+                try {
+                    if ( de instanceof MaintenanceDocumentEntry ) {
+                        MaintenanceDocumentEntry mde = (MaintenanceDocumentEntry)de;
+                        validateDdDocumentClassReference("Invalid Maintainable Class", mde.getMaintainableClass(), moduleGroup.namespaceCode, de.getDocumentTypeName(), null, disallowedPackagesForModule);
+                        for ( MaintainableSectionDefinition msd : mde.getMaintainableSections() ) {
+                            for ( MaintainableItemDefinition mid : msd.getMaintainableItems() ) {
+                                if ( mid instanceof MaintainableCollectionDefinition ) {
+                                    testPassed &= checkMaintainableCollection(moduleGroup.namespaceCode, de.getDocumentTypeName(), (MaintainableCollectionDefinition)mid, disallowedPackagesForModule);
+                                }
+                                if ( mid instanceof MaintainableFieldDefinition ) {
+                                    testPassed &= checkMaintainableField( moduleGroup.namespaceCode, de.getDocumentTypeName(), (MaintainableFieldDefinition)mid, disallowedPackagesForModule);
+                                }
                             }
                         }
+                    } else { // trans doc
+                        
                     }
+                    validateDdDocumentClassReference("Invalid Business Rules Class", de.getBusinessRulesClass(), moduleGroup.namespaceCode, de.getDocumentTypeName(), null, disallowedPackagesForModule);
+                    validateDdDocumentClassReference("Invalid DerivedValuesSetterClass", de.getDerivedValuesSetterClass(), moduleGroup.namespaceCode, de.getDocumentTypeName(), null, disallowedPackagesForModule);
+                    validateDdDocumentClassReference("Invalid DocumentAuthorizerClass", de.getDocumentAuthorizerClass(), moduleGroup.namespaceCode, de.getDocumentTypeName(), null, disallowedPackagesForModule);
+                    validateDdDocumentClassReference("Invalid DocumentPresentationControllerClass", de.getDocumentPresentationControllerClass(), moduleGroup.namespaceCode, de.getDocumentTypeName(), null, disallowedPackagesForModule);
+                    validateDdDocumentClassReference("Invalid DocumentSearchGeneratorClass", de.getDocumentSearchGeneratorClass(), moduleGroup.namespaceCode, de.getDocumentTypeName(), null, disallowedPackagesForModule);
+                    validateDdDocumentClassReference("Invalid PromptBeforeValidationClass", de.getPromptBeforeValidationClass(), moduleGroup.namespaceCode, de.getDocumentTypeName(), null, disallowedPackagesForModule);
+                } catch ( Exception ex ) {
+                    addDdDocumentError("Exception validating Document", moduleGroup.namespaceCode, de.getDocumentTypeName(), null, ex.getClass().getName() + " : " + ex.getMessage() );
+                    System.err.println( "Exception validating Document: " + de.getDocumentTypeName() );
+                    testPassed = false;
                 }
             }
         }
@@ -495,10 +533,32 @@ public class CheckModularization {
         return testPassed;
     }
     
+    protected void addDdBusinessObjectError( String errorType, String namespaceCode, String businessObjectClassName, String attributeName, String problemClassName ) {
+        ddErrorMessage.append( "\n" ).append( namespaceCode ).append( " - BO: " );
+        ddErrorMessage.append( businessObjectClassName );
+        if ( attributeName != null ) {
+            ddErrorMessage.append( " / Attrib: " ).append( attributeName );
+        }
+        ddErrorMessage.append( " / " ).append( errorType ).append( ": " ).append( problemClassName );
+    }
+
+    protected boolean validateDdBusinessObjectClassReference( String errorType, Class<? extends Object> testClass, String namespaceCode, String businessObjectClassName, String attributeName, List<String> disallowedPackages ) {
+        if ( testClass != null ) {
+            if ( doesPackagePrefixMatch(testClass.getName(), disallowedPackages) ) {
+                addDdBusinessObjectError(errorType, namespaceCode, businessObjectClassName, attributeName, testClass.getName());
+                return false;
+            }
+        }
+        return true;
+    }
+
     protected void addDdDocumentError( String errorType, String namespaceCode, String documentTypeName, String fieldName, String problemClassName ) {
         ddErrorMessage.append( "\n" ).append( namespaceCode ).append( " - Doc: " );
-        ddErrorMessage.append( documentTypeName ).append( " / Field: " ).append( fieldName );
-        ddErrorMessage.append( " / ").append( errorType ).append( ": " ).append( problemClassName );
+        ddErrorMessage.append( documentTypeName );
+        if ( fieldName != null ) {
+            ddErrorMessage.append( " / Field: " ).append( fieldName );
+        }
+        ddErrorMessage.append( " / " ).append( errorType ).append( ": " ).append( problemClassName );
     }
 
     protected boolean validateDdDocumentClassReference( String errorType, Class<? extends Object> testClass, String namespaceCode, String documentTypeName, String fieldName, List<String> disallowedPackages ) {
@@ -511,10 +571,30 @@ public class CheckModularization {
         return true;
     }
     
+    protected boolean checkMaintainableCollection( String namespaceCode, String documentTypeName, MaintainableCollectionDefinition collection, List<String> disallowedPackages ) {
+        boolean testPassed = true;
+        testPassed &= validateDdDocumentClassReference("Invalid Collection BO Class", collection.getBusinessObjectClass(), namespaceCode, documentTypeName, collection.getName(), disallowedPackages);
+        testPassed &= validateDdDocumentClassReference("Invalid Collection Source Class", collection.getSourceClassName(), namespaceCode, documentTypeName, collection.getName(), disallowedPackages);
+        for ( MaintainableFieldDefinition mfd : collection.getMaintainableFields() ) {
+            testPassed &= checkMaintainableField( namespaceCode, documentTypeName, mfd, disallowedPackages);
+        }
+        for ( MaintainableCollectionDefinition mcd : collection.getMaintainableCollections() ) {
+            testPassed &= checkMaintainableCollection( namespaceCode, documentTypeName, mcd, disallowedPackages);            
+        }
+        
+        return testPassed;
+    }
     protected boolean checkMaintainableField( String namespaceCode, String documentTypeName, MaintainableFieldDefinition field, List<String> disallowedPackages ) {
         boolean testPassed = true;
-        testPassed &= validateDdDocumentClassReference("Invalid Default Value Finder Class", field.getDefaultValueFinderClass(), namespaceCode, documentTypeName, field.getName(), disallowedPackages);
-        testPassed &= validateDdDocumentClassReference("Invalid Override Lookup Class", field.getOverrideLookupClass(), namespaceCode, documentTypeName, field.getName(), disallowedPackages);
+        try {
+            testPassed &= validateDdDocumentClassReference("Invalid Default Value Finder Class", field.getDefaultValueFinderClass(), namespaceCode, documentTypeName, field.getName(), disallowedPackages);
+            testPassed &= validateDdDocumentClassReference("Invalid Override Lookup Class", field.getOverrideLookupClass(), namespaceCode, documentTypeName, field.getName(), disallowedPackages);
+        } catch ( Exception ex ) {
+            addDdDocumentError("Exception validating Maint Doc Field", namespaceCode, documentTypeName, field.getName(), ex.getClass().getName() + " : " + ex.getMessage() );
+            System.err.println( "Exception validating Maint Doc Field: " + documentTypeName + "/" + field.getName() );
+            ex.printStackTrace();
+            testPassed = false;
+        }
         return testPassed;
     }
     

@@ -77,7 +77,7 @@
           <bean class="org.kuali.rice.kns.config.KNSConfigurer"
                   p:loadDataDictionary="true"
                   p:validateDataDictionary="true" 
-                  p:validateDataDictionaryEboReferences="false"
+                  p:validateDataDictionaryEboReferences="${validate.ebo.references}"
                   p:webModuleConfigurationFiles="${rice.kns.struts.config.files}"/>
     </property>
     <property name="kimConfigurer">

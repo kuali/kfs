@@ -16,16 +16,19 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>	
+    <bean id="mailService" class="org.kuali.kfs.sys.NonSendingMailService">
+        <property name="mailSender">
+            <ref bean="mailSender" />
+        </property>
+        <property name="batchMailingList" value="${mailing.list.batch}" />
+    </bean>
+
+    <bean id="unitTestSqlDao" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.UnitTestSqlDaoOjb" />
+    
 	<bean id="trigger" abstract="true">
 		<property name="group" value="scheduled" />
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="testMode" value="true" />
-	</bean>
-	
-	<bean id="glOrganizationReversionMockService" class="org.kuali.kfs.gl.batch.service.impl.OrganizationReversionMockServiceImpl">
-		<property name="organizationReversionDao">
-			<ref bean="organizationReversionDao" />
-		</property>
 	</bean>
 	
 	<bean id="infoForParameterMapReport" class="org.kuali.kfs.sys.report.ReportInfoHolder" >
@@ -59,122 +62,4 @@
 		</property>
 	</bean>	
     
-    <bean id="tableReportWriterService" parent="reportWriterService">
-        <property name="filePath" value="${reports.directory}"/>
-        <property name="fileNamePrefix" value="table_report_test_"/>
-        <property name="title" value="Test Report As Table"/>
-        <property name="classToBusinessObjectReportHelperBeanNames">
-            <map>
-                <entry key="org.kuali.kfs.gl.businessobject.GlSummary" value="summaryReportHelperForTesting"/>
-            </map>
-        </property>
-    </bean>
-    
-    <bean id="summaryReportHelperForTesting" parent="businessObjectReportHelper">
-        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.Balance" />
-        <property name="columnCount" value="6" />
-        <property name="orderedPropertyNameToHeaderLabelMap">
-            <map>
-                <entry key="fundGroup" value="FUND GROUP"/>
-                <entry key="accountLineAnnualBalanceAmount" value="ANNUAL BAL"/>
-                <entry key="beginningBalanceLineAmount" value="BEGINNING BAL"/>
-                <entry key="contractsGrantsBeginningBalanceAmount" value="CG BEGINNING BAL"/>
-                <entry key="month1Amount" value="ACCUM AMT FOR JUL"/>
-                <entry key="month2Amount" value="ACCUM AMT FOR AUG"/>
-                
-                <entry key="EMPTY_CELL1" value=""/>
-                <entry key="month3Amount" value="ACCUM AMT FOR SEP"/>
-                <entry key="month4Amount" value="ACCUM AMT FOR OCT"/>
-                <entry key="month5Amount" value="ACCUM AMT FOR NOV"/>
-                <entry key="month6Amount" value="ACCUM AMT FOR DEC"/>
-                <entry key="month7Amount" value="ACCUM AMT FOR JAN"/>
-                
-                <entry key="EMPTY_CELL2" value=""/>
-                <entry key="month8Amount" value="ACCUM AMT FOR FEB"/>
-                <entry key="month9Amount" value="ACCUM AMT FOR MAR"/>
-                <entry key="month10Amount" value="ACCUM AMT FOR APR"/>
-                <entry key="month11Amount" value="ACCUM AMT FOR MAY"/>
-                <entry key="month12Amount" value="ACCUM AMT FOR JUN"/>
-                
-                <entry key="EMPTY_CELL3" value=""/>
-                <entry key="month13Amount" value="ACCUM AMT FOR CLOSE"/>
-            </map>
-        </property>
-        <property name="columnSpanDefinition">
-            <map>
-                <entry key="fundGroup" value="4"/>
-                <entry key="month1Amount" value="2"/>
-                <entry key="month3Amount" value="5"/>
-                <entry key="month8Amount" value="5"/>
-            </map>
-        </property>        
-    </bean>
-    
-    <bean id="colspanTableReportWriterService" parent="reportWriterService">
-        <property name="filePath" value="${reports.directory}"/>
-        <property name="fileNamePrefix" value="colspan_table_report_test_"/>
-        <property name="title" value="Test Report As Table"/>
-        <property name="classToBusinessObjectReportHelperBeanNames">
-            <map>
-                <entry key="org.kuali.kfs.gl.businessobject.GlSummary" value="colspanSummaryReportHelperForTesting"/>
-            </map>
-        </property>
-    </bean>
-       
-    <bean id="colspanSummaryReportHelperForTesting" parent="businessObjectReportHelper">
-        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.Balance" />
-        <property name="columnCount" value="6" />
-        <property name="orderedPropertyNameToHeaderLabelMap">
-            <map>
-                <entry key="fundGroup" value="FUND GROUP"/>
-                <entry key="accountLineAnnualBalanceAmount" value="ANNUAL BAL"/>
-                <entry key="beginningBalanceLineAmount" value="BEGINNING BAL"/>
-                <entry key="contractsGrantsBeginningBalanceAmount" value="CG BEGINNING BAL"/>
-                <entry key="month1Amount" value="ACCUM AMT FOR JUL"/>
-                <entry key="month2Amount" value="ACCUM AMT FOR AUG"/>
-            </map>
-        </property>
-        <property name="columnSpanDefinition">
-            <map>
-                <entry key="fundGroup" value="4"/>
-                <entry key="month1Amount" value="2"/>
-            </map>
-        </property>        
-    </bean>
-    
-    <bean id="testLedgerReportWriterService" parent="reportWriterService">
-        <property name="filePath" value="${reports.directory}"/>
-        <property name="fileNamePrefix" value="ledger_report_test_"/>
-        <property name="title" value="Test Ledger Report"/>
-        <property name="classToBusinessObjectReportHelperBeanNames">
-            <map>
-                <entry key="org.kuali.kfs.gl.businessobject.LedgerEntryForReporting" value="ledgerReportHelperForTesting"/>
-            </map>
-        </property>
-    </bean>
-       
-    <bean id="ledgerReportHelperForTesting" parent="businessObjectReportHelper">
-        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.gl.businessobject.LedgerEntryForReporting" />
-        <property name="columnCount" value="11" />
-        <property name="orderedPropertyNameToHeaderLabelMap">
-            <map>
-                <entry key="balanceType" value="BAL TYP"/>
-                <entry key="originCode" value="ORIGIN"/>
-                <entry key="fiscalYear" value="YEAR"/>
-                <entry key="period" value="PERIOD"/>
-                <entry key="recordCount" value="REC CNT"/>
-                <entry key="debitAmount" value="DEBIT AMT"/>
-                <entry key="debitCount" value="DEBIT CNT"/>
-                <entry key="creditAmount" value="CREDIT AMT"/>
-                <entry key="creditCount" value="CREDIT CNT"/>
-                <entry key="noDCAmount" value="No D/C AMT"/>
-                <entry key="noDCCount" value="NO D/C CNT"/>
-            </map>
-        </property>
-        <property name="columnSpanDefinition">
-            <map>
-                <entry key="balanceType" value="4"/>
-            </map>
-        </property>        
-    </bean>    
 </beans>

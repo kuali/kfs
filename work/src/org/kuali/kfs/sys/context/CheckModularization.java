@@ -226,6 +226,7 @@ public class CheckModularization {
             configProps.load( new FileInputStream( configPropertiesFile ) );
             configProps.setProperty( "spring.source.files", springConfigFiles );
             configProps.setProperty( "spring.test.files", coreSpringTestFiles );
+            configProps.setProperty( "validate.ebo.references", "false" );
             configProps.store( new FileOutputStream( configPropertiesFile ), "Testing Module: " + optionalModuleGroup.namespaceCode );
             configProps.load( new FileInputStream( configPropertiesFile ) );
             SpringContext.initializeTestApplicationContext();

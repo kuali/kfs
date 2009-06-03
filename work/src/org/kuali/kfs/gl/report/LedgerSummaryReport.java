@@ -29,8 +29,6 @@ import org.kuali.kfs.sys.DynamicCollectionComparator;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.service.ReportWriterService;
 
-import com.sun.tools.javac.util.Log;
-
 /**
  * Helper class which can summarize entries by balance type and then print out a ledger summary report
  */

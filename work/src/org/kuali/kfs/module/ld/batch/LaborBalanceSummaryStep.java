@@ -15,29 +15,28 @@
  */
 package org.kuali.kfs.module.ld.batch;
 
-import java.util.Date;
-
 import org.kuali.kfs.module.ld.batch.service.LaborBalanceSummaryReportService;
-import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
+import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 
 /**
  * This class defines the batch step for labor balance summary report generation
  */
-public class LaborBalanceSummaryStep extends AbstractStep {
+public class LaborBalanceSummaryStep extends AbstractWrappedBatchStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborBalanceSummaryStep.class);
     private LaborBalanceSummaryReportService laborBalanceSummaryReportService;
 
     /**
-     * Invokes the method that generates the balance summary report.
-     * 
-     * @param jobName
-     * @param jobRunDate
-     * @return boolean
-     * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
+     * @see org.kuali.kfs.sys.batch.AbstractWrappedBatchStep#getCustomBatchExecutor()
      */
-    public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-        laborBalanceSummaryReportService.generateBalanceSummaryReports();
-        return true;
+    @Override
+    protected CustomBatchExecutor getCustomBatchExecutor() {
+        return new CustomBatchExecutor() {
+            public boolean execute() {
+                laborBalanceSummaryReportService.generateBalanceSummaryReports();
+                return true;
+            }
+        };
     }
 
     /**

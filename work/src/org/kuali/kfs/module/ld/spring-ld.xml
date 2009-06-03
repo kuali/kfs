@@ -457,8 +457,18 @@
         </property>
         <property name="laborEncumbranceSummaryReportWriterService">
             <ref bean="laborEncumbranceSummaryReportWriterService" />
-        </property>        
+        </property>
+        <property name="laborPosterOutputSummaryReportWriterService">
+            <ref bean="laborPosterOutputSummaryReportWriterService" />
+        </property>
+        <property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>       
     </bean> 
+    
+    <bean id="laborPosterOutputSummaryReportWriterService" parent="laborOutputSummaryReportWriterService">
+        <property name="filePath" value="${reports.directory}/ld"/>
+        <property name="fileNamePrefix" value="labor_poster_output_summary_"/>
+        <property name="title" value="Labor Poster Output Summary"/>
+    </bean>    
     
     <bean id="laborActualBalanceSummaryReportWriterService" parent="laborSummaryReportWriterService">
         <property name="fileNamePrefix" value="labor_summary_act_"/>
@@ -480,7 +490,7 @@
         </property>
     </bean> 
     
-    <bean id="laborSummaryReportWriterService" parent="reportWriterService">
+    <bean id="laborSummaryReportWriterService" parent="reportWriterService" class="org.kuali.kfs.sys.service.impl.BalanceSummaryReportWriterTextServiceImpl">
         <property name="filePath" value="${reports.directory}/ld"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
             <map>
@@ -633,10 +643,16 @@
 		<property name="laborPosterService" ref="laborPosterService" />
 	</bean>
 		           
-	<bean id="laborBalanceSummaryStep" class="org.kuali.kfs.module.ld.batch.LaborBalanceSummaryStep" parent="step">
+	<bean id="laborBalanceSummaryStep" class="org.kuali.kfs.module.ld.batch.LaborBalanceSummaryStep" parent="wrappedStep">
 		<property name="laborBalanceSummaryReportService">
 			<ref bean="laborBalanceSummaryReportService" />
 		</property>
+        <property name="wrappingBatchServices">
+            <list>
+                <ref bean="laborPosterOutputSummaryReportWriterService" />
+                <ref bean="accountingCycleCachingService" />
+            </list>
+        </property>
 	</bean>
 	  
     <bean id="laborYearEndBalanceForwardStep" class="org.kuali.kfs.module.ld.batch.LaborYearEndBalanceForwardStep" parent="wrappedStep">
@@ -764,8 +780,8 @@
 			<list>
 				<ref bean="laborPosterSortStep"/>
 				<ref bean="laborPosterStep"/>
-				<ref bean="laborBalanceSummaryStep"/>
 				<ref bean="laborFileRenameStep"/>
+                <ref bean="laborBalanceSummaryStep"/>
 			</list>
 		</property>
 		<property name="dependencies">

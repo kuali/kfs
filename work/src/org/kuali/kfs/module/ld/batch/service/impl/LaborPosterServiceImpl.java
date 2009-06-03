@@ -411,8 +411,8 @@ public class LaborPosterServiceImpl implements LaborPosterService {
             updateReportSummary(glEntryReportSummary, ORIGN_ENTRY, KFSConstants.OperationType.SELECT);
         }
         else {
-            writeLaborGLEntry(laborLedgerUnitOfWork, runDate, lineNumber, glEntryReportSummary);
             laborLedgerUnitOfWork.resetLaborLedgerUnitOfWork(laborOriginEntry);
+            writeLaborGLEntry(laborLedgerUnitOfWork, runDate, lineNumber, glEntryReportSummary);
         }
     }
 

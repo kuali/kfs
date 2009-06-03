@@ -19,20 +19,33 @@ import static org.kuali.kfs.gl.GeneralLedgerConstants.GlSummaryReport.CURRENT_AN
 import static org.kuali.kfs.gl.GeneralLedgerConstants.GlSummaryReport.CURRENT_YEAR_LOWER;
 import static org.kuali.kfs.gl.GeneralLedgerConstants.GlSummaryReport.CURRENT_YEAR_UPPER;
 
+import java.io.File;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.PosterSummaryReportStep;
+import org.kuali.kfs.gl.batch.service.impl.OriginEntryFileIterator;
 import org.kuali.kfs.gl.businessobject.GlSummary;
+import org.kuali.kfs.gl.businessobject.OriginEntry;
+import org.kuali.kfs.gl.businessobject.Reversal;
+import org.kuali.kfs.gl.report.PosterOutputSummaryReport;
+import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.batch.service.LaborBalanceSummaryReportService;
 import org.kuali.kfs.module.ld.businessobject.LaborBalanceSummary;
+import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.service.LaborLedgerBalanceService;
+import org.kuali.kfs.module.ld.util.LaborOriginEntryFileIterator;
+import org.kuali.kfs.sys.FileUtil;
 import org.kuali.kfs.sys.batch.service.WrappingBatchService;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
+import org.kuali.kfs.sys.service.FiscalYearAwareReportWriterService;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -49,9 +62,12 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
     private ParameterService parameterService;
     
     private LaborLedgerBalanceService laborLedgerBalanceService;
-    private ReportWriterService laborActualBalanceSummaryReportWriterService;
-    private ReportWriterService laborBudgetBalanceSummaryReportWriterService;
-    private ReportWriterService laborEncumbranceSummaryReportWriterService;
+    private ReportWriterService laborPosterOutputSummaryReportWriterService;
+    private FiscalYearAwareReportWriterService laborActualBalanceSummaryReportWriterService;
+    private FiscalYearAwareReportWriterService laborBudgetBalanceSummaryReportWriterService;
+    private FiscalYearAwareReportWriterService laborEncumbranceSummaryReportWriterService;
+    
+    private String batchFileDirectoryName;
 
     /**
      * @see org.kuali.kfs.module.ld.batch.service.LaborBalanceSummaryReportService#generateBalanceSummaryReports()
@@ -60,6 +76,7 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
         LOG.info("generateBalanceSummaryReports() started");
 
         Date runDate = dateTimeService.getCurrentSqlDate();
+        this.generatePosterOutputSummaryReport(runDate);
         this.generateBalanceSummaryReports(runDate);
     }
 
@@ -105,7 +122,7 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
         this.writeSummaryReport(fiscalYear, encumbranceBalanceTypes, laborEncumbranceSummaryReportWriterService);
     }
 
-    private void writeSummaryReport(Integer fiscalYear, List<String> balanceTypes, ReportWriterService reportWriterService) {
+    private void writeSummaryReport(Integer fiscalYear, List<String> balanceTypes, FiscalYearAwareReportWriterService reportWriterService) {        
         List<LaborBalanceSummary> balanceSummary = laborLedgerBalanceService.findBalanceSummary(fiscalYear, balanceTypes);
         List<GlSummary> summaryList = new ArrayList<GlSummary>(balanceSummary);
         
@@ -115,7 +132,8 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
         }        
         totals.setFundGroup("Total");
         
-        try {
+        try { 
+            reportWriterService.setFiscalYear(fiscalYear);
             ((WrappingBatchService)reportWriterService).initialize();
             reportWriterService.writeSubTitle("Balance Type of " + balanceTypes + " for Fiscal Year " + fiscalYear);
             reportWriterService.writeNewLines(1);
@@ -130,6 +148,30 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
             ((WrappingBatchService)reportWriterService).destroy();
         }
     }
+    
+    /**
+     * Generates reports about the output of a poster run.
+     * 
+     * @param runDate the date the poster was run.
+     */
+    private void generatePosterOutputSummaryReport(Date runDate) {
+        PosterOutputSummaryReport posterOutputSummaryReport = new PosterOutputSummaryReport();
+        
+        // summarize all the entries for the main poster
+        File mainPosterFile = FileUtil.getNewestFile(new File(batchFileDirectoryName), new RegexFileFilter((LaborConstants.BatchFileSystem.POSTER_INPUT_FILE + "\\.[0-9_\\-]+\\" + GeneralLedgerConstants.BatchFileSystem.EXTENSION)));        
+        if (mainPosterFile != null && mainPosterFile.exists()) {
+            LaborOriginEntryFileIterator mainPosterIterator = new LaborOriginEntryFileIterator(mainPosterFile);
+            while (mainPosterIterator.hasNext()) {
+                OriginEntry originEntry = mainPosterIterator.next();
+                posterOutputSummaryReport.summarize(originEntry);
+            }
+        } else {
+            LOG.warn("Could not Main Poster Input file, "+ LaborConstants.BatchFileSystem.POSTER_INPUT_FILE + ", for tabulation in the Poster Output Summary Report");
+        }
+        
+        posterOutputSummaryReport.writeReport(laborPosterOutputSummaryReportWriterService);
+    }
+
 
     /**
      * get the encumbrance balance type codes for the given fiscal year
@@ -267,7 +309,7 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
      * Sets the laborActualBalanceSummaryReportWriterService attribute value.
      * @param laborActualBalanceSummaryReportWriterService The laborActualBalanceSummaryReportWriterService to set.
      */
-    public void setLaborActualBalanceSummaryReportWriterService(ReportWriterService laborActualBalanceSummaryReportWriterService) {
+    public void setLaborActualBalanceSummaryReportWriterService(FiscalYearAwareReportWriterService laborActualBalanceSummaryReportWriterService) {
         this.laborActualBalanceSummaryReportWriterService = laborActualBalanceSummaryReportWriterService;
     }
 
@@ -275,7 +317,7 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
      * Sets the laborBudgetBalanceSummaryReportWriterService attribute value.
      * @param laborBudgetBalanceSummaryReportWriterService The laborBudgetBalanceSummaryReportWriterService to set.
      */
-    public void setLaborBudgetBalanceSummaryReportWriterService(ReportWriterService laborBudgetBalanceSummaryReportWriterService) {
+    public void setLaborBudgetBalanceSummaryReportWriterService(FiscalYearAwareReportWriterService laborBudgetBalanceSummaryReportWriterService) {
         this.laborBudgetBalanceSummaryReportWriterService = laborBudgetBalanceSummaryReportWriterService;
     }
 
@@ -283,7 +325,25 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
      * Sets the laborEncumbranceSummaryReportWriterService attribute value.
      * @param laborEncumbranceSummaryReportWriterService The laborEncumbranceSummaryReportWriterService to set.
      */
-    public void setLaborEncumbranceSummaryReportWriterService(ReportWriterService laborEncumbranceSummaryReportWriterService) {
+    public void setLaborEncumbranceSummaryReportWriterService(FiscalYearAwareReportWriterService laborEncumbranceSummaryReportWriterService) {
         this.laborEncumbranceSummaryReportWriterService = laborEncumbranceSummaryReportWriterService;
     }
+
+    /**
+     * Sets the laborPosterOutputSummaryReportWriterService attribute value.
+     * @param laborPosterOutputSummaryReportWriterService The laborPosterOutputSummaryReportWriterService to set.
+     */
+    public void setLaborPosterOutputSummaryReportWriterService(ReportWriterService laborPosterOutputSummaryReportWriterService) {
+        this.laborPosterOutputSummaryReportWriterService = laborPosterOutputSummaryReportWriterService;
+    }
+
+    /**
+     * Sets the batchFileDirectoryName attribute value.
+     * @param batchFileDirectoryName The batchFileDirectoryName to set.
+     */
+    public void setBatchFileDirectoryName(String batchFileDirectoryName) {
+        this.batchFileDirectoryName = batchFileDirectoryName;
+    }
+
+
 }

@@ -234,18 +234,15 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
     }
 
     @Override
-    public Map populateNewCollectionLines( Map fieldValues ) {
-        String sCapitalAssetNumber = (String)fieldValues.get(CamsPropertyConstants.AssetRetirementGlobal.CAPITAL_ASSET_NUMBER);
+    public Map<String, String> populateNewCollectionLines( Map<String, String> fieldValues, MaintenanceDocument maintenanceDocument, String methodToCall ) {
+        String capitalAssetNumber = (String)fieldValues.get(CamsPropertyConstants.AssetRetirementGlobal.CAPITAL_ASSET_NUMBER);
 
-        if (StringUtils.isNotBlank(sCapitalAssetNumber)) {
-            try {
-                Long capitalAssetNumber = new Long(sCapitalAssetNumber.trim());
+        if (StringUtils.isNotBlank(capitalAssetNumber)) {
                 fieldValues.remove(CamsPropertyConstants.AssetRetirementGlobal.CAPITAL_ASSET_NUMBER);
-                fieldValues.put(CamsPropertyConstants.AssetRetirementGlobal.CAPITAL_ASSET_NUMBER, capitalAssetNumber);
-            } catch (Exception e){}
-        }
+                fieldValues.put(CamsPropertyConstants.AssetRetirementGlobal.CAPITAL_ASSET_NUMBER, capitalAssetNumber.trim());
+		}
+        return super.populateNewCollectionLines(fieldValues, maintenanceDocument, methodToCall);
      
-        return super.populateNewCollectionLines(fieldValues);    
     }
 
     private AssetRetirementService getAssetRetirementService() {

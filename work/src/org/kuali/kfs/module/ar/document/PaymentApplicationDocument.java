@@ -150,26 +150,36 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     }
     
     /**
-     * Returns the total from the cash control detail if this is a 
-     * cash-control based payapp.  Otherwise, it just returns the total 
-     * amount applied.
+     * This method calculates the total amount available to be applied on this document.
      * 
-     * NOTE that this makes the result of this method useless when ran on 
-     * a non-cash-control payapp, as the control amount was only valid for 
-     * a specific point in time.
-     *  
-     * @return
-     * @throws WorkflowException
+     * @return The total from the cash control detail if this is a 
+     * cash-control based payapp.  Otherwise, it just returns the total 
+     * available to be applied from previously unapplied holdings.
      */
     public KualiDecimal getTotalFromControl() {
         if (hasCashControlDetail()) {
             return getCashControlDetail().getFinancialDocumentLineAmount();
         }
         else {
-            return getTotalApplied();
+            return getNonAppliedControlAvailableUnappliedAmount();
         }
     }
  
+    /**
+     * This method calculates the total amount available to be applied from 
+     * previously unapplied funds for the associated customer.
+     * 
+     * @return The total amount of previously NonApplied funds available 
+     * to apply to invoices and other applications on this document.
+     */
+    public KualiDecimal getNonAppliedControlAvailableUnappliedAmount() {
+        KualiDecimal amount = KualiDecimal.ZERO;
+        for (NonAppliedHolding nonAppliedHolding : nonAppliedHoldingsForCustomer) {
+            amount = amount.add(nonAppliedHolding.getAvailableUnappliedAmount());
+        }
+        return amount;
+    }
+    
     /**
      * @return the sum of all invoice paid applieds.
      */

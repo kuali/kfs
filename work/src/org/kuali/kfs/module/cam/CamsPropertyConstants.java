@@ -169,6 +169,7 @@ public class CamsPropertyConstants {
 
     public static class AssetLocationGlobalDetail{
         public static final String ASSET = "asset";
+        public static final String CAPITAL_ASSET_NUMBER = "assetLocationGlobalDetails.capitalAssetNumber";
     }
 
     public static class AssetType {
@@ -221,6 +222,7 @@ public class CamsPropertyConstants {
         public static final String MERGED_TARGET_CAPITAL_ASSET_DESC   = "mergedTargetCapitalAssetDescription";
         public static final String RETIREMENT_REASON_CODE = "retirementReasonCode";
         public static final String ASSET_RETIREMENT_GLOBAL_DETAILS = "assetRetirementGlobalDetails";
+        public static final String CAPITAL_ASSET_NUMBER = "assetRetirementGlobalDetails.capitalAssetNumber";
     }
 
     public static class AssetRetirementGlobalDetail {

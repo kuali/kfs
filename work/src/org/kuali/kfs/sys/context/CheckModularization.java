@@ -29,6 +29,11 @@ import org.kuali.rice.core.util.ClassLoaderUtils;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.datadictionary.DataDictionary;
+import org.kuali.rice.kns.datadictionary.DocumentEntry;
+import org.kuali.rice.kns.datadictionary.MaintainableFieldDefinition;
+import org.kuali.rice.kns.datadictionary.MaintainableItemDefinition;
+import org.kuali.rice.kns.datadictionary.MaintainableSectionDefinition;
+import org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry;
 import org.kuali.rice.kns.datadictionary.control.ControlDefinition;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiModuleService;
@@ -472,6 +477,44 @@ public class CheckModularization {
             }
         }
         
+        for ( DocumentEntry de : dd.getDocumentEntries().values() ) {
+            if ( de instanceof MaintenanceDocumentEntry ) {
+                MaintenanceDocumentEntry mde = (MaintenanceDocumentEntry)de;
+                if ( "KFS-SYS".equals( moduleGroup.namespaceCode) || doesPackagePrefixMatch( mde.getBusinessObjectClass().getName(), PACKAGE_PREFIXES_BY_MODULE.get( moduleGroup.namespaceCode ) ) ) {
+                    for ( MaintainableSectionDefinition msd : mde.getMaintainableSections() ) {
+                        for ( MaintainableItemDefinition mid : msd.getMaintainableItems() ) {
+                            if ( mid instanceof MaintainableFieldDefinition ) {
+                                testPassed &= checkMaintainableField( moduleGroup.namespaceCode, de.getDocumentTypeName(), (MaintainableFieldDefinition)mid, disallowedPackagesForModule);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        return testPassed;
+    }
+    
+    protected void addDdDocumentError( String errorType, String namespaceCode, String documentTypeName, String fieldName, String problemClassName ) {
+        ddErrorMessage.append( "\n" ).append( namespaceCode ).append( " - Doc: " );
+        ddErrorMessage.append( documentTypeName ).append( " / Field: " ).append( fieldName );
+        ddErrorMessage.append( " / ").append( errorType ).append( ": " ).append( problemClassName );
+    }
+
+    protected boolean validateDdDocumentClassReference( String errorType, Class<? extends Object> testClass, String namespaceCode, String documentTypeName, String fieldName, List<String> disallowedPackages ) {
+        if ( testClass != null ) {
+            if ( doesPackagePrefixMatch(testClass.getName(), disallowedPackages) ) {
+                addDdDocumentError(errorType, namespaceCode, documentTypeName, fieldName, testClass.getName());
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    protected boolean checkMaintainableField( String namespaceCode, String documentTypeName, MaintainableFieldDefinition field, List<String> disallowedPackages ) {
+        boolean testPassed = true;
+        testPassed &= validateDdDocumentClassReference("Invalid Default Value Finder Class", field.getDefaultValueFinderClass(), namespaceCode, documentTypeName, field.getName(), disallowedPackages);
+        testPassed &= validateDdDocumentClassReference("Invalid Override Lookup Class", field.getOverrideLookupClass(), namespaceCode, documentTypeName, field.getName(), disallowedPackages);
         return testPassed;
     }
     

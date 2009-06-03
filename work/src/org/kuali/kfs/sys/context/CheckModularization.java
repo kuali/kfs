@@ -6,27 +6,33 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Scanner;
+import java.util.logging.Level;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.commons.collections.bidimap.TreeBidiMap;
 import org.apache.commons.lang.StringUtils;
+import org.apache.cxf.common.logging.LogUtils;
+import org.apache.cxf.endpoint.ServerImpl;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.core.resourceloader.ContextClassLoaderBinder;
 import org.kuali.rice.core.util.ClassLoaderUtils;
+import org.kuali.rice.kns.datadictionary.AttributeDefinition;
+import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.kns.datadictionary.DataDictionary;
+import org.kuali.rice.kns.datadictionary.control.ControlDefinition;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.ModuleService;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -91,6 +97,7 @@ public class CheckModularization {
             coreSpringFiles = configProps.getProperty("core.spring.source.files");
             coreSpringTestFiles = configProps.getProperty("core.spring.test.files");
 
+            LogUtils.getL7dLogger(ServerImpl.class).setLevel(Level.SEVERE);
             try {
                 SpringContext.initializeTestApplicationContext();                
                 KualiModuleService kualiModuleService = (KualiModuleService)SpringContext.getBean(KualiModuleService.class);
@@ -140,8 +147,14 @@ public class CheckModularization {
                 System.out.println( "SUCCEEDED" );
             }
             System.out.println( "**************************************************");
-            System.out.println( "Testing DD Class References - NOT IMPLEMENTED YET");
+            System.out.println( "Testing DD Class References");
             System.out.println( "**************************************************");
+            if ( !mt.testDd() ) {
+                System.out.println( "FAILED" );
+                testsPassed = false;
+            } else {
+                System.out.println( "SUCCEEDED" );
+            }
 //            testsPassed &= mt.testDd();
             
             if ( !testsPassed ) {
@@ -166,25 +179,31 @@ public class CheckModularization {
         return sb.toString();
     }
 
+    StringBuffer dwrErrorMessage = new StringBuffer("The following optional modules have interdependencies in DWR configuration:");
+    boolean dwrTestSucceeded = true;
+    StringBuffer ddErrorMessage = new StringBuffer("The following optional modules have interdependencies in DD class references:");
+    boolean ddTestSucceeded = true;
+    
     public boolean testSpring() throws Exception {
         boolean testSucceeded = true;
         StringBuffer errorMessage = new StringBuffer();
         // test the core modules alone
-        System.out.println( "------>Testing for sore modules:");
-        testSucceeded &= testOptionalModuleSpringConfiguration(KFSConstants.ParameterNamespaces.KFS, coreSpringFiles, errorMessage);
+        System.out.println( "\n\n------>Testing for core modules:");
+        System.out.println( "------>Using Base Configuration:   " + coreSpringFiles );
+        testSucceeded &= testOptionalModuleSpringConfiguration(new ModuleGroup(KFSConstants.ParameterNamespaces.KFS), coreSpringFiles, errorMessage);
         if ( !testSucceeded ) {
             errorMessage.insert( 0, "The Core modules have dependencies on the optional modules:\n" );
         }
         
-        errorMessage = new StringBuffer("The following optional modules have interdependencies in Spring configuration:\n");
+        errorMessage.append( "The following optional modules have interdependencies in Spring configuration:\n");
         List<ModuleGroup> optionalModuleGroups = retrieveOptionalModuleGroups();
         for (ModuleGroup optionalModuleGroup : optionalModuleGroups) {
 //            if ( !optionalModuleGroup.namespaceCode.equals( "KFS-AR" ) ) continue;
-            System.out.println( "------>Testing for optional module group: " + optionalModuleGroup );
+            System.out.println( "\n\n------>Testing for optional module group: " + optionalModuleGroup );
             System.out.println( "------>Using Base Configuration:   " + coreSpringFiles );
             String moduleConfigFiles = buildOptionalModuleSpringFileList(optionalModuleGroup);
             System.out.println( "------>Module configuration files: " + moduleConfigFiles );
-            testSucceeded &= testOptionalModuleSpringConfiguration(optionalModuleGroup.namespaceCode, coreSpringFiles+","+moduleConfigFiles, errorMessage);
+            testSucceeded &= testOptionalModuleSpringConfiguration(optionalModuleGroup, coreSpringFiles+","+moduleConfigFiles, errorMessage);
         }
         if (!testSucceeded) {
             System.out.print(errorMessage.append("\n\n").toString());
@@ -192,20 +211,25 @@ public class CheckModularization {
         return testSucceeded;
     }
 
-    private boolean testOptionalModuleSpringConfiguration(String namespaceCode, String springConfigFiles, StringBuffer errorMessage) {
+    protected boolean testOptionalModuleSpringConfiguration(ModuleGroup optionalModuleGroup, String springConfigFiles, StringBuffer errorMessage) {
         try {
             // update the configuration.properties file
             Properties configProps = new Properties();
             configProps.load( new FileInputStream( configPropertiesFile ) );
             configProps.setProperty( "spring.source.files", springConfigFiles );
             configProps.setProperty( "spring.test.files", coreSpringTestFiles );
-            configProps.store( new FileOutputStream( configPropertiesFile ), "Testing Module: " + namespaceCode );
+            configProps.store( new FileOutputStream( configPropertiesFile ), "Testing Module: " + optionalModuleGroup.namespaceCode );
             configProps.load( new FileInputStream( configPropertiesFile ) );
-//            configProps.store( System.out, "Testing Module: " + namespaceCode );
             SpringContext.initializeTestApplicationContext();
+            dwrTestSucceeded &= testDwrModuleConfiguration(optionalModuleGroup, dwrErrorMessage);
+            ddTestSucceeded &= testDdModuleConfiguration(optionalModuleGroup, ddErrorMessage);
             return true;
         } catch (Exception e) {
-            errorMessage.append("\n").append(namespaceCode).append("\n\t").append(e.getMessage());
+            errorMessage.append("\n\n").append(optionalModuleGroup.namespaceCode).append("\n\t").append(e.getMessage());
+            dwrErrorMessage.append( "\n\n" + optionalModuleGroup.namespaceCode + " : Unable to test due to Spring test failure." );
+            ddErrorMessage.append( "\n\n" + optionalModuleGroup.namespaceCode + " : Unable to test due to Spring test failure." );
+            ddTestSucceeded &= false;
+            dwrTestSucceeded &= false;
             e.printStackTrace();
             return false;
         }
@@ -227,7 +251,7 @@ public class CheckModularization {
         return testSucceeded;
     }
 
-    private boolean testOptionalModuleOjbConfiguration(ModuleGroup moduleGroup, StringBuffer errorMessage) throws FileNotFoundException {
+    protected boolean testOptionalModuleOjbConfiguration(ModuleGroup moduleGroup, StringBuffer errorMessage) throws FileNotFoundException {
         boolean testSucceeded = true;
         for (String referencedNamespaceCode : OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.keySet()) {
             if (!(moduleGroup.namespaceCode.equals(referencedNamespaceCode) || moduleGroup.optionalModuleDependencyNamespaceCodes.contains(referencedNamespaceCode))) {
@@ -258,21 +282,14 @@ public class CheckModularization {
         return testSucceeded;
     }
     
-    public boolean testDwr() throws Exception {
-        boolean testSucceeded = true;
-//        StringBuffer errorMessage = new StringBuffer("The following optional modules have interdependencies in DWR configuration:");
-//        
-//        List<ModuleGroup> allModuleGroups = retrieveModuleGroups();
-//        for (ModuleGroup moduleGroup : allModuleGroups) {
-//            testSucceeded &= testDwrModuleConfiguration(moduleGroup, errorMessage);
-//        }
-//        if (!testSucceeded) {
-//            System.out.print(errorMessage.append("\n\n").toString());
-//        }
-        return testSucceeded;
+    protected boolean testDwr() throws Exception {
+        if (!dwrTestSucceeded) {
+            System.out.print(dwrErrorMessage.append("\n\n").toString());
+        }
+        return dwrTestSucceeded;
     }
     
-    private boolean testDwrModuleConfiguration(ModuleGroup moduleGroup, StringBuffer errorMessage) throws Exception {
+    protected boolean testDwrModuleConfiguration(ModuleGroup moduleGroup, StringBuffer errorMessage) throws Exception {
         List<String> dwrFiles = DWR_FILES_BY_MODULE.get(moduleGroup.namespaceCode);
         boolean testSucceeded = true;
         if (dwrFiles != null && dwrFiles.size() > 0) {
@@ -284,13 +301,13 @@ public class CheckModularization {
         return testSucceeded;
     }
     
-    private boolean testDwrModuleConfiguration(String dwrFileName, Document dwrDocument, ModuleGroup moduleGroup, StringBuffer errorMessage) throws Exception {
+    protected boolean testDwrModuleConfiguration(String dwrFileName, Document dwrDocument, ModuleGroup moduleGroup, StringBuffer errorMessage) throws Exception {
        boolean beanClassNamesOK = testDwrBeanClassNames(dwrFileName, dwrDocument, moduleGroup, errorMessage);
        boolean springServicesOK = testDwrSpringServices(dwrFileName, dwrDocument, moduleGroup, errorMessage);
        return beanClassNamesOK && springServicesOK;
     }
     
-    private boolean testDwrBeanClassNames(String dwrFileName, Document dwrDocument, ModuleGroup moduleGroup, StringBuffer errorMessage) {
+    protected boolean testDwrBeanClassNames(String dwrFileName, Document dwrDocument, ModuleGroup moduleGroup, StringBuffer errorMessage) {
         boolean testSucceeded = true;
         List<String> dwrBeanClassNames = retrieveDwrBeanClassNames(dwrDocument);
         for (String referencedNamespaceCode : OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.keySet()) {
@@ -308,66 +325,43 @@ public class CheckModularization {
                 }
                 if (count > 0) {
                     testSucceeded = false;
-                    errorMessage.append("\n").append(dwrFileName).append(" (in module ").append(moduleGroup.namespaceCode).append(") has ").append(count).append(" references to business objects from ").append(referencedNamespaceCode);
+                    errorMessage.append("\n\n").append(dwrFileName).append(" (in module ").append(moduleGroup.namespaceCode).append(") has ").append(count).append(" references to business objects from ").append(referencedNamespaceCode);
                 }
             }
         }
         return testSucceeded;
     }
     
-    private boolean testDwrSpringServices(String dwrFileName, Document dwrDocument, ModuleGroup moduleGroup, StringBuffer errorMessage) {
+    protected boolean testDwrSpringServices(String dwrFileName, Document dwrDocument, ModuleGroup moduleGroup, StringBuffer errorMessage) {
         boolean testSucceeded = true;
-        boolean isSystemModule = SYSTEM_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.containsKey(moduleGroup.namespaceCode);
         
-        // switch to a different context classloader context so that we don't blow away our existing configuration
-        ContextClassLoaderBinder.bind(new URLClassLoader(new URL[0]));
-        ClassPathXmlApplicationContext context = null;
         try {
-            String[] configLocations = null;
-            if (isSystemModule) {
-                // if we're testing a system module, then we will only load up the base spring files in our new app context
-                configLocations = coreSpringFiles.split(",");
-            }
-            else {
-                // if we're testing an optional module, then we will need to load up the base spring files as well as the optional module's beans
-                String springFileSuffix = OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.get(moduleGroup.namespaceCode);
-                configLocations = new StringBuffer(coreSpringFiles).append(",org/kuali/kfs/module/").append(springFileSuffix).append("/spring-").append(springFileSuffix).append(".xml").toString().split(",");
-            }
-            context = new ClassPathXmlApplicationContext(configLocations);
-            context.refresh();
-            
             List<String> serviceNames = retrieveDwrServiceNames(dwrDocument);
             for (String serviceName : serviceNames) {
-                if (!context.containsBean(serviceName)) {
+                try {
+                    SpringContext.getBean(serviceName);
+                } catch ( Exception ex ) {
                     testSucceeded = false;
-                    errorMessage.append("\n").append(dwrFileName).append(" (in module ").append(moduleGroup.namespaceCode).append(") has references to spring bean \"").append(serviceName).append("\" that is not defined in the base spring files");
-                    if (!isSystemModule) {
-                        String springFileSuffix = OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.get(moduleGroup.namespaceCode);
-                        errorMessage.append(" or in ").append(",org/kuali/kfs/module/").append(springFileSuffix).append("/spring-").append(springFileSuffix).append(".xml").toString().split(",");
-                    }
+                    errorMessage.append("\n")
+                            .append(dwrFileName)
+                            .append(" (in module ")
+                            .append(moduleGroup.namespaceCode)
+                            .append(") has references to spring bean \"")
+                            .append(serviceName).append("\" that is not defined in the available spring files");
                 }
             }
         }
         catch (Exception e) {
             errorMessage.append("\n").append(moduleGroup.namespaceCode).append("\n\t").append(e.getMessage());
-            return false;
-        }
-        finally {
-            try {
-                if (context != null) {
-                    context.close();
-                }
-            }
-            catch (Exception e) {
-            }
-            ContextClassLoaderBinder.unbind();
+            e.printStackTrace();
+            return testSucceeded = false;
         }
         
         return testSucceeded;
     }
 
     
-    private Document generateDwrConfigDocument(String fileName) throws Exception {
+    protected Document generateDwrConfigDocument(String fileName) throws Exception {
         DefaultResourceLoader resourceLoader = new DefaultResourceLoader(ClassLoaderUtils.getDefaultClassLoader());
         InputStream in = resourceLoader.getResource(fileName).getInputStream();
         
@@ -382,7 +376,7 @@ public class CheckModularization {
         return doc;
     }
     
-    private List<String> retrieveDwrServiceNames(Document dwrDocument) {
+    protected List<String> retrieveDwrServiceNames(Document dwrDocument) {
         List<String> serviceNames = new ArrayList<String>();
         // service names are in "create" elements
         Element root = dwrDocument.getDocumentElement();
@@ -407,7 +401,7 @@ public class CheckModularization {
         return serviceNames;
     }
     
-    private List<String> retrieveDwrBeanClassNames(Document dwrDocument) {
+    protected List<String> retrieveDwrBeanClassNames(Document dwrDocument) {
         List<String> classNames = new ArrayList<String>();
         // class names are in "convert" elements
         Element root = dwrDocument.getDocumentElement();
@@ -425,9 +419,82 @@ public class CheckModularization {
         return classNames;
     }
     
+    protected boolean testDd() throws Exception {
+        if (!ddTestSucceeded) {
+            System.out.print(ddErrorMessage.append("\n\n").toString());
+        }
+        return ddTestSucceeded;
+    }
+    
+    protected boolean testDdModuleConfiguration( ModuleGroup moduleGroup, StringBuffer errorMessage ) {
+        boolean testPassed = true;
+        
+        List<String> disallowedPackagesForModule = new ArrayList<String>();
+        for ( String otherNamespace : PACKAGE_PREFIXES_BY_MODULE.keySet() ) {
+            // if an optional module
+            if ( OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.containsKey( otherNamespace ) ) {
+                // and not the current module
+                if ( !otherNamespace.equals( moduleGroup.namespaceCode ) ) {
+                    // add to disallowed list
+                    disallowedPackagesForModule.addAll( PACKAGE_PREFIXES_BY_MODULE.get(otherNamespace) );
+                }
+            }
+        }
+        System.out.println( "---Processing DD for Module: " + moduleGroup.namespaceCode );
+        System.out.println( "---Disallowed packages: " + disallowedPackagesForModule );
+        DataDictionary dd = SpringContext.getBean(DataDictionaryService.class).getDataDictionary();
+        Collection<BusinessObjectEntry> bos = dd.getBusinessObjectEntries().values();
+        for ( BusinessObjectEntry bo : bos ) {
+            // only check bos for the current module (or all modules if checking the core)
+            if ( "KFS-SYS".equals( moduleGroup.namespaceCode) || doesPackagePrefixMatch( bo.getFullClassName(), PACKAGE_PREFIXES_BY_MODULE.get( moduleGroup.namespaceCode ) ) ) {                
+                try {
+                    for ( AttributeDefinition ad : bo.getAttributes() ) {
+                        ControlDefinition cd = ad.getControl();
+                        if ( cd.getValuesFinderClass() != null ) {
+                            if ( doesPackagePrefixMatch(cd.getValuesFinderClass().getName(), disallowedPackagesForModule ) ) {
+//                                System.out.println( "DIS-Allowed: " + cd.getValuesFinderClass().getName() );
+                                errorMessage.append( "\n" ).append( moduleGroup.namespaceCode ).append( " - BO: " );
+                                errorMessage.append( bo.getFullClassName() ).append( " / Attrib: " ).append( ad.getName() );
+                                errorMessage.append( " has invalid control value finder: " ).append( cd.getValuesFinderClass().getName() );
+                                testPassed = false;
+                            } else {
+//                                System.out.println( "Allowed: " + cd.getValuesFinderClass().getName() );
+                            }
+                        }
+                    }
+                } catch( Exception ex ) {
+                    errorMessage.append( "\n" ).append( moduleGroup.namespaceCode ).append( " - Exception testing BO: " );
+                    errorMessage.append( bo.getFullClassName() ).append( " - " ).append( ex.getMessage() );
+                    System.err.println( "Exception testing BO: " + bo.getFullClassName() );
+                    ex.printStackTrace();
+                    testPassed = false;
+                }
+            }
+        }
+        
+        return testPassed;
+    }
+    
+    protected boolean doesPackagePrefixMatch( String className, List<String> packagePrefixList ) {
+        for ( String pkg : packagePrefixList ) {
+            if ( className.startsWith(pkg) ) {
+                return true;
+            }
+        }
+        return false;
+    }        
+    
     public class ModuleGroup {
         public String namespaceCode;
         public HashSet<String> optionalModuleDependencyNamespaceCodes = new HashSet<String>();
+        
+        public ModuleGroup() {
+            // TODO Auto-generated constructor stub
+        }
+        
+        public ModuleGroup( String namespaceCode ) {
+            this.namespaceCode = namespaceCode;
+        }
         
         @Override
         public String toString() {

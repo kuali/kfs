@@ -56,6 +56,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 import uk.ltd.getahead.dwr.create.SpringCreator;
 
+@SuppressWarnings("deprecation")
 public class SpringContext {
     protected static final Logger LOG = Logger.getLogger(SpringContext.class);
     protected static final String APPLICATION_CONTEXT_DEFINITION = "spring-rice-startup.xml";
@@ -68,7 +69,7 @@ public class SpringContext {
     protected static Map<Class<? extends Object>, Object> SINGLETON_BEANS_BY_TYPE_CACHE = new HashMap<Class<? extends Object>, Object>();
     protected static Map<String, Object> SINGLETON_BEANS_BY_NAME_CACHE = new HashMap<String, Object>();
     protected static Map<Class<? extends Object>, Map> SINGLETON_BEANS_OF_TYPE_CACHE = new HashMap<Class<? extends Object>, Map>();
-
+    protected static Thread processWatchThread = null;
     /**
      * Use this method to retrieve a service which may or may not be implemented locally.  (That is,
      * defined in the main Spring ApplicationContext created by Rice.
@@ -139,7 +140,6 @@ public class SpringContext {
      * @param type
      * @return a map of the spring bean ids / beans that are of the specified type
      */
-    @SuppressWarnings("unchecked")
     public static <T> Map<String, T> getBeansOfType(Class<T> type) {
         verifyProperInitialization();
         Map<String, T> beansOfType = null;
@@ -165,7 +165,6 @@ public class SpringContext {
         return beansOfType;
     }
 
-    @SuppressWarnings("unchecked")
     private static <T> T getBean(Class<T> type, String name) {
         T bean = null;
         if (SINGLETON_BEANS_BY_NAME_CACHE.containsKey(name)) {
@@ -232,6 +231,12 @@ public class SpringContext {
     }
 
     protected static void close() throws Exception {
+        if ( processWatchThread != null ) {
+            if ( processWatchThread.isAlive() ) {
+                processWatchThread.stop();
+            }
+            processWatchThread = null;
+        }
         if ( applicationContext == null ) {
             applicationContext = RiceResourceLoaderFactory.getSpringResourceLoader().getContext();
         }
@@ -242,6 +247,7 @@ public class SpringContext {
             LOG.debug( "Unable to get 'rice' bean - attempting to get from the Rice ConfigContext", ex );
             riceConfigurer = (RiceConfigurer)ConfigContext.getObjectFromConfigHierarchy(RiceConstants.RICE_CONFIGURER_CONFIG_NAME);
         }
+        applicationContext = null;
         if ( riceConfigurer != null ) {
             riceConfigurer.destroy();
             ConfigContext.destroy();
@@ -442,9 +448,9 @@ public class SpringContext {
                     }
                 }
             };
-            Thread t = new Thread( processWatch, "ProcessWatch thread" );
-            t.setDaemon(true);
-            t.start();
+            processWatchThread = new Thread( processWatch, "ProcessWatch thread" );
+            processWatchThread.setDaemon(true);
+            processWatchThread.start();
         }        
     }
 }

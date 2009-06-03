@@ -181,10 +181,13 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
         if (StringUtils.isBlank(equipmentLoanOrReturnDocument.getBorrowerCountryCode())) {
             equipmentLoanOrReturnDocument.setBorrowerCountryCode(KFSConstants.COUNTRY_CODE_UNITED_STATES);
         }
-        State borrowStateCode = equipmentLoanOrReturnDocument.getBorrowerState();
-        if (ObjectUtils.isNull(borrowStateCode)) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_STATE_CODE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_STATE, equipmentLoanOrReturnDocument.getBorrowerStateCode());
-            valid &= false;
+
+        if (equipmentLoanOrReturnDocument.getBorrowerCountryCode().equals(KFSConstants.COUNTRY_CODE_UNITED_STATES)) {
+            State borrowStateCode = equipmentLoanOrReturnDocument.getBorrowerState();
+            if (ObjectUtils.isNull(borrowStateCode)) {
+                GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_STATE_CODE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_STATE, equipmentLoanOrReturnDocument.getBorrowerStateCode());
+                valid &= false;
+            }
         }
 
         // validate borrower storage state and postal zip code
@@ -192,11 +195,27 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
             if (StringUtils.isBlank(equipmentLoanOrReturnDocument.getBorrowerStorageCountryCode())) {
                 equipmentLoanOrReturnDocument.setBorrowerStorageCountryCode(KFSConstants.COUNTRY_CODE_UNITED_STATES);
             }
-            State borrowStorageStateCode = equipmentLoanOrReturnDocument.getBorrowerStorageState();
-            if (ObjectUtils.isNull(borrowStorageStateCode)) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_STAORAGE_STATE_CODE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_STORAGE_STATE, equipmentLoanOrReturnDocument.getBorrowerStorageStateCode());
+        }
+
+        if (equipmentLoanOrReturnDocument.getBorrowerCountryCode().equals(KFSConstants.COUNTRY_CODE_UNITED_STATES)) {
+
+            if (StringUtils.isBlank(equipmentLoanOrReturnDocument.getBorrowerStorageStateCode())) {
+                GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_STAORAGE_STATE_CODE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_BORROWER_STORAGE_STATE_REQUIRED, equipmentLoanOrReturnDocument.getBorrowerCountryCode());
                 valid = false;
             }
+            else {
+                State borrowStorageStateCode = equipmentLoanOrReturnDocument.getBorrowerStorageState();
+                if (ObjectUtils.isNull(borrowStorageStateCode)) {
+                    GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_STAORAGE_STATE_CODE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_STORAGE_STATE, equipmentLoanOrReturnDocument.getBorrowerStorageStateCode());
+                    valid = false;
+                }
+            }
+
+            if (StringUtils.isBlank(equipmentLoanOrReturnDocument.getBorrowerStorageZipCode())) {
+                GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_STORAGE_ZIP_CODE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_BORROWER_STORAGE_ZIP_REQUIRED, equipmentLoanOrReturnDocument.getBorrowerCountryCode());
+                valid = false;
+            }
+
         }
 
         return valid;

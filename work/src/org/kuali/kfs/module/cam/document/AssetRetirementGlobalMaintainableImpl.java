@@ -233,6 +233,20 @@ public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobal
         return Asset.class;
     }
 
+    @Override
+    public Map populateNewCollectionLines( Map fieldValues ) {
+        String sCapitalAssetNumber = (String)fieldValues.get(CamsPropertyConstants.AssetRetirementGlobal.CAPITAL_ASSET_NUMBER);
+
+        if (StringUtils.isNotBlank(sCapitalAssetNumber)) {
+            try {
+                Long capitalAssetNumber = new Long(sCapitalAssetNumber.trim());
+                fieldValues.remove(CamsPropertyConstants.AssetRetirementGlobal.CAPITAL_ASSET_NUMBER);
+                fieldValues.put(CamsPropertyConstants.AssetRetirementGlobal.CAPITAL_ASSET_NUMBER, capitalAssetNumber);
+            } catch (Exception e){}
+        }
+     
+        return super.populateNewCollectionLines(fieldValues);    
+    }
 
     private AssetRetirementService getAssetRetirementService() {
         return SpringContext.getBean(AssetRetirementService.class);

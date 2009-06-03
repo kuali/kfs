@@ -24,6 +24,8 @@
     description="methodToCall value for actionImage"%>
 <%@ attribute name="displayOrangeFlower" required="true"
     description="indicates if display or not an orange flower for this detail line."%>
+<%@ attribute name="isInvoiceOpenItemQuantityZero" required="true"
+    description="indicates if there is zero open quantity for this detail line."%>
 <%@ attribute name="cssClass" required="true"%>
 <%@ attribute name="readOnly" required="true" %>
 <%@ attribute name="rowHeader" required="true"
@@ -131,13 +133,22 @@
 </tr>
 <tr>
 	<!--  If not readOnly mode -> make "Quantity" editable -->
-	<c:if test="${not readOnly}" >			
+	<c:if test="${not readOnly && not isInvoiceOpenItemQuantityZero}" >			
 		<!--  CRM Quantity -->
 		<td class="${cssClass}" style="text-align:right" >
 			<kul:htmlControlAttribute
 				attributeEntry="${customerCreditMemoDetailAttributes.creditMemoItemQuantity}"
 				property="${crmPropertyName}.creditMemoItemQuantity"
 				readOnly="false" />
+		</td>
+	</c:if>
+	<c:if test="${not readOnly && isInvoiceOpenItemQuantityZero}" >			
+		<!--  CRM Quantity -->
+		<td class="${cssClass}" style="text-align:right" >
+			<kul:htmlControlAttribute
+				attributeEntry="${customerCreditMemoDetailAttributes.creditMemoItemQuantity}"
+				property="${crmPropertyName}.creditMemoItemQuantity"
+				readOnly="true" />
 		</td>
 	</c:if>
 	<!--  If readOnly mode -> make "Quantity" read only -->
@@ -158,13 +169,22 @@
 	<td class="${cssClass}" />
 
 	<!--  If not readOnly mode -> make "Amount" editable -->
-	<c:if test="${not readOnly}" >	
+	<c:if test="${not readOnly && not isInvoiceOpenItemQuantityZero}" >	
 		<!--  CRM Item Amount -->
 		<td class="${cssClass}" style="text-align:right" >
 			<kul:htmlControlAttribute
 				attributeEntry="${customerCreditMemoDetailAttributes.creditMemoItemTotalAmount}"
 				property="${crmPropertyName}.creditMemoItemTotalAmount"
 				readOnly="false" />
+		</td>
+	</c:if>
+	<c:if test="${not readOnly && isInvoiceOpenItemQuantityZero}" >			
+		<!--  CRM Item Amount -->
+		<td class="${cssClass}" style="text-align:right" >
+			<kul:htmlControlAttribute
+				attributeEntry="${customerCreditMemoDetailAttributes.creditMemoItemTotalAmount}"
+				property="${crmPropertyName}.creditMemoItemTotalAmount"
+				readOnly="true" />
 		</td>
 	</c:if>
 	<!--  If readOnly mode -> make "Amount" read only -->

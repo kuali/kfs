@@ -120,7 +120,6 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
             getInvoiceDetail().refreshReferenceObject("objectCode");
             objectCode = getInvoiceDetail().getObjectCode();
         } else if ("3".equals(parameterValue)) {
-            getInvoiceDetail().refreshReferenceObject("customerInvoiceDocument");
             CustomerInvoiceDocument customerInvoiceDocument = getInvoiceDetail().getCustomerInvoiceDocument();
             customerInvoiceDocument.refreshReferenceObject("paymentFinancialObject");
             objectCode = getInvoiceDetail().getCustomerInvoiceDocument().getPaymentFinancialObject();

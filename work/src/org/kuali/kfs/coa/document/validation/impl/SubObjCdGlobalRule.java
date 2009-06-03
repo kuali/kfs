@@ -399,6 +399,11 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
     protected boolean checkChartOnSubObjCodeDetails(SubObjectCodeGlobal socChangeDocument, SubObjectCodeGlobalDetail socChangeDetail, int lineNum, boolean add) {
         boolean success = true;
         String errorPath = KFSConstants.EMPTY_STRING;
+        
+        if (StringUtils.isBlank(socChangeDetail.getChartOfAccountsCode())) {
+            return success; // just return, the existence check will balk at empty details
+        }
+        
         // first must have an actual fiscal year
         if (socChangeDetail.getChartOfAccounts() == null) {
             if (add) {

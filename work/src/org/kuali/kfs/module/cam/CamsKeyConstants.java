@@ -175,6 +175,8 @@ public class CamsKeyConstants {
         public static final String ERROR_INVALID_LOAN_RETURN_DATE = "error.invalid.loan.return.date";
         public static final String ERROR_INVALID_BORROWER_STATE = "error.invalid.borrower.state.code";
         public static final String ERROR_INVALID_BORROWER_STORAGE_STATE = "error.invalid.borrower.storage.state.code";
+        public static final String ERROR_BORROWER_STORAGE_STATE_REQUIRED = "error.borrower.storage.state.required";
+        public static final String ERROR_BORROWER_STORAGE_ZIP_REQUIRED = "error.borrower.storage.zip.required";
         public static final String ERROR_CAMPUS_TAG_NUMBER_REQUIRED = "error.campus.tag.number.required";
     }
 

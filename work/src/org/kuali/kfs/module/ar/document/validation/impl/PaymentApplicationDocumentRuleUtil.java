@@ -200,24 +200,33 @@ public class PaymentApplicationDocumentRuleUtil {
         
         boolean isValid = true;
         
+        // Required fields, so always validate these.
         isValid &= validateNonInvoicedLineItem("chartOfAccountsCode", nonInvoiced.getChartOfAccountsCode(), Chart.class, 
                 ArPropertyConstants.PaymentApplicationDocumentFields.NON_INVOICED_LINE_CHART,
                 ArKeyConstants.PaymentApplicationDocumentErrors.NON_AR_CHART_INVALID);
         isValid &= validateNonInvoicedLineItem("accountNumber", nonInvoiced.getAccountNumber(), Account.class, 
                 ArPropertyConstants.PaymentApplicationDocumentFields.NON_INVOICED_LINE_ACCOUNT,
                 ArKeyConstants.PaymentApplicationDocumentErrors.NON_AR_ACCOUNT_INVALID);
-        isValid &= validateNonInvoicedLineItem("subAccountNumber", nonInvoiced.getSubAccountNumber(), SubAccount.class, 
-                ArPropertyConstants.PaymentApplicationDocumentFields.NON_INVOICED_LINE_SUBACCOUNT,
-                ArKeyConstants.PaymentApplicationDocumentErrors.NON_AR_SUB_ACCOUNT_INVALID);
         isValid &= validateNonInvoicedLineItem("financialObjectCode", nonInvoiced.getFinancialObjectCode(), ObjectCode.class, 
                 ArPropertyConstants.PaymentApplicationDocumentFields.NON_INVOICED_LINE_OBJECT,
                 ArKeyConstants.PaymentApplicationDocumentErrors.NON_AR_OBJECT_CODE_INVALID);
-        isValid &= validateNonInvoicedLineItem("financialSubObjectCode", nonInvoiced.getFinancialSubObjectCode(), SubObjectCode.class, 
-                ArPropertyConstants.PaymentApplicationDocumentFields.NON_INVOICED_LINE_SUBOBJECT,
-                ArKeyConstants.PaymentApplicationDocumentErrors.NON_AR_SUB_OBJECT_CODE_INVALID);
-        isValid &= validateNonInvoicedLineItem("projectDescription", nonInvoiced.getProjectCode(), ProjectCode.class, 
-                ArPropertyConstants.PaymentApplicationDocumentFields.NON_INVOICED_LINE_PROJECT,
-                ArKeyConstants.PaymentApplicationDocumentErrors.NON_AR_PROJECT_CODE_INVALID);
+
+        // Optional fields, so only validate if a value was entered.
+        if(StringUtils.isNotBlank(nonInvoiced.getSubAccountNumber())) {
+            isValid &= validateNonInvoicedLineItem("subAccountNumber", nonInvoiced.getSubAccountNumber(), SubAccount.class, 
+                    ArPropertyConstants.PaymentApplicationDocumentFields.NON_INVOICED_LINE_SUBACCOUNT,
+                    ArKeyConstants.PaymentApplicationDocumentErrors.NON_AR_SUB_ACCOUNT_INVALID);
+        }
+        if(StringUtils.isNotBlank(nonInvoiced.getFinancialSubObjectCode())) {
+            isValid &= validateNonInvoicedLineItem("financialSubObjectCode", nonInvoiced.getFinancialSubObjectCode(), SubObjectCode.class, 
+                    ArPropertyConstants.PaymentApplicationDocumentFields.NON_INVOICED_LINE_SUBOBJECT,
+                    ArKeyConstants.PaymentApplicationDocumentErrors.NON_AR_SUB_OBJECT_CODE_INVALID);
+        }
+        if(StringUtils.isNotBlank(nonInvoiced.getProjectCode())) {
+            isValid &= validateNonInvoicedLineItem("projectDescription", nonInvoiced.getProjectCode(), ProjectCode.class, 
+                    ArPropertyConstants.PaymentApplicationDocumentFields.NON_INVOICED_LINE_PROJECT,
+                    ArKeyConstants.PaymentApplicationDocumentErrors.NON_AR_PROJECT_CODE_INVALID);
+        } 
         
         isValid &= validateNonInvoicedLineAmount(nonInvoiced, paymentApplicationDocument, totalFromControl);
         

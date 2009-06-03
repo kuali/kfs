@@ -268,9 +268,9 @@ END;
 
 /*  Users & Groups  */
 
-DELETE FROM KRIM_ROLE_MBR_T WHERE MBR_TYP_CD='P'; 
+DELETE FROM KRIM_ROLE_MBR_T WHERE MBR_TYP_CD='P'
 /
-DELETE FROM KRIM_DLGN_MBR_T WHERE MBR_TYP_CD='P'; 
+DELETE FROM KRIM_DLGN_MBR_T WHERE MBR_TYP_CD='P'
 /
 
 /* these next two delete most of the info in these tables,
@@ -278,7 +278,7 @@ DELETE FROM KRIM_DLGN_MBR_T WHERE MBR_TYP_CD='P';
  * implementing schools to verify that data. without the
  * entries though, routing fails on most transactional docs */
 
-DELETE FROM KRIM_ROLE_RSP_ACTN_T WHERE ROLE_MBR_ID <> '*';
+DELETE FROM KRIM_ROLE_RSP_ACTN_T WHERE ROLE_MBR_ID <> '*'
 /
 DELETE FROM KRIM_ROLE_MBR_ATTR_DATA_T WHERE ROLE_MBR_ID NOT IN (SELECT ROLE_MBR_ID from KRIM_ROLE_MBR_T where MBR_TYP_CD='R')
 /

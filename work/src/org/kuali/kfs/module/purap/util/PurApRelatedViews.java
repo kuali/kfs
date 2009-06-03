@@ -54,6 +54,23 @@ public class PurApRelatedViews {
         this.accountsPayablePurchasingDocumentLinkIdentifier = accountsPayablePurchasingDocumentLinkIdentifier;
     }
 
+    /**
+     * Reset all related view lists to null. 
+     */
+    public void resetRelatedViews() {
+        relatedRequisitionViews = null;
+        relatedPurchaseOrderViews = null;
+        relatedPaymentRequestViews = null;
+        paymentHistoryPaymentRequestViews = null;
+        relatedCreditMemoViews = null;
+        paymentHistoryCreditMemoViews = null;
+        relatedLineItemReceivingViews = null;
+        relatedCorrectionReceivingViews = null;
+        relatedBulkReceivingViews = null;
+        groupedRelatedPurchaseOrderViews = null;
+        groupedRelatedReceivingViews = null;
+    }
+    
     public List updateRelatedView(Class<?> clazz, List<? extends AbstractRelatedView> relatedList, boolean removeCurrentDocument) {
         if (relatedList == null) {
             relatedList = SpringContext.getBean(PurapService.class).getRelatedViews(clazz, accountsPayablePurchasingDocumentLinkIdentifier);

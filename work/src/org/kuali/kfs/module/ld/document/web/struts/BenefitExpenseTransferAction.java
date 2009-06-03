@@ -15,9 +15,11 @@
  */
 package org.kuali.kfs.module.ld.document.web.struts;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import org.kuali.kfs.module.ld.document.web.struts.BenefitExpenseTransferForm;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -81,4 +83,40 @@ public class BenefitExpenseTransferAction extends ExpenseTransferDocumentActionB
         path = path.replaceFirst(KFSConstants.LOOKUP_ACTION, LaborConstants.LONG_ROW_TABLE_INRUIRY_ACTION);
         return new ActionForward(path, true);
     }
+    
+    /**
+     * Delete all source accounting lines
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionMapping
+     * @throws Exception
+     */
+    @Override
+    public ActionForward deleteAllSourceAccountingLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BenefitExpenseTransferForm financialDocumentForm = (BenefitExpenseTransferForm) form;
+        financialDocumentForm.getBenefitExpenseTransferDocument().setNextSourceLineNumber(1);
+        
+        return super.deleteAllSourceAccountingLines(mapping, form, request, response);
+    }
+    
+    /**
+     * Delete all target accounting lines
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionMapping
+     * @throws Exception
+     */
+    @Override
+    public ActionForward deleteAllTargetAccountingLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BenefitExpenseTransferForm financialDocumentForm = (BenefitExpenseTransferForm) form;
+        financialDocumentForm.getBenefitExpenseTransferDocument().setNextTargetLineNumber(1);
+        
+        return super.deleteAllTargetAccountingLines(mapping, form, request, response);
+    }   
 }

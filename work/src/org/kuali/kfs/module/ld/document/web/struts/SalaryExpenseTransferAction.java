@@ -27,6 +27,7 @@ import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument;
+import org.kuali.kfs.module.ld.document.web.struts.SalaryExpenseTransferForm;
 import org.kuali.kfs.module.ld.document.service.SalaryTransferPeriodValidationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -204,5 +205,40 @@ public class SalaryExpenseTransferAction extends ExpenseTransferDocumentActionBa
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * Delete all source accounting lines
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionMapping
+     * @throws Exception
+     */
+    @Override
+    public ActionForward deleteAllSourceAccountingLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        SalaryExpenseTransferForm financialDocumentForm = (SalaryExpenseTransferForm) form;
+        financialDocumentForm.getSalaryExpenseTransferDocument().setNextSourceLineNumber(1);
+        
+        return super.deleteAllSourceAccountingLines(mapping, form, request, response);
+    }
+    
+    /**
+     * Delete all target accounting lines
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionMapping
+     * @throws Exception
+     */
+    @Override
+    public ActionForward deleteAllTargetAccountingLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        SalaryExpenseTransferForm financialDocumentForm = (SalaryExpenseTransferForm) form;
+        financialDocumentForm.getSalaryExpenseTransferDocument().setNextTargetLineNumber(1);
+        
+        return super.deleteAllTargetAccountingLines(mapping, form, request, response);
+    }
 }
 

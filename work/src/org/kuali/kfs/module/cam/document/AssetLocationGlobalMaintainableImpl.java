@@ -18,6 +18,7 @@ package org.kuali.kfs.module.cam.document;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
@@ -104,6 +105,20 @@ public class AssetLocationGlobalMaintainableImpl extends KualiGlobalMaintainable
         return new ArrayList<MaintenanceLock>();
     }
 
+    @Override
+    public Map populateNewCollectionLines( Map fieldValues ) {
+        String sCapitalAssetNumber = (String)fieldValues.get(CamsPropertyConstants.AssetLocationGlobalDetail.CAPITAL_ASSET_NUMBER);
+
+        if (StringUtils.isNotBlank(sCapitalAssetNumber)) {
+            try {
+                Long capitalAssetNumber = new Long(sCapitalAssetNumber.trim());
+                fieldValues.remove(CamsPropertyConstants.AssetLocationGlobalDetail.CAPITAL_ASSET_NUMBER);
+                fieldValues.put(CamsPropertyConstants.AssetLocationGlobalDetail.CAPITAL_ASSET_NUMBER, capitalAssetNumber);
+            } catch (Exception e){}
+        }
+     
+        return super.populateNewCollectionLines(fieldValues);    
+    }
     
     protected CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
         return SpringContext.getBean(CapitalAssetManagementModuleService.class);

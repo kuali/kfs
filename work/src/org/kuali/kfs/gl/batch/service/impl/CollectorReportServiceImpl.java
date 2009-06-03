@@ -201,7 +201,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         buf.append("        Department: ").append(batch.getDepartmentName()).append("\n");
         buf.append("        Mailing Address: ").append(batch.getMailingAddress()).append("\n");
         buf.append("        Contact: ").append(batch.getPersonUserID()).append("\n");
-        buf.append("        Email: ").append(batch.getWorkgroupName()).append("\n");
+        buf.append("        Email: ").append(batch.getEmailAddress()).append("\n");
         buf.append("        Transmission Date: ").append(batch.getTransmissionDate()).append("\n\n");
     }
 
@@ -365,7 +365,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
                     // collector)
                     // was specific about treating only a code of 'D' as a debit
 
-                    collectorReportWriterService.writeFormattedMessageLine("Message sent to %s for Document %s", batch.getWorkgroupName(), errorDocumentGroupEntry.getKey().getDocumentNumber());
+                    collectorReportWriterService.writeFormattedMessageLine("Message sent to %s for Document %s", batch.getEmailAddress(), errorDocumentGroupEntry.getKey().getDocumentNumber());
                     int documentTransactionCount = errorDocumentGroupEntry.getValue().getNumCreditEntries() + errorDocumentGroupEntry.getValue().getNumDebitEntries() + errorDocumentGroupEntry.getValue().getNumOtherEntries();
                     aggregateTransactionCount += documentTransactionCount;
                     aggregateDebitAmount = aggregateDebitAmount.add(errorDocumentGroupEntry.getValue().getDebitAmount());
@@ -494,19 +494,19 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
         String body = createValidationMessageBody(errorMessages, batch, collectorReportData);
         message.setMessage(body);
-        message.addToAddress(batch.getWorkgroupName());
+        message.addToAddress(batch.getEmailAddress());
 
         try {
             mailService.sendMessage(message);
 
             String notificationMessage = configurationService.getPropertyString(KFSKeyConstants.Collector.NOTIFICATION_EMAIL_SENT);
-            String formattedMessage = MessageFormat.format(notificationMessage, new Object[] { batch.getWorkgroupName() });
+            String formattedMessage = MessageFormat.format(notificationMessage, new Object[] { batch.getEmailAddress() });
             collectorReportData.setEmailSendingStatusForParsedBatch(batch, formattedMessage);
         }
         catch (InvalidAddressException e) {
             LOG.error("sendErrorEmail() Invalid email address. Message not sent", e);
             String errorMessage = configurationService.getPropertyString(KFSKeyConstants.Collector.EMAIL_SEND_ERROR);
-            String formattedMessage = MessageFormat.format(errorMessage, new Object[] { batch.getWorkgroupName() });
+            String formattedMessage = MessageFormat.format(errorMessage, new Object[] { batch.getEmailAddress() });
             collectorReportData.setEmailSendingStatusForParsedBatch(batch, formattedMessage);
         }
     }
@@ -537,19 +537,19 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         message.setSubject(subject);
 
         message.setMessage(body);
-        message.addToAddress(batch.getWorkgroupName());
+        message.addToAddress(batch.getEmailAddress());
 
         try {
             mailService.sendMessage(message);
 
             String notificationMessage = configurationService.getPropertyString(KFSKeyConstants.Collector.NOTIFICATION_EMAIL_SENT);
-            String formattedMessage = MessageFormat.format(notificationMessage, new Object[] { batch.getWorkgroupName() });
+            String formattedMessage = MessageFormat.format(notificationMessage, new Object[] { batch.getEmailAddress() });
             collectorReportData.setEmailSendingStatusForParsedBatch(batch, formattedMessage);
         }
         catch (InvalidAddressException e) {
             LOG.error("sendErrorEmail() Invalid email address. Message not sent", e);
             String errorMessage = configurationService.getPropertyString(KFSKeyConstants.Collector.EMAIL_SEND_ERROR);
-            String formattedMessage = MessageFormat.format(errorMessage, new Object[] { batch.getWorkgroupName() });
+            String formattedMessage = MessageFormat.format(errorMessage, new Object[] { batch.getEmailAddress() });
             collectorReportData.setEmailSendingStatusForParsedBatch(batch, formattedMessage);
         }
     }

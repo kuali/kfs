@@ -50,7 +50,7 @@ public class CollectorBatch implements Serializable {
     private Date transmissionDate;
     private String personUserID;
     private Integer batchSequenceNumber;
-    private String workgroupName;
+    private String emailAddress;
 
     private String campusCode;
     private String phoneNumber;
@@ -171,17 +171,17 @@ public class CollectorBatch implements Serializable {
     }
 
     /**
-     * Gets the workgroupName attribute.
+     * Gets the emailAddress attribute.
      */
-    public String getWorkgroupName() {
-        return workgroupName;
+    public String getEmailAddress() {
+        return emailAddress;
     }
 
     /**
-     * Sets the workgroupName attribute value.
+     * Sets the emailAddress attribute value.
      */
-    public void setWorkgroupName(String workgroupName) {
-        this.workgroupName = workgroupName;
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 
     /**

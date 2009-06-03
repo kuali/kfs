@@ -28,7 +28,7 @@
             <call-method-rule pattern="transmissionDate"    methodname="setTransmissionDate" paramcount="0" paramtypes="java.sql.Date" />
             <call-method-rule pattern="batchSequenceNumber" methodname="setBatchSequenceNumber" paramcount="0" paramtypes="java.lang.Integer" />
             <call-method-rule pattern="personUserId"        methodname="setPersonUserID" paramcount="0" />
-            <call-method-rule pattern="workgroupName"       methodname="setWorkgroupName" paramcount="0" />
+            <call-method-rule pattern="emailAddress"        methodname="setEmailAddress" paramcount="0" />
             <call-method-rule pattern="campusCode"          methodname="setCampusCode" paramcount="0" />
             <call-method-rule pattern="phoneNumber"         methodname="setPhoneNumber" paramcount="0" />
             <call-method-rule pattern="mailingAddress"      methodname="setMailingAddress" paramcount="0" />

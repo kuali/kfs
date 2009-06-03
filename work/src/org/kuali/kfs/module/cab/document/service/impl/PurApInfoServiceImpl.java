@@ -374,7 +374,7 @@ public class PurApInfoServiceImpl implements PurApInfoService {
                 purchasingAccountsPayableItemAsset.setPurchaseOrderItemIdentifier(poi.getItemIdentifier());
             }
             // if PREQ Credit Memo document
-            VendorCreditMemoDocument cmDoc = (VendorCreditMemoDocument)item.getPurapDocument();
+            VendorCreditMemoDocument cmDoc = (VendorCreditMemoDocument) item.getPurapDocument();
             if (ObjectUtils.isNotNull(cmDoc) && cmDoc.isSourceDocumentPaymentRequest()) {
                 purchasingAccountsPayableItemAsset.setPaymentRequestIdentifier(cmDoc.getPaymentRequestIdentifier());
             }
@@ -407,7 +407,9 @@ public class PurApInfoServiceImpl implements PurApInfoService {
                 poi = (PurchaseOrderItem) po.getItem(item.getItemLineNumber().intValue() - 1);
             }
             else {
-                poi = (PurchaseOrderItem) SpringContext.getBean(PurapService.class).getBelowTheLineByType(item.getPurapDocument(), item.getItemType());
+                // To get the purchaseOrderItem by given CreditMemoItem. Since the additional charge type may be different in CM and
+                // PO, there could be no PO Item for a given CM item.
+                poi = (PurchaseOrderItem) SpringContext.getBean(PurapService.class).getBelowTheLineByType(po, item.getItemType());
             }
             if (poi != null) {
                 return poi;

@@ -241,8 +241,7 @@ public class FormatServiceImpl implements FormatService {
             processPaymentGroup(paymentGroup, paymentProcess, checkDisbursementType, achDisbursementType, extractedPaymentStatus, pendingPaymentStatus);
 
             // create payment history record if bank was changed
-            if (!paymentGroup.getBankCode().equals(originalBankCode)) {
-
+            if (StringUtils.isNotBlank(originalBankCode) && !paymentGroup.getBankCode().equals(originalBankCode)) {
                 PaymentGroupHistory paymentGroupHistory = new PaymentGroupHistory();
 
                 PaymentChangeCode paymentChangeCode = (PaymentChangeCode) this.kualiCodeService.getByCode(PaymentChangeCode.class, PdpConstants.PaymentChangeCodes.BANK_CHNG_CD);

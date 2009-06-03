@@ -131,10 +131,6 @@ public class PdpKeyConstants {
     public static class PaymentDetail{
         public static class ErrorMessages{
             public static final String ERROR_PAYMENT_DETAIL_CRITERIA_NOT_ENTERED = "paymentDetailLookup.criteria.noneEntered";
-//            public static final String ERROR_PAYMENT_DETAIL_DISBURSEMENT_NBR_INVALID = "paymentDetailLookup.disbursementNbr.invalid";
-//            public static final String ERROR_PAYMENT_DETAIL_PROCESS_ID_INVALID = "paymentDetailLookup.processId.invalid";
-//            public static final String ERROR_PAYMENT_DETAIL_PAYMENT_ID_INVALID = "paymentDetailLookup.paymentId.invalid";
-//            public static final String ERROR_PAYMENT_DETAIL_NET_AMOUNT_INVALID = "paymentDetailLookup.netPaymentAmount.invalid";
             public static final String ERROR_PAYMENT_DETAIL_PAYEE_ID_TYPE_CODE_NULL_WITH_PAYEE_ID = "paymentDetailLookup.payeeIdTypeCd.nullWithPayeeId";
             public static final String ERROR_PAYMENT_DETAIL_PAYEE_ID_NULL_WITH_PAYEE_ID_TYPE_CODE = "paymentDetailLookup.payeeId.nullWithPayeeIdTypeCd";
             public static final String ERROR_PAYMENT_DETAIL_CUST_DOC_NBR_LESS_THAN_2_CHARS  ="paymentDetailLookup.custPaymentDocNbr.lessThan2Chars";

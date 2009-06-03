@@ -766,6 +766,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
         paymentGroup.setBatchId(batch.getId());
         paymentGroup.setPaymentStatusCode(KFSConstants.PdpConstants.PAYMENT_OPEN_STATUS_CODE);
+        paymentGroup.setBankCode(paymentRequestDocument.getBankCode());
 
         String postalCode = paymentRequestDocument.getVendorPostalCode();
         if (KFSConstants.COUNTRY_CODE_UNITED_STATES.equals(paymentRequestDocument.getVendorCountry())) {
@@ -825,6 +826,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         PaymentGroup paymentGroup = new PaymentGroup();
         paymentGroup.setBatchId(batch.getId());
         paymentGroup.setPaymentStatusCode(KFSConstants.PdpConstants.PAYMENT_OPEN_STATUS_CODE);
+        paymentGroup.setBankCode(creditMemoDocument.getBankCode());
 
         String postalCode = creditMemoDocument.getVendorPostalCode();
         if (KFSConstants.COUNTRY_CODE_UNITED_STATES.equals(creditMemoDocument.getVendorCountry())) {

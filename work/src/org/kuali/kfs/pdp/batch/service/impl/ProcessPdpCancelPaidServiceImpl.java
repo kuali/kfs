@@ -90,8 +90,8 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
                 }
             }
             else {
-                LOG.error("processPdpCancels() Unknown document type (" + documentTypeCode + ") for document ID: " + documentNumber);
-                throw new IllegalArgumentException("Unknown document type (" + documentTypeCode + ") for document ID: " + documentNumber);
+                LOG.warn("processPdpCancels() Unknown document type (" + documentTypeCode + ") for document ID: " + documentNumber);
+                continue;
             }
 
             paymentGroupService.processCancelledGroup(paymentDetail.getPaymentGroup(), processDate);
@@ -129,8 +129,8 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
                 dvExtractService.markDisbursementVoucherAsPaid(dv, processDate);
             }
             else {
-                LOG.error("processPdpPaids() Unknown document type (" + documentTypeCode + ") for document ID: " + documentNumber);
-                throw new IllegalArgumentException("Unknown document type (" + documentTypeCode + ") for document ID: " + documentNumber);
+                LOG.warn("processPdpPaids() Unknown document type (" + documentTypeCode + ") for document ID: " + documentNumber);
+                continue;
             }
 
             paymentGroupService.processPaidGroup(paymentDetail.getPaymentGroup(), processDate);

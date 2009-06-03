@@ -21,21 +21,17 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.Batch;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
-import org.kuali.kfs.pdp.dataaccess.impl.util.PdpDataaccessUtil;
 import org.kuali.kfs.pdp.service.BatchMaintenanceService;
 import org.kuali.kfs.pdp.service.PdpAuthorizationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.dao.LookupDao;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -96,28 +92,6 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
                 }
             }
         }
-
-        if (fieldValues.containsKey(PdpPropertyConstants.BatchConstants.FILE_CREATION_TIME)) {
-            String fileCreationTimeValue = fieldValues.get(PdpPropertyConstants.BatchConstants.FILE_CREATION_TIME);
-
-            // if file creation time value is not empty and does not contain wildcards we have to create additional search criteria
-            // to get the batches on that date;
-            // that is because the file creation timestamp is a Timestamp in the BO but comes as a date from the GUI - we don't want
-            // to have the user enter the time too
-
-            Criteria additionalCriteria = PdpDataaccessUtil.createAdditionalRangeCriteriaForTimestampField(fileCreationTimeValue);
-            if (additionalCriteria != null) {
-
-                fieldValues.remove(PdpPropertyConstants.BatchConstants.FILE_CREATION_TIME);
-                boolean unbounded = false;
-                boolean usePrimaryKeyValuesOnly = getLookupService().allPrimaryKeyValuesPresentAndNotWildcard(getBusinessObjectClass(), fieldValues);
-                List<PersistableBusinessObject> searchResults = (List) lookupDao.findCollectionBySearchHelper(getBusinessObjectClass(), fieldValues, unbounded, usePrimaryKeyValuesOnly, additionalCriteria);
-                return searchResults;
-
-            }
-        }
-
-        // We ought to call the findCollectionBySearchHelper that would accept the additionalCriteria
 
         List results = super.getSearchResults(fieldValues);
         return results;
@@ -223,24 +197,24 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
         String batchIdValue = (String) fieldValues.get(PdpPropertyConstants.BatchConstants.BATCH_ID);
         String paymentCountValue = (String) fieldValues.get(PdpPropertyConstants.BatchConstants.PAYMENT_COUNT);
         String paymentTotalAmountValue = (String) fieldValues.get(PdpPropertyConstants.BatchConstants.PAYMENT_TOTAL_AMOUNT);
-        String fileCreationTimeValue = (String) fieldValues.get(PdpPropertyConstants.BatchConstants.FILE_CREATION_TIME);
+        String fileCreationTimeValueLower = (String) fieldValues.get(KNSConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX + PdpPropertyConstants.BatchConstants.FILE_CREATION_TIME);
+        String fileCreationTimeValueUpper = (String) fieldValues.get(KNSConstants.LOOKUP_DEFAULT_RANGE_SEARCH_UPPER_BOUND_LABEL + PdpPropertyConstants.BatchConstants.FILE_CREATION_TIME);
         String chartCodeValue = (String) fieldValues.get(PdpPropertyConstants.BatchConstants.CHART_CODE);
         String orgCodeValue = (String) fieldValues.get(PdpPropertyConstants.BatchConstants.ORG_CODE);
         String subUnitCodeValue = (String) fieldValues.get(PdpPropertyConstants.BatchConstants.SUB_UNIT_CODE);
 
         // check if there is any search criteria entered
-        if (StringUtils.isEmpty(batchIdValue) && StringUtils.isEmpty(chartCodeValue) && StringUtils.isEmpty(orgCodeValue) && StringUtils.isEmpty(subUnitCodeValue) && StringUtils.isEmpty(paymentCountValue) && StringUtils.isEmpty(paymentTotalAmountValue) && StringUtils.isEmpty(fileCreationTimeValue)) {
+        if (StringUtils.isBlank(batchIdValue) && StringUtils.isBlank(chartCodeValue) && StringUtils.isBlank(orgCodeValue) && StringUtils.isBlank(subUnitCodeValue) && StringUtils.isBlank(paymentCountValue) && StringUtils.isBlank(paymentTotalAmountValue) && StringUtils.isBlank(fileCreationTimeValueLower) && StringUtils.isBlank(fileCreationTimeValueUpper)) {
             GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_HEADER_ERRORS, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_BATCH_CRITERIA_NONE_ENTERED);
         }
-        else if (StringUtils.isEmpty(batchIdValue) && StringUtils.isEmpty(paymentCountValue) && StringUtils.isEmpty(paymentTotalAmountValue)) {
+        else if (StringUtils.isBlank(batchIdValue) && StringUtils.isBlank(paymentCountValue) && StringUtils.isBlank(paymentTotalAmountValue)) {
             // If batchId, paymentCount, and paymentTotalAmount are empty then at least creation date is required
-            if (StringUtils.isEmpty(fileCreationTimeValue)) {
+            if (StringUtils.isBlank(fileCreationTimeValueLower) && StringUtils.isBlank(fileCreationTimeValueUpper) ) {
                 GlobalVariables.getErrorMap().putError(PdpPropertyConstants.BatchConstants.FILE_CREATION_TIME, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_BATCH_CRITERIA_NO_DATE);
-
             }
-            else if (StringUtils.isNotEmpty(fileCreationTimeValue) && !StringUtils.contains(fileCreationTimeValue, "..")) {
+            else if (StringUtils.isBlank(fileCreationTimeValueLower) || StringUtils.isBlank(fileCreationTimeValueUpper)) {
                 // If we have one (but not both) dates the user must enter either the chartCode, orgCode, or subUnitCode
-                if (StringUtils.isEmpty(chartCodeValue) && StringUtils.isEmpty(orgCodeValue) && StringUtils.isEmpty(subUnitCodeValue)) {
+                if (StringUtils.isBlank(chartCodeValue) && StringUtils.isBlank(orgCodeValue) && StringUtils.isBlank(subUnitCodeValue)) {
                     GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_BATCH_CRITERIA_SOURCE_MISSING);
                 }
             }

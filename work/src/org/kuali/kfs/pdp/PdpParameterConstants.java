@@ -19,6 +19,7 @@ package org.kuali.kfs.pdp;
  * Contains PDP parameter constants
  */
 public class PdpParameterConstants {
+    public static final String DISBURSEMENT_CANCELLATION_DAYS = "DISBURSEMENT_CANCELLATION_DAYS";
     public static final String DISBURSEMENT_CANCELLATION_EMAIL_ADDRESSES = "DISBURSEMENT_CANCELLATION_TO_EMAIL_ADDRESSES";
     public static final String PAYMENT_LOAD_FAILURE_EMAIL_SUBJECT_PARAMETER_NAME = "FAILURE_EMAIL_SUBJECT";
     public static final String PAYMENT_LOAD_SUCCESS_EMAIL_SUBJECT_PARAMETER_NAME = "SUCCESS_EMAIL_SUBJECT";

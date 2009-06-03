@@ -733,7 +733,7 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntry, La
             sb.append(ZERO_TRANSACTION_LEDGER_ENTRY_AMOUNT);
         }
         else {
-            String a = transactionLedgerEntryAmount.toString();
+            String a = transactionLedgerEntryAmount.abs().toString();
             if (transactionLedgerEntryAmount.isNegative()) {
                 sb.append("-");
             } else {

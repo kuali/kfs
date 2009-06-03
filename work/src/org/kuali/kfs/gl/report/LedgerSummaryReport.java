@@ -25,13 +25,18 @@ import org.kuali.kfs.gl.businessobject.LedgerBalanceTypeSummaryTotalLine;
 import org.kuali.kfs.gl.businessobject.LedgerSummaryDetailLine;
 import org.kuali.kfs.gl.businessobject.LedgerSummaryTotalLine;
 import org.kuali.kfs.gl.businessobject.OriginEntry;
+import org.kuali.kfs.sys.DynamicCollectionComparator;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.service.ReportWriterService;
+
+import com.sun.tools.javac.util.Log;
 
 /**
  * Helper class which can summarize entries by balance type and then print out a ledger summary report
  */
 public class LedgerSummaryReport {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LedgerSummaryReport.class);
+    
     private LedgerSummaryTotalLine ledgerTotalLine;
     private Map<String, LedgerBalanceTypeSummaryTotalLine> balanceTypeTotals;
     Map<String, LedgerSummaryDetailLine> details;
@@ -103,7 +108,7 @@ public class LedgerSummaryReport {
             totalLine.addCreditAmount(originEntry.getTransactionLedgerEntryAmount());
             balanceTypeTotal.addCreditAmount(originEntry.getTransactionLedgerEntryAmount());
             detailLine.addCreditAmount(originEntry.getTransactionLedgerEntryAmount());
-        } else if (originEntry.getTransactionDebitCreditCode().equals(KFSConstants.GL_BUDGET_CODE)) {
+        } else{
             totalLine.addBudgetAmount(originEntry.getTransactionLedgerEntryAmount());
             balanceTypeTotal.addBudgetAmount(originEntry.getTransactionLedgerEntryAmount());
             detailLine.addBudgetAmount(originEntry.getTransactionLedgerEntryAmount());
@@ -117,7 +122,7 @@ public class LedgerSummaryReport {
     public void writeReport(ReportWriterService reportWriterService) {
         if (details.size() > 0) {
             List<LedgerSummaryDetailLine> detailList = new ArrayList<LedgerSummaryDetailLine>(details.values());
-            Collections.sort(detailList, LedgerSummaryDetailLine.getStandardComparator());
+            DynamicCollectionComparator.sort(detailList, LedgerSummaryDetailLine.keyFields);
         
             reportWriterService.writeTableHeader(detailList.get(0));
             String currentBalanceType = detailList.get(0).getFinancialBalanceTypeCode();
@@ -129,6 +134,7 @@ public class LedgerSummaryReport {
                     reportWriterService.writeTableRowSeparationLine(subTitleLine);
                     currentBalanceType = detailLine.getFinancialBalanceTypeCode();
                 }
+
                 reportWriterService.writeTableRow(detailLine);
             }
             reportWriterService.writeTableRow(balanceTypeTotals.get(detailList.get(detailList.size()-1).getFinancialBalanceTypeCode()));

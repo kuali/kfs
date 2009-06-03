@@ -252,7 +252,7 @@
 
     <bean id="laborPendingEntryLedgerReportWriterService" parent="reportWriterService">
         <property name="filePath" value="${reports.directory}/ld"/>
-        <property name="fileNamePrefix" value="labor_pending_entry_summary_"/>
+        <property name="fileNamePrefix" value="llpe_ledger_"/>
         <property name="title" value="Labor Pending Ledger Entry Summary"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
             <map>
@@ -577,8 +577,8 @@
 	
 	<bean id="laborPosterReportWriterService" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/ld"/>
-		<property name="fileNamePrefix" value="Labor_Poster_Main_"/>
-        <property name="title" value="LABOR POSTER REPORT"/>
+		<property name="fileNamePrefix" value="labor_poster_main_"/>
+        <property name="title" value="Labor Poster Report"/>
 		<property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
         		<entry key="org.kuali.kfs.module.ld.businessobject.LaborOriginEntry" value="laborTransactionReportHelper"/>
@@ -1413,7 +1413,7 @@
 	<bean id="laborGeneratedTransactionsReportWriterService" class="org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/ld"/>
 		<property name="fileNamePrefix" value="labor_scrubber_listing_"/>
-        <property name="title" value="Labor Output Transaction Listing From the Scrubber"/>
+        <property name="title" value="Labor Transaction Listing"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
         		<entry key="org.kuali.kfs.module.ld.businessobject.LaborOriginEntry" value="laborTransactionListingReportHelper"/>

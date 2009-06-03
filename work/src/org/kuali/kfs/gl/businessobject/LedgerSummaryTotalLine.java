@@ -27,11 +27,11 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * Summarizes Pending Entry data for the GLPE pending entry report.
  */
 public class LedgerSummaryTotalLine extends TransientBusinessObjectBase {
-    private KualiDecimal debitAmount = new KualiDecimal("0");
+    private KualiDecimal debitAmount = KualiDecimal.ZERO;
     private int debitCount = 0;
-    private KualiDecimal creditAmount = new KualiDecimal("0");
+    private KualiDecimal creditAmount = KualiDecimal.ZERO;
     private int creditCount = 0;
-    private KualiDecimal budgetAmount = new KualiDecimal("0");
+    private KualiDecimal budgetAmount = KualiDecimal.ZERO;
     private int budgetCount = 0;
     /**
      * Gets the recordCount attribute. 
@@ -115,7 +115,7 @@ public class LedgerSummaryTotalLine extends TransientBusinessObjectBase {
      */
     @Override
     protected LinkedHashMap toStringMapper() {
-        return null;
+        return new LinkedHashMap();
     }
     
     /**

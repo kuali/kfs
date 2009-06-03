@@ -931,7 +931,7 @@ public class LaborScrubberProcess {
      * Generates a transaction listing report for labor origin entries that were valid
      */
     protected void generateScrubberTransactionsOnline() {
-        Iterator<LaborOriginEntry> generatedTransactions = new LaborOriginEntryFileIterator(new File(validFile));
+        Iterator<LaborOriginEntry> generatedTransactions = new LaborOriginEntryFileIterator(new File(inputFile));
         new TransactionListingReport().generateReport(laborGeneratedTransactionsReportWriterService, generatedTransactions);
     }
 

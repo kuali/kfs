@@ -16,8 +16,10 @@
 package org.kuali.kfs.gl.businessobject;
 
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
 /**
  * Holds summary data for the ledger summary report
@@ -25,10 +27,11 @@ import org.apache.commons.lang.StringUtils;
 public class LedgerSummaryDetailLine extends LedgerBalanceTypeSummaryTotalLine {
     private String financialSystemOriginationCode;
     private Integer universityFiscalYear;
-    private String universityAccountPeriodCode; 
-    
+    private String universityAccountPeriodCode;
+
     /**
      * Constructs a LedgerSummaryDetailLine
+     * 
      * @param balanceTypeCode
      * @param financialSystemOriginationCode
      * @param universityFiscalYear
@@ -42,7 +45,8 @@ public class LedgerSummaryDetailLine extends LedgerBalanceTypeSummaryTotalLine {
     }
 
     /**
-     * Gets the financialSystemOriginationCode attribute. 
+     * Gets the financialSystemOriginationCode attribute.
+     * 
      * @return Returns the financialSystemOriginationCode.
      */
     public String getFinancialSystemOriginationCode() {
@@ -50,7 +54,8 @@ public class LedgerSummaryDetailLine extends LedgerBalanceTypeSummaryTotalLine {
     }
 
     /**
-     * Gets the universityFiscalYear attribute. 
+     * Gets the universityFiscalYear attribute.
+     * 
      * @return Returns the universityFiscalYear.
      */
     public Integer getUniversityFiscalYear() {
@@ -58,7 +63,8 @@ public class LedgerSummaryDetailLine extends LedgerBalanceTypeSummaryTotalLine {
     }
 
     /**
-     * Gets the universityAccountPeriodCode attribute. 
+     * Gets the universityAccountPeriodCode attribute.
+     * 
      * @return Returns the universityAccountPeriodCode.
      */
     public String getUniversityAccountPeriodCode() {
@@ -69,30 +75,32 @@ public class LedgerSummaryDetailLine extends LedgerBalanceTypeSummaryTotalLine {
      * @return gets a "key" for this summary line - just a convenient key for Maps which might hold these
      */
     public String getKey() {
-        return LedgerSummaryDetailLine.makeKey(this.getFinancialBalanceTypeCode(),this.getFinancialSystemOriginationCode(),this.getUniversityFiscalYear(),this.getUniversityAccountPeriodCode());
+        return LedgerSummaryDetailLine.makeKey(this.getFinancialBalanceTypeCode(), this.getFinancialSystemOriginationCode(), this.getUniversityFiscalYear(), this.getUniversityAccountPeriodCode());
     }
-    
+
     /**
-     * Generates a Map key in a consistent format with the rest of the uses of this class for a given OriginEntry 
+     * Generates a Map key in a consistent format with the rest of the uses of this class for a given OriginEntry
+     * 
      * @param entry the entry to build a key for
      * @return the "key" for a summary line which would include totals from entries like the given origin entry
      */
     public static String getKeyString(OriginEntry entry) {
         return LedgerSummaryDetailLine.makeKey(entry.getFinancialBalanceTypeCode(), entry.getFinancialSystemOriginationCode(), entry.getUniversityFiscalYear(), entry.getUniversityFiscalPeriodCode());
     }
-    
+
     /**
      * Given the various values, puts together a convenient Map key
+     * 
      * @param balanceTypeCode a balance type code
      * @param financialSystemOriginationCode an origination code
      * @param universityFiscalYear a fiscal year, smothered in mustard
      * @param universityAccountingPeriodCode an accounting period code
-     * @return all of them magically put together, to form a Map key.  Like Voltron, but more financially oriented
+     * @return all of them magically put together, to form a Map key. Like Voltron, but more financially oriented
      */
     private static String makeKey(String balanceTypeCode, String financialSystemOriginationCode, Integer universityFiscalYear, String universityAccountingPeriodCode) {
-        return StringUtils.join(new String[] {balanceTypeCode, financialSystemOriginationCode,universityFiscalYear == null ? "" : universityFiscalYear.toString(),universityAccountingPeriodCode}, ':');
+        return StringUtils.join(new String[] { balanceTypeCode, financialSystemOriginationCode, universityFiscalYear == null ? "" : universityFiscalYear.toString(), universityAccountingPeriodCode }, ':');
     }
-    
+
     /**
      * @return a standard comparator for comparing NightlyOutPendingEntryLedgerSummaryDetailLine objects
      */
@@ -100,6 +108,7 @@ public class LedgerSummaryDetailLine extends LedgerBalanceTypeSummaryTotalLine {
         return new Comparator<LedgerSummaryDetailLine>() {
             /**
              * Compares two NightlyOutPendingEntryLedgerSummaryDetailLine objects
+             * 
              * @param tweedleDee the first NightlyOutPendingEntryLedgerSummaryDetailLine object
              * @param tweedleDum the second NightlyOutPendingEntryLedgerSummaryDetailLine other
              * @return the standard 0 for equals, greater than 0 for greater than, less than 0 for less than
@@ -107,19 +116,24 @@ public class LedgerSummaryDetailLine extends LedgerBalanceTypeSummaryTotalLine {
             public int compare(LedgerSummaryDetailLine tweedleDee, LedgerSummaryDetailLine tweedleDum) {
                 if (shouldCompare(tweedleDee.getFinancialBalanceTypeCode(), tweedleDum.getFinancialBalanceTypeCode())) {
                     return tweedleDee.getFinancialBalanceTypeCode().compareTo(tweedleDum.getFinancialBalanceTypeCode());
-                } else if (shouldCompare(tweedleDee.getFinancialSystemOriginationCode(), tweedleDum.getFinancialSystemOriginationCode())) {
+                }
+                else if (shouldCompare(tweedleDee.getFinancialSystemOriginationCode(), tweedleDum.getFinancialSystemOriginationCode())) {
                     return tweedleDee.getFinancialSystemOriginationCode().compareTo(tweedleDum.getFinancialSystemOriginationCode());
-                } else if (shouldCompare(tweedleDee.getUniversityFiscalYear(), tweedleDum.getUniversityFiscalYear())) {
+                }
+                else if (shouldCompare(tweedleDee.getUniversityFiscalYear(), tweedleDum.getUniversityFiscalYear())) {
                     return tweedleDee.getUniversityFiscalYear().compareTo(tweedleDum.getUniversityFiscalYear());
-                } else if (shouldCompare(tweedleDee.getUniversityAccountPeriodCode(), tweedleDum.getUniversityAccountPeriodCode())) {
+                }
+                else if (shouldCompare(tweedleDee.getUniversityAccountPeriodCode(), tweedleDum.getUniversityAccountPeriodCode())) {
                     return tweedleDee.getUniversityAccountPeriodCode().compareTo(tweedleDum.getUniversityAccountPeriodCode());
-                } else {
+                }
+                else {
                     return 0;
                 }
             }
-            
+
             /**
              * Determines if it's safe to compare two Strings
+             * 
              * @param s1 the first String we may compare
              * @param s2 the second String we may compare
              * @return true if comparison of these two Strings would be meaningful
@@ -127,9 +141,10 @@ public class LedgerSummaryDetailLine extends LedgerBalanceTypeSummaryTotalLine {
             protected boolean shouldCompare(String s1, String s2) {
                 return !StringUtils.isBlank(s1) && !StringUtils.isBlank(s2) && !s1.equals(s2);
             }
-            
+
             /**
              * Determine if it's safe to compare two Integers
+             * 
              * @param i1 the first Integer we may compare
              * @param i2 the second Integer we may compare
              * @return true if comparison of the two Integers would be meaningful
@@ -138,5 +153,21 @@ public class LedgerSummaryDetailLine extends LedgerBalanceTypeSummaryTotalLine {
                 return i1 != null && i2 != null && !i1.equals(i2);
             }
         };
+    }
+
+    public static String[] keyFields = new String[] { KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, "universityAccountPeriodCode" };
+
+    /**
+     * @see org.kuali.kfs.gl.businessobject.LedgerSummaryTotalLine#toStringMapper()
+     */
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap stringMapper = super.toStringMapper();
+        stringMapper.put("financialBalanceTypeCode", this.getFinancialBalanceTypeCode());
+        stringMapper.put("financialSystemOriginationCode", this.getFinancialSystemOriginationCode());
+        stringMapper.put("universityFiscalYear", this.getUniversityFiscalYear());
+        stringMapper.put("universityAccountPeriodCode", this.getUniversityAccountPeriodCode());
+
+        return stringMapper;
     }
 }

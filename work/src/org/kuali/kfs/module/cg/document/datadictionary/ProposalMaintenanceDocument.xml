@@ -102,6 +102,7 @@
               <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode"/>
               <bean parent="MaintainableFieldDefinition" p:name="organizationCode"/>
               <bean parent="MaintainableFieldDefinition" p:name="proposalPrimaryOrganizationIndicator"/>
+              <bean parent="MaintainableFieldDefinition" p:name="active"/>
             </list>
           </property>
           <property name="maintainableFields">
@@ -110,6 +111,7 @@
               <bean parent="MaintainableFieldDefinition" p:name="organizationCode" p:required="true" p:webUILeaveFieldFunction="organizationNameLookup"/>
               <bean parent="MaintainableFieldDefinition" p:name="organization.organizationName" p:unconditionallyReadOnly="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="proposalPrimaryOrganizationIndicator"/>
+              <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
             </list>
           </property>
@@ -133,6 +135,7 @@
               <bean parent="MaintainableFieldDefinition" p:name="projectDirector.name"/>
               <bean parent="MaintainableFieldDefinition" p:name="proposalPrimaryProjectDirectorIndicator"/>
               <bean parent="MaintainableFieldDefinition" p:name="proposalProjectDirectorProjectTitle"/>
+              <bean parent="MaintainableFieldDefinition" p:name="active"/>
             </list>
           </property>
           <property name="maintainableFields">
@@ -142,6 +145,7 @@
               <bean parent="MaintainableFieldDefinition" p:name="principalId" p:unconditionallyReadOnly="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="proposalPrimaryProjectDirectorIndicator"/>
               <bean parent="MaintainableFieldDefinition" p:name="proposalProjectDirectorProjectTitle"/>
+              <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
             </list>
           </property>
@@ -163,6 +167,7 @@
             <list>
               <bean parent="MaintainableFieldDefinition" p:name="subcontractor.subcontractorName"/>
               <bean parent="MaintainableFieldDefinition" p:name="proposalSubcontractorAmount"/>
+              <bean parent="MaintainableFieldDefinition" p:name="active"/>
             </list>
           </property>
           <property name="maintainableFields">
@@ -171,6 +176,7 @@
               <bean parent="MaintainableFieldDefinition" p:name="subcontractor.subcontractorName" p:unconditionallyReadOnly="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="proposalSubcontractorDescription"/>
               <bean parent="MaintainableFieldDefinition" p:name="proposalSubcontractorAmount" p:defaultValue="0.00"/>
+              <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
             </list>
           </property>

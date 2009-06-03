@@ -68,11 +68,17 @@
 	    <c:if test="${(KualiForm.purchasingCapitalAssetSystemCommentsAvailability eq availability) or (KualiForm.purchasingCapitalAssetSystemDescriptionAvailability eq availability)}">
         <tr>
 	  	    <c:if test="${KualiForm.purchasingCapitalAssetSystemCommentsAvailability eq availability}">
+	            <bean:define id="capitalAssetNoteTextValue" property="${camsAssetSystemProperty}.capitalAssetNoteText" name="KualiForm" />
 	            <th width="20%" align=right valign=middle class="bord-l-b">
 	               <div align="right"><kul:htmlAttributeLabel attributeEntry="${camsSystemAttributes.capitalAssetNoteText}" /></div>
   	            </th>
 		        <td class="datacell">
-			   	    <kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetNoteText}" property="${camsAssetSystemProperty}.capitalAssetNoteText" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive}" tabindexOverride="${tabindexOverrideBase + 0}"/>
+			   	    <kul:htmlControlAttribute 
+			   	        attributeEntry="${camsSystemAttributes.capitalAssetNoteText}" 
+			   	        property="${camsAssetSystemProperty}.capitalAssetNoteText" 
+			   	        readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive}" 
+			   	        readOnlyAlternateDisplay="${fn:replace(capitalAssetNoteTextValue, Constants.NEWLINE, '<br/>')}"		 
+			   	        tabindexOverride="${tabindexOverrideBase + 0}"/>
 			    </td>		
 		    </c:if>
 	        <c:if test="${!(KualiForm.purchasingCapitalAssetSystemCommentsAvailability eq availability)}">
@@ -80,11 +86,17 @@
 			    <td class="datacell">&nbsp;</td>
 	        </c:if>
 			<c:if test="${KualiForm.purchasingCapitalAssetSystemDescriptionAvailability eq availability}">
+			    <bean:define id="capitalAssetSystemDescriptionValue" property="${camsAssetSystemProperty}.capitalAssetSystemDescription" name="KualiForm" />
                 <th width="20%" align=right valign=middle class="bord-l-b">
                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${camsSystemAttributes.capitalAssetSystemDescription}" /></div>
                 </th>
 	            <td class="datacell">
-		    		<kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetSystemDescription}" property="${camsAssetSystemProperty}.capitalAssetSystemDescription" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive}" tabindexOverride="${tabindexOverrideBase + 3}"/>
+		    		<kul:htmlControlAttribute 
+		    		    attributeEntry="${camsSystemAttributes.capitalAssetSystemDescription}" 
+		    		    property="${camsAssetSystemProperty}.capitalAssetSystemDescription" 
+		    		    readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive}" 
+		    		    readOnlyAlternateDisplay="${fn:replace(capitalAssetSystemDescriptionValue, Constants.NEWLINE, '<br/>')}"		    		    
+		    		    tabindexOverride="${tabindexOverrideBase + 3}"/>
 			    </td>
 			</c:if>
 	        <c:if test="${!(KualiForm.purchasingCapitalAssetSystemDescriptionAvailability eq availability)}">

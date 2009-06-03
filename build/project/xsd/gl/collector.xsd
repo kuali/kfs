@@ -26,7 +26,7 @@
     <xsd:element name="transmissionDate" type="xsd:date"/>
     <xsd:element name="batchSequenceNumber" type="xsd:integer"/>
     <xsd:element name="personUserId" type="kfs:oneToEightCharType"/>
-    <xsd:element name="workgroupName" type="kfs:oneToSeventyCharType"/>
+    <xsd:element name="emailAddress" type="kfs:oneToSeventyCharType"/>
 	<xsd:element name="campusCode" type="kfs:oneToTwoCharType"/>
 	<xsd:element name="phoneNumber" type="kfs:oneToTwentyCharType"/>
 	<xsd:element name="mailingAddress" type="kfs:oneToThirtyCharType"/>
@@ -78,7 +78,7 @@
                <xsd:element maxOccurs="1" minOccurs="1" ref="transmissionDate" />
                <xsd:element maxOccurs="1" minOccurs="1" ref="batchSequenceNumber" />
                <xsd:element maxOccurs="1" minOccurs="1" ref="personUserId" />
-               <xsd:element maxOccurs="1" minOccurs="1" ref="workgroupName" />
+               <xsd:element maxOccurs="1" minOccurs="1" ref="emailAddress" />
                <xsd:element maxOccurs="1" minOccurs="1" ref="campusCode"/>
 	           <xsd:element maxOccurs="1" minOccurs="1" ref="phoneNumber"/>
                <xsd:element maxOccurs="1" minOccurs="1" ref="mailingAddress"/>

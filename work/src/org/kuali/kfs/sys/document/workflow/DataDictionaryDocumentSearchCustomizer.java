@@ -184,7 +184,8 @@ public class DataDictionaryDocumentSearchCustomizer extends org.kuali.rice.kns.w
     @Override
     public DocSearchCriteriaDTO clearSearch(DocSearchCriteriaDTO searchCriteria) {
         DocSearchCriteriaDTO dscdto = new DocSearchCriteriaDTO();
-        dscdto.setDocTypeFullName(searchCriteria.getDocTypeFullName());
+        // the following line can be uncommented to retain the doc type when the clear button is used on a doc search.
+        //dscdto.setDocTypeFullName(searchCriteria.getDocTypeFullName());
         return dscdto;
     }
 }

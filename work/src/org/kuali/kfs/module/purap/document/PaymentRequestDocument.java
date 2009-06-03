@@ -68,6 +68,7 @@ import org.kuali.rice.kew.dto.ActionTakenEventDTO;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -1309,5 +1310,25 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
 
     public String getPaidIndicatorForResult() {
         return getPaymentPaidTimestamp() != null ? "Yes" : "No";
+    }
+    
+    /**
+     * Checks all documents notes for attachments.
+     * 
+     * @return - true if document does not have an image attached, false otherwise
+     */
+    public boolean documentHasNoImagesAttached() {
+        List boNotes = this.getDocumentBusinessObject().getBoNotes();
+        if (ObjectUtils.isNotNull(boNotes)) {
+            for (Object obj : boNotes) {
+                Note note = (Note) obj;
+                // may need to refresh this attachment because of a bug - see see KULPURAP-1397
+                note.refreshReferenceObject("attachment");
+                if (ObjectUtils.isNotNull(note.getAttachment()) && PurapConstants.AttachmentTypeCodes.ATTACHMENT_TYPE_INVOICE_IMAGE.equals(note.getAttachment().getAttachmentTypeCode())) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

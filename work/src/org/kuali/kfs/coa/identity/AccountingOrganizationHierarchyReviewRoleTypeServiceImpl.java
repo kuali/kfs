@@ -99,7 +99,7 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
             attributeImpl = getAttributeImpl(KfsKimAttributes.FROM_AMOUNT);
             GlobalVariables.getErrorMap().putError(
                     KfsKimAttributes.FROM_AMOUNT, RiceKeyConstants.ERROR_DELEGATION_FROM_AMOUNT_LESSER, 
-                    dataDictionaryService.getAttributeLabel(attributeImpl.getComponentName(), KfsKimAttributes.FROM_AMOUNT));
+                    getDataDictionaryService().getAttributeLabel(attributeImpl.getComponentName(), KfsKimAttributes.FROM_AMOUNT));
             attributeErrors = extractErrorsFromGlobalVariablesErrorMap(KfsKimAttributes.FROM_AMOUNT);
         }
         if(attributeErrors!=null){
@@ -115,7 +115,7 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
             attributeImpl = getAttributeImpl(KfsKimAttributes.TO_AMOUNT);
             GlobalVariables.getErrorMap().putError(
                     KfsKimAttributes.TO_AMOUNT, RiceKeyConstants.ERROR_DELEGATION_TO_AMOUNT_GREATER, 
-                    dataDictionaryService.getAttributeLabel(attributeImpl.getComponentName(), KfsKimAttributes.TO_AMOUNT));
+                    getDataDictionaryService().getAttributeLabel(attributeImpl.getComponentName(), KfsKimAttributes.TO_AMOUNT));
             attributeErrors = extractErrorsFromGlobalVariablesErrorMap(KfsKimAttributes.TO_AMOUNT);
         }
         if(attributeErrors!=null){

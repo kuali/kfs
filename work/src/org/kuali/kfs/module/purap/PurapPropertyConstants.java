@@ -48,6 +48,9 @@ public class PurapPropertyConstants {
     public static final String CAPITAL_ASSET_SYSTEM_IDENTIFIER = "capitalAssetSystemIdentifier";
     public static final String ITEM_REASON_ADDED = "itemReasonAdded";
     
+    // ITEM TYPE
+    public static final String ITEM_TYPE_QUANTITY_BASED = "quantityBasedGeneralLedgerIndicator";
+    
     // accounting line
     public static final String ACCOUNT_DISTRIBUTION_NEW_SRC_LINE = "accountDistributionnewSourceLine";
     public static final String ACCOUNT_IDENTIFIER = "accountIdentifier";

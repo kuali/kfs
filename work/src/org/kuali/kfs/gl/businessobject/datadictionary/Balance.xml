@@ -331,7 +331,10 @@
       <bean parent="SortDefinition">
         <property name="attributeNames" >
           <list>
-            <value>accountNumber</value>
+            <value>objectCode</value>
+            <value>subObjectCode</value>
+            <value>balanceTypeCode</value>
+            <value>objectTypeCode</value>
           </list>
         </property>
       </bean>

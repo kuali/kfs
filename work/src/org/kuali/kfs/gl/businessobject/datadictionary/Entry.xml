@@ -383,6 +383,9 @@
         <property name="attributeNames" >
           <list>
             <value>financialObjectCode</value>
+            <value>financialSubObjectCode</value>
+            <value>financialBalanceTypeCode</value>
+            <value>financialObjectTypeCode</value>
           </list>
         </property>
       </bean>

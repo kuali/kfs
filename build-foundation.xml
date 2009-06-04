@@ -36,6 +36,8 @@ are intended for use only by Kuali Foundation developers.
         </javac>
         <copy todir="${war.classes.directory}">
             <fileset dir="${test.infrastructure.source.directory}" includes="${non.java.resources}" />
+            <fileset dir="${test.unit.source.directory}" includes="${non.java.resources}" />
+            <fileset dir="${test.integration.source.directory}" includes="${non.java.resources}" />
         </copy>
     	<java classname="org.kuali.kfs.sys.context.CheckModularization" fork="true" resultproperty="context.test.results">
 			<jvmarg value="-Xms${run.tests.min.memory}" />
@@ -46,6 +48,7 @@ are intended for use only by Kuali Foundation developers.
 				<path refid="compile.source.classpath" />
 			</classpath>
 		</java>
+		<!--
  		<verifydesign design="work/src/design.xml">
 			<path>
 				<fileset dir="${war.classes.directory}/org/kuali/kfs" includes="**/*.class" excludes="**/*Test.class,**/*Fixture.class" />
@@ -54,6 +57,7 @@ are intended for use only by Kuali Foundation developers.
 		<condition property="context.test.failed" value="true">
 			<equals arg1="${context.test.results}" arg2="1" />
 		</condition>
+		-->
 	</target>
 
 	<target name="check-modularization" depends="modularization-test">

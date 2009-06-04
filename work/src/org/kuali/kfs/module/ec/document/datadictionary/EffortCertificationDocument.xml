@@ -143,12 +143,12 @@
 			    			<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Organization" />
     						<property name="attributeName" value="organizationCode" />
     						<property name="showAttributeInSearchCriteria" value="true"/>
-					        <property name="showAttributeInResultSet" value="false"/>
+					        <property name="showAttributeInResultSet" value="true"/>
                         </bean>
                     </property>
                     <property name="documentValues">
                         <list>
-                            <value>organizationCode</value>
+                            <value>effortCertificationDetailLines.account.organizationCode</value>
                         </list>
                     </property>
                 </bean>

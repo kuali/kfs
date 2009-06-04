@@ -67,7 +67,7 @@ public class PurchaseOrderAccountingLineAuthorizer extends PurapAccountingLineAu
     }
 
     @Override
-    public boolean determineEditPermissionOnLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty) {
+    public boolean determineEditPermissionOnLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, boolean currentUserIsDocumentInitiator) {
      // the fields in a new line should be always editable
         if (accountingLine.getSequenceNumber() == null) {
             return true;
@@ -78,8 +78,7 @@ public class PurchaseOrderAccountingLineAuthorizer extends PurapAccountingLineAu
         KualiWorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)accountingDocument;
         if (!poDocument.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.IN_PROCESS) && (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved())) {
-            boolean hasEditLinePermission = workflowDocument.userIsInitiator(GlobalVariables.getUserSession().getPerson());
-            return hasEditLinePermission;
+            return currentUserIsDocumentInitiator;
         }
         else {
             return true;

@@ -210,7 +210,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @return true if the the current user has permission to edit the given accounting line; otherwsie, false
      */
     public final boolean hasEditPermissionOnAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, Person currentUser) {        
-        if (determineEditPermissionOnLine(accountingDocument, accountingLine, accountingLineCollectionProperty)) {
+        if (determineEditPermissionOnLine(accountingDocument, accountingLine, accountingLineCollectionProperty, accountingDocument.getDocumentHeader().getWorkflowDocument().userIsInitiator(currentUser))) {
             
             // examine whether the whole line can be editable via KIM check
             final String lineFieldName = getKimHappyPropertyNameForField(accountingLineCollectionProperty);
@@ -224,9 +224,10 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @param accountingDocument the accounting document the line is or wants to be associated with
      * @param accountingLine the accounting line itself
      * @param accountingLineCollectionProperty the collection the accounting line is or would be part of
+     * @param currentUserIsDocumentInitiator is the current user the initiator of the document?
      * @return true if the line as a whole can be edited, false otherwise
      */
-    public boolean determineEditPermissionOnLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty) {
+    public boolean determineEditPermissionOnLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, boolean currentUserIsDocumentInitiator) {
         // the fields in a new line should be always editable
         if (accountingLine.getSequenceNumber() == null) {
             return true;
@@ -235,8 +236,9 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
         // check the initiation permission on the document if it is in the state of preroute
         KualiWorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
-            boolean hasEditLinePermission = workflowDocument.userIsInitiator(GlobalVariables.getUserSession().getPerson());
-            return hasEditLinePermission;
+            if (!currentUserIsDocumentInitiator) {
+                return false;
+            }
         }
         
         if (accountingDocument instanceof Correctable) {

@@ -208,9 +208,10 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
     @Override
     public boolean determineEditPermissionOnLine(AccountingDocument accountingDocument, 
                                                  AccountingLine accountingLine, 
-                                                 String accountingLineCollectionProperty) {
+                                                 String accountingLineCollectionProperty,
+                                                 boolean currentUserIsDocumentInitiator) {
         
-        boolean isEditable = super.determineEditPermissionOnLine(accountingDocument, accountingLine, accountingLineCollectionProperty);
+        boolean isEditable = super.determineEditPermissionOnLine(accountingDocument, accountingLine, accountingLineCollectionProperty, currentUserIsDocumentInitiator);
         
         if (isEditable){
             isEditable = allowAccountingLinesAreEditable(accountingDocument,accountingLine);

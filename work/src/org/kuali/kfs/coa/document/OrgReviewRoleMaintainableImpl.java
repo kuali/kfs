@@ -26,11 +26,9 @@ import org.kuali.kfs.coa.identity.OrgReviewRoleLookupableHelperServiceImpl;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kew.role.KimRoleRecipient;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.entity.KimPrincipal;
 import org.kuali.rice.kim.bo.group.dto.GroupInfo;
-import org.kuali.rice.kim.bo.role.KimDelegationMember;
 import org.kuali.rice.kim.bo.role.dto.KimRoleInfo;
 import org.kuali.rice.kim.bo.role.impl.KimDelegationImpl;
 import org.kuali.rice.kim.bo.role.impl.KimDelegationMemberAttributeDataImpl;
@@ -40,6 +38,7 @@ import org.kuali.rice.kim.bo.role.impl.RoleMemberImpl;
 import org.kuali.rice.kim.bo.role.impl.RoleResponsibilityActionImpl;
 import org.kuali.rice.kim.bo.role.impl.RoleResponsibilityImpl;
 import org.kuali.rice.kim.bo.types.dto.AttributeDefinitionMap;
+import org.kuali.rice.kim.bo.types.dto.KimTypeInfo;
 import org.kuali.rice.kim.bo.types.impl.KimAttributeDataImpl;
 import org.kuali.rice.kim.bo.types.impl.KimTypeImpl;
 import org.kuali.rice.kim.bo.ui.KimDocumentRoleMember;
@@ -47,6 +46,7 @@ import org.kuali.rice.kim.bo.ui.RoleDocumentDelegationMember;
 import org.kuali.rice.kim.service.GroupService;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.service.KimTypeInfoService;
 import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kim.service.UiDocumentService;
 import org.kuali.rice.kim.service.support.KimTypeService;
@@ -68,13 +68,16 @@ import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
 
+import edu.emory.mathcs.backport.java.util.Collections;
+
 public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
 
-    private transient SequenceAccessorService sequenceAccessorService;
-    private transient RoleService roleService;
-    private transient GroupService groupService;
-    private transient IdentityManagementService identityManagementService;
-    private transient UiDocumentService uiDocumentService;
+    private transient static SequenceAccessorService sequenceAccessorService;
+    private transient static RoleService roleService;
+    private transient static GroupService groupService;
+    private transient static IdentityManagementService identityManagementService;
+    private transient static UiDocumentService uiDocumentService;
+    private transient static KimTypeInfoService typeInfoService;
     
     @Override
     public boolean isExternalBusinessObject(){
@@ -83,7 +86,7 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
     
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {
-        return new ArrayList();
+        return Collections.emptyList();
     }
     
     public void prepareBusinessObject(BusinessObject businessObject){
@@ -722,23 +725,21 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
     //protected String getKimAttributeId()
     protected List<RoleMemberAttributeDataImpl> getAttributes(
             OrgReviewRole orr, RoleMemberImpl roleMember, String kimTypeId){
-        Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put("kimTypeId", kimTypeId);
-        KimTypeImpl kimTypeImpl = (KimTypeImpl)getBusinessObjectService().findByPrimaryKey(KimTypeImpl.class, criteria);
-        KimTypeService typeService = KimCommonUtils.getKimTypeService(kimTypeImpl);
-        AttributeDefinitionMap attributeDefinitions = typeService.getAttributeDefinitions(kimTypeImpl.getKimTypeId());
+        KimTypeInfo kimType = getTypeInfoService().getKimType(kimTypeId);
+        KimTypeService typeService = KimCommonUtils.getKimTypeService(kimType);
+        AttributeDefinitionMap attributeDefinitions = typeService.getAttributeDefinitions(kimTypeId);
         List<RoleMemberAttributeDataImpl> attributeDataList = new ArrayList<RoleMemberAttributeDataImpl>();
         RoleMemberAttributeDataImpl attributeData = new RoleMemberAttributeDataImpl();
         //chart code
         attributeData.setAttributeDataId(getRoleMemberAttributeDataId());
-        attributeData.setKimTypeId(kimTypeImpl.getKimTypeId());
+        attributeData.setKimTypeId(kimTypeId);
         attributeData.setAttributeValue(orr.getChartOfAccountsCode());
         attributeData.setKimAttributeId(getKimAttributeDefnId(attributeDefinitions, KfsKimAttributes.CHART_OF_ACCOUNTS_CODE));
         attributeDataList.add(attributeData);
         
         //org code
         attributeData = new RoleMemberAttributeDataImpl();
-        attributeData.setKimTypeId(kimTypeImpl.getKimTypeId());
+        attributeData.setKimTypeId(kimTypeId);
         attributeData.setAttributeDataId(getRoleMemberAttributeDataId());
         attributeData.setAttributeValue(orr.getOrganizationCode());
         attributeData.setKimAttributeId(getKimAttributeDefnId(attributeDefinitions, KfsKimAttributes.ORGANIZATION_CODE));
@@ -749,7 +750,7 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         if(StringUtils.isNotEmpty(attributeDefnId) && orr.getFinancialSystemDocumentTypeCode()!=null){
             attributeData = new RoleMemberAttributeDataImpl();
             attributeData.setAttributeDataId(getRoleMemberAttributeDataId());
-            attributeData.setKimTypeId(kimTypeImpl.getKimTypeId());
+            attributeData.setKimTypeId(kimTypeId);
             attributeData.setAttributeValue(orr.getFinancialSystemDocumentTypeCode());
             attributeData.setKimAttributeId(attributeDefnId);
             attributeDataList.add(attributeData);
@@ -760,7 +761,7 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         if(StringUtils.isNotEmpty(attributeDefnId) && orr.getOverrideCode()!=null){
             attributeData = new RoleMemberAttributeDataImpl();
             attributeData.setAttributeDataId(getRoleMemberAttributeDataId());
-            attributeData.setKimTypeId(kimTypeImpl.getKimTypeId());
+            attributeData.setKimTypeId(kimTypeId);
             attributeData.setAttributeValue(orr.getOverrideCode());
             attributeData.setKimAttributeId(attributeDefnId);
             attributeDataList.add(attributeData);
@@ -771,7 +772,7 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         if(StringUtils.isNotEmpty(attributeDefnId) && orr.getFromAmount()!=null){
             attributeData = new RoleMemberAttributeDataImpl();
             attributeData.setAttributeDataId(getRoleMemberAttributeDataId());
-            attributeData.setKimTypeId(kimTypeImpl.getKimTypeId());
+            attributeData.setKimTypeId(kimTypeId);
             attributeData.setAttributeValue(orr.getFromAmount());
             attributeData.setKimAttributeId(attributeDefnId);
             attributeDataList.add(attributeData);
@@ -782,7 +783,7 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         if(StringUtils.isNotEmpty(attributeDefnId) && orr.getToAmount()!=null){
             attributeData = new RoleMemberAttributeDataImpl();
             attributeData.setAttributeDataId(getRoleMemberAttributeDataId());
-            attributeData.setKimTypeId(kimTypeImpl.getKimTypeId());
+            attributeData.setKimTypeId(kimTypeId);
             attributeData.setAttributeValue(orr.getToAmount());
             attributeData.setKimAttributeId(attributeDefnId);
             attributeDataList.add(attributeData);
@@ -796,21 +797,21 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("kimTypeId", kimTypeId);
-        KimTypeImpl kimTypeImpl = (KimTypeImpl)getBusinessObjectService().findByPrimaryKey(KimTypeImpl.class, criteria);
-        KimTypeService typeService = KimCommonUtils.getKimTypeService(kimTypeImpl);
-        AttributeDefinitionMap attributeDefinitions = typeService.getAttributeDefinitions(kimTypeImpl.getKimTypeId());
+        KimTypeInfo kimType = getTypeInfoService().getKimType(kimTypeId);
+        KimTypeService typeService = KimCommonUtils.getKimTypeService(kimType);
+        AttributeDefinitionMap attributeDefinitions = typeService.getAttributeDefinitions(kimTypeId);
         List<KimDelegationMemberAttributeDataImpl> attributeDataList = new ArrayList<KimDelegationMemberAttributeDataImpl>();
         KimDelegationMemberAttributeDataImpl attributeData = new KimDelegationMemberAttributeDataImpl();
         //chart code
         attributeData.setAttributeDataId(getRoleMemberAttributeDataId());
-        attributeData.setKimTypeId(kimTypeImpl.getKimTypeId());
+        attributeData.setKimTypeId(kimTypeId);
         attributeData.setAttributeValue(orr.getChartOfAccountsCode());
         attributeData.setKimAttributeId(getKimAttributeDefnId(attributeDefinitions, KfsKimAttributes.CHART_OF_ACCOUNTS_CODE));
         attributeDataList.add(attributeData);
         
         //org code
         attributeData = new KimDelegationMemberAttributeDataImpl();
-        attributeData.setKimTypeId(kimTypeImpl.getKimTypeId());
+        attributeData.setKimTypeId(kimTypeId);
         attributeData.setAttributeDataId(getRoleMemberAttributeDataId());
         attributeData.setAttributeValue(orr.getOrganizationCode());
         attributeData.setKimAttributeId(getKimAttributeDefnId(attributeDefinitions, KfsKimAttributes.ORGANIZATION_CODE));
@@ -821,7 +822,7 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         if(StringUtils.isNotEmpty(attributeDefnId) && orr.getFinancialSystemDocumentTypeCode()!=null){
             attributeData = new KimDelegationMemberAttributeDataImpl();
             attributeData.setAttributeDataId(getRoleMemberAttributeDataId());
-            attributeData.setKimTypeId(kimTypeImpl.getKimTypeId());
+            attributeData.setKimTypeId(kimTypeId);
             attributeData.setAttributeValue(orr.getFinancialSystemDocumentTypeCode());
             attributeData.setKimAttributeId(attributeDefnId);
             attributeDataList.add(attributeData);
@@ -832,7 +833,7 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         if(StringUtils.isNotEmpty(attributeDefnId) && orr.getOverrideCode()!=null){
             attributeData = new KimDelegationMemberAttributeDataImpl();
             attributeData.setAttributeDataId(getRoleMemberAttributeDataId());
-            attributeData.setKimTypeId(kimTypeImpl.getKimTypeId());
+            attributeData.setKimTypeId(kimTypeId);
             attributeData.setAttributeValue(orr.getOverrideCode());
             attributeData.setKimAttributeId(attributeDefnId);
             attributeDataList.add(attributeData);
@@ -843,7 +844,7 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         if(StringUtils.isNotEmpty(attributeDefnId) && orr.getFromAmount()!=null){
             attributeData = new KimDelegationMemberAttributeDataImpl();
             attributeData.setAttributeDataId(getRoleMemberAttributeDataId());
-            attributeData.setKimTypeId(kimTypeImpl.getKimTypeId());
+            attributeData.setKimTypeId(kimTypeId);
             attributeData.setAttributeValue(orr.getFromAmount());
             attributeData.setKimAttributeId(attributeDefnId);
             attributeDataList.add(attributeData);
@@ -854,7 +855,7 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         if(StringUtils.isNotEmpty(attributeDefnId) && orr.getToAmount()!=null){
             attributeData = new KimDelegationMemberAttributeDataImpl();
             attributeData.setAttributeDataId(getRoleMemberAttributeDataId());
-            attributeData.setKimTypeId(kimTypeImpl.getKimTypeId());
+            attributeData.setKimTypeId(kimTypeId);
             attributeData.setAttributeValue(orr.getToAmount());
             attributeData.setKimAttributeId(attributeDefnId);
             attributeDataList.add(attributeData);
@@ -898,38 +899,44 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
     }
     
     protected SequenceAccessorService getSequenceAccessorService(){
-        if(this.sequenceAccessorService==null){
-            this.sequenceAccessorService = KNSServiceLocator.getSequenceAccessorService();
+        if(sequenceAccessorService==null){
+            sequenceAccessorService = KNSServiceLocator.getSequenceAccessorService();
         }
-        return this.sequenceAccessorService;
+        return sequenceAccessorService;
     }
 
     protected RoleService getRoleService(){
-        if(this.roleService==null){
-            this.roleService = KIMServiceLocator.getRoleService();
+        if(roleService==null){
+            roleService = KIMServiceLocator.getRoleService();
         }
-        return this.roleService;
+        return roleService;
     }
 
     protected GroupService getGroupService(){
-        if(this.groupService==null){
-            this.groupService = KIMServiceLocator.getGroupService();
+        if(groupService==null){
+            groupService = KIMServiceLocator.getGroupService();
         }
-        return this.groupService;
+        return groupService;
     }
 
     protected IdentityManagementService getIdentityManagementService(){
-        if(this.identityManagementService==null){
-            this.identityManagementService = KIMServiceLocator.getIdentityManagementService();
+        if(identityManagementService==null){
+            identityManagementService = KIMServiceLocator.getIdentityManagementService();
         }
-        return this.identityManagementService;
+        return identityManagementService;
     }
 
     protected UiDocumentService getUIDocumentService(){
-        if(this.uiDocumentService==null){
-            this.uiDocumentService = KIMServiceLocator.getUiDocumentService();
+        if(uiDocumentService==null){
+            uiDocumentService = KIMServiceLocator.getUiDocumentService();
         }
-        return this.uiDocumentService;
+        return uiDocumentService;
+    }
+    protected KimTypeInfoService getTypeInfoService(){
+        if(typeInfoService==null){
+            typeInfoService = KIMServiceLocator.getTypeInfoService();
+        }
+        return typeInfoService;
     }
     
 }

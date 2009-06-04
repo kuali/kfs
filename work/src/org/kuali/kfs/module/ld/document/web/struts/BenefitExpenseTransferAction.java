@@ -99,7 +99,7 @@ public class BenefitExpenseTransferAction extends ExpenseTransferDocumentActionB
     @Override
     public ActionForward deleteAllSourceAccountingLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BenefitExpenseTransferForm financialDocumentForm = (BenefitExpenseTransferForm) form;
-        financialDocumentForm.getBenefitExpenseTransferDocument().setNextSourceLineNumber(1);
+        financialDocumentForm.getBenefitExpenseTransferDocument().setNextSourceLineNumber(KFSConstants.ONE.intValue());
         
         return super.deleteAllSourceAccountingLines(mapping, form, request, response);
     }
@@ -117,7 +117,7 @@ public class BenefitExpenseTransferAction extends ExpenseTransferDocumentActionB
     @Override
     public ActionForward deleteAllTargetAccountingLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BenefitExpenseTransferForm financialDocumentForm = (BenefitExpenseTransferForm) form;
-        financialDocumentForm.getBenefitExpenseTransferDocument().setNextTargetLineNumber(1);
+        financialDocumentForm.getBenefitExpenseTransferDocument().setNextTargetLineNumber(KFSConstants.ONE.intValue());
         
         return super.deleteAllTargetAccountingLines(mapping, form, request, response);
     }

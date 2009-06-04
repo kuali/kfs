@@ -218,7 +218,7 @@ public class SalaryExpenseTransferAction extends ExpenseTransferDocumentActionBa
     @Override
     public ActionForward deleteAllSourceAccountingLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         SalaryExpenseTransferForm financialDocumentForm = (SalaryExpenseTransferForm) form;
-        financialDocumentForm.getSalaryExpenseTransferDocument().setNextSourceLineNumber(1);
+        financialDocumentForm.getSalaryExpenseTransferDocument().setNextSourceLineNumber(KFSConstants.ONE.intValue());
         
         return super.deleteAllSourceAccountingLines(mapping, form, request, response);
     }
@@ -236,7 +236,7 @@ public class SalaryExpenseTransferAction extends ExpenseTransferDocumentActionBa
     @Override
     public ActionForward deleteAllTargetAccountingLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         SalaryExpenseTransferForm financialDocumentForm = (SalaryExpenseTransferForm) form;
-        financialDocumentForm.getSalaryExpenseTransferDocument().setNextTargetLineNumber(1);
+        financialDocumentForm.getSalaryExpenseTransferDocument().setNextTargetLineNumber(KFSConstants.ONE.intValue());
         
         return super.deleteAllTargetAccountingLines(mapping, form, request, response);
     }

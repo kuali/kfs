@@ -104,7 +104,7 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
     public void testProcessAddAccountingLineBusinessRules_invalidReferenceTypeCode() throws Exception {
         AccountingLine line = EXTERNAL_ENCUMBRANCE_LINE.createVoucherSourceAccountingLine();
         line.setReferenceTypeCode("42");
-        testProcessAddAccountingLineBusinessRules(line, KFSPropertyConstants.REFERENCE_TYPE_CODE, KFSKeyConstants.ERROR_EXISTENCE);
+        testProcessAddAccountingLineBusinessRules(line, KFSPropertyConstants.REFERENCE_TYPE_CODE, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_NON_ACTIVE_CURRENT_ACCOUNTING_DOCUMENT_TYPE);
         assertGlobalErrorMapNotContains(line.toString(), KFSPropertyConstants.REFERENCE_TYPE_CODE, KFSKeyConstants.ERROR_REQUIRED);
         assertGlobalErrorMapSize(line.toString(), 1);
     }

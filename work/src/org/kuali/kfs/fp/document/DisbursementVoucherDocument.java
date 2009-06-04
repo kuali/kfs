@@ -106,6 +106,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     private static transient VendorService vendorService;
     private static transient BusinessObjectService businessObjectService;
     private static transient DateTimeService dateTimeService;
+    private static transient DisbursementVoucherPaymentReasonService dvPymentReasonService;
 
     private Integer finDocNextRegistrantLineNbr;
     private String disbVchrContactPersonName;
@@ -142,7 +143,6 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     private DisbursementVoucherPayeeDetail dvPayeeDetail;
     private DisbursementVoucherPreConferenceDetail dvPreConferenceDetail;
     private DisbursementVoucherWireTransfer dvWireTransfer;
-    private DisbursementVoucherPaymentReasonService dvPymentReasonService;
 
     private Bank bank;
 

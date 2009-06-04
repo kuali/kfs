@@ -202,7 +202,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
     }
 
     /**
-     * determine whether the current user has permission to edit the given accounting line as a whole
+     * Determine whether the current user has permission to edit the given accounting line as a whole
      * 
      * @param accountingDocument the given accounting document
      * @param accountingLine the given accounting line in the document
@@ -211,6 +211,10 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      */
     public final boolean hasEditPermissionOnAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, Person currentUser) {        
         if (determineEditPermissionOnLine(accountingDocument, accountingLine, accountingLineCollectionProperty, accountingDocument.getDocumentHeader().getWorkflowDocument().userIsInitiator(currentUser))) {
+            
+            if (approvedForUnqualifiedEditing(accountingDocument, accountingLine, accountingLineCollectionProperty, accountingDocument.getDocumentHeader().getWorkflowDocument().userIsInitiator(currentUser))) {
+                return true;  // don't do the KIM check, we're good
+            }
             
             // examine whether the whole line can be editable via KIM check
             final String lineFieldName = getKimHappyPropertyNameForField(accountingLineCollectionProperty);
@@ -228,6 +232,25 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @return true if the line as a whole can be edited, false otherwise
      */
     public boolean determineEditPermissionOnLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, boolean currentUserIsDocumentInitiator) {
+        if (accountingDocument instanceof Correctable) {
+            String errorDocumentNumber = ((FinancialSystemDocumentHeader)accountingDocument.getDocumentHeader()).getFinancialDocumentInErrorNumber();
+            if (StringUtils.isNotBlank(errorDocumentNumber))
+                return false;
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Determines if the given line is editable, no matter what a KIM check would say about line editability.  In the default case,
+     * any accounting line is editable - minus KIM check - when the document is PreRoute, or if the line is a new line
+     * @param accountingDocument the accounting document the line is or wants to be associated with
+     * @param accountingLine the accounting line itself
+     * @param accountingLineCollectionProperty the collection the accounting line is or would be part of
+     * @param currentUserIsDocumentInitiator is the current user the initiator of the document?
+     * @return true if the line as a whole can be edited without the KIM check, false otherwise
+     */
+    protected boolean approvedForUnqualifiedEditing(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, boolean currentUserIsDocumentInitiator) {
         // the fields in a new line should be always editable
         if (accountingLine.getSequenceNumber() == null) {
             return true;
@@ -236,18 +259,9 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
         // check the initiation permission on the document if it is in the state of preroute
         KualiWorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
-            if (!currentUserIsDocumentInitiator) {
-                return false;
-            }
+            return currentUserIsDocumentInitiator;
         }
-        
-        if (accountingDocument instanceof Correctable) {
-            String errorDocumentNumber = ((FinancialSystemDocumentHeader)accountingDocument.getDocumentHeader()).getFinancialDocumentInErrorNumber();
-            if (StringUtils.isNotBlank(errorDocumentNumber))
-                return false;
-        }
-        
-        return true;
+        return false;
     }
 
     /**

@@ -18,6 +18,22 @@
 <%@ attribute name="channelTitle" required="true" %>
 <%@ attribute name="channelUrl" required="true" %>
 
+<script type="text/javascript">
+function resize_iframe() {
+	var iframe = document.getElementById('iframeportlet');
+	if ( !iframe ) return;
+	var iframeDocElement = iframe.contentWindow.document.documentElement;
+    if ( !iframeDocElement ) return;
+	iframe.style.height = iframeDocElement.offsetHeight + "px";
+    iframe.style.width = iframeDocElement.scrollWidth + "px";
+    // table
+    if ( iframe.parentNode.parentNode.parentNode ) {
+        iframe.parentNode.parentNode.parentNode.style.width = iframeDocElement.scrollWidth + "px";
+    }
+    //iframe.scrolling = "no";
+    //console.log( "Set iframe dimensions to " + iframe.style.height + "/"+iframe.style.width );
+}
+</script>
 
-<iframe src="${channelUrl}" onload='setFocusedIframeDimensions("iframeportlet", 500, true); setIframeAnchor("iframeportlet")' name="iframeportlet" id="iframeportlet" hspace="0" vspace="0" style="height: 500px;" title="E-Doc" frameborder="0" height="500" scrolling="auto" width="100%"></iframe>
+<iframe src="${channelUrl}" onload='resize_iframe(); setIframeAnchor("iframeportlet")' name="iframeportlet" id="iframeportlet" hspace="0" vspace="0" style="height: 500px; width: 100%;" title="E-Doc" frameborder="0" scrolling="auto"></iframe>
                      

@@ -27,7 +27,7 @@
 		<c:if test="${!empty pageScope.motd}">
 		  	<tr valign="top" bgcolor="#FFFFFF">
 				<td width="15" class="leftback-focus">&nbsp;</td>
-				<td colspan="3">
+				<td>
 				    <channel:portalChannelTop channelTitle="Message Of The Day" />
 					    <div class="body">
 				    	    <strong><c:out value="${pageScope.motd}"  /></strong>
@@ -42,7 +42,7 @@
         <c:choose>
           <%-- first try to check if they are focusing in --%>
           <c:when test='${!empty channelTitle && !empty channelUrl}'>
-            <td class="content" valign="top" colspan="2">
+            <td class="content" valign="top">
               <c:if test="${!empty param.backdoorId}">
                   <portal:iframePortletContainer channelTitle="${channelTitle}" channelUrl="${channelUrl}?backdoorId=${param.backdoorId}&methodToCall.login.x=1" />
               </c:if>

@@ -62,7 +62,7 @@ public class CustomerInvoiceDocumentDaoOjb extends PlatformAwareDaoBaseOjb imple
         return invoiceNumbers;
     }
     
-    public List<String> getCustomerInvoiceDocumentNumbersByProcessingChartAndOrg(String chartOfAccountsCode, String organizationCode) {
+    public List<String> getPrintableCustomerInvoiceDocumentNumbersByProcessingChartAndOrg(String chartOfAccountsCode, String organizationCode) {
         if (StringUtils.isBlank(chartOfAccountsCode)) {
             throw new IllegalArgumentException("The method was called with a Null or Blank chartOfAccountsCode parameter.");
         }
@@ -101,7 +101,7 @@ public class CustomerInvoiceDocumentDaoOjb extends PlatformAwareDaoBaseOjb imple
         return new ArrayList<String>(invoiceNumbers);
     }
     
-    public List<String> getCustomerInvoiceDocumentNumbersByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode) {
+    public List<String> getPrintableCustomerInvoiceDocumentNumbersByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode) {
         if (StringUtils.isBlank(chartOfAccountsCode)) {
             throw new IllegalArgumentException("The method was called with a Null or Blank chartOfAccountsCode parameter.");
         }
@@ -124,6 +124,73 @@ public class CustomerInvoiceDocumentDaoOjb extends PlatformAwareDaoBaseOjb imple
         criteria.addEqualTo("printInvoiceIndicator", ArConstants.PrintInvoiceOptions.PRINT_BY_BILLING_ORG);
         criteria.addIsNull("printDate");
         criteria.addEqualTo("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
+        
+        ReportQueryByCriteria rqbc = QueryFactory.newReportQuery(CustomerInvoiceDocument.class, new String[] { "documentNumber" }, criteria, false);
+        
+        Iterator<Object[]> iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
+        List<String> invoiceNumbers = new ArrayList<String>(); 
+        while (iter.hasNext()) {
+            invoiceNumbers.add((String)iter.next()[0]);
+        }
+        return new ArrayList<String>(invoiceNumbers);
+    }
+    
+    public List<String> getCustomerInvoiceDocumentNumbersByProcessingChartAndOrg(String chartOfAccountsCode, String organizationCode) {
+        if (StringUtils.isBlank(chartOfAccountsCode)) {
+            throw new IllegalArgumentException("The method was called with a Null or Blank chartOfAccountsCode parameter.");
+        }
+        if (StringUtils.isBlank(organizationCode)) {
+            throw new IllegalArgumentException("The method was called with a Null or Blank organizationCode parameter.");
+        }
+
+        //  Why use the OJB reports approach here, rather than a list of CustomerInvoiceDocuments?  
+        //
+        //  This was done because even if we had the invoice documents, we then need to do a proper document load 
+        // via the documentService, which loads up the workflow information as well and properly prepares the document.
+        //
+        //  Therefore, at this stage, there's no reason to load entire documents, all we need are document numbers.  And with 
+        // OJB, this is how you get just a collection of a single column's value out.  Given the performance issues associated 
+        // with live reporting like this, the attempt was made to minimize the resource usage. 
+        
+        // select i.fdoc_nbr
+        // from ar_doc_hdr_t h inner join ar_inv_doc_t i 
+        //   on h.fdoc_nbr = i.fdoc_nbr 
+        // where h.prcs_fin_coa_cd = ? and h.prcs_org_cd = ? 
+        
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("accountsReceivableDocumentHeader.processingChartOfAccountCode", chartOfAccountsCode);
+        criteria.addEqualTo("accountsReceivableDocumentHeader.processingOrganizationCode", organizationCode);
+        
+        ReportQueryByCriteria rqbc = QueryFactory.newReportQuery(CustomerInvoiceDocument.class, new String[] { "documentNumber" }, criteria, false);
+        
+        Iterator<Object[]> iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
+        List<String> invoiceNumbers = new ArrayList<String>(); 
+        while (iter.hasNext()) {
+            invoiceNumbers.add((String)iter.next()[0]);
+        }
+        return new ArrayList<String>(invoiceNumbers);
+    }
+    
+    public List<String> getCustomerInvoiceDocumentNumbersByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode) {
+        if (StringUtils.isBlank(chartOfAccountsCode)) {
+            throw new IllegalArgumentException("The method was called with a Null or Blank chartOfAccountsCode parameter.");
+        }
+        if (StringUtils.isBlank(organizationCode)) {
+            throw new IllegalArgumentException("The method was called with a Null or Blank organizationCode parameter.");
+        }
+
+        //  Why use the OJB reports approach here, rather than a list of CustomerInvoiceDocuments?  
+        //
+        //  This was done because even if we had the invoice documents, we then need to do a proper document load 
+        // via the documentService, which loads up the workflow information as well and properly prepares the document.
+        //
+        //  Therefore, at this stage, there's no reason to load entire documents, all we need are document numbers.  And with 
+        // OJB, this is how you get just a collection of a single column's value out.  Given the performance issues associated 
+        // with live reporting like this, the attempt was made to minimize the resource usage. 
+        
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("billByChartOfAccountCode", chartOfAccountsCode);
+        criteria.addEqualTo("billedByOrganizationCode", organizationCode);
         
         ReportQueryByCriteria rqbc = QueryFactory.newReportQuery(CustomerInvoiceDocument.class, new String[] { "documentNumber" }, criteria, false);
         

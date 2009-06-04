@@ -47,12 +47,38 @@ public interface CustomerInvoiceDocumentDao {
      * @param organizationCode
      * @return
      */
-    public List<String> getCustomerInvoiceDocumentNumbersByProcessingChartAndOrg(String chartOfAccountsCode, String organizationCode);
+    public List<String> getPrintableCustomerInvoiceDocumentNumbersByProcessingChartAndOrg(String chartOfAccountsCode, String organizationCode);
     
     /**
      * 
      * Retrieves all Invoice document numbers in the system associated with the given 
      * Billing Chart and Org, that are approved and ready to print.
+     * 
+     * WARNING that all the returned documents lack any workflow wiring.
+     * 
+     * @param chartOfAccountsCode
+     * @param organizationCode
+     * @return
+     */
+    public List<String> getPrintableCustomerInvoiceDocumentNumbersByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode);
+    
+    /**
+     * 
+     * Retrieves all Invoice document numbers in the system associated with the given 
+     * Processing Chart and Org.
+     * 
+     * WARNING that all the returned documents lack any workflow wiring.
+     * 
+     * @param chartOfAccountsCode
+     * @param organizationCode
+     * @return
+     */
+    public List<String> getCustomerInvoiceDocumentNumbersByProcessingChartAndOrg(String chartOfAccountsCode, String organizationCode);
+    
+    /**
+     * 
+     * Retrieves all Invoice document numbers in the system associated with the given 
+     * Billing Chart and Org.
      * 
      * WARNING that all the returned documents lack any workflow wiring.
      * 

@@ -427,7 +427,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     }
 
     public List<CustomerInvoiceDocument> getPrintableCustomerInvoiceDocumentsByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode) {
-        List<String> documentHeaderIds = customerInvoiceDocumentDao.getCustomerInvoiceDocumentNumbersByBillingChartAndOrg(chartOfAccountsCode, organizationCode);
+        List<String> documentHeaderIds = customerInvoiceDocumentDao.getPrintableCustomerInvoiceDocumentNumbersByBillingChartAndOrg(chartOfAccountsCode, organizationCode);
 
         List<CustomerInvoiceDocument> customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
         if (documentHeaderIds != null && !documentHeaderIds.isEmpty()) {
@@ -446,7 +446,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
      */
     public List<CustomerInvoiceDocument> getPrintableCustomerInvoiceDocumentsByProcessingChartAndOrg(String chartOfAccountsCode, String organizationCode) {
 
-        List<String> documentHeaderIds = customerInvoiceDocumentDao.getCustomerInvoiceDocumentNumbersByProcessingChartAndOrg(chartOfAccountsCode, organizationCode);
+        List<String> documentHeaderIds = customerInvoiceDocumentDao.getPrintableCustomerInvoiceDocumentNumbersByProcessingChartAndOrg(chartOfAccountsCode, organizationCode);
 
         List<CustomerInvoiceDocument> customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
         if (documentHeaderIds != null && !documentHeaderIds.isEmpty()) {
@@ -471,6 +471,40 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
             // customerInvoiceDocuments.clear();
             try {
                 customerInvoiceDocuments = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, docNumbers);
+            }
+            catch (WorkflowException e) {
+                throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
+            }
+        }
+        return customerInvoiceDocuments;
+    }
+
+    public List<CustomerInvoiceDocument> getCustomerInvoiceDocumentsByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode) {
+        List<String> documentHeaderIds = customerInvoiceDocumentDao.getCustomerInvoiceDocumentNumbersByBillingChartAndOrg(chartOfAccountsCode, organizationCode);
+
+        List<CustomerInvoiceDocument> customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
+        if (documentHeaderIds != null && !documentHeaderIds.isEmpty()) {
+            try {
+                customerInvoiceDocuments = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds);
+            }
+            catch (WorkflowException e) {
+                throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
+            }
+        }
+        return customerInvoiceDocuments;
+    }
+
+    /**
+     * @see org.kuali.module.ar.service.CustomerInvoiceDocumentService#getCustomerInvoiceDocumentsByCustomerNumber(java.lang.String)
+     */
+    public List<CustomerInvoiceDocument> getCustomerInvoiceDocumentsByProcessingChartAndOrg(String chartOfAccountsCode, String organizationCode) {
+
+        List<String> documentHeaderIds = customerInvoiceDocumentDao.getCustomerInvoiceDocumentNumbersByProcessingChartAndOrg(chartOfAccountsCode, organizationCode);
+
+        List<CustomerInvoiceDocument> customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
+        if (documentHeaderIds != null && !documentHeaderIds.isEmpty()) {
+            try {
+                customerInvoiceDocuments = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds);
             }
             catch (WorkflowException e) {
                 throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);

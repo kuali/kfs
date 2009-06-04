@@ -127,8 +127,8 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         total91toSYSPR = KualiDecimal.ZERO;
         totalSYSPRplus1orMore = KualiDecimal.ZERO;
 
-        if (reportOption.equalsIgnoreCase("PROCESSING ORGANIZATION") && chartCode.length() != 0 && orgCode.length() != 0) {
-            invoices = customerInvoiceDocumentService.getPrintableCustomerInvoiceDocumentsByProcessingChartAndOrg(chartCode, orgCode);
+        if (reportOption.equalsIgnoreCase(ArConstants.CustomerAgingReportFields.PROCESSING_ORG) && StringUtils.isNotBlank(chartCode) && StringUtils.isNotBlank(orgCode)) {
+            invoices = customerInvoiceDocumentService.getCustomerInvoiceDocumentsByProcessingChartAndOrg(chartCode, orgCode);
             for (CustomerInvoiceDocument ci : invoices) {
                 invoiceDetails.addAll(customerInvoiceDocumentService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(ci));
 //                LOG.info("\t\t****** PROCESSING ORGANIZATION\t\t"+invoiceDetails.toString()+chartCode+"\t"+orgCode);
@@ -138,13 +138,13 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
             }
         }
-        if (reportOption.equalsIgnoreCase("BILLING ORGANIZATION") && chartCode.length() != 0 && orgCode.length() != 0) {
-            invoices = customerInvoiceDocumentService.getPrintableCustomerInvoiceDocumentsByBillingChartAndOrg(chartCode, orgCode);
+        if (reportOption.equalsIgnoreCase(ArConstants.CustomerAgingReportFields.BILLING_ORG) && StringUtils.isNotBlank(chartCode) && StringUtils.isNotBlank(orgCode)) {
+            invoices = customerInvoiceDocumentService.getCustomerInvoiceDocumentsByBillingChartAndOrg(chartCode, orgCode);
             for (CustomerInvoiceDocument ci : invoices) {
                 invoiceDetails.addAll(customerInvoiceDocumentService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(ci));
             }
         }
-        if (reportOption.equalsIgnoreCase("ACCOUNT") && accountNumber.length() != 0) {
+        if (reportOption.equalsIgnoreCase(ArConstants.CustomerAgingReportFields.ACCT) && accountNumber.length() != 0) {
             if ((accountNumber.length() == 7) && (StringUtils.isNumeric(accountNumber))) {
                 invoiceDetails = getCustomerInvoiceDetailsByAccountNumber(accountNumber);
             } else {

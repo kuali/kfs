@@ -32,6 +32,7 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * A validation that checks whether the given accounting line is accessible to the given user or not
@@ -68,6 +69,10 @@ public class ServiceBillingAccountingLineAccessibleValidation extends GenericVal
                 return true;
         }
         
+        final KualiWorkflowDocument workflowDocument = accountingDocumentForValidation.getDocumentHeader().getWorkflowDocument();
+        if (accountingLineForValidation.isTargetAccountingLine() && (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved())) {
+            return true; // all target lines are accessible PreRoute, no matter the account
+        }
         
         final boolean isAccessible = new ServiceBillingDocumentAuthorizer().canModifyAccountingLine(accountingDocumentForValidation, accountingLineForValidation,  currentUser);
 

@@ -36,6 +36,12 @@
               <bean parent="PrimitiveAttributeDefinition"
                     p:sourceName="principalId"
                     p:targetName="principalId" />
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="userLookupRoleNamespaceCode"
+                    p:targetName="lookupRoleNamespaceCode" />
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="userLookupRoleName"
+                    p:targetName="lookupRoleName" /> 
             </list>
           </property>
         </bean>

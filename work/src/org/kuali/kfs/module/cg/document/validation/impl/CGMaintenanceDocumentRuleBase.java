@@ -18,6 +18,7 @@ package org.kuali.kfs.module.cg.document.validation.impl;
 import java.sql.Date;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,11 +26,13 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cg.businessobject.Agency;
 import org.kuali.kfs.module.cg.businessobject.CGProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.Primaryable;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.reference.impl.EmploymentStatusImpl;
 import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -115,6 +118,31 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
         }
         return success;
     }
+    
+    /**
+     * @param <T>
+     * @param projectDirectors
+     * @param elementClass
+     * @param collectionName
+     * @return
+     */
+    protected <T extends CGProjectDirector> boolean checkProjectDirectorsAreDirectors(List<T> projectDirectors, Class<T> elementClass, String collectionName) {
+        boolean success = true;
+        final String personUserPropertyName = KFSPropertyConstants.PROJECT_DIRECTOR + "." + KFSPropertyConstants.PERSON_USER_IDENTIFIER;
+        String label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(elementClass, personUserPropertyName);
+        RoleManagementService roleService = SpringContext.getBean(RoleManagementService.class);
+        int i = 0;
+        for (T pd : projectDirectors) {
+            String propertyName = collectionName + "[" + (i++) + "]." + personUserPropertyName;
+            String id = pd.getProjectDirector().getName();
+            if (!roleService.principalHasRole(id, Collections.singletonList(KFSConstants.SysKimConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR), null)) {
+                putFieldError(propertyName, KFSKeyConstants.ERROR_NOT_A_PROJECT_DIRECTOR, id);
+                success = false;
+            }
+        }
+        return success;
+    }
+    
 
     /**
      * This method takes in a collection of {@link ProjectDirector}s and reviews them to see if any have invalid states for being

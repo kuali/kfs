@@ -18,6 +18,7 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.impl.PersonImpl;
@@ -38,6 +39,10 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
 
     private Person projectDirector;
 
+    
+    private final String userLookupRoleNamespaceCode = KFSConstants.ParameterNamespaces.KFS;
+    private final String userLookupRoleName = KFSConstants.SysKimConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR;
+    
     /**
      * Default constructor.
      */
@@ -175,6 +180,22 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
         String name = ObjectUtils.isNull(getProjectDirector()) ? "nonexistent" : getProjectDirector().getName();
         String title = getProposalProjectDirectorProjectTitle() == null ? "" : " " + getProposalProjectDirectorProjectTitle();
         return name + " " + (isProposalPrimaryProjectDirectorIndicator() ? "primary" : "secondary") + title;
+    }
+
+    /**
+     * Gets the userLookupRoleNamespaceCode attribute. 
+     * @return Returns the userLookupRoleNamespaceCode.
+     */
+    public String getUserLookupRoleNamespaceCode() {
+        return userLookupRoleNamespaceCode;
+    }
+
+    /**
+     * Gets the userLookupRoleName attribute. 
+     * @return Returns the userLookupRoleName.
+     */
+    public String getUserLookupRoleName() {
+        return userLookupRoleName;
     }
 }
 

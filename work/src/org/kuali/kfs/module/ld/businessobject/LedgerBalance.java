@@ -515,7 +515,7 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
      * 
      * @return the primary key list of the business object
      */
-    public List<String> getPrimaryKeyList() {
+    public static List<String> getPrimaryKeyList() {
         List<String> primaryKeyList = new ArrayList<String>();
         primaryKeyList.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         primaryKeyList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);

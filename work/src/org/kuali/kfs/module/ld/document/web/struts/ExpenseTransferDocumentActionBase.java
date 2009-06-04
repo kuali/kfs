@@ -395,7 +395,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
      * @param source line to copy from
      * @param target new line to copy data to
      */
-    private void copyAccountingLine(ExpenseTransferAccountingLine source, ExpenseTransferAccountingLine target) {
+    protected void copyAccountingLine(ExpenseTransferAccountingLine source, ExpenseTransferAccountingLine target) {
         target.setChartOfAccountsCode(source.getChartOfAccountsCode());
         target.setAccountNumber(source.getAccountNumber());
         target.setSubAccountNumber(source.getSubAccountNumber());
@@ -418,26 +418,26 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
      * @param bo <code>{@link LedgerBalance}</code> instance
      * @param line <code>{@link ExpenseTransferAccountingLine}</code> to copy data to
      */
-    private void buildAccountingLineFromLedgerBalance(LedgerBalance bo, ExpenseTransferAccountingLine line, KualiDecimal amount, String periodCode) {
-        line.setChartOfAccountsCode(bo.getChartOfAccountsCode());
-        line.setAccountNumber(bo.getAccountNumber());
+    protected void buildAccountingLineFromLedgerBalance(LedgerBalance ledgerBalance, ExpenseTransferAccountingLine line, KualiDecimal amount, String periodCode) {
+        line.setChartOfAccountsCode(ledgerBalance.getChartOfAccountsCode());
+        line.setAccountNumber(ledgerBalance.getAccountNumber());
 
-        if (!KFSConstants.getDashSubAccountNumber().equals(bo.getSubAccountNumber())) {
-            line.setSubAccountNumber(bo.getSubAccountNumber());
+        if (!KFSConstants.getDashSubAccountNumber().equals(ledgerBalance.getSubAccountNumber())) {
+            line.setSubAccountNumber(ledgerBalance.getSubAccountNumber());
         }
 
-        line.setPostingYear(bo.getUniversityFiscalYear());
-        line.setPayrollEndDateFiscalYear(bo.getUniversityFiscalYear());
-        line.setFinancialObjectCode(bo.getFinancialObjectCode());
+        line.setPostingYear(ledgerBalance.getUniversityFiscalYear());
+        line.setPayrollEndDateFiscalYear(ledgerBalance.getUniversityFiscalYear());
+        line.setFinancialObjectCode(ledgerBalance.getFinancialObjectCode());
 
-        if (!KFSConstants.getDashFinancialSubObjectCode().equals(bo.getFinancialSubObjectCode())) {
-            line.setFinancialSubObjectCode(bo.getFinancialSubObjectCode());
+        if (!KFSConstants.getDashFinancialSubObjectCode().equals(ledgerBalance.getFinancialSubObjectCode())) {
+            line.setFinancialSubObjectCode(ledgerBalance.getFinancialSubObjectCode());
         }
 
-        line.setBalanceTypeCode(bo.getFinancialBalanceTypeCode());
-        line.setPositionNumber(bo.getPositionNumber());
+        line.setBalanceTypeCode(ledgerBalance.getFinancialBalanceTypeCode());
+        line.setPositionNumber(ledgerBalance.getPositionNumber());
         line.setAmount(amount);
-        line.setEmplid(bo.getEmplid());
+        line.setEmplid(ledgerBalance.getEmplid());
         line.setPayrollEndDateFiscalPeriodCode(periodCode);
     }
 

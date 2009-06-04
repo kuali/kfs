@@ -25,10 +25,12 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine;
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Struts Action class for the Benefit Expense Transfer Document.
@@ -118,5 +120,16 @@ public class BenefitExpenseTransferAction extends ExpenseTransferDocumentActionB
         financialDocumentForm.getBenefitExpenseTransferDocument().setNextTargetLineNumber(1);
         
         return super.deleteAllTargetAccountingLines(mapping, form, request, response);
-    }   
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ld.document.web.struts.ExpenseTransferDocumentActionBase#buildAccountingLineFromLedgerBalance(org.kuali.kfs.module.ld.businessobject.LedgerBalance, org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine, org.kuali.rice.kns.util.KualiDecimal, java.lang.String)
+     */
+    @Override
+    protected void buildAccountingLineFromLedgerBalance(LedgerBalance ledgerBalance, ExpenseTransferAccountingLine line, KualiDecimal amount, String periodCode) {
+        super.buildAccountingLineFromLedgerBalance(ledgerBalance, line, amount, periodCode);
+        line.setEmplid(LaborConstants.getDashEmplId());
+        line.setPositionNumber(LaborConstants.getDashPositionNumber());
+        
+    }
 }

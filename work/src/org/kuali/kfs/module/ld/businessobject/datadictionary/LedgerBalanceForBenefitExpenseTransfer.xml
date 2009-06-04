@@ -411,8 +411,6 @@
         <bean parent="FieldDefinition"
               p:attributeName="financialBalanceTypeCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="positionNumber" />
-        <bean parent="FieldDefinition"
               p:attributeName="financialObjectTypeCode" />
         <bean parent="FieldDefinition"
               p:attributeName="financialBeginningBalanceLineAmount" />

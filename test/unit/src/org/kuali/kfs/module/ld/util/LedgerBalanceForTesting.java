@@ -34,7 +34,7 @@ public class LedgerBalanceForTesting extends LedgerBalance {
         return ObjectUtil.buildPropertyMap(this, this.getPrimaryKeyList());
     }
 
-    public List<String> getPrimaryKeyList() {
+    public static List<String> getPrimaryKeyList() {
         List<String> primaryKeyList = new ArrayList<String>();
         primaryKeyList.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         primaryKeyList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);

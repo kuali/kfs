@@ -18,9 +18,13 @@ package org.kuali.kfs.module.ld.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
@@ -139,38 +143,35 @@ public class ConsolidationUtil {
      * @param consolidatedBalanceTypeCode - balance type to change A2 records to
      * @return Collection<LedgerBalance> - collection with consolidated balance records
      */
-    public static Collection<LedgerBalance> consolidateA2Balances(Collection<LedgerBalance> actualBalances, Collection<LedgerBalance> effortBalances, String consolidatedBalanceTypeCode) {
-        Collection<LedgerBalance> consolidatedBalances = new ArrayList<LedgerBalance>();
-
-        // first change a2 balance to given balance type code and add to consolidated list
-        for (LedgerBalance balance : effortBalances) {
-            balance.setBalanceTypeCode(consolidatedBalanceTypeCode);
-            consolidatedBalances.add(balance);
+    public static Collection<LedgerBalance> consolidateA2Balances(Collection<LedgerBalance> actualBalances, Collection<LedgerBalance> effortBalances, String consolidatedBalanceTypeCode, List<String> consolidationKeyList) {
+        Map<String, LedgerBalance> consolidatedBalanceMap = new HashMap<String, LedgerBalance>();
+        for (LedgerBalance effortBalance : effortBalances) {
+            effortBalance.setBalanceTypeCode(consolidatedBalanceTypeCode);
+            String consolidationKey = ObjectUtil.buildPropertyMap(effortBalance, consolidationKeyList).toString();
+            
+            if(consolidatedBalanceMap.containsKey(consolidationKey)) {
+                LedgerBalance ledgerBalance = consolidatedBalanceMap.get(consolidationKey);
+                sumLedgerBalances(ledgerBalance, effortBalance);
+            }
+            else {                            
+                consolidatedBalanceMap.put(consolidationKey, effortBalance);
+            }
         }
-
-        // look for a matching a2 balance for each ac, if found add the amount of the ac to the a2 record, if not add the full ac
-        // record
+        
         for (LedgerBalance actualBalance : actualBalances) {
-            boolean matchFound = false;
             actualBalance.setBalanceTypeCode(consolidatedBalanceTypeCode);
-            String actualKey = ObjectUtil.buildPropertyMap(actualBalance, actualBalance.getPrimaryKeyList()).toString();
-
-            for (LedgerBalance effortBalance : consolidatedBalances) {
-                String effortKey = ObjectUtil.buildPropertyMap(effortBalance, effortBalance.getPrimaryKeyList()).toString();
-
-                // if found matching effort record, sum the amount fields of the actual and effort
-                if (StringUtils.equals(effortKey, actualKey)) {
-                    sumLedgerBalances(effortBalance, actualBalance);
-                    matchFound = true;
-                }
+            String consolidationKey = ObjectUtil.buildPropertyMap(actualBalance, consolidationKeyList).toString();
+            
+            if(consolidatedBalanceMap.containsKey(consolidationKey)) {
+                LedgerBalance ledgerBalance = consolidatedBalanceMap.get(consolidationKey);
+                sumLedgerBalances(ledgerBalance, actualBalance);
             }
-
-            if (!matchFound) {
-                consolidatedBalances.add(actualBalance);
+            else {              
+                consolidatedBalanceMap.put(consolidationKey, actualBalance);
             }
         }
 
-        return consolidatedBalances;
+        return consolidatedBalanceMap.values();
     }
 
     /**

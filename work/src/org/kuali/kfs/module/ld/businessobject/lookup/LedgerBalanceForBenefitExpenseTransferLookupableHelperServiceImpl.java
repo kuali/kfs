@@ -15,12 +15,14 @@
  */
 package org.kuali.kfs.module.ld.businessobject.lookup;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.OJBUtility;
+import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborConstants.BenefitExpenseTransfer;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.module.ld.util.ConsolidationUtil;
@@ -60,13 +62,37 @@ public class LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl e
         // get the ledger balances with effort balance type code
         fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_A21);
         Collection effortBalances = buildDetailedBalanceCollection(getBalanceService().findBalance(fieldValues, false), Constant.NO_PENDING_ENTRY);
-
-        Collection<LedgerBalance> consolidatedBalances = ConsolidationUtil.consolidateA2Balances(actualBalances, effortBalances, options.getActualFinancialBalanceTypeCd());
+        
+        List<String> consolidationKeyList = getConsolidationKeyList();       
+        Collection<LedgerBalance> consolidatedBalances = ConsolidationUtil.consolidateA2Balances(actualBalances, effortBalances, options.getActualFinancialBalanceTypeCd(), consolidationKeyList);
+        this.resetFieldValues(consolidatedBalances);
 
         Integer recordCount = getBalanceService().getBalanceRecordCount(fieldValues, true);
         Long actualSize = OJBUtility.getResultActualSize(consolidatedBalances, recordCount, fieldValues, new LedgerBalance());
 
         return buildSearchResultList(consolidatedBalances, actualSize);
+    }
+
+    // reset the values for the specified fields
+    private void resetFieldValues(Collection<LedgerBalance> consolidatedBalances) {
+        for(LedgerBalance ledgerBalance : consolidatedBalances) {
+            ledgerBalance.setEmplid(null);
+            ledgerBalance.setPositionNumber(null);
+        }
+    }
+
+    // get the consolidation key field names
+    private List<String> getConsolidationKeyList() {
+        List<String> consolidationKeyList = new ArrayList<String>();
+        consolidationKeyList.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        consolidationKeyList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        consolidationKeyList.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+        consolidationKeyList.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        consolidationKeyList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        consolidationKeyList.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        consolidationKeyList.add(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
+        consolidationKeyList.add(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
+        return consolidationKeyList;
     }
 
     /**

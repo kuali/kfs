@@ -127,7 +127,9 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
             Iterator effortBalanceIterator = balanceService.findBalance(fieldValues, isConsolidated);
             Collection effortBalances = buildBalanceCollection(effortBalanceIterator, isConsolidated, pendingEntryOption);
             laborInquiryOptionsService.updateLedgerBalanceByPendingLedgerEntry(effortBalances, fieldValues, pendingEntryOption, isConsolidated);
-            searchResultsCollection = ConsolidationUtil.consolidateA2Balances(searchResultsCollection, effortBalances, BALANCE_TYPE_AC_AND_A21);
+            
+            List<String> consolidationKeyList = LedgerBalance.getPrimaryKeyList();
+            searchResultsCollection = ConsolidationUtil.consolidateA2Balances(searchResultsCollection, effortBalances, BALANCE_TYPE_AC_AND_A21, consolidationKeyList);
         }
 
         // get the actual size of all qualified search results

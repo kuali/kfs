@@ -20,11 +20,12 @@ import java.util.List;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
-import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -47,7 +48,7 @@ public class ItemTypeRule extends MaintenanceDocumentRuleBase {
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         LOG.info("processCustomRouteDocumentBusinessRules called");
         this.setupConvenienceObjects();
-        boolean success = this.checkForSystemParametersExistence();
+        boolean success = this.checkForSystemParametersExistence() && this.checkIndicators();
         return success && super.processCustomRouteDocumentBusinessRules(document);
     }
 
@@ -89,7 +90,7 @@ public class ItemTypeRule extends MaintenanceDocumentRuleBase {
         
         ItemType newBo = (ItemType)getNewBo();
         ItemType oldBo= (ItemType)getOldBo();
-
+       
         if ((!newBo.isActive() && oldBo.isActive()) &&
              (cmAdditionalCharges.contains(newBo.getItemTypeCode()) || 
               preqAdditionalCharges.contains(newBo.getItemTypeCode()) ||
@@ -121,6 +122,21 @@ public class ItemTypeRule extends MaintenanceDocumentRuleBase {
             String documentLabel = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(newBo.getClass());
             putGlobalError(PurapKeyConstants.ERROR_CANNOT_INACTIVATE_USED_IN_SYSTEM_PARAMETERS, documentLabel);
         }
+        
         return success;
+    }
+    
+    protected boolean checkIndicators() {
+        
+        boolean checkResult = true;
+        ItemType newBo = (ItemType)getNewBo();
+                
+        // Both Quantity Based General Ledger Indicator and Additional Charge Indicator cannot be Yes at the same time
+        if (newBo.isActive() && newBo.isAdditionalChargeIndicator() && newBo.isQuantityBasedGeneralLedgerIndicator()) {
+            putFieldError(PurapPropertyConstants.ITEM_TYPE_QUANTITY_BASED, PurapKeyConstants.ERROR_ITEM_TYPE_QUANTITY_BASED_NOT_ALLOWED_WITH_ADDITIONAL_CHARGE);
+            checkResult = false;
+        }
+        
+        return checkResult;
     }
 }

@@ -450,9 +450,9 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                 po = purchaseOrderService.getCurrentPurchaseOrder(cm.getPaymentRequestDocument().getPurchaseOrderIdentifier());
             }
 
-            // when cancelling a CM, do not book encumbrances if PO is CLOSED, but do update the amounts on the PO
+            // for CM cancel or create, do not book encumbrances if PO is CLOSED, but do update the amounts on the PO
             List encumbrances = getCreditMemoEncumbrance(cm, po, isCancel);
-            if (!(isCancel && PurapConstants.PurchaseOrderStatuses.CLOSED.equals(po.getStatusCode()))) {
+            if (!(PurapConstants.PurchaseOrderStatuses.CLOSED.equals(po.getStatusCode()))) {
                 if (encumbrances != null) {
                     cm.setGenerateEncumbranceEntries(true);
 

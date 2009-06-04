@@ -64,6 +64,8 @@ public class PurchasingDeliveryValidation extends GenericValidation {
             valid = false;
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.DELIVERY_CAMPUS_CODE, PurapKeyConstants.ERROR_DELIVERY_CAMPUS_INVALID);
         }
+        
+        GlobalVariables.getErrorMap().clearErrorPath();
         return valid;
     }
 

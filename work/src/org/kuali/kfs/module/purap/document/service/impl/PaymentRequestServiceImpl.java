@@ -1532,9 +1532,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             }
             
             //if the document is not in a non-active status then return true and stop evaluation
-            if(!(workflowDocument.stateIsCanceled() ||
-                    workflowDocument.stateIsException() ||
-                    workflowDocument.stateIsFinal()) ){
+            if(!(workflowDocument.stateIsCanceled() || workflowDocument.stateIsException())){
                 hasActivePreqs = true;
                 break;
             }

@@ -384,7 +384,7 @@
                                 onblur="loadCommodityCodeInfo( 'document.item[${ctr}].purchasingCommodityCode', 'document.item[${ctr}].commodityCode.commodityDescription' );${onblur}"
                                 readOnly="${not ( (fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}"
                                 tabindexOverride="${tabindexOverrideBase + 0}"/>
-                            <c:if test="${!(not ( (fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)))) or lockB2BEntry)}">   
+                            <c:if test="${(fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)))}">   
                                 <kul:lookup boClassName="org.kuali.kfs.vnd.businessobject.CommodityCode" 
                                     fieldConversions="purchasingCommodityCode:document.item[${ctr}].purchasingCommodityCode"
                                     lookupParameters="'Y':active"/>    

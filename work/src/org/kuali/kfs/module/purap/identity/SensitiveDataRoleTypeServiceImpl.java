@@ -15,10 +15,12 @@
  */
 package org.kuali.kfs.module.purap.identity;
 
+import java.util.Arrays;
+
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 public class SensitiveDataRoleTypeServiceImpl extends KimRoleTypeServiceBase {
     
@@ -28,6 +30,13 @@ public class SensitiveDataRoleTypeServiceImpl extends KimRoleTypeServiceBase {
     }
     
     protected boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
-        return Arrays.asList(qualification.get(PurapKimAttributes.SENSITIVE_DATA_CODE).split(";")).contains(roleQualifier.get(PurapKimAttributes.SENSITIVE_DATA_CODE));
+        if ( qualification == null ) {
+            return false;
+        }
+        String[] codes = StringUtils.split(qualification.get(PurapKimAttributes.SENSITIVE_DATA_CODE),';');
+        if ( codes == null ) {
+            return false;
+        }
+        return Arrays.asList( codes ).contains(roleQualifier.get(PurapKimAttributes.SENSITIVE_DATA_CODE));
     }
 }

@@ -21,6 +21,7 @@ import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceOrder;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoicePostalAddress;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectItem;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectReason;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderView;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
 import org.kuali.kfs.module.purap.util.PurApRelatedViews;
@@ -1869,6 +1870,19 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
         return null;
     }
 
+    /**
+     * Checks whether the related purchase order views need a warning to be displayed, 
+     * i.e. if at least one of the purchase orders has never been opened.
+     * @return true if at least one related purchase order needs a warning; false otherwise
+     */
+    public boolean getNeedWarningRelatedPOs() {
+        List<PurchaseOrderView> poViews = getRelatedViews().getRelatedPurchaseOrderViews();
+        for (PurchaseOrderView poView : poViews) {
+            if (poView.getNeedWarning())
+                return true;
+        }
+        return false;
+    }
 }
 /*
  * Copyright (c) 2004, 2005 The National Association of College and University Business Officers, Cornell University, Trustees of

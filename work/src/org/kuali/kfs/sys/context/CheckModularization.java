@@ -706,7 +706,6 @@ public class CheckModularization {
     protected static void stopSpringContext() {
         try {
             SpringContext.close();
-            PropertyLoadingFactoryBean.clear();
         } catch (Exception e) {
             System.out.println("Caught exception shutting down spring");
             e.printStackTrace();

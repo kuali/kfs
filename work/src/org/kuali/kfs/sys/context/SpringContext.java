@@ -250,10 +250,11 @@ public class SpringContext {
         applicationContext = null;
         if ( riceConfigurer != null ) {
             riceConfigurer.destroy();
-            ConfigContext.destroy();
         } else {
             LOG.error( "Unable to close SpringContext - unable to get a handle to a RiceConfigurer object." );
         }
+        ConfigContext.destroy();
+        PropertyLoadingFactoryBean.clear();
     }
 
     private static void verifyProperInitialization() {

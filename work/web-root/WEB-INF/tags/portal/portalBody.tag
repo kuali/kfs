@@ -38,7 +38,7 @@
 	   	</c:if>
 	</c:if>
  	<tr valign="top" bgcolor="#FFFFFF">
-       <td width="15" class="leftback-focus">&nbsp;</td>
+       <td width="15" class="leftback-focus"><img src="${ConfigProperties.kr.externalizable.images.url}/pixel_clear.gif" height="15" width="15" /></td>
         <c:choose>
           <%-- first try to check if they are focusing in --%>
           <c:when test='${!empty channelTitle && !empty channelUrl}'>

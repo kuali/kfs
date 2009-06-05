@@ -24,7 +24,7 @@ public class SensitiveDataRoleTypeServiceImpl extends KimRoleTypeServiceBase {
     
     {
         requiredAttributes.add(PurapKimAttributes.SENSITIVE_DATA_CODE);
-        checkRequiredAttributes = true;
+        checkRequiredAttributes = false; // role document bombs for this doc if this is set to true
     }
     
     protected boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {

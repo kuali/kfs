@@ -451,6 +451,9 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         Iterator<AssetGlobalDetail> sharedDetailsIterator = assetSharedDetails.iterator();
         Iterator<AssetGlobalDetail> uniqueDetailsIterator = assetUniqueDetails.iterator();
         for (PretagDetail preTagDetail : preTag.getPretagDetails()) {
+            if (!preTagDetail.isActive()) {
+                continue;
+            }
             if (sharedDetailsIterator.hasNext()) {
                 // set shared location details
                 AssetGlobalDetail sharedDetail = sharedDetailsIterator.next();

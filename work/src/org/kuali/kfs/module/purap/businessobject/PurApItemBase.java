@@ -236,13 +236,11 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
         
     }
 
-    @Deprecated
-    protected final KualiDecimal getItemSalesTaxAmount() {
+    public final KualiDecimal getItemSalesTaxAmount() {
         return itemSalesTaxAmount;
     }
 
-    @Deprecated
-    protected final void setItemSalesTaxAmount(KualiDecimal itemSalesTaxAmount) {
+    public final void setItemSalesTaxAmount(KualiDecimal itemSalesTaxAmount) {
         this.itemSalesTaxAmount = itemSalesTaxAmount;
     }
 

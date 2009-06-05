@@ -54,7 +54,6 @@ public class CashieringTransactionApplicationEventBase extends KualiDocumentEven
      * Returns the cash drawer the cashiering transaction will apply to
      * @see org.kuali.kfs.fp.document.validation.event.CashieringTransactionApplicationEvent#getCashDrawer()
      */
-    @Override
     public CashDrawer getCashDrawer() {
         return this.cashDrawer;
     }

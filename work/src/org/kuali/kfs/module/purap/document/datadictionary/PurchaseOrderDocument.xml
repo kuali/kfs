@@ -1092,13 +1092,8 @@
 
   <bean id="PurchaseOrderDocument-purchaseOrderLastTransmitTimestamp-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
     <property name="name" value="purchaseOrderLastTransmitTimestamp"/>
-    <property name="forceUppercase" value="true"/>
     <property name="label" value="Purchase Order Last Transmit Date"/>
     <property name="shortLabel" value="Date"/>
-    <property name="maxLength" value="7"/>
-    <property name="validationPattern">
-      <bean parent="DateValidationPattern"/>
-    </property>
   </bean>
   <bean id="PurchaseOrderDocument-purchaseOrderPreviousIdentifier" parent="PurchaseOrderDocument-purchaseOrderPreviousIdentifier-parentBean"/>
 

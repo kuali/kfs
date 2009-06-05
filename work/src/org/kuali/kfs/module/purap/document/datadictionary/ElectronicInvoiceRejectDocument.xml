@@ -216,7 +216,7 @@
     
   <bean id="ElectronicInvoiceRejectDocument-invoiceFileDate" parent="ElectronicInvoiceRejectDocument-invoiceFileDate-parentBean"/>
 
-  <bean id="ElectronicInvoiceRejectDocument-invoiceFileDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+  <bean id="ElectronicInvoiceRejectDocument-invoiceFileDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="invoiceFileDate"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Invoice Date"/>
@@ -224,12 +224,12 @@
     <property name="maxLength" value="100"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
-    </property><!--
+    </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="102" />
     </property>
-  --></bean>
+  </bean>
 
   <bean id="ElectronicInvoiceRejectDocument-invoiceFileDeploymentModeValue" parent="ElectronicInvoiceRejectDocument-invoiceFileDeploymentModeValue-parentBean"/>
 
@@ -894,8 +894,8 @@
       <bean parent="TextControlDefinition" p:size="102"/>
     </property>
   </bean>
-  
-  <!-- 
+ 
+  <!--   
   <bean id="ElectronicInvoiceRejectDocument-invoiceRejectExtractDate" parent="ElectronicInvoiceRejectDocument-invoiceRejectExtractDate-parentBean" />
 
   <bean id="ElectronicInvoiceRejectDocument-invoiceRejectExtractDate-parentBean" abstract="true" parent="AttributeDefinition">

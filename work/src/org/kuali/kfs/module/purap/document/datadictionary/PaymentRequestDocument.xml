@@ -1003,7 +1003,7 @@
 		<property name="elementName" value="paymentRequestAccountingInformation"/>
 		<property name="fields">
 			<list>
-				<bean parent="AccountingLineView-field" p:name="chartOfAccountsCode" p:required="true" p:webUILeaveFieldFunction="loadChartInfo" p:dynamicLabelProperty="chart.finChartOfAccountDescription"/>
+				<bean parent="AccountingLineView-field" p:name="chartOfAccountsCode" p:required="true" p:webUILeaveFieldFunction="loadChartInfo" p:dynamicLabelProperty="chart.finChartOfAccountDescription" p:useShortLabel="true"/>
 				<bean parent="AccountingLineView-field" p:name="accountNumber" p:required="true" p:webUILeaveFieldFunction="loadAccountInfo" p:dynamicLabelProperty="account.accountName">
 					<property name="overrideFields">
 						<list>
@@ -1012,17 +1012,17 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="AccountingLineView-field" p:name="subAccountNumber" p:webUILeaveFieldFunction="loadSubAccountInfo" p:dynamicLabelProperty="subAccount.subAccountName"/>
-				<bean parent="AccountingLineView-field" p:name="financialObjectCode" p:required="true" p:dynamicNameLabelGeneratorBeanName="purapObjectCodeDynamicNameLabelGenerator" p:accountingLineViewFieldClass="org.kuali.kfs.module.purap.document.web.PurapAccountingLineViewField" p:overrideLookupParameters="document.postingYear:universityFiscalYear">
+				<bean parent="AccountingLineView-field" p:name="subAccountNumber" p:webUILeaveFieldFunction="loadSubAccountInfo" p:dynamicLabelProperty="subAccount.subAccountName" p:useShortLabel="true"/>
+				<bean parent="AccountingLineView-field" p:name="financialObjectCode" p:required="true" p:dynamicNameLabelGeneratorBeanName="purapObjectCodeDynamicNameLabelGenerator" p:accountingLineViewFieldClass="org.kuali.kfs.module.purap.document.web.PurapAccountingLineViewField" p:overrideLookupParameters="document.postingYear:universityFiscalYear" p:useShortLabel="true">
 					<property name="overrideFields">
 						<list>
 							<bean parent="AccountingLineView-overrideField" p:name="objectBudgetOverride"/>
 						</list>
 					</property>
 				</bean>
-				<bean parent="AccountingLineView-field" p:name="financialSubObjectCode" p:webUILeaveFieldFunction="loadSubObjectInfo" p:dynamicLabelProperty="subObjectCode.financialSubObjectCodeName" p:accountingLineViewFieldClass="org.kuali.kfs.module.purap.document.web.PurapAccountingLineViewField" p:overrideLookupParameters="document.postingYear:universityFiscalYear"/>
-				<bean parent="AccountingLineView-field" p:name="projectCode" p:webUILeaveFieldFunction="loadProjectInfo" p:dynamicLabelProperty="project.projectDescription"/>
-				<bean parent="AccountingLineView-field" p:name="organizationReferenceId"/>
+				<bean parent="AccountingLineView-field" p:name="financialSubObjectCode" p:webUILeaveFieldFunction="loadSubObjectInfo" p:dynamicLabelProperty="subObjectCode.financialSubObjectCodeName" p:accountingLineViewFieldClass="org.kuali.kfs.module.purap.document.web.PurapAccountingLineViewField" p:overrideLookupParameters="document.postingYear:universityFiscalYear" p:useShortLabel="true"/>
+				<bean parent="AccountingLineView-field" p:name="projectCode" p:webUILeaveFieldFunction="loadProjectInfo" p:dynamicLabelProperty="project.projectDescription" p:useShortLabel="true"/>
+				<bean parent="AccountingLineView-field" p:name="organizationReferenceId" p:useShortLabel="true"/>
 			</list>
 		</property>
 	</bean>  

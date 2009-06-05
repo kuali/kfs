@@ -283,15 +283,13 @@
   </bean>
   <bean id="LaborOriginEntry-financialSubObjectCode" parent="LaborOriginEntry-financialSubObjectCode-parentBean" />
 
-  <bean id="LaborOriginEntry-financialSubObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialSubObjectCode" />
+  <bean id="LaborOriginEntry-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
     <property name="forceUppercase" value="false" />
     <property name="label" value="Financial Sub Object Code" />
     <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="3" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
-    </property>
+    </property>    
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="5" />

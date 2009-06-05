@@ -62,22 +62,7 @@
   </bean>
   <bean id="SubObjectCodeCurrent-financialSubObjectCode" parent="SubObjectCodeCurrent-financialSubObjectCode-parentBean" />
 
-  <bean id="SubObjectCodeCurrent-financialSubObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialSubObjectCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Sub-Object Code" />
-    <property name="shortLabel" value="Sub-Object" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
-    </property>
-  </bean>
+  <bean id="SubObjectCodeCurrent-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode" />
   <bean id="SubObjectCodeCurrent-financialSubObjectCodeName" parent="SubObjectCodeCurrent-financialSubObjectCodeName-parentBean" />
 
   <bean id="SubObjectCodeCurrent-financialSubObjectCodeName-parentBean" abstract="true" parent="AttributeDefinition">

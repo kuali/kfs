@@ -396,15 +396,12 @@
   </bean>
   <bean id="PendingBudgetConstructionAppointmentFunding-financialSubObjectCode" parent="PendingBudgetConstructionAppointmentFunding-financialSubObjectCode-parentBean" />
 
-  <bean id="PendingBudgetConstructionAppointmentFunding-financialSubObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialSubObjectCode" />
-    <property name="forceUppercase" value="true" />
+  <bean id="PendingBudgetConstructionAppointmentFunding-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
     <property name="label" value="Financial Sub Object Code" />
     <property name="shortLabel" value="Sub Object" />
-    <property name="maxLength" value="3" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
-    </property>
+    </property>    
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="5" />

@@ -186,15 +186,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="NonInvoiced-financialSubObjectCode" parent="NonInvoiced-financialSubObjectCode-parentBean" />
 
-  <bean id="NonInvoiced-financialSubObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialSubObjectCode" />
-    <property name="forceUppercase" value="true" />
+  <bean id="NonInvoiced-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
     <property name="label" value="Financial Sub Object Code" />
-    <property name="shortLabel" value="SubObject" />
-    <property name="maxLength" value="3" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
-    </property>
+    </property>    
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="5" />

@@ -141,19 +141,11 @@
   </bean>
   
   <bean id="IndirectCostRecoveryRateDetail-financialSubObjectCode" parent="IndirectCostRecoveryRateDetail-financialSubObjectCode-parentBean" />
-  <bean id="IndirectCostRecoveryRateDetail-financialSubObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialSubObjectCode" />
-    <property name="label" value="Sub-Object Code" />
-    <property name="shortLabel" value="SubObject" />
-    <property name="maxLength" value="3" />
+  <bean id="IndirectCostRecoveryRateDetail-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode" >
+    <property name="required" value="false" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
-    </property>
+    </property>      	
   </bean>
   
   <bean id="IndirectCostRecoveryRateDetail-transactionDebitIndicator" parent="IndirectCostRecoveryRateDetail-transactionDebitIndicator-parentBean" />

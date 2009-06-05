@@ -78,20 +78,6 @@ public class LaborConstants {
         }
     }
 
-    public static final class LABOR_LEDGER_PENDING_ENTRY_CODE {
-        public static final String BLANK_EMPL_ID = "-----------"; // Max length is 11 for this field
-        public static final String BLANK_OBJECT_CODE = "----"; // Max length is 4 for this field
-        public static final String BLANK_OBJECT_TYPE_CODE = "--"; // Max length is 4 for this field
-        public static final String BLANK_POSITION_NUMBER = "--------"; // Max length is 8 for this field
-        public static final String BLANK_PROJECT_STRING = "----------"; // Max length is 10 for this field
-        public static final String BLANK_SUB_ACCOUNT_NUMBER = "-----"; // Max length is 5 for this field
-        public static final String BLANK_SUB_OBJECT_CODE = "---"; // Max length is 3 for this field
-        public static final String LL_PE_OFFSET_STRING = "TP Generated Offset";
-        public static final int LLPE_DESCRIPTION_MAX_LENGTH = 40;
-        public static final String NO = "N";
-        public static final String YES = "Y";
-    }
-
     public static class LookupableBeanKeys {
         static final public String CSF_TRACKER = "laborCalculatedSalaryFoundationTrackerLookupable";
         static final public String PENDING_ENTRY = "laborPendingEntryLookupable";

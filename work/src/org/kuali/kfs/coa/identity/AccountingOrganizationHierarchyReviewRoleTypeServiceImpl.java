@@ -24,8 +24,9 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.bo.types.dto.KimTypeAttributeInfo;
+import org.kuali.rice.kim.bo.types.dto.KimTypeInfo;
 import org.kuali.rice.kim.bo.types.impl.KimAttributeImpl;
-import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.RiceKeyConstants;
@@ -50,7 +51,7 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
     }
 
     private boolean doesOverrideCodeMatch(AttributeSet qualification, AttributeSet roleQualifier) {
-        return StringUtils.isBlank(qualification.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE)) 
+        return qualification==null || roleQualifier==null || StringUtils.isBlank(qualification.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE)) 
                 || StringUtils.isBlank(roleQualifier.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE)) 
                 || qualification.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE).equals(roleQualifier.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE));
     }
@@ -95,11 +96,13 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
 
         String fromAmountRoleMember = getAttributeValue(originalAttributeSet, KfsKimAttributes.FROM_AMOUNT);
         String fromAmountDelegationMember = getAttributeValue(newAttributeSet, KfsKimAttributes.FROM_AMOUNT);
+        KimTypeInfo kimType = getTypeInfoService().getKimType(kimTypeId);
+        KimTypeAttributeInfo attributeInfo;
         if(isLesserNumber(fromAmountDelegationMember, fromAmountRoleMember)){
-            attributeImpl = getAttributeImpl(KfsKimAttributes.FROM_AMOUNT);
+            attributeInfo = kimType.getAttributeDefinitionByName(KfsKimAttributes.FROM_AMOUNT);
             GlobalVariables.getErrorMap().putError(
                     KfsKimAttributes.FROM_AMOUNT, RiceKeyConstants.ERROR_DELEGATION_FROM_AMOUNT_LESSER, 
-                    getDataDictionaryService().getAttributeLabel(attributeImpl.getComponentName(), KfsKimAttributes.FROM_AMOUNT));
+                    getDataDictionaryService().getAttributeLabel(attributeInfo.getComponentName(), KfsKimAttributes.FROM_AMOUNT));
             attributeErrors = extractErrorsFromGlobalVariablesErrorMap(KfsKimAttributes.FROM_AMOUNT);
         }
         if(attributeErrors!=null){
@@ -111,11 +114,11 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
         
         String toAmountRoleMember = getAttributeValue(originalAttributeSet, KfsKimAttributes.TO_AMOUNT);
         String toAmountDelegationMember = getAttributeValue(newAttributeSet, KfsKimAttributes.TO_AMOUNT);
-        if(isGreaterNumber(toAmountDelegationMember, toAmountRoleMember)){
-            attributeImpl = getAttributeImpl(KfsKimAttributes.TO_AMOUNT);
+        if(StringUtils.isNotEmpty(toAmountRoleMember) && isGreaterNumber(toAmountDelegationMember, toAmountRoleMember)){
+            attributeInfo = kimType.getAttributeDefinitionByName(KfsKimAttributes.TO_AMOUNT);
             GlobalVariables.getErrorMap().putError(
                     KfsKimAttributes.TO_AMOUNT, RiceKeyConstants.ERROR_DELEGATION_TO_AMOUNT_GREATER, 
-                    getDataDictionaryService().getAttributeLabel(attributeImpl.getComponentName(), KfsKimAttributes.TO_AMOUNT));
+                    getDataDictionaryService().getAttributeLabel(attributeInfo.getComponentName(), KfsKimAttributes.TO_AMOUNT));
             attributeErrors = extractErrorsFromGlobalVariablesErrorMap(KfsKimAttributes.TO_AMOUNT);
         }
         if(attributeErrors!=null){

@@ -26,9 +26,13 @@ import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeDefinitionMap;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.bo.types.dto.KimTypeAttributeInfo;
+import org.kuali.rice.kim.bo.types.dto.KimTypeInfo;
+import org.kuali.rice.kim.bo.types.impl.KimAttributeImpl;
 import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.RiceKeyConstants;
 
 
@@ -131,10 +135,30 @@ public class FinancialSystemUserRoleTypeServiceImpl extends KimRoleTypeServiceBa
     }
 
     @Override
+    public boolean validateUniqueAttributes(String kimTypeId, AttributeSet newAttributes, AttributeSet oldAttributes){
+        if(areAllAttributeValuesEmpty(newAttributes)){
+            return false;
+        } else
+            return super.validateUniqueAttributes(kimTypeId, newAttributes, oldAttributes);
+    }
+
+    @Override
     public List<String> getUniqueAttributes(String kimTypeId){
         List<String> uniqueAttributes = new ArrayList<String>();
         uniqueAttributes.add(KimAttributes.NAMESPACE_CODE);
         return uniqueAttributes;
+    }
+
+    @Override
+    public AttributeSet validateAttributesAgainstExisting(String kimTypeId, AttributeSet newAttributes, AttributeSet oldAttributes){
+        AttributeSet errorMap = new AttributeSet();
+        if(!areAllAttributeValuesEmpty(newAttributes) && !validateUniqueAttributes(kimTypeId, newAttributes, oldAttributes)){
+            KimTypeInfo kimType = getTypeInfoService().getKimType(kimTypeId);
+            KimTypeAttributeInfo attributeInfo = kimType.getAttributeDefinitionByName(KfsKimAttributes.FROM_AMOUNT);
+            errorMap = getErrorAttributeSet(KfsKimAttributes.NAMESPACE_CODE, RiceKeyConstants.ERROR_DUPLICATE_ENTRY, 
+                    new String[] {getDataDictionaryService().getAttributeLabel(attributeInfo.getComponentName(), KfsKimAttributes.NAMESPACE_CODE)});
+        }
+        return errorMap;
     }
 
     /**

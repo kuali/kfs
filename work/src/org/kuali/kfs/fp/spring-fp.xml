@@ -385,12 +385,6 @@
 		</property>
 	</bean>
 
-	<bean id="cashieringTransactionRule" class="org.kuali.kfs.fp.document.validation.impl.CashieringTransactionRule">
-		<property name="cashDrawerService">
-			<ref bean="cashDrawerService" />
-		</property>
-	</bean>
-
 	<bean id="cashManagementDao" class="org.kuali.kfs.fp.document.dataaccess.impl.CashManagementDaoOjb" parent="platformAwareDao" />
 
 	<bean id="disbursementVoucherDao" class="org.kuali.kfs.fp.dataaccess.impl.DisbursementVoucherDaoOjb" parent="platformAwareDao" />

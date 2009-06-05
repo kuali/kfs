@@ -48,7 +48,7 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
 
     public void testMoneyInOutBalanceRule() {
         CashManagementDocument cmDoc = this.cashManagementDocumentFixture("testMoneyInNoNegatives");
-        CashieringTransactionRule rule = SpringContext.getBean(CashieringTransactionRule.class);
+        CashManagementDocumentRule rule = new CashManagementDocumentRule();
 
         // currency and currency
         CashieringTransaction transaction = cmDoc.getCurrentTransaction();
@@ -205,7 +205,7 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
 
     public void testMoneyInNoNegatives() {
         CashManagementDocument cmDoc = this.cashManagementDocumentFixture("testMoneyInNoNegatives");
-        CashieringTransactionRule rule = SpringContext.getBean(CashieringTransactionRule.class);
+        CashManagementDocumentRule rule = new CashManagementDocumentRule();
 
         cmDoc.getCurrentTransaction().setMoneyInCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail());
         cmDoc.getCurrentTransaction().setMoneyInCoin(CoinDetailTest.CoinDetailAmountFixture.ALL_FIVES_COIN_AMOUNT.convertToCoinDetail());
@@ -256,7 +256,7 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
 
     public void testMoneyOutNoNegatives() {
         CashManagementDocument cmDoc = this.cashManagementDocumentFixture("testMoneyOutNoNegatives");
-        CashieringTransactionRule rule = SpringContext.getBean(CashieringTransactionRule.class);
+        CashManagementDocumentRule rule = new CashManagementDocumentRule();
 
         cmDoc.getCurrentTransaction().setMoneyOutCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail());
         cmDoc.getCurrentTransaction().setMoneyOutCoin(CoinDetailTest.CoinDetailAmountFixture.ALL_FIVES_COIN_AMOUNT.convertToCoinDetail());
@@ -308,45 +308,45 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
 
     public void testCheckNewItemInProcessDoesNotExceedCashDrawer() {
         CashManagementDocument cmDoc = this.cashManagementDocumentFixture("testCheckNewItemInProcessDoesNotExceedCashDrawer");
-        CashieringTransactionRule rule = SpringContext.getBean(CashieringTransactionRule.class);
+        CashManagementDocumentRule rule = new CashManagementDocumentRule();
 
         putFixtureDataIntoCashDrawer(cmDoc.getCashDrawer(), CashDrawerTest.CashDrawerAmountFixture.ALL_FIVES_CASH_DRAWER);
         resetTransaction(cmDoc.getCurrentTransaction());
         cmDoc.getCurrentTransaction().getNewItemInProcess().setItemAmount(new KualiDecimal(100));
-        assertTrue(rule.checkNewItemInProcessDoesNotExceedCashDrawer(cmDoc, cmDoc.getCurrentTransaction()));
+        assertTrue(rule.checkNewItemInProcessDoesNotExceedCashDrawer(cmDoc.getCashDrawer(), cmDoc.getCurrentTransaction()));
         cmDoc.getCurrentTransaction().getNewItemInProcess().setItemAmount(new KualiDecimal(10000000));
-        assertFalse(rule.checkNewItemInProcessDoesNotExceedCashDrawer(cmDoc, cmDoc.getCurrentTransaction()));
+        assertFalse(rule.checkNewItemInProcessDoesNotExceedCashDrawer(cmDoc.getCashDrawer(), cmDoc.getCurrentTransaction()));
 
         putFixtureDataIntoCashDrawer(cmDoc.getCashDrawer(), CashDrawerTest.CashDrawerAmountFixture.ZERO_CASH_DRAWER);
         cmDoc.getCurrentTransaction().getNewItemInProcess().setItemAmount(new KualiDecimal(100));
-        assertFalse(rule.checkNewItemInProcessDoesNotExceedCashDrawer(cmDoc, cmDoc.getCurrentTransaction()));
+        assertFalse(rule.checkNewItemInProcessDoesNotExceedCashDrawer(cmDoc.getCashDrawer(), cmDoc.getCurrentTransaction()));
     }
 
     public void testCheckTransactionCheckTotalDoesNotExceedCashDrawer() {
         CashManagementDocument cmDoc = this.cashManagementDocumentFixture("testCheckTransactionCheckTotalDoesNotExceedCashDrawer");
-        CashieringTransactionRule rule = SpringContext.getBean(CashieringTransactionRule.class);
+        CashManagementDocumentRule rule = new CashManagementDocumentRule();
 
         putFixtureDataIntoCashDrawer(cmDoc.getCashDrawer(), CashDrawerTest.CashDrawerAmountFixture.ALL_FIVES_CASH_DRAWER);
         resetTransaction(cmDoc.getCurrentTransaction());
         Check smallCheck = new CheckBase();
         smallCheck.setAmount(new KualiDecimal(50.0));
         cmDoc.getCurrentTransaction().addCheck(smallCheck);
-        assertTrue(rule.checkTransactionCheckTotalDoesNotExceedCashDrawer(cmDoc, cmDoc.getCurrentTransaction()));
+        assertTrue(rule.checkTransactionCheckTotalDoesNotExceedCashDrawer(cmDoc.getCashDrawer(), cmDoc.getCurrentTransaction()));
 
         Check largeCheck = new CheckBase();
         largeCheck.setAmount(new KualiDecimal(1000000000.0));
         cmDoc.getCurrentTransaction().addCheck(largeCheck);
-        assertFalse(rule.checkTransactionCheckTotalDoesNotExceedCashDrawer(cmDoc, cmDoc.getCurrentTransaction()));
+        assertFalse(rule.checkTransactionCheckTotalDoesNotExceedCashDrawer(cmDoc.getCashDrawer(), cmDoc.getCurrentTransaction()));
 
         putFixtureDataIntoCashDrawer(cmDoc.getCashDrawer(), CashDrawerTest.CashDrawerAmountFixture.ZERO_CASH_DRAWER);
         resetTransaction(cmDoc.getCurrentTransaction());
         cmDoc.getCurrentTransaction().addCheck(smallCheck);
-        assertFalse(rule.checkTransactionCheckTotalDoesNotExceedCashDrawer(cmDoc, cmDoc.getCurrentTransaction()));
+        assertFalse(rule.checkTransactionCheckTotalDoesNotExceedCashDrawer(cmDoc.getCashDrawer(), cmDoc.getCurrentTransaction()));
     }
 
     public void testCheckPaidBackItemInProcessDoesNotExceedTotal() {
         CashManagementDocument cmDoc = this.cashManagementDocumentFixture("testCheckPaidBackItemInProcessDoesNotExceedTotal");
-        CashieringTransactionRule rule = SpringContext.getBean(CashieringTransactionRule.class);
+        CashManagementDocumentRule rule = new CashManagementDocumentRule();
 
         CashieringItemInProcess oldAdvance = new CashieringItemInProcess();
         oldAdvance.setCurrentPayment(new KualiDecimal(3530.0));
@@ -362,7 +362,7 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
 
     public void testEnoughCashOnHand() {
         CashManagementDocument cmDoc = this.cashManagementDocumentFixture("testEnoughCashOnHand");
-        CashieringTransactionRule rule = SpringContext.getBean(CashieringTransactionRule.class);
+        CashManagementDocumentRule rule = new CashManagementDocumentRule();
 
         CurrencyDetail goodCurrency = CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail();
         CurrencyDetail excessiveCurrency = CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_TENS_AMOUNT.convertToCurrencyDetail();
@@ -374,74 +374,74 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
 
         cmDoc.getCurrentTransaction().setMoneyOutCurrency(goodCurrency);
         cmDoc.getCurrentTransaction().setMoneyOutCoin(goodCoin);
-        assertTrue(rule.checkEnoughCashForMoneyOut(cmDoc, cmDoc.getCurrentTransaction()));
+        assertTrue(rule.checkEnoughCashForMoneyOut(cmDoc.getCashDrawer(), cmDoc.getCurrentTransaction()));
 
         cmDoc.getCurrentTransaction().setMoneyOutCurrency(excessiveCurrency);
-        assertFalse("Hundred Dollar", rule.checkEnoughCashForMoneyOut(cmDoc, cmDoc.getCurrentTransaction()));
+        assertFalse("Hundred Dollar", rule.checkEnoughCashForMoneyOut(cmDoc.getCashDrawer(), cmDoc.getCurrentTransaction()));
         cmDoc.getCurrentTransaction().getMoneyOutCurrency().setFinancialDocumentHundredDollarAmount(new KualiDecimal(100));
-        assertFalse("Fifty Dollar", rule.checkEnoughCashForMoneyOut(cmDoc, cmDoc.getCurrentTransaction()));
+        assertFalse("Fifty Dollar", rule.checkEnoughCashForMoneyOut(cmDoc.getCashDrawer(), cmDoc.getCurrentTransaction()));
         cmDoc.getCurrentTransaction().getMoneyOutCurrency().setFinancialDocumentFiftyDollarAmount(new KualiDecimal(100));
-        assertFalse("Twenty Dollar", rule.checkEnoughCashForMoneyOut(cmDoc, cmDoc.getCurrentTransaction()));
+        assertFalse("Twenty Dollar", rule.checkEnoughCashForMoneyOut(cmDoc.getCashDrawer(), cmDoc.getCurrentTransaction()));
         cmDoc.getCurrentTransaction().getMoneyOutCurrency().setFinancialDocumentTwentyDollarAmount(new KualiDecimal(100));
-        assertFalse("Ten Dollar", rule.checkEnoughCashForMoneyOut(cmDoc, cmDoc.getCurrentTransaction()));
+        assertFalse("Ten Dollar", rule.checkEnoughCashForMoneyOut(cmDoc.getCashDrawer(), cmDoc.getCurrentTransaction()));
         cmDoc.getCurrentTransaction().getMoneyOutCurrency().setFinancialDocumentTenDollarAmount(new KualiDecimal(100));
-        assertFalse("Five Dollar", rule.checkEnoughCashForMoneyOut(cmDoc, cmDoc.getCurrentTransaction()));
+        assertFalse("Five Dollar", rule.checkEnoughCashForMoneyOut(cmDoc.getCashDrawer(), cmDoc.getCurrentTransaction()));
         cmDoc.getCurrentTransaction().getMoneyOutCurrency().setFinancialDocumentFiveDollarAmount(new KualiDecimal(100));
-        assertFalse("Two Dollar", rule.checkEnoughCashForMoneyOut(cmDoc, cmDoc.getCurrentTransaction()));
+        assertFalse("Two Dollar", rule.checkEnoughCashForMoneyOut(cmDoc.getCashDrawer(), cmDoc.getCurrentTransaction()));
         cmDoc.getCurrentTransaction().getMoneyOutCurrency().setFinancialDocumentTwoDollarAmount(new KualiDecimal(100));
-        assertFalse("One", rule.checkEnoughCashForMoneyOut(cmDoc, cmDoc.getCurrentTransaction()));
+        assertFalse("One", rule.checkEnoughCashForMoneyOut(cmDoc.getCashDrawer(), cmDoc.getCurrentTransaction()));
         cmDoc.getCurrentTransaction().getMoneyOutCurrency().setFinancialDocumentOneDollarAmount(new KualiDecimal(100));
-        assertTrue("Dollars are good", rule.checkEnoughCashForMoneyOut(cmDoc, cmDoc.getCurrentTransaction()));
+        assertTrue("Dollars are good", rule.checkEnoughCashForMoneyOut(cmDoc.getCashDrawer(), cmDoc.getCurrentTransaction()));
 
         cmDoc.getCurrentTransaction().setMoneyOutCoin(excessiveCoin);
-        assertFalse("Hundred Cent", rule.checkEnoughCashForMoneyOut(cmDoc, cmDoc.getCurrentTransaction()));
+        assertFalse("Hundred Cent", rule.checkEnoughCashForMoneyOut(cmDoc.getCashDrawer(), cmDoc.getCurrentTransaction()));
         cmDoc.getCurrentTransaction().getMoneyOutCoin().setFinancialDocumentHundredCentAmount(new KualiDecimal(1));
-        assertFalse("Fifty Cent", rule.checkEnoughCashForMoneyOut(cmDoc, cmDoc.getCurrentTransaction()));
+        assertFalse("Fifty Cent", rule.checkEnoughCashForMoneyOut(cmDoc.getCashDrawer(), cmDoc.getCurrentTransaction()));
         cmDoc.getCurrentTransaction().getMoneyOutCoin().setFinancialDocumentFiftyCentAmount(new KualiDecimal(1));
-        assertFalse("Twenty Five Cent", rule.checkEnoughCashForMoneyOut(cmDoc, cmDoc.getCurrentTransaction()));
+        assertFalse("Twenty Five Cent", rule.checkEnoughCashForMoneyOut(cmDoc.getCashDrawer(), cmDoc.getCurrentTransaction()));
         cmDoc.getCurrentTransaction().getMoneyOutCoin().setFinancialDocumentTwentyFiveCentAmount(new KualiDecimal(1));
-        assertFalse("Ten Cent", rule.checkEnoughCashForMoneyOut(cmDoc, cmDoc.getCurrentTransaction()));
+        assertFalse("Ten Cent", rule.checkEnoughCashForMoneyOut(cmDoc.getCashDrawer(), cmDoc.getCurrentTransaction()));
         cmDoc.getCurrentTransaction().getMoneyOutCoin().setFinancialDocumentTenCentAmount(new KualiDecimal(1));
-        assertFalse("Five Cent", rule.checkEnoughCashForMoneyOut(cmDoc, cmDoc.getCurrentTransaction()));
+        assertFalse("Five Cent", rule.checkEnoughCashForMoneyOut(cmDoc.getCashDrawer(), cmDoc.getCurrentTransaction()));
         cmDoc.getCurrentTransaction().getMoneyOutCoin().setFinancialDocumentFiveCentAmount(new KualiDecimal(1));
-        assertFalse("One Cent", rule.checkEnoughCashForMoneyOut(cmDoc, cmDoc.getCurrentTransaction()));
+        assertFalse("One Cent", rule.checkEnoughCashForMoneyOut(cmDoc.getCashDrawer(), cmDoc.getCurrentTransaction()));
         cmDoc.getCurrentTransaction().getMoneyOutCoin().setFinancialDocumentOneCentAmount(new KualiDecimal(1));
 
-        assertTrue(rule.checkEnoughCashForMoneyOut(cmDoc, cmDoc.getCurrentTransaction()));
+        assertTrue(rule.checkEnoughCashForMoneyOut(cmDoc.getCashDrawer(), cmDoc.getCurrentTransaction()));
 
         putFixtureDataIntoCashDrawer(cmDoc.getCashDrawer(), CashDrawerTest.CashDrawerAmountFixture.ZERO_CASH_DRAWER);
         cmDoc.getCurrentTransaction().setMoneyInCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail());
         cmDoc.getCurrentTransaction().setMoneyInCoin(CoinDetailTest.CoinDetailAmountFixture.ALL_FIVES_COIN_AMOUNT.convertToCoinDetail());
         cmDoc.getCurrentTransaction().setMoneyOutCurrency(CurrencyDetailTest.CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail());
         cmDoc.getCurrentTransaction().setMoneyOutCoin(CoinDetailTest.CoinDetailAmountFixture.ALL_FIVES_COIN_AMOUNT.convertToCoinDetail());
-        assertTrue(rule.checkEnoughCashForMoneyOut(cmDoc, cmDoc.getCurrentTransaction()));
+        assertTrue(rule.checkEnoughCashForMoneyOut(cmDoc.getCashDrawer(), cmDoc.getCurrentTransaction()));
         putFixtureDataIntoCashDrawer(cmDoc.getCashDrawer(), CashDrawerTest.CashDrawerAmountFixture.NULL_CASH_DRAWER);
-        assertTrue(rule.checkEnoughCashForMoneyOut(cmDoc, cmDoc.getCurrentTransaction()));
+        assertTrue(rule.checkEnoughCashForMoneyOut(cmDoc.getCashDrawer(), cmDoc.getCurrentTransaction()));
     }
 
     public void testAdvancesDoNotPayOffOtherAdvances() {
         CashManagementDocument cmDoc = this.cashManagementDocumentFixture("testAdvancesDoNotPayOffOtherAdvances");
-        CashieringTransactionRule rule = SpringContext.getBean(CashieringTransactionRule.class);
+        CashManagementDocumentRule rule = new CashManagementDocumentRule();
 
-        assertTrue(rule.checkItemInProcessIsNotPayingOffItemInProcess(cmDoc, cmDoc.getCurrentTransaction()));
+        assertTrue(rule.checkItemInProcessIsNotPayingOffItemInProcess(cmDoc.getCurrentTransaction()));
         CashieringItemInProcess openAdvance = new CashieringItemInProcess();
         openAdvance.setItemAmount(new KualiDecimal(10000.0));
         openAdvance.setItemIdentifier(new Integer(82));
         openAdvance.setCurrentPayment(new KualiDecimal(25.0));
         openAdvance.setItemOpenDate(new Date(new GregorianCalendar().getTimeInMillis()));
         cmDoc.getCurrentTransaction().getOpenItemsInProcess().add(openAdvance);
-        assertTrue(rule.checkItemInProcessIsNotPayingOffItemInProcess(cmDoc, cmDoc.getCurrentTransaction()));
+        assertTrue(rule.checkItemInProcessIsNotPayingOffItemInProcess(cmDoc.getCurrentTransaction()));
         cmDoc.getCurrentTransaction().getNewItemInProcess().setItemIdentifier(new Integer(80));
         cmDoc.getCurrentTransaction().getNewItemInProcess().setItemAmount(new KualiDecimal(52));
         cmDoc.getCurrentTransaction().getNewItemInProcess().setItemOpenDate(new Date(new GregorianCalendar().getTimeInMillis()));
-        assertFalse(rule.checkItemInProcessIsNotPayingOffItemInProcess(cmDoc, cmDoc.getCurrentTransaction()));
+        assertFalse(rule.checkItemInProcessIsNotPayingOffItemInProcess(cmDoc.getCurrentTransaction()));
         cmDoc.getCurrentTransaction().getOpenItemsInProcess().remove(0);
-        assertTrue(rule.checkItemInProcessIsNotPayingOffItemInProcess(cmDoc, cmDoc.getCurrentTransaction()));
+        assertTrue(rule.checkItemInProcessIsNotPayingOffItemInProcess(cmDoc.getCurrentTransaction()));
     }
 
     public void testNewAdvanceNotInFuture() {
         CashManagementDocument cmDoc = this.cashManagementDocumentFixture("testAdvancesDoNotPayOffOtherAdvances");
-        CashieringTransactionRule rule = SpringContext.getBean(CashieringTransactionRule.class);
+        CashManagementDocumentRule rule = new CashManagementDocumentRule();
 
         cmDoc.getCurrentTransaction().getNewItemInProcess().setItemIdentifier(new Integer(80));
         cmDoc.getCurrentTransaction().getNewItemInProcess().setItemAmount(new KualiDecimal(52));

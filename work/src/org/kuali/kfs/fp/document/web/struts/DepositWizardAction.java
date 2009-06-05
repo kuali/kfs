@@ -359,7 +359,10 @@ public class DepositWizardAction extends KualiAction {
         ActionForward dest = mapping.findForward(KFSConstants.MAPPING_BASIC);
 
         DepositWizardForm dform = (DepositWizardForm) form;
-        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
+        final BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
+        final CashReceiptService cashReceiptService = SpringContext.getBean(CashReceiptService.class);
+        final DocumentService documentService = SpringContext.getBean(DocumentService.class);
+        final CashManagementService cashManagementService = SpringContext.getBean(CashManagementService.class);
         
         CurrencyFormatter formatter = new CurrencyFormatter();
 
@@ -397,7 +400,7 @@ public class DepositWizardAction extends KualiAction {
         if (depositIsFinal) {
             // add check free cash receipts to the selected receipts so they are automatically deposited
             dform.setCheckFreeCashReceipts(new ArrayList<CashReceiptDocument>());
-            for (Object crDocObj : SpringContext.getBean(CashReceiptService.class).getCashReceipts(dform.getCashDrawerCampusCode(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED)) {
+            for (Object crDocObj : cashReceiptService.getCashReceipts(dform.getCashDrawerCampusCode(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED)) {
                 CashReceiptDocument crDoc = (CashReceiptDocument) crDocObj;
                 if (crDoc.getCheckCount() == 0) {
                     // it's check free; it is automatically deposited as part of the final deposit
@@ -421,17 +424,17 @@ public class DepositWizardAction extends KualiAction {
 
         //
         // proceed, if possible
-        if (GlobalVariables.getErrorMap().isEmpty()) {
+        if (GlobalVariables.getErrorMap().hasNoErrors()) {
             try {
                 // retrieve selected receipts
                 List selectedReceipts = new ArrayList();
                 if (selectedIds != null && !selectedIds.isEmpty()) {
-                    selectedReceipts = SpringContext.getBean(DocumentService.class).getDocumentsByListOfDocumentHeaderIds(CashReceiptDocument.class, selectedIds);
+                    selectedReceipts = documentService.getDocumentsByListOfDocumentHeaderIds(CashReceiptDocument.class, selectedIds);
                 }
 
                 if (depositIsFinal) {
                     // have all verified CRs been deposited? If not, that's an error
-                    List verifiedReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(dform.getCashDrawerCampusCode(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
+                    List verifiedReceipts = cashReceiptService.getCashReceipts(dform.getCashDrawerCampusCode(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
                     for (Object o : verifiedReceipts) {
                         CashReceiptDocument crDoc = (CashReceiptDocument) o;
                         if (!selectedReceipts.contains(crDoc)) {
@@ -440,7 +443,7 @@ public class DepositWizardAction extends KualiAction {
                     }
                     KualiDecimal toBeDepositedChecksTotal = KualiDecimal.ZERO;
                     // have we selected the rest of the undeposited checks?
-                    for (Check check : SpringContext.getBean(CashManagementService.class).selectUndepositedCashieringChecks(dform.getCashManagementDocId())) {
+                    for (Check check : cashManagementService.selectUndepositedCashieringChecks(dform.getCashManagementDocId())) {
                         if (!selectedCashieringChecks.contains(check.getSequenceId())) {
                             GlobalVariables.getErrorMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_CASHIERING_CHECK_MUST_BE_DEPOSITED, new String[] { check.getCheckNumber() });
                         }
@@ -454,7 +457,7 @@ public class DepositWizardAction extends KualiAction {
                     checkEnoughCoinForDeposit(dform);
 
                     // does this deposit have currency and coin to match all currency and coin from CRs?
-                    List<CashReceiptDocument> interestingReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(dform.getCashDrawerCampusCode(), new String[] { CashReceipt.VERIFIED, CashReceipt.INTERIM, CashReceipt.FINAL });
+                    List<CashReceiptDocument> interestingReceipts = cashReceiptService.getCashReceipts(dform.getCashDrawerCampusCode(), new String[] { CashReceipt.VERIFIED, CashReceipt.INTERIM, CashReceipt.FINAL });
                     CurrencyDetail currencyTotal = new CurrencyDetail();
                     CoinDetail coinTotal = new CoinDetail();
                     for (CashReceiptDocument receipt : interestingReceipts) {
@@ -468,7 +471,7 @@ public class DepositWizardAction extends KualiAction {
                     }
 
                     KualiDecimal cashReceiptCashTotal = currencyTotal.getTotalAmount().add(coinTotal.getTotalAmount());
-                    KualiDecimal depositedCashieringChecksTotal = SpringContext.getBean(CashManagementService.class).calculateDepositedCheckTotal(dform.getCashManagementDocId());
+                    KualiDecimal depositedCashieringChecksTotal = cashManagementService.calculateDepositedCheckTotal(dform.getCashManagementDocId());
                     // remove the cashiering checks amounts from the cash receipts total; cashiering checks act as if they were CR
                     // currency/coin that gets deposited
                     cashReceiptCashTotal = cashReceiptCashTotal.subtract(depositedCashieringChecksTotal).subtract(toBeDepositedChecksTotal);
@@ -479,12 +482,12 @@ public class DepositWizardAction extends KualiAction {
                 }
 
                 // proceed again...if possible
-                if (GlobalVariables.getErrorMap().isEmpty()) {
+                if (GlobalVariables.getErrorMap().hasNoErrors()) {
                     // retrieve CashManagementDocument
                     String cashManagementDocId = dform.getCashManagementDocId();
                     CashManagementDocument cashManagementDoc = null;
                     try {
-                        cashManagementDoc = (CashManagementDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(cashManagementDocId);
+                        cashManagementDoc = (CashManagementDocument) documentService.getByDocumentHeaderId(cashManagementDocId);
                         if (cashManagementDoc == null) {
                             throw new IllegalStateException("unable to find cashManagementDocument with id " + cashManagementDocId);
                         }
@@ -496,8 +499,7 @@ public class DepositWizardAction extends KualiAction {
                     // create deposit
                     String cmDocId = dform.getCashManagementDocId();
 
-                    CashManagementService cms = SpringContext.getBean(CashManagementService.class);
-                    cms.addDeposit(cashManagementDoc, dform.getDepositTicketNumber(), dform.getBank(), selectedReceipts, selectedCashieringChecks, depositIsFinal);
+                    cashManagementService.addDeposit(cashManagementDoc, dform.getDepositTicketNumber(), dform.getBank(), selectedReceipts, selectedCashieringChecks, depositIsFinal);
 
                     if (depositIsFinal) {
                         // find the final deposit
@@ -505,18 +507,18 @@ public class DepositWizardAction extends KualiAction {
                         // if the currency and coin details aren't empty, save them and remove them from the cash drawer
                         if (dform.getCurrencyDetail() != null) {
                             // do we have enough currency to allow the deposit to leave the drawer?
-                            SpringContext.getBean(BusinessObjectService.class).save(dform.getCurrencyDetail());
+                            boService.save(dform.getCurrencyDetail());
                             cashManagementDoc.getCashDrawer().removeCurrency(dform.getCurrencyDetail());
                             finalDeposit.setDepositAmount(finalDeposit.getDepositAmount().add(dform.getCurrencyDetail().getTotalAmount()));
                         }
                         if (dform.getCoinDetail() != null) {
                             // do we have enough coin to allow the deposit to leave the drawer?
-                            SpringContext.getBean(BusinessObjectService.class).save(dform.getCoinDetail());
+                            boService.save(dform.getCoinDetail());
                             cashManagementDoc.getCashDrawer().removeCoin(dform.getCoinDetail());
                             finalDeposit.setDepositAmount(finalDeposit.getDepositAmount().add(dform.getCoinDetail().getTotalAmount()));
                         }
-                        SpringContext.getBean(BusinessObjectService.class).save(cashManagementDoc.getCashDrawer());
-                        SpringContext.getBean(BusinessObjectService.class).save(finalDeposit);
+                        boService.save(cashManagementDoc.getCashDrawer());
+                        boService.save(finalDeposit);
                     }
 
                     // redirect to controlling CashManagementDocument

@@ -32,6 +32,7 @@ import org.kuali.kfs.fp.document.CashManagementDocument;
 import org.kuali.kfs.fp.document.service.CashManagementService;
 import org.kuali.kfs.fp.document.service.CashReceiptService;
 import org.kuali.kfs.fp.document.validation.event.AddCheckEvent;
+import org.kuali.kfs.fp.document.validation.event.CashieringTransactionApplicationEventBase;
 import org.kuali.kfs.fp.document.validation.event.DeleteCheckEvent;
 import org.kuali.kfs.fp.document.web.struts.CashManagementForm.CashDrawerSummary;
 import org.kuali.kfs.fp.exception.CashDrawerStateException;
@@ -268,8 +269,10 @@ public class CashManagementAction extends KualiTransactionalDocumentActionBase {
     public ActionForward refreshSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CashManagementForm cmForm = (CashManagementForm) form;
         CashManagementDocument cmDoc = cmForm.getCashManagementDocument();
-
-        cmForm.getCashDrawerSummary().resummarize(cmDoc);
+        
+        if (cmForm.getCashDrawerSummary() != null) {
+            cmForm.getCashDrawerSummary().resummarize(cmDoc);
+        }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -360,10 +363,14 @@ public class CashManagementAction extends KualiTransactionalDocumentActionBase {
     public ActionForward applyCashieringTransaction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CashManagementDocument cmDoc = ((CashManagementForm) form).getCashManagementDocument();
         CashManagementService cmService = SpringContext.getBean(CashManagementService.class);
+        
+        final boolean valid = SpringContext.getBean(KualiRuleService.class).applyRules(new CashieringTransactionApplicationEventBase("Cashiering Transaction Application Event", "", cmDoc, SpringContext.getBean(CashDrawerService.class).getByCampusCode(cmDoc.getCampusCode()), cmDoc.getCurrentTransaction()));
 
-        cmService.applyCashieringTransaction(cmDoc);
+        if (valid) {
+            cmService.applyCashieringTransaction(cmDoc);
 
-        ((CashManagementForm) form).getCashDrawerSummary().resummarize(cmDoc);
+            ((CashManagementForm) form).getCashDrawerSummary().resummarize(cmDoc);
+        }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

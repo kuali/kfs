@@ -36,16 +36,17 @@ import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.fp.document.dataaccess.CashManagementDao;
 import org.kuali.kfs.fp.document.service.CashManagementService;
 import org.kuali.kfs.fp.document.service.CashReceiptService;
-import org.kuali.kfs.fp.document.validation.impl.CashieringTransactionRule;
 import org.kuali.kfs.fp.exception.CashDrawerStateException;
 import org.kuali.kfs.fp.exception.InvalidCashReceiptState;
 import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.CashDrawerConstants;
 import org.kuali.kfs.sys.KFSConstants.CurrencyCoinSources;
 import org.kuali.kfs.sys.KFSConstants.DepositConstants;
 import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes;
+import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
@@ -722,21 +723,18 @@ public class CashManagementServiceImpl implements CashManagementService {
         if (cmDoc.getCashDrawer() == null) {
             cmDoc.setCashDrawer(cashDrawerService.getByCampusCode(cmDoc.getCampusCode()));
         }
-        CashieringTransactionRule transactionRule = new CashieringTransactionRule();
-        transactionRule.setCashDrawerService(cashDrawerService);
-        if (transactionRule.processCashieringTransactionApplicationRules(cmDoc)) {
-            this.transferChecksToCashManagementDocument(cmDoc, cmDoc.getCurrentTransaction());
-            this.saveChecks(cmDoc);
-            this.completeNewItemInProcess(cmDoc.getCurrentTransaction());
-            if (cmDoc.getCurrentTransaction().getNewItemInProcess() != null) {
-                this.saveNewItemInProcess(cmDoc, cmDoc.getCurrentTransaction());
-            }
-            this.saveExisingItemsInProcess(cmDoc, cmDoc.getCurrentTransaction());
-            this.saveMoneyInCash(cmDoc, cmDoc.getCurrentTransaction());
-            this.saveMoneyOutCash(cmDoc, cmDoc.getCurrentTransaction());
-            this.updateCashDrawer(cmDoc.getCashDrawer(), cmDoc.getCurrentTransaction());
-            cmDoc.resetCurrentTransaction();
+        
+        this.transferChecksToCashManagementDocument(cmDoc, cmDoc.getCurrentTransaction());
+        this.saveChecks(cmDoc);
+        this.completeNewItemInProcess(cmDoc.getCurrentTransaction());
+        if (cmDoc.getCurrentTransaction().getNewItemInProcess() != null) {
+            this.saveNewItemInProcess(cmDoc, cmDoc.getCurrentTransaction());
         }
+        this.saveExisingItemsInProcess(cmDoc, cmDoc.getCurrentTransaction());
+        this.saveMoneyInCash(cmDoc, cmDoc.getCurrentTransaction());
+        this.saveMoneyOutCash(cmDoc, cmDoc.getCurrentTransaction());
+        this.updateCashDrawer(cmDoc.getCashDrawer(), cmDoc.getCurrentTransaction());
+        cmDoc.resetCurrentTransaction();
     }
     
     /**
@@ -1219,7 +1217,6 @@ public class CashManagementServiceImpl implements CashManagementService {
         }
         return result;
     }
-
 
     // injected dependencies
     /**

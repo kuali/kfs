@@ -58,6 +58,8 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
 
     private boolean isValidTotalAmount(AttributeSet qualification, AttributeSet roleQualifier) {
         boolean isValidTotalAmount = false;
+        if(qualification==null || roleQualifier==null)
+            return false;
         try {
             KualiDecimal totalAmount = new KualiDecimal(qualification.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT));
             String toAmountStr = roleQualifier.get(KfsKimAttributes.TO_AMOUNT);

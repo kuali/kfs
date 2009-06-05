@@ -232,7 +232,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
             this.assetOrganization.setOrganizationText(assetGlobalDetail.getOrganizationText());
         }
         else {
-            this.setRepresentativeUniversalIdentifier(assetGlobal.getRepresentativeUniversalIdentifier());
+            this.setRepresentativeUniversalIdentifier(assetGlobalDetail.getRepresentativeUniversalIdentifier());
             this.setCapitalAssetTypeCode(assetGlobal.getCapitalAssetTypeCode());
             this.setCapitalAssetDescription(assetGlobal.getCapitalAssetDescription());
             this.setManufacturerName(assetGlobal.getManufacturerName());

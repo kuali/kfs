@@ -468,6 +468,8 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
                 uniqueDetail.setNationalStockNumber(preTagDetail.getNationalStockNumber());
                 uniqueDetail.setCampusTagNumber(preTagDetail.getCampusTagNumber());
                 uniqueDetail.setOrganizationInventoryName(preTag.getOrganizationInventoryName());
+                uniqueDetail.setSerialNumber(preTagDetail.getSerialNumber());
+                uniqueDetail.setRepresentativeUniversalIdentifier(preTag.getRepresentativeUniversalIdentifier());
                 // In-activate pre-tagging detail and will be persistent to the DB.
                 preTagDetail.setActive(false);
             }

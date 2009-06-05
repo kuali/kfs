@@ -15,10 +15,12 @@
  */
 package org.kuali.kfs.module.cam.businessobject.inquiry;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
@@ -26,37 +28,37 @@ import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
 import org.kuali.kfs.module.cam.document.service.RetirementInfoService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.web.ui.Field;
-import org.kuali.rice.kns.web.ui.Row;
+import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.ui.Section;
 
 public class AssetInquirableImpl extends KfsInquirableImpl {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetInquirableImpl.class);
-    
+
     /**
      * Executes service methods to populate appropriate data in the Asset BO.
+     * 
      * @see org.kuali.rice.kns.inquiry.KualiInquirableImpl#getBusinessObject(java.util.Map)
      */
     @Override
     public BusinessObject getBusinessObject(Map fieldValues) {
         Asset asset = (Asset) super.getBusinessObject(fieldValues);
-        
+
         if (ObjectUtils.isNotNull(asset)) {
             // Identifies the latest location information
             AssetLocationService assetlocationService = SpringContext.getBean(AssetLocationService.class);
             assetlocationService.setOffCampusLocation(asset);
-    
+
             // Calculates payment summary and depreciation summary based on available payment records
             PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
             paymentSummaryService.calculateAndSetPaymentSummary(asset);
-            
+
             // Identifies the merge history and separation history based on asset disposition records
             AssetService assetService = SpringContext.getBean(AssetService.class);
             assetService.setSeparateHistory(asset);
@@ -65,12 +67,12 @@ public class AssetInquirableImpl extends KfsInquirableImpl {
             RetirementInfoService retirementInfoService = SpringContext.getBean(RetirementInfoService.class);
             retirementInfoService.setRetirementInfo(asset);
             retirementInfoService.setMergeHistory(asset);
-    
+
             // Finds out the latest equipment loan or return information if available
             EquipmentLoanOrReturnService equipmentLoanOrReturnService = SpringContext.getBean(EquipmentLoanOrReturnService.class);
             equipmentLoanOrReturnService.setEquipmentLoanInfo(asset);
         }
-        
+
         return asset;
     }
 
@@ -86,19 +88,37 @@ public class AssetInquirableImpl extends KfsInquirableImpl {
         // sectionToRemove is hoky but it looks like that section.setHidden doesn't work on inquirable. And to avoid
         // ConcurrentModificationException we do this
         Section sectionToRemove = null;
-        
+
         Asset asset = (Asset) businessObject;
         for (Section section : sections) {
             if (CamsConstants.Asset.SECTION_ID_PAYMENT_INFORMATION.equals(section.getSectionId()) && asset.getAssetPayments().size() > CamsConstants.Asset.ASSET_MAXIMUM_NUMBER_OF_PAYMENT_DISPLAY) {
                 // Hide the payment section if there are more then CamsConstants.ASSET_MAXIMUM_NUMBER_OF_PAYMENT_DISPLAY
-                //section.setHidden(true);
+                // section.setHidden(true);
                 sectionToRemove = section;
             }
         }
 
         if (sectionToRemove != null) {
             sections.remove(sectionToRemove);
-        }        
+        }
         return sections;
-    }        
+    }
+
+    @Override
+    public HtmlData getInquiryUrl(BusinessObject businessObject, String attributeName, boolean forceInquiry) {
+        if ("organizationOwnerAccount.organizationCode".equals(attributeName) && businessObject instanceof Asset) {
+            Asset asset = (Asset) businessObject;
+            Properties parameters = new Properties();
+            parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
+            parameters.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, Organization.class.getName());
+            parameters.put("chartOfAccountsCode", asset.getOrganizationOwnerAccount().getChartOfAccountsCode());
+            parameters.put("organizationCode", asset.getOrganizationOwnerAccount().getOrganizationCode());
+
+            Map<String, String> fieldList = new HashMap<String, String>();
+            fieldList.put("chartOfAccountsCode", asset.getOrganizationOwnerAccount().getChartOfAccountsCode());
+            fieldList.put("organizationCode", asset.getOrganizationOwnerAccount().getOrganizationCode());
+            return getHyperLink(Organization.class, fieldList, UrlFactory.parameterizeUrl(KNSConstants.INQUIRY_ACTION, parameters));
+        }
+        return super.getInquiryUrl(businessObject, attributeName, forceInquiry);
+    }
 }

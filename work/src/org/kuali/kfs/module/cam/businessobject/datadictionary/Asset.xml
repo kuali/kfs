@@ -2226,17 +2226,9 @@
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetTypeCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetDescription" />
-        <!-- 
+              p:attributeName="capitalAssetDescription" />      
         <bean parent="FieldDefinition"
-              p:attributeName="representativeUniversalIdentifier" />
-         -->
-        <bean parent="FieldDefinition"
-              p:attributeName="assetRepresentative.principalName" />
-        <!--  
-        <bean parent="FieldDefinition"
-              p:attributeName="assetRepresentative.name" />
-         -->
+              p:attributeName="assetRepresentative.principalName" />      
         <bean parent="FieldDefinition"
               p:attributeName="organizationInventoryName" />
         <bean parent="FieldDefinition"
@@ -2282,10 +2274,8 @@
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetNumber" />
         <bean parent="FieldDefinition"
-              p:attributeName="campusTagNumber" />
+              p:attributeName="campusTagNumber" />        
         <bean parent="FieldDefinition"
-              p:attributeName="organizationOwnerAccountNumber" />
-        <bean parent="FieldDefinition" p:noInquiry="true"
               p:attributeName="organizationOwnerAccount.organizationCode" />
         <bean parent="FieldDefinition"
               p:attributeName="buildingCode" />

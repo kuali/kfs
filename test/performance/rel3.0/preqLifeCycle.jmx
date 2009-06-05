@@ -14,10 +14,10 @@
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="PREQ Lifecycle Test" enabled="true">
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">5</stringProp>
+          <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">5</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">90</stringProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <longProp name="ThreadGroup.start_time">1243951513000</longProp>
         <longProp name="ThreadGroup.end_time">1243951513000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -26,7 +26,7 @@
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
       <hashTree>
-        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="URL parameters for localhost:8080/kfs-dev" enabled="true">
+        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="URL parameters for localhost:8080/kfs-dev" enabled="false">
           <collectionProp name="Arguments.arguments">
             <elementProp name="protocol" elementType="Argument">
               <stringProp name="Argument.metadata">=</stringProp>
@@ -101,7 +101,7 @@
           </collectionProp>
         </Arguments>
         <hashTree/>
-        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="URL parameters for findev.ebsp.msu.edu" enabled="false">
+        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="URL parameters for findev.ebsp.msu.edu" enabled="true">
           <collectionProp name="Arguments.arguments">
             <elementProp name="protocol" elementType="Argument">
               <stringProp name="Argument.metadata">=</stringProp>
@@ -619,7 +619,7 @@
               <stringProp name="RegexExtractor.match_number"></stringProp>
             </RegexExtractor>
             <hashTree/>
-            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="formKey extractor" enabled="true">
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="docFormKey extractor" enabled="true">
               <stringProp name="RegexExtractor.useHeaders">false</stringProp>
               <stringProp name="RegexExtractor.refname">formKey</stringProp>
               <stringProp name="RegexExtractor.regex">&lt;input type=&quot;hidden&quot; name=&quot;docFormKey&quot; value=&quot;([^&quot;]*)&quot;</stringProp>
@@ -628,7 +628,7 @@
               <stringProp name="RegexExtractor.match_number"></stringProp>
             </RegexExtractor>
             <hashTree/>
-            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="docFormKey Assert" enabled="true">
               <collectionProp name="Asserion.test_strings">
                 <stringProp name="1971758006">&lt;input type=&quot;hidden&quot; name=&quot;docFormKey&quot;</stringProp>
               </collectionProp>
@@ -1935,7 +1935,26 @@
             <stringProp name="HTTPSampler.monitor">false</stringProp>
             <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
           </HTTPSampler>
-          <hashTree/>
+          <hashTree>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="docFormKey extractor" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+              <stringProp name="RegexExtractor.refname">formKey</stringProp>
+              <stringProp name="RegexExtractor.regex">&lt;input type=&quot;hidden&quot; name=&quot;docFormKey&quot; value=&quot;([^&quot;]*)&quot;</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.default">NOT FOUND</stringProp>
+              <stringProp name="RegexExtractor.match_number"></stringProp>
+            </RegexExtractor>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="docFormKey Assert" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="1971758006">&lt;input type=&quot;hidden&quot; name=&quot;docFormKey&quot;</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <stringProp name="Assertion.assume_success">false</stringProp>
+              <intProp name="Assertion.test_type">2</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+          </hashTree>
           <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="/kfs-dev/kew/RouteLog.do" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
@@ -1965,7 +1984,7 @@
             <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
           </HTTPSampler>
           <hashTree/>
-          <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="/kfs-dev/purapRequisition.do5 lookup vendor" enabled="true">
+          <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="/kfs-dev/purapRequisition.do5 " enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="tabStates(DocumentOverview)" elementType="HTTPArgument">
@@ -3254,7 +3273,26 @@
             <stringProp name="HTTPSampler.monitor">false</stringProp>
             <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
           </HTTPSampler>
-          <hashTree/>
+          <hashTree>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="docFormKey extractor" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+              <stringProp name="RegexExtractor.refname">formKey</stringProp>
+              <stringProp name="RegexExtractor.regex">&lt;input type=&quot;hidden&quot; name=&quot;docFormKey&quot; value=&quot;([^&quot;]*)&quot;</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.default">NOT FOUND</stringProp>
+              <stringProp name="RegexExtractor.match_number"></stringProp>
+            </RegexExtractor>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="docFormKey Assert" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="1971758006">&lt;input type=&quot;hidden&quot; name=&quot;docFormKey&quot;</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <stringProp name="Assertion.assume_success">false</stringProp>
+              <intProp name="Assertion.test_type">2</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+          </hashTree>
           <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="/kfs-dev/kew/RouteLog.do" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
@@ -4138,7 +4176,26 @@
             <stringProp name="HTTPSampler.monitor">false</stringProp>
             <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
           </HTTPSampler>
-          <hashTree/>
+          <hashTree>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="docFormKey extractor" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+              <stringProp name="RegexExtractor.refname">formKey</stringProp>
+              <stringProp name="RegexExtractor.regex">&lt;input type=&quot;hidden&quot; name=&quot;docFormKey&quot; value=&quot;([^&quot;]*)&quot;</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.default">NOT FOUND</stringProp>
+              <stringProp name="RegexExtractor.match_number"></stringProp>
+            </RegexExtractor>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="docFormKey Assert" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="1971758006">&lt;input type=&quot;hidden&quot; name=&quot;docFormKey&quot;</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <stringProp name="Assertion.assume_success">false</stringProp>
+              <intProp name="Assertion.test_type">2</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+          </hashTree>
           <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="/kfs-dev/kew/RouteLog.do" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
@@ -5176,7 +5233,26 @@
             <stringProp name="HTTPSampler.monitor">false</stringProp>
             <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
           </HTTPSampler>
-          <hashTree/>
+          <hashTree>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="docFormKey extractor" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+              <stringProp name="RegexExtractor.refname">formKey</stringProp>
+              <stringProp name="RegexExtractor.regex">&lt;input type=&quot;hidden&quot; name=&quot;docFormKey&quot; value=&quot;([^&quot;]*)&quot;</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.default">NOT FOUND</stringProp>
+              <stringProp name="RegexExtractor.match_number"></stringProp>
+            </RegexExtractor>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="docFormKey Assert" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="1971758006">&lt;input type=&quot;hidden&quot; name=&quot;docFormKey&quot;</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <stringProp name="Assertion.assume_success">false</stringProp>
+              <intProp name="Assertion.test_type">2</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+          </hashTree>
           <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="/kfs-dev/kew/RouteLog.do" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
@@ -6200,7 +6276,26 @@
             <stringProp name="HTTPSampler.monitor">false</stringProp>
             <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
           </HTTPSampler>
-          <hashTree/>
+          <hashTree>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="docFormKey extractor" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+              <stringProp name="RegexExtractor.refname">formKey</stringProp>
+              <stringProp name="RegexExtractor.regex">&lt;input type=&quot;hidden&quot; name=&quot;docFormKey&quot; value=&quot;([^&quot;]*)&quot;</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.default">NOT FOUND</stringProp>
+              <stringProp name="RegexExtractor.match_number"></stringProp>
+            </RegexExtractor>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="docFormKey Assert" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="1971758006">&lt;input type=&quot;hidden&quot; name=&quot;docFormKey&quot;</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <stringProp name="Assertion.assume_success">false</stringProp>
+              <intProp name="Assertion.test_type">2</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+          </hashTree>
           <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="/kfs-dev/kew/RouteLog.do" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
@@ -7527,7 +7622,17 @@
             <stringProp name="HTTPSampler.monitor">false</stringProp>
             <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
           </HTTPSampler>
-          <hashTree/>
+          <hashTree>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="backdoor rorenfro" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="-1162013472">&lt;strong&gt;Logged in User:&amp;nbsp;khuntley&lt;/strong&gt;  &lt;strong&gt;&amp;nbsp;&amp;nbsp;Impersonating User:&amp;nbsp;rorenfro&lt;/strong&gt;</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <stringProp name="Assertion.assume_success">false</stringProp>
+              <intProp name="Assertion.test_type">2</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+          </hashTree>
           <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="/kfs-dev/kr/lookup.do reqs lookup" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
@@ -7877,7 +7982,7 @@
             <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
             <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
             <stringProp name="HTTPSampler.path">/kfs-dev/purapRequisition.do</stringProp>
-            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
             <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
@@ -7898,16 +8003,16 @@
               <stringProp name="RegexExtractor.match_number"></stringProp>
             </RegexExtractor>
             <hashTree/>
-            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="formKey extractor" enabled="false">
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="reqFormKey extractor" enabled="true">
               <stringProp name="RegexExtractor.useHeaders">false</stringProp>
-              <stringProp name="RegexExtractor.refname">formKey</stringProp>
+              <stringProp name="RegexExtractor.refname">reqFormKey</stringProp>
               <stringProp name="RegexExtractor.regex">&lt;input type=&quot;hidden&quot; name=&quot;docFormKey&quot; value=&quot;([^&quot;]*)&quot;</stringProp>
               <stringProp name="RegexExtractor.template">$1$</stringProp>
               <stringProp name="RegexExtractor.default">NOT FOUND</stringProp>
               <stringProp name="RegexExtractor.match_number"></stringProp>
             </RegexExtractor>
             <hashTree/>
-            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="false">
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="reqFormKey Assertion" enabled="true">
               <collectionProp name="Asserion.test_strings">
                 <stringProp name="1971758006">&lt;input type=&quot;hidden&quot; name=&quot;docFormKey&quot;</stringProp>
               </collectionProp>
@@ -7916,7 +8021,7 @@
               <intProp name="Assertion.test_type">2</intProp>
             </ResponseAssertion>
             <hashTree/>
-            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="reqNo Assert" enabled="true">
               <collectionProp name="Asserion.test_strings">
                 <stringProp name="-829090571">${reqNo}</stringProp>
               </collectionProp>
@@ -8393,14 +8498,14 @@
                 <elementProp name="formKey" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.name">formKey</stringProp>
-                  <stringProp name="Argument.value"></stringProp>
+                  <stringProp name="Argument.value">${reqFormKey}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="docFormKey" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.name">docFormKey</stringProp>
-                  <stringProp name="Argument.value"></stringProp>
+                  <stringProp name="Argument.value">${reqFormKey}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
@@ -8663,7 +8768,17 @@
             <stringProp name="HTTPSampler.monitor">false</stringProp>
             <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
           </HTTPSampler>
-          <hashTree/>
+          <hashTree>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="backdoor appleton" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="277162700">&lt;strong&gt;Logged in User:&amp;nbsp;khuntley&lt;/strong&gt;  &lt;strong&gt;&amp;nbsp;&amp;nbsp;Impersonating User:&amp;nbsp;appleton&lt;/strong&gt;</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <stringProp name="Assertion.assume_success">false</stringProp>
+              <intProp name="Assertion.test_type">2</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+          </hashTree>
           <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="/kfs-dev/" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments"/>
@@ -9547,16 +9662,16 @@
               <stringProp name="RegexExtractor.match_number"></stringProp>
             </RegexExtractor>
             <hashTree/>
-            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="formKey extractor" enabled="true">
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="preqFormKey extractor" enabled="true">
               <stringProp name="RegexExtractor.useHeaders">false</stringProp>
-              <stringProp name="RegexExtractor.refname">formKey</stringProp>
+              <stringProp name="RegexExtractor.refname">preqFormKey</stringProp>
               <stringProp name="RegexExtractor.regex">&lt;input type=&quot;hidden&quot; name=&quot;docFormKey&quot; value=&quot;([^&quot;]*)&quot;</stringProp>
               <stringProp name="RegexExtractor.template">$1$</stringProp>
               <stringProp name="RegexExtractor.default">NOT FOUND</stringProp>
               <stringProp name="RegexExtractor.match_number"></stringProp>
             </RegexExtractor>
             <hashTree/>
-            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="preqFormKey Assertion" enabled="true">
               <collectionProp name="Asserion.test_strings">
                 <stringProp name="1971758006">&lt;input type=&quot;hidden&quot; name=&quot;docFormKey&quot;</stringProp>
               </collectionProp>
@@ -9656,14 +9771,14 @@
                 <elementProp name="formKey" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.name">formKey</stringProp>
-                  <stringProp name="Argument.value">${formKey}</stringProp>
+                  <stringProp name="Argument.value">${preqFormKey}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="docFormKey" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.name">docFormKey</stringProp>
-                  <stringProp name="Argument.value">${formKey}</stringProp>
+                  <stringProp name="Argument.value">${preqFormKey}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
@@ -9692,7 +9807,26 @@
             <stringProp name="HTTPSampler.monitor">false</stringProp>
             <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
           </HTTPSampler>
-          <hashTree/>
+          <hashTree>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="preqFormKey extractor" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+              <stringProp name="RegexExtractor.refname">preqFormKey</stringProp>
+              <stringProp name="RegexExtractor.regex">&lt;input type=&quot;hidden&quot; name=&quot;docFormKey&quot; value=&quot;([^&quot;]*)&quot;</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.default">NOT FOUND</stringProp>
+              <stringProp name="RegexExtractor.match_number"></stringProp>
+            </RegexExtractor>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="preqFormKey Assertion" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="1971758006">&lt;input type=&quot;hidden&quot; name=&quot;docFormKey&quot;</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <stringProp name="Assertion.assume_success">false</stringProp>
+              <intProp name="Assertion.test_type">2</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+          </hashTree>
           <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="/kfs-dev/kew/RouteLog.do" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
@@ -10638,14 +10772,14 @@
                 <elementProp name="formKey" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.name">formKey</stringProp>
-                  <stringProp name="Argument.value">${formKey}</stringProp>
+                  <stringProp name="Argument.value">${preqFormKey}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="docFormKey" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.name">docFormKey</stringProp>
-                  <stringProp name="Argument.value">${formKey}</stringProp>
+                  <stringProp name="Argument.value">${preqFormKey}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
@@ -10674,7 +10808,26 @@
             <stringProp name="HTTPSampler.monitor">false</stringProp>
             <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
           </HTTPSampler>
-          <hashTree/>
+          <hashTree>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="preqFormKey extractor" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+              <stringProp name="RegexExtractor.refname">preqFormKey</stringProp>
+              <stringProp name="RegexExtractor.regex">&lt;input type=&quot;hidden&quot; name=&quot;docFormKey&quot; value=&quot;([^&quot;]*)&quot;</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.default">NOT FOUND</stringProp>
+              <stringProp name="RegexExtractor.match_number"></stringProp>
+            </RegexExtractor>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="preqFormKey Assertion" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="1971758006">&lt;input type=&quot;hidden&quot; name=&quot;docFormKey&quot;</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <stringProp name="Assertion.assume_success">false</stringProp>
+              <intProp name="Assertion.test_type">2</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+          </hashTree>
           <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="/kfs-dev/kew/RouteLog.do" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
@@ -10704,7 +10857,7 @@
             <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
           </HTTPSampler>
           <hashTree/>
-          <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="/kfs-dev/purapPaymentRequest.do" enabled="true">
+          <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="/kfs-dev/purapPaymentRequest.do 1 route" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="tabStates(DocumentOverview)" elementType="HTTPArgument">
@@ -11578,14 +11731,14 @@
                 <elementProp name="formKey" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.name">formKey</stringProp>
-                  <stringProp name="Argument.value">${formKey}</stringProp>
+                  <stringProp name="Argument.value">${preqFormKey}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="docFormKey" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.name">docFormKey</stringProp>
-                  <stringProp name="Argument.value">${formKey}</stringProp>
+                  <stringProp name="Argument.value">${preqFormKey}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
@@ -11620,7 +11773,7 @@
             </ConstantTimer>
             <hashTree/>
           </hashTree>
-          <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="/kfs-dev/purapPaymentRequest.do" enabled="true">
+          <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="/kfs-dev/purapPaymentRequest.do 2" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="docTypeName" elementType="HTTPArgument">
@@ -12488,7 +12641,7 @@
             <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
           </HTTPSampler>
           <hashTree/>
-          <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="/kfs-dev/purapPaymentRequest.do" enabled="true">
+          <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="/kfs-dev/purapPaymentRequest.do 3" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="methodToCall" elementType="HTTPArgument">
@@ -12526,7 +12679,7 @@
             <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
             <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
             <stringProp name="HTTPSampler.path">/kfs-dev/purapPaymentRequest.do</stringProp>
-            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
             <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
@@ -12537,7 +12690,26 @@
             <stringProp name="HTTPSampler.monitor">false</stringProp>
             <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
           </HTTPSampler>
-          <hashTree/>
+          <hashTree>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="preqFormKey1 extractor" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+              <stringProp name="RegexExtractor.refname">preqFormKey1</stringProp>
+              <stringProp name="RegexExtractor.regex">&lt;input type=&quot;hidden&quot; name=&quot;docFormKey&quot; value=&quot;([^&quot;]*)&quot;</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.default">NOT FOUND</stringProp>
+              <stringProp name="RegexExtractor.match_number"></stringProp>
+            </RegexExtractor>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="preqFormKey1 Assertion" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="1971758006">&lt;input type=&quot;hidden&quot; name=&quot;docFormKey&quot;</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <stringProp name="Assertion.assume_success">false</stringProp>
+              <intProp name="Assertion.test_type">2</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+          </hashTree>
           <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="/kfs-dev/kew/RouteLog.do" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
@@ -12567,7 +12739,7 @@
             <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
           </HTTPSampler>
           <hashTree/>
-          <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="/kfs-dev/purapPaymentRequest.do" enabled="true">
+          <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="/kfs-dev/purapPaymentRequest.do 4" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="tabStates(DocumentOverview)" elementType="HTTPArgument">
@@ -13287,14 +13459,14 @@
                 <elementProp name="formKey" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.name">formKey</stringProp>
-                  <stringProp name="Argument.value"></stringProp>
+                  <stringProp name="Argument.value">${preqFormKey1}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="docFormKey" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.name">docFormKey</stringProp>
-                  <stringProp name="Argument.value"></stringProp>
+                  <stringProp name="Argument.value">${preqFormKey1}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
@@ -13954,7 +14126,7 @@
         </ResultCollector>
         <hashTree/>
         <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
-          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <boolProp name="ResultCollector.error_logging">true</boolProp>
           <objProp>
             <name>saveConfig</name>
             <value class="SampleSaveConfiguration">

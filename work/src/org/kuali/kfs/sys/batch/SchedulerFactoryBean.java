@@ -45,6 +45,7 @@ public class SchedulerFactoryBean extends org.springframework.scheduling.quartz.
         if (useQuartzScheduling) {
             if (useJdbcJobstore) {
                 quartzPropertiesReference.put("org.quartz.jobStore.useProperties", "false");
+                quartzPropertiesReference.put("org.quartz.jobStore.useProperties", "true");
                 setDataSource(dataSourceReference);
                 setNonTransactionalDataSource(nonTransactionalDataSourceReference);
             }

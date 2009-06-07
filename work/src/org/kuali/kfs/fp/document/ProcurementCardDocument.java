@@ -229,33 +229,15 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
         return m;
     }
 
-    // TODO: this is a duplicate method.  Is this check important?
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        super.doRouteStatusChange(statusChangeEvent);
         
         // Updating for rice-1.0.0 api changes.  doRouteStatusChange() went away, so 
         // that functionality needs to be a part of doRouteStatusChange now.
         // handleRouteStatusChange did not happen on a save
         if (!KEWConstants.ACTION_TAKEN_SAVED_CD.equals(statusChangeEvent.getDocumentEventCode())) {
             this.getCapitalAssetManagementModuleService().deleteDocumentAssetLocks(this);
-        }
-        
-        if (KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(statusChangeEvent.getNewRouteStatus())) {
-            Document retrievedDocument;
-            try {  
-                retrievedDocument = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(statusChangeEvent.getRouteHeaderId().toString());
-            } catch (WorkflowException e) {
-                throw new RiceRuntimeException(e);
-            }
-            String financialStatusCode = null;
-            if (retrievedDocument instanceof FinancialSystemTransactionalDocument) {
-                financialStatusCode = ((FinancialSystemTransactionalDocument) retrievedDocument).getDocumentHeader().getFinancialDocumentStatusCode();
-            } else if (retrievedDocument instanceof FinancialSystemMaintenanceDocument) {
-                financialStatusCode = ((FinancialSystemMaintenanceDocument) retrievedDocument).getDocumentHeader().getFinancialDocumentStatusCode();
-            }
-            if (KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(retrievedDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()) && !KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(financialStatusCode)) {
-                throw new RuntimeException("KFS document status is out of sync with Workflow document status");
-            }
         }
     }
     

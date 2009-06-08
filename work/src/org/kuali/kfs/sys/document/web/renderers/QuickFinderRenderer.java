@@ -16,19 +16,17 @@
 package org.kuali.kfs.sys.document.web.renderers;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.util.RendererUtil;
-import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.WebUtils;
-import org.kuali.rice.kns.web.struts.pojo.PojoFormBase;
 
 /**
  * Renders a quick field for an element
@@ -89,11 +87,11 @@ public class QuickFinderRenderer extends FieldRendererBase {
         
         quickFinderHtml.append("valign=\"middle\" ");
         
-        quickFinderHtml.append("alt=\"Search ");
-        quickFinderHtml.append(getField().getFieldLabel());
+        quickFinderHtml.append("alt=\"");
+        quickFinderHtml.append(getAccessibleTitle());
         quickFinderHtml.append("\" ");
         
-        quickFinderHtml.append("title=\"Search ");
+        quickFinderHtml.append("title=\"");
         quickFinderHtml.append(getAccessibleTitle());
         quickFinderHtml.append("\" ");
         
@@ -167,6 +165,17 @@ public class QuickFinderRenderer extends FieldRendererBase {
     public void clear() {
         super.clear();
         tabIndex = -1;
+    }
+
+    /**
+     * Overridden to format into message automatically, so there's a "Search" in front of the field label name
+     * @see org.kuali.kfs.sys.document.web.renderers.FieldRendererBase#setAccessibleTitle(java.lang.String)
+     */
+    @Override
+    public void setAccessibleTitle(String accessibleTitle) {
+        final String messagePattern = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.LABEL_ACCOUNTING_LINE_QUICKFINDER_ACCESSIBLE_TITLE);
+        final String formattedAccessibleTitle = MessageFormat.format(messagePattern, accessibleTitle);
+        super.setAccessibleTitle(formattedAccessibleTitle);
     }
 
 }

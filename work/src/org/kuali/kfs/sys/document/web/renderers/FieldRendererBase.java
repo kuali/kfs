@@ -101,6 +101,7 @@ public abstract class FieldRendererBase implements FieldRenderer {
             QuickFinderRenderer renderer = new QuickFinderRenderer();
             renderer.setField(getField());
             renderer.setTabIndex(getQuickfinderTabIndex());
+            renderer.setAccessibleTitle(getField().getFieldLabel());
             renderer.render(pageContext, parentTag);
             renderer.clear();
         }

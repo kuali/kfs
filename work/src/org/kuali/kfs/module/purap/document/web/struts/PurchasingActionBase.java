@@ -918,11 +918,9 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
     public ActionForward addCapitalAssetLocationByItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;        
-        PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();        
-        CapitalAssetLocation location = purDocument.getPurchasingCapitalAssetItems().get(getSelectedLine(request)).getPurchasingCapitalAssetSystem().getAndResetNewPurchasingCapitalAssetLocationLine();
-        
+        PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
+        CapitalAssetLocation location = purDocument.getPurchasingCapitalAssetItems().get(getSelectedLine(request)).getPurchasingCapitalAssetSystem().getNewPurchasingCapitalAssetLocationLine();
         boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedAddPurchasingCapitalAssetLocationEvent("", purDocument, location));
-        rulePassed = rulePassed && SpringContext.getBean(PurchasingService.class).checkCapitalAssetLocation(location);
 
         if (rulePassed) {
             //get specific asset item and grab system as well and attach asset location
@@ -930,6 +928,8 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             CapitalAssetSystem system = assetItem.getPurchasingCapitalAssetSystem();
             location.setCapitalAssetSystemIdentifier(system.getCapitalAssetSystemIdentifier());
             system.getCapitalAssetLocations().add(location);
+            //now reset the location as all the rules are passed successfully
+            purDocument.getPurchasingCapitalAssetItems().get(getSelectedLine(request)).getPurchasingCapitalAssetSystem().resetNewPurchasingCapitalAssetLocationLine();
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

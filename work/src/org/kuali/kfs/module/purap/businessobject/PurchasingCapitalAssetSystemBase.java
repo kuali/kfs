@@ -175,6 +175,10 @@ public abstract class PurchasingCapitalAssetSystemBase extends PersistableBusine
         setNewPurchasingCapitalAssetLocationLine(setupNewPurchasingCapitalAssetLocationLine());
         return asset;
     }
+    
+    public void resetNewPurchasingCapitalAssetLocationLine(){
+        setNewPurchasingCapitalAssetLocationLine(setupNewPurchasingCapitalAssetLocationLine());
+    }
 
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();	            

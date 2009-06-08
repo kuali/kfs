@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
@@ -31,6 +32,7 @@ public class PurchasingAddCapitalAssetLocationValidation extends GenericValidati
 
     protected CapitalAssetLocation location;
     protected ParameterService parameterService;
+    protected PurchasingService purchasingService;
     
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
@@ -39,8 +41,14 @@ public class PurchasingAddCapitalAssetLocationValidation extends GenericValidati
         // CHARTS_REQUIRING_LOCATIONS_ADDRESS_ON_(REQUISITION/PURCHASE_ORDER)
         Map<String, String> fieldValues = new HashMap<String, String>();
         
-        List<Parameter> results = getParameterService().retrieveParametersGivenLookupCriteria(fieldValues);
+        //List<Parameter> results = getParameterService().retrieveParametersGivenLookupCriteria(fieldValues);
         // If the location's address is required, enforce the validation of the individual fields of the address.
+        
+        valid = getPurchasingService().checkCapitalAssetLocation(getLocation());
+        valid &= getPurchasingService().checkValidRoomNumber(getLocation());
+        
+        //valid = purchasingService.checkCapitalAssetLocation(getLocation());
+        //valid &= purchasingService.checkValidRoomNumber(getLocation());
         return valid;
     }
 
@@ -57,6 +65,13 @@ public class PurchasingAddCapitalAssetLocationValidation extends GenericValidati
             parameterService = SpringContext.getBean(ParameterService.class);
         }
         return parameterService;
+    }
+    
+    protected PurchasingService getPurchasingService() {
+        if ( parameterService == null ) {
+            purchasingService = SpringContext.getBean(PurchasingService.class);
+        }
+        return purchasingService;
     }
 
 }

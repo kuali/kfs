@@ -107,7 +107,7 @@ function loadDirectorInfo( userIdFieldName, universalIdFieldName, userNameFieldN
             callback:function(data) {
                 if ( data != null && typeof data == 'object' ) {
                     setRecipientValue( universalIdFieldName, data.principalId );
-                    setRecipientValue( userNameFieldName, data.personName );
+                    setRecipientValue( userNameFieldName, data.name );
                 } else {
                     clearRecipients( universalIdFieldName );
                     setRecipientValue( userNameFieldName, wrapError( "director not found" ), true );

@@ -26,6 +26,9 @@
         <ref bean="ElectronicPaymentClaim-paymentClaimStatus" />
         <ref bean="ElectronicPaymentClaim-generatingAccountingLine.financialDocumentLineDescription" />
         <ref bean="ElectronicPaymentClaim-generatingAccountingLine.amount" />
+        <ref bean="ElectronicPaymentClaim-generatingAdvanceDepositDetail.financialDocumentAdvanceDepositDate" />
+        <ref bean="ElectronicPaymentClaim-generatingDocument.documentHeader.workflowDocument.routeHeader.docRouteStatus" />
+        <ref bean="ElectronicPaymentClaim-generatingDocumentHeader.organizationDocumentNumber" />
       </list>
     </property>
   </bean>
@@ -98,8 +101,6 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    
-    
   </bean>
   <bean id="ElectronicPaymentClaim-generatingAccountingLine.financialDocumentLineDescription" parent="ElectronicPaymentClaim-generatingAccountingLine.financialDocumentLineDescription-parentBean" />
 
@@ -110,6 +111,32 @@
 
   <bean id="ElectronicPaymentClaim-generatingAccountingLine.amount-parentBean" abstract="true" parent="SourceAccountingLine-amount">
     <property name="name" value="generatingAccountingLine.amount" />
+  </bean>
+  
+  <bean id="ElectronicPaymentClaim-generatingAdvanceDepositDetail.financialDocumentAdvanceDepositDate" parent="ElectronicPaymentClaim-generatingAdvanceDepositDetail.financialDocumentAdvanceDepositDate-parentBean" />
+  
+  <bean id="ElectronicPaymentClaim-generatingAdvanceDepositDetail.financialDocumentAdvanceDepositDate-parentBean" abstract="true" parent="AdvanceDepositDetail-financialDocumentAdvanceDepositDate">
+  	<property name="name" value="generatingAdvanceDepositDetail.financialDocumentAdvanceDepositDate" />
+  	<property name="label" value="Deposited Date" />
+  </bean>
+  
+  <bean id="ElectronicPaymentClaim-generatingDocument.documentHeader.workflowDocument.routeHeader.docRouteStatus" parent="ElectronicPaymentClaim-generatingDocument.documentHeader.workflowDocument.routeHeader.docRouteStatus-parentBean" />
+  
+  <bean id="ElectronicPaymentClaim-generatingDocument.documentHeader.workflowDocument.routeHeader.docRouteStatus-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="generatingDocument.documentHeader.workflowDocument.routeHeader.docRouteStatus" />
+  	<property name="label" value="Generating Document Route Status" />
+  	<property name="shortLabel" value="Route Status" />
+  	<property name="maxLength" value="10" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+  </bean>
+  
+  <bean id="ElectronicPaymentClaim-generatingDocumentHeader.organizationDocumentNumber" parent="ElectronicPaymentClaim-generatingDocumentHeader.organizationDocumentNumber-parentBean" />
+  
+  <bean id="ElectronicPaymentClaim-generatingDocumentHeader.organizationDocumentNumber-parentBean" abstract="true" parent="DocumentHeader-organizationDocumentNumber">
+  	<property name="name" value="generatingDocumentHeader.organizationDocumentNumber" />
   </bean>
 
 <!-- Business Object Inquiry Definition -->
@@ -187,6 +214,12 @@
               p:attributeName="financialDocumentPostingYear" />
         <bean parent="FieldDefinition"
               p:attributeName="financialDocumentPostingPeriodCode" />
+        <bean parent="FieldDefinition"
+        	  p:attributeName="generatingAdvanceDepositDetail.financialDocumentAdvanceDepositDate" />
+        <bean parent="FieldDefinition"
+        	  p:attributeName="generatingDocument.documentHeader.workflowDocument.routeHeader.docRouteStatus" />
+        <bean parent="FieldDefinition"
+        	  p:attributeName="generatingDocumentHeader.organizationDocumentNumber" />
       </list>
     </property>
   </bean>

@@ -197,7 +197,8 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
             }
         }
 
-        if (equipmentLoanOrReturnDocument.getBorrowerCountryCode().equals(KFSConstants.COUNTRY_CODE_UNITED_STATES)) {
+        String storageCountryCode = equipmentLoanOrReturnDocument.getBorrowerStorageCountryCode();
+        if (StringUtils.isNotBlank(storageCountryCode) && storageCountryCode.equals(KFSConstants.COUNTRY_CODE_UNITED_STATES)) {
 
             if (StringUtils.isBlank(equipmentLoanOrReturnDocument.getBorrowerStorageStateCode())) {
                 GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_STAORAGE_STATE_CODE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_BORROWER_STORAGE_STATE_REQUIRED, equipmentLoanOrReturnDocument.getBorrowerCountryCode());

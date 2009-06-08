@@ -64,7 +64,7 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
 
     @Override
     protected boolean canCancel(Document document) {
-        //controlling the cancel button through getExtraButtons in PaymentRequestForm
+        //controlling the cancel button through getExtraButtons in CreditMemoForm
         return false;
     }
 

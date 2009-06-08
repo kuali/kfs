@@ -318,7 +318,7 @@
     <property name="shortLabel" value="Extract Date"/>
   </bean>
 
-  <bean id="PaymentRequestDocument-extractedIndicatorForSearching" parent="PaymentRequestDocument-extractedTimestamp-parentBean">
+  <bean id="PaymentRequestDocument-extractedIndicatorForSearching" parent="GenericAttributes-activeIndicator">
   	<property name="name" value="extractedIndicatorForSearching"/>
   	<property name="label" value="Extracted"/>
   	<property name="control">
@@ -684,7 +684,7 @@
     </property>
   </bean>
   
-  <bean id="PaymentRequestDocument-paymentRequestedCancelIndicatorForSearching" parent="PaymentRequestDocument-paymentRequestedCancelIndicator-parentBean">
+  <bean id="PaymentRequestDocument-paymentRequestedCancelIndicatorForSearching" parent="GenericAttributes-activeIndicator">
   	<property name="name" value="paymentRequestedCancelIndicatorForSearching"/>
   	<property name="label" value="Request Cancel"/>
   	<property name="maxLength" value="1"/>

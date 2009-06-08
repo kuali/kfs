@@ -191,17 +191,21 @@ public class LineItemReceivingDocumentRule extends DocumentRuleBase implements C
     }
 
     private boolean validateQuantityReturnedNotMoreThanReceived(ReceivingDocument document, LineItemReceivingItem item, String errorPathPrefix, Integer lineNumber) {
-        if (item.getItemReturnedTotalQuantity().isGreaterThan(item.getItemReceivedTotalQuantity())) {
-            GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_RECEIVING_LINE_QTYRETURNED_GT_QTYRECEIVED, (lineNumber.intValue() == 0 ? "Add Line" : lineNumber.toString()));
-            return false;
+        if (item.getItemReturnedTotalQuantity() != null && item.getItemReceivedTotalQuantity() != null) {
+            if (item.getItemReturnedTotalQuantity().isGreaterThan(item.getItemReceivedTotalQuantity())) {
+                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_RECEIVING_LINE_QTYRETURNED_GT_QTYRECEIVED, (lineNumber.intValue() == 0 ? "Add Line" : lineNumber.toString()));
+                return false;
+            }
         }
         return true;
     }
 
     private boolean validateQuantityDamagedNotMoreThanReceived(ReceivingDocument document, LineItemReceivingItem item, String errorPathPrefix, Integer lineNumber) {
-        if (item.getItemDamagedTotalQuantity().isGreaterThan(item.getItemReceivedTotalQuantity())) {
-            GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_RECEIVING_LINE_QTYDAMAGED_GT_QTYRECEIVED, (lineNumber.intValue() == 0 ? "Add Line" : lineNumber.toString()));
-            return false;
+        if (item.getItemDamagedTotalQuantity() != null && item.getItemReceivedTotalQuantity() != null) {
+            if (item.getItemDamagedTotalQuantity().isGreaterThan(item.getItemReceivedTotalQuantity())) {
+                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_RECEIVING_LINE_QTYDAMAGED_GT_QTYRECEIVED, (lineNumber.intValue() == 0 ? "Add Line" : lineNumber.toString()));
+                return false;
+            }
         }
         return true;
     }

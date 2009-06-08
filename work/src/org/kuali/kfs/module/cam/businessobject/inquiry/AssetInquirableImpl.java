@@ -22,6 +22,7 @@ import java.util.Properties;
 
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
@@ -29,6 +30,7 @@ import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
 import org.kuali.kfs.module.cam.document.service.RetirementInfoService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -106,17 +108,17 @@ public class AssetInquirableImpl extends KfsInquirableImpl {
 
     @Override
     public HtmlData getInquiryUrl(BusinessObject businessObject, String attributeName, boolean forceInquiry) {
-        if ("organizationOwnerAccount.organizationCode".equals(attributeName) && businessObject instanceof Asset) {
+        if (CamsPropertyConstants.Asset.ORGANIZATION_CODE.equals(attributeName) && businessObject instanceof Asset) {
             Asset asset = (Asset) businessObject;
             Properties parameters = new Properties();
             parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
             parameters.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, Organization.class.getName());
-            parameters.put("chartOfAccountsCode", asset.getOrganizationOwnerAccount().getChartOfAccountsCode());
-            parameters.put("organizationCode", asset.getOrganizationOwnerAccount().getOrganizationCode());
+            parameters.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, asset.getOrganizationOwnerAccount().getChartOfAccountsCode());
+            parameters.put(KFSPropertyConstants.ORGANIZATION_CODE, asset.getOrganizationOwnerAccount().getOrganizationCode());
 
             Map<String, String> fieldList = new HashMap<String, String>();
-            fieldList.put("chartOfAccountsCode", asset.getOrganizationOwnerAccount().getChartOfAccountsCode());
-            fieldList.put("organizationCode", asset.getOrganizationOwnerAccount().getOrganizationCode());
+            fieldList.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, asset.getOrganizationOwnerAccount().getChartOfAccountsCode());
+            fieldList.put(KFSPropertyConstants.ORGANIZATION_CODE, asset.getOrganizationOwnerAccount().getOrganizationCode());
             return getHyperLink(Organization.class, fieldList, UrlFactory.parameterizeUrl(KNSConstants.INQUIRY_ACTION, parameters));
         }
         return super.getInquiryUrl(businessObject, attributeName, forceInquiry);

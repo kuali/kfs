@@ -30,23 +30,12 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class PaymentRequestReviewValidation extends GenericValidation {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestReviewValidation.class);
 
-    private PaymentRequestService paymentRequestService;
-    private UniversityDateService universityDateService;
     private PaymentRequestItem itemForValidation;
     
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
         PaymentRequestDocument paymentRequest = (PaymentRequestDocument)event.getDocument();        
         
-        Integer fiscalYear = universityDateService.getCurrentFiscalYear();
-        if (paymentRequest.getPurchaseOrderDocument().getPostingYear().intValue() > fiscalYear) {
-            // if FY > current FY, warn user that payment will happen in current year
-            GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_ENCUMBER_NEXT_FY);
-        }
-        else if (paymentRequest.getPurchaseOrderDocument().getPostingYear().intValue() == fiscalYear && paymentRequestService.allowBackpost(paymentRequest)) {
-            // if FY = current FY and during allow backpost period, warn user that payment will happen in prior year
-            GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_ENCUMBER_PRIOR_FY);
-        }
 
         boolean containsAccounts = false;
         int accountLineNbr = 0;
@@ -84,13 +73,6 @@ public class PaymentRequestReviewValidation extends GenericValidation {
         return valid;
     }
 
-    public UniversityDateService getUniversityDateService() {
-        return universityDateService;
-    }
-
-    public void setUniversityDateService(UniversityDateService universityDateService) {
-        this.universityDateService = universityDateService;
-    }
 
     public PaymentRequestItem getItemForValidation() {
         return itemForValidation;
@@ -100,12 +82,5 @@ public class PaymentRequestReviewValidation extends GenericValidation {
         this.itemForValidation = itemForValidation;
     }
 
-    public PaymentRequestService getPaymentRequestService() {
-        return paymentRequestService;
-    }
-
-    public void setPaymentRequestService(PaymentRequestService paymentRequestService) {
-        this.paymentRequestService = paymentRequestService;
-    }
 
 }

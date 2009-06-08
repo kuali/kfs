@@ -23,6 +23,7 @@ import org.kuali.kfs.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedExpiredAccountWarningEvent;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedPayDateNotOverThresholdDaysAwayEvent;
@@ -30,9 +31,11 @@ import org.kuali.kfs.module.purap.document.validation.event.AttributedTradeInWar
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.format.CurrencyFormatter;
 
 /**
@@ -64,12 +67,22 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
             if (!confirmUnusedTradeIn(preq)) {
                 return false;
             }
+            if (!confirmEncumberNextFiscalYear(preq)) {
+                return false;
+            }
+            
+            if (!confirmEncumberPriorFiscalYear(preq)) {
+                return false;
+            }
         }
         if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(preq)) {
             if (!confirmExpiredAccount(preq)) {
                 return false;
             }
         }
+        
+        
+        
         preRulesOK &= super.doPrompts(document);
         return preRulesOK;
     }
@@ -87,12 +100,11 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
         if (questionText.contains("{")) {
             questionText = prepareQuestionText(questionType, questionText);
         }
-        else if (StringUtils.equals(messageConstant, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED)) {
+        else if (StringUtils.equals(messageConstant, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED) || StringUtils.equals(messageConstant,PurapKeyConstants.WARNING_ITEM_TRADE_IN_AMOUNT_UNUSED)) {
             questionText = questionType;
         }
-        else {
-            questionText = PurapConstants.PREQDocumentsStrings.UNUSED_TRADE_IN_QUESTION;
-        }
+        
+        
         boolean confirmOverride = super.askOrAnalyzeYesNoQuestion(questionType, questionText);
 
         if (!confirmOverride) {
@@ -151,6 +163,24 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
         
         if (!rulePassed) {
             return askForConfirmation(PREQDocumentsStrings.EXPIRED_ACCOUNT_QUESTION, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
+        }
+        return true;
+    }
+    
+    public boolean confirmEncumberNextFiscalYear(PaymentRequestDocument preq) {
+        Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+        if (preq.getPurchaseOrderDocument().getPostingYear().intValue() > fiscalYear) {
+            return askForConfirmation(PREQDocumentsStrings.ENCUMBER_NEXT_FISCAL_YEAR_QUESTION, PurapKeyConstants.WARNING_ENCUMBER_NEXT_FY);
+        }
+       
+        return true;
+    }
+    
+    public boolean confirmEncumberPriorFiscalYear(PaymentRequestDocument preq) {
+        
+        Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+        if (preq.getPurchaseOrderDocument().getPostingYear().intValue() == fiscalYear && SpringContext.getBean(PaymentRequestService.class).allowBackpost(preq)) {
+            return askForConfirmation(PREQDocumentsStrings.ENCUMBER_PRIOR_FISCAL_YEAR_QUESTION, PurapKeyConstants.WARNING_ENCUMBER_PRIOR_FY);
         }
         return true;
     }

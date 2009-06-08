@@ -600,6 +600,8 @@ public class PurapConstants extends JSTLConstants {
         public static final String THRESHOLD_DAYS_OVERRIDE_QUESTION = "Threshold Days Override Question";
         public static final String UNUSED_TRADE_IN_QUESTION = "There is an unused trade in amount from PO that you could apply to line item; are you sure you want to proceed ?";
         public static final String EXPIRED_ACCOUNT_QUESTION = "There is an expired account on the document; do you want to continue ?";
+        public static final String ENCUMBER_NEXT_FISCAL_YEAR_QUESTION = "Encumber Next Fiscal Year Question";
+        public static final String ENCUMBER_PRIOR_FISCAL_YEAR_QUESTION = "Encumber Prior Fiscal Year Question";
         public static final String VENDOR_INVOICE_AMOUNT = "Vendor Invoice Amount";
         public static final String VENDOR_STATE = "State";
         public static final String VENDOR_POSTAL_CODE = "Postal Code";

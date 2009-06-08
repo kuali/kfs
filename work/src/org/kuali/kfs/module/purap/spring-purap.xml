@@ -176,6 +176,7 @@
         <property name="sequenceAccessorService" ref="sequenceAccessorService"/>
         <property name="purapAccountingService" ref="purapAccountingService" />
         <property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService"/>
+        <property name="postalCodeValidationService" ref="postalCodeValidationService"/>
     </bean>
     
 	<bean id="purapWorkflowIntegrationService" class="org.kuali.kfs.module.purap.document.service.impl.PurApWorkflowIntegrationServiceImpl">

@@ -39,6 +39,7 @@ import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.PostalCodeValidationService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -60,7 +61,8 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
     private SequenceAccessorService sequenceAccessorService;
     private PurapAccountingService purapAccountingService;
     private CapitalAssetBuilderModuleService capitalAssetBuilderModuleService;
-
+    private PostalCodeValidationService postalCodeValidationService;
+    
     public void setPurapAccountingService(PurapAccountingService purapAccountingService) {
         this.purapAccountingService = purapAccountingService;
     }
@@ -75,6 +77,10 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
 
     public void setCapitalAssetBuilderModuleService(CapitalAssetBuilderModuleService capitalAssetBuilderModuleService) {
         this.capitalAssetBuilderModuleService = capitalAssetBuilderModuleService;
+    }
+
+    public void setPostalCodeValidationService(PostalCodeValidationService postalCodeValidationService) {
+        this.postalCodeValidationService = postalCodeValidationService;
     }
 
     public void setupCapitalAssetItems(PurchasingDocument purDoc) {
@@ -217,18 +223,6 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
                 }
                 missingFields += "City";
             }
-            if (StringUtils.isEmpty(location.getCapitalAssetStateCode())) {
-                if (!StringUtils.isEmpty(missingFields)) {
-                    missingFields += ", ";
-                }
-                missingFields += "State";
-            }
-            if (StringUtils.isEmpty(location.getCapitalAssetPostalCode())) {
-                if (!StringUtils.isEmpty(missingFields)) {
-                    missingFields += ", ";
-                }
-                missingFields += "Postal Code";
-            }
             if (StringUtils.isEmpty(location.getCapitalAssetCountryCode())) {
                 if (!StringUtils.isEmpty(missingFields)) {
                     missingFields += ", ";
@@ -237,6 +231,7 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
             }
             // add error!
             GlobalVariables.getErrorMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, PurapKeyConstants.ERROR_CAPITAL_ASSET_INCOMPLETE_ADDRESS, missingFields);
+            postalCodeValidationService.validateAddress(location.getCapitalAssetCountryCode(), location.getCapitalAssetStateCode(), location.getCapitalAssetPostalCode(), PurapConstants.CAPITAL_ASSET_TAB_ERRORS + "." + PurapPropertyConstants.CAPITAL_ASSET_LOCATION_STATE, PurapConstants.CAPITAL_ASSET_TAB_ERRORS + "." + PurapPropertyConstants.CAPITAL_ASSET_LOCATION_POSTAL_CODE);
             return false;
         }
         return true;

@@ -72,6 +72,8 @@
     <bean id="ecModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
 		<property name="moduleConfiguration" ref="ecModuleConfiguration" />
 	</bean>
+
+    <bean id="effortCertificationModuleService" class="org.kuali.kfs.module.ec.service.impl.EffortCertificationModuleServiceImpl" />
 	
 	<!-- Section 1: Batch Job Definitions --> 
 	<bean id="effortCertificationExtractJob" parent="unscheduledJobDescriptor">

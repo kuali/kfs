@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Exposes service methods that may be used by the modules outside of Effort Certification
  */
-public interface EffortCertificationService {
+public interface EffortCertificationModuleService {
 
     /**
      * Returns open or closed report definitions whose reporting period span the given accounting period and

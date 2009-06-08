@@ -23,7 +23,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.integration.ec.EffortCertificationReport;
-import org.kuali.kfs.integration.ec.EffortCertificationService;
+import org.kuali.kfs.integration.ec.EffortCertificationModuleService;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine;
@@ -47,7 +47,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransferPeriodValidationService {
-    private EffortCertificationService effortCertificationService;
+    private EffortCertificationModuleService effortCertificationService;
     private DocumentService documentService;
     private NoteService noteService;
     private KualiConfigurationService kualiConfigurationService;
@@ -320,7 +320,7 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
      * 
      * @param effortCertificationService The effortCertificationService to set.
      */
-    public void setEffortCertificationService(EffortCertificationService effortCertificationService) {
+    public void setEffortCertificationService(EffortCertificationModuleService effortCertificationService) {
         this.effortCertificationService = effortCertificationService;
     }
 

@@ -69,6 +69,8 @@
     <bean id="cabModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
 		<property name="moduleConfiguration" ref="cabModuleConfiguration" />
 	</bean>
+
+    <bean id="capitalAssetBuilderModuleService" class="org.kuali.kfs.module.cab.service.impl.CapitalAssetBuilderModuleServiceImpl"/>
 	
 <!-- Begin - CAB Batch Beans -->
 	<bean id="extractDao" parent="platformAwareDao" class="org.kuali.kfs.module.cab.batch.dataaccess.impl.ExtractDaoOjb" />

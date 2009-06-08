@@ -83,6 +83,8 @@
 		<property name="moduleConfiguration" ref="arModuleConfiguration" />
 	</bean>
 
+    <bean id="accountsReceivableModuleService" class="org.kuali.kfs.module.ar.service.impl.AccountsReceivableModuleServiceImpl" />
+
 	<!--  AR DAOs  -->
 	<bean id="customerDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.CustomerDaoOjb" />
 	<bean id="customerAddressDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.CustomerAddressDaoOjb" />

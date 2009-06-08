@@ -88,6 +88,8 @@
 		<property name="moduleConfiguration" ref="ldModuleConfiguration" />
 	</bean>
 
+    <bean id="laborModuleService" class="org.kuali.kfs.module.ld.service.impl.LaborModuleServiceImpl" />
+
     <!--  Section 1: Spring Beans for Business Objects -->
 		
 	<bean id="laborLedgerPendingEntryService" class="org.kuali.kfs.module.ld.service.impl.LaborLedgerPendingEntryServiceImpl">
@@ -1260,7 +1262,7 @@
 	
 	<bean id="salaryTransferPeriodValidationService" class="org.kuali.kfs.module.ld.document.service.impl.SalaryTransferPeriodValidationServiceImpl">
 		<property name="effortCertificationService">
-			<ref bean="effortCertificationService" />
+			<ref bean="effortCertificationModuleService" />
 		</property>	
 		<property name="documentService">
 			<ref bean="documentService" />

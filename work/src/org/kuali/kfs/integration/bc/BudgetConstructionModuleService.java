@@ -15,6 +15,6 @@
  */
 package org.kuali.kfs.integration.bc;
 
-public interface BudgeConstructionModuleService {
+public interface BudgetConstructionModuleService {
 
 }

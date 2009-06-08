@@ -79,6 +79,8 @@
 		<property name="moduleConfiguration" ref="camModuleConfiguration" />
 	</bean>
 
+    <bean id="capitalAssetManagementModuleService" class="org.kuali.kfs.module.cam.service.impl.CapitalAssetManagementModuleServiceImpl"/>
+
 <!-- ********* Begin of depreciation batch beans ********** -->
 	<bean id="assetDepreciationService" class="org.kuali.kfs.module.cam.batch.service.impl.AssetDepreciationServiceImpl">											       
         <property name="parameterService">

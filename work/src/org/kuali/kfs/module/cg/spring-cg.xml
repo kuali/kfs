@@ -81,6 +81,8 @@
     <bean id="cgModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
 		<property name="moduleConfiguration" ref="cgModuleConfiguration" />
 	</bean>
+
+    <bean id="contractsAndGrantsModuleService" class="org.kuali.kfs.module.cg.service.impl.ContractsAndGrantsModuleServiceImpl" />
 	
 	<!-- DAOs -->
 	<bean id="awardDao" parent="platformAwareDao" class="org.kuali.kfs.module.cg.dataaccess.impl.AwardDaoOjb" />

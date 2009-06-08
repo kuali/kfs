@@ -27,7 +27,11 @@ import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
@@ -93,4 +97,24 @@ public class ContractManagerAssignmentAction extends FinancialSystemTransactiona
             detail.getRequisition().setDocumentHeader(req.getDocumentHeader());
         }
     }
+    
+    @Override
+    protected void populateAdHocActionRequestCodes(KualiDocumentFormBase formBase){
+        Document document = formBase.getDocument();
+        DocumentAuthorizer documentAuthorizer = getDocumentHelperService().getDocumentAuthorizer(document);
+        Map<String,String> adHocActionRequestCodes = new HashMap<String,String>();
+
+        if (documentAuthorizer.canSendAdHocRequests(document, KEWConstants.ACTION_REQUEST_FYI_REQ, GlobalVariables.getUserSession().getPerson())) {
+                adHocActionRequestCodes.put(KEWConstants.ACTION_REQUEST_FYI_REQ, KEWConstants.ACTION_REQUEST_FYI_REQ_LABEL);
+        }
+        if ( (document.getDocumentHeader().getWorkflowDocument().stateIsInitiated()
+              || document.getDocumentHeader().getWorkflowDocument().stateIsSaved()
+              || document.getDocumentHeader().getWorkflowDocument().stateIsEnroute()
+              )&& documentAuthorizer.canSendAdHocRequests(document, KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ, GlobalVariables.getUserSession().getPerson())) {
+                adHocActionRequestCodes.put(KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ, KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ_LABEL);
+        } 
+        formBase.setAdHocActionRequestCodes(adHocActionRequestCodes);
+
+    }
+
 }

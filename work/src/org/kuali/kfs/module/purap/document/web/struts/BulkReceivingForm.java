@@ -110,17 +110,6 @@ public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormB
         return PurapKeyConstants.MESSAGE_BULK_RECEIVING_GOODSDELIVEREDBY_LABEL;
     }
 
-    @Override
-    public Map getAdHocActionRequestCodes() {
-        Map adHocActionRequestCodes = new HashMap();
-        if (getWorkflowDocument() != null) {
-            if (getWorkflowDocument().stateIsInitiated() || getWorkflowDocument().stateIsSaved()) {
-                adHocActionRequestCodes.put(KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ, KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ_LABEL);
-                adHocActionRequestCodes.put(KEWConstants.ACTION_REQUEST_FYI_REQ, KEWConstants.ACTION_REQUEST_FYI_REQ_LABEL);
-            }
-        }
-        return adHocActionRequestCodes;
-    }
     
     @Override
     public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {

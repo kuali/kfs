@@ -15,6 +15,9 @@
  */
 package org.kuali.kfs.module.purap.document.web.struts;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -40,7 +43,10 @@ import org.kuali.kfs.module.purap.util.PurQuestionCallback;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.util.KimConstants;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.KualiRuleService;
@@ -265,5 +271,24 @@ public class VendorCreditMemoAction extends AccountsPayableActionBase {
     @Override
     public String getActionName() {
         return PurapConstants.CREDIT_MEMO_ACTION_NAME;
+    }
+    
+    @Override
+    protected void populateAdHocActionRequestCodes(KualiDocumentFormBase formBase){
+        Document document = formBase.getDocument();
+        DocumentAuthorizer documentAuthorizer = getDocumentHelperService().getDocumentAuthorizer(document);
+        Map<String,String> adHocActionRequestCodes = new HashMap<String,String>();
+
+        if (documentAuthorizer.canSendAdHocRequests(document, KEWConstants.ACTION_REQUEST_FYI_REQ, GlobalVariables.getUserSession().getPerson())) {
+                adHocActionRequestCodes.put(KEWConstants.ACTION_REQUEST_FYI_REQ, KEWConstants.ACTION_REQUEST_FYI_REQ_LABEL);
+        }
+        if ( (document.getDocumentHeader().getWorkflowDocument().stateIsInitiated()
+              || document.getDocumentHeader().getWorkflowDocument().stateIsSaved()
+              || document.getDocumentHeader().getWorkflowDocument().stateIsEnroute()
+              )&& documentAuthorizer.canSendAdHocRequests(document, KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ, GlobalVariables.getUserSession().getPerson())) {
+                adHocActionRequestCodes.put(KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ, KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ_LABEL);
+        } 
+        formBase.setAdHocActionRequestCodes(adHocActionRequestCodes);
+
     }
 }

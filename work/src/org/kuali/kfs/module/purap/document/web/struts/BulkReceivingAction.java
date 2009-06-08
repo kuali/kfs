@@ -17,6 +17,7 @@ package org.kuali.kfs.module.purap.document.web.struts;
 
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -41,7 +42,10 @@ import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.kfs.vnd.service.PhoneNumberService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.util.KimConstants;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -55,13 +59,13 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
     private static final Logger LOG = Logger.getLogger(BulkReceivingAction.class);
-    
-    protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {       
+
+    protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.createDocument(kualiDocumentFormBase);
-        BulkReceivingForm blkForm = (BulkReceivingForm)kualiDocumentFormBase;
-        BulkReceivingDocument blkRecDoc = (BulkReceivingDocument)blkForm.getDocument();
-        
-        blkRecDoc.setPurchaseOrderIdentifier( blkForm.getPurchaseOrderId() );
+        BulkReceivingForm blkForm = (BulkReceivingForm) kualiDocumentFormBase;
+        BulkReceivingDocument blkRecDoc = (BulkReceivingDocument) blkForm.getDocument();
+
+        blkRecDoc.setPurchaseOrderIdentifier(blkForm.getPurchaseOrderId());
 
         blkRecDoc.initiateDocument();
     }
@@ -69,13 +73,15 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
     public ActionForward continueBulkReceiving(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BulkReceivingForm blkForm = (BulkReceivingForm) form;
         BulkReceivingDocument blkRecDoc = (BulkReceivingDocument) blkForm.getDocument();
-        
+
         PurchaseOrderDocument po = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(blkRecDoc.getPurchaseOrderIdentifier());
         if (ObjectUtils.isNotNull(po)) {
-            // TODO figure out a more straightforward way to do this.  ailish put this in so the link id would be set and the perm check would work
+            // TODO figure out a more straightforward way to do this. ailish put this in so the link id would be set and the perm
+            // check would work
             blkRecDoc.setAccountsPayablePurchasingDocumentLinkIdentifier(po.getAccountsPayablePurchasingDocumentLinkIdentifier());
 
-            //TODO hjs-check to see if user is allowed to initiate doc based on PO sensitive data (add this to all other docs except acm doc)
+            // TODO hjs-check to see if user is allowed to initiate doc based on PO sensitive data (add this to all other docs
+            // except acm doc)
             if (!SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(blkRecDoc).isAuthorizedByTemplate(blkRecDoc, KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, GlobalVariables.getUserSession().getPrincipalId())) {
                 throw buildAuthorizationException("initiate document", blkRecDoc);
             }
@@ -92,7 +98,7 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     public ActionForward clearInitFields(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BulkReceivingForm blkRecForm = (BulkReceivingForm) form;
         BulkReceivingDocument blkRecDoc = (BulkReceivingDocument) blkRecForm.getDocument();
@@ -121,7 +127,7 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
 
         return forward;
     }
-    
+
     public ActionForward printReceivingTicket(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String blkDocId = request.getParameter("docId");
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
@@ -184,7 +190,7 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
 
         return mapping.findForward("printReceivingTicketPDF");
     }
-    
+
     private String getUrlForPrintReceivingTicket(String basePath, String docId, String methodToCall) {
 
         StringBuffer result = new StringBuffer(basePath);
@@ -196,11 +202,11 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
 
         return result.toString();
     }
-    
+
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BulkReceivingForm blkRecForm = (BulkReceivingForm) form;
-        
+
         BulkReceivingDocument blkRecDoc = (BulkReceivingDocument) blkRecForm.getDocument();
         String refreshCaller = blkRecForm.getRefreshCaller();
         PhoneNumberService phoneNumberService = SpringContext.getBean(PhoneNumberService.class);
@@ -303,4 +309,23 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
-}    
+    @Override
+    protected void populateAdHocActionRequestCodes(KualiDocumentFormBase formBase){
+        Document document = formBase.getDocument();
+        DocumentAuthorizer documentAuthorizer = getDocumentHelperService().getDocumentAuthorizer(document);
+        Map<String,String> adHocActionRequestCodes = new HashMap<String,String>();
+
+        if (documentAuthorizer.canSendAdHocRequests(document, KEWConstants.ACTION_REQUEST_FYI_REQ, GlobalVariables.getUserSession().getPerson())) {
+                adHocActionRequestCodes.put(KEWConstants.ACTION_REQUEST_FYI_REQ, KEWConstants.ACTION_REQUEST_FYI_REQ_LABEL);
+        }
+        if ( (document.getDocumentHeader().getWorkflowDocument().stateIsInitiated()
+              || document.getDocumentHeader().getWorkflowDocument().stateIsSaved()
+              || document.getDocumentHeader().getWorkflowDocument().stateIsEnroute()
+              )&& documentAuthorizer.canSendAdHocRequests(document, KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ, GlobalVariables.getUserSession().getPerson())) {
+                adHocActionRequestCodes.put(KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ, KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ_LABEL);
+        } 
+        formBase.setAdHocActionRequestCodes(adHocActionRequestCodes);
+
+    }
+
+}

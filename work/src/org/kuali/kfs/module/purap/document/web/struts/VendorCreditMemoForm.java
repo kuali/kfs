@@ -100,28 +100,5 @@ public class VendorCreditMemoForm extends AccountsPayableFormBase {
     }
 
     
-    /**
-     * Overrides the method in KualiDocumentFormBase to provide only FYI and ACK.
-     * 
-     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#getAdHocActionRequestCodes()
-     */
-    @Override
-    public Map getAdHocActionRequestCodes() {
-        Map adHocActionRequestCodes = new HashMap();
-        if (getWorkflowDocument() != null) {
-            if (getWorkflowDocument().isFYIRequested()) {
-                adHocActionRequestCodes.put(KEWConstants.ACTION_REQUEST_FYI_REQ, KEWConstants.ACTION_REQUEST_FYI_REQ_LABEL);
-            }
-            else if (getWorkflowDocument().isAcknowledgeRequested()) {
-                adHocActionRequestCodes.put(KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ, KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ_LABEL);
-                adHocActionRequestCodes.put(KEWConstants.ACTION_REQUEST_FYI_REQ, KEWConstants.ACTION_REQUEST_FYI_REQ_LABEL);
-            }
-            else if (getWorkflowDocument().isApprovalRequested() || getWorkflowDocument().isCompletionRequested() || getWorkflowDocument().stateIsInitiated() || getWorkflowDocument().stateIsSaved()) {
-                adHocActionRequestCodes.put(KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ, KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ_LABEL);
-                adHocActionRequestCodes.put(KEWConstants.ACTION_REQUEST_FYI_REQ, KEWConstants.ACTION_REQUEST_FYI_REQ_LABEL);
-            }
-        }
-        return adHocActionRequestCodes;
-    }
 }
 

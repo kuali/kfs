@@ -15,13 +15,17 @@
  */
 package org.kuali.kfs.module.purap.document.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.metadata.ClassDescriptor;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
+import org.kuali.kfs.module.cam.CamsKeyConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
@@ -32,13 +36,19 @@ import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.service.PurchasingDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.Room;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.service.impl.PersistenceServiceStructureImplBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -231,4 +241,53 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
         }
         return true;
     }
+    
+    
+    public boolean checkValidRoomNumber(CapitalAssetLocation location){
+        boolean valid = true;
+        if (StringUtils.isNotBlank(location.getBuildingCode()) && StringUtils.isNotBlank(location.getBuildingRoomNumber())) {
+            Map objectKeys = new HashMap();
+            objectKeys.put(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_CODE, location.getCampusCode());
+            objectKeys.put(CamsPropertyConstants.AssetGlobalDetail.BUILDING_CODE, location.getBuildingCode());
+            objectKeys.put(CamsPropertyConstants.AssetGlobalDetail.BUILDING_ROOM_NUMBER, location.getBuildingRoomNumber());
+            Room room = (Room) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Room.class, objectKeys);
+
+            if (ObjectUtils.isNull(room)) {
+                GlobalVariables.getErrorMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_ROOM_NUMBER, location.getBuildingCode(), location.getBuildingRoomNumber(), location.getCampusCode());
+                valid &= false;
+            }
+            else if (!room.isActive()) {
+                String label = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(Room.class.getName()).getAttributeDefinition(KFSPropertyConstants.BUILDING_ROOM_NUMBER).getLabel();
+                GlobalVariables.getErrorMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, RiceKeyConstants.ERROR_INACTIVE, label);
+                valid &= false;
+            }
+        }else if (StringUtils.isBlank(location.getBuildingCode()) && StringUtils.isNotBlank(location.getBuildingRoomNumber())){
+            Map objectKeys = new HashMap();
+            objectKeys.put(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_CODE, location.getCampusCode());
+            objectKeys.put(CamsPropertyConstants.AssetGlobalDetail.BUILDING_ROOM_NUMBER, location.getBuildingRoomNumber());
+            Room room = (Room) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Room.class, objectKeys);
+
+            if (ObjectUtils.isNull(room)) {
+                GlobalVariables.getErrorMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_ROOM_NUMBER_FOR_CAMPUS, location.getBuildingRoomNumber(), location.getCampusCode());
+                valid &= false;
+            }
+            else if (!room.isActive()) {
+                String label = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(Room.class.getName()).getAttributeDefinition(KFSPropertyConstants.BUILDING_ROOM_NUMBER).getLabel();
+                GlobalVariables.getErrorMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, RiceKeyConstants.ERROR_INACTIVE, label);
+                valid &= false;
+            }
+        }
+        return valid;
+    }
+    
+    /**
+     * Gets the dataDictionaryService attribute.
+     * 
+     * @return an implementation of the dataDictionaryService.
+     */
+    public DataDictionaryService getDataDictionaryService() {
+        return SpringContext.getBean(DataDictionaryService.class);
+    }
+    
+    
 }

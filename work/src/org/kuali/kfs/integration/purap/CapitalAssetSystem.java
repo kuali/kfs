@@ -68,6 +68,8 @@ public interface CapitalAssetSystem  extends ExternalizableBusinessObject{
 
     public CapitalAssetLocation getAndResetNewPurchasingCapitalAssetLocationLine();
     
+    public void resetNewPurchasingCapitalAssetLocationLine();
+    
     public Integer getCapitalAssetCountAssetNumber();
     
     public void setCapitalAssetCountAssetNumber(Integer capitalAssetCountAssetNumber);

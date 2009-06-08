@@ -142,6 +142,7 @@ public class CamsKeyConstants {
         public static final String ERROR_INVALID_CAMPUS_CODE = "error.asset.location.invalid.campus.code";
         public static final String ERROR_INVALID_BUILDING_CODE = "error.asset.location.invalid.building.code";
         public static final String ERROR_INVALID_ROOM_NUMBER = "error.asset.location.invalid.room.code";
+        public static final String ERROR_INVALID_ROOM_NUMBER_FOR_CAMPUS = "error.asset.location.invalid.room.code.for.campus";
         public static final String ERROR_TAG_NUMBER_REQUIRED = "error.asset.location.tag.number.required";
         public static final String ERROR_DUPLICATE_TAG_NUMBER_FOUND = "error.asset.location.duplicate.tag.number";
         public static final String ERROR_DUPLICATE_TAG_NUMBER_WITHIN_DOCUMENT = "error.asset.location.duplicate.tag.within.document";

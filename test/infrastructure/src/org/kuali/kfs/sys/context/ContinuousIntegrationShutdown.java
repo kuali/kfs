@@ -26,7 +26,7 @@ public class ContinuousIntegrationShutdown extends KualiTestBase {
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
-        SpringContext.close();
+        stopSpringContext();
     }
 
     public void testNothing() throws Exception {

@@ -182,6 +182,21 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
         generatedFiles.add(filePath);
     }
     
+    /**
+     *  Do not call this method!  It is used by the ContinuousIntegrationShutdown "test" to stop the context and clear its state.
+     *  Any other use will likely break the CI environment.
+     */
+    protected void stopSpringContext() {
+        if ( springContextInitialized ) {
+            try {
+                SpringContext.close();
+            } catch (Exception e) {                
+                e.printStackTrace();
+            }
+            springContextInitialized = false;
+        }
+    }
+    
     private void configure(ConfigureContext contextConfiguration) throws Exception {
         if (configurationFailure != null) {
             throw configurationFailure;
@@ -232,7 +247,7 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
     }
 
     private Method getMethod(String methodName) {
-        Class clazz = getClass();
+        Class<? extends Object> clazz = getClass();
         while (clazz != null) {
             try {
                 return clazz.getDeclaredMethod(methodName);

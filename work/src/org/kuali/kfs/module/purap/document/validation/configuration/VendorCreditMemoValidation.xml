@@ -193,7 +193,10 @@
 				</bean>  				
 				<bean parent="VendorCreditMemo-totalOverZeroValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
-				</bean>  															
+				</bean>  					
+				
+				<bean parent="PurchasingAccountsPayable-checkNegativeAccountsValidation" scope="prototype"/>
+														
 			</list>
 		</property>
   	</bean>

@@ -9137,12 +9137,7 @@
               <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
-            <hashTree>
-              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Wait 2 minutes" enabled="true">
-                <stringProp name="ConstantTimer.delay">120000</stringProp>
-              </ConstantTimer>
-              <hashTree/>
-            </hashTree>
+            <hashTree/>
             <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="/kfs-dev/kr/lookup.do - po" enabled="true">
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments">

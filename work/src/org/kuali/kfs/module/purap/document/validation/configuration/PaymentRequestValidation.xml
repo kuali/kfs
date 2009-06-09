@@ -115,7 +115,7 @@
 					<property name="quitOnFail" value="false" />
 				</bean>  															
 			
-				<bean parent="PaymentRequest-checkNegativeAccountsValidation" scope="prototype"/>	
+				<bean parent="PurchasingAccountsPayable-checkNegativeAccountsValidation" scope="prototype"/>	
 
 				<bean parent="PaymentRequest-invoiceImageAttachmentValidation" scope="prototype"/>				
 			</list>
@@ -689,7 +689,7 @@
 					<property name="quitOnFail" value="false" />
 				</bean>  															
 			
-				<bean parent="PaymentRequest-checkNegativeAccountsValidation" scope="prototype"/>	  						  			
+				<bean parent="PurchasingAccountsPayable-checkNegativeAccountsValidation" scope="prototype"/>	  						  			
 			</list>
 		</property>
 	</bean>

@@ -239,6 +239,7 @@ public class CamsKeyConstants {
 
     public static class AssetLock {
         public static final String ERROR_ASSET_LOCKED = "error.asset.locked";
+        public static final String ERROR_ASSET_MAINTENANCE_LOCKED = "error.asset.maintenance.locked";
     }
     
     public static class PreTag {

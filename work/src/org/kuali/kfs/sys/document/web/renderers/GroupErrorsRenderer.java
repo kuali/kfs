@@ -25,14 +25,18 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.struts.taglib.html.ErrorsTag;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * Renders any errors associated with an accounting line group
  */
 public class GroupErrorsRenderer implements Renderer {
-    private List errorPropertyList;
-    private String sectionTitle;
     private List<String> errorsRendered;
+    private List<String> warningsRendered;
+    private List<String> infoRendered;
     private String errorKeyMatch;
     private int colSpan = -1;
     private ErrorsTag errorTag = new ErrorsTag();
@@ -43,9 +47,9 @@ public class GroupErrorsRenderer implements Renderer {
      * @see org.kuali.kfs.sys.document.web.renderers.Renderer#clear()
      */
     public void clear() {
-        errorPropertyList = null;
-        sectionTitle = null;
         errorsRendered = null;
+        warningsRendered = null;
+        infoRendered = null;
         errorKeyMatch = null;
         colSpan = -1;
         
@@ -62,39 +66,100 @@ public class GroupErrorsRenderer implements Renderer {
     }
 
     /**
-     * Renders the errors
+     * Renders the errors, warnings, and messages for this page
      * @see org.kuali.kfs.sys.document.web.renderers.Renderer#render(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag)
      */
     public void render(PageContext pageContext, Tag parentTag) throws JspException {
-        final List<String> matchingErrorKeys = getMatchingErrorKeys(getKeysToMatch());
+        renderMessages(pageContext, parentTag, KFSKeyConstants.MESSAGE_ACCOUNTING_LINES_ERROR_SECTION_TITLE, getErrorPropertyList(pageContext), "errormark.gif", "error", getErrorsRendered());
+        renderMessages(pageContext, parentTag, KFSKeyConstants.MESSAGE_ACCOUNTING_LINES_WARNING_SECTION_TITLE, getWarningPropertyList(pageContext), "warning.png", "warning", getWarningsRendered());
+        renderMessages(pageContext, parentTag, KFSKeyConstants.MESSAGE_ACCOUNTING_LINES_INFORMATION_SECTION_TITLE, getInfoPropertyList(pageContext), "info.png", "info", getInfoRendered());
+    }
+    
+    /**
+     * Renders a group of messages
+     * @param pageContext the page context to render to
+     * @param parentTag the name of the parent tag requesting this rendering
+     * @param titleConstant the Key Constant to text for the title
+     * @param propertyList the list of properties to display
+     * @param sectionMarkGraphicName the file name of the mark graphic to display
+     * @param sectionGraphicAlt the wording to be used in the "alt" section of the mark graphic
+     * @throws JspException thrown if rendering cannot be successfully completed
+     */
+    protected void renderMessages(PageContext pageContext, Tag parentTag, String titleConstant, List propertyList, String sectionMarkGraphicName, String sectionGraphicAlt, List<String> keysRendered) throws JspException {
+        JspWriter out = pageContext.getOut();
         
-        if (matchingErrorKeys.size() > 0) {
-            JspWriter out = pageContext.getOut();
-            
-            try {
+        try {
+            final List<String> matchingKeys = getMatchingKeys(propertyList, getKeysToMatch());
+            if (matchingKeys.size() > 0) {
                 out.write(buildTableRowAndCellOpening());
-                
-                out.write(buildErrorTitle());
-                
-                for (String errorKey : matchingErrorKeys) {
-                    if (!getErrorsRendered().contains(errorKey)) {
-                        errorTag.setPageContext(pageContext);
-                        errorTag.setParent(parentTag);
-                        errorTag.setProperty(errorKey);
-                       
-                        errorTag.doStartTag();
-                        errorTag.doEndTag();
-                        
-                        getErrorsRendered().add(errorKey);
-                    }
+                out.write(buildSectionTitle(titleConstant, sectionMarkGraphicName, sectionGraphicAlt));
+            }
+            
+            for (String matchingKey : matchingKeys) {
+                out.write(buildKeyComment(matchingKey, sectionGraphicAlt));
+                if (!keysRendered.contains(matchingKey)) {
+                    errorTag.setPageContext(pageContext);
+                    errorTag.setParent(parentTag);
+                    errorTag.setProperty(matchingKey);
+                   
+                    errorTag.doStartTag();
+                    errorTag.doEndTag();
+                    
+                    keysRendered.add(matchingKey);
                 }
-                
+            }
+            
+            if (matchingKeys.size() > 0) {
                 out.write(buildTableRowAndCellClosing());
             }
-            catch (IOException ioe) {
-                throw new JspException("Difficulty while rendering errors for group", ioe);
-            }
         }
+        catch (IOException ioe) {
+            throw new JspException("Difficulty while rendering errors for group", ioe);
+        }
+    }
+    
+    /**
+     * Builds the HTML String for a section title
+     * @param titleConstant the Key Constant to find the text for the title
+     * @param sectionMarkGraphicName the name of the graphic file to use
+     * @param sectionGraphicAlt the alt for the graphic
+     * @return the String to output as HTML for the section title
+     */
+    protected String buildSectionTitle(String titleConstant, String sectionMarkGraphicName, String sectionGraphicAlt) {
+        final KualiConfigurationService configurationService = SpringContext.getBean(KualiConfigurationService.class);
+        final String titleMessage = configurationService.getPropertyString(titleConstant);
+        final String riceImageUrl = configurationService.getPropertyString(KNSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
+        
+        StringBuilder sectionTitle = new StringBuilder();
+        
+        sectionTitle.append("<img src=\"")
+                    .append(riceImageUrl)
+                    .append(sectionMarkGraphicName)
+                    .append("\" alt=\"")
+                    .append(sectionGraphicAlt)
+                    .append("\" /><strong>")
+                    .append(titleMessage)
+                    .append("</strong>");
+        
+        return sectionTitle.toString();
+    }
+    
+    /**
+     * Builds an HTML comment, useful for debugging, which dumps out the message key being displayed
+     * @param matchingKey the key to display
+     * @param sectionGraphicAlt the alt for this section, we'll reuse it for the comments
+     * @return the String to output for the key comment
+     */
+    protected String buildKeyComment(String matchingKey, String sectionGraphicAlt) {
+        StringBuilder keyComment = new StringBuilder();
+        
+        keyComment.append("\n<!-- ")
+                  .append(sectionGraphicAlt)
+                  .append(" key = '")
+                  .append(matchingKey)
+                  .append("' -->\n");
+        
+        return keyComment.toString();
     }
     
     /**
@@ -106,7 +171,7 @@ public class GroupErrorsRenderer implements Renderer {
         html.append("<td colspan=\"");
         html.append(colSpan);
         html.append("\">");
-        html.append("<div class=\"error\">");
+        html.append("<div class=\"left-errmsg-tab\">");
         return html.toString();
     }
     
@@ -126,17 +191,19 @@ public class GroupErrorsRenderer implements Renderer {
      * @param keysToMatch the keys that this group will match
      * @return a List of all error keys this group will match
      */
-    protected List<String> getMatchingErrorKeys(String[] keysToMatch) {
-        List<String> matchingErrorKeys = new ArrayList<String>();
+    protected List<String> getMatchingKeys(List messagePropertyList, String[] keysToMatch) {
+        List<String> matchingKeys = new ArrayList<String>();
         
-        for (Object keyAsObject : errorPropertyList) {
-            String key = (String)keyAsObject;
-            if (matchesGroup(key, keysToMatch)) {
-                matchingErrorKeys.add(key);
+        if (messagePropertyList != null && messagePropertyList.size() > 0) {
+            for (Object keyAsObject : messagePropertyList) {
+                String key = (String)keyAsObject;
+                if (matchesGroup(key, keysToMatch)) {
+                    matchingKeys.add(key);
+                }
             }
         }
         
-        return matchingErrorKeys;
+        return matchingKeys;
     }
     
     /**
@@ -153,15 +220,8 @@ public class GroupErrorsRenderer implements Renderer {
      * @param keyToMatch one of the error keys this group will display
      * @return true if the keys match, false if not
      */
-    protected boolean foundErrorMatch(String key, String keyToMatch) {
+    protected boolean foundKeyMatch(String key, String keyToMatch) {
         return key.equals(keyToMatch) || (keyToMatch.endsWith("*") && key.startsWith(keyToMatch.replaceAll("\\*", "")));
-    }
-    
-    /**
-     * @return the HTML for the title of the list of errors that will be displayed
-     */
-    protected String buildErrorTitle() {
-        return "<strong>Errors found in "+sectionTitle+" section:</strong>";
     }
     
     /**
@@ -172,41 +232,36 @@ public class GroupErrorsRenderer implements Renderer {
      */
     protected boolean matchesGroup(String key, String[] keysToMatch) {
         for (String keyToMatch : keysToMatch) {
-            if (foundErrorMatch(key, keyToMatch)) return true;
+            if (foundKeyMatch(key, keyToMatch)) return true;
         }
         return false;
     }
 
     /**
-     * Gets the errorPropertyList attribute. 
-     * @return Returns the errorPropertyList.
+     * Looks up the InfoPropertyList from the generating request
+     * @param pageContext the pageContext which this tag is rendering to
+     * @return the ErrorPropertyList from the request
      */
-    public List getErrorPropertyList() {
-        return errorPropertyList;
+    public List getErrorPropertyList(PageContext pageContext) {
+        return (List)pageContext.getRequest().getAttribute("ErrorPropertyList");
     }
-
+    
     /**
-     * Sets the errorPropertyList attribute value.
-     * @param errorPropertyList The errorPropertyList to set.
+     * Looks up the InfoPropertyList from the generating request
+     * @param pageContext the pageContext which this tag is rendering to
+     * @return the WarningPropertyList from the request
      */
-    public void setErrorPropertyList(List errorPropertyList) {
-        this.errorPropertyList = errorPropertyList;
+    protected List getWarningPropertyList(PageContext pageContext) {
+        return (List)pageContext.getRequest().getAttribute("WarningPropertyList");
     }
-
+    
     /**
-     * Gets the sectionTitle attribute. 
-     * @return Returns the sectionTitle.
+     * Looks up the InfoPropertyList from the generating request
+     * @param pageContext the pageContext which this tag is rendering to
+     * @return the InfoPropertyList from the request
      */
-    public String getSectionTitle() {
-        return sectionTitle;
-    }
-
-    /**
-     * Sets the sectionTitle attribute value.
-     * @param sectionTitle The sectionTitle to set.
-     */
-    public void setSectionTitle(String sectionTitle) {
-        this.sectionTitle = sectionTitle;
+    protected List getInfoPropertyList(PageContext pageContext) {
+        return (List)pageContext.getRequest().getAttribute("InfoPropertyList");
     }
 
     /**
@@ -218,6 +273,28 @@ public class GroupErrorsRenderer implements Renderer {
             errorsRendered = new ArrayList<String>();
         }
         return errorsRendered;
+    }
+    
+    /**
+     * Gets the warningsRendered attribute. 
+     * @return Returns the warningsRendered.
+     */
+    public List<String> getWarningsRendered() {
+        if (warningsRendered == null) {
+            warningsRendered = new ArrayList<String>();
+        }
+        return warningsRendered;
+    }
+    
+    /**
+     * Gets the infoRendered attribute. 
+     * @return Returns the infoRendered.
+     */
+    public List<String> getInfoRendered() {
+        if (infoRendered == null) {
+            infoRendered = new ArrayList<String>();
+        }
+        return infoRendered;
     }
 
     /**

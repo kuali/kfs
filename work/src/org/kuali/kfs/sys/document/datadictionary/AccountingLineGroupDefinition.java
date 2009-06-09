@@ -310,11 +310,11 @@ public class AccountingLineGroupDefinition extends DataDictionaryDefinitionBase 
      * @param canEdit determines if the page can be edited or not
      * @return a newly created and initialized accounting line group
      */
-    public DefaultAccountingLineGroupImpl createAccountingLineGroup(AccountingDocument accountingDocument, List<RenderableAccountingLineContainer> containers, String collectionPropertyName, String collectionItemPropertyName, List errors, Map displayedErrors, boolean canEdit) {
+    public DefaultAccountingLineGroupImpl createAccountingLineGroup(AccountingDocument accountingDocument, List<RenderableAccountingLineContainer> containers, String collectionPropertyName, String collectionItemPropertyName, Map<String, Object> displayedErrors, Map<String, Object> displayedWarnings, Map<String, Object> displayedInfo, boolean canEdit) {
         DefaultAccountingLineGroupImpl accountingLineGroup = null;
         try {
             accountingLineGroup = getAccountingLineGroupClass().newInstance();
-            accountingLineGroup.initialize(this, accountingDocument, containers, collectionPropertyName, collectionItemPropertyName, errors, displayedErrors, canEdit);
+            accountingLineGroup.initialize(this, accountingDocument, containers, collectionPropertyName, collectionItemPropertyName, displayedErrors, displayedWarnings, displayedInfo, canEdit);
         }
         catch (InstantiationException ie) {
             throw new RuntimeException("Could not initialize new AccountingLineGroup implementation of class: "+getAccountingLineGroupClass().getName(), ie);

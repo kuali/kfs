@@ -47,10 +47,12 @@ public class DefaultAccountingLineGroupImpl implements AccountingLineGroup {
     private AccountingDocument accountingDocument;
     private int cellCount = 0;
     private int arbitrarilyHighIndex;
-    private List errors;
-    private Map displayedErrors;
+    private Map<String, Object> displayedErrors;
+    private Map<String, Object> displayedWarnings;
+    private Map<String, Object> displayedInfo;
     private boolean canEdit;
     private String collectionItemPropertyName;
+    private List errorKeys;
     
     /**
      * Constructs a DefaultAccountingLineGroupImpl
@@ -68,14 +70,15 @@ public class DefaultAccountingLineGroupImpl implements AccountingLineGroup {
      * @param displayedErrors a Map of errors that have already been displayed
      * @param canEdit determines if the page can be edited or not
      */
-    public void initialize(AccountingLineGroupDefinition groupDefinition, AccountingDocument accountingDocument, List<RenderableAccountingLineContainer> containers, String collectionPropertyName, String collectionItemPropertyName, List errors, Map displayedErrors, boolean canEdit) {
+    public void initialize(AccountingLineGroupDefinition groupDefinition, AccountingDocument accountingDocument, List<RenderableAccountingLineContainer> containers, String collectionPropertyName, String collectionItemPropertyName, Map<String, Object> displayedErrors, Map<String, Object> displayedWarnings, Map<String, Object> displayedInfo, boolean canEdit) {
         this.groupDefinition = groupDefinition;
         this.accountingDocument = accountingDocument;
         this.containers = containers;
         this.collectionPropertyName = collectionPropertyName;
         this.collectionItemPropertyName = collectionItemPropertyName;
-        this.errors = errors;
         this.displayedErrors = displayedErrors;
+        this.displayedWarnings = displayedWarnings;
+        this.displayedInfo = displayedInfo;
         this.canEdit = canEdit;
     }
 
@@ -153,9 +156,7 @@ public class DefaultAccountingLineGroupImpl implements AccountingLineGroup {
             groupTitleLineRenderer.clear();
         }
 
-        if (errors != null && errors.size() > 0) {
-            renderErrors(pageContext, parentTag);
-        }
+        renderErrors(pageContext, parentTag);
     }
     
     /**
@@ -164,18 +165,34 @@ public class DefaultAccountingLineGroupImpl implements AccountingLineGroup {
      * @param parentTag the parent tag requesting the rendering
      */
     protected void renderErrors(PageContext pageContext, Tag parentTag) throws JspException {
-        GroupErrorsRenderer errorRenderer = new GroupErrorsRenderer();
+        GroupErrorsRenderer errorRenderer = getErrorRenderer();
         errorRenderer.setErrorKeyMatch(groupDefinition.getErrorKey());
         errorRenderer.setColSpan(getWidthInCells());
-        errorRenderer.setErrorPropertyList(errors);
-        errorRenderer.setSectionTitle(groupDefinition.getGroupLabel());
         errorRenderer.render(pageContext, parentTag);
 
-        for (String displayedErrorKey : errorRenderer.getErrorsRendered()) {
-            displayedErrors.put(displayedErrorKey, "true");
-        }
+        moveListToMap(errorRenderer.getErrorsRendered(), getDisplayedErrors());
+        moveListToMap(errorRenderer.getWarningsRendered(), getDisplayedWarnings());
+        moveListToMap(errorRenderer.getInfoRendered(), getDisplayedInfo());
 
         errorRenderer.clear();
+    }
+    
+    /**
+     * Moves all of the members of theList into theMap as a key with the value always being the String "true"
+     * @param theList the List of Strings to be keys
+     * @param theMap the Map of keys and values
+     */
+    protected void moveListToMap(List<String> theList, Map theMap) {
+        for (String s : theList) {
+            theMap.put(s, "true");
+        }
+    }
+    
+    /**
+     * @return get a GroupErrorsRenderer in a way which can be overridden
+     */
+    protected GroupErrorsRenderer getErrorRenderer() {
+        return new GroupErrorsRenderer();
     }
 
     /**
@@ -296,21 +313,35 @@ public class DefaultAccountingLineGroupImpl implements AccountingLineGroup {
     }
 
     /**
-     * Gets the errors attribute.
-     * 
-     * @return Returns the errors.
+     * Gets the displayedWarnings attribute. 
+     * @return Returns the displayedWarnings.
      */
-    public List getErrorKeys() {
-        return errors;
+    public Map getDisplayedWarnings() {
+        return displayedWarnings;
     }
 
     /**
-     * Sets the errors attribute value.
-     * 
-     * @param errors The errors to set.
+     * Gets the displayedInfo attribute. 
+     * @return Returns the displayedInfo.
      */
-    public void setErrorKeys(List errors) {
-        this.errors = errors;
+    public Map getDisplayedInfo() {
+        return displayedInfo;
+    }
+
+    /**
+     * Gets the errorKeys attribute. 
+     * @return Returns the errorKeys.
+     */
+    public List getErrorKeys() {
+        return errorKeys;
+    }
+
+    /**
+     * Sets the errorKeys attribute value.
+     * @param errorKeys The errorKeys to set.
+     */
+    public void setErrorKeys(List errorKeys) {
+        this.errorKeys = errorKeys;
     }
 
     /**
@@ -380,22 +411,6 @@ public class DefaultAccountingLineGroupImpl implements AccountingLineGroup {
      */
     public void setGroupDefinition(AccountingLineGroupDefinition groupDefinition) {
         this.groupDefinition = groupDefinition;
-    }
-
-    /**
-     * Gets the errors attribute. 
-     * @return Returns the errors.
-     */
-    public List getErrors() {
-        return errors;
-    }
-
-    /**
-     * Sets the errors attribute value.
-     * @param errors The errors to set.
-     */
-    public void setErrors(List errors) {
-        this.errors = errors;
     }
 
     /**

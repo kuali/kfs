@@ -152,7 +152,7 @@ public class AccountingLineGroupTag extends TagSupport {
     public int doStartTag() throws JspException {
         super.doStartTag();
         final List<RenderableAccountingLineContainer> containers = generateContainersForAllLines();
-        group = groupDefinition.createAccountingLineGroup(getDocument(), containers, collectionPropertyName, collectionItemPropertyName, getErrors(), getForm().getDisplayedErrors(), getForm().getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT));
+        group = groupDefinition.createAccountingLineGroup(getDocument(), containers, collectionPropertyName, collectionItemPropertyName, getForm().getDisplayedErrors(), getForm().getDisplayedWarnings(), getForm().getDisplayedInfo(), getForm().getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT));
         group.updateDeletabilityOfAllLines();
         if (getParent() instanceof AccountingLinesTag) {
             ((AccountingLinesTag)getParent()).addGroupToRender(group);

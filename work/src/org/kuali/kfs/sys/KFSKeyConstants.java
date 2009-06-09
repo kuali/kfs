@@ -883,4 +883,8 @@ public class KFSKeyConstants {
     public static final String MESSAGE_REPORT_YEAR_END_BALANCE_FORWARD_CLOSED_ACCOUNT_LEDGER_TITLE_LINE = "message.report.yearEnd.balanceForwarding.closedAccount.ledger.titleLine";
     public static final String MESSAGE_REPORT_YEAR_END_ENCUMBRANCE_FORWARDS_LEDGER_TITLE_LINE = "message.report.yearEnd.encumbranceForwards.ledger.titleLine";
     public static final String MESSAGE_REPORT_YEAR_END_ORGANIZATION_REVERSION_LEDGER_TITLE_LINE = "message.report.yearEnd.organizationReversion.ledger.titleLine";
+    
+    public static final String MESSAGE_ACCOUNTING_LINES_ERROR_SECTION_TITLE = "message.accountingLines.errorSectionTitle";
+    public static final String MESSAGE_ACCOUNTING_LINES_WARNING_SECTION_TITLE = "message.accountingLines.warningSectionTitle";
+    public static final String MESSAGE_ACCOUNTING_LINES_INFORMATION_SECTION_TITLE = "message.accountingLines.informationSectionTitle";
 }

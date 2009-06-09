@@ -39,24 +39,21 @@ public class CollectionAccountingLineGroupImpl extends DefaultAccountingLineGrou
     @Override
     protected void renderErrors(PageContext pageContext, Tag parentTag) throws JspException {
         String propName = getCollectionPropertyName();
-        List errors = getErrors();
+        GroupErrorsRenderer errorRenderer = new GroupErrorsRenderer();
+        List errors = errorRenderer.getErrorPropertyList(pageContext);
         for (Iterator itr = errors.iterator(); itr.hasNext();) {
             String error = (String) itr.next();
             if (error.startsWith(propName)) {
-                GroupErrorsRenderer errorRenderer = new GroupErrorsRenderer();
                 errorRenderer.setErrorKeyMatch(error);
                 errorRenderer.setColSpan(getWidthInCells());
-                errorRenderer.setErrorPropertyList(getErrors());
-                errorRenderer.setSectionTitle(getGroupDefinition().getGroupLabel());
                 errorRenderer.render(pageContext, parentTag);
 
-                for (String displayedErrorKey : errorRenderer.getErrorsRendered()) {
-                    getDisplayedErrors().put(displayedErrorKey, "true");
-                }
+                moveListToMap(errorRenderer.getErrorsRendered(), getDisplayedErrors());
+                moveListToMap(errorRenderer.getWarningsRendered(), getDisplayedWarnings());
+                moveListToMap(errorRenderer.getInfoRendered(), getDisplayedInfo());
 
                 errorRenderer.clear();
             }
         }
-
     }
 }

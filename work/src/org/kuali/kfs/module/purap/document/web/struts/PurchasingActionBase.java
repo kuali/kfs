@@ -666,7 +666,9 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                     // We should be distributing accounting lines to above the line items all the time;
                     // but only to the below the line items when there is a unit cost.
                     boolean unitCostNotZeroForBelowLineItems = item.getItemType().isLineItemIndicator() ? true : item.getItemUnitPrice() != null && zero.compareTo(item.getItemUnitPrice()) < 0;
-                    List<String> typesNotAllowingEdit = SpringContext.getBean(ParameterService.class).getParameterValues(((PurchasingFormBase)form).getDocument().getClass(), PurapParameterConstants.PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT);
+                    Document document = ((PurchasingFormBase)form).getDocument();
+                    Class clazz = document instanceof PurchaseOrderAmendmentDocument? PurchaseOrderDocument.class : document.getClass();
+                    List<String> typesNotAllowingEdit = SpringContext.getBean(ParameterService.class).getParameterValues(clazz, PurapParameterConstants.PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT);
                     boolean itemOnExcludeList = (typesNotAllowingEdit==null)?false:typesNotAllowingEdit.contains(item.getItemTypeCode());
                     if (item.getSourceAccountingLines().size() == 0 && unitCostNotZeroForBelowLineItems && 
                          !itemOnExcludeList && itemIsActive) {
@@ -918,7 +920,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
     public ActionForward addCapitalAssetLocationByItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;        
-        PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
+        PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();        
         CapitalAssetLocation location = purDocument.getPurchasingCapitalAssetItems().get(getSelectedLine(request)).getPurchasingCapitalAssetSystem().getNewPurchasingCapitalAssetLocationLine();
         boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedAddPurchasingCapitalAssetLocationEvent("", purDocument, location));
 

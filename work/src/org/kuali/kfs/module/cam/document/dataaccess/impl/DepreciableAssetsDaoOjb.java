@@ -140,7 +140,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         LOG.debug("initializeAssetPayments() -  ended");
     }
 
-    
+
     /**
      * 
      * @see org.kuali.kfs.module.cam.document.dataaccess.DepreciableAssetsDao#updateAssets(java.lang.Integer, java.lang.Integer)
@@ -158,26 +158,36 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
                 throw new IllegalStateException(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_UNIV_DATE_NOT_FOUND));
             }
 
-            Criteria criteria = new Criteria();
-            criteria.addGreaterThan(CamsPropertyConstants.Asset.CREATE_DATE, lastFiscalYearDate.getUniversityDate());
-            
-            QueryByCriteria q = QueryFactory.newQuery(Asset.class, criteria);
-            Collection<Asset> assets = getPersistenceBrokerTemplate().getCollectionByQuery(q);
+            List<String> movableEquipmentObjectSubTypes = new ArrayList<String>();
+            if (parameterService.parameterExists(Asset.class, CamsConstants.Parameters.MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES)) {
+                movableEquipmentObjectSubTypes = parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES);
+            }
 
-            for (Asset asset: assets) {
-                if (asset!= null) {
-                    asset.setDepreciationDate(lastFiscalYearDate.getUniversityDate());
-                    asset.setFinancialDocumentPostingPeriodCode(fiscalMonth.toString());
-                    asset.setFinancialDocumentPostingYear(fiscalYear);
+            //Only update assets with a object sub type code equals to any MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES.
+            if (!movableEquipmentObjectSubTypes.isEmpty()) {
+                Criteria criteria = new Criteria();
+                criteria.addGreaterThan(CamsPropertyConstants.Asset.CREATE_DATE, lastFiscalYearDate.getUniversityDate());
+                criteria.addIn(CamsPropertyConstants.Asset.FINANCIAL_OBJECT_SUB_TYP_CODE, movableEquipmentObjectSubTypes);
 
-                    LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Updating asset depreciation date - Asset:" + asset.getCapitalAssetNumber() + " - Depreciation date:"+lastFiscalYearDate.getUniversityDate());
-                    getPersistenceBrokerTemplate().store(asset);                
+                QueryByCriteria q = QueryFactory.newQuery(Asset.class, criteria);
+                Collection<Asset> assets = getPersistenceBrokerTemplate().getCollectionByQuery(q);
+
+                for (Asset asset: assets) {
+                    if (asset!= null) {                    
+                        asset.setCapitalAssetInServiceDate(lastFiscalYearDate.getUniversityDate());
+                        asset.setDepreciationDate(lastFiscalYearDate.getUniversityDate());
+                        asset.setFinancialDocumentPostingPeriodCode(fiscalMonth.toString());
+                        asset.setFinancialDocumentPostingYear(fiscalYear);
+
+                        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Updating asset depreciation date - Asset:" + asset.getCapitalAssetNumber() + " - Depreciation date:"+lastFiscalYearDate.getUniversityDate());
+                        getPersistenceBrokerTemplate().store(asset);                
+                    }
                 }
             }
         }
         LOG.debug("updateAssetInformation() -  ended");
     }
-    
+
     /**
      * @see org.kuali.module.cams.dao.CamsDepreciableAssetsDao#updateAssetPayments(java.util.List)
      */
@@ -242,8 +252,8 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         notPendingDocStatuses.add(KFSConstants.DocumentStatusCodes.APPROVED);
         notPendingDocStatuses.add(KFSConstants.DocumentStatusCodes.CANCELLED);
         notPendingDocStatuses.add(KFSConstants.DocumentStatusCodes.DISAPPROVED);
-        
-        
+
+
         List<String> capitalAssetNumbers = new ArrayList<String>();
 
         Criteria criteria = new Criteria();
@@ -261,7 +271,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
                 capitalAssetNumbers.add(convertCountValueToString(fieldValue[0]));
             }
         }
-        
+
         // transferred assets sub query
         criteria = new Criteria();
         criteria.addNotIn(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, notPendingDocStatuses);
@@ -299,7 +309,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         notPendingDocStatuses.add(KFSConstants.DocumentStatusCodes.APPROVED);
         notPendingDocStatuses.add(KFSConstants.DocumentStatusCodes.CANCELLED);
         notPendingDocStatuses.add(KFSConstants.DocumentStatusCodes.DISAPPROVED);
-        
+
         // Criteria arCriteria = new Criteria();
         Criteria criteria = new Criteria();
         criteria.addNotIn(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, notPendingDocStatuses);
@@ -984,9 +994,9 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
+
     public void setUniversityDateDao(UniversityDateDao universityDateDao) {
         this.universityDateDao = universityDateDao;
     }
-    
+
 } // end of class

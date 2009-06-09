@@ -286,7 +286,6 @@
     <property name="name" value="accountsPayableApprovalTimestamp"/>
     <property name="label" value="AP Processed Date"/>
     <property name="shortLabel" value="Date"/>
-    <property name="maxLength" value="30"/>
   </bean>
   
   <bean id="PaymentRequestDocument-holdIndicator" parent="PaymentRequestDocument-holdIndicator-parentBean">
@@ -317,7 +316,6 @@
     <property name="name" value="extractedTimestamp"/>
     <property name="label" value="Extract Date"/>
     <property name="shortLabel" value="Extract Date"/>
-    <property name="maxLength" value="30"/>
   </bean>
 
   <bean id="PaymentRequestDocument-extractedIndicatorForSearching" parent="GenericAttributes-activeIndicator">
@@ -424,7 +422,6 @@
     <property name="name" value="invoiceDate"/>
     <property name="label" value="Invoice Date"/>
     <property name="shortLabel" value="Invoice Date"/>
-    <property name="maxLength" value="30"/>
     <property name="required" value="true"/>
   </bean>
   <bean id="PaymentRequestDocument-receivingDocumentRequiredIndicator" parent="PaymentRequestDocument-receivingDocumentRequiredIndicator-parentBean"/>
@@ -551,7 +548,6 @@
     <property name="name" value="paymentRequestPayDate"/>
     <property name="label" value="Pay Date"/>
     <property name="shortLabel" value="paymentRequestPayDate"/>
-    <property name="maxLength" value="30"/>
   </bean>
   <bean id="PaymentRequestDocument-paymentRequestCostSourceCode" parent="PaymentRequestDocument-paymentRequestCostSourceCode-parentBean"/>
 
@@ -643,7 +639,6 @@
     <property name="name" value="paymentPaidTimestamp"/>
     <property name="label" value="Payment Request Paid Date"/>
     <property name="shortLabel" value="paymentRequestPaidDate"/>
-    <property name="maxLength" value="30"/>
   </bean>
   <bean id="PaymentRequestDocument-paymentRequestElectronicInvoiceIndicator" parent="PaymentRequestDocument-paymentRequestElectronicInvoiceIndicator-parentBean"/>
 
@@ -720,7 +715,6 @@
     <property name="name" value="purchaseOrderEndDate"/>
     <property name="label" value="PO End Date"/>
     <property name="shortLabel" value="PO End Date"/>
-    <property name="maxLength" value="30"/>
   </bean>
   <bean id="PaymentRequestDocument-vendorHeaderGeneratedIdentifier" parent="PaymentRequestDocument-vendorHeaderGeneratedIdentifier-parentBean"/>
 

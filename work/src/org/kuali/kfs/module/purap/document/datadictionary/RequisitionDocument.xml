@@ -500,7 +500,6 @@
     <property name="name" value="createDateForResult"/>
     <property name="label" value="Date Created"/>
     <property name="shortLabel" value="Date Created"/>
-    <property name="maxLength" value="30"/>
   </bean>
   
   <bean id="RequisitionDocument-deliveryBuildingOtherIndicator" parent="RequisitionDocument-deliveryBuildingOtherIndicator-parentBean"/>
@@ -585,7 +584,6 @@
     <property name="name" value="deliveryRequiredDate"/>
     <property name="label" value="Date Required"/>
     <property name="shortLabel" value="Date Required"/>
-    <property name="maxLength" value="30"/>
   </bean>
   <bean id="RequisitionDocument-deliveryRequiredDateReasonCode" parent="RequisitionDocument-deliveryRequiredDateReasonCode-parentBean"/>
 
@@ -724,7 +722,6 @@
     <property name="name" value="purchaseOrderBeginDate"/>
     <property name="label" value="Begin/End Date"/>
     <property name="shortLabel" value="Date"/>
-    <property name="maxLength" value="30"/>
   </bean>
   <bean id="RequisitionDocument-purchaseOrderEndDate" parent="RequisitionDocument-purchaseOrderEndDate-parentBean"/>
 
@@ -732,7 +729,6 @@
     <property name="name" value="purchaseOrderEndDate"/>
     <property name="label" value="Begin/End Date"/>
     <property name="shortLabel" value="Date"/>
-    <property name="maxLength" value="30"/>
   </bean>
   <bean id="RequisitionDocument-purchaseOrderTotalLimit" parent="RequisitionDocument-purchaseOrderTotalLimit-parentBean"/>
 

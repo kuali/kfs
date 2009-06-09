@@ -1473,7 +1473,6 @@
     <property name="name" value="accountsPayableApprovalDateForSearch"/>
     <property name="label" value="Approval Date"/>
     <property name="shortLabel" value="Approval Date"/>
-    <property name="maxLength" value="30"/>
   </bean>
   
   <!-- workflow attributes -->

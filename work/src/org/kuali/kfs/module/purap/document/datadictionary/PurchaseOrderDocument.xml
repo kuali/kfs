@@ -670,6 +670,7 @@
     <property name="name" value="deliveryRequiredDate"/>
     <property name="label" value="Date Required"/>
     <property name="shortLabel" value="Date Required"/>
+    <property name="maxLength" value="30"/>
   </bean>
   <bean id="PurchaseOrderDocument-deliveryRequiredDateReasonCode" parent="PurchaseOrderDocument-deliveryRequiredDateReasonCode-parentBean"/>
 
@@ -826,6 +827,7 @@
     <property name="name" value="purchaseOrderBeginDate"/>
     <property name="label" value="Begin/End Date"/>
     <property name="shortLabel" value="Date"/>
+    <property name="maxLength" value="30"/>
   </bean>
   <bean id="PurchaseOrderDocument-purchaseOrderEndDate" parent="PurchaseOrderDocument-purchaseOrderEndDate-parentBean"/>
 
@@ -833,6 +835,7 @@
     <property name="name" value="purchaseOrderEndDate"/>
     <property name="label" value="Begin/End Date"/>
     <property name="shortLabel" value="Date"/>
+    <property name="maxLength" value="30"/>
   </bean>
   <bean id="PurchaseOrderDocument-purchaseOrderTotalLimit" parent="PurchaseOrderDocument-purchaseOrderTotalLimit-parentBean"/>
 
@@ -1004,6 +1007,7 @@
     <property name="name" value="finalPaymentDate"/>
     <property name="label" value="Final Payment Date"/>
     <property name="shortLabel" value="Date"/>
+    <property name="maxLength" value="30"/>
   </bean>
   <bean id="PurchaseOrderDocument-initialPaymentAmount" parent="PurchaseOrderDocument-initialPaymentAmount-parentBean"/>
 
@@ -1026,6 +1030,7 @@
     <property name="name" value="initialPaymentDate"/>
     <property name="label" value="Initial Payment Date"/>
     <property name="shortLabel" value="Date"/>
+    <property name="maxLength" value="30"/>
   </bean>
   <bean id="PurchaseOrderDocument-recurringPaymentAmount" parent="PurchaseOrderDocument-recurringPaymentAmount-parentBean"/>
 
@@ -1048,6 +1053,7 @@
     <property name="name" value="recurringPaymentDate"/>
     <property name="label" value="Recurring Payment Date"/>
     <property name="shortLabel" value="Date"/>
+    <property name="maxLength" value="30"/>
   </bean>
   <bean id="PurchaseOrderDocument-purchaseOrderCommodityDescription" parent="PurchaseOrderDocument-purchaseOrderCommodityDescription-parentBean"/>
 
@@ -1083,7 +1089,7 @@
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Purchase Order Initial Open Date"/>
     <property name="shortLabel" value="Date"/>
-    <property name="maxLength" value="7"/>
+    <property name="maxLength" value="30"/>
     <property name="validationPattern">
       <bean parent="DateValidationPattern"/>
     </property>
@@ -1094,6 +1100,7 @@
     <property name="name" value="purchaseOrderLastTransmitTimestamp"/>
     <property name="label" value="Purchase Order Last Transmit Date"/>
     <property name="shortLabel" value="Date"/>
+    <property name="maxLength" value="30"/>
   </bean>
   <bean id="PurchaseOrderDocument-purchaseOrderPreviousIdentifier" parent="PurchaseOrderDocument-purchaseOrderPreviousIdentifier-parentBean"/>
 

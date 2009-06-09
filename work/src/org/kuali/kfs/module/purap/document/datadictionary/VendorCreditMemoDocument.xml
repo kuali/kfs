@@ -238,6 +238,7 @@
     <property name="name" value="accountsPayableApprovalTimestamp"/>
     <property name="label" value="AP Processed Date"/>
     <property name="shortLabel" value="Date"/>
+    <property name="maxLength" value="30"/>
   </bean>
   
   <bean id="VendorCreditMemoDocument-holdIndicator" parent="VendorCreditMemoDocument-holdIndicator-parentBean"/>
@@ -299,6 +300,7 @@
     <property name="name" value="extractedTimestamp"/>
     <property name="label" value="Extract Date"/>
     <property name="shortLabel" value="Extract Date"/>
+    <property name="maxLength" value="30"/>
   </bean>
   
   <bean id="VendorCreditMemoDocument-extractedIndicatorForSearching" parent="VendorCreditMemoDocument-extractedTimestamp-parentBean">
@@ -384,6 +386,7 @@
     <property name="name" value="creditMemoDate"/>
     <property name="label" value="Credit Memo Date"/>
     <property name="shortLabel" value="Date"/>
+    <property name="maxLength" value="30"/>
     <property name="required" value="true"/>
   </bean>
   <bean id="VendorCreditMemoDocument-purchaseOrderIdentifier" parent="VendorCreditMemoDocument-purchaseOrderIdentifier-parentBean"/>
@@ -399,6 +402,7 @@
     <property name="name" value="purchaseOrderEndDate"/>
     <property name="label" value="PO End Date"/>
     <property name="shortLabel" value="PO End Date"/>
+    <property name="maxLength" value="30"/>
   </bean>
   <bean id="VendorCreditMemoDocument-creditMemoAmount" parent="VendorCreditMemoDocument-creditMemoAmount-parentBean"/>
 

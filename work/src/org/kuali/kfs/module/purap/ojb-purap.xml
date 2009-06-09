@@ -3284,7 +3284,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceItemMapping" table="AP_ELCTRNC_INV_MAP_T">
-	<field-descriptor name="invoiceMapIdentifier" column="AP_ELCTRNC_INV_MAP_ID" jdbc-type="INTEGER" primarykey="true" index="true" sequence-name="AP_ELCTRNC_INV_MAP_ID"/>
+	<field-descriptor name="invoiceMapIdentifier" column="AP_ELCTRNC_INV_MAP_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="AP_ELCTRNC_INV_MAP_ID"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
   <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
   <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>

@@ -23,7 +23,7 @@
     </property>
     <property name="lockingKeys">
       <list>
-        <value>invoiceItemTypeCode</value>
+        <value>invoiceMapIdentifier</value>
       </list>
     </property>
     
@@ -45,9 +45,9 @@
     <property name="title" value="Edit Electronic Invoice Item Mapping"/>
     <property name="maintainableItems">
       <list>
+      	<bean parent="MaintainableFieldDefinition" p:name="invoiceMapIdentifier"/>
         <bean parent="MaintainableFieldDefinition" p:name="invoiceItemTypeCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="itemTypeCode"/>
-        <bean parent="MaintainableFieldDefinition" p:name="invoiceMapIdentifier"/>
         <bean parent="MaintainableFieldDefinition" p:name="vendorHeaderGeneratedIdentifier"/>
         <bean parent="MaintainableFieldDefinition" p:name="vendorDetailAssignedIdentifier"/>
       </list>

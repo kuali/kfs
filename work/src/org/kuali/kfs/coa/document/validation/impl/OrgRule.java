@@ -624,7 +624,6 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         }
 
         permissionDetails.put(KfsKimAttributes.PROPERTY_NAME, KFSPropertyConstants.ORGANIZATION_PLANT_ACCOUNT_NUMBER);
-        identityManagementService = SpringContext.getBean(IdentityManagementService.class);
         isAuthorized = identityManagementService.isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, roleQualifiers);
         if (!isAuthorized) {
             LOG.info("User '" + user.getPrincipalName() + "' has no access to the Plant account.");

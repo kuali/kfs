@@ -16,8 +16,8 @@
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">2</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">25</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">250</stringProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <longProp name="ThreadGroup.start_time">1243951513000</longProp>
         <longProp name="ThreadGroup.end_time">1243951513000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -8659,8 +8659,8 @@
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree>
-              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="2 min" enabled="true">
-                <stringProp name="ConstantTimer.delay">120000</stringProp>
+              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="30 sec" enabled="true">
+                <stringProp name="ConstantTimer.delay">30000</stringProp>
               </ConstantTimer>
               <hashTree/>
             </hashTree>
@@ -9137,7 +9137,12 @@
               <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
-            <hashTree/>
+            <hashTree>
+              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="2 min" enabled="true">
+                <stringProp name="ConstantTimer.delay">120000</stringProp>
+              </ConstantTimer>
+              <hashTree/>
+            </hashTree>
             <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="/kfs-dev/kr/lookup.do - po" enabled="true">
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments">

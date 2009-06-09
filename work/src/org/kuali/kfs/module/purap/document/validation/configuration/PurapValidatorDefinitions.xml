@@ -678,7 +678,7 @@
 	<bean id="PaymentRequest-reviewValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestReviewValidation" abstract="true">
 	</bean>	
 
-	<bean id="PaymentRequest-checkNegativeAccountsValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestCheckNegativeAccountsValidation" abstract="true">		
+	<bean id="PurchasingAccountsPayable-checkNegativeAccountsValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableCheckNegativeAccountsValidation" abstract="true">		
 		<property name="purapAccountingService" ref="purapAccountingService"/>
 	</bean>	
 

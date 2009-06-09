@@ -24,10 +24,15 @@ import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 
 /**
- * This class...
+ * This class is the OJB implementation of AccountDelegateGlobalDao
  */
 public class AccountDelegateGlobalDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDelegateGlobalDao {
 
+   /**
+    * 
+    * @see org.kuali.kfs.coa.dataaccess.AccountDelegateGlobalDao#getLockingDocumentNumber(java.lang.String, java.lang.String)
+    */
+    
     public String getLockingDocumentNumber(String lockingRepresentation, String documentNumber) {
         String lockingDocNumber = "";
 
@@ -53,6 +58,13 @@ public class AccountDelegateGlobalDaoOjb extends PlatformAwareDaoBaseOjb impleme
         }
         return lockingDocNumber;
     }
+    
+    /**
+     * Parses the lockingRepresentation and replaces the document type with a wild card.
+     * 
+     * @param lockingRepresentation The String representation of the MaintenanceLock created by this record
+     * @return The String representation of MaintenanceLock with the financialDocumentTypeCode replaced with a wildcard(%).
+     */
     
     private String convertForLikeCriteria(String lockingRepresentation) {
         //org.kuali.kfs.coa.businessobject.AccountDelegate!!chartOfAccountsCode^^BL::accountNumber^^1031400::financialDocumentTypeCode^^IB::accountsDelegatePrmrtIndicator^^true

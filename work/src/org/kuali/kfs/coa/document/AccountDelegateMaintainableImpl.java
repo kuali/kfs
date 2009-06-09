@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.AccountDelegate;
+import org.kuali.kfs.coa.businessobject.AccountDelegateGlobal;
 import org.kuali.kfs.coa.service.AccountDelegateService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -172,9 +173,39 @@ public class AccountDelegateMaintainableImpl extends FinancialSystemMaintainable
         return String.valueOf(fieldValue);
     }
     
+    /**
+     * This method created a MaintenanceLock for the chartOfAccountsCode and accountNumber for an AccountDelegateGlobal.
+     *
+     * @return the MainenanceLock
+     */
+    
     public MaintenanceLock createGlobalAccountLock() {
         
         String[] fields = {"chartOfAccountsCode", "accountNumber"};
-        return createMaintenanceLock(fields);
+        MaintenanceLock lock = new MaintenanceLock();
+        lock.setDocumentNumber(this.documentNumber);
+        
+        StringBuilder lockRepresentation = new StringBuilder();
+
+        lockRepresentation.append(AccountDelegateGlobal.class.getName());
+        lockRepresentation.append(KFSConstants.Maintenance.AFTER_CLASS_DELIM);
+
+        DataDictionaryService dataDictionaryService = KNSServiceLocator.getDataDictionaryService();
+        EncryptionService encryptionService = KNSServiceLocator.getEncryptionService();
+
+        int count = 0;
+        for (String fieldName : fields) {
+            lockRepresentation.append(fieldName);
+            lockRepresentation.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+            lockRepresentation.append(retrieveFieldValueForLock(fieldName, dataDictionaryService, encryptionService));
+            if (count < (fields.length - 1)) {
+                lockRepresentation.append(KFSConstants.Maintenance.AFTER_VALUE_DELIM);
+            }
+            count += 1;
+        }
+
+        lock.setLockingRepresentation(lockRepresentation.toString());
+        
+        return lock;
     }
 }

@@ -18,6 +18,15 @@ package org.kuali.kfs.coa.dataaccess;
 
 public interface AccountDelegateDao {
 
+    /**
+     * Retrieves the Document Number of any AccountDelegate locking this record.
+     * 
+     * @param lockingRepresentation String representation of the MaintanceLock to check against.
+     * @param documentNumber the document number being checked against.
+     * 
+     * @return the document number of the Document locking this record.
+     */
+    
     public String getLockingDocumentNumber(String lockingRepresentation, String documentNumber);
     
 }

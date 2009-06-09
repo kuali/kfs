@@ -172,7 +172,7 @@ public class AccountDelegateGlobalMaintainableImpl extends FinancialSystemGlobal
                     }
 
                     lockRep = new StringBuilder();
-                    lockRep.append(AccountDelegate.class.getName());
+                    lockRep.append(AccountDelegateGlobal.class.getName());
                     lockRep.append(KFSConstants.Maintenance.AFTER_CLASS_DELIM);
                     lockRep.append("chartOfAccountsCode");
                     lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);

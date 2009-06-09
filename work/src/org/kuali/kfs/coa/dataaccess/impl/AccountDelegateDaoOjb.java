@@ -25,10 +25,15 @@ import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 
 /**
- * This class...
+ * This class is the OJB implementation of the AccountDelegateDao.
  */
 public class AccountDelegateDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDelegateDao {
 
+    /**
+     * 
+     * @see org.kuali.kfs.coa.dataaccess.AccountDelegateDao#getLockingDocumentNumber(java.lang.String, java.lang.String)
+     */
+    
     public String getLockingDocumentNumber(String lockingRepresentation, String documentNumber) {
         String lockingDocNumber = "";
 

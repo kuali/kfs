@@ -39,6 +39,11 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
     private AccountDelegateDao accountDelegateDao;
     private AccountDelegateGlobalDao accountDelegateGlobalDao;
 
+    /**
+     * 
+     * @see org.kuali.kfs.coa.service.AccountDelegateService#getLockingDocumentId(org.kuali.kfs.coa.document.AccountDelegateGlobalMaintainableImpl, java.lang.String)
+     */
+    
     public String getLockingDocumentId(AccountDelegateGlobalMaintainableImpl global, String docNumber) {
         String lockingDocId = null;
         List<MaintenanceLock> maintenanceLocks = global.generateMaintenanceLocks();
@@ -51,6 +56,11 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
         return lockingDocId;
     }
 
+    /**
+     * 
+     * @see org.kuali.kfs.coa.service.AccountDelegateService#getLockingDocumentId(org.kuali.kfs.coa.document.AccountDelegateMaintainableImpl, java.lang.String)
+     */
+    
     public String getLockingDocumentId(AccountDelegateMaintainableImpl delegate, String docNumber) {
         String lockingDocId = null;
         List<MaintenanceLock> maintenanceLocks = delegate.generateMaintenanceLocks();

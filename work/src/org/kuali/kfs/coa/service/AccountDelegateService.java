@@ -24,8 +24,23 @@ import org.kuali.rice.kns.maintenance.Maintainable;
  */
 public interface AccountDelegateService {
     
+    /**
+     * 
+     * This method checks for any MaintenanceLocks that would block the creation of this document
+     * @param global The AccountDelegateGlobalMaintainableImpl to check against.
+     * @param docNumber The document number of the AccountDelegateGlobalMaintainableImpl in question.
+     * @return the documentNumber of the locking record or null if none.
+     */
+    
     public String getLockingDocumentId(AccountDelegateGlobalMaintainableImpl global, String docNumber);
     
+    /**
+     * 
+     * This method checks for any MaintenanceLocks that would block the creation of this document
+     * @param delegate The AccountDelegateMaintainableImpl to check against.
+     * @param docNumber The document number of the AccountDelegateMaintainableImpl in question.
+     * @return the documentNumber of the locking record or null if none.
+     */
     public String getLockingDocumentId(AccountDelegateMaintainableImpl delegate, String docNumber);
 
 }

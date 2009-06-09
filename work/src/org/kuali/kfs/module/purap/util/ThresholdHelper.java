@@ -90,11 +90,11 @@ public class ThresholdHelper {
 
             for (SummaryAccount account : accounts) {
                 
-                updateThresholdSummary(CHART,account);
-                updateThresholdSummary(CHART_AND_FUND,account);
-                updateThresholdSummary(CHART_AND_SUBFUND,account);
-                updateThresholdSummary(CHART_AND_OBJECTCODE,account);
-                updateThresholdSummary(CHART_AND_ORGCODE,account);
+                updateThresholdSummary(CHART,account,null);
+                updateThresholdSummary(CHART_AND_FUND,account,null);
+                updateThresholdSummary(CHART_AND_SUBFUND,account,null);
+                updateThresholdSummary(CHART_AND_OBJECTCODE,account,null);
+                updateThresholdSummary(CHART_AND_ORGCODE,account,document.getTotalDollarAmount());
                 
                 processVendorForThresholdSummary(account,
                                                  document.getVendorHeaderGeneratedIdentifier().toString(),
@@ -120,7 +120,8 @@ public class ThresholdHelper {
     }
     
     private void updateThresholdSummary(ThresholdCriteria thresholdCriteria,
-                                        SummaryAccount account){
+                                        SummaryAccount account,
+                                        KualiDecimal documentAmount){
         
         if (thresholdCriteria != CHART_AND_COMMODITYCODE && 
             thresholdCriteria != CHART_AND_VENDOR){
@@ -157,9 +158,12 @@ public class ThresholdHelper {
                 }
                 thresholdSummary.setProperty(ThresholdField.ORGANIZATION_CODE,
                                              account.getAccount().getAccount().getOrganizationCode());
+                thresholdSummary.addTotalAmount(documentAmount);
             }
             
-            thresholdSummary.addTotalAmount(account.getAccount().getAmount());
+            if (thresholdCriteria != CHART_AND_ORGCODE){
+                thresholdSummary.addTotalAmount(account.getAccount().getAmount());
+            }
             addToSummaryList(thresholdSummary);
         }
     }

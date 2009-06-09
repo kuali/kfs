@@ -24,11 +24,21 @@ function resize_iframe() {
 	if ( !iframe ) return;
 	var iframeDocElement = iframe.contentWindow.document.documentElement;
     if ( !iframeDocElement ) return;
-	iframe.style.height = iframeDocElement.offsetHeight + "px";
-    iframe.style.width = iframeDocElement.scrollWidth + "px";
+    if ( document.all ) {
+        iframe.style.height = iframeDocElement.scrollHeight + "px";
+        iframe.style.width = iframeDocElement.scrollWidth + "px";
+        //window.status = iframeDocElement.scrollWidth+"/"+iframeDocElement.offsetWidth+"/"+iframeDocElement.clientWidth;
+    } else {
+    	iframe.style.height = iframeDocElement.offsetHeight + "px";
+        iframe.style.width = iframeDocElement.scrollWidth + "px";
+    }
     // table
-    if ( iframe.parentNode.parentNode.parentNode ) {
-        iframe.parentNode.parentNode.parentNode.style.width = iframeDocElement.scrollWidth + "px";
+    var tableNode = iframe.parentNode.parentNode.parentNode;
+    if ( tableNode ) {
+        if ( tableNode.tagName == "TBODY" ) { // IE and safari insert this automatically
+            tableNode = tableNode.parentNode;
+        }
+        tableNode.style.width = iframe.style.width;
     }
     //iframe.scrolling = "no";
     //console.log( "Set iframe dimensions to " + iframe.style.height + "/"+iframe.style.width );

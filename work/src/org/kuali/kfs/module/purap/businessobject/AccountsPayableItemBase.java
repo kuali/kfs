@@ -147,5 +147,16 @@ public abstract class AccountsPayableItemBase extends PurApItemBase implements A
     public CapitalAssetBuilderAssetTransactionType getCapitalAssetTransactionType() {
         return capitalAssetTransactionType = (CapitalAssetBuilderAssetTransactionType) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CapitalAssetBuilderAssetTransactionType.class).retrieveExternalizableBusinessObjectIfNecessary(this, capitalAssetTransactionType, PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE);
     }
+    
+    public void setItemDescription(String itemDescription) {
+        if((itemDescription != null) && (itemDescription.length() > 100))
+        {
+           super.setItemDescription(itemDescription.substring(0, 100));
+        } else
+        {
+            super.setItemDescription(itemDescription);
+        }
+        
+    }
 
 }

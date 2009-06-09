@@ -86,16 +86,8 @@ public class CreditMemoItem extends AccountsPayableItemBase {
 
         setItemCatalogNumber(poItem.getItemCatalogNumber());
         
-        if((poItem.getItemDescription() != null) && (poItem.getItemDescription().length() > 100))
-        {
-           setItemDescription(poItem.getItemDescription().substring(0, 100));
-        }
-        else
-        {
-            setItemDescription(poItem.getItemDescription());
-        }
-        
-
+        setItemDescription(poItem.getItemDescription());
+                 
         if (getPoInvoicedTotalQuantity() == null) {
             setPoInvoicedTotalQuantity(KualiDecimal.ZERO);
         }

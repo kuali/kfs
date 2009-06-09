@@ -23,6 +23,7 @@ import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.ACCOUNT_NUMBER;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Verification for BudgetAdjustmentAccountingLine to check that the account has a valid budget recording level.
@@ -37,7 +38,10 @@ public class BudgetAdjustmentAccountingLineAccountHasRecordingLevelValidation ex
     public boolean validate(AttributedDocumentEvent event) {
         boolean accountNumberAllowed = true;
         getAccountingLineForValidation().refreshReferenceObject("account");
-        if (StringUtils.isBlank(getAccountingLineForValidation().getAccount().getBudgetRecordingLevelCode()) || ACCOUNT_NUMBER.BUDGET_LEVEL_NO_BUDGET.equals(getAccountingLineForValidation().getAccount().getBudgetRecordingLevelCode())) {
+        if (!ObjectUtils.isNull(getAccountingLineForValidation().getAccount()) && 
+                (StringUtils.isBlank(getAccountingLineForValidation().getAccount().getBudgetRecordingLevelCode()) 
+                 || 
+                ACCOUNT_NUMBER.BUDGET_LEVEL_NO_BUDGET.equals(getAccountingLineForValidation().getAccount().getBudgetRecordingLevelCode()))) {
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, KFSKeyConstants.ERROR_DOCUMENT_BA_NON_BUDGETED_ACCOUNT, getAccountingLineForValidation().getAccountNumber());
             accountNumberAllowed = false;
         }

@@ -43,7 +43,7 @@
     </c:if>
          
     <c:if test="${KualiForm.document.needWarning}">
-    	<font color="red"><bean:message key="${PurapConstants.WARNING_PURCHASEORDER_NUMBER_DONT_DISCLOSE}" /></font>
+    	<font color="black"><bean:message key="${PurapConstants.WARNING_PURCHASEORDER_NUMBER_DONT_DISCLOSE}" /></font>
     	<br><br>
     </c:if>
      

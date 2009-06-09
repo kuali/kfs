@@ -51,6 +51,7 @@ public class CabKeyConstants {
         public static final String ERROR_ASSET_DO_NOT_ENTER_ANY_DATA = "error.asset.do.not.enter.any.data";
         public static final String ERROR_ASSET_REQUIRE_DATA_ENTRY = "error.asset.require.data.entry";
         public static final String ERROR_ASSET_UPDATE_ALLOW_ONLY = "error.asset.update.allow.only";
+        public static final String ERROR_ASSET_CREATE_NEW_ALLOW_ONLY = "error.asset.create.new.allow.only";
         public static final String ERROR_ASSET_NEW_OR_UPDATE_ONLY = "error.asset.new.or.update.only";
         public static final String ERROR_ASSET_ACTIVE_CAPITAL_ASSET_REQUIRED = "error.asset.active.capital.asset.required";
         

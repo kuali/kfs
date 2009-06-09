@@ -272,7 +272,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
 
         int deleteIndex = getLineToDelete(request);
         String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.EXISTING_TARGET_ACCT_LINE_PROPERTY_NAME + "[" + deleteIndex + "]";
-        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new DeleteAccountingLineEvent(errorPath, financialDocumentForm.getDocument(),((AccountingDocument)financialDocumentForm.getDocument()).getTargetAccountingLine(deleteIndex), false));
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new DeleteAccountingLineEvent(errorPath, financialDocumentForm.getDocument(), ((AccountingDocument) financialDocumentForm.getDocument()).getTargetAccountingLine(deleteIndex), false));
 
         // if the rule evaluation passed, let's delete it
         if (rulePassed) {
@@ -302,7 +302,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
 
         int deleteIndex = getLineToDelete(request);
         String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.EXISTING_SOURCE_ACCT_LINE_PROPERTY_NAME + "[" + deleteIndex + "]";
-        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new DeleteAccountingLineEvent(errorPath, financialDocumentForm.getDocument(), ((AccountingDocument)financialDocumentForm.getDocument()).getSourceAccountingLine(deleteIndex), false));
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new DeleteAccountingLineEvent(errorPath, financialDocumentForm.getDocument(), ((AccountingDocument) financialDocumentForm.getDocument()).getSourceAccountingLine(deleteIndex), false));
 
         // if the rule evaluation passed, let's delete it
         if (rulePassed) {
@@ -642,7 +642,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         SourceAccountingLine line = (SourceAccountingLine) ObjectUtils.deepCopy(((KualiAccountingDocumentFormBase) form).getFinancialDocument().getSourceAccountingLine(lineIndex));
         return line;
     }
-    
+
     protected TargetAccountingLine getTargetAccountingLine(ActionForm form, HttpServletRequest request) {
         int lineIndex = getSelectedLine(request);
         TargetAccountingLine line = (TargetAccountingLine) ((KualiAccountingDocumentFormBase) form).getFinancialDocument().getTargetAccountingLine(lineIndex);
@@ -675,7 +675,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         parameters.put(KFSConstants.BALANCE_INQUIRY_REPORT_MENU_CALLER_DOC_FORM_KEY, callerDocFormKey);
         parameters.put(KFSConstants.DOC_FORM_KEY, callerDocFormKey);
         parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
-        
+
         if (line.getPostingYear() != null) {
             parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, line.getPostingYear().toString());
         }
@@ -756,7 +756,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
     @Override
     public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiAccountingDocumentFormBase tmpForm = (KualiAccountingDocumentFormBase) form;
-        this.applyCapitalAssetInformation(tmpForm);   
+        this.applyCapitalAssetInformation(tmpForm);
 
         ActionForward forward = super.approve(mapping, form, request, response);
 
@@ -765,7 +765,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         checkSalesTaxRequiredAllLines(tmpForm, tmpForm.getFinancialDocument().getTargetAccountingLines());
         return forward;
     }
-    
+
     @Override
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiAccountingDocumentFormBase tmpForm = (KualiAccountingDocumentFormBase) form;
@@ -1232,10 +1232,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         CapitalAssetBuilderModuleService capitalAssetBuilderModuleService = SpringContext.getBean(CapitalAssetBuilderModuleService.class);
 
         // apply capitalAsset information if there is at least one movable object code associated with the source accounting lines
-        boolean isCapitalAssetInformationNeeded = capitalAssetBuilderModuleService.hasCapitalAssetObjectSubType(document);
-        if (isCapitalAssetInformationNeeded) {
-            newCapitalAssetInformation.setDocumentNumber(document.getDocumentNumber());
-            capitalAssetEditable.setCapitalAssetInformation(newCapitalAssetInformation);
-        }
+        newCapitalAssetInformation.setDocumentNumber(document.getDocumentNumber());
+        capitalAssetEditable.setCapitalAssetInformation(newCapitalAssetInformation);
     }
 }

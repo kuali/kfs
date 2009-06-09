@@ -23,7 +23,7 @@
 <c:set var="isATypeOfPODoc" value="${KualiForm.document.isATypeOfPODoc}" />
 
 <c:if test="${KualiForm.document.needWarningRelatedPOs}">
-	<font color="red"><bean:message key="${PurapConstants.WARNING_PURCHASEORDER_NUMBER_DONT_DISCLOSE}" /></font>
+	<font color="black"><bean:message key="${PurapConstants.WARNING_PURCHASEORDER_NUMBER_DONT_DISCLOSE}" /></font>
     <br>
 </c:if>
 	
@@ -36,7 +36,7 @@
         	            <h3> ${view.documentLabel} - 
         	            	<a href="<c:out value="${view.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${view.purapDocumentIdentifier}" /></a>
         	            	<c:if test="${view.needWarning}" >
-        	            		&nbsp;<font color="#FF8080">UNAPPROVED</font>
+        	            		&nbsp;<font color="white">UNAPPROVED</font>
         	            	</c:if>
         	            </h3>
 				    	<c:if test="${not empty view.notes}">

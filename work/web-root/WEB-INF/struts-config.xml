@@ -20,6 +20,8 @@
 		<!--  Rice Bean Definitions : This is a bean declared in Rice, but is needed throughout this config -->
 		<form-bean name="KualiForm"
 			type="org.kuali.rice.kns.web.struts.form.KualiForm" />
+		<form-bean name="BackdoorForm" 
+			type="org.kuali.rice.kew.web.backdoor.BackdoorForm" />
 
 		<!--  KFS Core Bean Definitions -->
 		<form-bean name="KualiBalanceInquiryReportMenuForm"
@@ -256,6 +258,17 @@
 			type="org.kuali.rice.kns.web.struts.action.KualiSimpleAction">
 			<forward name="basic" path="/portal.jsp" />
 		</action>
+		
+		<action path="/backdoorlogin" name="BackdoorForm" scope="request" parameter="methodToCall" 
+        	input="/WEB-INF/jsp/backdoor/index.jsp" 
+        	type="org.kuali.rice.kew.web.backdoor.BackdoorAction"> 
+            <forward name="basic" path="/portal.jsp" /> 
+    		<forward name="viewPortal" path="/portal.jsp" /> 
+    	</action> 
+		
+		<action path="/updateTextArea" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase">
+            <forward name="basic" path="/kr/WEB-INF/jsp/TextArea.jsp"/>
+        </action>
 
 		<action path="/balanceInquiryReportMenu"
 			name="KualiBalanceInquiryReportMenuForm" scope="request"
@@ -764,9 +777,7 @@
 			<forward name="selection" path="/jsp/pdp/format/formatSelection.jsp" />
 			<forward name="continue" path="/jsp/pdp/format/formatContinue.jsp" />
 		</action>
-		<action path="/updateTextArea" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase">
-            <forward name="basic" path="/kr/WEB-INF/jsp/TextArea.jsp"/>
-        </action>
+		
 	</action-mappings>
 
 	<controller

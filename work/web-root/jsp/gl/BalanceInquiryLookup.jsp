@@ -90,6 +90,8 @@
 						<img src='<c:out value="${KualiForm.extraButtonSource}" />'
 							class="tinybutton" border="0" /></a>
 					</c:if>
+				 	   <html:image tabindex="${tabindex}" property="methodToCall.prepareToReturnSelectedResults"
+   						src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_retselected.gif" alt="Return selected results" title="Return selected results" border="0" styleClass="tinybutton"/>
 					</td>
 				</tr>
 			</table>
@@ -97,15 +99,6 @@
 
 			<br>
 			<br>
-			<div class="right"><logic-el:present name="KualiForm"
-				property="formKey">
-				<c:if
-					test="${KualiForm.formKey!='' && KualiForm.hideReturnLink != true && !KualiForm.multipleValues}">
-					<a
-						href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&docFormKey=${KualiForm.formKey}" />' title="return with no value">
-					return with no value </a>
-				</c:if>
-			</logic-el:present></div>
             <gl:balanceInquiryLookupResults resultsList="${requestScope.reqSearchResults}"/>
 			</td>
 			<td width="1%"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="20"

@@ -248,15 +248,6 @@
 			</c:if>
 			<br>
 			<br>
-			<div class="right"><logic-el:present name="KualiForm"
-				property="formKey">
-				<c:if
-					test="${KualiForm.formKey!='' && KualiForm.hideReturnLink != true && !KualiForm.multipleValues}">
-					<a
-						href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&docFormKey=${KualiForm.formKey}&anchor=${KualiForm.lookupAnchor}" />' title="return with no value">
-					return with no value</a>
-				</c:if>
-			</logic-el:present></div>
 			<c:if test="${reqSearchResultsActualSize>0}">
 				<c:out value="${reqSearchResultsActualSize}" /> items found.  Please refine your search criteria to narrow down your search.
           </c:if> 

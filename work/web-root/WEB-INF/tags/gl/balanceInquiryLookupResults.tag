@@ -19,8 +19,6 @@
 
 <c:set var="imageSelectAll" value="${empty image ? 'buttonsmall_selectall.gif' : image}"/>
 <c:set var="imageUnselectAll" value="${empty image ? 'buttonsmall_unselall.gif' : image}"/>
-<c:set var="imageReturnNoValue" value="${empty image ? 'buttonsmall_retnovalue.gif' : image}"/>
-<c:set var="imageReturnSelected" value="${empty image ? 'buttonsmall_retselected.gif' : image}"/>
 <c:set var="imageSort" value="${empty image ? 'sort.gif' : image}"/>
 
 <c:if test="${empty resultsList && KualiForm.methodToCall != 'start' && KualiForm.methodToCall != 'refresh'}">
@@ -50,16 +48,6 @@
 					${kfunc:registerEditableProperty(KualiForm, balanceInquiryUnselectAllButtonName)}
 					<input type="image" tabindex="${tabindex}" name="${balanceInquiryUnselectAllButtonName}"
    						src="${ConfigProperties.kr.externalizable.images.url}${imageUnselectAll}" alt="Unselect all rows" title="Unselect all rows" border="0" class="tinybutton" valign="middle"/>
-			
-
-				<c:set var="balanceInquiryReturnNoValueButtonName" value="methodToCall.prepareToReturnNone.x" />
-					${kfunc:registerEditableProperty(KualiForm, balanceInquiryReturnNoValueButtonName)}
-					<input type="image" tabindex="${tabindex}" name="${balanceInquiryReturnNoValueButtonName}"
-   						src="${ConfigProperties.kr.externalizable.images.url}${imageReturnNoValue}" alt="Return no results" title="Return no results" border="0" class="tinybutton" valign="middle"/>
-				<c:set var="balanceInquiryReturnSelectedButtonName" value="methodToCall.prepareToReturnSelectedResults.x" />
-					${kfunc:registerEditableProperty(KualiForm, balanceInquiryReturnSelectedButtonName)}
-					<input type="image" tabindex="${tabindex}" name="${balanceInquiryReturnSelectedButtonName}"
-   						src="${ConfigProperties.kr.externalizable.images.url}${imageReturnSelected}" alt="Return selected results" title="Return selected results" border="0" class="tinybutton" valign="middle"/>
 			</p>
 			
             <c:set var="numOfMonthField" value="14" scope="request" />            

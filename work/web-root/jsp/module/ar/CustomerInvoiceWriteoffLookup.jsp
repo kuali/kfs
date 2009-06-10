@@ -97,15 +97,6 @@
 
 			<br>
 			<br>
-			<div class="right"><logic-el:present name="KualiForm"
-				property="formKey">
-				<c:if
-					test="${KualiForm.formKey!='' && KualiForm.hideReturnLink != true && !KualiForm.multipleValues}">
-					<a
-						href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&docFormKey=${KualiForm.formKey}" />' title="return with no value">
-					return with no value </a>
-				</c:if>
-			</logic-el:present></div>
             <ar:customerInvoiceWriteoffLookupResults resultsList="${requestScope.reqSearchResults}"/>
 			</td>
 			<td width="1%"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="20"

@@ -82,15 +82,6 @@
 				<br />
 				<br />
 
-				<div class="right"><logic-el:present name="KualiForm"
-					property="formKey">
-					<c:if
-						test="${KualiForm.formKey!='' && KualiForm.hideReturnLink != true}">
-						<a
-							href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&docFormKey=${KualiForm.formKey}" />'>
-						return with no value </a>
-					</c:if>
-				</logic-el:present></div>
 			</c:if> <c:if test="${!empty reqSearchResultsSize}">  
 					 
 				<c:set var="exporting" value="${!empty param['d-16544-e']}" scope="request"/>

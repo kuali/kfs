@@ -25,6 +25,8 @@
         <ref bean="ProposalProjectDirector-proposalProjectDirectorProjectTitle" />
         <ref bean="ProposalProjectDirector-newCollectionRecord" />
         <ref bean="ProposalProjectDirector-active" />
+        <ref bean="ProposalProjectDirector-userLookupRoleNamespaceCode" />
+        <ref bean="ProposalProjectDirector-userLookupRoleName" />
       </list>
     </property>
     <property name="relationships" >
@@ -133,6 +135,23 @@
     <property name="name" value="active" />
   </bean>
 
+  <bean id="ProposalProjectDirector-userLookupRoleNamespaceCode" parent="AttributeDefinition">
+    <property name="name" value="userLookupRoleNamespaceCode" />
+    <property name="label" value="Role Namespace Code" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
+  
+  <bean id="ProposalProjectDirector-userLookupRoleName" parent="AttributeDefinition">
+    <property name="name" value="userLookupRoleName" />
+    <property name="label" value="Role Name" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="HiddenControlDefinition" />
+    </property>
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

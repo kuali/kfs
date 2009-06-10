@@ -368,6 +368,10 @@
 		<property name="belowTheLineValuesValidation" ref="PurchasingAccountsPayable-belowTheLineValuesValidation" />		
 	</bean>
 
+    <bean id="PurchaseOrder-assignedUserValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderAssignedUserValidation" abstract="true">
+        <property name="personService" ref="personService" />
+    </bean>
+
     <bean id="PurchaseOrder-processVendorValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderProcessVendorValidation" abstract="true">
         <property name="vendorService" ref="vendorService" />
         <property name="dataDictionaryService" ref="dataDictionaryService" />

@@ -167,7 +167,7 @@
         <ref bean="PurchaseOrderDocument-chartAndOrgCodeForResult"/>
         <ref bean="PurchaseOrderDocument-documentTitleForResult"/>
         <ref bean="PurchaseOrderDocument-deliveryCampusCodeForSearch"/>
-        <ref bean="PurchaseOrderDocument-assignedUserName"/>
+        <ref bean="PurchaseOrderDocument-assignedUserPrincipalName"/>
       </list>
     </property>
     <property name="validationMap" ref="PurchaseOrderDocument-validations"/>
@@ -240,12 +240,30 @@
   <bean id="PurchaseOrderDocument-contractManagerName-parentBean" abstract="true" parent="PurApGenericAttributes-contractManager">
     <property name="name" value="contractManagerName"/>
   </bean>
-  <bean id="PurchaseOrderDocument-assignedUserName" parent="PurchaseOrderDocument-assignedUserName-parentBean"/>
+  <bean id="PurchaseOrderDocument-assignedUserPrincipalName" parent="PurchaseOrderDocument-assignedUserPrincipalName-parentBean"/>
 
-  <bean id="PurchaseOrderDocument-assignedUserName-parentBean" abstract="true" parent="PersonImpl-name">
-    <property name="name" value="assignedUserName" />
+  <!--
+  <bean id="PurchaseOrderDocument-assignedUserPrincipalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="assignedUserPrincipalName" />
     <property name="label" value="Assigned To User" />
     <property name="required" value="false" />
+  </bean>
+  -->
+  
+  <bean id="PurchaseOrderDocument-assignedUserPrincipalName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="assignedUserPrincipalName" />
+    <property name="label" value="Assigned To User" />
+    <property name="shortLabel" value="AssignedTo"/>
+    <property name="required" value="false" />
+    <property name="forceUppercase" value="false"/>
+    <property name="maxLength" value="11"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="false"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="11"/>
+    </property>
+
   </bean>
   <bean id="PurchaseOrderDocument-versionNumber" parent="PurchaseOrderDocument-versionNumber-parentBean"/>
 

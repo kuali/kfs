@@ -26,11 +26,15 @@
   
   	<bean id="PurchaseOrder-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
-  			<list>  				  				  				
+  			<list>  				  	  			
   				<bean parent="PurchaseOrder-newProcessItemValidation-parentBean" scope="prototype">								
 					<property name="quitOnFail" value="false" />
 				</bean>  	
 				
+  				<bean parent="PurchaseOrder-assignedUserValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  					
+  						  				
 				<bean parent="PurchaseOrder-processVendorValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
 				</bean>  

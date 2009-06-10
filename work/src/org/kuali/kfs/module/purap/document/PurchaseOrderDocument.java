@@ -149,7 +149,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     private Integer contractManagerCode;
     private Date purchaseOrderQuoteInitializationDate;
     private Date purchaseOrderQuoteAwardedDate;
-    private String assignedUserId;
+    private String assignedUserPrincipalName;
     
     // COLLECTIONS
     private List<PurchaseOrderVendorStipulation> purchaseOrderVendorStipulations;
@@ -303,21 +303,21 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     }
             
     public String getAssignedUserName() {      
-        // assignedUserId is either null or returned from lookup (thus valid)
-        if (StringUtils.isEmpty(assignedUserId))
+        // assignedUserPrincipalName is either null or returned from lookup (thus valid)
+        if (StringUtils.isEmpty(assignedUserPrincipalName))
             return null;  
-        Person person = SpringContext.getBean(PersonService.class).getPerson(assignedUserId);
+        Person person = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(assignedUserPrincipalName);
         if (person == null)
             return null;
         return person.getName();
     }
 
-    public String getAssignedUserId() {
-        return assignedUserId;
+    public String getAssignedUserPrincipalName() {
+        return assignedUserPrincipalName;
     }
 
-    public void setAssignedUserId(String assignedUserIdentifier) {
-        this.assignedUserId = assignedUserIdentifier;
+    public void setAssignedUserPrincipalName(String assignedUserPrincipleName) {
+        this.assignedUserPrincipalName = assignedUserPrincipleName;
     }
 
     public boolean getAssigningSensitiveData() {

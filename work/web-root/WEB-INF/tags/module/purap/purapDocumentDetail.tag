@@ -141,15 +141,15 @@
                 </c:if>                     
             </td>
             <th align=right valign=middle class="bord-l-b">
-                <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.assignedUserName}" /></div>
+                <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.assignedUserPrincipalName}" /></div>
             </th>
             <td align=left valign=middle class="datacell">
             	<kul:htmlControlAttribute 
-                    property="document.assignedUserName" 
-                    attributeEntry="${documentAttributes.assignedUserName}" 
-                    readOnly="true" tabindexOverride="${tabindexOverrideBase + 0}" />
+                    property="document.assignedUserPrincipalName" 
+                    attributeEntry="${documentAttributes.assignedUserPrincipalName}" 
+                    readOnly="${!fullEntryMode and !amendmentEntry}" tabindexOverride="${tabindexOverrideBase + 0}" />
                 <c:if test="${fullEntryMode or amendmentEntry}"  >
-                    <kul:lookup boClassName="org.kuali.rice.kim.bo.Person" fieldConversions="principalId:document.assignedUserId" /></div>
+                    <kul:lookup boClassName="org.kuali.rice.kim.bo.Person" fieldConversions="principalName:document.assignedUserPrincipalName" /></div>
                 </c:if>                     
             </td>
 		</tr>

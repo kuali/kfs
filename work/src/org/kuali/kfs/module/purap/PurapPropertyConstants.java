@@ -143,6 +143,7 @@ public class PurapPropertyConstants {
     public static final String TOTAL_ENCUMBRANCE = "totalEncumbrance";
     public static final String VENDOR_CHOICE_CODE = "vendorChoiceCode";
     public static final String CONTRACT_MANAGER = "contractManager";
+    public static final String  ASSIGNED_USER_PRINCIPAL_NAME = "assignedUserPrincipalName";
 
     // Quote Language
     public static final String PURCHASE_ORDER_QUOTE_LANGUAGE_ID = "purchaseOrderQuoteLanguageIdentifier";

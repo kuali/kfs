@@ -30,6 +30,10 @@
 					<property name="quitOnFail" value="false" />
 				</bean>  	
 				
+  				<bean parent="PurchaseOrder-assignedUserValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  					
+  						  				
 				<bean parent="PurchaseOrder-processVendorValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
 				</bean>  

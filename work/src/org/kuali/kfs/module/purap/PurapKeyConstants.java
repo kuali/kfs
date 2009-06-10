@@ -44,6 +44,7 @@ public class PurapKeyConstants {
     public static final String ERROR_DEBARRED_VENDOR = "error.debarred.vendor";
     public static final String ERROR_INACTIVE_VENDOR = "error.inactive.vendor";
     public static final String ERROR_NONEXIST_VENDOR = "error.nonexist.vendor";
+    public static final String ERROR_NONEXIST_ASSIGNED_USER = "error.nonexist.assignedUser";
     public static final String PO_TOTAL_GREATER_THAN_PO_TOTAL_LIMIT = "warning.purchaseOrderTotalLimit";
     public static final String INVALID_CONTRACT_MANAGER_CODE = "error.invalidContractManagerCode";
     public static final String ERROR_APO_CONTRACT_MANAGER_CODE_CHOSEN = "error.apoContractManagerCodeChosen";

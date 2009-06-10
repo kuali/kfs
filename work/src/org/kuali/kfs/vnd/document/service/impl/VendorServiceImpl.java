@@ -97,8 +97,7 @@ public class VendorServiceImpl implements VendorService {
     public KualiDecimal getApoLimitFromContract(Integer contractId, String chart, String org) {
         LOG.debug("Entering getApoLimitFromContract with contractId:" + contractId + ", chart:" + chart + ", org:" + org);
 
-        // See if there is a contractOrg for this contract and look for the special case of APO limit in the contract orgs table,
-        // return the value found
+        // check for the special case of a contractOrg for this contract in the contract-orgs table
         if (ObjectUtils.isNotNull(contractId) && ObjectUtils.isNotNull(chart) && ObjectUtils.isNotNull(org)) {
             VendorContractOrganization exampleContractOrg = new VendorContractOrganization();
             exampleContractOrg.setVendorContractGeneratedIdentifier(contractId);
@@ -106,26 +105,29 @@ public class VendorServiceImpl implements VendorService {
             exampleContractOrg.setOrganizationCode(org);
             Map orgKeys = persistenceService.getPrimaryKeyFieldValues(exampleContractOrg);
             VendorContractOrganization contractOrg = (VendorContractOrganization) businessObjectService.findByPrimaryKey(VendorContractOrganization.class, orgKeys);
+            // if the contractOrg is found 
             if (ObjectUtils.isNotNull(contractOrg)) {
-                if (!contractOrg.isVendorContractExcludeIndicator()) { // It's not excluded.
+                // if the contractOrg is excluded, return the special value of the APO limit from the table                     
+                if (!contractOrg.isVendorContractExcludeIndicator()) {
                     return contractOrg.getVendorContractPurchaseOrderLimitAmount();
                 }
+                // otherwise return null, as if there's no contract
+                else return null;
             }
         }
 
-        // didn't search the table or not found in the table or  exclude indicator not set and contract exists, return the default APO limit in contract
+        // didn't search the contract-org table or not found in the table but contract exists, return the default APO limit in contract
         if (ObjectUtils.isNotNull(contractId)) {
             VendorContract exampleContract = new VendorContract();
             exampleContract.setVendorContractGeneratedIdentifier(contractId);
             Map contractKeys = persistenceService.getPrimaryKeyFieldValues(exampleContract);
             VendorContract contract = (VendorContract) businessObjectService.findByPrimaryKey(VendorContract.class, contractKeys);
-
             if (ObjectUtils.isNotNull(contract)) {
                 return contract.getOrganizationAutomaticPurchaseOrderLimit();
             }
         }
 
-        // otherwise no APO limit found
+        // otherwise no APO limit found from contract
         return null;
     }
 

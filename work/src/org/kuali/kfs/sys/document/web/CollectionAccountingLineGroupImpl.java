@@ -41,6 +41,7 @@ public class CollectionAccountingLineGroupImpl extends DefaultAccountingLineGrou
         String propName = getCollectionPropertyName();
         GroupErrorsRenderer errorRenderer = new GroupErrorsRenderer();
         List errors = errorRenderer.getErrorPropertyList(pageContext);
+        if ( errors == null ) return; 
         for (Iterator itr = errors.iterator(); itr.hasNext();) {
             String error = (String) itr.next();
             if (error.startsWith(propName)) {

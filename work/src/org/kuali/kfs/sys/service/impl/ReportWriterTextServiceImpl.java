@@ -164,11 +164,19 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
             this.writeFormattedMessageLine("%" + (padding + message.length()) + "s", message);
         }
     }
-
+    
     /**
      * @see org.kuali.kfs.sys.service.ReportWriterService#writeError(java.lang.Class, org.kuali.kfs.sys.Message)
      */
     public void writeError(BusinessObject businessObject, Message message) {
+        this.writeError(businessObject, message, true);
+    }
+
+    /**
+     * @param printBusinessObjectValues indicates whether the bo values should be printed before the message
+     * @see org.kuali.kfs.sys.service.ReportWriterService#writeError(java.lang.Class, org.kuali.kfs.sys.Message)
+     */
+    public void writeError(BusinessObject businessObject, Message message, boolean printBusinessObjectValues) {
         // Check if we need to write a new table header. We do this if it hasn't been written before or if the businessObject
         // changed
         if (newPage || businessObjectClass == null || !businessObjectClass.getName().equals(businessObject.getClass().getName())) {
@@ -191,9 +199,41 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
 
         // Print the values of the businessObject per formatting determined by writeErrorHeader
         List<Object> formatterArgs = new ArrayList<Object>();
-        formatterArgs.addAll(businessObjectReportHelper.getValues(businessObject));
-        formatterArgs.add(message.getMessage());
-        this.writeFormattedMessageLine(errorFormat, formatterArgs.toArray());
+        if (printBusinessObjectValues) {
+            formatterArgs.addAll(businessObjectReportHelper.getValues(businessObject));
+        }
+        else {
+            formatterArgs.addAll(businessObjectReportHelper.getBlankValues(businessObject));
+        }
+
+        // write rest of message on new line(s) if it was cut off
+        int maxMessageLength = Integer.parseInt(StringUtils.substringBefore(StringUtils.substringAfterLast(errorFormat, "%-"), "s"));
+        String messageToPrint = message.getMessage();
+
+        boolean firstMessageLine = true;
+        while (messageToPrint.length() > 0 && StringUtils.isNotBlank(messageToPrint)) {
+            if (!firstMessageLine) {
+                formatterArgs = new ArrayList<Object>();
+                formatterArgs.addAll(businessObjectReportHelper.getBlankValues(businessObject));
+            }
+            else {
+                firstMessageLine = false;
+            }
+
+            messageToPrint =  StringUtils.trim(messageToPrint);
+            String messageLine = messageToPrint;
+            if (messageLine.length() > maxMessageLength) {
+                messageLine = StringUtils.substring(messageLine, 0, maxMessageLength);
+                if (StringUtils.contains(messageLine, " ")) {
+                    messageLine = StringUtils.substringBeforeLast(messageLine, " ");
+                }
+            }
+            
+            formatterArgs.add(new Message(messageLine, message.getType()));
+            this.writeFormattedMessageLine(errorFormat, formatterArgs.toArray());
+   
+            messageToPrint = StringUtils.removeStart(messageToPrint, messageLine);
+        }
     }
 
     /**
@@ -206,19 +246,11 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
 
             if (i == 0) {
                 // First one has its values written
-                this.writeError(businessObject, message);
+                this.writeError(businessObject, message, true);
             }
             else {
-                // Any consecutive one only has message written, hence use padding
-
-                // Get business object formatter that will be used
-                BusinessObjectReportHelper businessObjectReportHelper = getBusinessObjectReportHelper(businessObject);
-
-                // Print the values of the businessObject per formatting determined by writeErrorHeader
-                List<Object> formatterArgs = new ArrayList<Object>();
-                formatterArgs.addAll(businessObjectReportHelper.getBlankValues(businessObject));
-                formatterArgs.add(message.getMessage());
-                this.writeFormattedMessageLine(errorFormat, formatterArgs.toArray());
+                // Any consecutive one only has message written
+                this.writeError(businessObject, message, false);
             }
 
             i++;

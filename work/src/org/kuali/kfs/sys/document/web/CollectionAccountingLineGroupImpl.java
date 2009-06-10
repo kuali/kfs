@@ -41,19 +41,20 @@ public class CollectionAccountingLineGroupImpl extends DefaultAccountingLineGrou
         String propName = getCollectionPropertyName();
         GroupErrorsRenderer errorRenderer = new GroupErrorsRenderer();
         List errors = errorRenderer.getErrorPropertyList(pageContext);
-        if ( errors == null ) return; 
-        for (Iterator itr = errors.iterator(); itr.hasNext();) {
-            String error = (String) itr.next();
-            if (error.startsWith(propName)) {
-                errorRenderer.setErrorKeyMatch(error);
-                errorRenderer.setColSpan(getWidthInCells());
-                errorRenderer.render(pageContext, parentTag);
-
-                moveListToMap(errorRenderer.getErrorsRendered(), getDisplayedErrors());
-                moveListToMap(errorRenderer.getWarningsRendered(), getDisplayedWarnings());
-                moveListToMap(errorRenderer.getInfoRendered(), getDisplayedInfo());
-
-                errorRenderer.clear();
+        if ( errors != null && !errors.isEmpty()) { 
+            for (Iterator itr = errors.iterator(); itr.hasNext();) {
+                String error = (String) itr.next();
+                if (error.startsWith(propName)) {
+                    errorRenderer.setErrorKeyMatch(error);
+                    errorRenderer.setColSpan(getWidthInCells());
+                    errorRenderer.render(pageContext, parentTag);
+    
+                    moveListToMap(errorRenderer.getErrorsRendered(), getDisplayedErrors());
+                    moveListToMap(errorRenderer.getWarningsRendered(), getDisplayedWarnings());
+                    moveListToMap(errorRenderer.getInfoRendered(), getDisplayedInfo());
+    
+                    errorRenderer.clear();
+                }
             }
         }
     }

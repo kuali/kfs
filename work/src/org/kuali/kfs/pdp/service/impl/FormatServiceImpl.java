@@ -435,6 +435,7 @@ public class FormatServiceImpl implements FormatService {
                         if (paymentInfo.noteLines.intValue() < maxNoteLines) {
                             KualiInteger checkNumber = paymentInfo.disbursementNumber;
                             paymentGroup.setDisbursementNbr(checkNumber);
+                            
                             // update payment info for new noteLines value
                             combinedChecksMap.put(paymentGroupKey, paymentInfo);
                         }
@@ -442,11 +443,14 @@ public class FormatServiceImpl implements FormatService {
                         else {
                             //remove old entry for this paymentGroupKey
                             combinedChecksMap.remove(paymentGroupKey);
+                            
                             // get a new check number and the paymentGroup noteLines
                             KualiInteger checkNumber = assignDisbursementNumber(campus, range, paymentGroup, postFormatProcessSummary);
                             int noteLines = paymentGroup.getNoteLines();
+                            
                             // create new payment info with these two
                             paymentInfo = new PaymentInfo(checkNumber, new KualiInteger(noteLines));
+                            
                             // add new entry in the map for this paymentGroupKey
                             combinedChecksMap.put(paymentGroupKey, paymentInfo);
 
@@ -457,8 +461,10 @@ public class FormatServiceImpl implements FormatService {
                         // get a new check number and the paymentGroup noteLines
                         KualiInteger checkNumber = assignDisbursementNumber(campus, range, paymentGroup, postFormatProcessSummary);
                         int noteLines = paymentGroup.getNoteLines();
+                        
                         // create new payment info with these two
                         PaymentInfo paymentInfo = new PaymentInfo(checkNumber, new KualiInteger(noteLines));
+                        
                         // add new entry in the map for this paymentGroupKey
                         combinedChecksMap.put(paymentGroupKey, paymentInfo);
                     }
@@ -481,9 +487,7 @@ public class FormatServiceImpl implements FormatService {
 
         // Update all the ranges
         LOG.debug("assignDisbursementNumbers() Save ranges");
-        int savedRangesCount = 0;
         for (DisbursementNumberRange element : disbursementRanges) {
-            savedRangesCount++;
             this.businessObjectService.save(element);
         }
     }

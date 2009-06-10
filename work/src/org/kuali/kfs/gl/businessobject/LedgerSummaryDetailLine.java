@@ -106,51 +106,55 @@ public class LedgerSummaryDetailLine extends LedgerBalanceTypeSummaryTotalLine {
      */
     public static Comparator<LedgerSummaryDetailLine> getStandardComparator() {
         return new Comparator<LedgerSummaryDetailLine>() {
+
             /**
              * Compares two NightlyOutPendingEntryLedgerSummaryDetailLine objects
              * 
-             * @param tweedleDee the first NightlyOutPendingEntryLedgerSummaryDetailLine object
-             * @param tweedleDum the second NightlyOutPendingEntryLedgerSummaryDetailLine other
+             * @param detail1 the first NightlyOutPendingEntryLedgerSummaryDetailLine object
+             * @param detail2 the second NightlyOutPendingEntryLedgerSummaryDetailLine other
              * @return the standard 0 for equals, greater than 0 for greater than, less than 0 for less than
              */
-            public int compare(LedgerSummaryDetailLine tweedleDee, LedgerSummaryDetailLine tweedleDum) {
-                if (shouldCompare(tweedleDee.getFinancialBalanceTypeCode(), tweedleDum.getFinancialBalanceTypeCode())) {
-                    return tweedleDee.getFinancialBalanceTypeCode().compareTo(tweedleDum.getFinancialBalanceTypeCode());
+            public int compare(LedgerSummaryDetailLine detail1, LedgerSummaryDetailLine detail2) {
+                int comp = 0;
+                comp = nullSafeCompare(detail1.getFinancialBalanceTypeCode(), detail2.getFinancialBalanceTypeCode());
+
+                if (comp == 0) {
+                    comp = nullSafeCompare(detail1.getFinancialSystemOriginationCode(), detail2.getFinancialSystemOriginationCode());
                 }
-                else if (shouldCompare(tweedleDee.getFinancialSystemOriginationCode(), tweedleDum.getFinancialSystemOriginationCode())) {
-                    return tweedleDee.getFinancialSystemOriginationCode().compareTo(tweedleDum.getFinancialSystemOriginationCode());
+
+                if (comp == 0) {
+                    comp = nullSafeCompare(detail1.getUniversityFiscalYear(), detail2.getUniversityFiscalYear());
                 }
-                else if (shouldCompare(tweedleDee.getUniversityFiscalYear(), tweedleDum.getUniversityFiscalYear())) {
-                    return tweedleDee.getUniversityFiscalYear().compareTo(tweedleDum.getUniversityFiscalYear());
+
+                if (comp == 0) {
+                    comp = nullSafeCompare(detail1.getUniversityAccountPeriodCode(), detail2.getUniversityAccountPeriodCode());
                 }
-                else if (shouldCompare(tweedleDee.getUniversityAccountPeriodCode(), tweedleDum.getUniversityAccountPeriodCode())) {
-                    return tweedleDee.getUniversityAccountPeriodCode().compareTo(tweedleDum.getUniversityAccountPeriodCode());
+
+                return comp;
+            }
+
+            /**
+             * Checks for nulls in the two comparables before calling the compare. If one is null and not the other, the null is
+             * considered less. If both are null they are considered equal.
+             * 
+             * @param o1 object to compare
+             * @param o2 object to compare o1 to
+             * @return -1 for less, 0 for equal, 1 for greater
+             */
+            protected int nullSafeCompare(Comparable o1, Comparable o2) {
+                if (o1 == null && o2 != null) {
+                    return -1;
                 }
-                else {
+
+                if (o1 != null && o2 == null) {
+                    return 1;
+                }
+
+                if (o1 == null && o2 == null) {
                     return 0;
                 }
-            }
 
-            /**
-             * Determines if it's safe to compare two Strings
-             * 
-             * @param s1 the first String we may compare
-             * @param s2 the second String we may compare
-             * @return true if comparison of these two Strings would be meaningful
-             */
-            protected boolean shouldCompare(String s1, String s2) {
-                return !StringUtils.isBlank(s1) && !StringUtils.isBlank(s2) && !s1.equals(s2);
-            }
-
-            /**
-             * Determine if it's safe to compare two Integers
-             * 
-             * @param i1 the first Integer we may compare
-             * @param i2 the second Integer we may compare
-             * @return true if comparison of the two Integers would be meaningful
-             */
-            protected boolean shouldCompare(Integer i1, Integer i2) {
-                return i1 != null && i2 != null && !i1.equals(i2);
+                return o1.compareTo(o2);
             }
         };
     }

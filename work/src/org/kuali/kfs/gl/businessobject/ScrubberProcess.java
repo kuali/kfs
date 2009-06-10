@@ -211,19 +211,24 @@ public class ScrubberProcess {
      */
     public void scrubGroupReportOnly(String fileName, String documentNumber) {
         LOG.debug("scrubGroupReportOnly() started");
-        this.inputFile = fileName;
+        String unsortedFile = fileName;
+        this.inputFile = fileName + ".sort";
         this.validFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         this.errorFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         this.expiredFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         runDate = calculateRunDate(dateTimeService.getCurrentDate());
         
+        BatchSortUtil.sortTextFileWithFields(unsortedFile, inputFile, new ScrubberSortComparator());
+        
         scrubEntries(true, documentNumber);
         
         // delete files
+        File deleteSortFile = new File(inputFile);
         File deleteValidFile = new File(validFile);
         File deleteErrorFile = new File(errorFile);
         File deleteExpiredFile = new File(expiredFile);
         try {
+            deleteSortFile.delete();
             deleteValidFile.delete();
             deleteErrorFile.delete();
             deleteExpiredFile.delete();

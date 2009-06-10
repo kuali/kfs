@@ -39,6 +39,7 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.OffsetDefinitionService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.ObjectHelper;
+import org.kuali.kfs.gl.batch.BatchSortUtil;
 import org.kuali.kfs.gl.batch.ScrubberStep;
 import org.kuali.kfs.gl.businessobject.DemergerReportData;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
@@ -50,6 +51,7 @@ import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.ScrubberReportData;
 import org.kuali.kfs.gl.service.ScrubberValidator;
 import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.module.ld.batch.LaborScrubberSortStep.LaborScrubberSortComparator;
 import org.kuali.kfs.module.ld.batch.service.LaborAccountingCycleCachingService;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
@@ -182,17 +184,22 @@ public class LaborScrubberProcess {
      * @param group
      */
     public void scrubGroupReportOnly(String fileName, String documentNumber) {
-        this.inputFile = fileName;
+        String unsortedFile = fileName;
+        this.inputFile = fileName + ".sort";
         this.validFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         this.errorFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         this.expiredFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
 
+        BatchSortUtil.sortTextFileWithFields(unsortedFile, inputFile, new LaborScrubberSortComparator());
+        
         scrubEntries(true, documentNumber);
 
+        File deleteSortFile = new File(inputFile);
         File deleteValidFile = new File(validFile);
         File deleteErrorFile = new File(errorFile);
         File deleteExpiredFile = new File(expiredFile);
         try {
+            deleteSortFile.delete();
             deleteValidFile.delete();
             deleteErrorFile.delete();
             deleteExpiredFile.delete();

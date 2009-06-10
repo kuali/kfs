@@ -80,7 +80,7 @@
   <bean id="YearEndDistributionOfIncomeAndExpense-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
 	  <property name="accountingLineView" ref="FinancialProcessing-SalesTax-accountingLineView"/>
 	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine"/>
-	  <property name="groupLabel" value="Income"/>
+	  <property name="groupLabel" value="From"/>
 	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.DistributionOfIncomeAndExpenseAccountingLineAuthorizer"/>
 	  <property name="importedLinePropertyPrefix" value="source"/>
 	  <property name="totals" ref="AccountingDocument-sourceGroupTotals"/>
@@ -92,7 +92,7 @@
 	<bean id="YearEndDistributionOfIncomeAndExpense-targetAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
 	  <property name="accountingLineView" ref="FinancialProcessing-SalesTax-accountingLineView"/>
 	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.TargetAccountingLine"/>
-	  <property name="groupLabel" value="Expense"/>
+	  <property name="groupLabel" value="To"/>
 	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer"/>
 	  <property name="importedLinePropertyPrefix" value="target"/>
 	  <property name="totals" ref="AccountingDocument-targetGroupTotals"/>

@@ -17,8 +17,16 @@
 <project name="kfs" default="dist-local" basedir=".">
 	<!-- run the help target to view usage instructions for public targets -->
 	
-	<target name="dist-local" if="is.local.build" depends="clean,filter-project,filter-local" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
+	<target name="dist-local" if="is.local.build" depends="clean,filter-project,filter-local,dist-local-kfs" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
+	</target>
+	
+	<target name="dist-local-kfs" if="is.local.build">
 		<copy file="${metainf.directory}/${context.file}" tofile="${appserver.localhost.dir}/${ant.project.name}-${build.environment}.xml" overwrite="true" />
+		<antcall target="dist-local-cas" />
+	</target>
+
+	<target name="dist-local-cas" unless="skip.local.cas.server">
+		<copy file="${metainf.directory}/${cas.context.file}" tofile="${appserver.localhost.dir}/${cas.context.name}.xml" overwrite="true" />
 	</target>
 
 	<target name="test-local" depends="dist-local,make-tests,test" description="Run all unit tests and format results"/>
@@ -59,6 +67,9 @@
 		<property name="rice.server.datasource.platform" value="${oracle.server.datasource.platform}" />
 		<property name="rice.server.datasource.url" value="${datasource.url}" />
 		<property name="rice.server.datasource.driver.class" value="${datasource.driver.class}" />
+		
+		<property name="cas.datasource.url" value="${datasource.url}" />
+		<property name="cas.datasource.driver.class" value="${datasource.driver.class}" />
 		
 		<condition property="appenders" value="INFO, LogFile, StdOut"><equals arg1="${is.local.build}" arg2="true" /></condition>
 		<property name="appenders" value="INFO, LogFile" />
@@ -105,6 +116,7 @@
 		<loadfile property="p6spy" srcfile="${build.project.directory}/${p6spy.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="web" srcfile="${build.project.directory}/${web.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="context" srcfile="${build.appserver.directory}/${context.file}"><filterchain><expandproperties/></filterchain></loadfile>
+		<loadfile property="cas.context" srcfile="${build.appserver.directory}/${cas.context.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="log4j" srcfile="${user.home}/${log4j.file}" failonerror="false"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="log4j" srcfile="${build.external.directory}/${log4j.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="security" srcfile="${build.external.directory}/${security.file}"><filterchain><expandproperties/></filterchain></loadfile>
@@ -180,6 +192,7 @@
 	<target name="clean-local-work" if="is.local.build" unless="dont.clean.local.work" depends="init-property-files">
 		<delete failonerror="false" includeemptydirs="true">
 			<fileset dir="${appserver.work.dir}" includes="${ant.project.name}-*/**" />
+			<fileset dir="${appserver.work.dir}" includes="${cas.context.name}/**" />
 		</delete>
 	</target>
 
@@ -207,6 +220,9 @@
 		</delete>
 		<delete failonerror="false">
 			<fileset dir="${appserver.localhost.dir}" includes="${ant.project.name}-*.xml" />
+		</delete>
+		<delete failonerror="false">
+			<fileset dir="${appserver.localhost.dir}" includes="${cas.context.name}.xml" />
 		</delete>
 		<delete failonerror="false">
 			<fileset dir="${appserver.deploy.dir}" includes="${ant.project.name}-*.war,${ant.project.name}-*/**" />
@@ -262,6 +278,7 @@
 		<echo file="${webinf.directory}/${web.file}" message="${web}" />
 		<mkdir dir="${metainf.directory}" />
 		<echo file="${metainf.directory}/${context.file}" message="${context}" />
+		<echo file="${metainf.directory}/${cas.context.file}" message="${cas.context}" />
 		<copy todir="${static.directory}">
 			<fileset dir="${build.project.directory}" includes="xsd/**/**" />
 			<filterset>

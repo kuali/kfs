@@ -100,5 +100,6 @@
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-api-1.0.0-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-impl-1.0.0-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/bcprov-jdk15-133.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/cas-client-core-3.1.6.jar"/>
 	<classpathentry kind="output" path="work/web-root/WEB-INF/classes"/>
 </classpath>

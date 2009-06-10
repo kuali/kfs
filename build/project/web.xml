@@ -1,83 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
-	<!-- ******************* CAS Context Parameters ********************* -->
+    <!--  FILTER DEFINITIONS -->
 
-	<!-- Authentication handler -->
-	<context-param>
-		<param-name>edu.yale.its.tp.cas.authHandler</param-name>
-		<param-value>org.kuali.kfs.sys.web.KualiPasswordHandler</param-value>
-	</context-param>
-
-	<!-- Whether only https urls should be allowed through -->
-	<context-param>
-		<param-name>org.kuali.cas.auth.requireHttps</param-name>
-		<param-value>${require.https}</param-value>
-	</context-param>
-
-	<!-- Timeout for granting tickets -->
-	<context-param>
-		<param-name>edu.yale.its.tp.cas.grantingTimeout</param-name>
-		<param-value>7200</param-value>
-	</context-param>
-
-	<!-- Timeout for service tickets -->
-	<context-param>
-		<param-name>edu.yale.its.tp.cas.serviceTimeout</param-name>
-		<param-value>300</param-value>
-	</context-param>
-
-	<!-- Timeout for login tickets -->
-	<context-param>
-		<param-name>edu.yale.its.tp.cas.loginTimeout</param-name>
-		<param-value>86400</param-value>
-	</context-param>
-
-	<!-- Service validation URL -->
-	<context-param>
-		<param-name>edu.yale.its.tp.cas.serviceValidate</param-name>
-		<param-value>/serviceValidate</param-value>
-	</context-param>
-
-	<!-- Login page URL -->
-	<context-param>
-		<param-name>edu.yale.its.tp.cas.loginForm</param-name>
-		<param-value>/cas/login.jsp</param-value>
-	</context-param>
-
-	<!-- Page URL for generic login success message -->
-	<context-param>
-		<param-name>edu.yale.its.tp.cas.genericSuccess</param-name>
-		<param-value>/cas/success.jsp</param-value>
-	</context-param>
-
-	<!-- Page URL for simple JavaScript-based redirection -->
-	<context-param>
-		<param-name>edu.yale.its.tp.cas.redirect</param-name>
-		<param-value>/cas/redirect.jsp</param-value>
-	</context-param>
-
-	<!-- Page URL for login success message when 'service' is specified -->
-	<context-param>
-		<param-name>edu.yale.its.tp.cas.serviceSuccess</param-name>
-		<param-value>/cas/goService.jsp</param-value>
-	</context-param>
-
-	<!-- Page URL for login success message + confirmation
-		when 'service' is specified -->
-	<context-param>
-		<param-name>edu.yale.its.tp.cas.confirmService</param-name>
-		<param-value>/cas/warnService.jsp</param-value>
-	</context-param>
-
-	<!-- Logout page URL -->
-	<context-param>
-		<param-name>edu.yale.its.tp.cas.logoutPage</param-name>
-		<param-value>/cas/logout.jsp</param-value>
-	</context-param>
-
-	<!-- ******************* END CAS Context Parameters ********************* -->
-
+    <filter>
+      <filter-name>CAS Authentication Filter</filter-name>
+      <filter-class>org.jasig.cas.client.authentication.AuthenticationFilter</filter-class>
+      <init-param>
+        <param-name>casServerLoginUrl</param-name>
+        <param-value>${cas.login.url}</param-value>
+      </init-param>
+      <init-param>
+        <param-name>serverName</param-name>
+        <param-value>${cas.kfs.server.name}</param-value>
+      </init-param>
+    </filter>
+    <filter>
+      <filter-name>CAS Validation Filter</filter-name>
+      <filter-class>org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter</filter-class>
+      <init-param>
+        <param-name>casServerUrlPrefix</param-name>
+        <param-value>${cas.url}</param-value>
+      </init-param>
+      <init-param>
+        <param-name>serverName</param-name>
+        <param-value>${cas.kfs.server.name}</param-value>
+      </init-param>
+      <!--
+      <init-param>
+        <param-name>redirectAfterValidation</param-name>
+        <param-value>true</param-value>
+      </init-param>
+      <init-param>
+        <param-name>useSession</param-name>
+        <param-value>true</param-value>
+      </init-param>
+       -->
+    </filter>
+    <filter>
+      <filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>
+      <filter-class>org.jasig.cas.client.util.HttpServletRequestWrapperFilter</filter-class>
+    </filter>
 
 	<filter>
 		<filter-name>SessionFilter</filter-name>
@@ -99,22 +62,9 @@
 		<filter-name>UserLoginFilter</filter-name>
 		<filter-class>org.kuali.rice.kew.web.UserLoginFilter</filter-class>
 	</filter>
-	<filter>
-		<filter-name>cas</filter-name>
-		<filter-class>org.kuali.rice.kns.web.filter.KualiCasFilter</filter-class>
-		<init-param>
-			<param-name>edu.yale.its.tp.cas.client.filter.loginUrl</param-name>
-			<param-value>${application.url}/${cas.application}/login</param-value>
-		</init-param>
-		<init-param>
-			<param-name>edu.yale.its.tp.cas.client.filter.validateUrl</param-name>
-			<param-value>${application.url}/${cas.application}/serviceValidate</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>cas</filter-name>
-		<servlet-name>action</servlet-name>
-	</filter-mapping>
+  
+    <!--  FILTER MAPPINGS  -->
+  
 	<filter-mapping>
 		<filter-name>SessionFilter</filter-name>
 		<url-pattern>/*</url-pattern>
@@ -127,11 +77,37 @@
 		<filter-name>SetResponseBufferSizeFilter</filter-name>
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
+
+    <filter-mapping>
+      <filter-name>CAS Authentication Filter</filter-name>
+      <servlet-name>action</servlet-name>
+    </filter-mapping>
+    <filter-mapping>
+      <filter-name>CAS Validation Filter</filter-name>
+      <servlet-name>action</servlet-name>
+    </filter-mapping>
+    <filter-mapping>
+      <filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>
+      <servlet-name>action</servlet-name>
+    </filter-mapping>
 	<filter-mapping>
 		<filter-name>UserLoginFilter</filter-name>
 		<servlet-name>action</servlet-name>
 	</filter-mapping>
+
 	<!-- protect the DWR servlet from unauthenticated access -->
+    <filter-mapping>
+      <filter-name>CAS Authentication Filter</filter-name>
+      <servlet-name>dwr-invoker</servlet-name>
+    </filter-mapping>
+    <filter-mapping>
+      <filter-name>CAS Validation Filter</filter-name>
+      <servlet-name>dwr-invoker</servlet-name>
+    </filter-mapping>
+    <filter-mapping>
+      <filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>
+      <servlet-name>dwr-invoker</servlet-name>
+    </filter-mapping>
 	<filter-mapping>
 		<filter-name>SessionFilter</filter-name>
 		<servlet-name>dwr-invoker</servlet-name>
@@ -141,59 +117,13 @@
 		<servlet-name>dwr-invoker</servlet-name>
 	</filter-mapping>
 
+    <!-- SERVLET CONTEXT LISTENERS -->
 
 	<listener>
 		<listener-class>org.kuali.kfs.sys.context.WebApplicationInitListener</listener-class>
 	</listener>
 
-	<!-- ******************* CAS Listeners ********************* -->
-
-	<!-- Sets up ticket caches -->
-	<listener>
-		<listener-class>edu.yale.its.tp.cas.servlet.CacheInit</listener-class>
-	</listener>
-
-	<!-- ******************* END CAS Listeners ********************* -->
-
-	<!-- ******************* CAS Servlets ********************* -->
-
-	<!-- Login -->
-	<servlet>
-		<servlet-name>Login</servlet-name>
-		<servlet-class>edu.yale.its.tp.cas.servlet.Login</servlet-class>
-	</servlet>
-
-	<!-- Logout -->
-	<servlet>
-		<servlet-name>Logout</servlet-name>
-		<servlet-class>edu.yale.its.tp.cas.servlet.Logout</servlet-class>
-	</servlet>
-
-	<!-- Legacy validation -->
-	<servlet>
-		<servlet-name>LegacyValidate</servlet-name>
-		<servlet-class>edu.yale.its.tp.cas.servlet.LegacyValidate</servlet-class>
-	</servlet>
-
-	<!-- Modern service validation -->
-	<servlet>
-		<servlet-name>ServiceValidate</servlet-name>
-		<servlet-class>edu.yale.its.tp.cas.servlet.ServiceValidate</servlet-class>
-	</servlet>
-
-	<!-- Proxy (PGT acquisition) -->
-	<servlet>
-		<servlet-name>Proxy</servlet-name>
-		<servlet-class>edu.yale.its.tp.cas.servlet.Proxy</servlet-class>
-	</servlet>
-
-	<!-- Modern proxy-service validation -->
-	<servlet>
-		<servlet-name>ProxyValidate</servlet-name>
-		<servlet-class>edu.yale.its.tp.cas.servlet.ProxyValidate</servlet-class>
-	</servlet>
-
-	<!-- ******************* END CAS Servlets ********************* -->
+    <!-- SERVLET DEFINITIONS -->
 
 	<servlet>
 		<servlet-name>action</servlet-name>
@@ -243,6 +173,7 @@
 		<servlet-class>org.kuali.rice.kew.edl.EDLServlet</servlet-class>
 	</servlet>
 
+    <!-- SERVLET MAPPINGS -->
 
 	<servlet-mapping>
 		<servlet-name>action</servlet-name>
@@ -252,36 +183,6 @@
 		<servlet-name>dwr-invoker</servlet-name>
 		<url-pattern>/dwr/*</url-pattern>
 	</servlet-mapping>
-
-	<!-- ******************* CAS Servlet Mappings ********************* -->
-
-	<!-- Servlet mappings to local URLs -->
-	<servlet-mapping>
-		<servlet-name>Login</servlet-name>
-		<url-pattern>/cas/login</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>Logout</servlet-name>
-		<url-pattern>/cas/logout</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>LegacyValidate</servlet-name>
-		<url-pattern>/cas/validate</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>ServiceValidate</servlet-name>
-		<url-pattern>/cas/serviceValidate</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>Proxy</servlet-name>
-		<url-pattern>/cas/proxy</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>ProxyValidate</servlet-name>
-		<url-pattern>/cas/proxyValidate</url-pattern>
-	</servlet-mapping>
-
-	<!-- ******************* END CAS Servlet Mappings ********************* -->
 
 	<!-- ******************* Embedded KEW Servlet Mappings ********************* -->
 

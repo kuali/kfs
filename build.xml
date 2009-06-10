@@ -25,7 +25,7 @@
 		<antcall target="dist-local-cas" />
 	</target>
 
-	<target name="dist-local-cas" unless="skip.local.cas.server">
+	<target name="dist-local-cas" if="deploy.local.cas.server">
 		<copy file="${metainf.directory}/${cas.context.file}" tofile="${appserver.localhost.dir}/${cas.context.name}.xml" overwrite="true" />
 	</target>
 

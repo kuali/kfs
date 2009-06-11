@@ -887,4 +887,12 @@ public class KFSKeyConstants {
     public static final String MESSAGE_ACCOUNTING_LINES_ERROR_SECTION_TITLE = "message.accountingLines.errorSectionTitle";
     public static final String MESSAGE_ACCOUNTING_LINES_WARNING_SECTION_TITLE = "message.accountingLines.warningSectionTitle";
     public static final String MESSAGE_ACCOUNTING_LINES_INFORMATION_SECTION_TITLE = "message.accountingLines.informationSectionTitle";
+    
+    public static final String MESSAGE_ACCOUNT_DERIVED_ROLE_PRINCIPAL_INACTIVATED_NOTIFICATION_SUBJECT = "message.accountDerivedRole.principalInactivated.notification.subject";
+    public static final String MESSAGE_ACCOUNT_DERIVED_ROLE_PRINCIPAL_INACTIVATED_FISCAL_OFFICER_NOTIFICATION = "message.accountDerivedRole.principalInactivated.fiscalOfficer.notification";
+    public static final String MESSAGE_ACCOUNT_DERIVED_ROLE_PRINCIPAL_INACTIVATED_ACCOUNT_SUPERVISOR_NOTIFICATION = "message.accountDerivedRole.principalInactivated.accountSupervisor.notification";
+    public static final String MESSAGE_ACCOUNT_DERIVED_ROLE_PRINCIPAL_INACTIVATED_FISCAL_OFFICER_PRIMARY_DELEGATE_NOTIFICATION = "message.accountDerivedRole.principalInactivated.fiscalOfficerPrimaryDelegate.notification";
+    public static final String MESSAGE_ACCOUNT_DERIVED_ROLE_PRINCIPAL_INACTIVATED_FISCAL_OFFICER_SECONARY_DELEGATE_NOTIFICATION = "message.accountDerivedRole.principalInactivated.fiscalOfficerSecondaryDelegate.notification";
+    public static final String MESSAGE_ACCOUNT_DERIVED_ROLE_PRINCIPAL_INACTIVATED_ACCOUNT_DELEGATE_INACTIVATED_INFORMATION = "message.accountDerivedRole.principalInactivated.accountDelegateInactivatedInformation";
+    public static final String MESSAGE_ACCOUNT_DERIVED_ROLE_PRINCIPAL_INACTIVATED_ACCOUNT_DELEGATE_BLOCKED_INACTIVATION_INFORMATION = "message.accountDerivedRole.principalInactivated.accountDelegateBlockedInactivationInformation";
 }

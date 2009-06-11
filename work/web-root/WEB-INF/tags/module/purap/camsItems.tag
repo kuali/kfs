@@ -100,7 +100,7 @@
     <%-- default to closed --%>
     <c:choose>
         <c:when test="${empty currentTab}">
-            <c:set var="isOpen" value="false" />
+            <c:set var="isOpen" value="true" />
         </c:when>
         <c:when test="${!empty currentTab}">
             <c:set var="isOpen" value="${currentTab == 'OPEN'}" />

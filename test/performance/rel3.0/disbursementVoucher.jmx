@@ -5165,7 +5165,7 @@
               </HeaderManager>
               <hashTree/>
             </hashTree>
-            <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/kew/Administration.do" enabled="true">
+            <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/kew/Administration.do" enabled="false">
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments">
                   <elementProp name="methodToCall" elementType="HTTPArgument">
@@ -5232,7 +5232,7 @@
               </HeaderManager>
               <hashTree/>
             </hashTree>
-            <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/kew/Backdoor.do" enabled="true">
+            <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/kew/Backdoor.do" enabled="false">
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments">
                   <elementProp name="methodToCall" elementType="HTTPArgument">
@@ -7021,7 +7021,7 @@
               </HeaderManager>
               <hashTree/>
             </hashTree>
-            <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/kew/Administration.do" enabled="true">
+            <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/kew/Administration.do" enabled="false">
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments">
                   <elementProp name="methodToCall" elementType="HTTPArgument">
@@ -7088,7 +7088,7 @@
               </HeaderManager>
               <hashTree/>
             </hashTree>
-            <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/kew/Backdoor.do" enabled="true">
+            <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/kew/Backdoor.do" enabled="false">
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments">
                   <elementProp name="methodToCall" elementType="HTTPArgument">

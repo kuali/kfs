@@ -203,5 +203,21 @@ public class ReadOnlyRenderer extends FieldRendererBase {
     public boolean renderQuickfinder() {
         return false;
     }
+
+    /**
+     * @see org.kuali.kfs.sys.document.web.renderers.FieldRendererBase#closeNoWrapSpan(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag)
+     */
+    @Override
+    public void closeNoWrapSpan(PageContext pageContext, Tag parentTag) throws JspException {
+        // do nothing - read onlys don't need "no wrap"
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.document.web.renderers.FieldRendererBase#openNoWrapSpan(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag)
+     */
+    @Override
+    public void openNoWrapSpan(PageContext pageContext, Tag parentTag) throws JspException {
+        // do nothing - read onlys don't need "no wrap"
+    }
     
 }

@@ -103,13 +103,13 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="relationships" >
       <list>
         <dd:relationship objectAttribute="accountFiscalOfficerUser">
-            <dd:primitiveAttribute source="accountFiscalOfficerSystemIdentifier" target="principalName" />
+            <dd:primitiveAttribute source="accountFiscalOfficerSystemIdentifier" target="principalId" />
         </dd:relationship>
         <dd:relationship objectAttribute="accountSupervisoryUser">
-            <dd:primitiveAttribute source="accountsSupervisorySystemsIdentifier" target="principalName" />
+            <dd:primitiveAttribute source="accountsSupervisorySystemsIdentifier" target="principalId" />
         </dd:relationship>
         <dd:relationship objectAttribute="accountManagerUser">
-            <dd:primitiveAttribute source="accountManagerSystemIdentifier" target="principalName" />
+            <dd:primitiveAttribute source="accountManagerSystemIdentifier" target="principalId" />
         </dd:relationship>
         <dd:relationship objectAttribute="accountGuideline">
             <dd:primitiveAttribute source="chartOfAccountsCode" target="chartOfAccountsCode" />

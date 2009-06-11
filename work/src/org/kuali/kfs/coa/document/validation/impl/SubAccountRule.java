@@ -43,15 +43,6 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
 
     private SubAccount oldSubAccount;
     private SubAccount newSubAccount;
-    private boolean cgAuthorized;
-
-    /**
-     * Constructs a SubAccountRule and pseudo-inject some services
-     */
-    public SubAccountRule() {
-        super();
-        setCgAuthorized(false);
-    }
 
     /**
      * This performs rules checks on document approve
@@ -191,11 +182,6 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
     protected boolean checkCgRules(MaintenanceDocument document) {
 
         boolean success = true;
-
-        // short circuit if this person isnt authorized for any CG fields
-        /*if (!getCgAuthorized()) {
-            return success;
-        }*/
 
         // short circuit if the parent account is NOT part of a CG fund group
         boolean a21SubAccountRefreshed = false;
@@ -340,12 +326,6 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         }
 
         boolean success = true;
-
-        // check required fields       
-        // success &= checkEmptyBOField("a21SubAccount.indirectCostRecoveryTypeCode", a21.getIndirectCostRecoveryTypeCode(), "ICR Type Code"); 
-        // success &= checkEmptyBOField("a21SubAccount.indirectCostRecoveryChartOfAccountsCode", a21.getIndirectCostRecoveryChartOfAccountsCode(), "ICR Chart of Accounts Code"); 
-        // success &= checkEmptyBOField("a21SubAccount.indirectCostRecoveryAccountNumber", a21.getIndirectCostRecoveryAccountNumber(), "ICR Account Number"); 
-        // success &= checkEmptyBOField("a21SubAccount.financialIcrSeriesIdentifier", a21.getFinancialIcrSeriesIdentifier(), "Financial ICR Series ID");
         
         // existence check for ICR Type Code
         if (StringUtils.isNotEmpty(a21.getIndirectCostRecoveryTypeCode())) {
@@ -510,14 +490,6 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
      */
     private String getDisplayName(String propertyName) {
         return getDdService().getAttributeLabel(SubAccount.class, propertyName);
-    }
-
-    protected void setCgAuthorized(boolean cgAuthorized) {
-        this.cgAuthorized = cgAuthorized;
-    }
-
-    protected boolean getCgAuthorized() {
-        return cgAuthorized;
     }
 
 }

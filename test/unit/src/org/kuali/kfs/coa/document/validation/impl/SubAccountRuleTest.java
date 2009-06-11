@@ -208,7 +208,6 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
         newSubAccount.getA21SubAccount().refresh();
         String fieldName = "a21SubAccount.subAccountTypeCode";
         rule = (SubAccountRule) setupMaintDocRule(newSubAccount, rule.getClass());
-        rule.setCgAuthorized(true);
 
         // confirm that there are no errors to begin with
         assertGlobalErrorMapEmpty();

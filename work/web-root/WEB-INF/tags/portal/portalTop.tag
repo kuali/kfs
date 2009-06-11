@@ -24,9 +24,9 @@
 	<link href="${cssFile}" rel="stylesheet" type="text/css" />
 </c:forEach>
 <c:forEach items="${fn:split(ConfigProperties.portal.javascript.files, ',')}" var="javascriptFile">
-	<script type="text/javascript" src="${ConfigProperties.application.url}/${javascriptFile}"></script>
+	<script language="JavaScript" type="text/javascript" src="${ConfigProperties.application.url}/${javascriptFile}"></script>
 </c:forEach>
-<script type="text/javascript">
+<script language="javascript" >
 if (top.location != self.location) {
 	top.location = self.location;
 }

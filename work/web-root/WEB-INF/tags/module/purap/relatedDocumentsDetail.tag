@@ -22,17 +22,48 @@
 <c:set var="isRequisition" value="${KualiForm.document.isReqsDoc}" />
 
 <logic:notEmpty name="KualiForm" property="${viewList}">
-	<logic:iterate id="view" name="KualiForm" property="${viewList}" indexId="viewCtr">	
+	<logic:iterate id="view" name="KualiForm" property="${viewList}" indexId="viewCtr">
+		<c:set var="documentTitle" value="${view.documentLabel}${view.documentIdentifierString}"/>
+		<c:set var="tabKey" value="${kfunc:generateTabKey(documentTitle)}" />
+		<c:set var="currentTab" value="${kfunc:getTabState(KualiForm, tabKey)}" />
+		
+		<%-- default to close --%>
+		<c:choose>
+			<c:when test="${empty currentTab}">
+				<c:set var="isOpen" value="false" />
+				<html:hidden property="tabStates(${tabKey})" value="CLOSE" />		
+			</c:when>
+			<c:when test="${!empty currentTab}">
+				<c:set var="isOpen" value="${currentTab == 'OPEN'}" />
+			</c:when>
+		</c:choose>
+	
 		<c:if test="${(empty limitByPoId) or (limitByPoId eq view.purchaseOrderIdentifier)}">
 			<c:choose>
 				<c:when test="${isRequisition}">
 		    		<h3>${view.documentLabel} - <a href="<c:out value="${view.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${view.documentIdentifierString}" /></a>
-		    			&nbsp;(Purchase Order - ${view.purchaseOrderIdentifier})</h3>
+		    			&nbsp;(Purchase Order - ${view.purchaseOrderIdentifier})
 		    	</c:when>
 		    	<c:otherwise>
-		    		<h3>${view.documentLabel} - <a href="<c:out value="${view.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${view.documentIdentifierString}" /></a></h3>
+		    		<h3>${view.documentLabel} - <a href="<c:out value="${view.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${view.documentIdentifierString}" /></a>
 		    	</c:otherwise>
 		    </c:choose>
+			<c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
+			<html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" alt="hide" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle"
+				onclick="javascript: return toggleTab(document, '${tabKey}'); " />
+			</c:if>
+			<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
+			<html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" alt="show" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle"
+				onclick="javascript: return toggleTab(document, '${tabKey}'); " />
+			</c:if>
+			</h3>
+            
+			<c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
+			<div style="display: block;" id="tab-${tabKey}-div">
+			</c:if>
+			<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}" >
+			<div style="display: none;" id="tab-${tabKey}-div">
+			</c:if>
 		    <table cellpadding="0" cellspacing="0" class="datatable" summary="Notes">
 		    	<c:if test="${!empty view.notes}">
 					<tr>
@@ -60,10 +91,12 @@
 			        </tr>
 				</c:if>	
 	    	</table>
+			</div>
 	    </c:if>
 	    <c:if test="${(not empty limitByPoId) and (limitByPoId eq view.purchaseOrderIdentifier)}">
 	    	<c:set var="viewShown" value="true"/>
 	    </c:if>
+		
 	</logic:iterate>
 	
 	<c:if test="${empty limitByPoId or viewShown}">
@@ -71,3 +104,5 @@
 		<br />
 	</c:if>
 </logic:notEmpty>
+
+

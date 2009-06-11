@@ -23,22 +23,60 @@
 
 <logic:notEmpty name="KualiForm" property="${groupList}">	   		
 	<logic:iterate id="group" name="KualiForm" property="${groupList}" indexId="groupCtr">
-	
+		<c:set var="documentTitle" value="${group.lineItemView.documentLabel}${group.lineItemView.documentIdentifierString}"/>
+			<c:set var="tabKey" value="${kfunc:generateTabKey(documentTitle)}" />
+			<c:set var="currentTab" value="${kfunc:getTabState(KualiForm, tabKey)}" />
+			<%-- default to close --%>
+			<c:choose>
+				<c:when test="${empty currentTab}">
+					<c:set var="isOpen" value="false" />
+					<html:hidden property="tabStates(${tabKey})" value="CLOSE" />		
+				</c:when>
+				<c:when test="${!empty currentTab}">
+					<c:set var="isOpen" value="${currentTab == 'OPEN'}" />
+				</c:when>
+			</c:choose>
 		<!--  Line Item Receiving View -->
 	    <c:choose>
 		<c:when test="${group.isLineItemViewCurrentDocument}">
-    	   	<h3><c:out value="${group.lineItemView.documentLabel}"/></h3>
+			
+    	   	<h3><c:out value="${group.lineItemView.documentLabel}"/> 
+			<c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
+				<html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" alt="hide" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle"
+							onclick="javascript: return toggleTab(document, '${tabKey}'); " />
+			</c:if>
+			<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
+				<html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" alt="show" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle"
+							onclick="javascript: return toggleTab(document, '${tabKey}'); " />
+			</c:if>
+			</h3>
 		</c:when>
 		<c:when test="${(empty limitByPoId) or (limitByPoId eq group.lineItemView.purchaseOrderIdentifier)}">
 			<c:choose>
 			<c:when test="${isRequisition}">
 		    	<h3>${group.lineItemView.documentLabel} - <a href="<c:out value="${group.lineItemView.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${group.lineItemView.documentIdentifierString}" /></a>
-		    		&nbsp;(Purchase Order - ${group.lineItemView.purchaseOrderIdentifier})</h3>
+		    		&nbsp;(Purchase Order - ${group.lineItemView.purchaseOrderIdentifier})
 		    </c:when>			
 			<c:otherwise>
-				<h3>${group.lineItemView.documentLabel} - <a href="<c:out value="${group.lineItemView.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${group.lineItemView.documentIdentifierString}" /></a></h3>
+				<h3>${group.lineItemView.documentLabel} - <a href="<c:out value="${group.lineItemView.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${group.lineItemView.documentIdentifierString}" /></a>
 			</c:otherwise>
 			</c:choose>
+			<c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
+				<html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" alt="hide" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle"
+							onclick="javascript: return toggleTab(document, '${tabKey}'); " />
+			</c:if>
+			<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
+				<html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" alt="show" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle"
+							onclick="javascript: return toggleTab(document, '${tabKey}'); " />
+			</c:if>
+			</h3>
+
+			<c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
+			<div style="display: block;" id="tab-${tabKey}-div">
+			</c:if>
+			<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}" >
+			<div style="display: none;" id="tab-${tabKey}-div">
+			</c:if>
 			
 			<!--  Line Item Receiving View notes -->
 			<table cellpadding="0" cellspacing="0" class="datatable" summary="Notes">
@@ -69,14 +107,49 @@
 			    	</tr>
 				</c:otherwise>	
 				</c:choose>
-		    </table>	
+		    </table>
+			</div>	
 		</c:when>
 		</c:choose>
-		
+		<c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
+			<div style="display: block;" id="tab-${tabKey}-div">
+			</c:if>
+			<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}" >
+			<div style="display: none;" id="tab-${tabKey}-div">
+		</c:if>
 		<!--  The associated Correction Receiving Views indented -->
 		<c:if test="${(empty limitByPoId) or (limitByPoId eq group.lineItemView.purchaseOrderIdentifier)}">
-			<c:forEach items="${group.correctionViews}" var="correctionView" varStatus="viewCtr">					
-				<h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${correctionView.documentLabel} - <a href="<c:out value="${correctionView.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${correctionView.documentIdentifierString}" /></a></h3>
+			<c:forEach items="${group.correctionViews}" var="correctionView" varStatus="viewCtr">
+				<c:set var="documentTitle" value="${correctionView.documentLabel}${correctionView.documentIdentifierString}"/>
+				<c:set var="tabKey" value="${kfunc:generateTabKey(documentTitle)}" />
+				<c:set var="currentTab" value="${kfunc:getTabState(KualiForm, tabKey)}" />
+				<%-- default to close --%>
+				<c:choose>
+					<c:when test="${empty currentTab}">
+						<c:set var="isOpen" value="false" />
+						<html:hidden property="tabStates(${tabKey})" value="CLOSE" />		
+					</c:when>
+					<c:when test="${!empty currentTab}">
+						<c:set var="isOpen" value="${currentTab == 'OPEN'}" />
+					</c:when>
+				</c:choose>
+					
+				<h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${correctionView.documentLabel} - <a href="<c:out value="${correctionView.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${correctionView.documentIdentifierString}" /></a>
+				<c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
+					<html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" alt="hide" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle"
+								onclick="javascript: return toggleTab(document, '${tabKey}'); " />
+				</c:if>
+				<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
+					<html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" alt="show" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle"
+								onclick="javascript: return toggleTab(document, '${tabKey}'); " />
+				</c:if>				
+				</h3>
+				<c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
+					<div style="display: block;" id="tab-${tabKey}-div">
+				</c:if>
+				<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}" >
+					<div style="display: none;" id="tab-${tabKey}-div">
+				</c:if>
 				
 				<!--  Correction Receiving View notes -->
 				<table cellpadding="0" cellspacing="0" class="datatable" summary="Notes">
@@ -107,11 +180,13 @@
 			    		</tr>
 					</c:otherwise>	
 					</c:choose>
-		    	</table>					
+		    	</table>
+			</div>					
 			</c:forEach>
 			
 			<c:set var="viewShown" value="true"/>
 		</c:if>
+		</div>
 
 	</logic:iterate>
 

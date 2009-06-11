@@ -876,12 +876,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         GlobalVariables.getErrorMap().clearErrorPath();
         GlobalVariables.getErrorMap().addToErrorPath(PurapConstants.CAPITAL_ASSET_TAB_ERRORS);
         boolean result = validatePurchasingItemCapitalAsset(recurringPaymentTypeCode, purchasingItem);
-
-        // Now that we're done with cams related validations, reset the error path to what it was previously.
         GlobalVariables.getErrorMap().clearErrorPath();
-        for (String path : previousErrorPath) {
-            GlobalVariables.getErrorMap().addToErrorPath(path);
-        }
         return result;
     }
 

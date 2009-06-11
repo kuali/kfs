@@ -668,6 +668,9 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
         if (GlobalVariables.getUserSession() != null && GlobalVariables.getUserSession().getPerson() != null && GlobalVariables.getUserSession().getPerson().getCampusCode() != null) {
             setCampusLocationCode(GlobalVariables.getUserSession().getPerson().getCampusCode());
         }
+        if ((getChecks() == null || getChecks().isEmpty()) && getTotalCheckAmount().equals(KualiDecimal.ZERO)) {
+            setCheckEntryMode(CashReceiptDocument.CHECK_ENTRY_DETAIL);
+        }
     }
 
     

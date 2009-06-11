@@ -354,5 +354,16 @@ public class CashReceiptAction extends KualiAccountingDocumentActionBase {
         cform.getBaselineChecks().clear();
         cform.getBaselineChecks().addAll(cform.getCashReceiptDocument().getChecks());
     }
+
+    /**
+     * Overridden to guarantee that form of copied document is set to whatever the entry mode of the document is
+     * @see org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase#copy(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward copy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = super.copy(mapping, form, request, response);
+        initDerivedCheckValues((CashReceiptForm)form);
+        return forward;
+    }
 }
 

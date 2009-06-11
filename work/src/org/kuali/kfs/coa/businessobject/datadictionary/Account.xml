@@ -104,12 +104,18 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <list>
         <dd:relationship objectAttribute="accountFiscalOfficerUser">
             <dd:primitiveAttribute source="accountFiscalOfficerSystemIdentifier" target="principalId" />
+            <dd:supportAttribute source="accountFiscalOfficerUser.principalName" target="principalName" identifier="true" />
+            <dd:supportAttribute source="accountFiscalOfficerUser.name" target="name" />           
         </dd:relationship>
         <dd:relationship objectAttribute="accountSupervisoryUser">
             <dd:primitiveAttribute source="accountsSupervisorySystemsIdentifier" target="principalId" />
+            <dd:supportAttribute source="accountSupervisoryUser.principalName" target="principalName" identifier="true" />
+            <dd:supportAttribute source="accountSupervisoryUser.name" target="name" />            
         </dd:relationship>
         <dd:relationship objectAttribute="accountManagerUser">
             <dd:primitiveAttribute source="accountManagerSystemIdentifier" target="principalId" />
+            <dd:supportAttribute source="accountManagerUser.principalName" target="principalName" identifier="true" />
+            <dd:supportAttribute source="accountManagerUser.name" target="name" />
         </dd:relationship>
         <dd:relationship objectAttribute="accountGuideline">
             <dd:primitiveAttribute source="chartOfAccountsCode" target="chartOfAccountsCode" />

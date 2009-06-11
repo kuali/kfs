@@ -51,6 +51,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.AdHocRoutePerson;
 import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.exception.InfrastructureException;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.NoteService;
@@ -253,6 +254,40 @@ public class ReceivingServiceImpl implements ReceivingService {
         }
 
         return inProcessDocNumbers;
+    }
+    
+    public List<LineItemReceivingDocument> getLineItemReceivingDocumentsInFinalForPurchaseOrder(Integer poId) {
+
+        List<String> finalDocNumbers = new ArrayList<String>();
+        List<String> docNumbers = receivingDao.getDocumentNumbersByPurchaseOrderId(poId);
+        KualiWorkflowDocument workflowDocument = null;
+
+        for (String docNumber : docNumbers) {
+
+            try {
+                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getPerson());
+            }
+            catch (WorkflowException we) {
+                throw new RuntimeException(we);
+            }
+
+            if (workflowDocument.stateIsFinal()) {
+                finalDocNumbers.add(docNumber);
+            }
+        }
+
+        if (finalDocNumbers.size() > 0) {
+            try {
+                return SpringContext.getBean(DocumentService.class).getDocumentsByListOfDocumentHeaderIds(LineItemReceivingDocument.class, finalDocNumbers);
+            }
+            catch (WorkflowException e) {
+                throw new InfrastructureException("unable to retrieve LineItemReceivingDocuments", e);
+            }
+        }
+        else {
+            return null;
+        }
+        
     }
     
     private boolean isCorrectionReceivingDocumentInProcessForPurchaseOrder(Integer poId, String receivingDocumentNumber) throws RuntimeException{

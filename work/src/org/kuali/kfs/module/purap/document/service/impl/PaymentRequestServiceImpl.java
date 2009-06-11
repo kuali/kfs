@@ -50,6 +50,7 @@ import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
@@ -1601,21 +1602,55 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#isAwaitingReceiving(java.lang.Integer)
      */
-    public boolean isAwaitingReceiving(Integer paymentRequestIdentifier){
+    public boolean isAwaitingReceiving(Integer paymentRequestIdentifier) {
         boolean isAwaitingReceiving = false;
-        
+
         PaymentRequestDocument preq = getPaymentRequestById(paymentRequestIdentifier);
-        boolean hasLineItemReceivingDocument = SpringContext.getBean(ReceivingService.class).isLineItemReceivingDocumentGeneratedForPurchaseOrder( preq.getPurchaseOrderDocument().getPurapDocumentIdentifier() );
-                
-        //if receiving document required and a receiving line document hasn't been generated
+        boolean hasLineItemReceivingDocument = SpringContext.getBean(ReceivingService.class).isLineItemReceivingDocumentGeneratedForPurchaseOrder(preq.getPurchaseOrderDocument().getPurapDocumentIdentifier());
+
+        // if receiving document required and a receiving line document hasn't been generated
         // still awaiting receiving
-        if(preq.isReceivingDocumentRequiredIndicator() && hasLineItemReceivingDocument == false){
-           isAwaitingReceiving = true; 
+        if (preq.isReceivingDocumentRequiredIndicator()) {
+            if (hasLineItemReceivingDocument == false) {
+
+                return true;
+            }
+            else {
+                // Have to check that the total quantity received is equal or greater than the total quantity invoiced + current
+                // preq
+                // quantity.
+                // Otherwise, isAwaitingReceiving is true.
+
+                List<LineItemReceivingDocument> lineItemReceivingDocuments = SpringContext.getBean(ReceivingService.class).getLineItemReceivingDocumentsInFinalForPurchaseOrder(preq.getPurchaseOrderDocument().getPurapDocumentIdentifier());
+
+                if (lineItemReceivingDocuments != null) {
+                    List<PurchaseOrderItem> poItems = preq.getPurchaseOrderDocument().getItems();
+
+                    for (PurchaseOrderItem poItem : poItems) {
+                        if (!poItem.getItemType().isAdditionalChargeIndicator()) {
+                            Integer lineNumber = poItem.getItemLineNumber();
+                            KualiDecimal totalReceived = getTotalItemReceivedGivenLineNumber(lineItemReceivingDocuments, lineNumber);
+                            KualiDecimal invoicedTotalQuantity = poItem.getItemInvoicedTotalQuantity();
+
+                            if (totalReceived.compareTo(invoicedTotalQuantity) < 0) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
         }
-        
         return isAwaitingReceiving;
     }
 
+    private KualiDecimal getTotalItemReceivedGivenLineNumber(List<LineItemReceivingDocument> lineItemReceivingDocuments, Integer lineNumber) {
+        KualiDecimal total = new KualiDecimal(0);
+        for (LineItemReceivingDocument lineItemReceivingDocument : lineItemReceivingDocuments) {
+            total = total.add(lineItemReceivingDocument.getItem(lineNumber-1).getItemReceivedTotalQuantity());
+        }
+        return total;
+    }
+    
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#allowBackpost(org.kuali.kfs.module.purap.document.PaymentRequestDocument)
      */

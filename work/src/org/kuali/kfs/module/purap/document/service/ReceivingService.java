@@ -162,6 +162,14 @@ public interface ReceivingService {
     public List<String> getLineItemReceivingDocumentNumbersInProcessForPurchaseOrder(Integer poId,String receivingDocumentNumber);
     
     /**
+     * Returns a list of line item receiving documents in final status for a purchase order 
+     * @param receivingDocumentNumber
+     * @return
+     */
+    public List<LineItemReceivingDocument> getLineItemReceivingDocumentsInFinalForPurchaseOrder(Integer poId);
+    
+    
+    /**
      * Returns a list of correction receiving documents in process for a purchase order 
      * @param poId
      * @param receivingDocumentNumber

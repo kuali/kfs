@@ -45,6 +45,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.AmountTotaling;
@@ -97,7 +98,8 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     
     // COLLECTIONS
     private List<PurApItem> items;
-
+    private List<SourceAccountingLine> accountsForRouting; // don't use me for anything else!!
+    
     // REFERENCE OBJECTS
     private Status status;
     private VendorDetail vendorDetail;
@@ -138,6 +140,31 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
             return glpe.getUniversityFiscalPeriodCode();
         }
         return null;
+    }
+
+    public List<SourceAccountingLine> getAccountsForRouting() {
+        if (accountsForRouting == null) {
+            populateAccountsForRouting();
+        }
+        return accountsForRouting;
+    }
+
+    public void setAccountsForRouting(List<SourceAccountingLine> accountsForRouting) {
+        this.accountsForRouting = accountsForRouting;
+    }
+
+    /**
+     * Makes sure that accounts for routing has been generated, so that other information can be retrieved from that
+     */
+    protected void populateAccountsForRouting() {
+        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);
+        setAccountsForRouting(SpringContext.getBean(PurapAccountingService.class).generateSummary(getItems()));
+        // need to refresh to get the references for the searchable attributes (ie status) and for invoking route levels (ie account
+        // objects) -hjs
+        refreshNonUpdateableReferences();
+        for (SourceAccountingLine sourceLine : getAccountsForRouting()) {
+            sourceLine.refreshNonUpdateableReferences();
+        }
     }
     
     public boolean isSensitive() {

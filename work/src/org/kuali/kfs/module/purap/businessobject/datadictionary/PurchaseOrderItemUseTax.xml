@@ -57,10 +57,6 @@
     	<property name="label" value="Tax Rate Code" />
     	<property name="shortLabel" value="Code" />
     	<property name="maxLength" value="10" />
-    	<property name="validationPattern" >
-      		<bean parent="AlphaValidationPattern"
-            	p:exactLength="10" />
-    	</property>
     	<property name="required" value="true" />
     	<property name="control" >
       		<bean parent="TextControlDefinition"

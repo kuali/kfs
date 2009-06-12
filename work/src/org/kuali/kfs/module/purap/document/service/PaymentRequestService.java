@@ -371,5 +371,7 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
      * @param document
      */
     public void removeIneligibleAdditionalCharges(PaymentRequestDocument document);
+    
+    public boolean encumberedItemExistsForInvoicing(PurchaseOrderDocument document);
 }
 

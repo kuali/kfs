@@ -21,7 +21,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.Check;
 import org.kuali.kfs.fp.businessobject.CheckBase;
 import org.kuali.kfs.fp.businessobject.CoinDetail;
@@ -31,7 +30,6 @@ import org.kuali.kfs.fp.document.validation.event.AddCheckEvent;
 import org.kuali.kfs.fp.document.validation.event.DeleteCheckEvent;
 import org.kuali.kfs.fp.document.validation.event.UpdateCheckEvent;
 import org.kuali.kfs.fp.service.CheckService;
-import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -81,10 +79,6 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     private CurrencyDetail currencyDetail;
     private CoinDetail coinDetail;
 
-    private transient CapitalAssetInformation capitalAssetInformation;
-    
-    private transient CapitalAssetManagementModuleService capitalAssetManagementModuleService;
-    
     
     /**
      * Initializes the array lists and line incrementers.
@@ -626,23 +620,6 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     }
 
     /**
-     * Gets the capitalAssetInformation attribute. 
-     * @return Returns the capitalAssetInformation.
-     */
-    public CapitalAssetInformation getCapitalAssetInformation() {
-        return ObjectUtils.isNull(capitalAssetInformation)? null : capitalAssetInformation;
-    }
-
-    /**
-     * Sets the capitalAssetInformation attribute value.
-     * @param capitalAssetInformation The capitalAssetInformation to set.
-     */
-    @Deprecated
-    public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
-        this.capitalAssetInformation = capitalAssetInformation;
-    }
-
-    /**
      * Gets the depositCashReceiptControl attribute. 
      * @return Returns the depositCashReceiptControl.
      */
@@ -673,12 +650,5 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
         }
     }
 
-    
-    private CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
-        if (capitalAssetManagementModuleService == null) {
-            capitalAssetManagementModuleService = SpringContext.getBean(CapitalAssetManagementModuleService.class);
-        }
-        return capitalAssetManagementModuleService;
-    }    
 }
 

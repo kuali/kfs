@@ -85,6 +85,8 @@
   						</list>
   					</property>
   				</bean>
+  				
+  				<bean parent="CapitialAssetInformation-capitalAssetInformationValidation" scope="prototype" />
 			</list>
 		</property>
 	</bean>

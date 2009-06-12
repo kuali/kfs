@@ -1036,6 +1036,8 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String INTERNAL_BILLING = "IB";
         public static final String CASH_RECEIPT = "CR";
         public static final String PROCUREMENT_CARD = "PCDO";        
+        public static final String ADVANCE_DEPOSIT = "AD";
+        public static final String CREDIT_CARD_RECEIPT = "CCR";
     }
     
     // financial document type names

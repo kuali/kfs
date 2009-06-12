@@ -19,7 +19,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.CreditCardDetail;
+import org.kuali.kfs.fp.document.CapitalAssetEditable;
 import org.kuali.kfs.fp.document.CreditCardReceiptDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
@@ -28,8 +30,10 @@ import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 /**
  * This class is the struts form for Credit Card Receipt document.
  */
-public class CreditCardReceiptForm extends KualiAccountingDocumentFormBase {
+public class CreditCardReceiptForm extends KualiAccountingDocumentFormBase implements CapitalAssetEditable {
     private CreditCardDetail newCreditCardReceipt;
+
+    private CapitalAssetInformation capitalAssetInformation;
 
     /**
      * Constructs a CreditCardReceiptForm.java.
@@ -38,6 +42,8 @@ public class CreditCardReceiptForm extends KualiAccountingDocumentFormBase {
         super();
         setDocument(new CreditCardReceiptDocument());
         setNewCreditCardReceipt(new CreditCardDetail());
+
+        this.setCapitalAssetInformation(new CapitalAssetInformation());
     }
 
     /**
@@ -80,5 +86,19 @@ public class CreditCardReceiptForm extends KualiAccountingDocumentFormBase {
             SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(detail);
         }
 
+    }
+
+    /**
+     * @see org.kuali.kfs.fp.document.CapitalAssetEditable#getCapitalAssetInformation()
+     */
+    public CapitalAssetInformation getCapitalAssetInformation() {
+        return capitalAssetInformation;
+    }
+
+    /**
+     * @see org.kuali.kfs.fp.document.CapitalAssetEditable#setCapitalAssetInformation(org.kuali.kfs.fp.businessobject.CapitalAssetInformation)
+     */
+    public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
+        this.capitalAssetInformation = capitalAssetInformation;
     }
 }

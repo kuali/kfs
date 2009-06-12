@@ -20,6 +20,8 @@ import java.util.Iterator;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.BasicFormatWithLineDescriptionAccountingLineParser;
+import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
+import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -36,10 +38,13 @@ import org.kuali.rice.kns.util.ObjectUtils;
 /**
  * Abstract class which defines behavior common to CashReceipt-like documents.
  */
-abstract public class CashReceiptFamilyBase extends AccountingDocumentBase {
+abstract public class CashReceiptFamilyBase extends AccountingDocumentBase implements CapitalAssetEditable{
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashReceiptFamilyBase.class);
     private String campusLocationCode; // TODO Needs to be an actual object - also need to clarify this
     private Date depositDate;
+
+    // capital asset
+    private transient CapitalAssetInformation capitalAssetInformation;
 
     /**
      * Constructs a CashReceiptFamilyBase
@@ -205,4 +210,24 @@ abstract public class CashReceiptFamilyBase extends AccountingDocumentBase {
             explicitEntry.setTransactionLedgerEntryDescription(accountingLineDescription);
         }
     }
+    
+
+    /**
+     * @see org.kuali.kfs.fp.document.CapitalAssetEditable#getCapitalAssetInformation()
+     */
+    public CapitalAssetInformation getCapitalAssetInformation() {
+        return ObjectUtils.isNull(capitalAssetInformation) ? null : capitalAssetInformation;
+    }
+
+    /**
+     * @see org.kuali.kfs.fp.document.CapitalAssetEditable#setCapitalAssetInformation(org.kuali.kfs.fp.businessobject.CapitalAssetInformation)
+     */
+    public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
+        this.capitalAssetInformation = capitalAssetInformation;
+    }
+    
+    
+    protected CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
+        return SpringContext.getBean(CapitalAssetManagementModuleService.class);
+    }  
 }

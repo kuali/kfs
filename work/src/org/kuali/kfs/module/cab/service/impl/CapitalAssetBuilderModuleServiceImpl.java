@@ -30,7 +30,9 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformationDetail;
+import org.kuali.kfs.fp.document.AdvanceDepositDocument;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
+import org.kuali.kfs.fp.document.CreditCardReceiptDocument;
 import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
 import org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument;
 import org.kuali.kfs.fp.document.InternalBillingDocument;
@@ -1870,6 +1872,10 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             documentTypeName = KFSConstants.FinancialDocumentTypeCodes.GENERAL_ERROR_CORRECTION;
         else if (accountingDocument instanceof CashReceiptDocument)
             documentTypeName = KFSConstants.FinancialDocumentTypeCodes.CASH_RECEIPT;
+        else if (accountingDocument instanceof AdvanceDepositDocument)
+            documentTypeName = KFSConstants.FinancialDocumentTypeCodes.ADVANCE_DEPOSIT;
+        else if (accountingDocument instanceof CreditCardReceiptDocument) 
+            documentTypeName = KFSConstants.FinancialDocumentTypeCodes.CREDIT_CARD_RECEIPT;
         else if (accountingDocument instanceof DistributionOfIncomeAndExpenseDocument)
             documentTypeName = KFSConstants.FinancialDocumentTypeCodes.DISTRIBUTION_OF_INCOME_AND_EXPENSE;
         else if (accountingDocument instanceof InternalBillingDocument)

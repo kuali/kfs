@@ -32,6 +32,8 @@ import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.web.format.CurrencyFormatter;
@@ -185,8 +187,8 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
     }
 
     /**
-     * This method defers to its parent's version of handleRouteStatusChange, but then, if the document is processed, it creates ElectronicPaymentClaim records
-     * for any qualifying accountings lines in the document.
+     * This method defers to its parent's version of handleRouteStatusChange, but then, if the document is processed, it creates
+     * ElectronicPaymentClaim records for any qualifying accountings lines in the document.
      * 
      * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#doRouteStatusChange()
      */
@@ -196,9 +198,9 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             SpringContext.getBean(ElectronicPaymentClaimingService.class).generateElectronicPaymentClaimRecords(this);
         }
+        this.getCapitalAssetManagementModuleService().deleteDocumentAssetLocks(this); 
     }
-    
-    
+
 
     /**
      * Overrides super to call super and then also add in the new list of advance deposits that have to be managed.
@@ -212,14 +214,13 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
 
         return managedLists;
     }
-    
+
     /**
      * Generates bank offset GLPEs for deposits, if enabled.
      * 
      * @param financialDocument submitted financial document
      * @param sequenceHelper helper class which will allows us to increment a reference without using an Integer
      * @return true if there are no issues creating GLPE's
-     * 
      * @see org.kuali.rice.kns.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.rice.kns.document.FinancialDocument,org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
@@ -252,5 +253,15 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
         }
 
         return success;
+    }
+
+    
+    @Override
+    public void postProcessSave(KualiDocumentEvent event) {
+        super.postProcessSave(event);
+        if (!(event instanceof SaveDocumentEvent)) { // don't lock until they route
+            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(this.getClass());
+            this.getCapitalAssetManagementModuleService().generateCapitalAssetLock(this,documentTypeName);
+        }        
     }
 }

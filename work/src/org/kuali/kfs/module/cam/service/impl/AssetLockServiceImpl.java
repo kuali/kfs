@@ -53,6 +53,8 @@ public class AssetLockServiceImpl implements AssetLockService {
     private static final Map<String, String> FINANCIAL_DOC_TYPE_MAP = new HashMap<String, String>();
     static {
         FINANCIAL_DOC_TYPE_MAP.put(KFSConstants.FinancialDocumentTypeCodes.CASH_RECEIPT, KFSConstants.FinancialDocumentTypeCodes.CASH_RECEIPT);
+        FINANCIAL_DOC_TYPE_MAP.put(KFSConstants.FinancialDocumentTypeCodes.ADVANCE_DEPOSIT, KFSConstants.FinancialDocumentTypeCodes.ADVANCE_DEPOSIT);
+        FINANCIAL_DOC_TYPE_MAP.put(KFSConstants.FinancialDocumentTypeCodes.CREDIT_CARD_RECEIPT, KFSConstants.FinancialDocumentTypeCodes.CREDIT_CARD_RECEIPT);
         FINANCIAL_DOC_TYPE_MAP.put(KFSConstants.FinancialDocumentTypeCodes.DISTRIBUTION_OF_INCOME_AND_EXPENSE, KFSConstants.FinancialDocumentTypeCodes.DISTRIBUTION_OF_INCOME_AND_EXPENSE);
         FINANCIAL_DOC_TYPE_MAP.put(KFSConstants.FinancialDocumentTypeCodes.GENERAL_ERROR_CORRECTION, KFSConstants.FinancialDocumentTypeCodes.GENERAL_ERROR_CORRECTION);
         FINANCIAL_DOC_TYPE_MAP.put(KFSConstants.FinancialDocumentTypeCodes.INTERNAL_BILLING, KFSConstants.FinancialDocumentTypeCodes.INTERNAL_BILLING);

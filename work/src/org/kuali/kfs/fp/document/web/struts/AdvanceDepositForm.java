@@ -20,7 +20,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.kfs.fp.businessobject.AdvanceDepositDetail;
+import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.document.AdvanceDepositDocument;
+import org.kuali.kfs.fp.document.CapitalAssetEditable;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
@@ -28,20 +30,24 @@ import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 /**
  * This class is the struts form for Advance Deposit document.
  */
-public class AdvanceDepositForm extends KualiAccountingDocumentFormBase {
+public class AdvanceDepositForm extends KualiAccountingDocumentFormBase implements CapitalAssetEditable {
     private AdvanceDepositDetail newAdvanceDeposit;
+
+    private CapitalAssetInformation capitalAssetInformation;
 
     /**
      * Constructs a AdvanceDepositForm.java.
      */
     public AdvanceDepositForm() {
         super();
-        
+
         setDocument(new AdvanceDepositDocument());
-        
+
         AdvanceDepositDetail advanceDepositDetail = new AdvanceDepositDetail();
         advanceDepositDetail.setDefautBankCode();
         setNewAdvanceDeposit(advanceDepositDetail);
+
+        this.setCapitalAssetInformation(new CapitalAssetInformation());
     }
 
     /**
@@ -83,5 +89,19 @@ public class AdvanceDepositForm extends KualiAccountingDocumentFormBase {
         for (AdvanceDepositDetail detail : advancedDeposits) {
             SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(detail);
         }
+    }
+
+    /**
+     * @see org.kuali.kfs.fp.document.CapitalAssetEditable#getCapitalAssetInformation()
+     */
+    public CapitalAssetInformation getCapitalAssetInformation() {
+        return capitalAssetInformation;
+    }
+
+    /**
+     * @see org.kuali.kfs.fp.document.CapitalAssetEditable#setCapitalAssetInformation(org.kuali.kfs.fp.businessobject.CapitalAssetInformation)
+     */
+    public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
+        this.capitalAssetInformation = capitalAssetInformation;
     }
 }

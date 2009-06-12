@@ -50,7 +50,6 @@ public class ReceivingThreshold extends PersistableBusinessObjectBase {
     private Organization organization;
     private VendorDetail vendorDetail;
     private CommodityCode commodityCode;
-    private VendorDetail tempVendorDetail;
     
     public ReceivingThreshold(){
     }
@@ -194,25 +193,10 @@ public class ReceivingThreshold extends PersistableBusinessObjectBase {
     }
 
     public String getVendorNumber() {
-        // using the code from the VendorDetail to generate the vendor number
-        if (tempVendorDetail == null){
-            tempVendorDetail = new VendorDetail();
-        }
-        
+        VendorDetail tempVendorDetail = new VendorDetail();
         tempVendorDetail.setVendorHeaderGeneratedIdentifier(vendorHeaderGeneratedIdentifier);
         tempVendorDetail.setVendorDetailAssignedIdentifier(vendorDetailAssignedIdentifier);
         return tempVendorDetail.getVendorNumber();
-    }
-
-    public void setVendorNumber(String vendorNumber) {
-        // using the code from the VendorDetail to set the 2 component fields of the vendor number
-        if (tempVendorDetail == null){
-            tempVendorDetail = new VendorDetail();
-        }
-        
-        tempVendorDetail.setVendorNumber(vendorNumber);
-        setVendorHeaderGeneratedIdentifier(tempVendorDetail.getVendorHeaderGeneratedIdentifier());
-        setVendorDetailAssignedIdentifier(tempVendorDetail.getVendorDetailAssignedIdentifier());
     }
 
     public Integer getVendorDetailAssignedIdentifier() {

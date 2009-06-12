@@ -185,6 +185,8 @@
               <bean parent="FieldDefinition"
                     p:attributeName="vendorDetailAssignedIdentifier" />
               <bean parent="FieldDefinition"
+                    p:attributeName="vendorNumber" />      
+              <bean parent="FieldDefinition"
                     p:attributeName="active" />
             </list>
           </property>
@@ -222,6 +224,10 @@
                 p:attributeName="financialObjectCode" />
          <bean parent="FieldDefinition"
                 p:attributeName="organizationCode" />
+         <bean parent="FieldDefinition"
+                p:attributeName="vendorHeaderGeneratedIdentifier" />
+         <bean parent="FieldDefinition"
+                p:attributeName="vendorDetailAssignedIdentifier" />
          <bean parent="FieldDefinition"
                 p:attributeName="vendorNumber" />
          <bean parent="FieldDefinition"

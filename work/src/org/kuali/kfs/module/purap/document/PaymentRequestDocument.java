@@ -569,17 +569,22 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         this.setPaymentRequestPayDate(SpringContext.getBean(PaymentRequestService.class).calculatePayDate(this.getInvoiceDate(), this.getVendorPaymentTerms()));
 
         AccountsPayableService accountsPayableService = SpringContext.getBean(AccountsPayableService.class);
-        for (PurchaseOrderItem poi : (List<PurchaseOrderItem>) po.getItems()) {
-            // check to make sure it's eligible for payment (i.e. active and has encumbrance available
-            if (getDocumentSpecificService().poItemEligibleForAp(this, poi)) {
-                PaymentRequestItem paymentRequestItem = new PaymentRequestItem(poi, this, expiredOrClosedAccountList);
-                this.getItems().add(paymentRequestItem);
-                PurchasingCapitalAssetItem purchasingCAMSItem = po.getPurchasingCapitalAssetItemByItemIdentifier(poi.getItemIdentifier());
-                if (purchasingCAMSItem != null) {
-                    paymentRequestItem.setCapitalAssetTransactionTypeCode(purchasingCAMSItem.getCapitalAssetTransactionTypeCode());
+        
+        if(SpringContext.getBean(PaymentRequestService.class).encumberedItemExistsForInvoicing(po))
+        {
+            for (PurchaseOrderItem poi : (List<PurchaseOrderItem>) po.getItems()) {
+                // check to make sure it's eligible for payment (i.e. active and has encumbrance available
+                if (getDocumentSpecificService().poItemEligibleForAp(this, poi)) {
+                    PaymentRequestItem paymentRequestItem = new PaymentRequestItem(poi, this, expiredOrClosedAccountList);
+                    this.getItems().add(paymentRequestItem);
+                    PurchasingCapitalAssetItem purchasingCAMSItem = po.getPurchasingCapitalAssetItemByItemIdentifier(poi.getItemIdentifier());
+                    if (purchasingCAMSItem != null) {
+                        paymentRequestItem.setCapitalAssetTransactionTypeCode(purchasingCAMSItem.getCapitalAssetTransactionTypeCode());
+                    }
                 }
             }
         }
+        
         // add missing below the line
         SpringContext.getBean(PurapService.class).addBelowLineItems(this);
         this.setAccountsPayablePurchasingDocumentLinkIdentifier(po.getAccountsPayablePurchasingDocumentLinkIdentifier());

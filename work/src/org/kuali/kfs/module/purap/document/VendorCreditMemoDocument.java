@@ -256,6 +256,10 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
         else if (NodeDetailEnum.ACCOUNTS_PAYABLE_REVIEW.getName().equals(oldNodeName)) {
             setAccountsPayableApprovalTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
         }
+        // if we've hit Account node then reopen po
+        else if ("Account".equals(newNodeName) && this.isReopenPurchaseOrderIndicator()) {
+            SpringContext.getBean(PurapService.class).performLogicForCloseReopenPO(this);
+        }        
         return true;
     }
 

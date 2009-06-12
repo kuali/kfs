@@ -41,7 +41,7 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
-
+import org.kuali.kfs.module.ld.document.BenefitExpenseTransferDocument;
 /**
  * check to ensure totals of accounting lines in source and target sections match by pay FY + pay period
  * 
@@ -136,6 +136,11 @@ public class LaborExpenseTransferValidTransferAmountValidation extends GenericVa
         fieldValues.put(KFSPropertyConstants.EMPLID, accountingLine.getEmplid());
         fieldValues.put(KFSPropertyConstants.POSITION_NUMBER, accountingLine.getPositionNumber());
 
+        Document documentForValidation = getDocumentForValidation();    
+        if (documentForValidation instanceof BenefitExpenseTransferDocument) {
+            fieldValues.remove(KFSPropertyConstants.EMPLID);
+            fieldValues.remove(KFSPropertyConstants.POSITION_NUMBER);            
+        }
         return fieldValues;
     }
     

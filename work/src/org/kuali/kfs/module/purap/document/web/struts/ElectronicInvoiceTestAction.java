@@ -176,13 +176,23 @@ public class ElectronicInvoiceTestAction extends KualiAction {
                 "              <InvoicePartner>\n" +
                                getContactXMLChunk("billTo", po) +
                 "              </InvoicePartner>\n" +
-                //"              <InvoicePartner>\n" +
-                //"                  <Contact addressID=\"" + RandomUtils.nextInt() + "\" role=\"remitTo\">\n" +
-                //"                      <Name xml:lang=\"en\">\n" +
-               // "                          " + po.getVendorName() + "\n" +
-               // "                      </Name>\n" +
-               // "                  </Contact>\n" +
-                //"              </InvoicePartner>\n" +
+                "              <InvoicePartner>\n" +
+                "                  <Contact addressID=\"" + RandomUtils.nextInt() + "\" role=\"remitTo\"> <!-- Vendor address -->\n" + 
+                "                      <Name xml:lang=\"en\">\n" +
+                "                          " + po.getVendorName() + "\n" +
+                "                      </Name>\n" +
+                "                      <PostalAddress>\n" +
+                "                          <Street>" + StringUtils.defaultString(po.getVendorLine1Address()) + "</Street>\n" +
+                "                          <Street>" + StringUtils.defaultString(po.getVendorLine2Address()) + "</Street>\n" +
+                "                          <City>" + StringUtils.defaultString(po.getVendorCityName()) + "</City>\n" +
+                "                          <State>" + StringUtils.defaultString(po.getVendorStateCode()) + "</State>\n" +
+                "                          <PostalCode>" + StringUtils.defaultString(po.getVendorPostalCode()) + "</PostalCode>\n" +
+                "                          <Country isoCountryCode=\"" + StringUtils.defaultString(po.getVendorCountryCode()) + "\">\n" +
+                "                              " + StringUtils.defaultString(po.getVendorCountry().getPostalCountryName()) + "\n" +
+                "                          </Country>\n" +
+                "                      </PostalAddress>\n" +
+                "                  </Contact>\n" +
+                "              </InvoicePartner>\n" +
                                 getDeliveryAddressXMLChunk("shipTo",po) +
                                 getPaymentTermXML(po) +
                 "          </InvoiceDetailRequestHeader>\n" +

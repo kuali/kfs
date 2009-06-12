@@ -1173,6 +1173,9 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
         customCalculate(purDoc);
         
+        PurchasingFormBase formBase = (PurchasingFormBase)form;
+        formBase.setInitialZipCode(purDoc.getDeliveryPostalCode());
+        
         return super.calculate(mapping, form, request, response);
     }
 

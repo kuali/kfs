@@ -57,7 +57,7 @@ public class PaymentRequestPurchaseOrderIdValidation extends GenericValidation {
         }
         else {
             // Verify that there exists at least 1 item left to be invoiced
-            valid &= encumberedItemExistsForInvoicing(purchaseOrderDocument);
+            //valid &= encumberedItemExistsForInvoicing(purchaseOrderDocument);
         }
         GlobalVariables.getErrorMap().clearErrorPath();
         return valid;

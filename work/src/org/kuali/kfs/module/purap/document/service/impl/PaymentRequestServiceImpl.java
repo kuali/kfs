@@ -1702,13 +1702,13 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         }
         else {
             // Verify that there exists at least 1 item left to be invoiced
-            valid &= encumberedItemExistsForInvoicing(purchaseOrderDocument);
+            //valid &= encumberedItemExistsForInvoicing(purchaseOrderDocument);
         }
         
         return valid;
     }
     
-    private boolean encumberedItemExistsForInvoicing(PurchaseOrderDocument document) {
+    public boolean encumberedItemExistsForInvoicing(PurchaseOrderDocument document) {
         boolean zeroDollar = true;
         GlobalVariables.getErrorMap().clearErrorPath();
         GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
@@ -1729,11 +1729,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                     break;
                 }
             }
-        }
-        if (zeroDollar) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_NO_ITEMS_TO_INVOICE);
-        }
-        GlobalVariables.getErrorMap().clearErrorPath();
+        }        
+        
         return !zeroDollar;
     }
     

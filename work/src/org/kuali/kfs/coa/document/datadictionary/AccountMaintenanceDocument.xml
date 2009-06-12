@@ -204,7 +204,7 @@
     				</property>
     				<property name="documentValues">
     					<list>
-    						<value>newMaintainableObject.businessObject.accountFiscalOfficerSystemIdentifier</value>
+    						<value>newMaintainableObject.businessObject.accountFiscalOfficerUser.principalName</value>
     					</list>
     				</property>
     			</bean>
@@ -217,7 +217,7 @@
     				</property>
     				<property name="documentValues">
     					<list>
-    						<value>newMaintainableObject.businessObject.accountsSupervisorySystemsIdentifier</value>
+    						<value>newMaintainableObject.businessObject.accountsSupervisoryUser.principalName</value>
     					</list>
     				</property>
     			</bean>
@@ -230,7 +230,7 @@
     				</property>
     				<property name="documentValues">
     					<list>
-    						<value>newMaintainableObject.businessObject.accountManagerSystemIdentifier</value>
+    						<value>newMaintainableObject.businessObject.accountManagerUser.principalName</value>
     					</list>
     				</property>
     			</bean>
@@ -279,7 +279,7 @@
    	<bean id="AccountMaintenanceDocument-DocumentValuePathGroup-AccountOfficersAndAccount" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
 		<property name="documentValues">
 	   		<list>
-	   			<value>newMaintainableObject.businessObject.accountFiscalOfficerSystemIdentifier</value>
+	   			<value>newMaintainableObject.businessObject.accountFiscalOfficerUser.principalName</value>
 	   			<value>newMaintainableObject.routingAccountsSupervisorySystemsIdentifier</value>
 	   			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
 	   			<value>newMaintainableObject.businessObject.accountNumber</value>

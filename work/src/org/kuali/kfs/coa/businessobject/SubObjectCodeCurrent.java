@@ -15,9 +15,11 @@
  */
 package org.kuali.kfs.coa.businessobject;
 
+import org.kuali.rice.kns.bo.Inactivateable;
+
 /**
  * This is for ojb only to map to the object code view. Should not be used by application code.
  */
-public class SubObjectCodeCurrent extends SubObjectCode {
+public class SubObjectCodeCurrent extends SubObjectCode implements Inactivateable {
 
 }

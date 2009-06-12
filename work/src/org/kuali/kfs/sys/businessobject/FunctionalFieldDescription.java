@@ -20,9 +20,10 @@ import java.util.LinkedHashMap;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.KfsBusinessObjectMetaDataService;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-public class FunctionalFieldDescription extends PersistableBusinessObjectBase {
+public class FunctionalFieldDescription extends PersistableBusinessObjectBase implements Inactivateable {
     private String namespaceCode;
     private String componentClass;
     private String propertyName;

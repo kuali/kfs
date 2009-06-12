@@ -16,14 +16,14 @@
 package org.kuali.kfs.coa.businessobject;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.KualiCodeBase;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kns.bo.Inactivateable;
+import org.kuali.rice.kns.bo.KualiCodeBase;
 
 /**
  * 
  */
-public class ProjectCode extends KualiCodeBase {
+public class ProjectCode extends KualiCodeBase implements Inactivateable {
 
     private static final long serialVersionUID = 4529316062843227897L;
 

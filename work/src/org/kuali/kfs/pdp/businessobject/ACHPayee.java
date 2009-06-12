@@ -18,9 +18,10 @@ package org.kuali.kfs.pdp.businessobject;
 import org.kuali.kfs.fp.businessobject.DisbursementPayee;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.KualiCodeService;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.KualiCode;
 
-public class ACHPayee extends DisbursementPayee {
+public class ACHPayee extends DisbursementPayee implements Inactivateable {
     private String entityId;
 
     public ACHPayee() {

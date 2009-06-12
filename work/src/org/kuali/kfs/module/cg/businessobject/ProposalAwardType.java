@@ -18,12 +18,13 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * The type of {@link Award} associated with a {@link Proposal} instance.
  */
-public class ProposalAwardType extends PersistableBusinessObjectBase {
+public class ProposalAwardType extends PersistableBusinessObjectBase implements Inactivateable {
 
     private String proposalAwardTypeCode;
     private String proposalAwardTypeDescription;

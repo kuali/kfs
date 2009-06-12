@@ -22,10 +22,11 @@ import java.util.List;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCodeCurrent;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.TypedArrayList;
 
-public class TaxRegion extends PersistableBusinessObjectBase {
+public class TaxRegion extends PersistableBusinessObjectBase implements Inactivateable {
 
     private String taxRegionCode; // (e.g., state code or district code)
     private String taxRegionName; // (e.g., state name or tax district name)

@@ -17,7 +17,6 @@ package org.kuali.kfs.coa.businessobject.options;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.OrganizationType;
@@ -45,16 +44,22 @@ public class OrgTypeValuesFinder extends KeyValuesBase {
     public List getKeyValues() {
 
         // get a list of all OrgTypes
-        List<OrganizationType> orgTypes = (List<OrganizationType>) SpringContext.getBean(KeyValuesService.class).findAll(OrganizationType.class);
+        List<OrganizationType> codes = (List<OrganizationType>) SpringContext.getBean(KeyValuesService.class).findAll(OrganizationType.class);
+        // copy the list of codes before sorting, since we can't modify the results from this method
+        if ( codes == null ) {
+            codes = new ArrayList<OrganizationType>(0);
+        } else {
+            codes = new ArrayList<OrganizationType>( codes );
+        }
 
         // sort using comparator.
-        Collections.sort(orgTypes, new OrgTypeComparator());
+        Collections.sort(codes, new OrgTypeComparator());
 
         // create a new list (code, descriptive-name)
         List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
         labels.add(new KeyLabelPair("", "")); // blank first entry
 
-        for (OrganizationType orgType : orgTypes) {
+        for (OrganizationType orgType : codes) {
             if(orgType.isActive()) {
                 labels.add(new KeyLabelPair(orgType.getOrganizationTypeCode(), orgType.getOrganizationTypeCode() + " - " + orgType.getOrganizationTypeName()));
             }

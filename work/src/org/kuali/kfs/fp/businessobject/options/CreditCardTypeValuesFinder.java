@@ -17,7 +17,6 @@ package org.kuali.kfs.fp.businessobject.options;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.fp.businessobject.CreditCardType;
@@ -38,6 +37,12 @@ public class CreditCardTypeValuesFinder extends KeyValuesBase {
 
         // get a list of all CreditCardTypes
         List<CreditCardType> codes = (List<CreditCardType>) SpringContext.getBean(KeyValuesService.class).findAll(CreditCardType.class);
+        // copy the list of codes before sorting, since we can't modify the results from this method
+        if ( codes == null ) {
+            codes = new ArrayList<CreditCardType>(0);
+        } else {
+            codes = new ArrayList<CreditCardType>( codes );
+        }
 
         // sort using comparator
         Collections.sort(codes, new CreditCardTypeComparator());

@@ -17,7 +17,6 @@ package org.kuali.kfs.coa.businessobject.options;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.BudgetAggregationCode;
@@ -41,6 +40,12 @@ public class BudgetAggregationCodeValuesFinder extends KeyValuesBase {
 
         // get a list of all budget aggregations codes
         List<BudgetAggregationCode> budgetAggregationCodes = (List<BudgetAggregationCode>) SpringContext.getBean(KeyValuesService.class).findAll(BudgetAggregationCode.class);
+        // copy the list of codes before sorting, since we can't modify the results from this method
+        if ( budgetAggregationCodes == null ) {
+            budgetAggregationCodes = new ArrayList<BudgetAggregationCode>(0);
+        } else {
+            budgetAggregationCodes = new ArrayList<BudgetAggregationCode>( budgetAggregationCodes );
+        }
 
         // sort using comparator.
         Collections.sort(budgetAggregationCodes, new BudgetAggregationCodeComparator());

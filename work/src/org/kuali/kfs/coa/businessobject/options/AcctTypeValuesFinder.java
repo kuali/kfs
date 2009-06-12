@@ -37,10 +37,15 @@ public class AcctTypeValuesFinder extends KeyValuesBase {
      * 
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List getKeyValues() {
+    public List<KeyLabelPair> getKeyValues() {
 
         List<AccountType> codes = (List<AccountType>) SpringContext.getBean(KeyValuesService.class).findAll(AccountType.class);
-
+        // copy the list of codes before sorting, since we can't modify the results from this method
+        if ( codes == null ) {
+            codes = new ArrayList<AccountType>(0);
+        } else {
+            codes = new ArrayList<AccountType>( codes );
+        }
         // sort using comparator.
         Collections.sort(codes, new AccountTypeCodeComparator());
 

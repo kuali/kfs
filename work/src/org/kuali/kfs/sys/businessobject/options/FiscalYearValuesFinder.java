@@ -39,6 +39,12 @@ public class FiscalYearValuesFinder extends KeyValuesBase {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         FiscalYearComparator fiscalYearComparator = new FiscalYearComparator();
         List optionList = (List) boService.findAll(SystemOptions.class);
+        // copy the list of codes before sorting, since we can't modify the results from this method
+        if ( optionList == null ) {
+            optionList = new ArrayList(0);
+        } else {
+            optionList = new ArrayList( optionList );
+        }
         Collections.sort(optionList, fiscalYearComparator);
         List labels = new ArrayList();
         labels.add(new KeyLabelPair("", ""));

@@ -17,7 +17,6 @@ package org.kuali.kfs.coa.businessobject.options;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.MandatoryTransferEliminationCode;
@@ -40,15 +39,21 @@ public class MandatoryTransferEliminationCodeValuesFinder extends KeyValuesBase 
     public List getKeyValues() {
 
         // get a list of all Mandatory Transfer Elimination Codes
-        List<MandatoryTransferEliminationCode> mteCodes = (List<MandatoryTransferEliminationCode>) SpringContext.getBean(KeyValuesService.class).findAll(MandatoryTransferEliminationCode.class);
+        List<MandatoryTransferEliminationCode> codes = (List<MandatoryTransferEliminationCode>) SpringContext.getBean(KeyValuesService.class).findAll(MandatoryTransferEliminationCode.class);
+        // copy the list of codes before sorting, since we can't modify the results from this method
+        if ( codes == null ) {
+            codes = new ArrayList<MandatoryTransferEliminationCode>(0);
+        } else {
+            codes = new ArrayList<MandatoryTransferEliminationCode>( codes );
+        }
 
         // sort using comparator.
-        Collections.sort(mteCodes, new MandatoryTransferEliminationCodeComparator());
+        Collections.sort(codes, new MandatoryTransferEliminationCodeComparator());
 
         // create a new list (code, descriptive-name)
         List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
 
-        for (MandatoryTransferEliminationCode mteCode : mteCodes) {
+        for (MandatoryTransferEliminationCode mteCode : codes) {
             if(mteCode.isActive()) {
                 labels.add(new KeyLabelPair(mteCode.getCode(), mteCode.getCodeAndDescription()));
             }

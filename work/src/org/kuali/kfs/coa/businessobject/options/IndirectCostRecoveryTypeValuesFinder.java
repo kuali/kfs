@@ -16,9 +16,7 @@
 package org.kuali.kfs.coa.businessobject.options;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryType;
@@ -39,6 +37,12 @@ public class IndirectCostRecoveryTypeValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List<IndirectCostRecoveryType> codes = (List<IndirectCostRecoveryType>) SpringContext.getBean(KeyValuesService.class).findAll(IndirectCostRecoveryType.class);
+        // copy the list of codes before sorting, since we can't modify the results from this method
+        if ( codes == null ) {
+            codes = new ArrayList<IndirectCostRecoveryType>(0);
+        } else {
+            codes = new ArrayList<IndirectCostRecoveryType>( codes );
+        }
 
         // sort using comparator.
         Collections.sort(codes, new IndirectCostRecoveryTypeCodeComparator());

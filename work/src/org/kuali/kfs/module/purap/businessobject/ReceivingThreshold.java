@@ -199,6 +199,13 @@ public class ReceivingThreshold extends PersistableBusinessObjectBase {
         return tempVendorDetail.getVendorNumber();
     }
 
+    public void setVendorNumber(String vendorNumber) {
+        VendorDetail tempVendorDetail = new VendorDetail();
+        tempVendorDetail.setVendorNumber(vendorNumber);
+        setVendorHeaderGeneratedIdentifier(tempVendorDetail.getVendorHeaderGeneratedIdentifier());
+        setVendorDetailAssignedIdentifier(tempVendorDetail.getVendorDetailAssignedIdentifier());
+    }
+    
     public Integer getVendorDetailAssignedIdentifier() {
         return vendorDetailAssignedIdentifier;
     }

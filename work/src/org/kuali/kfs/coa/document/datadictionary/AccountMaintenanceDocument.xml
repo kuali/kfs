@@ -217,7 +217,7 @@
     				</property>
     				<property name="documentValues">
     					<list>
-    						<value>newMaintainableObject.businessObject.accountsSupervisoryUser.principalName</value>
+    						<value>newMaintainableObject.businessObject.accountSupervisoryUser.principalName</value>
     					</list>
     				</property>
     			</bean>

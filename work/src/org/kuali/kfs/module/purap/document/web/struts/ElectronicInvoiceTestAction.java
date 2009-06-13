@@ -138,11 +138,13 @@ public class ElectronicInvoiceTestAction extends KualiAction {
             if (po != null) {   
                 
                 String duns = StringUtils.defaultString(po.getVendorDetail().getVendorDunsNumber());
+                String vendorNumber = po.getVendorDetail().getVendorNumber();
                 
                 String eInvoiceFile = 
                 
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "\n<!-- ******Testing tool generated XML****** Version 1.1,Generated On " + currDate + " -->\n\n" +   
+                "\n<!-- ******Testing tool generated XML****** Version 1.2." +
+                "\n\n  Generated On " + currDate + " for PO " + po.getPurapDocumentIdentifier() + " (Doc# " + poDocNumber + ") -->\n\n" +   
                 "<!-- All the cXML attributes are junk values -->\n" +
                 "<cXML payloadID=\"200807260401062080.964@eai002\"\n" +
                 "    timestamp=\"2008-07-26T04:01:06-08:00\"\n" +
@@ -152,7 +154,7 @@ public class ElectronicInvoiceTestAction extends KualiAction {
                 "  <Header>\n" +
                 "      <From>\n" +
                 "          <Credential domain=\"DUNS\">\n" +
-                "              <Identity>" + duns + "</Identity> <!-- DUNS number from PO-->\n" +
+                "              <Identity>" + duns + "</Identity> <!-- DUNS number from PO Vendor " + vendorNumber + "-->\n" +
                 "          </Credential>\n" +
                 "      </From>\n" +
                 "      <To>\n" +
@@ -162,7 +164,7 @@ public class ElectronicInvoiceTestAction extends KualiAction {
                 "      </To>\n" +
                 "      <Sender>\n" +
                 "          <Credential domain=\"DUNS\">\n" +
-                "              <Identity>" + duns + "</Identity> <!-- DUNS number from PO-->\n" +
+                "              <Identity>" + duns + "</Identity> <!-- DUNS number from PO Vendor " + vendorNumber + "-->\n" +
                 "          </Credential>\n" +
                 "          <UserAgent/>\n" +
                 "      </Sender>\n" +

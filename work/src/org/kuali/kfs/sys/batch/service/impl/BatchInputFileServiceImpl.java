@@ -416,7 +416,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
         List<File> userFileList = listBatchTypeFilesForUserAsFiles(batchInputFileType, user);
 
         for (File userFile : userFileList) {
-            userFileNamesList.add(userFile.getName());
+            userFileNamesList.add(userFile.getAbsolutePath());
         }
 
         return userFileNamesList;

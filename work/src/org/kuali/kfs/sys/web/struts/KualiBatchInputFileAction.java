@@ -245,11 +245,11 @@ public class KualiBatchInputFileAction extends KualiAction {
 
         userFiles.add(new KeyLabelPair("", ""));
         for (int i = 0; i < userFileNames.size(); i++) {
-            String fileName = userFileNames.get(i);
-            // do NOT expose the full path name to the browser
-            String key = fileName;
-            String label = fileName;
-            if (batchInputFileService.hasBeenProcessed(batchInputFileType, fileName)) {
+            String absolutePath = userFileNames.get(i);
+            File file = new File(absolutePath);
+            String key = file.getName();
+            String label = absolutePath;
+            if (batchInputFileService.hasBeenProcessed(batchInputFileType, absolutePath)) {
                 label = label + " (processed)";
             }
             else {

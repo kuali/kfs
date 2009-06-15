@@ -26,15 +26,6 @@
         <ref bean="OffsetDefinition-financialBalanceTypeCode" />
       </list>
     </property>
-    <property name="inactivationBlockingDefinitions">
-      <list>
-        <bean parent="InactivationBlockingDefinition"
-          p:blockedReferencePropertyName="financialBalanceType"
-          p:inactivationBlockingDetectionServiceBeanName="offsetDefinitionInactivationBlockingDetectionService" />
-        <bean parent="InactivationBlockingDefinition"
-          p:blockedReferencePropertyName="financialObject"/>
-      </list>
-    </property>
     <property name="relationships">
     	<list>
     		<bean parent="RelationshipDefinition">

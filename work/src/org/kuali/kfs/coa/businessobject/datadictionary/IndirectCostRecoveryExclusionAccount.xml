@@ -23,12 +23,6 @@
         <ref bean="IndirectCostRecoveryExclusionAccount-financialObjectChartOfAccountCode" />
       </list>
     </property>
-    <property name="inactivationBlockingDefinitions">
-      <list>
-        <bean parent="InactivationBlockingDefinition"
-          p:blockedReferencePropertyName="objectCodeCurrent"/>
-      </list>
-    </property>
   </bean>
 
 <!-- Attribute Definitions -->

@@ -61,40 +61,19 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="NonInvoiced-accountNumber" parent="NonInvoiced-accountNumber-parentBean" />
 
-  <bean id="NonInvoiced-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Account Number" />
-    <property name="shortLabel" value="Account" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
-    </property>
+  <bean id="NonInvoiced-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
   </bean>
+
   <bean id="NonInvoiced-chartOfAccountsCode" parent="NonInvoiced-chartOfAccountsCode-parentBean" />
   
-  <bean id="NonInvoiced-chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="chartOfAccountsCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Chart Of Accounts Code" />
-    <property name="shortLabel" value="Chart" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="required" value="true" />
+  <bean id="NonInvoiced-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
     <property name="control" >
-     <bean parent="SelectControlDefinition"
-      		p:includeBlankRow="true"
+      <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SimpleChartValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
+
   <bean id="NonInvoiced-documentNumber" parent="NonInvoiced-documentNumber-parentBean" />
 
   <bean id="NonInvoiced-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
@@ -111,6 +90,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:size="16" />
     </property>
   </bean>
+
   <bean id="NonInvoiced-financialDocumentLineAmount" parent="NonInvoiced-financialDocumentLineAmount-parentBean" />
 
   <bean id="NonInvoiced-financialDocumentLineAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
@@ -167,67 +147,29 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:size="6" />
     </property>
   </bean>
+
   <bean id="NonInvoiced-financialObjectCode" parent="NonInvoiced-financialObjectCode-parentBean" />
 
-  <bean id="NonInvoiced-financialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialObjectCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Financial Object Code" />
-    <property name="shortLabel" value="Object" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
-    </property>
+  <bean id="NonInvoiced-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
   </bean>
+
   <bean id="NonInvoiced-financialSubObjectCode" parent="NonInvoiced-financialSubObjectCode-parentBean" />
 
   <bean id="NonInvoiced-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
-    <property name="label" value="Financial Sub Object Code" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>    
     <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
-    </property>
   </bean>
+
   <bean id="NonInvoiced-projectCode" parent="NonInvoiced-projectCode-parentBean" />
 
-  <bean id="NonInvoiced-projectCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="NonInvoiced-projectCode-parentBean" abstract="true" parent="ProjectCode-code">
     <property name="name" value="projectCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Project Code" />
-    <property name="shortLabel" value="Project" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
-    </property>
+    <property name="required" value="false" />
   </bean>
+
   <bean id="NonInvoiced-subAccountNumber" parent="NonInvoiced-subAccountNumber-parentBean" />
 
-  <bean id="NonInvoiced-subAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="subAccountNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Sub Account Number" />
-    <property name="shortLabel" value="SubAccount" />
-    <property name="maxLength" value="5" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="7" />
-    </property>
+  <bean id="NonInvoiced-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+    <property name="required" value="false" />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

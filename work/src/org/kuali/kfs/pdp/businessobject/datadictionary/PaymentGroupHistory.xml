@@ -111,6 +111,8 @@
 
   <bean id="PaymentGroupHistory-origDisburseNbr-parentBean" abstract="true" parent="PaymentGroup-disbursementNbr">
     <property name="name" value="origDisburseNbr" />
+    <property name="label" value="Original Disbursement Number" />
+    <property name="shortLabel" value="Disbursement Number" />
   </bean>
   <bean id="PaymentGroupHistory-origPmtSpecHandling" parent="PaymentGroupHistory-origPmtSpecHandling-parentBean" />
 
@@ -127,6 +129,8 @@
   <bean id="PaymentGroupHistory-origDisburseDate-parentBean" abstract="true" parent="PaymentGroup-disbursementDate">
     <property name="name" value="origDisburseDate" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateViewTimestampObjectFormatter" />
+    <property name="label" value="Original Disbursement Date"></property>
+    <property name="shortLabel" value="Disbursement Date"></property>
   </bean>
   <bean id="PaymentGroupHistory-paymentGroup.pymtAttachment" parent="PaymentGroupHistory-paymentGroup.pymtAttachment-parentBean" />
 
@@ -217,8 +221,8 @@
 
   <bean id="PaymentGroupHistory-origBankCode-parentBean" abstract="true" parent="Bank-bankCode">
     <property name="name" value="origBankCode" />
-    <property name="label" value="Bank" />
-    <property name="shortLabel" value="Bank" />
+    <property name="label" value="Original Bank" />
+    <property name="shortLabel" value="Original Bank" />
   </bean>
   <bean id="PaymentGroupHistory-origAchBankRouteNbr" parent="PaymentGroupHistory-origAchBankRouteNbr-parentBean" />
 

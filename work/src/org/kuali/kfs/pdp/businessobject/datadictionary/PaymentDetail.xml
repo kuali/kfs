@@ -607,23 +607,23 @@
           <property name="title" value="Payment" />
           <property name="numberOfColumns" value="2" />
           <property name="inquiryFields" >
-            <list> 
+            <list>               
               <bean parent="FieldDefinition"
-                    p:attributeName="paymentGroup.processImmediate" />  
+                    p:attributeName="origInvoiceAmount" />                       
               <bean parent="FieldDefinition"
-                    p:attributeName="origInvoiceAmount" />                     
+                    p:attributeName="paymentGroup.processImmediate" />                    
               <bean parent="FieldDefinition"
-                    p:attributeName="paymentGroup.pymtSpecialHandling" />  
+                    p:attributeName="netPaymentAmount" />
               <bean parent="FieldDefinition"
-                    p:attributeName="netPaymentAmount" /> 
+                    p:attributeName="paymentGroup.pymtSpecialHandling" />                     
               <bean parent="FieldDefinition"
-                    p:attributeName="paymentGroup.pymtAttachment" />
+                    p:attributeName="invTotDiscountAmount" />                    
               <bean parent="FieldDefinition"
-                    p:attributeName="invTotDiscountAmount" /> 
+                    p:attributeName="paymentGroup.pymtAttachment" />              
               <bean parent="FieldDefinition"
-                    p:attributeName="paymentGroup.lastUpdate" />                     
+                    p:attributeName="invTotShipAmount" />               
               <bean parent="FieldDefinition"
-                    p:attributeName="invTotShipAmount" />  
+                    p:attributeName="paymentGroup.lastUpdate" /> 
               <bean parent="FieldDefinition"
                     p:attributeName="invTotOtherDebitAmount" />  
               <bean parent="FieldDefinition"
@@ -668,6 +668,7 @@
          <bean parent="InquirySectionDefinition">
           <property name="title" value="Account Detail" />
           <property name="numberOfColumns" value="1" />
+          <property name="defaultOpen" value="false"/>
           <property name="inquiryFields" >
             <list>
               <bean parent="InquiryCollectionDefinition">
@@ -751,6 +752,7 @@
         <bean parent="InquirySectionDefinition">
           <property name="title" value="History" />
           <property name="numberOfColumns" value="1" />
+          <property name="defaultOpen" value="false"/>
           <property name="inquiryFields" >
             <list>
               <bean parent="InquiryCollectionDefinition">
@@ -792,6 +794,7 @@
          <bean parent="InquirySectionDefinition">
           <property name="title" value="Notes" />
           <property name="numberOfColumns" value="1" />
+          <property name="defaultOpen" value="false"/>
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"

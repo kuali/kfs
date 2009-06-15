@@ -457,6 +457,7 @@
     <property name="label" value="Credit Card" />
     <property name="shortLabel" value="Credit Card" />
   </bean>
+
   <bean id="VendorDetail-vendorConfirmationIndicator" parent="VendorDetail-vendorConfirmationIndicator-parentBean" />
 
   <bean id="VendorDetail-vendorConfirmationIndicator-parentBean" abstract="true" parent="VendorGenericAttributes-yesNoWithBlankIndicator">
@@ -692,6 +693,8 @@
                     p:attributeName="vendorSoldToName" />
               <bean parent="FieldDefinition"
                     p:attributeName="vendorCreditCardIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="taxableIndicator" />      
               <bean parent="FieldDefinition"
                     p:attributeName="vendorRestrictedIndicator" />
               <bean parent="FieldDefinition"

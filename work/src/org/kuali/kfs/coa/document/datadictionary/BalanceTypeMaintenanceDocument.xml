@@ -15,11 +15,7 @@
         <value>code</value>
       </list>
     </property>
-    
-    
-    
-    
-    
+    <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.BalanceTypeRule"/>
     <property name="documentTypeName" value="BTYP"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">

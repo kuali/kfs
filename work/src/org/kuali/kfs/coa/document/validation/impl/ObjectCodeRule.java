@@ -24,9 +24,11 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.coa.businessobject.BudgetAggregationCode;
-import org.kuali.kfs.coa.businessobject.ObjectLevel;
+import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionAccount;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectConsolidation;
+import org.kuali.kfs.coa.businessobject.ObjectLevel;
+import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ObjectConsService;
@@ -37,8 +39,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterEvaluator;
 import org.kuali.rice.kns.service.ParameterService;
 
 /**
@@ -89,6 +91,11 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         Object maintainableObject = document.getNewMaintainableObject().getBusinessObject();
 
         success &= processObjectCodeRules((ObjectCode) maintainableObject);
+        
+        if (isObjectCodeInactivating(document)) {
+            success &= checkForBlockingOffsetDefinitions((ObjectCode)maintainableObject);
+            success &= checkForBlockingIndirectCostRecoveryExclusionAccounts((ObjectCode)maintainableObject);
+        }
 
         return success;
 
@@ -109,6 +116,11 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
 
         Object maintainableObject = document.getNewMaintainableObject().getBusinessObject();
         success &= processObjectCodeRules((ObjectCode) maintainableObject);
+        
+        if (isObjectCodeInactivating(document)) {
+            success &= checkForBlockingOffsetDefinitions((ObjectCode)maintainableObject);
+            success &= checkForBlockingIndirectCostRecoveryExclusionAccounts((ObjectCode)maintainableObject);
+        }
 
         return success;
     }
@@ -373,5 +385,67 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
 
         // otherwise, check if the object is valid
         return verifyObjectCode(year, reportsToChartCode, reportsToObjectCode);
+    }
+    
+    /**
+     * Determines if the given maintenance document constitutes an inactivation of the object code it is maintaining
+     * @param maintenanceDocument the maintenance document maintaining an object code
+     * @return true if the document is inactivating the object code, false otherwise
+     */
+    protected boolean isObjectCodeInactivating(MaintenanceDocument maintenanceDocument) {
+        if (maintenanceDocument.isEdit() && maintenanceDocument.getOldMaintainableObject() != null && maintenanceDocument.getOldMaintainableObject().getBusinessObject() != null) {
+            final ObjectCode oldObjectCode = (ObjectCode)maintenanceDocument.getOldMaintainableObject().getBusinessObject();
+            final ObjectCode newObjectCode = (ObjectCode)maintenanceDocument.getNewMaintainableObject().getBusinessObject();
+            
+            return oldObjectCode.isActive() && !newObjectCode.isActive();
+        }
+        return false;
+    }
+    
+    /**
+     * Checks that no offset definitions are dependent on the given object code if it is inactivated
+     * @param objectCode the object code trying to inactivate
+     * @return true if no offset definitions rely on the object code, false otherwise; this method also inserts error statements
+     */
+    protected boolean checkForBlockingOffsetDefinitions(ObjectCode objectCode) {
+        final BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        boolean result = true;
+        
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put("universityFiscalYear", objectCode.getUniversityFiscalYear());
+        keys.put("chartOfAccountsCode", objectCode.getChartOfAccountsCode());
+        keys.put("financialObjectCode", objectCode.getFinancialObjectCode());
+        
+        final int matchingCount = businessObjectService.countMatching(OffsetDefinition.class, keys);
+        if (matchingCount > 0) {
+            putFieldError("financialObjectCode",KFSKeyConstants.ERROR_DOCUMENT_OBJECTMAINT_INACTIVATION_BLOCKING,new String[] {(objectCode.getUniversityFiscalYear() != null ? objectCode.getUniversityFiscalYear().toString() : ""), objectCode.getChartOfAccountsCode(), objectCode.getFinancialObjectCode(), Integer.toString(matchingCount), OffsetDefinition.class.getName()});
+            result = false;
+        }
+        return result;
+    }
+    
+    /**
+     * Checks that no ICR Exclusion by Account records are dependent on the given object code if it is inactivated
+     * @param objectCode the object code trying to inactivate
+     * @return if no ICR Exclusion by Account records rely on the object code, false otherwise; this method also inserts error statements
+     */
+    protected boolean checkForBlockingIndirectCostRecoveryExclusionAccounts(ObjectCode objectCode) {
+        boolean result = true;
+        
+        final UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
+        if (objectCode.getUniversityFiscalYear() != null && objectCode.getUniversityFiscalYear().equals(universityDateService.getCurrentFiscalYear())) {
+            final BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+            
+            Map<String, Object> keys = new HashMap<String, Object>();
+            keys.put("chartOfAccountsCode", objectCode.getChartOfAccountsCode());
+            keys.put("financialObjectCode", objectCode.getFinancialObjectCode());
+            
+            final int matchingCount = businessObjectService.countMatching(IndirectCostRecoveryExclusionAccount.class, keys);
+            if (matchingCount > 0) {
+                putFieldError("financialObjectCode",KFSKeyConstants.ERROR_DOCUMENT_OBJECTMAINT_INACTIVATION_BLOCKING,new String[] {(objectCode.getUniversityFiscalYear() != null ? objectCode.getUniversityFiscalYear().toString() : ""), objectCode.getChartOfAccountsCode(), objectCode.getFinancialObjectCode(), Integer.toString(matchingCount), IndirectCostRecoveryExclusionAccount.class.getName()});
+                result = false;
+            }
+        }
+        return result;
     }
 }

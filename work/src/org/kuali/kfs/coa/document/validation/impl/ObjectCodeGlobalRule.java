@@ -15,25 +15,36 @@
  */
 package org.kuali.kfs.coa.document.validation.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.ObjectLevel;
+import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionAccount;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectCodeGlobal;
 import org.kuali.kfs.coa.businessobject.ObjectCodeGlobalDetail;
+import org.kuali.kfs.coa.businessobject.ObjectLevel;
+import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ObjectLevelService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.bo.GlobalBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.datadictionary.InactivationBlockingMetadata;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.InactivationBlockingDetectionService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -124,7 +135,7 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
                 if (ObjectUtils.isNotNull(objectCode)) {
                     if (objectCode.isActive()) {
                         // now we know that the document intends to inactivate this object code... check to see whether a record blocks it
-                        success &= processInactivationBlockChecking(objectCode, i);
+                        success &= processInactivationBlockChecking(maintenanceDocument.getNewMaintainableObject(), objectCode, i);
                     }
                 }
             }
@@ -132,7 +143,7 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
-    protected boolean processInactivationBlockChecking(ObjectCode objectCode, int index) {
+    protected boolean processInactivationBlockChecking(Maintainable maintainable, ObjectCode objectCode, int index) {
         Set<InactivationBlockingMetadata> inactivationBlockingMetadatas = ddService.getAllInactivationBlockingDefinitions(ObjectCode.class);
         for (InactivationBlockingMetadata inactivationBlockingMetadata : inactivationBlockingMetadatas) {
             String inactivationBlockingDetectionServiceBeanName = inactivationBlockingMetadata.getInactivationBlockingDetectionServiceBeanName();
@@ -141,11 +152,15 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
             }
             InactivationBlockingDetectionService inactivationBlockingDetectionService = KNSServiceLocator.getInactivationBlockingDetectionService(inactivationBlockingDetectionServiceBeanName);
 
-            boolean foundBlockingRecord = inactivationBlockingDetectionService.hasABlockingRecord(objectCode, inactivationBlockingMetadata);
-
-            if (foundBlockingRecord) {
-                putInactivationBlockingErrorOnPage(objectCode, inactivationBlockingMetadata, index);
-                return false;
+            Collection<BusinessObject> blockingBusinessObjects = inactivationBlockingDetectionService.listAllBlockerRecords(objectCode, inactivationBlockingMetadata);
+            blockingBusinessObjects = addAdditionalBlockingBusinessObjects(blockingBusinessObjects, objectCode);
+            
+            if (blockingBusinessObjects != null && !blockingBusinessObjects.isEmpty()) {
+                final List<PersistableBusinessObject> persistingChanges = ((GlobalBusinessObject)maintainable.getBusinessObject()).generateGlobalChangesToPersist();
+                if (!isOnlyPersistingChangesInBlockingBusinessObjects(blockingBusinessObjects, persistingChanges)) {
+                    putInactivationBlockingErrorOnPage(objectCode, inactivationBlockingMetadata, index);
+                    return false;
+                }
             }
         }
         return true;
@@ -166,6 +181,103 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
         
         // post an error about the locked document
         GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorPropertyPath, KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_OBJECTMAINT_INACTIVATION_BLOCKING, objectCodeSummaryString, blockingUrl);
+    }
+    
+    /**
+     * Determines if all of the given blocking business objects are among the persisting changes
+     * @param blockingBusinessObjects the Collection of blocking business objects
+     * @param persistingChanges the List of Object Codes which will be persisted by this document
+     * @return true if all the blocking business objects are persisting changes
+     */
+    protected boolean isOnlyPersistingChangesInBlockingBusinessObjects(Collection<BusinessObject> blockingBusinessObjects, List<PersistableBusinessObject> persistingChanges) {
+        for (BusinessObject bo : blockingBusinessObjects) {
+            if (bo instanceof ObjectCode) {
+                if (!isObjectCodeInPersistingChanges(persistingChanges, (ObjectCode)bo)) return false;
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    /**
+     * Determines if the given object code is within the list of persisting changes
+     * @param persistingChanges the changes to persist
+     * @param objectCode the blocking object code to look for in the persisting changes
+     * @return true if the object code was found in the list of persisting changes, false otherwise
+     */
+    protected boolean isObjectCodeInPersistingChanges(List<PersistableBusinessObject> persistingChanges, ObjectCode objectCode) {
+        for (PersistableBusinessObject persistingObjectCodeAsObject : persistingChanges) {
+            if (isEqualObjectCode(objectCode, (ObjectCode)persistingObjectCodeAsObject)) return true;
+        }
+        return false;
+    }
+
+    /**
+     * Determines if the two given object codes are roughly equal
+     * @param castor an object code
+     * @param pollux another, though perhaps very similar, object code
+     * @return true if the two object codes share primary key values, false otherwise
+     */
+    protected boolean isEqualObjectCode(ObjectCode castor, ObjectCode pollux) {
+        return ObjectUtils.nullSafeEquals(castor.getUniversityFiscalYear(), pollux.getUniversityFiscalYear()) && ObjectUtils.nullSafeEquals(castor.getChartOfAccountsCode(), pollux.getChartOfAccountsCode()) && ObjectUtils.nullSafeEquals(castor.getFinancialObjectCode(), pollux.getFinancialObjectCode());
+    }
+    
+    /**
+     * Retrieves any additional blocking objects not handled by the inactivation framework
+     * @param blockingBusinessObjects the current list of blocking business objects
+     * @param objectCode the object code to find additional blocking objects for
+     * @return the perhaps fuller Collection of blocking business objects
+     */
+    protected Collection<BusinessObject> addAdditionalBlockingBusinessObjects(Collection<BusinessObject> blockingBusinessObjects, ObjectCode objectCode) {
+        List<BusinessObject> additionalBlockingObjects = new ArrayList<BusinessObject>();
+        retrieveBlockingOffsetDefinitions(objectCode, additionalBlockingObjects);
+        retrieveBlockingIndirectCostRecoveryExclusionAccounts(objectCode, additionalBlockingObjects);
+        if (!additionalBlockingObjects.isEmpty()) {
+            additionalBlockingObjects.addAll(blockingBusinessObjects);
+            return additionalBlockingObjects;
+        }
+        return blockingBusinessObjects;
+    }
+    
+    /**
+     * Retrieves all Offset Definitions blocking the given object code and puts them in the List of additional blocking objects
+     * @param objectCode the object code to find additional blocking objects for
+     * @param additionalBlockingObjects the List of additional blocking objects to populate
+     */
+    protected void retrieveBlockingOffsetDefinitions(ObjectCode objectCode, List<BusinessObject> additionalBlockingObjects) {
+        final BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put("universityFiscalYear", objectCode.getUniversityFiscalYear());
+        keys.put("chartOfAccountsCode", objectCode.getChartOfAccountsCode());
+        keys.put("financialObjectCode", objectCode.getFinancialObjectCode());
+        
+        Collection<BusinessObject> offsetDefinitions = (Collection<BusinessObject>)businessObjectService.findMatching(OffsetDefinition.class, keys);
+        if (offsetDefinitions != null && !offsetDefinitions.isEmpty()) {
+            additionalBlockingObjects.addAll(offsetDefinitions);
+        }
+    }
+    
+    /**
+     * Retrieves all Indirect Cost Recovery Exclusion by Account records blocking the given object code and puts them in the List of additional blocking objects
+     * @param objectCode the object code to find additional blocking objects for
+     * @param additionalBlockingObjects the List of additional blocking objects to populate
+     */
+    protected void retrieveBlockingIndirectCostRecoveryExclusionAccounts(ObjectCode objectCode, List<BusinessObject> additionalBlockingObjects) {
+        final UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
+        if (objectCode.getUniversityFiscalYear() != null && objectCode.getUniversityFiscalYear().equals(universityDateService.getCurrentFiscalYear())) {
+            final BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+            
+            Map<String, Object> keys = new HashMap<String, Object>();
+            keys.put("chartOfAccountsCode", objectCode.getChartOfAccountsCode());
+            keys.put("financialObjectCode", objectCode.getFinancialObjectCode());
+            
+            Collection<BusinessObject> icrExclusionAccounts = (Collection<BusinessObject>)businessObjectService.findMatching(IndirectCostRecoveryExclusionAccount.class, keys);
+            if (icrExclusionAccounts != null && !icrExclusionAccounts.isEmpty()) {
+                additionalBlockingObjects.addAll(icrExclusionAccounts);
+            }
+        }
     }
 
     /**

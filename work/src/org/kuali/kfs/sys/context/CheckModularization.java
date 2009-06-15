@@ -264,6 +264,7 @@ public class CheckModularization {
         boolean testSucceeded = true;
         for (String referencedNamespaceCode : OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.keySet()) {
             if (!(moduleGroup.namespaceCode.equals(referencedNamespaceCode) || moduleGroup.optionalModuleDependencyNamespaceCodes.contains(referencedNamespaceCode))) {
+                if ( OJB_FILES_BY_MODULE.get(moduleGroup.namespaceCode).isEmpty() ) continue;
                 String firstDatabaseRepositoryFilePath = OJB_FILES_BY_MODULE.get(moduleGroup.namespaceCode).iterator().next();
                 // the first database repository file path is typically the file that comes shipped with KFS.  If institutions override it, this unit test will not test them
                 Scanner scanner = new Scanner(new File("work/src/" + firstDatabaseRepositoryFilePath));

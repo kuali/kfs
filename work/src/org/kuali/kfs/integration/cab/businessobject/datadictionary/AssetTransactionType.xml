@@ -1,0 +1,87 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="AssetTransactionType" parent="AssetTransactionType-parentBean" />
+
+  <bean id="AssetTransactionType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.integration.cab.businessobject.AssetTransactionType" />
+    <property name="titleAttribute" value="capitalAssetTransactionTypeCode" />
+    <property name="objectLabel" value="Asset Transaction Type" />
+    <property name="attributes" >
+      <list>
+        <ref bean="AssetTransactionType-capitalAssetTransactionTypeCode" />
+        <ref bean="AssetTransactionType-capitalAssetTransactionTypeDescription" />
+        <ref bean="AssetTransactionType-capitalAssetNonquantityDrivenAllowIndicator" />        
+        <ref bean="AssetTransactionType-capitalAssetQuantitySubtypeRequiredText" />
+        <ref bean="AssetTransactionType-capitalAssetNonquantitySubtypeRequiredText" />
+        <ref bean="AssetTransactionType-active" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+  <bean id="AssetTransactionType-capitalAssetTransactionTypeCode" parent="AssetTransactionType-capitalAssetTransactionTypeCode-parentBean" />
+  <bean id="AssetTransactionType-capitalAssetTransactionTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="capitalAssetTransactionTypeCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Capital Asset Transaction Type Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+  </bean>
+    
+  <bean id="AssetTransactionType-capitalAssetTransactionTypeDescription" parent="AssetTransactionType-capitalAssetTransactionTypeDescription-parentBean" />
+  <bean id="AssetTransactionType-capitalAssetTransactionTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="capitalAssetTransactionTypeDescription" />
+    <property name="label" value="Capital Asset Transaction Type Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  
+  <bean id="AssetTransactionType-capitalAssetNonquantityDrivenAllowIndicator" parent="AssetTransactionType-capitalAssetNonquantityDrivenAllowIndicator-parentBean" />
+  <bean id="AssetTransactionType-capitalAssetNonquantityDrivenAllowIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="capitalAssetNonquantityDrivenAllowIndicator" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Capital Asset Nonquantity Driven Allow Indicator" />
+    <property name="shortLabel" value="Indicator" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+  </bean>
+   
+  <bean id="AssetTransactionType-capitalAssetQuantitySubtypeRequiredText" parent="AssetTransactionType-capitalAssetQuantitySubtypeRequiredText-parentBean" />  
+  <bean id="AssetTransactionType-capitalAssetQuantitySubtypeRequiredText-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
+  	<property name="name" value="capitalAssetQuantitySubtypeRequiredText" />
+  	<property name="label" value="Capital Asset Quantity Subtype Required Text"/>
+  </bean>
+  
+  <bean id="AssetTransactionType-capitalAssetNonquantitySubtypeRequiredText" parent="AssetTransactionType-capitalAssetNonquantitySubtypeRequiredText-parentBean" />  
+  <bean id="AssetTransactionType-capitalAssetNonquantitySubtypeRequiredText-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
+  	<property name="name" value="capitalAssetNonquantitySubtypeRequiredText" />
+  	<property name="label" value="Capital Asset Nonquantity Subtype Required Text" />
+  </bean>
+  
+  <bean id="AssetTransactionType-active" parent="AssetTransactionType-active-parentBean" />
+  <bean id="AssetTransactionType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+</beans>

@@ -14,5 +14,108 @@
     <bean id="capitalAssetBuilderModuleService" class="org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleServiceNoOp"/>
     
     <bean id="capitalAssetManagementModuleService" class="org.kuali.kfs.integration.cam.CapitalAssetManagementModuleServiceNoOp"/>
+    
+    <bean id="cgModuleConfiguration" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration">
+        <property name="namespaceCode" value="KFS-CG" />
+        <property name="initializeDataDictionary" value="true" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.kfs.integration.cg</value>
+            </list>
+        </property>
+        <property name="dataDictionaryPackages">
+            <list>
+                <value>org/kuali/kfs/integration/cg/businessobject/datadictionary</value>
+            </list>
+        </property>
+        <property name="externalizableBusinessObjectImplementations">
+            <map>
+                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsCfda" value="org.kuali.kfs.integration.cg.businessobject.CFDA" />
+                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation" value="org.kuali.kfs.integration.cg.businessobject.AwardAccount" />
+                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAward" value="org.kuali.kfs.integration.cg.businessobject.Award" />
+                <entry key="org.kuali.kfs.integration.cg.ContractAndGrantsProposal" value="org.kuali.kfs.integration.cg.businessobject.Proposal" />
+                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency" value="org.kuali.kfs.integration.cg.businessobject.Agency" />
+            </map>
+        </property> 
+    </bean>
+
+    <bean id="cgModuleService" class="org.kuali.kfs.integration.UnimplementedKfsModuleServiceImpl">
+        <property name="moduleConfiguration" ref="cgModuleConfiguration" />
+    </bean>
+
+    <bean id="camModuleConfiguration" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration">
+        <property name="namespaceCode" value="KFS-CAM" />
+        <property name="initializeDataDictionary" value="true" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.kfs.integration.cam</value>
+            </list>
+        </property>
+        <property name="externalizableBusinessObjectImplementations">
+            <map>
+                <entry key="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset" value="org.kuali.kfs.integration.cam.businessobject.Asset" />
+                <entry key="org.kuali.kfs.integration.cam.CapitalAssetManagementAssetType" value="org.kuali.kfs.integration.cam.businessobject.AssetType" />
+            </map>
+        </property>
+        <property name="dataDictionaryPackages">
+            <list>
+                <value>org/kuali/kfs/integration/cam/businessobject/datadictionary</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="camModuleService" class="org.kuali.kfs.integration.UnimplementedKfsModuleServiceImpl">
+        <property name="moduleConfiguration" ref="camModuleConfiguration" />
+    </bean>
+
+
+    <bean id="cabModuleConfiguration" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration">
+        <property name="namespaceCode" value="KFS-CAB" />
+        <property name="initializeDataDictionary" value="true" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.kfs.integration.cab</value>
+            </list>
+        </property>
+        <property name="dataDictionaryPackages">
+            <list>
+                <value>org/kuali/kfs/integration/cab/businessobject/datadictionary</value>
+            </list>
+        </property>
+                
+        <property name="externalizableBusinessObjectImplementations">
+            <map>
+                <entry key="org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType" value="org.kuali.kfs.integration.cab.businessobject.AssetTransactionType" />
+            </map>
+        </property> 
+    </bean>
+
+    <bean id="cabModuleService" class="org.kuali.kfs.integration.UnimplementedKfsModuleServiceImpl">
+        <property name="moduleConfiguration" ref="cabModuleConfiguration" />
+    </bean>
+
+    <bean id="purapModuleConfiguration" class="org.kuali.rice.kns.bo.ModuleConfiguration">
+        <property name="namespaceCode" value="KFS-PURAP" />
+        <property name="initializeDataDictionary" value="true" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.kfs.integration.purap</value>
+            </list>
+        </property>
+        <property name="dataDictionaryPackages">
+            <list>
+                <value>org/kuali/kfs/integration/purap/businessobject/datadictionary</value>
+            </list>
+        </property>
+        <property name="externalizableBusinessObjectImplementations">
+            <map>
+                <entry key="org.kuali.kfs.integration.purap.PurchasingAccountsPayableSensitiveData" value="org.kuali.kfs.integration.purap.businessobject.SensitiveData" />
+            </map>
+        </property> 
+    </bean>
+    
+    <bean id="purapModuleService" class="org.kuali.kfs.integration.UnimplementedKfsModuleServiceImpl">
+        <property name="moduleConfiguration" ref="purapModuleConfiguration" />
+    </bean>
 
 </beans>

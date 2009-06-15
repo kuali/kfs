@@ -1,0 +1,59 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="AwardAccount" parent="AwardAccount-parentBean" />
+
+  <bean id="AwardAccount-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.integration.cg.businessobject.AwardAccount" />
+    <property name="objectLabel" value="Award Account" />
+    <property name="attributes" >
+      <list>
+        <ref bean="AwardAccount-proposalNumber" />
+        <ref bean="AwardAccount-chartOfAccountsCode" />
+        <ref bean="AwardAccount-accountNumber" />
+        <ref bean="AwardAccount-active" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="AwardAccount-proposalNumber" parent="AwardAccount-proposalNumber-parentBean" />
+
+  <bean id="AwardAccount-proposalNumber-parentBean" abstract="true" parent="Proposal-proposalNumber">
+  	<property name="forceUppercase" value="true" />
+  </bean>
+  <bean id="AwardAccount-chartOfAccountsCode" parent="AwardAccount-chartOfAccountsCode-parentBean" />
+
+  <bean id="AwardAccount-chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="chartOfAccountsCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Chart Of Accounts Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="AwardAccount-accountNumber" parent="AwardAccount-accountNumber-parentBean" />
+
+  <bean id="AwardAccount-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  	<property name="forceUppercase" value="true" />
+  </bean>
+  <bean id="AwardAccount-active" parent="AwardAccount-active-parentBean" />
+
+  <bean id="AwardAccount-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+
+</beans>
+

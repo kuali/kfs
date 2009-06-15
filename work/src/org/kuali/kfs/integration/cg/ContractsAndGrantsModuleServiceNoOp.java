@@ -43,7 +43,7 @@ public class ContractsAndGrantsModuleServiceNoOp implements ContractsAndGrantsMo
 
     public boolean hasValidAccountReponsiblityIdIfNotNull(Account account) {
         LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
-        return false;
+        return true;
     }
 
     public boolean isAwardedByFederalAgency(String chartOfAccountsCode, String accountNumber, List<String> federalAgencyTypeCodes) {

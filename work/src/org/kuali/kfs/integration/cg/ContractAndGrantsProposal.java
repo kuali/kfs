@@ -194,13 +194,6 @@ public interface ContractAndGrantsProposal extends ExternalizableBusinessObject 
      * @return Returns the active.
      */
     public boolean isActive();
-
-    /**
-     * Gets the universal user id of the lookup person.
-     * 
-     * @return the id of the lookup person
-     */
-    public String getLookupPersonUniversalIdentifier();
     
     public String getGrantNumber();
 }

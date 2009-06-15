@@ -1552,7 +1552,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         for (PurApItem item : (List<PurApItem>) this.getItems()) {
             for (PurApAccountingLine accountingLine : item.getSourceAccountingLines()) {
                 
-                objectCodeAllowed &= isObjectCodeAllowedForAwardRouting(accountingLine, parameterService);
+                objectCodeAllowed = isObjectCodeAllowedForAwardRouting(accountingLine, parameterService);
                 // We should return true as soon as we have at least one objectCodeAllowed=true so that the PO will stop at Award
                 // level.
                 if (objectCodeAllowed) {

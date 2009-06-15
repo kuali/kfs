@@ -24,6 +24,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.impl.PersonImpl;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -50,7 +51,9 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
      */
     public AwardAccount() {
         // Struts needs this instance to populate the secondary key, principalName.
-        projectDirector = new PersonImpl();
+        try {
+            projectDirector = (Person)SpringContext.getBean(PersonService.class).getPersonImplementationClass().newInstance();
+        } catch (Exception e) {}
     }
 
     /***

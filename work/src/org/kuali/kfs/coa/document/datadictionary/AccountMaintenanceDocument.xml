@@ -279,7 +279,7 @@
    	<bean id="AccountMaintenanceDocument-DocumentValuePathGroup-AccountOfficersAndAccount" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
 		<property name="documentValues">
 	   		<list>
-	   			<value>newMaintainableObject.businessObject.accountFiscalOfficerUser.principalName</value>
+	   			<value>newMaintainableObject.businessObject.accountFiscalOfficerSystemIdentifier</value>
 	   			<value>newMaintainableObject.routingAccountsSupervisorySystemsIdentifier</value>
 	   			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
 	   			<value>newMaintainableObject.businessObject.accountNumber</value>

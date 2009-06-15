@@ -54,7 +54,6 @@ import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -992,13 +991,50 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT);
         Account organizationOwnerAccount = assetGlobal.getOrganizationOwnerAccount();
+
+        boolean skipAccountAvailiablityCheck;
+        if (StringUtils.isBlank(assetGlobal.getOrganizationOwnerChartOfAccountsCode()) || StringUtils.isBlank(assetGlobal.getOrganizationOwnerAccountNumber())) {
+            skipAccountAvailiablityCheck = true;
+        }
+        else {
+            skipAccountAvailiablityCheck = isOrgOwnerAccountFromCab(assetGlobal);
+        }
+
         // when check if organizationOwnerAccount is existing, use ObjectUtils rather than comparing with 'null' since OJB proxy
         // object is used here.
-        if (StringUtils.isNotBlank(assetGlobal.getOrganizationOwnerAccountNumber()) && (ObjectUtils.isNull(organizationOwnerAccount) || !organizationOwnerAccount.isActive() || organizationOwnerAccount.isExpired())) {
+        if (!skipAccountAvailiablityCheck && (ObjectUtils.isNull(organizationOwnerAccount) || !organizationOwnerAccount.isActive() || organizationOwnerAccount.isExpired())) {
             putFieldError(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_OWNER_ACCT_NOT_ACTIVE, new String[] { assetGlobal.getOrganizationOwnerChartOfAccountsCode(), assetGlobal.getOrganizationOwnerAccountNumber() });
             success &= false;
         }
         return success;
+    }
+
+
+    /**
+     * Check if organization owner account is set from CAB. We honor all accounting lines from CAB are valid payments even thougth
+     * they are expired.
+     * 
+     * @param assetGlobal
+     * @return
+     */
+    private boolean isOrgOwnerAccountFromCab(AssetGlobal assetGlobal) {
+        String orgOwnerChartCode = assetGlobal.getOrganizationOwnerChartOfAccountsCode();
+        String orgOwnerAccountNbr = assetGlobal.getOrganizationOwnerAccountNumber();
+
+        if (StringUtils.isBlank(assetGlobal.getOrganizationOwnerChartOfAccountsCode()) || StringUtils.isBlank(assetGlobal.getOrganizationOwnerAccountNumber())) {
+            return true;
+        }
+
+        if (assetGlobal.isCapitalAssetBuilderOriginIndicator()) {
+            // If CAB submits, allow use of inactive accounting line from the payments
+            for (AssetPaymentDetail assetPaymentDetail : assetGlobal.getAssetPaymentDetails()) {
+                if (orgOwnerChartCode.equalsIgnoreCase(assetPaymentDetail.getChartOfAccountsCode()) && orgOwnerAccountNbr.equalsIgnoreCase(assetPaymentDetail.getAccountNumber())) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**

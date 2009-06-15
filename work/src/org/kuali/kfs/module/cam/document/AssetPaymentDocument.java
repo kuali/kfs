@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.cam.document;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -27,6 +28,9 @@ import org.kuali.kfs.module.cam.businessobject.AssetPaymentAccountingLineParser;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
+import org.kuali.kfs.module.cam.document.validation.event.AssetPaymentManuallyAddAccountingLineEvent;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -54,6 +58,34 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
     public AssetPaymentDocument() {
         super();
         this.setAssetPaymentAssetDetail(new TypedArrayList(AssetPaymentAssetDetail.class));
+    }
+
+
+    /**
+     * When document save, AddAccountingLineEvent is added by the framework. Also, we need to add
+     * AssetPaymentManuallyAddAccountingLineEvent manually to run all relating validations.
+     * 
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#generateSaveEvents()
+     */
+    @Override
+    public List generateSaveEvents() {
+        List subEvents = new ArrayList();
+        // keep the order of events as for validation will run in the same order.
+        if (!isCapitalAssetBuilderOriginIndicator()) {
+            // Add AssetPaymentManuallyAddAccountingLineEvent for each manually added accounting line.
+            String errorPathPrefix = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.EXISTING_SOURCE_ACCT_LINE_PROPERTY_NAME;
+            int index = 0;
+            for (Iterator i = getSourceAccountingLines().iterator(); i.hasNext(); index++) {
+                String indexedErrorPathPrefix = errorPathPrefix + "[" + index + "]";
+                AccountingLine currentLine = (AccountingLine) i.next();
+                AssetPaymentManuallyAddAccountingLineEvent newSubEvent = new AssetPaymentManuallyAddAccountingLineEvent(indexedErrorPathPrefix, this, currentLine);
+                subEvents.add(newSubEvent);
+            }
+        }
+
+        subEvents.addAll(super.generateSaveEvents());
+
+        return subEvents;
     }
 
     /**

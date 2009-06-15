@@ -42,6 +42,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.validation.event.AssetPaymentAddAssetEvent;
+import org.kuali.kfs.module.cam.document.validation.event.AssetPaymentManuallyAddAccountingLineEvent;
 import org.kuali.kfs.module.cam.document.validation.event.AssetPaymentPrepareRouteEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -183,8 +184,12 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
         SourceAccountingLine line = assetPaymentForm.getNewSourceLine();
         boolean rulePassed = true;
 
-        // check any business rules
-        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME, assetPaymentForm.getDocument(), line));
+        // Check any business rules. We separate general accounting line validation into AssetPaymentManuallyAddAccountingLineEvent,
+        // and trigger it from this action, also document save.
+        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AssetPaymentManuallyAddAccountingLineEvent(KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME, assetPaymentForm.getDocument(), line));
+        if (rulePassed) {
+            rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME, assetPaymentForm.getDocument(), line));
+        }
         if (rulePassed) {
             // add accountingLine
             SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(line);

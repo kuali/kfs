@@ -18,6 +18,7 @@ package org.kuali.kfs.module.cam.document.validation.impl;
 import static org.kuali.kfs.sys.KFSConstants.AMOUNT_PROPERTY_NAME;
 import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_ZERO_AMOUNT;
 
+import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
@@ -36,6 +37,12 @@ public class AssetPaymentZeroAmountValidation extends GenericValidation {
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
+        // skip check if accounting line is from CAB
+        AssetPaymentDocument assetPaymentDocument = (AssetPaymentDocument) event.getDocument();
+        if (assetPaymentDocument.isCapitalAssetBuilderOriginIndicator()) {
+            return true;
+        }
+        
         KualiDecimal amount = accountingLineForValidation.getAmount();
         if (amount.isZero()) {
             GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ERROR_ZERO_AMOUNT, "an accounting line");

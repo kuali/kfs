@@ -63,6 +63,10 @@
 				<value>AssetPayment-addAccountingLineValidation</value>
 			</entry>
 			<entry>
+				<key><value>org.kuali.kfs.module.cam.document.validation.event.AssetPaymentManuallyAddAccountingLineEvent</value></key>
+				<value>AssetPayment-manuallyAddAccountingLineValidation</value>
+			</entry>
+			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.DeleteAccountingLineEvent</value></key>
 				<value>AssetPayment-deleteAccountingLineValidation</value>
 			</entry>

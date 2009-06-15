@@ -18,6 +18,7 @@ package org.kuali.kfs.module.cam.document.validation.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
+import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -43,6 +44,12 @@ public class AssetPaymentOriginCodeValidation extends GenericValidation {
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
+        // skip check if accounting line is from CAB
+        AssetPaymentDocument assetPaymentDocument = (AssetPaymentDocument) event.getDocument();
+        if (assetPaymentDocument.isCapitalAssetBuilderOriginIndicator()) {
+            return true;
+        }
+        
         AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) getAccountingLineForValidation();
         boolean result = true;
         if (!StringUtils.isBlank(assetPaymentDetail.getExpenditureFinancialSystemOriginationCode())) {

@@ -48,13 +48,17 @@ public class AssetPaymentObjectCodeValidation extends GenericValidation {
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
+        // skip check if accounting line is from CAB
+        AssetPaymentDocument assetPaymentDocument = (AssetPaymentDocument) event.getDocument();
+        if (assetPaymentDocument.isCapitalAssetBuilderOriginIndicator()) {
+            return true;
+        }
+        
         AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) getAccountingLineForValidation();
         boolean result = true;
         
         List<String> validSubtypeCodes = parameterService.getParameterValues(AssetGlobal.class, CamsConstants.Parameters.CAPITAL_OBJECT_SUB_TYPES);
         String parameterDetail = "(module:"+parameterService.getNamespace(AssetGlobal.class)+"/component:"+parameterService.getDetailType(AssetGlobal.class)+")";
-        
-        AssetPaymentDocument assetPaymentDocument = (AssetPaymentDocument) event.getDocument();
         
         boolean capitalAssetFound = false;
         

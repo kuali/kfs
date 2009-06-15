@@ -210,8 +210,6 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
         if (ObjectUtils.isNotNull(location) &&
                 (StringUtils.isEmpty(location.getCapitalAssetLine1Address()) ||
                 StringUtils.isEmpty(location.getCapitalAssetCityName()) ||
-                StringUtils.isEmpty(location.getCapitalAssetStateCode()) ||
-                StringUtils.isEmpty(location.getCapitalAssetPostalCode()) ||
                 StringUtils.isEmpty(location.getCapitalAssetCountryCode()) )) { 
             String missingFields = "";
             if (StringUtils.isEmpty(location.getCapitalAssetLine1Address())) {

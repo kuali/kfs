@@ -10,7 +10,7 @@
         <ref bean="LineItemReceivingStatusMaintenanceDocument-EditLineItemReceivingStatus"/>
       </list>
     </property>
-    <property name="allowsNewOrCopy" value="true"/>
+    <property name="allowsNewOrCopy" value="false"/>
     <property name="lockingKeys">
       <list>
         <value>lineItemReceivingStatusCode</value>

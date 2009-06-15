@@ -28,6 +28,7 @@ import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
+import org.kuali.kfs.pdp.batch.service.ExtractPaymentService;
 import org.kuali.kfs.pdp.businessobject.AchAccountNumber;
 import org.kuali.kfs.pdp.businessobject.CustomerBank;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
@@ -84,6 +85,7 @@ public class FormatServiceImpl implements FormatService {
     private KualiCodeService kualiCodeService;
     private PaymentGroupService paymentGroupService;
     private DateTimeService dateTimeService;
+    private ExtractPaymentService extractPaymentService;
 
     /**
      * Constructs a FormatServiceImpl.java.
@@ -190,7 +192,7 @@ public class FormatServiceImpl implements FormatService {
      * 
      * @return the maximum number of lines in a note
      */
-    private int getMaxNoteLines() {
+    protected int getMaxNoteLines() {
         String maxLines = parameterService.getParameterValue(KfsParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.MAX_NOTE_LINES);
         if (StringUtils.isBlank(maxLines)) {
             throw new RuntimeException("System parameter for max note lines is blank");
@@ -281,9 +283,8 @@ public class FormatServiceImpl implements FormatService {
         endFormatProcess(campus);
 
         // step 6 tell the extract batch job to start
-        LOG.debug("performFormat() Start extract batch job");
-        triggerExtract();
-
+        LOG.debug("performFormat() Start extract");
+        extractChecks();
     }
 
     /**
@@ -296,7 +297,7 @@ public class FormatServiceImpl implements FormatService {
      * @param extractedPaymentStatus
      * @param pendingPaymentStatus
      */
-    private void processPaymentGroup(PaymentGroup paymentGroup, PaymentProcess paymentProcess, DisbursementType checkDisbursementType, DisbursementType achDisbursementType, PaymentStatus extractedPaymentStatus, PaymentStatus pendingPaymentStatus) {
+    protected void processPaymentGroup(PaymentGroup paymentGroup, PaymentProcess paymentProcess, DisbursementType checkDisbursementType, DisbursementType achDisbursementType, PaymentStatus extractedPaymentStatus, PaymentStatus pendingPaymentStatus) {
         CustomerProfile customer = paymentGroup.getBatch().getCustomerProfile();
 
         // Set the sort field to be saved in the database
@@ -400,7 +401,7 @@ public class FormatServiceImpl implements FormatService {
      * @param paymentProcess
      * @param postFormatProcessSummary
      */
-    private void assignDisbursementNumbersAndCombineChecks(String campus, PaymentProcess paymentProcess, FormatProcessSummary postFormatProcessSummary) {
+    protected void assignDisbursementNumbersAndCombineChecks(String campus, PaymentProcess paymentProcess, FormatProcessSummary postFormatProcessSummary) {
         // keep a map with paymentGroupKey and PaymentInfo (disbursementNumber, noteLines)
         Map<String, PaymentInfo> combinedChecksMap = new HashMap<String, PaymentInfo>();
 
@@ -500,7 +501,7 @@ public class FormatServiceImpl implements FormatService {
      * @param postFormatProcessSummary
      * @return
      */
-    private KualiInteger assignDisbursementNumber(String campus, DisbursementNumberRange range, PaymentGroup paymentGroup, FormatProcessSummary postFormatProcessSummary) {
+    protected KualiInteger assignDisbursementNumber(String campus, DisbursementNumberRange range, PaymentGroup paymentGroup, FormatProcessSummary postFormatProcessSummary) {
         KualiInteger disbursementNumber = new KualiInteger(1 + range.getLastAssignedDisbNbr().intValue());
 
         if (disbursementNumber.isGreaterThan(range.getEndDisbursementNbr())) {
@@ -519,13 +520,12 @@ public class FormatServiceImpl implements FormatService {
     }
 
     /**
-     * This method triggers the extract process.
+     * runs the extract process.
      */
-    private void triggerExtract() {
-        LOG.debug("triggerExtract() started");
-
-        String emailAddress = parameterService.getParameterValue(KfsParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.NO_PAYMENT_FILE_EMAIL);
-        schedulerService.runJob(PdpConstants.PDP_EXTRACT_JOB_NAME, emailAddress);
+    protected void extractChecks() {
+        LOG.debug("extractChecks() started");
+        
+        extractPaymentService.extractChecks();
     }
 
     /**
@@ -599,7 +599,7 @@ public class FormatServiceImpl implements FormatService {
      * @param disbursementTypeCode disbursement type code to find range for
      * @return found <code>DisbursementNumberRange</code or null if one was not found
      */
-    private DisbursementNumberRange getRange(List<DisbursementNumberRange> ranges, Bank bank, String disbursementTypeCode) {
+    protected DisbursementNumberRange getRange(List<DisbursementNumberRange> ranges, Bank bank, String disbursementTypeCode) {
         LOG.debug("getRange() Looking for bank = " + bank.getBankCode() + " and disbursement type " + disbursementTypeCode);
 
         List<DisbursementNumberRange> rangeMatches = new ArrayList<DisbursementNumberRange>();
@@ -729,11 +729,27 @@ public class FormatServiceImpl implements FormatService {
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
+    
+    /**
+     * Gets the extractPaymentService attribute. 
+     * @return Returns the extractPaymentService.
+     */
+    protected ExtractPaymentService getExtractPaymentService() {
+        return extractPaymentService;
+    }
+
+    /**
+     * Sets the extractPaymentService attribute value.
+     * @param extractPaymentService The extractPaymentService to set.
+     */
+    public void setExtractPaymentService(ExtractPaymentService extractPaymentService) {
+        this.extractPaymentService = extractPaymentService;
+    }
 
     /**
      * This class holds disbursement number and noteLines info for payment group disbursement number assignment and combine checks.
      */
-    private class PaymentInfo {
+    protected class PaymentInfo {
         public KualiInteger disbursementNumber;
         public KualiInteger noteLines;
 

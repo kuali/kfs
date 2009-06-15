@@ -580,7 +580,7 @@
       <foreignkey field-ref="disbursementTypeCode"/>
     </reference-descriptor>
   
-    <reference-descriptor name="process" class-ref="org.kuali.kfs.pdp.businessobject.PaymentProcess" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true" >
+    <reference-descriptor name="process" class-ref="org.kuali.kfs.pdp.businessobject.PaymentProcess" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="false" >
       <foreignkey field-ref="processId"/>
     </reference-descriptor>
   

@@ -335,6 +335,7 @@
 		<property name="kualiCodeService" ref="kualiCodeService"/>
 		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
 		<property name="dateTimeService" ref="dateTimeService"/>
+		<property name="extractPaymentService" ref="pdpExtractPaymentService" />
 	</bean>
 	
 	<bean id="pdpGlPendingTransactionService" class="org.kuali.kfs.pdp.service.impl.PendingTransactionServiceImpl">

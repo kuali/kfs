@@ -51,6 +51,7 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
     public PaymentProcess() {
         super();
         this.setExtractedInd(false);
+        this.setFormattedIndicator(false);
     }
 
     /**

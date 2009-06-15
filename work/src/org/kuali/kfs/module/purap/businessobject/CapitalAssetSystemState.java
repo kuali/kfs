@@ -2,13 +2,14 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  * This class is the Capital Asset System State
  */
-public class CapitalAssetSystemState extends PersistableBusinessObjectBase {
+public class CapitalAssetSystemState extends PersistableBusinessObjectBase implements Inactivateable{
 
 	private String capitalAssetSystemStateCode;
 	private String capitalAssetSystemStateDescription;

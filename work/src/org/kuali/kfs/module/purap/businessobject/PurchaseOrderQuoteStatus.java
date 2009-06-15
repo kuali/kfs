@@ -16,12 +16,14 @@
 
 package org.kuali.kfs.module.purap.businessobject;
 
+import org.kuali.rice.kns.bo.Inactivateable;
+
 
 /**
  * Purchase Order Quote Status Business Object.
  * 
  */
-public class PurchaseOrderQuoteStatus extends Status {
+public class PurchaseOrderQuoteStatus extends Status implements Inactivateable{
 
     private boolean active;
     

@@ -18,6 +18,7 @@ package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
@@ -26,7 +27,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
  * 
  * @see org.kuali.kfs.vnd.businessobject.VendorAddress
  */
-public class AddressType extends PersistableBusinessObjectBase {
+public class AddressType extends PersistableBusinessObjectBase implements Inactivateable{
 
     private String vendorAddressTypeCode;
     private String vendorAddressTypeDescription;

@@ -2,12 +2,13 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ItemReasonAdded extends PersistableBusinessObjectBase {
+public class ItemReasonAdded extends PersistableBusinessObjectBase implements Inactivateable{
 
 	private String itemReasonAddedCode;
 	private String itemReasonAddedDescription;

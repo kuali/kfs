@@ -23,6 +23,7 @@ import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
 import org.kuali.kfs.integration.purap.PurchasingAccountsPayableSensitiveData;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -30,7 +31,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * CommodityCode Business Object
  */
-public class CommodityCode extends PersistableBusinessObjectBase {
+public class CommodityCode extends PersistableBusinessObjectBase implements Inactivateable  {
     
     private String purchasingCommodityCode;
     private String commodityDescription;

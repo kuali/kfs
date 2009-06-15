@@ -18,13 +18,14 @@ package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * Major classification of Vendors according to whether they are sufficiently set up to provide for an interaction via Purchase
  * Orders.
  */
-public class VendorType extends PersistableBusinessObjectBase {
+public class VendorType extends PersistableBusinessObjectBase implements Inactivateable{
 
     private String vendorTypeCode;
     private String vendorTypeDescription;

@@ -18,12 +18,13 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * Requisition Source Business Object.
  */
-public class RequisitionSource extends PersistableBusinessObjectBase {
+public class RequisitionSource extends PersistableBusinessObjectBase implements Inactivateable{
 
     private String requisitionSourceCode;
     private String requisitionSourceDescription;

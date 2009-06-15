@@ -18,6 +18,7 @@ package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
@@ -25,7 +26,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
  * 
  * @see org.kuali.kfs.vnd.businessobject.PaymentTermType
  */
-public class ShippingPaymentTerms extends PersistableBusinessObjectBase {
+public class ShippingPaymentTerms extends PersistableBusinessObjectBase implements Inactivateable{
 
     private String vendorShippingPaymentTermsCode;
     private String vendorShippingPaymentTermsDescription;

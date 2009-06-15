@@ -18,12 +18,13 @@ package org.kuali.kfs.module.purap.businessobject;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * Purchase Order Quote Language Business Object.
  */
-public class PurchaseOrderQuoteLanguage extends PersistableBusinessObjectBase {
+public class PurchaseOrderQuoteLanguage extends PersistableBusinessObjectBase implements Inactivateable{
 
     private Integer purchaseOrderQuoteLanguageIdentifier;
     private String purchaseOrderQuoteLanguageDescription;

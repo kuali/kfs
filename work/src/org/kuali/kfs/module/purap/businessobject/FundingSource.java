@@ -18,12 +18,13 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * Funding Source Business Object.
  */
-public class FundingSource extends PersistableBusinessObjectBase {
+public class FundingSource extends PersistableBusinessObjectBase implements Inactivateable{
 
     private String fundingSourceCode;
     private String fundingSourceDescription;

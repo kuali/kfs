@@ -19,6 +19,7 @@ package org.kuali.kfs.vnd.businessobject;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
@@ -26,7 +27,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
  * 
  * @see org.kuali.kfs.vnd.businessobject.ShippingPaymentTerms
  */
-public class PaymentTermType extends PersistableBusinessObjectBase {
+public class PaymentTermType extends PersistableBusinessObjectBase implements Inactivateable{
 
     private String vendorPaymentTermsCode;
     private String vendorDiscountDueTypeDescription;

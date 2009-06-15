@@ -18,12 +18,13 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * Purchase Order Vendor Choice Business Object.
  */
-public class PurchaseOrderVendorChoice extends PersistableBusinessObjectBase {
+public class PurchaseOrderVendorChoice extends PersistableBusinessObjectBase implements Inactivateable{
 
     private String purchaseOrderVendorChoiceCode;
     private String purchaseOrderVendorChoiceDescription;

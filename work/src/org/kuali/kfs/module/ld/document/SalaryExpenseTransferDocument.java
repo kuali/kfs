@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.integration.ld.LaborLedgerPendingEntryForSearching;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine;
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
@@ -103,4 +104,9 @@ public class SalaryExpenseTransferDocument extends LaborExpenseTransferDocumentB
 
         return true;
     }
+    
+    public List getLaborLedgerPendingEntriesForSearching() {
+        return super.getLaborLedgerPendingEntries();
+    }
+   
 }

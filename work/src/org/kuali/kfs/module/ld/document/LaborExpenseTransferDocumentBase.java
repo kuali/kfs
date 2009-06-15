@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.integration.ld.LaborLedgerPendingEntryForSearching;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferTargetAccountingLine;
 import org.kuali.kfs.sys.KFSConstants;
@@ -185,4 +186,5 @@ public abstract class LaborExpenseTransferDocumentBase extends LaborLedgerPostin
     public Class getTargetAccountingLineClass() {
         return ExpenseTransferTargetAccountingLine.class;
     }
+    
 }

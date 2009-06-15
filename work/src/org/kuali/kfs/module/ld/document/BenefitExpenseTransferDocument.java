@@ -17,6 +17,7 @@ package org.kuali.kfs.module.ld.document;
 
 import java.util.List;
 
+import org.kuali.kfs.integration.ld.LaborLedgerPendingEntryForSearching;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine;
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
 import org.kuali.kfs.module.ld.util.LaborPendingEntryGenerator;
@@ -60,4 +61,9 @@ public class BenefitExpenseTransferDocument extends LaborExpenseTransferDocument
     public boolean generateLaborLedgerBenefitClearingPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         return true;
     }
+    
+    public List getLaborLedgerPendingEntriesForSearching() {
+        return super.getLaborLedgerPendingEntries();
+    }
+    
 }

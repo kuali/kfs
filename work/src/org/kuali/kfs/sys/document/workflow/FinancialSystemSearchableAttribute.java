@@ -22,13 +22,18 @@ import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Organization;
+import org.kuali.kfs.integration.ld.LaborLedgerPendingEntryForSearching;
+import org.kuali.kfs.integration.ld.LaborLedgerPostingDocumentForSearching;
+import org.kuali.kfs.module.ld.document.LaborLedgerPostingDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.AmountTotaling;
+import org.kuali.kfs.sys.document.GeneralLedgerPostingDocument;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
 import org.kuali.rice.kew.docsearch.DocumentSearchContext;
@@ -118,6 +123,31 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
             docSearchRows.add(new Row(fieldList));
         }
         
+        boolean displayedLedgerPostingDoc = false;
+        if (LaborLedgerPostingDocumentForSearching.class.isAssignableFrom(docClass)) {
+            Class boClass = GeneralLedgerPendingEntry.class;
+            
+            Field searchField = FieldUtils.getPropertyField(boClass, "financialDocumentTypeCode", true);
+            searchField.setFieldDataType(SearchableAttribute.DATA_TYPE_STRING);
+
+            List<Field> fieldList = new ArrayList<Field>();
+            fieldList.add(searchField);
+            docSearchRows.add(new Row(fieldList));
+            displayedLedgerPostingDoc = true;
+        }
+        
+        if (GeneralLedgerPostingDocument.class.isAssignableFrom(docClass) && !displayedLedgerPostingDoc) {
+            Class boClass = GeneralLedgerPendingEntry.class;
+            
+            Field searchField = FieldUtils.getPropertyField(boClass, "financialDocumentTypeCode", true);
+            searchField.setFieldDataType(SearchableAttribute.DATA_TYPE_STRING);
+
+            List<Field> fieldList = new ArrayList<Field>();
+            fieldList.add(searchField);
+            docSearchRows.add(new Row(fieldList));
+            
+        }
+        
         if (AmountTotaling.class.isAssignableFrom( docClass)) {
               Class boClass = FinancialSystemDocumentHeader.class;
               
@@ -129,6 +159,8 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
               docSearchRows.add(new Row(fieldList));
               
           }
+        
+       
         
         Row resultType = createSearchResultReturnRow();
         docSearchRows.add(resultType);
@@ -158,6 +190,20 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
             AccountingDocument accountingDoc = (AccountingDocument)doc;
             searchAttrValues.addAll(harvestAccountingDocumentSearchableAttributes(accountingDoc));
         }
+    
+        boolean indexedLedgerDoc = false;
+        if (doc instanceof LaborLedgerPostingDocumentForSearching) {
+            LaborLedgerPostingDocumentForSearching LLPostingDoc = (LaborLedgerPostingDocumentForSearching)doc;
+            searchAttrValues.addAll(harvestLLPDocumentSearchableAttributes(LLPostingDoc));
+            indexedLedgerDoc = true;
+        }
+        
+        if (doc instanceof GeneralLedgerPostingDocument && !indexedLedgerDoc) {
+            GeneralLedgerPostingDocument GLPostingDoc = (GeneralLedgerPostingDocument)doc;
+            searchAttrValues.addAll(harvestGLPDocumentSearchableAttributes(GLPostingDoc));
+        }
+        
+        
        
         return searchAttrValues;
     }
@@ -183,6 +229,37 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
     }
     
     /**
+     * Harvest GLPE document type as searchable attributes from a GL posting document
+     * @param GLPDoc the GLP document to pull values from
+     * @return a List of searchable values
+     */
+    protected List<SearchableAttributeValue> harvestGLPDocumentSearchableAttributes(GeneralLedgerPostingDocument GLPDoc) {
+        List<SearchableAttributeValue> searchAttrValues = new ArrayList<SearchableAttributeValue>();
+        
+        for (Iterator itr = GLPDoc.getGeneralLedgerPendingEntries().iterator(); itr.hasNext();) {
+            GeneralLedgerPendingEntry glpe = (GeneralLedgerPendingEntry)itr.next();
+            addSearchableAttributesForGLPE(searchAttrValues, glpe);
+        }
+        return searchAttrValues;
+    }
+    
+    /**
+     * Harvest LLPE document type as searchable attributes from a LL posting document
+     * @param LLPDoc the LLP document to pull values from
+     * @return a List of searchable values
+     */
+    protected List<SearchableAttributeValue> harvestLLPDocumentSearchableAttributes(LaborLedgerPostingDocumentForSearching LLPDoc) {
+        List<SearchableAttributeValue> searchAttrValues = new ArrayList<SearchableAttributeValue>();
+        
+        for (Iterator itr = LLPDoc.getLaborLedgerPendingEntriesForSearching().iterator(); itr.hasNext();) {
+            LaborLedgerPendingEntryForSearching llpe = (LaborLedgerPendingEntryForSearching)itr.next();
+            addSearchableAttributesForLLPE(searchAttrValues, llpe);
+        }
+        return searchAttrValues;
+    }
+    
+    
+    /**
      * Pulls the default searchable attributes - chart code, account number, and account organization code - from a given accounting line and populates
      * the searchable attribute values in the given list
      * @param searchAttrValues a List of SearchableAttributeValue objects to populate
@@ -202,6 +279,33 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
         searchableAttributeValue = new SearchableAttributeStringValue();
         searchableAttributeValue.setSearchableAttributeKey(KFSPropertyConstants.ORGANIZATION_CODE);
         searchableAttributeValue.setSearchableAttributeValue(accountingLine.getAccount().getOrganizationCode());
+        searchAttrValues.add(searchableAttributeValue);
+    }
+    
+    /**
+     * Pulls the default searchable attribute - financialSystemTypeCode - from a given accounting line and populates
+     * the searchable attribute values in the given list
+     * @param searchAttrValues a List of SearchableAttributeValue objects to populate
+     * @param glpe a GeneralLedgerPendingEntry to get values from
+     */
+    protected void addSearchableAttributesForGLPE(List<SearchableAttributeValue> searchAttrValues, GeneralLedgerPendingEntry glpe) {
+        SearchableAttributeStringValue searchableAttributeValue = new SearchableAttributeStringValue();
+        searchableAttributeValue.setSearchableAttributeKey(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
+        searchableAttributeValue.setSearchableAttributeValue(glpe.getFinancialDocumentTypeCode());
+        searchAttrValues.add(searchableAttributeValue);
+        
+    }
+    
+    /**
+     * Pulls the default searchable attribute - financialSystemTypeCode from a given accounting line and populates
+     * the searchable attribute values in the given list
+     * @param searchAttrValues a List of SearchableAttributeValue objects to populate
+     * @param llpe a LaborLedgerPendingEntry to get values from
+     */
+    protected void addSearchableAttributesForLLPE(List<SearchableAttributeValue> searchAttrValues, LaborLedgerPendingEntryForSearching llpe) {
+        SearchableAttributeStringValue searchableAttributeValue = new SearchableAttributeStringValue();
+        searchableAttributeValue.setSearchableAttributeKey(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
+        searchableAttributeValue.setSearchableAttributeValue(llpe.getFinancialDocumentTypeCode());
         searchAttrValues.add(searchableAttributeValue);
     }
     

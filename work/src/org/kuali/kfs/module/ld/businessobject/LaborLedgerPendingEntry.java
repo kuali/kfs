@@ -21,6 +21,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.integration.ld.LaborLedgerPendingEntryForSearching;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
@@ -28,7 +29,7 @@ import org.kuali.kfs.sys.businessobject.UniversityDate;
 /**
  * Labor business object for LaborLedgerPendingEntry.
  */
-public class LaborLedgerPendingEntry extends GeneralLedgerPendingEntry implements LaborTransaction {
+public class LaborLedgerPendingEntry extends GeneralLedgerPendingEntry implements LaborTransaction, LaborLedgerPendingEntryForSearching {
     private String positionNumber;
     private Date transactionPostingDate;
     private Date payPeriodEndDate;

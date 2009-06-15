@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.document.JournalVoucherDocument;
+import org.kuali.kfs.integration.ld.LaborLedgerPendingEntryForSearching;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborConstants.JournalVoucherOffsetType;
 import org.kuali.kfs.module.ld.businessobject.LaborJournalVoucherAccountingLineParser;
@@ -263,5 +264,9 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
     @Override
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         return true;
+    }
+    
+    public List getLaborLedgerPendingEntriesForSearching() {
+        return getLaborLedgerPendingEntries();
     }
 }

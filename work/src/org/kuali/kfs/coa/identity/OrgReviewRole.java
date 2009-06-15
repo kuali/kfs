@@ -45,13 +45,14 @@ import org.kuali.rice.kim.bo.ui.RoleDocumentDelegation;
 import org.kuali.rice.kim.bo.ui.RoleDocumentDelegationMember;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kim.util.KimConstants;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.web.comparator.StringValueComparator;
 
 /**
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
-public class OrgReviewRole extends RoleImpl {
+public class OrgReviewRole extends RoleImpl implements Inactivateable {
 
     //Dummy variable
     private String organizationTypeCode = "99";

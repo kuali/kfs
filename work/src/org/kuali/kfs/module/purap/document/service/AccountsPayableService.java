@@ -102,5 +102,4 @@ public interface AccountsPayableService {
     
     public HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountsList(PurchaseOrderDocument po);
     
-    public void clearAllTaxes(AccountsPayableDocument apDoc);
 }

@@ -674,16 +674,5 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
         }
     }
     
-    public void clearAllTaxes(AccountsPayableDocument apDoc){
-        if (!apDoc.isUseTaxIndicator() && apDoc.getItems() != null){
-            for (int i = 0; i < apDoc.getItems().size(); i++) {
-                PurApItem item = apDoc.getItems().get(i);
-                if (item.getItemType().isLineItemIndicator()){
-                    item.setItemTaxAmount(null);
-                }
-            }
-        }
-    }
-
 }
 

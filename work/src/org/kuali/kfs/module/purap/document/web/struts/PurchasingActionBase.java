@@ -1194,7 +1194,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
         PurchasingDocument purDoc = (PurchasingDocument) purchasingForm.getDocument();
        
-        SpringContext.getBean(PurchasingService.class).clearAllTaxes(purDoc);
+        SpringContext.getBean(PurapService.class).clearAllTaxes(purDoc);
        
         return super.clearAllTaxes(mapping, form, request, response);
     }

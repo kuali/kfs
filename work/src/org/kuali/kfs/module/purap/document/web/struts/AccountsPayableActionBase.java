@@ -155,7 +155,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         AccountsPayableFormBase payableForm = (AccountsPayableFormBase) form;
         AccountsPayableDocument apDoc = (AccountsPayableDocument) payableForm.getDocument();
        
-        SpringContext.getBean(AccountsPayableService.class).clearAllTaxes(apDoc);
+        SpringContext.getBean(PurapService.class).clearAllTaxes(apDoc);
        
         return super.clearAllTaxes(mapping, form, request, response);
     }

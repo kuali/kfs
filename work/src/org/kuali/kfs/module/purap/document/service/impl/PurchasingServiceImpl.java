@@ -194,17 +194,6 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
         return parameterService.getParameterValue(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, PurapParameterConstants.CapitalAsset.PURCHASING_DEFAULT_ASSET_TYPE_WHEN_NOT_THIS_FISCAL_YEAR);
     }
 
-    public void clearAllTaxes(PurchasingDocument purDoc) {
-        if (!purDoc.isUseTaxIndicator() && purDoc.getItems() != null) {
-            for (int i = 0; i < purDoc.getItems().size(); i++) {
-                PurApItem item = purDoc.getItems().get(i);
-                if (item.getItemType().isLineItemIndicator()) {
-                    item.setItemTaxAmount(null);
-                }
-            }
-        }
-    }
-
     public boolean checkCapitalAssetLocation(CapitalAssetLocation location) {
         // if any of the date fields have a value AND one of them does not have a value...
         if (ObjectUtils.isNotNull(location) &&

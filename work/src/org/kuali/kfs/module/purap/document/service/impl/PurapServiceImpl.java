@@ -1275,6 +1275,15 @@ public class PurapServiceImpl implements PurapService {
         }
     }
 
+    public void clearAllTaxes(PurchasingAccountsPayableDocument purapDoc){
+        if (!purapDoc.isUseTaxIndicator() && purapDoc.getItems() != null){
+            for (int i = 0; i < purapDoc.getItems().size(); i++) {
+                PurApItem item = purapDoc.getItems().get(i);
+                item.setItemTaxAmount(null);
+            }
+        }
+    }
+    
     public PurapAccountingService getPurapAccountingService() {
         return purapAccountingService;
     }

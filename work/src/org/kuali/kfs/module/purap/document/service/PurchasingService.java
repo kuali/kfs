@@ -42,8 +42,6 @@ public interface PurchasingService {
      */
     public boolean getDefaultUseTaxIndicatorValue(PurchasingDocument purDoc);
     
-    public void clearAllTaxes(PurchasingDocument purDoc);
-    
     public boolean checkCapitalAssetLocation(CapitalAssetLocation location);
     
     public boolean checkValidRoomNumber(CapitalAssetLocation location);

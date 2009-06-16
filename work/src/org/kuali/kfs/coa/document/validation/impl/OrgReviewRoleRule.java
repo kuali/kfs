@@ -27,20 +27,21 @@ import org.kuali.kfs.coa.identity.OrgReviewRoleLookupableHelperServiceImpl;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kim.bo.role.dto.DelegateMemberCompleteInfo;
+import org.kuali.rice.kim.bo.role.dto.RoleMemberCompleteInfo;
 import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.role.impl.KimDelegationImpl;
 import org.kuali.rice.kim.bo.role.impl.KimDelegationMemberImpl;
 import org.kuali.rice.kim.bo.role.impl.RoleMemberAttributeDataImpl;
 import org.kuali.rice.kim.bo.role.impl.RoleMemberImpl;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.bo.ui.KimDocumentRoleMember;
-import org.kuali.rice.kim.bo.ui.RoleDocumentDelegationMember;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kim.service.UiDocumentService;
 import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class represents the business rules for the maintenance of {@link AccountGlobal} business objects
@@ -79,7 +80,7 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
                         KFSConstants.SysKimConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);
                 List<KimDelegationImpl> roleDelegations = KIMServiceLocator.getUiDocumentService().getRoleDelegations(roleId);
                 
-                RoleDocumentDelegationMember member;
+                DelegateMemberCompleteInfo member;
                 String memberId;
                 //validate if the newly entered delegation members are already assigned to the role
                 for(KimDelegationImpl delegation: roleDelegations){
@@ -108,20 +109,20 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
             if(roleMember!=null && roleMember.getAttributes()!=null){
                 for(RoleMemberAttributeDataImpl attribute: roleMember.getAttributes()){
                     if(KfsKimAttributes.FROM_AMOUNT.equals(attribute.getKimAttribute().getAttributeName())){
-                        int roleMemberFromAmount = Integer.parseInt(attribute.getAttributeValue());
-                        if(StringUtils.isNotEmpty(orr.getFromAmount())){
-                            int inputFromAmount = Integer.parseInt(orr.getFromAmount());
-                            if(inputFromAmount<roleMemberFromAmount){
+                        KualiDecimal roleMemberFromAmount = new KualiDecimal(attribute.getAttributeValue());
+                        if(orr.getFromAmount()!=null){
+                            KualiDecimal inputFromAmount = orr.getFromAmount();
+                            if(inputFromAmount!=null && inputFromAmount.isLessThan(roleMemberFromAmount)){
                                 putFieldError("fromAmount", KFSKeyConstants.FROM_AMOUNT_OUT_OF_RANGE);
                                 valid = false;
                             }
                         }
                     }
                     if(KfsKimAttributes.TO_AMOUNT.equals(attribute.getKimAttribute().getAttributeName())){
-                        int roleMemberToAmount = Integer.parseInt(attribute.getAttributeValue());
-                        if(StringUtils.isNotEmpty(orr.getToAmount())){
-                            int inputToAmount = Integer.parseInt(orr.getToAmount());
-                            if(inputToAmount>roleMemberToAmount){
+                        KualiDecimal roleMemberToAmount = new KualiDecimal(attribute.getAttributeValue());
+                        if(orr.getToAmount()!=null){
+                            KualiDecimal inputToAmount = orr.getToAmount();
+                            if(inputToAmount!=null && inputToAmount.isGreaterThan(roleMemberToAmount)){
                                 putFieldError("toAmount", KFSKeyConstants.TO_AMOUNT_OUT_OF_RANGE);
                                 valid = false;
                             }
@@ -151,7 +152,7 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
                 List<String> roleIds = new ArrayList<String>();
                 roleIds.add(roleId);
                 List<RoleMembershipInfo> roleMembershipInfoList = getRoleService().getFirstLevelRoleMembers(roleIds);
-                KimDocumentRoleMember member;
+                RoleMemberCompleteInfo member;
                 String memberId;
                 for(RoleMembershipInfo roleMembershipInfo: roleMembershipInfoList){
                     member = orr.getRoleMemberOfType(roleMembershipInfo.getMemberTypeCode());

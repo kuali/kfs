@@ -17,8 +17,10 @@ package org.kuali.kfs.coa.identity;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Chart;
@@ -31,33 +33,31 @@ import org.kuali.rice.kew.util.CodeTranslator;
 import org.kuali.rice.kim.bo.Group;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.Role;
-import org.kuali.rice.kim.bo.impl.GroupImpl;
-import org.kuali.rice.kim.bo.impl.PersonImpl;
-import org.kuali.rice.kim.bo.impl.RoleImpl;
-import org.kuali.rice.kim.bo.role.impl.KimDelegationImpl;
-import org.kuali.rice.kim.bo.role.impl.KimDelegationMemberImpl;
-import org.kuali.rice.kim.bo.role.impl.RoleMemberImpl;
-import org.kuali.rice.kim.bo.role.impl.RoleResponsibilityActionImpl;
-import org.kuali.rice.kim.bo.types.impl.KimAttributeDataImpl;
-import org.kuali.rice.kim.bo.types.impl.KimAttributeImpl;
-import org.kuali.rice.kim.bo.ui.KimDocumentRoleMember;
-import org.kuali.rice.kim.bo.ui.RoleDocumentDelegation;
-import org.kuali.rice.kim.bo.ui.RoleDocumentDelegationMember;
+import org.kuali.rice.kim.bo.role.dto.DelegateMemberCompleteInfo;
+import org.kuali.rice.kim.bo.role.dto.DelegateTypeInfo;
+import org.kuali.rice.kim.bo.role.dto.RoleMemberCompleteInfo;
+import org.kuali.rice.kim.bo.role.dto.RoleResponsibilityActionInfo;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.bo.types.dto.KimTypeAttributeInfo;
+import org.kuali.rice.kim.bo.types.dto.KimTypeInfo;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.bo.Inactivateable;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.web.comparator.StringValueComparator;
 
 /**
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
-public class OrgReviewRole extends RoleImpl implements Inactivateable {
+public class OrgReviewRole extends PersistableBusinessObjectBase implements Inactivateable {
 
     //Dummy variable
     private String organizationTypeCode = "99";
-	private static final long serialVersionUID = 1L;
-	
+    private static final long serialVersionUID = 1L;
+    
     public static final String REVIEW_ROLES_INDICATOR_FIELD_NAME = "reviewRolesIndicator";
     public static final String ROLE_NAME_FIELD_NAMESPACE_CODE = "roleMemberRoleNamespaceCode";
     public static final String ROLE_NAME_FIELD_NAME = "roleMemberRoleName";
@@ -79,30 +79,29 @@ public class OrgReviewRole extends RoleImpl implements Inactivateable {
     public static final String NEW_DELEGATION_ID_KEY_VALUE = "New";
 
     String methodToCall;
+    protected String kimTypeId;
     
     protected String orgReviewRoleMemberId;
     protected Chart chart = new Chart();
     protected Organization organization = new Organization();
     private boolean edit;
     private boolean copy;
-    List<KimDelegationImpl> dlgns = new TypedArrayList(KimDelegationImpl.class);
-    List<RoleMemberImpl> members = new TypedArrayList(RoleMemberImpl.class);
     
-    protected RoleDocumentDelegation delegation = new RoleDocumentDelegation();
-    protected RoleDocumentDelegationMember delegationMemberRole = new RoleDocumentDelegationMember();
-    protected RoleDocumentDelegationMember delegationMemberGroup = new RoleDocumentDelegationMember();
-    protected RoleDocumentDelegationMember delegationMemberPerson = new RoleDocumentDelegationMember();
+    protected DelegateTypeInfo delegation = new DelegateTypeInfo();
+    protected DelegateMemberCompleteInfo delegationMemberRole = new DelegateMemberCompleteInfo();
+    protected DelegateMemberCompleteInfo delegationMemberGroup = new DelegateMemberCompleteInfo();
+    protected DelegateMemberCompleteInfo delegationMemberPerson = new DelegateMemberCompleteInfo();
 
-	protected KimDocumentRoleMember memberRole = new KimDocumentRoleMember();
-    protected KimDocumentRoleMember memberGroup = new KimDocumentRoleMember();
-    protected KimDocumentRoleMember memberPerson = new KimDocumentRoleMember();
+    protected RoleMemberCompleteInfo memberRole = new RoleMemberCompleteInfo();
+    protected RoleMemberCompleteInfo memberGroup = new RoleMemberCompleteInfo();
+    protected RoleMemberCompleteInfo memberPerson = new RoleMemberCompleteInfo();
 
-    protected Role role = new RoleImpl();
-    protected Group group = new GroupImpl();
-    protected Person person = new PersonImpl();
+    protected Role role;
+    protected Group group;
+    protected Person person;
     
-    protected List<KimAttributeDataImpl> attributes = new TypedArrayList(KimAttributeDataImpl.class);
-    protected List<RoleResponsibilityActionImpl> roleRspActions = new TypedArrayList(RoleResponsibilityActionImpl.class);
+    protected List<KfsKimDocumentAttributeData> attributes = new TypedArrayList(KfsKimDocumentAttributeData.class);
+    protected List<RoleResponsibilityActionInfo> roleRspActions = new TypedArrayList(RoleResponsibilityActionInfo.class);
 
     //Identifying information for the 3 kinds of role members this document caters to 
     protected String roleMemberRoleId;
@@ -141,22 +140,22 @@ public class OrgReviewRole extends RoleImpl implements Inactivateable {
     protected List<String> roleNamesToConsider;
     private String reviewRolesIndicator;
     
-	protected String actionTypeCode;
-	protected String priorityNumber;
+    protected String actionTypeCode;
+    protected String priorityNumber;
     protected String actionPolicyCode;
     protected boolean forceAction;
     protected String chartOfAccountsCode;
     protected String organizationCode;
-	protected String fromAmount;
-	protected String toAmount;
-	protected String overrideCode;
-	protected boolean active;
-	protected boolean delegate;
+    protected KualiDecimal fromAmount;
+    protected KualiDecimal toAmount;
+    protected String overrideCode;
+    protected boolean active = true;
+    protected boolean delegate;
     
     protected Date activeFromDate;
     protected Date activeToDate;
 
-	/**
+    /**
      * Gets the active attribute. 
      * @return Returns the active.
      */
@@ -202,14 +201,14 @@ public class OrgReviewRole extends RoleImpl implements Inactivateable {
      * Gets the delegation attribute. 
      * @return Returns the delegation.
      */
-    public RoleDocumentDelegation getDelegation() {
+    public DelegateTypeInfo getDelegation() {
         return delegation;
     }
     /**
      * Sets the delegation attribute value.
      * @param delegation The delegation to set.
      */
-    public void setDelegation(RoleDocumentDelegation delegation) {
+    public void setDelegation(DelegateTypeInfo delegation) {
         this.delegation = delegation;
     }
     /**
@@ -354,34 +353,18 @@ public class OrgReviewRole extends RoleImpl implements Inactivateable {
     public void setOrganization(Organization organization) {
         this.organization = organization;
     }
-    /**
-     * Gets the fromAmount attribute. 
-     * @return Returns the fromAmount.
-     */
-    public String getFromAmount() {
-        return this.fromAmount;
-    }
-    /**
-     * Sets the fromAmount attribute value.
-     * @param fromAmount The fromAmount to set.
-     */
-    public void setFromAmount(String fromAmount) {
-        //updateAttributeValue(KfsKimAttributes.FROM_AMOUNT, fromAmount);
-        this.fromAmount = fromAmount;
-    }
-
     private void updateAttributeValue(String attributeName, String attributeValue){
         if(StringUtils.isNotEmpty(attributeName)){
-            KimAttributeDataImpl attributeData = getAttribute(attributeName);
+            KfsKimDocumentAttributeData attributeData = getAttribute(attributeName);
             if(attributeData==null){
-                attributeData = new KimAttributeDataImpl();
-                KimAttributeImpl attribute = new KimAttributeImpl();
+                attributeData = new KfsKimDocumentAttributeData();
+                KimTypeAttributeInfo attribute = new KimTypeAttributeInfo();
                 attribute.setAttributeName(attributeName);
                 attributeData.setKimAttribute(attribute);
-                attributeData.setAttributeValue(attributeValue);
+                attributeData.setAttrVal(attributeValue);
                 attributes.add(attributeData);
             } else
-                attributeData.setAttributeValue(attributeValue);
+                attributeData.setAttrVal(attributeValue);
         }
     }
     /**
@@ -400,20 +383,59 @@ public class OrgReviewRole extends RoleImpl implements Inactivateable {
         this.overrideCode = overrideCode;
     }
     /**
+     * Gets the fromAmount attribute. 
+     * @return Returns the fromAmount.
+     */
+    public KualiDecimal getFromAmount() {
+        return fromAmount;
+    }
+    
+    public String getFromAmountStr() {
+        return fromAmount==null?null:fromAmount.toString();
+    }
+    
+    /**
+     * Sets the fromAmount attribute value.
+     * @param fromAmount The fromAmount to set.
+     */
+    public void setFromAmount(KualiDecimal fromAmount) {
+        this.fromAmount = fromAmount;
+    }
+
+    public void setFromAmount(String fromAmount) {
+        if(StringUtils.isNotEmpty(fromAmount))
+            this.fromAmount = new KualiDecimal(fromAmount);
+        else
+            this.fromAmount = null;
+    }
+
+    /**
      * Gets the toAmount attribute. 
      * @return Returns the toAmount.
      */
-    public String getToAmount() {
-        return this.toAmount;
+    public KualiDecimal getToAmount() {
+        return toAmount;
     }
+    
+    public String getToAmountStr() {
+        return toAmount==null?null:toAmount.toString();
+    }
+    
     /**
      * Sets the toAmount attribute value.
      * @param toAmount The toAmount to set.
      */
-    public void setToAmount(String toAmount) {
-        //updateAttributeValue(KfsKimAttributes.TO_AMOUNT, toAmount);
+    public void setToAmount(KualiDecimal toAmount) {
         this.toAmount = toAmount;
     }
+    
+    public void setToAmount(String toAmount) {
+        if(StringUtils.isNotEmpty(toAmount))
+            this.toAmount = new KualiDecimal(toAmount);
+        else
+            this.toAmount = null;
+    }
+
     /**
      * Gets the memberName attribute. 
      * @return Returns the memberName.
@@ -470,7 +492,7 @@ public class OrgReviewRole extends RoleImpl implements Inactivateable {
     public void setOrgReviewRoleMemberId(String orgReviewRoleMemberId) {
         this.orgReviewRoleMemberId = orgReviewRoleMemberId;
     } 
-	
+    
     public void refresh(){
         
     }
@@ -590,14 +612,14 @@ public class OrgReviewRole extends RoleImpl implements Inactivateable {
      * Gets the attributes attribute. 
      * @return Returns the attributes.
      */
-    public List<KimAttributeDataImpl> getAttributes() {
+    public List<KfsKimDocumentAttributeData> getAttributes() {
         return attributes;
     }
     /**
      * Sets the attributes attribute value.
      * @param attributes The attributes to set.
      */
-    public void setAttributes(List<KimAttributeDataImpl> attributes) {
+    public void setAttributes(List<KfsKimDocumentAttributeData> attributes) {
         this.attributes = attributes;
     }
     
@@ -605,14 +627,14 @@ public class OrgReviewRole extends RoleImpl implements Inactivateable {
         String attributeValue = "";
         if(StringUtils.isEmpty(attributeName)) 
             attributeValue = "";
-        KimAttributeDataImpl attributeData = getAttribute(attributeName);
-        return attributeData==null?"":attributeData.getAttributeValue();
+        KfsKimDocumentAttributeData attributeData = getAttribute(attributeName);
+        return attributeData==null?"":attributeData.getAttrVal();
     }
 
-    private KimAttributeDataImpl getAttribute(String attributeName){
-        KimAttributeDataImpl attributeData = null;
+    private KfsKimDocumentAttributeData getAttribute(String attributeName){
+        KfsKimDocumentAttributeData attributeData = null;
         if(StringUtils.isNotEmpty(attributeName)) 
-            for(KimAttributeDataImpl attribute: attributes){
+            for(KfsKimDocumentAttributeData attribute: attributes){
                 if(attribute.getKimAttribute()!=null && attribute.getKimAttribute().getAttributeName()!=null && 
                         attribute.getKimAttribute().getAttributeName().equals(attributeName)){
                     attributeData = attribute;
@@ -642,20 +664,6 @@ public class OrgReviewRole extends RoleImpl implements Inactivateable {
      */
     public void setOrganizationCode(String organizationCode) {
         this.organizationCode = organizationCode;
-    }
-    /**
-     * Gets the roleRspActions attribute. 
-     * @return Returns the roleRspActions.
-     */
-    public List<RoleResponsibilityActionImpl> getRoleRspActions() {
-        return roleRspActions;
-    }
-    /**
-     * Sets the roleRspActions attribute value.
-     * @param roleRspActions The roleRspActions to set.
-     */
-    public void setRoleRspActions(List<RoleResponsibilityActionImpl> roleRspActions) {
-        this.roleRspActions = roleRspActions;
     }
     /**
      * Sets the chartOfAccountsCode attribute value.
@@ -750,7 +758,7 @@ public class OrgReviewRole extends RoleImpl implements Inactivateable {
      */
     public void setActionTypeCode(String actionTypeCode) {
         /*if(roleRspActions==null || roleRspActions.size()<1){
-            RoleResponsibilityActionImpl roleRespAction = new RoleResponsibilityActionImpl();
+            KfsKimDocumentRoleResponsibilityAction roleRespAction = new KfsKimDocumentRoleResponsibilityAction();
             roleRespAction.setActionTypeCode(actionTypeCode);
             roleRspActions.add(roleRespAction);
         } else{
@@ -873,7 +881,7 @@ public class OrgReviewRole extends RoleImpl implements Inactivateable {
         return hasRole() || hasGroup() || hasPrincipal();
     }
     
-    public RoleDocumentDelegationMember getDelegationMemberOfType(String memberTypeCode){
+    public DelegateMemberCompleteInfo getDelegationMemberOfType(String memberTypeCode){
         if(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE.equals(memberTypeCode)){
             delegationMemberRole.setMemberId(roleMemberRoleId);
             delegationMemberRole.setMemberName(roleMemberRoleName);
@@ -895,7 +903,7 @@ public class OrgReviewRole extends RoleImpl implements Inactivateable {
         return null;
     }
     
-    public KimDocumentRoleMember getRoleMemberOfType(String memberTypeCode){
+    public RoleMemberCompleteInfo getRoleMemberOfType(String memberTypeCode){
         if(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE.equals(memberTypeCode)){
             memberRole.setMemberId(roleMemberRoleId);
             memberRole.setMemberName(roleMemberRoleName);
@@ -915,37 +923,49 @@ public class OrgReviewRole extends RoleImpl implements Inactivateable {
     }
     
     public String getMemberIdForDelegationMember(String memberTypeCode){
-        RoleDocumentDelegationMember member = getDelegationMemberOfType(memberTypeCode);
+        DelegateMemberCompleteInfo member = getDelegationMemberOfType(memberTypeCode);
         return member!=null?member.getMemberId():null;
     }
     
     public String getMemberIdForRoleMember(String memberTypeCode){
-        KimDocumentRoleMember member = getRoleMemberOfType(memberTypeCode);
+        RoleMemberCompleteInfo member = getRoleMemberOfType(memberTypeCode);
         return member!=null?member.getMemberId():null;
     }
 
-    public String getDelegationMemberFieldName(RoleDocumentDelegationMember member){
+    public String getDelegationMemberFieldName(DelegateMemberCompleteInfo member){
         String memberFieldName = "";
         if(member!=null){
-            if(member.isRole())
+            if(isRole(member.getMemberTypeCode()))
                 memberFieldName = OrgReviewRole.ROLE_NAME_FIELD_NAME;
-            else if(member.isGroup())
+            else if(isGroup(member.getMemberTypeCode()))
                 memberFieldName = OrgReviewRole.GROUP_NAME_FIELD_NAME;
-            else if(member.isPrincipal()){
+            else if(isPrincipal(member.getMemberTypeCode())){
                 memberFieldName = OrgReviewRole.PRINCIPAL_NAME_FIELD_NAME;
             }
         }
         return memberFieldName;
     }
     
-    public String getMemberFieldName(KimDocumentRoleMember member){
+    public boolean isRole(String memberTypeCode){
+        return memberTypeCode!=null && memberTypeCode.equals(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE);
+    }
+    
+    public boolean isGroup(String memberTypeCode){
+        return memberTypeCode!=null && memberTypeCode.equals(KimConstants.KimUIConstants.MEMBER_TYPE_GROUP_CODE);
+    }
+
+    public boolean isPrincipal(String memberTypeCode){
+        return memberTypeCode!=null && memberTypeCode.equals(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL_CODE);
+    }
+
+    public String getMemberFieldName(RoleMemberCompleteInfo member){
         String memberFieldName = "";
         if(member!=null){
-            if(member.isRole())
+            if(isRole(member.getMemberTypeCode()))
                 memberFieldName = OrgReviewRole.ROLE_NAME_FIELD_NAME;
-            else if(member.isGroup())
+            else if(isGroup(member.getMemberTypeCode()))
                 memberFieldName = OrgReviewRole.GROUP_NAME_FIELD_NAME;
-            else if(member.isPrincipal()){
+            else if(isPrincipal(member.getMemberTypeCode())){
                 memberFieldName = OrgReviewRole.PRINCIPAL_NAME_FIELD_NAME;
             }
         }
@@ -985,8 +1005,8 @@ public class OrgReviewRole extends RoleImpl implements Inactivateable {
      */
     public Person getPerson() {
         if(StringUtils.isNotEmpty(principalMemberPrincipalId) && 
-          (person==null || StringUtils.isEmpty(person.getPrincipalId()) || StringUtils.isEmpty(person.getName()))){
-            person = KIMServiceLocator.getPersonService().getPerson(principalMemberPrincipalId);
+          (person==null || StringUtils.isEmpty(person.getPrincipalId()) || StringUtils.isEmpty(person.getPrincipalName()))){
+            person = getPersonFromService(principalMemberPrincipalId);
         }
         return person;
     }
@@ -997,13 +1017,35 @@ public class OrgReviewRole extends RoleImpl implements Inactivateable {
     public void setPerson(Person person) {
         this.person = person;
     }
+
     /**
      * Gets the role attribute. 
      * @return Returns the role.
      */
     public Role getRole() {
-        return role;
+        return this.role;
     }
+
+    public Role getRole(String roleId) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(KimConstants.PrimaryKeyConstants.ROLE_ID, roleId);
+        return (Role) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Role.class).getExternalizableBusinessObject(Role.class, fieldValues);
+    }
+
+    public Role getRole(Map<String, Object> fieldValues) {
+        return (Role) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Role.class).getExternalizableBusinessObject(Role.class, fieldValues);
+    }
+
+    public Group getGroup(String groupId) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(KimConstants.PrimaryKeyConstants.GROUP_ID, groupId);
+        return (Group) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Group.class).getExternalizableBusinessObject(Group.class, fieldValues);
+    }
+
+    public Group getGroup(Map<String, Object> fieldValues) {
+        return (Group) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Group.class).getExternalizableBusinessObject(Group.class, fieldValues);
+    }
+
     /**
      * Sets the role attribute value.
      * @param role The role to set.
@@ -1015,100 +1057,99 @@ public class OrgReviewRole extends RoleImpl implements Inactivateable {
      * Gets the delegationMemberGroup attribute. 
      * @return Returns the delegationMemberGroup.
      */
-    public RoleDocumentDelegationMember getDelegationMemberGroup() {
+    public DelegateMemberCompleteInfo getDelegationMemberGroup() {
         return delegationMemberGroup;
     }
     /**
      * Sets the delegationMemberGroup attribute value.
      * @param delegationMemberGroup The delegationMemberGroup to set.
      */
-    public void setDelegationMemberGroup(RoleDocumentDelegationMember delegationMemberGroup) {
+    public void setDelegationMemberGroup(DelegateMemberCompleteInfo delegationMemberGroup) {
         this.delegationMemberGroup = delegationMemberGroup;
         if(delegationMemberGroup!=null){
-            GroupImpl groupImpl = new GroupImpl();
-            groupImpl.setGroupId(delegationMemberGroup.getMemberId());
-            groupImpl.setNamespaceCode(delegationMemberGroup.getMemberNamespaceCode());
-            groupImpl.setGroupName(delegationMemberGroup.getMemberName());
-            setGroup(groupImpl);
+            Map<String, Object> fieldValues = new HashMap<String, Object>();
+            fieldValues.put(KimConstants.PrimaryKeyConstants.GROUP_ID, memberGroup.getMemberId());
+            Group groupInfo = getGroup(fieldValues);
+            setGroup(groupInfo);
         }
     }
     /**
      * Gets the delegationMemberPerson attribute. 
      * @return Returns the delegationMemberPerson.
      */
-    public RoleDocumentDelegationMember getDelegationMemberPerson() {
+    public DelegateMemberCompleteInfo getDelegationMemberPerson() {
         return delegationMemberPerson;
     }
     /**
      * Sets the delegationMemberPerson attribute value.
      * @param delegationMemberPerson The delegationMemberPerson to set.
      */
-    public void setDelegationMemberPerson(RoleDocumentDelegationMember delegationMemberPerson) {
+    public void setDelegationMemberPerson(DelegateMemberCompleteInfo delegationMemberPerson) {
         this.delegationMemberPerson = delegationMemberPerson;
         if(delegationMemberPerson!=null){
-            PersonImpl personImpl = new PersonImpl(delegationMemberPerson.getMemberId(), "");
-            personImpl.setPrincipalName(delegationMemberPerson.getMemberName());
-            setPerson(personImpl);
+            Person person = getPersonFromService(delegationMemberPerson.getMemberId());
+            //person.setPrincipalId(delegationMemberPerson.getMemberId());
+            //person.setPrincipalName(delegationMemberPerson.getMemberName());
+            setPerson(person);
         }
     }
     /**
      * Gets the delegationMemberRole attribute. 
      * @return Returns the delegationMemberRole.
      */
-    public RoleDocumentDelegationMember getDelegationMemberRole() {
+    public DelegateMemberCompleteInfo getDelegationMemberRole() {
         return delegationMemberRole;
     }
     /**
      * Sets the delegationMemberRole attribute value.
      * @param delegationMemberRole The delegationMemberRole to set.
      */
-    public void setDelegationMemberRole(RoleDocumentDelegationMember delegationMemberRole) {
+    public void setDelegationMemberRole(DelegateMemberCompleteInfo delegationMemberRole) {
         this.delegationMemberRole = delegationMemberRole;
         if(delegationMemberRole!=null){
-            RoleImpl roleImpl = new RoleImpl();
-            roleImpl.setRoleId(delegationMemberRole.getMemberId());
-            roleImpl.setNamespaceCode(delegationMemberRole.getMemberNamespaceCode());
-            roleImpl.setRoleName(delegationMemberRole.getMemberName());
-            setRole(roleImpl);
+            Map<String, Object> fieldValues = new HashMap<String, Object>();
+            fieldValues.put(KimConstants.PrimaryKeyConstants.ROLE_ID, delegationMemberRole.getMemberId());
+            Role roleInfo = getRole(fieldValues);
+            setRole(roleInfo);
         }
     }
     /**
      * Gets the memberGroup attribute. 
      * @return Returns the memberGroup.
      */
-    public KimDocumentRoleMember getMemberGroup() {
+    public RoleMemberCompleteInfo getMemberGroup() {
         return memberGroup;
     }
     /**
      * Sets the memberGroup attribute value.
      * @param memberGroup The memberGroup to set.
      */
-    protected void setMemberGroup(KimDocumentRoleMember memberGroup) {
+    protected void setMemberGroup(RoleMemberCompleteInfo memberGroup) {
         this.memberGroup = memberGroup;
         if(memberGroup!=null){
-            GroupImpl groupImpl = new GroupImpl();
-            groupImpl.setGroupId(memberGroup.getMemberId());
-            groupImpl.setNamespaceCode(memberGroup.getMemberNamespaceCode());
-            groupImpl.setGroupName(memberGroup.getMemberName());
-            setGroup(groupImpl);
+            Map<String, Object> fieldValues = new HashMap<String, Object>();
+            fieldValues.put(KimConstants.PrimaryKeyConstants.GROUP_ID, memberGroup.getMemberId());
+            Group groupInfo = getGroup(fieldValues);
+            setGroup(groupInfo);
         }
     }
     /**
      * Gets the memberPerson attribute. 
      * @return Returns the memberPerson.
      */
-    public KimDocumentRoleMember getMemberPerson() {
+    public RoleMemberCompleteInfo getMemberPerson() {
         return memberPerson;
     }
     /**
      * Sets the memberPerson attribute value.
      * @param memberPerson The memberPerson to set.
      */
-    protected void setMemberPerson(KimDocumentRoleMember memberPerson) {
+    protected void setMemberPerson(RoleMemberCompleteInfo memberPerson) {
         this.memberPerson = memberPerson;
         if(memberPerson!=null){
-            PersonImpl personImpl = new PersonImpl(memberPerson.getMemberId(), "");
-            personImpl.setPrincipalName(memberPerson.getMemberName());
+            Person personImpl = getPersonFromService(memberPerson.getMemberId());
+            //personImpl.setPrincipalId(memberPerson.getMemberId());
+            //personImpl.setPrincipalName(memberPerson.getMemberName());
             setPerson(personImpl);
         }
     }
@@ -1116,95 +1157,43 @@ public class OrgReviewRole extends RoleImpl implements Inactivateable {
      * Gets the memberRole attribute. 
      * @return Returns the memberRole.
      */
-    public KimDocumentRoleMember getMemberRole() {
+    public RoleMemberCompleteInfo getMemberRole() {
         return memberRole;
     }
     /**
      * Sets the memberRole attribute value.
      * @param memberRole The memberRole to set.
      */
-    protected void setMemberRole(KimDocumentRoleMember memberRole) {
+    protected void setMemberRole(RoleMemberCompleteInfo memberRole) {
         this.memberRole = memberRole;
         if(memberRole!=null){
-            RoleImpl roleImpl = new RoleImpl();
-            roleImpl.setRoleId(memberRole.getMemberId());
-            roleImpl.setNamespaceCode(memberRole.getMemberNamespaceCode());
-            roleImpl.setRoleName(memberRole.getMemberName());
-            setRole(roleImpl);
+            Map<String, Object> criteria = new HashMap<String, Object>();
+            criteria.put(KimConstants.PrimaryKeyConstants.ROLE_ID, memberRole.getMemberId());
+            Role roleInfo = getRole(criteria);
+            setRole(roleInfo);
         }
     }
 
-    public void setRoleDocumentDelegationMember(RoleDocumentDelegationMember delegationMember, String memberTypeCode){
-        if(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE.equals(memberTypeCode))
+    public void setRoleDocumentDelegationMember(DelegateMemberCompleteInfo delegationMember){
+        if(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE.equals(delegationMember.getMemberTypeCode()))
             setDelegationMemberRole(delegationMember);
-        else if(KimConstants.KimUIConstants.MEMBER_TYPE_GROUP_CODE.equals(memberTypeCode))
+        else if(KimConstants.KimUIConstants.MEMBER_TYPE_GROUP_CODE.equals(delegationMember.getMemberTypeCode()))
             setDelegationMemberGroup(delegationMember);
-        else if(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL_CODE.equals(memberTypeCode))
+        else if(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL_CODE.equals(delegationMember.getMemberTypeCode()))
             setDelegationMemberPerson(delegationMember);
         setActiveFromDate(delegationMember.getActiveFromDate());
         setActiveToDate(delegationMember.getActiveToDate());
     }
     
-    public void setKimDocumentRoleMember(KimDocumentRoleMember roleMember, String memberTypeCode){
-        if(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE.equals(memberTypeCode))
+    public void setKimDocumentRoleMember(RoleMemberCompleteInfo roleMember){
+        if(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE.equals(roleMember.getMemberTypeCode()))
             setMemberRole(roleMember);
-        else if(KimConstants.KimUIConstants.MEMBER_TYPE_GROUP_CODE.equals(memberTypeCode))
+        else if(KimConstants.KimUIConstants.MEMBER_TYPE_GROUP_CODE.equals(roleMember.getMemberTypeCode()))
             setMemberGroup(roleMember);
-        else if(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL_CODE.equals(memberTypeCode))
+        else if(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL_CODE.equals(roleMember.getMemberTypeCode()))
             setMemberPerson(roleMember);
         setActiveFromDate(roleMember.getActiveFromDate());
         setActiveToDate(roleMember.getActiveToDate());
-    }
-
-    /**
-     * Gets the dlgns attribute. 
-     * @return Returns the dlgns.
-     */
-    public List<KimDelegationImpl> getDlgns() {
-        return dlgns;
-    }
-    /**
-     * Sets the dlgns attribute value.
-     * @param dlgns The dlgns to set.
-     */
-    public void setDlgns(List<KimDelegationImpl> dlgns) {
-        this.dlgns = dlgns;
-    }
-    /**
-     * Gets the members attribute. 
-     * @return Returns the members.
-     */
-    public List<RoleMemberImpl> getMembers() {
-        return members;
-    }
-    /**
-     * Sets the members attribute value.
-     * @param members The members to set.
-     */
-    public void setMembers(List<RoleMemberImpl> members) {
-        this.members = members;
-    }
-
-    public RoleMemberImpl getOriginalRoleMemberOfType(String memberTypeCode){
-        for(RoleMemberImpl roleMember: getMembers()){
-            if(roleMember.getMemberTypeCode().equals(memberTypeCode))
-                return roleMember;
-        }
-        return null;
-    }
-    
-    public KimDelegationMemberImpl getOriginalRoleMemberOfType(String delegationTypeCode, String memberTypeCode){
-        if(getDlgns()!=null && getDlgns().size()>0){
-            for(KimDelegationImpl delegation: getDlgns()){
-                if(delegation.getDelegationTypeCode().equals(delegationTypeCode) && delegation.getMembers()!=null){
-                    for(KimDelegationMemberImpl delegationMember: getDlgns().get(0).getMembers()){
-                        if(delegationMember.getMemberTypeCode().equals(memberTypeCode))
-                            return delegationMember;
-                    }
-                }
-            }
-        }
-        return null;
     }
     
     /**
@@ -1378,6 +1367,64 @@ public class OrgReviewRole extends RoleImpl implements Inactivateable {
     @Override
     public Long getVersionNumber(){
         return 1L;
+    }
+
+    private Person getPersonFromService(String principalId){
+        return KIMServiceLocator.getPersonService().getPerson(principalId);
+    }
+    /**
+     * Gets the kimTypeId attribute. 
+     * @return Returns the kimTypeId.
+     */
+    public String getKimTypeId() {
+        return kimTypeId;
+    }
+    /**
+     * Sets the kimTypeId attribute value.
+     * @param kimTypeId The kimTypeId to set.
+     */
+    public void setKimTypeId(String kimTypeId) {
+        this.kimTypeId = kimTypeId;
+    }
+    
+    public AttributeSet getQualifierAsAttributeSet(List<KfsKimDocumentAttributeData> qualifiers) {
+        AttributeSet m = new AttributeSet();
+        for(KfsKimDocumentAttributeData data: qualifiers){
+            m.put(data.getKimAttribute().getAttributeName(), data.getAttrVal());
+        }
+        return m;
+    }
+
+    public List<KfsKimDocumentAttributeData> getAttributeSetAsQualifierList(
+            KimTypeInfo typeInfo, AttributeSet qualifiers) {
+        List<KfsKimDocumentAttributeData> attributesList = new ArrayList<KfsKimDocumentAttributeData>();
+        KfsKimDocumentAttributeData attribData;
+        KimTypeAttributeInfo attribInfo;
+        for(String key: qualifiers.keySet()){
+            attribInfo = typeInfo.getAttributeDefinitionByName(key);
+            attribData = new KfsKimDocumentAttributeData();
+            attribData.setKimAttribute(attribInfo);
+            attribData.setKimTypId(typeInfo.getKimTypeId());
+            attribData.setKimAttrDefnId(attribInfo.getKimAttributeId());
+            //attribData.setAttrDataId(attrDataId) - Not Available
+            attribData.setAttrVal(qualifiers.get(key));
+            attributesList.add(attribData);
+        }
+        return attributesList;
+    }
+    /**
+     * Gets the roleRspActions attribute. 
+     * @return Returns the roleRspActions.
+     */
+    public List<RoleResponsibilityActionInfo> getRoleRspActions() {
+        return roleRspActions;
+    }
+    /**
+     * Sets the roleRspActions attribute value.
+     * @param roleRspActions The roleRspActions to set.
+     */
+    public void setRoleRspActions(List<RoleResponsibilityActionInfo> roleRspActions) {
+        this.roleRspActions = roleRspActions;
     }
 
 }

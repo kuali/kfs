@@ -199,7 +199,7 @@ public class SalaryExpenseTransferAction extends ExpenseTransferDocumentActionBa
         if (salaryExpenseDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
             SpringContext.getBean(SalaryTransferPeriodValidationService.class).disapproveSalaryExpenseDocument(salaryExpenseDocument);
 
-            return returnToSender(mapping, (KualiDocumentFormBase) form);
+            return returnToSender(request, mapping, (KualiDocumentFormBase) form);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

@@ -525,7 +525,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             if (docForm.getReturnFormKey() == null) {
 
                 // assume called from doc search or lost the session - go back to main
-                return returnToSender(mapping, docForm);
+                return returnToSender(request, mapping, docForm);
             }
             else {
                 // setup the return parms for the document and anchor and go back to doc select

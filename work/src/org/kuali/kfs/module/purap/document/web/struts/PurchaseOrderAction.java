@@ -1753,7 +1753,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         SpringContext.getBean(DocumentService.class).cancelDocument(kualiDocumentFormBase.getDocument(), kualiDocumentFormBase.getAnnotation());
 
-        return returnToSender(mapping, kualiDocumentFormBase);
+        return returnToSender(request, mapping, kualiDocumentFormBase);
     }
 
     /**

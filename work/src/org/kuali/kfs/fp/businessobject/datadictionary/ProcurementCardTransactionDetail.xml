@@ -290,18 +290,9 @@
   </bean>
   <bean id="ProcurementCardTransactionDetail-transactionTotalAmount" parent="ProcurementCardTransactionDetail-transactionTotalAmount-parentBean" />
 
-  <bean id="ProcurementCardTransactionDetail-transactionTotalAmount-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ProcurementCardTransactionDetail-transactionTotalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="transactionTotalAmount" />
     <property name="label" value="Transaction Total Amount" />
-    <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
-    </property>
   </bean>
 
 <!-- Business Object Inquiry Definition -->

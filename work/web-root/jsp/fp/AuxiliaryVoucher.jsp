@@ -64,7 +64,7 @@
 					    	attributeEntry="${DataDictionary.AuxiliaryVoucherDocument.attributes.typeCode}"
                             property="document.typeCode"
                             readOnly="${readOnly}" 
-                            readOnlyAlternateDisplay="${KualiForm.formattedAuxiliaryVoucherType}" 
+                            readOnlyAlternateDisplay="${fn:escapeXml(KualiForm.formattedAuxiliaryVoucherType)}" 
                             onchange="submitForChangedType()"/>          
 						<NOSCRIPT>
     						<html:submit value="select" alt="press this button to refresh the page after changing the voucher type." />
@@ -93,7 +93,7 @@
                                       datePicker="true"
                                       property="document.reversalDate"
                                       readOnly="${reversalReadOnly}"
-                                      readOnlyAlternateDisplay="${KualiForm.formattedReversalDate}"
+                                      readOnlyAlternateDisplay="${fn:escapeXml(KualiForm.formattedReversalDate)}"
                                       />
                           </td>
                       </tr>

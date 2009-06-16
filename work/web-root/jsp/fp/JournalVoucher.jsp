@@ -123,7 +123,7 @@
                         datePicker="true"
                         property="document.reversalDate"
                         readOnly="${readOnly}"
-                        readOnlyAlternateDisplay="${KualiForm.formattedReversalDate}"
+                        readOnlyAlternateDisplay="${fn:escapeXml(KualiForm.formattedReversalDate)}"
                         /></td>
 				</tr>
 			</tbody>

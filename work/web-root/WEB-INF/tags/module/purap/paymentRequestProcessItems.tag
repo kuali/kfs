@@ -65,7 +65,7 @@
 		<c:if test="${isCreditMemo and (KualiForm.document.creditMemoType eq 'Vendor')}" >
 			<c:set var="mainColumnCount" value="12"/>
 			<c:set var="colSpanItemType" value="6"/>
-			<c:set var="colSpanDescription" value="5"/>
+			<c:set var="colSpanDescription" value="3"/>
 			<c:set var="colSpanExtendedPrice" value="1"/>
 		</c:if>
 

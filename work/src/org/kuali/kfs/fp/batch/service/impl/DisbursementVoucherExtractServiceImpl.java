@@ -223,6 +223,8 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
                         && !DisbursementVoucherConstants.PaymentReasonCodes.ROYALTIES.equals(rc));
         }
         else { // Payee is not an employee
+            pg.setPayeeIdTypeCd(PdpConstants.PayeeIdTypeCodes.VENDOR_ID);
+            
             // Assume it is not taxable until proven otherwise
             pg.setTaxablePayment(Boolean.FALSE);
 

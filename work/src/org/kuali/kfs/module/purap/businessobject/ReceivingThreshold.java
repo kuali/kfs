@@ -26,8 +26,9 @@ import org.kuali.kfs.vnd.businessobject.CommodityCode;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.bo.Inactivateable;
 
-public class ReceivingThreshold extends PersistableBusinessObjectBase {
+public class ReceivingThreshold extends PersistableBusinessObjectBase implements Inactivateable{
 
     private Integer thresholdIdentifier;
     private String chartOfAccountsCode;

@@ -201,7 +201,15 @@ are intended for use only by Kuali Foundation developers.
     	<delete>
       		<fileset dir="${basedir}" includes="${lib.directory}/${rice.output.file.prefix}${rice.output.lib.suffix}" />
     	</delete>
-    	<maven goals="clean:clean package" />
+	    <if>
+	        <isset property="clean.rice" />
+	        <then>
+                <maven goals="clean:clean" modulePath="/api" />
+                <maven goals="clean:clean" modulePath="/impl" />
+            </then>
+        </if>
+        <maven goals="package" modulePath="/api" />
+        <maven goals="package" modulePath="/impl" />
     	<copy todir="${lib.directory}" flatten="true">
       		<fileset dir="${rice.project.directory}" includes="${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.lib.suffix}" excludes="${rice.excludes}" />
     	</copy>
@@ -260,8 +268,9 @@ are intended for use only by Kuali Foundation developers.
   	<macrodef name="maven">
     	<attribute name="goals" />
     	<attribute name="options" default="--offline" />
+        <attribute name="modulePath" />
     	<sequential>
-      		<java classname="org.codehaus.classworlds.Launcher" dir="${rice.project.directory}" fork="true" failonerror="true">
+      		<java classname="org.codehaus.classworlds.Launcher" dir="${rice.project.directory}@{modulePath}" fork="true" failonerror="true">
         		<arg line="@{options} @{goals}"/>
         		<sysproperty key="classworlds.conf" value="${maven.home.directory}/bin/m2.conf"/>
         		<sysproperty key="maven.home" value="${maven.home.directory}"/>

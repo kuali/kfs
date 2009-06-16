@@ -21,7 +21,7 @@
 <%@ attribute name="displayPaymentRequestInitFields" required="false"
               description="Boolean to indicate if PO specific fields should be displayed" %>
 
-<kul:tabTop tabTitle="Payment Request Initiation" defaultOpen="true" tabErrorKey="${PurapConstants.PAYMENT_REQUEST_INIT_TAB_ERRORS}">
+<kul:tabTop tabTitle="Payment Request Initiation" defaultOpen="true" tabErrorKey="*">
 	
 	
 

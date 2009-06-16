@@ -73,7 +73,9 @@ public interface ContractsAndGrantsAccountAwardInformation extends Inactivateabl
      * 
      * @return The Award object associated with this AwardAccount.
      */
-    public ContractsAndGrantsAward getAward();
+
+    //KFSMI-861 : Removing this method as it's not being referenced. 
+    //public ContractsAndGrantsAward getAward();
 
     /**
      * Gets the name of the project director for the associated award.

@@ -125,9 +125,10 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
         return null;
     }
 
-    public ContractsAndGrantsAward getAward() {
-        return null;
-    }
+//KFSMI-861 : Removing this method as it's been removed from the Interface.    
+//    public ContractsAndGrantsAward getAward() {
+//        return null;
+//    }
 
     public Chart getChartOfAccounts() {
         return null;

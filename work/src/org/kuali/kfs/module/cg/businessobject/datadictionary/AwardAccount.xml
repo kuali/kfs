@@ -30,6 +30,7 @@
         <ref bean="AwardAccount-award.proposal.grantNumber" />
         <ref bean="AwardAccount-newCollectionRecord" />
         <ref bean="AwardAccount-active" />
+        <ref bean="AwardAccount-award.agency.reportingName"/>
       </list>
     </property>
     <property name="relationships" >
@@ -153,6 +154,16 @@
 
   <bean id="AwardAccount-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
+  </bean>
+
+<!--KFSMI-861 -->
+
+  <bean id="AwardAccount-award.agency.reportingName" parent="AwardAccount-award.agency.reportingName-parentBean" />
+
+  <bean id="AwardAccount-award.agency.reportingName-parentBean" abstract="true" parent="Agency-reportingName">
+    <property name="name" value="award.agency.reportingName" />
+    <property name="label" value="Sponsor Name"/>
+	<property name="shortLabel" value="Sponsor"/>
   </bean>
 
 

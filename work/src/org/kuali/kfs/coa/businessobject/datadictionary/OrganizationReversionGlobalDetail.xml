@@ -18,10 +18,26 @@
         <ref bean="OrganizationReversionGlobalDetail-newCollectionRecord" />
       </list>
     </property>
+    <property name="relationships" >
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="organizationReversionObject" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="organizationReversionObjectCode"
+                    p:targetName="financialObjectCode" />
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="organizationReversionObject.financialObjectCodeName"
+                    p:targetName="financialObjectCodeName" />
+            </list>
+          </property>
+        </bean> 
+      </list>
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->
-
 
   <bean id="OrganizationReversionGlobalDetail-documentNumber" parent="OrganizationReversionGlobalDetail-documentNumber-parentBean" />
 

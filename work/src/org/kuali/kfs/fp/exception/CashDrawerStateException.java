@@ -73,7 +73,7 @@ public class CashDrawerStateException extends KualiException {
      */
     public Properties toProperties() {
         Properties properties = new Properties();
-        properties.setProperty("campusCode", getCampusCode());
+        properties.setProperty("verificationUnit", getCampusCode());
         properties.setProperty("controllingDocumentId", getControllingDocumentId());
         properties.setProperty("currentDrawerStatus", getCurrentDrawerStatus());
         properties.setProperty("desiredDrawerStatus", getDesiredDrawerStatus());

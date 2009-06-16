@@ -854,7 +854,7 @@ public class PurapServiceImpl implements PurapService {
      */
     public void calculateTax(PurchasingAccountsPayableDocument purapDocument){
         
-          boolean salesTaxInd = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.ENABLE_SALES_TAX_IND);
+          boolean salesTaxInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_SALES_TAX_IND);
           boolean useTaxIndicator = purapDocument.isUseTaxIndicator();
           String deliveryState = getDeliveryState(purapDocument);
           String deliveryPostalCode = getDeliveryPostalCode(purapDocument);

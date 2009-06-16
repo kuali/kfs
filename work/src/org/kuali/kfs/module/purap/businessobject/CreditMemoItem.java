@@ -20,9 +20,15 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableService;
+import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
+import org.kuali.kfs.module.purap.exception.PurError;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -232,4 +238,51 @@ public class CreditMemoItem extends AccountsPayableItemBase {
     public Class getUseTaxClass() {
         return CreditMemoItemUseTax.class;
     }
+    
+    public PurchaseOrderItem getPurchaseOrderItem(){
+        
+        PurchaseOrderItem poi = null;
+        //refresh vendor document
+        if (ObjectUtils.isNotNull(this.getPurapDocumentIdentifier())) {
+            if (ObjectUtils.isNull(this.getVendorCreditMemo())) {
+                this.refreshReferenceObject(PurapPropertyConstants.PURAP_DOC);
+            }
+        }
+
+        //if vendor document not null, then attempt to pull PO off of it
+        if (ObjectUtils.isNotNull(getVendorCreditMemo())) {
+            PurchaseOrderDocument purchaseOrderDocument = null;            
+            Integer purchaseOrderDocumentId = getVendorCreditMemo().getPurchaseOrderIdentifier();
+            
+            if (getVendorCreditMemo().isSourceDocumentPaymentRequest() && ObjectUtils.isNull(purchaseOrderDocumentId)) {
+                PaymentRequestDocument paymentRequestDocument = SpringContext.getBean(PaymentRequestService.class).getPaymentRequestById(getVendorCreditMemo().getPaymentRequestIdentifier());
+                purchaseOrderDocumentId = paymentRequestDocument.getPurchaseOrderIdentifier();
+            }
+            
+            // if we found a valid po id number then check it for reopening
+            if (ObjectUtils.isNotNull(purchaseOrderDocumentId)) {
+                purchaseOrderDocument = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(purchaseOrderDocumentId);
+            }
+            
+            //if we have a PO document, get po item
+            if(ObjectUtils.isNotNull(purchaseOrderDocument)){                
+                if (this.getItemType().isLineItemIndicator()) {
+                    poi = (PurchaseOrderItem) purchaseOrderDocument.getItem(this.getItemLineNumber().intValue() - 1);
+                }
+                else {
+                    poi = (PurchaseOrderItem) SpringContext.getBean(PurapService.class).getBelowTheLineByType(purchaseOrderDocument, this.getItemType());
+                }
+            }
+        }
+        else {            
+            throw new PurError("Credit Memo Object in Purchase Order item line number " + getItemLineNumber() + "or itemType " + getItemTypeCode() + " is null");
+        }
+        
+        return poi;
+    }
+    
+    public VendorCreditMemoDocument getVendorCreditMemo() {
+        return super.getPurapDocument();
+    }
+
 }

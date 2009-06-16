@@ -34,6 +34,7 @@ import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapParameterConstants.TaxParameters;
+import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.kfs.module.purap.businessobject.BulkReceivingView;
 import org.kuali.kfs.module.purap.businessobject.CorrectionReceivingView;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoView;
@@ -46,6 +47,7 @@ import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
 import org.kuali.kfs.module.purap.businessobject.PurapEnterableItem;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderView;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
@@ -73,6 +75,7 @@ import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.TaxService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.kfs.vnd.businessobject.CommodityCode;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
@@ -934,21 +937,36 @@ public class PurapServiceImpl implements PurapService {
         if( item instanceof PurchasingItem){
             
             PurchasingItemBase purItem = (PurchasingItemBase)item;
+            callService = isCommodityCodeTaxable(purItem.getCommodityCode());
             
-            if(ObjectUtils.isNotNull(purItem.getCommodityCode())){                
-                
-                if(purItem.getCommodityCode().isSalesTaxIndicator() == false){
-                    //not taxable, so don't call service
-                    callService = false;
-                }//if true we want to call service
-                
-            }//if null, return true
+        }//if not a purchasing item, then pull item from PO
+        else if( item instanceof AccountsPayableItem){
+            AccountsPayableItem apItem = (AccountsPayableItem)item;            
+            PurchaseOrderItem poItem = apItem.getPurchaseOrderItem();
             
-        }//if not a purchasing item, then we skip and still return true
-        
+            if(ObjectUtils.isNotNull(poItem)){
+                callService = isCommodityCodeTaxable(poItem.getCommodityCode());
+            }
+            
+        }
         return callService;
     }
 
+    private boolean isCommodityCodeTaxable(CommodityCode commodityCode){
+        boolean isTaxable = false;
+        
+        if(ObjectUtils.isNotNull(commodityCode)){                
+            
+            if(commodityCode.isSalesTaxIndicator() == false){
+                //not taxable, so don't call service
+                isTaxable = false;
+            }//if true we want to call service
+            
+        }//if null, return true
+
+        return isTaxable;
+    }
+    
     /**
      * Determines if the delivery state is taxable or not. If parameter is Allow and delivery state in list, or parameter is Denied
      * and delivery state is not in list then state is taxable.

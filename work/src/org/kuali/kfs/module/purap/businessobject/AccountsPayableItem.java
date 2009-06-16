@@ -25,5 +25,6 @@ public interface AccountsPayableItem extends PurApItem {
     public String getCapitalAssetTransactionTypeCode();
     
     public CapitalAssetBuilderAssetTransactionType getCapitalAssetTransactionType();
-    
+
+    public PurchaseOrderItem getPurchaseOrderItem();
 }

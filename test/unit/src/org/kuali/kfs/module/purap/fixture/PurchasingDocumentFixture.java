@@ -60,7 +60,7 @@ public enum PurchasingDocumentFixture {
             "campus", // deliveryCityName
             "AK", // deliveryStateCode
             "46202-5260", // deliveryPostalCode
-            null, // deliveryCountryCode
+            "US", // deliveryCountryCode
             "me", // deliveryToName
             null, // deliveryToEmailAddress
             null, // deliveryToPhoneNumber

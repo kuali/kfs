@@ -915,7 +915,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
                     <dd:field attributeName="award.proposal.proposalFederalPassThroughIndicator" />
                     <dd:field attributeName="award.proposal.federalPassThroughAgencyNumber" />
                     <dd:field attributeName="award.proposal.grantNumber" />
-                    <dd:field attributeName="award.agency.reportingName" />
                   </list>
                 </property>
               </bean>

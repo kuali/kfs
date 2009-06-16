@@ -180,7 +180,7 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
         String errorPropertyPath = KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + KFSPropertyConstants.OBJECT_CODE_GLOBAL_DETAILS + "[" + index + "]." + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
         
         // post an error about the locked document
-        GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorPropertyPath, KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_OBJECTMAINT_INACTIVATION_BLOCKING, objectCodeSummaryString, blockingUrl);
+        GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorPropertyPath, KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_OBJECTMAINT_INACTIVATION_BLOCKING, objectCodeSummaryString, blockingUrl);
     }
     
     /**
@@ -313,12 +313,12 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
             ObjectCodeGlobalDetail detail = (ObjectCodeGlobalDetail) bo;
             if (!checkEmptyValue(detail.getChartOfAccountsCode())) {
                 // put an error about chart code
-                GlobalVariables.getErrorMap().putError("chartOfAccountsCode", KFSKeyConstants.ERROR_REQUIRED, "Chart of Accounts Code");
+                GlobalVariables.getMessageMap().putError("chartOfAccountsCode", KFSKeyConstants.ERROR_REQUIRED, "Chart of Accounts Code");
                 success &= false;
             }
             if (!checkEmptyValue(detail.getUniversityFiscalYear())) {
                 // put an error about fiscal year
-                GlobalVariables.getErrorMap().putError("universityFiscalYear", KFSKeyConstants.ERROR_REQUIRED, "University Fiscal Year");
+                GlobalVariables.getMessageMap().putError("universityFiscalYear", KFSKeyConstants.ERROR_REQUIRED, "University Fiscal Year");
                 success &= false;
             }
             if (!checkUniqueIdentifiers(detail)) {
@@ -359,14 +359,14 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
      */
     public boolean checkObjectCodeDetails(ObjectCodeGlobalDetail dtl) {
         boolean success = true;
-        int originalErrorCount = GlobalVariables.getErrorMap().getErrorCount();
+        int originalErrorCount = GlobalVariables.getMessageMap().getErrorCount();
         getDictionaryValidationService().validateBusinessObject(dtl);
         dtl.refreshNonUpdateableReferences();
         // here is where we need our checks for level code nd next year object code
         success &= checkObjectLevelCode(objectCodeGlobal, dtl, 0, true);
         success &= checkNextYearObjectCode(objectCodeGlobal, dtl, 0, true);
         success &= checkReportsToObjectCode(objectCodeGlobal, dtl, 0, true);
-        success &= GlobalVariables.getErrorMap().getErrorCount() == originalErrorCount;
+        success &= GlobalVariables.getMessageMap().getErrorCount() == originalErrorCount;
 
         return success;
     }
@@ -405,7 +405,7 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
 
         }
         else {
-            GlobalVariables.getErrorMap().putError("reportsToFinancialObjectCode", KFSKeyConstants.ERROR_REQUIRED, "Reports to Object Code");
+            GlobalVariables.getMessageMap().putError("reportsToFinancialObjectCode", KFSKeyConstants.ERROR_REQUIRED, "Reports to Object Code");
             success &= false;
         }
 
@@ -474,7 +474,7 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
 
         }
         else {
-            GlobalVariables.getErrorMap().putError("financialObjectLevelCode", KFSKeyConstants.ERROR_REQUIRED, "Object Level Code");
+            GlobalVariables.getMessageMap().putError("financialObjectLevelCode", KFSKeyConstants.ERROR_REQUIRED, "Object Level Code");
             success &= false;
         }
         return success;

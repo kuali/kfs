@@ -42,6 +42,7 @@ import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class implements the business rules for {@link ObjectCode}
@@ -418,7 +419,7 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         
         final int matchingCount = businessObjectService.countMatching(OffsetDefinition.class, keys);
         if (matchingCount > 0) {
-            putFieldError("financialObjectCode",KFSKeyConstants.ERROR_DOCUMENT_OBJECTMAINT_INACTIVATION_BLOCKING,new String[] {(objectCode.getUniversityFiscalYear() != null ? objectCode.getUniversityFiscalYear().toString() : ""), objectCode.getChartOfAccountsCode(), objectCode.getFinancialObjectCode(), Integer.toString(matchingCount), OffsetDefinition.class.getName()});
+            GlobalVariables.getMessageMap().putErrorForSectionId("Edit Object Code",KFSKeyConstants.ERROR_DOCUMENT_OBJECTMAINT_INACTIVATION_BLOCKING,new String[] {(objectCode.getUniversityFiscalYear() != null ? objectCode.getUniversityFiscalYear().toString() : ""), objectCode.getChartOfAccountsCode(), objectCode.getFinancialObjectCode(), Integer.toString(matchingCount), OffsetDefinition.class.getName()});
             result = false;
         }
         return result;
@@ -442,7 +443,7 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
             
             final int matchingCount = businessObjectService.countMatching(IndirectCostRecoveryExclusionAccount.class, keys);
             if (matchingCount > 0) {
-                putFieldError("financialObjectCode",KFSKeyConstants.ERROR_DOCUMENT_OBJECTMAINT_INACTIVATION_BLOCKING,new String[] {(objectCode.getUniversityFiscalYear() != null ? objectCode.getUniversityFiscalYear().toString() : ""), objectCode.getChartOfAccountsCode(), objectCode.getFinancialObjectCode(), Integer.toString(matchingCount), IndirectCostRecoveryExclusionAccount.class.getName()});
+                GlobalVariables.getMessageMap().putErrorForSectionId("Edit Object Code",KFSKeyConstants.ERROR_DOCUMENT_OBJECTMAINT_INACTIVATION_BLOCKING,new String[] {(objectCode.getUniversityFiscalYear() != null ? objectCode.getUniversityFiscalYear().toString() : ""), objectCode.getChartOfAccountsCode(), objectCode.getFinancialObjectCode(), Integer.toString(matchingCount), IndirectCostRecoveryExclusionAccount.class.getName()});
                 result = false;
             }
         }

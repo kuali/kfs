@@ -28,6 +28,7 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class BalanceTypeRule extends MaintenanceDocumentRuleBase {
 
@@ -76,7 +77,7 @@ public class BalanceTypeRule extends MaintenanceDocumentRuleBase {
         
         final int matchingCount = businessObjectService.countMatching(OffsetDefinition.class, keys);
         if (matchingCount > 0) {
-            putFieldError("code",KFSKeyConstants.ERROR_DOCUMENT_BALANCETYPMAINT_INACTIVATION_BLOCKING,new String[] {balanceType.getFinancialBalanceTypeCode(), Integer.toString(matchingCount), OffsetDefinition.class.getName()});
+            GlobalVariables.getMessageMap().putErrorForSectionId("Edit Balance Type",KFSKeyConstants.ERROR_DOCUMENT_BALANCETYPMAINT_INACTIVATION_BLOCKING,new String[] {balanceType.getFinancialBalanceTypeCode(), Integer.toString(matchingCount), OffsetDefinition.class.getName()});
             result = false;
         }
         return result;

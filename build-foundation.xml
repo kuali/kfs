@@ -208,7 +208,7 @@ are intended for use only by Kuali Foundation developers.
                 <maven goals="clean:clean" modulePath="/impl" />
             </then>
         </if>
-        <maven goals="package" modulePath="/api" />
+        <maven goals="install" modulePath="/api" />
         <maven goals="package" modulePath="/impl" />
     	<copy todir="${lib.directory}" flatten="true">
       		<fileset dir="${rice.project.directory}" includes="${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.lib.suffix}" excludes="${rice.excludes}" />

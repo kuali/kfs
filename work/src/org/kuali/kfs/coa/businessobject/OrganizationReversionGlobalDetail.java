@@ -43,6 +43,7 @@ public class OrganizationReversionGlobalDetail extends GlobalBusinessObjectDetai
 
     private OrganizationReversionCategory organizationReversionCategory;
     private OrganizationReversionGlobal parentGlobalOrganizationReversion;
+    private ObjectCode organizationReversionObject;
 
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
@@ -169,6 +170,22 @@ public class OrganizationReversionGlobalDetail extends GlobalBusinessObjectDetai
      */
     public void setParentGlobalOrganizationReversion(OrganizationReversionGlobal parentGlobalOrganizationReversion) {
         this.parentGlobalOrganizationReversion = parentGlobalOrganizationReversion;
+    }
+
+    /**
+     * Gets the organizationReversionObject attribute. 
+     * @return Returns the organizationReversionObject.
+     */
+    public ObjectCode getOrganizationReversionObject() {
+        return organizationReversionObject;
+    }
+
+    /**
+     * Sets the organizationReversionObject attribute value.
+     * @param organizationReversionObject The organizationReversionObject to set.
+     */
+    public void setOrganizationReversionObject(ObjectCode organizationReversionObject) {
+        this.organizationReversionObject = organizationReversionObject;
     }
 
     /**

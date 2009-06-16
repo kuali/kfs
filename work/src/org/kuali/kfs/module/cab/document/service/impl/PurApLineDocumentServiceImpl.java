@@ -268,7 +268,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @param assetGlobal
      */
     protected void setAssetGlobalDetails(PurchasingAccountsPayableItemAsset selectedItem, AssetGlobal assetGlobal, Pretag preTag, PurchaseOrderCapitalAssetSystem capitalAssetSystem) {
-        // build assetGlobalDetail list( will be used for creating unique details list as the same time)
+        // build assetGlobalDetail list( will be used for creating unique details list at the same time)
         List<AssetGlobalDetail> assetDetailsList = assetGlobal.getAssetGlobalDetails();
         // shared location details list
         List<AssetGlobalDetail> sharedDetails = assetGlobal.getAssetSharedDetails();
@@ -637,6 +637,9 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         // set asset global detail list
         setAssetGlobalDetails(selectedItem, assetGlobal, preTag, capitalAssetSystem);
 
+        // Set Organization Inventory Name for each asset unique detail from PO
+        setOrgInventoryNameForAssetDetail(assetGlobal.getAssetGlobalDetails(), purApdocument);
+
         // build payments list for asset global
         createAssetPaymentDetails(assetGlobal.getAssetPaymentDetails(), selectedItem, documentNumber, requisitionIdentifier);
 
@@ -647,6 +650,27 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
 
         return assetGlobal;
     }
+
+    /**
+     * Set organization inventory name for each asset detail by PO Contact name or if empty, by Requestor Name.
+     * 
+     * @param assetGlobalDetails
+     * @param purApdocument
+     */
+    private void setOrgInventoryNameForAssetDetail(List<AssetGlobalDetail> assetGlobalDetails, PurchaseOrderDocument purApdocument) {
+        if (ObjectUtils.isNotNull(purApdocument)) {
+            String orgInventoryName = purApdocument.getInstitutionContactName();
+
+            if (StringUtils.isBlank(orgInventoryName)) {
+                orgInventoryName = purApdocument.getRequestorPersonName();
+            }
+
+            for (AssetGlobalDetail assetGlobalDetail : assetGlobalDetails) {
+                assetGlobalDetail.setOrganizationInventoryName(orgInventoryName);
+            }
+        }
+    }
+
 
     /**
      * check if item is pre-tagged already.

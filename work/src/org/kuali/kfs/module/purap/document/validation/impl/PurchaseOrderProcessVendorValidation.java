@@ -28,8 +28,8 @@ import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.VendorConstants.VendorTypes;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PurchaseOrderProcessVendorValidation extends PurchasingProcessVendorValidation {
@@ -44,12 +44,12 @@ public class PurchaseOrderProcessVendorValidation extends PurchasingProcessVendo
      * @return boolean false if the vendor stipulation description is blank.
      */
     public boolean validate(AttributedDocumentEvent event) {
+        boolean valid = super.validate(event);
         PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument)event.getDocument();
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        PurchaseOrderDocument poDocument = (PurchaseOrderDocument) purapDocument;
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         errorMap.clearErrorPath();
         errorMap.addToErrorPath(PurapConstants.VENDOR_ERRORS);
-        boolean valid = super.validate(event);
-        PurchaseOrderDocument poDocument = (PurchaseOrderDocument) purapDocument;
 
         // check to see if the vendor exists in the database, i.e. its ID is not null
         Integer vendorHeaderID = poDocument.getVendorHeaderGeneratedIdentifier();
@@ -58,6 +58,7 @@ public class PurchaseOrderProcessVendorValidation extends PurchasingProcessVendo
             errorMap.putError(VendorPropertyConstants.VENDOR_NAME, PurapKeyConstants.ERROR_NONEXIST_VENDOR);
         }
 
+        // validate vendor address
         postalCodeValidationService.validateAddress(poDocument.getVendorCountryCode(), poDocument.getVendorStateCode(), poDocument.getVendorPostalCode(), PurapPropertyConstants.VENDOR_STATE_CODE, PurapPropertyConstants.VENDOR_POSTAL_CODE);
         
         // Do checks for alternate payee vendor.

@@ -15,12 +15,14 @@
  */
 package org.kuali.kfs.vnd.document.validation.impl;
 
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.PostalCodeValidationService;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class CampusParameterRule extends MaintenanceDocumentRuleBase {
 
@@ -40,7 +42,11 @@ public class CampusParameterRule extends MaintenanceDocumentRuleBase {
 
     protected boolean validateAddress(MaintenanceDocument document) {
         CampusParameter newCampusParameter = (CampusParameter) document.getNewMaintainableObject().getBusinessObject();
-        return SpringContext.getBean(PostalCodeValidationService.class).validateAddress(newCampusParameter.getPurchasingDepartmentCountryCode(), newCampusParameter.getPurchasingDepartmentStateCode(), newCampusParameter.getPurchasingDepartmentZipCode(), VendorPropertyConstants.PURCHASING_DEPARTMENT_STATE, VendorPropertyConstants.PURCHASING_DEPARTMENT_POSTAL_CODE);
+        GlobalVariables.getMessageMap().clearErrorPath();
+        GlobalVariables.getMessageMap().addToErrorPath(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.NEW_MAINTAINABLE_OBJECT);
+        boolean valid = SpringContext.getBean(PostalCodeValidationService.class).validateAddress(newCampusParameter.getPurchasingDepartmentCountryCode(), newCampusParameter.getPurchasingDepartmentStateCode(), newCampusParameter.getPurchasingDepartmentZipCode(), VendorPropertyConstants.PURCHASING_DEPARTMENT_STATE, VendorPropertyConstants.PURCHASING_DEPARTMENT_POSTAL_CODE);
+		GlobalVariables.getMessageMap().clearErrorPath();
+        return valid;
     }
 
 }

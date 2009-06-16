@@ -17,10 +17,12 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.BillingAddress;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.PostalCodeValidationService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class BillingAddressRule extends MaintenanceDocumentRuleBase {
 
@@ -40,7 +42,11 @@ public class BillingAddressRule extends MaintenanceDocumentRuleBase {
 
     protected boolean validateAddress(MaintenanceDocument document) {
         BillingAddress newBillingAddress = (BillingAddress) document.getNewMaintainableObject().getBusinessObject();
-        return SpringContext.getBean(PostalCodeValidationService.class).validateAddress(newBillingAddress.getBillingCountryCode(), newBillingAddress.getBillingStateCode(), newBillingAddress.getBillingPostalCode(), PurapPropertyConstants.BILLING_ADDRESS_STATE, PurapPropertyConstants.BILLING_ADDRESS_POSTAL_CODE);
+        GlobalVariables.getMessageMap().clearErrorPath();
+        GlobalVariables.getMessageMap().addToErrorPath(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.NEW_MAINTAINABLE_OBJECT);
+        boolean valid = SpringContext.getBean(PostalCodeValidationService.class).validateAddress(newBillingAddress.getBillingCountryCode(), newBillingAddress.getBillingStateCode(), newBillingAddress.getBillingPostalCode(), PurapPropertyConstants.BILLING_ADDRESS_STATE, PurapPropertyConstants.BILLING_ADDRESS_POSTAL_CODE);
+        GlobalVariables.getMessageMap().clearErrorPath();
+        return valid;
     }
 
 }

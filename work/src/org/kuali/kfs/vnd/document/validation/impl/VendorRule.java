@@ -795,17 +795,17 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         boolean validAddressType = false;
 
         List<VendorAddress> addresses = newVendor.getVendorAddresses();
-
         String vendorTypeCode = newVendor.getVendorHeader().getVendorTypeCode();
         String vendorAddressTypeRequiredCode = newVendor.getVendorHeader().getVendorType().getVendorAddressTypeRequiredCode();
 
         for (int i = 0; i < addresses.size(); i++) {
             VendorAddress address = addresses.get(i);
             String errorPath = MAINTAINABLE_ERROR_PREFIX + VendorPropertyConstants.VENDOR_ADDRESS + "[" + i + "]";
-            GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+            GlobalVariables.getMessageMap().clearErrorPath();
+            GlobalVariables.getMessageMap().addToErrorPath(errorPath);
 
             this.getDictionaryValidationService().validateBusinessObject(address);
-            if (!GlobalVariables.getErrorMap().isEmpty()) {
+            if (!GlobalVariables.getMessageMap().isEmpty()) {
                 valid = false;
             }
             
@@ -813,18 +813,16 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
                 validAddressType = true;
             }
 
-
             valid &= checkFaxNumber(address);
             valid &= checkAddressCountryEmptyStateZip(address);
 
-            GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
+            GlobalVariables.getMessageMap().clearErrorPath();
         }
 
         // validate Address Type
-
+        String vendorAddressTabPrefix = KFSConstants.ADD_PREFIX + "." + VendorPropertyConstants.VENDOR_ADDRESS + ".";
         if (!StringUtils.isBlank(vendorTypeCode) && !StringUtils.isBlank(vendorAddressTypeRequiredCode) && !validAddressType) {
-            String[] parameters = new String[] { vendorTypeCode, vendorAddressTypeRequiredCode };
-            String vendorAddressTabPrefix = KFSConstants.ADD_PREFIX + "." + VendorPropertyConstants.VENDOR_ADDRESS + ".";
+            String[] parameters = new String[] { vendorTypeCode, vendorAddressTypeRequiredCode };            
             putFieldError(vendorAddressTabPrefix + VendorPropertyConstants.VENDOR_ADDRESS_TYPE_CODE, VendorKeyConstants.ERROR_ADDRESS_TYPE, parameters);
             String addressLine1Label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(VendorAddress.class, VendorPropertyConstants.VENDOR_ADDRESS_LINE_1);
             String addressCityLabel = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(VendorAddress.class, VendorPropertyConstants.VENDOR_ADDRESS_CITY);
@@ -833,9 +831,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
             putFieldError(vendorAddressTabPrefix + VendorPropertyConstants.VENDOR_ADDRESS_CITY, KFSKeyConstants.ERROR_REQUIRED, addressCityLabel);
             putFieldError(vendorAddressTabPrefix + VendorPropertyConstants.VENDOR_ADDRESS_COUNTRY, KFSKeyConstants.ERROR_REQUIRED, addressCountryLabel);
             valid = false;
-
         }
-
 
         valid &= validateDefaultAddressCampus(newVendor);
 
@@ -863,9 +859,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
         // If the number of divisions with the desired address type is less than the number of divisions for his vendor
         if (vendorDivisionsIdsWithDesiredAddressType.size() < vendorDetailedIds.size()) {
-
             Iterator itr = vendorDetailedIds.iterator();
-
             Integer value;
             String vendorId;
 
@@ -874,14 +868,13 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
                 if (!vendorDivisionsIdsWithDesiredAddressType.contains(value)) {
                     vendorId = newVendor.getVendorHeaderGeneratedIdentifier().toString() + '-' + value.toString();
                     String[] parameters = new String[] { vendorId, vendorTypeCode, vendorAddressTypeRequiredCode };
-                    putFieldError(VendorPropertyConstants.VENDOR_TYPE_CODE, VendorKeyConstants.ERROR_ADDRESS_TYPE_DIVISIONS, parameters);
+                    putFieldError(vendorAddressTabPrefix + VendorPropertyConstants.VENDOR_TYPE_CODE, VendorKeyConstants.ERROR_ADDRESS_TYPE_DIVISIONS, parameters);
                     valid = false;
                 }
             }
         }
 
         return valid;
-
     }
 
     /**
@@ -892,7 +885,11 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
      * @return boolean false if the country is United States and there is no state or zip code
      */
     boolean checkAddressCountryEmptyStateZip(VendorAddress address) {
-        return SpringContext.getBean(PostalCodeValidationService.class).validateAddress(address.getVendorCountryCode(), address.getVendorStateCode(), address.getVendorZipCode(), VendorPropertyConstants.VENDOR_ADDRESS_STATE, VendorPropertyConstants.VENDOR_ADDRESS_ZIP);
+        //GlobalVariables.getMessageMap().clearErrorPath();
+        //GlobalVariables.getMessageMap().addToErrorPath(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.NEW_MAINTAINABLE_OBJECT + "." + VendorPropertyConstants.VENDOR_ADDRESS);        
+        boolean valid = SpringContext.getBean(PostalCodeValidationService.class).validateAddress(address.getVendorCountryCode(), address.getVendorStateCode(), address.getVendorZipCode(), VendorPropertyConstants.VENDOR_ADDRESS_STATE, VendorPropertyConstants.VENDOR_ADDRESS_ZIP);
+        //GlobalVariables.getMessageMap().clearErrorPath();
+		return valid;        
     }
 
     /**
@@ -1310,7 +1307,6 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject bo) {
         boolean success = true;
-
 
         // this incoming bo needs to be refreshed because it doesn't have its subobjects setup
         bo.refreshNonUpdateableReferences();

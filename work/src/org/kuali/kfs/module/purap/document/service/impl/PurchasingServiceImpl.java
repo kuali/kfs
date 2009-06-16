@@ -228,8 +228,11 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
                 missingFields += "Country";
             }
             // add error!
-            GlobalVariables.getErrorMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, PurapKeyConstants.ERROR_CAPITAL_ASSET_INCOMPLETE_ADDRESS, missingFields);
+            GlobalVariables.getMessageMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, PurapKeyConstants.ERROR_CAPITAL_ASSET_INCOMPLETE_ADDRESS, missingFields);
+            GlobalVariables.getMessageMap().clearErrorPath();
+            GlobalVariables.getMessageMap().addToErrorPath(PurapConstants.CAPITAL_ASSET_TAB_ERRORS);
             postalCodeValidationService.validateAddress(location.getCapitalAssetCountryCode(), location.getCapitalAssetStateCode(), location.getCapitalAssetPostalCode(), PurapConstants.CAPITAL_ASSET_TAB_ERRORS + "." + PurapPropertyConstants.CAPITAL_ASSET_LOCATION_STATE, PurapConstants.CAPITAL_ASSET_TAB_ERRORS + "." + PurapPropertyConstants.CAPITAL_ASSET_LOCATION_POSTAL_CODE);
+            GlobalVariables.getMessageMap().clearErrorPath();
             return false;
         }
         return true;

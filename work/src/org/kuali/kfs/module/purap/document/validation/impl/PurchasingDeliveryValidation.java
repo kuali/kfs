@@ -43,14 +43,14 @@ public class PurchasingDeliveryValidation extends GenericValidation {
         boolean valid = true;
         PurchasingDocument purDocument = (PurchasingDocument)event.getDocument();
         
-        GlobalVariables.getErrorMap().addToErrorPath(PurapConstants.DELIVERY_TAB_ERRORS);
+        GlobalVariables.getMessageMap().addToErrorPath(PurapConstants.DELIVERY_TAB_ERRORS);
         if (ObjectUtils.isNotNull(purDocument.getDeliveryRequiredDate())) {
             Date today = dateTimeService.getCurrentSqlDateMidnight();
             Date deliveryRequiredDate = purDocument.getDeliveryRequiredDate();
 
             if (today.after(deliveryRequiredDate)) {
                 valid = false;
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.DELIVERY_REQUIRED_DATE, PurapKeyConstants.ERROR_DELIVERY_REQUIRED_DATE_IN_THE_PAST);
+                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.DELIVERY_REQUIRED_DATE, PurapKeyConstants.ERROR_DELIVERY_REQUIRED_DATE_IN_THE_PAST);
             }
         }
         
@@ -62,10 +62,10 @@ public class PurchasingDeliveryValidation extends GenericValidation {
         int match = businessObjectService.countMatching(CampusParameter.class, fieldValues);
         if (match < 1) {
             valid = false;
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.DELIVERY_CAMPUS_CODE, PurapKeyConstants.ERROR_DELIVERY_CAMPUS_INVALID);
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.DELIVERY_CAMPUS_CODE, PurapKeyConstants.ERROR_DELIVERY_CAMPUS_INVALID);
         }
         
-        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getMessageMap().clearErrorPath();
         return valid;
     }
 

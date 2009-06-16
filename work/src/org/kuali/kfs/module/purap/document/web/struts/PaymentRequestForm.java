@@ -120,7 +120,7 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
                 addExtraButton("methodToCall.addHoldOnPayment", appExternalImageURL + "buttonsmall_hold.gif", "Hold");
             }
 
-            if (getEditingMode().containsKey(PaymentRequestEditMode.REMOVE_HOLD)) {
+            if (getEditingMode().containsKey(PaymentRequestEditMode.REMOVE_HOLD) && paymentRequestDocument.isHoldIndicator()) {
                 addExtraButton("methodToCall.removeHoldFromPayment", appExternalImageURL + "buttonsmall_removehold.gif", "Remove");
             }
 
@@ -128,7 +128,7 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
                 addExtraButton("methodToCall.requestCancelOnPayment", appExternalImageURL + "buttonsmall_requestcancel.gif", "Cancel");
             }
 
-            if (getEditingMode().containsKey(PaymentRequestEditMode.REMOVE_REQUEST_CANCEL)) {
+            if (getEditingMode().containsKey(PaymentRequestEditMode.REMOVE_REQUEST_CANCEL) && paymentRequestDocument.isPaymentRequestedCancelIndicator()) {
                 addExtraButton("methodToCall.removeCancelRequestFromPayment", appExternalImageURL + "buttonsmall_remreqcanc.gif", "Remove");
             }
 

@@ -50,8 +50,10 @@ public class PurchasingAccountsPayableCheckNegativeAccountsValidation extends Ge
                 
                 String subAccountNumber = (sourceAccountingLine.getSubAccountNumber() == null) ? "" : sourceAccountingLine.getSubAccountNumber();
                 String subObjectCode = (sourceAccountingLine.getFinancialSubObjectCode() == null) ? "" : sourceAccountingLine.getFinancialSubObjectCode();
+                String projCode = (sourceAccountingLine.getProjectCode() == null) ? "" : sourceAccountingLine.getProjectCode();
+                String orgRefId = (sourceAccountingLine.getOrganizationReferenceId() == null) ? "" : sourceAccountingLine.getOrganizationReferenceId();
                 
-                String accountString = sourceAccountingLine.getChartOfAccountsCode() + " - " + subAccountNumber + " - " + sourceAccountingLine.getAccountNumber() + " - " + sourceAccountingLine.getFinancialObjectCode() + " - " + subObjectCode;
+                String accountString = sourceAccountingLine.getChartOfAccountsCode() + " - " + subAccountNumber + " - " + sourceAccountingLine.getAccountNumber() + " - " + sourceAccountingLine.getFinancialObjectCode() + " - " + subObjectCode + " - " + projCode + " - " + orgRefId;
                 GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ACCOUNT_AMOUNT_TOTAL, accountString, sourceAccountingLine.getAmount() + "");
                 valid &= false;
             }

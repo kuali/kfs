@@ -21,12 +21,12 @@
         <longProp name="ThreadGroup.start_time">1243951513000</longProp>
         <longProp name="ThreadGroup.end_time">1243951513000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
-        <stringProp name="ThreadGroup.on_sample_error">stoptest</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">stopthread</stringProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
       <hashTree>
-        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="URL parameters for localhost:8080/kfs-dev" enabled="true">
+        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="URL parameters for localhost:8080/kfs-dev" enabled="false">
           <collectionProp name="Arguments.arguments">
             <elementProp name="protocol" elementType="Argument">
               <stringProp name="Argument.metadata">=</stringProp>
@@ -101,7 +101,7 @@
           </collectionProp>
         </Arguments>
         <hashTree/>
-        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="URL parameters for findev.ebsp.msu.edu" enabled="false">
+        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="URL parameters for findev.ebsp.msu.edu" enabled="true">
           <collectionProp name="Arguments.arguments">
             <elementProp name="protocol" elementType="Argument">
               <stringProp name="Argument.metadata">=</stringProp>
@@ -168,7 +168,7 @@
               <boolProp name="CookieManager.clearEachIteration">true</boolProp>
             </CookieManager>
             <hashTree/>
-            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Login using new CAS" enabled="true"/>
+            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Login using new CAS" enabled="false"/>
             <hashTree>
               <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/portal.do" enabled="true">
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
@@ -374,7 +374,7 @@
               </ResultCollector>
               <hashTree/>
             </hashTree>
-            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Login using old CAS" enabled="false"/>
+            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Login using old CAS" enabled="true"/>
             <hashTree>
               <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/" enabled="true">
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Argument List" enabled="true">
@@ -7615,7 +7615,7 @@
               <boolProp name="CookieManager.clearEachIteration">true</boolProp>
             </CookieManager>
             <hashTree/>
-            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Login using new CAS" enabled="true"/>
+            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Login using new CAS" enabled="false"/>
             <hashTree>
               <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/portal.do" enabled="true">
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
@@ -7821,7 +7821,7 @@
               </ResultCollector>
               <hashTree/>
             </hashTree>
-            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Login using old CAS" enabled="false"/>
+            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Login using old CAS" enabled="true"/>
             <hashTree>
               <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/" enabled="true">
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Argument List" enabled="true">
@@ -9861,7 +9861,7 @@
               <boolProp name="CookieManager.clearEachIteration">true</boolProp>
             </CookieManager>
             <hashTree/>
-            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Login using new CAS" enabled="true"/>
+            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Login using new CAS" enabled="false"/>
             <hashTree>
               <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/portal.do" enabled="true">
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
@@ -10067,7 +10067,7 @@
               </ResultCollector>
               <hashTree/>
             </hashTree>
-            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Login using old CAS" enabled="false"/>
+            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Login using old CAS" enabled="true"/>
             <hashTree>
               <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/" enabled="true">
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Argument List" enabled="true">
@@ -14274,7 +14274,7 @@
               <boolProp name="CookieManager.clearEachIteration">true</boolProp>
             </CookieManager>
             <hashTree/>
-            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Login using new CAS" enabled="true"/>
+            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Login using new CAS" enabled="false"/>
             <hashTree>
               <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/portal.do" enabled="true">
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
@@ -14480,7 +14480,7 @@
               </ResultCollector>
               <hashTree/>
             </hashTree>
-            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Login using old cas" enabled="false"/>
+            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Login using old cas" enabled="true"/>
             <hashTree>
               <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/" enabled="true">
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Argument List" enabled="true">
@@ -15266,8 +15266,8 @@
             <hashTree>
               <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="Approve Ready" enabled="true">
                 <collectionProp name="Arguments.arguments">
-                  <elementProp name="approve" elementType="Argument">
-                    <stringProp name="Argument.name">approve</stringProp>
+                  <elementProp name="preqReady" elementType="Argument">
+                    <stringProp name="Argument.name">preqReady</stringProp>
                     <stringProp name="Argument.value">no</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                   </elementProp>
@@ -15275,10 +15275,10 @@
               </Arguments>
               <hashTree/>
               <WhileController guiclass="WhileControllerGui" testclass="WhileController" testname="While preq Approve not ready" enabled="true">
-                <stringProp name="WhileController.condition">${__javaScript(&quot;${approve}&quot;==&quot;no&quot;)}</stringProp>
+                <stringProp name="WhileController.condition">${__javaScript(&quot;${preqReady}&quot;==&quot;no&quot;)}</stringProp>
               </WhileController>
               <hashTree>
-                <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="while-loop /kfs-dev/purapPaymentRequest.do ready for approve?" enabled="true">
+                <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="while-loop /kfs-dev/purapPaymentRequest.do ready for approve? ${preqReady}" enabled="true">
                   <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                     <collectionProp name="Arguments.arguments">
                       <elementProp name="methodToCall" elementType="HTTPArgument">
@@ -15342,7 +15342,7 @@
                   </ConstantTimer>
                   <hashTree/>
                 </hashTree>
-                <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="while-loop /kfs-dev/purapPaymentRequest.do ready for approve? ${approve}" enabled="true">
+                <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="while-loop /kfs-dev/purapPaymentRequest.do ready for approve? ${preqReady}" enabled="true">
                   <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                     <collectionProp name="Arguments.arguments">
                       <elementProp name="methodToCall" elementType="HTTPArgument">

@@ -14,10 +14,10 @@
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Cash Receipt Test Group" enabled="true">
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">2</stringProp>
+          <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">25</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">250</stringProp>
+        <stringProp name="ThreadGroup.num_threads">15</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <longProp name="ThreadGroup.start_time">1244726305000</longProp>
         <longProp name="ThreadGroup.end_time">1244726305000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -26,7 +26,7 @@
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
       <hashTree>
-        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="URL parameters for localhost:8080/kfs-dev" enabled="false">
+        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="URL parameters for localhost:8080/kfs-dev" enabled="true">
           <collectionProp name="Arguments.arguments">
             <elementProp name="protocol" elementType="Argument">
               <stringProp name="Argument.metadata">=</stringProp>
@@ -101,7 +101,7 @@
           </collectionProp>
         </Arguments>
         <hashTree/>
-        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="URL parameters for findev.ebsp.msu.edu" enabled="true">
+        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="URL parameters for findev.ebsp.msu.edu" enabled="false">
           <collectionProp name="Arguments.arguments">
             <elementProp name="protocol" elementType="Argument">
               <stringProp name="Argument.metadata">=</stringProp>
@@ -352,7 +352,7 @@
           </ResultCollector>
           <hashTree/>
         </hashTree>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Login using central CAS server" enabled="false"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Login using central CAS server" enabled="true"/>
         <hashTree>
           <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="false">
             <collectionProp name="CookieManager.cookies"/>
@@ -363,7 +363,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="username" elementType="Argument">
                 <stringProp name="Argument.name">username</stringProp>
-                <stringProp name="Argument.value">khuntley</stringProp>
+                <stringProp name="Argument.value">tfederic</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -573,7 +573,7 @@
           </ResultCollector>
           <hashTree/>
         </hashTree>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Login using old CAS" enabled="true"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Login using old CAS" enabled="false"/>
         <hashTree>
           <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Argument List" enabled="true">
@@ -1727,13 +1727,6 @@
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
-                <elementProp name="tabStates(hiddenTabTitle).open" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.name">tabStates(hiddenTabTitle).open</stringProp>
-                  <stringProp name="Argument.value">true</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                </elementProp>
                 <elementProp name="tabStates(AccountingLines)" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.name">tabStates(AccountingLines)</stringProp>
@@ -2219,13 +2212,6 @@
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
-                <elementProp name="tabStates(hiddenTabTitle).open" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.name">tabStates(hiddenTabTitle).open</stringProp>
-                  <stringProp name="Argument.value">true</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                </elementProp>
                 <elementProp name="tabStates(AccountingLines)" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.name">tabStates(AccountingLines)</stringProp>
@@ -2698,13 +2684,6 @@
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.name">document.currencyDetail.financialDocumentOtherDollarAmount</stringProp>
                   <stringProp name="Argument.value"></stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                </elementProp>
-                <elementProp name="tabStates(hiddenTabTitle).open" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.name">tabStates(hiddenTabTitle).open</stringProp>
-                  <stringProp name="Argument.value">true</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>

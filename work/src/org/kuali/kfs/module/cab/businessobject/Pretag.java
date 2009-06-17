@@ -9,6 +9,7 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
@@ -18,7 +19,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class Pretag extends PersistableBusinessObjectBase {
+public class Pretag extends PersistableBusinessObjectBase implements Inactivateable {
 
     private String purchaseOrderNumber;
     private Integer itemLineNumber;
@@ -481,4 +482,3 @@ public class Pretag extends PersistableBusinessObjectBase {
     }
 
 }
-

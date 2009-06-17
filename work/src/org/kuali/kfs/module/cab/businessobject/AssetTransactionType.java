@@ -19,12 +19,13 @@ package org.kuali.kfs.module.cab.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * Asset Transaction Type Business Object.
  */
-public class AssetTransactionType extends PersistableBusinessObjectBase implements CapitalAssetBuilderAssetTransactionType {
+public class AssetTransactionType extends PersistableBusinessObjectBase implements CapitalAssetBuilderAssetTransactionType, Inactivateable {
 
     private String capitalAssetTransactionTypeCode;
     private String capitalAssetTransactionTypeDescription;
@@ -39,9 +40,10 @@ public class AssetTransactionType extends PersistableBusinessObjectBase implemen
     public AssetTransactionType() {
 
     }
-    
+
     /**
      * Constructs a CapitalAssetTransactionType.java.
+     * 
      * @param capitalAssetTransactionTypeCode
      */
     public AssetTransactionType(String capitalAssetTransactionTypeCode) {
@@ -71,13 +73,12 @@ public class AssetTransactionType extends PersistableBusinessObjectBase implemen
     public void setCapitalAssetNonquantityDrivenAllowIndicator(boolean capitalAssetNonquantityDrivenAllowIndicator) {
         this.capitalAssetNonquantityDrivenAllowIndicator = capitalAssetNonquantityDrivenAllowIndicator;
     }
-    
+
     public String getCapitalAssetNonquantitySubtypeRequiredText() {
         return capitalAssetNonquantitySubtypeRequiredText;
     }
 
-    public void setCapitalAssetNonquantitySubtypeRequiredText(
-            String capitalAssetNonquantitySubtypeRequiredText) {
+    public void setCapitalAssetNonquantitySubtypeRequiredText(String capitalAssetNonquantitySubtypeRequiredText) {
         this.capitalAssetNonquantitySubtypeRequiredText = capitalAssetNonquantitySubtypeRequiredText;
     }
 
@@ -85,8 +86,7 @@ public class AssetTransactionType extends PersistableBusinessObjectBase implemen
         return capitalAssetQuantitySubtypeRequiredText;
     }
 
-    public void setCapitalAssetQuantitySubtypeRequiredText(
-            String capitalAssetQuantitySubtypeRequiredText) {
+    public void setCapitalAssetQuantitySubtypeRequiredText(String capitalAssetQuantitySubtypeRequiredText) {
         this.capitalAssetQuantitySubtypeRequiredText = capitalAssetQuantitySubtypeRequiredText;
     }
 

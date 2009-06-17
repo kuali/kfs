@@ -1615,7 +1615,7 @@
                     p:attributeName="organizationOwnerChartOfAccountsCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="organizationOwnerAccountNumber" />
-              <bean parent="FieldDefinition" p:noInquiry="true"
+              <bean parent="FieldDefinition" 
                     p:attributeName="organizationOwnerAccount.organizationCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="agencyNumber" />

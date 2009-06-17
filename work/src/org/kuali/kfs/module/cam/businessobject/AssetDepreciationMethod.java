@@ -2,12 +2,13 @@ package org.kuali.kfs.module.cam.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class AssetDepreciationMethod extends PersistableBusinessObjectBase {
+public class AssetDepreciationMethod extends PersistableBusinessObjectBase implements Inactivateable {
 
     private String depreciationMethodCode;
     private String depreciationMethodName;
@@ -24,7 +25,6 @@ public class AssetDepreciationMethod extends PersistableBusinessObjectBase {
      * Gets the depreciationMethodCode attribute.
      * 
      * @return Returns the depreciationMethodCode
-     * 
      */
     public String getDepreciationMethodCode() {
         return depreciationMethodCode;
@@ -34,7 +34,6 @@ public class AssetDepreciationMethod extends PersistableBusinessObjectBase {
      * Sets the depreciationMethodCode attribute.
      * 
      * @param depreciationMethodCode The depreciationMethodCode to set.
-     * 
      */
     public void setDepreciationMethodCode(String depreciationMethodCode) {
         this.depreciationMethodCode = depreciationMethodCode;
@@ -45,7 +44,6 @@ public class AssetDepreciationMethod extends PersistableBusinessObjectBase {
      * Gets the depreciationMethodName attribute.
      * 
      * @return Returns the depreciationMethodName
-     * 
      */
     public String getDepreciationMethodName() {
         return depreciationMethodName;
@@ -55,7 +53,6 @@ public class AssetDepreciationMethod extends PersistableBusinessObjectBase {
      * Sets the depreciationMethodName attribute.
      * 
      * @param depreciationMethodName The depreciationMethodName to set.
-     * 
      */
     public void setDepreciationMethodName(String depreciationMethodName) {
         this.depreciationMethodName = depreciationMethodName;
@@ -66,7 +63,6 @@ public class AssetDepreciationMethod extends PersistableBusinessObjectBase {
      * Gets the active attribute.
      * 
      * @return Returns the active
-     * 
      */
     public boolean isActive() {
         return active;
@@ -76,7 +72,6 @@ public class AssetDepreciationMethod extends PersistableBusinessObjectBase {
      * Sets the active attribute.
      * 
      * @param active The active to set.
-     * 
      */
     public void setActive(boolean active) {
         this.active = active;

@@ -15,15 +15,15 @@
         <longProp name="ThreadGroup.start_time">1187728739000</longProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
-        <stringProp name="ThreadGroup.num_threads">5</stringProp>
+        <stringProp name="ThreadGroup.num_threads">15</stringProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">5</stringProp>
+          <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
         <longProp name="ThreadGroup.end_time">1187728739000</longProp>
         <stringProp name="ThreadGroup.on_sample_error">stopthread</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">180</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
       </ThreadGroup>
       <hashTree>
         <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="URL parameters for localhost:8080/kfs-dev" enabled="true">
@@ -143,6 +143,60 @@
           <boolProp name="UserParameters.per_iteration">true</boolProp>
         </UserParameters>
         <hashTree/>
+        <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="Asset Separate Parameters" enabled="true">
+          <collectionProp name="UserParameters.names">
+            <stringProp name="-1134414895">capitalAssetNumber</stringProp>
+          </collectionProp>
+          <collectionProp name="UserParameters.thread_values">
+            <collectionProp name="-30137504">
+              <stringProp name="47653961">20090</stringProp>
+            </collectionProp>
+            <collectionProp name="-30137314">
+              <stringProp name="47653966">20095</stringProp>
+            </collectionProp>
+            <collectionProp name="-30137200">
+              <stringProp name="47653969">20098</stringProp>
+            </collectionProp>
+            <collectionProp name="-29143446">
+              <stringProp name="47654643">20100</stringProp>
+            </collectionProp>
+            <collectionProp name="-29143294">
+              <stringProp name="47654647">20104</stringProp>
+            </collectionProp>
+            <collectionProp name="-1714075522">
+              <stringProp name="46760054">11039</stringProp>
+            </collectionProp>
+            <collectionProp name="-1714072013">
+              <stringProp name="46760085">11049</stringProp>
+            </collectionProp>
+            <collectionProp name="-1714045498">
+              <stringProp name="46760108">11051</stringProp>
+            </collectionProp>
+            <collectionProp name="-1714044493">
+              <stringProp name="46760114">11057</stringProp>
+            </collectionProp>
+            <collectionProp name="-1714037513">
+              <stringProp name="46760175">11076</stringProp>
+            </collectionProp>
+            <collectionProp name="-1712938912">
+              <stringProp name="46761134">11174</stringProp>
+            </collectionProp>
+            <collectionProp name="-1712684609">
+              <stringProp name="46761876">11202</stringProp>
+            </collectionProp>
+            <collectionProp name="-1709342622">
+              <stringProp name="46764946">11563</stringProp>
+            </collectionProp>
+            <collectionProp name="-1709341693">
+              <stringProp name="46764950">11567</stringProp>
+            </collectionProp>
+            <collectionProp name="-1707210911">
+              <stringProp name="46766715">11715</stringProp>
+            </collectionProp>
+          </collectionProp>
+          <boolProp name="UserParameters.per_iteration">false</boolProp>
+        </UserParameters>
+        <hashTree/>
         <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults" enabled="false">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments"/>
@@ -154,7 +208,7 @@
           <stringProp name="HTTPSampler.path"></stringProp>
         </ConfigTestElement>
         <hashTree/>
-        <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="Loggin in (run once)" enabled="true"/>
+        <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="Loggin in (run once)" enabled="false"/>
         <hashTree>
           <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
             <boolProp name="ResultCollector.error_logging">false</boolProp>
@@ -526,62 +580,182 @@
             </hashTree>
           </hashTree>
         </hashTree>
+        <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="Login using central CAS" enabled="true"/>
+        <hashTree>
+          <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/portal.do" enabled="true">
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="selectedTab" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.name">selectedTab</stringProp>
+                  <stringProp name="Argument.value">main</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${host}</stringProp>
+            <stringProp name="HTTPSampler.port">${port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">${context}/portal.do</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
+            <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
+            <stringProp name="HTTPSampler.mimetype"></stringProp>
+            <stringProp name="HTTPSampler.monitor">false</stringProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          </HTTPSampler>
+          <hashTree/>
+          <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="/cas/login 1" enabled="true">
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="service" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.name">service</stringProp>
+                  <stringProp name="Argument.value">${protocol}%3A%2F%2F${host}%3A${port}${context}%2Fportal.do%3FselectedTab%3Dmain</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">test.kuali.org</stringProp>
+            <stringProp name="HTTPSampler.port"></stringProp>
+            <stringProp name="HTTPSampler.protocol">https</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">/cas-stg/login</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
+            <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
+            <stringProp name="HTTPSampler.mimetype"></stringProp>
+            <stringProp name="HTTPSampler.monitor">false</stringProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          </HTTPSampler>
+          <hashTree>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="lt" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+              <stringProp name="RegexExtractor.refname">lt</stringProp>
+              <stringProp name="RegexExtractor.regex">&lt;input type=&quot;hidden&quot; name=&quot;lt&quot; value=&quot;([^&quot;]*)&quot;</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.default">BAD LT</stringProp>
+              <stringProp name="RegexExtractor.match_number"></stringProp>
+            </RegexExtractor>
+            <hashTree/>
+          </hashTree>
+          <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="cas login 2" enabled="true">
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="username" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.name">username</stringProp>
+                  <stringProp name="Argument.value">${username}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                </elementProp>
+                <elementProp name="password" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.name">password</stringProp>
+                  <stringProp name="Argument.value">demo</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                </elementProp>
+                <elementProp name="lt" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.name">lt</stringProp>
+                  <stringProp name="Argument.value">${lt}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                </elementProp>
+                <elementProp name="_eventId" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.name">_eventId</stringProp>
+                  <stringProp name="Argument.value">submit</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                </elementProp>
+                <elementProp name="submit" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.name">submit</stringProp>
+                  <stringProp name="Argument.value">LOGIN</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                </elementProp>
+                <elementProp name="service" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value"></stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">service</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">test.kuali.org</stringProp>
+            <stringProp name="HTTPSampler.port"></stringProp>
+            <stringProp name="HTTPSampler.protocol">https</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">/cas-stg/login</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
+            <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
+            <stringProp name="HTTPSampler.mimetype"></stringProp>
+            <stringProp name="HTTPSampler.monitor">false</stringProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          </HTTPSampler>
+          <hashTree/>
+          <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/portal.do" enabled="true">
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="selectedTab" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.name">selectedTab</stringProp>
+                  <stringProp name="Argument.value">main</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${host}</stringProp>
+            <stringProp name="HTTPSampler.port">${port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">${context}/portal.do</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
+            <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
+            <stringProp name="HTTPSampler.mimetype"></stringProp>
+            <stringProp name="HTTPSampler.monitor">false</stringProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          </HTTPSampler>
+          <hashTree>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert user name present" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="1685720944">${username}</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <stringProp name="Assertion.assume_success">false</stringProp>
+              <intProp name="Assertion.test_type">2</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Start Asset Separate" enabled="true"/>
         <hashTree>
-          <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="Asset Separate Parameters" enabled="true">
-            <collectionProp name="UserParameters.names">
-              <stringProp name="-1134414895">capitalAssetNumber</stringProp>
-            </collectionProp>
-            <collectionProp name="UserParameters.thread_values">
-              <collectionProp name="475837178">
-                <stringProp name="1516143">1929</stringProp>
-              </collectionProp>
-              <collectionProp name="546474537">
-                <stringProp name="1538336">2156</stringProp>
-              </collectionProp>
-              <collectionProp name="571795221">
-                <stringProp name="1540253">2351</stringProp>
-              </collectionProp>
-              <collectionProp name="571795259">
-                <stringProp name="1540254">2352</stringProp>
-              </collectionProp>
-              <collectionProp name="571830764">
-                <stringProp name="1540350">2385</stringProp>
-              </collectionProp>
-              <collectionProp name="-1714075522">
-                <stringProp name="46760054">11039</stringProp>
-              </collectionProp>
-              <collectionProp name="-1714072013">
-                <stringProp name="46760085">11049</stringProp>
-              </collectionProp>
-              <collectionProp name="-1714045498">
-                <stringProp name="46760108">11051</stringProp>
-              </collectionProp>
-              <collectionProp name="-1714044493">
-                <stringProp name="46760114">11057</stringProp>
-              </collectionProp>
-              <collectionProp name="-1714037513">
-                <stringProp name="46760175">11076</stringProp>
-              </collectionProp>
-              <collectionProp name="444037168">
-                <stringProp name="1508605">1174</stringProp>
-              </collectionProp>
-              <collectionProp name="-1712684609">
-                <stringProp name="46761876">11202</stringProp>
-              </collectionProp>
-              <collectionProp name="-1709342622">
-                <stringProp name="46764946">11563</stringProp>
-              </collectionProp>
-              <collectionProp name="-1709341693">
-                <stringProp name="46764950">11567</stringProp>
-              </collectionProp>
-              <collectionProp name="-1707210911">
-                <stringProp name="46766715">11715</stringProp>
-              </collectionProp>
-            </collectionProp>
-            <boolProp name="UserParameters.per_iteration">false</boolProp>
-          </UserParameters>
-          <hashTree/>
           <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Main Menu - Asset" enabled="true"/>
           <hashTree>
             <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/portal.do" enabled="true">
@@ -1524,7 +1698,7 @@
                   <elementProp name="document.documentHeader.documentDescription" elementType="HTTPArgument">
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
                     <stringProp name="Argument.name">document.documentHeader.documentDescription</stringProp>
-                    <stringProp name="Argument.value">Test Separate an Asset</stringProp>
+                    <stringProp name="Argument.value">Test Separate an Asset ${capitalAssetNumber}</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                     <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   </elementProp>

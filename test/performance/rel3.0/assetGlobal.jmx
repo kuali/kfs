@@ -14,10 +14,10 @@
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Asset Global Add Test Group" enabled="true">
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">5</stringProp>
+          <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">5</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">180</stringProp>
+        <stringProp name="ThreadGroup.num_threads">15</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <longProp name="ThreadGroup.start_time">1242765261000</longProp>
         <longProp name="ThreadGroup.end_time">1242765261000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -143,7 +143,7 @@
           <boolProp name="UserParameters.per_iteration">true</boolProp>
         </UserParameters>
         <hashTree/>
-        <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="Loggin in (run once)" enabled="true"/>
+        <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="Loggin in (run once)" enabled="false"/>
         <hashTree>
           <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
             <boolProp name="ResultCollector.error_logging">false</boolProp>
@@ -515,407 +515,178 @@
             </hashTree>
           </hashTree>
         </hashTree>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Login" enabled="false"/>
+        <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="Login using central CAS" enabled="true"/>
         <hashTree>
-          <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
-            <boolProp name="ResultCollector.error_logging">false</boolProp>
-            <objProp>
-              <name>saveConfig</name>
-              <value class="SampleSaveConfiguration">
-                <time>true</time>
-                <latency>true</latency>
-                <timestamp>true</timestamp>
-                <success>true</success>
-                <label>true</label>
-                <code>true</code>
-                <message>true</message>
-                <threadName>true</threadName>
-                <dataType>true</dataType>
-                <encoding>false</encoding>
-                <assertions>true</assertions>
-                <subresults>true</subresults>
-                <responseData>false</responseData>
-                <samplerData>false</samplerData>
-                <xml>false</xml>
-                <fieldNames>false</fieldNames>
-                <responseHeaders>false</responseHeaders>
-                <requestHeaders>false</requestHeaders>
-                <responseDataOnError>false</responseDataOnError>
-                <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
-                <assertionsResultsToSave>0</assertionsResultsToSave>
-              </value>
-            </objProp>
-            <stringProp name="filename"></stringProp>
-          </ResultCollector>
+          <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/portal.do" enabled="true">
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="selectedTab" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.name">selectedTab</stringProp>
+                  <stringProp name="Argument.value">main</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${host}</stringProp>
+            <stringProp name="HTTPSampler.port">${port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">${context}/portal.do</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
+            <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
+            <stringProp name="HTTPSampler.mimetype"></stringProp>
+            <stringProp name="HTTPSampler.monitor">false</stringProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          </HTTPSampler>
           <hashTree/>
-          <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
-            <boolProp name="ResultCollector.error_logging">false</boolProp>
-            <objProp>
-              <name>saveConfig</name>
-              <value class="SampleSaveConfiguration">
-                <time>true</time>
-                <latency>true</latency>
-                <timestamp>true</timestamp>
-                <success>true</success>
-                <label>true</label>
-                <code>true</code>
-                <message>true</message>
-                <threadName>true</threadName>
-                <dataType>true</dataType>
-                <encoding>false</encoding>
-                <assertions>true</assertions>
-                <subresults>true</subresults>
-                <responseData>false</responseData>
-                <samplerData>false</samplerData>
-                <xml>false</xml>
-                <fieldNames>false</fieldNames>
-                <responseHeaders>false</responseHeaders>
-                <requestHeaders>false</requestHeaders>
-                <responseDataOnError>false</responseDataOnError>
-                <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
-                <assertionsResultsToSave>0</assertionsResultsToSave>
-              </value>
-            </objProp>
-            <stringProp name="filename"></stringProp>
-          </ResultCollector>
-          <hashTree/>
-          <ResultCollector guiclass="AssertionVisualizer" testclass="ResultCollector" testname="Assertion Results" enabled="true">
-            <boolProp name="ResultCollector.error_logging">false</boolProp>
-            <objProp>
-              <name>saveConfig</name>
-              <value class="SampleSaveConfiguration">
-                <time>true</time>
-                <latency>true</latency>
-                <timestamp>true</timestamp>
-                <success>true</success>
-                <label>true</label>
-                <code>true</code>
-                <message>true</message>
-                <threadName>true</threadName>
-                <dataType>true</dataType>
-                <encoding>false</encoding>
-                <assertions>true</assertions>
-                <subresults>true</subresults>
-                <responseData>false</responseData>
-                <samplerData>false</samplerData>
-                <xml>false</xml>
-                <fieldNames>false</fieldNames>
-                <responseHeaders>false</responseHeaders>
-                <requestHeaders>false</requestHeaders>
-                <responseDataOnError>false</responseDataOnError>
-                <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
-                <assertionsResultsToSave>0</assertionsResultsToSave>
-              </value>
-            </objProp>
-            <stringProp name="filename"></stringProp>
-          </ResultCollector>
-          <hashTree/>
-          <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="CAS authentication" enabled="true">
-            <boolProp name="LoopController.continue_forever">true</boolProp>
-            <stringProp name="LoopController.loops">1</stringProp>
-          </LoopController>
+          <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="/cas/login 1" enabled="true">
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="service" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.name">service</stringProp>
+                  <stringProp name="Argument.value">${protocol}%3A%2F%2F${host}%3A${port}${context}%2Fportal.do%3FselectedTab%3Dmain</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">test.kuali.org</stringProp>
+            <stringProp name="HTTPSampler.port"></stringProp>
+            <stringProp name="HTTPSampler.protocol">https</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">/cas-stg/login</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
+            <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
+            <stringProp name="HTTPSampler.mimetype"></stringProp>
+            <stringProp name="HTTPSampler.monitor">false</stringProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          </HTTPSampler>
           <hashTree>
-            <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/" enabled="true">
-              <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Argument List" enabled="true">
-                <collectionProp name="Arguments.arguments"/>
-              </elementProp>
-              <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
-              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-              <stringProp name="HTTPSampler.path">${context}</stringProp>
-              <stringProp name="HTTPSampler.method">GET</stringProp>
-              <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
-              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-              <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
-              <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
-              <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <stringProp name="HTTPSampler.monitor">false</stringProp>
-              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-            </HTTPSampler>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="lt" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+              <stringProp name="RegexExtractor.refname">lt</stringProp>
+              <stringProp name="RegexExtractor.regex">&lt;input type=&quot;hidden&quot; name=&quot;lt&quot; value=&quot;([^&quot;]*)&quot;</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.default">BAD LT</stringProp>
+              <stringProp name="RegexExtractor.match_number"></stringProp>
+            </RegexExtractor>
             <hashTree/>
-            <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/portal.jsp" enabled="true">
-              <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Argument List" enabled="true">
-                <collectionProp name="Arguments.arguments"/>
-              </elementProp>
-              <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
-              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-              <stringProp name="HTTPSampler.path">${context}/portal.jsp</stringProp>
-              <stringProp name="HTTPSampler.method">GET</stringProp>
-              <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
-              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-              <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
-              <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
-              <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <stringProp name="HTTPSampler.monitor">false</stringProp>
-              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-            </HTTPSampler>
+          </hashTree>
+          <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="cas login 2" enabled="true">
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="username" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.name">username</stringProp>
+                  <stringProp name="Argument.value">${username}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                </elementProp>
+                <elementProp name="password" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.name">password</stringProp>
+                  <stringProp name="Argument.value">demo</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                </elementProp>
+                <elementProp name="lt" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.name">lt</stringProp>
+                  <stringProp name="Argument.value">${lt}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                </elementProp>
+                <elementProp name="_eventId" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.name">_eventId</stringProp>
+                  <stringProp name="Argument.value">submit</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                </elementProp>
+                <elementProp name="submit" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.name">submit</stringProp>
+                  <stringProp name="Argument.value">LOGIN</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                </elementProp>
+                <elementProp name="service" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value"></stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">service</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">test.kuali.org</stringProp>
+            <stringProp name="HTTPSampler.port"></stringProp>
+            <stringProp name="HTTPSampler.protocol">https</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">/cas-stg/login</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
+            <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
+            <stringProp name="HTTPSampler.mimetype"></stringProp>
+            <stringProp name="HTTPSampler.monitor">false</stringProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          </HTTPSampler>
+          <hashTree/>
+          <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/portal.do" enabled="true">
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="selectedTab" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.name">selectedTab</stringProp>
+                  <stringProp name="Argument.value">main</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${host}</stringProp>
+            <stringProp name="HTTPSampler.port">${port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">${context}/portal.do</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
+            <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
+            <stringProp name="HTTPSampler.mimetype"></stringProp>
+            <stringProp name="HTTPSampler.monitor">false</stringProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          </HTTPSampler>
+          <hashTree>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert user name present" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="1685720944">${username}</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <stringProp name="Assertion.assume_success">false</stringProp>
+              <intProp name="Assertion.test_type">2</intProp>
+            </ResponseAssertion>
             <hashTree/>
-            <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/portal.do (auto-redirect to login page)" enabled="true">
-              <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Argument List" enabled="true">
-                <collectionProp name="Arguments.arguments">
-                  <elementProp name="selectedTab" elementType="HTTPArgument">
-                    <stringProp name="Argument.metadata">=</stringProp>
-                    <stringProp name="Argument.value">portalMainMenuBody</stringProp>
-                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                    <stringProp name="Argument.name">selectedTab</stringProp>
-                    <stringProp name="HTTPArgument.encoded_name">channelTitle</stringProp>
-                    <stringProp name="HTTPArgument.always_encode">true</stringProp>
-                    <stringProp name="HTTPArgument.encoded_value">Disbursement+Voucher</stringProp>
-                  </elementProp>
-                </collectionProp>
-              </elementProp>
-              <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
-              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-              <stringProp name="HTTPSampler.path">${context}/portal.do</stringProp>
-              <stringProp name="HTTPSampler.method">GET</stringProp>
-              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-              <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
-              <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
-              <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <stringProp name="HTTPSampler.monitor">false</stringProp>
-              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-            </HTTPSampler>
-            <hashTree>
-              <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="parse service path" enabled="true">
-                <stringProp name="RegexExtractor.default">BADCASSERVICEPATH</stringProp>
-                <stringProp name="RegexExtractor.regex">service=http[^:]*://[^/]*/[^/]*(/.*)</stringProp>
-                <stringProp name="RegexExtractor.useHeaders">URL</stringProp>
-                <stringProp name="RegexExtractor.template">$1$</stringProp>
-                <stringProp name="RegexExtractor.match_number">0</stringProp>
-                <stringProp name="RegexExtractor.refname">service_path</stringProp>
-              </RegexExtractor>
-              <hashTree/>
-              <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="parse CAS login ticket" enabled="true">
-                <stringProp name="RegexExtractor.default">BADCASTICKET</stringProp>
-                <stringProp name="RegexExtractor.regex">&lt;input type=&quot;hidden&quot; name=&quot;lt&quot; value=&quot;([^&quot;]*)&quot;</stringProp>
-                <stringProp name="RegexExtractor.useHeaders">false</stringProp>
-                <stringProp name="RegexExtractor.template">$1$</stringProp>
-                <stringProp name="RegexExtractor.match_number">1</stringProp>
-                <stringProp name="RegexExtractor.refname">cas_login_ticket</stringProp>
-              </RegexExtractor>
-              <hashTree/>
-              <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="parse service" enabled="true">
-                <stringProp name="RegexExtractor.default">BADCASSERVICE</stringProp>
-                <stringProp name="RegexExtractor.regex">service=(.*)</stringProp>
-                <stringProp name="RegexExtractor.useHeaders">URL</stringProp>
-                <stringProp name="RegexExtractor.template">$1$</stringProp>
-                <stringProp name="RegexExtractor.match_number">0</stringProp>
-                <stringProp name="RegexExtractor.refname">service</stringProp>
-              </RegexExtractor>
-              <hashTree/>
-            </hashTree>
-            <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/login Login Results" enabled="true">
-              <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Argument List" enabled="true">
-                <collectionProp name="Arguments.arguments">
-                  <elementProp name="service" elementType="HTTPArgument">
-                    <stringProp name="Argument.metadata">=</stringProp>
-                    <stringProp name="Argument.value">${service}</stringProp>
-                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                    <stringProp name="Argument.name">service</stringProp>
-                    <stringProp name="HTTPArgument.always_encode">true</stringProp>
-                    <stringProp name="HTTPArgument.encoded_name">service</stringProp>
-                    <stringProp name="HTTPArgument.encoded_value">https%3A%2F%2Ftest.kuali.org%2Fkuali-reg%2Fportal.do</stringProp>
-                  </elementProp>
-                  <elementProp name="username" elementType="HTTPArgument">
-                    <stringProp name="Argument.metadata">=</stringProp>
-                    <stringProp name="Argument.value">${username}</stringProp>
-                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                    <stringProp name="Argument.name">username</stringProp>
-                    <stringProp name="HTTPArgument.always_encode">true</stringProp>
-                    <stringProp name="HTTPArgument.encoded_name">username</stringProp>
-                    <stringProp name="HTTPArgument.encoded_value">day</stringProp>
-                  </elementProp>
-                  <elementProp name="password" elementType="HTTPArgument">
-                    <stringProp name="Argument.value"></stringProp>
-                    <stringProp name="Argument.name">password</stringProp>
-                    <stringProp name="HTTPArgument.always_encode">true</stringProp>
-                    <stringProp name="HTTPArgument.encoded_name">password</stringProp>
-                    <stringProp name="HTTPArgument.encoded_value"></stringProp>
-                  </elementProp>
-                  <elementProp name="lt" elementType="HTTPArgument">
-                    <stringProp name="Argument.metadata">=</stringProp>
-                    <stringProp name="Argument.value">${cas_login_ticket}</stringProp>
-                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                    <stringProp name="Argument.name">lt</stringProp>
-                    <stringProp name="HTTPArgument.always_encode">true</stringProp>
-                    <stringProp name="HTTPArgument.encoded_name">lt</stringProp>
-                    <stringProp name="HTTPArgument.encoded_value">LT-369-tZ5DkSs8VFHLJZlw1LV3</stringProp>
-                  </elementProp>
-                </collectionProp>
-              </elementProp>
-              <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
-              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-              <stringProp name="HTTPSampler.path">${context}/cas/login</stringProp>
-              <stringProp name="HTTPSampler.method">POST</stringProp>
-              <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
-              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-              <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
-              <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
-              <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <stringProp name="HTTPSampler.monitor">false</stringProp>
-              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-            </HTTPSampler>
-            <hashTree>
-              <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="parse redirect_server_after_login" enabled="true">
-                <stringProp name="RegexExtractor.default">BADVALUE</stringProp>
-                <stringProp name="RegexExtractor.regex">window.location.href=&quot;https?://([^/]*)/</stringProp>
-                <stringProp name="RegexExtractor.useHeaders">false</stringProp>
-                <stringProp name="RegexExtractor.template">$1$</stringProp>
-                <stringProp name="RegexExtractor.match_number">1</stringProp>
-                <stringProp name="RegexExtractor.refname">redirect_server_after_login</stringProp>
-              </RegexExtractor>
-              <hashTree/>
-              <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="parse redirect_uri_after_login" enabled="true">
-                <stringProp name="RegexExtractor.default">EXPENSE EXPENDITURE</stringProp>
-                <stringProp name="RegexExtractor.regex">window.location.href=&quot;https?://[^/]*/([^&quot;]*)&quot;;</stringProp>
-                <stringProp name="RegexExtractor.useHeaders">false</stringProp>
-                <stringProp name="RegexExtractor.template">$1$</stringProp>
-                <stringProp name="RegexExtractor.match_number">1</stringProp>
-                <stringProp name="RegexExtractor.refname">redirect_uri_after_login</stringProp>
-              </RegexExtractor>
-              <hashTree/>
-              <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="parse ticket_after_login" enabled="true">
-                <stringProp name="RegexExtractor.default">EXPENSE EXPENDITURE</stringProp>
-                <stringProp name="RegexExtractor.regex">window.location.href=.*ticket=([^&quot;]*)&quot;</stringProp>
-                <stringProp name="RegexExtractor.useHeaders">false</stringProp>
-                <stringProp name="RegexExtractor.template">$1$</stringProp>
-                <stringProp name="RegexExtractor.match_number">1</stringProp>
-                <stringProp name="RegexExtractor.refname">ticket</stringProp>
-              </RegexExtractor>
-              <hashTree/>
-              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Login Successful" enabled="true">
-                <collectionProp name="Asserion.test_strings">
-                  <stringProp name="-1294094723">Login successful.</stringProp>
-                </collectionProp>
-                <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-                <intProp name="Assertion.test_type">2</intProp>
-                <stringProp name="Assertion.assume_success">false</stringProp>
-              </ResponseAssertion>
-              <hashTree/>
-              <ResultCollector guiclass="AssertionVisualizer" testclass="ResultCollector" testname="Assertion Results" enabled="true">
-                <boolProp name="ResultCollector.error_logging">true</boolProp>
-                <objProp>
-                  <name>saveConfig</name>
-                  <value class="SampleSaveConfiguration">
-                    <time>true</time>
-                    <latency>true</latency>
-                    <timestamp>true</timestamp>
-                    <success>true</success>
-                    <label>true</label>
-                    <code>true</code>
-                    <message>true</message>
-                    <threadName>true</threadName>
-                    <dataType>true</dataType>
-                    <encoding>false</encoding>
-                    <assertions>true</assertions>
-                    <subresults>true</subresults>
-                    <responseData>false</responseData>
-                    <samplerData>false</samplerData>
-                    <xml>false</xml>
-                    <fieldNames>false</fieldNames>
-                    <responseHeaders>false</responseHeaders>
-                    <requestHeaders>false</requestHeaders>
-                    <responseDataOnError>false</responseDataOnError>
-                    <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
-                    <assertionsResultsToSave>0</assertionsResultsToSave>
-                  </value>
-                </objProp>
-                <stringProp name="filename"></stringProp>
-              </ResultCollector>
-              <hashTree/>
-              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
-                <stringProp name="ConstantTimer.delay">2000</stringProp>
-              </ConstantTimer>
-              <hashTree/>
-            </hashTree>
-            <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/portal.do (Session recovery page)" enabled="true">
-              <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Argument List" enabled="true">
-                <collectionProp name="Arguments.arguments">
-                  <elementProp name="ticket" elementType="HTTPArgument">
-                    <stringProp name="Argument.metadata">=</stringProp>
-                    <stringProp name="Argument.value">${ticket}</stringProp>
-                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                    <stringProp name="Argument.name">ticket</stringProp>
-                    <stringProp name="HTTPArgument.encoded_name">ticket</stringProp>
-                    <stringProp name="HTTPArgument.always_encode">true</stringProp>
-                    <stringProp name="HTTPArgument.encoded_value">ST-966-22IiviZJbBafXfkgFkY9</stringProp>
-                  </elementProp>
-                </collectionProp>
-              </elementProp>
-              <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
-              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-              <stringProp name="HTTPSampler.path">${context}${service_path}</stringProp>
-              <stringProp name="HTTPSampler.method">GET</stringProp>
-              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-              <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
-              <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
-              <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <stringProp name="HTTPSampler.monitor">false</stringProp>
-              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-            </HTTPSampler>
-            <hashTree/>
-            <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/portal.do (should have user name on page)" enabled="true">
-              <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Argument List" enabled="true">
-                <collectionProp name="Arguments.arguments">
-                  <elementProp name="selectedTab" elementType="HTTPArgument">
-                    <stringProp name="Argument.metadata">=</stringProp>
-                    <stringProp name="Argument.value">portalMainMenuBody</stringProp>
-                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                    <stringProp name="Argument.name">selectedTab</stringProp>
-                    <stringProp name="HTTPArgument.always_encode">true</stringProp>
-                    <stringProp name="HTTPArgument.encoded_name">channelTitle</stringProp>
-                    <stringProp name="HTTPArgument.encoded_value">Disbursement+Voucher</stringProp>
-                  </elementProp>
-                </collectionProp>
-              </elementProp>
-              <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
-              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-              <stringProp name="HTTPSampler.path">${context}/portal.do</stringProp>
-              <stringProp name="HTTPSampler.method">GET</stringProp>
-              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-              <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
-              <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
-              <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <stringProp name="HTTPSampler.monitor">false</stringProp>
-              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-            </HTTPSampler>
-            <hashTree>
-              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert user name present" enabled="true">
-                <collectionProp name="Asserion.test_strings">
-                  <stringProp name="-974989074">${__javaScript(&apos;${username}&apos;)}</stringProp>
-                </collectionProp>
-                <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-                <intProp name="Assertion.test_type">2</intProp>
-                <stringProp name="Assertion.assume_success">false</stringProp>
-              </ResponseAssertion>
-              <hashTree/>
-            </hashTree>
           </hashTree>
         </hashTree>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Submit Asset Global Document Add" enabled="true"/>
@@ -1318,41 +1089,6 @@
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
             <stringProp name="HTTPSampler.path">${context}/kew/RouteLog.do</stringProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-            <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
-            <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
-            <stringProp name="HTTPSampler.mimetype"></stringProp>
-            <stringProp name="HTTPSampler.monitor">false</stringProp>
-            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-          </HTTPSampler>
-          <hashTree/>
-          <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/dwr/exec/AccountService.getByPrimaryIdWithCaching.dwr" enabled="true">
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
-              <collectionProp name="Arguments.arguments">
-                <elementProp name="" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">callCount=1
-c0-scriptName=AccountService
-c0-methodName=getByPrimaryIdWithCaching
-c0-id=2326_1242765465882
-c0-param0=string:BL
-c0-param1=string:1023200
-xml=true
-</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                </elementProp>
-              </collectionProp>
-            </elementProp>
-            <stringProp name="HTTPSampler.domain">${host}</stringProp>
-            <stringProp name="HTTPSampler.port">${port}</stringProp>
-            <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
-            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
-            <stringProp name="HTTPSampler.path">${context}/dwr/exec/AccountService.getByPrimaryIdWithCaching.dwr</stringProp>
-            <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
             <boolProp name="HTTPSampler.use_keepalive">true</boolProp>

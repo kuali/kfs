@@ -84,6 +84,7 @@ import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
@@ -148,6 +149,12 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 VendorAddress defaultAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(document.getVendorDetail().getVendorAddresses(), document.getVendorDetail().getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
                 document.templateVendorAddress(defaultAddress);
 
+                // update internal dollar limit for PO since the contract might affect this value
+                if (document instanceof PurchaseOrderDocument) {
+                    PurchaseOrderDocument poDoc = (PurchaseOrderDocument)document;
+                    KualiDecimal limit = SpringContext.getBean(PurchaseOrderService.class).getInternalPurchasingDollarLimit(poDoc);
+                    poDoc.setInternalPurchasingLimit(limit);
+                }
             }
         }
 

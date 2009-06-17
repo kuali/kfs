@@ -36,7 +36,7 @@
 	
 	    <c:if test="${empty isCreditMemo or !isCreditMemo}" >
 			<c:set var="mainColumnCount" value="12"/>
-			<c:set var="colSpanItemType" value="6"/>
+			<c:set var="colSpanItemType" value="4"/>
 			<c:set var="colSpanDescription" value="7"/>
 			<c:set var="colSpanExtendedPrice" value="1"/>
 			
@@ -65,18 +65,18 @@
 		<c:if test="${isCreditMemo and (KualiForm.document.creditMemoType eq 'Vendor')}" >
 			<c:set var="mainColumnCount" value="12"/>
 			<c:set var="colSpanItemType" value="6"/>
-			<c:set var="colSpanDescription" value="3"/>
+			<c:set var="colSpanDescription" value="5"/>
 			<c:set var="colSpanExtendedPrice" value="1"/>
 		</c:if>
 
 		<!-- BEGIN TOTAL SECTION -->
 		<tr>
-			<td align=right width='75%' colspan="8" scope="row" class="datacell">
+			<td align=right width='75%' colspan="6" scope="row" class="datacell">
 			    <div align="right">
 			        <b><kul:htmlAttributeLabel attributeEntry="${documentAttributes.lineItemTotal}" skipHelpUrl="true"/></b>&nbsp;
 			    </div>
 			</td>
-			<td valign=middle class="datacell" colspan="1">
+			<td valign=middle class="datacell" colspan="3">
 			    <div align="right"><b>
                     <kul:htmlControlAttribute
                         attributeEntry="${DataDictionary.PaymentRequestDocument.lineItemTotal}"
@@ -104,12 +104,12 @@
 			colSpanAmountPaid="0">
 			<jsp:attribute name="specialItemTotalOverride">
 				<tr>
-					<td align=right width='75%' colspan="8" scope="row" class="datacell">
+					<td align=right width='75%' colspan="5" scope="row" class="datacell">
 			 			<div align="right">
 			        		<b><kul:htmlAttributeLabel attributeEntry="${documentAttributes.grandTotalExcludingDiscount}" skipHelpUrl="true" /></b>&nbsp;
 			    		</div>
 					</td>
-					<td valign=middle class="datacell" colspan="1">
+					<td valign=middle class="datacell" colspan="2">
 		    		    <div align="right"><b>
                             <kul:htmlControlAttribute
                                 attributeEntry="${DataDictionary.PaymentRequestDocument.grandTotalExcludingDiscount}"
@@ -142,7 +142,7 @@
 		<!-- BEGIN TOTAL SECTION -->
 		<c:if test="${purapTaxEnabled}">
 		<tr>
-			<td align=right width='75%' colspan="8" scope="row" class="datacell">
+			<td align=right width='75%' colspan="6" scope="row" class="datacell">
 			    <div align="right">
 					<c:if test="${(empty isCreditMemo or !isCreditMemo) and purapTaxEnabled and KualiForm.document.useTaxIndicator}" >
 					<b>[Vendor Remit Amount]</b>
@@ -151,7 +151,7 @@
 			        <b><kul:htmlAttributeLabel attributeEntry="${documentAttributes.grandPreTaxTotal}" skipHelpUrl="true" /></b>&nbsp;
 			    </div>
 			</td>
-			<td valign=middle class="datacell" colspan="1">
+			<td valign=middle class="datacell" colspan="3">
 			    <div align="right"><b>
                     <kul:htmlControlAttribute
                         attributeEntry="${DataDictionary.PaymentRequestDocument.grandPreTaxTotal}"
@@ -164,12 +164,12 @@
 			</td>
 		</tr>
 		<tr>
-			<td align=right width='75%' colspan="8" scope="row" class="datacell">
+			<td align=right width='75%' colspan="6" scope="row" class="datacell">
 			    <div align="right">
 			        <b><kul:htmlAttributeLabel attributeEntry="${documentAttributes.grandTaxAmount}" skipHelpUrl="true" /></b>&nbsp;
 			    </div>
 			</td>
-			<td valign=middle class="datacell" colspan="1">
+			<td valign=middle class="datacell" colspan="3">
 			    <div align="right"><b>
                     <kul:htmlControlAttribute
                         attributeEntry="${DataDictionary.PaymentRequestDocument.grandTaxAmount}"
@@ -184,7 +184,7 @@
 		</c:if>
 
 		<tr>
-			<td align=right width='75%' colspan="8" scope="row" class="datacell">
+			<td align=right width='75%' colspan="6" scope="row" class="datacell">
 			    <div align="right">
 					<c:if test="${(empty isCreditMemo or !isCreditMemo) and purapTaxEnabled and !KualiForm.document.useTaxIndicator}" >
 					<b>[Vendor Remit Amount]</b>
@@ -193,7 +193,7 @@
 			        <b><kul:htmlAttributeLabel attributeEntry="${documentAttributes.grandTotal}" skipHelpUrl="true" /></b>&nbsp;
 			    </div>
 			</td>
-			<td valign=middle class="datacell" colspan="1">
+			<td valign=middle class="datacell" colspan="3">
 			    <div align="right"><b>
                     <kul:htmlControlAttribute
                         attributeEntry="${DataDictionary.PaymentRequestDocument.grandTotal}"

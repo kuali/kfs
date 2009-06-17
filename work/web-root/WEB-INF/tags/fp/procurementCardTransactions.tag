@@ -46,7 +46,7 @@
 					</c:when>
 					<c:otherwise>
 						<kul:htmlControlAttribute attributeEntry="${cardAttributes.transactionCreditCardNumber}" property="document.procurementCardHolder.transactionCreditCardNumber"
-						 readOnly="true" encryptValue="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" displayMaskValue="****************" />
+						 readOnly="true" />
 					</c:otherwise>
 				</c:choose>
 	          </kul:inquiry>

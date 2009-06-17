@@ -37,9 +37,11 @@ public class BudgetAdjustmentAccountingLineAccountIncomeStreamValidation extends
         boolean accountNumberAllowed = true;
         if (getAccountingLineForValidation().getCurrentBudgetAdjustmentAmount().isNonZero()) {
             getAccountingLineForValidation().refreshReferenceObject("account");
-            if (ObjectUtils.isNull(getAccountingLineForValidation().getAccount().getIncomeStreamAccount())) {
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, KFSKeyConstants.ERROR_DOCUMENT_BA_NO_INCOME_STREAM_ACCOUNT, getAccountingLineForValidation().getAccountNumber());
-                accountNumberAllowed = false;
+            if (!ObjectUtils.isNull(getAccountingLineForValidation().getAccount())) {
+                if (ObjectUtils.isNull(getAccountingLineForValidation().getAccount().getIncomeStreamAccount())) {
+                    GlobalVariables.getMessageMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, KFSKeyConstants.ERROR_DOCUMENT_BA_NO_INCOME_STREAM_ACCOUNT, getAccountingLineForValidation().getAccountNumber());
+                    accountNumberAllowed = false;
+                }
             }
         }
         return accountNumberAllowed;

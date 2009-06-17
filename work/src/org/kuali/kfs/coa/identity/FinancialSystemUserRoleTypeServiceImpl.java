@@ -154,7 +154,7 @@ public class FinancialSystemUserRoleTypeServiceImpl extends KimRoleTypeServiceBa
         AttributeSet errorMap = new AttributeSet();
         if(!areAllAttributeValuesEmpty(newAttributes) && !validateUniqueAttributes(kimTypeId, newAttributes, oldAttributes)){
             KimTypeInfo kimType = getTypeInfoService().getKimType(kimTypeId);
-            KimTypeAttributeInfo attributeInfo = kimType.getAttributeDefinitionByName(KfsKimAttributes.FROM_AMOUNT);
+            KimTypeAttributeInfo attributeInfo = kimType.getAttributeDefinitionByName(KfsKimAttributes.NAMESPACE_CODE);
             errorMap = getErrorAttributeSet(KfsKimAttributes.NAMESPACE_CODE, RiceKeyConstants.ERROR_DUPLICATE_ENTRY, 
                     new String[] {getDataDictionaryService().getAttributeLabel(attributeInfo.getComponentName(), KfsKimAttributes.NAMESPACE_CODE)});
         }

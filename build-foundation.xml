@@ -268,7 +268,7 @@ are intended for use only by Kuali Foundation developers.
   	<macrodef name="maven">
     	<attribute name="goals" />
     	<attribute name="options" default="--offline" />
-        <attribute name="modulePath" />
+        <attribute name="modulePath" default="" />
     	<sequential>
       		<java classname="org.codehaus.classworlds.Launcher" dir="${rice.project.directory}@{modulePath}" fork="true" failonerror="true">
         		<arg line="@{options} @{goals}"/>

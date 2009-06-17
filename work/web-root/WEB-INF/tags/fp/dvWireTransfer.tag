@@ -99,7 +99,7 @@
                 <th scope=row class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${wireTransAttributes.disbVchrPayeeAccountNumber}"/></div></th>
                 <td class="datacell" colspan="3">
                   <kul:htmlControlAttribute attributeEntry="${wireTransAttributes.disbVchrPayeeAccountNumber}" property="document.dvWireTransfer.disbVchrPayeeAccountNumber"
-                   readOnly="${!fullEntryMode&&!wireEntryMode&&!frnEntryMode}" encryptValue="${!fullEntryMode&&!wireEntryMode&&!frnEntryMode}" displayMaskValue="Not Displayed"/>
+                   readOnly="${!fullEntryMode&&!wireEntryMode&&!frnEntryMode}" />
                 </td>
               </tr>
               

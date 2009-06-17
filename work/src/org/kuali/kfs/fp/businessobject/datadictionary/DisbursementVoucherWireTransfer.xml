@@ -144,6 +144,14 @@
       <bean parent="TextControlDefinition"
             p:size="40" />
     </property>
+    <!-- property name="attributeSecurity">
+		<bean parent="AttributeSecurity">
+  			<property name="mask" value="true" /> 
+			<property name="maskFormatter">
+  			<bean parent="MaskFormatterLiteral" p:literal="Not Displayed" /> 
+  			</property>
+  		</bean>
+  	</property -->    
   </bean>
   <bean id="DisbursementVoucherWireTransfer-disbVchrCurrencyTypeCode" parent="DisbursementVoucherWireTransfer-disbVchrCurrencyTypeCode-parentBean" />
 

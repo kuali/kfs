@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.purap.businessobject.ItemType;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurapItemOperations;
@@ -238,6 +239,54 @@ public interface PurapService {
     * @param purDoc
     */
    public void prorateForTradeInAndFullOrderDiscount(PurchasingAccountsPayableDocument purDoc);
+   
+   /**
+    * Determines if the item is taxable based on a decision tree.
+    * 
+    * @param useTaxIndicator
+    * @param deliveryState
+    * @param item
+    * @return
+    */
+   public boolean isTaxable(boolean useTaxIndicator, String deliveryState, PurApItem item);
+
+   /**
+    * Determines if the item is taxable based on a decision tree.
+    * Does not consider if item is entered, this is not used to calculate tax,
+    * just if the item is indeed taxable.
+    * 
+    * @param useTaxIndicator
+    * @param deliveryState
+    * @param item
+    * @return
+    */
+   public boolean isTaxableForSummary(boolean useTaxIndicator, String deliveryState, PurApItem item);       
+  
+   /**
+    * Retrieves the delivery state from the document 
+    * 
+    * @param purapDocument
+    * @return
+    */
+   public String getDeliveryState(PurchasingAccountsPayableDocument purapDocument);
+
+   /**
+    * Determines if the accounting line is taxable based on account and object code.
+    * 
+    * @param acctLine
+    * @param deliveryStateTaxable
+    * @return
+    */
+   public boolean isAccountingLineTaxable(PurApAccountingLine acctLine, boolean deliveryStateTaxable);
+   
+   /**
+    * Determines if the delivery state is taxable or not. If parameter is Allow and delivery state in list, or parameter is Denied
+    * and delivery state is not in list then state is taxable.
+    * 
+    * @param deliveryState
+    * @return
+    */
+   public boolean isDeliveryStateTaxable(String deliveryState);
    
    public void clearAllTaxes(PurchasingAccountsPayableDocument apDoc);
 }

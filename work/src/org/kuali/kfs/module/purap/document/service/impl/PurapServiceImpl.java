@@ -41,6 +41,7 @@ import org.kuali.kfs.module.purap.businessobject.CreditMemoView;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.LineItemReceivingView;
 import org.kuali.kfs.module.purap.businessobject.OrganizationParameter;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccount;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
@@ -353,6 +354,7 @@ public class PurapServiceImpl implements PurapService {
                     }
                     PurApItem newItem = (PurApItem) itemClass.newInstance();
                     newItem.setItemTypeCode(itemTypes[i]);
+                    newItem.setPurapDocument(document);
                     existingItems.add(lastFound, newItem);
                     existingItemTypes.add(itemTypes[i]);
                 }
@@ -874,7 +876,7 @@ public class PurapServiceImpl implements PurapService {
           }
       }
       
-      private String getDeliveryState(PurchasingAccountsPayableDocument purapDocument){
+      public String getDeliveryState(PurchasingAccountsPayableDocument purapDocument){
           if (purapDocument instanceof PurchasingDocument){
               PurchasingDocument document = (PurchasingDocument)purapDocument; 
               return document.getDeliveryStateCode();
@@ -910,12 +912,29 @@ public class PurapServiceImpl implements PurapService {
      * @param item
      * @return
      */
-    private boolean isTaxable(boolean useTaxIndicator, String deliveryState, PurApItem item){
+    public boolean isTaxable(boolean useTaxIndicator, String deliveryState, PurApItem item){
         
         boolean taxable = false;
         
         if(item.getItemType().isTaxableIndicator() &&
            ((ObjectUtils.isNull(item.getItemTaxAmount()) && useTaxIndicator == false) || useTaxIndicator) &&
+           (doesCommodityAllowCallToTaxService(item)) &&                      
+           (doesAccountAllowCallToTaxService(deliveryState, item)) ){
+            
+            taxable = true;
+        }
+        return taxable;
+    }
+
+    /**
+     * 
+     * @see org.kuali.kfs.module.purap.document.service.PurapService#isTaxableForSummary(boolean, java.lang.String, org.kuali.kfs.module.purap.businessobject.PurApItem)
+     */
+    public boolean isTaxableForSummary(boolean useTaxIndicator, String deliveryState, PurApItem item){
+        
+        boolean taxable = false;
+        
+        if(item.getItemType().isTaxableIndicator() &&           
            (doesCommodityAllowCallToTaxService(item)) &&                      
            (doesAccountAllowCallToTaxService(deliveryState, item)) ){
             
@@ -953,7 +972,7 @@ public class PurapServiceImpl implements PurapService {
     }
 
     private boolean isCommodityCodeTaxable(CommodityCode commodityCode){
-        boolean isTaxable = false;
+        boolean isTaxable = true;
         
         if(ObjectUtils.isNotNull(commodityCode)){                
             
@@ -968,13 +987,9 @@ public class PurapServiceImpl implements PurapService {
     }
     
     /**
-     * Determines if the delivery state is taxable or not. If parameter is Allow and delivery state in list, or parameter is Denied
-     * and delivery state is not in list then state is taxable.
-     * 
-     * @param deliveryState
-     * @return
+     * @see org.kuali.kfs.module.purap.document.service.PurapService#isDeliveryStateTaxable(java.lang.String)
      */
-    private boolean isDeliveryStateTaxable(String deliveryState) {
+    public boolean isDeliveryStateTaxable(String deliveryState) {
         ParameterEvaluator parmEval = SpringContext.getBean(ParameterService.class).getParameterEvaluator(KfsParameterConstants.PURCHASING_DOCUMENT.class, TaxParameters.TAXABLE_DELIVERY_STATES, deliveryState);
         return parmEval.evaluationSucceeds();
     }
@@ -988,25 +1003,38 @@ public class PurapServiceImpl implements PurapService {
      */
     private boolean doesAccountAllowCallToTaxService(String deliveryState, PurApItem item) {
         boolean callService = false;
-        boolean deliveryStateTaxable = isDeliveryStateTaxable(deliveryState);
-        String parameterSuffix = null;
+        boolean deliveryStateTaxable = isDeliveryStateTaxable(deliveryState);       
 
         for (PurApAccountingLine acctLine : item.getSourceAccountingLines()) {
-            if (deliveryStateTaxable) {
-                parameterSuffix = TaxParameters.FOR_TAXABLE_STATES_SUFFIX;
-            }
-            else {
-                parameterSuffix = TaxParameters.FOR_NON_TAXABLE_STATES_SUFFIX;
-            }
-
-            // is account (fund/subfund) and object code (level/consolidation) taxable?
-            if (isAccountTaxable(parameterSuffix, acctLine) && isObjectCodeTaxable(parameterSuffix, acctLine)) {
+            if(isAccountingLineTaxable(acctLine, deliveryStateTaxable)){
                 callService = true;
                 break;
             }
         }
 
         return callService;
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.purap.document.service.PurapService#isAccountingLineTaxable(org.kuali.kfs.module.purap.businessobject.PurApAccountingLine, boolean)
+     */
+    public boolean isAccountingLineTaxable(PurApAccountingLine acctLine, boolean deliveryStateTaxable){
+        boolean isTaxable = false;
+        String parameterSuffix = null;
+        
+        if (deliveryStateTaxable) {
+            parameterSuffix = TaxParameters.FOR_TAXABLE_STATES_SUFFIX;
+        }
+        else {
+            parameterSuffix = TaxParameters.FOR_NON_TAXABLE_STATES_SUFFIX;
+        }
+
+        // is account (fund/subfund) and object code (level/consolidation) taxable?
+        if (isAccountTaxable(parameterSuffix, acctLine) && isObjectCodeTaxable(parameterSuffix, acctLine)) {
+            isTaxable = true;
+        }
+        
+        return isTaxable;
     }
     
     /**
@@ -1058,7 +1086,10 @@ public class PurapServiceImpl implements PurapService {
         String consolidationParam = TaxParameters.TAXABLE_OBJECT_CONSOLIDATIONS_PREFIX + parameterSuffix;
         ParameterEvaluator levelParamEval = null;
         ParameterEvaluator consolidationParamEval = null;
-
+        
+        //refresh financial object level
+        acctLine.getObjectCode().refreshReferenceObject("financialObjectLevel");
+        
         levelParamEval = SpringContext.getBean(ParameterService.class).getParameterEvaluator(KfsParameterConstants.PURCHASING_DOCUMENT.class, levelParam, acctLine.getObjectCode().getFinancialObjectLevelCode());
         consolidationParamEval = SpringContext.getBean(ParameterService.class).getParameterEvaluator(KfsParameterConstants.PURCHASING_DOCUMENT.class, consolidationParam, acctLine.getObjectCode().getFinancialObjectLevel().getFinancialConsolidationObjectCode());
 
@@ -1152,8 +1183,11 @@ public class PurapServiceImpl implements PurapService {
                                   Class itemUseTaxClass){
         
         if (!useTaxIndicator){
-            KualiDecimal taxAmount = taxService.getTotalSalesTaxAmount(transactionTaxDate, deliveryPostalCode, item.getExtendedPrice());
-            item.setItemTaxAmount(taxAmount);
+            if (!StringUtils.equals(item.getItemTypeCode(), PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE) &&
+                !StringUtils.equals(item.getItemTypeCode(), PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE)) {
+                KualiDecimal taxAmount = taxService.getTotalSalesTaxAmount(transactionTaxDate, deliveryPostalCode, item.getExtendedPrice());
+                item.setItemTaxAmount(taxAmount);
+            }
         } else {
             List<TaxDetail> taxDetails = taxService.getUseTaxDetails(transactionTaxDate, deliveryPostalCode, item.getExtendedPrice());
             List<PurApItemUseTax> newUseTaxItems = new ArrayList<PurApItemUseTax>(); 
@@ -1192,7 +1226,8 @@ public class PurapServiceImpl implements PurapService {
         PurApItem fullOrderDiscount = null;
         PurApItem tradeIn = null;
         KualiDecimal totalAmount = KualiDecimal.ZERO;
-
+        KualiDecimal totalTaxAmount = KualiDecimal.ZERO;
+        
         List<PurApAccountingLine> distributedAccounts = null;
         List<SourceAccountingLine> summaryAccounts = null;
 
@@ -1213,21 +1248,44 @@ public class PurapServiceImpl implements PurapService {
             // empty
             GlobalVariables.getMessageList().add("Full order discount accounts cleared and regenerated");
             fullOrderDiscount.getSourceAccountingLines().clear();
-            totalAmount = purDoc.getTotalDollarAmountAboveLineItems();
+            //total amount is pretax dollars
+            totalAmount = purDoc.getTotalDollarAmountAboveLineItems().subtract(purDoc.getTotalTaxAmountAboveLineItems());
+            totalTaxAmount = purDoc.getTotalTaxAmountAboveLineItems();
+            
             //Before we generate account summary, we should update the account amounts first.
             purapAccountingService.updateAccountAmounts(purDoc);
+            
+            //calculate tax
+            boolean salesTaxInd = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.ENABLE_SALES_TAX_IND);
+            boolean useTaxIndicator = purDoc.isUseTaxIndicator();
+            
+            if(salesTaxInd == true && (ObjectUtils.isNull(fullOrderDiscount.getItemTaxAmount()) && useTaxIndicator == false)){            
+                KualiDecimal discountAmount = fullOrderDiscount.getExtendedPrice();                
+                KualiDecimal discountTaxAmount = discountAmount.divide(totalAmount).multiply(totalTaxAmount);
+            
+                fullOrderDiscount.setItemTaxAmount(discountTaxAmount);
+            }
+
+            //generate summary
             summaryAccounts = purapAccountingService.generateSummary(PurApItemUtils.getAboveTheLineOnly(purDoc.getItems()));
+
             if (summaryAccounts.size() == 0) {
                 if (purDoc.shouldGiveErrorForEmptyAccountsProration()) {
                     GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_SUMMARY_ACCOUNTS_LIST_EMPTY, "full order discount");
                 }
-            } else {
-                distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, 2, fullOrderDiscount.getAccountingLineClass());
+            } else {                
+                //prorate accounts
+                distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount.add(totalTaxAmount), 2, fullOrderDiscount.getAccountingLineClass());
+                
                 for (PurApAccountingLine distributedAccount : distributedAccounts) {
                     BigDecimal percent = distributedAccount.getAccountLinePercent();
                     BigDecimal roundedPercent = new BigDecimal(Math.round(percent.doubleValue()));
                     distributedAccount.setAccountLinePercent(roundedPercent);
                 }
+                                                                        
+                //update amounts on distributed accounts
+                purapAccountingService.updateAccountAmountsWithTotal(distributedAccounts, fullOrderDiscount.getTotalAmount());                    
+
                 fullOrderDiscount.setSourceAccountingLines(distributedAccounts);
             }
         } else if(fullOrderDiscount != null && 

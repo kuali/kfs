@@ -140,16 +140,6 @@ public class CreditMemoItem extends AccountsPayableItemBase {
             setPreqTotalAmount(preqItem.getTotalAmount());
         }
 
-        this.setItemTaxAmount( preqItem.getItemTaxAmount() );
-        
-        //copy use tax items over, and blank out keys (useTaxId and itemIdentifier)
-        for(PurApItemUseTax useTaxItem : preqItem.getUseTaxItems()){
-            PurApItemUseTax copyUseTaxItem = useTaxItem;
-            copyUseTaxItem.setUseTaxId(null);
-            copyUseTaxItem.setItemIdentifier(null);
-            this.getUseTaxItems().add(copyUseTaxItem);
-        }
-
         setPreqUnitPrice(preqItem.getItemUnitPrice());
         setItemTypeCode(preqItem.getItemTypeCode());
         setItemUnitPrice(preqItem.getItemUnitPrice());

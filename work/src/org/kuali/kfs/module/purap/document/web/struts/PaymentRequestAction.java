@@ -351,7 +351,6 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         // set amounts on any empty
         preqDoc.updateExtendedPriceOnItems();
 
-        SpringContext.getBean(PurapService.class).prorateForTradeInAndFullOrderDiscount(preqDoc);
         // calculation just for the tax area, only at tax review stage
         // by now, the general calculation shall have been done.
         if (preqDoc.getStatusCode().equals(PaymentRequestStatuses.AWAITING_TAX_REVIEW)) {

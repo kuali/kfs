@@ -190,6 +190,12 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument, P
 
     public KualiDecimal getTotalTaxAmountAllItems(String[] excludedTypes);
 
+    public KualiDecimal getTotalTaxAmountAboveLineItems();
+
+    public KualiDecimal getTotalTaxAmountAboveLineItems(String[] excludedTypes);
+
+    public KualiDecimal getTotalTaxAmountWithExclusions(String[] excludedTypes, boolean includeBelowTheLine);
+
     /**
      * Sets vendor address fields based on a given VendorAddress.
      * 

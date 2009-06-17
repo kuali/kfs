@@ -23,9 +23,11 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -681,7 +683,11 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         }
         
         purapService.calculateTax(paymentRequest);
+        
+        //do proration for full order and trade in
+        purapService.prorateForTradeInAndFullOrderDiscount(paymentRequest);
 
+        //do proration for payment terms discount
         if (updateDiscount) {
             calculateDiscount(paymentRequest);
         }
@@ -709,12 +715,35 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             }
 
             // Deleted the discountItem.getExtendedPrice() null and isZero check for KULPURAP-3311 - venkat
-            KualiDecimal totalCost = paymentRequestDocument.getTotalDollarAmountAboveLineItems();
+            PaymentRequestItem fullOrderItem = findFullOrderDiscountItem(paymentRequestDocument);
+            KualiDecimal fullOrderAmount = KualiDecimal.ZERO;
+            
+            if(fullOrderItem != null){                
+                fullOrderAmount = ( ObjectUtils.isNotNull(fullOrderItem.getExtendedPrice()) ) ? fullOrderItem.getExtendedPrice() : KualiDecimal.ZERO;
+            }
+                        
+            KualiDecimal totalCost = paymentRequestDocument.getTotalDollarAmountAboveLineItems().add(fullOrderAmount);
             BigDecimal discountAmount = pt.getVendorPaymentTermsPercent().multiply(totalCost.bigDecimalValue()).multiply(new BigDecimal(PurapConstants.PREQ_DISCOUNT_MULT));
             
             // do we really need to set both, not positive, but probably won't hurt
             discountItem.setItemUnitPrice(discountAmount.setScale(2, KualiDecimal.ROUND_BEHAVIOR));
             discountItem.setExtendedPrice(new KualiDecimal(discountAmount));
+            
+            //set tax amount
+            boolean salesTaxInd = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.ENABLE_SALES_TAX_IND);
+            boolean useTaxIndicator = paymentRequestDocument.isUseTaxIndicator();
+            
+            if(salesTaxInd == true && useTaxIndicator == false){
+                KualiDecimal totalTax = paymentRequestDocument.getTotalTaxAmountAboveLineItems();
+                BigDecimal discountTaxAmount = null;
+                if(totalCost.isNonZero()){
+                    discountTaxAmount = discountAmount.divide(totalCost.bigDecimalValue()).multiply(totalTax.bigDecimalValue());
+                }else{
+                    discountTaxAmount = BigDecimal.ZERO;
+                }
+            
+                discountItem.setItemTaxAmount(new KualiDecimal(discountTaxAmount));
+            }
             
             //set document
             discountItem.setPurapDocument(paymentRequestDocument);
@@ -957,6 +986,23 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     }
 
     /**
+     * Finds the full order discount item of the payment request document.
+     * 
+     * @param paymentRequestDocument  The payment request document to be used to find the full order discount item.
+     * @return                        The discount item if it exists.
+     */
+    private PaymentRequestItem findFullOrderDiscountItem(PaymentRequestDocument paymentRequestDocument) {
+        PaymentRequestItem discountItem = null;
+        for (PaymentRequestItem preqItem : (List<PaymentRequestItem>) paymentRequestDocument.getItems()) {
+            if (StringUtils.equals(preqItem.getItemTypeCode(), PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE)) {
+                discountItem = preqItem;
+                break;
+            }
+        }
+        return discountItem;
+    }
+
+    /**
      * Distributes accounts for a payment request document.
      * 
      * @param paymentRequestDocument
@@ -967,9 +1013,12 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
         for (PaymentRequestItem item : (List<PaymentRequestItem>) paymentRequestDocument.getItems()) {
             KualiDecimal totalAmount = KualiDecimal.ZERO;
-            List<PurApAccountingLine> distributedAccounts = null;
-            List<SourceAccountingLine> summaryAccounts = null;
-
+            List<PurApAccountingLine> distributedAccounts = null;                        
+            List<SourceAccountingLine> summaryAccounts = null;           
+            Set excludedItemTypeCodes = null;
+            excludedItemTypeCodes = new HashSet();
+            excludedItemTypeCodes.add(PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE);
+            
             // skip above the line
             if (item.getItemType().isLineItemIndicator()) {
                 continue;
@@ -977,9 +1026,15 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
             if ((item.getSourceAccountingLines().isEmpty()) && (ObjectUtils.isNotNull(item.getExtendedPrice())) && (KualiDecimal.ZERO.compareTo(item.getExtendedPrice()) != 0)) {
                 if ((StringUtils.equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE, item.getItemType().getItemTypeCode())) && (paymentRequestDocument.getGrandTotal() != null) && ((KualiDecimal.ZERO.compareTo(paymentRequestDocument.getGrandTotal()) != 0))) {
-                    totalAmount = paymentRequestDocument.getGrandTotal();
-                    summaryAccounts = purapAccountingService.generateSummary(paymentRequestDocument.getItems());
+                    totalAmount = paymentRequestDocument.getGrandTotalExcludingDiscount();                    
+                    
+                    summaryAccounts = purapAccountingService.generateSummaryExcludeItemTypes(paymentRequestDocument.getItems(), excludedItemTypeCodes);
+                    
+                    //prorate accounts
                     distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE, PaymentRequestAccount.class);
+                                                            
+                    //update amounts on distributed accounts
+                    purapAccountingService.updateAccountAmountsWithTotal(distributedAccounts, item.getTotalAmount());                    
                 }
                 else {
                     PurchaseOrderItem poi = item.getPurchaseOrderItem();
@@ -995,13 +1050,13 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                         distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, new Integer("6"), PaymentRequestAccount.class);
                     }
 
-                }
+                }                               
                 if (CollectionUtils.isNotEmpty(distributedAccounts) && CollectionUtils.isEmpty(item.getSourceAccountingLines())) {
                     item.setSourceAccountingLines(distributedAccounts);
                 }
-            }
+            }            
             // update the item
-            purapAccountingService.updateItemAccountAmounts(item);
+            purapAccountingService.updateItemAccountAmounts(item);            
         }
         // update again now that distribute is finished. (Note: we may not need this anymore now that I added updateItem line above
         purapAccountingService.updateAccountAmounts(paymentRequestDocument);

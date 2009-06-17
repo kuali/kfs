@@ -109,6 +109,14 @@ public interface PurapAccountingService {
     public List<SourceAccountingLine> generateSummary(List<PurApItem> items);
     
     /**
+     * Generates an account summary with only taxable accounts.
+     * 
+     * @param items
+     * @return
+     */
+    public List<SourceAccountingLine> generateSummaryTaxableAccounts(List<PurApItem> items);
+    
+    /**
      * 
      * convenience method that generates a list of source accounts while excluding items with
      * $0 amounts
@@ -243,5 +251,23 @@ public interface PurapAccountingService {
      * @return true if the accounting line is a tax account
      */
     public boolean isTaxAccount(PurchasingAccountsPayableDocument document, SourceAccountingLine account);
+
+    /**
+     * calculates values for a list of accounting lines based on an amount
+     * 
+     * @param <T>
+     * @param sourceAccountingLines
+     * @param totalAmount
+     */
+    public <T extends PurApAccountingLine> void updateAccountAmountsWithTotal(List<T> sourceAccountingLines, KualiDecimal totalAmount);
+
+    /**
+     * Merges list 2 into list 1
+     * 
+     * @param list1
+     * @param list2
+     * @return
+     */
+    public List<SourceAccountingLine> mergeAccountingLineLists(List<SourceAccountingLine> accountingLines1, List<SourceAccountingLine> accountingLines2);
     
 }

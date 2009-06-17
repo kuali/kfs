@@ -79,18 +79,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
         setItemDescription(poi.getItemDescription());
         
         //New Source Line should be set for PaymentRequestItem - KULPURAP-3498 - vpremcha
-        resetAccount();
-        
-        //copy tax info
-        this.setItemTaxAmount( poi.getItemTaxAmount() );
-        
-        //copy use tax items over, and blank out keys (useTaxId and itemIdentifier)
-        for(PurApItemUseTax useTaxItem : poi.getUseTaxItems()){
-            PurApItemUseTax copyUseTaxItem = useTaxItem;
-            copyUseTaxItem.setUseTaxId(null);
-            copyUseTaxItem.setItemIdentifier(null);
-            this.getUseTaxItems().add(copyUseTaxItem);
-        }
+        resetAccount();                
 
         // set up accounts
         List accounts = new ArrayList();

@@ -1171,13 +1171,13 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     public ActionForward calculate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
         PurchasingDocument purDoc = (PurchasingDocument) purchasingForm.getDocument();
-
-        //call prorateDiscountTradeIn
-        SpringContext.getBean(PurapService.class).prorateForTradeInAndFullOrderDiscount(purDoc);
         
         boolean defaultUseTaxIndicatorValue = SpringContext.getBean(PurchasingService.class).getDefaultUseTaxIndicatorValue(purDoc);
         SpringContext.getBean(PurapService.class).updateUseTaxIndicator(purDoc, defaultUseTaxIndicatorValue);
         SpringContext.getBean(PurapService.class).calculateTax(purDoc);
+
+        //call prorateDiscountTradeIn
+        SpringContext.getBean(PurapService.class).prorateForTradeInAndFullOrderDiscount(purDoc);
 
         customCalculate(purDoc);
         

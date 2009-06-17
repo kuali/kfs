@@ -750,6 +750,8 @@ public class PurapConstants extends JSTLConstants {
         HashMap<String, Class> fields = new HashMap<String, Class>(ITEM_UNCOPYABLE_FIELDS);
         fields.put(PurapPropertyConstants.QUANTITY, null);
         fields.put(PurapPropertyConstants.EXTENDED_PRICE, null);
+        fields.put(PurapPropertyConstants.ITEM_TAX_AMOUNT, null);
+        fields.put(PurapPropertyConstants.ITEM_SALES_TAX_AMOUNT, null);
         return fields;
     }
 

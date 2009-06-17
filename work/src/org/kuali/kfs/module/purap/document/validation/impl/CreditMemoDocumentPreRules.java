@@ -75,7 +75,7 @@ public class CreditMemoDocumentPreRules extends AccountsPayableDocumentPreRulesB
         
         questionTextBuffer.append("[br][br][b]Summary Detail Below[/b][br][br]");
         questionTextBuffer.append("Credit Memo Amount entered on start screen: ").append((String)cf.format(cm.getInitialAmount())).append("[br]");
-        questionTextBuffer.append("Total credit processed prior to restocking fee: ").append((String)cf.format(cm.getGrandPreTaxTotalExcludingRestockingFee())).append("[br]");
+        questionTextBuffer.append("Total credit processed prior to restocking fee: ").append((String)cf.format(cm.getLineItemTotal())).append("[br]");
         
         //if sales tax is enabled, show additional summary lines
         boolean salesTaxInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_SALES_TAX_IND);                

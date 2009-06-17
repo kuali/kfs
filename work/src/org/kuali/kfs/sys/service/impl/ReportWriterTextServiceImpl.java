@@ -328,7 +328,9 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
         // Log we are writing out of bounds. Would be nice to show message here but not so sure if it's wise to dump that data into
         // logs
         if (message.length() > pageWidth) {
-            LOG.warn("message is out of bounds writing anyway");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("message is out of bounds writing anyway");
+            }
         }
 
         printStream.print(message);

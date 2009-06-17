@@ -23,6 +23,7 @@ import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.util.ExceptionUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class...
@@ -37,10 +38,13 @@ public class IndirectCostAdjustmentAccountValidation extends GenericValidation {
         AccountingLine accountingLine = getAccountingLineForValidation();
         boolean isValid = true;
         if (isValid && accountingLine.isSourceAccountingLine()) {
-            String icrAccount = accountingLine.getAccount().getIndirectCostRecoveryAcctNbr();
-            isValid &= StringUtils.isNotBlank(icrAccount);
-            if (!isValid) {
-                reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.IndirectCostAdjustment.ERROR_DOCUMENT_ICA_GRANT_INVALID_ACCOUNT, accountingLine.getAccountNumber());
+            accountingLine.refreshReferenceObject("account");
+            if (!ObjectUtils.isNull(accountingLine.getAccount())) {
+                String icrAccount = accountingLine.getAccount().getIndirectCostRecoveryAcctNbr();
+                isValid &= StringUtils.isNotBlank(icrAccount);
+                if (!isValid) {
+                    reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.IndirectCostAdjustment.ERROR_DOCUMENT_ICA_GRANT_INVALID_ACCOUNT, accountingLine.getAccountNumber());
+                }
             }
         }
         return isValid;

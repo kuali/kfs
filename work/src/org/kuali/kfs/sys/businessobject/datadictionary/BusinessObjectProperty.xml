@@ -138,5 +138,16 @@
 					p:attributeName="propertyLabel" />
 			</list>
 		</property>
+		<property name="defaultSort">
+		  <bean parent="SortDefinition">
+		      <property name="attributeNames">
+		          <list>
+                      <value>namespaceCode</value>
+                      <value>businessObjectComponent.componentLabel</value>
+                      <value>propertyLabel</value>
+		          </list>
+		      </property>
+		  </bean>
+		</property>
 	</bean>
 </beans>

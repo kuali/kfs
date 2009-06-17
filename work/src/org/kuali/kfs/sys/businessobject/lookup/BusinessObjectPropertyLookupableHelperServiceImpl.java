@@ -28,24 +28,13 @@ import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.util.BeanPropertyComparator;
 
 public class BusinessObjectPropertyLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-    private static final List<String> SORT_PROPERTIES = new ArrayList<String>();
-    static {
-        SORT_PROPERTIES.add(KFSPropertyConstants.NAMESPACE_CODE);
-        SORT_PROPERTIES.add(KFSPropertyConstants.BUSINESS_OBJECT_COMPONENT_LABEL);
-        SORT_PROPERTIES.add(KFSPropertyConstants.PROPERTY_LABEL);
-    }
-
     private KfsBusinessObjectMetaDataService kfsBusinessObjectMetaDataService;
 
     @Override
     public List<? extends BusinessObject> getSearchResults(java.util.Map<String, String> fieldValues) {
         List<BusinessObjectProperty> matchingBusinessObjectProperties = kfsBusinessObjectMetaDataService.findBusinessObjectProperties(fieldValues.get(KFSPropertyConstants.NAMESPACE_CODE), fieldValues.get(KFSPropertyConstants.BUSINESS_OBJECT_COMPONENT_LABEL), fieldValues.get(KFSPropertyConstants.PROPERTY_LABEL));
-        Collections.sort(matchingBusinessObjectProperties, new BeanPropertyComparator(getSortProperties(), true));
+        Collections.sort(matchingBusinessObjectProperties, new BeanPropertyComparator(getDefaultSortColumns(), true));
         return matchingBusinessObjectProperties;
-    }
-    
-    protected List<String> getSortProperties() {
-        return SORT_PROPERTIES;
     }
 
     public void setKfsBusinessObjectMetaDataService(KfsBusinessObjectMetaDataService kfsBusinessObjectMetaDataService) {

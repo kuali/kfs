@@ -1,9 +1,11 @@
 READ ME for the jMeter test : arPaymentApplicationDocument
 
 
-Per-user/thread parameters
+JMETER VARIABLES
 
-There is a parameter that must be manually set each time this jMeter test is run.  This parameter is date specific and must be set to validate a business rule.  
+Per-user/thread Parameters:
+
+There is a parameter that must be manually set before this jMeter test is run.  This parameter is date specific and must be set to validate a business rule.  
 
 The rule is defined as such: 
 

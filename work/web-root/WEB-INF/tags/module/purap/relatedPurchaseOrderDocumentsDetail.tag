@@ -117,7 +117,8 @@
 
 		<c:if test="${((empty limitByPoId) or viewShown) and (not isATypeOfPODoc)}">                    	                    	
             <table cellpadding="0" cellspacing="0" class="datatable" summary="Notes">
-    	        <c:if test="${not empty notes}">
+              <c:choose>
+    	        <c:when test="${not empty notes}">
 			        <tr>
 						<kul:htmlAttributeHeaderCell scope="col" width="15%">Date</kul:htmlAttributeHeaderCell>
 	        			<kul:htmlAttributeHeaderCell scope="col" width="15%">User</kul:htmlAttributeHeaderCell>
@@ -137,7 +138,13 @@
 	        		    </tr>
 			        </c:forEach>
 			        <c:set var="notes" value=""/>
-				</c:if>	
+				</c:when>	
+				<c:otherwise>
+					<tr>
+			    		<th align="center" valign="middle" class="bord-l-b">No Notes</th>
+			    	</tr>
+				</c:otherwise>	
+			  </c:choose>
 			</table>		    		
 		</c:if>
 		</div>

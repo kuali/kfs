@@ -14,10 +14,10 @@
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="PREQ Lifecycle Test" enabled="true">
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">1</stringProp>
+          <stringProp name="LoopController.loops">2</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">25</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">250</stringProp>
         <longProp name="ThreadGroup.start_time">1243951513000</longProp>
         <longProp name="ThreadGroup.end_time">1243951513000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -11897,7 +11897,7 @@
                   <elementProp name="docId" elementType="HTTPArgument">
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
                     <stringProp name="Argument.name">docId</stringProp>
-                    <stringProp name="Argument.value">${poDocId}</stringProp>
+                    <stringProp name="Argument.value">${poReady}</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                     <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   </elementProp>
@@ -11933,7 +11933,7 @@
                   <elementProp name="docId" elementType="HTTPArgument">
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
                     <stringProp name="Argument.name">docId</stringProp>
-                    <stringProp name="Argument.value">${poDocId}</stringProp>
+                    <stringProp name="Argument.value">${poReady}</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                     <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   </elementProp>
@@ -11986,7 +11986,7 @@
                   <elementProp name="routeHeaderId" elementType="HTTPArgument">
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
                     <stringProp name="Argument.name">routeHeaderId</stringProp>
-                    <stringProp name="Argument.value">${poDocId}</stringProp>
+                    <stringProp name="Argument.value">${poReady}</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                     <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   </elementProp>
@@ -17458,7 +17458,7 @@
         </ResultCollector>
         <hashTree/>
         <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
-          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <boolProp name="ResultCollector.error_logging">true</boolProp>
           <objProp>
             <name>saveConfig</name>
             <value class="SampleSaveConfiguration">

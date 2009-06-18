@@ -23,6 +23,7 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
@@ -59,7 +60,17 @@ public class CustomerInvoiceDocumentPresentationController extends FinancialSyst
     
     @Override
     public boolean canCopy(Document document) {
-        return !((CustomerInvoiceDocument)document).isInvoiceReversal();
+        boolean copyable = true;
+        CustomerInvoiceDocument ciDoc = (CustomerInvoiceDocument)document;
+        String docStatus = ciDoc.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
+
+        // Confirm doc is in a saved and copyable state.
+        copyable &= (!StringUtils.equalsIgnoreCase(docStatus, "I")); // This is hardcode because there is no constant defined for the workflow document status INITIATED
+        copyable &= (!StringUtils.equalsIgnoreCase(docStatus, KFSConstants.DocumentStatusCodes.CANCELLED));
+        
+        // Confirm doc is reversible.
+        copyable &= !((CustomerInvoiceDocument)document).isInvoiceReversal();
+        return copyable;
     }
 
     @Override

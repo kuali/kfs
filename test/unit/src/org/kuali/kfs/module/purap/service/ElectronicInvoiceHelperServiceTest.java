@@ -100,7 +100,6 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
         
     }
     
-    @RelatesTo(JiraIssue.KULPURAP3047)
     @ConfigureContext(session = kfs, shouldCommitTransactions=true)
     public void testRejectDocumentCreationCorruptXML()
     throws Exception{
@@ -129,7 +128,6 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
         
     }
 
-    @RelatesTo(JiraIssue.KULPURAP3047)
     @ConfigureContext(session = kfs, shouldCommitTransactions=false)
     public void testPaymentRequestDocumentCreation()
     throws Exception{

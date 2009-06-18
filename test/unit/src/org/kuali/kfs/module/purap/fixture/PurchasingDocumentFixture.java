@@ -116,7 +116,7 @@ public enum PurchasingDocumentFixture {
             "campus", // deliveryCityName
             "AK", // deliveryStateCode
             "46202-5260", // deliveryPostalCode
-            null, // deliveryCountryCode
+            "US", // deliveryCountryCode
             "me", // deliveryToName
             null, // deliveryToEmailAddress
             null, // deliveryToPhoneNumber
@@ -172,7 +172,7 @@ public enum PurchasingDocumentFixture {
             "brainy", // deliveryCityName
             "CA", // deliveryStateCode
             "46202", // deliveryPostalCode
-            null, // deliveryCountryCode
+            "US", // deliveryCountryCode
             "front desk", // deliveryToName
             null, // deliveryToEmailAddress
             null, // deliveryToPhoneNumber
@@ -228,7 +228,7 @@ public enum PurchasingDocumentFixture {
             "campus", // deliveryCityName
             "AK", // deliveryStateCode
             "46202-5260", // deliveryPostalCode
-            null, // deliveryCountryCode
+            "US", // deliveryCountryCode
             "me", // deliveryToName
             null, // deliveryToEmailAddress
             null, // deliveryToPhoneNumber
@@ -284,7 +284,7 @@ public enum PurchasingDocumentFixture {
             "campus", // deliveryCityName
             "AK", // deliveryStateCode
             "46202-5260", // deliveryPostalCode
-            null, // deliveryCountryCode
+            "US", // deliveryCountryCode
             "me", // deliveryToName
             null, // deliveryToEmailAddress
             null, // deliveryToPhoneNumber
@@ -340,7 +340,7 @@ public enum PurchasingDocumentFixture {
             "campus", // deliveryCityName
             "AK", // deliveryStateCode
             "46202-5260", // deliveryPostalCode
-            null, // deliveryCountryCode
+            "US", // deliveryCountryCode
             "me", // deliveryToName
             null, // deliveryToEmailAddress
             null, // deliveryToPhoneNumber
@@ -396,7 +396,7 @@ public enum PurchasingDocumentFixture {
             "campus", // deliveryCityName
             "AK", // deliveryStateCode
             "46202-5260", // deliveryPostalCode
-            null, // deliveryCountryCode
+            "US", // deliveryCountryCode
             "me", // deliveryToName
             null, // deliveryToEmailAddress
             null, // deliveryToPhoneNumber
@@ -452,7 +452,7 @@ public enum PurchasingDocumentFixture {
             "campus", // deliveryCityName
             "AK", // deliveryStateCode
             "46202-5260", // deliveryPostalCode
-            null, // deliveryCountryCode
+            "US", // deliveryCountryCode
             "me", // deliveryToName
             null, // deliveryToEmailAddress
             null, // deliveryToPhoneNumber
@@ -508,7 +508,7 @@ public enum PurchasingDocumentFixture {
             "campus", // deliveryCityName
             "AK", // deliveryStateCode
             "46202-5260", // deliveryPostalCode
-            null, // deliveryCountryCode
+            "US", // deliveryCountryCode
             "me", // deliveryToName
             null, // deliveryToEmailAddress
             null, // deliveryToPhoneNumber
@@ -564,7 +564,7 @@ public enum PurchasingDocumentFixture {
             "campus", // deliveryCityName
             "AK", // deliveryStateCode
             "46202-5260", // deliveryPostalCode
-            null, // deliveryCountryCode
+            "US", // deliveryCountryCode
             "me", // deliveryToName
             null, // deliveryToEmailAddress
             null, // deliveryToPhoneNumber
@@ -620,7 +620,7 @@ public enum PurchasingDocumentFixture {
             "campus", // deliveryCityName
             "AK", // deliveryStateCode
             "46202-5260", // deliveryPostalCode
-            null, // deliveryCountryCode
+            "US", // deliveryCountryCode
             "me", // deliveryToName
             null, // deliveryToEmailAddress
             null, // deliveryToPhoneNumber
@@ -676,7 +676,7 @@ public enum PurchasingDocumentFixture {
             "campus", // deliveryCityName
             "AK", // deliveryStateCode
             "46202-5260", // deliveryPostalCode
-            null, // deliveryCountryCode
+            "US", // deliveryCountryCode
             "me", // deliveryToName
             null, // deliveryToEmailAddress
             null, // deliveryToPhoneNumber
@@ -732,7 +732,7 @@ public enum PurchasingDocumentFixture {
             "campus", // deliveryCityName
             "AK", // deliveryStateCode
             "46202-5260", // deliveryPostalCode
-            null, // deliveryCountryCode
+            "US", // deliveryCountryCode
             "me", // deliveryToName
             null, // deliveryToEmailAddress
             null, // deliveryToPhoneNumber
@@ -788,7 +788,7 @@ public enum PurchasingDocumentFixture {
             "campus", // deliveryCityName
             "AK", // deliveryStateCode
             "46202-5260", // deliveryPostalCode
-            null, // deliveryCountryCode
+            "US", // deliveryCountryCode
             "me", // deliveryToName
             null, // deliveryToEmailAddress
             null, // deliveryToPhoneNumber
@@ -844,7 +844,7 @@ public enum PurchasingDocumentFixture {
             "campus", // deliveryCityName
             "AK", // deliveryStateCode
             "46202-5260", // deliveryPostalCode
-            null, // deliveryCountryCode
+            "US", // deliveryCountryCode
             "me", // deliveryToName
             null, // deliveryToEmailAddress
             null, // deliveryToPhoneNumber
@@ -905,7 +905,7 @@ public enum PurchasingDocumentFixture {
             "campus", // deliveryCityName
             "AK", // deliveryStateCode
             "46202-5260", // deliveryPostalCode
-            null, // deliveryCountryCode
+            "US", // deliveryCountryCode
             "me", // deliveryToName
             null, // deliveryToEmailAddress
             null, // deliveryToPhoneNumber

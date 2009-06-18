@@ -25,7 +25,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountDescription;
 import org.kuali.kfs.coa.businessobject.AccountGuideline;
@@ -50,8 +49,8 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -202,11 +201,11 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
      * @return true if account guideline is valid
      */
     protected boolean checkAccountGuidelinesValidation(AccountGuideline accountGuideline) {
-        ErrorMap map = GlobalVariables.getErrorMap();
+        MessageMap map = GlobalVariables.getMessageMap();
         int errorCount = map.getErrorCount();
-        GlobalVariables.getErrorMap().addToErrorPath("document.newMaintainableObject.accountGuideline");
+        GlobalVariables.getMessageMap().addToErrorPath("document.newMaintainableObject.accountGuideline");
         dictionaryValidationService.validateBusinessObject(accountGuideline, false);
-        GlobalVariables.getErrorMap().removeFromErrorPath("document.newMaintainableObject.accountGuideline");
+        GlobalVariables.getMessageMap().removeFromErrorPath("document.newMaintainableObject.accountGuideline");
         return map.getErrorCount() == errorCount;
     }
 
@@ -626,7 +625,13 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         success &= checkIncomeStreamValid(newAccount);
         
         // check if the new account has a valid responsibility id
-        success &= contractsAndGrantsModuleService.hasValidAccountReponsiblityIdIfNotNull(newAccount);
+        if (!ObjectUtils.isNull(newAccount)) {
+            final boolean hasValidAccountResponsibility = contractsAndGrantsModuleService.hasValidAccountReponsiblityIdIfNotNull(newAccount);
+            if (!hasValidAccountResponsibility) {
+                success &= hasValidAccountResponsibility;
+                putFieldError("contractsAndGrantsAccountResponsibilityId", KFSKeyConstants.ERROR_DOCUMENT_ACCTMAINT_INVALID_CG_RESPONSIBILITY , new String[] { newAccount.getContractsAndGrantsAccountResponsibilityId().toString(), newAccount.getChartOfAccountsCode(), newAccount.getAccountNumber() });
+            }
+        }
 
         return success;
     }

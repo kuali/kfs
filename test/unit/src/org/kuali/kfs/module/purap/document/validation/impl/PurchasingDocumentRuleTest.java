@@ -308,6 +308,7 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
      * 
      * @throws Exception
      */
+    @RelatesTo(JiraIssue.KULPURAP3697)
     public void testMissingCommodityCodeWhenRequired() throws Exception {
         TestUtils.setSystemParameter(RequisitionDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "Y");
         RequisitionDocumentFixture reqFixture = RequisitionDocumentFixture.REQ_NO_APO_VALID;
@@ -518,7 +519,6 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
         assertFalse( validation.validate(null) );                
     }
     
-    @RelatesTo(JiraIssue.KULPURAP3697)
     public void testValidateOneSystemCapitalAssetSystemChartsRequiringParameters() {
         RequisitionDocument requisition = RequisitionDocumentWithCapitalAssetItemsFixture.REQ_VALID_ONE_NEW_CAPITAL_ASSET_ITEM.createRequisitionDocument();
         SpringContext.getBean(PurchasingService.class).setupCapitalAssetItems(requisition);   

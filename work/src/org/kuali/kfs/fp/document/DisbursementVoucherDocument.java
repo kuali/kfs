@@ -1119,6 +1119,12 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
                 templateVendor(vendorDetail, vendorAddress);
             }
         }
+        
+        // this copied DV has not been extracted
+        this.extractDate = null;
+        this.paidDate = null;
+        this.cancelDate = null;
+        getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.INITIATED);
     }
 
     /**

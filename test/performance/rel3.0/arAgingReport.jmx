@@ -15,11 +15,11 @@
         <longProp name="ThreadGroup.start_time">1187728739000</longProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
-        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.num_threads">5</stringProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">1</stringProp>
+          <stringProp name="LoopController.loops">5</stringProp>
         </elementProp>
         <longProp name="ThreadGroup.end_time">1187728739000</longProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
@@ -117,14 +117,14 @@
             <stringProp name="661364997">reportRunDate</stringProp>
           </collectionProp>
           <collectionProp name="UserParameters.thread_values">
-            <collectionProp name="2034070065">
+            <collectionProp name="13179301">
               <stringProp name="-1231992094">khuntley</stringProp>
               <stringProp name="2700">UA</stringProp>
               <stringProp name="2641253">VPIT</stringProp>
               <stringProp name="2700">UA</stringProp>
               <stringProp name="2641253">VPIT</stringProp>
               <stringProp name="1960817495">1031400</stringProp>
-              <stringProp name="-1215054084">TODO: Today&apos;s date should be entered here</stringProp>
+              <stringProp name="-171383479">06/17/09</stringProp>
             </collectionProp>
           </collectionProp>
           <boolProp name="UserParameters.per_iteration">true</boolProp>
@@ -1556,7 +1556,7 @@
                 <elementProp name="accountNumber" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.name">accountNumber</stringProp>
-                  <stringProp name="Argument.value">${accountCode}</stringProp>
+                  <stringProp name="Argument.value">${account}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>

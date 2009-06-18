@@ -152,6 +152,8 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
             }
             else {
                 putFieldError(CabPropertyConstants.Pretag.REPRESENTATIVE_ID, CamsKeyConstants.PreTag.ERROR_PRE_TAG_INVALID_REPRESENTATIVE_ID, newPretag.getPersonUniversal().getPrincipalName());
+                newPretag.setPersonUniversal(null);
+                newPretag.setRepresentativeUniversalIdentifier(null);
                 valid &= false;
             }
         }

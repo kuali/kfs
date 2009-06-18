@@ -260,13 +260,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         pg.setPayeeId(pd.getDisbVchrPayeeIdNumber());
         pg.setState(pd.getDisbVchrPayeeStateCode());
         pg.setZipCd(pd.getDisbVchrPayeeZipCode());
-
-        try {
-            pg.setPaymentDate(dateTimeService.convertToSqlDate(batch.getFileProcessTimestamp()));
-        }
-        catch (ParseException e) {
-            throw new RuntimeException("Unable to parse file process timestamp into sql date " + e.getMessage());
-        }
+        pg.setPaymentDate(document.getDisbursementVoucherDueDate());
 
         // It doesn't look like the DV has a way to do immediate processes
         pg.setProcessImmediate(Boolean.FALSE);

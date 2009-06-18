@@ -16,6 +16,7 @@
 package org.kuali.kfs.coa.identity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -58,17 +59,22 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
 
     private boolean isValidTotalAmount(AttributeSet qualification, AttributeSet roleQualifier) {
         boolean isValidTotalAmount = false;
-        if(qualification==null || roleQualifier==null)
+        if(qualification==null || roleQualifier==null) {
             return false;
+        }
+        String totalAmountStr = qualification.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT);
+        if ( StringUtils.isBlank(totalAmountStr) ) {
+            return false;
+        }
         try {
-            KualiDecimal totalAmount = new KualiDecimal(qualification.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT));
+            KualiDecimal totalAmount = new KualiDecimal(totalAmountStr);
             String toAmountStr = roleQualifier.get(KfsKimAttributes.TO_AMOUNT);
             String fromAmountStr = roleQualifier.get(KfsKimAttributes.FROM_AMOUNT);
-            if ((StringUtils.isEmpty(toAmountStr) || new KualiDecimal(toAmountStr).compareTo(totalAmount) >= 0) && (StringUtils.isEmpty(fromAmountStr) || new KualiDecimal(fromAmountStr).compareTo(totalAmount) <= 0)) {
+            if ((StringUtils.isBlank(toAmountStr) || new KualiDecimal(toAmountStr).isGreaterEqual(totalAmount) ) 
+                    && (StringUtils.isBlank(fromAmountStr) || new KualiDecimal(fromAmountStr).isLessEqual(totalAmount) )) {
                 isValidTotalAmount = true;
             }
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             isValidTotalAmount = false;
             LOG.error( "Exception comparing document amount to role qualifiers.", ex );
         }
@@ -80,12 +86,16 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
         return qualificationAttributes;
     }
 
-    @Override
-    public List<String> getUniqueAttributes(String kimTypeId){
-        List<String> uniqueAttributes = new ArrayList<String>();
+    private List<String> uniqueAttributes = new ArrayList<String>();
+    {
         uniqueAttributes.add(KimAttributes.DOCUMENT_TYPE_NAME);
         uniqueAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
         uniqueAttributes.add(KfsKimAttributes.ORGANIZATION_CODE);
+        uniqueAttributes = Collections.unmodifiableList(uniqueAttributes);
+    }
+    
+    @Override
+    public List<String> getUniqueAttributes(String kimTypeId){
         return uniqueAttributes;
     }
 

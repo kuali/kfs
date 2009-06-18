@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.service.ChartService;
@@ -48,14 +49,22 @@ public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends KimR
     }
 
     protected boolean isParentOrg(String qualificationChartCode, String qualificationOrgCode, String roleChartCode, String roleOrgCode, boolean descendHierarchy) {
+        if ( StringUtils.isBlank(qualificationChartCode) || StringUtils.isBlank(qualificationOrgCode) ) {
+            if ( LOG.isInfoEnabled() ) {
+                LOG.info("No chart/org qualifications passed into isParentOrg()");
+            }
+            return false;
+        }
         if (roleChartCode == null && roleOrgCode == null) {
             LOG.warn("Call to "+this.getClass().getName()+" with no organization role qualifiers; both chart and organization code are null.  Please ensure that qualification data has organization information for this role.");
             return false;
         }
         if (roleOrgCode == null) {
-            return roleChartCode.equals(qualificationChartCode) || (descendHierarchy && chartService.isParentChart(qualificationChartCode, roleChartCode));
+            return roleChartCode.equals(qualificationChartCode) 
+                    || (descendHierarchy && chartService.isParentChart(qualificationChartCode, roleChartCode));
         }
-        return (roleChartCode.equals(qualificationChartCode) && roleOrgCode.equals(qualificationOrgCode)) || (descendHierarchy && organizationService.isParentOrganization(qualificationChartCode, qualificationOrgCode, roleChartCode, roleOrgCode));
+        return (roleChartCode.equals(qualificationChartCode) && roleOrgCode.equals(qualificationOrgCode)) 
+                || (descendHierarchy && organizationService.isParentOrganization(qualificationChartCode, qualificationOrgCode, roleChartCode, roleOrgCode));
     }
     
     @Override

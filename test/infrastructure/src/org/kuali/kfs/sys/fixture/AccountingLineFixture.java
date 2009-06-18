@@ -132,11 +132,11 @@ public enum AccountingLineFixture {
     }
 
     private <T extends AccountingLine> T createAccountingLine(Class<T> lineClass) throws InstantiationException, IllegalAccessException {
-        return createAccountingLine(lineClass, null, this.postingYear, this.sequenceNumber);
+        return createAccountingLine(lineClass, "", this.postingYear, this.sequenceNumber);
     }
 
     public <T extends AccountingLine> T createAccountingLine(Class<T> lineClass, String debitCreditCode) throws InstantiationException, IllegalAccessException {
-        T line = createAccountingLine(lineClass, null, this.postingYear, this.sequenceNumber);
+        T line = createAccountingLine(lineClass, "", this.postingYear, this.sequenceNumber);
         line.setDebitCreditCode(debitCreditCode);
         return line;
     }

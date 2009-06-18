@@ -45,7 +45,7 @@ public class PurchasingReceivingValidation extends GenericValidation {
         }
         
         GlobalVariables.getErrorMap().clearErrorPath();
-        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
+        //GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
         
         List<PurApItem> items = purDoc.getItems();
         

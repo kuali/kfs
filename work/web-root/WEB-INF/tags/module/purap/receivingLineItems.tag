@@ -195,13 +195,13 @@
 				    attributeEntry="${itemAttributes.itemCatalogNumber}"
 				    property="document.item[${ctr}].itemCatalogNumber"
 				    extraReadOnlyProperty="document.item[${ctr}].itemCatalogNumber"
-				    readOnly="${not (fullEntryMode)}" />
+				    readOnly="${((itemLine.itemTypeCode eq 'ITEM') or not (fullEntryMode))}" />
 			</td>
 			<td class="infoline">
 				<kul:htmlControlAttribute
 				    attributeEntry="${itemAttributes.itemDescription}"
 				    property="document.item[${ctr}].itemDescription"
-				    readOnly="${not (fullEntryMode)}" />
+				    readOnly="${((itemLine.itemTypeCode eq 'ITEM') or not (fullEntryMode))}" />
 			</td>
 			<td class="infoline">
 			    <kul:htmlControlAttribute
@@ -214,9 +214,9 @@
 	                attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" 
 	                property="document.item[${ctr}].itemUnitOfMeasureCode"
 	                onblur="loadItemUnitOfMeasureInfo( 'document.item[${ctr}].itemUnitOfMeasureCode', 'document.item[${ctr}].itemUnitOfMeasure.itemUnitOfMeasureDescription' );${onblur}"
-	                readOnly="${not (fullEntryMode)}"
+	                readOnly="${((itemLine.itemTypeCode eq 'ITEM') or not (fullEntryMode))}"
 	                tabindexOverride="${tabindexOverrideBase + 0}"/>
-	                <c:if test="${fullEntryMode}">
+	                <c:if test="${((!itemLine.itemTypeCode eq 'ITEM') && fullEntryMode)}">
 	                	<kul:lookup boClassName="org.kuali.kfs.sys.businessobject.UnitOfMeasure" 
                                 fieldConversions="itemUnitOfMeasureCode:document.item[${ctr}].itemUnitOfMeasureCode"
                                 lookupParameters="'Y':active"/>

@@ -270,7 +270,7 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
             final BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
             
             Map<String, Object> keys = new HashMap<String, Object>();
-            keys.put("chartOfAccountsCode", objectCode.getChartOfAccountsCode());
+            keys.put("financialObjectChartOfAccountCode", objectCode.getChartOfAccountsCode());
             keys.put("financialObjectCode", objectCode.getFinancialObjectCode());
             
             Collection<BusinessObject> icrExclusionAccounts = (Collection<BusinessObject>)businessObjectService.findMatching(IndirectCostRecoveryExclusionAccount.class, keys);

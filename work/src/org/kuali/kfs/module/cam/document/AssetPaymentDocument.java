@@ -60,6 +60,17 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         this.setAssetPaymentAssetDetail(new TypedArrayList(AssetPaymentAssetDetail.class));
     }
 
+    /**
+     * Remove asset from collection for deletion
+     * 
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#buildListOfDeletionAwareLists()
+     */
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List<List> deletionAwareList = super.buildListOfDeletionAwareLists();
+        deletionAwareList.add(this.getAssetPaymentAssetDetail());
+        return deletionAwareList;
+    }
 
     /**
      * When document save, AddAccountingLineEvent is added by the framework. Also, we need to add

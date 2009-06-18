@@ -30,6 +30,14 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  */
 public interface AssetService {
     /**
+     * Check if asset has started depreciation already.
+     * 
+     * @param asset
+     * @return
+     */
+    boolean isAssetDepreciationStarted(Asset asset);
+
+    /**
      * Checks if given mainenanceDocument has started routing.
      * 
      * @param document

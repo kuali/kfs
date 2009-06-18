@@ -30,6 +30,7 @@ import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetLocation;
+import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
@@ -65,6 +66,26 @@ public class AssetServiceImpl implements AssetService {
     public boolean isAssetMovableCheckByAsset(Asset asset) {
         asset.refreshReferenceObject(CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE);
         return asset.getCapitalAssetType().isMovingIndicator();
+    }
+
+
+    /**
+     * @see org.kuali.kfs.module.cam.document.service.AssetService#isAssetDepreciationStarted(org.kuali.kfs.module.cam.businessobject.Asset)
+     */
+    public boolean isAssetDepreciationStarted(Asset asset) {
+        // check non-persistent field accumulatedDepreciation first since it's the sum of
+        // assetPayment.accumulatedPrimaryDepreciationAmount. If it's not set yet, we'll check assetPayment one by one.
+        if (ObjectUtils.isNotNull(asset.getAccumulatedDepreciation()) && asset.getAccumulatedDepreciation().isPositive()) {
+            return true;
+        }
+        else {
+            for (AssetPayment assetPayment : asset.getAssetPayments()) {
+                if (ObjectUtils.isNotNull(assetPayment.getAccumulatedPrimaryDepreciationAmount()) && assetPayment.getAccumulatedPrimaryDepreciationAmount().isPositive()) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public boolean isCapitalAsset(Asset asset) {

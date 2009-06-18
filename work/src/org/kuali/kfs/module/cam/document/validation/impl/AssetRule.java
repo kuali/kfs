@@ -133,6 +133,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             if (valid) {
                 assetDateService.checkAndUpdateLastInventoryDate(oldAsset, newAsset);
                 assetDateService.checkAndUpdateDepreciationDate(oldAsset, newAsset);
+                assetDateService.checkAndUpdateFiscalYearAndPeriod(oldAsset, newAsset);
             }
 
             valid &= checkAssetLocked(document);
@@ -326,11 +327,18 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      * @return
      */
     private boolean validateInServiceDate() {
-        if (universityDateService.getFiscalYear(newAsset.getCapitalAssetInServiceDate()) == null) {
-            putFieldError(CamsPropertyConstants.Asset.ASSET_DATE_OF_SERVICE, CamsKeyConstants.ERROR_INVALID_IN_SERVICE_DATE);
-            return false;
+        boolean valid = true;
+        // if asset already starts depreciation, the user can't blank in-service date.
+        if (ObjectUtils.isNull(newAsset.getCapitalAssetInServiceDate()) && assetService.isAssetDepreciationStarted(oldAsset)) {
+            putFieldError(CamsPropertyConstants.Asset.ASSET_DATE_OF_SERVICE, CamsKeyConstants.ERROR_BLANK_IN_SERVICE_DATE_DISALLOWED);
+            valid = false;
         }
-        return true;
+
+        else if (ObjectUtils.isNotNull(newAsset.getCapitalAssetInServiceDate()) && universityDateService.getFiscalYear(newAsset.getCapitalAssetInServiceDate()) == null) {
+            putFieldError(CamsPropertyConstants.Asset.ASSET_DATE_OF_SERVICE, CamsKeyConstants.ERROR_INVALID_IN_SERVICE_DATE);
+            valid = false;
+        }
+        return valid;
     }
 
 

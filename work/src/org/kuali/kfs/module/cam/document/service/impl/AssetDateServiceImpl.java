@@ -28,18 +28,47 @@ import org.kuali.kfs.module.cam.businessobject.AssetDepreciationConvention;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.module.cam.document.service.AssetDateService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 
 public class AssetDateServiceImpl implements AssetDateService {
 
-    AssetService assetService;
-    UniversityDateService universityDateService;
+    private AssetService assetService;
+    private UniversityDateService universityDateService;
     private DateTimeService dateTimeService;
+    private BusinessObjectService businessObjectService;
+
+    /**
+     * @see org.kuali.kfs.module.cam.document.service.AssetDateService#checkAndUpdateFiscalYearAndPeriod(org.kuali.kfs.module.cam.businessobject.Asset,
+     *      org.kuali.kfs.module.cam.businessobject.Asset)
+     */
+    public void checkAndUpdateFiscalYearAndPeriod(Asset oldAsset, Asset newAsset) {
+        if (assetService.isInServiceDateChanged(oldAsset, newAsset)) {
+            Integer newPostingYear = null;
+            String newPostingPeriodCode = null;
+
+            if (ObjectUtils.isNotNull(newAsset.getCapitalAssetInServiceDate())) {
+                Map<String, Object> primaryKeys = new HashMap<String, Object>();
+                primaryKeys.put(KFSPropertyConstants.UNIVERSITY_DATE, newAsset.getCapitalAssetInServiceDate());
+                UniversityDate inServiceDate = (UniversityDate) businessObjectService.findByPrimaryKey(UniversityDate.class, primaryKeys);
+
+                if (ObjectUtils.isNotNull(inServiceDate)) {
+                    newPostingYear = inServiceDate.getUniversityFiscalYear();
+                    newPostingPeriodCode = inServiceDate.getUniversityFiscalAccountingPeriod();
+                }
+            }
+            // if the user blank in-service date, posting year and period code will be blank also.
+            newAsset.setFinancialDocumentPostingYear(newPostingYear);
+            newAsset.setFinancialDocumentPostingPeriodCode(newPostingPeriodCode);
+        }
+    }
 
     /**
      * @see org.kuali.module.cams.service.AssetDetailInformationService#checkAndUpdateLastInventoryDate(org.kuali.kfs.module.cam.businessobject.Asset,
@@ -140,5 +169,22 @@ public class AssetDateServiceImpl implements AssetDateService {
         this.dateTimeService = dateTimeService;
     }
 
+    /**
+     * Gets the businessObjectService attribute.
+     * 
+     * @return Returns the businessObjectService.
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    /**
+     * Sets the businessObjectService attribute value.
+     * 
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
 
 }

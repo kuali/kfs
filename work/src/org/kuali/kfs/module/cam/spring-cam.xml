@@ -241,6 +241,7 @@
     	<property name="assetService" ref="assetService"></property>
     	<property name="universityDateService" ref="universityDateService"/>
     	<property name="dateTimeService" ref="dateTimeService" />
+    	<property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
     <bean id="assetLocationService" class="org.kuali.kfs.module.cam.document.service.impl.AssetLocationServiceImpl">

@@ -25,6 +25,7 @@ public class CamsKeyConstants {
     public static final String ERROR_INVALID_ROOM_NUMBER = "error.invalid.room.number";
     public static final String ERROR_NO_DETAIL_LINE = "error.invalid.no.detail.line";
     public static final String ERROR_INVALID_IN_SERVICE_DATE = "error.invalid.in.service.date";
+    public static final String ERROR_BLANK_IN_SERVICE_DATE_DISALLOWED = "error.blank.in.service.date.disallowed";
 
     public static final String MESSAGE_BATCH_UPLOAD_TITLE_PRE_ASSET_TAGGING = "message.batchUpload.title.pre.asset.tagging";
 

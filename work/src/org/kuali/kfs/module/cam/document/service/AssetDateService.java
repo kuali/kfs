@@ -30,6 +30,11 @@ public interface AssetDateService {
      * In Asset Edit, DepreciationDate shall be updated whenever In-service Date changed.
      */
     void checkAndUpdateDepreciationDate(Asset copyAsset, Asset newAsset);
+    
+    /**
+     * In Asset Edit, Fiscal year and period code shall be updated whenever In-service Date changed.
+     */
+    void checkAndUpdateFiscalYearAndPeriod(Asset copyAsset, Asset newAsset);
 
     /**
      * This method computes the depreciation date based on input parameters

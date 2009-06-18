@@ -157,11 +157,11 @@
 									  					</xsd:sequence>
 									  				</xsd:complexType>	
 									  			</xsd:element> <!-- ItemDetail -->
-									  			<xsd:element name="SupplierID" maxOccurs="unbounded"> <!-- Not used -->
+									  			<xsd:element name="SupplierID" minOccurs="0" maxOccurs="unbounded"> <!-- Not used -->
 									  				<xsd:complexType>
 												 		<xsd:simpleContent>
-												 			<xsd:extension base="kfs:oneToThirtyCharType">
-												 				<xsd:attribute name="domain" type="kfs:oneToTwentyOneCharType" />
+												 			<xsd:extension base="kfs:zeroToNinetyCharType">
+												 				<xsd:attribute name="domain" type="kfs:zeroToTwentyCharType" />
 												 			</xsd:extension>
 												 		</xsd:simpleContent>
 												 	</xsd:complexType>

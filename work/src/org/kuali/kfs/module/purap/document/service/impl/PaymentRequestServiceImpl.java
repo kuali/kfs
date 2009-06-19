@@ -1681,11 +1681,22 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                 if (lineItemReceivingDocuments != null) {
                     List<PurchaseOrderItem> poItems = preq.getPurchaseOrderDocument().getItems();
 
-                    for (PurchaseOrderItem poItem : poItems) {
-                        if (!poItem.getItemType().isAdditionalChargeIndicator()) {
-                            Integer lineNumber = poItem.getItemLineNumber();
+//                    for (PurchaseOrderItem poItem : poItems) {
+//                        if (!poItem.getItemType().isAdditionalChargeIndicator()) {
+//                            Integer lineNumber = poItem.getItemLineNumber();
+//                            KualiDecimal totalReceived = getTotalItemReceivedGivenLineNumber(lineItemReceivingDocuments, lineNumber);
+//                            KualiDecimal invoicedTotalQuantity = poItem.getItemInvoicedTotalQuantity();
+//
+//                            if (totalReceived.compareTo(invoicedTotalQuantity) < 0) {
+//                                return true;
+//                            }
+//                        }
+//                    }
+                    for (PaymentRequestItem preqItem : (List<PaymentRequestItem>)preq.getItems()) {
+                        if (!preqItem.getItemType().isAdditionalChargeIndicator()) {
+                            Integer lineNumber = preqItem.getItemLineNumber();
                             KualiDecimal totalReceived = getTotalItemReceivedGivenLineNumber(lineItemReceivingDocuments, lineNumber);
-                            KualiDecimal invoicedTotalQuantity = poItem.getItemInvoicedTotalQuantity();
+                            KualiDecimal invoicedTotalQuantity = preqItem.getPurchaseOrderItem().getItemInvoicedTotalQuantity();
 
                             if (totalReceived.compareTo(invoicedTotalQuantity) < 0) {
                                 return true;
@@ -1701,7 +1712,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     private KualiDecimal getTotalItemReceivedGivenLineNumber(List<LineItemReceivingDocument> lineItemReceivingDocuments, Integer lineNumber) {
         KualiDecimal total = new KualiDecimal(0);
         for (LineItemReceivingDocument lineItemReceivingDocument : lineItemReceivingDocuments) {
-            total = total.add(lineItemReceivingDocument.getItem(lineNumber-1).getItemReceivedTotalQuantity());
+            total = total.add(lineItemReceivingDocument.getTotalItemReceivedGivenLineNumber(lineNumber));
         }
         return total;
     }

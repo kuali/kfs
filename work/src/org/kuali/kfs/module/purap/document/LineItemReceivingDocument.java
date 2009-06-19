@@ -15,11 +15,11 @@ import org.kuali.kfs.module.purap.document.validation.event.AttributedContinuePu
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
@@ -226,5 +226,14 @@ public class LineItemReceivingDocument extends ReceivingDocumentBase {
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(this.getItems());
         return managedLists;
+    }
+
+    public KualiDecimal getTotalItemReceivedGivenLineNumber(Integer lineNumber) {
+        for (LineItemReceivingItem item : items) {
+            if (item.getItemLineNumber().equals(lineNumber)) {
+                return item.getItemReceivedTotalQuantity();
+            }
+        }
+        return new KualiDecimal(0);
     }
 }

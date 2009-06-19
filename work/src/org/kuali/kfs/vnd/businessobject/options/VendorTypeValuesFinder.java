@@ -41,13 +41,14 @@ public class VendorTypeValuesFinder extends KeyValuesBase {
         if ( labels == null ) {
             KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
             Collection<VendorType> codes = boService.findAll(VendorType.class);
-            labels = new ArrayList<KeyLabelPair>();
-            labels.add(new KeyLabelPair("", ""));
+            List<KeyLabelPair> tempLabels = new ArrayList<KeyLabelPair>();
+            tempLabels.add(new KeyLabelPair("", ""));
             for (VendorType vt : codes) {
                 if ( vt.isActive() ) {
-                    labels.add(new KeyLabelPair(vt.getVendorTypeCode(), vt.getVendorTypeDescription()));
+                    tempLabels.add(new KeyLabelPair(vt.getVendorTypeCode(), vt.getVendorTypeDescription()));
                 }
             }
+            labels = tempLabels;
         }
 
         return labels;

@@ -58,6 +58,7 @@
 				<value>manualPurgeJob</value>
 				<value>clearOldOriginEntriesJob</value>
 				<value>purgeCorrectionProcessFilesJob</value>
+				<value>posterBalancingHistorySyncJob</value>
 			</list>
 		</property>
 		<property name="fiscalYearMakers">
@@ -1308,6 +1309,32 @@
 			</map>
 		</property>
 	</bean>
+	
+	<bean id="posterBalancingHistorySyncStep" class="org.kuali.kfs.gl.batch.PosterBalancingHistorySyncStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="balancingReportWriterService" />
+			</list>
+		</property>
+		<property name="balancingService">
+			<ref bean="glBalancingService" />
+		</property>
+	</bean>
+	
+	<bean id="posterBalancingHistorySyncJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="posterBalancingHistorySyncStep"/>
+				<ref bean="posterBalancingStep"/>
+			</list>
+		</property>
+		<property name="dependencies">
+			<map>
+				<entry key="posterJob" value="hardDependency" />
+			</map>
+		</property>
+	</bean>
+	
 	
 	<bean id="sufficientFundsJob" parent="scheduledJobDescriptor">
 		<property name="steps">

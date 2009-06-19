@@ -92,4 +92,12 @@ public interface BalancingService {
      * In order to avoid file system scans this class caches poster input and poster error filenames. In rare cases they may want to be reset.
      */
     public abstract void clearPosterFileCache();
+    
+    /**
+     * Removes the data from the History tables.
+     * 
+     */
+    
+    public abstract void clearHistories();
+    
 }

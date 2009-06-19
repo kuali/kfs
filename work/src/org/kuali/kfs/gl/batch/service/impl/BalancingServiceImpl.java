@@ -279,6 +279,21 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
     }
     
     /**
+     * 
+     * @see org.kuali.kfs.gl.batch.service.BalancingService#clearBalanceHistory()
+     */
+   
+    public void clearHistories() {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        businessObjectService.deleteMatching(EntryHistory.class, fieldValues);
+        businessObjectService.deleteMatching(BalanceHistory.class, fieldValues);
+        businessObjectService.deleteMatching(EncumbranceHistory.class, fieldValues);
+        businessObjectService.deleteMatching(AccountBalanceHistory.class, fieldValues);
+        
+        
+    }
+    
+    /**
      * Update the encumbrance history table
      * @param originEntry representing the update details
      * @see org.kuali.kfs.gl.batch.service.impl.PostEncumbrance#post(org.kuali.kfs.gl.businessobject.Transaction, int, java.util.Date)

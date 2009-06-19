@@ -175,6 +175,18 @@ public class LaborBalancingServiceImpl extends BalancingServiceBaseImpl<LaborEnt
     }
     
     /**
+     * 
+     * @see org.kuali.kfs.gl.batch.service.BalancingService#clearBalanceHistory()
+     */
+   
+    public void clearHistories() {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        businessObjectService.deleteMatching(LaborEntryHistory.class, fieldValues);
+        businessObjectService.deleteMatching(LaborBalanceHistory.class, fieldValues);
+        
+    }
+    
+    /**
      * @see org.kuali.kfs.gl.batch.service.BalancingService#getBalance(org.kuali.kfs.gl.businessobject.LedgerBalanceHistory)
      */
     public Balance getBalance(LedgerBalanceHistory ledgerBalanceHistory) {

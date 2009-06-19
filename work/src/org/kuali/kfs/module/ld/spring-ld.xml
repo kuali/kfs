@@ -51,6 +51,7 @@
 				<value>laborScrubberJob</value>
 				<value>laborPosterJob</value>
 				<value>laborBalancingJob</value>
+				<value>laborBalancingHistorySyncJob</value>
 				<value>laborFeedJob</value>
 				<value>clearLaborPendingEntriesJob</value>
 				<value>laborBalanceForwardJob</value>
@@ -820,6 +821,31 @@
 	<bean id="laborBalancingJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
+				<ref bean="laborBalancingStep"/>
+			</list>
+		</property>
+		<property name="dependencies">
+			<map>
+				<entry key="laborPosterJob" value="hardDependency" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="laborBalancingHistorySyncStep" class="org.kuali.kfs.module.ld.batch.LaborBalancingHistorySyncStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="laborBalancingReportWriterService" />
+			</list>
+		</property>
+		<property name="balancingService">
+			<ref bean="laborBalancingService" />
+		</property>
+	</bean>
+	
+	<bean id="laborBalancingHistorySyncJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="laborBalancingHistorySyncStep"/>
 				<ref bean="laborBalancingStep"/>
 			</list>
 		</property>

@@ -240,10 +240,9 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
      */
     public Map<String, List<String>> getElectronicFundAccounts() {
         Map<String, List<String>> electronicFundAccounts = new HashMap<String, List<String>>();
-        String electronicPaymentAccounts = SpringContext.getBean(ParameterService.class).getParameterValue(AdvanceDepositDocument.class, ELECTRONIC_PAYMENT_CLAIM_ACCOUNTS_PARAMETER);
+        List<String> electronicPaymentAccounts = parameterService.getParameterValues(AdvanceDepositDocument.class, ELECTRONIC_PAYMENT_CLAIM_ACCOUNTS_PARAMETER);
 
-        String[] chartSections = electronicPaymentAccounts.split(";");
-        for (String chartSection : chartSections) {
+        for (String chartSection : electronicPaymentAccounts) {
             String[] chartAccountPieces = chartSection.split("=");
             if (chartAccountPieces.length >= 2) {
                 String chartCode = chartAccountPieces[0];

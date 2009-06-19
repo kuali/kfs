@@ -346,7 +346,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
         criteria.addEqualTo("accountNumber", accountNumber);
         criteria.addEqualTo("accountDelegateSystemId", principalId);
-        criteria.addEqualTo("accountDelegateActiveIndicator", "Y");
+        criteria.addEqualTo("active", "Y");
         criteria.addIn("financialDocumentTypeCode", docTypes);
         QueryByCriteria query = QueryFactory.newQuery(AccountDelegate.class, criteria);
         if (getPersistenceBrokerTemplate().getCount(query) > 0) {

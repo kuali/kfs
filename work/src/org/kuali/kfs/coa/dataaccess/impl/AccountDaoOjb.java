@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.coa.dataaccess.AccountDao;
@@ -123,7 +124,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
         Criteria criteria = new Criteria();
         criteria.addEqualTo(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, delegateExample.getChartOfAccountsCode());
         criteria.addEqualTo(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, delegateExample.getAccountNumber());
-        criteria.addEqualTo("accountDelegateActiveIndicator", "Y");
+        criteria.addEqualTo("active", "Y");
         criteria.addLessOrEqualThan("accountDelegateStartDate", SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
         criteria.addEqualTo("accountsDelegatePrmrtIndicator", accountsDelegatePrmrtIndicator);
         if (totalDollarAmount != null) {
@@ -236,7 +237,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
         Collection accountDelegates = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(AccountDelegate.class, criteria));
         for (Iterator iter = accountDelegates.iterator(); iter.hasNext();) {
             AccountDelegate accountDelegate = (AccountDelegate) iter.next();
-            if (accountDelegate.isAccountDelegateActiveIndicator()) {
+            if (accountDelegate.isActive()) {
                 // the start_date should never be null in the real world, but
                 // there is some test data that
                 // contains null startDates, therefore this check.
@@ -268,7 +269,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
         Collection accountDelegates = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(AccountDelegate.class, criteria));
         for (Iterator iter = accountDelegates.iterator(); iter.hasNext() && !hasResponsibility;) {
             AccountDelegate accountDelegate = (AccountDelegate) iter.next();
-            if (accountDelegate.isAccountDelegateActiveIndicator()) {
+            if (accountDelegate.isActive()) {
                 // the start_date should never be null in the real world, but
                 // there is some test data that
                 // contains null startDates, therefore this check.
@@ -293,6 +294,119 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
         return getPersistenceBrokerTemplate().getIteratorByQuery(QueryFactory.newQuery(Account.class, criteria));
     }
 
+    /**
+     * @see org.kuali.kfs.coa.dataaccess.AccountDao#getActiveAccountsForAccountSupervisor(java.lang.String)
+     */
+    public Iterator<Account> getActiveAccountsForAccountSupervisor(String principalId) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("accountsSupervisorySystemsIdentifier", principalId);
+        criteria.addEqualTo("active", true);
+        criteria.addAndCriteria(getAccountNotExpiredCriteria());
+        return (Iterator<Account>)getPersistenceBrokerTemplate().getIteratorByQuery(QueryFactory.newQuery(Account.class, criteria));
+    }
+
+    /**
+     * @see org.kuali.kfs.coa.dataaccess.AccountDao#getActiveAccountsForFiscalOfficer(java.lang.String)
+     */
+    public Iterator<Account> getActiveAccountsForFiscalOfficer(String principalId) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("accountFiscalOfficerSystemIdentifier", principalId);
+        criteria.addEqualTo("active", true);
+        criteria.addAndCriteria(getAccountNotExpiredCriteria());
+        return (Iterator<Account>)getPersistenceBrokerTemplate().getIteratorByQuery(QueryFactory.newQuery(Account.class, criteria));
+    }
+
+    /**
+     * @see org.kuali.kfs.coa.dataaccess.AccountDao#getExpiredAccountsForAccountSupervisor(java.lang.String)
+     */
+    public Iterator<Account> getExpiredAccountsForAccountSupervisor(String principalId) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("accountsSupervisorySystemsIdentifier", principalId);
+        criteria.addEqualTo("active", true);
+        criteria.addAndCriteria(getAccountExpiredCriteria());
+        return (Iterator<Account>)getPersistenceBrokerTemplate().getIteratorByQuery(QueryFactory.newQuery(Account.class, criteria));
+    }
+
+    /**
+     * @see org.kuali.kfs.coa.dataaccess.AccountDao#getExpiredAccountsForFiscalOfficer(java.lang.String)
+     */
+    public Iterator<Account> getExpiredAccountsForFiscalOfficer(String principalId) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("accountFiscalOfficerSystemIdentifier", principalId);
+        criteria.addEqualTo("active", true);
+        criteria.addAndCriteria(getAccountExpiredCriteria());
+        return (Iterator<Account>)getPersistenceBrokerTemplate().getIteratorByQuery(QueryFactory.newQuery(Account.class, criteria));
+    }
+    
+    /**
+     * Builds a criteria to find expired accounts
+     * @return a Criteria for expired accounts
+     */
+    protected Criteria getAccountExpiredCriteria() {
+        Criteria criteria = new Criteria();
+        criteria.addNotNull("accountExpirationDate");
+        criteria.addLessOrEqualThan("accountExpirationDate", dateTimeService.getCurrentDate());
+        return criteria;
+    }
+    
+    /**
+     * Builds a criteria to find non-expired accounts
+     * @return a Criteria for non-expired accounts
+     */
+    protected Criteria getAccountNotExpiredCriteria() {
+        Criteria criteria = new Criteria();
+        criteria.addIsNull("accountExpirationDate");
+        
+        Criteria notYetExpiredCriteria = new Criteria();
+        notYetExpiredCriteria.addGreaterThan("accountExpirationDate", dateTimeService.getCurrentDate());
+        
+        criteria.addOrCriteria(notYetExpiredCriteria);
+        return criteria;
+    }
+
+    /**
+     * @see org.kuali.kfs.coa.dataaccess.AccountDao#isPrincipalInAnyWayShapeOrFormAccountManager(java.lang.String)
+     */
+    public boolean isPrincipalInAnyWayShapeOrFormAccountManager(String principalId) {
+        return queryPrincipalHasAccountRole(principalId, "accountManagerSystemIdentifier");
+    }
+    
+    /**
+     * Determines if any non-closed accounts exist where the principal id is in the role of the role name
+     * @param principalId the principal id to check
+     * @param principalRoleName the name of the field on account to check for the principal id in
+     * @return true if the principal has that account role, false otherwise
+     */
+    protected boolean queryPrincipalHasAccountRole(String principalId, String principalRoleName) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(principalRoleName, principalId);
+        criteria.addEqualTo("active", "Y");
+        
+        ReportQueryByCriteria reportQuery = QueryFactory.newReportQuery(Account.class, criteria);
+        reportQuery.setAttributes(new String[] { "count(*)" });
+        
+        int resultCount = 0;
+        Iterator iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(reportQuery);
+        while (iter.hasNext()) {
+            final Object[] results = (Object[])iter.next();
+            resultCount = (results[0] instanceof Number) ? ((Number)results[0]).intValue() : new Integer(results[0].toString()).intValue();
+        }
+        return resultCount > 0;
+    }
+
+    /**
+     * @see org.kuali.kfs.coa.dataaccess.AccountDao#isPrincipalInAnyWayShapeOrFormAccountSupervisor(java.lang.String)
+     */
+    public boolean isPrincipalInAnyWayShapeOrFormAccountSupervisor(String principalId) {
+        return queryPrincipalHasAccountRole(principalId, "accountsSupervisorySystemsIdentifier");
+    }
+
+    /**
+     * @see org.kuali.kfs.coa.dataaccess.AccountDao#isPrincipalInAnyWayShapeOrFormFiscalOfficer(java.lang.String)
+     */
+    public boolean isPrincipalInAnyWayShapeOrFormFiscalOfficer(String principalId) {
+        return queryPrincipalHasAccountRole(principalId, "accountFiscalOfficerSystemIdentifier");
+    }
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;

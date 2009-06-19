@@ -24,13 +24,14 @@ import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kew.service.impl.KEWModuleService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * 
  */
-public class AccountDelegate extends PersistableBusinessObjectBase {
+public class AccountDelegate extends PersistableBusinessObjectBase implements Inactivateable {
 
     private static final long serialVersionUID = 6883162275377881235L;
 
@@ -46,7 +47,7 @@ public class AccountDelegate extends PersistableBusinessObjectBase {
     private String accountDelegateSystemId;
     private KualiDecimal finDocApprovalFromThisAmt;
     private boolean accountsDelegatePrmrtIndicator;
-    private boolean accountDelegateActiveIndicator;
+    private boolean active;
     private Date accountDelegateStartDate;
     private KualiDecimal finDocApprovalToThisAmount;
 
@@ -165,22 +166,22 @@ public class AccountDelegate extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the accountDelegateActiveIndicator attribute.
+     * Gets the active attribute.
      * 
-     * @return Returns the accountDelegateActiveIndicator
+     * @return Returns the active
      */
-    public boolean isAccountDelegateActiveIndicator() {
-        return accountDelegateActiveIndicator;
+    public boolean isActive() {
+        return active;
     }
 
     /**
-     * Sets the accountDelegateActiveIndicator attribute.
+     * Sets the active attribute.
      * 
-     * @param accountDelegateActiveIndicator The accountDelegateActiveIndicator to set.
+     * @param active The active to set.
      * @deprecated
      */
-    public void setAccountDelegateActiveIndicator(boolean accountDelegateActiveIndicator) {
-        this.accountDelegateActiveIndicator = accountDelegateActiveIndicator;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**

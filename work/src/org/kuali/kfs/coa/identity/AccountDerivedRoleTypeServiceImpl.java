@@ -15,35 +15,54 @@
  */
 package org.kuali.kfs.coa.identity;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountDelegate;
+import org.kuali.kfs.coa.service.AccountDelegateService;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.Role;
+import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
 import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.role.dto.DelegateInfo;
 import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.support.KimDelegationTypeService;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
+import org.kuali.rice.kns.mail.InvalidAddressException;
+import org.kuali.rice.kns.mail.MailMessage;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.MailService;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.format.CurrencyFormatter;
 
 public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase implements KimDelegationTypeService {
 
     private AccountService accountService;
     private ContractsAndGrantsModuleService contractsAndGrantsModuleService;
+    private AccountDelegateService accountDelegateService;
+    private KualiConfigurationService configurationService;
+    private IdentityManagementService identityManagementService;
+    private MailService mailService;
+    
     {
         requiredAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
         requiredAttributes.add(KfsKimAttributes.ACCOUNT_NUMBER);
@@ -223,6 +242,54 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
     public void setAccountService(AccountService accountService) {
         this.accountService = accountService;
     }
+    
+    /**
+     * @return an implementation of the AccountDelegateService
+     */
+    protected AccountDelegateService getAccountDelegateService() {
+        if (accountDelegateService == null) {
+            accountDelegateService = SpringContext.getBean(AccountDelegateService.class);
+        }
+        return accountDelegateService;
+    }
+
+    /**
+     * Sets the accountDelegateService attribute value.
+     * @param accountDelegateService The accountDelegateService to set.
+     */
+    public void setAccountDelegateService(AccountDelegateService accountDelegateService) {
+        this.accountDelegateService = accountDelegateService;
+    }
+    
+    /**
+     * @return an implementation of the KualiConfigurationService
+     */
+    protected KualiConfigurationService getConfigurationService() {
+        if (configurationService == null) {
+            configurationService = SpringContext.getBean(KualiConfigurationService.class);
+        }
+        return configurationService;
+    }
+    
+    /**
+     * @return an implementation of the IdentityManagementService
+     */
+    protected IdentityManagementService getIdentityManagementService() {
+        if (identityManagementService == null) {
+            identityManagementService = SpringContext.getBean(IdentityManagementService.class);
+        }
+        return identityManagementService;
+    }
+    
+    /**
+     * @return an implementation of the MailService
+     */
+    protected MailService getMailService() {
+        if (mailService == null) {
+            mailService = SpringContext.getBean(MailService.class);
+        }
+        return mailService;
+    }
 
     public boolean doesDelegationQualifierMatchQualification(AttributeSet qualification, AttributeSet delegationQualifier) {
         return performMatch(translateInputAttributeSet(qualification), delegationQualifier);
@@ -250,4 +317,285 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
         return contractsAndGrantsModuleService;
     }
 
+    /**
+     * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#principalInactivated(java.lang.String, java.lang.String, java.lang.String)
+     */
+    @Override
+    public void principalInactivated(String principalId, String namespaceCode, String roleName) {
+        super.principalInactivated(principalId, namespaceCode, roleName);
+        if (KFSConstants.SysKimConstants.ACCOUNT_SUPERVISOR_KIM_ROLE_NAME.equals(roleName)) {
+            if (getAccountService().isPrincipalInAnyWayShapeOrFormAccountSupervisor(principalId)) {
+                handleAccountSupervisorInactivation(principalId, namespaceCode, roleName);
+            }
+        }
+        else if (KFSConstants.SysKimConstants.FISCAL_OFFICER_KIM_ROLE_NAME.equals(roleName)) {
+            if (getAccountService().isPrincipalInAnyWayShapeOrFormFiscalOfficer(principalId)) {
+                handleFiscalOfficerInactivation(principalId, namespaceCode, roleName);
+            }
+        }
+        else if (KFSConstants.SysKimConstants.FISCAL_OFFICER_PRIMARY_DELEGATE_KIM_ROLE_NAME.equals(roleName)) {
+            if (getAccountDelegateService().isPrincipalInAnyWayShapeOrFormPrimaryAccountDelegate(principalId)) {
+                handlePrimaryAccountDelegateInactivation(principalId, namespaceCode, roleName);
+            }
+        }
+        else if (KFSConstants.SysKimConstants.FISCAL_OFFICER_SECONDARY_DELEGATE_KIM_ROLE_NAME.equals(roleName)) {
+            if (getAccountDelegateService().isPrincipalInAnyWayShapeOrFormSecondaryAccountDelegate(principalId)) {
+                handleSecondaryAccountDelegateInactivation(principalId, namespaceCode, roleName);
+            }
+        }
+    }
+    
+    /**
+     * Notifies the specified list that the given principal is being inactivated, listing any active or expired accounts the principal is fiscal officer of
+     * @param principalId the principal id of the inactivating person
+     * @param roleNamespace the namespace of the role the inactivated principal is leaving
+     * @param roleName the name of the role the inactivated principal is leaving
+     */
+    protected void handleFiscalOfficerInactivation(String principalId, String roleNamespace, String roleName) {
+        // build the message
+        final KimPrincipalInfo principal = getIdentityManagementService().getPrincipal(principalId);
+        
+        Iterator<Account> activeAccounts = getAccountService().getActiveAccountsForFiscalOfficer(principalId);
+        final String joinedActiveAccounts = joinAccounts(activeAccounts);
+        Iterator<Account> inactiveAccounts = getAccountService().getExpiredAccountsForFiscalOfficer(principalId);
+        final String joinedExpiredAccounts = joinAccounts(inactiveAccounts);
+        
+        final String message = getMessage(KFSKeyConstants.MESSAGE_ACCOUNT_DERIVED_ROLE_PRINCIPAL_INACTIVATED_FISCAL_OFFICER_NOTIFICATION, roleNamespace, roleName, principal.getPrincipalName(), joinedActiveAccounts, joinedExpiredAccounts);
+        
+        // get listserv to mail to
+        String toAddress = getDeactivationInterestAddress();
+        try {
+            
+            // get mail message
+            MailMessage mailMessage = buildMailMessage(toAddress, message, roleNamespace, roleName, principalId);
+            // send it
+            getMailService().sendMessage(mailMessage);
+        }
+        catch (InvalidAddressException iae) {
+            throw new RuntimeException("Could not mail principal inactivation notification to "+toAddress);
+        }
+        
+    }
+    
+    /**
+     * Notifies the specified list that the given principal is being inactivated, listing any active or expired accounts the principal is account supervisor of
+     * @param principalId the principal id of the inactivating person
+     * @param roleNamespace the namespace of the role the inactivated principal is leaving
+     * @param roleName the name of the role the inactivated principal is leaving
+     */
+    protected void handleAccountSupervisorInactivation(String principalId, String roleNamespace, String roleName) {
+        // build the message
+        final KimPrincipalInfo principal = getIdentityManagementService().getPrincipal(principalId);
+        
+        Iterator<Account> activeAccounts = getAccountService().getActiveAccountsForAccountSupervisor(principalId);
+        final String joinedActiveAccounts = joinAccounts(activeAccounts);
+        Iterator<Account> inactiveAccounts = getAccountService().getExpiredAccountsForAccountSupervisor(principalId);
+        final String joinedExpiredAccounts = joinAccounts(inactiveAccounts);
+        
+        final String message = getMessage(KFSKeyConstants.MESSAGE_ACCOUNT_DERIVED_ROLE_PRINCIPAL_INACTIVATED_ACCOUNT_SUPERVISOR_NOTIFICATION, roleNamespace, roleName, principal.getPrincipalName(), joinedActiveAccounts, joinedExpiredAccounts);
+        
+        // get listserv to mail to
+        String toAddress = getDeactivationInterestAddress();
+        try {
+            
+            // get mail message
+            MailMessage mailMessage = buildMailMessage(toAddress, message, roleNamespace, roleName, principalId);
+            // send it
+            getMailService().sendMessage(mailMessage);
+        }
+        catch (InvalidAddressException iae) {
+            throw new RuntimeException("Could not mail principal inactivation notification to "+toAddress);
+        }
+    }
+    
+    /**
+     * Does the logic for the inactivation of a secondary delegate
+     * @param principalId the principal id of the inactivating person
+     * @param roleNamespace the namespace of the role the inactivated principal is leaving
+     * @param roleName the name of the role the inactivated principal is leaving
+     */
+    protected void handlePrimaryAccountDelegateInactivation(String principalId, String roleNamespace, String roleName) {
+        handleAccountDelegateInactivation(principalId, roleNamespace, roleName, true);
+    }
+    
+    /**
+     * Does the logic for the inactivation of a secondary delegate
+     * @param principalId the principal id of the inactivating person
+     * @param roleNamespace the namespace of the role the inactivated principal is leaving
+     * @param roleName the name of the role the inactivated principal is leaving
+     */
+    protected void handleSecondaryAccountDelegateInactivation(String principalId, String roleNamespace, String roleName) {
+        handleAccountDelegateInactivation(principalId, roleNamespace, roleName, false);
+    }
+    
+    /**
+     * Handles the inactivation of account delegates when their principal is inactivated
+     * @param principalId the principal id of the inactivating person
+     * @param roleNamespace the namespace of the role the inactivated principal is leaving
+     * @param roleName the name of the role the inactivated principal is leaving
+     * @param primary whether primary delegates should be inactivated, rather than secondary
+     */
+    protected void handleAccountDelegateInactivation(String principalId, String roleNamespace, String roleName, boolean primary) {
+        List<String> accountDisdelegations = new ArrayList<String>();
+        List<String> blockedAccountDisdelegations = new ArrayList<String>();
+        
+        Iterator<AccountDelegate> accountDelegationsToInactivate = getAccountDelegateService().retrieveAllActiveDelegationsForPerson(principalId, primary);
+        while (accountDelegationsToInactivate.hasNext()) {
+            final AccountDelegate accountDelegate = accountDelegationsToInactivate.next();
+            final String blockingDocumentId = lookupDocumentBlockingInactivation(accountDelegate);
+            if (StringUtils.isBlank(blockingDocumentId)) {
+                accountDisdelegations.add(getAccountDisdelegationInformationForAccountDelegate(accountDelegate));
+                inactivateDelegation(accountDelegate);
+            } else {
+                blockedAccountDisdelegations.add(getBlockedAccountDisdelegationInformationForAccountDelegate(accountDelegate, blockingDocumentId));
+            }            
+        }
+        notifyListAboutAccountDelegateInactivations(principalId, roleNamespace, roleName, accountDisdelegations, blockedAccountDisdelegations, primary);
+    }
+    
+    /**
+     * Returns the document number of a maintenance document which would block the inactivation of the given account delegate
+     * @param delegate the account delegate to check
+     * @return the document id of the maintenance document blocking the inactivation of the given account delegate, null otherwise
+     */
+    protected String lookupDocumentBlockingInactivation(AccountDelegate delegate) {
+        FinancialSystemMaintainable maintainable = getAccountDelegateService().buildMaintainableForAccountDelegate(delegate);
+        return maintainable.getLockingDocumentId();
+    }
+    
+    /**
+     * Inactivates an account delegate
+     * @param delegate the account delegate to inactivate
+     */
+    protected void inactivateDelegation(AccountDelegate delegate) {
+        delegate.setActive(false); // this is deprecated?  lame!
+        getBusinessObjectService().save(delegate);
+    }
+    
+    /**
+     * Converts information from the given AccountDelegate record into an informative String
+     * @param accountDelegate the account delegate to report on
+     * @return the report on the given account delegate
+     */
+    protected String getAccountDisdelegationInformationForAccountDelegate(AccountDelegate accountDelegate) {
+        final CurrencyFormatter formatter = new CurrencyFormatter();
+        final String message = getMessage(KFSKeyConstants.MESSAGE_ACCOUNT_DERIVED_ROLE_PRINCIPAL_INACTIVATED_ACCOUNT_DELEGATE_INACTIVATED_INFORMATION, accountDelegate.getChartOfAccountsCode(), accountDelegate.getAccountNumber(), accountDelegate.getFinancialDocumentTypeCode(), (String)(accountDelegate.getFinDocApprovalFromThisAmt() != null ? formatter.format(accountDelegate.getFinDocApprovalFromThisAmt()) : ""), (String)(accountDelegate.getFinDocApprovalFromThisAmt() != null ? formatter.format(accountDelegate.getFinDocApprovalFromThisAmt()) : ""));
+        return message;
+    }
+    
+    /**
+     * Converts information from the given AccountDelegate record into an informative String
+     * @param accountDelegate the account delegate to report on
+     * @return the report on the given account delegate
+     */
+    protected String getBlockedAccountDisdelegationInformationForAccountDelegate(AccountDelegate accountDelegate, String blockingDocumentId) {
+        final CurrencyFormatter formatter = new CurrencyFormatter();
+        final String message = getMessage(KFSKeyConstants.MESSAGE_ACCOUNT_DERIVED_ROLE_PRINCIPAL_INACTIVATED_ACCOUNT_DELEGATE_BLOCKED_INACTIVATION_INFORMATION, accountDelegate.getChartOfAccountsCode(), accountDelegate.getAccountNumber(), accountDelegate.getFinancialDocumentTypeCode(), (String)(accountDelegate.getFinDocApprovalFromThisAmt() != null ? formatter.format(accountDelegate.getFinDocApprovalFromThisAmt()) : ""), (String)(accountDelegate.getFinDocApprovalFromThisAmt() != null ? formatter.format(accountDelegate.getFinDocApprovalFromThisAmt()) : ""), blockingDocumentId);
+        return message;    
+    }
+    
+    /**
+     * Fires an e-mail off the specified e-mail listserv about the account delegates inactivated by a
+     * @param principalId the principal being inactivated 
+     * @param roleNamespace the namespace of the role the inactivated principal is leaving
+     * @param roleName the name of the role the inactivated principal is leaving
+     * @param accountsDisdelegated the account delegate records which were inactivated
+     * @param blockedDisdelegations the account delegate records which could not be inactivated because of locking maintenance documents
+     * @param primary whether the account delegations being reported on were primary delegations, as opposed to secondary delegations
+     */
+    protected void notifyListAboutAccountDelegateInactivations(String principalId, String roleNamespace, String roleName, List<String> accountsDisdelegated, List<String> blockedDisdelegations, boolean primary) {
+        // build message
+        final KimPrincipalInfo principal = getIdentityManagementService().getPrincipal(principalId);
+        
+        final String message = getMessage((primary ? KFSKeyConstants.MESSAGE_ACCOUNT_DERIVED_ROLE_PRINCIPAL_INACTIVATED_FISCAL_OFFICER_PRIMARY_DELEGATE_NOTIFICATION : KFSKeyConstants.MESSAGE_ACCOUNT_DERIVED_ROLE_PRINCIPAL_INACTIVATED_FISCAL_OFFICER_SECONARY_DELEGATE_NOTIFICATION), roleNamespace, roleName, principal.getPrincipalName(), StringUtils.join(accountsDisdelegated,'\n'), StringUtils.join(blockedDisdelegations, '\n'));
+        
+        String toAddress = getDeactivationInterestAddress();
+        try {
+            // get mail message
+            MailMessage mailMessage = buildMailMessage(toAddress, message, roleNamespace, roleName, principalId);
+            // send it
+            getMailService().sendMessage(mailMessage);
+        }
+        catch (InvalidAddressException iae) {
+            throw new RuntimeException("Could not mail principal inactivation notification to "+toAddress);
+        }
+    }
+    
+    /**
+     * Retrieves message from configuration service and formats it directly
+     * @param messageConstant the property to find the message under
+     * @param parameters the parameters to interpolate into the message
+     * @return a formatted String
+     */
+    protected String getMessage(String messageConstant, String...parameters) {
+        final String messagePattern = getConfigurationService().getPropertyString(messageConstant);
+        return MessageFormat.format(messagePattern, (Object[])parameters);
+    }
+    
+    /**
+     * Joins an Iterator of accounts into a meaningful String
+     * @param accounts the accounts to join
+     * @return a String of account information
+     */
+    protected String joinAccounts(Iterator<Account> accounts) {
+        StringBuilder s = new StringBuilder();
+        int count = 0;
+        
+        while (accounts.hasNext()) {
+            final Account account = accounts.next();
+            if (count > 0) {
+                s.append('\n');
+            }
+            s.append(account.getChartOfAccountsCode()+"-"+account.getAccountNumber());
+            count += 1;
+        }
+        return s.toString();
+    }
+    
+    /**
+     * Builds a MailMessage to send out a notification e-mail
+     * @param toAddress the address to send the notification to
+     * @param message the body of the notification
+     * @param principalId the principal being inactivated 
+     * @param roleNamespace the namespace of the role the inactivated principal is leaving
+     * @param roleName the name of the role the inactivated principal is leaving
+     * @return an appropriately constructed MailMessage
+     */
+    protected MailMessage buildMailMessage(String toAddress, String message, String roleNamespace, String roleName, String principalId) {
+        MailMessage mailMessage = new MailMessage();
+        mailMessage.setFromAddress(getFromAddress());
+        mailMessage.setSubject(getMailMessageSubject(roleNamespace, roleName, principalId));
+        
+        Set<String> toAddresses = new HashSet<String>();
+        toAddresses.add(toAddress);
+        mailMessage.setToAddresses(toAddresses);
+        mailMessage.setMessage(message);
+        return mailMessage;
+    }
+    
+    /**
+     * Builds a subject line for an e-mail
+     * @param principalId the principal being inactivated 
+     * @param roleNamespace the namespace of the role the inactivated principal is leaving
+     * @param roleName the name of the role the inactivated principal is leaving
+     * @return a suitable subject line for the notification e-mail
+     */
+    protected String getMailMessageSubject(String roleNamespace, String roleName, String principalId) {
+        final KimPrincipalInfo principal = getIdentityManagementService().getPrincipal(principalId);
+        return getMessage(KFSKeyConstants.MESSAGE_ACCOUNT_DERIVED_ROLE_PRINCIPAL_INACTIVATED_NOTIFICATION_SUBJECT, roleNamespace, roleName, principal.getPrincipalName());
+    }
+    
+    /**
+     * @return the constant from address to send the mail message with
+     */
+    protected String getFromAddress() {
+        return "kbatch-l@indiana.edu";
+    }
+    
+    /**
+     * @return the e-mail address of those interested in account role principal inactivations
+     */
+    protected String getDeactivationInterestAddress() {
+        return "knoreceipt-l@indiana.edu";
+    }
 }

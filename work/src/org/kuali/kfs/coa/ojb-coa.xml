@@ -717,7 +717,7 @@
     <field-descriptor name="finDocApprovalFromThisAmt" column="FDOC_APRV_FROM_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
 
     <field-descriptor name="accountsDelegatePrmrtIndicator" column="ACCT_DLGT_PRMRT_CD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-    <field-descriptor name="accountDelegateActiveIndicator" column="ACCT_DLGT_ACTV_CD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+    <field-descriptor name="active" column="ACCT_DLGT_ACTV_CD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <field-descriptor name="accountDelegateStartDate" column="ACCT_DLGT_START_DT" jdbc-type="DATE" />
     <field-descriptor name="finDocApprovalToThisAmount" column="FDOC_APRV_TO_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />

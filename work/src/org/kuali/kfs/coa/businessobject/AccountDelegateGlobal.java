@@ -135,14 +135,14 @@ public class AccountDelegateGlobal extends PersistableBusinessObjectBase impleme
             fieldValues = new HashMap();
             fieldValues.put("chartOfAccountsCode", accountDetail.getChartOfAccountsCode());
             fieldValues.put("accountNumber", accountDetail.getAccountNumber());
-            fieldValues.put("accountDelegateActiveIndicator", true);
+            fieldValues.put("active", true);
             existingDelegates = boService.findMatching(AccountDelegate.class, fieldValues);
             bosToDeactivate.addAll(existingDelegates);
         }
 
         // mark all the delegates as inactive
         for (AccountDelegate accountDelegate : bosToDeactivate) {
-            accountDelegate.setAccountDelegateActiveIndicator(false);
+            accountDelegate.setActive(false);
         }
         return new ArrayList<PersistableBusinessObject>(bosToDeactivate);
     }
@@ -186,10 +186,10 @@ public class AccountDelegateGlobal extends PersistableBusinessObjectBase impleme
                     delegate.setAccountNumber(accountDetail.getAccountNumber());
                     delegate.setAccountDelegateSystemId(changeDocument.getAccountDelegateUniversalId());
                     delegate.setFinancialDocumentTypeCode(changeDocument.getFinancialDocumentTypeCode());
-                    delegate.setAccountDelegateActiveIndicator(true);
+                    delegate.setActive(true);
                 }
                 else {
-                    delegate.setAccountDelegateActiveIndicator(true);
+                    delegate.setActive(true);
                 }
 
                 // APPROVAL FROM AMOUNT

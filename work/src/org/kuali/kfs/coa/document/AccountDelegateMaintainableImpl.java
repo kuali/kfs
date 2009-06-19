@@ -92,7 +92,6 @@ public class AccountDelegateMaintainableImpl extends FinancialSystemMaintainable
 
     @Override
     public String getLockingDocumentId() {
-        // TODO Auto-generated method stub
        String lock = super.getLockingDocumentId();
        if (StringUtils.isNotBlank(lock))
            return lock;

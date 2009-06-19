@@ -50,7 +50,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="finDocApprovalFromThisAmt"/>
         <bean parent="MaintainableFieldDefinition" p:name="finDocApprovalToThisAmount"/>
         <bean parent="MaintainableFieldDefinition" p:name="accountsDelegatePrmrtIndicator"/>
-        <bean parent="MaintainableFieldDefinition" p:name="accountDelegateActiveIndicator" p:defaultValue="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="accountDelegateStartDate" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder"/>
       </list>
     </property>

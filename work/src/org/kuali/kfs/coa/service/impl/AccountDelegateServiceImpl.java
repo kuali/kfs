@@ -15,20 +15,22 @@
  */
 package org.kuali.kfs.coa.service.impl;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.coa.dataaccess.AccountDelegateDao;
 import org.kuali.kfs.coa.dataaccess.AccountDelegateGlobalDao;
 import org.kuali.kfs.coa.document.AccountDelegateGlobalMaintainableImpl;
 import org.kuali.kfs.coa.document.AccountDelegateMaintainableImpl;
 import org.kuali.kfs.coa.service.AccountDelegateService;
-import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.rice.kew.dto.DocumentTypeDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.service.WorkflowInfo;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceLock;
+import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.service.DataDictionaryService;
 
 /**
  * The default implementation of AccountDelegateService.
@@ -38,6 +40,7 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
 
     private AccountDelegateDao accountDelegateDao;
     private AccountDelegateGlobalDao accountDelegateGlobalDao;
+    private DataDictionaryService dataDictionaryService;
 
     /**
      * 
@@ -77,6 +80,62 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
     
     
     /**
+     * @see org.kuali.kfs.coa.service.AccountDelegateService#buildMaintainableForAccountDelegate(org.kuali.kfs.coa.businessobject.AccountDelegate)
+     */
+    public FinancialSystemMaintainable buildMaintainableForAccountDelegate(AccountDelegate delegate) {
+        FinancialSystemMaintainable maintainable = getAccountDelegateMaintainable();
+        maintainable.setBoClass(delegate.getClass());
+        maintainable.setBusinessObject(delegate);
+        return maintainable;
+    }
+    
+    /**
+     * @return the proper class for the Maintainable associated with AccountDelegate maintenance documents
+     */
+    protected Class<? extends Maintainable> getAccountDelegateMaintainableClass() {
+        return getDataDictionaryService().getDataDictionary().getMaintenanceDocumentEntryForBusinessObjectClass(AccountDelegate.class).getMaintainableClass();
+    }
+    
+    /**
+     * @return a new instance of the proper maintainable for AccountDelegate maintenance documents
+     */
+    protected FinancialSystemMaintainable getAccountDelegateMaintainable() {
+        final Class<? extends Maintainable> maintainableClazz = getAccountDelegateMaintainableClass();
+        final FinancialSystemMaintainable maintainable;
+        try {
+            maintainable = (FinancialSystemMaintainable)maintainableClazz.newInstance();
+        }
+        catch (InstantiationException ie) {
+            throw new RuntimeException("Could not instantiate maintainable for AccountDelegate maintenance document", ie);
+        }
+        catch (IllegalAccessException iae) {
+            throw new RuntimeException("Could not instantiate maintainable for AccountDelegate maintenance document", iae);
+        }
+        return maintainable;
+    }
+
+    /**
+     * @see org.kuali.kfs.coa.service.AccountDelegateService#retrieveAllActiveDelegationsForPerson(java.lang.String)
+     */
+    public Iterator<AccountDelegate> retrieveAllActiveDelegationsForPerson(String principalId, boolean primary) {
+        return (Iterator<AccountDelegate>)getAccountDelegateDao().getAccountDelegationsForPerson(principalId, primary);
+    }
+
+    /**
+     * @see org.kuali.kfs.coa.service.AccountDelegateService#isPrincipalInAnyWayShapeOrFormPrimaryAccountDelegate(java.lang.String)
+     */
+    public boolean isPrincipalInAnyWayShapeOrFormPrimaryAccountDelegate(String principalId) {
+        return accountDelegateDao.isPrincipalInAnyWayShapeOrFormPrimaryAccountDelegate(principalId);
+    }
+
+    /**
+     * @see org.kuali.kfs.coa.service.AccountDelegateService#isPrincipalInAnyWayShapeOrFormSecondaryAccountDelegate(java.lang.String)
+     */
+    public boolean isPrincipalInAnyWayShapeOrFormSecondaryAccountDelegate(String principalId) {
+        return accountDelegateDao.isPrincipalInAnyWayShapeOrFormSecondaryAccountDelegate(principalId);
+    }
+
+    /**
      * Gets the accountDelegateDao attribute. 
      * @return Returns the accountDelegateDao.
      */
@@ -108,4 +167,19 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
         this.accountDelegateGlobalDao = accountDelegateGlobalDao;
     }
 
+    /**
+     * Gets the dataDictionaryService attribute. 
+     * @return Returns the dataDictionaryService.
+     */
+    public DataDictionaryService getDataDictionaryService() {
+        return dataDictionaryService;
+    }
+
+    /**
+     * Sets the dataDictionaryService attribute value.
+     * @param dataDictionaryService The dataDictionaryService to set.
+     */
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
+    }
 }

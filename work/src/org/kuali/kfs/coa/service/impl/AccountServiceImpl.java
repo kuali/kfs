@@ -207,6 +207,55 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
+     * @see org.kuali.kfs.coa.service.AccountService#getActiveAccountsForAccountSupervisor(java.lang.String)
+     */
+    public Iterator<Account> getActiveAccountsForAccountSupervisor(String principalId) {
+        return accountDao.getActiveAccountsForAccountSupervisor(principalId);
+    }
+
+    /**
+     * @see org.kuali.kfs.coa.service.AccountService#getActiveAccountsForFiscalOfficer(java.lang.String)
+     */
+    public Iterator<Account> getActiveAccountsForFiscalOfficer(String principalId) {
+        return accountDao.getActiveAccountsForFiscalOfficer(principalId);
+    }
+
+    /**
+     * @see org.kuali.kfs.coa.service.AccountService#getExpiredAccountsForAccountSupervisor(java.lang.String)
+     */
+    public Iterator<Account> getExpiredAccountsForAccountSupervisor(String principalId) {
+        return accountDao.getExpiredAccountsForAccountSupervisor(principalId);
+    }
+
+    /**
+     * @see org.kuali.kfs.coa.service.AccountService#getExpiredAccountsForFiscalOfficer(java.lang.String)
+     */
+    public Iterator<Account> getExpiredAccountsForFiscalOfficer(String principalId) {
+        return accountDao.getExpiredAccountsForFiscalOfficer(principalId);
+    }
+
+    /**
+     * @see org.kuali.kfs.coa.service.AccountService#isPrincipalInAnyWayShapeOrFormAccountManager(java.lang.String)
+     */
+    public boolean isPrincipalInAnyWayShapeOrFormAccountManager(String principalId) {
+        return accountDao.isPrincipalInAnyWayShapeOrFormAccountManager(principalId);
+    }
+
+    /**
+     * @see org.kuali.kfs.coa.service.AccountService#isPrincipalInAnyWayShapeOrFormAccountSupervisor(java.lang.String)
+     */
+    public boolean isPrincipalInAnyWayShapeOrFormAccountSupervisor(String principalId) {
+        return accountDao.isPrincipalInAnyWayShapeOrFormAccountSupervisor(principalId);
+    }
+
+    /**
+     * @see org.kuali.kfs.coa.service.AccountService#isPrincipalInAnyWayShapeOrFormFiscalOfficer(java.lang.String)
+     */
+    public boolean isPrincipalInAnyWayShapeOrFormFiscalOfficer(String principalId) {
+        return accountDao.isPrincipalInAnyWayShapeOrFormFiscalOfficer(principalId);
+    }
+
+    /**
      * @param accountDao The accountDao to set.
      */
     public void setAccountDao(AccountDao accountDao) {

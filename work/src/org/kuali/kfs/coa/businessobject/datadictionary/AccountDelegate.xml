@@ -29,7 +29,7 @@
         <ref bean="AccountDelegate-finDocApprovalFromThisAmt" />
         <ref bean="AccountDelegate-finDocApprovalToThisAmount" />
         <ref bean="AccountDelegate-accountsDelegatePrmrtIndicator" />
-        <ref bean="AccountDelegate-accountDelegateActiveIndicator" />
+        <ref bean="AccountDelegate-active" />
         <ref bean="AccountDelegate-accountDelegateStartDate" />
       </list>
     </property>
@@ -152,10 +152,10 @@
     <property name="label" value="Account Delegate Primary Route" />
     <property name="shortLabel" value="PrimaryRoute" />
   </bean>
-  <bean id="AccountDelegate-accountDelegateActiveIndicator" parent="AccountDelegate-accountDelegateActiveIndicator-parentBean" />
+  <bean id="AccountDelegate-active" parent="AccountDelegate-active-parentBean" />
 
-  <bean id="AccountDelegate-accountDelegateActiveIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
-    <property name="name" value="accountDelegateActiveIndicator" />
+  <bean id="AccountDelegate-active-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+    <property name="name" value="active" />
     <property name="label" value="Account Delegate Active" />
     <property name="shortLabel" value="DelegateActive" />
   </bean>
@@ -197,7 +197,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="accountsDelegatePrmrtIndicator" />
               <bean parent="FieldDefinition"
-                    p:attributeName="accountDelegateActiveIndicator" />
+                    p:attributeName="active" />
               <bean parent="FieldDefinition"
                     p:attributeName="accountDelegateStartDate" />
             </list>
@@ -238,7 +238,7 @@
               p:attributeName="accountDelegate.principalName" />
         <bean parent="FieldDefinition"
               p:defaultValue="Y"
-              p:attributeName="accountDelegateActiveIndicator" />
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -254,7 +254,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="accountDelegate.principalName" />
         <bean parent="FieldDefinition"
-              p:attributeName="accountDelegateActiveIndicator" />
+              p:attributeName="active" />
         <bean parent="FieldDefinition"
               p:attributeName="finDocApprovalFromThisAmt" />
         <bean parent="FieldDefinition"

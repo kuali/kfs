@@ -233,7 +233,9 @@
 	</bean>
 	
 	<bean id="accountDelegateDao" parent="platformAwareDao"
-		class="org.kuali.kfs.coa.dataaccess.impl.AccountDelegateDaoOjb" />
+		class="org.kuali.kfs.coa.dataaccess.impl.AccountDelegateDaoOjb">
+		<property name="dateTimeService" ref="dateTimeService" />
+	</bean>
 		
 	<bean id="accountDelegateGlobalDao" parent="platformAwareDao"
 		class="org.kuali.kfs.coa.dataaccess.impl.AccountDelegateGlobalDaoOjb" />
@@ -521,6 +523,7 @@
 		<property name="accountService">
 			<ref bean="accountService" />
 		</property>
+		<property name="accountDelegateService" ref="accountDelegateService" />
 	</bean>
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 	  <property name="serviceDefinition">
@@ -639,6 +642,7 @@
         <property name="accountDelegateGlobalDao">
             <ref bean="accountDelegateGlobalDao" />
         </property>
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
     </bean>
     
 	

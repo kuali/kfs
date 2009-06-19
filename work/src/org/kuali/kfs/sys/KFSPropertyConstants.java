@@ -35,7 +35,7 @@ public class KFSPropertyConstants {
     public static final String ACCOUNT_ACTIVE_INDICATOR = "active";
     public static final String ACCOUNT_CREATE_DATE = "accountCreateDate";
     public static final String ACCOUNT_DELEGATE = "accountDelegate";
-    public static final String ACCOUNT_DELEGATE_ACTIVE_INDICATOR = "accountDelegateActiveIndicator";
+    public static final String ACCOUNT_DELEGATE_ACTIVE_INDICATOR = "active";
     public static final String ACCOUNT_DELEGATE_START_DATE = "accountDelegateStartDate";
     public static final String ACCOUNT_DELEGATE_SYSTEM_ID = "accountDelegateSystemId";
     public static final String ACCOUNT_DESCRIPTION = "accountDescription";

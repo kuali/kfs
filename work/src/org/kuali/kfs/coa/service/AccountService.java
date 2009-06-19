@@ -91,5 +91,54 @@ public interface AccountService {
      * @return iterator of all accounts
      */
     public Iterator getAllAccounts();
+    
+    /**
+     * Retrieves all active accounts from the database where the given principal is the fiscal officer
+     * @param principalId the principal id of the fiscal officer
+     * @return an Iterator of active Accounts
+     */
+    public abstract Iterator<Account> getActiveAccountsForFiscalOfficer(String principalId);
+    
+    /**
+     * Retrieves all expired accounts from the database where the given principal is the fiscal officer
+     * @param principalId the principal id of the fiscal officer
+     * @return an Iterator of expired Accounts
+     */
+    public abstract Iterator<Account> getExpiredAccountsForFiscalOfficer(String principalId);
+    
+    /**
+     * Retrieves all active accounts from the database where the given principal is the account supervisor
+     * @param principalId the principal id of the account supervisor
+     * @return an Iterator of active Accounts
+     */
+    public abstract Iterator<Account> getActiveAccountsForAccountSupervisor(String principalId);
+    
+    /**
+     * Retrieves all active accounts from the database where the given principal is the account supervisor
+     * @param principalId the principal id of the account supervisor
+     * @return an Iterator of expired Accounts
+     */
+    public abstract Iterator<Account> getExpiredAccountsForAccountSupervisor(String principalId);
+    
+    /**
+     * Determines if the given principal is the fiscal officer of any non-closed account
+     * @param principalId the principal to check for the fiscal officer role
+     * @return true if the principal is a fiscal officer for any non-closed account, false otherwise
+     */
+    public abstract boolean isPrincipalInAnyWayShapeOrFormFiscalOfficer(String principalId);
+    
+    /**
+     * Determines if the given principal is the account supervisor of any non-closed account
+     * @param principalId the principal to check for the account supervisor role
+     * @return true if the principal is a account supervisor for any non-closed account, false otherwise
+     */
+    public abstract boolean isPrincipalInAnyWayShapeOrFormAccountSupervisor(String principalId);
+    
+    /**
+     * Determines if the given principal is the account manager of any non-closed account
+     * @param principalId the principal to check for the account manager role
+     * @return true if the principal is a account manager for any non-closed account, false otherwise
+     */
+    public abstract boolean isPrincipalInAnyWayShapeOrFormAccountManager(String principalId);
 }
 

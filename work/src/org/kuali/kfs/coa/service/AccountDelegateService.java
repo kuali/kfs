@@ -15,9 +15,13 @@
  */
 package org.kuali.kfs.coa.service;
 
+import java.util.Iterator;
+
+import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.coa.document.AccountDelegateGlobalMaintainableImpl;
 import org.kuali.kfs.coa.document.AccountDelegateMaintainableImpl;
-import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
+import org.kuali.rice.kim.bo.Person;
 
 /**
  * An interface of services to support account delegate logic
@@ -42,5 +46,34 @@ public interface AccountDelegateService {
      * @return the documentNumber of the locking record or null if none.
      */
     public String getLockingDocumentId(AccountDelegateMaintainableImpl delegate, String docNumber);
+    
+    /**
+     * Builds an appropriate maintainable with the given account delegate as the business object
+     * @param delegate the account delegate to wrap in a maintainable
+     * @return an appropriate maintainable
+     */
+    public abstract FinancialSystemMaintainable buildMaintainableForAccountDelegate(AccountDelegate delegate);
+    
+    /**
+     * Retrieves all active account delegations which delegate to the given Person
+     * @param principalId a principal id of the person to find account delegations for
+     * @param primary whether the account delegates returned should be primary or not
+     * @return a List of AccountDelegate business objects, representing that person's delegations
+     */
+    public abstract Iterator<AccountDelegate> retrieveAllActiveDelegationsForPerson(String principalId, boolean primary);
 
+    /**
+     * Determines if the given principal is an active delegate for any non-closed account
+     * @param principalId the principal ID to check primary account delegations for
+     * @return true if the principal is a primary account delegate, false otherwise
+     */
+    public abstract boolean isPrincipalInAnyWayShapeOrFormPrimaryAccountDelegate(String principalId);
+    
+    /**
+     * 
+     * Determines if the given principal is an active delegate for any non-closed account
+     * @param principalId the principal ID to check secondary account delegations for
+     * @return true if the principal is a secondary account delegate, false otherwise
+     */
+    public abstract boolean isPrincipalInAnyWayShapeOrFormSecondaryAccountDelegate(String principalId);
 }

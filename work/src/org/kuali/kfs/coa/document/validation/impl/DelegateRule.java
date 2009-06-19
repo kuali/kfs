@@ -182,7 +182,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         }
 
         // start date must be greater than or equal to today if active
-        boolean newActive = newDelegate.isAccountDelegateActiveIndicator();
+        boolean newActive = newDelegate.isActive();
         if ((ObjectUtils.isNotNull(newDelegate.getAccountDelegateStartDate())) && newActive) {
             Timestamp today = getDateTimeService().getCurrentTimestamp();
             today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime());
@@ -245,7 +245,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         }
 
         // exit if new document not active
-        newActive = newDelegate.isAccountDelegateActiveIndicator();
+        newActive = newDelegate.isActive();
         if (!newActive) {
             return success;
         }
@@ -280,7 +280,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         whereMap.put("accountNumber", newDelegate.getAccountNumber());
         whereMap.put("accountsDelegatePrmrtIndicator", Boolean.valueOf(true));
         whereMap.put("financialDocumentTypeCode", newDelegate.getFinancialDocumentTypeCode());
-        whereMap.put("accountDelegateActiveIndicator", Boolean.valueOf(true));
+        whereMap.put("active", Boolean.valueOf(true));
 
         // find all the matching records
         Collection primaryRoutes = getBoService().findMatching(AccountDelegate.class, whereMap);
@@ -310,7 +310,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         }
         
         // if the document is inactivating an account delegate, don't bother validating the user
-        if (document.getOldMaintainableObject() != null && document.getOldMaintainableObject().getBusinessObject() != null && ((AccountDelegate)document.getOldMaintainableObject().getBusinessObject()).isAccountDelegateActiveIndicator() && !((AccountDelegate)document.getNewMaintainableObject().getBusinessObject()).isAccountDelegateActiveIndicator()) {
+        if (document.getOldMaintainableObject() != null && document.getOldMaintainableObject().getBusinessObject() != null && ((AccountDelegate)document.getOldMaintainableObject().getBusinessObject()).isActive() && !((AccountDelegate)document.getNewMaintainableObject().getBusinessObject()).isActive()) {
             return success;
         }
 

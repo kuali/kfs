@@ -92,7 +92,6 @@
         <property name="businessObjectService" ref="businessObjectService"/>
         <property name="documentService" ref="documentService"/>
         <property name="persistenceService" ref="persistenceService" />
-        <property name="personService" ref="personService" />
     </bean>
 
     <bean id="phoneNumberService" class="org.kuali.kfs.vnd.service.impl.PhoneNumberServiceImpl">
@@ -210,9 +209,6 @@
         <property name="dataDictionaryService">
             <ref bean="dataDictionaryService" />
         </property>
-        <property name="personService">
-            <ref bean="personService" />
-        </property>
     </bean>
   
     <bean id="vendorCustomerNumberLookupableHelperService" class="org.kuali.kfs.vnd.businessobject.lookup.VendorCustomerNumberLookupableHelperServiceImpl" scope="prototype">
@@ -230,9 +226,6 @@
         </property>
         <property name="dataDictionaryService">
             <ref bean="dataDictionaryService" />
-        </property>
-        <property name="personService">
-            <ref bean="personService" />
         </property>
     </bean>
     

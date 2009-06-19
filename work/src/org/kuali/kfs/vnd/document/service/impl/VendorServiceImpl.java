@@ -50,7 +50,6 @@ public class VendorServiceImpl implements VendorService {
 
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
-    private org.kuali.rice.kim.service.PersonService personService;
     private PersistenceService persistenceService;
     private VendorDao vendorDao;
 
@@ -369,10 +368,6 @@ public class VendorServiceImpl implements VendorService {
      */
     public VendorContract getVendorB2BContract(VendorDetail vendorDetail, String campus) {
         return vendorDao.getVendorB2BContract(vendorDetail, campus);
-    }
-  
-    public void setPersonService(org.kuali.rice.kim.service.PersonService personService) {
-        this.personService = personService;
     }
 
     public void setBusinessObjectService(BusinessObjectService boService) {

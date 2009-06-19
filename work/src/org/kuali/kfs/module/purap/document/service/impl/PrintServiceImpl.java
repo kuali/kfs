@@ -254,11 +254,6 @@ public class PrintServiceImpl implements PrintService {
             LOG.error("Caught exception ", pce);
             errors.add(pce.getMessage());
         }
-        catch (Exception e) {
-            LOG.error("Caught exception ", e);
-            errors.add(e.getMessage());
-        }
-
         LOG.debug("generatePurchaseOrderQuotePdf() ended");
         return errors;
     }

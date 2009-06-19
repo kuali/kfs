@@ -393,8 +393,8 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
             LOG.error("baosPDF.size is : " + baosPDF.size());
             LOG.error("----------------------------------------");
         }
-        catch (ValidationException e) {
-            LOG.warn("Caught ValidationException while trying to retransmit PO with doc id " + po.getDocumentNumber());
+        catch (Exception e) {
+            LOG.warn("Caught ValidationException while trying to print PO quote pdf with doc id " + po.getDocumentNumber());
         }
         finally {
             if (baosPDF != null) {

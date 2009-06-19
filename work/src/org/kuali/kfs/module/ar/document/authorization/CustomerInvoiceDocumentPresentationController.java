@@ -62,11 +62,10 @@ public class CustomerInvoiceDocumentPresentationController extends FinancialSyst
     public boolean canCopy(Document document) {
         boolean copyable = true;
         CustomerInvoiceDocument ciDoc = (CustomerInvoiceDocument)document;
-        String docStatus = ciDoc.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
 
         // Confirm doc is in a saved and copyable state.
-        copyable &= (!StringUtils.equalsIgnoreCase(docStatus, "I")); // This is hardcode because there is no constant defined for the workflow document status INITIATED
-        copyable &= (!StringUtils.equalsIgnoreCase(docStatus, KFSConstants.DocumentStatusCodes.CANCELLED));
+        copyable &= !ciDoc.getDocumentHeader().getWorkflowDocument().stateIsInitiated(); 
+        copyable &= !ciDoc.getDocumentHeader().getWorkflowDocument().stateIsCanceled();
         
         // Confirm doc is reversible.
         copyable &= !((CustomerInvoiceDocument)document).isInvoiceReversal();

@@ -2,12 +2,13 @@ package org.kuali.kfs.module.ar.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class CollectionStatus extends PersistableBusinessObjectBase {
+public class CollectionStatus extends PersistableBusinessObjectBase implements Inactivateable {
 
 	private String customerCollectionStatusCode;
 	private String customerCollectionStatusName;

@@ -51,7 +51,6 @@ import org.kuali.rice.kns.util.KualiInteger;
 public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements PaymentDetailDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentDetailDaoOjb.class);
 
-    private org.kuali.rice.kim.service.PersonService userService;
     private DateTimeService dateTimeService;
     private ParameterService parameterService;
 
@@ -286,10 +285,6 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentDetail.class, criteria));
     }
 
-    public void setPersonService(org.kuali.rice.kim.service.PersonService us) {
-        userService = us;
-    }
-    
     public void setDateTimeService(DateTimeService dts) {
         dateTimeService = dts;
     }

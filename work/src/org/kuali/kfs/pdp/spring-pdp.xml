@@ -93,7 +93,6 @@
 	<bean id="pdpGlPendingTransactionDao" parent="platformAwareDao" class="org.kuali.kfs.pdp.dataaccess.impl.PendingTransactionDaoOjb"/>
 
 	<bean id="pdpPaymentDetailDao" parent="platformAwareDao" class="org.kuali.kfs.pdp.dataaccess.impl.PaymentDetailDaoOjb">
-		<property name="personService" ref="personService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="parameterService" ref="parameterService" />
 	</bean>
@@ -461,9 +460,6 @@
 	</bean>
 
 	<bean id="batchLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.BatchLookupableHelperService"  parent="lookupableHelperService" scope="prototype">
-        <property name="personService">
-            <ref bean="personService" />
-        </property>
         <property name="configurationService" ref="kualiConfigurationService" />
         <property name="batchMaintenanceService">
             <ref bean="pdpBatchMaintenanceService"/>
@@ -532,9 +528,6 @@
         <property name="dataDictionaryService">
             <ref bean="dataDictionaryService" />
         </property>
-        <property name="personService">
-            <ref bean="personService" />
-        </property>        
 	</bean>
 
 	<bean id="paymentProcessLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">

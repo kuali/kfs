@@ -425,8 +425,12 @@ public class LaborPosterServiceImpl implements LaborPosterService {
                 updateReportSummary(glEntryReportSummary, ORIGN_ENTRY, KFSConstants.OperationType.SELECT);
             }
             else {
-                updateReportSummary(glEntryReportSummary, ORIGN_ENTRY, KFSConstants.OperationType.BYPASS);
-                laborGlEntryStatisticsReportWriterService.writeError(laborLedgerUnitOfWork.getWorkingEntry(), errors);
+                updateReportSummary(glEntryReportSummary, ORIGN_ENTRY, KFSConstants.OperationType.BYPASS); 
+                
+                //KULLAB-719 : Bypassed records need not be displayed in the Detail section of the Report. They need to be only counted in 
+                //             the Report Summary section.
+                
+                //    laborGlEntryStatisticsReportWriterService.writeError(laborLedgerUnitOfWork.getWorkingEntry(), errors);
             }
         }
         catch (RuntimeException ioe) {

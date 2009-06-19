@@ -54,7 +54,7 @@ import org.kuali.rice.kns.service.MailService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.format.CurrencyFormatter;
 
-public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase implements KimDelegationTypeService {
+public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
 
     private AccountService accountService;
     private ContractsAndGrantsModuleService contractsAndGrantsModuleService;
@@ -289,21 +289,6 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
             mailService = SpringContext.getBean(MailService.class);
         }
         return mailService;
-    }
-
-    public boolean doesDelegationQualifierMatchQualification(AttributeSet qualification, AttributeSet delegationQualifier) {
-        return performMatch(translateInputAttributeSet(qualification), delegationQualifier);
-    }
-
-    public List<DelegateInfo> doDelegationQualifiersMatchQualification(AttributeSet qualification, List<DelegateInfo> delegationMemberList) {
-        AttributeSet translatedQualification = translateInputAttributeSet(qualification);
-        List<DelegateInfo> matchingMemberships = new ArrayList<DelegateInfo>();
-        for (DelegateInfo dmi : delegationMemberList) {
-            if (performMatch(translatedQualification, dmi.getQualifier())) {
-                matchingMemberships.add(dmi);
-            }
-        }
-        return matchingMemberships;
     }
 
     public AttributeSet convertQualificationAttributesToRequired(AttributeSet qualificationAttributes) {
@@ -598,4 +583,6 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
     protected String getDeactivationInterestAddress() {
         return "knoreceipt-l@indiana.edu";
     }
+    
+    
 }

@@ -1679,19 +1679,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                 List<LineItemReceivingDocument> lineItemReceivingDocuments = SpringContext.getBean(ReceivingService.class).getLineItemReceivingDocumentsInFinalForPurchaseOrder(preq.getPurchaseOrderDocument().getPurapDocumentIdentifier());
 
                 if (lineItemReceivingDocuments != null) {
-                    List<PurchaseOrderItem> poItems = preq.getPurchaseOrderDocument().getItems();
-
-//                    for (PurchaseOrderItem poItem : poItems) {
-//                        if (!poItem.getItemType().isAdditionalChargeIndicator()) {
-//                            Integer lineNumber = poItem.getItemLineNumber();
-//                            KualiDecimal totalReceived = getTotalItemReceivedGivenLineNumber(lineItemReceivingDocuments, lineNumber);
-//                            KualiDecimal invoicedTotalQuantity = poItem.getItemInvoicedTotalQuantity();
-//
-//                            if (totalReceived.compareTo(invoicedTotalQuantity) < 0) {
-//                                return true;
-//                            }
-//                        }
-//                    }
                     for (PaymentRequestItem preqItem : (List<PaymentRequestItem>)preq.getItems()) {
                         if (!preqItem.getItemType().isAdditionalChargeIndicator()) {
                             Integer lineNumber = preqItem.getItemLineNumber();

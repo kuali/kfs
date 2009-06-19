@@ -39,12 +39,23 @@
           <property name="objectAttributeName" value="accountDelegate" />
           <property name="primitiveAttributes" >
             <list>
+
               <bean parent="PrimitiveAttributeDefinition"
                     p:sourceName="accountDelegateSystemId"
-                    p:targetName="principalName" />
+                    p:targetName="principalId" />
             </list>
           </property>
-         
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="accountDelegate.principalName"
+                    p:targetName="principalName" />
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="accountDelegate.name"
+                    p:targetName="name" />
+            </list>
+          </property>
         </bean> 
         <bean parent="RelationshipDefinition">
    			<property name="objectAttributeName" value="financialSystemDocumentTypeCode" />
@@ -232,8 +243,6 @@
               p:attributeName="accountNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="financialDocumentTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accountDelegateSystemId" />
         <bean parent="FieldDefinition"
               p:attributeName="accountDelegate.principalName" />
         <bean parent="FieldDefinition"

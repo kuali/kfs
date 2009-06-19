@@ -85,7 +85,7 @@ public class PdpPropertyConstants {
         }
     
     public static class PaymentDetail {
-            public static final String PAYMENT_GROUP_BATCH_ID = "paymentGroup.batch.id";
+            public static final String PAYMENT_GROUP_BATCH_ID = "paymentGroup.batchId";
             public static final String PAYMENT_STATUS_CODE = "paymentGroup.paymentStatusCode";
             public static final String PAYMENT_DISBURSEMENT_NUMBER = "paymentGroup.disbursementNbr";
             public static final String PAYMENT_PAYEE_NAME = "paymentGroup.payeeName";

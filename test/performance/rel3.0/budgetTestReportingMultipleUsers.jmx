@@ -15,14 +15,14 @@
         <longProp name="ThreadGroup.start_time">1187728739000</longProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
-        <stringProp name="ThreadGroup.num_threads">2</stringProp>
+        <stringProp name="ThreadGroup.num_threads">5</stringProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">2</stringProp>
+          <stringProp name="LoopController.loops">5</stringProp>
         </elementProp>
         <longProp name="ThreadGroup.end_time">1187728739000</longProp>
-        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">stopthread</stringProp>
         <stringProp name="ThreadGroup.ramp_time">3</stringProp>
       </ThreadGroup>
       <hashTree>
@@ -101,6 +101,61 @@
           </collectionProp>
         </Arguments>
         <hashTree/>
+        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="URL parameters for findev.ebsp.msu.edu" enabled="false">
+          <collectionProp name="Arguments.arguments">
+            <elementProp name="protocol" elementType="Argument">
+              <stringProp name="Argument.metadata">=</stringProp>
+              <stringProp name="Argument.value">https</stringProp>
+              <stringProp name="Argument.name">protocol</stringProp>
+            </elementProp>
+            <elementProp name="host" elementType="Argument">
+              <stringProp name="Argument.metadata">=</stringProp>
+              <stringProp name="Argument.value">findev.ebsp.msu.edu</stringProp>
+              <stringProp name="Argument.name">host</stringProp>
+            </elementProp>
+            <elementProp name="context" elementType="Argument">
+              <stringProp name="Argument.metadata">=</stringProp>
+              <stringProp name="Argument.value">/kfs-dev</stringProp>
+              <stringProp name="Argument.name">context</stringProp>
+            </elementProp>
+            <elementProp name="port" elementType="Argument">
+              <stringProp name="Argument.metadata">=</stringProp>
+              <stringProp name="Argument.value"></stringProp>
+              <stringProp name="Argument.name">port</stringProp>
+            </elementProp>
+          </collectionProp>
+        </Arguments>
+        <hashTree/>
+        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="CAS Parameters" enabled="true">
+          <collectionProp name="Arguments.arguments">
+            <elementProp name="casServer" elementType="Argument">
+              <stringProp name="Argument.name">casServer</stringProp>
+              <stringProp name="Argument.value">test.kuali.org</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="casServiceUrl" elementType="Argument">
+              <stringProp name="Argument.name">casServiceUrl</stringProp>
+              <stringProp name="Argument.value">${protocol}%3A%2F%2F${host}%3A${port}${context}%2Fportal.do%3FselectedTab%3Dmain</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="casProtocol" elementType="Argument">
+              <stringProp name="Argument.name">casProtocol</stringProp>
+              <stringProp name="Argument.value">https</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="casContext" elementType="Argument">
+              <stringProp name="Argument.name">casContext</stringProp>
+              <stringProp name="Argument.value">cas-stg</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="casPort" elementType="Argument">
+              <stringProp name="Argument.name">casPort</stringProp>
+              <stringProp name="Argument.value"></stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+          </collectionProp>
+        </Arguments>
+        <hashTree/>
         <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
           <collectionProp name="CookieManager.cookies"/>
           <boolProp name="CookieManager.clearEachIteration">true</boolProp>
@@ -120,70 +175,8 @@
         <hashTree/>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Recorded HTTP requests " enabled="false"/>
         <hashTree/>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Logging in" enabled="true"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Logging in" enabled="false"/>
         <hashTree>
-          <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
-            <boolProp name="ResultCollector.error_logging">false</boolProp>
-            <objProp>
-              <name>saveConfig</name>
-              <value class="SampleSaveConfiguration">
-                <time>true</time>
-                <latency>true</latency>
-                <timestamp>true</timestamp>
-                <success>true</success>
-                <label>true</label>
-                <code>true</code>
-                <message>true</message>
-                <threadName>true</threadName>
-                <dataType>true</dataType>
-                <encoding>false</encoding>
-                <assertions>true</assertions>
-                <subresults>true</subresults>
-                <responseData>false</responseData>
-                <samplerData>false</samplerData>
-                <xml>false</xml>
-                <fieldNames>false</fieldNames>
-                <responseHeaders>false</responseHeaders>
-                <requestHeaders>false</requestHeaders>
-                <responseDataOnError>false</responseDataOnError>
-                <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
-                <assertionsResultsToSave>0</assertionsResultsToSave>
-              </value>
-            </objProp>
-            <stringProp name="filename"></stringProp>
-          </ResultCollector>
-          <hashTree/>
-          <ResultCollector guiclass="AssertionVisualizer" testclass="ResultCollector" testname="Assertion Results" enabled="true">
-            <boolProp name="ResultCollector.error_logging">false</boolProp>
-            <objProp>
-              <name>saveConfig</name>
-              <value class="SampleSaveConfiguration">
-                <time>true</time>
-                <latency>true</latency>
-                <timestamp>true</timestamp>
-                <success>true</success>
-                <label>true</label>
-                <code>true</code>
-                <message>true</message>
-                <threadName>true</threadName>
-                <dataType>true</dataType>
-                <encoding>false</encoding>
-                <assertions>true</assertions>
-                <subresults>true</subresults>
-                <responseData>false</responseData>
-                <samplerData>false</samplerData>
-                <xml>false</xml>
-                <fieldNames>false</fieldNames>
-                <responseHeaders>false</responseHeaders>
-                <requestHeaders>false</requestHeaders>
-                <responseDataOnError>false</responseDataOnError>
-                <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
-                <assertionsResultsToSave>0</assertionsResultsToSave>
-              </value>
-            </objProp>
-            <stringProp name="filename"></stringProp>
-          </ResultCollector>
-          <hashTree/>
           <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="CAS authentication" enabled="true">
             <boolProp name="LoopController.continue_forever">true</boolProp>
             <stringProp name="LoopController.loops">1</stringProp>
@@ -381,37 +374,6 @@
                 <intProp name="Assertion.test_type">2</intProp>
                 <stringProp name="Assertion.assume_success">false</stringProp>
               </ResponseAssertion>
-              <hashTree/>
-              <ResultCollector guiclass="AssertionVisualizer" testclass="ResultCollector" testname="Assertion Results" enabled="true">
-                <boolProp name="ResultCollector.error_logging">true</boolProp>
-                <objProp>
-                  <name>saveConfig</name>
-                  <value class="SampleSaveConfiguration">
-                    <time>true</time>
-                    <latency>true</latency>
-                    <timestamp>true</timestamp>
-                    <success>true</success>
-                    <label>true</label>
-                    <code>true</code>
-                    <message>true</message>
-                    <threadName>true</threadName>
-                    <dataType>true</dataType>
-                    <encoding>false</encoding>
-                    <assertions>true</assertions>
-                    <subresults>true</subresults>
-                    <responseData>false</responseData>
-                    <samplerData>false</samplerData>
-                    <xml>false</xml>
-                    <fieldNames>false</fieldNames>
-                    <responseHeaders>false</responseHeaders>
-                    <requestHeaders>false</requestHeaders>
-                    <responseDataOnError>false</responseDataOnError>
-                    <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
-                    <assertionsResultsToSave>0</assertionsResultsToSave>
-                  </value>
-                </objProp>
-                <stringProp name="filename"></stringProp>
-              </ResultCollector>
               <hashTree/>
               <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
                 <stringProp name="ConstantTimer.delay">2000</stringProp>
@@ -1651,6 +1613,7 @@
                   <stringProp name="Argument.value">loadExpansionScreen</stringProp>
                   <stringProp name="Argument.name">methodToCall</stringProp>
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
               </collectionProp>
             </elementProp>
@@ -2476,210 +2439,245 @@
                   <stringProp name="Argument.value">2010</stringProp>
                   <stringProp name="Argument.name">universityFiscalYear</stringProp>
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="backLocation" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">${protocol}://${host}:${port}${context}/budgetOrganizationSelectionTree.do</stringProp>
                   <stringProp name="Argument.name">backLocation</stringProp>
                   <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="returnAnchor" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">topOfForm</stringProp>
                   <stringProp name="Argument.name">returnAnchor</stringProp>
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="returnFormKey" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">BcDoc1</stringProp>
                   <stringProp name="Argument.name">returnFormKey</stringProp>
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="reportMode" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">SalarySummaryReport</stringProp>
                   <stringProp name="Argument.name">reportMode</stringProp>
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="reportConsolidation" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">No</stringProp>
                   <stringProp name="Argument.name">reportConsolidation</stringProp>
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="operatingModeTitle" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">Salary Object List Selection</stringProp>
                   <stringProp name="Argument.name">operatingModeTitle</stringProp>
                   <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="budgetConstructionReportThresholdSettings.lockThreshold" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">No</stringProp>
                   <stringProp name="Argument.name">budgetConstructionReportThresholdSettings.lockThreshold</stringProp>
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="operatingModeTitle" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">Salary Object List Selection</stringProp>
                   <stringProp name="Argument.name">operatingModeTitle</stringProp>
                   <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="objectCodePickList[0].principalId" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">1373503598</stringProp>
                   <stringProp name="Argument.name">objectCodePickList[0].principalId</stringProp>
                   <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="objectCodePickList[0].versionNumber" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">1</stringProp>
                   <stringProp name="Argument.name">objectCodePickList[0].versionNumber</stringProp>
                   <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="objectCodePickList[0].selectFlag" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">1</stringProp>
                   <stringProp name="Argument.name">objectCodePickList[0].selectFlag</stringProp>
                   <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="objectCodePickList[0].financialObjectCode" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">2000</stringProp>
                   <stringProp name="Argument.name">objectCodePickList[0].financialObjectCode</stringProp>
                   <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="objectCodePickList[0].objectCodeDescription" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">ACADEMIC SALARY</stringProp>
                   <stringProp name="Argument.name">objectCodePickList[0].objectCodeDescription</stringProp>
                   <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="objectCodePickList[1].principalId" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">1373503598</stringProp>
                   <stringProp name="Argument.name">objectCodePickList[1].principalId</stringProp>
                   <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="objectCodePickList[1].versionNumber" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">1</stringProp>
                   <stringProp name="Argument.name">objectCodePickList[1].versionNumber</stringProp>
                   <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="objectCodePickList[1].selectFlag" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">1</stringProp>
                   <stringProp name="Argument.name">objectCodePickList[1].selectFlag</stringProp>
                   <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="objectCodePickList[1].financialObjectCode" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">2400</stringProp>
                   <stringProp name="Argument.name">objectCodePickList[1].financialObjectCode</stringProp>
                   <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="objectCodePickList[1].objectCodeDescription" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">PROFESSIONAL SALARIES</stringProp>
                   <stringProp name="Argument.name">objectCodePickList[1].objectCodeDescription</stringProp>
                   <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="objectCodePickList[2].principalId" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">1373503598</stringProp>
                   <stringProp name="Argument.name">objectCodePickList[2].principalId</stringProp>
                   <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="objectCodePickList[2].versionNumber" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">1</stringProp>
                   <stringProp name="Argument.name">objectCodePickList[2].versionNumber</stringProp>
                   <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="objectCodePickList[2].selectFlag" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">1</stringProp>
                   <stringProp name="Argument.name">objectCodePickList[2].selectFlag</stringProp>
                   <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="objectCodePickList[2].financialObjectCode" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">2480</stringProp>
                   <stringProp name="Argument.name">objectCodePickList[2].financialObjectCode</stringProp>
                   <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="objectCodePickList[2].objectCodeDescription" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">PROFESSIONAL NONEXEMPT</stringProp>
                   <stringProp name="Argument.name">objectCodePickList[2].objectCodeDescription</stringProp>
                   <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="objectCodePickList[3].principalId" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">1373503598</stringProp>
                   <stringProp name="Argument.name">objectCodePickList[3].principalId</stringProp>
                   <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="objectCodePickList[3].versionNumber" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">1</stringProp>
                   <stringProp name="Argument.name">objectCodePickList[3].versionNumber</stringProp>
                   <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="objectCodePickList[3].selectFlag" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">1</stringProp>
                   <stringProp name="Argument.name">objectCodePickList[3].selectFlag</stringProp>
                   <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="objectCodePickList[3].financialObjectCode" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">2500</stringProp>
                   <stringProp name="Argument.name">objectCodePickList[3].financialObjectCode</stringProp>
                   <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="objectCodePickList[3].objectCodeDescription" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">NON-EXEMPT STAFF SALARIES</stringProp>
                   <stringProp name="Argument.name">objectCodePickList[3].objectCodeDescription</stringProp>
                   <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="checkboxToReset" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">budgetConstructionReportThresholdSettings.useThreshold</stringProp>
                   <stringProp name="Argument.name">checkboxToReset</stringProp>
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="budgetConstructionReportThresholdSettings.thresholdPercent" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value"></stringProp>
                   <stringProp name="Argument.name">budgetConstructionReportThresholdSettings.thresholdPercent</stringProp>
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="budgetConstructionReportThresholdSettings.useGreaterThanOperator" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">true</stringProp>
                   <stringProp name="Argument.name">budgetConstructionReportThresholdSettings.useGreaterThanOperator</stringProp>
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="methodToCall.performReport.x" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">23</stringProp>
                   <stringProp name="Argument.name">methodToCall.performReport.x</stringProp>
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="methodToCall.performReport.y" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">11</stringProp>
                   <stringProp name="Argument.name">methodToCall.performReport.y</stringProp>
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
                 <elementProp name="tabStatesSize" elementType="HTTPArgument">
                   <stringProp name="Argument.metadata">=</stringProp>
                   <stringProp name="Argument.value">-1</stringProp>
                   <stringProp name="Argument.name">tabStatesSize</stringProp>
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 </elementProp>
               </collectionProp>
             </elementProp>
@@ -24851,38 +24849,6 @@
             <hashTree/>
           </hashTree>
         </hashTree>
-        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
-          <boolProp name="ResultCollector.error_logging">false</boolProp>
-          <objProp>
-            <name>saveConfig</name>
-            <value class="SampleSaveConfiguration">
-              <time>true</time>
-              <latency>true</latency>
-              <timestamp>true</timestamp>
-              <success>true</success>
-              <label>true</label>
-              <code>true</code>
-              <message>true</message>
-              <threadName>true</threadName>
-              <dataType>true</dataType>
-              <encoding>false</encoding>
-              <assertions>true</assertions>
-              <subresults>true</subresults>
-              <responseData>false</responseData>
-              <samplerData>false</samplerData>
-              <xml>true</xml>
-              <fieldNames>false</fieldNames>
-              <responseHeaders>false</responseHeaders>
-              <requestHeaders>false</requestHeaders>
-              <responseDataOnError>false</responseDataOnError>
-              <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
-              <assertionsResultsToSave>0</assertionsResultsToSave>
-              <bytes>true</bytes>
-            </value>
-          </objProp>
-          <stringProp name="filename"></stringProp>
-        </ResultCollector>
-        <hashTree/>
       </hashTree>
       <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
@@ -24916,7 +24882,7 @@
         <stringProp name="filename">C:\JmeterLogs\budgetTestReportingMultipleUsers.jtl</stringProp>
       </ResultCollector>
       <hashTree/>
-      <ResultCollector guiclass="TableVisualizer" testclass="ResultCollector" testname="View Results in Table" enabled="true">
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
         <objProp>
           <name>saveConfig</name>
@@ -24945,7 +24911,7 @@
             <bytes>true</bytes>
           </value>
         </objProp>
-        <stringProp name="filename">C:\JmeterLogs\budgetTestReportingMultipleUsers.jtl</stringProp>
+        <stringProp name="filename"></stringProp>
       </ResultCollector>
       <hashTree/>
     </hashTree>

@@ -65,7 +65,6 @@ public class SpringContext {
     protected static final String USE_QUARTZ_SCHEDULING_KEY = "use.quartz.scheduling";
     protected static ConfigurableApplicationContext applicationContext;
     protected static Set<Class<? extends Object>> SINGLETON_TYPES = new HashSet<Class<? extends Object>>();
-    protected static Set<String> SINGLETON_NAMES = new HashSet<String>();
     protected static Map<Class<? extends Object>, Object> SINGLETON_BEANS_BY_TYPE_CACHE = new HashMap<Class<? extends Object>, Object>();
     protected static Map<String, Object> SINGLETON_BEANS_BY_NAME_CACHE = new HashMap<String, Object>();
     protected static Map<Class<? extends Object>, Map> SINGLETON_BEANS_OF_TYPE_CACHE = new HashMap<Class<? extends Object>, Map>();
@@ -121,9 +120,11 @@ public class SpringContext {
                 }
             }
             if ( bean != null ) {
-                if (SINGLETON_TYPES.contains(type) || hasSingletonSuperType(type)) {
-                    SINGLETON_TYPES.add(type);
-                    SINGLETON_BEANS_BY_TYPE_CACHE.put(type, bean);
+                synchronized( SINGLETON_TYPES ) {
+                    if (SINGLETON_TYPES.contains(type) || hasSingletonSuperType(type,SINGLETON_TYPES)) {
+                        SINGLETON_TYPES.add(type);
+                        SINGLETON_BEANS_BY_TYPE_CACHE.put(type, bean);
+                    }
                 }
             } else {
                 throw new RuntimeException( "Request for non-existent bean.  Unable to find in local context on on the GRL: " + type.getName() );
@@ -158,8 +159,10 @@ public class SpringContext {
                 }                
             }
             if ( allOfTypeAreSingleton ) {
-                SINGLETON_TYPES.add(type);
-                SINGLETON_BEANS_OF_TYPE_CACHE.put(type, beansOfType);
+                synchronized( SINGLETON_TYPES ) {
+                    SINGLETON_TYPES.add(type);
+                    SINGLETON_BEANS_OF_TYPE_CACHE.put(type, beansOfType);
+                }
             }
         }
         return beansOfType;
@@ -173,7 +176,9 @@ public class SpringContext {
             try {
                 bean = (T) applicationContext.getBean(name);
                 if ( applicationContext.isSingleton(name) ) {
-                    SINGLETON_BEANS_BY_NAME_CACHE.put(name, bean);
+                    synchronized( SINGLETON_BEANS_BY_NAME_CACHE ) {
+                        SINGLETON_BEANS_BY_NAME_CACHE.put(name, bean);
+                    }
                 }
             }
             catch (NoSuchBeanDefinitionException nsbde) {
@@ -185,7 +190,9 @@ public class SpringContext {
                     if ( type.isAssignableFrom( remoteServiceBean.getClass() ) ) {
                         bean = (T)remoteServiceBean;
                         // assume remote beans are services and thus singletons
-                        SINGLETON_BEANS_BY_NAME_CACHE.put(name, bean);
+                        synchronized( SINGLETON_BEANS_BY_NAME_CACHE ) {
+                            SINGLETON_BEANS_BY_NAME_CACHE.put(name, bean);
+                        }
                     }
                 }
                 throw new RuntimeException("No bean of this type and name exist in the application context or from the GRL: " + type.getName() + ", " + name);
@@ -194,8 +201,8 @@ public class SpringContext {
         return bean;
     }
 
-    private static boolean hasSingletonSuperType(Class<? extends Object> type) {
-        for (Class<? extends Object> singletonType : SINGLETON_TYPES) {
+    private static boolean hasSingletonSuperType(Class<? extends Object> type, Set<Class<? extends Object>> knownSingletonTypes ) {
+        for (Class<? extends Object> singletonType : knownSingletonTypes) {
             if (singletonType.isAssignableFrom(type)) {
                 return true;
             }

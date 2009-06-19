@@ -133,7 +133,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     private CustomerAddress customerShipToAddress;
     private CustomerAddress customerBillToAddress;
     private CustomerInvoiceRecurrenceDetails customerInvoiceRecurrenceDetails;
-    private BusinessObjectService businessObjectService;
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocument.class);
 
@@ -1691,14 +1690,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 
     public void setBillingZipCode(String billingZipCode) {
         this.billingZipCode = billingZipCode;
-    }
-
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
     }
 
     public String getCustomerName() {

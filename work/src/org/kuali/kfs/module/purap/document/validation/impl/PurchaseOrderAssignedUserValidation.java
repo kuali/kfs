@@ -47,7 +47,10 @@ public class PurchaseOrderAssignedUserValidation extends GenericValidation {
             return true;
         
         // check to see if the person exists in the database
-        if (ObjectUtils.isNull(personService.getPersonByPrincipalName(principalName))) {
+        //if (ObjectUtils.isNull(personService.getPersonByPrincipalName(principalName))) {
+        // the following if is equivalent to the above if, since the name->ID conversion is done when the PO form is submit
+        // so if ID is null that means no person is found by the name
+        if (ObjectUtils.isNull(poDocument.getAssignedUserPrincipalId())) {            
             valid = false;
             errorMap.putError(PurapPropertyConstants.ASSIGNED_USER_PRINCIPAL_NAME, PurapKeyConstants.ERROR_NONEXIST_ASSIGNED_USER);
         }

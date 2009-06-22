@@ -149,7 +149,8 @@
                     attributeEntry="${documentAttributes.assignedUserPrincipalName}" 
                     readOnly="${!fullEntryMode and !amendmentEntry}" tabindexOverride="${tabindexOverrideBase + 0}" />
                 <c:if test="${fullEntryMode or amendmentEntry}"  >
-                    <kul:lookup boClassName="org.kuali.rice.kim.bo.Person" fieldConversions="principalName:document.assignedUserPrincipalName" /></div>
+                    <kul:lookup boClassName="org.kuali.rice.kim.bo.Person" 
+                    	fieldConversions="principalId:document.assignedUserPrincipalId,principalName:document.assignedUserPrincipalName" /></div>
                 </c:if>                     
             </td>
 		</tr>

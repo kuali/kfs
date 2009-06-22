@@ -149,7 +149,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     private Integer contractManagerCode;
     private Date purchaseOrderQuoteInitializationDate;
     private Date purchaseOrderQuoteAwardedDate;
-    private String assignedUserPrincipalName;
+    private String assignedUserPrincipalId;
     
     // COLLECTIONS
     private List<PurchaseOrderVendorStipulation> purchaseOrderVendorStipulations;
@@ -166,6 +166,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     private boolean copyingNotesWhenSplitting;      // Check box on Split PO tab
     private boolean assigningSensitiveData = false; // whether the form is currently used for assigning sensitive data to the PO
     private List<PurchaseOrderSensitiveData> purchaseOrderSensitiveData;  
+    private String assignedUserPrincipalName; // this serves as a temporary holder before validation is done
     
     // REFERENCE OBJECTS
     private PurchaseOrderVendorChoice purchaseOrderVendorChoice;
@@ -174,6 +175,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     private ShippingPaymentTerms vendorShippingPaymentTerms;
     private RecurringPaymentFrequency recurringPaymentFrequency;
     private ContractManager contractManager;
+    //private Person assignedUser;
 
     public static final String FIN_COA_CD_KEY = "fin_coa_cd";
     private static final String UNIVERSITY_FISCAL_YEAR_KEY = "univ_fiscal_year";
@@ -302,23 +304,61 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         return null;
     }
             
+    public String getAssignedUserPrincipalId() {
+        return assignedUserPrincipalId;
+    }
+
+    public void setAssignedUserPrincipalId(String assignedUserPrincipalId) {
+        this.assignedUserPrincipalId = assignedUserPrincipalId;
+    }
+
+    public String getAssignedUserPrincipalName() {
+        // init this field when PO is first loaded and assigned user exists in PO
+        if (assignedUserPrincipalName == null && assignedUserPrincipalId != null) {
+            // extra caution in case ref obj didn't get refreshed
+            //if (assignedUser == null)
+            //    this.refreshReferenceObject("assignedUser");
+            Person assignedUser = SpringContext.getBean(PersonService.class).getPerson(assignedUserPrincipalId);
+            this.assignedUserPrincipalName = assignedUser.getPrincipalName();
+        }
+        // otherwise return its current value directly
+        return assignedUserPrincipalName;
+    }
+
+    public void setAssignedUserPrincipalName(String assignedUserPrincipalName) {
+        this.assignedUserPrincipalName = assignedUserPrincipalName;           
+        // each time this field changes we need to update the assigned user ID and ref obj to keep consistent
+        // this code can be moved to where PO is saved and with validation too, which may be more appropriate
+        Person assignedUser = null;
+        if (assignedUserPrincipalName != null) 
+            assignedUser = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(assignedUserPrincipalName);
+        if (assignedUser != null) 
+            assignedUserPrincipalId = assignedUser.getPrincipalId();        
+        else
+            assignedUserPrincipalId = null;        
+    }
+
+    /*
+    public Person getAssignedUser() {
+        return assignedUser;
+    }
+
+    public void setAssignedUser(Person assignedUser) {
+        this.assignedUser = assignedUser;
+    }
+    */
+    
+    /*
     public String getAssignedUserName() {      
-        // assignedUserPrincipalName is either null or returned from lookup (thus valid)
-        if (StringUtils.isEmpty(assignedUserPrincipalName))
+        // assignedUserPrincipalId is either null or returned from lookup (thus valid)
+        if (StringUtils.isEmpty(assignedUserPrincipalId))
             return null;  
-        Person person = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(assignedUserPrincipalName);
+        Person person = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(assignedUserPrincipalId);
         if (person == null)
             return null;
         return person.getName();
     }
-
-    public String getAssignedUserPrincipalName() {
-        return assignedUserPrincipalName;
-    }
-
-    public void setAssignedUserPrincipalName(String assignedUserPrincipleName) {
-        this.assignedUserPrincipalName = assignedUserPrincipleName;
-    }
+    */
 
     public boolean getAssigningSensitiveData() {
         return assigningSensitiveData;

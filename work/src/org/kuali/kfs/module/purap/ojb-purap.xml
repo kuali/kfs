@@ -111,8 +111,8 @@
     </reference-descriptor>    	
 	<!-- the account deletion is handled within our buildDeletionAwareLists, setting auto-delete=none as a workaround to Optimistic Locking Exception for now -->
     <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
-        <orderby name="chartOfAccountsCode" sort="ASC" />
         <orderby name="accountNumber" sort="ASC" />
+        <orderby name="objectCode" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
         <inverse-foreignkey field-ref="itemIdentifier" />
     </collection-descriptor>
@@ -174,8 +174,8 @@
     </reference-descriptor>    
     <!-- the account deletion is handled within our buildDeletionAwareLists, setting auto-delete=none as a workaround to Optimistic Locking Exception for now -->
     <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.RequisitionAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
-        <orderby name="chartOfAccountsCode" sort="ASC" />
         <orderby name="accountNumber" sort="ASC" />
+        <orderby name="objectCode" sort="ASC" />
         <inverse-foreignkey field-ref="itemIdentifier" />
     </collection-descriptor>    
     <collection-descriptor name="useTaxItems" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseRequisitionItemUseTax" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -527,7 +527,7 @@
     <field-descriptor name="addressToVendorIndicator" column="PUR_RCVNG_ADDR_TO_VNDR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/> 
 	<field-descriptor name="useTaxIndicator" column="USE_TAX_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <field-descriptor name="vendorAttentionName" column="VNDR_ATTN_NM" jdbc-type="VARCHAR"/>
-    <field-descriptor name="assignedUserPrincipalName" column="PO_ASND_ID" jdbc-type="VARCHAR"/>
+    <field-descriptor name="assignedUserPrincipalId" column="PO_ASND_ID" jdbc-type="VARCHAR"/>
     
     <!-- COMMON TO ALL DOCUMENTS -->
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
@@ -598,7 +598,7 @@
     <reference-descriptor name="contractManager" class-ref="org.kuali.kfs.vnd.businessobject.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="contractManagerCode" />
     </reference-descriptor>
-     <reference-descriptor name="capitalAssetSystemType" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="capitalAssetSystemType" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="capitalAssetSystemTypeCode" />
     </reference-descriptor>
     <reference-descriptor name="capitalAssetSystemState" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
@@ -764,7 +764,7 @@
     <field-descriptor name="receivingPostalCode" column="PUR_RCVNG_PSTL_CD" jdbc-type="VARCHAR"/> 
     <field-descriptor name="receivingCountryCode" column="PUR_RCVNG_CNTRY_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="vendorAttentionName" column="VNDR_ATTN_NM" jdbc-type="VARCHAR"/>
-	<field-descriptor name="assignedUserPrincipalName" column="PO_ASND_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="assignedUserPrincipalId" column="PO_ASND_ID" jdbc-type="VARCHAR"/>
 
     <!-- COMMON TO ALL DOCUMENTS -->
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
@@ -1002,7 +1002,7 @@
     <field-descriptor name="receivingPostalCode" column="PUR_RCVNG_PSTL_CD" jdbc-type="VARCHAR"/> 
     <field-descriptor name="receivingCountryCode" column="PUR_RCVNG_CNTRY_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="vendorAttentionName" column="VNDR_ATTN_NM" jdbc-type="VARCHAR"/>
-	<field-descriptor name="assignedUserPrincipalName" column="PO_ASND_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="assignedUserPrincipalId" column="PO_ASND_ID" jdbc-type="VARCHAR"/>
     
     <!-- COMMON TO ALL DOCUMENTS -->
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
@@ -1240,7 +1240,7 @@
     <field-descriptor name="receivingPostalCode" column="PUR_RCVNG_PSTL_CD" jdbc-type="VARCHAR"/> 
     <field-descriptor name="receivingCountryCode" column="PUR_RCVNG_CNTRY_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="vendorAttentionName" column="VNDR_ATTN_NM" jdbc-type="VARCHAR"/>
-	<field-descriptor name="assignedUserPrincipalName" column="PO_ASND_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="assignedUserPrincipalId" column="PO_ASND_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="useTaxIndicator" column="USE_TAX_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     
     <!-- COMMON TO ALL DOCUMENTS -->
@@ -1480,7 +1480,7 @@
     <field-descriptor name="receivingPostalCode" column="PUR_RCVNG_PSTL_CD" jdbc-type="VARCHAR"/> 
     <field-descriptor name="receivingCountryCode" column="PUR_RCVNG_CNTRY_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="vendorAttentionName" column="VNDR_ATTN_NM" jdbc-type="VARCHAR"/>
-	<field-descriptor name="assignedUserPrincipalName" column="PO_ASND_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="assignedUserPrincipalId" column="PO_ASND_ID" jdbc-type="VARCHAR"/>
     
     <!-- COMMON TO ALL DOCUMENTS -->
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
@@ -1718,7 +1718,7 @@
     <field-descriptor name="receivingPostalCode" column="PUR_RCVNG_PSTL_CD" jdbc-type="VARCHAR"/> 
     <field-descriptor name="receivingCountryCode" column="PUR_RCVNG_CNTRY_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="vendorAttentionName" column="VNDR_ATTN_NM" jdbc-type="VARCHAR"/>
-	<field-descriptor name="assignedUserPrincipalName" column="PO_ASND_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="assignedUserPrincipalId" column="PO_ASND_ID" jdbc-type="VARCHAR"/>
     
     <!-- COMMON TO ALL DOCUMENTS -->
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
@@ -1956,7 +1956,7 @@
     <field-descriptor name="receivingPostalCode" column="PUR_RCVNG_PSTL_CD" jdbc-type="VARCHAR"/> 
     <field-descriptor name="receivingCountryCode" column="PUR_RCVNG_CNTRY_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="vendorAttentionName" column="VNDR_ATTN_NM" jdbc-type="VARCHAR"/>
-	<field-descriptor name="assignedUserPrincipalName" column="PO_ASND_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="assignedUserPrincipalId" column="PO_ASND_ID" jdbc-type="VARCHAR"/>
     
     <!-- COMMON TO ALL DOCUMENTS -->
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
@@ -2194,7 +2194,7 @@
     <field-descriptor name="receivingPostalCode" column="PUR_RCVNG_PSTL_CD" jdbc-type="VARCHAR"/> 
     <field-descriptor name="receivingCountryCode" column="PUR_RCVNG_CNTRY_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="vendorAttentionName" column="VNDR_ATTN_NM" jdbc-type="VARCHAR"/>
-	<field-descriptor name="assignedUserPrincipalName" column="PO_ASND_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="assignedUserPrincipalId" column="PO_ASND_ID" jdbc-type="VARCHAR"/>
     
     <!-- COMMON TO ALL DOCUMENTS -->
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
@@ -2432,7 +2432,7 @@
     <field-descriptor name="receivingPostalCode" column="PUR_RCVNG_PSTL_CD" jdbc-type="VARCHAR"/> 
     <field-descriptor name="receivingCountryCode" column="PUR_RCVNG_CNTRY_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="vendorAttentionName" column="VNDR_ATTN_NM" jdbc-type="VARCHAR"/>
-	<field-descriptor name="assignedUserPrincipalName" column="PO_ASND_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="assignedUserPrincipalId" column="PO_ASND_ID" jdbc-type="VARCHAR"/>
     
     <!-- COMMON TO ALL DOCUMENTS -->
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
@@ -2503,7 +2503,7 @@
     <reference-descriptor name="contractManager" class-ref="org.kuali.kfs.vnd.businessobject.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="contractManagerCode" />
     </reference-descriptor>
-     <reference-descriptor name="capitalAssetSystemType" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="capitalAssetSystemType" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="capitalAssetSystemTypeCode" />
     </reference-descriptor>
     <reference-descriptor name="capitalAssetSystemState" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
@@ -2901,8 +2901,8 @@
     </reference-descriptor>
     <!-- the account deletion is handled within our buildDeletionAwareLists, setting auto-delete=none as a workaround to Optimistic Locking Exception for now -->
     <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PaymentRequestAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
-        <orderby name="chartOfAccountsCode" sort="ASC" />
         <orderby name="accountNumber" sort="ASC" />
+        <orderby name="objectCode" sort="ASC" />
         <inverse-foreignkey field-ref="itemIdentifier" />
     </collection-descriptor>
     <collection-descriptor name="useTaxItems" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PaymentRequestItemUseTax" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -3598,8 +3598,8 @@
     </reference-descriptor>
     <!-- the account deletion is handled within our buildDeletionAwareLists, setting auto-delete=none as a workaround to Optimistic Locking Exception for now -->
     <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.CreditMemoAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
-        <orderby name="chartOfAccountsCode" sort="ASC" />
         <orderby name="accountNumber" sort="ASC" />
+        <orderby name="objectCode" sort="ASC" />
         <inverse-foreignkey field-ref="itemIdentifier" />
     </collection-descriptor>
     <collection-descriptor name="useTaxItems" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.CreditMemoItemUseTax" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">

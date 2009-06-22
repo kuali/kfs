@@ -256,12 +256,12 @@
     <property name="shortLabel" value="AssignedTo"/>
     <property name="required" value="false" />
     <property name="forceUppercase" value="false"/>
-    <property name="maxLength" value="11"/>
+    <property name="maxLength" value="100"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="false"/>
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="11"/>
+      <bean parent="TextControlDefinition" p:size="40"/>
     </property>
 
   </bean>

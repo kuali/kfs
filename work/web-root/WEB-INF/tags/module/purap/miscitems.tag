@@ -290,7 +290,7 @@
 				itemColSpan="${mainColumnCount}"/>
 		</c:if>
 		
-		<!-- KULPURAP-1500 -->
+		
 		<c:if test="${(((!empty KualiForm.editingMode['allowItemEntry']) && (!empty itemLine.itemUnitPrice)) || (empty KualiForm.editingMode['allowItemEntry']))}">
 		    <c:if test="${(!amendmentEntry && KualiForm.document.statusCode!='AFOA') || (KualiForm.document.statusCode=='AFOA' && !empty KualiForm.document.items[ctr].itemUnitPrice)}">
 			    <c:if test="${showAmount}">

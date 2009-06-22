@@ -78,7 +78,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
         
         setItemDescription(poi.getItemDescription());
         
-        //New Source Line should be set for PaymentRequestItem - KULPURAP-3498 - vpremcha
+        //New Source Line should be set for PaymentRequestItem 
         resetAccount();                
 
         // set up accounts

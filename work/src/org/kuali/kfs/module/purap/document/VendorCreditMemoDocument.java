@@ -522,7 +522,7 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
 
     public void setPaymentRequestDocument(PaymentRequestDocument paymentRequestDocument) {
         if (ObjectUtils.isNull(paymentRequestDocument)) {
-            // KULPURAP-1185 - do not blank out input, instead throw an error
+            // do not blank out input, instead throw an error
             // setPaymentRequestIdentifier(null);
             this.paymentRequestDocument = null;
         }
@@ -691,7 +691,7 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
         if (ObjectUtils.isNotNull(boNotes)) {
             for (Object obj : boNotes) {
                 Note note = (Note) obj;
-                // may need to refresh this attachment because of a bug - see see KULPURAP-1397
+                
                 note.refreshReferenceObject("attachment");
                 if (ObjectUtils.isNotNull(note.getAttachment()) && PurapConstants.AttachmentTypeCodes.ATTACHMENT_TYPE_CM_IMAGE.equals(note.getAttachment().getAttachmentTypeCode())) {
                     return false;

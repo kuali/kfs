@@ -38,7 +38,7 @@ public class PurchaseOrderNewIndividualItemValidation extends PurchasingNewIndiv
         
     @Override
     protected boolean commodityCodeIsRequired() {
-        //According to comments on KULPURAP-3353, if the ENABLE_COMMODITY_CODE_IND parameter is  N then we don't
+        //if the ENABLE_COMMODITY_CODE_IND parameter is  N then we don't
         //need to check for the ITEMS_REQUIRE_COMMODITY_CODE_IND parameter anymore, just return false. 
         boolean enableCommodityCode = SpringContext.getBean(ParameterService.class).getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_COMMODITY_CODE_IND);
         if (!enableCommodityCode) {

@@ -318,7 +318,7 @@ public class IndirectCostRecoveryRateRule extends MaintenanceDocumentRuleBase {
         
         // If # is entered on account, then # "must" be entered for chart and sub account "must" be dashes.
         if (GeneralLedgerConstants.PosterService.SYMBOL_USE_ICR_FROM_ACCOUNT.equals(accountNumber)) {
-            if (!GeneralLedgerConstants.PosterService.SYMBOL_USE_ICR_FROM_ACCOUNT.equals(subAccountNumber) && !StringUtils.containsOnly(subAccountNumber, KFSConstants.DASH)) {
+            if (!GeneralLedgerConstants.PosterService.SYMBOL_USE_ICR_FROM_ACCOUNT.equals(item.getChartOfAccountsCode()) && !StringUtils.containsOnly(subAccountNumber, KFSConstants.DASH)) {
                 GlobalVariables.getErrorMap().putError(
                         KFSPropertyConstants.SUB_ACCOUNT_NUMBER, 
                         KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_FIELD_MUST_BE_DASHES,
@@ -330,7 +330,7 @@ public class IndirectCostRecoveryRateRule extends MaintenanceDocumentRuleBase {
         }
         
         if (GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(accountNumber)) {
-            if (!GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(subAccountNumber) || !StringUtils.containsOnly(subAccountNumber, KFSConstants.DASH)) {
+            if (!(StringUtils.equals(GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY, subAccountNumber) || !StringUtils.containsOnly(subAccountNumber, KFSConstants.DASH))) {
                 GlobalVariables.getErrorMap().putError(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, 
                         KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_ACCOUNT_USE_EXPENDITURE_ENTRY_WILDCARD_RESTRICTION_ON_SUB_ACCOUNT);
                 success = false;

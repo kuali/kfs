@@ -1283,7 +1283,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#hasCapitalAssetObjectSubType(org.kuali.kfs.sys.document.AccountingDocument)
      */
     public boolean hasCapitalAssetObjectSubType(AccountingDocument accountingDocument) {
-        return getCapitalAssetObjectSubTypeLinesFlag(accountingDocument) != null;
+        final AccountCapitalObjectCode accountCapitalObjectCode = getCapitalAssetObjectSubTypeLinesFlag(accountingDocument);
+        return accountCapitalObjectCode != null && !accountCapitalObjectCode.equals(AccountCapitalObjectCode.BOTH_NONCAP);
     }
 
 

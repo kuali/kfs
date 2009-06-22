@@ -21,7 +21,7 @@ import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
 
 /**
  * This is the base class for all the b2b file type classes. All the methods in this class
- * returns a default value since there is no need to do anything in these methods in b2b. - vpremcha
+ * returns a default value since there is no need to do anything in these methods in b2b.
  */
 
 public abstract class B2BFileTypeBase  extends BatchInputFileTypeBase{

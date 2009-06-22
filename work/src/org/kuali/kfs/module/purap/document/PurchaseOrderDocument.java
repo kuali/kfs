@@ -985,7 +985,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     }
 
     public ShippingTitle getVendorShippingTitle() {
-        //KULPURAP-1957: this field is not being refreshed correctly in certain circumstances
+        
         if( ObjectUtils.isNull(vendorShippingTitle) ){
             this.refreshReferenceObject("vendorShippingTitle");
         }
@@ -1289,7 +1289,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     public KualiDecimal getTotalDollarAmount(boolean includeInactive, boolean includeBelowTheLine) {
         KualiDecimal total = new KualiDecimal(BigDecimal.ZERO);
         for (PurApItem item : (List<PurApItem>) getItems()) {
-            //temp fix for KULPURAP-3119
+            
             if (item.getPurapDocument() == null) {
                 item.setPurapDocument(this);
             }
@@ -1453,7 +1453,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
 
     public KualiDecimal getInternalPurchasingLimit() {
         //FIXME need the following because at places this field remains null because contract manager is not refreshed and null
-        //per KULPURAP-3799
+
         if (internalPurchasingLimit == null) {
             setInternalPurchasingLimit(SpringContext.getBean(PurchaseOrderService.class).getInternalPurchasingDollarLimit(this));
         }

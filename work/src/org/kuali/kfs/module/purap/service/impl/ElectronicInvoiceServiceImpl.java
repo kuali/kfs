@@ -563,7 +563,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
 //      }
 //      
 //      if (!(poi.getActive().booleanValue())) {
-//        String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  EPIC item (line number '" + poi.getItemLineNumber() + 
+//        String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  KFS item (line number '" + poi.getItemLineNumber() + 
 //              "') is Inactive due to Amendment";
 //        String logMessage = this.addInvoiceOrderReject(ei, eio, errorMessage);
 //        LOG.error("matchElectronicInvoiceToPurchaseOrder() " + logMessage + "... this PO invoice will reject");
@@ -575,7 +575,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
 //      if ( (poi.getCatalogNumber() != null) && (!("".equals(poi.getCatalogNumber()))) ) {
 //        if (!(poi.getCatalogNumber().equalsIgnoreCase(electronicInvoiceMappingService.getCatalogNumber(eii)))) {
 //          // catalog number is not empty and it does not match
-//          String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  EPIC item (line number '" + poi.getItemLineNumber() + 
+//          String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  KFS item (line number '" + poi.getItemLineNumber() + 
 //              "') does not match electronic invoice catalog number '" + electronicInvoiceMappingService.getCatalogNumber(eii) + "'";
 //          String logMessage = this.addInvoiceOrderReject(ei, eio, errorMessage);
 //          LOG.error("matchElectronicInvoiceToPurchaseOrder() " + logMessage + "... this PO invoice will reject");
@@ -585,7 +585,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
 //      
 //      if ((poi.getUnitPrice().compareTo(eii.getInvoiceLineUnitCostBigDecimal())) != 0 ) {
 //        // Unit Cost does not match from e-invoice
-//        String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  EPIC item (line number '" + poi.getItemLineNumber() + 
+//        String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  KFS item (line number '" + poi.getItemLineNumber() + 
 //            "') does not match electronic invoice unit price '" + eii.getInvoiceLineUnitCostBigDecimal() + "'";
 //        String logMessage = this.addInvoiceOrderReject(ei, eio, errorMessage);
 //        LOG.error("matchElectronicInvoiceToPurchaseOrder() " + logMessage + "... this PO invoice will reject");
@@ -593,7 +593,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
 //      } else {
 //        if (!(electronicInvoiceMappingService.isCodeValidCurrency(eii.getUnitPriceCurrency()))) {
 //          // Unit Cost matches but currency is invalid
-//          String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  EPIC item (line number '" + poi.getItemLineNumber() + 
+//          String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  KFS item (line number '" + poi.getItemLineNumber() + 
 //              "') matches invoice unit cost but invoice unit cost currency code is '" + eii.getUnitPriceCurrency() + 
 //              "' which we do not accept";
 //          String logMessage = this.addInvoiceOrderReject(ei, eio, errorMessage);
@@ -606,7 +606,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
 //        // PO ITEM is QTY based
 //        if ((zero.compareTo(poi.getItemOutstandingEncumberedQuantity())) >= 0) {
 //          // we have no quantity left encumbered on the po item
-//          String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  EPIC item (line number '" + poi.getItemLineNumber() + 
+//          String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  KFS item (line number '" + poi.getItemLineNumber() + 
 //              "') outstanding encumbered order quantity is '" + poi.getItemOutstandingEncumberedQuantity() + "'";
 //          String logMessage = this.addInvoiceOrderReject(ei, eio, errorMessage);
 //          LOG.error("matchElectronicInvoiceToPurchaseOrder() " + logMessage + "... this PO invoice will reject");
@@ -614,7 +614,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
 //        }
 //        if (eii.getInvoiceLineQuantityBigDecimal() == null) {
 //          // we have quantity entered on the PO Item but the Invoice has no quantity
-//          String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  EPIC item (line number '" + poi.getItemLineNumber() + 
+//          String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  KFS item (line number '" + poi.getItemLineNumber() + 
 //              "') has outstanding encumbered quantity of '" + poi.getItemOutstandingEncumberedQuantity() + "' but invoice quantity is empty";
 //          String logMessage = this.addInvoiceOrderReject(ei, eio, errorMessage);
 //          LOG.error("matchElectronicInvoiceToPurchaseOrder() " + logMessage + "... this PO invoice will reject");
@@ -624,7 +624,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
 //        } else {
 //          if ((eii.getInvoiceLineQuantityBigDecimal().compareTo(poi.getItemOutstandingEncumberedQuantity())) > 0) {
 //            // we have more quantity on the e-invoice than left outstanding encumbered on the PO item
-//            String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  EPIC item (line number '" + poi.getItemLineNumber() + 
+//            String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  KFS item (line number '" + poi.getItemLineNumber() + 
 //                "') outstanding encumbered order quantity is less than e-invoice item quantity";
 //            String logMessage = this.addInvoiceOrderReject(ei, eio, errorMessage);
 //            LOG.error("matchElectronicInvoiceToPurchaseOrder() " + logMessage + "... this PO invoice will reject");
@@ -637,7 +637,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
 //        // PO ITEM is DOLLARS based
 //        if ((zero.compareTo(poi.getItemOutstandingEncumberedAmount())) >= 0) {
 //          // we have no dollars left encumbered on the po item
-//          String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  EPIC item (line number '" + poi.getItemLineNumber() + 
+//          String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  KFS item (line number '" + poi.getItemLineNumber() + 
 //              "') outstanding encumbered amount is '" + poi.getItemOutstandingEncumberedAmount() + "'";
 //          String logMessage = this.addInvoiceOrderReject(ei, eio, errorMessage);
 //          LOG.error("matchElectronicInvoiceToPurchaseOrder() " + logMessage + "... this PO invoice will reject");
@@ -646,7 +646,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
 //          // we have encumbered dollars left on PO.... check
 //          if ((eii.getInvoiceLineSubtotalAmountBigDecimal().compareTo(poi.getItemOutstandingEncumberedAmount())) > 0) {
 //            // we have more subtotal dollars on the e-invoice than dollars left outstanding encumbered on the PO itm
-//            String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  EPIC item (line number '" + poi.getItemLineNumber() + 
+//            String errorMessage = "PO NUMBER - '" + invoicePurchaseOrderID + "':  KFS item (line number '" + poi.getItemLineNumber() + 
 //                "') outstanding encumbered amount is less than e-invoice item amount";
 //            String logMessage = this.addInvoiceOrderReject(ei, eio, errorMessage);
 //            LOG.error("matchElectronicInvoiceToPurchaseOrder() " + logMessage + "... this PO invoice will reject");
@@ -682,20 +682,20 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
 //             ((ei.getVendorDetailID().compareTo(po.getVendorDetailAssignedId())) == 0) ) {
 //          // successful invoice vendor match to purchase order vendor
 //          LOG.info("performElectronicInvoiceOrderValidation() Electronic Invoice PO Number '" + invoicePurchaseOrderID + 
-//              "' matches to EPIC PO ID '" + po.getId() + "' with matching DUNS Vendor ID '" + po.getVendorHeaderGeneratedId() + 
+//              "' matches to KFS PO ID '" + po.getId() + "' with matching DUNS Vendor ID '" + po.getVendorHeaderGeneratedId() + 
 //              "-" + po.getVendorDetailAssignedId() + "'");
 //          eio.setPurchaseOrderID(po.getId());
 //          eio.setPurchaseOrderCampusCode(po.getDeliveryCampus().getCampusCd());
 //          if (po.getDocumentHeader() == null) {
 //            String errorMessage = "performElectronicInvoiceOrderValidation() Electronic Invoice PO Number '" + invoicePurchaseOrderID + 
-//                "' matches to EPIC PO ID '" + po.getId() + "' with matching DUNS Vendor but PO has no Document Header";
+//                "' matches to KFS PO ID '" + po.getId() + "' with matching DUNS Vendor but PO has no Document Header";
 //            String logMessage = this.addInvoiceOrderReject(ei, eio, errorMessage);
 //            LOG.info("performElectronicInvoiceOrderValidation()  PO Vendor ID: " + po.getVendorHeaderGeneratedId() + "-" + po.getVendorDetailAssignedId() + "  -  Electronic Invoice Vendor ID: " + ei.getVendorHeaderID() + "-" + ei.getVendorDetailID());
 //            LOG.error("performElectronicInvoiceOrderValidation() " + logMessage + "... this PO invoice will reject");
 //            return;
 //          }
 //        } else {
-//          String errorMessage = "Vendor from EPIC PO (DUNS: '" + po.getVendorDetail().getDunsNumber() + 
+//          String errorMessage = "Vendor from KFS PO (DUNS: '" + po.getVendorDetail().getDunsNumber() + 
 //              "') does not match Electronic Invoice File Vendor (DUNS: '" + ei.getDunsNumber() + "')";
 //          String logMessage = this.addInvoiceOrderReject(ei, eio, errorMessage);
 //          LOG.error("performElectronicInvoiceOrderValidation() " + logMessage + "... this PO invoice will reject");
@@ -703,7 +703,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
 //          return;
 //        }
 //      } else {
-//        String errorMessage = "Electronic Invoice File PO Number '" + invoicePurchaseOrderID + "' does not exist in EPIC";
+//        String errorMessage = "Electronic Invoice File PO Number '" + invoicePurchaseOrderID + "' does not exist in KFS";
 //        String logMessage = this.addInvoiceOrderReject(ei, eio, errorMessage);
 //        LOG.error("performElectronicInvoiceOrderValidation() " + logMessage + "... this PO invoice will reject");
 //        return;
@@ -1053,7 +1053,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
                 item.calculateExtendedPrice();
               }
             } else {
-              // item is not epic payment terms discount item... just add value
+              // item is not KFS payment terms discount item... just add value
               // if discount item exists on PREQ and discount dollar amount exists... use greater amount
               LOG.info("createPaymentRequestFromInvoice() Discount Check - E-Invoice matches PREQ item type '" + item.getItemTypeCode() + 
                   "' line number " + item.getItemLineNumber());

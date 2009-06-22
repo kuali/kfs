@@ -71,7 +71,7 @@ public abstract class PurapDocumentPreRulesBase extends PromptBeforeValidationBa
                 if ( !warnings.isEmpty() ) {
                     questionText.append("[p]");
                     for ( ErrorMessage warning :  warnings ) {
-                        // KULPURAP-4036: the following two lines should be used but org.kuali.rice.kns.util.ErrorMessage (line 83) has a bug
+                        // the following two lines should be used but org.kuali.rice.kns.util.ErrorMessage (line 83) has a bug
                         //questionText.append(warning);
                         //questionText.append("[br]");                        
                         // so, to remove parenthesis in case no params exist   

@@ -120,7 +120,7 @@ public class PurapMassRequisitionStep extends AbstractStep implements TestingSte
             }
 
             
-//TODO leaving CAMS docs commented out until problem is fixed (see KULPURAP-3345)
+//TODO leaving CAMS docs commented out until problem is fixed 
 // for (int i = 0; i < NUM_DOCS_TO_CREATE; i++) {
 //                RequisitionDocument reqDoc = null;
 //                try {

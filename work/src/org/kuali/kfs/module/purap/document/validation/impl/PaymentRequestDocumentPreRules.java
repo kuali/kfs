@@ -141,7 +141,7 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
         //boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedPayDateNotOverThresholdDaysAwayEvent("", preq));
         
         //if (!rulePassed) {
-        //Fix for KULPURAP-3689. The problem is that rulePassed always return true
+        // The problem is that rulePassed always return true
         int thresholdDays = PurapConstants.PREQ_PAY_DATE_DAYS_BEFORE_WARNING;
         if ((preq.getPaymentRequestPayDate() != null) && SpringContext.getBean(PurapService.class).isDateMoreThanANumberOfDaysAway(preq.getPaymentRequestPayDate(), thresholdDays)) {
             return askForConfirmation(PREQDocumentsStrings.THRESHOLD_DAYS_OVERRIDE_QUESTION, PurapKeyConstants.MESSAGE_PAYMENT_REQUEST_PAYDATE_OVER_THRESHOLD_DAYS);

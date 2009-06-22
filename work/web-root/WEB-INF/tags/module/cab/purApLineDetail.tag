@@ -58,9 +58,9 @@
 	
 	<c:if test="${!itemLine.active}">	
 	    <td class="infoline" align="center">
-			<a href="${ConfigProperties.application.url}/kew/DocHandler.do?command=displayDocSearchView&docId=${itemLine.capitalAssetManagementDocumentNumber}"  target="_blank">
+	    	<html:link target="_blank" href="cabPurApLine.do?methodToCall=viewDoc&documentNumber=${itemLine.capitalAssetManagementDocumentNumber}">
 				${itemLine.capitalAssetManagementDocumentNumber }
-			</a>&nbsp;
+			</html:link>
 		</td>
 		<td class="infoline" align="center">
 			<c:forEach items="${itemLine.approvedAssetNumbers }" var="assetNumber" >
@@ -220,7 +220,11 @@
 				</c:otherwise>
 				</c:choose>
 			</td>
-			<td class="infoline">${payment.generalLedgerEntry.documentNumber}&nbsp;</td>
+			<td class="infoline">
+				<html:link target="_blank" href="cabPurApLine.do?methodToCall=viewDoc&documentNumber=${payment.generalLedgerEntry.documentNumber}">
+					${payment.generalLedgerEntry.documentNumber}
+				</html:link>
+			</td>
 			<td class="infoline">${payment.generalLedgerEntry.financialDocumentTypeCode}&nbsp;</td>
 			<td class="infoline" align="left"><fmt:formatDate value="${payment.generalLedgerEntry.transactionDate}" pattern="${dateFormatPattern}"/>&nbsp;</td>
 			<td class="infoline">${payment.generalLedgerEntry.universityFiscalYear}&nbsp;</td>

@@ -37,14 +37,11 @@ import org.kuali.kfs.module.cab.document.service.GlLineService;
 import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.util.RiceConstants;
-import org.kuali.rice.kew.dto.RouteHeaderDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 
 /**
  * Struts action class that handles GL Line Processing Screen actions
@@ -180,7 +177,7 @@ public class GlLineAction extends CabActionBase {
         if (defaultGeneralLedgerEntry != null) {
             defaultGeneralLedgerEntry.setSelected(true);
         }
-        
+
         List<GeneralLedgerEntry> relatedGlEntries = glLineForm.getRelatedGlEntries();
         for (GeneralLedgerEntry generalLedgerEntry : relatedGlEntries) {
             if (generalLedgerEntry.isSelected()) {
@@ -227,37 +224,6 @@ public class GlLineAction extends CabActionBase {
             return mapping.findForward(RiceConstants.MAPPING_BASIC);
         }
         return new ActionForward(getGlAndPurApHelperService().getDocHandlerUrl(document.getDocumentNumber(), DocumentTypeName.ASSET_PAYMENT), true);
-    }
-
-    /**
-     * This method will process the view document request by clicking on a specific document.
-     * 
-     * @param mapping ActionMapping
-     * @param form ActionForm
-     * @param request HttpServletRequest
-     * @param response HttpServletResponse
-     * @return ActionForward
-     * @throws Exception
-     */
-    public ActionForward viewDoc(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String documentId = request.getParameter("documentNumber");
-        KualiWorkflowInfo kualiWorkflowInfo = SpringContext.getBean(KualiWorkflowInfo.class);
-        try {
-            RouteHeaderDTO routeHeader = kualiWorkflowInfo.getRouteHeader(Long.valueOf(documentId));
-            String docHandlerUrl = routeHeader.getDocumentUrl();
-            if (docHandlerUrl.indexOf("?") == -1) {
-                docHandlerUrl += "?";
-            }
-            else {
-                docHandlerUrl += "&";
-            }
-
-            docHandlerUrl += "docId=" + documentId + "&" + "command=displayDocSearchView";
-            return new ActionForward(docHandlerUrl, true);
-        }
-        catch (WorkflowException e) {
-            throw new RuntimeException("Caught WorkflowException trying to get document handler URL from Workflow", e);
-        }
     }
 
     /**

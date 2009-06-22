@@ -178,8 +178,11 @@
 				</td>
 				<td class="grid"><kul:htmlControlAttribute property="relatedGlEntry[${pos}].financialSystemOriginationCode" 
 				attributeEntry="${entryAttributes.financialSystemOriginationCode}" readOnly="true"/></td>
-				<td class="grid"><kul:htmlControlAttribute property="relatedGlEntry[${pos}].documentNumber" 
-				attributeEntry="${entryAttributes.documentNumber}" readOnly="true"/></td>
+				<td class="grid">
+					<html:link target="_blank" href="cabGlLine.do?methodToCall=viewDoc&documentNumber=${entry.documentNumber}">
+						<kul:htmlControlAttribute property="relatedGlEntry[${pos}].documentNumber" attributeEntry="${entryAttributes.documentNumber}" readOnly="true"/>
+					</html:link>
+				</td>
 				<td class="grid"><kul:htmlControlAttribute property="relatedGlEntry[${pos}].transactionLedgerEntryDescription" 
 				attributeEntry="${entryAttributes.transactionLedgerEntryDescription}" readOnly="true"/></td>
 				<td class="grid"><kul:htmlControlAttribute property="relatedGlEntry[${pos}].organizationDocumentNumber" 

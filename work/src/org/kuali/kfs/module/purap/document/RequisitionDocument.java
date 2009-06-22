@@ -252,7 +252,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
      * @return the PO PO transmission method to use.
      */
     private String determinePurchaseOrderTransmissionMethod() {
-        // KULPURAP-826: Return a value based on a sys param. Perhaps later change it to more dynamic logic
+        
         return SpringContext.getBean(ParameterService.class).getParameterValue(getClass(), PurapParameterConstants.PURAP_DEFAULT_PO_TRANSMISSION_CODE);
     }
 

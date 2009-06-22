@@ -123,7 +123,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     }
 
     public BigDecimal getItemUnitPrice() {
-        // KULPURAP-1096 Setting scale on retrieval of unit price
+        // Setting scale on retrieval of unit price
         if (itemUnitPrice != null) {
             if (itemUnitPrice.scale() < PurapConstants.DOLLAR_AMOUNT_MIN_SCALE) {
                 itemUnitPrice = itemUnitPrice.setScale(PurapConstants.DOLLAR_AMOUNT_MIN_SCALE, KualiDecimal.ROUND_BEHAVIOR);

@@ -49,7 +49,6 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * This is a holder class which can be passed to the matching service to validate einvoice or reject doc data 
  * against the po document.   
  * 
- * @author vpremcha
  */
 
 public class ElectronicInvoiceOrderHolder {
@@ -81,7 +80,7 @@ public class ElectronicInvoiceOrderHolder {
                                         Map itemTypes){
         
         /**
-         * This class has been designed based on good citizen pattern. - vpremcha
+         * This class has been designed based on good citizen pattern.
          */
         if (rejectDocument == null){
             throw new NullPointerException("ElectronicInvoiceRejectDocument should not be null");

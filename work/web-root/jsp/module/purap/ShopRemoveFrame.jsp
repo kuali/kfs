@@ -17,7 +17,7 @@
 
 <html:html locale="true">
 <head>
-<title>EPIC</title>
+<title>KFS</title>
 <script language="Javascript">
 <!--
 function reload() {

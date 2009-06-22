@@ -679,7 +679,7 @@ public class PurapConstants extends JSTLConstants {
             }
         }
 
-        public static final String[] STATUSES_ALLOWED_FOR_EXTRACTION = { COMPLETE };
+        public static final String[] STATUSES_ALLOWED_FOR_EXTRACTION = { AWAITING_ACCOUNTS_PAYABLE_REVIEW, COMPLETE };
         
         public static final String[] STATUSES_POTENTIALLY_ACTIVE = { IN_PROCESS, AWAITING_ACCOUNTS_PAYABLE_REVIEW };
                

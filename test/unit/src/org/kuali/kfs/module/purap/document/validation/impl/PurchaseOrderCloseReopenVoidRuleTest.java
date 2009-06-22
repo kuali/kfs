@@ -39,7 +39,6 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 @ConfigureContext(session = parke, shouldCommitTransactions=true)
-@RelatesTo(JiraIssue.KULPURAP3745)
 public class PurchaseOrderCloseReopenVoidRuleTest extends PurapRuleTestBase {
 
     private Map<String, Validation> validations;
@@ -85,32 +84,6 @@ public class PurchaseOrderCloseReopenVoidRuleTest extends PurapRuleTestBase {
         assertTrue( validation.validate(new AttributedDocumentEventBase("","", po)));                
     }
 
-    public void testCloseValidate_Closed() {
-        po = PurchaseOrderChangeDocumentFixture.STATUS_CLOSED.generatePO();
-        savePO(po);
-        GlobalVariables.getUserSession().setBackdoorUser( "appleton" );
-        PaymentRequestDocument preq = PaymentRequestDocumentFixture.PREQ_FOR_PO_CLOSE_DOC.createPaymentRequestDocument();
-        preq.setPurchaseOrderIdentifier(po.getPurapDocumentIdentifier());
-        try {
-            AccountingDocumentTestUtils.saveDocument(preq, SpringContext.getBean(DocumentService.class));
-        }
-        catch (Exception e) {
-            throw new RuntimeException("Problems saving PREQ: " + e);
-        }
-        GlobalVariables.getUserSession().clearBackdoorUser();
-
-        CompositeValidation validation = (CompositeValidation)validations.get("PurchaseOrderClose-routeDocumentValidation");
-        assertFalse( validation.validate(new AttributedDocumentEventBase("","", po)));                
-    }    
-
-    public void testCloseValidate_NoPreq() {     
-        po = PurchaseOrderChangeDocumentFixture.STATUS_OPEN.generatePO();
-        savePO(po);
-        
-        CompositeValidation validation = (CompositeValidation)validations.get("PurchaseOrderClose-routeDocumentValidation");
-        assertFalse( validation.validate(new AttributedDocumentEventBase("","", po)));                
-    }    
-
     public void testReopenValidate_Closed() {
         po = PurchaseOrderChangeDocumentFixture.STATUS_CLOSED.generatePO();
         savePO(po);
@@ -119,14 +92,6 @@ public class PurchaseOrderCloseReopenVoidRuleTest extends PurapRuleTestBase {
         assertTrue( validation.validate(new AttributedDocumentEventBase("","", po)));                        
     }
 
-    public void testReopenValidate_Open() {
-        po = PurchaseOrderChangeDocumentFixture.STATUS_OPEN.generatePO();
-        savePO(po);
-
-        CompositeValidation validation = (CompositeValidation)validations.get("PurchaseOrderReopen-routeDocumentValidation");
-        assertFalse( validation.validate(new AttributedDocumentEventBase("","", po)));                        
-    }
-    
     public void testVoidValidate_Open() {
         po = PurchaseOrderChangeDocumentFixture.STATUS_OPEN.generatePO();
         savePO(po);
@@ -142,21 +107,6 @@ public class PurchaseOrderCloseReopenVoidRuleTest extends PurapRuleTestBase {
         CompositeValidation validation = (CompositeValidation)validations.get("PurchaseOrderVoid-routeDocumentValidation");
         assertTrue( validation.validate(new AttributedDocumentEventBase("","", po)));                        
     }
-
-    public void testVoidValidate_InProcess() {
-        po = PurchaseOrderChangeDocumentFixture.STATUS_IN_PROCESS.generatePO();
-        savePO(po);      
-        
-        CompositeValidation validation = (CompositeValidation)validations.get("PurchaseOrderVoid-routeDocumentValidation");
-        assertFalse( validation.validate(new AttributedDocumentEventBase("","", po)));                        
-    }    
-
-    public void testVoidValidate_Closed() {
-        po = PurchaseOrderChangeDocumentFixture.STATUS_CLOSED.generatePO();
-        savePO(po);
-        
-        CompositeValidation validation = (CompositeValidation)validations.get("PurchaseOrderVoid-routeDocumentValidation");
-        assertFalse( validation.validate(new AttributedDocumentEventBase("","", po)));                        
-    }        
+   
 }
 

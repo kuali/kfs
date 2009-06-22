@@ -313,7 +313,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         }
         // These next 5 lines are temporary changes so that we can use PurApOjbCollectionHelper for release 2.
         // But these 5 lines will not be necessary anymore if the changes in PurApOjbCollectionHelper is
-        // merge into Rice. KULPURAP-1370 is the related jira.
+        // merge into Rice. 
 //        this.allowDeleteAwareCollection = true;
 //        DocumentDaoOjb docDao = SpringContext.getBean(DocumentDaoOjb.class);
 //        PurchasingAccountsPayableDocumentBase retrievedDocument = (PurchasingAccountsPayableDocumentBase) docDao.findByDocumentHeaderId(this.getClass(), this.getDocumentNumber());
@@ -414,7 +414,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     @Override
     public void processAfterRetrieve() {
         super.processAfterRetrieve();
-        //This is needed here - KULPURAP-3608 (Not all PO information is displaying after PO is submitted)
+
         refreshNonUpdateableReferences();
     }
     

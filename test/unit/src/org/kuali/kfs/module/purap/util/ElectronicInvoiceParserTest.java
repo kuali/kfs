@@ -46,7 +46,6 @@ public class ElectronicInvoiceParserTest extends KualiTestBase {
     private ElectronicInvoice eInvoice;
     private final String eInvoiceXMLFile = ".." + File.separator + "fixture" + File.separator + "electronicInvoiceFixture.xml";
     
-    @RelatesTo(JiraIssue.KULPURAP3047)
     public void testEInvoiceXMLParsing()
     throws Exception{
         
@@ -76,6 +75,13 @@ public class ElectronicInvoiceParserTest extends KualiTestBase {
         BufferedInputStream fileStream = new BufferedInputStream(getClass().getResourceAsStream(eInvoiceXMLFile));
 
         byte[] fileByteContent = IOUtils.toByteArray(fileStream);
+        //If we use the schemaLocation with DEV url and not running Tomcat locally, this test is going to fail, because
+        //it won't be able to find the electronicInvoice.xsd unless Tomcat is running locally.
+        //Therefore, for unit test purpose, let's set the schemaLocation to CNV url.
+        String schemaLocation = eInvoiceInputFileType.getSchemaLocation();
+        int beginIndex = schemaLocation.indexOf("static");
+        String newSchemaLocation = "https://test.kuali.org/kfs-cnv/" + schemaLocation.substring(beginIndex);
+        eInvoiceInputFileType.setSchemaLocation(newSchemaLocation);
         eInvoice = (ElectronicInvoice) batchInputFileService.parse(eInvoiceInputFileType, fileByteContent);
         
     }

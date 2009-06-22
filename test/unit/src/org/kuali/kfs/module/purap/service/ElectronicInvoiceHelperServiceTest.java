@@ -73,7 +73,6 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
         super.tearDown();
     }
 
-	@RelatesTo(JiraIssue.KULPURAP3047)
     @ConfigureContext(session = kfs, shouldCommitTransactions=true)
     public void testRejectDocumentCreationInvalidData()
     throws Exception{
@@ -86,6 +85,14 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
         String xmlChunk = ElectronicInvoiceHelperServiceFixture.getCXMLForRejectDocCreation(vendorDUNS,poNumber);
         writeXMLFile(xmlChunk, rejectFile);
         
+        //If we use the schemaLocation with DEV url and not running Tomcat locally, this test is going to fail, because
+        //it won't be able to find the electronicInvoice.xsd unless Tomcat is running locally.
+        //Therefore, for unit test purpose, let's set the schemaLocation to CNV url.
+        String schemaLocation = electronicInvoiceInputFileType.getSchemaLocation();
+        int beginIndex = schemaLocation.indexOf("static");
+        String newSchemaLocation = "https://test.kuali.org/kfs-cnv/" + schemaLocation.substring(beginIndex);
+        electronicInvoiceInputFileType.setSchemaLocation(newSchemaLocation);
+        
         ElectronicInvoiceLoad load = SpringContext.getBean(ElectronicInvoiceHelperService.class).loadElectronicInvoices();
 
         assertTrue(load.containsRejects());
@@ -93,7 +100,7 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
         ElectronicInvoiceRejectDocument rejectDoc = (ElectronicInvoiceRejectDocument)load.getRejectDocuments().get(0);
         assertNotNull(rejectDoc);
         assertEquals(rejectDoc.getInvoiceFileName(),rejectFile);
-        assertEquals(4, rejectDoc.getInvoiceRejectReasons().size());
+        assertEquals(5, rejectDoc.getInvoiceRejectReasons().size());
         
         File rejectedFileInRejectDir = new File(electronicInvoiceInputFileType.getDirectoryPath() + File.separator + "reject" + File.separator + rejectFile);
         assertTrue(rejectedFileInRejectDir.exists());
@@ -128,7 +135,6 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
         
     }
 
-    @RelatesTo(JiraIssue.KULPURAP3047)
     @ConfigureContext(session = kfs, shouldCommitTransactions=false)
     public void testPaymentRequestDocumentCreation()
     throws Exception{

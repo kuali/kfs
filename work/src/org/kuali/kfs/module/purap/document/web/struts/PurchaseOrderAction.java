@@ -317,7 +317,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                     newNote.setNoteText(noteText);
                     newNote.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
                     kualiDocumentFormBase.setNewNote(newNote);
-                    // see KULPURAP-1984 for an explanation of why this is required and another way to do it.
+                    
                     kualiDocumentFormBase.setAttachmentFile(new BlankFormFile());
     
                     insertBONote(mapping, kualiDocumentFormBase, request, response);
@@ -1548,7 +1548,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         }
         
         // use question framework to make sure they REALLY want to complete the quote...
-        // KULPURAP-4027: since the html table tags are not supported for now, the awarded vendor info is displayed without them.   
+        // since the html table tags are not supported for now, the awarded vendor info is displayed without them.   
 //        String message = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_CONFIRM_AWARD);
 //        String vendorRow = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_CONFIRM_AWARD_ROW);
 //
@@ -1583,7 +1583,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 //            tempRows += tempRow;
 //        }
 //        message = StringUtils.replace(message, "{0}", tempRows);
-        // KULPURAP-4027: without the html table tags
+        // without the html table tags
         StringBuffer awardedVendorInfo = new StringBuffer(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_CONFIRM_AWARD));
         int awardNbr = 0;
         for (PurchaseOrderVendorQuote poQuote : document.getPurchaseOrderVendorQuotes()) {
@@ -1715,7 +1715,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 cancelNote.setNoteText(reasonPrefix + reason);
                 document.addNote(cancelNote);
                 document.setStatusCode(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
-                //For KULPURAP-4075 - being required to add notes about changing po status even though i'm not changing status
+                //being required to add notes about changing po status even though i'm not changing status
                 document.setStatusChange(null);
                 SpringContext.getBean(PurapService.class).saveDocumentNoValidation(document);
             }

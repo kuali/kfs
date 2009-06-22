@@ -1327,7 +1327,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         if (ObjectUtils.isNotNull(boNotes)) {
             for (Object obj : boNotes) {
                 Note note = (Note) obj;
-                // may need to refresh this attachment because of a bug - see see KULPURAP-1397
+                
                 note.refreshReferenceObject("attachment");
                 if (ObjectUtils.isNotNull(note.getAttachment()) && PurapConstants.AttachmentTypeCodes.ATTACHMENT_TYPE_INVOICE_IMAGE.equals(note.getAttachment().getAttachmentTypeCode())) {
                     return false;

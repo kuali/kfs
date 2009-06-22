@@ -15,6 +15,8 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
+<c:set var="readOnly"
+	value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
 <kul:page showDocumentInfo="true"
 	htmlFormAction="cgClose"
@@ -35,15 +37,30 @@
                 <table>
                     <tr>
                         <th style="text-align: right;"><kul:htmlAttributeLabel attributeEntry="${closeAttributes.userInitiatedCloseDate}" labelFor="document.userInitiatedCloseDate" useShortLabel="true" /></th>
-                        <td style="width:50%">
-                            <kul:dateInputNoAttributeEntry property="document.userInitiatedCloseDate" maxLength="10" size="10" />
-                        </td>
+                       	 <c:if test="${readOnly}">
+                       	 	<td style="width:50%">
+                            	${KualiForm.document.userInitiatedCloseDate}&nbsp;
+                        	</td>
+						</c:if>
+						<c:if test="${!readOnly}">
+							<td style="width:50%">
+                            	<kul:dateInputNoAttributeEntry property="document.userInitiatedCloseDate" maxLength="10" size="10" />
+                        	</td>
+                       	</c:if>
                     </tr>
                     <tr>
                         <th style="text-align: right;"><kul:htmlAttributeLabel attributeEntry="${closeAttributes.closeOnOrBeforeDate}" labelFor="document.closeOnOrBeforeDate" useShortLabel="true" /></th>
-                        <td style="width:50%">
-                            <kul:dateInputNoAttributeEntry property="document.closeOnOrBeforeDate"  maxLength="10" size="10" />
-                        </td>
+                       		<c:if test="${readOnly}">
+                       	 		<td style="width:50%">
+                            		${KualiForm.document.closeOnOrBeforeDate}&nbsp;
+                        		</td>
+							</c:if>
+							<c:if test="${!readOnly}">
+								<td style="width:50%">
+                      	      	<kul:dateInputNoAttributeEntry property="document.closeOnOrBeforeDate" maxLength="10" size="10" />
+                      	  	</td>
+                     	  	</c:if>
+                     
                     </tr>
                 </table>
             </fieldset>

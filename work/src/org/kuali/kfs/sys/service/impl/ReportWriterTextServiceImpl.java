@@ -323,7 +323,8 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
      * @see org.kuali.kfs.sys.service.ReportWriterService#writeFormattedMessageLine(java.lang.String, java.lang.Object[])
      */
     public void writeFormattedMessageLine(String format, Object... args) {
-        String message = String.format(format + newLineCharacter, args);
+        Object[] escapedArgs = escapeArguments(args);
+        String message = String.format(format + newLineCharacter, escapedArgs);
 
         // Log we are writing out of bounds. Would be nice to show message here but not so sure if it's wise to dump that data into
         // logs
@@ -596,8 +597,8 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
         Object[] escapedArgs = new Object[args.length];
         for (int i = 0; i < args.length; i++) {
             Object arg = args[i];
-            if (arg != null) {
-                String escapedArg = escapeFormatCharacters(arg.toString());
+            if (arg != null && arg instanceof String) {
+                String escapedArg = escapeFormatCharacters((String)arg);
                 escapedArgs[i] = escapedArg;
             }
             else {

@@ -714,7 +714,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                 discountItem = findDiscountItem(paymentRequestDocument);
             }
 
-            // Deleted the discountItem.getExtendedPrice() null and isZero check for KULPURAP-3311 - venkat
+            // Deleted the discountItem.getExtendedPrice() null and isZero 
             PaymentRequestItem fullOrderItem = findFullOrderDiscountItem(paymentRequestDocument);
             KualiDecimal fullOrderAmount = KualiDecimal.ZERO;
             
